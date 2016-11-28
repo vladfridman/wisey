@@ -139,7 +139,7 @@ Value* NBlock::codeGen(CodeGenContext& context)
   StatementList::const_iterator it;
   Value *last = NULL;
   for (it = statements.begin(); it != statements.end(); it++) {
-    cout << "Generating code for " << typeid(**it).name() << endl;
+    cout << "Generating code for block " << typeid(**it).name() << endl;
     last = (**it).codeGen(context);
   }
   std::cout << "Creating block" << std::endl;
@@ -163,6 +163,16 @@ Value* NVariableDeclaration::codeGen(CodeGenContext& context)
   }
   return alloc;
   //return new LoadInst(context.locals()[id.name], "", false, context.currentBlock());
+}
+
+
+Value* NReturnStatement::codeGen(CodeGenContext& context)
+{
+  cout << "Generatring return statement" << endl;
+
+  Value * data = new LoadInst(expression.codeGen(context), "", false, context.currentBlock());
+  Value * result = ReturnInst::Create(TheContext, data, context.currentBlock());
+  return result;
 }
 
 Value* NFunctionDeclaration::codeGen(CodeGenContext& context)
@@ -190,12 +200,7 @@ Value* NFunctionDeclaration::codeGen(CodeGenContext& context)
     context.locals()[(**it).id.name] = value;
   }
 
-  Value* value = block.codeGen(context);
-  
-  cout << "Getting the return value" << endl;
-  
-  Value *data = new LoadInst(value, "", false, context.currentBlock());
-  ReturnInst::Create(TheContext, data, bblock);
+  block.codeGen(context);
   
   context.popBlock();
   std::cout << "Creating function: " << id.name << std::endl;

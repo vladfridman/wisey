@@ -12,9 +12,7 @@ extern "C" int yywrap() { return 1; }
 %%
 
 [ \t\n]                 ;
-[a-zA-Z_][a-zA-Z0-9_]*  SAVE_TOKEN; return TIDENTIFIER;
-[0-9]+.[0-9]+           SAVE_TOKEN; return TDOUBLE;
-[0-9]+                  SAVE_TOKEN; return TINTEGER;
+"return"                return TOKEN(TRETURN);
 "="                     return TOKEN('=');
 "=="                    return TOKEN(TCEQ);
 "!="                    return TOKEN(TCNE);
@@ -33,6 +31,9 @@ extern "C" int yywrap() { return 1; }
 "*"                     return TOKEN('*');
 "/"                     return TOKEN('/');
 ";"                     return TOKEN(';');
+[a-zA-Z_][a-zA-Z0-9_]*  SAVE_TOKEN; return TIDENTIFIER;
+[0-9]+.[0-9]+           SAVE_TOKEN; return TDOUBLE;
+[0-9]+                  SAVE_TOKEN; return TINTEGER;
 .                       printf("Unknown token!n"); yyterminate();
 
 %%

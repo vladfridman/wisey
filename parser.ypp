@@ -22,6 +22,7 @@
     NBlock *block;
     NExpression *expr;
     NStatement *stmt;
+    NReturnStatement *returnStatement;
     NIdentifier *ident;
     NVariableDeclaration *var_decl;
     std::vector<NVariableDeclaration*> *varvec;
@@ -30,12 +31,10 @@
     int token;
 }
 
-/* Define our terminal symbols (tokens). This should
-   match our tokens.l lex file. We also define the node type
-   they represent.
- */
+/* Tokens used in Yazyk */
 %token <string> TIDENTIFIER TINTEGER TDOUBLE
 %token <token> TCEQ TCNE TCLT TCLE TCGT TCGE
+%token <token> TRETURN
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -43,7 +42,8 @@
    calling an (NIdentifier*). It makes the compiler happy.
  */
 %type <ident> ident
-%type <expr> numeric expr 
+%type <expr> numeric expr
+%type <returnStatement> return_statement
 %type <varvec> func_decl_args
 %type <exprvec> call_args
 %type <block> program stmts block
@@ -65,13 +65,21 @@ stmts : stmt { $$ = new NBlock(); $$->statements.push_back($<stmt>1); }
       | stmts stmt { $1->statements.push_back($<stmt>2); }
       ;
 
-stmt : var_decl | func_decl
-     | expr ';' { $$ = new NExpressionStatement(*$1); }
-     ;
+stmt
+  : var_decl
+  | func_decl
+  | return_statement { $$ = $1; }
+  | expr ';' { $$ = new NExpressionStatement(*$1); }
+  ;
 
 block : '{' stmts '}' { $$ = $2; }
       | '{' '}' { $$ = new NBlock(); }
       ;
+
+return_statement
+  : TRETURN ';'
+  | TRETURN expr ';' { $$ = new NReturnStatement(*$2); }
+  ;
 
 var_decl : ident ident ';' { $$ = new NVariableDeclaration(*$1, *$2); }
          | ident ident '=' expr ';' { $$ = new NVariableDeclaration(*$1, *$2, $4); }
