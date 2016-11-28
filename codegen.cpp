@@ -110,10 +110,10 @@ Value* NBinaryOperator::codeGen(CodeGenContext& context)
   std::cout << "Creating binary operation " << op << std::endl;
   Instruction::BinaryOps instr;
   switch (op) {
-    case TPLUS:     instr = Instruction::Add; goto math;
-    case TMINUS:    instr = Instruction::Sub; goto math;
-    case TMUL:      instr = Instruction::Mul; goto math;
-    case TDIV:      instr = Instruction::SDiv; goto math;
+    case '+': instr = Instruction::Add; goto math;
+    case '-': instr = Instruction::Sub; goto math;
+    case '*': instr = Instruction::Mul; goto math;
+    case '/': instr = Instruction::SDiv; goto math;
       
       /* TODO comparison */
   }
