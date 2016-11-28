@@ -5,8 +5,16 @@
     using namespace std;
 
     extern int yylex();
-    void yyerror(const char *s) { printf("ERROR: %s\n", s); }
+    
+    void yyerror(const char *error_msg) {
+      extern int yylineno;
+      printf("Line %d: %s\n", yylineno, error_msg);
+      exit(1);
+    }
 %}
+
+%error-verbose
+%locations
 
 /* Represents the many different ways we can access our data */
 %union {
@@ -30,6 +38,7 @@
 %token <token> TCEQ TCNE TCLT TCLE TCGT TCGE TEQUAL
 %token <token> TLPAREN TRPAREN TLBRACE TRBRACE TCOMMA TDOT
 %token <token> TPLUS TMINUS TMUL TDIV
+%token <token> TSEMICOLON
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -41,7 +50,7 @@
 %type <varvec> func_decl_args
 %type <exprvec> call_args
 %type <block> program stmts block
-%type <stmt> stmt var_decl func_decl
+%type <stmt> stmt var_decl func_decl func_arg_decl
 %type <token> comparison
 
 /* Operator precedence for mathematical operators */
@@ -60,24 +69,26 @@ stmts : stmt { $$ = new NBlock(); $$->statements.push_back($<stmt>1); }
       ;
 
 stmt : var_decl | func_decl
-     | expr { $$ = new NExpressionStatement(*$1); }
+     | expr TSEMICOLON { $$ = new NExpressionStatement(*$1); }
      ;
 
 block : TLBRACE stmts TRBRACE { $$ = $2; }
       | TLBRACE TRBRACE { $$ = new NBlock(); }
       ;
 
-var_decl : ident ident { $$ = new NVariableDeclaration(*$1, *$2); }
-         | ident ident TEQUAL expr { $$ = new NVariableDeclaration(*$1, *$2, $4); }
+var_decl : ident ident TSEMICOLON { $$ = new NVariableDeclaration(*$1, *$2); }
+         | ident ident TEQUAL expr TSEMICOLON { $$ = new NVariableDeclaration(*$1, *$2, $4); }
          ;
         
 func_decl : ident ident TLPAREN func_decl_args TRPAREN block
             { $$ = new NFunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
           ;
-    
+
+func_arg_decl : ident ident { $$ = new NVariableDeclaration(*$1, *$2); }
+
 func_decl_args : /*blank*/  { $$ = new VariableList(); }
-          | var_decl { $$ = new VariableList(); $$->push_back($<var_decl>1); }
-          | func_decl_args TCOMMA var_decl { $1->push_back($<var_decl>3); }
+          | func_arg_decl { $$ = new VariableList(); $$->push_back($<var_decl>1); }
+          | func_decl_args TCOMMA func_arg_decl { $1->push_back($<var_decl>3); }
           ;
 
 ident : TIDENTIFIER { $$ = new NIdentifier(*$1); delete $1; }
