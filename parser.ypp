@@ -58,12 +58,14 @@
 
 %%
 
-program : stmts { programBlock = $1; }
-        ;
+program
+  : stmts { programBlock = $1; }
+  ;
         
-stmts : stmt { $$ = new NBlock(); $$->statements.push_back($<stmt>1); }
-      | stmts stmt { $1->statements.push_back($<stmt>2); }
-      ;
+stmts
+  : stmt { $$ = new NBlock(); $$->statements.push_back($<stmt>1); }
+  | stmts stmt { $1->statements.push_back($<stmt>2); }
+  ;
 
 stmt
   : var_decl
@@ -72,52 +74,71 @@ stmt
   | expr ';' { $$ = new NExpressionStatement(*$1); }
   ;
 
-block : '{' stmts '}' { $$ = $2; }
-      | '{' '}' { $$ = new NBlock(); }
-      ;
+block
+  : '{' stmts '}' { $$ = $2; }
+  | '{' '}' { $$ = new NBlock(); }
+  ;
 
 return_statement
   : TRETURN ';'
   | TRETURN expr ';' { $$ = new NReturnStatement(*$2); }
   ;
 
-var_decl : ident ident ';' { $$ = new NVariableDeclaration(*$1, *$2); }
-         | ident ident '=' expr ';' { $$ = new NVariableDeclaration(*$1, *$2, $4); }
-         ;
+var_decl
+  : ident ident ';' { $$ = new NVariableDeclaration(*$1, *$2); }
+  | ident ident '=' expr ';' { $$ = new NVariableDeclaration(*$1, *$2, $4); }
+  ;
         
-func_decl : ident ident '(' func_decl_args ')' block
-            { $$ = new NFunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
-          ;
+func_decl
+  : ident ident '(' func_decl_args ')' block
+    { $$ = new NFunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
+  ;
 
-func_arg_decl : ident ident { $$ = new NVariableDeclaration(*$1, *$2); }
+func_arg_decl
+  : ident ident { $$ = new NVariableDeclaration(*$1, *$2); }
+  ;
 
-func_decl_args : /*blank*/  { $$ = new VariableList(); }
-          | func_arg_decl { $$ = new VariableList(); $$->push_back($<var_decl>1); }
-          | func_decl_args ',' func_arg_decl { $1->push_back($<var_decl>3); }
-          ;
+func_decl_args
+  : /*blank*/  { $$ = new VariableList(); }
+  | func_arg_decl { $$ = new VariableList(); $$->push_back($<var_decl>1); }
+  | func_decl_args ',' func_arg_decl { $1->push_back($<var_decl>3); }
+  ;
 
-ident : TIDENTIFIER { $$ = new NIdentifier(*$1); delete $1; }
-      ;
+ident
+  : TIDENTIFIER { $$ = new NIdentifier(*$1); delete $1; }
+  ;
 
-numeric : TINTEGER { $$ = new NInteger(atol($1->c_str())); delete $1; }
-        | TDOUBLE { $$ = new NDouble(atof($1->c_str())); delete $1; }
-        ;
+numeric
+  : TINTEGER { $$ = new NInteger(atol($1->c_str())); delete $1; }
+  | TDOUBLE { $$ = new NDouble(atof($1->c_str())); delete $1; }
+  ;
     
-expr : ident '=' expr { $$ = new NAssignment(*$<ident>1, *$3); }
-     | ident '(' call_args ')' { $$ = new NMethodCall(*$1, *$3); delete $3; }
-     | ident { $<ident>$ = $1; }
-     | numeric
-     | expr comparison expr { $$ = new NBinaryOperator(*$1, $2, *$3); }
-     | '(' expr ')' { $$ = $2; }
-     ;
+expr
+  : ident '=' expr { $$ = new NAssignment(*$<ident>1, *$3); }
+  | ident '(' call_args ')' { $$ = new NMethodCall(*$1, *$3); delete $3; }
+  | ident { $<ident>$ = $1; }
+  | numeric
+  | expr comparison expr { $$ = new NBinaryOperator(*$1, $2, *$3); }
+  | '(' expr ')' { $$ = $2; }
+  ;
     
-call_args : /*blank*/  { $$ = new ExpressionList(); }
-          | expr { $$ = new ExpressionList(); $$->push_back($1); }
-          | call_args ',' expr  { $1->push_back($3); }
-          ;
+call_args
+  : /*blank*/  { $$ = new ExpressionList(); }
+  | expr { $$ = new ExpressionList(); $$->push_back($1); }
+  | call_args ',' expr  { $1->push_back($3); }
+  ;
 
-comparison : TCEQ | TCNE | TCLT | TCLE | TCGT | TCGE 
-           | '+' | '-' | '*' | '/'
-           ;
+comparison
+  : TCEQ
+  | TCNE
+  | TCLT
+  | TCLE
+  | TCGT
+  | TCGE
+  | '+'
+  | '-'
+  | '*'
+  | '/'
+  ;
 
 %%
