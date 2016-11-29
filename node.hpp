@@ -11,6 +11,8 @@ typedef std::vector<NStatement*> StatementList;
 typedef std::vector<NExpression*> ExpressionList;
 typedef std::vector<NVariableDeclaration*> VariableList;
 
+typedef enum PrimitiveTypeEnum { PRIMITIVE_TYPE_INT, PRIMITIVE_TYPE_LONG, PRIMITIVE_TYPE_FLOAT, PRIMITIVE_TYPE_DOUBLE } PrimitiveType;
+
 class Node {
 public:
   virtual ~Node() {}
@@ -106,9 +108,9 @@ public:
 
 class NTypeSpecifier : public Node {
 public:
-  std::string type;
+  PrimitiveType type;
 
-  NTypeSpecifier(const std::string& type) : type(type) { }
+  NTypeSpecifier(PrimitiveType type) : type(type) { }
   virtual llvm::Value* codeGen(CodeGenContext& context);
 };
 

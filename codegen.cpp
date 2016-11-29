@@ -53,18 +53,16 @@ GenericValue CodeGenContext::runCode() {
 
 /* Returns an LLVM type based on the identifier */
 static Type *typeOf(const NTypeSpecifier& type) {
-  if (type.type.compare("int") == 0) {
+  if (type.type == PRIMITIVE_TYPE_INT) {
     return Type::getInt32Ty(TheContext);
-  }
-  else if (type.type.compare("long") == 0) {
+  } else if (type.type == PRIMITIVE_TYPE_LONG) {
     return Type::getInt64Ty(TheContext);
-  }
-  else if (type.type.compare("float") == 0) {
+  } else if (type.type == PRIMITIVE_TYPE_FLOAT) {
     return Type::getFloatTy(TheContext);
-  }
-  else if (type.type.compare("double") == 0) {
+  } else if (type.type == PRIMITIVE_TYPE_DOUBLE) {
     return Type::getDoubleTy(TheContext);
   }
+
   return Type::getVoidTy(TheContext);
 }
 

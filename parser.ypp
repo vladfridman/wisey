@@ -146,10 +146,10 @@ call_args
   ;
 
 type_specifier
-  : TTYPEINT { $$ = new NTypeSpecifier("int"); }
-  | TTYPELONG { $$ = new NTypeSpecifier("long"); }
-  | TTYPEFLOAT { $$ = new NTypeSpecifier("float"); }
-  | TTYPEDOUBLE { $$ = new NTypeSpecifier("double"); }
+  : TTYPEINT { $$ = new NTypeSpecifier(PRIMITIVE_TYPE_INT); }
+  | TTYPELONG { $$ = new NTypeSpecifier(PRIMITIVE_TYPE_LONG); }
+  | TTYPEFLOAT { $$ = new NTypeSpecifier(PRIMITIVE_TYPE_FLOAT); }
+  | TTYPEDOUBLE { $$ = new NTypeSpecifier(PRIMITIVE_TYPE_DOUBLE); }
   ;
 
 %%
