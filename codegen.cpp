@@ -14,7 +14,7 @@ void CodeGenContext::generateCode(NBlock& root)
   
   /* Create the top level interpreter function to call as entry */
   ArrayRef<Type*> argTypes;
-  FunctionType *ftype = FunctionType::get(Type::getInt64Ty(TheContext), argTypes, false);
+  FunctionType *ftype = FunctionType::get(Type::getInt32Ty(TheContext), argTypes, false);
   mainFunction = Function::Create(ftype, GlobalValue::InternalLinkage, "main", module);
   BasicBlock *bblock = BasicBlock::Create(TheContext, "entry", mainFunction, 0);
 
@@ -53,12 +53,18 @@ GenericValue CodeGenContext::runCode() {
 }
 
 /* Returns an LLVM type based on the identifier */
-static Type *typeOf(const NIdentifier& type)
+static Type *typeOf(const NTypeSpecifier& type)
 {
-  if (type.name.compare("int") == 0) {
+  if (type.type.compare("int") == 0) {
+    return Type::getInt32Ty(TheContext);
+  }
+  else if (type.type.compare("long") == 0) {
     return Type::getInt64Ty(TheContext);
   }
-  else if (type.name.compare("double") == 0) {
+  else if (type.type.compare("float") == 0) {
+    return Type::getFloatTy(TheContext);
+  }
+  else if (type.type.compare("double") == 0) {
     return Type::getDoubleTy(TheContext);
   }
   return Type::getVoidTy(TheContext);
@@ -69,7 +75,7 @@ static Type *typeOf(const NIdentifier& type)
 Value* NInteger::codeGen(CodeGenContext& context)
 {
   std::cout << "Creating integer: " << value << std::endl;
-  return ConstantInt::get(Type::getInt64Ty(TheContext), value, true);
+  return ConstantInt::get(Type::getInt32Ty(TheContext), value, true);
 }
 
 Value* NDouble::codeGen(CodeGenContext& context)
@@ -85,8 +91,11 @@ Value* NIdentifier::codeGen(CodeGenContext& context)
     std::cerr << "undeclared variable " << name << std::endl;
     return NULL;
   }
-  return context.locals()[name];
-//  return new LoadInst(context.locals()[name], "", false, context.currentBlock());
+  return new LoadInst(context.locals()[name], "", context.currentBlock());
+}
+
+Value * NTypeSpecifier::codeGen(CodeGenContext &context) {
+  return NULL;
 }
 
 Value* NMethodCall::codeGen(CodeGenContext& context)
@@ -110,18 +119,21 @@ Value* NBinaryOperator::codeGen(CodeGenContext& context)
   std::cout << "Creating binary operation " << op << std::endl;
   Instruction::BinaryOps instr;
   switch (op) {
-    case '+': instr = Instruction::Add; goto math;
-    case '-': instr = Instruction::Sub; goto math;
-    case '*': instr = Instruction::Mul; goto math;
-    case '/': instr = Instruction::SDiv; goto math;
-      
-      /* TODO comparison */
+    case '+': instr = Instruction::Add; break;
+    case '-': instr = Instruction::Sub; break;
+    case '*': instr = Instruction::Mul; break;
+    case '/': instr = Instruction::SDiv; break;
+    default: return NULL;
   }
   
-  return NULL;
-math:
-  return BinaryOperator::Create(instr, lhs.codeGen(context),
-                                rhs.codeGen(context), "", context.currentBlock());
+  Value * lhsValue = lhs.codeGen(context);
+  Value * rhsValue = rhs.codeGen(context);
+
+  return BinaryOperator::Create(instr,
+                                lhsValue,
+                                rhsValue,
+                                "",
+                                context.currentBlock());
 }
 
 Value* NAssignment::codeGen(CodeGenContext& context)
@@ -131,7 +143,7 @@ Value* NAssignment::codeGen(CodeGenContext& context)
     std::cerr << "undeclared variable " << lhs.name << std::endl;
     return NULL;
   }
-  return new StoreInst(rhs.codeGen(context), context.locals()[lhs.name], false, context.currentBlock());
+  return new StoreInst(rhs.codeGen(context), context.locals()[lhs.name], context.currentBlock());
 }
 
 Value* NBlock::codeGen(CodeGenContext& context)
@@ -139,8 +151,9 @@ Value* NBlock::codeGen(CodeGenContext& context)
   StatementList::const_iterator it;
   Value *last = NULL;
   for (it = statements.begin(); it != statements.end(); it++) {
-    cout << "Generating code for block " << typeid(**it).name() << endl;
-    last = (**it).codeGen(context);
+    NStatement *statement = *it;
+    cout << "Generating block code for " << typeid(*statement).name() << endl;
+    last = statement->codeGen(context);
   }
   std::cout << "Creating block" << std::endl;
   return last;
@@ -148,13 +161,13 @@ Value* NBlock::codeGen(CodeGenContext& context)
 
 Value* NExpressionStatement::codeGen(CodeGenContext& context)
 {
-  std::cout << "Generating code for " << typeid(expression).name() << std::endl;
+  std::cout << "Generating expression statement code for " << typeid(expression).name() << std::endl;
   return expression.codeGen(context);
 }
 
 Value* NVariableDeclaration::codeGen(CodeGenContext& context)
 {
-  std::cout << "Creating variable declaration " << type.name << " " << id.name << std::endl;
+  std::cout << "Creating variable declaration " << type.type << " " << id.name << std::endl;
   AllocaInst *alloc = new AllocaInst(typeOf(type), id.name.c_str(), context.currentBlock());
   context.locals()[id.name] = alloc;
   if (assignmentExpr != NULL) {
@@ -162,7 +175,6 @@ Value* NVariableDeclaration::codeGen(CodeGenContext& context)
     assn.codeGen(context);
   }
   return alloc;
-  //return new LoadInst(context.locals()[id.name], "", false, context.currentBlock());
 }
 
 
@@ -170,8 +182,7 @@ Value* NReturnStatement::codeGen(CodeGenContext& context)
 {
   cout << "Generatring return statement" << endl;
 
-  Value * data = new LoadInst(expression.codeGen(context), "", false, context.currentBlock());
-  Value * result = ReturnInst::Create(TheContext, data, context.currentBlock());
+  Value * result = ReturnInst::Create(TheContext, expression.codeGen(context), context.currentBlock());
   return result;
 }
 
@@ -197,7 +208,10 @@ Value* NFunctionDeclaration::codeGen(CodeGenContext& context)
   args = function->arg_begin();
   for (it = arguments.begin(); it != arguments.end(); it++) {
     Value *value = &*args;
-    context.locals()[(**it).id.name] = value;
+    string newName = (**it).id.name + ".param";
+    AllocaInst *alloc = new AllocaInst(typeOf((**it).type), newName, bblock);
+    value = new StoreInst(value, alloc, bblock);
+    context.locals()[(**it).id.name] = alloc;
   }
 
   block.codeGen(context);

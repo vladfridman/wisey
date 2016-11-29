@@ -96,14 +96,21 @@ public:
     virtual llvm::Value* codeGen(CodeGenContext& context);
 };
 
+class NTypeSpecifier : public Node {
+public:
+    std::string type;
+    NTypeSpecifier(const std::string& type) : type(type) { }
+    virtual llvm::Value* codeGen(CodeGenContext& context);
+};
+
 class NVariableDeclaration : public NStatement {
 public:
-    const NIdentifier& type;
+    const NTypeSpecifier& type;
     NIdentifier& id;
     NExpression *assignmentExpr;
-    NVariableDeclaration(const NIdentifier& type, NIdentifier& id) :
+    NVariableDeclaration(const NTypeSpecifier& type, NIdentifier& id) :
         type(type), id(id) { assignmentExpr = NULL; }
-    NVariableDeclaration(const NIdentifier& type, NIdentifier& id, NExpression *assignmentExpr) :
+    NVariableDeclaration(const NTypeSpecifier& type, NIdentifier& id, NExpression *assignmentExpr) :
         type(type), id(id), assignmentExpr(assignmentExpr) { }
     virtual llvm::Value* codeGen(CodeGenContext& context);
 };
@@ -121,11 +128,11 @@ public:
 
 class NFunctionDeclaration : public NStatement {
 public:
-    const NIdentifier& type;
+    const NTypeSpecifier& type;
     const NIdentifier& id;
     VariableList arguments;
     NBlock& block;
-    NFunctionDeclaration(const NIdentifier& type, const NIdentifier& id, 
+    NFunctionDeclaration(const NTypeSpecifier& type, const NIdentifier& id,
             const VariableList& arguments, NBlock& block) :
         type(type), id(id), arguments(arguments), block(block) { }
     virtual llvm::Value* codeGen(CodeGenContext& context);

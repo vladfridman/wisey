@@ -1,5 +1,6 @@
 int do_math(int a) {
-  int x = a * 5 + 3 / 3 + 8;
+  int y = 5;
+  int x = a * y;
   return x;
 }
 

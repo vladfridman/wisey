@@ -20,6 +20,7 @@
 %union {
     Node *node;
     NBlock *block;
+    NTypeSpecifier *type;
     NExpression *expr;
     NStatement *stmt;
     NReturnStatement *returnStatement;
@@ -34,6 +35,7 @@
 /* Tokens used in Yazyk */
 %token <string> TIDENTIFIER TINTEGER TDOUBLE
 %token <token> TCEQ TCNE TCLT TCLE TCGT TCGE
+%token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE
 %token <token> TRETURN
 
 /* Define the type of node our nonterminal symbols represent.
@@ -48,6 +50,7 @@
 %type <exprvec> call_args
 %type <block> program stmts block
 %type <stmt> stmt var_decl func_decl func_arg_decl
+%type <type> type_specifier
 
 /* Operator precedence for mathematical operators */
 %left '+' '-'
@@ -84,17 +87,17 @@ return_statement
   ;
 
 var_decl
-  : ident ident ';' { $$ = new NVariableDeclaration(*$1, *$2); }
-  | ident ident '=' expr ';' { $$ = new NVariableDeclaration(*$1, *$2, $4); }
+  : type_specifier ident ';' { $$ = new NVariableDeclaration(*$1, *$2); }
+  | type_specifier ident '=' expr ';' { $$ = new NVariableDeclaration(*$1, *$2, $4); }
   ;
         
 func_decl
-  : ident ident '(' func_decl_args ')' block
+  : type_specifier ident '(' func_decl_args ')' block
     { $$ = new NFunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
   ;
 
 func_arg_decl
-  : ident ident { $$ = new NVariableDeclaration(*$1, *$2); }
+  : type_specifier ident { $$ = new NVariableDeclaration(*$1, *$2); }
   ;
 
 func_decl_args
@@ -140,6 +143,13 @@ call_args
   : /*blank*/  { $$ = new ExpressionList(); }
   | expr { $$ = new ExpressionList(); $$->push_back($1); }
   | call_args ',' expr  { $1->push_back($3); }
+  ;
+
+type_specifier
+  : TTYPEINT { $$ = new NTypeSpecifier("int"); }
+  | TTYPELONG { $$ = new NTypeSpecifier("long"); }
+  | TTYPEFLOAT { $$ = new NTypeSpecifier("float"); }
+  | TTYPEDOUBLE { $$ = new NTypeSpecifier("double"); }
   ;
 
 %%

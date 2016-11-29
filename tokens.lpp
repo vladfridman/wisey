@@ -12,6 +12,10 @@ extern "C" int yywrap() { return 1; }
 %%
 
 [ \t\n]                 ;
+"int"                   return TOKEN(TTYPEINT);
+"long"                  return TOKEN(TTYPELONG);
+"float"                 return TOKEN(TTYPEFLOAT);
+"double"                return TOKEN(TTYPEDOUBLE);
 "return"                return TOKEN(TRETURN);
 "="                     return TOKEN('=');
 "=="                    return TOKEN(TCEQ);
