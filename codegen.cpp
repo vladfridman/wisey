@@ -5,9 +5,8 @@
 using namespace std;
 
 /* Compile the AST into a module */
-void CodeGenContext::generateCode(NBlock& root)
-{
-  std::cout << "Generating code...\n";
+void CodeGenContext::generateCode(NBlock& root) {
+  cout << "Generating code...\n";
   
   owner = make_unique<Module>("test", TheContext);
   module = owner.get();
@@ -28,24 +27,24 @@ void CodeGenContext::generateCode(NBlock& root)
    * Print the bytecode in a human-readable format
    * to see if our program compiled properly
    */
-  std::cout << "Code is generated.\n";
+  cout << "Code is generated.\n";
   verifyModule(*module);
-  std::cout << "Code is verified.\n";
+  cout << "Code is verified.\n";
   
   legacy::PassManager pm;
   pm.add(createPrintModulePass(outs()));
   pm.run(*module);
   
   cout << "PM has been run.\n";
-  }
+}
 
 /* Executes the AST by running the main function */
 GenericValue CodeGenContext::runCode() {
-  std::cout << "Running code...\n";
-  ExecutionEngine *ee = EngineBuilder(std::move(owner)).create();
+  cout << "Running code...\n";
+  ExecutionEngine *ee = EngineBuilder(move(owner)).create();
   vector<GenericValue> noargs;
   GenericValue v = ee->runFunction(mainFunction, noargs);
-  std::cout << "Code was run.\n";
+  cout << "Code was run.\n";
   outs() << "Result: " << v.IntVal << "\n";
   delete ee;
   
@@ -53,8 +52,7 @@ GenericValue CodeGenContext::runCode() {
 }
 
 /* Returns an LLVM type based on the identifier */
-static Type *typeOf(const NTypeSpecifier& type)
-{
+static Type *typeOf(const NTypeSpecifier& type) {
   if (type.type.compare("int") == 0) {
     return Type::getInt32Ty(TheContext);
   }
@@ -72,23 +70,20 @@ static Type *typeOf(const NTypeSpecifier& type)
 
 /* -- Code Generation -- */
 
-Value* NInteger::codeGen(CodeGenContext& context)
-{
-  std::cout << "Creating integer: " << value << std::endl;
+Value* NInteger::codeGen(CodeGenContext& context) {
+  cout << "Creating integer: " << value << endl;
   return ConstantInt::get(Type::getInt32Ty(TheContext), value, true);
 }
 
-Value* NDouble::codeGen(CodeGenContext& context)
-{
-  std::cout << "Creating double: " << value << std::endl;
+Value* NDouble::codeGen(CodeGenContext& context) {
+  cout << "Creating double: " << value << endl;
   return ConstantFP::get(Type::getDoubleTy(TheContext), value);
 }
 
-Value* NIdentifier::codeGen(CodeGenContext& context)
-{
-  std::cout << "Creating identifier reference: " << name << std::endl;
+Value* NIdentifier::codeGen(CodeGenContext& context) {
+  cout << "Creating identifier reference: " << name << endl;
   if (context.locals().find(name) == context.locals().end()) {
-    std::cerr << "undeclared variable " << name << std::endl;
+    cerr << "undeclared variable " << name << endl;
     return NULL;
   }
   return new LoadInst(context.locals()[name], "", context.currentBlock());
@@ -98,25 +93,23 @@ Value * NTypeSpecifier::codeGen(CodeGenContext &context) {
   return NULL;
 }
 
-Value* NMethodCall::codeGen(CodeGenContext& context)
-{
+Value* NMethodCall::codeGen(CodeGenContext& context) {
   Function *function = context.getModule()->getFunction(id.name.c_str());
   if (function == NULL) {
-    std::cerr << "no such function " << id.name << std::endl;
+    cerr << "no such function " << id.name << endl;
   }
-  std::vector<Value*> args;
+  vector<Value*> args;
   ExpressionList::const_iterator it;
   for (it = arguments.begin(); it != arguments.end(); it++) {
     args.push_back((**it).codeGen(context));
   }
   CallInst *call = CallInst::Create(function, args, "", context.currentBlock());
-  std::cout << "Creating method call: " << id.name << std::endl;
+  cout << "Creating method call: " << id.name << endl;
   return call;
 }
 
-Value* NBinaryOperator::codeGen(CodeGenContext& context)
-{
-  std::cout << "Creating binary operation " << op << std::endl;
+Value* NBinaryOperator::codeGen(CodeGenContext& context) {
+  cout << "Creating binary operation " << op << endl;
   Instruction::BinaryOps instr;
   switch (op) {
     case '+': instr = Instruction::Add; break;
@@ -136,18 +129,16 @@ Value* NBinaryOperator::codeGen(CodeGenContext& context)
                                 context.currentBlock());
 }
 
-Value* NAssignment::codeGen(CodeGenContext& context)
-{
-  std::cout << "Creating assignment for " << lhs.name << std::endl;
+Value* NAssignment::codeGen(CodeGenContext& context) {
+  cout << "Creating assignment for " << lhs.name << endl;
   if (context.locals().find(lhs.name) == context.locals().end()) {
-    std::cerr << "undeclared variable " << lhs.name << std::endl;
+    cerr << "undeclared variable " << lhs.name << endl;
     return NULL;
   }
   return new StoreInst(rhs.codeGen(context), context.locals()[lhs.name], context.currentBlock());
 }
 
-Value* NBlock::codeGen(CodeGenContext& context)
-{
+Value* NBlock::codeGen(CodeGenContext& context) {
   StatementList::const_iterator it;
   Value *last = NULL;
   for (it = statements.begin(); it != statements.end(); it++) {
@@ -155,19 +146,17 @@ Value* NBlock::codeGen(CodeGenContext& context)
     cout << "Generating block code for " << typeid(*statement).name() << endl;
     last = statement->codeGen(context);
   }
-  std::cout << "Creating block" << std::endl;
+  cout << "Creating block" << endl;
   return last;
 }
 
-Value* NExpressionStatement::codeGen(CodeGenContext& context)
-{
-  std::cout << "Generating expression statement code for " << typeid(expression).name() << std::endl;
+Value* NExpressionStatement::codeGen(CodeGenContext& context) {
+  cout << "Generating expression statement code for " << typeid(expression).name() << endl;
   return expression.codeGen(context);
 }
 
-Value* NVariableDeclaration::codeGen(CodeGenContext& context)
-{
-  std::cout << "Creating variable declaration " << type.type << " " << id.name << std::endl;
+Value* NVariableDeclaration::codeGen(CodeGenContext& context) {
+  cout << "Creating variable declaration " << type.type << " " << id.name << endl;
   AllocaInst *alloc = new AllocaInst(typeOf(type), id.name.c_str(), context.currentBlock());
   context.locals()[id.name] = alloc;
   if (assignmentExpr != NULL) {
@@ -178,17 +167,15 @@ Value* NVariableDeclaration::codeGen(CodeGenContext& context)
 }
 
 
-Value* NReturnStatement::codeGen(CodeGenContext& context)
-{
+Value* NReturnStatement::codeGen(CodeGenContext& context) {
   cout << "Generatring return statement" << endl;
 
   Value * result = ReturnInst::Create(TheContext, expression.codeGen(context), context.currentBlock());
   return result;
 }
 
-Value* NFunctionDeclaration::codeGen(CodeGenContext& context)
-{
-  std::vector<Type*> argTypes;
+Value* NFunctionDeclaration::codeGen(CodeGenContext& context) {
+  vector<Type*> argTypes;
   VariableList::const_iterator it;
   for (it = arguments.begin(); it != arguments.end(); it++) {
     argTypes.push_back(typeOf((**it).type));
@@ -217,7 +204,7 @@ Value* NFunctionDeclaration::codeGen(CodeGenContext& context)
   block.codeGen(context);
   
   context.popBlock();
-  std::cout << "Creating function: " << id.name << std::endl;
+  cout << "Creating function: " << id.name << endl;
   return function;
 }
 
