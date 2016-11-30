@@ -20,9 +20,9 @@ extern "C" int yywrap() { return 1; }
 "="                     return TOKEN('=');
 "=="                    return TOKEN(TCEQ);
 "!="                    return TOKEN(TCNE);
-"<"                     return TOKEN(TCLT);
+"<"                     return TOKEN('<');
 "<="                    return TOKEN(TCLE);
-">"                     return TOKEN(TCGT);
+">"                     return TOKEN('>');
 ">="                    return TOKEN(TCGE);
 "("                     return TOKEN('(');
 ")"                     return TOKEN(')');

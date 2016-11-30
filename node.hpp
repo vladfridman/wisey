@@ -22,6 +22,13 @@ typedef enum PrimitiveTypeEnum {
   PRIMITIVE_TYPE_FLOAT,
   PRIMITIVE_TYPE_DOUBLE
 } PrimitiveType;
+  
+typedef enum RelationalOperationEnum {
+  RELATIONAL_OPERATION_LT,
+  RELATIONAL_OPERATION_GT,
+  RELATIONAL_OPERATION_LE,
+  RELATIONAL_OPERATION_GE,
+} RelationalOperation;
 
 class INode {
 public:
@@ -79,6 +86,17 @@ public:
   Value* generateIR(IRGenerationContext& context);
 };
 
+class RelationalExpression : public IExpression {
+public:
+  RelationalOperation operation;
+  IExpression& lhs;
+  IExpression& rhs;
+  
+  RelationalExpression(IExpression& lhs, RelationalOperation operation, IExpression& rhs) :
+    lhs(lhs), rhs(rhs), operation(operation) { }
+  Value* generateIR(IRGenerationContext& context);
+};
+  
 class Assignment : public IExpression {
 public:
   Identifier& lhs;

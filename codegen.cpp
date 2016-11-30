@@ -123,6 +123,27 @@ Value* BinaryOperator::generateIR(IRGenerationContext& context) {
                                       "",
                                       context.currentBlock());
 }
+  
+Value* RelationalExpression::generateIR(IRGenerationContext& context) {
+  cout << "Creating relational expression " << operation << endl;
+  ICmpInst::Predicate predicate;
+  switch (operation) {
+    case RELATIONAL_OPERATION_LT : predicate = ICmpInst::ICMP_SLT; break;
+    case RELATIONAL_OPERATION_GT : predicate = ICmpInst::ICMP_SGT; break;
+    case RELATIONAL_OPERATION_LE : predicate = ICmpInst::ICMP_SLE; break;
+    case RELATIONAL_OPERATION_GE : predicate = ICmpInst::ICMP_SGE; break;
+    default: return NULL;
+  }
+  
+  Value * lhsValue = lhs.generateIR(context);
+  Value * rhsValue = rhs.generateIR(context);
+  
+  return new ICmpInst(*context.currentBlock(),
+                      predicate,
+                      lhsValue,
+                      rhsValue,
+                      "cmp");
+}
 
 Value* Assignment::generateIR(IRGenerationContext& context) {
   cout << "Creating assignment for " << lhs.name << endl;
@@ -164,10 +185,34 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
 
 Value* ReturnStatement::generateIR(IRGenerationContext& context) {
   cout << "Generatring return statement" << endl;
+  
+  Value* returnValue = expression.generateIR(context);
+  Type* valueType = returnValue->getType();
+  Function *parentFunction = context.currentBlock()->getParent();
 
-  Value * result = ReturnInst::Create(TheContext,
-                                      expression.generateIR(context),
-                                      context.currentBlock());
+  if (parentFunction == NULL) {
+    cerr << "No corresponding method found for RETURN" << endl;
+    exit(1);
+  }
+  
+  Type * returnType = parentFunction->getReturnType();
+  
+  if (returnType != valueType &&
+      !CastInst::isCastable(valueType, returnType)) {
+    cerr << "Can not cast return value to function type" << endl;
+    exit(1);
+  }
+  
+  if (returnType != valueType) {
+    returnValue = CastInst::CreateZExtOrBitCast(returnValue,
+                                                returnType,
+                                                "conv",
+                                                context.currentBlock());
+  }
+  
+  ReturnInst* result = ReturnInst::Create(TheContext,
+                                          returnValue,
+                                          context.currentBlock());
   return result;
 }
 
