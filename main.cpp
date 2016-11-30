@@ -27,7 +27,7 @@
 using namespace std;
 
 extern int yyparse();
-extern NBlock* programBlock;
+extern YazBlock* programBlock;
 extern FILE* yyin;
 
 int main(int argc, char **argv)
@@ -41,7 +41,7 @@ int main(int argc, char **argv)
   yyparse();
   
   CodeGenContext context;
-  context.generateCode(*programBlock);
+  context.generateIR(*programBlock);
   context.runCode();
   
   return 0;

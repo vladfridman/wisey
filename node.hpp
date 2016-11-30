@@ -2,152 +2,160 @@
 #include <vector>
 #include <llvm/IR/Value.h>
 
+using namespace llvm;
+using namespace std;
+
+class IYazStatement;
+class IYazExpression;
 class CodeGenContext;
-class NStatement;
-class NExpression;
-class NVariableDeclaration;
+class YazVariableDeclaration;
 
-typedef std::vector<NStatement*> StatementList;
-typedef std::vector<NExpression*> ExpressionList;
-typedef std::vector<NVariableDeclaration*> VariableList;
+typedef vector<IYazStatement*> YazStatementList;
+typedef vector<IYazExpression*> YazExpressionList;
+typedef vector<YazVariableDeclaration*> YazVariableList;
 
-typedef enum PrimitiveTypeEnum { PRIMITIVE_TYPE_INT, PRIMITIVE_TYPE_LONG, PRIMITIVE_TYPE_FLOAT, PRIMITIVE_TYPE_DOUBLE } PrimitiveType;
+typedef enum YazPrimitiveTypeEnum {
+  PRIMITIVE_TYPE_INT,
+  PRIMITIVE_TYPE_LONG,
+  PRIMITIVE_TYPE_FLOAT,
+  PRIMITIVE_TYPE_DOUBLE
+} YazPrimitiveType;
 
-class Node {
+class IYazNode {
 public:
-  virtual ~Node() {}
-  virtual llvm::Value* codeGen(CodeGenContext& context) { return NULL; }
+  virtual Value* generateIR(CodeGenContext& context) = 0;
 };
 
-class NExpression : public Node {
+class IYazExpression : public IYazNode {
 };
 
-class NStatement : public Node {
+class IYazStatement : public IYazNode {
 };
 
-class NInteger : public NExpression {
+class YazInteger : public IYazExpression {
 public:
   long long value;
-  NInteger(long long value) : value(value) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazInteger(long long value) : value(value) { }
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NDouble : public NExpression {
+class YazDouble : public IYazExpression {
 public:
   double value;
 
-  NDouble(double value) : value(value) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazDouble(double value) : value(value) { }
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NIdentifier : public NExpression {
+class YazIdentifier : public IYazExpression {
 public:
-  std::string name;
+  string name;
 
-  NIdentifier(const std::string& name) : name(name) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazIdentifier(const string& name) : name(name) { }
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NMethodCall : public NExpression {
+class YazMethodCall : public IYazExpression {
 public:
-  const NIdentifier& id;
-  ExpressionList arguments;
+  const YazIdentifier& id;
+  YazExpressionList arguments;
 
-  NMethodCall(const NIdentifier& id, ExpressionList& arguments) :
+  YazMethodCall(const YazIdentifier& id, YazExpressionList& arguments) :
   id(id), arguments(arguments) { }
-  NMethodCall(const NIdentifier& id) : id(id) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazMethodCall(const YazIdentifier& id) : id(id) { }
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NBinaryOperator : public NExpression {
+class YazBinaryOperator : public IYazExpression {
 public:
   int op;
-  NExpression& lhs;
-  NExpression& rhs;
+  IYazExpression& lhs;
+  IYazExpression& rhs;
 
-  NBinaryOperator(NExpression& lhs, int op, NExpression& rhs) :
+  YazBinaryOperator(IYazExpression& lhs, int op, IYazExpression& rhs) :
   lhs(lhs), rhs(rhs), op(op) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NAssignment : public NExpression {
+class YazAssignment : public IYazExpression {
 public:
-  NIdentifier& lhs;
-  NExpression& rhs;
+  YazIdentifier& lhs;
+  IYazExpression& rhs;
 
-  NAssignment(NIdentifier& lhs, NExpression& rhs) :
+  YazAssignment(YazIdentifier& lhs, IYazExpression& rhs) :
   lhs(lhs), rhs(rhs) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NBlock : public NExpression {
+class YazBlock : public IYazExpression {
 public:
-  StatementList statements;
+  YazStatementList statements;
 
-  NBlock() { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazBlock() { }
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NExpressionStatement : public NStatement {
+class YazExpressionStatement : public IYazStatement {
 public:
-  NExpression& expression;
+  IYazExpression& expression;
 
-  NExpressionStatement(NExpression& expression) :
-  expression(expression) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazExpressionStatement(IYazExpression& expression) : expression(expression) { }
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NReturnStatement : public NStatement {
+class YazReturnStatement : public IYazStatement {
 public:
-  NExpression& expression;
+  IYazExpression& expression;
 
-  NReturnStatement(NExpression& expression) :
-  expression(expression) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazReturnStatement(IYazExpression& expression) : expression(expression) { }
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NTypeSpecifier : public Node {
+class YazTypeSpecifier : public IYazNode {
 public:
-  PrimitiveType type;
+  YazPrimitiveType type;
 
-  NTypeSpecifier(PrimitiveType type) : type(type) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazTypeSpecifier(YazPrimitiveType type) : type(type) { }
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NVariableDeclaration : public NStatement {
+class YazVariableDeclaration : public IYazStatement {
 public:
-  const NTypeSpecifier& type;
-  NIdentifier& id;
-  NExpression *assignmentExpr;
+  const YazTypeSpecifier& type;
+  YazIdentifier& id;
+  IYazExpression *assignmentExpr;
 
-  NVariableDeclaration(const NTypeSpecifier& type, NIdentifier& id) :
-  type(type), id(id) { assignmentExpr = NULL; }
-  NVariableDeclaration(const NTypeSpecifier& type, NIdentifier& id, NExpression *assignmentExpr) :
-  type(type), id(id), assignmentExpr(assignmentExpr) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazVariableDeclaration(const YazTypeSpecifier& type, YazIdentifier& id) :
+    type(type), id(id) { assignmentExpr = NULL; }
+  YazVariableDeclaration(const YazTypeSpecifier& type, YazIdentifier& id, IYazExpression *assignmentExpr) :
+    type(type), id(id), assignmentExpr(assignmentExpr) { }
+  Value* generateIR(CodeGenContext& context);
 };
 
-class NExternDeclaration : public NStatement {
+class YazExternDeclaration : public IYazStatement {
 public:
-  const NIdentifier& type;
-  const NIdentifier& id;
-  VariableList arguments;
+  const YazIdentifier& type;
+  const YazIdentifier& id;
+  YazVariableList arguments;
 
-  NExternDeclaration(const NIdentifier& type, const NIdentifier& id,
-                     const VariableList& arguments) :
-  type(type), id(id), arguments(arguments) {}
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  YazExternDeclaration(const YazIdentifier& type,
+                     const YazIdentifier& id,
+                     const YazVariableList& arguments) :
+    type(type), id(id), arguments(arguments) {}
+  Value* codeGen(CodeGenContext& context);
 };
 
-class NFunctionDeclaration : public NStatement {
+class YazFunctionDeclaration : public IYazStatement {
 public:
-  const NTypeSpecifier& type;
-  const NIdentifier& id;
-  VariableList arguments;
-  NBlock& block;
+  const YazTypeSpecifier& type;
+  const YazIdentifier& id;
+  YazVariableList arguments;
+  YazBlock& block;
 
-  NFunctionDeclaration(const NTypeSpecifier& type, const NIdentifier& id,
-                       const VariableList& arguments, NBlock& block) :
+  YazFunctionDeclaration(const YazTypeSpecifier& type,
+                         const YazIdentifier& id,
+                         const YazVariableList& arguments,
+                         YazBlock& block) :
   type(type), id(id), arguments(arguments), block(block) { }
-  virtual llvm::Value* codeGen(CodeGenContext& context);
+  Value* generateIR(CodeGenContext& context);
 };

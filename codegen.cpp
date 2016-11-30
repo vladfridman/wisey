@@ -5,13 +5,13 @@
 using namespace std;
 
 /* Compile the AST into a module */
-void CodeGenContext::generateCode(NBlock& root) {
+void CodeGenContext::generateIR(YazBlock& root) {
   cout << "Generating code...\n";
   
   owner = make_unique<Module>("test", TheContext);
   module = owner.get();
   
-  root.codeGen(*this);
+  root.generateIR(*this);
   
   /**
    * Print the bytecode in a human-readable format
@@ -47,7 +47,7 @@ GenericValue CodeGenContext::runCode() {
 }
 
 /* Returns an LLVM type based on the identifier */
-static Type *typeOf(const NTypeSpecifier& type) {
+static Type *typeOf(const YazTypeSpecifier& type) {
   if (type.type == PRIMITIVE_TYPE_INT) {
     return Type::getInt32Ty(TheContext);
   } else if (type.type == PRIMITIVE_TYPE_LONG) {
@@ -63,17 +63,17 @@ static Type *typeOf(const NTypeSpecifier& type) {
 
 /* -- Code Generation -- */
 
-Value* NInteger::codeGen(CodeGenContext& context) {
+Value* YazInteger::generateIR(CodeGenContext& context) {
   cout << "Creating integer: " << value << endl;
   return ConstantInt::get(Type::getInt32Ty(TheContext), value, true);
 }
 
-Value* NDouble::codeGen(CodeGenContext& context) {
+Value* YazDouble::generateIR(CodeGenContext& context) {
   cout << "Creating double: " << value << endl;
   return ConstantFP::get(Type::getDoubleTy(TheContext), value);
 }
 
-Value* NIdentifier::codeGen(CodeGenContext& context) {
+Value* YazIdentifier::generateIR(CodeGenContext& context) {
   cout << "Creating identifier reference: " << name << endl;
   if (context.locals().find(name) == context.locals().end()) {
     cerr << "undeclared variable " << name << endl;
@@ -82,26 +82,26 @@ Value* NIdentifier::codeGen(CodeGenContext& context) {
   return new LoadInst(context.locals()[name], "", context.currentBlock());
 }
 
-Value * NTypeSpecifier::codeGen(CodeGenContext &context) {
+Value * YazTypeSpecifier::generateIR(CodeGenContext &context) {
   return NULL;
 }
 
-Value* NMethodCall::codeGen(CodeGenContext& context) {
+Value* YazMethodCall::generateIR(CodeGenContext& context) {
   Function *function = context.getModule()->getFunction(id.name.c_str());
   if (function == NULL) {
     cerr << "no such function " << id.name << endl;
   }
   vector<Value*> args;
-  ExpressionList::const_iterator it;
+  YazExpressionList::const_iterator it;
   for (it = arguments.begin(); it != arguments.end(); it++) {
-    args.push_back((**it).codeGen(context));
+    args.push_back((**it).generateIR(context));
   }
   CallInst *call = CallInst::Create(function, args, "", context.currentBlock());
   cout << "Creating method call: " << id.name << endl;
   return call;
 }
 
-Value* NBinaryOperator::codeGen(CodeGenContext& context) {
+Value* YazBinaryOperator::generateIR(CodeGenContext& context) {
   cout << "Creating binary operation " << op << endl;
   Instruction::BinaryOps instr;
   switch (op) {
@@ -112,8 +112,8 @@ Value* NBinaryOperator::codeGen(CodeGenContext& context) {
     default: return NULL;
   }
   
-  Value * lhsValue = lhs.codeGen(context);
-  Value * rhsValue = rhs.codeGen(context);
+  Value * lhsValue = lhs.generateIR(context);
+  Value * rhsValue = rhs.generateIR(context);
 
   return BinaryOperator::Create(instr,
                                 lhsValue,
@@ -122,54 +122,56 @@ Value* NBinaryOperator::codeGen(CodeGenContext& context) {
                                 context.currentBlock());
 }
 
-Value* NAssignment::codeGen(CodeGenContext& context) {
+Value* YazAssignment::generateIR(CodeGenContext& context) {
   cout << "Creating assignment for " << lhs.name << endl;
   if (context.locals().find(lhs.name) == context.locals().end()) {
     cerr << "undeclared variable " << lhs.name << endl;
     return NULL;
   }
-  return new StoreInst(rhs.codeGen(context), context.locals()[lhs.name], context.currentBlock());
+  return new StoreInst(rhs.generateIR(context), context.locals()[lhs.name], context.currentBlock());
 }
 
-Value* NBlock::codeGen(CodeGenContext& context) {
-  StatementList::const_iterator it;
+Value* YazBlock::generateIR(CodeGenContext& context) {
+  YazStatementList::const_iterator it;
   Value *last = NULL;
   for (it = statements.begin(); it != statements.end(); it++) {
-    NStatement *statement = *it;
+    IYazStatement *statement = *it;
     cout << "Generating block code for " << typeid(*statement).name() << endl;
-    last = statement->codeGen(context);
+    last = statement->generateIR(context);
   }
   cout << "Creating block" << endl;
   return last;
 }
 
-Value* NExpressionStatement::codeGen(CodeGenContext& context) {
+Value* YazExpressionStatement::generateIR(CodeGenContext& context) {
   cout << "Generating expression statement code for " << typeid(expression).name() << endl;
-  return expression.codeGen(context);
+  return expression.generateIR(context);
 }
 
-Value* NVariableDeclaration::codeGen(CodeGenContext& context) {
+Value* YazVariableDeclaration::generateIR(CodeGenContext& context) {
   cout << "Creating variable declaration " << type.type << " " << id.name << endl;
   AllocaInst *alloc = new AllocaInst(typeOf(type), id.name.c_str(), context.currentBlock());
   context.locals()[id.name] = alloc;
   if (assignmentExpr != NULL) {
-    NAssignment assn(id, *assignmentExpr);
-    assn.codeGen(context);
+    YazAssignment assn(id, *assignmentExpr);
+    assn.generateIR(context);
   }
   return alloc;
 }
 
 
-Value* NReturnStatement::codeGen(CodeGenContext& context) {
+Value* YazReturnStatement::generateIR(CodeGenContext& context) {
   cout << "Generatring return statement" << endl;
 
-  Value * result = ReturnInst::Create(TheContext, expression.codeGen(context), context.currentBlock());
+  Value * result = ReturnInst::Create(TheContext,
+                                      expression.generateIR(context),
+                                      context.currentBlock());
   return result;
 }
 
-Value* NFunctionDeclaration::codeGen(CodeGenContext& context) {
+Value* YazFunctionDeclaration::generateIR(CodeGenContext& context) {
   vector<Type*> argTypes;
-  VariableList::const_iterator it;
+  YazVariableList::const_iterator it;
   for (it = arguments.begin(); it != arguments.end(); it++) {
     argTypes.push_back(typeOf((**it).type));
   }
@@ -197,7 +199,7 @@ Value* NFunctionDeclaration::codeGen(CodeGenContext& context) {
     context.locals()[(**it).id.name] = alloc;
   }
 
-  block.codeGen(context);
+  block.generateIR(context);
   
   context.popBlock();
   cout << "Creating function: " << id.name << endl;

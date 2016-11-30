@@ -19,22 +19,23 @@
 #include <llvm/Support/raw_ostream.h>
 
 using namespace llvm;
+using namespace std;
 
 static LLVMContext TheContext;
 
-class NBlock;
+class YazBlock;
 
 class CodeGenBlock {
 public:
   BasicBlock *block;
-  std::map<std::string, Value*> locals;
+  map<string, Value*> locals;
 };
 
 class CodeGenContext {
-  std::stack<CodeGenBlock *> blocks;
+  stack<CodeGenBlock *> blocks;
   Function* mainFunction;
   Module* module;
-  std::unique_ptr<Module> owner;
+  unique_ptr<Module> owner;
   
 public:
   
@@ -45,11 +46,11 @@ public:
     return module;
   }
   
-  void generateCode(NBlock& root);
+  void generateIR(YazBlock& root);
   
   GenericValue runCode();
   
-  std::map<std::string, Value*>& locals() {
+  map<string, Value*>& locals() {
     return blocks.top()->locals;
   }
   
