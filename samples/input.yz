@@ -1,6 +1,7 @@
 int do_math(int a) {
   int x = 2 + 5;
   int y = x + 1;
+  2 + 3;
   return y + a;
 }
 

@@ -25,7 +25,10 @@ void IRGenerationContext::generateIR(Block& root) {
   passManager.add(createPrintModulePass(outs()));
 
   // Optimization: Constant propagation
-  passManager.add(createGVNPass(false));
+  passManager.add(createConstantPropagationPass());
+  
+  // Optimization: Dead Code Elimination
+  passManager.add(createDeadInstEliminationPass());
 
   // print out assembly code
   passManager.add(createPrintModulePass(outs()));
