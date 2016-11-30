@@ -19,13 +19,18 @@ void IRGenerationContext::generateIR(Block& root) {
   verifyModule(*module);
   cout << "Code is verified.\n";
   
-  /**
-   * Print the bytecode in a human-readable format
-   * to see if our program compiled properly
-   */
-  legacy::PassManager pm;
-  pm.add(createPrintModulePass(outs()));
-  pm.run(*module);
+  legacy::PassManager passManager;
+
+  // print out assembly code
+  passManager.add(createPrintModulePass(outs()));
+
+  // Optimization: Constant propagation
+  passManager.add(createGVNPass(false));
+
+  // print out assembly code
+  passManager.add(createPrintModulePass(outs()));
+
+  passManager.run(*module);
   
   cout << "PM has been run.\n";
 }

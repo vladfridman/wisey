@@ -17,6 +17,7 @@
 #include <llvm/ExecutionEngine/GenericValue.h>
 #include <llvm/ExecutionEngine/MCJIT.h>
 #include <llvm/Support/raw_ostream.h>
+#include "llvm/Transforms/Scalar/GVN.h"
 
 using namespace llvm;
 using namespace std;
