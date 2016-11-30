@@ -22,13 +22,13 @@ void IRGenerationContext::generateIR(Block& root) {
   legacy::PassManager passManager;
 
   // print out assembly code
-  passManager.add(createPrintModulePass(outs()));
+  // passManager.add(createPrintModulePass(outs()));
 
   // Optimization: Constant propagation
-  passManager.add(createConstantPropagationPass());
+  // passManager.add(createConstantPropagationPass());
   
-  // Optimization: Dead Code Elimination
-  passManager.add(createDeadInstEliminationPass());
+  // Optimization: Dead Instruction Elimination
+  // passManager.add(createDeadInstEliminationPass());
 
   // print out assembly code
   passManager.add(createPrintModulePass(outs()));
