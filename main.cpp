@@ -40,7 +40,7 @@ int main(int argc, char **argv)
   yyin = fopen(argv[1], "r");
   yyparse();
   
-  CodeGenContext context;
+  IRGenerationContext context;
   context.generateIR(*programBlock);
   context.runCode();
   

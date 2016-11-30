@@ -25,22 +25,21 @@ static LLVMContext TheContext;
 
 class YazBlock;
 
-class CodeGenBlock {
+class IRGenerationBlock {
 public:
   BasicBlock *block;
   map<string, Value*> locals;
 };
 
-class CodeGenContext {
-  stack<CodeGenBlock *> blocks;
+class IRGenerationContext {
+  stack<IRGenerationBlock *> blocks;
   Function* mainFunction;
   Module* module;
   unique_ptr<Module> owner;
   
 public:
-  
-  CodeGenContext() {
-  }
+
+  IRGenerationContext() { }
   
   Module * getModule() {
     return module;
@@ -63,12 +62,14 @@ public:
   }
   
   void pushBlock(BasicBlock *block) {
-    blocks.push(new CodeGenBlock());
+    blocks.push(new IRGenerationBlock());
     blocks.top()->block = block;
   }
   
   void popBlock() {
-    CodeGenBlock *top = blocks.top(); blocks.pop(); delete top;
+    IRGenerationBlock *top = blocks.top();
+    blocks.pop();
+    delete top;
   }
 };
 

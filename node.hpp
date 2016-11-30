@@ -7,7 +7,7 @@ using namespace std;
 
 class IYazStatement;
 class IYazExpression;
-class CodeGenContext;
+class IRGenerationContext;
 class YazVariableDeclaration;
 
 typedef vector<IYazStatement*> YazStatementList;
@@ -23,7 +23,7 @@ typedef enum YazPrimitiveTypeEnum {
 
 class IYazNode {
 public:
-  virtual Value* generateIR(CodeGenContext& context) = 0;
+  virtual Value* generateIR(IRGenerationContext& context) = 0;
 };
 
 class IYazExpression : public IYazNode {
@@ -36,7 +36,7 @@ class YazInteger : public IYazExpression {
 public:
   long long value;
   YazInteger(long long value) : value(value) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazDouble : public IYazExpression {
@@ -44,7 +44,7 @@ public:
   double value;
 
   YazDouble(double value) : value(value) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazIdentifier : public IYazExpression {
@@ -52,7 +52,7 @@ public:
   string name;
 
   YazIdentifier(const string& name) : name(name) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazMethodCall : public IYazExpression {
@@ -63,7 +63,7 @@ public:
   YazMethodCall(const YazIdentifier& id, YazExpressionList& arguments) :
   id(id), arguments(arguments) { }
   YazMethodCall(const YazIdentifier& id) : id(id) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazBinaryOperator : public IYazExpression {
@@ -74,7 +74,7 @@ public:
 
   YazBinaryOperator(IYazExpression& lhs, int op, IYazExpression& rhs) :
   lhs(lhs), rhs(rhs), op(op) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazAssignment : public IYazExpression {
@@ -84,7 +84,7 @@ public:
 
   YazAssignment(YazIdentifier& lhs, IYazExpression& rhs) :
   lhs(lhs), rhs(rhs) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazBlock : public IYazExpression {
@@ -92,7 +92,7 @@ public:
   YazStatementList statements;
 
   YazBlock() { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazExpressionStatement : public IYazStatement {
@@ -100,7 +100,7 @@ public:
   IYazExpression& expression;
 
   YazExpressionStatement(IYazExpression& expression) : expression(expression) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazReturnStatement : public IYazStatement {
@@ -108,7 +108,7 @@ public:
   IYazExpression& expression;
 
   YazReturnStatement(IYazExpression& expression) : expression(expression) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazTypeSpecifier : public IYazNode {
@@ -116,7 +116,7 @@ public:
   YazPrimitiveType type;
 
   YazTypeSpecifier(YazPrimitiveType type) : type(type) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazVariableDeclaration : public IYazStatement {
@@ -129,7 +129,7 @@ public:
     type(type), id(id) { assignmentExpr = NULL; }
   YazVariableDeclaration(const YazTypeSpecifier& type, YazIdentifier& id, IYazExpression *assignmentExpr) :
     type(type), id(id), assignmentExpr(assignmentExpr) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
 
 class YazExternDeclaration : public IYazStatement {
@@ -142,7 +142,7 @@ public:
                      const YazIdentifier& id,
                      const YazVariableList& arguments) :
     type(type), id(id), arguments(arguments) {}
-  Value* codeGen(CodeGenContext& context);
+  Value* codeGen(IRGenerationContext& context);
 };
 
 class YazFunctionDeclaration : public IYazStatement {
@@ -157,5 +157,5 @@ public:
                          const YazVariableList& arguments,
                          YazBlock& block) :
   type(type), id(id), arguments(arguments), block(block) { }
-  Value* generateIR(CodeGenContext& context);
+  Value* generateIR(IRGenerationContext& context);
 };
