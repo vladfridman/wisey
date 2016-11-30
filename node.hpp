@@ -7,157 +7,157 @@ using namespace std;
 
 namespace yazyk {
   
-class IYazStatement;
-class IYazExpression;
+class IStatement;
+class IExpression;
 class IRGenerationContext;
-class YazVariableDeclaration;
+class VariableDeclaration;
 
-typedef vector<IYazStatement*> YazStatementList;
-typedef vector<IYazExpression*> YazExpressionList;
-typedef vector<YazVariableDeclaration*> YazVariableList;
+typedef vector<IStatement*> StatementList;
+typedef vector<IExpression*> ExpressionList;
+typedef vector<VariableDeclaration*> VariableList;
 
-typedef enum YazPrimitiveTypeEnum {
+typedef enum PrimitiveTypeEnum {
   PRIMITIVE_TYPE_INT,
   PRIMITIVE_TYPE_LONG,
   PRIMITIVE_TYPE_FLOAT,
   PRIMITIVE_TYPE_DOUBLE
-} YazPrimitiveType;
+} PrimitiveType;
 
-class IYazNode {
+class INode {
 public:
   virtual Value* generateIR(IRGenerationContext& context) = 0;
 };
 
-class IYazExpression : public IYazNode {
+class IExpression : public INode {
 };
 
-class IYazStatement : public IYazNode {
+class IStatement : public INode {
 };
 
-class YazInteger : public IYazExpression {
+class Integer : public IExpression {
 public:
   long long value;
-  YazInteger(long long value) : value(value) { }
+  Integer(long long value) : value(value) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazDouble : public IYazExpression {
+class Double : public IExpression {
 public:
   double value;
 
-  YazDouble(double value) : value(value) { }
+  Double(double value) : value(value) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazIdentifier : public IYazExpression {
+class Identifier : public IExpression {
 public:
   string name;
 
-  YazIdentifier(const string& name) : name(name) { }
+  Identifier(const string& name) : name(name) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazMethodCall : public IYazExpression {
+class MethodCall : public IExpression {
 public:
-  const YazIdentifier& id;
-  YazExpressionList arguments;
+  const Identifier& id;
+  ExpressionList arguments;
 
-  YazMethodCall(const YazIdentifier& id, YazExpressionList& arguments) :
+  MethodCall(const Identifier& id, ExpressionList& arguments) :
   id(id), arguments(arguments) { }
-  YazMethodCall(const YazIdentifier& id) : id(id) { }
+  MethodCall(const Identifier& id) : id(id) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazBinaryOperator : public IYazExpression {
+class BinaryOperator : public IExpression {
 public:
   int op;
-  IYazExpression& lhs;
-  IYazExpression& rhs;
+  IExpression& lhs;
+  IExpression& rhs;
 
-  YazBinaryOperator(IYazExpression& lhs, int op, IYazExpression& rhs) :
+  BinaryOperator(IExpression& lhs, int op, IExpression& rhs) :
   lhs(lhs), rhs(rhs), op(op) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazAssignment : public IYazExpression {
+class Assignment : public IExpression {
 public:
-  YazIdentifier& lhs;
-  IYazExpression& rhs;
+  Identifier& lhs;
+  IExpression& rhs;
 
-  YazAssignment(YazIdentifier& lhs, IYazExpression& rhs) :
+  Assignment(Identifier& lhs, IExpression& rhs) :
   lhs(lhs), rhs(rhs) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazBlock : public IYazExpression {
+class Block : public IExpression {
 public:
-  YazStatementList statements;
+  StatementList statements;
 
-  YazBlock() { }
+  Block() { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazExpressionStatement : public IYazStatement {
+class ExpressionStatement : public IStatement {
 public:
-  IYazExpression& expression;
+  IExpression& expression;
 
-  YazExpressionStatement(IYazExpression& expression) : expression(expression) { }
+  ExpressionStatement(IExpression& expression) : expression(expression) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazReturnStatement : public IYazStatement {
+class ReturnStatement : public IStatement {
 public:
-  IYazExpression& expression;
+  IExpression& expression;
 
-  YazReturnStatement(IYazExpression& expression) : expression(expression) { }
+  ReturnStatement(IExpression& expression) : expression(expression) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazTypeSpecifier : public IYazNode {
+class TypeSpecifier : public INode {
 public:
-  YazPrimitiveType type;
+  PrimitiveType type;
 
-  YazTypeSpecifier(YazPrimitiveType type) : type(type) { }
+  TypeSpecifier(PrimitiveType type) : type(type) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazVariableDeclaration : public IYazStatement {
+class VariableDeclaration : public IStatement {
 public:
-  const YazTypeSpecifier& type;
-  YazIdentifier& id;
-  IYazExpression *assignmentExpr;
+  const TypeSpecifier& type;
+  Identifier& id;
+  IExpression *assignmentExpr;
 
-  YazVariableDeclaration(const YazTypeSpecifier& type, YazIdentifier& id) :
+  VariableDeclaration(const TypeSpecifier& type, Identifier& id) :
     type(type), id(id) { assignmentExpr = NULL; }
-  YazVariableDeclaration(const YazTypeSpecifier& type, YazIdentifier& id, IYazExpression *assignmentExpr) :
+  VariableDeclaration(const TypeSpecifier& type, Identifier& id, IExpression *assignmentExpr) :
     type(type), id(id), assignmentExpr(assignmentExpr) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
-class YazExternDeclaration : public IYazStatement {
+class ExternDeclaration : public IStatement {
 public:
-  const YazIdentifier& type;
-  const YazIdentifier& id;
-  YazVariableList arguments;
+  const Identifier& type;
+  const Identifier& id;
+  VariableList arguments;
 
-  YazExternDeclaration(const YazIdentifier& type,
-                     const YazIdentifier& id,
-                     const YazVariableList& arguments) :
+  ExternDeclaration(const Identifier& type,
+                     const Identifier& id,
+                     const VariableList& arguments) :
     type(type), id(id), arguments(arguments) {}
   Value* codeGen(IRGenerationContext& context);
 };
 
-class YazFunctionDeclaration : public IYazStatement {
+class FunctionDeclaration : public IStatement {
 public:
-  const YazTypeSpecifier& type;
-  const YazIdentifier& id;
-  YazVariableList arguments;
-  YazBlock& block;
+  const TypeSpecifier& type;
+  const Identifier& id;
+  VariableList arguments;
+  Block& block;
 
-  YazFunctionDeclaration(const YazTypeSpecifier& type,
-                         const YazIdentifier& id,
-                         const YazVariableList& arguments,
-                         YazBlock& block) :
+  FunctionDeclaration(const TypeSpecifier& type,
+                         const Identifier& id,
+                         const VariableList& arguments,
+                         Block& block) :
   type(type), id(id), arguments(arguments), block(block) { }
   Value* generateIR(IRGenerationContext& context);
 };

@@ -25,7 +25,7 @@ namespace yazyk {
 
 static LLVMContext TheContext;
 
-class YazBlock;
+class Block;
 
 class IRGenerationBlock {
 public:
@@ -47,7 +47,7 @@ public:
     return module;
   }
   
-  void generateIR(YazBlock& root);
+  void generateIR(Block& root);
   
   GenericValue runCode();
   

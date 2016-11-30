@@ -7,7 +7,7 @@ using namespace std;
 namespace yazyk {
 
 /* Compile the AST into a module */
-void IRGenerationContext::generateIR(YazBlock& root) {
+void IRGenerationContext::generateIR(Block& root) {
   cout << "Generating code...\n";
   
   owner = make_unique<Module>("test", TheContext);
@@ -49,7 +49,7 @@ GenericValue IRGenerationContext::runCode() {
 }
 
 /* Returns an LLVM type based on the identifier */
-static Type *typeOf(const YazTypeSpecifier& type) {
+static Type *typeOf(const TypeSpecifier& type) {
   if (type.type == PRIMITIVE_TYPE_INT) {
     return Type::getInt32Ty(TheContext);
   } else if (type.type == PRIMITIVE_TYPE_LONG) {
@@ -65,17 +65,17 @@ static Type *typeOf(const YazTypeSpecifier& type) {
 
 /* -- Code Generation -- */
 
-Value* YazInteger::generateIR(IRGenerationContext& context) {
+Value* Integer::generateIR(IRGenerationContext& context) {
   cout << "Creating integer: " << value << endl;
   return ConstantInt::get(Type::getInt32Ty(TheContext), value, true);
 }
 
-Value* YazDouble::generateIR(IRGenerationContext& context) {
+Value* Double::generateIR(IRGenerationContext& context) {
   cout << "Creating double: " << value << endl;
   return ConstantFP::get(Type::getDoubleTy(TheContext), value);
 }
 
-Value* YazIdentifier::generateIR(IRGenerationContext& context) {
+Value* Identifier::generateIR(IRGenerationContext& context) {
   cout << "Creating identifier reference: " << name << endl;
   if (context.locals().find(name) == context.locals().end()) {
     cerr << "undeclared variable " << name << endl;
@@ -84,17 +84,17 @@ Value* YazIdentifier::generateIR(IRGenerationContext& context) {
   return new LoadInst(context.locals()[name], "", context.currentBlock());
 }
 
-Value * YazTypeSpecifier::generateIR(IRGenerationContext &context) {
+Value * TypeSpecifier::generateIR(IRGenerationContext &context) {
   return NULL;
 }
 
-Value* YazMethodCall::generateIR(IRGenerationContext& context) {
+Value* MethodCall::generateIR(IRGenerationContext& context) {
   Function *function = context.getModule()->getFunction(id.name.c_str());
   if (function == NULL) {
     cerr << "no such function " << id.name << endl;
   }
   vector<Value*> args;
-  YazExpressionList::const_iterator it;
+  ExpressionList::const_iterator it;
   for (it = arguments.begin(); it != arguments.end(); it++) {
     args.push_back((**it).generateIR(context));
   }
@@ -103,7 +103,7 @@ Value* YazMethodCall::generateIR(IRGenerationContext& context) {
   return call;
 }
 
-Value* YazBinaryOperator::generateIR(IRGenerationContext& context) {
+Value* BinaryOperator::generateIR(IRGenerationContext& context) {
   cout << "Creating binary operation " << op << endl;
   Instruction::BinaryOps instr;
   switch (op) {
@@ -117,14 +117,14 @@ Value* YazBinaryOperator::generateIR(IRGenerationContext& context) {
   Value * lhsValue = lhs.generateIR(context);
   Value * rhsValue = rhs.generateIR(context);
 
-  return BinaryOperator::Create(instr,
-                                lhsValue,
-                                rhsValue,
-                                "",
-                                context.currentBlock());
+  return llvm::BinaryOperator::Create(instr,
+                                      lhsValue,
+                                      rhsValue,
+                                      "",
+                                      context.currentBlock());
 }
 
-Value* YazAssignment::generateIR(IRGenerationContext& context) {
+Value* Assignment::generateIR(IRGenerationContext& context) {
   cout << "Creating assignment for " << lhs.name << endl;
   if (context.locals().find(lhs.name) == context.locals().end()) {
     cerr << "undeclared variable " << lhs.name << endl;
@@ -133,11 +133,11 @@ Value* YazAssignment::generateIR(IRGenerationContext& context) {
   return new StoreInst(rhs.generateIR(context), context.locals()[lhs.name], context.currentBlock());
 }
 
-Value* YazBlock::generateIR(IRGenerationContext& context) {
-  YazStatementList::const_iterator it;
+Value* Block::generateIR(IRGenerationContext& context) {
+  StatementList::const_iterator it;
   Value *last = NULL;
   for (it = statements.begin(); it != statements.end(); it++) {
-    IYazStatement *statement = *it;
+    IStatement *statement = *it;
     cout << "Generating block code for " << typeid(*statement).name() << endl;
     last = statement->generateIR(context);
   }
@@ -145,24 +145,24 @@ Value* YazBlock::generateIR(IRGenerationContext& context) {
   return last;
 }
 
-Value* YazExpressionStatement::generateIR(IRGenerationContext& context) {
+Value* ExpressionStatement::generateIR(IRGenerationContext& context) {
   cout << "Generating expression statement code for " << typeid(expression).name() << endl;
   return expression.generateIR(context);
 }
 
-Value* YazVariableDeclaration::generateIR(IRGenerationContext& context) {
+Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
   cout << "Creating variable declaration " << type.type << " " << id.name << endl;
   AllocaInst *alloc = new AllocaInst(typeOf(type), id.name.c_str(), context.currentBlock());
   context.locals()[id.name] = alloc;
   if (assignmentExpr != NULL) {
-    YazAssignment assn(id, *assignmentExpr);
+    Assignment assn(id, *assignmentExpr);
     assn.generateIR(context);
   }
   return alloc;
 }
 
 
-Value* YazReturnStatement::generateIR(IRGenerationContext& context) {
+Value* ReturnStatement::generateIR(IRGenerationContext& context) {
   cout << "Generatring return statement" << endl;
 
   Value * result = ReturnInst::Create(TheContext,
@@ -171,9 +171,9 @@ Value* YazReturnStatement::generateIR(IRGenerationContext& context) {
   return result;
 }
 
-Value* YazFunctionDeclaration::generateIR(IRGenerationContext& context) {
+Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   vector<Type*> argTypes;
-  YazVariableList::const_iterator it;
+  VariableList::const_iterator it;
   for (it = arguments.begin(); it != arguments.end(); it++) {
     argTypes.push_back(typeOf((**it).type));
   }

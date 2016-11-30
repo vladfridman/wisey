@@ -28,7 +28,7 @@ using namespace std;
 using namespace yazyk;
 
 extern int yyparse();
-extern YazBlock* programBlock;
+extern Block* programBlock;
 extern FILE* yyin;
 
 int main(int argc, char **argv)
