@@ -4,6 +4,8 @@
 
 using namespace std;
 
+namespace yazyk {
+
 /* Compile the AST into a module */
 void IRGenerationContext::generateIR(YazBlock& root) {
   cout << "Generating code...\n";
@@ -206,3 +208,4 @@ Value* YazFunctionDeclaration::generateIR(IRGenerationContext& context) {
   return function;
 }
 
+} // namespace yaz

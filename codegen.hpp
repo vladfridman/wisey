@@ -21,6 +21,8 @@
 using namespace llvm;
 using namespace std;
 
+namespace yazyk {
+
 static LLVMContext TheContext;
 
 class YazBlock;
@@ -73,3 +75,4 @@ public:
   }
 };
 
+} // namespace yaz

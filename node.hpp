@@ -5,6 +5,8 @@
 using namespace llvm;
 using namespace std;
 
+namespace yazyk {
+  
 class IYazStatement;
 class IYazExpression;
 class IRGenerationContext;
@@ -159,3 +161,5 @@ public:
   type(type), id(id), arguments(arguments), block(block) { }
   Value* generateIR(IRGenerationContext& context);
 };
+
+} // namespace yaz
