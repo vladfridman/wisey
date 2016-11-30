@@ -24,10 +24,10 @@ void IRGenerationContext::generateIR(Block& root) {
   // print out assembly code
   // passManager.add(createPrintModulePass(outs()));
 
-  // Optimization: Constant propagation
+  // Optimization: Constant Propagation transform
   // passManager.add(createConstantPropagationPass());
   
-  // Optimization: Dead Instruction Elimination
+  // Optimization: Dead Instruction Elimination transform
   // passManager.add(createDeadInstEliminationPass());
 
   // print out assembly code
