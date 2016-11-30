@@ -24,8 +24,6 @@
 #include "codegen.hpp"
 #include "node.hpp"
 
-//using namespace llvm;
-
 using namespace std;
 
 extern int yyparse();
@@ -38,6 +36,7 @@ int main(int argc, char **argv)
   LLVMInitializeNativeAsmPrinter();
 
   cout << "opening " << argv[1] << endl;
+
   yyin = fopen(argv[1], "r");
   yyparse();
   

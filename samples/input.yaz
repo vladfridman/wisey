@@ -4,5 +4,6 @@ int do_math(int a) {
   return x;
 }
 
-do_math(10);
-
+int main() {
+  return do_math(10);
+}

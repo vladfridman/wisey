@@ -32,8 +32,8 @@ public:
 
 class CodeGenContext {
   std::stack<CodeGenBlock *> blocks;
-  Function *mainFunction;
-  Module * module;
+  Function* mainFunction;
+  Module* module;
   std::unique_ptr<Module> owner;
   
 public:
@@ -41,18 +41,33 @@ public:
   CodeGenContext() {
   }
   
-  Module * getModule() { return module; }
+  Module * getModule() {
+    return module;
+  }
   
   void generateCode(NBlock& root);
   
   GenericValue runCode();
   
-  std::map<std::string, Value*>& locals() { return blocks.top()->locals; }
+  std::map<std::string, Value*>& locals() {
+    return blocks.top()->locals;
+  }
   
-  BasicBlock *currentBlock() { return blocks.top()->block; }
+  void setMainFunction(Function* function) {
+    mainFunction = function;
+  }
   
-  void pushBlock(BasicBlock *block) { blocks.push(new CodeGenBlock()); blocks.top()->block = block; }
+  BasicBlock *currentBlock() {
+    return blocks.top()->block;
+  }
   
-  void popBlock() { CodeGenBlock *top = blocks.top(); blocks.pop(); delete top; }
+  void pushBlock(BasicBlock *block) {
+    blocks.push(new CodeGenBlock());
+    blocks.top()->block = block;
+  }
+  
+  void popBlock() {
+    CodeGenBlock *top = blocks.top(); blocks.pop(); delete top;
+  }
 };
 

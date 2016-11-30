@@ -11,17 +11,7 @@ void CodeGenContext::generateCode(NBlock& root) {
   owner = make_unique<Module>("test", TheContext);
   module = owner.get();
   
-  /* Create the top level interpreter function to call as entry */
-  ArrayRef<Type*> argTypes;
-  FunctionType *ftype = FunctionType::get(Type::getInt32Ty(TheContext), argTypes, false);
-  mainFunction = Function::Create(ftype, GlobalValue::InternalLinkage, "main", module);
-  BasicBlock *bblock = BasicBlock::Create(TheContext, "entry", mainFunction, 0);
-
-  /* Push a new variable/block context */
-  pushBlock(bblock);
-  Value *value = root.codeGen(*this); /* emit bytecode for the toplevel block */
-  ReturnInst::Create(TheContext, value, bblock);
-  popBlock();
+  root.codeGen(*this);
   
   /**
    * Print the bytecode in a human-readable format
@@ -41,14 +31,19 @@ void CodeGenContext::generateCode(NBlock& root) {
 /* Executes the AST by running the main function */
 GenericValue CodeGenContext::runCode() {
   cout << "Running code...\n";
-  ExecutionEngine *ee = EngineBuilder(move(owner)).create();
+  ExecutionEngine *executionEngine = EngineBuilder(move(owner)).create();
   vector<GenericValue> noargs;
-  GenericValue v = ee->runFunction(mainFunction, noargs);
+  if (mainFunction == NULL) {
+    cerr << "Function main() is not defined. Exiting." << endl;
+    delete executionEngine;
+    exit(1);
+  }
+  GenericValue result = executionEngine->runFunction(mainFunction, noargs);
   cout << "Code was run.\n";
-  outs() << "Result: " << v.IntVal << "\n";
-  delete ee;
+  outs() << "Result: " << result.IntVal << "\n";
+  delete executionEngine;
   
-  return v;
+  return result;
 }
 
 /* Returns an LLVM type based on the identifier */
@@ -181,6 +176,9 @@ Value* NFunctionDeclaration::codeGen(CodeGenContext& context) {
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
   FunctionType *ftype = FunctionType::get(typeOf(type), argTypesArray, false);
   Function *function = Function::Create(ftype, GlobalValue::InternalLinkage, id.name.c_str(), context.getModule());
+  if (strcmp(id.name.c_str(), "main") == 0) {
+    context.setMainFunction(function);
+  }
   Function::arg_iterator args = function->arg_begin();
   for (it = arguments.begin(); it != arguments.end(); it++) {
     Argument *arg = &*args;
