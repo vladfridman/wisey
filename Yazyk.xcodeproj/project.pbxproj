@@ -103,7 +103,7 @@
 		F546260F1DE6F9A400074D66 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F54626111DE6FA9300074D66 /* node.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = node.hpp; sourceTree = "<group>"; };
 		F54626121DE6FAFE00074D66 /* codegen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = codegen.hpp; sourceTree = "<group>"; };
-		F5CA5DA91DEC8D2C00EF64EA /* input.yaz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yaz; path = samples/input.yaz; sourceTree = "<group>"; };
+		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,7 +230,7 @@
 		F54626141DE709F400074D66 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				F5CA5DA91DEC8D2C00EF64EA /* input.yaz */,
+				F5CA5DA91DEC8D2C00EF64EA /* input.yz */,
 			);
 			name = resources;
 			sourceTree = "<group>";
