@@ -15,14 +15,14 @@ void IRGenerationContext::generateIR(Block& root) {
   
   root.generateIR(*this);
   
-  /**
-   * Print the bytecode in a human-readable format
-   * to see if our program compiled properly
-   */
   cout << "Code is generated.\n";
   verifyModule(*module);
   cout << "Code is verified.\n";
   
+  /**
+   * Print the bytecode in a human-readable format
+   * to see if our program compiled properly
+   */
   legacy::PassManager pm;
   pm.add(createPrintModulePass(outs()));
   pm.run(*module);
@@ -132,6 +132,8 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) {
     case RELATIONAL_OPERATION_GT : predicate = ICmpInst::ICMP_SGT; break;
     case RELATIONAL_OPERATION_LE : predicate = ICmpInst::ICMP_SLE; break;
     case RELATIONAL_OPERATION_GE : predicate = ICmpInst::ICMP_SGE; break;
+    case RELATIONAL_OPERATION_EQ : predicate = ICmpInst::ICMP_EQ; break;
+    case RELATIONAL_OPERATION_NE : predicate = ICmpInst::ICMP_NE; break;
     default: return NULL;
   }
   

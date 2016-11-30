@@ -1,5 +1,5 @@
 int do_math(int a) {
-  return a > 20;
+  return a - 5 !=  a + 2;
 }
 
 int main() {

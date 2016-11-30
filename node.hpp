@@ -28,6 +28,8 @@ typedef enum RelationalOperationEnum {
   RELATIONAL_OPERATION_GT,
   RELATIONAL_OPERATION_LE,
   RELATIONAL_OPERATION_GE,
+  RELATIONAL_OPERATION_EQ,
+  RELATIONAL_OPERATION_NE
 } RelationalOperation;
 
 class INode {
