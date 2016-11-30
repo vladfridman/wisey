@@ -162,4 +162,4 @@ public:
   Value* generateIR(IRGenerationContext& context);
 };
 
-} // namespace yaz
+} // namespace yazyk

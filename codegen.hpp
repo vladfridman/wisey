@@ -75,4 +75,4 @@ public:
   }
 };
 
-} // namespace yaz
+} // namespace yazyk

@@ -208,4 +208,4 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   return function;
 }
 
-} // namespace yaz
+} // namespace yazyk
