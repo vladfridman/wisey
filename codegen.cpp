@@ -103,14 +103,15 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
   return call;
 }
 
-Value* BinaryOperator::generateIR(IRGenerationContext& context) {
-  cout << "Creating binary operation " << op << endl;
+Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) {
+  cout << "Creating binary operation " << operation << endl;
   Instruction::BinaryOps instr;
-  switch (op) {
-    case '+': instr = Instruction::Add; break;
-    case '-': instr = Instruction::Sub; break;
-    case '*': instr = Instruction::Mul; break;
-    case '/': instr = Instruction::SDiv; break;
+  string name;
+  switch (operation) {
+    case '+': name = "add"; instr = Instruction::Add; break;
+    case '-': name = "sub"; instr = Instruction::Sub; break;
+    case '*': name = "mul"; instr = Instruction::Mul; break;
+    case '/': name = "div"; instr = Instruction::SDiv; break;
     default: return NULL;
   }
   
@@ -120,7 +121,7 @@ Value* BinaryOperator::generateIR(IRGenerationContext& context) {
   return llvm::BinaryOperator::Create(instr,
                                       lhsValue,
                                       rhsValue,
-                                      "",
+                                      name,
                                       context.currentBlock());
 }
   

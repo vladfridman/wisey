@@ -77,14 +77,14 @@ public:
   Value* generateIR(IRGenerationContext& context);
 };
 
-class BinaryOperator : public IExpression {
+class AddditiveMultiplicativeExpression : public IExpression {
 public:
-  int op;
+  int operation;
   IExpression& lhs;
   IExpression& rhs;
 
-  BinaryOperator(IExpression& lhs, int op, IExpression& rhs) :
-  lhs(lhs), rhs(rhs), op(op) { }
+  AddditiveMultiplicativeExpression(IExpression& lhs, int operation, IExpression& rhs) :
+  lhs(lhs), rhs(rhs), operation(operation) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
