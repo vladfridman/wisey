@@ -20,7 +20,7 @@ typedef enum PrimitiveTypeEnum {
   PRIMITIVE_TYPE_INT,
   PRIMITIVE_TYPE_LONG,
   PRIMITIVE_TYPE_FLOAT,
-  PRIMITIVE_TYPE_DOUBLE
+  PRIMITIVE_TYPE_DOUBLE,
 } PrimitiveType;
   
 typedef enum RelationalOperationEnum {
@@ -29,7 +29,7 @@ typedef enum RelationalOperationEnum {
   RELATIONAL_OPERATION_LE,
   RELATIONAL_OPERATION_GE,
   RELATIONAL_OPERATION_EQ,
-  RELATIONAL_OPERATION_NE
+  RELATIONAL_OPERATION_NE,
 } RelationalOperation;
 
 class INode {
@@ -98,7 +98,25 @@ public:
     lhs(lhs), rhs(rhs), operation(operation) { }
   Value* generateIR(IRGenerationContext& context);
 };
+
+class LogicalAndExpression : public IExpression {
+public:
+  IExpression& lhs;
+  IExpression& rhs;
   
+  LogicalAndExpression(IExpression& lhs, IExpression& rhs) : lhs(lhs), rhs(rhs) { }
+  Value* generateIR(IRGenerationContext& context);
+};
+
+class LogicalOrExpression : public IExpression {
+public:
+  IExpression& lhs;
+  IExpression& rhs;
+  
+  LogicalOrExpression(IExpression& lhs, IExpression& rhs) : lhs(lhs), rhs(rhs) { }
+  Value* generateIR(IRGenerationContext& context);
+};
+
 class Assignment : public IExpression {
 public:
   Identifier& lhs;

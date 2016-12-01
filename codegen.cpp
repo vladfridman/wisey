@@ -113,20 +113,20 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
 
 Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) {
   cout << "Creating binary operation " << operation << endl;
-  Instruction::BinaryOps instr;
+  Instruction::BinaryOps instruction;
   string name;
   switch (operation) {
-    case '+': name = "add"; instr = Instruction::Add; break;
-    case '-': name = "sub"; instr = Instruction::Sub; break;
-    case '*': name = "mul"; instr = Instruction::Mul; break;
-    case '/': name = "div"; instr = Instruction::SDiv; break;
+    case '+': name = "add"; instruction = Instruction::Add; break;
+    case '-': name = "sub"; instruction = Instruction::Sub; break;
+    case '*': name = "mul"; instruction = Instruction::Mul; break;
+    case '/': name = "div"; instruction = Instruction::SDiv; break;
     default: return NULL;
   }
   
   Value * lhsValue = lhs.generateIR(context);
   Value * rhsValue = rhs.generateIR(context);
 
-  return llvm::BinaryOperator::Create(instr,
+  return llvm::BinaryOperator::Create(instruction,
                                       lhsValue,
                                       rhsValue,
                                       name,
@@ -156,6 +156,56 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) {
                       "cmp");
 }
 
+Value *LogicalAndExpression::generateIR(IRGenerationContext& context) {
+  cout << "Creating logical AND expression " << endl;
+  
+  Value * lhsValue = lhs.generateIR(context);
+  BasicBlock * entryBlock = context.currentBlock();
+  
+  Function * function = context.currentBlock()->getParent();
+  
+  BasicBlock *bblockRhs = BasicBlock::Create(TheContext, "land.rhs", function);
+  BasicBlock *bblockEnd = BasicBlock::Create(TheContext, "land.end", function);
+  BranchInst::Create(bblockRhs, bblockEnd, lhsValue, context.currentBlock());
+  
+  context.replaceBlock(bblockRhs);
+  Value * rhsValue = rhs.generateIR(context);
+  BasicBlock * lastRhsBlock = context.currentBlock();
+  BranchInst::Create(bblockEnd, context.currentBlock());
+  
+  context.replaceBlock(bblockEnd);
+  PHINode * phiNode = PHINode::Create(Type::getInt1Ty(TheContext), 0, "", context.currentBlock());
+  phiNode->addIncoming(ConstantInt::getFalse(TheContext), entryBlock);
+  phiNode->addIncoming(rhsValue, lastRhsBlock);
+  
+  return phiNode;
+}
+  
+Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
+  cout << "Creating logical OR expression " << endl;
+  
+  Value * lhsValue = lhs.generateIR(context);
+  BasicBlock * entryBlock = context.currentBlock();
+  
+  Function * function = context.currentBlock()->getParent();
+  
+  BasicBlock *bblockRhs = BasicBlock::Create(TheContext, "lor.rhs", function);
+  BasicBlock *bblockEnd = BasicBlock::Create(TheContext, "lor.end", function);
+  BranchInst::Create(bblockEnd, bblockRhs, lhsValue, context.currentBlock());
+  
+  context.replaceBlock(bblockRhs);
+  Value * rhsValue = rhs.generateIR(context);
+  BasicBlock * lastRhsBlock = context.currentBlock();
+  BranchInst::Create(bblockEnd, context.currentBlock());
+  
+  context.replaceBlock(bblockEnd);
+  PHINode * phiNode = PHINode::Create(Type::getInt1Ty(TheContext), 0, "", context.currentBlock());
+  phiNode->addIncoming(ConstantInt::getTrue(TheContext), entryBlock);
+  phiNode->addIncoming(rhsValue, lastRhsBlock);
+  
+  return phiNode;
+}
+    
 Value* Assignment::generateIR(IRGenerationContext& context) {
   cout << "Creating assignment for " << lhs.name << endl;
   if (context.locals().find(lhs.name) == context.locals().end()) {

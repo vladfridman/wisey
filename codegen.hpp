@@ -64,6 +64,10 @@ public:
     return blocks.top()->block;
   }
   
+  void replaceBlock(BasicBlock *block) {
+    blocks.top()->block = block;
+  }
+  
   void pushBlock(BasicBlock *block) {
     blocks.push(new IRGenerationBlock());
     blocks.top()->block = block;
