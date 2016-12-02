@@ -116,6 +116,23 @@ public:
   LogicalOrExpression(IExpression& lhs, IExpression& rhs) : lhs(lhs), rhs(rhs) { }
   Value* generateIR(IRGenerationContext& context);
 };
+  
+class ConditionalExpression : public IExpression {
+public:
+  IExpression& conditionExpression;
+  IExpression& conditionTrueExpression;
+  IExpression& conditionFalseExpression;
+  
+  ConditionalExpression(IExpression& conditionExpression,
+                        IExpression& conditionTrueExpression,
+                        IExpression& conditionFalseExpression)
+  : conditionExpression(conditionExpression),
+    conditionTrueExpression(conditionTrueExpression),
+    conditionFalseExpression(conditionFalseExpression)
+  {  }
+  
+  Value* generateIR(IRGenerationContext& context);
+};
 
 class Assignment : public IExpression {
 public:

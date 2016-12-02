@@ -157,7 +157,7 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) {
 }
 
 Value *LogicalAndExpression::generateIR(IRGenerationContext& context) {
-  cout << "Creating logical AND expression " << endl;
+  cout << "Creating logical AND expression" << endl;
   
   Value * lhsValue = lhs.generateIR(context);
   BasicBlock * entryBlock = context.currentBlock();
@@ -182,7 +182,7 @@ Value *LogicalAndExpression::generateIR(IRGenerationContext& context) {
 }
   
 Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
-  cout << "Creating logical OR expression " << endl;
+  cout << "Creating logical OR expression" << endl;
   
   Value * lhsValue = lhs.generateIR(context);
   BasicBlock * entryBlock = context.currentBlock();
@@ -202,6 +202,45 @@ Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
   PHINode * phiNode = PHINode::Create(Type::getInt1Ty(TheContext), 0, "", context.currentBlock());
   phiNode->addIncoming(ConstantInt::getTrue(TheContext), entryBlock);
   phiNode->addIncoming(rhsValue, lastRhsBlock);
+  
+  return phiNode;
+}
+
+Value *ConditionalExpression::generateIR(IRGenerationContext& context) {
+  cout << "Creating conditional expression" << endl;
+
+  Value * conditionValue = conditionExpression.generateIR(context);
+  
+  Function * function = context.currentBlock()->getParent();
+  
+  BasicBlock *bblockCondTrue = BasicBlock::Create(TheContext, "cond.true", function);
+  BasicBlock *bblockCondFalse = BasicBlock::Create(TheContext, "cond.false", function);
+  BasicBlock *bblockCondEnd = BasicBlock::Create(TheContext, "cond.end", function);
+  BranchInst::Create(bblockCondTrue, bblockCondFalse, conditionValue, context.currentBlock());
+  
+  context.replaceBlock(bblockCondTrue);
+  Value * condTrueValue = conditionTrueExpression.generateIR(context);
+  Type * condTrueResultType = condTrueValue->getType();
+  BasicBlock * lastBlock = context.currentBlock();
+  BranchInst::Create(bblockCondEnd, context.currentBlock());
+
+  context.replaceBlock(bblockCondFalse);
+  Value * condFalseValue = conditionFalseExpression.generateIR(context);
+  Type * condFalseResultType = condTrueValue->getType();
+  lastBlock = context.currentBlock();
+  BranchInst::Create(bblockCondEnd, context.currentBlock());
+
+  if (condTrueResultType != condFalseResultType) {
+    cerr << "Results of different type in a conditional expresion!" << endl;
+  }
+  
+  context.replaceBlock(bblockCondEnd);
+  PHINode * phiNode = PHINode::Create(condTrueResultType,
+                                      0,
+                                      "cond",
+                                      context.currentBlock());
+  phiNode->addIncoming(condTrueValue, bblockCondTrue);
+  phiNode->addIncoming(condFalseValue, bblockCondFalse);
   
   return phiNode;
 }
