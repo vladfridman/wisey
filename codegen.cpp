@@ -73,16 +73,31 @@ static Type *typeOf(const TypeSpecifier& type) {
 
 /* -- Code Generation -- */
 
+Value* Char::generateIR(IRGenerationContext& context) {
+  cout << "Creating char: " << value << endl;
+  return ConstantInt::get(Type::getInt32Ty(TheContext), value);
+}
+  
 Value* Integer::generateIR(IRGenerationContext& context) {
   cout << "Creating integer: " << value << endl;
   return ConstantInt::get(Type::getInt32Ty(TheContext), value, true);
 }
 
+Value* Long::generateIR(IRGenerationContext& context) {
+  cout << "Creating long: " << value << endl;
+  return ConstantInt::get(Type::getInt64Ty(TheContext), value, true);
+}
+
+Value* Float::generateIR(IRGenerationContext& context) {
+  cout << "Creating float: " << value << endl;
+  return ConstantFP::get(Type::getFloatTy(TheContext), value);
+}
+  
 Value* Double::generateIR(IRGenerationContext& context) {
   cout << "Creating double: " << value << endl;
   return ConstantFP::get(Type::getDoubleTy(TheContext), value);
 }
-
+  
 Value* Identifier::generateIR(IRGenerationContext& context) {
   cout << "Creating identifier reference: " << name << endl;
   if (context.locals().find(name) == context.locals().end()) {

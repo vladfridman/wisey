@@ -45,19 +45,42 @@ class IStatement : public INode {
 
 class Integer : public IExpression {
 public:
+  long value;
+  Integer(long value) : value(value) { }
+  Value* generateIR(IRGenerationContext& context);
+};
+
+class Long : public IExpression {
+public:
   long long value;
-  Integer(long long value) : value(value) { }
+  Long(long long value) : value(value) { }
+  Value* generateIR(IRGenerationContext& context);
+};
+
+class Float: public IExpression {
+public:
+  double value;
+  
+  Float(double value) : value(value) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
 class Double : public IExpression {
 public:
-  double value;
+  long double value;
 
-  Double(double value) : value(value) { }
+  Double(long double value) : value(value) { }
   Value* generateIR(IRGenerationContext& context);
 };
 
+class Char : public IExpression {
+public:
+  char value;
+  
+  Char(char value) : value(value) { }
+  Value* generateIR(IRGenerationContext& context);
+};
+  
 class Identifier : public IExpression {
 public:
   string name;
