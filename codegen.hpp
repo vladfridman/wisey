@@ -12,6 +12,7 @@
 #include <llvm/IR/IRPrintingPasses.h>
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/Module.h>
+#include "llvm/IR/TypeBuilder.h"
 #include <llvm/ADT/Twine.h>
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/ExecutionEngine/GenericValue.h>
@@ -41,7 +42,7 @@ class IRGenerationContext {
   unique_ptr<Module> owner;
   
 public:
-
+  
   IRGenerationContext() { }
   
   Module * getModule() {

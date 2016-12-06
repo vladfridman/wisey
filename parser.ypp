@@ -35,7 +35,7 @@
 }
 
 /* Tokens used in yk */
-%token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE
+%token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
 %token <token> TCEQ TCNE TCLE TCGE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE
 %token <token> TRETURN TANDOP TOROP
@@ -46,6 +46,7 @@
    calling an (NIdentifier*). It makes the compiler happy.
  */
 %type <ident> identifier
+%type <string> string
 %type <expr> constant expression multiplicative_expression additive_expression primary_expression
 %type <expr> relational_expression equality_expression logical_and_expression logical_or_expression
 %type <expr> conditional_expression
@@ -125,8 +126,12 @@ constant
 primary_expression
   : constant
   | identifier { $<ident>$ = $1; }
+  | string { $$ = new String(*$1); delete $1; }
   | '(' expression ')' { $$ = $2; }
   ;
+
+string
+  : STRING_LITERAL { $$ = $1; }
 
 multiplicative_expression
   : primary_expression

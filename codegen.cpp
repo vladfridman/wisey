@@ -12,7 +12,7 @@ void IRGenerationContext::generateIR(Block& root) {
   
   owner = make_unique<Module>("test", TheContext);
   module = owner.get();
-  
+
   root.generateIR(*this);
   
   cout << "Code is generated.\n";
@@ -97,7 +97,52 @@ Value* Double::generateIR(IRGenerationContext& context) {
   cout << "Creating double: " << value << endl;
   return ConstantFP::get(Type::getDoubleTy(TheContext), value);
 }
+
+Value* String::generateIR(IRGenerationContext& context) {
+  cout << "Creating string: " << value << endl;
+  Constant* strConstant = ConstantDataArray::getString(TheContext, value);
+  GlobalVariable* globalVariableString =
+    new GlobalVariable(*context.getModule(),
+                       strConstant->getType(),
+                       true,
+                       GlobalValue::InternalLinkage,
+                       strConstant,
+                       ".str");
+
+  Constant* zero = Constant::getNullValue(IntegerType::getInt32Ty(TheContext));
+  Constant* indices[] = {zero, zero};
+  Constant* strVal = ConstantExpr::getGetElementPtr(NULL,
+                                                    globalVariableString,
+                                                    indices,
+                                                    true);
+
+  return strVal;
+}
   
+string String::unescape(const string& input) {
+  string result;
+  string::const_iterator iterator = input.begin();
+  while (iterator != input.end())
+  {
+    char currentChar = *iterator++;
+    if (currentChar == '\\' && iterator != input.end())
+    {
+      switch (*iterator++) {
+        case '\\': currentChar = '\\'; break;
+        case 'n': currentChar = '\n'; break;
+        case 't': currentChar = '\t'; break;
+          // all other escapes
+        default:
+          // invalid escape sequence - skip it.
+          continue;
+      }
+    }
+    result += currentChar;
+  }
+  
+  return result;
+}
+
 Value* Identifier::generateIR(IRGenerationContext& context) {
   cout << "Creating identifier reference: " << name << endl;
   if (context.locals().find(name) == context.locals().end()) {
@@ -111,10 +156,23 @@ Value * TypeSpecifier::generateIR(IRGenerationContext &context) {
   return NULL;
 }
 
+Function* MethodCall::declarePrintf(Module *module) {
+  FunctionType *printf_type = TypeBuilder<int(char *, ...), false>::get(TheContext);
+  
+  Function *func = cast<Function>(
+    module->getOrInsertFunction("printf",
+      printf_type,
+      AttributeSet().addAttribute(module->getContext(), 1U, Attribute::NoAlias)));
+  return func;
+}
+  
 Value* MethodCall::generateIR(IRGenerationContext& context) {
   Function *function = context.getModule()->getFunction(id.name.c_str());
-  if (function == NULL) {
+  if (function == NULL && id.name.compare("printf") != 0) {
     cerr << "no such function " << id.name << endl;
+  }
+  if (function == NULL) {
+    function = declarePrintf(context.getModule());
   }
   vector<Value*> args;
   ExpressionList::const_iterator it;
@@ -339,7 +397,10 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   }
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
   FunctionType *ftype = FunctionType::get(typeOf(type), argTypesArray, false);
-  Function *function = Function::Create(ftype, GlobalValue::InternalLinkage, id.name.c_str(), context.getModule());
+  Function *function = Function::Create(ftype,
+                                        GlobalValue::InternalLinkage,
+                                        id.name.c_str(),
+                                        context.getModule());
   if (strcmp(id.name.c_str(), "main") == 0) {
     context.setMainFunction(function);
   }

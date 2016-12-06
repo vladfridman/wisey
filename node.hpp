@@ -80,7 +80,18 @@ public:
   Char(char value) : value(value) { }
   Value* generateIR(IRGenerationContext& context);
 };
+
+class String : public IExpression {
+public:
+  string value;
   
+  String(string input) : value(unescape(input.substr(1, input.length() - 2))) { }
+  Value* generateIR(IRGenerationContext& context);
+  
+private:
+  string unescape(const string& input);
+};
+
 class Identifier : public IExpression {
 public:
   string name;
@@ -98,6 +109,9 @@ public:
   id(id), arguments(arguments) { }
   MethodCall(const Identifier& id) : id(id) { }
   Value* generateIR(IRGenerationContext& context);
+  
+private:
+  Function* declarePrintf(Module *module);
 };
 
 class AddditiveMultiplicativeExpression : public IExpression {

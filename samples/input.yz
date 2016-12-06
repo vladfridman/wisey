@@ -1,7 +1,9 @@
 int do_math(int a) {
-  return a == 10 ? a + 5 : a - 1;
+  printf("do_math() input: %d\n", a);
+  return a;
 }
 
 int main() {
+  printf("main() method\n");
   return do_math(10);
 }
