@@ -139,17 +139,30 @@ public:
 class IncrementExpression : public IExpression {
 public:
   Identifier identifier;
-  
-  IncrementExpression(Identifier identifier) : identifier(identifier) { }
-  Value* generateIR(IRGenerationContext& context);
-};
+  long long incrementBy;
+  string variableName;
+  bool isPrefix;
 
-class DecrementExpression : public IExpression {
+private:
+  IncrementExpression(Identifier &identifier,
+                      long long incrementBy,
+                      string variableName,
+                      bool isPrefix) :
+    identifier(identifier),
+    incrementBy(incrementBy),
+    variableName(variableName),
+    isPrefix(isPrefix) { }
+
 public:
-  Identifier identifier;
-  
-  DecrementExpression(Identifier identifier) : identifier(identifier) { }
   Value* generateIR(IRGenerationContext& context);
+  
+  static IncrementExpression * newIncrementByOne(Identifier &identifier) {
+    return new IncrementExpression(identifier, 1, "inc", false);
+  }
+
+  static IncrementExpression * newDecrementByOne(Identifier &identifier) {
+    return new IncrementExpression(identifier, -1, "dec", false);
+  }
 };
 
 class LogicalAndExpression : public IExpression {

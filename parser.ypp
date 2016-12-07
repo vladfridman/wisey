@@ -135,8 +135,8 @@ primary_expression
 
 postfix_expression
   : primary_expression { $$ = $1; }
-  | postfix_expression TINCOP { $$ = new IncrementExpression(*$<ident>1); }
-  | postfix_expression TDECOP { $$ = new DecrementExpression(*$<ident>1); }
+  | postfix_expression TINCOP { $$ = IncrementExpression::newIncrementByOne(*$<ident>1); }
+  | postfix_expression TDECOP { $$ = IncrementExpression::newDecrementByOne(*$<ident>1); }
   ;
 
 multiplicative_expression

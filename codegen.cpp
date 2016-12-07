@@ -187,33 +187,20 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
 Value* IncrementExpression::generateIR(IRGenerationContext& context) {
   cout << "Creating increment exression" << endl;
 
-  Value* loadedInst = identifier.generateIR(context);
-  Value *one = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 1, true);
+  Value* originalValue = identifier.generateIR(context);
+  Value *increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
+                                      incrementBy,
+                                      true);
 
-  Value *addition = llvm::BinaryOperator::Create(Instruction::Add,
-                                                 loadedInst,
-                                                 one,
-                                                 "inc",
-                                                 context.currentBlock());
-  new StoreInst(addition, context.locals()[identifier.name], context.currentBlock());
-  return loadedInst;
+  Value *incrementResult = llvm::BinaryOperator::Create(Instruction::Add,
+                                                        originalValue,
+                                                        increment,
+                                                        variableName,
+                                                        context.currentBlock());
+  new StoreInst(incrementResult, context.locals()[identifier.name], context.currentBlock());
+  return isPrefix ? incrementResult : originalValue;
 }
   
-Value* DecrementExpression::generateIR(IRGenerationContext& context) {
-  cout << "Creating decrement exression" << endl;
-  
-  Value* loadedInst = identifier.generateIR(context);
-  Value *one = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), -1, true);
-  
-  Value *addition = llvm::BinaryOperator::Create(Instruction::Add,
-                                                 loadedInst,
-                                                 one,
-                                                 "dec",
-                                                 context.currentBlock());
-  new StoreInst(addition, context.locals()[identifier.name], context.currentBlock());
-  return loadedInst;
-}
-
 Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) {
   cout << "Creating binary operation " << operation << endl;
   Instruction::BinaryOps instruction;
