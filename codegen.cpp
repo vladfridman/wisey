@@ -179,7 +179,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
   for (it = arguments.begin(); it != arguments.end(); it++) {
     args.push_back((**it).generateIR(context));
   }
-  CallInst *call = CallInst::Create(function, args, "", context.currentBlock());
+  CallInst *call = CallInst::Create(function, args, "call", context.currentBlock());
   cout << "Creating method call: " << id.name << endl;
   return call;
 }
