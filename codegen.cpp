@@ -184,6 +184,36 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
   return call;
 }
 
+Value* IncrementExpression::generateIR(IRGenerationContext& context) {
+  cout << "Creating increment exression" << endl;
+
+  Value* loadedInst = identifier.generateIR(context);
+  Value *one = ConstantInt::get(Type::getInt32Ty(TheContext), 1, true);
+
+  Value *addition = llvm::BinaryOperator::Create(Instruction::Add,
+                                                 loadedInst,
+                                                 one,
+                                                 "inc",
+                                                 context.currentBlock());
+  new StoreInst(addition, context.locals()[identifier.name], context.currentBlock());
+  return loadedInst;
+}
+  
+Value* DecrementExpression::generateIR(IRGenerationContext& context) {
+  cout << "Creating decrement exression" << endl;
+  
+  Value* loadedInst = identifier.generateIR(context);
+  Value *one = ConstantInt::get(Type::getInt32Ty(TheContext), -1, true);
+  
+  Value *addition = llvm::BinaryOperator::Create(Instruction::Add,
+                                                 loadedInst,
+                                                 one,
+                                                 "dec",
+                                                 context.currentBlock());
+  new StoreInst(addition, context.locals()[identifier.name], context.currentBlock());
+  return loadedInst;
+}
+
 Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) {
   cout << "Creating binary operation " << operation << endl;
   Instruction::BinaryOps instruction;

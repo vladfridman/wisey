@@ -136,6 +136,22 @@ public:
   Value* generateIR(IRGenerationContext& context);
 };
 
+class IncrementExpression : public IExpression {
+public:
+  Identifier identifier;
+  
+  IncrementExpression(Identifier identifier) : identifier(identifier) { }
+  Value* generateIR(IRGenerationContext& context);
+};
+
+class DecrementExpression : public IExpression {
+public:
+  Identifier identifier;
+  
+  DecrementExpression(Identifier identifier) : identifier(identifier) { }
+  Value* generateIR(IRGenerationContext& context);
+};
+
 class LogicalAndExpression : public IExpression {
 public:
   IExpression& lhs;
