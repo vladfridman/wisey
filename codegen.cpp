@@ -3,6 +3,7 @@
 #include "y.tab.h"
 #include "log.hpp"
 
+using namespace llvm;
 using namespace std;
 
 namespace yazyk {

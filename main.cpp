@@ -25,6 +25,7 @@
 #include "node.hpp"
 #include "log.hpp"
 
+using namespace llvm;
 using namespace std;
 using namespace yazyk;
 

@@ -10,8 +10,8 @@
 
 #include "log.hpp"
 
-using namespace yazyk;
 using namespace std;
+using namespace yazyk;
 
 LogLevel Log::sLogLevel;
 

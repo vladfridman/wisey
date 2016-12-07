@@ -19,56 +19,53 @@
 #include <llvm/Support/TargetSelect.h>
 #include "llvm/Transforms/Scalar.h"
 
-using namespace llvm;
-using namespace std;
-
 namespace yazyk {
 
 class Block;
 
 class IRGenerationBlock {
 public:
-  BasicBlock *block;
-  map<string, Value*> locals;
+  llvm::BasicBlock *block;
+  std::map<std::string, llvm::Value*> locals;
 };
 
 class IRGenerationContext {
-  LLVMContext mLLVMContext;
+  llvm::LLVMContext mLLVMContext;
   
-  stack<IRGenerationBlock *> blocks;
-  Function* mainFunction;
-  Module* module;
-  unique_ptr<Module> owner;
+  std::stack<IRGenerationBlock *> blocks;
+  llvm::Function* mainFunction;
+  llvm::Module* module;
+  std::unique_ptr<llvm::Module> owner;
   
 public:
   
   IRGenerationContext() { }
   
-  Module * getModule() {
+  llvm::Module * getModule() {
     return module;
   }
   
   void generateIR(Block& root);
   
-  GenericValue runCode();
+  llvm::GenericValue runCode();
   
-  map<string, Value*>& locals() {
+  std::map<std::string, llvm::Value*>& locals() {
     return blocks.top()->locals;
   }
   
-  void setMainFunction(Function* function) {
+  void setMainFunction(llvm::Function* function) {
     mainFunction = function;
   }
   
-  BasicBlock *currentBlock() {
+  llvm::BasicBlock *currentBlock() {
     return blocks.top()->block;
   }
   
-  void replaceBlock(BasicBlock *block) {
+  void replaceBlock(llvm::BasicBlock *block) {
     blocks.top()->block = block;
   }
   
-  void pushBlock(BasicBlock *block) {
+  void pushBlock(llvm::BasicBlock *block) {
     blocks.push(new IRGenerationBlock());
     blocks.top()->block = block;
   }
@@ -79,7 +76,7 @@ public:
     delete top;
   }
   
-  LLVMContext & getLLVMContext() {
+  llvm::LLVMContext & getLLVMContext() {
     return mLLVMContext;
   }
 };
