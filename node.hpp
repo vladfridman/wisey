@@ -111,7 +111,7 @@ public:
   Value* generateIR(IRGenerationContext& context);
   
 private:
-  Function* declarePrintf(Module *module);
+  Function* declarePrintf(IRGenerationContext& context);
 };
 
 class AddditiveMultiplicativeExpression : public IExpression {

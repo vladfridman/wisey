@@ -1,5 +1,5 @@
 int do_math(int a) {
-  printf("do_math() input: %d\n", a--);
+  printf("do_math() input: %d\n", a++);
   return a;
 }
 

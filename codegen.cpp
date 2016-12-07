@@ -10,7 +10,7 @@ namespace yazyk {
 void IRGenerationContext::generateIR(Block& root) {
   cout << "Generating code...\n";
   
-  owner = make_unique<Module>("test", TheContext);
+  owner = make_unique<Module>("test", getLLVMContext());
   module = owner.get();
 
   root.generateIR(*this);
@@ -57,50 +57,50 @@ GenericValue IRGenerationContext::runCode() {
 }
 
 /* Returns an LLVM type based on the identifier */
-static Type *typeOf(const TypeSpecifier& type) {
+static Type *typeOf(LLVMContext &llvmContext, const TypeSpecifier& type) {
   if (type.type == PRIMITIVE_TYPE_INT) {
-    return Type::getInt32Ty(TheContext);
+    return Type::getInt32Ty(llvmContext);
   } else if (type.type == PRIMITIVE_TYPE_LONG) {
-    return Type::getInt64Ty(TheContext);
+    return Type::getInt64Ty(llvmContext);
   } else if (type.type == PRIMITIVE_TYPE_FLOAT) {
-    return Type::getFloatTy(TheContext);
+    return Type::getFloatTy(llvmContext);
   } else if (type.type == PRIMITIVE_TYPE_DOUBLE) {
-    return Type::getDoubleTy(TheContext);
+    return Type::getDoubleTy(llvmContext);
   }
 
-  return Type::getVoidTy(TheContext);
+  return Type::getVoidTy(llvmContext);
 }
 
 /* -- Code Generation -- */
 
 Value* Char::generateIR(IRGenerationContext& context) {
   cout << "Creating char: " << value << endl;
-  return ConstantInt::get(Type::getInt32Ty(TheContext), value);
+  return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), value);
 }
   
 Value* Integer::generateIR(IRGenerationContext& context) {
   cout << "Creating integer: " << value << endl;
-  return ConstantInt::get(Type::getInt32Ty(TheContext), value, true);
+  return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), value, true);
 }
 
 Value* Long::generateIR(IRGenerationContext& context) {
   cout << "Creating long: " << value << endl;
-  return ConstantInt::get(Type::getInt64Ty(TheContext), value, true);
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), value, true);
 }
 
 Value* Float::generateIR(IRGenerationContext& context) {
   cout << "Creating float: " << value << endl;
-  return ConstantFP::get(Type::getFloatTy(TheContext), value);
+  return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), value);
 }
   
 Value* Double::generateIR(IRGenerationContext& context) {
   cout << "Creating double: " << value << endl;
-  return ConstantFP::get(Type::getDoubleTy(TheContext), value);
+  return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), value);
 }
 
 Value* String::generateIR(IRGenerationContext& context) {
   cout << "Creating string: " << value << endl;
-  Constant* strConstant = ConstantDataArray::getString(TheContext, value);
+  Constant* strConstant = ConstantDataArray::getString(context.getLLVMContext(), value);
   GlobalVariable* globalVariableString =
     new GlobalVariable(*context.getModule(),
                        strConstant->getType(),
@@ -109,7 +109,7 @@ Value* String::generateIR(IRGenerationContext& context) {
                        strConstant,
                        ".str");
 
-  Constant* zero = Constant::getNullValue(IntegerType::getInt32Ty(TheContext));
+  Constant* zero = Constant::getNullValue(IntegerType::getInt32Ty(context.getLLVMContext()));
   Constant* indices[] = {zero, zero};
   Constant* strVal = ConstantExpr::getGetElementPtr(NULL,
                                                     globalVariableString,
@@ -156,13 +156,13 @@ Value * TypeSpecifier::generateIR(IRGenerationContext &context) {
   return NULL;
 }
 
-Function* MethodCall::declarePrintf(Module *module) {
-  FunctionType *printf_type = TypeBuilder<int(char *, ...), false>::get(TheContext);
+Function* MethodCall::declarePrintf(IRGenerationContext& context) {
+  FunctionType *printf_type = TypeBuilder<int(char *, ...), false>::get(context.getLLVMContext());
   
   Function *func = cast<Function>(
-    module->getOrInsertFunction("printf",
+    context.getModule()->getOrInsertFunction("printf",
       printf_type,
-      AttributeSet().addAttribute(module->getContext(), 1U, Attribute::NoAlias)));
+      AttributeSet().addAttribute(context.getLLVMContext(), 1U, Attribute::NoAlias)));
   return func;
 }
   
@@ -172,7 +172,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
     cerr << "no such function " << id.name << endl;
   }
   if (function == NULL) {
-    function = declarePrintf(context.getModule());
+    function = declarePrintf(context);
   }
   vector<Value*> args;
   ExpressionList::const_iterator it;
@@ -188,7 +188,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) {
   cout << "Creating increment exression" << endl;
 
   Value* loadedInst = identifier.generateIR(context);
-  Value *one = ConstantInt::get(Type::getInt32Ty(TheContext), 1, true);
+  Value *one = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 1, true);
 
   Value *addition = llvm::BinaryOperator::Create(Instruction::Add,
                                                  loadedInst,
@@ -203,7 +203,7 @@ Value* DecrementExpression::generateIR(IRGenerationContext& context) {
   cout << "Creating decrement exression" << endl;
   
   Value* loadedInst = identifier.generateIR(context);
-  Value *one = ConstantInt::get(Type::getInt32Ty(TheContext), -1, true);
+  Value *one = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), -1, true);
   
   Value *addition = llvm::BinaryOperator::Create(Instruction::Add,
                                                  loadedInst,
@@ -267,8 +267,8 @@ Value *LogicalAndExpression::generateIR(IRGenerationContext& context) {
   
   Function * function = context.currentBlock()->getParent();
   
-  BasicBlock *bblockRhs = BasicBlock::Create(TheContext, "land.rhs", function);
-  BasicBlock *bblockEnd = BasicBlock::Create(TheContext, "land.end", function);
+  BasicBlock *bblockRhs = BasicBlock::Create(context.getLLVMContext(), "land.rhs", function);
+  BasicBlock *bblockEnd = BasicBlock::Create(context.getLLVMContext(), "land.end", function);
   BranchInst::Create(bblockRhs, bblockEnd, lhsValue, context.currentBlock());
   
   context.replaceBlock(bblockRhs);
@@ -277,8 +277,9 @@ Value *LogicalAndExpression::generateIR(IRGenerationContext& context) {
   BranchInst::Create(bblockEnd, context.currentBlock());
   
   context.replaceBlock(bblockEnd);
-  PHINode * phiNode = PHINode::Create(Type::getInt1Ty(TheContext), 0, "", context.currentBlock());
-  phiNode->addIncoming(ConstantInt::getFalse(TheContext), entryBlock);
+  Type * type = Type::getInt1Ty(context.getLLVMContext());
+  PHINode * phiNode = PHINode::Create(type, 0, "", context.currentBlock());
+  phiNode->addIncoming(ConstantInt::getFalse(context.getLLVMContext()), entryBlock);
   phiNode->addIncoming(rhsValue, lastRhsBlock);
   
   return phiNode;
@@ -292,8 +293,8 @@ Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
   
   Function * function = context.currentBlock()->getParent();
   
-  BasicBlock *bblockRhs = BasicBlock::Create(TheContext, "lor.rhs", function);
-  BasicBlock *bblockEnd = BasicBlock::Create(TheContext, "lor.end", function);
+  BasicBlock *bblockRhs = BasicBlock::Create(context.getLLVMContext(), "lor.rhs", function);
+  BasicBlock *bblockEnd = BasicBlock::Create(context.getLLVMContext(), "lor.end", function);
   BranchInst::Create(bblockEnd, bblockRhs, lhsValue, context.currentBlock());
   
   context.replaceBlock(bblockRhs);
@@ -302,8 +303,9 @@ Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
   BranchInst::Create(bblockEnd, context.currentBlock());
   
   context.replaceBlock(bblockEnd);
-  PHINode * phiNode = PHINode::Create(Type::getInt1Ty(TheContext), 0, "", context.currentBlock());
-  phiNode->addIncoming(ConstantInt::getTrue(TheContext), entryBlock);
+  Type * type = Type::getInt1Ty(context.getLLVMContext());
+  PHINode * phiNode = PHINode::Create(type, 0, "", context.currentBlock());
+  phiNode->addIncoming(ConstantInt::getTrue(context.getLLVMContext()), entryBlock);
   phiNode->addIncoming(rhsValue, lastRhsBlock);
   
   return phiNode;
@@ -316,9 +318,10 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) {
   
   Function * function = context.currentBlock()->getParent();
   
-  BasicBlock *bblockCondTrue = BasicBlock::Create(TheContext, "cond.true", function);
-  BasicBlock *bblockCondFalse = BasicBlock::Create(TheContext, "cond.false", function);
-  BasicBlock *bblockCondEnd = BasicBlock::Create(TheContext, "cond.end", function);
+  BasicBlock *bblockCondTrue = BasicBlock::Create(context.getLLVMContext(), "cond.true", function);
+  BasicBlock *bblockCondFalse =
+    BasicBlock::Create(context.getLLVMContext(), "cond.false", function);
+  BasicBlock *bblockCondEnd = BasicBlock::Create(context.getLLVMContext(), "cond.end", function);
   BranchInst::Create(bblockCondTrue, bblockCondFalse, conditionValue, context.currentBlock());
   
   context.replaceBlock(bblockCondTrue);
@@ -376,7 +379,9 @@ Value* ExpressionStatement::generateIR(IRGenerationContext& context) {
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
   cout << "Creating variable declaration " << type.type << " " << id.name << endl;
-  AllocaInst *alloc = new AllocaInst(typeOf(type), id.name.c_str(), context.currentBlock());
+  AllocaInst *alloc = new AllocaInst(typeOf(context.getLLVMContext(), type),
+                                     id.name.c_str(),
+                                     context.currentBlock());
   context.locals()[id.name] = alloc;
   if (assignmentExpr != NULL) {
     Assignment assn(id, *assignmentExpr);
@@ -413,7 +418,7 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) {
                                                 context.currentBlock());
   }
   
-  ReturnInst* result = ReturnInst::Create(TheContext,
+  ReturnInst* result = ReturnInst::Create(context.getLLVMContext(),
                                           returnValue,
                                           context.currentBlock());
   return result;
@@ -423,10 +428,12 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   vector<Type*> argTypes;
   VariableList::const_iterator it;
   for (it = arguments.begin(); it != arguments.end(); it++) {
-    argTypes.push_back(typeOf((**it).type));
+    argTypes.push_back(typeOf(context.getLLVMContext(), (**it).type));
   }
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
-  FunctionType *ftype = FunctionType::get(typeOf(type), argTypesArray, false);
+  FunctionType *ftype = FunctionType::get(typeOf(context.getLLVMContext(), type),
+                                          argTypesArray,
+                                          false);
   Function *function = Function::Create(ftype,
                                         GlobalValue::InternalLinkage,
                                         id.name.c_str(),
@@ -439,7 +446,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
     Argument *arg = &*args;
     arg->setName((**it).id.name);
   }
-  BasicBlock *bblock = BasicBlock::Create(TheContext, "entry", function, 0);
+  BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   
   context.pushBlock(bblock);
 
@@ -447,7 +454,9 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   for (it = arguments.begin(); it != arguments.end(); it++) {
     Value *value = &*args;
     string newName = (**it).id.name + ".param";
-    AllocaInst *alloc = new AllocaInst(typeOf((**it).type), newName, bblock);
+    AllocaInst *alloc = new AllocaInst(typeOf(context.getLLVMContext(), (**it).type),
+                                       newName,
+                                       bblock);
     value = new StoreInst(value, alloc, bblock);
     context.locals()[(**it).id.name] = alloc;
   }

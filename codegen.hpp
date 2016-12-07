@@ -24,8 +24,6 @@ using namespace std;
 
 namespace yazyk {
 
-static LLVMContext TheContext;
-
 class Block;
 
 class IRGenerationBlock {
@@ -35,6 +33,8 @@ public:
 };
 
 class IRGenerationContext {
+  LLVMContext mLLVMContext;
+  
   stack<IRGenerationBlock *> blocks;
   Function* mainFunction;
   Module* module;
@@ -77,6 +77,10 @@ public:
     IRGenerationBlock *top = blocks.top();
     blocks.pop();
     delete top;
+  }
+  
+  LLVMContext & getLLVMContext() {
+    return mLLVMContext;
   }
 };
 
