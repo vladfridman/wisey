@@ -45,6 +45,7 @@
 		F546260B1DE6F8C100074D66 /* tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F54626091DE6F8C100074D66 /* tokens.lpp */; settings = {ASSET_TAGS = (); }; };
 		F546260E1DE6F99E00074D66 /* codegen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F546260C1DE6F99E00074D66 /* codegen.cpp */; settings = {ASSET_TAGS = (); }; };
 		F54626101DE6F9A400074D66 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F546260F1DE6F9A400074D66 /* main.cpp */; settings = {ASSET_TAGS = (); }; };
+		F569E9E71DF875D900BBB20E /* log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9E61DF875D900BBB20E /* log.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -103,6 +104,8 @@
 		F546260F1DE6F9A400074D66 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F54626111DE6FA9300074D66 /* node.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = node.hpp; sourceTree = "<group>"; };
 		F54626121DE6FAFE00074D66 /* codegen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = codegen.hpp; sourceTree = "<group>"; };
+		F569E9E51DF86CC900BBB20E /* log.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = log.hpp; sourceTree = "<group>"; };
+		F569E9E61DF875D900BBB20E /* log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = log.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -174,6 +177,8 @@
 		F54625BD1DE5E53900074D66 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				F569E9E61DF875D900BBB20E /* log.cpp */,
+				F569E9E51DF86CC900BBB20E /* log.hpp */,
 				F54626121DE6FAFE00074D66 /* codegen.hpp */,
 				F54626111DE6FA9300074D66 /* node.hpp */,
 				F546260F1DE6F9A400074D66 /* main.cpp */,
@@ -294,6 +299,7 @@
 				F546260B1DE6F8C100074D66 /* tokens.lpp in Sources */,
 				F546260A1DE6F8C100074D66 /* parser.ypp in Sources */,
 				F54626101DE6F9A400074D66 /* main.cpp in Sources */,
+				F569E9E71DF875D900BBB20E /* log.cpp in Sources */,
 				F546260E1DE6F99E00074D66 /* codegen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

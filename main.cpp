@@ -23,6 +23,7 @@
 #include <iostream>
 #include "codegen.hpp"
 #include "node.hpp"
+#include "log.hpp"
 
 using namespace std;
 using namespace yazyk;
@@ -36,7 +37,9 @@ int main(int argc, char **argv)
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
 
-  cout << "opening " << argv[1] << endl;
+  Log::setLogLevel(DEBUGLEVEL);
+
+  Log::i("opening " + string(argv[1]));
 
   yyin = fopen(argv[1], "r");
   yyparse();

@@ -1,6 +1,7 @@
 #include "node.hpp"
 #include "codegen.hpp"
 #include "y.tab.h"
+#include "log.hpp"
 
 using namespace std;
 
@@ -8,49 +9,40 @@ namespace yazyk {
 
 /* Compile the AST into a module */
 void IRGenerationContext::generateIR(Block& root) {
-  cout << "Generating code...\n";
-  
   owner = make_unique<Module>("test", getLLVMContext());
   module = owner.get();
 
   root.generateIR(*this);
   
-  cout << "Code is generated.\n";
   verifyModule(*module);
-  cout << "Code is verified.\n";
   
   legacy::PassManager passManager;
 
-  // print out assembly code
-  // passManager.add(createPrintModulePass(outs()));
-
   // Optimization: Constant Propagation transform
   // passManager.add(createConstantPropagationPass());
-  
   // Optimization: Dead Instruction Elimination transform
   // passManager.add(createDeadInstEliminationPass());
 
   // print out assembly code
-  passManager.add(createPrintModulePass(outs()));
+  if (Log::isDebugLevel()) {
+    passManager.add(createPrintModulePass(outs()));
+  }
 
   passManager.run(*module);
-  
-  cout << "PM has been run.\n";
 }
 
 /* Executes the AST by running the main function */
 GenericValue IRGenerationContext::runCode() {
-  cout << "Running code...\n";
   ExecutionEngine *executionEngine = EngineBuilder(move(owner)).create();
   vector<GenericValue> noargs;
   if (mainFunction == NULL) {
-    cerr << "Function main() is not defined. Exiting." << endl;
+    Log::e("Function main() is not defined. Exiting.");
     delete executionEngine;
     exit(1);
   }
+  Log::i("Running program:");
   GenericValue result = executionEngine->runFunction(mainFunction, noargs);
-  cout << "Code was run.\n";
-  outs() << "Result: " << result.IntVal << "\n";
+  Log::i("Result: " + result.IntVal.toString(10, true));
   delete executionEngine;
   
   return result;
@@ -74,32 +66,26 @@ static Type *typeOf(LLVMContext &llvmContext, const TypeSpecifier& type) {
 /* -- Code Generation -- */
 
 Value* Char::generateIR(IRGenerationContext& context) {
-  cout << "Creating char: " << value << endl;
   return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), value);
 }
   
 Value* Integer::generateIR(IRGenerationContext& context) {
-  cout << "Creating integer: " << value << endl;
   return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), value, true);
 }
 
 Value* Long::generateIR(IRGenerationContext& context) {
-  cout << "Creating long: " << value << endl;
   return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), value, true);
 }
 
 Value* Float::generateIR(IRGenerationContext& context) {
-  cout << "Creating float: " << value << endl;
   return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), value);
 }
   
 Value* Double::generateIR(IRGenerationContext& context) {
-  cout << "Creating double: " << value << endl;
   return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), value);
 }
 
 Value* String::generateIR(IRGenerationContext& context) {
-  cout << "Creating string: " << value << endl;
   Constant* strConstant = ConstantDataArray::getString(context.getLLVMContext(), value);
   GlobalVariable* globalVariableString =
     new GlobalVariable(*context.getModule(),
@@ -144,7 +130,6 @@ string String::unescape(const string& input) {
 }
 
 Value* Identifier::generateIR(IRGenerationContext& context) {
-  cout << "Creating identifier reference: " << name << endl;
   if (context.locals().find(name) == context.locals().end()) {
     cerr << "undeclared variable " << name << endl;
     return NULL;
@@ -180,13 +165,10 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
     args.push_back((**it).generateIR(context));
   }
   CallInst *call = CallInst::Create(function, args, "call", context.currentBlock());
-  cout << "Creating method call: " << id.name << endl;
   return call;
 }
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context) {
-  cout << "Creating increment exression" << endl;
-
   Value* originalValue = identifier.generateIR(context);
   Value *increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
                                       incrementBy,
@@ -202,7 +184,6 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) {
 }
   
 Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) {
-  cout << "Creating binary operation " << operation << endl;
   Instruction::BinaryOps instruction;
   string name;
   switch (operation) {
@@ -224,7 +205,6 @@ Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& contex
 }
   
 Value* RelationalExpression::generateIR(IRGenerationContext& context) {
-  cout << "Creating relational expression " << operation << endl;
   ICmpInst::Predicate predicate;
   switch (operation) {
     case RELATIONAL_OPERATION_LT : predicate = ICmpInst::ICMP_SLT; break;
@@ -247,8 +227,6 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) {
 }
 
 Value *LogicalAndExpression::generateIR(IRGenerationContext& context) {
-  cout << "Creating logical AND expression" << endl;
-  
   Value * lhsValue = lhs.generateIR(context);
   BasicBlock * entryBlock = context.currentBlock();
   
@@ -273,8 +251,6 @@ Value *LogicalAndExpression::generateIR(IRGenerationContext& context) {
 }
   
 Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
-  cout << "Creating logical OR expression" << endl;
-  
   Value * lhsValue = lhs.generateIR(context);
   BasicBlock * entryBlock = context.currentBlock();
   
@@ -299,8 +275,6 @@ Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
 }
 
 Value *ConditionalExpression::generateIR(IRGenerationContext& context) {
-  cout << "Creating conditional expression" << endl;
-
   Value * conditionValue = conditionExpression.generateIR(context);
   
   Function * function = context.currentBlock()->getParent();
@@ -324,7 +298,7 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) {
   BranchInst::Create(bblockCondEnd, context.currentBlock());
 
   if (condTrueResultType != condFalseResultType) {
-    cerr << "Results of different type in a conditional expresion!" << endl;
+    Log::e("Results of different type in a conditional expresion!");
   }
   
   context.replaceBlock(bblockCondEnd);
@@ -339,9 +313,8 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) {
 }
     
 Value* Assignment::generateIR(IRGenerationContext& context) {
-  cout << "Creating assignment for " << lhs.name << endl;
   if (context.locals().find(lhs.name) == context.locals().end()) {
-    cerr << "undeclared variable " << lhs.name << endl;
+    Log::e("undeclared variable " + lhs.name);
     return NULL;
   }
   return new StoreInst(rhs.generateIR(context), context.locals()[lhs.name], context.currentBlock());
@@ -352,20 +325,16 @@ Value* Block::generateIR(IRGenerationContext& context) {
   Value *last = NULL;
   for (it = statements.begin(); it != statements.end(); it++) {
     IStatement *statement = *it;
-    cout << "Generating block code for " << typeid(*statement).name() << endl;
     last = statement->generateIR(context);
   }
-  cout << "Creating block" << endl;
   return last;
 }
 
 Value* ExpressionStatement::generateIR(IRGenerationContext& context) {
-  cout << "Generating expression statement code for " << typeid(expression).name() << endl;
   return expression.generateIR(context);
 }
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
-  cout << "Creating variable declaration " << type.type << " " << id.name << endl;
   AllocaInst *alloc = new AllocaInst(typeOf(context.getLLVMContext(), type),
                                      id.name.c_str(),
                                      context.currentBlock());
@@ -379,14 +348,12 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
 
 
 Value* ReturnStatement::generateIR(IRGenerationContext& context) {
-  cout << "Generatring return statement" << endl;
-  
   Value* returnValue = expression.generateIR(context);
   Type* valueType = returnValue->getType();
   Function *parentFunction = context.currentBlock()->getParent();
 
   if (parentFunction == NULL) {
-    cerr << "No corresponding method found for RETURN" << endl;
+    Log::e("No corresponding method found for RETURN");
     exit(1);
   }
   
@@ -394,7 +361,7 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) {
   
   if (returnType != valueType &&
       !CastInst::isCastable(valueType, returnType)) {
-    cerr << "Can not cast return value to function type" << endl;
+    Log::e("Can not cast return value to function type");
     exit(1);
   }
   
@@ -451,7 +418,6 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   block.generateIR(context);
   
   context.popBlock();
-  cout << "Creating function: " << id.name << endl;
   return function;
 }
 
