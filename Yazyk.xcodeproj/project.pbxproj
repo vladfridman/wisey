@@ -41,11 +41,11 @@
 		F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FE1DE5ED0700074D66 /* libcurses.dylib */; };
 		F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
 		F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626021DE5ED3500074D66 /* libm.dylib */; };
-		F546260A1DE6F8C100074D66 /* parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F54626081DE6F8C100074D66 /* parser.ypp */; settings = {ASSET_TAGS = (); }; };
-		F546260B1DE6F8C100074D66 /* tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F54626091DE6F8C100074D66 /* tokens.lpp */; settings = {ASSET_TAGS = (); }; };
-		F546260E1DE6F99E00074D66 /* codegen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F546260C1DE6F99E00074D66 /* codegen.cpp */; settings = {ASSET_TAGS = (); }; };
-		F54626101DE6F9A400074D66 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F546260F1DE6F9A400074D66 /* main.cpp */; settings = {ASSET_TAGS = (); }; };
-		F569E9E71DF875D900BBB20E /* log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9E61DF875D900BBB20E /* log.cpp */; settings = {ASSET_TAGS = (); }; };
+		F569E9EF1DF9CC9600BBB20E /* codegen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EA1DF9CC9600BBB20E /* codegen.cpp */; settings = {ASSET_TAGS = (); }; };
+		F569E9F01DF9CC9600BBB20E /* log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* log.cpp */; settings = {ASSET_TAGS = (); }; };
+		F569E9F21DF9CC9600BBB20E /* parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* parser.ypp */; settings = {ASSET_TAGS = (); }; };
+		F569E9F31DF9CC9600BBB20E /* tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* tokens.lpp */; settings = {ASSET_TAGS = (); }; };
+		F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9F71DF9CE6600BBB20E /* main.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -98,14 +98,14 @@
 		F54625FE1DE5ED0700074D66 /* libcurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurses.dylib; path = /usr/lib/libcurses.dylib; sourceTree = "<absolute>"; };
 		F54626001DE5ED1B00074D66 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
-		F54626081DE6F8C100074D66 /* parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = parser.ypp; sourceTree = "<group>"; };
-		F54626091DE6F8C100074D66 /* tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = tokens.lpp; sourceTree = "<group>"; };
-		F546260C1DE6F99E00074D66 /* codegen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = codegen.cpp; sourceTree = "<group>"; };
-		F546260F1DE6F9A400074D66 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		F54626111DE6FA9300074D66 /* node.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = node.hpp; sourceTree = "<group>"; };
-		F54626121DE6FAFE00074D66 /* codegen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = codegen.hpp; sourceTree = "<group>"; };
-		F569E9E51DF86CC900BBB20E /* log.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = log.hpp; sourceTree = "<group>"; };
-		F569E9E61DF875D900BBB20E /* log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = log.cpp; sourceTree = "<group>"; };
+		F569E9EA1DF9CC9600BBB20E /* codegen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = codegen.cpp; path = src/codegen.cpp; sourceTree = "<group>"; };
+		F569E9EB1DF9CC9600BBB20E /* log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = log.cpp; path = src/log.cpp; sourceTree = "<group>"; };
+		F569E9ED1DF9CC9600BBB20E /* parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = parser.ypp; path = src/parser.ypp; sourceTree = "<group>"; };
+		F569E9EE1DF9CC9600BBB20E /* tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = tokens.lpp; path = src/tokens.lpp; sourceTree = "<group>"; };
+		F569E9F41DF9CCA800BBB20E /* codegen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = codegen.hpp; path = include/codegen.hpp; sourceTree = "<group>"; };
+		F569E9F51DF9CCA800BBB20E /* log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = log.hpp; path = include/log.hpp; sourceTree = "<group>"; };
+		F569E9F61DF9CCA800BBB20E /* node.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = node.hpp; path = include/node.hpp; sourceTree = "<group>"; };
+		F569E9F71DF9CE6600BBB20E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +159,7 @@
 			children = (
 				F54626141DE709F400074D66 /* resources */,
 				F54626041DE5EDA700074D66 /* lib */,
+				F569E9F91DF9CE6B00BBB20E /* include */,
 				F54625BD1DE5E53900074D66 /* src */,
 				F546258E1DE5E43A00074D66 /* Products */,
 			);
@@ -177,14 +178,11 @@
 		F54625BD1DE5E53900074D66 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				F569E9E61DF875D900BBB20E /* log.cpp */,
-				F569E9E51DF86CC900BBB20E /* log.hpp */,
-				F54626121DE6FAFE00074D66 /* codegen.hpp */,
-				F54626111DE6FA9300074D66 /* node.hpp */,
-				F546260F1DE6F9A400074D66 /* main.cpp */,
-				F546260C1DE6F99E00074D66 /* codegen.cpp */,
-				F54626081DE6F8C100074D66 /* parser.ypp */,
-				F54626091DE6F8C100074D66 /* tokens.lpp */,
+				F569E9F71DF9CE6600BBB20E /* main.cpp */,
+				F569E9EA1DF9CC9600BBB20E /* codegen.cpp */,
+				F569E9EB1DF9CC9600BBB20E /* log.cpp */,
+				F569E9ED1DF9CC9600BBB20E /* parser.ypp */,
+				F569E9EE1DF9CC9600BBB20E /* tokens.lpp */,
 				F54625B11DE5E53200074D66 /* Makefile */,
 			);
 			name = src;
@@ -238,6 +236,16 @@
 				F5CA5DA91DEC8D2C00EF64EA /* input.yz */,
 			);
 			name = resources;
+			sourceTree = "<group>";
+		};
+		F569E9F91DF9CE6B00BBB20E /* include */ = {
+			isa = PBXGroup;
+			children = (
+				F569E9F41DF9CCA800BBB20E /* codegen.hpp */,
+				F569E9F51DF9CCA800BBB20E /* log.hpp */,
+				F569E9F61DF9CCA800BBB20E /* node.hpp */,
+			);
+			name = include;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,11 +304,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F546260B1DE6F8C100074D66 /* tokens.lpp in Sources */,
-				F546260A1DE6F8C100074D66 /* parser.ypp in Sources */,
-				F54626101DE6F9A400074D66 /* main.cpp in Sources */,
-				F569E9E71DF875D900BBB20E /* log.cpp in Sources */,
-				F546260E1DE6F99E00074D66 /* codegen.cpp in Sources */,
+				F569E9F31DF9CC9600BBB20E /* tokens.lpp in Sources */,
+				F569E9F01DF9CC9600BBB20E /* log.cpp in Sources */,
+				F569E9F21DF9CC9600BBB20E /* parser.ypp in Sources */,
+				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
+				F569E9EF1DF9CC9600BBB20E /* codegen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,7 +398,10 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					./include,
+				);
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -403,7 +414,10 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					./include,
+				);
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
