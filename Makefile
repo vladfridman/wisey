@@ -41,6 +41,8 @@ default: ${BINDIR}/yazyk
 clean:
 	rm -rf ${BINDIR} ${ODIR} ${PARSERDIR}
 
+tests: ${BINDIR}/runtests
+
 ${ODIR}:
 	mkdir -p ${ODIR}
 
@@ -61,7 +63,7 @@ ${PARSERDIR}/tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
 $(ODIR)/test%.o: ${TESTDIR}/test%.cpp
 	$(CC) -I$(ISYSTEMDIR) -c test*.cpp
 
-tests: ${TESTOBJ} | ${BINDIR}
+${BINDIR}/runtests: ${TESTOBJ} | ${BINDIR}
 	$(CC) -o ${BINDIR}/runtests -L${LIBDIR} -lgtest $^
 
 $(ODIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${ODIR}
