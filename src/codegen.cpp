@@ -218,7 +218,6 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) {
     case RELATIONAL_OPERATION_GE : predicate = ICmpInst::ICMP_SGE; break;
     case RELATIONAL_OPERATION_EQ : predicate = ICmpInst::ICMP_EQ; break;
     case RELATIONAL_OPERATION_NE : predicate = ICmpInst::ICMP_NE; break;
-    default: return NULL;
   }
   
   Value * lhsValue = lhs.generateIR(context);

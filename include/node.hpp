@@ -32,6 +32,7 @@ typedef enum RelationalOperationEnum {
 
 class INode {
 public:
+  virtual ~INode() { }
   virtual llvm::Value* generateIR(IRGenerationContext& context) = 0;
 };
 
@@ -44,14 +45,20 @@ class IStatement : public INode {
 class Integer : public IExpression {
 public:
   long value;
+  
   Integer(long value) : value(value) { }
+  ~Integer() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
 class Long : public IExpression {
 public:
   long long value;
+
   Long(long long value) : value(value) { }
+  ~Long() {}
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -60,6 +67,8 @@ public:
   double value;
   
   Float(double value) : value(value) { }
+  ~Float() {}
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -68,6 +77,8 @@ public:
   long double value;
 
   Double(long double value) : value(value) { }
+  ~Double() {}
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -76,6 +87,8 @@ public:
   char value;
   
   Char(char value) : value(value) { }
+  ~Char() {}
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -84,6 +97,8 @@ public:
   std::string value;
   
   String(std::string input) : value(unescape(input.substr(1, input.length() - 2))) { }
+  ~String() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
   
 private:
@@ -95,6 +110,8 @@ public:
   std::string name;
 
   Identifier(const std::string& name) : name(name) { }
+  ~Identifier() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -104,8 +121,10 @@ public:
   ExpressionList arguments;
 
   MethodCall(const Identifier& id, ExpressionList& arguments) :
-  id(id), arguments(arguments) { }
+    id(id), arguments(arguments) { }
   MethodCall(const Identifier& id) : id(id) { }
+  ~MethodCall() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
   
 private:
@@ -114,23 +133,27 @@ private:
 
 class AddditiveMultiplicativeExpression : public IExpression {
 public:
-  int operation;
   IExpression& lhs;
   IExpression& rhs;
+  int operation;
 
   AddditiveMultiplicativeExpression(IExpression& lhs, int operation, IExpression& rhs) :
-  lhs(lhs), rhs(rhs), operation(operation) { }
+    lhs(lhs), rhs(rhs), operation(operation) { }
+  ~AddditiveMultiplicativeExpression() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
 class RelationalExpression : public IExpression {
 public:
-  RelationalOperation operation;
   IExpression& lhs;
   IExpression& rhs;
+  RelationalOperation operation;
   
   RelationalExpression(IExpression& lhs, RelationalOperation operation, IExpression& rhs) :
     lhs(lhs), rhs(rhs), operation(operation) { }
+  ~RelationalExpression() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -150,7 +173,8 @@ private:
     incrementBy(incrementBy),
     variableName(variableName),
     isPrefix(isPrefix) { }
-
+  ~IncrementExpression() { }
+  
 public:
   llvm::Value* generateIR(IRGenerationContext& context);
   
@@ -169,6 +193,8 @@ public:
   IExpression& rhs;
   
   LogicalAndExpression(IExpression& lhs, IExpression& rhs) : lhs(lhs), rhs(rhs) { }
+  ~LogicalAndExpression() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -178,6 +204,8 @@ public:
   IExpression& rhs;
   
   LogicalOrExpression(IExpression& lhs, IExpression& rhs) : lhs(lhs), rhs(rhs) { }
+  ~LogicalOrExpression() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
   
@@ -192,8 +220,8 @@ public:
                         IExpression& conditionFalseExpression)
   : conditionExpression(conditionExpression),
     conditionTrueExpression(conditionTrueExpression),
-    conditionFalseExpression(conditionFalseExpression)
-  {  }
+    conditionFalseExpression(conditionFalseExpression) {  }
+  ~ConditionalExpression() { }
   
   llvm::Value* generateIR(IRGenerationContext& context);
 };
@@ -204,7 +232,9 @@ public:
   IExpression& rhs;
 
   Assignment(Identifier& lhs, IExpression& rhs) :
-  lhs(lhs), rhs(rhs) { }
+    lhs(lhs), rhs(rhs) { }
+  ~Assignment() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -213,6 +243,8 @@ public:
   StatementList statements;
 
   Block() { }
+  ~Block() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -221,6 +253,8 @@ public:
   IExpression& expression;
 
   ExpressionStatement(IExpression& expression) : expression(expression) { }
+  ~ExpressionStatement() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -229,12 +263,16 @@ public:
   IExpression& expression;
 
   ReturnStatement(IExpression& expression) : expression(expression) { }
+  ~ReturnStatement() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
   
 class ReturnVoidStatement : public IStatement {
 public:
   ReturnVoidStatement() { }
+  ~ReturnVoidStatement() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -243,6 +281,8 @@ public:
   PrimitiveType type;
 
   TypeSpecifier(PrimitiveType type) : type(type) { }
+  ~TypeSpecifier() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -256,6 +296,8 @@ public:
     type(type), id(id) { assignmentExpr = NULL; }
   VariableDeclaration(const TypeSpecifier& type, Identifier& id, IExpression *assignmentExpr) :
     type(type), id(id), assignmentExpr(assignmentExpr) { }
+  ~VariableDeclaration() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
@@ -268,7 +310,9 @@ public:
   ExternDeclaration(const Identifier& type,
                      const Identifier& id,
                      const VariableList& arguments) :
-    type(type), id(id), arguments(arguments) {}
+    type(type), id(id), arguments(arguments) { }
+  ~ExternDeclaration() { }
+  
   llvm::Value* codeGen(IRGenerationContext& context);
 };
 
@@ -283,7 +327,9 @@ public:
                          const Identifier& id,
                          const VariableList& arguments,
                          Block& block) :
-  type(type), id(id), arguments(arguments), block(block) { }
+    type(type), id(id), arguments(arguments), block(block) { }
+  ~FunctionDeclaration() { }
+  
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
