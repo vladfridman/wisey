@@ -1,9 +1,10 @@
-int do_math(int a) {
+void do_math(int a) {
   printf("do_math() input: %d\n", a++);
-  return a;
+  return;
 }
 
 int main() {
   printf("main() method\n");
-  return do_math(10);
+  do_math(10);
+  return 2;
 }

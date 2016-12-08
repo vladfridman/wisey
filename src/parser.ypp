@@ -25,7 +25,6 @@
   yazyk::IStatement *stmt;
   yazyk::Block *block;
   yazyk::TypeSpecifier *type;
-  yazyk::ReturnStatement *returnStatement;
   yazyk::Identifier *ident;
   yazyk::VariableDeclaration *var_decl;
   std::vector<yazyk::VariableDeclaration*> *varvec;
@@ -37,7 +36,7 @@
 /* Tokens used in yk */
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
 %token <token> TCEQ TCNE TCLE TCGE
-%token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE
+%token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP
 
 /* Define the type of node our nonterminal symbols represent.
@@ -50,11 +49,10 @@
 %type <expr> constant expression multiplicative_expression additive_expression primary_expression
 %type <expr> relational_expression equality_expression logical_and_expression logical_or_expression
 %type <expr> conditional_expression postfix_expression
-%type <returnStatement> return_statement
 %type <varvec> func_decl_args
 %type <exprvec> call_args
 %type <block> program stmts block
-%type <stmt> stmt var_decl func_decl func_arg_decl
+%type <stmt> stmt var_decl func_decl func_arg_decl return_statement
 %type <type> type_specifier
 
 /* Operator precedence for mathematical operators */
@@ -87,7 +85,7 @@ block
   ;
 
 return_statement
-  : TRETURN ';'
+  : TRETURN ';' { $$ =  new ReturnVoidStatement(); }
   | TRETURN expression ';' { $$ = new ReturnStatement(*$2); }
   ;
 
@@ -208,6 +206,7 @@ type_specifier
   | TTYPELONG { $$ = new TypeSpecifier(PRIMITIVE_TYPE_LONG); }
   | TTYPEFLOAT { $$ = new TypeSpecifier(PRIMITIVE_TYPE_FLOAT); }
   | TTYPEDOUBLE { $$ = new TypeSpecifier(PRIMITIVE_TYPE_DOUBLE); }
+  | TTYPEVOID { $$ = new TypeSpecifier(PRIMITIVE_TYPE_VOID); }
   ;
 
 %%

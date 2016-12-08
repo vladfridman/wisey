@@ -18,6 +18,7 @@ typedef enum PrimitiveTypeEnum {
   PRIMITIVE_TYPE_LONG,
   PRIMITIVE_TYPE_FLOAT,
   PRIMITIVE_TYPE_DOUBLE,
+  PRIMITIVE_TYPE_VOID,
 } PrimitiveType;
   
 typedef enum RelationalOperationEnum {
@@ -228,6 +229,12 @@ public:
   IExpression& expression;
 
   ReturnStatement(IExpression& expression) : expression(expression) { }
+  llvm::Value* generateIR(IRGenerationContext& context);
+};
+  
+class ReturnVoidStatement : public IStatement {
+public:
+  ReturnVoidStatement() { }
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 

@@ -59,8 +59,11 @@ static Type *typeOf(LLVMContext &llvmContext, const TypeSpecifier& type) {
     return Type::getFloatTy(llvmContext);
   } else if (type.type == PRIMITIVE_TYPE_DOUBLE) {
     return Type::getDoubleTy(llvmContext);
+  } else if (type.type == PRIMITIVE_TYPE_VOID) {
+    return Type::getVoidTy(llvmContext);
   }
 
+  Log::e("Unknown type " + to_string(type.type) + ". Replacing with void");
   return Type::getVoidTy(llvmContext);
 }
 
@@ -165,7 +168,8 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
   for (it = arguments.begin(); it != arguments.end(); it++) {
     args.push_back((**it).generateIR(context));
   }
-  CallInst *call = CallInst::Create(function, args, "call", context.currentBlock());
+  string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
+  CallInst *call = CallInst::Create(function, args, resultName, context.currentBlock());
   return call;
 }
 
@@ -379,6 +383,10 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) {
   return result;
 }
 
+Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) {
+  return ReturnInst::Create(context.getLLVMContext(), NULL, context.currentBlock());
+}
+  
 Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   vector<Type*> argTypes;
   VariableList::const_iterator it;

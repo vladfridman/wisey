@@ -24,6 +24,7 @@ WS  [ \t\v\n\f]
 "long"                        return TOKEN(TTYPELONG);
 "float"                       return TOKEN(TTYPEFLOAT);
 "double"                      return TOKEN(TTYPEDOUBLE);
+"void"                        return TOKEN(TTYPEVOID);
 "return"                      return TOKEN(TRETURN);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
