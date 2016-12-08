@@ -398,13 +398,12 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
-					./include,
-				);
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_CFLAGS = (
+					"-isystem",
+					/usr/local/include,
 					"-D__STDC_CONSTANT_MACROS",
 					"-D__STDC_FORMAT_MACROS",
 					"-D__STDC_LIMIT_MACROS",
@@ -421,6 +420,7 @@
 					"-Wmissing-field-initializers",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -430,13 +430,12 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
-					./include,
-				);
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				LEXFLAGS = "";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_CFLAGS = (
+					"-isystem",
+					/usr/local/include,
 					"-D__STDC_CONSTANT_MACROS",
 					"-D__STDC_FORMAT_MACROS",
 					"-D__STDC_LIMIT_MACROS",
@@ -453,6 +452,7 @@
 					"-Wmissing-field-initializers",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
