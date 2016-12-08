@@ -14,10 +14,18 @@ SRCDIR = ${CURDIR}/src
 ISYSTEMDIR = /usr/local/include
 # Yazyk header files
 INCLUDEDIR = ${CURDIR}/include
+# System lib directory
+LIBDIR = /usr/local/lib
 # List of source files
 SOURCES = $(shell find src -name '*.cpp')
 # Object files to be generated
 OBJ=$(SOURCES:src/%.cpp=$(ODIR)/%.o) obj/tokens.o obj/y.tab.o
+# Test directory
+TESTDIR = tests
+# Test sources
+TESTSOURCES = $(shell find tests -name '*.cpp')
+# Test objects
+TESTOBJ=$(TESTSOURCES:src/%.cpp=$(ODIR)/%.o)
 # Flags used for compilation step
 CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers \
@@ -49,6 +57,12 @@ ${PARSERDIR}/y.tab.h: ${PARSERDIR}/y.tab.c | ${PARSERDIR}
 
 ${PARSERDIR}/tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
 	flex -o $@ ${SRCDIR}/tokens.lpp
+
+$(ODIR)/test%.o: ${TESTDIR}/test%.cpp
+	$(CC) -I$(ISYSTEMDIR) -c test*.cpp
+
+tests: ${TESTOBJ} | ${BINDIR}
+	$(CC) -o ${BINDIR}/runtests -L${LIBDIR} -lgtest $^
 
 $(ODIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${ODIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F530B4601DFA032100477384 /* runtests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* runtests.cpp */; settings = {ASSET_TAGS = (); }; };
+		F534FFCF1DFA03EF0002BF7E /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F534FFCB1DFA03EF0002BF7E /* libgtest.a */; };
+		F534FFD01DFA046A0002BF7E /* libgmock_main.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F534FFC81DFA03EF0002BF7E /* libgmock_main.a */; };
+		F534FFD11DFA046A0002BF7E /* libgmock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F534FFC91DFA03EF0002BF7E /* libgmock.a */; };
+		F534FFD21DFA046A0002BF7E /* libgtest_main.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F534FFCA1DFA03EF0002BF7E /* libgtest_main.a */; };
 		F54625BF1DE5EA1900074D66 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */; };
 		F54625C11DE5EA2800074D66 /* libLLVMX86AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625C01DE5EA2800074D66 /* libLLVMX86AsmParser.a */; };
 		F54625C31DE5EA2D00074D66 /* libLLVMX86CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625C21DE5EA2D00074D66 /* libLLVMX86CodeGen.a */; };
@@ -49,6 +54,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		F530B4541DFA02C900477384 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		F546258B1DE5E43A00074D66 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -61,6 +75,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
+		F530B45E1DFA031A00477384 /* runtests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = runtests.cpp; path = tests/runtests.cpp; sourceTree = "<group>"; };
+		F534FFC81DFA03EF0002BF7E /* libgmock_main.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock_main.a; path = ../../../usr/local/lib/libgmock_main.a; sourceTree = "<group>"; };
+		F534FFC91DFA03EF0002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = ../../../usr/local/lib/libgmock.a; sourceTree = "<group>"; };
+		F534FFCA1DFA03EF0002BF7E /* libgtest_main.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest_main.a; path = ../../../usr/local/lib/libgtest_main.a; sourceTree = "<group>"; };
+		F534FFCB1DFA03EF0002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../../usr/local/lib/libgtest.a; sourceTree = "<group>"; };
 		F546258D1DE5E43A00074D66 /* Yazyk */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Yazyk; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54625B11DE5E53200074D66 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = /usr/local/lib/libLLVMX86Disassembler.a; sourceTree = "<absolute>"; };
@@ -110,6 +130,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F530B4531DFA02C900477384 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F534FFD01DFA046A0002BF7E /* libgmock_main.a in Frameworks */,
+				F534FFD11DFA046A0002BF7E /* libgmock.a in Frameworks */,
+				F534FFD21DFA046A0002BF7E /* libgtest_main.a in Frameworks */,
+				F534FFCF1DFA03EF0002BF7E /* libgtest.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F546258A1DE5E43A00074D66 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -154,13 +185,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F530B45D1DFA02EB00477384 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				F530B45E1DFA031A00477384 /* runtests.cpp */,
+			);
+			name = tests;
+			sourceTree = "<group>";
+		};
 		F54625841DE5E43A00074D66 = {
 			isa = PBXGroup;
 			children = (
+				F534FFC81DFA03EF0002BF7E /* libgmock_main.a */,
+				F534FFC91DFA03EF0002BF7E /* libgmock.a */,
+				F534FFCA1DFA03EF0002BF7E /* libgtest_main.a */,
+				F534FFCB1DFA03EF0002BF7E /* libgtest.a */,
 				F54626141DE709F400074D66 /* resources */,
 				F54626041DE5EDA700074D66 /* lib */,
 				F569E9F91DF9CE6B00BBB20E /* include */,
 				F54625BD1DE5E53900074D66 /* src */,
+				F530B45D1DFA02EB00477384 /* tests */,
 				F546258E1DE5E43A00074D66 /* Products */,
 			);
 			indentWidth = 2;
@@ -171,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				F546258D1DE5E43A00074D66 /* Yazyk */,
+				F530B4561DFA02C900477384 /* runtests */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -251,6 +296,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F530B4551DFA02C900477384 /* runtests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F530B45A1DFA02C900477384 /* Build configuration list for PBXNativeTarget "runtests" */;
+			buildPhases = (
+				F530B4521DFA02C900477384 /* Sources */,
+				F530B4531DFA02C900477384 /* Frameworks */,
+				F530B4541DFA02C900477384 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = runtests;
+			productName = runtests;
+			productReference = F530B4561DFA02C900477384 /* runtests */;
+			productType = "com.apple.product-type.tool";
+		};
 		F546258C1DE5E43A00074D66 /* Yazyk */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F54625941DE5E43A00074D66 /* Build configuration list for PBXNativeTarget "Yazyk" */;
@@ -277,6 +339,9 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Vladimir Fridman";
 				TargetAttributes = {
+					F530B4551DFA02C900477384 = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
 					F546258C1DE5E43A00074D66 = {
 						CreatedOnToolsVersion = 7.0.1;
 					};
@@ -295,11 +360,20 @@
 			projectRoot = "";
 			targets = (
 				F546258C1DE5E43A00074D66 /* Yazyk */,
+				F530B4551DFA02C900477384 /* runtests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F530B4521DFA02C900477384 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F530B4601DFA032100477384 /* runtests.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F54625891DE5E43A00074D66 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -315,6 +389,32 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		F530B45B1DFA02C900477384 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CFLAGS = (
+					"-isystem",
+					/usr/local/include,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F530B45C1DFA02C900477384 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CFLAGS = (
+					"-isystem",
+					/usr/local/include,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		F54625921DE5E43A00074D66 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -465,6 +565,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F530B45A1DFA02C900477384 /* Build configuration list for PBXNativeTarget "runtests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F530B45B1DFA02C900477384 /* Debug */,
+				F530B45C1DFA02C900477384 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F54625881DE5E43A00074D66 /* Build configuration list for PBXProject "Yazyk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
