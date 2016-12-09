@@ -77,10 +77,10 @@
 /* Begin PBXFileReference section */
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
 		F530B45E1DFA031A00477384 /* runtests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = runtests.cpp; path = tests/runtests.cpp; sourceTree = "<group>"; };
-		F534FFC81DFA03EF0002BF7E /* libgmock_main.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock_main.a; path = ../../../usr/local/lib/libgmock_main.a; sourceTree = "<group>"; };
-		F534FFC91DFA03EF0002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = ../../../usr/local/lib/libgmock.a; sourceTree = "<group>"; };
-		F534FFCA1DFA03EF0002BF7E /* libgtest_main.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest_main.a; path = ../../../usr/local/lib/libgtest_main.a; sourceTree = "<group>"; };
-		F534FFCB1DFA03EF0002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = ../../../usr/local/lib/libgtest.a; sourceTree = "<group>"; };
+		F534FFC81DFA03EF0002BF7E /* libgmock_main.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock_main.a; path = /usr/local/lib/libgmock_main.a; sourceTree = "<absolute>"; };
+		F534FFC91DFA03EF0002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = /usr/local/lib/libgmock.a; sourceTree = "<absolute>"; };
+		F534FFCA1DFA03EF0002BF7E /* libgtest_main.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest_main.a; path = /usr/local/lib/libgtest_main.a; sourceTree = "<absolute>"; };
+		F534FFCB1DFA03EF0002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = /usr/local/lib/libgtest.a; sourceTree = "<absolute>"; };
 		F546258D1DE5E43A00074D66 /* Yazyk */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Yazyk; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54625B11DE5E53200074D66 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = /usr/local/lib/libLLVMX86Disassembler.a; sourceTree = "<absolute>"; };
@@ -188,18 +188,26 @@
 		F530B45D1DFA02EB00477384 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				F534FFD31DFAC6B10002BF7E /* lib */,
 				F530B45E1DFA031A00477384 /* runtests.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
 		};
-		F54625841DE5E43A00074D66 = {
+		F534FFD31DFAC6B10002BF7E /* lib */ = {
 			isa = PBXGroup;
 			children = (
 				F534FFC81DFA03EF0002BF7E /* libgmock_main.a */,
 				F534FFC91DFA03EF0002BF7E /* libgmock.a */,
 				F534FFCA1DFA03EF0002BF7E /* libgtest_main.a */,
 				F534FFCB1DFA03EF0002BF7E /* libgtest.a */,
+			);
+			name = lib;
+			sourceTree = "<group>";
+		};
+		F54625841DE5E43A00074D66 = {
+			isa = PBXGroup;
+			children = (
 				F54626141DE709F400074D66 /* resources */,
 				F54626041DE5EDA700074D66 /* lib */,
 				F569E9F91DF9CE6B00BBB20E /* include */,
