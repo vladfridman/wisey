@@ -64,7 +64,7 @@ $(ODIR)/test%.o: ${TESTDIR}/test%.cpp
 	$(CC) -I$(ISYSTEMDIR) -c test*.cpp
 
 ${BINDIR}/runtests: ${TESTOBJ} | ${BINDIR}
-	$(CC) -o ${BINDIR}/runtests -L${LIBDIR} -lgtest $^
+	$(CC) -o ${BINDIR}/runtests -L${LIBDIR} -lgtest -lgmock $^
 
 $(ODIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${ODIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
