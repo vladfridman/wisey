@@ -1,12 +1,23 @@
+//
+//  testAdditiveMultiplicativeExpression.cpp
+//  Yazyk
+//
+//  Created by Vladimir Fridman on 12/9/16.
+//  Copyright © 2016 Vladimir Fridman. All rights reserved.
+//
+
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include "node.hpp"
 
 using ::testing::NiceMock;
 using ::testing::Return;
+using namespace yazyk;
 
 class IB {
 public:
   virtual int getSpeed() = 0;
+  virtual ~IB() {}
 };
 
 class B : public IB {
@@ -35,10 +46,4 @@ TEST(AClassTest, TestInitialValue) {
   A a(niceMockB);
   
   ASSERT_EQ(2, a.getValue());
-}
-
-int main(int argc, char **argv)
-{
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }

@@ -23,9 +23,9 @@ OBJ=$(SOURCES:src/%.cpp=$(ODIR)/%.o) obj/tokens.o obj/y.tab.o
 # Test directory
 TESTDIR = tests
 # Test sources
-TESTSOURCES = $(shell find tests -name '*.cpp')
+TESTSOURCES = $(shell find tests -name 'test*.cpp')
 # Test objects
-TESTOBJ=$(TESTSOURCES:src/%.cpp=$(ODIR)/%.o)
+TESTOBJ=$(TESTSOURCES:tests/%.cpp=$(ODIR)/%.o)
 # Flags used for compilation step
 CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers \
@@ -60,8 +60,8 @@ ${PARSERDIR}/y.tab.h: ${PARSERDIR}/y.tab.c | ${PARSERDIR}
 ${PARSERDIR}/tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
 	flex -o $@ ${SRCDIR}/tokens.lpp
 
-$(ODIR)/test%.o: ${TESTDIR}/test%.cpp
-	$(CC) -I$(ISYSTEMDIR) -c test*.cpp
+$(ODIR)/test%.o: ${TESTDIR}/test%.cpp | ${ODIR}
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) -c $<
 
 ${BINDIR}/runtests: ${TESTOBJ} | ${BINDIR}
 	$(CC) -o ${BINDIR}/runtests -L${LIBDIR} -lgtest -lgmock $^
