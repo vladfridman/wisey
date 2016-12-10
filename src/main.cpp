@@ -35,19 +35,32 @@ extern FILE* yyin;
 
 int main(int argc, char **argv)
 {
+  Log::setLogLevel(DEBUGLEVEL);
+
+  if (argc <= 1) {
+    Log::e("Syntax: yazyk <filename.yz>");
+    exit(1);
+  }
+  
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
-
-  Log::setLogLevel(DEBUGLEVEL);
+  
 
   Log::i("opening " + string(argv[1]));
 
   yyin = fopen(argv[1], "r");
+  if (yyin == NULL) {
+    Log::e(string("File ") + argv[1] + " not found!");
+    exit(1);
+  }
+  
   yyparse();
   
   IRGenerationContext context;
   context.generateIR(*programBlock);
   context.runCode();
+  
+  fclose(yyin);
   
   return 0;
 }
