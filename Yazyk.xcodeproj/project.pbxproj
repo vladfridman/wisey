@@ -125,6 +125,10 @@
 		F53400E81DFC01EC0002BF7E /* LLVMBridgeImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMBridgeImpl.cpp; path = src/LLVMBridgeImpl.cpp; sourceTree = "<group>"; };
 		F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AddditiveMultiplicativeExpression.hpp; path = include/yazyk/AddditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
 		F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AddditiveMultiplicativeExpression.cpp; path = src/AddditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
+		F53400F11DFC6BA60002BF7E /* test_addition.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_addition.yz; path = tests/samples/test_addition.yz; sourceTree = "<group>"; };
+		F53400F21DFC6BA60002BF7E /* test_division.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_division.yz; path = tests/samples/test_division.yz; sourceTree = "<group>"; };
+		F53400F31DFC6BA60002BF7E /* test_multiplication.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_multiplication.yz; path = tests/samples/test_multiplication.yz; sourceTree = "<group>"; };
+		F53400F41DFC6BA60002BF7E /* test_subtraction.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_subtraction.yz; path = tests/samples/test_subtraction.yz; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* testAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testAdditiveMultiplicativeExpression.cpp; path = tests/testAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F534FFD71DFBD2750002BF7E /* codegen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = codegen.hpp; path = include/yazyk/codegen.hpp; sourceTree = "<group>"; };
 		F534FFD81DFBD2750002BF7E /* log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = log.hpp; path = include/yazyk/log.hpp; sourceTree = "<group>"; };
@@ -265,11 +269,23 @@
 		F530B45D1DFA02EB00477384 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				F53400F01DFC6B970002BF7E /* samples */,
 				F534FFD31DFAC6B10002BF7E /* lib */,
 				F530B45E1DFA031A00477384 /* testsRun.cpp */,
 				F534FFD41DFAE3920002BF7E /* testAdditiveMultiplicativeExpression.cpp */,
 			);
 			name = tests;
+			sourceTree = "<group>";
+		};
+		F53400F01DFC6B970002BF7E /* samples */ = {
+			isa = PBXGroup;
+			children = (
+				F53400F11DFC6BA60002BF7E /* test_addition.yz */,
+				F53400F21DFC6BA60002BF7E /* test_division.yz */,
+				F53400F31DFC6BA60002BF7E /* test_multiplication.yz */,
+				F53400F41DFC6BA60002BF7E /* test_subtraction.yz */,
+			);
+			name = samples;
 			sourceTree = "<group>";
 		};
 		F534FFD31DFAC6B10002BF7E /* lib */ = {
@@ -284,7 +300,7 @@
 		F54625841DE5E43A00074D66 = {
 			isa = PBXGroup;
 			children = (
-				F54626141DE709F400074D66 /* resources */,
+				F54626141DE709F400074D66 /* samples */,
 				F54626041DE5EDA700074D66 /* lib */,
 				F569E9F91DF9CE6B00BBB20E /* include */,
 				F54625BD1DE5E53900074D66 /* src */,
@@ -361,12 +377,12 @@
 			name = lib;
 			sourceTree = "<group>";
 		};
-		F54626141DE709F400074D66 /* resources */ = {
+		F54626141DE709F400074D66 /* samples */ = {
 			isa = PBXGroup;
 			children = (
 				F5CA5DA91DEC8D2C00EF64EA /* input.yz */,
 			);
-			name = resources;
+			name = samples;
 			sourceTree = "<group>";
 		};
 		F569E9F91DF9CE6B00BBB20E /* include */ = {
