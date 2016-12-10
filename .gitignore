@@ -1,6 +1,6 @@
 .DS_Store
 bin/
-obj/
+build/
 parser/
 Yazyk\.xcodeproj/xcuserdata/
 Yazyk\.xcodeproj/project\.xcworkspace/xcuserdata/

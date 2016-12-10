@@ -8,8 +8,8 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "node.hpp"
-#include "codegen.hpp"
+#include "yazyk/node.hpp"
+#include "yazyk/codegen.hpp"
 
 using ::testing::NiceMock;
 using ::testing::Return;

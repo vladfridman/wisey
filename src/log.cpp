@@ -8,7 +8,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "log.hpp"
+#include "yazyk/log.hpp"
 
 using namespace std;
 using namespace yazyk;

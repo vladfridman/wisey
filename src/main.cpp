@@ -19,11 +19,11 @@
 #include <cassert>
 #include <memory>
 #include <vector>
-
 #include <iostream>
-#include "codegen.hpp"
-#include "node.hpp"
-#include "log.hpp"
+
+#include "yazyk/codegen.hpp"
+#include "yazyk/node.hpp"
+#include "yazyk/log.hpp"
 
 using namespace llvm;
 using namespace std;

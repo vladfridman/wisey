@@ -1,7 +1,7 @@
-#include "node.hpp"
-#include "codegen.hpp"
+#include "yazyk/node.hpp"
+#include "yazyk/codegen.hpp"
+#include "yazyk/log.hpp"
 #include "y.tab.h"
-#include "log.hpp"
 
 using namespace llvm;
 using namespace std;

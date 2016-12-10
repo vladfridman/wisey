@@ -1,5 +1,5 @@
 %{
-  #include "node.hpp"
+  #include "yazyk/node.hpp"
   
   using namespace std;
   using namespace yazyk;

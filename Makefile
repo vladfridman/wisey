@@ -6,8 +6,8 @@ LD = g++
 BINDIR = bin
 # Directory for temporary output of lex/yacc files
 PARSERDIR = parser
-# Directory for object files
-ODIR = obj
+# Directory for object files and other files produced during build
+BUILDDIR = build
 # Source file directory
 SRCDIR = ${CURDIR}/src
 # System header files that include the headers for LLVM
@@ -15,21 +15,21 @@ ISYSTEMDIR = /usr/local/include
 # Yazyk header files
 INCLUDEDIR = ${CURDIR}/include
 # System lib directory
-LIBDIR = /usr/local/lib
+LIBDIR = ${CURDIR}/lib
 # List of source files
 SOURCES = $(shell find src -name '*.cpp')
 # Object files to be generated
-OBJ = $(SOURCES:src/%.cpp=$(ODIR)/%.o) obj/tokens.o obj/y.tab.o
+OBJ = $(SOURCES:src/%.cpp=$(BUILDDIR)/%.o) $(BUILDDIR)/tokens.o $(BUILDDIR)/y.tab.o
 # file name that contains the main() function
 MAIN = main 
 # Objects except the main
-OBJEXCEPTMAIN = $(filter-out obj/main.o, $(OBJ))
+OBJEXCEPTMAIN = $(filter-out $(BUILDDIR)/main.o, $(OBJ))
 # Test directory
 TESTDIR = tests
 # Test sources
 TESTSOURCES = $(shell find tests -name 'test*.cpp')
 # Test objects
-TESTOBJ=$(TESTSOURCES:tests/%.cpp=$(ODIR)/%.o)
+TESTOBJ=$(TESTSOURCES:tests/%.cpp=$(BUILDDIR)/%.o)
 # Flags used for compilation step
 CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers \
@@ -38,17 +38,17 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-std=c++11 -g -fno-exceptions \
 	-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -c
 # Flags used for linking
-LDFLAGS = `llvm-config --ldflags` `llvm-config --libs engine` `llvm-config --system-libs`
+LDFLAGS = `llvm-config --ldflags` `llvm-config --libs engine` `llvm-config --system-libs` -L$(LIBDIR)
 
 default: ${BINDIR}/yazyk
 
 clean:
-	rm -rf ${BINDIR} ${ODIR} ${PARSERDIR}
+	rm -rf ${BINDIR} ${BUILDDIR} ${PARSERDIR}
 
 tests: ${BINDIR}/runtests
 
-${ODIR}:
-	mkdir -p ${ODIR}
+${BUILDDIR}:
+	mkdir -p ${BUILDDIR}
 
 ${PARSERDIR}:
 	mkdir -p ${PARSERDIR}
@@ -64,16 +64,16 @@ ${PARSERDIR}/y.tab.h: ${PARSERDIR}/y.tab.c | ${PARSERDIR}
 ${PARSERDIR}/tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
 	flex -o $@ ${SRCDIR}/tokens.lpp
 
-$(ODIR)/test%.o: ${TESTDIR}/test%.cpp | ${ODIR}
+$(BUILDDIR)/test%.o: ${TESTDIR}/test%.cpp | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $<
 
-$(ODIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${ODIR}
+$(BUILDDIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
 
-$(ODIR)/tokens.o: ${PARSERDIR}/tokens.cpp | ${ODIR}
+$(BUILDDIR)/tokens.o: ${PARSERDIR}/tokens.cpp | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
 
-$(ODIR)/%.o: ${SRCDIR}/%.cpp | ${PARSERDIR}/tokens.cpp ${ODIR}
+$(BUILDDIR)/%.o: ${SRCDIR}/%.cpp | ${PARSERDIR}/tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
 ${BINDIR}/yazyk: $(OBJ) | ${BINDIR}
