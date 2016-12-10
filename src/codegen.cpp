@@ -188,27 +188,6 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) {
   return isPrefix ? incrementResult : originalValue;
 }
   
-Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) {
-  Instruction::BinaryOps instruction;
-  string name;
-  switch (operation) {
-    case '+': name = "add"; instruction = Instruction::Add; break;
-    case '-': name = "sub"; instruction = Instruction::Sub; break;
-    case '*': name = "mul"; instruction = Instruction::Mul; break;
-    case '/': name = "div"; instruction = Instruction::SDiv; break;
-    default: return NULL;
-  }
-  
-  Value * lhsValue = lhs.generateIR(context);
-  Value * rhsValue = rhs.generateIR(context);
-
-  return llvm::BinaryOperator::Create(instruction,
-                                      lhsValue,
-                                      rhsValue,
-                                      name,
-                                      context.currentBlock());
-}
-  
 Value* RelationalExpression::generateIR(IRGenerationContext& context) {
   ICmpInst::Predicate predicate;
   switch (operation) {

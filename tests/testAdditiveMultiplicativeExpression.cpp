@@ -8,52 +8,40 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "yazyk/node.hpp"
-#include "yazyk/codegen.hpp"
 
+#include "yazyk/AddditiveMultiplicativeExpression.hpp"
+#include "yazyk/codegen.hpp"
+#include "yazyk/ILLVMBridge.hpp"
+#include "yazyk/node.hpp"
+
+using ::testing::_;
+using ::testing::Eq;
 using ::testing::NiceMock;
 using ::testing::Return;
+
+using namespace llvm;
 using namespace yazyk;
 
-class IB {
-public:
-  virtual int getSpeed() = 0;
-  virtual ~IB() {}
-};
-
-class B : public IB {
-  int speed;
-public:
-  B(int speed) : speed(speed) { }
-  int getSpeed() { return speed; }
-};
-
-class A {
-  IB &speedHolder;
-  
-public:
-  A(IB &speedHolder) : speedHolder(speedHolder) { }
-  int getValue() { return speedHolder.getSpeed(); }
-};
-
-class MockB : public IB {
-public:
-  MOCK_METHOD0(getSpeed, int());
-};
-
 class MockExpression : public IExpression {
-  MOCK_METHOD1(generateIR, llvm::Value*(IRGenerationContext&));
+public:
+  MOCK_METHOD1(generateIR, Value* (IRGenerationContext&));
+};
+
+class MockLLVMBridge : public ILLVMBridge {
+public:
+  MOCK_CONST_METHOD5(createBinaryOperator, Value* (Instruction::BinaryOps, Value*, Value*, const Twine&, BasicBlock*));
 };
 
 TEST(AddditiveMultiplicativeExpressionTest, SimpleTest) {
   NiceMock<MockExpression> lhs;
   NiceMock<MockExpression> rhs;
-  
-  AddditiveMultiplicativeExpression expression(lhs, '+', rhs);
+  NiceMock<MockLLVMBridge> llvmBridge;
 
-  NiceMock<MockB> niceMockB;
-  ON_CALL(niceMockB, getSpeed()).WillByDefault(Return(2));
-  A a(niceMockB);
+  IRGenerationContext context;
+  BasicBlock * bblock = BasicBlock::Create(context.getLLVMContext(), "test");
+  context.pushBlock(bblock);
+  EXPECT_CALL(llvmBridge, createBinaryOperator(_, _, _, _, _));
   
-  ASSERT_EQ(2, a.getValue());
+  AddditiveMultiplicativeExpression expression(lhs, '+', rhs, &llvmBridge);
+  expression.generateIR(context);
 }

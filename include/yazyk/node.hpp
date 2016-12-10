@@ -1,6 +1,11 @@
+#ifndef node_hpp
+#define node_hpp
+
 #include <iostream>
 #include <vector>
 #include <llvm/IR/Value.h>
+
+#include "yazyk/LLVMBridgeImpl.hpp"
 
 namespace yazyk {
   
@@ -129,19 +134,6 @@ public:
   
 private:
   llvm::Function* declarePrintf(IRGenerationContext& context);
-};
-
-class AddditiveMultiplicativeExpression : public IExpression {
-public:
-  IExpression& lhs;
-  IExpression& rhs;
-  int operation;
-
-  AddditiveMultiplicativeExpression(IExpression& lhs, int operation, IExpression& rhs) :
-    lhs(lhs), rhs(rhs), operation(operation) { }
-  ~AddditiveMultiplicativeExpression() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
 };
 
 class RelationalExpression : public IExpression {
@@ -334,3 +326,5 @@ public:
 };
 
 } // namespace yazyk
+
+#endif /* node_hpp */

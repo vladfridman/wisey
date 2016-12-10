@@ -1,3 +1,7 @@
+
+#ifndef codegen_hpp
+#define codegen_hpp
+
 #include <stack>
 #include <llvm/ADT/Twine.h>
 #include <llvm/Bitcode/BitstreamWriter.h>
@@ -82,3 +86,5 @@ public:
 };
 
 } // namespace yazyk
+
+#endif /* codegen_hpp */
