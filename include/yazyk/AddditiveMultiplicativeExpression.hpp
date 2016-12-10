@@ -20,12 +20,12 @@ namespace yazyk {
  * Represents simple binary expression such as addition or division
  */
 class AddditiveMultiplicativeExpression : public IExpression {
-public:
   IExpression& lhs;
   IExpression& rhs;
   int operation;
   const ILLVMBridge* mLLVMBridge;
   
+public:
   AddditiveMultiplicativeExpression(IExpression& lhs,
                                     int operation,
                                     IExpression& rhs,
