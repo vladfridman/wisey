@@ -39,7 +39,7 @@ public:
   
   ~AddditiveMultiplicativeExpression() { }
   
-  llvm::Value* generateIR(IRGenerationContext& context);
+  llvm::Value* generateIR(IRGenerationContext& context) override;
 };
 
 }
