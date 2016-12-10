@@ -28,3 +28,12 @@ To compile a yazyk sample file type:
 
     bin/yazyk samples/input.yz
 
+### Unit Tests ###
+
+To compile tests run:
+
+    make tests
+
+To run all tests:
+
+    bin/runtests
