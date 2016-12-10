@@ -1,6 +1,16 @@
 ## Yazyk Language Compiler ##
 
-It is based on LLVM and requires installation of LLVM libraries
+### Prerequisites ###
+
+#### XCode ####
+
+Install XCode and clang version 4.0.0 or later
+
+#### LLVM libraries and scripts ####
+
+You need LLVM version 4.0.0svn installed in /usr/local/include and /usr/local/lib
+To install LLVM follow instructions [here](http://llvm.org/docs/GettingStarted.html).
+Run 'make install' after cmake.
 
 ### Quick Start ###
 
@@ -14,22 +24,3 @@ To compile a yazyk sample file type:
 
     bin/yazyk samples/input.yz
 
-### Prerequisites ###
-
-#### Google Test and Google Mock ####
-
-    cd ~
-    git clone https://github.com/google/googletest.git
-    cd /googletest/googletest/make
-    modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
-    make
-    ar -rv libgtest.a gtest-all.o
-    mv libgtest.a /usr/local/lib/libgtest.a 
-
-Similar installation for googlemock
-
-    cd /googletest/googlemock/make
-    modify Makefile and add -fvisibility-inlines-hidden to CXXFLAGS
-    make
-    ar -rv libgmock.a gmock-all.o
-    mv libgmock.a /usr/local/lib/libgmock.a 
