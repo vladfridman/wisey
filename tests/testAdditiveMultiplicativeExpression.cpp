@@ -1,5 +1,5 @@
 //
-//  testAdditiveMultiplicativeExpression.cpp
+//  Tests {@link AddditiveMultiplicativeExpression}
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/9/16.
@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "node.hpp"
+#include "codegen.hpp"
 
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -40,7 +41,16 @@ public:
   MOCK_METHOD0(getSpeed, int());
 };
 
-TEST(AClassTest, TestInitialValue) {
+class MockExpression : public IExpression {
+  MOCK_METHOD1(generateIR, llvm::Value*(IRGenerationContext&));
+};
+
+TEST(AddditiveMultiplicativeExpressionTest, SimpleTest) {
+  NiceMock<MockExpression> lhs;
+  NiceMock<MockExpression> rhs;
+  
+  AddditiveMultiplicativeExpression expression(lhs, '+', rhs);
+
   NiceMock<MockB> niceMockB;
   ON_CALL(niceMockB, getSpeed()).WillByDefault(Return(2));
   A a(niceMockB);

@@ -19,7 +19,11 @@ LIBDIR = /usr/local/lib
 # List of source files
 SOURCES = $(shell find src -name '*.cpp')
 # Object files to be generated
-OBJ=$(SOURCES:src/%.cpp=$(ODIR)/%.o) obj/tokens.o obj/y.tab.o
+OBJ = $(SOURCES:src/%.cpp=$(ODIR)/%.o) obj/tokens.o obj/y.tab.o
+# file name that contains the main() function
+MAIN = main 
+# Objects except the main
+OBJEXCEPTMAIN = $(filter-out obj/main.o, $(OBJ))
 # Test directory
 TESTDIR = tests
 # Test sources
@@ -61,10 +65,7 @@ ${PARSERDIR}/tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
 	flex -o $@ ${SRCDIR}/tokens.lpp
 
 $(ODIR)/test%.o: ${TESTDIR}/test%.cpp | ${ODIR}
-	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) -c $<
-
-${BINDIR}/runtests: ${TESTOBJ} | ${BINDIR}
-	$(CC) -o ${BINDIR}/runtests -L${LIBDIR} -lgtest -lgmock $^
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $<
 
 $(ODIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${ODIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
@@ -77,3 +78,6 @@ $(ODIR)/%.o: ${SRCDIR}/%.cpp | ${PARSERDIR}/tokens.cpp ${ODIR}
 
 ${BINDIR}/yazyk: $(OBJ) | ${BINDIR}
 	$(LD) -o $@ $(LDFLAGS) $^
+
+${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAIN) | ${BINDIR}
+	$(CC) -o ${BINDIR}/runtests $(LDFLAGS) -lgtest -lgmock $^
