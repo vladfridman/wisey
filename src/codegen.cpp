@@ -236,44 +236,6 @@ Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
   return phiNode;
 }
 
-Value *ConditionalExpression::generateIR(IRGenerationContext& context) {
-  Value * conditionValue = conditionExpression.generateIR(context);
-  
-  Function * function = context.currentBlock()->getParent();
-  
-  BasicBlock *bblockCondTrue = BasicBlock::Create(context.getLLVMContext(), "cond.true", function);
-  BasicBlock *bblockCondFalse =
-    BasicBlock::Create(context.getLLVMContext(), "cond.false", function);
-  BasicBlock *bblockCondEnd = BasicBlock::Create(context.getLLVMContext(), "cond.end", function);
-  BranchInst::Create(bblockCondTrue, bblockCondFalse, conditionValue, context.currentBlock());
-  
-  context.replaceBlock(bblockCondTrue);
-  Value * condTrueValue = conditionTrueExpression.generateIR(context);
-  Type * condTrueResultType = condTrueValue->getType();
-  BasicBlock * lastBlock = context.currentBlock();
-  BranchInst::Create(bblockCondEnd, context.currentBlock());
-
-  context.replaceBlock(bblockCondFalse);
-  Value * condFalseValue = conditionFalseExpression.generateIR(context);
-  Type * condFalseResultType = condTrueValue->getType();
-  lastBlock = context.currentBlock();
-  BranchInst::Create(bblockCondEnd, context.currentBlock());
-
-  if (condTrueResultType != condFalseResultType) {
-    Log::e("Results of different type in a conditional expresion!");
-  }
-  
-  context.replaceBlock(bblockCondEnd);
-  PHINode * phiNode = PHINode::Create(condTrueResultType,
-                                      0,
-                                      "cond",
-                                      context.currentBlock());
-  phiNode->addIncoming(condTrueValue, bblockCondTrue);
-  phiNode->addIncoming(condFalseValue, bblockCondFalse);
-  
-  return phiNode;
-}
-    
 Value* Assignment::generateIR(IRGenerationContext& context) {
   if (context.locals().find(lhs.name) == context.locals().end()) {
     Log::e("undeclared variable " + lhs.name);

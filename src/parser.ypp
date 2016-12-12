@@ -1,5 +1,6 @@
 %{
   #include "yazyk/AddditiveMultiplicativeExpression.hpp"
+  #include "yazyk/ConditionalExpression.hpp"
   #include "yazyk/node.hpp"
   #include "yazyk/RelationalExpression.hpp"
   

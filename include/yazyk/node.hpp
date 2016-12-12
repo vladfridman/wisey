@@ -186,23 +186,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
   
-class ConditionalExpression : public IExpression {
-public:
-  IExpression& conditionExpression;
-  IExpression& conditionTrueExpression;
-  IExpression& conditionFalseExpression;
-  
-  ConditionalExpression(IExpression& conditionExpression,
-                        IExpression& conditionTrueExpression,
-                        IExpression& conditionFalseExpression)
-  : conditionExpression(conditionExpression),
-    conditionTrueExpression(conditionTrueExpression),
-    conditionFalseExpression(conditionFalseExpression) {  }
-  ~ConditionalExpression() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 class Assignment : public IExpression {
 public:
   Identifier& lhs;
