@@ -34,9 +34,9 @@ struct RelationalExpressionTest : Test {
   IRGenerationContext context;
   NiceMock<MockExpression> lhs;
   NiceMock<MockExpression> rhs;
-  BasicBlock * basicBlock;
+  BasicBlock* basicBlock;
   string stringBuffer;
-  raw_string_ostream *stringStream;
+  raw_string_ostream* stringStream;
   
   RelationalExpressionTest() {
     Value * lhsValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 3);

@@ -48,8 +48,6 @@
 		F53400E11DFBE7ED0002BF7E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
 		F53400E41DFBF1D10002BF7E /* libgmock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53400E21DFBF1D10002BF7E /* libgmock.a */; };
 		F53400E51DFBF1D10002BF7E /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53400E31DFBF1D10002BF7E /* libgtest.a */; };
-		F53400EA1DFC01EC0002BF7E /* LLVMBridgeImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400E81DFC01EC0002BF7E /* LLVMBridgeImpl.cpp */; settings = {ASSET_TAGS = (); }; };
-		F53400EB1DFC01EC0002BF7E /* LLVMBridgeImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400E81DFC01EC0002BF7E /* LLVMBridgeImpl.cpp */; settings = {ASSET_TAGS = (); }; };
 		F53400EE1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 		F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 		F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -124,9 +122,6 @@
 		F530B45E1DFA031A00477384 /* TestsRun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestsRun.cpp; path = tests/TestsRun.cpp; sourceTree = "<group>"; };
 		F53400E21DFBF1D10002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = lib/libgmock.a; sourceTree = "<group>"; };
 		F53400E31DFBF1D10002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = lib/libgtest.a; sourceTree = "<group>"; };
-		F53400E61DFBFE430002BF7E /* ILLVMBridge.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ILLVMBridge.hpp; path = include/yazyk/ILLVMBridge.hpp; sourceTree = "<group>"; };
-		F53400E71DFC006F0002BF7E /* LLVMBridgeImpl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LLVMBridgeImpl.hpp; path = include/yazyk/LLVMBridgeImpl.hpp; sourceTree = "<group>"; };
-		F53400E81DFC01EC0002BF7E /* LLVMBridgeImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LLVMBridgeImpl.cpp; path = src/LLVMBridgeImpl.cpp; sourceTree = "<group>"; };
 		F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AddditiveMultiplicativeExpression.hpp; path = include/yazyk/AddditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
 		F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AddditiveMultiplicativeExpression.cpp; path = src/AddditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F53400F11DFC6BA60002BF7E /* test_addition.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_addition.yz; path = tests/samples/test_addition.yz; sourceTree = "<group>"; };
@@ -349,7 +344,6 @@
 				F569E9ED1DF9CC9600BBB20E /* parser.ypp */,
 				F569E9EE1DF9CC9600BBB20E /* tokens.lpp */,
 				F54625B11DE5E53200074D66 /* Makefile */,
-				F53400E81DFC01EC0002BF7E /* LLVMBridgeImpl.cpp */,
 				F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */,
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
 			);
@@ -412,8 +406,6 @@
 				F534FFD71DFBD2750002BF7E /* codegen.hpp */,
 				F534FFD81DFBD2750002BF7E /* log.hpp */,
 				F534FFD91DFBD2750002BF7E /* node.hpp */,
-				F53400E61DFBFE430002BF7E /* ILLVMBridge.hpp */,
-				F53400E71DFC006F0002BF7E /* LLVMBridgeImpl.hpp */,
 				F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */,
 				F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */,
 			);
@@ -506,7 +498,6 @@
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* log.cpp in Sources */,
-				F53400EB1DFC01EC0002BF7E /* LLVMBridgeImpl.cpp in Sources */,
 				F53400DB1DFBE6EE0002BF7E /* codegen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,7 +513,6 @@
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F569E9EF1DF9CC9600BBB20E /* codegen.cpp in Sources */,
-				F53400EA1DFC01EC0002BF7E /* LLVMBridgeImpl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

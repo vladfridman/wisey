@@ -23,19 +23,10 @@ class AddditiveMultiplicativeExpression : public IExpression {
   IExpression& lhs;
   IExpression& rhs;
   int operation;
-  const ILLVMBridge* mLLVMBridge;
   
 public:
-  AddditiveMultiplicativeExpression(IExpression& lhs,
-                                    int operation,
-                                    IExpression& rhs,
-                                    const ILLVMBridge* llvmBridge) :
-    lhs(lhs), rhs(rhs), operation(operation), mLLVMBridge(llvmBridge) { }
-  
-  AddditiveMultiplicativeExpression(IExpression& lhs,
-                                    int operation,
-                                    IExpression& rhs) :
-    lhs(lhs), rhs(rhs), operation(operation), mLLVMBridge(new LLVMBridgeImpl()) { }
+  AddditiveMultiplicativeExpression(IExpression& lhs, int operation, IExpression& rhs) :
+    lhs(lhs), rhs(rhs), operation(operation) { }
   
   ~AddditiveMultiplicativeExpression() { }
   

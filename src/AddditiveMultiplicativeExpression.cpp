@@ -6,6 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/InstrTypes.h>
 #include <llvm/IR/Value.h>
 
 #include "yazyk/AddditiveMultiplicativeExpression.hpp"
@@ -28,11 +29,9 @@ Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& contex
   Value * lhsValue = lhs.generateIR(context);
   Value * rhsValue = rhs.generateIR(context);
   
-  BasicBlock * currentBlock = context.currentBlock();
-  
-  return mLLVMBridge->createBinaryOperator(instruction,
-                                           lhsValue,
-                                           rhsValue,
-                                           name,
-                                           currentBlock);
+  return llvm::BinaryOperator::Create(instruction,
+                                      lhsValue,
+                                      rhsValue,
+                                      name,
+                                      context.currentBlock());
 }

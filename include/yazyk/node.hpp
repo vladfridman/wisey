@@ -5,8 +5,6 @@
 #include <vector>
 #include <llvm/IR/Value.h>
 
-#include "yazyk/LLVMBridgeImpl.hpp"
-
 namespace yazyk {
   
 class IStatement;

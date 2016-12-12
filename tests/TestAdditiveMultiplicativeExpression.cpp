@@ -8,13 +8,11 @@
 //  Tests {@link AddditiveMultiplicativeExpression}
 //
 
-
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/AddditiveMultiplicativeExpression.hpp"
-#include "yazyk/ILLVMBridge.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;
@@ -32,56 +30,52 @@ public:
   MOCK_METHOD1(generateIR, Value* (IRGenerationContext&));
 };
 
-class MockLLVMBridge : public ILLVMBridge {
-public:
-  MOCK_CONST_METHOD5(createBinaryOperator, Value* (Instruction::BinaryOps, Value*, Value*, const Twine&, BasicBlock*));
-};
-
 struct AddditiveMultiplicativeExpressionTest : Test {
   IRGenerationContext context;
   NiceMock<MockExpression> lhs;
   NiceMock<MockExpression> rhs;
-  NiceMock<MockLLVMBridge> llvmBridge;
-  Value * lhsValue;
-  Value * rhsValue;
-  BasicBlock * bblock;
-  
+  BasicBlock* basicBlock;
+  string stringBuffer;
+  raw_string_ostream* stringStream;
+
   AddditiveMultiplicativeExpressionTest() {
-    lhsValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 3);
-    rhsValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
-
-    bblock = BasicBlock::Create(context.getLLVMContext(), "test");
-    context.pushBlock(bblock);
-
+    Value * lhsValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 3);
+    Value * rhsValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
     ON_CALL(lhs, generateIR(_)).WillByDefault(Return(lhsValue));
     ON_CALL(rhs, generateIR(_)).WillByDefault(Return(rhsValue));
+    basicBlock = BasicBlock::Create(context.getLLVMContext(), "test");
+    context.pushBlock(basicBlock);
+    stringStream = new raw_string_ostream(stringBuffer);
+  }
+  
+  ~AddditiveMultiplicativeExpressionTest() {
+    delete basicBlock;
+    delete stringStream;
   }
 };
 
 TEST_F(AddditiveMultiplicativeExpressionTest, AdditionTest) {
-  EXPECT_CALL(llvmBridge, createBinaryOperator(Instruction::Add,
-                                               lhsValue,
-                                               rhsValue,
-                                               Property(&Twine::str, StrEq("add")),
-                                               bblock));
-  
-  AddditiveMultiplicativeExpression expression(lhs, '+', rhs, &llvmBridge);
+  AddditiveMultiplicativeExpression expression(lhs, '+', rhs);
   expression.generateIR(context);
   
-  delete bblock;
+  ASSERT_EQ(1ul, basicBlock->size());
+  Instruction &instruction = basicBlock->front();
+  string stringBuffer;
+  raw_string_ostream stringStream(stringBuffer);
+  stringStream << instruction;
+  ASSERT_STREQ(stringStream.str().c_str(), "  %add = add i32 3, 5");
 }
 
 TEST_F(AddditiveMultiplicativeExpressionTest, SubtractionTest) {
-  EXPECT_CALL(llvmBridge, createBinaryOperator(Instruction::Sub,
-                                               lhsValue,
-                                               rhsValue,
-                                               Property(&Twine::str, StrEq("sub")),
-                                               bblock));
-  
-  AddditiveMultiplicativeExpression expression(lhs, '-', rhs, &llvmBridge);
+  AddditiveMultiplicativeExpression expression(lhs, '-', rhs);
   expression.generateIR(context);
   
-  delete bblock;
+  ASSERT_EQ(1ul, basicBlock->size());
+  Instruction &instruction = basicBlock->front();
+  string stringBuffer;
+  raw_string_ostream stringStream(stringBuffer);
+  stringStream << instruction;
+  ASSERT_STREQ(stringStream.str().c_str(), "  %sub = sub i32 3, 5");
 }
 
 TEST_F(TestFileSampleRunner, AdditionRunTest) {
