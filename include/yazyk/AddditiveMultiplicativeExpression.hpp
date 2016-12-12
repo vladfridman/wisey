@@ -20,13 +20,15 @@ namespace yazyk {
  * Represents simple binary expression such as addition or division
  */
 class AddditiveMultiplicativeExpression : public IExpression {
-  IExpression& lhs;
-  IExpression& rhs;
-  int operation;
+  IExpression& mLeftExpression;
+  IExpression& mRightExpression;
+  int mOperation;
   
 public:
-  AddditiveMultiplicativeExpression(IExpression& lhs, int operation, IExpression& rhs) :
-    lhs(lhs), rhs(rhs), operation(operation) { }
+  AddditiveMultiplicativeExpression(IExpression& leftExpression,
+                                    int operation,
+                                    IExpression& rightExpression) :
+    mLeftExpression(leftExpression), mRightExpression(rightExpression), mOperation(operation) { }
   
   ~AddditiveMultiplicativeExpression() { }
   

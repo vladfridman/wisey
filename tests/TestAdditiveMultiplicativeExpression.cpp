@@ -31,51 +31,48 @@ public:
 };
 
 struct AddditiveMultiplicativeExpressionTest : Test {
-  IRGenerationContext context;
-  NiceMock<MockExpression> lhs;
-  NiceMock<MockExpression> rhs;
-  BasicBlock* basicBlock;
-  string stringBuffer;
-  raw_string_ostream* stringStream;
+  IRGenerationContext mContext;
+  NiceMock<MockExpression> mLeftExpression;
+  NiceMock<MockExpression> mRightExpression;
+  BasicBlock* mBasicBlock;
+  string mStringBuffer;
+  raw_string_ostream* mStringStream;
 
   AddditiveMultiplicativeExpressionTest() {
-    Value * lhsValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 3);
-    Value * rhsValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
-    ON_CALL(lhs, generateIR(_)).WillByDefault(Return(lhsValue));
-    ON_CALL(rhs, generateIR(_)).WillByDefault(Return(rhsValue));
-    basicBlock = BasicBlock::Create(context.getLLVMContext(), "test");
-    context.pushBlock(basicBlock);
-    stringStream = new raw_string_ostream(stringBuffer);
+    LLVMContext &llvmContext = mContext.getLLVMContext();
+    Value * leftValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
+    Value * rightValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
+    ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
+    ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
+    mBasicBlock = BasicBlock::Create(llvmContext, "test");
+    mContext.pushBlock(mBasicBlock);
+    mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~AddditiveMultiplicativeExpressionTest() {
-    delete basicBlock;
-    delete stringStream;
+    delete mBasicBlock;
+    delete mStringStream;
   }
 };
 
 TEST_F(AddditiveMultiplicativeExpressionTest, AdditionTest) {
-  AddditiveMultiplicativeExpression expression(lhs, '+', rhs);
-  expression.generateIR(context);
+  AddditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  expression.generateIR(mContext);
   
-  ASSERT_EQ(1ul, basicBlock->size());
-  Instruction &instruction = basicBlock->front();
-  string stringBuffer;
-  raw_string_ostream stringStream(stringBuffer);
-  stringStream << instruction;
-  ASSERT_STREQ(stringStream.str().c_str(), "  %add = add i32 3, 5");
+  ASSERT_EQ(1ul, mBasicBlock->size());
+  Instruction &instruction = mBasicBlock->front();
+  *mStringStream << instruction;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %add = add i32 3, 5");
 }
 
 TEST_F(AddditiveMultiplicativeExpressionTest, SubtractionTest) {
-  AddditiveMultiplicativeExpression expression(lhs, '-', rhs);
-  expression.generateIR(context);
+  AddditiveMultiplicativeExpression expression(mLeftExpression, '-', mRightExpression);
+  expression.generateIR(mContext);
   
-  ASSERT_EQ(1ul, basicBlock->size());
-  Instruction &instruction = basicBlock->front();
-  string stringBuffer;
-  raw_string_ostream stringStream(stringBuffer);
-  stringStream << instruction;
-  ASSERT_STREQ(stringStream.str().c_str(), "  %sub = sub i32 3, 5");
+  ASSERT_EQ(1ul, mBasicBlock->size());
+  Instruction &instruction = mBasicBlock->front();
+  *mStringStream << instruction;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %sub = sub i32 3, 5");
 }
 
 TEST_F(TestFileSampleRunner, AdditionRunTest) {

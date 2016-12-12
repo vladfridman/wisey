@@ -6,9 +6,6 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/IR/InstrTypes.h>
-#include <llvm/IR/Value.h>
-
 #include "yazyk/AddditiveMultiplicativeExpression.hpp"
 
 using namespace llvm;
@@ -18,7 +15,7 @@ using namespace yazyk;
 Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) {
   Instruction::BinaryOps instruction;
   string name;
-  switch (operation) {
+  switch (mOperation) {
     case '+': name = "add"; instruction = Instruction::Add; break;
     case '-': name = "sub"; instruction = Instruction::Sub; break;
     case '*': name = "mul"; instruction = Instruction::Mul; break;
@@ -26,12 +23,12 @@ Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& contex
     default: return NULL;
   }
   
-  Value * lhsValue = lhs.generateIR(context);
-  Value * rhsValue = rhs.generateIR(context);
+  Value * leftValue = mLeftExpression.generateIR(context);
+  Value * rightValue = mRightExpression.generateIR(context);
   
   return llvm::BinaryOperator::Create(instruction,
-                                      lhsValue,
-                                      rhsValue,
+                                      leftValue,
+                                      rightValue,
                                       name,
                                       context.currentBlock());
 }
