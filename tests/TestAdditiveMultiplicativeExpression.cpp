@@ -1,22 +1,22 @@
 //
-//  Tests {@link AddditiveMultiplicativeExpression}
+//  testAddditiveMultiplicativeExpression.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/9/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
+//  Tests {@link AddditiveMultiplicativeExpression}
+//
+
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "TestFileSampleRunner.hpp"
 #include "yazyk/AddditiveMultiplicativeExpression.hpp"
-#include "yazyk/codegen.hpp"
 #include "yazyk/ILLVMBridge.hpp"
-#include "yazyk/log.hpp"
-#include "yazyk/node.hpp"
 
 using ::testing::_;
-using ::testing::Eq;
 using ::testing::NiceMock;
 using ::testing::Property;
 using ::testing::Return;
@@ -26,10 +26,6 @@ using ::testing::Test;
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
-
-extern int yyparse();
-extern FILE* yyin;
-extern Block* programBlock;
 
 class MockExpression : public IExpression {
 public:
@@ -71,6 +67,8 @@ TEST_F(AddditiveMultiplicativeExpressionTest, AdditionTest) {
   
   AddditiveMultiplicativeExpression expression(lhs, '+', rhs, &llvmBridge);
   expression.generateIR(context);
+  
+  delete bblock;
 }
 
 TEST_F(AddditiveMultiplicativeExpressionTest, SubtractionTest) {
@@ -82,49 +80,22 @@ TEST_F(AddditiveMultiplicativeExpressionTest, SubtractionTest) {
   
   AddditiveMultiplicativeExpression expression(lhs, '-', rhs, &llvmBridge);
   expression.generateIR(context);
+  
+  delete bblock;
 }
 
-struct AddditiveMultiplicativeExpressionRunTest : Test {
-  AddditiveMultiplicativeExpressionRunTest() {
-    InitializeNativeTarget();
-    LLVMInitializeNativeAsmPrinter();
-    
-    Log::setLogLevel(ERRORLEVEL);
-  }
-  
-  ~AddditiveMultiplicativeExpressionRunTest() {
-    fclose(yyin);
-  }
-  
-  void runFile(string fileName, string expectedResult) {
-    yyin = fopen(fileName.c_str(), "r");
-    if (yyin == NULL) {
-      Log::e("Sample test " + fileName + " not found!\n");
-      FAIL();
-      return;
-    }
-    yyparse();
-    
-    IRGenerationContext context;
-    context.generateIR(*programBlock);
-    GenericValue result = context.runCode();
-    string resultString = result.IntVal.toString(10, true);
-    ASSERT_STREQ(resultString.c_str(), expectedResult.c_str());
-  }
-};
-
-TEST_F(AddditiveMultiplicativeExpressionRunTest, AdditionRunTest) {
+TEST_F(TestFileSampleRunner, AdditionRunTest) {
   runFile("tests/samples/test_addition.yz", "7");
 }
 
-TEST_F(AddditiveMultiplicativeExpressionRunTest, SubtractionRunTest) {
+TEST_F(TestFileSampleRunner, SubtractionRunTest) {
   runFile("tests/samples/test_subtraction.yz", "14");
 }
 
-TEST_F(AddditiveMultiplicativeExpressionRunTest, MultiplicationRunTest) {
+TEST_F(TestFileSampleRunner, MultiplicationRunTest) {
   runFile("tests/samples/test_multiplication.yz", "50");
 }
 
-TEST_F(AddditiveMultiplicativeExpressionRunTest, DivisionRunTest) {
+TEST_F(TestFileSampleRunner, DivisionRunTest) {
   runFile("tests/samples/test_division.yz", "5");
 }

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F530B4601DFA032100477384 /* testsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* testsRun.cpp */; settings = {ASSET_TAGS = (); }; };
+		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; settings = {ASSET_TAGS = (); }; };
 		F53400BB1DFBE2890002BF7E /* libLLVMAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625EA1DE5EB7200074D66 /* libLLVMAnalysis.a */; };
 		F53400BC1DFBE2890002BF7E /* libLLVMDemangle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FC1DE5EBF300074D66 /* libLLVMDemangle.a */; };
 		F53400BD1DFBE2890002BF7E /* libLLVMInstrumentation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625D21DE5EAA900074D66 /* libLLVMInstrumentation.a */; };
@@ -52,7 +52,11 @@
 		F53400EB1DFC01EC0002BF7E /* LLVMBridgeImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400E81DFC01EC0002BF7E /* LLVMBridgeImpl.cpp */; settings = {ASSET_TAGS = (); }; };
 		F53400EE1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 		F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */; settings = {ASSET_TAGS = (); }; };
-		F534FFD61DFAE3920002BF7E /* testAdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534FFD41DFAE3920002BF7E /* testAdditiveMultiplicativeExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */; settings = {ASSET_TAGS = (); }; };
+		F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 		F54625BF1DE5EA1900074D66 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */; };
 		F54625C11DE5EA2800074D66 /* libLLVMX86AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625C01DE5EA2800074D66 /* libLLVMX86AsmParser.a */; };
 		F54625C31DE5EA2D00074D66 /* libLLVMX86CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625C21DE5EA2D00074D66 /* libLLVMX86CodeGen.a */; };
@@ -117,7 +121,7 @@
 
 /* Begin PBXFileReference section */
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
-		F530B45E1DFA031A00477384 /* testsRun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testsRun.cpp; path = tests/testsRun.cpp; sourceTree = "<group>"; };
+		F530B45E1DFA031A00477384 /* TestsRun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestsRun.cpp; path = tests/TestsRun.cpp; sourceTree = "<group>"; };
 		F53400E21DFBF1D10002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = lib/libgmock.a; sourceTree = "<group>"; };
 		F53400E31DFBF1D10002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = lib/libgtest.a; sourceTree = "<group>"; };
 		F53400E61DFBFE430002BF7E /* ILLVMBridge.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ILLVMBridge.hpp; path = include/yazyk/ILLVMBridge.hpp; sourceTree = "<group>"; };
@@ -129,7 +133,12 @@
 		F53400F21DFC6BA60002BF7E /* test_division.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_division.yz; path = tests/samples/test_division.yz; sourceTree = "<group>"; };
 		F53400F31DFC6BA60002BF7E /* test_multiplication.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_multiplication.yz; path = tests/samples/test_multiplication.yz; sourceTree = "<group>"; };
 		F53400F41DFC6BA60002BF7E /* test_subtraction.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_subtraction.yz; path = tests/samples/test_subtraction.yz; sourceTree = "<group>"; };
-		F534FFD41DFAE3920002BF7E /* testAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testAdditiveMultiplicativeExpression.cpp; path = tests/testAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
+		F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RelationalExpression.hpp; path = include/yazyk/RelationalExpression.hpp; sourceTree = "<group>"; };
+		F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RelationalExpression.cpp; path = src/RelationalExpression.cpp; sourceTree = "<group>"; };
+		F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestRelationalExpression.cpp; path = tests/TestRelationalExpression.cpp; sourceTree = "<group>"; };
+		F53401041DFEDA3C0002BF7E /* TestFileSampleRunner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TestFileSampleRunner.hpp; path = tests/include/TestFileSampleRunner.hpp; sourceTree = "<group>"; };
+		F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFileSampleRunner.cpp; path = tests/TestFileSampleRunner.cpp; sourceTree = "<group>"; };
+		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F534FFD71DFBD2750002BF7E /* codegen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = codegen.hpp; path = include/yazyk/codegen.hpp; sourceTree = "<group>"; };
 		F534FFD81DFBD2750002BF7E /* log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = log.hpp; path = include/yazyk/log.hpp; sourceTree = "<group>"; };
 		F534FFD91DFBD2750002BF7E /* node.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = node.hpp; path = include/yazyk/node.hpp; sourceTree = "<group>"; };
@@ -271,8 +280,11 @@
 			children = (
 				F53400F01DFC6B970002BF7E /* samples */,
 				F534FFD31DFAC6B10002BF7E /* lib */,
-				F530B45E1DFA031A00477384 /* testsRun.cpp */,
-				F534FFD41DFAE3920002BF7E /* testAdditiveMultiplicativeExpression.cpp */,
+				F53401021DFED9AB0002BF7E /* include */,
+				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
+				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
+				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
+				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -286,6 +298,14 @@
 				F53400F41DFC6BA60002BF7E /* test_subtraction.yz */,
 			);
 			name = samples;
+			sourceTree = "<group>";
+		};
+		F53401021DFED9AB0002BF7E /* include */ = {
+			isa = PBXGroup;
+			children = (
+				F53401041DFEDA3C0002BF7E /* TestFileSampleRunner.hpp */,
+			);
+			name = include;
 			sourceTree = "<group>";
 		};
 		F534FFD31DFAC6B10002BF7E /* lib */ = {
@@ -331,6 +351,7 @@
 				F54625B11DE5E53200074D66 /* Makefile */,
 				F53400E81DFC01EC0002BF7E /* LLVMBridgeImpl.cpp */,
 				F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */,
+				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -394,6 +415,7 @@
 				F53400E61DFBFE430002BF7E /* ILLVMBridge.hpp */,
 				F53400E71DFC006F0002BF7E /* LLVMBridgeImpl.hpp */,
 				F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */,
+				F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -475,11 +497,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* parser.ypp in Sources */,
-				F530B4601DFA032100477384 /* testsRun.cpp in Sources */,
+				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* tokens.lpp in Sources */,
-				F534FFD61DFAE3920002BF7E /* testAdditiveMultiplicativeExpression.cpp in Sources */,
+				F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
+				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
+				F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* log.cpp in Sources */,
 				F53400EB1DFC01EC0002BF7E /* LLVMBridgeImpl.cpp in Sources */,
 				F53400DB1DFBE6EE0002BF7E /* codegen.cpp in Sources */,
@@ -494,6 +519,7 @@
 				F569E9F31DF9CC9600BBB20E /* tokens.lpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* log.cpp in Sources */,
 				F569E9F21DF9CC9600BBB20E /* parser.ypp in Sources */,
+				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F569E9EF1DF9CC9600BBB20E /* codegen.cpp in Sources */,
 				F53400EA1DFC01EC0002BF7E /* LLVMBridgeImpl.cpp in Sources */,

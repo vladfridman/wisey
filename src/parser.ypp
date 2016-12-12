@@ -1,6 +1,7 @@
 %{
   #include "yazyk/AddditiveMultiplicativeExpression.hpp"
   #include "yazyk/node.hpp"
+  #include "yazyk/RelationalExpression.hpp"
   
   using namespace std;
   using namespace yazyk;

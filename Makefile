@@ -14,6 +14,8 @@ SRCDIR = ${CURDIR}/src
 ISYSTEMDIR = /usr/local/include
 # Yazyk header files
 INCLUDEDIR = ${CURDIR}/include
+# Tests header files
+TESTINCLUDEDIR = ${CURDIR}/tests/include
 # System lib directory
 LIBDIR = ${CURDIR}/lib
 # List of source files
@@ -27,7 +29,7 @@ OBJEXCEPTMAIN = $(filter-out $(BUILDDIR)/main.o, $(OBJ))
 # Test directory
 TESTDIR = tests
 # Test sources
-TESTSOURCES = $(shell find tests -name 'test*.cpp')
+TESTSOURCES = $(shell find tests -name 'Test*.cpp')
 # Test objects
 TESTOBJ=$(TESTSOURCES:tests/%.cpp=$(BUILDDIR)/%.o)
 # Flags used for compilation step
@@ -64,8 +66,8 @@ ${PARSERDIR}/y.tab.h: ${PARSERDIR}/y.tab.c | ${PARSERDIR}
 ${PARSERDIR}/tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
 	flex -o $@ ${SRCDIR}/tokens.lpp
 
-$(BUILDDIR)/test%.o: ${TESTDIR}/test%.cpp | ${BUILDDIR}
-	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $<
+$(BUILDDIR)/Test%.o: ${TESTDIR}/Test%.cpp | ${BUILDDIR}
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} -I${TESTINCLUDEDIR} $(CFLAGS) $<
 
 $(BUILDDIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<

@@ -136,19 +136,6 @@ private:
   llvm::Function* declarePrintf(IRGenerationContext& context);
 };
 
-class RelationalExpression : public IExpression {
-public:
-  IExpression& lhs;
-  IExpression& rhs;
-  RelationalOperation operation;
-  
-  RelationalExpression(IExpression& lhs, RelationalOperation operation, IExpression& rhs) :
-    lhs(lhs), rhs(rhs), operation(operation) { }
-  ~RelationalExpression() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 class IncrementExpression : public IExpression {
 public:
   Identifier identifier;
