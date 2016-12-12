@@ -32,48 +32,46 @@ public:
 
 struct RelationalExpressionTest : Test {
   IRGenerationContext context;
-  NiceMock<MockExpression> lhs;
-  NiceMock<MockExpression> rhs;
-  BasicBlock* basicBlock;
-  string stringBuffer;
-  raw_string_ostream* stringStream;
+  NiceMock<MockExpression> mLeftExpression;
+  NiceMock<MockExpression> mRightExpression;
+  BasicBlock* mBasicBlock;
+  string mStringBuffer;
+  raw_string_ostream* mStringStream;
   
   RelationalExpressionTest() {
-    Value * lhsValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 3);
-    Value * rhsValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
-    ON_CALL(lhs, generateIR(_)).WillByDefault(Return(lhsValue));
-    ON_CALL(rhs, generateIR(_)).WillByDefault(Return(rhsValue));
-    basicBlock = BasicBlock::Create(context.getLLVMContext(), "test");
-    context.pushBlock(basicBlock);
-    stringStream = new raw_string_ostream(stringBuffer);
+    Value * leftValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 3);
+    Value * rightValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
+    ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
+    ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
+    mBasicBlock = BasicBlock::Create(context.getLLVMContext(), "test");
+    context.pushBlock(mBasicBlock);
+    mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~RelationalExpressionTest() {
-    delete basicBlock;
-    delete stringStream;
+    delete mBasicBlock;
+    delete mStringStream;
   }
 };
 
 TEST_F(RelationalExpressionTest, lessThanTest) {
-  RelationalExpression expression(lhs, RELATIONAL_OPERATION_LT, rhs);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression);
   expression.generateIR(context);
   
-  ASSERT_EQ(1ul, basicBlock->size());
-  Instruction &instruction = basicBlock->front();
-  string stringBuffer;
-  raw_string_ostream stringStream(stringBuffer);
-  stringStream << instruction;
-  ASSERT_STREQ(stringStream.str().c_str(), "  %cmp = icmp slt i32 3, 5");
+  ASSERT_EQ(1ul, mBasicBlock->size());
+  Instruction &instruction = mBasicBlock->front();
+  *mStringStream << instruction;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp slt i32 3, 5");
 }
 
 TEST_F(RelationalExpressionTest, greaterThanOrEqualTest) {
-  RelationalExpression expression(lhs, RELATIONAL_OPERATION_GE, rhs);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
   expression.generateIR(context);
   
-  ASSERT_EQ(1ul, basicBlock->size());
-  Instruction &instruction = basicBlock->front();
-  *stringStream << instruction;
-  ASSERT_STREQ(stringStream->str().c_str(), "  %cmp = icmp sge i32 3, 5");
+  ASSERT_EQ(1ul, mBasicBlock->size());
+  Instruction &instruction = mBasicBlock->front();
+  *mStringStream << instruction;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp sge i32 3, 5");
 }
 
 TEST_F(TestFileSampleRunner, LessThanRunTest) {

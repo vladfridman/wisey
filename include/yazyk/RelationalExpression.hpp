@@ -20,14 +20,16 @@ namespace yazyk {
  * Represents a relational expression such as a >= b
  */
 class RelationalExpression : public IExpression {
-  IExpression& lhs;
-  IExpression& rhs;
-  RelationalOperation operation;
+  IExpression& mLeftExpression;
+  IExpression& mRightExpression;
+  RelationalOperation mOperation;
   
 public:
 
-  RelationalExpression(IExpression& lhs, RelationalOperation operation, IExpression& rhs) :
-    lhs(lhs), rhs(rhs), operation(operation) { }
+  RelationalExpression(IExpression& leftExpression,
+                       RelationalOperation operation,
+                       IExpression& rightExpression) :
+    mLeftExpression(leftExpression), mRightExpression(rightExpression), mOperation(operation) { }
 
   ~RelationalExpression() { }
   
