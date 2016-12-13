@@ -276,23 +276,6 @@ public:
   llvm::Value* codeGen(IRGenerationContext& context);
 };
 
-class FunctionDeclaration : public IStatement {
-public:
-  const TypeSpecifier& type;
-  const Identifier& id;
-  VariableList arguments;
-  Block& block;
-
-  FunctionDeclaration(const TypeSpecifier& type,
-                         const Identifier& id,
-                         const VariableList& arguments,
-                         Block& block) :
-    type(type), id(id), arguments(arguments), block(block) { }
-  ~FunctionDeclaration() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */

@@ -1,6 +1,7 @@
 #include "yazyk/node.hpp"
 #include "yazyk/codegen.hpp"
 #include "yazyk/log.hpp"
+#include "yazyk/TypeIdentifier.hpp"
 #include "y.tab.h"
 
 using namespace llvm;
@@ -10,9 +11,6 @@ namespace yazyk {
 
 /* Compile the AST into a module */
 void IRGenerationContext::generateIR(Block& root) {
-  owner = make_unique<Module>("test", getLLVMContext());
-  module = owner.get();
-
   root.generateIR(*this);
   
   verifyModule(*module);
@@ -47,24 +45,6 @@ GenericValue IRGenerationContext::runCode() {
   delete executionEngine;
   
   return result;
-}
-
-/* Returns an LLVM type based on the identifier */
-static Type *typeOf(LLVMContext &llvmContext, const TypeSpecifier& type) {
-  if (type.type == PRIMITIVE_TYPE_INT) {
-    return Type::getInt32Ty(llvmContext);
-  } else if (type.type == PRIMITIVE_TYPE_LONG) {
-    return Type::getInt64Ty(llvmContext);
-  } else if (type.type == PRIMITIVE_TYPE_FLOAT) {
-    return Type::getFloatTy(llvmContext);
-  } else if (type.type == PRIMITIVE_TYPE_DOUBLE) {
-    return Type::getDoubleTy(llvmContext);
-  } else if (type.type == PRIMITIVE_TYPE_VOID) {
-    return Type::getVoidTy(llvmContext);
-  }
-
-  Log::e("Unknown type " + to_string(type.type) + ". Replacing with void");
-  return Type::getVoidTy(llvmContext);
 }
 
 /* -- Code Generation -- */
@@ -259,7 +239,7 @@ Value* ExpressionStatement::generateIR(IRGenerationContext& context) {
 }
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
-  AllocaInst *alloc = new AllocaInst(typeOf(context.getLLVMContext(), type),
+  AllocaInst *alloc = new AllocaInst(TypeIdentifier::typeOf(context.getLLVMContext(), type),
                                      id.name.c_str(),
                                      context.currentBlock());
   context.locals()[id.name] = alloc;
@@ -269,7 +249,6 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
   }
   return alloc;
 }
-
 
 Value* ReturnStatement::generateIR(IRGenerationContext& context) {
   Value* returnValue = expression.generateIR(context);
@@ -306,47 +285,4 @@ Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) {
   return ReturnInst::Create(context.getLLVMContext(), NULL, context.currentBlock());
 }
   
-Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
-  vector<Type*> argTypes;
-  VariableList::const_iterator it;
-  for (it = arguments.begin(); it != arguments.end(); it++) {
-    argTypes.push_back(typeOf(context.getLLVMContext(), (**it).type));
-  }
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
-  FunctionType *ftype = FunctionType::get(typeOf(context.getLLVMContext(), type),
-                                          argTypesArray,
-                                          false);
-  Function *function = Function::Create(ftype,
-                                        GlobalValue::InternalLinkage,
-                                        id.name.c_str(),
-                                        context.getModule());
-  if (strcmp(id.name.c_str(), "main") == 0) {
-    context.setMainFunction(function);
-  }
-  Function::arg_iterator args = function->arg_begin();
-  for (it = arguments.begin(); it != arguments.end(); it++) {
-    Argument *arg = &*args;
-    arg->setName((**it).id.name);
-  }
-  BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
-  
-  context.pushBlock(bblock);
-
-  args = function->arg_begin();
-  for (it = arguments.begin(); it != arguments.end(); it++) {
-    Value *value = &*args;
-    string newName = (**it).id.name + ".param";
-    AllocaInst *alloc = new AllocaInst(typeOf(context.getLLVMContext(), (**it).type),
-                                       newName,
-                                       bblock);
-    value = new StoreInst(value, alloc, bblock);
-    context.locals()[(**it).id.name] = alloc;
-  }
-
-  block.generateIR(context);
-  
-  context.popBlock();
-  return function;
-}
-
 } // namespace yazyk

@@ -57,6 +57,11 @@
 		F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401081DFF09230002BF7E /* ConditionalExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 		F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401081DFF09230002BF7E /* ConditionalExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 		F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F53401111DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */; settings = {ASSET_TAGS = (); }; };
+		F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */; settings = {ASSET_TAGS = (); }; };
+		F53401141DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */; settings = {ASSET_TAGS = (); }; };
+		F53401151DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */; settings = {ASSET_TAGS = (); }; };
+		F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */; settings = {ASSET_TAGS = (); }; };
 		F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 		F54625BF1DE5EA1900074D66 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */; };
 		F54625C11DE5EA2800074D66 /* libLLVMX86AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625C01DE5EA2800074D66 /* libLLVMX86AsmParser.a */; };
@@ -139,6 +144,11 @@
 		F53401071DFF08660002BF7E /* ConditionalExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ConditionalExpression.hpp; path = include/yazyk/ConditionalExpression.hpp; sourceTree = "<group>"; };
 		F53401081DFF09230002BF7E /* ConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConditionalExpression.cpp; path = src/ConditionalExpression.cpp; sourceTree = "<group>"; };
 		F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConditionalExpression.cpp; path = tests/TestConditionalExpression.cpp; sourceTree = "<group>"; };
+		F534010F1DFF31550002BF7E /* FunctionDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FunctionDeclaration.hpp; path = include/yazyk/FunctionDeclaration.hpp; sourceTree = "<group>"; };
+		F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDeclaration.cpp; path = src/FunctionDeclaration.cpp; sourceTree = "<group>"; };
+		F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TypeIdentifier.cpp; path = src/TypeIdentifier.cpp; sourceTree = "<group>"; };
+		F53401161DFF34320002BF7E /* TypeIdentifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TypeIdentifier.hpp; path = include/yazyk/TypeIdentifier.hpp; sourceTree = "<group>"; };
+		F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFunctionDeclaration.cpp; path = tests/TestFunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F534FFD71DFBD2750002BF7E /* codegen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = codegen.hpp; path = include/yazyk/codegen.hpp; sourceTree = "<group>"; };
 		F534FFD81DFBD2750002BF7E /* log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = log.hpp; path = include/yazyk/log.hpp; sourceTree = "<group>"; };
@@ -287,6 +297,7 @@
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
 				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
+				F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -354,6 +365,8 @@
 				F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */,
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
+				F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */,
+				F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -417,6 +430,8 @@
 				F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */,
 				F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
+				F534010F1DFF31550002BF7E /* FunctionDeclaration.hpp */,
+				F53401161DFF34320002BF7E /* TypeIdentifier.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -504,9 +519,12 @@
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* tokens.lpp in Sources */,
+				F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
 				F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
+				F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
+				F53401151DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */,
 				F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* log.cpp in Sources */,
 				F53400DB1DFBE6EE0002BF7E /* codegen.cpp in Sources */,
@@ -517,6 +535,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F53401141DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */,
+				F53401111DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F53400EE1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* tokens.lpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* log.cpp in Sources */,

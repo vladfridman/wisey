@@ -43,7 +43,11 @@ class IRGenerationContext {
   
 public:
   
-  IRGenerationContext() { }
+  IRGenerationContext() {
+    owner = llvm::make_unique<llvm::Module>("test", mLLVMContext);
+    module = owner.get();
+    mainFunction = NULL;
+  }
   
   llvm::Module * getModule() {
     return module;
@@ -59,6 +63,10 @@ public:
   
   void setMainFunction(llvm::Function* function) {
     mainFunction = function;
+  }
+  
+  llvm::Function* getMainFunction() {
+    return mainFunction;
   }
   
   llvm::BasicBlock *currentBlock() {
