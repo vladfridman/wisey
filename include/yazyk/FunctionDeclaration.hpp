@@ -12,7 +12,6 @@
 #include "yazyk/codegen.hpp"
 #include "yazyk/node.hpp"
 
-
 namespace yazyk {
 
 /**
