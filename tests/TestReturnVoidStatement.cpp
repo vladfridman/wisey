@@ -11,21 +11,12 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "TestFileSampleRunner.hpp"
-#include "yazyk/FunctionDeclaration.hpp"
-#include "yazyk/node.hpp"
+#include "yazyk/codegen.hpp"
 #include "yazyk/ReturnVoidStatement.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
-
-using ::testing::_;
-using ::testing::ExitedWithCode;
-using ::testing::Mock;
-using ::testing::NiceMock;
-using ::testing::Return;
-using ::testing::Test;
 
 TEST(ReturnVoidStatementTest, ReturnVoidTest) {
   IRGenerationContext context;
