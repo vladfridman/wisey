@@ -163,17 +163,6 @@ public:
     return new IncrementExpression(identifier, -1, "dec", false);
   }
 };
-
-class LogicalOrExpression : public IExpression {
-public:
-  IExpression& lhs;
-  IExpression& rhs;
-  
-  LogicalOrExpression(IExpression& lhs, IExpression& rhs) : lhs(lhs), rhs(rhs) { }
-  ~LogicalOrExpression() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
   
 class Assignment : public IExpression {
 public:

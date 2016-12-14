@@ -167,30 +167,6 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) {
   new StoreInst(incrementResult, context.locals()[identifier.name], context.currentBlock());
   return isPrefix ? incrementResult : originalValue;
 }
-  
-Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
-  Value * lhsValue = lhs.generateIR(context);
-  BasicBlock * entryBlock = context.currentBlock();
-  
-  Function * function = context.currentBlock()->getParent();
-  
-  BasicBlock *bblockRhs = BasicBlock::Create(context.getLLVMContext(), "lor.rhs", function);
-  BasicBlock *bblockEnd = BasicBlock::Create(context.getLLVMContext(), "lor.end", function);
-  BranchInst::Create(bblockEnd, bblockRhs, lhsValue, context.currentBlock());
-  
-  context.replaceBlock(bblockRhs);
-  Value * rhsValue = rhs.generateIR(context);
-  BasicBlock * lastRhsBlock = context.currentBlock();
-  BranchInst::Create(bblockEnd, context.currentBlock());
-  
-  context.replaceBlock(bblockEnd);
-  Type * type = Type::getInt1Ty(context.getLLVMContext());
-  PHINode * phiNode = PHINode::Create(type, 0, "", context.currentBlock());
-  phiNode->addIncoming(ConstantInt::getTrue(context.getLLVMContext()), entryBlock);
-  phiNode->addIncoming(rhsValue, lastRhsBlock);
-  
-  return phiNode;
-}
 
 Value* Assignment::generateIR(IRGenerationContext& context) {
   if (context.locals().find(lhs.name) == context.locals().end()) {
