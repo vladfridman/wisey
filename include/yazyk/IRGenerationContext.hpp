@@ -34,53 +34,65 @@ class IRGenerationContext {
 public:
   
   IRGenerationContext() {
-    mOwner = llvm::make_unique<llvm::Module>("test", mLLVMContext);
+    mOwner = llvm::make_unique<llvm::Module>("yazyk", mLLVMContext);
     mModule = mOwner.get();
     mMainFunction = NULL;
   }
   
-  llvm::Module * getModule() {
-    return mModule;
-  }
-  
+  /**
+   * Generate Intermediate Representation code for a given program block
+   */
   void generateIR(Block& root);
   
+  /**
+   * Run compiled IR code and return the result
+   */
   llvm::GenericValue runCode();
   
-  std::map<std::string, llvm::Value*>& locals() {
-    return mBlocks.top()->getLocals();
-  }
+  /**
+   * Return the main module
+   */
+  llvm::Module* getModule();
+
+  /**
+   * Returns the map of local variables for the current program block
+   */
+  std::map<std::string, llvm::Value*>& locals();
   
-  void setMainFunction(llvm::Function* function) {
-    mMainFunction = function;
-  }
+  /**
+   * Sets the main function for the program
+   */
+  void setMainFunction(llvm::Function* function);
   
-  llvm::Function* getMainFunction() {
-    return mMainFunction;
-  }
+  /**
+   * Returns the main function of the program
+   */
+  llvm::Function* getMainFunction();
   
-  llvm::BasicBlock *currentBlock() {
-    return mBlocks.top()->getBlock();
-  }
+  /**
+   * Returns the most recent program block
+   */
+  llvm::BasicBlock *currentBlock();
   
-  void replaceBlock(llvm::BasicBlock *block) {
-    mBlocks.top()->setBlock(block);
-  }
+  /**
+   * Replaces the current program block with the given one
+   */
+  void replaceBlock(llvm::BasicBlock *block);
   
-  void pushBlock(llvm::BasicBlock *block) {
-    mBlocks.push(new IRGenerationBlock());
-    mBlocks.top()->setBlock(block);
-  }
+  /**
+   * Pushes a new program block on the stack of program blocks
+   */
+  void pushBlock(llvm::BasicBlock *block);
   
-  void popBlock() {
-    IRGenerationBlock *top = mBlocks.top();
-    mBlocks.pop();
-    delete top;
-  }
+  /**
+   * Pops a program block out of the stack
+   */
+  void popBlock();
   
-  llvm::LLVMContext & getLLVMContext() {
-    return mLLVMContext;
-  }
+  /**
+   * Returns the LLVMContext
+   */
+  llvm::LLVMContext& getLLVMContext();
 };
 
 } /* namespace yazyk */

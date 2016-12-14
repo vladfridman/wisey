@@ -20,7 +20,6 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-/* Compile the AST into a module */
 void IRGenerationContext::generateIR(Block& root) {
   root.generateIR(*this);
   
@@ -41,7 +40,6 @@ void IRGenerationContext::generateIR(Block& root) {
   passManager.run(*mModule);
 }
 
-/* Executes the AST by running the main function */
 GenericValue IRGenerationContext::runCode() {
   ExecutionEngine *executionEngine = EngineBuilder(move(mOwner)).create();
   vector<GenericValue> noargs;
@@ -57,3 +55,44 @@ GenericValue IRGenerationContext::runCode() {
   
   return result;
 }
+
+Module* IRGenerationContext::getModule() {
+  return mModule;
+}
+
+map<string, Value*>& IRGenerationContext::locals() {
+  return mBlocks.top()->getLocals();
+}
+
+void IRGenerationContext::setMainFunction(llvm::Function* function) {
+  mMainFunction = function;
+}
+
+Function* IRGenerationContext::getMainFunction() {
+  return mMainFunction;
+}
+
+BasicBlock* IRGenerationContext::currentBlock() {
+  return mBlocks.top()->getBlock();
+}
+
+void IRGenerationContext::replaceBlock(BasicBlock *block) {
+  mBlocks.top()->setBlock(block);
+}
+
+void IRGenerationContext::pushBlock(BasicBlock *block) {
+  mBlocks.push(new IRGenerationBlock());
+  mBlocks.top()->setBlock(block);
+}
+
+void IRGenerationContext::popBlock() {
+  IRGenerationBlock *top = mBlocks.top();
+  mBlocks.pop();
+  delete top;
+}
+
+LLVMContext& IRGenerationContext::getLLVMContext() {
+  return mLLVMContext;
+}
+
+

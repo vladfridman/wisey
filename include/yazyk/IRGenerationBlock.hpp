@@ -16,17 +16,21 @@ class IRGenerationBlock {
   std::map<std::string, llvm::Value*> mLocals;
 
 public:
-  llvm::BasicBlock* getBlock() {
-    return mBlock;
-  }
+
+  /**
+   * Return the LLVM basic block associated with this program block
+   */
+  llvm::BasicBlock* getBlock();
   
-  void setBlock(llvm::BasicBlock* block) {
-    mBlock = block;
-  }
+  /**
+   * Set the LLVM basic block associated with this program block
+   */
+  void setBlock(llvm::BasicBlock* block);
   
-  std::map<std::string, llvm::Value*>& getLocals() {
-    return mLocals;
-  }
+  /**
+   * Returns map of local variables associated with this program block
+   */
+  std::map<std::string, llvm::Value*>& getLocals();
 };
   
 } // namespace yazyk

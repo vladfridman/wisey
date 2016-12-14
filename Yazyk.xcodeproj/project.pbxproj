@@ -116,6 +116,8 @@
 		F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 		F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574115F1E01AC98009809FF /* IRGenerationContext.cpp */; settings = {ASSET_TAGS = (); }; };
 		F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574115F1E01AC98009809FF /* IRGenerationContext.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411631E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411641E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -223,6 +225,7 @@
 		F574115D1E01A52C009809FF /* IRGenerationContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IRGenerationContext.hpp; path = include/yazyk/IRGenerationContext.hpp; sourceTree = "<group>"; };
 		F574115E1E01A983009809FF /* IRGenerationBlock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IRGenerationBlock.hpp; path = include/yazyk/IRGenerationBlock.hpp; sourceTree = "<group>"; };
 		F574115F1E01AC98009809FF /* IRGenerationContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRGenerationContext.cpp; path = src/IRGenerationContext.cpp; sourceTree = "<group>"; };
+		F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRGenerationBlock.cpp; path = src/IRGenerationBlock.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -404,6 +407,7 @@
 				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
 				F57411581E01A09B009809FF /* LogicalOrExpression.cpp */,
 				F574115F1E01AC98009809FF /* IRGenerationContext.cpp */,
+				F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -569,6 +573,7 @@
 				F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F57411431E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */,
+				F57411641E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */,
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
@@ -594,6 +599,7 @@
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* tokens.lpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* log.cpp in Sources */,
+				F57411631E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */,
 				F569E9F21DF9CC9600BBB20E /* parser.ypp in Sources */,
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F57411591E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
