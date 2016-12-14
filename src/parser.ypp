@@ -5,6 +5,7 @@
   #include "yazyk/node.hpp"
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
+  #include "yazyk/ReturnVoidStatement.hpp"
   
   using namespace std;
   using namespace yazyk;

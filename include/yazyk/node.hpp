@@ -218,14 +218,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class ReturnVoidStatement : public IStatement {
-public:
-  ReturnVoidStatement() { }
-  ~ReturnVoidStatement() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 class TypeSpecifier : public INode {
 public:
   PrimitiveType type;

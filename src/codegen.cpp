@@ -249,9 +249,5 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
   }
   return alloc;
 }
-
-Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) {
-  return ReturnInst::Create(context.getLLVMContext(), NULL, context.currentBlock());
-}
   
 } // namespace yazyk
