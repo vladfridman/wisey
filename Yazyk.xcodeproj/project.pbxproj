@@ -118,6 +118,7 @@
 		F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574115F1E01AC98009809FF /* IRGenerationContext.cpp */; settings = {ASSET_TAGS = (); }; };
 		F57411631E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
 		F57411641E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411661E01BF18009809FF /* TestIRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -226,6 +227,7 @@
 		F574115E1E01A983009809FF /* IRGenerationBlock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IRGenerationBlock.hpp; path = include/yazyk/IRGenerationBlock.hpp; sourceTree = "<group>"; };
 		F574115F1E01AC98009809FF /* IRGenerationContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRGenerationContext.cpp; path = src/IRGenerationContext.cpp; sourceTree = "<group>"; };
 		F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRGenerationBlock.cpp; path = src/IRGenerationBlock.cpp; sourceTree = "<group>"; };
+		F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRGenerationBlock.cpp; path = tests/TestIRGenerationBlock.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -333,6 +335,7 @@
 				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
+				F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* parser.ypp in Sources */,
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
+				F57411661E01BF18009809FF /* TestIRGenerationBlock.cpp in Sources */,
 				F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* tokens.lpp in Sources */,

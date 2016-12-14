@@ -17,6 +17,8 @@ class IRGenerationBlock {
 
 public:
 
+  IRGenerationBlock(llvm::BasicBlock* block) : mBlock(block) { }
+  
   /**
    * Return the LLVM basic block associated with this program block
    */

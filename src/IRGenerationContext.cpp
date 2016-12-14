@@ -81,8 +81,7 @@ void IRGenerationContext::replaceBlock(BasicBlock *block) {
 }
 
 void IRGenerationContext::pushBlock(BasicBlock *block) {
-  mBlocks.push(new IRGenerationBlock());
-  mBlocks.top()->setBlock(block);
+  mBlocks.push(new IRGenerationBlock(block));
 }
 
 void IRGenerationContext::popBlock() {
