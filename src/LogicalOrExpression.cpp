@@ -18,16 +18,16 @@ Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
   
   Function* function = context.currentBlock()->getParent();
   
-  BasicBlock* bblockRhs = BasicBlock::Create(context.getLLVMContext(), "lor.rhs", function);
-  BasicBlock* bblockEnd = BasicBlock::Create(context.getLLVMContext(), "lor.end", function);
-  BranchInst::Create(bblockEnd, bblockRhs, leftValue, context.currentBlock());
+  BasicBlock* basicBlockRight = BasicBlock::Create(context.getLLVMContext(), "lor.rhs", function);
+  BasicBlock* basicBlockEnd = BasicBlock::Create(context.getLLVMContext(), "lor.end", function);
+  BranchInst::Create(basicBlockEnd, basicBlockRight, leftValue, context.currentBlock());
   
-  context.replaceBlock(bblockRhs);
+  context.replaceBlock(basicBlockRight);
   Value* rightValue = mRightExpression.generateIR(context);
   BasicBlock* lastRightBlock = context.currentBlock();
-  BranchInst::Create(bblockEnd, context.currentBlock());
+  BranchInst::Create(basicBlockEnd, context.currentBlock());
   
-  context.replaceBlock(bblockEnd);
+  context.replaceBlock(basicBlockEnd);
   Type* type = Type::getInt1Ty(context.getLLVMContext());
   PHINode* phiNode = PHINode::Create(type, 0, "lor", context.currentBlock());
   phiNode->addIncoming(ConstantInt::getTrue(context.getLLVMContext()), entryBlock);
