@@ -24,6 +24,6 @@ public:
   static llvm::Type* typeOf(llvm::LLVMContext &llvmContext, const TypeSpecifier& type);
 };
 
-}
+} /* namespace yazyk */
 
 #endif /* TypeIdentifier_h */

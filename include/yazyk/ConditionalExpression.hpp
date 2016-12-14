@@ -34,6 +34,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) override;
 };
 
-}
+} /* namespace yazyk */
 
 #endif /* ConditionalExpression_h */

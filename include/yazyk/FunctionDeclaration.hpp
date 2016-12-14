@@ -35,6 +35,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) override;
 };
 
-}
+} /* namespace yazyk */
 
 #endif /* FunctionDeclaration_h */

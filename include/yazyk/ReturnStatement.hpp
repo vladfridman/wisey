@@ -26,6 +26,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) override;
 };
 
-#endif /* ReturnStatement_h */
+} /* namespace yazyk */
 
-}
+#endif /* ReturnStatement_h */

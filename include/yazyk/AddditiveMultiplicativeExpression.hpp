@@ -33,6 +33,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) override;
 };
 
-}
+} /* namespace yazyk */
 
 #endif /* AddditiveMultiplicativeExpression_hpp */
