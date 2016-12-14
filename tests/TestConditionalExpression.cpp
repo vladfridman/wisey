@@ -55,6 +55,7 @@ struct ConditionalExpressionTest : Test {
   
   ~ConditionalExpressionTest() {
     delete mFunction;
+    delete mStringStream;
   }
 };
 
