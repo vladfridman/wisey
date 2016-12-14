@@ -6,8 +6,11 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/codegen.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LogicalOrExpression.hpp"
+
+#include <llvm/IR/Instructions.h>
+#include <llvm/IR/Constants.h>
 
 using namespace llvm;
 using namespace yazyk;

@@ -11,9 +11,12 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include <llvm/IR/Constants.h>
+#include <llvm/Support/raw_ostream.h>
+
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/FunctionDeclaration.hpp"
-#include "yazyk/node.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

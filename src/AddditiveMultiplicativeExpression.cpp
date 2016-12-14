@@ -6,7 +6,10 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/InstrTypes.h>
+
 #include "yazyk/AddditiveMultiplicativeExpression.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

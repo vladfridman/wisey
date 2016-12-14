@@ -75,6 +75,9 @@ $(BUILDDIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${BUILDDIR}
 $(BUILDDIR)/tokens.o: ${PARSERDIR}/tokens.cpp | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
 
+$(BUILDDIR)/codegen.o: ${SRCDIR}/codegen.cpp | ${PARSERDIR}/tokens.cpp ${BUILDDIR}
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
+
 $(BUILDDIR)/main.o: ${SRCDIR}/main.cpp | ${PARSERDIR}/tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 

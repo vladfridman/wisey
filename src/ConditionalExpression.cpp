@@ -6,7 +6,10 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Instructions.h>
+
 #include "yazyk/ConditionalExpression.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/log.hpp"
 
 using namespace llvm;

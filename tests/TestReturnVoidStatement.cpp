@@ -11,7 +11,10 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "yazyk/codegen.hpp"
+#include <llvm/IR/Constants.h>
+#include <llvm/Support/raw_ostream.h>
+
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/ReturnVoidStatement.hpp"
 
 using namespace llvm;

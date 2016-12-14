@@ -10,11 +10,16 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+
+#include <llvm/IR/Constants.h>
+#include <llvm/IR/DerivedTypes.h>
 #include <llvm/IR/Instruction.h>
 #include <llvm/IR/Value.h>
+#include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/ConditionalExpression.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;
@@ -41,8 +46,8 @@ struct ConditionalExpressionTest : Test {
   
   ConditionalExpressionTest() {
     LLVMContext &llvmContext = mContext.getLLVMContext();
-    Value * ifTrueValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-    Value * ifFalseValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
+    Value* ifTrueValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
+    Value* ifFalseValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
     ON_CALL(mIfTrueExpression, generateIR(_)).WillByDefault(Return(ifTrueValue));
     ON_CALL(mIfFalseExpression, generateIR(_)).WillByDefault(Return(ifFalseValue));
     

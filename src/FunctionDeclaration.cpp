@@ -6,7 +6,10 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Instructions.h>
+
 #include "yazyk/FunctionDeclaration.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/TypeIdentifier.hpp"
 
 using namespace llvm;

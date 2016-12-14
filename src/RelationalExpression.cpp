@@ -6,6 +6,9 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Instructions.h>
+
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/RelationalExpression.hpp"
 
 using namespace llvm;

@@ -1,5 +1,9 @@
+#include <llvm/IR/Constants.h>
+#include <llvm/IR/Instructions.h>
+#include <llvm/IR/TypeBuilder.h>
+
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/node.hpp"
-#include "yazyk/codegen.hpp"
 #include "yazyk/log.hpp"
 #include "yazyk/TypeIdentifier.hpp"
 #include "y.tab.h"
@@ -8,44 +12,6 @@ using namespace llvm;
 using namespace std;
 
 namespace yazyk {
-
-/* Compile the AST into a module */
-void IRGenerationContext::generateIR(Block& root) {
-  root.generateIR(*this);
-  
-  verifyModule(*module);
-  
-  legacy::PassManager passManager;
-
-  // Optimization: Constant Propagation transform
-  // passManager.add(createConstantPropagationPass());
-  // Optimization: Dead Instruction Elimination transform
-  // passManager.add(createDeadInstEliminationPass());
-
-  // print out assembly code
-  if (Log::isDebugLevel()) {
-    passManager.add(createPrintModulePass(outs()));
-  }
-
-  passManager.run(*module);
-}
-
-/* Executes the AST by running the main function */
-GenericValue IRGenerationContext::runCode() {
-  ExecutionEngine *executionEngine = EngineBuilder(move(owner)).create();
-  vector<GenericValue> noargs;
-  if (mainFunction == NULL) {
-    Log::e("Function main() is not defined. Exiting.");
-    delete executionEngine;
-    exit(1);
-  }
-  Log::i("Running program:");
-  GenericValue result = executionEngine->runFunction(mainFunction, noargs);
-  Log::i("Result: " + result.IntVal.toString(10, true));
-  delete executionEngine;
-  
-  return result;
-}
 
 /* -- Code Generation -- */
 

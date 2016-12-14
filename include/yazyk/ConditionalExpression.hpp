@@ -9,7 +9,6 @@
 #ifndef ConditionalExpression_h
 #define ConditionalExpression_h
 
-#include "yazyk/codegen.hpp"
 #include "yazyk/node.hpp"
 
 namespace yazyk {

@@ -9,8 +9,8 @@
 #ifndef TestFileSampleRunner_h
 #define TestFileSampleRunner_h
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
+#include "gtest/gtest.h"
+#include "gmock/gmock.h"
 
 /**
  * Runs a sample yazyk file through compiler and checks whether the expected result matched 

@@ -6,13 +6,13 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/ExecutionEngine/MCJIT.h>
 #include <llvm/Support/TargetSelect.h>
 #include <llvm-c/Target.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/codegen.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/log.hpp"
-#include "yazyk/node.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -11,8 +11,12 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include <llvm/IR/Constants.h>
+#include <llvm/Support/raw_ostream.h>
+
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/AddditiveMultiplicativeExpression.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;

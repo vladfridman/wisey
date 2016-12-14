@@ -1,27 +1,15 @@
-#include "llvm/ADT/STLExtras.h"
-#include "llvm/ExecutionEngine/ExecutionEngine.h"
-#include "llvm/ExecutionEngine/GenericValue.h"
-#include "llvm/IR/Argument.h"
-#include "llvm/IR/BasicBlock.h"
-#include "llvm/IR/Constants.h"
-#include "llvm/IR/DerivedTypes.h"
-#include "llvm/IR/Function.h"
-#include "llvm/IR/IRBuilder.h"
-#include "llvm/IR/Instructions.h"
-#include "llvm/IR/LLVMContext.h"
-#include "llvm/IR/Module.h"
-#include "llvm/IR/Type.h"
-#include "llvm/Support/Casting.h"
-#include "llvm/Support/ManagedStatic.h"
-#include "llvm/Support/TargetSelect.h"
-#include "llvm/Support/raw_ostream.h"
-#include <algorithm>
-#include <cassert>
-#include <memory>
-#include <vector>
-#include <iostream>
+//
+//  main.cpp
+//  Yazyk
+//
+//  Created by Vladimir Fridman on 12/7/16.
+//  Copyright © 2016 Vladimir Fridman. All rights reserved.
+//
 
-#include "yazyk/codegen.hpp"
+#include <llvm/Support/TargetSelect.h>
+#include <llvm-c/Target.h>
+
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/node.hpp"
 #include "yazyk/log.hpp"
 
@@ -33,6 +21,9 @@ extern int yyparse();
 extern Block* programBlock;
 extern FILE* yyin;
 
+/**
+ * Main for running the compiler
+ */
 int main(int argc, char **argv)
 {
   Log::setLogLevel(DEBUGLEVEL);

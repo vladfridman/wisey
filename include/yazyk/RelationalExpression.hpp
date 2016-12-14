@@ -9,7 +9,6 @@
 #ifndef RelationalExpression_h
 #define RelationalExpression_h
 
-#include "yazyk/codegen.hpp"
 #include "yazyk/node.hpp"
 
 namespace yazyk {

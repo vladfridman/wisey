@@ -6,9 +6,11 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/codegen.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/log.hpp"
 #include "yazyk/ReturnStatement.hpp"
+
+#include <llvm/IR/Instructions.h>
 
 using namespace llvm;
 using namespace yazyk;
