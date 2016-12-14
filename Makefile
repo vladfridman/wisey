@@ -67,7 +67,7 @@ ${PARSERDIR}/tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
 	flex -o $@ ${SRCDIR}/tokens.lpp
 
 $(BUILDDIR)/Test%.o: ${TESTDIR}/Test%.cpp | ${BUILDDIR}
-	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} -I${TESTINCLUDEDIR} $(CFLAGS) $<
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} -I${TESTINCLUDEDIR} $(CFLAGS) -Wno-covered-switch-default $<
 
 $(BUILDDIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<

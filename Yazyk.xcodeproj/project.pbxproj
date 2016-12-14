@@ -102,6 +102,9 @@
 		F569E9F21DF9CC9600BBB20E /* parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* parser.ypp */; settings = {ASSET_TAGS = (); }; };
 		F569E9F31DF9CC9600BBB20E /* tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* tokens.lpp */; settings = {ASSET_TAGS = (); }; };
 		F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9F71DF9CE6600BBB20E /* main.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411421E015961009809FF /* ReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411411E015961009809FF /* ReturnStatement.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411431E015961009809FF /* ReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411411E015961009809FF /* ReturnStatement.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411451E015DBC009809FF /* TestReturnStatement.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -195,6 +198,9 @@
 		F569E9ED1DF9CC9600BBB20E /* parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = parser.ypp; path = src/parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = tokens.lpp; path = src/tokens.lpp; sourceTree = "<group>"; };
 		F569E9F71DF9CE6600BBB20E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
+		F57411411E015961009809FF /* ReturnStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ReturnStatement.cpp; path = src/ReturnStatement.cpp; sourceTree = "<group>"; };
+		F57411441E0159AE009809FF /* ReturnStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ReturnStatement.hpp; path = include/yazyk/ReturnStatement.hpp; sourceTree = "<group>"; };
+		F57411451E015DBC009809FF /* TestReturnStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestReturnStatement.cpp; path = tests/TestReturnStatement.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -298,6 +304,7 @@
 				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */,
+				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -367,6 +374,7 @@
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
 				F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */,
 				F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */,
+				F57411411E015961009809FF /* ReturnStatement.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -432,6 +440,7 @@
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
 				F534010F1DFF31550002BF7E /* FunctionDeclaration.hpp */,
 				F53401161DFF34320002BF7E /* TypeIdentifier.hpp */,
+				F57411441E0159AE009809FF /* ReturnStatement.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -522,7 +531,9 @@
 				F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
 				F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
+				F57411431E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */,
+				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F53401151DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */,
 				F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */,
@@ -542,6 +553,7 @@
 				F569E9F01DF9CC9600BBB20E /* log.cpp in Sources */,
 				F569E9F21DF9CC9600BBB20E /* parser.ypp in Sources */,
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
+				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F569E9EF1DF9CC9600BBB20E /* codegen.cpp in Sources */,
@@ -582,6 +594,7 @@
 					"-Wwrite-strings",
 					"-Wcast-qual",
 					"-Wmissing-field-initializers",
+					"-Wno-covered-switch-default",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"-isystem",
@@ -603,6 +616,7 @@
 					"-Wwrite-strings",
 					"-Wcast-qual",
 					"-Wmissing-field-initializers",
+					"-Wno-covered-switch-default",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = include;
@@ -640,6 +654,7 @@
 					"-Wwrite-strings",
 					"-Wcast-qual",
 					"-Wmissing-field-initializers",
+					"-Wno-covered-switch-default",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"-isystem",
@@ -661,6 +676,7 @@
 					"-Wwrite-strings",
 					"-Wcast-qual",
 					"-Wmissing-field-initializers",
+					"-Wno-covered-switch-default",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = include;

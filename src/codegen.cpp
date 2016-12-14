@@ -250,37 +250,6 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
   return alloc;
 }
 
-Value* ReturnStatement::generateIR(IRGenerationContext& context) {
-  Value* returnValue = expression.generateIR(context);
-  Type* valueType = returnValue->getType();
-  Function *parentFunction = context.currentBlock()->getParent();
-
-  if (parentFunction == NULL) {
-    Log::e("No corresponding method found for RETURN");
-    exit(1);
-  }
-  
-  Type * returnType = parentFunction->getReturnType();
-  
-  if (returnType != valueType &&
-      !CastInst::isCastable(valueType, returnType)) {
-    Log::e("Can not cast return value to function type");
-    exit(1);
-  }
-  
-  if (returnType != valueType) {
-    returnValue = CastInst::CreateZExtOrBitCast(returnValue,
-                                                returnType,
-                                                "conv",
-                                                context.currentBlock());
-  }
-  
-  ReturnInst* result = ReturnInst::Create(context.getLLVMContext(),
-                                          returnValue,
-                                          context.currentBlock());
-  return result;
-}
-
 Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) {
   return ReturnInst::Create(context.getLLVMContext(), NULL, context.currentBlock());
 }

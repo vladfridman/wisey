@@ -218,16 +218,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class ReturnStatement : public IStatement {
-public:
-  IExpression& expression;
-
-  ReturnStatement(IExpression& expression) : expression(expression) { }
-  ~ReturnStatement() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-  
 class ReturnVoidStatement : public IStatement {
 public:
   ReturnVoidStatement() { }
