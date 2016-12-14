@@ -9,8 +9,6 @@
 #ifndef AddditiveMultiplicativeExpression_hpp
 #define AddditiveMultiplicativeExpression_hpp
 
-#include <llvm/IR/Value.h>
-
 #include "yazyk/codegen.hpp"
 #include "yazyk/node.hpp"
 

@@ -9,8 +9,6 @@
 #ifndef RelationalExpression_h
 #define RelationalExpression_h
 
-#include <llvm/IR/Value.h>
-
 #include "yazyk/codegen.hpp"
 #include "yazyk/node.hpp"
 

@@ -9,8 +9,6 @@
 #ifndef ReturnStatement_h
 #define ReturnStatement_h
 
-#include <exception>
-
 #include "yazyk/node.hpp"
 
 namespace yazyk {

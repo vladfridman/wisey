@@ -9,8 +9,6 @@
 #ifndef TypeIdentifier_h
 #define TypeIdentifier_h
 
-#include <llvm/IR/Type.h>
-
 #include "yazyk/node.hpp"
 
 namespace yazyk {
