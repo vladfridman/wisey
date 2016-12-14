@@ -108,6 +108,10 @@
 		F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */; settings = {ASSET_TAGS = (); }; };
 		F574114A1E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */; settings = {ASSET_TAGS = (); }; };
 		F574114C1E019597009809FF /* TestReturnVoidStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411521E019A46009809FF /* LogicalAndExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411511E019A46009809FF /* LogicalAndExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411511E019A46009809FF /* LogicalAndExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411551E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -207,6 +211,9 @@
 		F57411471E019450009809FF /* ReturnVoidStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ReturnVoidStatement.hpp; path = include/yazyk/ReturnVoidStatement.hpp; sourceTree = "<group>"; };
 		F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ReturnVoidStatement.cpp; path = src/ReturnVoidStatement.cpp; sourceTree = "<group>"; };
 		F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestReturnVoidStatement.cpp; path = tests/TestReturnVoidStatement.cpp; sourceTree = "<group>"; };
+		F574114D1E019975009809FF /* LogicalAndExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogicalAndExpression.hpp; path = include/yazyk/LogicalAndExpression.hpp; sourceTree = "<group>"; };
+		F57411511E019A46009809FF /* LogicalAndExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LogicalAndExpression.cpp; path = src/LogicalAndExpression.cpp; sourceTree = "<group>"; };
+		F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLogicalAndExpression.cpp; path = tests/TestLogicalAndExpression.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -312,6 +319,7 @@
 				F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */,
 				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
 				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
+				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -383,6 +391,7 @@
 				F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */,
 				F57411411E015961009809FF /* ReturnStatement.cpp */,
 				F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */,
+				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -450,6 +459,7 @@
 				F53401161DFF34320002BF7E /* TypeIdentifier.hpp */,
 				F57411441E0159AE009809FF /* ReturnStatement.hpp */,
 				F57411471E019450009809FF /* ReturnVoidStatement.hpp */,
+				F574114D1E019975009809FF /* LogicalAndExpression.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -538,6 +548,7 @@
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* tokens.lpp in Sources */,
 				F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
+				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
 				F574114C1E019597009809FF /* TestReturnVoidStatement.cpp in Sources */,
 				F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
@@ -550,6 +561,7 @@
 				F574114A1E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* log.cpp in Sources */,
 				F53400DB1DFBE6EE0002BF7E /* codegen.cpp in Sources */,
+				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,6 +571,7 @@
 			files = (
 				F53401141DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
+				F57411521E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F53400EE1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* tokens.lpp in Sources */,
@@ -569,6 +582,7 @@
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F569E9EF1DF9CC9600BBB20E /* codegen.cpp in Sources */,
+				F57411551E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

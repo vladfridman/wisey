@@ -164,17 +164,6 @@ public:
   }
 };
 
-class LogicalAndExpression : public IExpression {
-public:
-  IExpression& lhs;
-  IExpression& rhs;
-  
-  LogicalAndExpression(IExpression& lhs, IExpression& rhs) : lhs(lhs), rhs(rhs) { }
-  ~LogicalAndExpression() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 class LogicalOrExpression : public IExpression {
 public:
   IExpression& lhs;
