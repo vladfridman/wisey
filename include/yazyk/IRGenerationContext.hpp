@@ -16,11 +16,10 @@
 #include <llvm/IR/Module.h>
 
 #include "yazyk/IRGenerationBlock.hpp"
+#include "yazyk/node.hpp"
 
 namespace yazyk {
   
-class Block;
-
 /**
  * Represents context for Intermidate Representation code generation
  */
@@ -38,11 +37,6 @@ public:
     mModule = mOwner.get();
     mMainFunction = NULL;
   }
-  
-  /**
-   * Generate Intermediate Representation code for a given program block
-   */
-  void generateIR(Block& root);
   
   /**
    * Run compiled IR code and return the result
@@ -93,6 +87,17 @@ public:
    * Returns the LLVMContext
    */
   llvm::LLVMContext& getLLVMContext();
+  
+  /**
+   * Print LLVM assembly language of the IR program
+   */
+  void printAssembly(llvm::raw_ostream &outputStream);
+  
+  /**
+   * Oprimize IR code
+   * TODO: implement and add a unit test for it
+   */
+  void optimizeIR();
 };
 
 } /* namespace yazyk */

@@ -119,6 +119,7 @@
 		F57411631E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
 		F57411641E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
 		F57411661E01BF18009809FF /* TestIRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -228,6 +229,7 @@
 		F574115F1E01AC98009809FF /* IRGenerationContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRGenerationContext.cpp; path = src/IRGenerationContext.cpp; sourceTree = "<group>"; };
 		F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRGenerationBlock.cpp; path = src/IRGenerationBlock.cpp; sourceTree = "<group>"; };
 		F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRGenerationBlock.cpp; path = tests/TestIRGenerationBlock.cpp; sourceTree = "<group>"; };
+		F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRGenerationContext.cpp; path = tests/TestIRGenerationContext.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -336,6 +338,7 @@
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
 				F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */,
+				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* tokens.lpp in Sources */,
+				F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,

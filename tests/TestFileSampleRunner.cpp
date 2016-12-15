@@ -43,8 +43,9 @@ void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
   yyparse();
   
   IRGenerationContext context;
-  context.generateIR(*programBlock);
+  programBlock->generateIR(context);
   GenericValue result = context.runCode();
   string resultString = result.IntVal.toString(10, true);
+
   ASSERT_STREQ(expectedResult.c_str(), resultString.c_str());
 }

@@ -11,6 +11,7 @@
 #include <llvm/IR/IRPrintingPasses.h>
 #include <llvm/IR/LegacyPassManager.h>
 #include <llvm/IR/Verifier.h>
+#include <llvm/Transforms/Scalar.h>
 
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/log.hpp"
@@ -20,31 +21,11 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-void IRGenerationContext::generateIR(Block& root) {
-  root.generateIR(*this);
-  
-  verifyModule(*mModule);
-  
-  legacy::PassManager passManager;
-  
-  // Optimization: Constant Propagation transform
-  // passManager.add(createConstantPropagationPass());
-  // Optimization: Dead Instruction Elimination transform
-  // passManager.add(createDeadInstEliminationPass());
-  
-  // print out assembly code
-  if (Log::isDebugLevel()) {
-    passManager.add(createPrintModulePass(outs()));
-  }
-  
-  passManager.run(*mModule);
-}
-
 GenericValue IRGenerationContext::runCode() {
   ExecutionEngine *executionEngine = EngineBuilder(move(mOwner)).create();
   vector<GenericValue> noargs;
   if (mMainFunction == NULL) {
-    Log::e("Function main() is not defined. Exiting.");
+    Log::e("Function main is not defined. Exiting.");
     delete executionEngine;
     exit(1);
   }
@@ -73,7 +54,7 @@ Function* IRGenerationContext::getMainFunction() {
 }
 
 BasicBlock* IRGenerationContext::currentBlock() {
-  return mBlocks.top()->getBlock();
+  return !mBlocks.empty() ? mBlocks.top()->getBlock() : NULL;
 }
 
 void IRGenerationContext::replaceBlock(BasicBlock *block) {
@@ -94,4 +75,20 @@ LLVMContext& IRGenerationContext::getLLVMContext() {
   return mLLVMContext;
 }
 
+void IRGenerationContext::printAssembly(raw_ostream &outputStream) {
+  legacy::PassManager passManager;
+  passManager.add(createPrintModulePass(outputStream));
+  passManager.run(*mModule);
+}
+
+void IRGenerationContext::optimizeIR() {
+  legacy::PassManager passManager;
+  
+  // Optimization: Constant Propagation transform
+  passManager.add(createConstantPropagationPass());
+  // Optimization: Dead Instruction Elimination transform
+  passManager.add(createDeadInstEliminationPass());\
+  
+  passManager.run(*mModule);
+}
 

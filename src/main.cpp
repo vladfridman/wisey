@@ -6,6 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Verifier.h>
 #include <llvm/Support/TargetSelect.h>
 #include <llvm-c/Target.h>
 
@@ -36,7 +37,6 @@ int main(int argc, char **argv)
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
   
-
   Log::i("opening " + string(argv[1]));
 
   yyin = fopen(argv[1], "r");
@@ -48,7 +48,9 @@ int main(int argc, char **argv)
   yyparse();
   
   IRGenerationContext context;
-  context.generateIR(*programBlock);
+  programBlock->generateIR(context);
+  verifyModule(*context.getModule());
+  context.printAssembly(outs());
   context.runCode();
   
   fclose(yyin);
