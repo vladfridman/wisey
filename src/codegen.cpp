@@ -84,7 +84,7 @@ Value* Identifier::generateIR(IRGenerationContext& context) {
     cerr << "undeclared variable " << name << endl;
     return NULL;
   }
-  return new LoadInst(context.locals()[name], "", context.currentBlock());
+  return new LoadInst(context.locals()[name], mVariableName, context.currentBlock());
 }
 
 Value * TypeSpecifier::generateIR(IRGenerationContext &context) {
@@ -117,21 +117,6 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
   CallInst *call = CallInst::Create(function, args, resultName, context.currentBlock());
   return call;
-}
-
-Value* IncrementExpression::generateIR(IRGenerationContext& context) {
-  Value* originalValue = identifier.generateIR(context);
-  Value *increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
-                                      incrementBy,
-                                      true);
-
-  Value *incrementResult = llvm::BinaryOperator::Create(Instruction::Add,
-                                                        originalValue,
-                                                        increment,
-                                                        variableName,
-                                                        context.currentBlock());
-  new StoreInst(incrementResult, context.locals()[identifier.name], context.currentBlock());
-  return isPrefix ? incrementResult : originalValue;
 }
 
 Value* Assignment::generateIR(IRGenerationContext& context) {

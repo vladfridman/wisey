@@ -109,10 +109,19 @@ private:
 };
 
 class Identifier : public IExpression {
+
 public:
   std::string name;
 
-  Identifier(const std::string& name) : name(name) { }
+private:
+  std::string mVariableName;
+
+public:
+  Identifier(const std::string& name) : name(name), mVariableName("") { }
+ 
+  Identifier(const std::string& name, const std::string& variableName) :
+    name(name), mVariableName(variableName) { }
+
   ~Identifier() { }
   
   llvm::Value* generateIR(IRGenerationContext& context);
@@ -134,36 +143,6 @@ private:
   llvm::Function* declarePrintf(IRGenerationContext& context);
 };
 
-class IncrementExpression : public IExpression {
-public:
-  Identifier identifier;
-  long long incrementBy;
-  std::string variableName;
-  bool isPrefix;
-
-private:
-  IncrementExpression(Identifier &identifier,
-                      long long incrementBy,
-                      std::string variableName,
-                      bool isPrefix) :
-    identifier(identifier),
-    incrementBy(incrementBy),
-    variableName(variableName),
-    isPrefix(isPrefix) { }
-  ~IncrementExpression() { }
-  
-public:
-  llvm::Value* generateIR(IRGenerationContext& context);
-  
-  static IncrementExpression * newIncrementByOne(Identifier &identifier) {
-    return new IncrementExpression(identifier, 1, "inc", false);
-  }
-
-  static IncrementExpression * newDecrementByOne(Identifier &identifier) {
-    return new IncrementExpression(identifier, -1, "dec", false);
-  }
-};
-  
 class Assignment : public IExpression {
 public:
   Identifier& lhs;

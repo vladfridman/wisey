@@ -120,6 +120,9 @@
 		F57411641E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
 		F57411661E01BF18009809FF /* TestIRGenerationBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */; settings = {ASSET_TAGS = (); }; };
 		F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */; settings = {ASSET_TAGS = (); }; };
+		F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574116A1E042390009809FF /* IncrementExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574116A1E042390009809FF /* IncrementExpression.cpp */; settings = {ASSET_TAGS = (); }; };
+		F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574116F1E042607009809FF /* TestIncrementExpression.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -230,6 +233,9 @@
 		F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRGenerationBlock.cpp; path = src/IRGenerationBlock.cpp; sourceTree = "<group>"; };
 		F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRGenerationBlock.cpp; path = tests/TestIRGenerationBlock.cpp; sourceTree = "<group>"; };
 		F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRGenerationContext.cpp; path = tests/TestIRGenerationContext.cpp; sourceTree = "<group>"; };
+		F57411691E0422AF009809FF /* IncrementExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IncrementExpression.hpp; path = include/yazyk/IncrementExpression.hpp; sourceTree = "<group>"; };
+		F574116A1E042390009809FF /* IncrementExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IncrementExpression.cpp; path = src/IncrementExpression.cpp; sourceTree = "<group>"; };
+		F574116F1E042607009809FF /* TestIncrementExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIncrementExpression.cpp; path = tests/TestIncrementExpression.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -339,6 +345,7 @@
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
 				F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
+				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -414,6 +421,7 @@
 				F57411581E01A09B009809FF /* LogicalOrExpression.cpp */,
 				F574115F1E01AC98009809FF /* IRGenerationContext.cpp */,
 				F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */,
+				F574116A1E042390009809FF /* IncrementExpression.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -484,6 +492,7 @@
 				F57411571E01A022009809FF /* LogicalOrExpression.hpp */,
 				F574115D1E01A52C009809FF /* IRGenerationContext.hpp */,
 				F574115E1E01A983009809FF /* IRGenerationBlock.hpp */,
+				F57411691E0422AF009809FF /* IncrementExpression.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -566,9 +575,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
+				F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* parser.ypp in Sources */,
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
+				F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */,
 				F57411661E01BF18009809FF /* TestIRGenerationBlock.cpp in Sources */,
 				F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
@@ -615,6 +626,7 @@
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F569E9EF1DF9CC9600BBB20E /* codegen.cpp in Sources */,
+				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
