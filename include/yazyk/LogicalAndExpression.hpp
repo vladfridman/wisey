@@ -17,10 +17,10 @@ namespace yazyk {
  * Represents a logical AND expression such as 'a && b'
  */
 class LogicalAndExpression : public IExpression {
-public:
   IExpression& mLeftExpression;
   IExpression& mRightExpression;
   
+public:
   LogicalAndExpression(IExpression& leftExpression, IExpression& rightExpression) :
     mLeftExpression(leftExpression),
     mRightExpression(rightExpression) { }

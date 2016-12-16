@@ -17,10 +17,10 @@ namespace yazyk {
  * Represents a logical OR expression such as 'a || b'
  */
 class LogicalOrExpression : public IExpression {
-public:
   IExpression& mLeftExpression;
   IExpression& mRightExpression;
   
+public:
   LogicalOrExpression(IExpression& leftExpression, IExpression& rightExpression) :
     mLeftExpression(leftExpression),
     mRightExpression(rightExpression) { }

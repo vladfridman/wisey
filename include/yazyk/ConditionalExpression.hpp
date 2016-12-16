@@ -18,11 +18,11 @@ namespace yazyk {
  */
 class ConditionalExpression : public IExpression {
   
-public:
   IExpression& conditionExpression;
   IExpression& conditionTrueExpression;
   IExpression& conditionFalseExpression;
   
+public:
   ConditionalExpression(IExpression& conditionExpression,
                         IExpression& conditionTrueExpression,
                         IExpression& conditionFalseExpression)
