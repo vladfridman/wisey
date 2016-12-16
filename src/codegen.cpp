@@ -78,28 +78,6 @@ string String::unescape(const string& input) {
   
   return result;
 }
-
-Value* Identifier::generateIR(IRGenerationContext& context) {
-  if (context.locals().find(name) == context.locals().end()) {
-    cerr << "undeclared variable " << name << endl;
-    return NULL;
-  }
-  return new LoadInst(context.locals()[name], mVariableName, context.currentBlock());
-}
-
-Value * TypeSpecifier::generateIR(IRGenerationContext &context) {
-  return NULL;
-}
-
-Function* MethodCall::declarePrintf(IRGenerationContext& context) {
-  FunctionType *printf_type = TypeBuilder<int(char *, ...), false>::get(context.getLLVMContext());
-  
-  Function *func = cast<Function>(
-    context.getModule()->getOrInsertFunction("printf",
-      printf_type,
-      AttributeSet().addAttribute(context.getLLVMContext(), 1U, Attribute::NoAlias)));
-  return func;
-}
   
 Value* MethodCall::generateIR(IRGenerationContext& context) {
   Function *function = context.getModule()->getFunction(id.name.c_str());

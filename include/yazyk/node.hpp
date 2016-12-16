@@ -7,6 +7,7 @@
 
 namespace yazyk {
   
+class Identifier;
 class IStatement;
 class IExpression;
 class IRGenerationContext;
@@ -106,25 +107,6 @@ public:
   
 private:
   std::string unescape(const std::string& input);
-};
-
-class Identifier : public IExpression {
-
-public:
-  std::string name;
-
-private:
-  std::string mVariableName;
-
-public:
-  Identifier(const std::string& name) : name(name), mVariableName("") { }
- 
-  Identifier(const std::string& name, const std::string& variableName) :
-    name(name), mVariableName(variableName) { }
-
-  ~Identifier() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
 };
 
 class MethodCall : public IExpression {

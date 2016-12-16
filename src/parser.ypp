@@ -2,6 +2,7 @@
   #include "yazyk/AddditiveMultiplicativeExpression.hpp"
   #include "yazyk/ConditionalExpression.hpp"
   #include "yazyk/FunctionDeclaration.hpp"
+  #include "yazyk/Identifier.hpp"
   #include "yazyk/IncrementExpression.hpp"
   #include "yazyk/LogicalAndExpression.hpp"
   #include "yazyk/LogicalOrExpression.hpp"
