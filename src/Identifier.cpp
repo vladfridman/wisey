@@ -12,6 +12,7 @@
 
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/log.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -23,8 +24,8 @@ const string& Identifier::getName() const {
 
 Value* Identifier::generateIR(IRGenerationContext& context) {
   if (context.locals().find(mName) == context.locals().end()) {
-    cerr << "undeclared variable " << mName << endl;
-    return NULL;
+    Log::e("Undeclared variable " + mName);
+    exit(1);
   }
   return new LoadInst(context.locals()[mName], mVariableName, context.currentBlock());
 }
