@@ -9,6 +9,7 @@
 #ifndef FunctionDeclaration_h
 #define FunctionDeclaration_h
 
+#include "yazyk/Identifier.hpp"
 #include "yazyk/node.hpp"
 
 namespace yazyk {

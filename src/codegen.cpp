@@ -2,6 +2,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/TypeBuilder.h>
 
+#include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/node.hpp"
 #include "yazyk/log.hpp"
@@ -131,4 +132,4 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
   return alloc;
 }
   
-} // namespace yazyk
+} /* namespace yazyk */
