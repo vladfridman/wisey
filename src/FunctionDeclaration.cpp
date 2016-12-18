@@ -28,15 +28,15 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
                                           false);
   Function *function = Function::Create(ftype,
                                         GlobalValue::InternalLinkage,
-                                        mId.name.c_str(),
+                                        mId.getName().c_str(),
                                         context.getModule());
-  if (strcmp(mId.name.c_str(), "main") == 0) {
+  if (strcmp(mId.getName().c_str(), "main") == 0) {
     context.setMainFunction(function);
   }
   Function::arg_iterator args = function->arg_begin();
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
     Argument *arg = &*args;
-    arg->setName((**it).id.name);
+    arg->setName((**it).id.getName());
   }
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   
@@ -45,13 +45,13 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   args = function->arg_begin();
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
     Value *value = &*args;
-    string newName = (**it).id.name + ".param";
+    string newName = (**it).id.getName() + ".param";
     AllocaInst *alloc = new AllocaInst(TypeIdentifier::typeOf(context.getLLVMContext(),
                                                               (**it).type),
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);
-    context.locals()[(**it).id.name] = alloc;
+    context.locals()[(**it).id.getName()] = alloc;
   }
   
   mBlock.generateIR(context);

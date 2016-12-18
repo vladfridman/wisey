@@ -17,25 +17,14 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+const string& Identifier::getName() const {
+  return mName;
+}
+
 Value* Identifier::generateIR(IRGenerationContext& context) {
-  if (context.locals().find(name) == context.locals().end()) {
-    cerr << "undeclared variable " << name << endl;
+  if (context.locals().find(mName) == context.locals().end()) {
+    cerr << "undeclared variable " << mName << endl;
     return NULL;
   }
-  return new LoadInst(context.locals()[name], mVariableName, context.currentBlock());
-}
-
-Value * TypeSpecifier::generateIR(IRGenerationContext &context) {
-  return NULL;
-}
-
-Function* MethodCall::declarePrintf(IRGenerationContext& context) {
-  FunctionType *printf_type = TypeBuilder<int(char *, ...), false>::get(context.getLLVMContext());
-  
-  Function *function = cast<Function>(
-    context.getModule()->getOrInsertFunction("printf",
-      printf_type,
-      AttributeSet().addAttribute(context.getLLVMContext(), 1U, Attribute::NoAlias)));
-
-  return function;
+  return new LoadInst(context.locals()[mName], mVariableName, context.currentBlock());
 }

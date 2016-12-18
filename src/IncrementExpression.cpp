@@ -26,7 +26,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) {
                                                         increment,
                                                         variableName,
                                                         context.currentBlock());
-  new StoreInst(incrementResult, context.locals()[identifier.name], context.currentBlock());
+  new StoreInst(incrementResult, context.locals()[identifier.getName()], context.currentBlock());
   return isPrefix ? incrementResult : originalValue;
 }
 

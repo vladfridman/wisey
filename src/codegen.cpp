@@ -80,10 +80,25 @@ string String::unescape(const string& input) {
   return result;
 }
   
+Value * TypeSpecifier::generateIR(IRGenerationContext &context) {
+  return NULL;
+}
+  
+Function* MethodCall::declarePrintf(IRGenerationContext& context) {
+  FunctionType *printf_type = TypeBuilder<int(char *, ...), false>::get(context.getLLVMContext());
+    
+  Function *function = cast<Function>(
+    context.getModule()->getOrInsertFunction("printf",
+                                             printf_type,
+                                             AttributeSet().addAttribute(context.getLLVMContext(), 1U, Attribute::NoAlias)));
+  
+  return function;
+}
+  
 Value* MethodCall::generateIR(IRGenerationContext& context) {
-  Function *function = context.getModule()->getFunction(id.name.c_str());
-  if (function == NULL && id.name.compare("printf") != 0) {
-    cerr << "no such function " << id.name << endl;
+  Function *function = context.getModule()->getFunction(id.getName().c_str());
+  if (function == NULL && id.getName().compare("printf") != 0) {
+    cerr << "no such function " << id.getName() << endl;
   }
   if (function == NULL) {
     function = declarePrintf(context);
@@ -99,11 +114,11 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
 }
 
 Value* Assignment::generateIR(IRGenerationContext& context) {
-  if (context.locals().find(lhs.name) == context.locals().end()) {
-    Log::e("undeclared variable " + lhs.name);
+  if (context.locals().find(lhs.getName()) == context.locals().end()) {
+    Log::e("undeclared variable " + lhs.getName());
     return NULL;
   }
-  return new StoreInst(rhs.generateIR(context), context.locals()[lhs.name], context.currentBlock());
+  return new StoreInst(rhs.generateIR(context), context.locals()[lhs.getName()], context.currentBlock());
 }
 
 Value* Block::generateIR(IRGenerationContext& context) {
@@ -122,9 +137,9 @@ Value* ExpressionStatement::generateIR(IRGenerationContext& context) {
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
   AllocaInst *alloc = new AllocaInst(TypeIdentifier::typeOf(context.getLLVMContext(), type),
-                                     id.name.c_str(),
+                                     id.getName().c_str(),
                                      context.currentBlock());
-  context.locals()[id.name] = alloc;
+  context.locals()[id.getName()] = alloc;
   if (assignmentExpr != NULL) {
     Assignment assn(id, *assignmentExpr);
     assn.generateIR(context);

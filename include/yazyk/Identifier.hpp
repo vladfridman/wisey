@@ -20,19 +20,18 @@ namespace yazyk {
  */
 class Identifier : public IExpression {
   
-public:
-  std::string name;
-  
-private:
+  const std::string mName;
   std::string mVariableName;
   
 public:
-  Identifier(const std::string& name) : name(name), mVariableName("") { }
+  Identifier(const std::string& name) : mName(name), mVariableName("") { }
   
   Identifier(const std::string& name, const std::string& variableName) :
-    name(name), mVariableName(variableName) { }
+    mName(name), mVariableName(variableName) { }
   
   ~Identifier() { }
+  
+  const std::string& getName() const;
   
   llvm::Value* generateIR(IRGenerationContext& context) override;
 };
