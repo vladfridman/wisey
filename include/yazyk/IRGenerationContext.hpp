@@ -16,7 +16,6 @@
 #include <llvm/IR/Module.h>
 
 #include "yazyk/IRGenerationBlock.hpp"
-#include "yazyk/node.hpp"
 
 namespace yazyk {
   

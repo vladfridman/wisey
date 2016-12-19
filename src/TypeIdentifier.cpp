@@ -14,20 +14,21 @@
 using namespace llvm;
 using namespace yazyk;
 
-Type* TypeIdentifier::typeOf(LLVMContext &llvmContext, const TypeSpecifier& type) {
-  if (type.type == PRIMITIVE_TYPE_INT) {
+Type* TypeIdentifier::typeOf(LLVMContext &llvmContext, const TypeSpecifier& typeSpecifier) {
+  PrimitiveType type = typeSpecifier.getType();
+  if (type == PRIMITIVE_TYPE_INT) {
     return (Type*) Type::getInt32Ty(llvmContext);
-  } else if (type.type == PRIMITIVE_TYPE_LONG) {
+  } else if (type == PRIMITIVE_TYPE_LONG) {
     return (Type*)  Type::getInt64Ty(llvmContext);
-  } else if (type.type == PRIMITIVE_TYPE_FLOAT) {
+  } else if (type == PRIMITIVE_TYPE_FLOAT) {
     return Type::getFloatTy(llvmContext);
-  } else if (type.type == PRIMITIVE_TYPE_DOUBLE) {
+  } else if (type == PRIMITIVE_TYPE_DOUBLE) {
     return Type::getDoubleTy(llvmContext);
-  } else if (type.type == PRIMITIVE_TYPE_VOID) {
+  } else if (type == PRIMITIVE_TYPE_VOID) {
     return Type::getVoidTy(llvmContext);
   }
   
-  Log::e("Unknown type " + std::to_string(type.type) + ". Replacing with void.");
+  Log::e("Unknown type " + std::to_string(type) + ". Replacing with void.");
   return Type::getVoidTy(llvmContext);
 }
 

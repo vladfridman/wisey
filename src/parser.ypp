@@ -10,6 +10,7 @@
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
   #include "yazyk/ReturnVoidStatement.hpp"
+  #include "yazyk/TypeSpecifier.hpp"
   #include "yazyk/VariableDeclaration.hpp"
   
   using namespace std;

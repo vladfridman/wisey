@@ -11,6 +11,7 @@
 
 #include "yazyk/Identifier.hpp"
 #include "yazyk/node.hpp"
+#include "yazyk/TypeSpecifier.hpp"
 
 namespace yazyk {
 

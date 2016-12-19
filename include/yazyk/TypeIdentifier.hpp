@@ -10,6 +10,7 @@
 #define TypeIdentifier_h
 
 #include "yazyk/node.hpp"
+#include "yazyk/TypeSpecifier.hpp"
 
 namespace yazyk {
 
@@ -21,7 +22,7 @@ public:
   /**
    * Returns an LLVM type based on the identifier 
    */
-  static llvm::Type* typeOf(llvm::LLVMContext &llvmContext, const TypeSpecifier& type);
+  static llvm::Type* typeOf(llvm::LLVMContext &llvmContext, const TypeSpecifier& typeSpecifier);
 };
 
 } /* namespace yazyk */

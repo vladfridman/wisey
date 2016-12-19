@@ -5,6 +5,8 @@
 #include <vector>
 #include <llvm/IR/Value.h>
 
+#include "yazyk/INode.hpp"
+
 namespace yazyk {
   
 class Identifier;
@@ -17,14 +19,6 @@ typedef std::vector<IStatement*> StatementList;
 typedef std::vector<IExpression*> ExpressionList;
 typedef std::vector<VariableDeclaration*> VariableList;
 
-typedef enum PrimitiveTypeEnum {
-  PRIMITIVE_TYPE_INT,
-  PRIMITIVE_TYPE_LONG,
-  PRIMITIVE_TYPE_FLOAT,
-  PRIMITIVE_TYPE_DOUBLE,
-  PRIMITIVE_TYPE_VOID,
-} PrimitiveType;
-  
 typedef enum RelationalOperationEnum {
   RELATIONAL_OPERATION_LT,
   RELATIONAL_OPERATION_GT,
@@ -34,11 +28,6 @@ typedef enum RelationalOperationEnum {
   RELATIONAL_OPERATION_NE,
 } RelationalOperation;
 
-class INode {
-public:
-  virtual ~INode() { }
-  virtual llvm::Value* generateIR(IRGenerationContext& context) = 0;
-};
 
 class IExpression : public INode {
 };
@@ -153,16 +142,6 @@ public:
 
   ExpressionStatement(IExpression& expression) : expression(expression) { }
   ~ExpressionStatement() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
-class TypeSpecifier : public INode {
-public:
-  PrimitiveType type;
-
-  TypeSpecifier(PrimitiveType type) : type(type) { }
-  ~TypeSpecifier() { }
   
   llvm::Value* generateIR(IRGenerationContext& context);
 };

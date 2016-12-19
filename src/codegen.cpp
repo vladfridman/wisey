@@ -80,10 +80,6 @@ string String::unescape(const string& input) {
   return result;
 }
   
-Value * TypeSpecifier::generateIR(IRGenerationContext &context) {
-  return NULL;
-}
-  
 Function* MethodCall::declarePrintf(IRGenerationContext& context) {
   FunctionType *printf_type = TypeBuilder<int(char *, ...), false>::get(context.getLLVMContext());
     
