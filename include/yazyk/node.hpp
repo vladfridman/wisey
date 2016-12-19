@@ -167,21 +167,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class ExternDeclaration : public IStatement {
-public:
-  const Identifier& type;
-  const Identifier& id;
-  VariableList arguments;
-
-  ExternDeclaration(const Identifier& type,
-                     const Identifier& id,
-                     const VariableList& arguments) :
-    type(type), id(id), arguments(arguments) { }
-  ~ExternDeclaration() { }
-  
-  llvm::Value* codeGen(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */
