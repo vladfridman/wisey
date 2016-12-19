@@ -167,21 +167,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class VariableDeclaration : public IStatement {
-public:
-  const TypeSpecifier& type;
-  Identifier& id;
-  IExpression *assignmentExpr;
-
-  VariableDeclaration(const TypeSpecifier& type, Identifier& id) :
-    type(type), id(id) { assignmentExpr = NULL; }
-  VariableDeclaration(const TypeSpecifier& type, Identifier& id, IExpression *assignmentExpr) :
-    type(type), id(id), assignmentExpr(assignmentExpr) { }
-  ~VariableDeclaration() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 class ExternDeclaration : public IStatement {
 public:
   const Identifier& type;

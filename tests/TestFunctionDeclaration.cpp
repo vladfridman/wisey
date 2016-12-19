@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/FunctionDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

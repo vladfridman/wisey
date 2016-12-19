@@ -11,6 +11,7 @@
 #include "yazyk/FunctionDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/TypeIdentifier.hpp"
+#include "yazyk/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -20,7 +21,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   vector<Type*> argTypes;
   VariableList::const_iterator it;
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
-    argTypes.push_back(TypeIdentifier::typeOf(context.getLLVMContext(), (**it).type));
+    argTypes.push_back(TypeIdentifier::typeOf(context.getLLVMContext(), (**it).getType()));
   }
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
   FunctionType *ftype = FunctionType::get(TypeIdentifier::typeOf(context.getLLVMContext(), mType),
@@ -36,7 +37,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   Function::arg_iterator args = function->arg_begin();
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
     Argument *arg = &*args;
-    arg->setName((**it).id.getName());
+    arg->setName((**it).getId().getName());
   }
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   
@@ -45,13 +46,13 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
   args = function->arg_begin();
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
     Value *value = &*args;
-    string newName = (**it).id.getName() + ".param";
+    string newName = (**it).getId().getName() + ".param";
     AllocaInst *alloc = new AllocaInst(TypeIdentifier::typeOf(context.getLLVMContext(),
-                                                              (**it).type),
+                                                              (**it).getType()),
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);
-    context.locals()[(**it).id.getName()] = alloc;
+    context.locals()[(**it).getId().getName()] = alloc;
   }
   
   mBlock.generateIR(context);

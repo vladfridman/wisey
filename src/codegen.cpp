@@ -135,16 +135,4 @@ Value* ExpressionStatement::generateIR(IRGenerationContext& context) {
   return expression.generateIR(context);
 }
 
-Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
-  AllocaInst *alloc = new AllocaInst(TypeIdentifier::typeOf(context.getLLVMContext(), type),
-                                     id.getName().c_str(),
-                                     context.currentBlock());
-  context.locals()[id.getName()] = alloc;
-  if (assignmentExpr != NULL) {
-    Assignment assn(id, *assignmentExpr);
-    assn.generateIR(context);
-  }
-  return alloc;
-}
-  
 } /* namespace yazyk */
