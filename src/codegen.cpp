@@ -127,8 +127,4 @@ Value* Block::generateIR(IRGenerationContext& context) {
   return last;
 }
 
-Value* ExpressionStatement::generateIR(IRGenerationContext& context) {
-  return expression.generateIR(context);
-}
-
 } /* namespace yazyk */
