@@ -110,12 +110,4 @@ Value* MethodCall::generateIR(IRGenerationContext& context) {
   return call;
 }
 
-Value* Assignment::generateIR(IRGenerationContext& context) {
-  if (context.locals().find(lhs.getName()) == context.locals().end()) {
-    Log::e("undeclared variable " + lhs.getName());
-    return NULL;
-  }
-  return new StoreInst(rhs.generateIR(context), context.locals()[lhs.getName()], context.currentBlock());
-}
-
 } /* namespace yazyk */

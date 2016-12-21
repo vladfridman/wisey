@@ -114,18 +114,6 @@ private:
   llvm::Function* declarePrintf(IRGenerationContext& context);
 };
 
-class Assignment : public IExpression {
-public:
-  Identifier& lhs;
-  IExpression& rhs;
-
-  Assignment(Identifier& lhs, IExpression& rhs) :
-    lhs(lhs), rhs(rhs) { }
-  ~Assignment() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */
