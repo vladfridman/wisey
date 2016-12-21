@@ -126,16 +126,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class Block : public IExpression {
-public:
-  StatementList statements;
-
-  Block() { }
-  ~Block() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */

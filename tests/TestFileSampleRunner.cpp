@@ -11,6 +11,7 @@
 #include <llvm-c/Target.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "yazyk/Block.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/log.hpp"
 #include "yazyk/node.hpp"

@@ -1,5 +1,6 @@
 %{
   #include <string>
+  #include "yazyk/Block.hpp"
   #include "yazyk/node.hpp"
   #include "yazyk/TypeSpecifier.hpp"
   #include "y.tab.h"

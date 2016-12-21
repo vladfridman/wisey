@@ -1,5 +1,6 @@
 %{
   #include "yazyk/AddditiveMultiplicativeExpression.hpp"
+  #include "yazyk/Block.hpp"
   #include "yazyk/ConditionalExpression.hpp"
   #include "yazyk/ExpressionStatement.hpp"
   #include "yazyk/FunctionDeclaration.hpp"
@@ -81,8 +82,8 @@ program
   ;
         
 stmts
-  : stmt { $$ = new Block(); $$->statements.push_back($<stmt>1); }
-  | stmts stmt { $1->statements.push_back($<stmt>2); }
+  : stmt { $$ = new Block(); $$->getStatements().push_back($<stmt>1); }
+  | stmts stmt { $1->getStatements().push_back($<stmt>2); }
   ;
 
 stmt

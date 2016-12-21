@@ -2,6 +2,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/TypeBuilder.h>
 
+#include "yazyk/Block.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/node.hpp"
@@ -115,16 +116,6 @@ Value* Assignment::generateIR(IRGenerationContext& context) {
     return NULL;
   }
   return new StoreInst(rhs.generateIR(context), context.locals()[lhs.getName()], context.currentBlock());
-}
-
-Value* Block::generateIR(IRGenerationContext& context) {
-  StatementList::const_iterator it;
-  Value *last = NULL;
-  for (it = statements.begin(); it != statements.end(); it++) {
-    IStatement *statement = *it;
-    last = statement->generateIR(context);
-  }
-  return last;
 }
 
 } /* namespace yazyk */

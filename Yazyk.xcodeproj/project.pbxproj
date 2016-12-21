@@ -12,6 +12,8 @@
 		F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */; };
 		F531B63D1E089E59008304F3 /* ExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */; };
 		F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */; };
+		F531B6421E0A16D7008304F3 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6411E0A16D7008304F3 /* Block.cpp */; };
+		F531B6431E0A16D7008304F3 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6411E0A16D7008304F3 /* Block.cpp */; };
 		F53400BB1DFBE2890002BF7E /* libLLVMAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625EA1DE5EB7200074D66 /* libLLVMAnalysis.a */; };
 		F53400BC1DFBE2890002BF7E /* libLLVMDemangle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FC1DE5EBF300074D66 /* libLLVMDemangle.a */; };
 		F53400BD1DFBE2890002BF7E /* libLLVMInstrumentation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625D21DE5EAA900074D66 /* libLLVMInstrumentation.a */; };
@@ -168,6 +170,8 @@
 		F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExpressionStatement.hpp; path = include/yazyk/ExpressionStatement.hpp; sourceTree = "<group>"; };
 		F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionStatement.cpp; path = src/ExpressionStatement.cpp; sourceTree = "<group>"; };
 		F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestExpressionStatement.cpp; path = tests/TestExpressionStatement.cpp; sourceTree = "<group>"; };
+		F531B6401E0A162D008304F3 /* Block.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Block.hpp; path = include/yazyk/Block.hpp; sourceTree = "<group>"; };
+		F531B6411E0A16D7008304F3 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Block.cpp; path = src/Block.cpp; sourceTree = "<group>"; };
 		F53400E21DFBF1D10002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = lib/libgmock.a; sourceTree = "<group>"; };
 		F53400E31DFBF1D10002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = lib/libgtest.a; sourceTree = "<group>"; };
 		F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AddditiveMultiplicativeExpression.hpp; path = include/yazyk/AddditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
@@ -461,6 +465,7 @@
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
 				F5E2092F1E078C4300E1A147 /* TypeSpecifier.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
+				F531B6411E0A16D7008304F3 /* Block.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -545,6 +550,7 @@
 				F5E2092E1E078B7500E1A147 /* TypeSpecifier.hpp */,
 				F531B6371E07A4AD008304F3 /* INode.hpp */,
 				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
+				F531B6401E0A162D008304F3 /* Block.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -647,6 +653,7 @@
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
 				F574114C1E019597009809FF /* TestReturnVoidStatement.cpp in Sources */,
 				F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
+				F531B6431E0A16D7008304F3 /* Block.cpp in Sources */,
 				F57411431E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
@@ -679,6 +686,7 @@
 				F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
+				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* tokens.lpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* log.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* TypeSpecifier.cpp in Sources */,

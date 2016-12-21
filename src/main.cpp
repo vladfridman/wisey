@@ -10,6 +10,7 @@
 #include <llvm/Support/TargetSelect.h>
 #include <llvm-c/Target.h>
 
+#include "yazyk/Block.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/node.hpp"
 #include "yazyk/log.hpp"
