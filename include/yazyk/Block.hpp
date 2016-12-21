@@ -20,7 +20,7 @@ namespace yazyk {
  * Represents a block of statements
  */
 class Block : public IExpression {
-  StatementList statements;
+  StatementList mStatements;
   
 public:
   Block() { }

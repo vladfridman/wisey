@@ -14,7 +14,7 @@ using namespace yazyk;
 Value* Block::generateIR(IRGenerationContext& context) {
   StatementList::const_iterator it;
   Value *last = NULL;
-  for (it = statements.begin(); it != statements.end(); it++) {
+  for (it = mStatements.begin(); it != mStatements.end(); it++) {
     IStatement *statement = *it;
     last = statement->generateIR(context);
   }
@@ -22,5 +22,5 @@ Value* Block::generateIR(IRGenerationContext& context) {
 }
 
 StatementList& Block::getStatements() {
-  return statements;
+  return mStatements;
 }
