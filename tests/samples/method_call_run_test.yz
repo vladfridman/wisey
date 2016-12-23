@@ -1,0 +1,7 @@
+int foo(int argument) {
+  return argument + 2;
+}
+
+int main() {
+  return foo(3);
+}

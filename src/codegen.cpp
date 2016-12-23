@@ -80,34 +80,5 @@ string String::unescape(const string& input) {
   
   return result;
 }
-  
-Function* MethodCall::declarePrintf(IRGenerationContext& context) {
-  FunctionType *printf_type = TypeBuilder<int(char *, ...), false>::get(context.getLLVMContext());
-    
-  Function *function = cast<Function>(
-    context.getModule()->getOrInsertFunction("printf",
-                                             printf_type,
-                                             AttributeSet().addAttribute(context.getLLVMContext(), 1U, Attribute::NoAlias)));
-  
-  return function;
-}
-  
-Value* MethodCall::generateIR(IRGenerationContext& context) {
-  Function *function = context.getModule()->getFunction(id.getName().c_str());
-  if (function == NULL && id.getName().compare("printf") != 0) {
-    cerr << "no such function " << id.getName() << endl;
-  }
-  if (function == NULL) {
-    function = declarePrintf(context);
-  }
-  vector<Value*> args;
-  ExpressionList::const_iterator it;
-  for (it = arguments.begin(); it != arguments.end(); it++) {
-    args.push_back((**it).generateIR(context));
-  }
-  string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
-  CallInst *call = CallInst::Create(function, args, resultName, context.currentBlock());
-  return call;
-}
 
 } /* namespace yazyk */

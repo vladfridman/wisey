@@ -98,22 +98,6 @@ private:
   std::string unescape(const std::string& input);
 };
 
-class MethodCall : public IExpression {
-public:
-  const Identifier& id;
-  ExpressionList arguments;
-
-  MethodCall(const Identifier& id, ExpressionList& arguments) :
-    id(id), arguments(arguments) { }
-  MethodCall(const Identifier& id) : id(id) { }
-  ~MethodCall() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-  
-private:
-  llvm::Function* declarePrintf(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */

@@ -9,6 +9,7 @@
   #include "yazyk/IncrementExpression.hpp"
   #include "yazyk/LogicalAndExpression.hpp"
   #include "yazyk/LogicalOrExpression.hpp"
+  #include "yazyk/MethodCall.hpp"
   #include "yazyk/node.hpp"
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
