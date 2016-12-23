@@ -85,19 +85,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class String : public IExpression {
-public:
-  std::string value;
-  
-  String(std::string input) : value(unescape(input.substr(1, input.length() - 2))) { }
-  ~String() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-  
-private:
-  std::string unescape(const std::string& input);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */
