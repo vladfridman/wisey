@@ -22,19 +22,14 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-using ::testing::_;
-using ::testing::Mock;
-using ::testing::NiceMock;
-using ::testing::Return;
 using ::testing::Test;
 
 struct StringTest : public Test {
   IRGenerationContext mContext;
-  LLVMContext& mLLVMContext;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
-  StringTest() : mLLVMContext(mContext.getLLVMContext()) {
+  StringTest() {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
