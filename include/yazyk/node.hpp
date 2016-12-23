@@ -75,16 +75,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class Char : public IExpression {
-public:
-  char value;
-  
-  Char(char value) : value(value) { }
-  ~Char() {}
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */

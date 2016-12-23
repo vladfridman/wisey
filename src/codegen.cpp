@@ -17,10 +17,6 @@ namespace yazyk {
 
 /* -- Code Generation -- */
 
-Value* Char::generateIR(IRGenerationContext& context) {
-  return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), value);
-}
-  
 Value* Integer::generateIR(IRGenerationContext& context) {
   return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), value, true);
 }
