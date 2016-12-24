@@ -6,6 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <iostream>
+
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/TypeBuilder.h>
 

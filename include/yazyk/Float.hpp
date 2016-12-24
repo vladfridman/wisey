@@ -9,7 +9,7 @@
 #ifndef Float_h
 #define Float_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 

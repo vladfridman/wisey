@@ -9,7 +9,7 @@
 #ifndef Long_h
 #define Long_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 

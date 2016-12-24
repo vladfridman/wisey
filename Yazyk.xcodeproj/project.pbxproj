@@ -220,6 +220,9 @@
 		F531B6711E0E1816008304F3 /* Integer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Integer.hpp; path = include/yazyk/Integer.hpp; sourceTree = "<group>"; };
 		F531B6721E0E1881008304F3 /* Integer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Integer.cpp; path = src/Integer.cpp; sourceTree = "<group>"; };
 		F531B6751E0E190B008304F3 /* TestInteger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInteger.cpp; path = tests/TestInteger.cpp; sourceTree = "<group>"; };
+		F531B6771E0E19F1008304F3 /* IStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IStatement.hpp; path = include/yazyk/IStatement.hpp; sourceTree = "<group>"; };
+		F531B6781E0E1A61008304F3 /* IExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IExpression.hpp; path = include/yazyk/IExpression.hpp; sourceTree = "<group>"; };
+		F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = RelationalOperation.hpp; path = include/yazyk/RelationalOperation.hpp; sourceTree = "<group>"; };
 		F53400E21DFBF1D10002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = lib/libgmock.a; sourceTree = "<group>"; };
 		F53400E31DFBF1D10002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = lib/libgtest.a; sourceTree = "<group>"; };
 		F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AddditiveMultiplicativeExpression.hpp; path = include/yazyk/AddditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
@@ -243,7 +246,6 @@
 		F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFunctionDeclaration.cpp; path = tests/TestFunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F534FFD81DFBD2750002BF7E /* log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = log.hpp; path = include/yazyk/log.hpp; sourceTree = "<group>"; };
-		F534FFD91DFBD2750002BF7E /* node.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = node.hpp; path = include/yazyk/node.hpp; sourceTree = "<group>"; };
 		F546258D1DE5E43A00074D66 /* Yazyk */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Yazyk; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54625B11DE5E53200074D66 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = /usr/local/lib/libLLVMX86Disassembler.a; sourceTree = "<absolute>"; };
@@ -411,35 +413,35 @@
 		F530B45D1DFA02EB00477384 /* tests */ = {
 			isa = PBXGroup;
 			children = (
-				F53400F01DFC6B970002BF7E /* samples */,
-				F534FFD31DFAC6B10002BF7E /* lib */,
 				F53401021DFED9AB0002BF7E /* include */,
-				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
+				F534FFD31DFAC6B10002BF7E /* lib */,
+				F53400F01DFC6B970002BF7E /* samples */,
 				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
-				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
-				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
+				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
+				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
+				F531B65C1E0DEB26008304F3 /* TestChar.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
+				F531B6631E0E1307008304F3 /* TestDouble.cpp */,
+				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
+				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
+				F531B6691E0E14E0008304F3 /* TestFloat.cpp */,
 				F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */,
-				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
-				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
-				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
-				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
+				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
+				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
+				F531B6751E0E190B008304F3 /* TestInteger.cpp */,
 				F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
-				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
-				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
-				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
-				F531B6381E07A80F008304F3 /* TestTypeSpecifier.cpp */,
-				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
-				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
-				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
-				F531B6501E0DCA9C008304F3 /* TestMethodCall.cpp */,
-				F531B6561E0DE040008304F3 /* TestString.cpp */,
-				F531B65C1E0DEB26008304F3 /* TestChar.cpp */,
-				F531B6631E0E1307008304F3 /* TestDouble.cpp */,
-				F531B6691E0E14E0008304F3 /* TestFloat.cpp */,
+				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
+				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
 				F531B66F1E0E168D008304F3 /* TestLong.cpp */,
-				F531B6751E0E190B008304F3 /* TestInteger.cpp */,
+				F531B6501E0DCA9C008304F3 /* TestMethodCall.cpp */,
+				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
+				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
+				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
+				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
+				F531B6561E0DE040008304F3 /* TestString.cpp */,
+				F531B6381E07A80F008304F3 /* TestTypeSpecifier.cpp */,
+				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -499,36 +501,36 @@
 		F54625BD1DE5E53900074D66 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				F569E9F71DF9CE6600BBB20E /* main.cpp */,
-				F569E9EB1DF9CC9600BBB20E /* log.cpp */,
-				F569E9ED1DF9CC9600BBB20E /* parser.ypp */,
-				F569E9EE1DF9CC9600BBB20E /* tokens.lpp */,
-				F54625B11DE5E53200074D66 /* Makefile */,
 				F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */,
-				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
+				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
+				F531B6411E0A16D7008304F3 /* Block.cpp */,
+				F531B6591E0DE52F008304F3 /* Char.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
+				F531B65F1E0E11DA008304F3 /* Double.cpp */,
+				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
+				F531B6661E0E1460008304F3 /* Float.cpp */,
 				F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */,
-				F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */,
-				F57411411E015961009809FF /* ReturnStatement.cpp */,
-				F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */,
+				F57411721E043EE4009809FF /* Identifier.cpp */,
+				F574116A1E042390009809FF /* IncrementExpression.cpp */,
+				F531B6721E0E1881008304F3 /* Integer.cpp */,
+				F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */,
+				F574115F1E01AC98009809FF /* IRGenerationContext.cpp */,
+				F569E9EB1DF9CC9600BBB20E /* log.cpp */,
 				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
 				F57411581E01A09B009809FF /* LogicalOrExpression.cpp */,
-				F574115F1E01AC98009809FF /* IRGenerationContext.cpp */,
-				F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */,
-				F574116A1E042390009809FF /* IncrementExpression.cpp */,
-				F57411721E043EE4009809FF /* Identifier.cpp */,
-				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
-				F5E2092F1E078C4300E1A147 /* TypeSpecifier.cpp */,
-				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
-				F531B6411E0A16D7008304F3 /* Block.cpp */,
-				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
-				F531B64D1E0DC1D4008304F3 /* MethodCall.cpp */,
-				F531B6531E0DDD96008304F3 /* String.cpp */,
-				F531B6591E0DE52F008304F3 /* Char.cpp */,
-				F531B65F1E0E11DA008304F3 /* Double.cpp */,
-				F531B6661E0E1460008304F3 /* Float.cpp */,
 				F531B66C1E0E1625008304F3 /* Long.cpp */,
-				F531B6721E0E1881008304F3 /* Integer.cpp */,
+				F569E9F71DF9CE6600BBB20E /* main.cpp */,
+				F54625B11DE5E53200074D66 /* Makefile */,
+				F531B64D1E0DC1D4008304F3 /* MethodCall.cpp */,
+				F569E9ED1DF9CC9600BBB20E /* parser.ypp */,
+				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
+				F57411411E015961009809FF /* ReturnStatement.cpp */,
+				F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */,
+				F531B6531E0DDD96008304F3 /* String.cpp */,
+				F569E9EE1DF9CC9600BBB20E /* tokens.lpp */,
+				F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */,
+				F5E2092F1E078C4300E1A147 /* TypeSpecifier.cpp */,
+				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -594,34 +596,36 @@
 		F569E9F91DF9CE6B00BBB20E /* include */ = {
 			isa = PBXGroup;
 			children = (
-				F534FFD81DFBD2750002BF7E /* log.hpp */,
-				F534FFD91DFBD2750002BF7E /* node.hpp */,
 				F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */,
-				F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */,
+				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
+				F531B6401E0A162D008304F3 /* Block.hpp */,
+				F531B6581E0DE4ED008304F3 /* Char.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
+				F531B6621E0E1268008304F3 /* Double.hpp */,
+				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
+				F531B6651E0E13F5008304F3 /* Float.hpp */,
 				F534010F1DFF31550002BF7E /* FunctionDeclaration.hpp */,
-				F53401161DFF34320002BF7E /* TypeIdentifier.hpp */,
-				F57411441E0159AE009809FF /* ReturnStatement.hpp */,
-				F57411471E019450009809FF /* ReturnVoidStatement.hpp */,
+				F57411711E043E80009809FF /* Identifier.hpp */,
+				F531B6781E0E1A61008304F3 /* IExpression.hpp */,
+				F57411691E0422AF009809FF /* IncrementExpression.hpp */,
+				F531B6371E07A4AD008304F3 /* INode.hpp */,
+				F531B6711E0E1816008304F3 /* Integer.hpp */,
+				F574115E1E01A983009809FF /* IRGenerationBlock.hpp */,
+				F574115D1E01A52C009809FF /* IRGenerationContext.hpp */,
+				F531B6771E0E19F1008304F3 /* IStatement.hpp */,
+				F534FFD81DFBD2750002BF7E /* log.hpp */,
 				F574114D1E019975009809FF /* LogicalAndExpression.hpp */,
 				F57411571E01A022009809FF /* LogicalOrExpression.hpp */,
-				F574115D1E01A52C009809FF /* IRGenerationContext.hpp */,
-				F574115E1E01A983009809FF /* IRGenerationBlock.hpp */,
-				F57411691E0422AF009809FF /* IncrementExpression.hpp */,
-				F57411711E043E80009809FF /* Identifier.hpp */,
-				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
-				F5E2092E1E078B7500E1A147 /* TypeSpecifier.hpp */,
-				F531B6371E07A4AD008304F3 /* INode.hpp */,
-				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
-				F531B6401E0A162D008304F3 /* Block.hpp */,
-				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
-				F531B64C1E0DC169008304F3 /* MethodCall.hpp */,
-				F531B6521E0DDCE7008304F3 /* String.hpp */,
-				F531B6581E0DE4ED008304F3 /* Char.hpp */,
-				F531B6621E0E1268008304F3 /* Double.hpp */,
-				F531B6651E0E13F5008304F3 /* Float.hpp */,
 				F531B66B1E0E158F008304F3 /* Long.hpp */,
-				F531B6711E0E1816008304F3 /* Integer.hpp */,
+				F531B64C1E0DC169008304F3 /* MethodCall.hpp */,
+				F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */,
+				F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */,
+				F57411441E0159AE009809FF /* ReturnStatement.hpp */,
+				F57411471E019450009809FF /* ReturnVoidStatement.hpp */,
+				F531B6521E0DDCE7008304F3 /* String.hpp */,
+				F53401161DFF34320002BF7E /* TypeIdentifier.hpp */,
+				F5E2092E1E078B7500E1A147 /* TypeSpecifier.hpp */,
+				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";

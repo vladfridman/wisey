@@ -15,7 +15,6 @@
 
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/log.hpp"
-#include "yazyk/node.hpp"
 
 using namespace llvm;
 using namespace std;

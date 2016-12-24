@@ -9,7 +9,7 @@
 #ifndef VariableDeclaration_h
 #define VariableDeclaration_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IStatement.hpp"
 #include "yazyk/TypeSpecifier.hpp"
 
 namespace yazyk {
@@ -39,6 +39,11 @@ public:
   
   llvm::Value* generateIR(IRGenerationContext& context) override;
 };
+
+/**
+ * Represents a list of variables
+ */
+typedef std::vector<VariableDeclaration*> VariableList;
 
 } /* namespace yazyk */
 

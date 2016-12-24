@@ -9,7 +9,8 @@
 #ifndef RelationalExpression_h
 #define RelationalExpression_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
+#include "yazyk/RelationalOperation.hpp"
 
 namespace yazyk {
   

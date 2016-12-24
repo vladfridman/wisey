@@ -9,7 +9,7 @@
 #ifndef Identifier_h
 #define Identifier_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 

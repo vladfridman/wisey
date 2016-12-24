@@ -9,7 +9,7 @@
 #ifndef Integer_h
 #define Integer_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 

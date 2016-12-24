@@ -11,8 +11,9 @@
 
 #include "yazyk/Block.hpp"
 #include "yazyk/Identifier.hpp"
-#include "yazyk/node.hpp"
+#include "yazyk/IStatement.hpp"
 #include "yazyk/TypeSpecifier.hpp"
+#include "yazyk/VariableDeclaration.hpp"
 
 namespace yazyk {
 

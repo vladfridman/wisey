@@ -9,7 +9,8 @@
 #ifndef ReturnStatement_h
 #define ReturnStatement_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
+#include "yazyk/IStatement.hpp"
 
 namespace yazyk {
 

@@ -9,7 +9,7 @@
 #ifndef String_h
 #define String_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
 
 namespace yazyk {
   

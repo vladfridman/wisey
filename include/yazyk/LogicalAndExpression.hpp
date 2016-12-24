@@ -9,7 +9,7 @@
 #ifndef LogicalAndExpression_h
 #define LogicalAndExpression_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 

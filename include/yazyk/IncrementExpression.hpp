@@ -9,8 +9,8 @@
 #ifndef IncrementExpression_h
 #define IncrementExpression_h
 
+#include "yazyk/IExpression.hpp"
 #include "yazyk/Identifier.hpp"
-#include "yazyk/node.hpp"
 
 namespace yazyk {
 

@@ -15,7 +15,6 @@
   #include "yazyk/LogicalOrExpression.hpp"
   #include "yazyk/Long.hpp"
   #include "yazyk/MethodCall.hpp"
-  #include "yazyk/node.hpp"
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
   #include "yazyk/ReturnVoidStatement.hpp"

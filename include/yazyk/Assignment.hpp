@@ -9,7 +9,8 @@
 #ifndef Assignment_h
 #define Assignment_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/Identifier.hpp"
+#include "yazyk/IExpression.hpp"
 
 namespace yazyk {
   

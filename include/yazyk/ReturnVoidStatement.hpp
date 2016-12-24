@@ -9,7 +9,7 @@
 #ifndef ReturnVoidStatement_h
 #define ReturnVoidStatement_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IStatement.hpp"
 
 namespace yazyk {
 

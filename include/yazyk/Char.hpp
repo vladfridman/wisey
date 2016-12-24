@@ -9,7 +9,7 @@
 #ifndef Char_h
 #define Char_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 

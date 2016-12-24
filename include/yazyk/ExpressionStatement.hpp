@@ -9,7 +9,8 @@
 #ifndef ExpressionStatement_h
 #define ExpressionStatement_h
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
+#include "yazyk/IStatement.hpp"
 
 namespace yazyk {
 

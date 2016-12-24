@@ -11,8 +11,9 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/node.hpp"
+#include "yazyk/IStatement.hpp"
 
 namespace yazyk {
 

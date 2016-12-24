@@ -9,7 +9,7 @@
 #ifndef AddditiveMultiplicativeExpression_hpp
 #define AddditiveMultiplicativeExpression_hpp
 
-#include "yazyk/node.hpp"
+#include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 
