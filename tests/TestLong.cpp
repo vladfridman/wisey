@@ -22,7 +22,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(LongTest, FloatConstantTest) {
+TEST(LongTest, LongConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
