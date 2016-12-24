@@ -21,7 +21,7 @@ LIBDIR = ${CURDIR}/lib
 # List of source files
 SOURCES = $(shell find src -name '*.cpp')
 # Object files to be generated
-OBJ = $(SOURCES:src/%.cpp=$(BUILDDIR)/%.o) $(BUILDDIR)/tokens.o $(BUILDDIR)/y.tab.o
+OBJ = $(SOURCES:src/%.cpp=$(BUILDDIR)/%.o) $(BUILDDIR)/Tokens.o $(BUILDDIR)/y.tab.o
 # file name that contains the main() function
 MAIN = main 
 # Objects except the main
@@ -58,13 +58,13 @@ ${PARSERDIR}:
 ${BINDIR}:
 	mkdir -p ${BINDIR}
 
-${PARSERDIR}/y.tab.c: ${SRCDIR}/parser.ypp | ${PARSERDIR}
+${PARSERDIR}/y.tab.c: ${SRCDIR}/Parser.ypp | ${PARSERDIR}
 	bison -d -o $@ $<
 
 ${PARSERDIR}/y.tab.h: ${PARSERDIR}/y.tab.c | ${PARSERDIR}
 
-${PARSERDIR}/tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
-	flex -o $@ ${SRCDIR}/tokens.lpp
+${PARSERDIR}/Tokens.cpp: ${PARSERDIR}/y.tab.h | ${PARSERDIR}
+	flex -o $@ ${SRCDIR}/Tokens.lpp
 
 $(BUILDDIR)/Test%.o: ${TESTDIR}/Test%.cpp | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} -I${TESTINCLUDEDIR} $(CFLAGS) -Wno-covered-switch-default $<
@@ -72,16 +72,13 @@ $(BUILDDIR)/Test%.o: ${TESTDIR}/Test%.cpp | ${BUILDDIR}
 $(BUILDDIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
 
-$(BUILDDIR)/tokens.o: ${PARSERDIR}/tokens.cpp | ${BUILDDIR}
+$(BUILDDIR)/Tokens.o: ${PARSERDIR}/Tokens.cpp | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
 
-$(BUILDDIR)/codegen.o: ${SRCDIR}/codegen.cpp | ${PARSERDIR}/tokens.cpp ${BUILDDIR}
+$(BUILDDIR)/main.o: ${SRCDIR}/main.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
-$(BUILDDIR)/main.o: ${SRCDIR}/main.cpp | ${PARSERDIR}/tokens.cpp ${BUILDDIR}
-	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
-
-$(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/yazyk/%.hpp | ${PARSERDIR}/tokens.cpp ${BUILDDIR}
+$(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/yazyk/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
 ${BINDIR}/yazyk: $(OBJ) | ${BINDIR}
