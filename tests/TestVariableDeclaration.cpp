@@ -91,3 +91,7 @@ TEST_F(VariableDeclarationTest, VariableDeclarationWithAssignmentTest) {
 TEST_F(TestFileSampleRunner, VariableDeclarationTest) {
   runFile("tests/samples/test_variable_declaration.yz", "5");
 }
+
+TEST_F(TestFileSampleRunner, VariableDeclarationAssignToZeroTest) {
+  runFile("tests/samples/test_variable_declaration_assign_to_zero.yz", "0");
+}
