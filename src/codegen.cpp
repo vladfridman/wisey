@@ -24,9 +24,5 @@ Value* Integer::generateIR(IRGenerationContext& context) {
 Value* Long::generateIR(IRGenerationContext& context) {
   return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), value, true);
 }
-
-Value* Float::generateIR(IRGenerationContext& context) {
-  return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), value);
-}
   
 } /* namespace yazyk */

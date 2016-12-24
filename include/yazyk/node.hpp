@@ -55,16 +55,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class Float: public IExpression {
-public:
-  double value;
-  
-  Float(double value) : value(value) { }
-  ~Float() {}
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */

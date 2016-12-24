@@ -6,6 +6,7 @@
   #include "yazyk/ConditionalExpression.hpp"
   #include "yazyk/Double.hpp"
   #include "yazyk/ExpressionStatement.hpp"
+  #include "yazyk/Float.hpp"
   #include "yazyk/FunctionDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
   #include "yazyk/IncrementExpression.hpp"
