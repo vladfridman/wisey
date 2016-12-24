@@ -9,7 +9,6 @@
 #ifndef EmptyStatement_h
 #define EmptyStatement_h
 
-#include "yazyk/IExpression.hpp"
 #include "yazyk/IStatement.hpp"
 
 namespace yazyk {
