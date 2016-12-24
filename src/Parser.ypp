@@ -5,7 +5,7 @@
   #include "yazyk/Char.hpp"
   #include "yazyk/ConditionalExpression.hpp"
   #include "yazyk/Double.hpp"
-  #include "yazyk/EmptyExpressionStatement.hpp"
+  #include "yazyk/EmptyStatement.hpp"
   #include "yazyk/ExpressionStatement.hpp"
   #include "yazyk/Float.hpp"
   #include "yazyk/ForStatement.hpp"
@@ -129,7 +129,7 @@ statement
   ;
 
 expression_statement
-  : ';' { $$ = new EmptyExpressionStatement(); }
+  : ';' { $$ = new EmptyStatement(); }
   | expression ';' { $$ = new ExpressionStatement(*$1); }
   ;
 

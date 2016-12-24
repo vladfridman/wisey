@@ -157,7 +157,7 @@
 		F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574116F1E042607009809FF /* TestIncrementExpression.cpp */; };
 		F57411731E043EE4009809FF /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411721E043EE4009809FF /* Identifier.cpp */; };
 		F57411741E043EE4009809FF /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411721E043EE4009809FF /* Identifier.cpp */; };
-		F59D82081E0F102000057FB5 /* TestEmptyExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82071E0F102000057FB5 /* TestEmptyExpressionStatement.cpp */; };
+		F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */; };
 		F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */; };
@@ -319,8 +319,8 @@
 		F574116F1E042607009809FF /* TestIncrementExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIncrementExpression.cpp; path = tests/TestIncrementExpression.cpp; sourceTree = "<group>"; };
 		F57411711E043E80009809FF /* Identifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Identifier.hpp; path = include/yazyk/Identifier.hpp; sourceTree = "<group>"; };
 		F57411721E043EE4009809FF /* Identifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Identifier.cpp; path = src/Identifier.cpp; sourceTree = "<group>"; };
-		F59D82061E0F0E4800057FB5 /* EmptyExpressionStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmptyExpressionStatement.hpp; path = include/yazyk/EmptyExpressionStatement.hpp; sourceTree = "<group>"; };
-		F59D82071E0F102000057FB5 /* TestEmptyExpressionStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyExpressionStatement.cpp; path = tests/TestEmptyExpressionStatement.cpp; sourceTree = "<group>"; };
+		F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmptyStatement.hpp; path = include/yazyk/EmptyStatement.hpp; sourceTree = "<group>"; };
+		F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyStatement.cpp; path = tests/TestEmptyStatement.cpp; sourceTree = "<group>"; };
 		F59D82091E0F147000057FB5 /* WhileStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WhileStatement.hpp; path = include/yazyk/WhileStatement.hpp; sourceTree = "<group>"; };
 		F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WhileStatement.cpp; path = src/WhileStatement.cpp; sourceTree = "<group>"; };
 		F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWhileStatement.cpp; path = tests/TestWhileStatement.cpp; sourceTree = "<group>"; };
@@ -437,7 +437,7 @@
 				F531B65C1E0DEB26008304F3 /* TestChar.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F531B6631E0E1307008304F3 /* TestDouble.cpp */,
-				F59D82071E0F102000057FB5 /* TestEmptyExpressionStatement.cpp */,
+				F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */,
 				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
 				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
 				F531B6691E0E14E0008304F3 /* TestFloat.cpp */,
@@ -614,7 +614,7 @@
 				F531B6581E0DE4ED008304F3 /* Char.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
 				F531B6621E0E1268008304F3 /* Double.hpp */,
-				F59D82061E0F0E4800057FB5 /* EmptyExpressionStatement.hpp */,
+				F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */,
 				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
 				F531B6651E0E13F5008304F3 /* Float.hpp */,
 				F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */,
@@ -763,7 +763,7 @@
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
-				F59D82081E0F102000057FB5 /* TestEmptyExpressionStatement.cpp in Sources */,
+				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
 				F531B6681E0E1460008304F3 /* Float.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
 				F53401151DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */,
