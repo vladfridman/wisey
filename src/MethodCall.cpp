@@ -6,12 +6,11 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include <iostream>
-
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/TypeBuilder.h>
 
 #include "yazyk/Identifier.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/MethodCall.hpp"
 
 using namespace llvm;
@@ -33,7 +32,7 @@ Function* MethodCall::declarePrintf(IRGenerationContext& context) {
 Value* MethodCall::generateIR(IRGenerationContext& context) {
   Function *function = context.getModule()->getFunction(mId.getName().c_str());
   if (function == NULL && mId.getName().compare("printf") != 0) {
-    cerr << "no such function " << mId.getName() << endl;
+    Log::e(string("no such function ") + mId.getName());
     exit(1);
   }
   if (function == NULL) {

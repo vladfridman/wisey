@@ -72,7 +72,7 @@ TEST_F(MethodCallTest, MethodDoesNotExistDeathTest) {
 
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "no such function foo");
+              "Error: no such function foo");
 }
 
 TEST_F(MethodCallTest, IntMethodCall) {
