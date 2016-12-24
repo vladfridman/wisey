@@ -35,16 +35,6 @@ class IExpression : public INode {
 class IStatement : public INode {
 };
 
-class Integer : public IExpression {
-public:
-  long value;
-  
-  Integer(long value) : value(value) { }
-  ~Integer() { }
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */

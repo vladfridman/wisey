@@ -36,6 +36,9 @@
 		F531B66D1E0E1625008304F3 /* Long.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B66C1E0E1625008304F3 /* Long.cpp */; };
 		F531B66E1E0E1625008304F3 /* Long.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B66C1E0E1625008304F3 /* Long.cpp */; };
 		F531B6701E0E168D008304F3 /* TestLong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B66F1E0E168D008304F3 /* TestLong.cpp */; };
+		F531B6731E0E1881008304F3 /* Integer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6721E0E1881008304F3 /* Integer.cpp */; };
+		F531B6741E0E1881008304F3 /* Integer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6721E0E1881008304F3 /* Integer.cpp */; };
+		F531B6761E0E190B008304F3 /* TestInteger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6751E0E190B008304F3 /* TestInteger.cpp */; };
 		F53400BB1DFBE2890002BF7E /* libLLVMAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625EA1DE5EB7200074D66 /* libLLVMAnalysis.a */; };
 		F53400BC1DFBE2890002BF7E /* libLLVMDemangle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FC1DE5EBF300074D66 /* libLLVMDemangle.a */; };
 		F53400BD1DFBE2890002BF7E /* libLLVMInstrumentation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625D21DE5EAA900074D66 /* libLLVMInstrumentation.a */; };
@@ -67,7 +70,6 @@
 		F53400D71DFBE3370002BF7E /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */; };
 		F53400D81DFBE3370002BF7E /* libLLVMX86Utils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625E01DE5EAF300074D66 /* libLLVMX86Utils.a */; };
 		F53400D91DFBE5A00002BF7E /* libLLVMMC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625F61DE5EBD200074D66 /* libLLVMMC.a */; };
-		F53400DB1DFBE6EE0002BF7E /* codegen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EA1DF9CC9600BBB20E /* codegen.cpp */; };
 		F53400DC1DFBE6F00002BF7E /* log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* log.cpp */; };
 		F53400DD1DFBE6F30002BF7E /* parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* parser.ypp */; };
 		F53400DE1DFBE6F60002BF7E /* tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* tokens.lpp */; };
@@ -128,7 +130,6 @@
 		F55496F71E06280900DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
 		F55496F81E06281D00DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
 		F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */; };
-		F569E9EF1DF9CC9600BBB20E /* codegen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EA1DF9CC9600BBB20E /* codegen.cpp */; };
 		F569E9F01DF9CC9600BBB20E /* log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* tokens.lpp */; };
@@ -216,6 +217,9 @@
 		F531B66B1E0E158F008304F3 /* Long.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Long.hpp; path = include/yazyk/Long.hpp; sourceTree = "<group>"; };
 		F531B66C1E0E1625008304F3 /* Long.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Long.cpp; path = src/Long.cpp; sourceTree = "<group>"; };
 		F531B66F1E0E168D008304F3 /* TestLong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLong.cpp; path = tests/TestLong.cpp; sourceTree = "<group>"; };
+		F531B6711E0E1816008304F3 /* Integer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Integer.hpp; path = include/yazyk/Integer.hpp; sourceTree = "<group>"; };
+		F531B6721E0E1881008304F3 /* Integer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Integer.cpp; path = src/Integer.cpp; sourceTree = "<group>"; };
+		F531B6751E0E190B008304F3 /* TestInteger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInteger.cpp; path = tests/TestInteger.cpp; sourceTree = "<group>"; };
 		F53400E21DFBF1D10002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = lib/libgmock.a; sourceTree = "<group>"; };
 		F53400E31DFBF1D10002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = lib/libgtest.a; sourceTree = "<group>"; };
 		F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AddditiveMultiplicativeExpression.hpp; path = include/yazyk/AddditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
@@ -279,7 +283,6 @@
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
 		F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = ../../../usr/local/lib/libLLVMGlobalISel.a; sourceTree = "<group>"; };
 		F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifier.cpp; path = tests/TestIdentifier.cpp; sourceTree = "<group>"; };
-		F569E9EA1DF9CC9600BBB20E /* codegen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = codegen.cpp; path = src/codegen.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = log.cpp; path = src/log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = parser.ypp; path = src/parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = tokens.lpp; path = src/tokens.lpp; sourceTree = "<group>"; };
@@ -436,6 +439,7 @@
 				F531B6631E0E1307008304F3 /* TestDouble.cpp */,
 				F531B6691E0E14E0008304F3 /* TestFloat.cpp */,
 				F531B66F1E0E168D008304F3 /* TestLong.cpp */,
+				F531B6751E0E190B008304F3 /* TestInteger.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -496,7 +500,6 @@
 			isa = PBXGroup;
 			children = (
 				F569E9F71DF9CE6600BBB20E /* main.cpp */,
-				F569E9EA1DF9CC9600BBB20E /* codegen.cpp */,
 				F569E9EB1DF9CC9600BBB20E /* log.cpp */,
 				F569E9ED1DF9CC9600BBB20E /* parser.ypp */,
 				F569E9EE1DF9CC9600BBB20E /* tokens.lpp */,
@@ -525,6 +528,7 @@
 				F531B65F1E0E11DA008304F3 /* Double.cpp */,
 				F531B6661E0E1460008304F3 /* Float.cpp */,
 				F531B66C1E0E1625008304F3 /* Long.cpp */,
+				F531B6721E0E1881008304F3 /* Integer.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -617,6 +621,7 @@
 				F531B6621E0E1268008304F3 /* Double.hpp */,
 				F531B6651E0E13F5008304F3 /* Float.hpp */,
 				F531B66B1E0E158F008304F3 /* Long.hpp */,
+				F531B6711E0E1816008304F3 /* Integer.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -702,6 +707,7 @@
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
 				F531B63D1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */,
+				F531B6741E0E1881008304F3 /* Integer.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* parser.ypp in Sources */,
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
@@ -731,6 +737,7 @@
 				F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F57411641E01BBFC009809FF /* IRGenerationBlock.cpp in Sources */,
+				F531B6761E0E190B008304F3 /* TestInteger.cpp in Sources */,
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
@@ -747,7 +754,6 @@
 				F53400DC1DFBE6F00002BF7E /* log.cpp in Sources */,
 				F531B6511E0DCA9C008304F3 /* TestMethodCall.cpp in Sources */,
 				F531B64F1E0DC1D4008304F3 /* MethodCall.cpp in Sources */,
-				F53400DB1DFBE6EE0002BF7E /* codegen.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* String.cpp in Sources */,
 				F531B6391E07A80F008304F3 /* TestTypeSpecifier.cpp in Sources */,
@@ -780,12 +786,12 @@
 				F569E9F21DF9CC9600BBB20E /* parser.ypp in Sources */,
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F57411591E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
+				F531B6731E0E1881008304F3 /* Integer.cpp in Sources */,
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F531B66D1E0E1625008304F3 /* Long.cpp in Sources */,
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F531B64E1E0DC1D4008304F3 /* MethodCall.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
-				F569E9EF1DF9CC9600BBB20E /* codegen.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
