@@ -20,9 +20,5 @@ namespace yazyk {
 Value* Integer::generateIR(IRGenerationContext& context) {
   return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), value, true);
 }
-
-Value* Long::generateIR(IRGenerationContext& context) {
-  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), value, true);
-}
   
 } /* namespace yazyk */

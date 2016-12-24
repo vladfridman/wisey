@@ -45,16 +45,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class Long : public IExpression {
-public:
-  long long value;
-
-  Long(long long value) : value(value) { }
-  ~Long() {}
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */
