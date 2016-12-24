@@ -65,16 +65,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context);
 };
 
-class Double : public IExpression {
-public:
-  long double value;
-
-  Double(long double value) : value(value) { }
-  ~Double() {}
-  
-  llvm::Value* generateIR(IRGenerationContext& context);
-};
-
 } // namespace yazyk
 
 #endif /* node_hpp */

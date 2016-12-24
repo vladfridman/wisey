@@ -29,8 +29,4 @@ Value* Float::generateIR(IRGenerationContext& context) {
   return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), value);
 }
   
-Value* Double::generateIR(IRGenerationContext& context) {
-  return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), value);
-}
-
 } /* namespace yazyk */
