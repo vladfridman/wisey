@@ -26,9 +26,9 @@ TEST(FloatTest, FloatConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
-  Float constantDouble(3.5);
+  Float constantFloat(3.5);
   
-  Value* irValue = constantDouble.generateIR(context);
+  Value* irValue = constantFloat.generateIR(context);
   
   *stringStream << *irValue;
   EXPECT_STREQ("float 3.500000e+00", stringStream->str().c_str());
