@@ -8,6 +8,7 @@
   #include "yazyk/EmptyExpressionStatement.hpp"
   #include "yazyk/ExpressionStatement.hpp"
   #include "yazyk/Float.hpp"
+  #include "yazyk/ForStatement.hpp"
   #include "yazyk/FunctionDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
   #include "yazyk/IncrementExpression.hpp"
@@ -60,7 +61,7 @@
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
 %token <token> TCEQ TCNE TCLE TCGE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
-%token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE
+%token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -134,6 +135,8 @@ expression_statement
 
 iteration_statement
   : TWHILE '(' expression ')' statement { $$ = new WhileStatement(*$3, *$5); }
+  | TFOR '(' declaration expression_statement expression ')' statement
+    { $$ = new ForStatement(*$3, *$4, *$5, *$7); }
   ;
 
 jump_statement

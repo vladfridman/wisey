@@ -161,6 +161,9 @@
 		F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */; };
+		F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82101E0F311B00057FB5 /* ForStatement.cpp */; };
+		F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82101E0F311B00057FB5 /* ForStatement.cpp */; };
+		F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -321,6 +324,9 @@
 		F59D82091E0F147000057FB5 /* WhileStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WhileStatement.hpp; path = include/yazyk/WhileStatement.hpp; sourceTree = "<group>"; };
 		F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WhileStatement.cpp; path = src/WhileStatement.cpp; sourceTree = "<group>"; };
 		F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWhileStatement.cpp; path = tests/TestWhileStatement.cpp; sourceTree = "<group>"; };
+		F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ForStatement.hpp; path = include/yazyk/ForStatement.hpp; sourceTree = "<group>"; };
+		F59D82101E0F311B00057FB5 /* ForStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ForStatement.cpp; path = src/ForStatement.cpp; sourceTree = "<group>"; };
+		F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestForStatement.cpp; path = tests/TestForStatement.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 		F5E209261E07796300E1A147 /* VariableDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableDeclaration.hpp; path = include/yazyk/VariableDeclaration.hpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
@@ -431,9 +437,11 @@
 				F531B65C1E0DEB26008304F3 /* TestChar.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F531B6631E0E1307008304F3 /* TestDouble.cpp */,
+				F59D82071E0F102000057FB5 /* TestEmptyExpressionStatement.cpp */,
 				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
 				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
 				F531B6691E0E14E0008304F3 /* TestFloat.cpp */,
+				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
 				F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
@@ -451,7 +459,6 @@
 				F531B6561E0DE040008304F3 /* TestString.cpp */,
 				F531B6381E07A80F008304F3 /* TestTypeSpecifier.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
-				F59D82071E0F102000057FB5 /* TestEmptyExpressionStatement.cpp */,
 				F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */,
 			);
 			name = tests;
@@ -520,6 +527,7 @@
 				F531B65F1E0E11DA008304F3 /* Double.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
 				F531B6661E0E1460008304F3 /* Float.cpp */,
+				F59D82101E0F311B00057FB5 /* ForStatement.cpp */,
 				F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */,
 				F57411721E043EE4009809FF /* Identifier.cpp */,
 				F574116A1E042390009809FF /* IncrementExpression.cpp */,
@@ -609,6 +617,7 @@
 				F59D82061E0F0E4800057FB5 /* EmptyExpressionStatement.hpp */,
 				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
 				F531B6651E0E13F5008304F3 /* Float.hpp */,
+				F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */,
 				F534010F1DFF31550002BF7E /* FunctionDeclaration.hpp */,
 				F57411711E043E80009809FF /* Identifier.hpp */,
 				F531B6781E0E1A61008304F3 /* IExpression.hpp */,
@@ -736,6 +745,7 @@
 				F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
+				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F531B6701E0E168D008304F3 /* TestLong.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
@@ -767,6 +777,7 @@
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F531B6511E0DCA9C008304F3 /* TestMethodCall.cpp in Sources */,
 				F531B64F1E0DC1D4008304F3 /* MethodCall.cpp in Sources */,
+				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* String.cpp in Sources */,
 				F531B6391E07A80F008304F3 /* TestTypeSpecifier.cpp in Sources */,
@@ -807,6 +818,7 @@
 				F531B64E1E0DC1D4008304F3 /* MethodCall.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
+				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
