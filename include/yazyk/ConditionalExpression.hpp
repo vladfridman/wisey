@@ -18,17 +18,17 @@ namespace yazyk {
  */
 class ConditionalExpression : public IExpression {
   
-  IExpression& conditionExpression;
-  IExpression& conditionTrueExpression;
-  IExpression& conditionFalseExpression;
+  IExpression& mConditionExpression;
+  IExpression& mConditionTrueExpression;
+  IExpression& mConditionFalseExpression;
   
 public:
   ConditionalExpression(IExpression& conditionExpression,
                         IExpression& conditionTrueExpression,
                         IExpression& conditionFalseExpression)
-  : conditionExpression(conditionExpression),
-    conditionTrueExpression(conditionTrueExpression),
-    conditionFalseExpression(conditionFalseExpression) {  }
+  : mConditionExpression(conditionExpression),
+    mConditionTrueExpression(conditionTrueExpression),
+    mConditionFalseExpression(conditionFalseExpression) {  }
   
   llvm::Value* generateIR(IRGenerationContext& context) override;
 };

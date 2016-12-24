@@ -17,9 +17,9 @@ using namespace std;
 using namespace yazyk;
 
 Value *ConditionalExpression::generateIR(IRGenerationContext& context) {
-  Value * conditionValue = conditionExpression.generateIR(context);
+  Value* conditionValue = mConditionExpression.generateIR(context);
   
-  Function * function = context.currentBlock()->getParent();
+  Function* function = context.currentBlock()->getParent();
   
   BasicBlock* blockCondTrue = BasicBlock::Create(context.getLLVMContext(), "cond.true", function);
   BasicBlock* blockCondFalse = BasicBlock::Create(context.getLLVMContext(), "cond.false", function);
@@ -27,13 +27,13 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) {
   BranchInst::Create(blockCondTrue, blockCondFalse, conditionValue, context.currentBlock());
   
   context.replaceBlock(blockCondTrue);
-  Value * condTrueValue = conditionTrueExpression.generateIR(context);
+  Value * condTrueValue = mConditionTrueExpression.generateIR(context);
   Type * condTrueResultType = condTrueValue->getType();
   BasicBlock * lastBlock = context.currentBlock();
   BranchInst::Create(blockCondEnd, context.currentBlock());
 
   context.replaceBlock(blockCondFalse);
-  Value * condFalseValue = conditionFalseExpression.generateIR(context);
+  Value * condFalseValue = mConditionFalseExpression.generateIR(context);
   Type * condFalseResultType = condTrueValue->getType();
   lastBlock = context.currentBlock();
   BranchInst::Create(blockCondEnd, context.currentBlock());
