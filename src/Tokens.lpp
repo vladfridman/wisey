@@ -30,6 +30,7 @@ WS  [ \t\v\n\f]
 "double"                      return TOKEN(TTYPEDOUBLE);
 "void"                        return TOKEN(TTYPEVOID);
 "return"                      return TOKEN(TRETURN);
+"while"                       return TOKEN(TWHILE);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

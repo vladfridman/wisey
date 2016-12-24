@@ -22,6 +22,7 @@
   #include "yazyk/String.hpp"
   #include "yazyk/TypeSpecifier.hpp"
   #include "yazyk/VariableDeclaration.hpp"
+  #include "yazyk/WhileStatement.hpp"
   
   using namespace std;
   using namespace yazyk;
@@ -59,7 +60,7 @@
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
 %token <token> TCEQ TCNE TCLE TCGE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
-%token <token> TRETURN TANDOP TOROP TINCOP TDECOP
+%token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -75,7 +76,7 @@
 %type <exprvec> call_args
 %type <block> program block_item_list compound_statement translation_unit
 %type <statement> statement var_decl function_definition func_arg_decl jump_statement block_item
-%type <statement> external_declaration declaration expression_statement
+%type <statement> external_declaration declaration expression_statement iteration_statement
 %type <type> type_specifier
 
 /* Operator precedence for mathematical operators */
@@ -122,12 +123,17 @@ declaration
 statement
   : compound_statement
   | expression_statement
+  | iteration_statement
   | jump_statement
   ;
 
 expression_statement
   : ';' { $$ = new EmptyExpressionStatement(); }
   | expression ';' { $$ = new ExpressionStatement(*$1); }
+  ;
+
+iteration_statement
+  : TWHILE '(' expression ')' statement { $$ = new WhileStatement(*$3, *$5); }
   ;
 
 jump_statement
