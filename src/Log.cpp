@@ -1,5 +1,5 @@
 //
-//  log.cpp
+//  Log.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/7/16.
@@ -33,8 +33,4 @@ void Log::d(std::string message) {
   if (Log::sLogLevel >= DEBUGLEVEL) {
     cout << "Debug: " << message << endl;
   }
-}
-
-bool Log::isDebugLevel() {
-  return sLogLevel == DEBUGLEVEL;
 }
