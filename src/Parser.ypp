@@ -5,6 +5,7 @@
   #include "yazyk/Char.hpp"
   #include "yazyk/ConditionalExpression.hpp"
   #include "yazyk/Double.hpp"
+  #include "yazyk/EmptyExpressionStatement.hpp"
   #include "yazyk/ExpressionStatement.hpp"
   #include "yazyk/Float.hpp"
   #include "yazyk/FunctionDeclaration.hpp"
@@ -43,7 +44,7 @@
 %union {
   yazyk::INode *node;
   yazyk::IExpression *expr;
-  yazyk::IStatement *stmt;
+  yazyk::IStatement *statement;
   yazyk::Block *block;
   yazyk::TypeSpecifier *type;
   yazyk::Identifier *ident;
@@ -72,8 +73,9 @@
 %type <expr> conditional_expression postfix_expression
 %type <varvec> func_decl_args
 %type <exprvec> call_args
-%type <block> program stmts block
-%type <stmt> stmt var_decl func_decl func_arg_decl return_statement
+%type <block> program block_item_list compound_statement translation_unit
+%type <statement> statement var_decl function_definition func_arg_decl jump_statement block_item
+%type <statement> external_declaration declaration expression_statement
 %type <type> type_specifier
 
 /* Operator precedence for mathematical operators */
@@ -85,27 +87,50 @@
 %%
 
 program
-  : stmts { programBlock = $1; }
-  ;
-        
-stmts
-  : stmt { $$ = new Block(); $$->getStatements().push_back($<stmt>1); }
-  | stmts stmt { $1->getStatements().push_back($<stmt>2); }
+  : translation_unit { programBlock = $1; }
   ;
 
-stmt
+translation_unit
+  : external_declaration { $$ = new Block(); $$->getStatements().push_back($<statement>1); }
+  | translation_unit external_declaration { $1->getStatements().push_back($<statement>2); }
+  ;
+
+external_declaration
+  : function_definition { $$ = $1; }
+  ;
+
+compound_statement
+  : '{' '}' { $$ = new Block(); }
+  | '{'  block_item_list '}' { $$ = $2; }
+  ;
+
+block_item_list
+  : block_item { $$ = new Block(); $$->getStatements().push_back($<statement>1); }
+  | block_item_list block_item { $1->getStatements().push_back($<statement>2); }
+  ;
+
+block_item
+  : declaration
+  | statement { $$ = $1; }
+  ;
+
+declaration
   : var_decl
-  | func_decl
-  | return_statement { $$ = $1; }
+  | function_definition
+  ;
+
+statement
+  : compound_statement
+  | expression_statement
+  | jump_statement
+  ;
+
+expression_statement
+  : ';' { $$ = new EmptyExpressionStatement(); }
   | expression ';' { $$ = new ExpressionStatement(*$1); }
   ;
 
-block
-  : '{' stmts '}' { $$ = $2; }
-  | '{' '}' { $$ = new Block(); }
-  ;
-
-return_statement
+jump_statement
   : TRETURN ';' { $$ =  new ReturnVoidStatement(); }
   | TRETURN expression ';' { $$ = new ReturnStatement(*$2); }
   ;
@@ -115,8 +140,8 @@ var_decl
   | type_specifier identifier '=' expression ';' { $$ = new VariableDeclaration(*$1, *$2, $4); }
   ;
         
-func_decl
-  : type_specifier identifier '(' func_decl_args ')' block
+function_definition
+  : type_specifier identifier '(' func_decl_args ')' compound_statement
     { $$ = new FunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
   ;
 

@@ -157,6 +157,7 @@
 		F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574116F1E042607009809FF /* TestIncrementExpression.cpp */; };
 		F57411731E043EE4009809FF /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411721E043EE4009809FF /* Identifier.cpp */; };
 		F57411741E043EE4009809FF /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411721E043EE4009809FF /* Identifier.cpp */; };
+		F59D82081E0F102000057FB5 /* TestEmptyExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82071E0F102000057FB5 /* TestEmptyExpressionStatement.cpp */; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -312,6 +313,8 @@
 		F574116F1E042607009809FF /* TestIncrementExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIncrementExpression.cpp; path = tests/TestIncrementExpression.cpp; sourceTree = "<group>"; };
 		F57411711E043E80009809FF /* Identifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Identifier.hpp; path = include/yazyk/Identifier.hpp; sourceTree = "<group>"; };
 		F57411721E043EE4009809FF /* Identifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Identifier.cpp; path = src/Identifier.cpp; sourceTree = "<group>"; };
+		F59D82061E0F0E4800057FB5 /* EmptyExpressionStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmptyExpressionStatement.hpp; path = include/yazyk/EmptyExpressionStatement.hpp; sourceTree = "<group>"; };
+		F59D82071E0F102000057FB5 /* TestEmptyExpressionStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyExpressionStatement.cpp; path = tests/TestEmptyExpressionStatement.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 		F5E209261E07796300E1A147 /* VariableDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableDeclaration.hpp; path = include/yazyk/VariableDeclaration.hpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
@@ -442,6 +445,7 @@
 				F531B6561E0DE040008304F3 /* TestString.cpp */,
 				F531B6381E07A80F008304F3 /* TestTypeSpecifier.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
+				F59D82071E0F102000057FB5 /* TestEmptyExpressionStatement.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -594,6 +598,7 @@
 				F531B6581E0DE4ED008304F3 /* Char.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
 				F531B6621E0E1268008304F3 /* Double.hpp */,
+				F59D82061E0F0E4800057FB5 /* EmptyExpressionStatement.hpp */,
 				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
 				F531B6651E0E13F5008304F3 /* Float.hpp */,
 				F534010F1DFF31550002BF7E /* FunctionDeclaration.hpp */,
@@ -737,6 +742,7 @@
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
+				F59D82081E0F102000057FB5 /* TestEmptyExpressionStatement.cpp in Sources */,
 				F531B6681E0E1460008304F3 /* Float.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
 				F53401151DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */,
