@@ -12,6 +12,7 @@
   #include "yazyk/ForStatement.hpp"
   #include "yazyk/FunctionDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
+  #include "yazyk/IfElseStatement.hpp"
   #include "yazyk/IncrementExpression.hpp"
   #include "yazyk/Integer.hpp"
   #include "yazyk/LogicalAndExpression.hpp"
@@ -62,7 +63,7 @@
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
 %token <token> TCEQ TCNE TCLE TCGE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
-%token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR
+%token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -79,6 +80,7 @@
 %type <block> program block_item_list compound_statement translation_unit
 %type <statement> statement var_decl function_definition func_arg_decl jump_statement block_item
 %type <statement> external_declaration declaration expression_statement iteration_statement
+%type <statement> selection_statement
 %type <type> type_specifier
 
 /* Operator precedence for mathematical operators */
@@ -125,6 +127,7 @@ declaration
 statement
   : compound_statement
   | expression_statement
+  | selection_statement
   | iteration_statement
   | jump_statement
   ;
@@ -132,6 +135,11 @@ statement
 expression_statement
   : ';' { $$ = new EmptyStatement(); }
   | expression ';' { $$ = new ExpressionStatement(*$1); }
+  ;
+
+selection_statement
+  : TIF '(' expression ')' statement TELSE statement
+    { $$ = new IfElseStatement (*$3, *$5, *$7); }
   ;
 
 iteration_statement

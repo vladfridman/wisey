@@ -32,6 +32,8 @@ WS  [ \t\v\n\f]
 "return"                      return TOKEN(TRETURN);
 "while"                       return TOKEN(TWHILE);
 "for"                         return TOKEN(TFOR);
+"if"                          return TOKEN(TIF);
+"else"                        return TOKEN(TELSE);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

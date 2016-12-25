@@ -167,6 +167,9 @@
 		F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */; };
 		F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */; };
 		F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */; };
+		F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */; };
+		F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */; };
+		F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -333,6 +336,9 @@
 		F59D82151E0F40E800057FB5 /* EmptyExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmptyExpression.hpp; path = include/yazyk/EmptyExpression.hpp; sourceTree = "<group>"; };
 		F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyExpression.cpp; path = tests/TestEmptyExpression.cpp; sourceTree = "<group>"; };
 		F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmptyExpression.cpp; path = src/EmptyExpression.cpp; sourceTree = "<group>"; };
+		F59D821B1E0F651000057FB5 /* IfElseStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IfElseStatement.hpp; path = include/yazyk/IfElseStatement.hpp; sourceTree = "<group>"; };
+		F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IfElseStatement.cpp; path = src/IfElseStatement.cpp; sourceTree = "<group>"; };
+		F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIfElseStatement.cpp; path = tests/TestIfElseStatement.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 		F5E209261E07796300E1A147 /* VariableDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableDeclaration.hpp; path = include/yazyk/VariableDeclaration.hpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
@@ -451,6 +457,7 @@
 				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
 				F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
+				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
 				F531B6751E0E190B008304F3 /* TestInteger.cpp */,
 				F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */,
@@ -538,6 +545,7 @@
 				F59D82101E0F311B00057FB5 /* ForStatement.cpp */,
 				F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */,
 				F57411721E043EE4009809FF /* Identifier.cpp */,
+				F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */,
 				F574116A1E042390009809FF /* IncrementExpression.cpp */,
 				F531B6721E0E1881008304F3 /* Integer.cpp */,
 				F57411621E01BBFC009809FF /* IRGenerationBlock.cpp */,
@@ -630,6 +638,7 @@
 				F534010F1DFF31550002BF7E /* FunctionDeclaration.hpp */,
 				F57411711E043E80009809FF /* Identifier.hpp */,
 				F531B6781E0E1A61008304F3 /* IExpression.hpp */,
+				F59D821B1E0F651000057FB5 /* IfElseStatement.hpp */,
 				F57411691E0422AF009809FF /* IncrementExpression.hpp */,
 				F531B6371E07A4AD008304F3 /* INode.hpp */,
 				F531B6711E0E1816008304F3 /* Integer.hpp */,
@@ -748,6 +757,7 @@
 				F531B6571E0DE040008304F3 /* TestString.cpp in Sources */,
 				F57411661E01BF18009809FF /* TestIRGenerationBlock.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
+				F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
@@ -789,6 +799,7 @@
 				F531B64F1E0DC1D4008304F3 /* MethodCall.cpp in Sources */,
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
+				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* String.cpp in Sources */,
 				F531B6391E07A80F008304F3 /* TestTypeSpecifier.cpp in Sources */,
@@ -811,6 +822,7 @@
 				F531B6541E0DDD96008304F3 /* String.cpp in Sources */,
 				F531B6481E0A4F76008304F3 /* Assignment.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
+				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */,
