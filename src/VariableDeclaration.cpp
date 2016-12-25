@@ -18,7 +18,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* VariableDeclaration::generateIR(IRGenerationContext& context) {
+Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   AllocaInst *alloc = new AllocaInst(TypeIdentifier::typeOf(context.getLLVMContext(), mType),
                                      mId.getName().c_str(),
                                      context.currentBlock());

@@ -11,7 +11,7 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* TypeSpecifier::generateIR(IRGenerationContext &context) {
+Value* TypeSpecifier::generateIR(IRGenerationContext &context) const {
   return NULL;
 }
 

@@ -11,7 +11,7 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* WhileStatement::generateIR(IRGenerationContext& context) {
+Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.currentBlock()->getParent();
   

@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) {
+Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) const {
   Instruction::BinaryOps instruction;
   string name;
   switch (mOperation) {

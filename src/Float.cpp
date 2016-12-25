@@ -13,6 +13,6 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* Float::generateIR(IRGenerationContext& context) {
+Value* Float::generateIR(IRGenerationContext& context) const {
   return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), mValue);
 }

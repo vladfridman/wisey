@@ -27,7 +27,7 @@ using ::testing::NiceMock;
 
 class MockStatement : public IStatement {
 public:
-  MOCK_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
 };
 
 TEST(BlockTest, SimpleTest) {

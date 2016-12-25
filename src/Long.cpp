@@ -13,6 +13,6 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* Long::generateIR(IRGenerationContext& context) {
+Value* Long::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), mValue, true);
 }

@@ -25,7 +25,7 @@ public:
   /**
    * Generate LLVM Intermediate Reprentation code
    */
-  virtual llvm::Value* generateIR(IRGenerationContext& context) = 0;
+  virtual llvm::Value* generateIR(IRGenerationContext& context) const = 0;
 };
   
 }

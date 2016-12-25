@@ -17,7 +17,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* FunctionDeclaration::generateIR(IRGenerationContext& context) {
+Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
   vector<Type*> argTypes;
   VariableList::const_iterator it;
   for (it = mArguments.begin(); it != mArguments.end(); it++) {

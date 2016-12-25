@@ -23,7 +23,7 @@ public:
   
   ~EmptyExpression() { }
   
-  llvm::Value* generateIR(IRGenerationContext& context) override { return NULL; }
+  llvm::Value* generateIR(IRGenerationContext& context) const override { return NULL; }
 };
   
 } /* namespace yazyk */

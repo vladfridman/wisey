@@ -24,7 +24,7 @@ public:
   
   ~String() { }
   
-  llvm::Value* generateIR(IRGenerationContext& context) override;
+  llvm::Value* generateIR(IRGenerationContext& context) const override;
   
 private:
   std::string unescape(const std::string& input);

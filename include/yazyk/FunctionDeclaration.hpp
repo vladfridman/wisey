@@ -35,7 +35,7 @@ public:
                       Block& block) :
   mType(type), mId(id), mArguments(arguments), mBlock(block) { }
   
-  llvm::Value* generateIR(IRGenerationContext& context) override;
+  llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
 
 } /* namespace yazyk */

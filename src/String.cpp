@@ -14,7 +14,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* String::generateIR(IRGenerationContext& context) {
+Value* String::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Constant* stringConstant = ConstantDataArray::getString(llvmContext, mValue);
   GlobalVariable* globalVariableString =

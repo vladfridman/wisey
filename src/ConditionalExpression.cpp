@@ -16,7 +16,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value *ConditionalExpression::generateIR(IRGenerationContext& context) {
+Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   Value* conditionValue = mConditionExpression.generateIR(context);
   
   Function* function = context.currentBlock()->getParent();

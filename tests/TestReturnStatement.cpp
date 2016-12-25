@@ -32,7 +32,7 @@ using ::testing::Test;
 
 class MockExpression : public IExpression {
 public:
-  MOCK_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
 };
 
 struct ReturnStatementTest : public Test {

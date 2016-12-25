@@ -15,7 +15,7 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value *LogicalOrExpression::generateIR(IRGenerationContext& context) {
+Value *LogicalOrExpression::generateIR(IRGenerationContext& context) const {
   Value* leftValue = mLeftExpression.generateIR(context);
   BasicBlock* entryBlock = context.currentBlock();
   

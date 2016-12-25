@@ -13,6 +13,6 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* Char::generateIR(IRGenerationContext& context) {
+Value* Char::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), mValue);
 }

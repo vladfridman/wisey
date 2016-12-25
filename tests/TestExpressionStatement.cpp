@@ -28,7 +28,7 @@ using ::testing::NiceMock;
 
 class MockExpression : public IExpression {
 public:
-  MOCK_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
 };
 
 TEST(ExpressionStatementTest, CreatingTest) {

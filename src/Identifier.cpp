@@ -22,7 +22,7 @@ const string& Identifier::getName() const {
   return mName;
 }
 
-Value* Identifier::generateIR(IRGenerationContext& context) {
+Value* Identifier::generateIR(IRGenerationContext& context) const {
   if (context.locals().find(mName) == context.locals().end()) {
     Log::e("Undeclared variable " + mName);
     exit(1);

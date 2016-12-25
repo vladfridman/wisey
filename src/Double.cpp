@@ -13,6 +13,6 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* Double::generateIR(IRGenerationContext& context) {
+Value* Double::generateIR(IRGenerationContext& context) const {
   return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), mValue);
 }

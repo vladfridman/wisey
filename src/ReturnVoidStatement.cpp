@@ -14,6 +14,6 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) {
+Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
   return ReturnInst::Create(context.getLLVMContext(), NULL, context.currentBlock());
 }

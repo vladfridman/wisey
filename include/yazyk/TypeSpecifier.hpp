@@ -38,7 +38,7 @@ public:
   
   PrimitiveType getType() const;
   
-  llvm::Value* generateIR(yazyk::IRGenerationContext& context) override;
+  llvm::Value* generateIR(yazyk::IRGenerationContext& context) const override;
 };
   
 } /* namespace yazyk */

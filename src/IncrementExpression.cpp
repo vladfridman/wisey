@@ -15,7 +15,7 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* IncrementExpression::generateIR(IRGenerationContext& context) {
+Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
   Value* originalValue = identifier.generateIR(context);
   Value* increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
                                       incrementBy,

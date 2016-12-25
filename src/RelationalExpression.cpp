@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* RelationalExpression::generateIR(IRGenerationContext& context) {
+Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
   ICmpInst::Predicate predicate;
   switch (mOperation) {
     case RELATIONAL_OPERATION_LT : predicate = ICmpInst::ICMP_SLT; break;

@@ -26,10 +26,10 @@ public:
   MethodCall(const Identifier& id) : mId(id) { }
     ~MethodCall() { }
   
-  llvm::Value* generateIR(IRGenerationContext& context) override;
+  llvm::Value* generateIR(IRGenerationContext& context) const override;
   
 private:
-  llvm::Function* declarePrintf(IRGenerationContext& context);
+  llvm::Function* declarePrintf(IRGenerationContext& context) const;
 };
   
 } /* namespace yazyk */

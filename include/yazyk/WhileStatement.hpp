@@ -31,7 +31,7 @@ public:
   
   ~WhileStatement() { }
   
-  llvm::Value* generateIR(IRGenerationContext& context) override;
+  llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
 
 } /* namespace yazyk */

@@ -11,6 +11,6 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* ExpressionStatement::generateIR(IRGenerationContext& context) {
+Value* ExpressionStatement::generateIR(IRGenerationContext& context) const {
   return expression.generateIR(context);
 }

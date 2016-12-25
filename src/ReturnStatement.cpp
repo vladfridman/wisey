@@ -15,7 +15,7 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* ReturnStatement::generateIR(IRGenerationContext& context) {
+Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   Value* returnValue = expression.generateIR(context);
   Type* valueType = returnValue->getType();
   Function *parentFunction = context.currentBlock()->getParent();
