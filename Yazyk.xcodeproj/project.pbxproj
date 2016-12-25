@@ -464,6 +464,7 @@
 				F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
+				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
 				F531B6751E0E190B008304F3 /* TestInteger.cpp */,
 				F57411651E01BF18009809FF /* TestIRGenerationBlock.cpp */,
@@ -480,7 +481,6 @@
 				F531B6381E07A80F008304F3 /* TestTypeSpecifier.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */,
-				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";

@@ -71,7 +71,7 @@ struct IfElseStatementTest : Test {
   }
 };
 
-TEST_F(IfElseStatementTest, ForStatementSimpleTest) {
+TEST_F(IfElseStatementTest, IfThenStatementSimpleTest) {
   IfElseStatement ifElseStatement(mCondition, mThenStatement, mElseStatement);
   ifElseStatement.generateIR(mContext);
   
