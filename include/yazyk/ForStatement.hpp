@@ -19,7 +19,7 @@
 namespace yazyk {
   
 /**
- * Represents a while loop statement
+ * Represents a for loop statement
  */
 class ForStatement : public IStatement {
   IStatement& mStartStatement;
@@ -46,7 +46,7 @@ public:
   
   /**
    * For loop statement without the increment part
-   * for (int i = 0; i < 10) { i ++ }
+   * for (int i = 0; i < 10;) { i ++ }
    */
   static ForStatement* newWithNoIncrement(IStatement& startStatement,
                                           IStatement& conditionStatement,
