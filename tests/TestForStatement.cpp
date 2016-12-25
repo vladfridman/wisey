@@ -123,3 +123,7 @@ TEST_F(TestFileSampleRunner, ForStatementWithNoIncrementRunTest) {
   runFile("tests/samples/test_for_statement_with_no_increment.yz", "100");
 }
 
+TEST_F(TestFileSampleRunner, ForStatementWithNoDeclarationRunTest) {
+  runFile("tests/samples/test_for_statement_with_no_declaration.yz", "10");
+}
+
