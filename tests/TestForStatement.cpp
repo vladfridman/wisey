@@ -62,7 +62,7 @@ struct ForStatementTest : Test {
     ON_CALL(mBodyStatement, generateIR(_)).WillByDefault(Return(bodyStatementValue));
     
     FunctionType* functionType =
-    FunctionType::get(Type::getInt32Ty(llvmContext), false);
+      FunctionType::get(Type::getInt32Ty(llvmContext), false);
     mFunction = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
     mContext.pushBlock(BasicBlock::Create(llvmContext, "entry", mFunction));
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -125,5 +125,9 @@ TEST_F(TestFileSampleRunner, ForStatementWithNoIncrementRunTest) {
 
 TEST_F(TestFileSampleRunner, ForStatementWithNoDeclarationRunTest) {
   runFile("tests/samples/test_for_statement_with_no_declaration.yz", "10");
+}
+
+TEST_F(TestFileSampleRunner, ForStatementWithNoDeclarationNoIncrementRunTest) {
+  runFile("tests/samples/test_for_statement_with_no_declaration_no_increment.yz", "11");
 }
 
