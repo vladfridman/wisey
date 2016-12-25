@@ -17,13 +17,16 @@ namespace yazyk {
  * Represents an empty expression that does not do anything
  */
 class EmptyExpression : public IExpression {
-  
+
 public:
+
+  const static EmptyExpression EMPTY_EXPRESSION;
+
   EmptyExpression() { }
   
   ~EmptyExpression() { }
   
-  llvm::Value* generateIR(IRGenerationContext& context) const override { return NULL; }
+  llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
   
 } /* namespace yazyk */

@@ -119,3 +119,7 @@ TEST_F(TestFileSampleRunner, ForStatementRunTest) {
   runFile("tests/samples/test_for_statement.yz", "90");
 }
 
+TEST_F(TestFileSampleRunner, ForStatementWithNoIncrementRunTest) {
+  runFile("tests/samples/test_for_statement_with_no_increment.yz", "100");
+}
+

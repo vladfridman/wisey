@@ -11,6 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/EmptyExpression.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/IStatement.hpp"
@@ -23,14 +24,18 @@ namespace yazyk {
 class ForStatement : public IStatement {
   IStatement& mStartStatement;
   IStatement& mConditionStatement;
-  IExpression& mIncrementExpression;
+  const IExpression& mIncrementExpression;
   IStatement& mBodyStatement;
   
 public:
   
+  /**
+   * For loop statement with start statement, condition, increment expression and body
+   * for (int i = 0; i < 10; i ++) { }
+   */
   ForStatement(IStatement& startStatement,
                IStatement& conditionStatement,
-               IExpression& incrementExpression,
+               const IExpression& incrementExpression,
                IStatement& bodyStatement) :
     mStartStatement(startStatement),
     mConditionStatement(conditionStatement),
@@ -39,9 +44,22 @@ public:
   
   ~ForStatement() { }
   
+  /**
+   * For loop statement without the increment part
+   * for (int i = 0; i < 10) { i ++ }
+   */
+  static ForStatement* newWithNoIncrement(IStatement& startStatement,
+                                          IStatement& conditionStatement,
+                                          IStatement& bodyStatement) {
+    return new ForStatement(startStatement,
+                            conditionStatement,
+                            EmptyExpression::EMPTY_EXPRESSION,
+                            bodyStatement);
+  }
+  
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
-  
+
 } /* namespace yazyk */
 
 #endif /* ForStatement_h */
