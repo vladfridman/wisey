@@ -13,6 +13,7 @@
   #include "yazyk/FunctionDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
   #include "yazyk/IfElseStatement.hpp"
+  #include "yazyk/IfStatement.hpp"
   #include "yazyk/IncrementExpression.hpp"
   #include "yazyk/Integer.hpp"
   #include "yazyk/LogicalAndExpression.hpp"
@@ -138,8 +139,8 @@ expression_statement
   ;
 
 selection_statement
-  : TIF '(' expression ')' statement TELSE statement
-    { $$ = new IfElseStatement (*$3, *$5, *$7); }
+  : TIF '(' expression ')' statement TELSE statement { $$ = new IfElseStatement (*$3, *$5, *$7); }
+  | TIF '(' expression ')' statement { $$ = new IfStatement (*$3, *$5); }
   ;
 
 iteration_statement
