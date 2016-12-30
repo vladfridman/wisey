@@ -13,24 +13,24 @@ using namespace yazyk;
 
 Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
   
-  Function* function = context.currentBlock()->getParent();
+  Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* ifThen = BasicBlock::Create(context.getLLVMContext(), "if.then", function);
   BasicBlock* ifElse = BasicBlock::Create(context.getLLVMContext(), "if.else", function);
   BasicBlock* ifEnd = BasicBlock::Create(context.getLLVMContext(), "if.end", function);
 
   Value* conditionValue = mCondition.generateIR(context);
-  BranchInst::Create(ifThen, ifElse, conditionValue, context.currentBlock());
+  BranchInst::Create(ifThen, ifElse, conditionValue, context.getBasicBlock());
   
-  context.replaceBlock(ifThen);
+  context.setBasicBlock(ifThen);
   mThenStatement.generateIR(context);
-  BranchInst::Create(ifEnd, context.currentBlock());
+  BranchInst::Create(ifEnd, context.getBasicBlock());
   
-  context.replaceBlock(ifElse);
+  context.setBasicBlock(ifElse);
   mElseStatement.generateIR(context);
-  BranchInst::Create(ifEnd, context.currentBlock());
+  BranchInst::Create(ifEnd, context.getBasicBlock());
   
-  context.replaceBlock(ifEnd);
+  context.setBasicBlock(ifEnd);
 
   return conditionValue;
 }

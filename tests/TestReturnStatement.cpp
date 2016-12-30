@@ -55,7 +55,8 @@ public:
 };
 
 TEST_F(ReturnStatementTest, ParentFunctionIsNullDeathTest) {
-  mContext.pushBlock(BasicBlock::Create(mContext.getLLVMContext(), "entry"));
+  mContext.setBasicBlock(BasicBlock::Create(mContext.getLLVMContext(), "entry"));
+  mContext.pushScope();
   ReturnStatement returnStatement(mExpression);
 
   Mock::AllowLeak(&mExpression);
@@ -70,7 +71,8 @@ TEST_F(ReturnStatementTest, ParentFunctionIsIncopatableTypeDeathTest) {
   FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
 
-  mContext.pushBlock(BasicBlock::Create(llvmContext, "entry", function));
+  mContext.setBasicBlock(BasicBlock::Create(llvmContext, "entry", function));
+  mContext.pushScope();
   ReturnStatement returnStatement(mExpression);
   
   Mock::AllowLeak(&mExpression);
@@ -84,7 +86,8 @@ TEST_F(ReturnStatementTest, ParentFunctionIntTest) {
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(llvmContext), false);
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
-  mContext.pushBlock(basicBlock);
+  mContext.setBasicBlock(basicBlock);
+  mContext.pushScope();
   ReturnStatement returnStatement(mExpression);
 
   returnStatement.generateIR(mContext);

@@ -13,22 +13,22 @@ using namespace yazyk;
 
 Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   
-  Function* function = context.currentBlock()->getParent();
+  Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* whileCond = BasicBlock::Create(context.getLLVMContext(), "while.cond", function);
   BasicBlock* whileBody = BasicBlock::Create(context.getLLVMContext(), "while.body", function);
   BasicBlock* whileEnd = BasicBlock::Create(context.getLLVMContext(), "while.end", function);
   
-  BranchInst::Create(whileCond, context.currentBlock());
-  context.replaceBlock(whileCond);
+  BranchInst::Create(whileCond, context.getBasicBlock());
+  context.setBasicBlock(whileCond);
   Value* conditionValue = mConditionExpression.generateIR(context);
-  BranchInst::Create(whileBody, whileEnd, conditionValue, context.currentBlock());
+  BranchInst::Create(whileBody, whileEnd, conditionValue, context.getBasicBlock());
 
-  context.replaceBlock(whileBody);
+  context.setBasicBlock(whileBody);
   mStatement.generateIR(context);
-  BranchInst::Create(whileCond, context.currentBlock());
+  BranchInst::Create(whileCond, context.getBasicBlock());
 
-  context.replaceBlock(whileEnd);
+  context.setBasicBlock(whileEnd);
 
   return conditionValue;
 }

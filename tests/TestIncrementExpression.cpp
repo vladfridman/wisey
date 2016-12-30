@@ -37,11 +37,12 @@ struct IncrementExpressionTest : public Test {
 public:
   
   IncrementExpressionTest() : mIdentifier(mName, "bar") {
-    mContext.pushBlock(mBlock);
+    mContext.setBasicBlock(mBlock);
+    mContext.pushScope();
     AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
                                        mName,
                                        mBlock);
-    mContext.locals()[mName] = alloc;
+    mContext.setVariable(mName, alloc);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 

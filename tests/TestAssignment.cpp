@@ -44,7 +44,8 @@ struct AssignmentTest : public Test {
 public:
   
   AssignmentTest() {
-    mContext.pushBlock(mBlock);
+    mContext.setBasicBlock(mBlock);
+    mContext.pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
     Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
     ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
@@ -75,7 +76,7 @@ TEST_F(AssignmentTest, SimpleTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
                                      name,
                                      mBlock);
-  mContext.locals()[name] = alloc;
+  mContext.setVariable(name, alloc);
 
   assignment.generateIR(mContext);
 

@@ -19,34 +19,34 @@ using namespace yazyk;
 Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   Value* conditionValue = mConditionExpression.generateIR(context);
   
-  Function* function = context.currentBlock()->getParent();
+  Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* blockCondTrue = BasicBlock::Create(context.getLLVMContext(), "cond.true", function);
   BasicBlock* blockCondFalse = BasicBlock::Create(context.getLLVMContext(), "cond.false", function);
   BasicBlock* blockCondEnd = BasicBlock::Create(context.getLLVMContext(), "cond.end", function);
-  BranchInst::Create(blockCondTrue, blockCondFalse, conditionValue, context.currentBlock());
+  BranchInst::Create(blockCondTrue, blockCondFalse, conditionValue, context.getBasicBlock());
   
-  context.replaceBlock(blockCondTrue);
+  context.setBasicBlock(blockCondTrue);
   Value * condTrueValue = mConditionTrueExpression.generateIR(context);
   Type * condTrueResultType = condTrueValue->getType();
-  BasicBlock * lastBlock = context.currentBlock();
-  BranchInst::Create(blockCondEnd, context.currentBlock());
+  BasicBlock * lastBlock = context.getBasicBlock();
+  BranchInst::Create(blockCondEnd, context.getBasicBlock());
 
-  context.replaceBlock(blockCondFalse);
+  context.setBasicBlock(blockCondFalse);
   Value * condFalseValue = mConditionFalseExpression.generateIR(context);
   Type * condFalseResultType = condTrueValue->getType();
-  lastBlock = context.currentBlock();
-  BranchInst::Create(blockCondEnd, context.currentBlock());
+  lastBlock = context.getBasicBlock();
+  BranchInst::Create(blockCondEnd, context.getBasicBlock());
 
   if (condTrueResultType != condFalseResultType) {
     Log::e("Results of different type in a conditional expresion!");
   }
 
-  context.replaceBlock(blockCondEnd);
+  context.setBasicBlock(blockCondEnd);
   PHINode * phiNode = PHINode::Create(condTrueResultType,
                                       0,
                                       "cond",
-                                      context.currentBlock());
+                                      context.getBasicBlock());
   phiNode->addIncoming(condTrueValue, blockCondTrue);
   phiNode->addIncoming(condFalseValue, blockCondFalse);
   

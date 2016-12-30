@@ -33,5 +33,5 @@ Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& contex
                                       leftValue,
                                       rightValue,
                                       name,
-                                      context.currentBlock());
+                                      context.getBasicBlock());
 }

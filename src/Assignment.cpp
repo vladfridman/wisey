@@ -16,12 +16,13 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* Assignment::generateIR(IRGenerationContext& context) const {
-  if (context.locals().find(mIdentifier.getName()) == context.locals().end()) {
+  Value* value = context.getVariable(mIdentifier.getName());
+  if (value == NULL) {
     Log::e("undeclared variable " + mIdentifier.getName());
     exit(1);
   }
   
   return new StoreInst(mExpression.generateIR(context),
-                       context.locals()[mIdentifier.getName()],
-                       context.currentBlock());
+                       value,
+                       context.getBasicBlock());
 }

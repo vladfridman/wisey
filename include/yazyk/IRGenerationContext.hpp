@@ -15,7 +15,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 
-#include "yazyk/IRGenerationBlock.hpp"
+#include "yazyk/Scope.hpp"
 
 namespace yazyk {
   
@@ -24,10 +24,11 @@ namespace yazyk {
  */
 class IRGenerationContext {
   llvm::LLVMContext mLLVMContext;
-  std::stack<IRGenerationBlock *> mBlocks;
+  std::vector<Scope *> mScopes;
   llvm::Function* mMainFunction;
   llvm::Module* mModule;
   std::unique_ptr<llvm::Module> mOwner;
+  llvm::BasicBlock* mBasicBlock;
   
 public:
   
@@ -48,9 +49,15 @@ public:
   llvm::Module* getModule();
 
   /**
-   * Returns the map of local variables for the current program block
+   * Returns scoped variable which could be defined either in the current scope or one of 
+   * the parent scopes.
    */
-  std::map<std::string, llvm::Value*>& locals();
+  llvm::Value* getVariable(std::string name);
+  
+  /**
+   * Set the local variable to a given value
+   */
+  void setVariable(std::string name, llvm::Value* value);
   
   /**
    * Sets the main function for the program
@@ -61,27 +68,27 @@ public:
    * Returns the main function of the program
    */
   llvm::Function* getMainFunction();
+    
+  /**
+   * Pushes a new program scope on the stack of program scopes
+   */
+  void pushScope();
   
   /**
-   * Returns the most recent program block
+   * Pops a program scope out of the stack
    */
-  llvm::BasicBlock *currentBlock();
+  void popScope();
   
   /**
-   * Replaces the current program block with the given one
+   * Return current LLVM basic block
    */
-  void replaceBlock(llvm::BasicBlock *block);
+  llvm::BasicBlock* getBasicBlock();
   
   /**
-   * Pushes a new program block on the stack of program blocks
+   * Set current LLVM basic block
    */
-  void pushBlock(llvm::BasicBlock *block);
-  
-  /**
-   * Pops a program block out of the stack
-   */
-  void popBlock();
-  
+  void setBasicBlock(llvm::BasicBlock* block);
+
   /**
    * Returns the LLVMContext
    */

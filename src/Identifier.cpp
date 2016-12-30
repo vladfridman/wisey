@@ -23,9 +23,10 @@ const string& Identifier::getName() const {
 }
 
 Value* Identifier::generateIR(IRGenerationContext& context) const {
-  if (context.locals().find(mName) == context.locals().end()) {
+  Value* value = context.getVariable(mName);
+  if (value == NULL) {
     Log::e("Undeclared variable " + mName);
     exit(1);
   }
-  return new LoadInst(context.locals()[mName], mVariableName, context.currentBlock());
+  return new LoadInst(value, mVariableName, context.getBasicBlock());
 }

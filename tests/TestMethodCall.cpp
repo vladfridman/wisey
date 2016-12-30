@@ -53,7 +53,8 @@ public:
     mFooMethodIdentifier(Identifier("foo")),
     mPrintfMethodIdentifier(Identifier("printf")),
     mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
-      mContext.pushBlock(mBasicBlock);
+      mContext.setBasicBlock(mBasicBlock);
+      mContext.pushScope();
       mStringStream = new raw_string_ostream(mStringBuffer);
       Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
       ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));

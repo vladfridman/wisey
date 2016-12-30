@@ -32,7 +32,8 @@ struct IdentifierTest : public Test {
   raw_string_ostream* mStringStream;
 
   IdentifierTest() {
-    mContext.pushBlock(mBlock);
+    mContext.setBasicBlock(mBlock);
+    mContext.pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -55,7 +56,7 @@ TEST_F(IdentifierTest, VariableIdentifierTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
                                      name,
                                      mBlock);
-  mContext.locals()[name] = alloc;
+  mContext.setVariable(name, alloc);
   Identifier identifier(name, "bar");
   identifier.generateIR(mContext);
   

@@ -40,8 +40,8 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
     arg->setName((**it).getId().getName());
   }
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
-  
-  context.pushBlock(bblock);
+  context.setBasicBlock(bblock);
+  context.pushScope();
   
   args = function->arg_begin();
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
@@ -52,12 +52,12 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);
-    context.locals()[(**it).getId().getName()] = alloc;
+    context.setVariable((**it).getId().getName(), alloc);
   }
   
   mBlock.generateIR(context);
   
-  context.popBlock();
+  context.popScope();
   return function;
 }
 

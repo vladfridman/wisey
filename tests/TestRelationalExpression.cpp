@@ -43,12 +43,13 @@ struct RelationalExpressionTest : Test {
   raw_string_ostream* mStringStream;
   
   RelationalExpressionTest() {
-    Value * leftValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 3);
-    Value * rightValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
+    Value* leftValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 3);
+    Value* rightValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
     ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
     ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
     mBasicBlock = BasicBlock::Create(context.getLLVMContext(), "test");
-    context.pushBlock(mBasicBlock);
+    context.setBasicBlock(mBasicBlock);
+    context.pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   

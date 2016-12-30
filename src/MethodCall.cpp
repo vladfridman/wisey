@@ -45,5 +45,5 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   }
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
 
-  return CallInst::Create(function, args, resultName, context.currentBlock());
+  return CallInst::Create(function, args, resultName, context.getBasicBlock());
 }

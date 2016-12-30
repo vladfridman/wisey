@@ -40,8 +40,22 @@ Module* IRGenerationContext::getModule() {
   return mModule;
 }
 
-map<string, Value*>& IRGenerationContext::locals() {
-  return mBlocks.top()->getLocals();
+Value* IRGenerationContext::getVariable(string name) {
+  for (std::vector<Scope *>::iterator it = mScopes.begin() ; it != mScopes.end(); ++it) {
+    Value* value = (*it)->getLocals()[name];
+    if (value != NULL) {
+      return value;
+    }
+  }
+  return NULL;
+}
+
+void IRGenerationContext::setVariable(string name, Value* value) {
+  if (mScopes.size() == 0) {
+    Log::e("Can not set variable - scope was not created.");
+    exit(1);
+  }
+  mScopes.back()->getLocals()[name] = value;
 }
 
 void IRGenerationContext::setMainFunction(llvm::Function* function) {
@@ -52,21 +66,21 @@ Function* IRGenerationContext::getMainFunction() {
   return mMainFunction;
 }
 
-BasicBlock* IRGenerationContext::currentBlock() {
-  return !mBlocks.empty() ? mBlocks.top()->getBlock() : NULL;
+BasicBlock* IRGenerationContext::getBasicBlock() {
+  return mBasicBlock;
 }
 
-void IRGenerationContext::replaceBlock(BasicBlock *block) {
-  mBlocks.top()->setBlock(block);
+void IRGenerationContext::setBasicBlock(BasicBlock* block) {
+  mBasicBlock = block;
 }
 
-void IRGenerationContext::pushBlock(BasicBlock *block) {
-  mBlocks.push(new IRGenerationBlock(block));
+void IRGenerationContext::pushScope() {
+  mScopes.push_back(new Scope());
 }
 
-void IRGenerationContext::popBlock() {
-  IRGenerationBlock *top = mBlocks.top();
-  mBlocks.pop();
+void IRGenerationContext::popScope() {
+  Scope* top = mScopes.back();
+  mScopes.pop_back();
   delete top;
 }
 

@@ -21,8 +21,8 @@ using namespace yazyk;
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   AllocaInst *alloc = new AllocaInst(TypeIdentifier::typeOf(context.getLLVMContext(), mType),
                                      mId.getName().c_str(),
-                                     context.currentBlock());
-  context.locals()[mId.getName()] = alloc;
+                                     context.getBasicBlock());
+  context.setVariable(mId.getName(), alloc);
   if (mAssignmentExpression != NULL) {
     Assignment assignment(mId, *mAssignmentExpression);
     assignment.generateIR(context);

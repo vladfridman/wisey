@@ -17,22 +17,22 @@ using namespace yazyk;
 
 Value *LogicalOrExpression::generateIR(IRGenerationContext& context) const {
   Value* leftValue = mLeftExpression.generateIR(context);
-  BasicBlock* entryBlock = context.currentBlock();
+  BasicBlock* entryBlock = context.getBasicBlock();
   
-  Function* function = context.currentBlock()->getParent();
+  Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* basicBlockRight = BasicBlock::Create(context.getLLVMContext(), "lor.rhs", function);
   BasicBlock* basicBlockEnd = BasicBlock::Create(context.getLLVMContext(), "lor.end", function);
-  BranchInst::Create(basicBlockEnd, basicBlockRight, leftValue, context.currentBlock());
+  BranchInst::Create(basicBlockEnd, basicBlockRight, leftValue, context.getBasicBlock());
   
-  context.replaceBlock(basicBlockRight);
+  context.setBasicBlock(basicBlockRight);
   Value* rightValue = mRightExpression.generateIR(context);
-  BasicBlock* lastRightBlock = context.currentBlock();
-  BranchInst::Create(basicBlockEnd, context.currentBlock());
+  BasicBlock* lastRightBlock = context.getBasicBlock();
+  BranchInst::Create(basicBlockEnd, context.getBasicBlock());
   
-  context.replaceBlock(basicBlockEnd);
+  context.setBasicBlock(basicBlockEnd);
   Type* type = Type::getInt1Ty(context.getLLVMContext());
-  PHINode* phiNode = PHINode::Create(type, 0, "lor", context.currentBlock());
+  PHINode* phiNode = PHINode::Create(type, 0, "lor", context.getBasicBlock());
   phiNode->addIncoming(ConstantInt::getTrue(context.getLLVMContext()), entryBlock);
   phiNode->addIncoming(rightValue, lastRightBlock);
   

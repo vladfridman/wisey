@@ -61,7 +61,8 @@ struct IfElseStatementTest : Test {
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(llvmContext), false);
     mFunction = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
-    mContext.pushBlock(BasicBlock::Create(llvmContext, "entry", mFunction));
+    mContext.setBasicBlock(BasicBlock::Create(llvmContext, "entry", mFunction));
+    mContext.pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   

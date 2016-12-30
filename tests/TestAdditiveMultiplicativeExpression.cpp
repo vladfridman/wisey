@@ -49,7 +49,8 @@ struct AddditiveMultiplicativeExpressionTest : Test {
     ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
     ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
     mBasicBlock = BasicBlock::Create(llvmContext, "test");
-    mContext.pushBlock(mBasicBlock);
+    mContext.setBasicBlock(mBasicBlock);
+    mContext.pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   

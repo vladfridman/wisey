@@ -13,7 +13,7 @@ using namespace yazyk;
 
 Value* ForStatement::generateIR(IRGenerationContext& context) const {
   
-  Function* function = context.currentBlock()->getParent();
+  Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* forCond = BasicBlock::Create(context.getLLVMContext(), "for.cond", function);
   BasicBlock* forBody = BasicBlock::Create(context.getLLVMContext(), "for.body", function);
@@ -21,21 +21,21 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* forEnd = BasicBlock::Create(context.getLLVMContext(), "for.end", function);
   
   mStartStatement.generateIR(context);
-  BranchInst::Create(forCond, context.currentBlock());
+  BranchInst::Create(forCond, context.getBasicBlock());
   
-  context.replaceBlock(forCond);
+  context.setBasicBlock(forCond);
   Value* conditionValue = mConditionStatement.generateIR(context);
-  BranchInst::Create(forBody, forEnd, conditionValue, context.currentBlock());
+  BranchInst::Create(forBody, forEnd, conditionValue, context.getBasicBlock());
   
-  context.replaceBlock(forBody);
+  context.setBasicBlock(forBody);
   mBodyStatement.generateIR(context);
-  BranchInst::Create(forInc, context.currentBlock());
+  BranchInst::Create(forInc, context.getBasicBlock());
   
-  context.replaceBlock(forInc);
+  context.setBasicBlock(forInc);
   mIncrementExpression.generateIR(context);
-  BranchInst::Create(forCond, context.currentBlock());
+  BranchInst::Create(forCond, context.getBasicBlock());
 
-  context.replaceBlock(forEnd);
+  context.setBasicBlock(forEnd);
   
   return conditionValue;
 }

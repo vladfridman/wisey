@@ -29,7 +29,7 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
   Value * leftValue = mLeftExpression.generateIR(context);
   Value * rightValue = mRightExpression.generateIR(context);
   
-  return new ICmpInst(*context.currentBlock(),
+  return new ICmpInst(*context.getBasicBlock(),
                       predicate,
                       leftValue,
                       rightValue,

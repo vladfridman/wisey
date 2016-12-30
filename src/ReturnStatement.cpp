@@ -18,7 +18,7 @@ using namespace yazyk;
 Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   Value* returnValue = expression.generateIR(context);
   Type* valueType = returnValue->getType();
-  Function *parentFunction = context.currentBlock()->getParent();
+  Function *parentFunction = context.getBasicBlock()->getParent();
   
   if (parentFunction == NULL) {
     Log::e("No corresponding method found for RETURN");
@@ -37,12 +37,12 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
     returnValue = CastInst::CreateZExtOrBitCast(returnValue,
                                                 returnType,
                                                 "conv",
-                                                context.currentBlock());
+                                                context.getBasicBlock());
   }
   
   ReturnInst* result = ReturnInst::Create(context.getLLVMContext(),
                                           returnValue,
-                                          context.currentBlock());
+                                          context.getBasicBlock());
   return result;
 }
 

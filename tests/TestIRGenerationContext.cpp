@@ -29,17 +29,11 @@ TEST(IRGenerationContextTest, TestBlockStack) {
   BasicBlock* block1 = BasicBlock::Create(llvmContext, "block1");
   BasicBlock* block2 = BasicBlock::Create(llvmContext, "block2");
   
-  EXPECT_EQ(context.currentBlock() == NULL, true);
-  context.pushBlock(block1);
-  EXPECT_EQ(context.currentBlock(), block1);
-  context.pushBlock(block2);
-  EXPECT_EQ(context.currentBlock(), block2);
-  context.popBlock();
-  EXPECT_EQ(context.currentBlock(), block1);
-  context.replaceBlock(block2);
-  EXPECT_EQ(context.currentBlock(), block2);
-  context.popBlock();
-  EXPECT_EQ(context.currentBlock() == NULL, true);
+  EXPECT_EQ(context.getBasicBlock() == NULL, true);
+  context.setBasicBlock(block1);
+  EXPECT_EQ(context.getBasicBlock(), block1);
+  context.setBasicBlock(block2);
+  EXPECT_EQ(context.getBasicBlock(), block2);
 }
 
 TEST(IRGenerationTest, TestMainFunction) {
@@ -52,30 +46,31 @@ TEST(IRGenerationTest, TestMainFunction) {
   EXPECT_EQ(context.getMainFunction(), function);
 }
 
-TEST(IRGenerationTest, TestLocalVariables) {
+TEST(IRGenerationTest, TestScopes) {
   IRGenerationContext context;
+  context.pushScope();
   LLVMContext &llvmContext = context.getLLVMContext();
-  BasicBlock* block1 = BasicBlock::Create(llvmContext, "block1");
-  BasicBlock* block2 = BasicBlock::Create(llvmContext, "block2");
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
   Value* barValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
 
-  context.pushBlock(block1);
-  context.locals()["foo"] = fooValue;
-  context.pushBlock(block2);
-  context.locals()["bar"] = barValue;
+  context.setVariable("foo", fooValue);
+  context.pushScope();
+  context.setVariable("bar", barValue);
   
-  EXPECT_EQ(context.locals()["bar"], barValue);
-  EXPECT_EQ(context.locals()["foo"] == NULL, true);
+  EXPECT_EQ(context.getVariable("bar"), barValue);
+  EXPECT_EQ(context.getVariable("foo"), fooValue);
 
-  context.popBlock();
-  EXPECT_EQ(context.locals()["foo"], fooValue);
-  EXPECT_EQ(context.locals()["bar"] == NULL, true);
+  context.popScope();
+  EXPECT_EQ(context.getVariable("foo"), fooValue);
+  EXPECT_EQ(context.getVariable("bar") == NULL, true);
   
-  context.replaceBlock(block2);
-  context.locals()["bar"] = barValue;
-  EXPECT_EQ(context.locals()["foo"], fooValue);
-  EXPECT_EQ(context.locals()["bar"], barValue);
+  context.setVariable("bar", barValue);
+  EXPECT_EQ(context.getVariable("foo"), fooValue);
+  EXPECT_EQ(context.getVariable("bar"), barValue);
+  
+  context.popScope();
+  EXPECT_EQ(context.getVariable("foo") == NULL, true);
+  EXPECT_EQ(context.getVariable("bar") == NULL, true);
 }
 
 TEST(IRGenerationContextTest, TestModuleIsNotNull) {
@@ -107,7 +102,8 @@ public:
                                           mContext.getModule());
     mContext.setMainFunction(function);
     BasicBlock* block = BasicBlock::Create(llvmContext, "entry", function);
-    mContext.pushBlock(block);
+    mContext.setBasicBlock(block);
+    mContext.pushScope();
     Value* returnValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
     ReturnInst::Create(llvmContext, returnValue, block);
   }
