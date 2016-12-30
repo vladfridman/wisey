@@ -35,6 +35,7 @@ WS  [ \t\v\n\f]
 "if"                          return TOKEN(TIF);
 "else"                        return TOKEN(TELSE);
 "break"                       return TOKEN(TBREAK);
+"continue"                    return TOKEN(TCONTINUE);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

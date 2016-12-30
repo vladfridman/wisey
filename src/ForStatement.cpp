@@ -31,9 +31,11 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   SafeBranch::newConditionalBranch(forBody, forEnd, conditionValue, context);
   
   context.setBreakToBlock(forEnd);
+  context.setContinueToBlock(forInc);
   context.setBasicBlock(forBody);
   mBodyStatement.generateIR(context);
   context.setBreakToBlock(NULL);
+  context.setContinueToBlock(NULL);
 
   SafeBranch::newBranch(forInc, context);
   context.setBasicBlock(forInc);

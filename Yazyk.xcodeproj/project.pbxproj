@@ -161,6 +161,9 @@
 		F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F574116F1E042607009809FF /* TestIncrementExpression.cpp */; };
 		F57411731E043EE4009809FF /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411721E043EE4009809FF /* Identifier.cpp */; };
 		F57411741E043EE4009809FF /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411721E043EE4009809FF /* Identifier.cpp */; };
+		F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
+		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
+		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
 		F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */; };
 		F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
@@ -364,6 +367,9 @@
 		F574116F1E042607009809FF /* TestIncrementExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIncrementExpression.cpp; path = tests/TestIncrementExpression.cpp; sourceTree = "<group>"; };
 		F57411711E043E80009809FF /* Identifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Identifier.hpp; path = include/yazyk/Identifier.hpp; sourceTree = "<group>"; };
 		F57411721E043EE4009809FF /* Identifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Identifier.cpp; path = src/Identifier.cpp; sourceTree = "<group>"; };
+		F58B32831E1635270001CC15 /* ContinueStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ContinueStatement.hpp; path = include/yazyk/ContinueStatement.hpp; sourceTree = "<group>"; };
+		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
+		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
 		F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmptyStatement.hpp; path = include/yazyk/EmptyStatement.hpp; sourceTree = "<group>"; };
 		F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyStatement.cpp; path = tests/TestEmptyStatement.cpp; sourceTree = "<group>"; };
 		F59D82091E0F147000057FB5 /* WhileStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WhileStatement.hpp; path = include/yazyk/WhileStatement.hpp; sourceTree = "<group>"; };
@@ -493,6 +499,7 @@
 				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestChar.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
+				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
 				F531B6631E0E1307008304F3 /* TestDouble.cpp */,
 				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
 				F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */,
@@ -612,6 +619,7 @@
 				F59D82281E1089E700057FB5 /* BreakStatement.cpp */,
 				F531B6591E0DE52F008304F3 /* Char.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
+				F58B32841E1635850001CC15 /* ContinueStatement.cpp */,
 				F531B65F1E0E11DA008304F3 /* Double.cpp */,
 				F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
@@ -706,6 +714,7 @@
 				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
 				F531B6581E0DE4ED008304F3 /* Char.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
+				F58B32831E1635270001CC15 /* ContinueStatement.hpp */,
 				F531B6621E0E1268008304F3 /* Double.hpp */,
 				F59D82151E0F40E800057FB5 /* EmptyExpression.hpp */,
 				F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */,
@@ -829,6 +838,8 @@
 				F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
+				F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */,
+				F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */,
 				F57411741E043EE4009809FF /* Identifier.cpp in Sources */,
 				F531B66E1E0E1625008304F3 /* Long.cpp in Sources */,
@@ -901,6 +912,7 @@
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F57411521E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,
+				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F53400EE1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,

@@ -99,6 +99,16 @@ public:
   llvm::BasicBlock* getBreakToBlock();
   
   /**
+   * Set continue to block for a loop
+   */
+  void setContinueToBlock(llvm::BasicBlock* block);
+  
+  /**
+   * Get continue to block for a loop
+   */
+  llvm::BasicBlock* getContinueToBlock();
+
+  /**
    * Returns the LLVMContext
    */
   llvm::LLVMContext& getLLVMContext();

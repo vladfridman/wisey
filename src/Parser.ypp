@@ -5,6 +5,7 @@
   #include "yazyk/BreakStatement.hpp"
   #include "yazyk/Char.hpp"
   #include "yazyk/ConditionalExpression.hpp"
+  #include "yazyk/ContinueStatement.hpp"
   #include "yazyk/Double.hpp"
   #include "yazyk/EmptyExpression.hpp"
   #include "yazyk/EmptyStatement.hpp"
@@ -65,7 +66,7 @@
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
 %token <token> TCEQ TCNE TCLE TCGE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
-%token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK
+%token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -157,7 +158,8 @@ iteration_statement
   ;
 
 jump_statement
-  : TBREAK ';' { $$ = new BreakStatement(); }
+  : TCONTINUE ';' { $$ = new ContinueStatement(); }
+  | TBREAK ';' { $$ = new BreakStatement(); }
   | TRETURN ';' { $$ =  new ReturnVoidStatement(); }
   | TRETURN expression ';' { $$ = new ReturnStatement(*$2); }
   ;

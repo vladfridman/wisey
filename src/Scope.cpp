@@ -25,3 +25,11 @@ void Scope::setBreakToBlock(BasicBlock* block) {
 BasicBlock* Scope::getBreakToBlock() {
   return mBreakToBlock;
 }
+
+void Scope::setContinueToBlock(BasicBlock* block) {
+  mContinueToBlock = block;
+}
+
+BasicBlock* Scope::getContinueToBlock() {
+  return mContinueToBlock;
+}

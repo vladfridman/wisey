@@ -108,6 +108,28 @@ BasicBlock* IRGenerationContext::getBreakToBlock() {
       return block;
     }
   } while (iterator != mScopes.begin());
+  
+  return NULL;
+}
+
+void IRGenerationContext::setContinueToBlock(BasicBlock* block) {
+  mScopes.back()->setContinueToBlock(block);
+}
+
+BasicBlock* IRGenerationContext::getContinueToBlock() {
+  if (mScopes.size() == 0) {
+    return NULL;
+  }
+  
+  std::vector<Scope *>::iterator iterator = mScopes.end();
+  do {
+    --iterator;
+    BasicBlock* block = (*iterator)->getContinueToBlock();
+    if (block != NULL) {
+      return block;
+    }
+  } while (iterator != mScopes.begin());
+  
   return NULL;
 }
 
