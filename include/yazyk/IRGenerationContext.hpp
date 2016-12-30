@@ -80,6 +80,13 @@ public:
   void popScope();
   
   /**
+   * Returns current program scope
+   */
+  Scope* getCurrentScope() {
+    return mScopes.back();
+  }
+  
+  /**
    * Return current LLVM basic block
    */
   llvm::BasicBlock* getBasicBlock();
@@ -89,6 +96,16 @@ public:
    */
   void setBasicBlock(llvm::BasicBlock* block);
 
+  /**
+   * Set block to break to out of a loop or a switch statement
+   */
+  void setBreakToBlock(llvm::BasicBlock* block);
+  
+  /**
+   * Get the block to break to out of a loop or a switch statement
+   */
+  llvm::BasicBlock* getBreakToBlock();
+  
   /**
    * Returns the LLVMContext
    */

@@ -17,3 +17,11 @@ using namespace yazyk;
 map<string, Value*>& Scope::getLocals() {
   return mLocals;
 }
+
+void Scope::setBreakToBlock(BasicBlock* block) {
+  mBreakToBlock = block;
+}
+
+BasicBlock* Scope::getBreakToBlock() {
+  return mBreakToBlock;
+}

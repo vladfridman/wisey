@@ -18,15 +18,27 @@ namespace yazyk {
  */
 class Scope {
   std::map<std::string, llvm::Value*> mLocals;
+  llvm::BasicBlock* mBreakToBlock;
 
 public:
 
-  Scope() { }
+  Scope() : mBreakToBlock(NULL) { }
   
-  /**
+  /**ß
    * Returns map of local variables associated with this program block
    */
   std::map<std::string, llvm::Value*>& getLocals();
+  
+  /**
+   * Set block to break to out of a loop or a switch statement
+   */
+  void setBreakToBlock(llvm::BasicBlock* block);
+  
+  /**
+   * Get the block to break to out of a loop or a switch statement
+   */
+  llvm::BasicBlock* getBreakToBlock();
+
 };
   
 } // namespace yazyk

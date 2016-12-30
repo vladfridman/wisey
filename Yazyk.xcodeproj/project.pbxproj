@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4911E1610700010783D /* TestSafeBranch.cpp */; };
+		F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4931E161D140010783D /* TestBreakStatement.cpp */; };
 		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
@@ -176,6 +177,8 @@
 		F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82221E0F6DAE00057FB5 /* IfStatement.cpp */; };
 		F59D82241E0F6DAE00057FB5 /* IfStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82221E0F6DAE00057FB5 /* IfStatement.cpp */; };
 		F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */; };
+		F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82281E1089E700057FB5 /* BreakStatement.cpp */; };
+		F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82281E1089E700057FB5 /* BreakStatement.cpp */; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -206,6 +209,7 @@
 
 /* Begin PBXFileReference section */
 		F501B4911E1610700010783D /* TestSafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSafeBranch.cpp; path = tests/TestSafeBranch.cpp; sourceTree = "<group>"; };
+		F501B4931E161D140010783D /* TestBreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBreakStatement.cpp; path = tests/TestBreakStatement.cpp; sourceTree = "<group>"; };
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,6 +272,32 @@
 		F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFunctionDeclaration.cpp; path = tests/TestFunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F534FFD81DFBD2750002BF7E /* Log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Log.hpp; path = include/yazyk/Log.hpp; sourceTree = "<group>"; };
+		F5404F221E109CBD00A31543 /* method_call_run_test.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = method_call_run_test.yz; path = tests/samples/method_call_run_test.yz; sourceTree = "<group>"; };
+		F5404F231E109CBD00A31543 /* test_break_out_of_for_loop.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_break_out_of_for_loop.yz; path = tests/samples/test_break_out_of_for_loop.yz; sourceTree = "<group>"; };
+		F5404F241E109CBD00A31543 /* test_conditional_with_false.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_conditional_with_false.yz; path = tests/samples/test_conditional_with_false.yz; sourceTree = "<group>"; };
+		F5404F251E109CBD00A31543 /* test_conditional_with_true.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_conditional_with_true.yz; path = tests/samples/test_conditional_with_true.yz; sourceTree = "<group>"; };
+		F5404F261E109CBD00A31543 /* test_decrement_by_one.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_decrement_by_one.yz; path = tests/samples/test_decrement_by_one.yz; sourceTree = "<group>"; };
+		F5404F271E109CBD00A31543 /* test_empty_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_empty_statement.yz; path = tests/samples/test_empty_statement.yz; sourceTree = "<group>"; };
+		F5404F281E109CBD00A31543 /* test_equal.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_equal.yz; path = tests/samples/test_equal.yz; sourceTree = "<group>"; };
+		F5404F291E109CBD00A31543 /* test_for_statement_with_no_declaration_no_increment.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_for_statement_with_no_declaration_no_increment.yz; path = tests/samples/test_for_statement_with_no_declaration_no_increment.yz; sourceTree = "<group>"; };
+		F5404F2A1E109CBD00A31543 /* test_for_statement_with_no_declaration.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_for_statement_with_no_declaration.yz; path = tests/samples/test_for_statement_with_no_declaration.yz; sourceTree = "<group>"; };
+		F5404F2B1E109CBD00A31543 /* test_for_statement_with_no_increment.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_for_statement_with_no_increment.yz; path = tests/samples/test_for_statement_with_no_increment.yz; sourceTree = "<group>"; };
+		F5404F2C1E109CBD00A31543 /* test_for_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_for_statement.yz; path = tests/samples/test_for_statement.yz; sourceTree = "<group>"; };
+		F5404F2D1E109CBD00A31543 /* test_greater_than_or_equal.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_greater_than_or_equal.yz; path = tests/samples/test_greater_than_or_equal.yz; sourceTree = "<group>"; };
+		F5404F2E1E109CBD00A31543 /* test_if_then_else_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_if_then_else_statement.yz; path = tests/samples/test_if_then_else_statement.yz; sourceTree = "<group>"; };
+		F5404F2F1E109CBD00A31543 /* test_if_then_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_if_then_statement.yz; path = tests/samples/test_if_then_statement.yz; sourceTree = "<group>"; };
+		F5404F301E109CBD00A31543 /* test_increment_by_one.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_increment_by_one.yz; path = tests/samples/test_increment_by_one.yz; sourceTree = "<group>"; };
+		F5404F311E109CBD00A31543 /* test_int_function.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_int_function.yz; path = tests/samples/test_int_function.yz; sourceTree = "<group>"; };
+		F5404F321E109CBD00A31543 /* test_less_than.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_less_than.yz; path = tests/samples/test_less_than.yz; sourceTree = "<group>"; };
+		F5404F331E109CBD00A31543 /* test_logical_and_result_false.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_logical_and_result_false.yz; path = tests/samples/test_logical_and_result_false.yz; sourceTree = "<group>"; };
+		F5404F341E109CBD00A31543 /* test_logical_and_result_true.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_logical_and_result_true.yz; path = tests/samples/test_logical_and_result_true.yz; sourceTree = "<group>"; };
+		F5404F351E109CBD00A31543 /* test_logical_or_result_false.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_logical_or_result_false.yz; path = tests/samples/test_logical_or_result_false.yz; sourceTree = "<group>"; };
+		F5404F361E109CBD00A31543 /* test_logical_or_result_true.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_logical_or_result_true.yz; path = tests/samples/test_logical_or_result_true.yz; sourceTree = "<group>"; };
+		F5404F371E109CBD00A31543 /* test_not_equal.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_not_equal.yz; path = tests/samples/test_not_equal.yz; sourceTree = "<group>"; };
+		F5404F381E109CBD00A31543 /* test_return_int.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_return_int.yz; path = tests/samples/test_return_int.yz; sourceTree = "<group>"; };
+		F5404F391E109CBD00A31543 /* test_variable_declaration_assign_to_zero.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration_assign_to_zero.yz; path = tests/samples/test_variable_declaration_assign_to_zero.yz; sourceTree = "<group>"; };
+		F5404F3A1E109CBD00A31543 /* test_variable_declaration.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration.yz; path = tests/samples/test_variable_declaration.yz; sourceTree = "<group>"; };
+		F5404F3B1E109CBD00A31543 /* test_while_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_while_statement.yz; path = tests/samples/test_while_statement.yz; sourceTree = "<group>"; };
 		F546258D1DE5E43A00074D66 /* Yazyk */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Yazyk; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54625B11DE5E53200074D66 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = /usr/local/lib/libLLVMX86Disassembler.a; sourceTree = "<absolute>"; };
@@ -351,6 +381,8 @@
 		F59D82211E0F6D3400057FB5 /* IfStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IfStatement.hpp; path = include/yazyk/IfStatement.hpp; sourceTree = "<group>"; };
 		F59D82221E0F6DAE00057FB5 /* IfStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IfStatement.cpp; path = src/IfStatement.cpp; sourceTree = "<group>"; };
 		F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIfStatement.cpp; path = tests/TestIfStatement.cpp; sourceTree = "<group>"; };
+		F59D82271E10878F00057FB5 /* BreakStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BreakStatement.hpp; path = include/yazyk/BreakStatement.hpp; sourceTree = "<group>"; };
+		F59D82281E1089E700057FB5 /* BreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BreakStatement.cpp; path = src/BreakStatement.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 		F5E209261E07796300E1A147 /* VariableDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableDeclaration.hpp; path = include/yazyk/VariableDeclaration.hpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
@@ -458,6 +490,7 @@
 				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
 				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
+				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestChar.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F531B6631E0E1307008304F3 /* TestDouble.cpp */,
@@ -495,10 +528,36 @@
 		F53400F01DFC6B970002BF7E /* samples */ = {
 			isa = PBXGroup;
 			children = (
+				F5404F221E109CBD00A31543 /* method_call_run_test.yz */,
 				F53400F11DFC6BA60002BF7E /* test_addition.yz */,
+				F5404F231E109CBD00A31543 /* test_break_out_of_for_loop.yz */,
+				F5404F241E109CBD00A31543 /* test_conditional_with_false.yz */,
+				F5404F251E109CBD00A31543 /* test_conditional_with_true.yz */,
+				F5404F261E109CBD00A31543 /* test_decrement_by_one.yz */,
 				F53400F21DFC6BA60002BF7E /* test_division.yz */,
+				F5404F271E109CBD00A31543 /* test_empty_statement.yz */,
+				F5404F281E109CBD00A31543 /* test_equal.yz */,
+				F5404F291E109CBD00A31543 /* test_for_statement_with_no_declaration_no_increment.yz */,
+				F5404F2A1E109CBD00A31543 /* test_for_statement_with_no_declaration.yz */,
+				F5404F2B1E109CBD00A31543 /* test_for_statement_with_no_increment.yz */,
+				F5404F2C1E109CBD00A31543 /* test_for_statement.yz */,
+				F5404F2D1E109CBD00A31543 /* test_greater_than_or_equal.yz */,
+				F5404F2E1E109CBD00A31543 /* test_if_then_else_statement.yz */,
+				F5404F2F1E109CBD00A31543 /* test_if_then_statement.yz */,
+				F5404F301E109CBD00A31543 /* test_increment_by_one.yz */,
+				F5404F311E109CBD00A31543 /* test_int_function.yz */,
+				F5404F321E109CBD00A31543 /* test_less_than.yz */,
+				F5404F331E109CBD00A31543 /* test_logical_and_result_false.yz */,
+				F5404F341E109CBD00A31543 /* test_logical_and_result_true.yz */,
+				F5404F351E109CBD00A31543 /* test_logical_or_result_false.yz */,
+				F5404F361E109CBD00A31543 /* test_logical_or_result_true.yz */,
 				F53400F31DFC6BA60002BF7E /* test_multiplication.yz */,
+				F5404F371E109CBD00A31543 /* test_not_equal.yz */,
+				F5404F381E109CBD00A31543 /* test_return_int.yz */,
 				F53400F41DFC6BA60002BF7E /* test_subtraction.yz */,
+				F5404F391E109CBD00A31543 /* test_variable_declaration_assign_to_zero.yz */,
+				F5404F3A1E109CBD00A31543 /* test_variable_declaration.yz */,
+				F5404F3B1E109CBD00A31543 /* test_while_statement.yz */,
 			);
 			name = samples;
 			sourceTree = "<group>";
@@ -550,6 +609,7 @@
 				F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */,
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
 				F531B6411E0A16D7008304F3 /* Block.cpp */,
+				F59D82281E1089E700057FB5 /* BreakStatement.cpp */,
 				F531B6591E0DE52F008304F3 /* Char.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
 				F531B65F1E0E11DA008304F3 /* Double.cpp */,
@@ -643,6 +703,7 @@
 				F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */,
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
 				F531B6401E0A162D008304F3 /* Block.hpp */,
+				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
 				F531B6581E0DE4ED008304F3 /* Char.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
 				F531B6621E0E1268008304F3 /* Double.hpp */,
@@ -818,12 +879,14 @@
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F531B6511E0DCA9C008304F3 /* TestMethodCall.cpp in Sources */,
 				F531B64F1E0DC1D4008304F3 /* MethodCall.cpp in Sources */,
+				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* String.cpp in Sources */,
+				F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */,
 				F531B6391E07A80F008304F3 /* TestTypeSpecifier.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -837,6 +900,7 @@
 				F53401111DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F57411521E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
+				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F53400EE1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,

@@ -84,6 +84,20 @@ void IRGenerationContext::popScope() {
   delete top;
 }
 
+void IRGenerationContext::setBreakToBlock(BasicBlock* block) {
+  mScopes.back()->setBreakToBlock(block);
+}
+
+BasicBlock* IRGenerationContext::getBreakToBlock() {
+  for (std::vector<Scope *>::iterator it = mScopes.end() - 1; *it != NULL; --it) {
+    BasicBlock* block = (*it)->getBreakToBlock();
+    if (block != NULL) {
+      return block;
+    }
+  }
+  return NULL;
+}
+
 LLVMContext& IRGenerationContext::getLLVMContext() {
   return mLLVMContext;
 }

@@ -28,14 +28,16 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   Value* conditionValue = mConditionStatement.generateIR(context);
   SafeBranch::newConditionalBranch(forBody, forEnd, conditionValue, context);
   
+  context.setBreakToBlock(forEnd);
   context.setBasicBlock(forBody);
   mBodyStatement.generateIR(context);
+  context.setBreakToBlock(NULL);
+
   SafeBranch::newBranch(forInc, context);
-  
   context.setBasicBlock(forInc);
   mIncrementExpression.generateIR(context);
-  SafeBranch::newBranch(forCond, context);
 
+  SafeBranch::newBranch(forCond, context);
   context.setBasicBlock(forEnd);
   
   return conditionValue;

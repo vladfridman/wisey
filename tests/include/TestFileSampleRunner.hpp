@@ -27,6 +27,17 @@ public:
    * program against the expected one.
    */
   void runFile(std::string fileName, std::string expectedResult);
+  
+  /**
+   * Call this to run a sample yazyk file that is expected to fail at IR generation
+   */
+  void expectFailIRGeneration(std::string fileName,
+                              int expectedErrorCode,
+                              std::string expectedErrorMessage);
+
+private:
+  
+  void parseFile(std::string fileName);
 };
 
 #endif /* TestFileSampleRunner_h */

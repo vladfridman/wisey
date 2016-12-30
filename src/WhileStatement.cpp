@@ -26,7 +26,10 @@ Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   SafeBranch::newConditionalBranch(whileBody, whileEnd, conditionValue, context);
 
   context.setBasicBlock(whileBody);
+  context.setBreakToBlock(whileEnd);
   mStatement.generateIR(context);
+  context.setBreakToBlock(NULL);
+
   SafeBranch::newBranch(whileCond, context);
 
   context.setBasicBlock(whileEnd);

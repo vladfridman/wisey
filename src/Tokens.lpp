@@ -34,6 +34,7 @@ WS  [ \t\v\n\f]
 "for"                         return TOKEN(TFOR);
 "if"                          return TOKEN(TIF);
 "else"                        return TOKEN(TELSE);
+"break"                       return TOKEN(TBREAK);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

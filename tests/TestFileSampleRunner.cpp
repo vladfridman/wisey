@@ -34,7 +34,7 @@ TestFileSampleRunner::~TestFileSampleRunner() {
   fclose(yyin);
 }
 
-void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
+void TestFileSampleRunner::parseFile(string fileName) {
   yyin = fopen(fileName.c_str(), "r");
   if (yyin == NULL) {
     Log::e("Sample test " + fileName + " not found!\n");
@@ -42,11 +42,29 @@ void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
     return;
   }
   yyparse();
+}
+
+void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
+  parseFile(fileName);
   
   IRGenerationContext context;
   programBlock->generateIR(context);
+
   GenericValue result = context.runCode();
   string resultString = result.IntVal.toString(10, true);
 
   ASSERT_STREQ(expectedResult.c_str(), resultString.c_str());
 }
+
+void TestFileSampleRunner::expectFailIRGeneration(string fileName,
+                                                  int expectedErrorCode,
+                                                  string expectedErrorMessage) {
+  parseFile(fileName);
+  
+  IRGenerationContext context;
+
+  EXPECT_EXIT(programBlock->generateIR(context),
+              ::testing::ExitedWithCode(expectedErrorCode),
+              expectedErrorMessage);
+}
+
