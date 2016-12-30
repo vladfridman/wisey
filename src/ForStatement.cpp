@@ -21,6 +21,8 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* forInc = BasicBlock::Create(context.getLLVMContext(), "for.inc", function);
   BasicBlock* forEnd = BasicBlock::Create(context.getLLVMContext(), "for.end", function);
   
+  context.pushScope();
+  
   mStartStatement.generateIR(context);
   SafeBranch::newBranch(forCond, context);
   
@@ -39,6 +41,8 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
 
   SafeBranch::newBranch(forCond, context);
   context.setBasicBlock(forEnd);
+  
+  context.popScope();
   
   return conditionValue;
 }

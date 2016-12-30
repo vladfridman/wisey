@@ -132,3 +132,9 @@ TEST_F(TestFileSampleRunner, ForStatementWithNoDeclarationNoIncrementRunTest) {
   runFile("tests/samples/test_for_statement_with_no_declaration_no_increment.yz", "11");
 }
 
+TEST_F(TestFileSampleRunner, ForStatementLocalVariableScopeTest) {
+  expectFailIRGeneration("tests/samples/test_for_statement_scope.yz",
+                         1,
+                         "Error: Undeclared variable i");
+}
+
