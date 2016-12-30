@@ -80,13 +80,6 @@ public:
   void popScope();
   
   /**
-   * Returns current program scope
-   */
-  Scope* getCurrentScope() {
-    return mScopes.back();
-  }
-  
-  /**
    * Return current LLVM basic block
    */
   llvm::BasicBlock* getBasicBlock();
