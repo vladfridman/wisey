@@ -73,6 +73,24 @@ TEST(IRGenerationTest, TestScopes) {
   EXPECT_EQ(context.getVariable("bar") == NULL, true);
 }
 
+TEST(IRGenerationTest, TestScopesCorrectlyOrdered) {
+  IRGenerationContext context;
+  context.pushScope();
+  LLVMContext &llvmContext = context.getLLVMContext();
+  Value* outerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
+  Value* innerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
+  
+  context.setVariable("foo", outerValue);
+  context.pushScope();
+  context.setVariable("foo", innerValue);
+  
+  EXPECT_EQ(context.getVariable("foo"), innerValue);
+  
+  context.popScope();
+  
+  EXPECT_EQ(context.getVariable("foo"), outerValue);
+}
+
 TEST(IRGenerationContextTest, TestModuleIsNotNull) {
   IRGenerationContext context;
   

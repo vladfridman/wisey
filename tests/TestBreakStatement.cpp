@@ -8,7 +8,19 @@
 //  Tests {@link BreakStatement}
 //
 
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
 #include "TestFileSampleRunner.hpp"
+#include "yazyk/IRGenerationContext.hpp"
+
+using namespace yazyk;
+
+TEST(BreakStatementTest, NoScopesTest) {
+  IRGenerationContext context;
+  
+  EXPECT_EQ(context.getBreakToBlock() == NULL, true);
+}
 
 TEST_F(TestFileSampleRunner, BreakOutOfForLoopTest) {
   runFile("tests/samples/test_break_out_of_for_loop.yz", "5");

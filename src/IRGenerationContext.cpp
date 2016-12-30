@@ -41,12 +41,19 @@ Module* IRGenerationContext::getModule() {
 }
 
 Value* IRGenerationContext::getVariable(string name) {
-  for (std::vector<Scope *>::iterator it = mScopes.begin() ; it != mScopes.end(); ++it) {
-    Value* value = (*it)->getLocals()[name];
+  if (mScopes.size() == 0) {
+    return NULL;
+  }
+
+  std::vector<Scope *>::iterator iterator = mScopes.end();
+  do {
+    --iterator;
+    Value* value = (*iterator)->getLocals()[name];
     if (value != NULL) {
       return value;
     }
-  }
+  } while (iterator != mScopes.begin());
+
   return NULL;
 }
 
@@ -89,12 +96,18 @@ void IRGenerationContext::setBreakToBlock(BasicBlock* block) {
 }
 
 BasicBlock* IRGenerationContext::getBreakToBlock() {
-  for (std::vector<Scope *>::iterator it = mScopes.end() - 1; *it != NULL; --it) {
-    BasicBlock* block = (*it)->getBreakToBlock();
+  if (mScopes.size() == 0) {
+    return NULL;
+  }
+  
+  std::vector<Scope *>::iterator iterator = mScopes.end();
+  do {
+    --iterator;
+    BasicBlock* block = (*iterator)->getBreakToBlock();
     if (block != NULL) {
       return block;
     }
-  }
+  } while (iterator != mScopes.begin());
   return NULL;
 }
 
