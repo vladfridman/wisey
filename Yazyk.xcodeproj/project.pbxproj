@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4911E1610700010783D /* TestSafeBranch.cpp */; };
+		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
+		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
 		F531B6391E07A80F008304F3 /* TestTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6381E07A80F008304F3 /* TestTypeSpecifier.cpp */; };
 		F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */; };
@@ -202,6 +205,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F501B4911E1610700010783D /* TestSafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSafeBranch.cpp; path = tests/TestSafeBranch.cpp; sourceTree = "<group>"; };
+		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
+		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
 		F530B45E1DFA031A00477384 /* TestsRun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestsRun.cpp; path = tests/TestsRun.cpp; sourceTree = "<group>"; };
 		F531B6371E07A4AD008304F3 /* INode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = INode.hpp; path = include/yazyk/INode.hpp; sourceTree = "<group>"; };
@@ -475,6 +481,7 @@
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
 				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
 				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
+				F501B4911E1610700010783D /* TestSafeBranch.cpp */,
 				F57411651E01BF18009809FF /* TestScope.cpp */,
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
 				F531B6561E0DE040008304F3 /* TestString.cpp */,
@@ -567,6 +574,7 @@
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
 				F57411411E015961009809FF /* ReturnStatement.cpp */,
 				F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */,
+				F51033CD1E1608E30099C27F /* SafeBranch.cpp */,
 				F57411621E01BBFC009809FF /* Scope.cpp */,
 				F531B6531E0DDD96008304F3 /* String.cpp */,
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
@@ -662,6 +670,7 @@
 				F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */,
 				F57411441E0159AE009809FF /* ReturnStatement.hpp */,
 				F57411471E019450009809FF /* ReturnVoidStatement.hpp */,
+				F51033CC1E1606EB0099C27F /* SafeBranch.hpp */,
 				F574115E1E01A983009809FF /* Scope.hpp */,
 				F531B6521E0DDCE7008304F3 /* String.hpp */,
 				F53401161DFF34320002BF7E /* TypeIdentifier.hpp */,
@@ -787,6 +796,7 @@
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */,
 				F59D82241E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
+				F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
 				F531B6761E0E190B008304F3 /* TestInteger.cpp in Sources */,
@@ -811,6 +821,7 @@
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
+				F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* String.cpp in Sources */,
 				F531B6391E07A80F008304F3 /* TestTypeSpecifier.cpp in Sources */,
@@ -846,6 +857,7 @@
 				F57411631E01BBFC009809FF /* Scope.cpp in Sources */,
 				F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */,
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
+				F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */,
 				F57411591E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F531B6731E0E1881008304F3 /* Integer.cpp in Sources */,
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,

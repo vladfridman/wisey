@@ -7,6 +7,7 @@
 //
 
 #include "yazyk/ForStatement.hpp"
+#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace yazyk;
@@ -21,19 +22,19 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* forEnd = BasicBlock::Create(context.getLLVMContext(), "for.end", function);
   
   mStartStatement.generateIR(context);
-  BranchInst::Create(forCond, context.getBasicBlock());
+  SafeBranch::newBranch(forCond, context);
   
   context.setBasicBlock(forCond);
   Value* conditionValue = mConditionStatement.generateIR(context);
-  BranchInst::Create(forBody, forEnd, conditionValue, context.getBasicBlock());
+  SafeBranch::newConditionalBranch(forBody, forEnd, conditionValue, context);
   
   context.setBasicBlock(forBody);
   mBodyStatement.generateIR(context);
-  BranchInst::Create(forInc, context.getBasicBlock());
+  SafeBranch::newBranch(forInc, context);
   
   context.setBasicBlock(forInc);
   mIncrementExpression.generateIR(context);
-  BranchInst::Create(forCond, context.getBasicBlock());
+  SafeBranch::newBranch(forCond, context);
 
   context.setBasicBlock(forEnd);
   
