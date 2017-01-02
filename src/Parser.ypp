@@ -2,6 +2,7 @@
   #include "yazyk/AddditiveMultiplicativeExpression.hpp"
   #include "yazyk/Assignment.hpp"
   #include "yazyk/Block.hpp"
+  #include "yazyk/BlockStatement.hpp"
   #include "yazyk/BreakStatement.hpp"
   #include "yazyk/Char.hpp"
   #include "yazyk/ConditionalExpression.hpp"
@@ -128,7 +129,7 @@ declaration
   ;
 
 statement
-  : compound_statement
+  : compound_statement { $$ = new BlockStatement(*$1); }
   | expression_statement
   | selection_statement
   | iteration_statement

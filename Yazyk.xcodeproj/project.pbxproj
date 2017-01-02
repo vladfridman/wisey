@@ -182,6 +182,7 @@
 		F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */; };
 		F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82281E1089E700057FB5 /* BreakStatement.cpp */; };
 		F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82281E1089E700057FB5 /* BreakStatement.cpp */; };
+		F5B5E5BE1E19FCA900611039 /* TestBlockStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B5E5BD1E19FCA900611039 /* TestBlockStatement.cpp */; settings = {ASSET_TAGS = (); }; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -389,6 +390,8 @@
 		F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIfStatement.cpp; path = tests/TestIfStatement.cpp; sourceTree = "<group>"; };
 		F59D82271E10878F00057FB5 /* BreakStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BreakStatement.hpp; path = include/yazyk/BreakStatement.hpp; sourceTree = "<group>"; };
 		F59D82281E1089E700057FB5 /* BreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BreakStatement.cpp; path = src/BreakStatement.cpp; sourceTree = "<group>"; };
+		F5B5E5BC1E19F9EE00611039 /* BlockStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BlockStatement.hpp; path = include/yazyk/BlockStatement.hpp; sourceTree = "<group>"; };
+		F5B5E5BD1E19FCA900611039 /* TestBlockStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBlockStatement.cpp; path = tests/TestBlockStatement.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 		F5E209261E07796300E1A147 /* VariableDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableDeclaration.hpp; path = include/yazyk/VariableDeclaration.hpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
@@ -496,6 +499,7 @@
 				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
 				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
+				F5B5E5BD1E19FCA900611039 /* TestBlockStatement.cpp */,
 				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestChar.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
@@ -711,6 +715,7 @@
 				F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */,
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
 				F531B6401E0A162D008304F3 /* Block.hpp */,
+				F5B5E5BC1E19F9EE00611039 /* BlockStatement.hpp */,
 				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
 				F531B6581E0DE4ED008304F3 /* Char.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
@@ -843,6 +848,7 @@
 				F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */,
 				F57411741E043EE4009809FF /* Identifier.cpp in Sources */,
 				F531B66E1E0E1625008304F3 /* Long.cpp in Sources */,
+				F5B5E5BE1E19FCA900611039 /* TestBlockStatement.cpp in Sources */,
 				F531B65B1E0DE52F008304F3 /* Char.cpp in Sources */,
 				F531B65D1E0DEB26008304F3 /* TestChar.cpp in Sources */,
 				F531B6571E0DE040008304F3 /* TestString.cpp in Sources */,
