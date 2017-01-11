@@ -9,7 +9,7 @@
 #ifndef FunctionDeclaration_h
 #define FunctionDeclaration_h
 
-#include "yazyk/Block.hpp"
+#include "yazyk/CompoundStatement.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"
 #include "yazyk/TypeSpecifier.hpp"
@@ -26,14 +26,14 @@ class FunctionDeclaration : public IStatement {
   const TypeSpecifier& mType;
   const Identifier& mId;
   VariableList mArguments;
-  Block& mBlock;
+  CompoundStatement& mCompoundStatement;
   
 public:
   FunctionDeclaration(const TypeSpecifier& type,
                       const Identifier& id,
                       const VariableList& arguments,
-                      Block& block) :
-  mType(type), mId(id), mArguments(arguments), mBlock(block) { }
+                      CompoundStatement& compoundStatement) :
+  mType(type), mId(id), mArguments(arguments), mCompoundStatement(compoundStatement) { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

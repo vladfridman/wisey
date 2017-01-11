@@ -55,7 +55,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
     context.setVariable((**it).getId().getName(), alloc);
   }
   
-  mBlock.generateIR(context);
+  mCompoundStatement.generateIR(context);
   
   context.popScope();
   return function;

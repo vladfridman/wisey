@@ -2,9 +2,9 @@
   #include "yazyk/AddditiveMultiplicativeExpression.hpp"
   #include "yazyk/Assignment.hpp"
   #include "yazyk/Block.hpp"
-  #include "yazyk/BlockStatement.hpp"
   #include "yazyk/BreakStatement.hpp"
   #include "yazyk/Char.hpp"
+  #include "yazyk/CompoundStatement.hpp"
   #include "yazyk/ConditionalExpression.hpp"
   #include "yazyk/ContinueStatement.hpp"
   #include "yazyk/Double.hpp"
@@ -54,6 +54,7 @@
   yazyk::IExpression *expr;
   yazyk::IStatement *statement;
   yazyk::Block *block;
+  yazyk::CompoundStatement *compound_statement;
   yazyk::TypeSpecifier *type;
   yazyk::Identifier *ident;
   yazyk::VariableDeclaration *var_decl;
@@ -81,10 +82,11 @@
 %type <expr> conditional_expression postfix_expression
 %type <varvec> func_decl_args
 %type <exprvec> call_args
-%type <block> program block_item_list compound_statement translation_unit
+%type <block> program block_item_list translation_unit
 %type <statement> statement var_decl function_definition func_arg_decl jump_statement block_item
 %type <statement> external_declaration declaration expression_statement iteration_statement
 %type <statement> selection_statement
+%type <compound_statement> compound_statement
 %type <type> type_specifier
 
 /* Operator precedence for mathematical operators */
@@ -110,8 +112,8 @@ external_declaration
   ;
 
 compound_statement
-  : '{' '}' { $$ = new Block(); }
-  | '{'  block_item_list '}' { $$ = $2; }
+  : '{' '}' { Block* block = new Block(); $$ = new CompoundStatement(*block); }
+  | '{'  block_item_list '}' { $$ = new CompoundStatement(*$2); }
   ;
 
 block_item_list
@@ -130,7 +132,7 @@ declaration
   ;
 
 statement
-  : compound_statement { $$ = new BlockStatement(*$1); }
+  : compound_statement { $$ = (IStatement*) $1; }
   | expression_statement
   | selection_statement
   | iteration_statement

@@ -13,14 +13,12 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* Block::generateIR(IRGenerationContext& context) const {
-  context.pushScope();
   StatementList::const_iterator it;
   Value *last = NULL;
   for (it = mStatements.begin(); it != mStatements.end(); it++) {
     IStatement *statement = *it;
     last = statement->generateIR(context);
   }
-  context.popScope();
   return NULL;
 }
 
