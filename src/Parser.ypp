@@ -90,6 +90,7 @@
 /* Operator precedence for mathematical operators */
 %left '+' '-'
 %left '*' '/'
+%expect 1
 
 %start program
 
