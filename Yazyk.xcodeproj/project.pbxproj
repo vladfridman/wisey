@@ -16,6 +16,8 @@
 		F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */; };
 		F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */; };
 		F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */; };
+		F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */; };
+		F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */; };
 		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
@@ -229,6 +231,8 @@
 		F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SwitchStatement.cpp; path = src/SwitchStatement.cpp; sourceTree = "<group>"; };
 		F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSwitchStatement.cpp; path = tests/TestSwitchStatement.cpp; sourceTree = "<group>"; };
 		F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCaseStatement.cpp; path = tests/TestCaseStatement.cpp; sourceTree = "<group>"; };
+		F50FA2B11E27DCA500435EEA /* DefaultCaseStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DefaultCaseStatement.hpp; path = include/yazyk/DefaultCaseStatement.hpp; sourceTree = "<group>"; };
+		F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DefaultCaseStatement.cpp; path = src/DefaultCaseStatement.cpp; sourceTree = "<group>"; };
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -516,6 +520,7 @@
 				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
 				F5B5E5BD1E19FCA900611039 /* TestBlockStatement.cpp */,
 				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
+				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestChar.cpp */,
 				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
@@ -545,11 +550,10 @@
 				F57411651E01BF18009809FF /* TestScope.cpp */,
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
 				F531B6561E0DE040008304F3 /* TestString.cpp */,
+				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
 				F531B6381E07A80F008304F3 /* TestTypeSpecifier.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */,
-				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
-				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -644,6 +648,7 @@
 				F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
 				F58B32841E1635850001CC15 /* ContinueStatement.cpp */,
+				F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */,
 				F531B65F1E0E11DA008304F3 /* Double.cpp */,
 				F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
@@ -742,6 +747,7 @@
 				F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
 				F58B32831E1635270001CC15 /* ContinueStatement.hpp */,
+				F50FA2B11E27DCA500435EEA /* DefaultCaseStatement.hpp */,
 				F531B6621E0E1268008304F3 /* Double.hpp */,
 				F59D82151E0F40E800057FB5 /* EmptyExpression.hpp */,
 				F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */,
@@ -882,6 +888,7 @@
 				F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
+				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
 				F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
@@ -977,6 +984,7 @@
 				F531B64E1E0DC1D4008304F3 /* MethodCall.cpp in Sources */,
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
+				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 			);

@@ -20,3 +20,7 @@ TEST_F(TestFileSampleRunner, SwitchStatementTest) {
 TEST_F(TestFileSampleRunner, SwitchStatementWithBreaksTest) {
   runFile("tests/samples/test_switch_statement_with_breaks.yz", "5");
 }
+
+TEST_F(TestFileSampleRunner, SwitchStatementWithDefaultTest) {
+  runFile("tests/samples/test_switch_statement_with_default.yz", "7");
+}

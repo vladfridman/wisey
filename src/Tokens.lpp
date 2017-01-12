@@ -3,7 +3,9 @@
   #include "yazyk/Block.hpp"
   #include "yazyk/CompoundStatement.hpp"
   #include "yazyk/CaseStatement.hpp"
+  #include "yazyk/DefaultCaseStatement.hpp"
   #include "yazyk/Identifier.hpp"
+  #include "yazyk/SwitchStatement.hpp"
   #include "yazyk/TypeSpecifier.hpp"
   #include "yazyk/VariableDeclaration.hpp"
   #include "y.tab.h"
@@ -40,6 +42,7 @@ WS  [ \t\v\n\f]
 "continue"                    return TOKEN(TCONTINUE);
 "switch"                      return TOKEN(TSWITCH);
 "case"                        return TOKEN(TCASE);
+"default"                     return TOKEN(TDEFAULT);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

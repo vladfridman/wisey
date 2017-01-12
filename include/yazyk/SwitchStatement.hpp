@@ -11,10 +11,22 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/CaseStatement.hpp"
+#include "yazyk/DefaultCaseStatement.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
 namespace yazyk {
+  
+/**
+ * Data structure to hold information about cases inside a SWITCH statement
+ */
+struct SwitchCases {
+  
+  std::vector<CaseStatement*> caseStatements;
+  
+  DefaultCaseStatement* defaultStatement;
+};
   
 /**
  * Represents a switch statement
@@ -22,12 +34,12 @@ namespace yazyk {
  */
 class SwitchStatement : public IStatement {
   IExpression& mCondition;
-  std::vector<CaseStatement*> mCaseStatementList;
+  SwitchCases mSwitchCases;
   
 public:
   
-  SwitchStatement(IExpression& condition, std::vector<CaseStatement*>& caseStatementList)
-  : mCondition(condition), mCaseStatementList(caseStatementList) { }
+  SwitchStatement(IExpression& condition, SwitchCases switchCases)
+  : mCondition(condition), mSwitchCases(switchCases) { }
   
   ~SwitchStatement() { }
   
