@@ -14,7 +14,6 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
-  
   Function* function = context.getBasicBlock()->getParent();
   LLVMContext& llvmContext = context.getLLVMContext();
   
@@ -22,18 +21,32 @@ Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
   context.setBreakToBlock(switchEpilog);
   BasicBlock* switchDefault = mSwitchCases.defaultStatement != NULL
     ? BasicBlock::Create(llvmContext, "sw.default", function) : NULL;
-  BasicBlock* finalCaseBlock = switchDefault != NULL ? switchDefault : switchEpilog;
   
   Value* conditionValue = mCondition.generateIR(context);
-  SwitchInst* switchInst =
+  SwitchInst* switchInstruction =
     SwitchInst::Create(conditionValue,
-                       finalCaseBlock,
+                       switchDefault != NULL ? switchDefault : switchEpilog,
                        mSwitchCases.caseStatements.size(),
                        context.getBasicBlock());
   
+  generateCasesIR(context, switchDefault, switchEpilog, switchInstruction);
+  generateDefaultCaseIR(context, switchDefault, switchEpilog);
+  
+  context.setBreakToBlock(NULL);
+  context.setBasicBlock(switchEpilog);
+  
+  return conditionValue;
+}
+
+void SwitchStatement::generateCasesIR(IRGenerationContext& context,
+                                      BasicBlock* switchDefault,
+                                      BasicBlock* switchEpilog,
+                                      SwitchInst* switchInstruction) const {
+  Function* function = context.getBasicBlock()->getParent();
   BasicBlock* nextCaseBlock = mSwitchCases.caseStatements.size() > 0
     ? BasicBlock::Create(context.getLLVMContext(), "sw.bb", function) : NULL;
   BasicBlock* currentCaseBlock = NULL;
+  BasicBlock* finalCaseBlock = switchDefault != NULL ? switchDefault : switchEpilog;
   
   std::vector<CaseStatement*>::const_iterator iterator;
   for (iterator = mSwitchCases.caseStatements.begin();
@@ -48,19 +61,20 @@ Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
     context.setBasicBlock(currentCaseBlock);
     caseStatement->generateIR(context);
     SafeBranch::newBranch(caseStatement->isFallThrough() ? nextCaseBlock : switchEpilog, context);
-
-    switchInst->addCase(caseStatement->getExpressionValue(context), currentCaseBlock);
+    
+    switchInstruction->addCase(caseStatement->getExpressionValue(context), currentCaseBlock);
   }
   
-  if (switchDefault != NULL) {
-    context.setBasicBlock(switchDefault);
-    mSwitchCases.defaultStatement->generateIR(context);
-    SafeBranch::newBranch(switchEpilog, context);
-  }
-  
-  context.setBreakToBlock(NULL);
-  context.setBasicBlock(switchEpilog);
-  
-  return conditionValue;
 }
 
+void SwitchStatement::generateDefaultCaseIR(IRGenerationContext& context,
+                                            BasicBlock* switchDefault,
+                                            BasicBlock* switchEpilog) const {
+  if (switchDefault == NULL) {
+    return;
+  }
+  
+  context.setBasicBlock(switchDefault);
+  mSwitchCases.defaultStatement->generateIR(context);
+  SafeBranch::newBranch(switchEpilog, context);
+}

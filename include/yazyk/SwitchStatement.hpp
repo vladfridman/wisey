@@ -39,11 +39,28 @@ class SwitchStatement : public IStatement {
 public:
   
   SwitchStatement(IExpression& condition, SwitchCases switchCases)
-  : mCondition(condition), mSwitchCases(switchCases) { }
+    : mCondition(condition), mSwitchCases(switchCases) { }
   
   ~SwitchStatement() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+private:
+  
+  /**
+   * Generate IR for all the cases excluding the default one
+   */
+  void generateCasesIR(IRGenerationContext& context,
+                       llvm::BasicBlock* switchDefault,
+                       llvm::BasicBlock* switchEpilog,
+                       llvm::SwitchInst* switchInst) const;
+
+  /**
+   * Generate IR for all the default case
+   */
+  void generateDefaultCaseIR(IRGenerationContext& context,
+                             llvm::BasicBlock* switchDefault,
+                             llvm::BasicBlock* switchEpilog) const;
 };
   
 } /* namespace yazyk */

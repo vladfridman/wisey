@@ -32,6 +32,10 @@ public:
   
   ~CaseStatement() { }
   
+  /**
+   * Calculate the value of the case expression. 
+   * Exit with an error if the value is not ConstantInt
+   */
   llvm::ConstantInt* getExpressionValue(IRGenerationContext& context) const;
   
   bool isFallThrough() const;
