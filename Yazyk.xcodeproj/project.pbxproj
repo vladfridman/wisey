@@ -12,6 +12,10 @@
 		F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */; };
+		F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A51E269E5700435EEA /* CaseStatement.cpp */; };
+		F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */; };
+		F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */; };
+		F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */; };
 		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
@@ -219,6 +223,12 @@
 		F501B4931E161D140010783D /* TestBreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBreakStatement.cpp; path = tests/TestBreakStatement.cpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompoundStatement.cpp; path = tests/TestCompoundStatement.cpp; sourceTree = "<group>"; };
+		F50FA2A21E269E4400435EEA /* CaseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CaseStatement.hpp; path = include/yazyk/CaseStatement.hpp; sourceTree = "<group>"; };
+		F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SwitchStatement.hpp; path = include/yazyk/SwitchStatement.hpp; sourceTree = "<group>"; };
+		F50FA2A51E269E5700435EEA /* CaseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CaseStatement.cpp; path = src/CaseStatement.cpp; sourceTree = "<group>"; };
+		F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SwitchStatement.cpp; path = src/SwitchStatement.cpp; sourceTree = "<group>"; };
+		F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSwitchStatement.cpp; path = tests/TestSwitchStatement.cpp; sourceTree = "<group>"; };
+		F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCaseStatement.cpp; path = tests/TestCaseStatement.cpp; sourceTree = "<group>"; };
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -538,6 +548,8 @@
 				F531B6381E07A80F008304F3 /* TestTypeSpecifier.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */,
+				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
+				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -627,6 +639,7 @@
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
 				F531B6411E0A16D7008304F3 /* Block.cpp */,
 				F59D82281E1089E700057FB5 /* BreakStatement.cpp */,
+				F50FA2A51E269E5700435EEA /* CaseStatement.cpp */,
 				F531B6591E0DE52F008304F3 /* Char.cpp */,
 				F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
@@ -656,6 +669,7 @@
 				F51033CD1E1608E30099C27F /* SafeBranch.cpp */,
 				F57411621E01BBFC009809FF /* Scope.cpp */,
 				F531B6531E0DDD96008304F3 /* String.cpp */,
+				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
 				F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */,
 				F5E2092F1E078C4300E1A147 /* TypeSpecifier.cpp */,
@@ -723,6 +737,7 @@
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
 				F531B6401E0A162D008304F3 /* Block.hpp */,
 				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
+				F50FA2A21E269E4400435EEA /* CaseStatement.hpp */,
 				F531B6581E0DE4ED008304F3 /* Char.hpp */,
 				F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
@@ -755,6 +770,7 @@
 				F51033CC1E1606EB0099C27F /* SafeBranch.hpp */,
 				F574115E1E01A983009809FF /* Scope.hpp */,
 				F531B6521E0DDCE7008304F3 /* String.hpp */,
+				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
 				F53401161DFF34320002BF7E /* TypeIdentifier.hpp */,
 				F5E2092E1E078B7500E1A147 /* TypeSpecifier.hpp */,
 				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
@@ -847,6 +863,7 @@
 				F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F531B6741E0E1881008304F3 /* Integer.cpp in Sources */,
+				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
@@ -901,6 +918,7 @@
 				F531B6641E0E1307008304F3 /* TestDouble.cpp in Sources */,
 				F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */,
 				F574114A1E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
+				F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F531B6511E0DCA9C008304F3 /* TestMethodCall.cpp in Sources */,
 				F531B64F1E0DC1D4008304F3 /* MethodCall.cpp in Sources */,
@@ -925,6 +943,7 @@
 				F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
+				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,
 				F57411521E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
@@ -934,6 +953,7 @@
 				F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F531B6541E0DDD96008304F3 /* String.cpp in Sources */,
+				F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */,
 				F531B6481E0A4F76008304F3 /* Assignment.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,

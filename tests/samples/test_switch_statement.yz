@@ -1,0 +1,10 @@
+int main() {
+  int i = 3;
+  int j = 0;
+  switch (i) {
+    case 1: j = 1; 
+    case 3: j = 2; 
+  }
+
+  return j;
+}

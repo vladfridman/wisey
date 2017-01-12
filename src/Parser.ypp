@@ -3,6 +3,7 @@
   #include "yazyk/Assignment.hpp"
   #include "yazyk/Block.hpp"
   #include "yazyk/BreakStatement.hpp"
+  #include "yazyk/CaseStatement.hpp"
   #include "yazyk/Char.hpp"
   #include "yazyk/CompoundStatement.hpp"
   #include "yazyk/ConditionalExpression.hpp"
@@ -27,6 +28,7 @@
   #include "yazyk/ReturnStatement.hpp"
   #include "yazyk/ReturnVoidStatement.hpp"
   #include "yazyk/String.hpp"
+  #include "yazyk/SwitchStatement.hpp"
   #include "yazyk/TypeSpecifier.hpp"
   #include "yazyk/VariableDeclaration.hpp"
   #include "yazyk/WhileStatement.hpp"
@@ -55,6 +57,8 @@
   yazyk::IStatement *statement;
   yazyk::Block *block;
   yazyk::CompoundStatement *compound_statement;
+  yazyk::CaseStatement *case_statement;
+  std::vector<yazyk::CaseStatement*> *case_statement_list;
   yazyk::TypeSpecifier *type;
   yazyk::Identifier *ident;
   yazyk::VariableDeclaration *var_decl;
@@ -69,6 +73,7 @@
 %token <token> TCEQ TCNE TCLE TCGE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
+%token <token> TCASE TSWITCH
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -87,12 +92,13 @@
 %type <statement> external_declaration declaration expression_statement iteration_statement
 %type <statement> selection_statement
 %type <compound_statement> compound_statement
+%type <case_statement> case_statement
+%type <case_statement_list> case_statement_list
 %type <type> type_specifier
 
 /* Operator precedence for mathematical operators */
 %left '+' '-'
 %left '*' '/'
-%expect 1
 
 %start program
 
@@ -139,6 +145,15 @@ statement
   | jump_statement
   ;
 
+case_statement_list
+  : case_statement { $$ = new std::vector<CaseStatement*>(); $$->push_back($<case_statement>1); }
+  | case_statement_list case_statement { $1->push_back($<case_statement>2); }
+  ;
+
+case_statement
+  : TCASE expression ':' block_item_list { $$ = new CaseStatement(*$2, *$4); }
+  ;
+
 expression_statement
   : ';' { $$ = new EmptyStatement(); }
   | expression ';' { $$ = new ExpressionStatement(*$1); }
@@ -147,6 +162,7 @@ expression_statement
 selection_statement
   : TIF '(' expression ')' statement TELSE statement { $$ = new IfElseStatement (*$3, *$5, *$7); }
   | TIF '(' expression ')' statement { $$ = new IfStatement (*$3, *$5); }
+  | TSWITCH '(' expression ')' '{' case_statement_list '}' { $$ = new SwitchStatement(*$3, *$6); }
   ;
 
 iteration_statement
