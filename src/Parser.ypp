@@ -75,7 +75,7 @@
 %token <token> TCEQ TCNE TCLE TCGE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
-%token <token> TSWITCH TCASE TDEFAULT
+%token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -159,7 +159,10 @@ case_statement_list
   ;
 
 case_statement
-  : TCASE expression ':' block_item_list { $$ = new CaseStatement(*$2, *$4); }
+  : TCASE expression ':' block_item_list
+    { $$ = CaseStatement::newCaseStatement(*$2, *$4); }
+  | TCASE expression ':' block_item_list TFALLTHROUGH ';'
+    { $$ = CaseStatement::newCaseStatementWithFallThrough(*$2, *$4); }
   ;
 
 default_case_statement

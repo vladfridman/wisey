@@ -48,31 +48,48 @@ TEST(CaseStatementTest, TestStatementsGetGenerated) {
   NiceMock<MockExpression> expression;
   Block statementBlock;
   statementBlock.getStatements().push_back(&statement);
-  CaseStatement caseStatement(expression, statementBlock);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
   
   EXPECT_CALL(statement, generateIR(_));
   
-  caseStatement.generateIR(context);
+  caseStatement->generateIR(context);
+  delete caseStatement;
 }
 
 TEST(CaseStatementTest, TestConstIntExpressionWorks) {
   IRGenerationContext context;
   Block statementBlock;
-  Integer caseExpression(5l);
-  CaseStatement caseStatement(caseExpression, statementBlock);
+  Integer expression(5l);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
   
   Value* expected = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
   
-  EXPECT_EQ(caseStatement.getExpressionValue(context), expected);
+  EXPECT_EQ(caseStatement->getExpressionValue(context), expected);
+  delete caseStatement;
 }
 
 TEST(CaseStatementTest, TestNonIntExpressionDeathTest) {
   IRGenerationContext context;
   Block statementBlock;
-  Float caseExpression(5.2f);
-  CaseStatement caseStatement(caseExpression, statementBlock);
+  Float expression(5.2f);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
   
-  EXPECT_EXIT(caseStatement.getExpressionValue(context),
+  EXPECT_EXIT(caseStatement->getExpressionValue(context),
               ::testing::ExitedWithCode(1),
               "Error: Case expression should be an integer constant");
+}
+
+TEST(CaseStatementTest, TestStatementsIsMarkedFallThrough) {
+  IRGenerationContext context;
+  NiceMock<MockExpression> expression;
+  Block statementBlock;
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
+  CaseStatement* caseStatementWithFallThrough =
+    CaseStatement::newCaseStatementWithFallThrough(expression, statementBlock);
+  
+  EXPECT_EQ(false, caseStatement->isFallThrough());
+  EXPECT_EQ(true, caseStatementWithFallThrough->isFallThrough());
+  
+  delete caseStatement;
+  delete caseStatementWithFallThrough;
 }

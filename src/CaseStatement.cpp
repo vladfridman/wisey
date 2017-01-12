@@ -17,6 +17,10 @@ Value* CaseStatement::generateIR(IRGenerationContext& context) const {
   return mBlock.generateIR(context);
 }
 
+bool CaseStatement::isFallThrough() const {
+  return mIsFallThrough;
+}
+
 ConstantInt* CaseStatement::getExpressionValue(IRGenerationContext& context) const {
   Value* value = mExpression.generateIR(context);
   if (!ConstantInt::classof(value)) {

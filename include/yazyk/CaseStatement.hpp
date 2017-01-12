@@ -23,17 +23,34 @@ namespace yazyk {
 class CaseStatement : public IStatement {
   IExpression& mExpression;
   Block& mBlock;
+  bool mIsFallThrough;
+  
+  CaseStatement(IExpression& expression, Block& block, bool isFallThrough)
+    : mExpression(expression), mBlock(block), mIsFallThrough(isFallThrough) { }
   
 public:
-  
-  CaseStatement(IExpression& expression, Block& block)
-  : mExpression(expression), mBlock(block) { }
   
   ~CaseStatement() { }
   
   llvm::ConstantInt* getExpressionValue(IRGenerationContext& context) const;
   
+  bool isFallThrough() const;
+  
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+
+  /**
+   * Create a CASE statement
+   */
+  static CaseStatement * newCaseStatement(IExpression& expression, Block& block) {
+    return new CaseStatement(expression, block, false);
+  }
+
+  /**
+   * Create a CASE statement with FALLTHROUGH
+   */
+  static CaseStatement * newCaseStatementWithFallThrough(IExpression& expression, Block& block) {
+    return new CaseStatement(expression, block, true);
+  }
 };
   
 } /* namespace yazyk */
