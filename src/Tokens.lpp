@@ -44,6 +44,7 @@ WS  [ \t\v\n\f]
 "case"                        return TOKEN(TCASE);
 "default"                     return TOKEN(TDEFAULT);
 "fallthrough"                 return TOKEN(TFALLTHROUGH);
+"do"                          return TOKEN(TDO);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

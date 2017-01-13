@@ -18,6 +18,9 @@
 		F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */; };
 		F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */; };
 		F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */; };
+		F50FA2B71E28BA5600435EEA /* DoStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2B61E28BA5600435EEA /* DoStatement.cpp */; };
+		F50FA2B81E28BA5600435EEA /* DoStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2B61E28BA5600435EEA /* DoStatement.cpp */; };
+		F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */; };
 		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
@@ -233,6 +236,9 @@
 		F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCaseStatement.cpp; path = tests/TestCaseStatement.cpp; sourceTree = "<group>"; };
 		F50FA2B11E27DCA500435EEA /* DefaultCaseStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DefaultCaseStatement.hpp; path = include/yazyk/DefaultCaseStatement.hpp; sourceTree = "<group>"; };
 		F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DefaultCaseStatement.cpp; path = src/DefaultCaseStatement.cpp; sourceTree = "<group>"; };
+		F50FA2B51E28BA0500435EEA /* DoStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DoStatement.hpp; path = include/yazyk/DoStatement.hpp; sourceTree = "<group>"; };
+		F50FA2B61E28BA5600435EEA /* DoStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DoStatement.cpp; path = src/DoStatement.cpp; sourceTree = "<group>"; };
+		F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestDoStatement.cpp; path = tests/TestDoStatement.cpp; sourceTree = "<group>"; };
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -525,6 +531,7 @@
 				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
+				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
 				F531B6631E0E1307008304F3 /* TestDouble.cpp */,
 				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
 				F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */,
@@ -649,6 +656,7 @@
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
 				F58B32841E1635850001CC15 /* ContinueStatement.cpp */,
 				F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */,
+				F50FA2B61E28BA5600435EEA /* DoStatement.cpp */,
 				F531B65F1E0E11DA008304F3 /* Double.cpp */,
 				F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
@@ -748,6 +756,7 @@
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
 				F58B32831E1635270001CC15 /* ContinueStatement.hpp */,
 				F50FA2B11E27DCA500435EEA /* DefaultCaseStatement.hpp */,
+				F50FA2B51E28BA0500435EEA /* DoStatement.hpp */,
 				F531B6621E0E1268008304F3 /* Double.hpp */,
 				F59D82151E0F40E800057FB5 /* EmptyExpression.hpp */,
 				F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */,
@@ -872,6 +881,7 @@
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
+				F50FA2B81E28BA5600435EEA /* DoStatement.cpp in Sources */,
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
 				F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */,
 				F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */,
@@ -889,6 +899,7 @@
 				F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
+				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
 				F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
@@ -950,6 +961,7 @@
 				F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
+				F50FA2B71E28BA5600435EEA /* DoStatement.cpp in Sources */,
 				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,
 				F57411521E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,

@@ -9,6 +9,7 @@
   #include "yazyk/ConditionalExpression.hpp"
   #include "yazyk/ContinueStatement.hpp"
   #include "yazyk/DefaultCaseStatement.hpp"
+  #include "yazyk/DoStatement.hpp"
   #include "yazyk/Double.hpp"
   #include "yazyk/EmptyExpression.hpp"
   #include "yazyk/EmptyStatement.hpp"
@@ -75,7 +76,7 @@
 %token <token> TCEQ TCNE TCLE TCGE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
-%token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH
+%token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH TDO
 
 /* Define the type of node our nonterminal symbols represent.
    The types refer to the %union declaration above. Ex: when
@@ -183,6 +184,7 @@ selection_statement
 
 iteration_statement
   : TWHILE '(' expression ')' statement { $$ = new WhileStatement(*$3, *$5); }
+  | TDO statement TWHILE '(' expression ')' ';' { $$ = new DoStatement(*$2, *$5); }
   | TFOR '(' expression_statement expression_statement ')' statement
     { $$ = ForStatement::newWithNoIncrement(*$3, *$4, *$6); }
   | TFOR '(' expression_statement expression_statement expression ')' statement
