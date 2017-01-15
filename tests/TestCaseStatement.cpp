@@ -19,8 +19,8 @@
 
 #include "yazyk/Block.hpp"
 #include "yazyk/CaseStatement.hpp"
-#include "yazyk/Float.hpp"
-#include "yazyk/Integer.hpp"
+#include "yazyk/Float32.hpp"
+#include "yazyk/Int32.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
 using ::testing::_;
@@ -59,7 +59,7 @@ TEST(CaseStatementTest, TestStatementsGetGenerated) {
 TEST(CaseStatementTest, TestConstIntExpressionWorks) {
   IRGenerationContext context;
   Block statementBlock;
-  Integer expression(5l);
+  Int32 expression(5l);
   CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
   
   Value* expected = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
@@ -71,7 +71,7 @@ TEST(CaseStatementTest, TestConstIntExpressionWorks) {
 TEST(CaseStatementTest, TestNonIntExpressionDeathTest) {
   IRGenerationContext context;
   Block statementBlock;
-  Float expression(5.2f);
+  Float32 expression(5.2f);
   CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
   
   EXPECT_EXIT(caseStatement->getExpressionValue(context),

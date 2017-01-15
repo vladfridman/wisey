@@ -1,5 +1,5 @@
 //
-//  Double.cpp
+//  Int64.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Double.hpp"
+#include "yazyk/Int64.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value* Double::generateIR(IRGenerationContext& context) const {
-  return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), mValue);
+Value* Int64::generateIR(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), mValue, true);
 }

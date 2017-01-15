@@ -1,34 +1,33 @@
 //
-//  Long.hpp
+//  Int32.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef Long_h
-#define Long_h
+#ifndef Int32_h
+#define Int32_h
 
 #include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 
 /**
- * Represents a long constant
+ * Represents a 32 bit integer constant
  */
-class Long : public IExpression {
+class Int32 : public IExpression {
 
-  long long mValue;
+  long mValue;
   
 public:
+  Int32(long value) : mValue(value) { }
 
-  Long(long long value) : mValue(value) { }
-  
-  ~Long() {}
+  ~Int32() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
-  
+
 } /* namespace yazyk */
 
-#endif /* Long_h */
+#endif /* Int32_h */

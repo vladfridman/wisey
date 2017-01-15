@@ -43,18 +43,18 @@
 		F531B65A1E0DE52F008304F3 /* Char.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6591E0DE52F008304F3 /* Char.cpp */; };
 		F531B65B1E0DE52F008304F3 /* Char.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6591E0DE52F008304F3 /* Char.cpp */; };
 		F531B65D1E0DEB26008304F3 /* TestChar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B65C1E0DEB26008304F3 /* TestChar.cpp */; };
-		F531B6601E0E11DA008304F3 /* Double.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B65F1E0E11DA008304F3 /* Double.cpp */; };
-		F531B6611E0E11DA008304F3 /* Double.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B65F1E0E11DA008304F3 /* Double.cpp */; };
-		F531B6641E0E1307008304F3 /* TestDouble.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6631E0E1307008304F3 /* TestDouble.cpp */; };
-		F531B6671E0E1460008304F3 /* Float.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6661E0E1460008304F3 /* Float.cpp */; };
-		F531B6681E0E1460008304F3 /* Float.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6661E0E1460008304F3 /* Float.cpp */; };
-		F531B66A1E0E14E0008304F3 /* TestFloat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6691E0E14E0008304F3 /* TestFloat.cpp */; };
-		F531B66D1E0E1625008304F3 /* Long.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B66C1E0E1625008304F3 /* Long.cpp */; };
-		F531B66E1E0E1625008304F3 /* Long.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B66C1E0E1625008304F3 /* Long.cpp */; };
-		F531B6701E0E168D008304F3 /* TestLong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B66F1E0E168D008304F3 /* TestLong.cpp */; };
-		F531B6731E0E1881008304F3 /* Integer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6721E0E1881008304F3 /* Integer.cpp */; };
-		F531B6741E0E1881008304F3 /* Integer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6721E0E1881008304F3 /* Integer.cpp */; };
-		F531B6761E0E190B008304F3 /* TestInteger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6751E0E190B008304F3 /* TestInteger.cpp */; };
+		F531B6601E0E11DA008304F3 /* Float64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B65F1E0E11DA008304F3 /* Float64.cpp */; };
+		F531B6611E0E11DA008304F3 /* Float64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B65F1E0E11DA008304F3 /* Float64.cpp */; };
+		F531B6641E0E1307008304F3 /* TestFloat64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6631E0E1307008304F3 /* TestFloat64.cpp */; };
+		F531B6671E0E1460008304F3 /* Float32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6661E0E1460008304F3 /* Float32.cpp */; };
+		F531B6681E0E1460008304F3 /* Float32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6661E0E1460008304F3 /* Float32.cpp */; };
+		F531B66A1E0E14E0008304F3 /* TestFloat32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6691E0E14E0008304F3 /* TestFloat32.cpp */; };
+		F531B66D1E0E1625008304F3 /* Int64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B66C1E0E1625008304F3 /* Int64.cpp */; };
+		F531B66E1E0E1625008304F3 /* Int64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B66C1E0E1625008304F3 /* Int64.cpp */; };
+		F531B6701E0E168D008304F3 /* TestInt64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B66F1E0E168D008304F3 /* TestInt64.cpp */; };
+		F531B6731E0E1881008304F3 /* Int32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6721E0E1881008304F3 /* Int32.cpp */; };
+		F531B6741E0E1881008304F3 /* Int32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6721E0E1881008304F3 /* Int32.cpp */; };
+		F531B6761E0E190B008304F3 /* TestInt32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6751E0E190B008304F3 /* TestInt32.cpp */; };
 		F53400BB1DFBE2890002BF7E /* libLLVMAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625EA1DE5EB7200074D66 /* libLLVMAnalysis.a */; };
 		F53400BC1DFBE2890002BF7E /* libLLVMDemangle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FC1DE5EBF300074D66 /* libLLVMDemangle.a */; };
 		F53400BD1DFBE2890002BF7E /* libLLVMInstrumentation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625D21DE5EAA900074D66 /* libLLVMInstrumentation.a */; };
@@ -262,18 +262,18 @@
 		F531B6581E0DE4ED008304F3 /* Char.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Char.hpp; path = include/yazyk/Char.hpp; sourceTree = "<group>"; };
 		F531B6591E0DE52F008304F3 /* Char.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Char.cpp; path = src/Char.cpp; sourceTree = "<group>"; };
 		F531B65C1E0DEB26008304F3 /* TestChar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestChar.cpp; path = tests/TestChar.cpp; sourceTree = "<group>"; };
-		F531B65F1E0E11DA008304F3 /* Double.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Double.cpp; path = src/Double.cpp; sourceTree = "<group>"; };
-		F531B6621E0E1268008304F3 /* Double.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Double.hpp; path = include/yazyk/Double.hpp; sourceTree = "<group>"; };
-		F531B6631E0E1307008304F3 /* TestDouble.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestDouble.cpp; path = tests/TestDouble.cpp; sourceTree = "<group>"; };
-		F531B6651E0E13F5008304F3 /* Float.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Float.hpp; path = include/yazyk/Float.hpp; sourceTree = "<group>"; };
-		F531B6661E0E1460008304F3 /* Float.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Float.cpp; path = src/Float.cpp; sourceTree = "<group>"; };
-		F531B6691E0E14E0008304F3 /* TestFloat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFloat.cpp; path = tests/TestFloat.cpp; sourceTree = "<group>"; };
-		F531B66B1E0E158F008304F3 /* Long.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Long.hpp; path = include/yazyk/Long.hpp; sourceTree = "<group>"; };
-		F531B66C1E0E1625008304F3 /* Long.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Long.cpp; path = src/Long.cpp; sourceTree = "<group>"; };
-		F531B66F1E0E168D008304F3 /* TestLong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLong.cpp; path = tests/TestLong.cpp; sourceTree = "<group>"; };
-		F531B6711E0E1816008304F3 /* Integer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Integer.hpp; path = include/yazyk/Integer.hpp; sourceTree = "<group>"; };
-		F531B6721E0E1881008304F3 /* Integer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Integer.cpp; path = src/Integer.cpp; sourceTree = "<group>"; };
-		F531B6751E0E190B008304F3 /* TestInteger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInteger.cpp; path = tests/TestInteger.cpp; sourceTree = "<group>"; };
+		F531B65F1E0E11DA008304F3 /* Float64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Float64.cpp; path = src/Float64.cpp; sourceTree = "<group>"; };
+		F531B6621E0E1268008304F3 /* Float64.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Float64.hpp; path = include/yazyk/Float64.hpp; sourceTree = "<group>"; };
+		F531B6631E0E1307008304F3 /* TestFloat64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFloat64.cpp; path = tests/TestFloat64.cpp; sourceTree = "<group>"; };
+		F531B6651E0E13F5008304F3 /* Float32.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Float32.hpp; path = include/yazyk/Float32.hpp; sourceTree = "<group>"; };
+		F531B6661E0E1460008304F3 /* Float32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Float32.cpp; path = src/Float32.cpp; sourceTree = "<group>"; };
+		F531B6691E0E14E0008304F3 /* TestFloat32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFloat32.cpp; path = tests/TestFloat32.cpp; sourceTree = "<group>"; };
+		F531B66B1E0E158F008304F3 /* Int64.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Int64.hpp; path = include/yazyk/Int64.hpp; sourceTree = "<group>"; };
+		F531B66C1E0E1625008304F3 /* Int64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Int64.cpp; path = src/Int64.cpp; sourceTree = "<group>"; };
+		F531B66F1E0E168D008304F3 /* TestInt64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInt64.cpp; path = tests/TestInt64.cpp; sourceTree = "<group>"; };
+		F531B6711E0E1816008304F3 /* Int32.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Int32.hpp; path = include/yazyk/Int32.hpp; sourceTree = "<group>"; };
+		F531B6721E0E1881008304F3 /* Int32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Int32.cpp; path = src/Int32.cpp; sourceTree = "<group>"; };
+		F531B6751E0E190B008304F3 /* TestInt32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInt32.cpp; path = tests/TestInt32.cpp; sourceTree = "<group>"; };
 		F531B6771E0E19F1008304F3 /* IStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IStatement.hpp; path = include/yazyk/IStatement.hpp; sourceTree = "<group>"; };
 		F531B6781E0E1A61008304F3 /* IExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IExpression.hpp; path = include/yazyk/IExpression.hpp; sourceTree = "<group>"; };
 		F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = RelationalOperation.hpp; path = include/yazyk/RelationalOperation.hpp; sourceTree = "<group>"; };
@@ -529,23 +529,23 @@
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
 				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
-				F531B6631E0E1307008304F3 /* TestDouble.cpp */,
 				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
 				F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */,
 				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
 				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
-				F531B6691E0E14E0008304F3 /* TestFloat.cpp */,
+				F531B6691E0E14E0008304F3 /* TestFloat32.cpp */,
+				F531B6631E0E1307008304F3 /* TestFloat64.cpp */,
 				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
 				F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
 				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
-				F531B6751E0E190B008304F3 /* TestInteger.cpp */,
+				F531B6751E0E190B008304F3 /* TestInt32.cpp */,
+				F531B66F1E0E168D008304F3 /* TestInt64.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
-				F531B66F1E0E168D008304F3 /* TestLong.cpp */,
 				F531B6501E0DCA9C008304F3 /* TestMethodCall.cpp */,
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
 				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
@@ -654,22 +654,22 @@
 				F58B32841E1635850001CC15 /* ContinueStatement.cpp */,
 				F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */,
 				F50FA2B61E28BA5600435EEA /* DoStatement.cpp */,
-				F531B65F1E0E11DA008304F3 /* Double.cpp */,
 				F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
-				F531B6661E0E1460008304F3 /* Float.cpp */,
+				F531B6661E0E1460008304F3 /* Float32.cpp */,
+				F531B65F1E0E11DA008304F3 /* Float64.cpp */,
 				F59D82101E0F311B00057FB5 /* ForStatement.cpp */,
 				F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */,
 				F57411721E043EE4009809FF /* Identifier.cpp */,
 				F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */,
 				F59D82221E0F6DAE00057FB5 /* IfStatement.cpp */,
 				F574116A1E042390009809FF /* IncrementExpression.cpp */,
-				F531B6721E0E1881008304F3 /* Integer.cpp */,
+				F531B6721E0E1881008304F3 /* Int32.cpp */,
+				F531B66C1E0E1625008304F3 /* Int64.cpp */,
 				F574115F1E01AC98009809FF /* IRGenerationContext.cpp */,
 				F569E9EB1DF9CC9600BBB20E /* Log.cpp */,
 				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
 				F57411581E01A09B009809FF /* LogicalOrExpression.cpp */,
-				F531B66C1E0E1625008304F3 /* Long.cpp */,
 				F569E9F71DF9CE6600BBB20E /* main.cpp */,
 				F531B64D1E0DC1D4008304F3 /* MethodCall.cpp */,
 				F569E9ED1DF9CC9600BBB20E /* Parser.ypp */,
@@ -754,11 +754,11 @@
 				F58B32831E1635270001CC15 /* ContinueStatement.hpp */,
 				F50FA2B11E27DCA500435EEA /* DefaultCaseStatement.hpp */,
 				F50FA2B51E28BA0500435EEA /* DoStatement.hpp */,
-				F531B6621E0E1268008304F3 /* Double.hpp */,
 				F59D82151E0F40E800057FB5 /* EmptyExpression.hpp */,
 				F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */,
 				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
-				F531B6651E0E13F5008304F3 /* Float.hpp */,
+				F531B6651E0E13F5008304F3 /* Float32.hpp */,
+				F531B6621E0E1268008304F3 /* Float64.hpp */,
 				F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */,
 				F534010F1DFF31550002BF7E /* FunctionDeclaration.hpp */,
 				F57411711E043E80009809FF /* Identifier.hpp */,
@@ -767,13 +767,13 @@
 				F59D82211E0F6D3400057FB5 /* IfStatement.hpp */,
 				F57411691E0422AF009809FF /* IncrementExpression.hpp */,
 				F531B6371E07A4AD008304F3 /* INode.hpp */,
-				F531B6711E0E1816008304F3 /* Integer.hpp */,
+				F531B6711E0E1816008304F3 /* Int32.hpp */,
+				F531B66B1E0E158F008304F3 /* Int64.hpp */,
 				F574115D1E01A52C009809FF /* IRGenerationContext.hpp */,
 				F531B6771E0E19F1008304F3 /* IStatement.hpp */,
 				F534FFD81DFBD2750002BF7E /* Log.hpp */,
 				F574114D1E019975009809FF /* LogicalAndExpression.hpp */,
 				F57411571E01A022009809FF /* LogicalOrExpression.hpp */,
-				F531B66B1E0E158F008304F3 /* Long.hpp */,
 				F531B64C1E0DC169008304F3 /* MethodCall.hpp */,
 				F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */,
 				F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */,
@@ -874,7 +874,7 @@
 				F531B63D1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
-				F531B6741E0E1881008304F3 /* Integer.cpp in Sources */,
+				F531B6741E0E1881008304F3 /* Int32.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
@@ -884,7 +884,7 @@
 				F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */,
 				F57411741E043EE4009809FF /* Identifier.cpp in Sources */,
-				F531B66E1E0E1625008304F3 /* Long.cpp in Sources */,
+				F531B66E1E0E1625008304F3 /* Int64.cpp in Sources */,
 				F531B65B1E0DE52F008304F3 /* Char.cpp in Sources */,
 				F531B65D1E0DEB26008304F3 /* TestChar.cpp in Sources */,
 				F531B6571E0DE040008304F3 /* TestString.cpp in Sources */,
@@ -902,7 +902,7 @@
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
-				F531B6701E0E168D008304F3 /* TestLong.cpp in Sources */,
+				F531B6701E0E168D008304F3 /* TestInt64.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
@@ -916,20 +916,20 @@
 				F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
-				F531B6761E0E190B008304F3 /* TestInteger.cpp in Sources */,
+				F531B6761E0E190B008304F3 /* TestInt32.cpp in Sources */,
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
-				F531B6681E0E1460008304F3 /* Float.cpp in Sources */,
+				F531B6681E0E1460008304F3 /* Float32.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
 				F53401151DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */,
-				F531B66A1E0E14E0008304F3 /* TestFloat.cpp in Sources */,
+				F531B66A1E0E14E0008304F3 /* TestFloat32.cpp in Sources */,
 				F5E209311E078C4300E1A147 /* TypeSpecifier.cpp in Sources */,
 				F531B64B1E0A5329008304F3 /* TestAssignment.cpp in Sources */,
-				F531B6611E0E11DA008304F3 /* Double.cpp in Sources */,
-				F531B6641E0E1307008304F3 /* TestDouble.cpp in Sources */,
+				F531B6611E0E11DA008304F3 /* Float64.cpp in Sources */,
+				F531B6641E0E1307008304F3 /* TestFloat64.cpp in Sources */,
 				F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */,
 				F574114A1E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */,
@@ -976,18 +976,18 @@
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
-				F531B6601E0E11DA008304F3 /* Double.cpp in Sources */,
+				F531B6601E0E11DA008304F3 /* Float64.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* TypeSpecifier.cpp in Sources */,
-				F531B6671E0E1460008304F3 /* Float.cpp in Sources */,
+				F531B6671E0E1460008304F3 /* Float32.cpp in Sources */,
 				F531B65A1E0DE52F008304F3 /* Char.cpp in Sources */,
 				F57411631E01BBFC009809FF /* Scope.cpp in Sources */,
 				F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */,
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */,
 				F57411591E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
-				F531B6731E0E1881008304F3 /* Integer.cpp in Sources */,
+				F531B6731E0E1881008304F3 /* Int32.cpp in Sources */,
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,
-				F531B66D1E0E1625008304F3 /* Long.cpp in Sources */,
+				F531B66D1E0E1625008304F3 /* Int64.cpp in Sources */,
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F531B64E1E0DC1D4008304F3 /* MethodCall.cpp in Sources */,
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,

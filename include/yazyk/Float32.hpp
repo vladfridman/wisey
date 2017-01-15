@@ -1,33 +1,33 @@
 //
-//  Integer.hpp
+//  Float32.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef Integer_h
-#define Integer_h
+#ifndef Float32_h
+#define Float32_h
 
 #include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 
 /**
- * Represents an integer constant
+ * Represents a 32 bit float constant
  */
-class Integer : public IExpression {
-
-  long mValue;
+class Float32: public IExpression {
+  double mValue;
   
 public:
-  Integer(long value) : mValue(value) { }
+  
+  Float32(double value) : mValue(value) { }
 
-  ~Integer() { }
+  ~Float32() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
 
 } /* namespace yazyk */
 
-#endif /* Integer_h */
+#endif /* Float32_h */

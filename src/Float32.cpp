@@ -1,5 +1,5 @@
 //
-//  Integer.cpp
+//  Float32.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Integer.hpp"
+#include "yazyk/Float32.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value* Integer::generateIR(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), mValue, true);
+Value* Float32::generateIR(IRGenerationContext& context) const {
+  return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), mValue);
 }

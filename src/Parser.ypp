@@ -10,21 +10,21 @@
   #include "yazyk/ContinueStatement.hpp"
   #include "yazyk/DefaultCaseStatement.hpp"
   #include "yazyk/DoStatement.hpp"
-  #include "yazyk/Double.hpp"
   #include "yazyk/EmptyExpression.hpp"
   #include "yazyk/EmptyStatement.hpp"
   #include "yazyk/ExpressionStatement.hpp"
-  #include "yazyk/Float.hpp"
+  #include "yazyk/Float32.hpp"
+  #include "yazyk/Float64.hpp"
   #include "yazyk/ForStatement.hpp"
   #include "yazyk/FunctionDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
   #include "yazyk/IfElseStatement.hpp"
   #include "yazyk/IfStatement.hpp"
   #include "yazyk/IncrementExpression.hpp"
-  #include "yazyk/Integer.hpp"
+  #include "yazyk/Int32.hpp"
+  #include "yazyk/Int64.hpp"
   #include "yazyk/LogicalAndExpression.hpp"
   #include "yazyk/LogicalOrExpression.hpp"
-  #include "yazyk/Long.hpp"
   #include "yazyk/MethodCall.hpp"
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
@@ -228,10 +228,10 @@ identifier
 
 constant
   : TCHAR { $$ = new Char($1->c_str()[1]); }
-  | TINTEGER { $$ = new Integer(atol($1->c_str())); delete $1; }
-  | TLONG { $$ = new Long(atoll($1->c_str())); delete $1; }
-  | TFLOAT { $$ = new Float(atof($1->c_str())); delete $1; }
-  | TDOUBLE { $$ = new Double(strtod($1->c_str(), NULL)); delete $1; }
+  | TINTEGER { $$ = new Int32(atol($1->c_str())); delete $1; }
+  | TLONG { $$ = new Int64(atoll($1->c_str())); delete $1; }
+  | TFLOAT { $$ = new Float32(atof($1->c_str())); delete $1; }
+  | TDOUBLE { $$ = new Float64(strtod($1->c_str(), NULL)); delete $1; }
   ;
     
 string
