@@ -36,17 +36,19 @@ struct FunctionDecalarationTest : Test {
   VariableDeclaration mFloatArgument;
   VariableList mArguments;
   Block mBlock;
+  CompoundStatement mCompoundStatement;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
   FunctionDecalarationTest() :
-    mFloatTypeSpecifier(TypeSpecifier(PRIMITIVE_TYPE_FLOAT)),
-    mIntTypeSpecifier(TypeSpecifier(PRIMITIVE_TYPE_INT)),
+    mFloatTypeSpecifier(TypeSpecifier(PRIMITIVE_TYPE_FLOAT32)),
+    mIntTypeSpecifier(TypeSpecifier(PRIMITIVE_TYPE_INT32)),
     mFooFunctionIdentifier(Identifier("foo")),
     mMainFunctionIdentifier(Identifier("main")),
     mArgumentIdentifier(Identifier("bar")),
     mIntArgument(VariableDeclaration(mIntTypeSpecifier, mArgumentIdentifier)),
-    mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mArgumentIdentifier)) {
+    mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mArgumentIdentifier)),
+    mCompoundStatement(CompoundStatement(mBlock)) {
       mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -60,7 +62,7 @@ TEST_F(FunctionDecalarationTest, FunctionFooDeclartaionTest) {
   FunctionDeclaration functionDeclaration(mFloatTypeSpecifier,
                                           mFooFunctionIdentifier,
                                           mArguments,
-                                          mBlock);
+                                          mCompoundStatement);
   Value* function = functionDeclaration.generateIR(mContext);
   
   *mStringStream << *function;
@@ -80,7 +82,7 @@ TEST_F(FunctionDecalarationTest, FunctionMainDeclartaionTest) {
   FunctionDeclaration functionDeclaration(mIntTypeSpecifier,
                                           mMainFunctionIdentifier,
                                           mArguments,
-                                          mBlock);
+                                          mCompoundStatement);
   Value* function = functionDeclaration.generateIR(mContext);
   
   *mStringStream << *function;

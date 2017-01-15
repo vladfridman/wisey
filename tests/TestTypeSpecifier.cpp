@@ -17,8 +17,8 @@ using namespace yazyk;
 
 TEST(TypeSpecifierTest, CreationTest) {
   IRGenerationContext context;
-  TypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT);
+  TypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT32);
   
-  EXPECT_EQ(typeSpecifier.getType(), PRIMITIVE_TYPE_INT);
+  EXPECT_EQ(typeSpecifier.getType(), PRIMITIVE_TYPE_INT32);
   EXPECT_EQ(typeSpecifier.generateIR(context) == NULL, true);
 }

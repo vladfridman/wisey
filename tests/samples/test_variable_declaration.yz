@@ -1,4 +1,4 @@
-int main() {
-  int a = 5;
+int32 main() {
+  int32 a = 5;
   return a;
 }

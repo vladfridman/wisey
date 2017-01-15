@@ -1,5 +1,5 @@
-int main() {
-  int i = 6;
+int32 main() {
+  int32 i = 6;
   i--;
   return i;
 }

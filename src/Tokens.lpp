@@ -28,10 +28,10 @@ WS  [ \t\v\n\f]
 %%
 
 [ \t\n]                       ;
-"int"                         return TOKEN(TTYPEINT);
-"long"                        return TOKEN(TTYPELONG);
-"float"                       return TOKEN(TTYPEFLOAT);
-"double"                      return TOKEN(TTYPEDOUBLE);
+"int32"                       return TOKEN(TTYPEINT32);
+"int64"                       return TOKEN(TTYPEINT64);
+"float32"                     return TOKEN(TTYPEFLOAT32);
+"float64"                     return TOKEN(TTYPEFLOAT64);
 "void"                        return TOKEN(TTYPEVOID);
 "return"                      return TOKEN(TRETURN);
 "while"                       return TOKEN(TWHILE);

@@ -16,13 +16,13 @@ using namespace yazyk;
 
 Type* TypeIdentifier::typeOf(LLVMContext &llvmContext, const TypeSpecifier& typeSpecifier) {
   PrimitiveType type = typeSpecifier.getType();
-  if (type == PRIMITIVE_TYPE_INT) {
+  if (type == PRIMITIVE_TYPE_INT32) {
     return (Type*) Type::getInt32Ty(llvmContext);
-  } else if (type == PRIMITIVE_TYPE_LONG) {
+  } else if (type == PRIMITIVE_TYPE_INT64) {
     return (Type*)  Type::getInt64Ty(llvmContext);
-  } else if (type == PRIMITIVE_TYPE_FLOAT) {
+  } else if (type == PRIMITIVE_TYPE_FLOAT32) {
     return Type::getFloatTy(llvmContext);
-  } else if (type == PRIMITIVE_TYPE_DOUBLE) {
+  } else if (type == PRIMITIVE_TYPE_FLOAT64) {
     return Type::getDoubleTy(llvmContext);
   } else if (type == PRIMITIVE_TYPE_VOID) {
     return Type::getVoidTy(llvmContext);

@@ -1,6 +1,6 @@
-int main() {
+int32 main() {
   {
-    int j = 2;
+    int32 j = 2;
   }
   return j;
 }

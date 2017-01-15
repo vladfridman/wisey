@@ -55,7 +55,7 @@ struct VariableDeclarationTest : public Test {
 
 TEST_F(VariableDeclarationTest, VariableDeclarationWithoutAssignmentTest) {
   Identifier identifier("foo", "bar");
-  TypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT);
+  TypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT32);
   VariableDeclaration declaration(typeSpecifier, identifier);
 
   declaration.generateIR(mContext);
@@ -68,7 +68,7 @@ TEST_F(VariableDeclarationTest, VariableDeclarationWithoutAssignmentTest) {
 
 TEST_F(VariableDeclarationTest, VariableDeclarationWithAssignmentTest) {
   Identifier identifier("foo", "bar");
-  TypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT);
+  TypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT32);
   NiceMock<MockExpression> mExpression;
   Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
