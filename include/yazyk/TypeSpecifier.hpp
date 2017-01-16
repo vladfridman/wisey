@@ -35,7 +35,7 @@ public:
   
   ~TypeSpecifier() { }
   
-  PrimitiveType getType() const;
+  llvm::Type* getType(llvm::LLVMContext& llvmContext) const;
 };
   
 } /* namespace yazyk */

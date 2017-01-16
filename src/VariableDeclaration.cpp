@@ -11,7 +11,6 @@
 #include "yazyk/Assignment.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/TypeIdentifier.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -19,7 +18,7 @@ using namespace std;
 using namespace yazyk;
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
-  AllocaInst *alloc = new AllocaInst(TypeIdentifier::typeOf(context.getLLVMContext(), mType),
+  AllocaInst *alloc = new AllocaInst(mType.getType(context.getLLVMContext()),
                                      mId.getName().c_str(),
                                      context.getBasicBlock());
   context.setVariable(mId.getName(), alloc);

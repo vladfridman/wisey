@@ -10,7 +10,6 @@
 
 #include "yazyk/FunctionDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/TypeIdentifier.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -21,10 +20,10 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
   vector<Type*> argTypes;
   VariableList::const_iterator it;
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
-    argTypes.push_back(TypeIdentifier::typeOf(context.getLLVMContext(), (**it).getType()));
+    argTypes.push_back((**it).getType().getType(context.getLLVMContext()));
   }
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
-  FunctionType *ftype = FunctionType::get(TypeIdentifier::typeOf(context.getLLVMContext(), mType),
+  FunctionType *ftype = FunctionType::get(mType.getType(context.getLLVMContext()),
                                           argTypesArray,
                                           false);
   Function *function = Function::Create(ftype,
@@ -47,8 +46,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
     Value *value = &*args;
     string newName = (**it).getId().getName() + ".param";
-    AllocaInst *alloc = new AllocaInst(TypeIdentifier::typeOf(context.getLLVMContext(),
-                                                              (**it).getType()),
+    AllocaInst *alloc = new AllocaInst((**it).getType().getType(context.getLLVMContext()),
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);

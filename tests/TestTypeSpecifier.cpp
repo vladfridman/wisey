@@ -13,11 +13,13 @@
 
 #include "yazyk/TypeSpecifier.hpp"
 
+using namespace llvm;
 using namespace yazyk;
 
 TEST(TypeSpecifierTest, CreationTest) {
   IRGenerationContext context;
+  LLVMContext& llvmContext = context.getLLVMContext();
   TypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT32);
   
-  EXPECT_EQ(typeSpecifier.getType(), PRIMITIVE_TYPE_INT32);
+  EXPECT_EQ(typeSpecifier.getType(llvmContext), Type::getInt32Ty(llvmContext));
 }

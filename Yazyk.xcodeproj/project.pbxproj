@@ -105,8 +105,6 @@
 		F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */; };
 		F53401111DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */; };
 		F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */; };
-		F53401141DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */; };
-		F53401151DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */; };
 		F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */; };
 		F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */; };
 		F54625BF1DE5EA1900074D66 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */; };
@@ -295,8 +293,6 @@
 		F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConditionalExpression.cpp; path = tests/TestConditionalExpression.cpp; sourceTree = "<group>"; };
 		F534010F1DFF31550002BF7E /* FunctionDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FunctionDeclaration.hpp; path = include/yazyk/FunctionDeclaration.hpp; sourceTree = "<group>"; };
 		F53401101DFF333E0002BF7E /* FunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDeclaration.cpp; path = src/FunctionDeclaration.cpp; sourceTree = "<group>"; };
-		F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TypeIdentifier.cpp; path = src/TypeIdentifier.cpp; sourceTree = "<group>"; };
-		F53401161DFF34320002BF7E /* TypeIdentifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TypeIdentifier.hpp; path = include/yazyk/TypeIdentifier.hpp; sourceTree = "<group>"; };
 		F534011B1E000DBC0002BF7E /* TestFunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFunctionDeclaration.cpp; path = tests/TestFunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F534FFD81DFBD2750002BF7E /* Log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Log.hpp; path = include/yazyk/Log.hpp; sourceTree = "<group>"; };
@@ -681,7 +677,6 @@
 				F531B6531E0DDD96008304F3 /* String.cpp */,
 				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
-				F53401131DFF33BB0002BF7E /* TypeIdentifier.cpp */,
 				F5E2092F1E078C4300E1A147 /* TypeSpecifier.cpp */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
 				F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */,
@@ -783,7 +778,6 @@
 				F574115E1E01A983009809FF /* Scope.hpp */,
 				F531B6521E0DDCE7008304F3 /* String.hpp */,
 				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
-				F53401161DFF34320002BF7E /* TypeIdentifier.hpp */,
 				F5E2092E1E078B7500E1A147 /* TypeSpecifier.hpp */,
 				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
 				F59D82091E0F147000057FB5 /* WhileStatement.hpp */,
@@ -924,7 +918,6 @@
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
 				F531B6681E0E1460008304F3 /* Float32.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
-				F53401151DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */,
 				F531B66A1E0E14E0008304F3 /* TestFloat32.cpp in Sources */,
 				F5E209311E078C4300E1A147 /* TypeSpecifier.cpp in Sources */,
 				F531B64B1E0A5329008304F3 /* TestAssignment.cpp in Sources */,
@@ -953,7 +946,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F53401141DFF33BB0002BF7E /* TypeIdentifier.cpp in Sources */,
 				F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
