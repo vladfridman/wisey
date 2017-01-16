@@ -1,15 +1,16 @@
 //
-//  TypeSpecifier.hpp
+//  PrimitiveTypeSpecifier.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/18/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef TypeSpecifier_h
-#define TypeSpecifier_h
+#ifndef PrimitiveTypeSpecifier_h
+#define PrimitiveTypeSpecifier_h
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/ITypeSpecifier.hpp"
 
 namespace yazyk {
 
@@ -27,17 +28,17 @@ typedef enum PrimitiveTypeEnum {
 /**
  * Represents a yazyk primitive type
  */
-class TypeSpecifier {
+class PrimitiveTypeSpecifier : public ITypeSpecifier {
   PrimitiveType mType;
   
 public:
-  TypeSpecifier(PrimitiveType type) : mType(type) { }
+  PrimitiveTypeSpecifier(PrimitiveType type) : mType(type) { }
   
-  ~TypeSpecifier() { }
+  ~PrimitiveTypeSpecifier() { }
   
-  llvm::Type* getType(llvm::LLVMContext& llvmContext) const;
+  llvm::Type* getType(IRGenerationContext& context) const;
 };
   
 } /* namespace yazyk */
 
-#endif /* TypeSpecifier_h */
+#endif /* PrimitiveTypeSpecifier_h */

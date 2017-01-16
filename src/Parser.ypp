@@ -23,15 +23,16 @@
   #include "yazyk/IncrementExpression.hpp"
   #include "yazyk/Int32.hpp"
   #include "yazyk/Int64.hpp"
+  #include "yazyk/ITypeSpecifier.hpp"
   #include "yazyk/LogicalAndExpression.hpp"
   #include "yazyk/LogicalOrExpression.hpp"
   #include "yazyk/MethodCall.hpp"
+  #include "yazyk/PrimitiveTypeSpecifier.hpp"
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
   #include "yazyk/ReturnVoidStatement.hpp"
   #include "yazyk/String.hpp"
   #include "yazyk/SwitchStatement.hpp"
-  #include "yazyk/TypeSpecifier.hpp"
   #include "yazyk/VariableDeclaration.hpp"
   #include "yazyk/WhileStatement.hpp"
   
@@ -64,7 +65,7 @@
   yazyk::CaseStatement *case_statement;
   yazyk::DefaultCaseStatement *default_case_statement;
   yazyk::SwitchCases *switch_cases;
-  yazyk::TypeSpecifier *type;
+  yazyk::ITypeSpecifier *type;
   yazyk::Identifier *identifier;
   yazyk::VariableDeclaration *variable_declaration;
   std::vector<yazyk::VariableDeclaration*> *variable_vector;
@@ -322,11 +323,11 @@ call_arguments
   ;
 
 type_specifier
-  : TTYPEINT32 { $$ = new TypeSpecifier(PRIMITIVE_TYPE_INT32); }
-  | TTYPEINT64 { $$ = new TypeSpecifier(PRIMITIVE_TYPE_INT64); }
-  | TTYPEFLOAT32 { $$ = new TypeSpecifier(PRIMITIVE_TYPE_FLOAT32); }
-  | TTYPEFLOAT64 { $$ = new TypeSpecifier(PRIMITIVE_TYPE_FLOAT64); }
-  | TTYPEVOID { $$ = new TypeSpecifier(PRIMITIVE_TYPE_VOID); }
+  : TTYPEINT32 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT32); }
+  | TTYPEINT64 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT64); }
+  | TTYPEFLOAT32 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT32); }
+  | TTYPEFLOAT64 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT64); }
+  | TTYPEVOID { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_VOID); }
   ;
 
 %%

@@ -18,7 +18,7 @@ using namespace std;
 using namespace yazyk;
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
-  AllocaInst *alloc = new AllocaInst(mType.getType(context.getLLVMContext()),
+  AllocaInst *alloc = new AllocaInst(mType.getType(context),
                                      mId.getName().c_str(),
                                      context.getBasicBlock());
   context.setVariable(mId.getName(), alloc);
@@ -30,7 +30,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   return alloc;
 }
 
-const TypeSpecifier& VariableDeclaration::getType() const {
+const ITypeSpecifier& VariableDeclaration::getType() const {
   return mType;
 }
 

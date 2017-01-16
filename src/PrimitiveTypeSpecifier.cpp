@@ -1,5 +1,5 @@
 //
-//  TypeSpecifier.cpp
+//  PrimitiveTypeSpecifier.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/18/16.
@@ -7,12 +7,13 @@
 //
 
 #include "yazyk/Log.hpp"
-#include "yazyk/TypeSpecifier.hpp"
+#include "yazyk/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Type* TypeSpecifier::getType(LLVMContext& llvmContext) const {
+Type* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
   if (mType == PRIMITIVE_TYPE_INT32) {
     return (Type*) Type::getInt32Ty(llvmContext);
   } else if (mType == PRIMITIVE_TYPE_INT64) {

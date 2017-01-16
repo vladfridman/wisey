@@ -5,8 +5,8 @@
   #include "yazyk/CaseStatement.hpp"
   #include "yazyk/DefaultCaseStatement.hpp"
   #include "yazyk/Identifier.hpp"
+  #include "yazyk/PrimitiveTypeSpecifier.hpp"
   #include "yazyk/SwitchStatement.hpp"
-  #include "yazyk/TypeSpecifier.hpp"
   #include "yazyk/VariableDeclaration.hpp"
   #include "y.tab.h"
   #define SAVE_TOKEN yylval.string = new std::string(yytext, yyleng)

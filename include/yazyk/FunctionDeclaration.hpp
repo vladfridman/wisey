@@ -12,7 +12,7 @@
 #include "yazyk/CompoundStatement.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"
-#include "yazyk/TypeSpecifier.hpp"
+#include "yazyk/ITypeSpecifier.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
 namespace yazyk {
@@ -23,13 +23,13 @@ namespace yazyk {
  * A function contains Block that contains statements.
  */
 class FunctionDeclaration : public IStatement {
-  const TypeSpecifier& mType;
+  const ITypeSpecifier& mType;
   const Identifier& mId;
   VariableList mArguments;
   CompoundStatement& mCompoundStatement;
   
 public:
-  FunctionDeclaration(const TypeSpecifier& type,
+  FunctionDeclaration(const ITypeSpecifier& type,
                       const Identifier& id,
                       const VariableList& arguments,
                       CompoundStatement& compoundStatement) :

@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/FunctionDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypeSpecifier.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -27,8 +28,8 @@ using ::testing::Test;
 
 struct FunctionDecalarationTest : Test {
   IRGenerationContext mContext;
-  TypeSpecifier mFloatTypeSpecifier;
-  TypeSpecifier mIntTypeSpecifier;
+  PrimitiveTypeSpecifier mFloatTypeSpecifier;
+  PrimitiveTypeSpecifier mIntTypeSpecifier;
   Identifier mFooFunctionIdentifier;
   Identifier mMainFunctionIdentifier;
   Identifier mArgumentIdentifier;
@@ -41,8 +42,8 @@ struct FunctionDecalarationTest : Test {
   raw_string_ostream* mStringStream;
   
   FunctionDecalarationTest() :
-    mFloatTypeSpecifier(TypeSpecifier(PRIMITIVE_TYPE_FLOAT32)),
-    mIntTypeSpecifier(TypeSpecifier(PRIMITIVE_TYPE_INT32)),
+    mFloatTypeSpecifier(PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT32)),
+    mIntTypeSpecifier(PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT32)),
     mFooFunctionIdentifier(Identifier("foo")),
     mMainFunctionIdentifier(Identifier("main")),
     mArgumentIdentifier(Identifier("bar")),

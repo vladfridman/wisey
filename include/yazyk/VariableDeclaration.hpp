@@ -10,7 +10,7 @@
 #define VariableDeclaration_h
 
 #include "yazyk/IStatement.hpp"
-#include "yazyk/TypeSpecifier.hpp"
+#include "yazyk/ITypeSpecifier.hpp"
 
 namespace yazyk {
   
@@ -18,22 +18,22 @@ namespace yazyk {
  * Represents a variable declaration
  */
 class VariableDeclaration : public IStatement {
-  const TypeSpecifier& mType;
+  const ITypeSpecifier& mType;
   Identifier& mId;
   IExpression *mAssignmentExpression;
 
 public:
-  VariableDeclaration(const TypeSpecifier& type, Identifier& id) :
+  VariableDeclaration(const ITypeSpecifier& type, Identifier& id) :
     mType(type), mId(id), mAssignmentExpression(NULL) { }
 
-  VariableDeclaration(const TypeSpecifier& type,
+  VariableDeclaration(const ITypeSpecifier& type,
                       Identifier& id,
                       IExpression *assignmentExpression) :
     mType(type), mId(id), mAssignmentExpression(assignmentExpression) { }
 
   ~VariableDeclaration() { }
   
-  const TypeSpecifier& getType() const;
+  const ITypeSpecifier& getType() const;
   
   const Identifier& getId() const;
   
