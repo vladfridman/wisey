@@ -9,7 +9,6 @@
 #ifndef TypeSpecifier_h
 #define TypeSpecifier_h
 
-#include "yazyk/INode.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
 namespace yazyk {
@@ -28,7 +27,7 @@ typedef enum PrimitiveTypeEnum {
 /**
  * Represents a yazyk primitive type
  */
-class TypeSpecifier : public yazyk::INode {
+class TypeSpecifier {
   PrimitiveType mType;
   
 public:
@@ -37,8 +36,6 @@ public:
   ~TypeSpecifier() { }
   
   PrimitiveType getType() const;
-  
-  llvm::Value* generateIR(yazyk::IRGenerationContext& context) const override;
 };
   
 } /* namespace yazyk */

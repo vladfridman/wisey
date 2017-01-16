@@ -20,5 +20,4 @@ TEST(TypeSpecifierTest, CreationTest) {
   TypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT32);
   
   EXPECT_EQ(typeSpecifier.getType(), PRIMITIVE_TYPE_INT32);
-  EXPECT_EQ(typeSpecifier.generateIR(context) == NULL, true);
 }

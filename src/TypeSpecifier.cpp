@@ -8,12 +8,7 @@
 
 #include "yazyk/TypeSpecifier.hpp"
 
-using namespace llvm;
 using namespace yazyk;
-
-Value* TypeSpecifier::generateIR(IRGenerationContext &context) const {
-  return NULL;
-}
 
 PrimitiveType TypeSpecifier::getType() const {
   return mType;
