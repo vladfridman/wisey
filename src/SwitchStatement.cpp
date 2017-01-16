@@ -26,7 +26,7 @@ Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
   SwitchInst* switchInstruction =
     SwitchInst::Create(conditionValue,
                        switchDefault != NULL ? switchDefault : switchEpilog,
-                       mSwitchCases.caseStatements.size(),
+                       (unsigned int) mSwitchCases.caseStatements.size(),
                        context.getBasicBlock());
   
   generateCasesIR(context, switchDefault, switchEpilog, switchInstruction);
