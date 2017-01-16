@@ -117,6 +117,11 @@
 %left '*' '/'
 
 /**
+ * Expect one shift/reduce conflit: the dangling ELSE
+ */
+%expect 1
+
+/**
  * Top-most parsing tree node
  */
 %start program
@@ -129,7 +134,7 @@ program
 
 global_unit_list
   : global_unit { $$ = new Block(); $$->getStatements().push_back($<statement>1); }
-  | global_unit_list global_unit_list { $1->getStatements().push_back($<statement>2); }
+  | global_unit_list global_unit { $1->getStatements().push_back($<statement>2); }
   ;
 
 global_unit
