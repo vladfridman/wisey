@@ -29,7 +29,8 @@ class IRGenerationContext {
   llvm::Module* mModule;
   std::unique_ptr<llvm::Module> mOwner;
   llvm::BasicBlock* mBasicBlock;
-  
+  std::map<std::string, llvm::StructType*> mModelTypes;
+
 public:
   
   IRGenerationContext() : mMainFunction(NULL), mBasicBlock(NULL) {
@@ -108,6 +109,16 @@ public:
    */
   llvm::BasicBlock* getContinueToBlock();
 
+  /**
+   * Add a MODEL type
+   */
+  void addModelType(std::string name, llvm::StructType* model);
+  
+  /**
+   * Look up a MODEL type
+   */
+  llvm::StructType* getModelType(std::string name);
+  
   /**
    * Returns the LLVMContext
    */

@@ -133,6 +133,24 @@ BasicBlock* IRGenerationContext::getContinueToBlock() {
   return NULL;
 }
 
+void IRGenerationContext::addModelType(string name, StructType* model) {
+  if (mModelTypes[name] != NULL) {
+    Log::e("Redefinition of MODEL " + name);
+    exit(1);
+  }
+  
+  mModelTypes[name] = model;
+}
+
+StructType* IRGenerationContext::getModelType(string name) {
+  if (mModelTypes[name] == NULL) {
+    Log::e("MODEL " + name + " is not defined");
+    exit(1);
+  }
+
+  return mModelTypes[name];
+}
+
 LLVMContext& IRGenerationContext::getLLVMContext() {
   return mLLVMContext;
 }

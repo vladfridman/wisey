@@ -36,7 +36,7 @@ TEST(IRGenerationContextTest, TestBlockStack) {
   EXPECT_EQ(context.getBasicBlock(), block2);
 }
 
-TEST(IRGenerationTest, TestMainFunction) {
+TEST(IRGenerationContextTest, TestMainFunction) {
   IRGenerationContext context;
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), false);
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "main");
@@ -46,7 +46,7 @@ TEST(IRGenerationTest, TestMainFunction) {
   EXPECT_EQ(context.getMainFunction(), function);
 }
 
-TEST(IRGenerationTest, TestScopes) {
+TEST(IRGenerationContextTest, TestScopes) {
   IRGenerationContext context;
   context.pushScope();
   LLVMContext &llvmContext = context.getLLVMContext();
@@ -73,7 +73,7 @@ TEST(IRGenerationTest, TestScopes) {
   EXPECT_EQ(context.getVariable("bar") == NULL, true);
 }
 
-TEST(IRGenerationTest, TestScopesCorrectlyOrdered) {
+TEST(IRGenerationContextTest, TestScopesCorrectlyOrdered) {
   IRGenerationContext context;
   context.pushScope();
   LLVMContext &llvmContext = context.getLLVMContext();
@@ -103,6 +103,33 @@ TEST(IRGenerationContextTest, RunCodeFailsWhenMainIsNullDeathTest) {
   EXPECT_EXIT(context.runCode(),
               ::testing::ExitedWithCode(1),
               "Function main is not defined. Exiting.");
+}
+
+TEST(IRGenerationContextTest, ModelTypeRegistryTest) {
+  IRGenerationContext context;
+  
+  StructType* model = StructType::create(context.getLLVMContext(), "mymodel");
+  context.addModelType("mymodel", model);
+  
+  EXPECT_EQ(context.getModelType("mymodel"), model);
+}
+
+TEST(IRGenerationContextTest, ModelTypeRedefinedDeathTest) {
+  IRGenerationContext context;
+  
+  StructType* model = StructType::create(context.getLLVMContext(), "mymodel");
+  context.addModelType("mymodel", model);
+  EXPECT_EXIT(context.addModelType("mymodel", model),
+              ::testing::ExitedWithCode(1),
+              "Redefinition of MODEL mymodel");
+}
+
+TEST(IRGenerationContextTest, ModelTypeDoesNotExistDeathTest) {
+  IRGenerationContext context;
+  
+  EXPECT_EXIT(context.getModelType("mymodel"),
+              ::testing::ExitedWithCode(1),
+              "MODEL mymodel is not defined");
 }
 
 struct IRGenerationContextRunTest : public ::testing::Test {

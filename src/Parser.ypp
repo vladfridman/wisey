@@ -27,6 +27,9 @@
   #include "yazyk/LogicalAndExpression.hpp"
   #include "yazyk/LogicalOrExpression.hpp"
   #include "yazyk/MethodCall.hpp"
+  #include "yazyk/ModelDefinition.hpp"
+  #include "yazyk/ModelFieldDeclaration.hpp"
+  #include "yazyk/ModelTypeSpecifier.hpp"
   #include "yazyk/PrimitiveTypeSpecifier.hpp"
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
@@ -70,6 +73,8 @@
   yazyk::VariableDeclaration *variable_declaration;
   std::vector<yazyk::VariableDeclaration*> *variable_vector;
   std::vector<yazyk::IExpression*> *expression_vector;
+  std::vector<yazyk::ModelFieldDeclaration*> *field_vector;
+  yazyk::ModelFieldDeclaration* field;
   std::string *string;
   int token;
 }
@@ -82,6 +87,7 @@
 %token <token> TTYPEINT32 TTYPEINT64 TTYPEFLOAT32 TTYPEFLOAT64 TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
 %token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH TDO
+%token <token> TMODEL
 
 /**
  * Parsing tree node types
@@ -98,12 +104,14 @@
 %type <statement> statement variable_declaration function_definition
 %type <statement> function_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
-%type <statement> selection_statement
+%type <statement> selection_statement model_definition
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
 %type <switch_cases> case_statement_list case_statement_list_with_default
-%type <type> type_specifier
+%type <field_vector> model_field_declaration_list
+%type <field> model_field_declaration
+%type <type> type_specifier primitive_type_specifier model_type_specifier
 
 %left '+' '-'
 %left '*' '/'
@@ -125,7 +133,23 @@ global_unit_list
   ;
 
 global_unit
-  : function_definition { $$ = $1; }
+  : function_definition
+  | model_definition
+  ;
+
+model_definition
+  : TMODEL TIDENTIFIER '{' model_field_declaration_list '}' { $$ = new ModelDefinition(*$2, *$4); }
+  ;
+
+model_field_declaration_list
+  : model_field_declaration
+    { $$ = new std::vector<ModelFieldDeclaration*>(); $$->push_back($1); }
+  | model_field_declaration_list model_field_declaration
+    { $1->push_back($2); }
+  ;
+
+model_field_declaration
+  : type_specifier TIDENTIFIER ';' { $$ = new ModelFieldDeclaration(*$1, *$2); }
   ;
 
 compound_statement
@@ -140,7 +164,7 @@ block_item_list
 
 block_item
   : declaration
-  | statement { $$ = $1; }
+  | statement
   ;
 
 declaration
@@ -323,11 +347,20 @@ call_arguments
   ;
 
 type_specifier
+  : primitive_type_specifier
+  | model_type_specifier
+  ;
+
+primitive_type_specifier
   : TTYPEINT32 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT32); }
   | TTYPEINT64 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT64); }
   | TTYPEFLOAT32 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT32); }
   | TTYPEFLOAT64 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT64); }
   | TTYPEVOID { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_VOID); }
+  ;
+
+model_type_specifier
+  : TIDENTIFIER { $$ = new ModelTypeSpecifier(*$1); }
   ;
 
 %%
