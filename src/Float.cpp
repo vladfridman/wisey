@@ -1,5 +1,5 @@
 //
-//  Float64.cpp
+//  Float.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Float64.hpp"
+#include "yazyk/Float.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value* Float64::generateIR(IRGenerationContext& context) const {
-  return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), mValue);
+Value* Float::generateIR(IRGenerationContext& context) const {
+  return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), mValue);
 }

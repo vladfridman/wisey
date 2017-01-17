@@ -1,5 +1,5 @@
 //
-//  Int32.cpp
+//  Long.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Int32.hpp"
+#include "yazyk/Long.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value* Int32::generateIR(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), mValue, true);
+Value* Long::generateIR(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), mValue, true);
 }

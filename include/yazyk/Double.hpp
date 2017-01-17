@@ -1,34 +1,33 @@
 //
-//  Int64.hpp
+//  Double.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef Int64_h
-#define Int64_h
+#ifndef Double_h
+#define Double_h
 
 #include "yazyk/IExpression.hpp"
 
 namespace yazyk {
-
+  
 /**
- * Represents a 64 bit integer constant
+ * Represents a double constant
  */
-class Int64 : public IExpression {
-
-  long long mValue;
+class Double : public IExpression {
+  long double mValue;
   
 public:
 
-  Int64(long long value) : mValue(value) { }
+  Double(long double value) : mValue(value) { }
   
-  ~Int64() {}
+  ~Double() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
   
 } /* namespace yazyk */
 
-#endif /* Int64_hpp */
+#endif /* Double_h */

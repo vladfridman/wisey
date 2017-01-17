@@ -1,33 +1,33 @@
 //
-//  Float64.hpp
+//  Float.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef Float64_h
-#define Float64_h
+#ifndef Float_h
+#define Float_h
 
 #include "yazyk/IExpression.hpp"
 
 namespace yazyk {
-  
+
 /**
- * Represents a double constant
+ * Represents a float constant
  */
-class Float64 : public IExpression {
-  long double mValue;
+class Float: public IExpression {
+  double mValue;
   
 public:
-
-  Float64(long double value) : mValue(value) { }
   
-  ~Float64() {}
+  Float(double value) : mValue(value) { }
+
+  ~Float() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
-  
+
 } /* namespace yazyk */
 
-#endif /* Float64_h */
+#endif /* Float_h */
