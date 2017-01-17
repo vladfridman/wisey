@@ -1,7 +1,7 @@
-int32 foo(int32 argument) {
+int foo(int argument) {
   return argument + 2;
 }
 
-int32 main() {
+int main() {
   return foo(3);
 }

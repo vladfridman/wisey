@@ -18,10 +18,10 @@ namespace yazyk {
  * Prmitive types used in yazyk
  */
 typedef enum PrimitiveTypeEnum {
-  PRIMITIVE_TYPE_INT32,
-  PRIMITIVE_TYPE_INT64,
-  PRIMITIVE_TYPE_FLOAT32,
-  PRIMITIVE_TYPE_FLOAT64,
+  PRIMITIVE_TYPE_INT,
+  PRIMITIVE_TYPE_LONG,
+  PRIMITIVE_TYPE_FLOAT,
+  PRIMITIVE_TYPE_DOUBLE,
   PRIMITIVE_TYPE_VOID,
 } PrimitiveType;
 

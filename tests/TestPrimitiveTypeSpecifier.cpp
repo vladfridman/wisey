@@ -19,7 +19,7 @@ using namespace yazyk;
 TEST(PrimitiveTypeSpecifierTest, CreationTest) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
-  PrimitiveTypeSpecifier primitiveTypeSpecifier(PRIMITIVE_TYPE_INT32);
+  PrimitiveTypeSpecifier primitiveTypeSpecifier(PRIMITIVE_TYPE_INT);
   
   EXPECT_EQ(primitiveTypeSpecifier.getType(context), Type::getInt32Ty(llvmContext));
 }

@@ -1,9 +1,9 @@
 model Rectangle {
-  int32 width;
-  int32 height;
+  int width;
+  int height;
 }
 
-int32 main() {
+int main() {
   Rectangle r;
   return 0;
 }

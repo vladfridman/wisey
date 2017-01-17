@@ -42,8 +42,8 @@ struct FunctionDecalarationTest : Test {
   raw_string_ostream* mStringStream;
   
   FunctionDecalarationTest() :
-    mFloatTypeSpecifier(PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT32)),
-    mIntTypeSpecifier(PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT32)),
+    mFloatTypeSpecifier(PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT)),
+    mIntTypeSpecifier(PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT)),
     mFooFunctionIdentifier(Identifier("foo")),
     mMainFunctionIdentifier(Identifier("main")),
     mArgumentIdentifier(Identifier("bar")),

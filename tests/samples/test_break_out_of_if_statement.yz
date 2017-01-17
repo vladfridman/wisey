@@ -1,5 +1,5 @@
-int32 main() {
-  int32 i = 10;
+int main() {
+  int i = 10;
   if (i == 10) {
     break;
   }

@@ -84,7 +84,7 @@
  */
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
 %token <token> TCEQ TCNE TCLE TCGE
-%token <token> TTYPEINT32 TTYPEINT64 TTYPEFLOAT32 TTYPEFLOAT64 TTYPEVOID
+%token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
 %token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH TDO
 %token <token> TMODEL
@@ -357,10 +357,10 @@ type_specifier
   ;
 
 primitive_type_specifier
-  : TTYPEINT32 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT32); }
-  | TTYPEINT64 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT64); }
-  | TTYPEFLOAT32 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT32); }
-  | TTYPEFLOAT64 { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT64); }
+  : TTYPEINT { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT); }
+  | TTYPELONG { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_LONG); }
+  | TTYPEFLOAT { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT); }
+  | TTYPEDOUBLE { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_DOUBLE); }
   | TTYPEVOID { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_VOID); }
   ;
 

@@ -26,10 +26,10 @@ using namespace yazyk;
 TEST(ModelDefinitionTest, TestSimpleDefinition) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
-  PrimitiveTypeSpecifier int64Type(PRIMITIVE_TYPE_INT64);
-  PrimitiveTypeSpecifier float32Type(PRIMITIVE_TYPE_FLOAT32);
-  ModelFieldDeclaration field1(int64Type, "field1");
-  ModelFieldDeclaration field2(float32Type, "field2");
+  PrimitiveTypeSpecifier longType(PRIMITIVE_TYPE_LONG);
+  PrimitiveTypeSpecifier floatType(PRIMITIVE_TYPE_FLOAT);
+  ModelFieldDeclaration field1(longType, "field1");
+  ModelFieldDeclaration field2(floatType, "field2");
   vector<ModelFieldDeclaration *> fields;
   fields.push_back(&field1);
   fields.push_back(&field2);

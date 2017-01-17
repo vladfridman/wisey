@@ -1,7 +1,7 @@
-int32 main() {
-  int32 i;
+int main() {
+  int i;
   for (i = 0; i < 10; i++) {
-    for (int32 j = 0; j < 10; j++) {
+    for (int j = 0; j < 10; j++) {
       if (j == 5) {
         break;
       }

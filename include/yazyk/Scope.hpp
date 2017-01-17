@@ -25,7 +25,7 @@ public:
 
   Scope() : mBreakToBlock(NULL), mContinueToBlock(NULL) { }
   
-  /**
+  /**ß
    * Returns map of local variables associated with this program block
    */
   std::map<std::string, llvm::Value*>& getLocals();
