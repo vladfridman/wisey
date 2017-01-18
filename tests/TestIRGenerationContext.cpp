@@ -53,9 +53,9 @@ TEST(IRGenerationContextTest, TestScopes) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
   Value* barValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
 
-  context.setVariable("foo", fooValue);
+  context.setStackVariable("foo", fooValue);
   context.pushScope();
-  context.setVariable("bar", barValue);
+  context.setStackVariable("bar", barValue);
   
   EXPECT_EQ(context.getVariable("bar"), barValue);
   EXPECT_EQ(context.getVariable("foo"), fooValue);
@@ -64,7 +64,7 @@ TEST(IRGenerationContextTest, TestScopes) {
   EXPECT_EQ(context.getVariable("foo"), fooValue);
   EXPECT_EQ(context.getVariable("bar") == NULL, true);
   
-  context.setVariable("bar", barValue);
+  context.setStackVariable("bar", barValue);
   EXPECT_EQ(context.getVariable("foo"), fooValue);
   EXPECT_EQ(context.getVariable("bar"), barValue);
   
@@ -80,15 +80,31 @@ TEST(IRGenerationContextTest, TestScopesCorrectlyOrdered) {
   Value* outerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
   Value* innerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
   
-  context.setVariable("foo", outerValue);
+  context.setStackVariable("foo", outerValue);
   context.pushScope();
-  context.setVariable("foo", innerValue);
+  context.setStackVariable("foo", innerValue);
   
   EXPECT_EQ(context.getVariable("foo"), innerValue);
   
   context.popScope();
   
   EXPECT_EQ(context.getVariable("foo"), outerValue);
+}
+
+TEST(IRGenerationContextTest, TestGetScopeDeathTest) {
+  IRGenerationContext context;
+
+  EXPECT_EXIT(context.getScope(),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not get scope. Scope list is empty.");
+}
+
+TEST(IRGenerationContextTest, TestGetScope) {
+  IRGenerationContext context;
+  context.pushScope();
+  Scope* scope = context.getScope();
+  
+  EXPECT_EQ(scope == NULL, false);
 }
 
 TEST(IRGenerationContextTest, TestModuleIsNotNull) {

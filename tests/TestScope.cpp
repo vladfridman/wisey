@@ -24,23 +24,49 @@ using ::testing::Test;
 
 struct ScopeTest : public Test {
   IRGenerationContext mContext;
-  BasicBlock* mBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
+  LLVMContext& mLLVMContext;
+  BasicBlock* mBlock;
+  Function* mFunction;
   Scope mScope;
  
 public:
   
-  ScopeTest() : mScope(Scope()) { }
-  
-  ~ScopeTest() {
-    delete mBlock;
+  ScopeTest() : mLLVMContext(mContext.getLLVMContext()), mScope(Scope()) {
+    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
+    mBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
   }
 };
 
 TEST_F(ScopeTest, LocalsTest) {
-  LLVMContext& llvmContext = mContext.getLLVMContext();
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
-  mScope.getLocals()["foo"] = fooValue;
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+  mScope.getLocals()["foo"] = Variable(fooValue, STACK_VARIABLE);
   
-  EXPECT_EQ(mScope.getLocals()["foo"], fooValue);
-  EXPECT_EQ(mScope.getLocals()["bar"] == NULL, true);
+  EXPECT_EQ(mScope.getLocals()["foo"].getValue(), fooValue);
+  EXPECT_EQ(mScope.getLocals()["bar"].getValue() == NULL, true);
+}
+
+TEST_F(ScopeTest, MaybeFreeOwnedMemoryHeapVariableTest) {
+  Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
+  mScope.getLocals()["foo"] = Variable(fooValue, HEAP_VARIABLE);
+  
+  EXPECT_EQ(mBlock->getInstList().size(), 0ul);
+
+  mScope.maybeFreeOwnedMemory(mBlock);
+  
+  EXPECT_GT(mBlock->getInstList().size(), 0ul);
+}
+
+TEST_F(ScopeTest, MaybeFreeOwnedMemoryStackVariableTest) {
+  Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
+  mScope.getLocals()["foo"] = Variable(fooValue, STACK_VARIABLE);
+  
+  EXPECT_EQ(mBlock->getInstList().size(), 0ul);
+  
+  mScope.maybeFreeOwnedMemory(mBlock);
+  
+  EXPECT_EQ(mBlock->getInstList().size(), 0ul);
 }

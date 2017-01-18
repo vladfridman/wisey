@@ -29,7 +29,9 @@ public:
   
   const std::string getName() const;
 
-  llvm::Type* getType(IRGenerationContext& context) const;
+  llvm::Type* getType(IRGenerationContext& context) const override;
+
+  VariableStorageType getStorageType() const override;
 };
 
 } /* namespace yazyk */

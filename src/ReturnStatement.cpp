@@ -20,6 +20,8 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   Type* valueType = returnValue->getType();
   Function *parentFunction = context.getBasicBlock()->getParent();
   
+  context.getScope()->maybeFreeOwnedMemory(context.getBasicBlock());
+  
   if (parentFunction == NULL) {
     Log::e("No corresponding method found for RETURN");
     exit(1);

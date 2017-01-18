@@ -42,7 +42,7 @@ public:
     AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
                                        mName,
                                        mBlock);
-    mContext.setVariable(mName, alloc);
+    mContext.setStackVariable(mName, alloc);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 

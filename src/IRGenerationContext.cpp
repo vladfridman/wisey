@@ -48,7 +48,7 @@ Value* IRGenerationContext::getVariable(string name) {
   std::vector<Scope *>::iterator iterator = mScopes.end();
   do {
     --iterator;
-    Value* value = (*iterator)->getLocals()[name];
+    Value* value = (*iterator)->getLocals()[name].getValue();
     if (value != NULL) {
       return value;
     }
@@ -57,12 +57,14 @@ Value* IRGenerationContext::getVariable(string name) {
   return NULL;
 }
 
-void IRGenerationContext::setVariable(string name, Value* value) {
-  if (mScopes.size() == 0) {
-    Log::e("Can not set variable - scope was not created.");
-    exit(1);
-  }
-  mScopes.back()->getLocals()[name] = value;
+void IRGenerationContext::setStackVariable(string name, Value* value) {
+  Variable variable(value, STACK_VARIABLE);
+  getScope()->getLocals()[name] = variable;
+}
+
+void IRGenerationContext::setHeapVariable(string name, Value* value) {
+  Variable variable(value, HEAP_VARIABLE);
+  getScope()->getLocals()[name] = variable;
 }
 
 void IRGenerationContext::setMainFunction(llvm::Function* function) {
@@ -87,8 +89,17 @@ void IRGenerationContext::pushScope() {
 
 void IRGenerationContext::popScope() {
   Scope* top = mScopes.back();
+  top->maybeFreeOwnedMemory(mBasicBlock);
   mScopes.pop_back();
   delete top;
+}
+
+Scope* IRGenerationContext::getScope() {
+  if (mScopes.size() == 0) {
+    Log::e("Can not get scope. Scope list is empty.");
+    exit(1);
+  }
+  return mScopes.back();
 }
 
 void IRGenerationContext::setBreakToBlock(BasicBlock* block) {

@@ -56,7 +56,7 @@ TEST_F(IdentifierTest, VariableIdentifierTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
                                      name,
                                      mBlock);
-  mContext.setVariable(name, alloc);
+  mContext.setStackVariable(name, alloc);
   Identifier identifier(name, "bar");
   identifier.generateIR(mContext);
   

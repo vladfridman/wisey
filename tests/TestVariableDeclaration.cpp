@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/ModelTypeSpecifier.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
@@ -38,23 +39,30 @@ public:
 struct VariableDeclarationTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext = mContext.getLLVMContext();
-  BasicBlock* mBlock = BasicBlock::Create(mLLVMContext, "entry");
+  BasicBlock* mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
+  Function* mFunction;
   
   VariableDeclarationTest() {
+    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
+    mBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    
     mContext.setBasicBlock(mBlock);
     mContext.pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~VariableDeclarationTest() {
-    delete mBlock;
     delete mStringStream;
   }
 };
 
-TEST_F(VariableDeclarationTest, VariableDeclarationWithoutAssignmentTest) {
+TEST_F(VariableDeclarationTest, StackVariableDeclarationWithoutAssignmentTest) {
   Identifier identifier("foo", "bar");
   PrimitiveTypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT);
   VariableDeclaration declaration(typeSpecifier, identifier);
@@ -67,7 +75,7 @@ TEST_F(VariableDeclarationTest, VariableDeclarationWithoutAssignmentTest) {
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
 }
 
-TEST_F(VariableDeclarationTest, VariableDeclarationWithAssignmentTest) {
+TEST_F(VariableDeclarationTest, StackVariableDeclarationWithAssignmentTest) {
   Identifier identifier("foo", "bar");
   PrimitiveTypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT);
   NiceMock<MockExpression> mExpression;
@@ -87,6 +95,38 @@ TEST_F(VariableDeclarationTest, VariableDeclarationWithAssignmentTest) {
   
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %foo");
+  mStringBuffer.clear();
+}
+
+TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
+  Identifier identifier("foo", "bar");
+  ModelTypeSpecifier typeSpecifier("model");
+  
+  StructType* structType = StructType::create(mLLVMContext, "test");
+  vector<Type*> types;
+  types.push_back(Type::getInt32Ty(mLLVMContext));
+  types.push_back(Type::getInt32Ty(mLLVMContext));
+  structType->setBody(types);
+  
+  mContext.addModelType("model.model", structType);
+  VariableDeclaration declaration(typeSpecifier, identifier);
+  
+  declaration.generateIR(mContext);
+  
+  EXPECT_EQ(mContext.getVariable("foo") != NULL, true);
+  ASSERT_EQ(2ul, mBlock->size());
+  
+  BasicBlock::iterator iterator = mBlock->begin();
+  *mStringStream << *iterator;
+  string expected = string() +
+    "  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint" +
+    " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))";
+  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = bitcast i8* %malloccall to %test*");
   mStringBuffer.clear();
 }
 

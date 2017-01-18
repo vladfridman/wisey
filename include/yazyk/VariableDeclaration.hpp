@@ -38,6 +38,12 @@ public:
   const Identifier& getId() const;
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+private:
+  
+  llvm::Value* allocateOnStack(IRGenerationContext& context) const;
+  
+  llvm::Value* allocateOnHeap(IRGenerationContext& context) const;
 };
 
 /**

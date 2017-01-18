@@ -55,10 +55,15 @@ public:
   llvm::Value* getVariable(std::string name);
   
   /**
-   * Set the local variable to a given value
+   * Set the local stack variable to a given value
    */
-  void setVariable(std::string name, llvm::Value* value);
-  
+  void setStackVariable(std::string name, llvm::Value* value);
+
+  /**
+   * Set the local stack variable to a given value
+   */
+  void setHeapVariable(std::string name, llvm::Value* value);
+
   /**
    * Sets the main function for the program
    */
@@ -78,6 +83,11 @@ public:
    * Pops a program scope out of the stack
    */
   void popScope();
+  
+  /**
+   * Returns current Scope
+   */
+  Scope* getScope();
   
   /**
    * Return current LLVM basic block

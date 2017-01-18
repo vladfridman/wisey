@@ -50,7 +50,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);
-    context.setVariable((**it).getId().getName(), alloc);
+    context.setStackVariable((**it).getId().getName(), alloc);
   }
   
   mCompoundStatement.generateIR(context);

@@ -10,6 +10,7 @@
 #define ITypeSpecifier_h
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/Variable.hpp"
 
 namespace yazyk {
 
@@ -26,6 +27,11 @@ public:
    * Get LLVM type corresponding to the current type
    */
   virtual llvm::Type* getType(IRGenerationContext& context) const = 0;
+  
+  /**
+   * Tells whether this type should be allocated on stack or heap
+   */
+  virtual VariableStorageType getStorageType() const = 0;
 };
 
 } /* namespace yazyk */

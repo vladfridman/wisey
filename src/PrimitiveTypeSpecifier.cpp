@@ -29,3 +29,7 @@ Type* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
   Log::e("Unknown primitive type " + std::to_string(mType) + ". Replacing with void.");
   return Type::getVoidTy(llvmContext);
 }
+
+VariableStorageType PrimitiveTypeSpecifier::getStorageType() const {
+  return STACK_VARIABLE;
+}

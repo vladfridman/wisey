@@ -42,6 +42,7 @@
 		F50FA2F61E2E3B3200435EEA /* TestFloat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2EE1E2E3B2A00435EEA /* TestFloat.cpp */; };
 		F50FA2F71E2E3B3500435EEA /* TestInteger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2EF1E2E3B2A00435EEA /* TestInteger.cpp */; };
 		F50FA2F81E2E3B3900435EEA /* TestLong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2F01E2E3B2A00435EEA /* TestLong.cpp */; };
+		F50FA2FC1E30051700435EEA /* TestModelTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */; };
 		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
@@ -265,6 +266,8 @@
 		F50FA2EE1E2E3B2A00435EEA /* TestFloat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFloat.cpp; path = tests/TestFloat.cpp; sourceTree = "<group>"; };
 		F50FA2EF1E2E3B2A00435EEA /* TestInteger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInteger.cpp; path = tests/TestInteger.cpp; sourceTree = "<group>"; };
 		F50FA2F01E2E3B2A00435EEA /* TestLong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLong.cpp; path = tests/TestLong.cpp; sourceTree = "<group>"; };
+		F50FA2FA1E2FC21700435EEA /* Variable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Variable.hpp; path = include/yazyk/Variable.hpp; sourceTree = "<group>"; };
+		F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelTypeSpecifier.cpp; path = tests/TestModelTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -561,6 +564,7 @@
 				F50FA2F01E2E3B2A00435EEA /* TestLong.cpp */,
 				F531B6501E0DCA9C008304F3 /* TestMethodCall.cpp */,
 				F50FA2D61E2D12E000435EEA /* TestModelDefinition.cpp */,
+				F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
 				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
@@ -804,6 +808,7 @@
 				F574115E1E01A983009809FF /* Scope.hpp */,
 				F531B6521E0DDCE7008304F3 /* String.hpp */,
 				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
+				F50FA2FA1E2FC21700435EEA /* Variable.hpp */,
 				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
 				F59D82091E0F147000057FB5 /* WhileStatement.hpp */,
 			);
@@ -955,6 +960,7 @@
 				F531B64B1E0A5329008304F3 /* TestAssignment.cpp in Sources */,
 				F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */,
 				F574114A1E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
+				F50FA2FC1E30051700435EEA /* TestModelTypeSpecifier.cpp in Sources */,
 				F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F531B6511E0DCA9C008304F3 /* TestMethodCall.cpp in Sources */,

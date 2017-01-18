@@ -103,6 +103,46 @@ TEST_F(ReturnStatementTest, ParentFunctionIntTest) {
   delete function;
 }
 
+TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
+  LLVMContext &llvmContext = mContext.getLLVMContext();
+  FunctionType* functionType = FunctionType::get(Type::getInt64Ty(llvmContext), false);
+  Function* function = Function::Create(functionType,
+                                        GlobalValue::InternalLinkage,
+                                        "test",
+                                        mContext.getModule());
+  BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
+  mContext.setBasicBlock(basicBlock);
+  mContext.pushScope();
+  Type* pointerType = Type::getInt32Ty(llvmContext);
+  Type* structType = Type::getInt8Ty(llvmContext);
+  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
+  Instruction* malloc = CallInst::CreateMalloc(basicBlock,
+                                               pointerType,
+                                               structType,
+                                               allocSize,
+                                               nullptr,
+                                               nullptr,
+                                               "");
+
+  mContext.setHeapVariable("foo", malloc);
+  
+  ReturnStatement returnStatement(mExpression);
+  
+  returnStatement.generateIR(mContext);
+  
+  ASSERT_EQ(3ul, basicBlock->size());
+  *mStringStream << *basicBlock;
+  string expected = string() +
+    "\nentry:"
+    "\n  tail call void @free(i8* %malloccall)"
+    "\n  %conv = zext i32 3 to i64" +
+    "\n  ret i64 %conv\n";
+  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  
+  basicBlock->getInstList().push_front(malloc);
+}
+
 TEST_F(TestFileSampleRunner, ReturnStatementRunTest) {
   runFile("tests/samples/test_return_int.yz", "5");
 }

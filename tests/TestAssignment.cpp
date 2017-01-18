@@ -76,7 +76,7 @@ TEST_F(AssignmentTest, SimpleTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
                                      name,
                                      mBlock);
-  mContext.setVariable(name, alloc);
+  mContext.setStackVariable(name, alloc);
 
   assignment.generateIR(mContext);
 

@@ -14,7 +14,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-map<string, Value*>& Scope::getLocals() {
+map<string, Variable>& Scope::getLocals() {
   return mLocals;
 }
 
@@ -32,4 +32,26 @@ void Scope::setContinueToBlock(BasicBlock* block) {
 
 BasicBlock* Scope::getContinueToBlock() {
   return mContinueToBlock;
+}
+
+void Scope::maybeFreeOwnedMemory(BasicBlock* block) {
+  if (mHasOwnedMemoryBeenFreed) {
+    return;
+  }
+  
+  for (map<string, Variable>::iterator iterator = mLocals.begin();
+      iterator != mLocals.end();
+      iterator++) {
+    Variable variable = iterator->second;
+    if (variable.getStorageType() != HEAP_VARIABLE) {
+      continue;
+    }
+    if (variable.getValue() == NULL) {
+      continue;
+    }
+    
+    block->getInstList().push_back(CallInst::CreateFree(variable.getValue(), block));
+  }
+  
+  mHasOwnedMemoryBeenFreed = true;
 }
