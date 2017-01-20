@@ -46,6 +46,9 @@
 		F50FA2FF1E323AAD00435EEA /* Scopes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2FE1E323AAD00435EEA /* Scopes.cpp */; };
 		F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2FE1E323AAD00435EEA /* Scopes.cpp */; };
 		F50FA3021E3240D800435EEA /* TestScopes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3011E3240D800435EEA /* TestScopes.cpp */; };
+		F50FA3051E325E5400435EEA /* Boolean.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3041E325E5400435EEA /* Boolean.cpp */; };
+		F50FA3061E325E5400435EEA /* Boolean.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3041E325E5400435EEA /* Boolean.cpp */; };
+		F50FA3081E32640B00435EEA /* TestBoolean.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3071E32640B00435EEA /* TestBoolean.cpp */; };
 		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
@@ -274,6 +277,9 @@
 		F50FA2FD1E32399600435EEA /* Scopes.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Scopes.hpp; path = include/yazyk/Scopes.hpp; sourceTree = "<group>"; };
 		F50FA2FE1E323AAD00435EEA /* Scopes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scopes.cpp; path = src/Scopes.cpp; sourceTree = "<group>"; };
 		F50FA3011E3240D800435EEA /* TestScopes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestScopes.cpp; path = tests/TestScopes.cpp; sourceTree = "<group>"; };
+		F50FA3031E325DEA00435EEA /* Boolean.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Boolean.hpp; path = include/yazyk/Boolean.hpp; sourceTree = "<group>"; };
+		F50FA3041E325E5400435EEA /* Boolean.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Boolean.cpp; path = src/Boolean.cpp; sourceTree = "<group>"; };
+		F50FA3071E32640B00435EEA /* TestBoolean.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBoolean.cpp; path = tests/TestBoolean.cpp; sourceTree = "<group>"; };
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -544,6 +550,7 @@
 				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
 				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
+				F50FA3071E32640B00435EEA /* TestBoolean.cpp */,
 				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
 				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestChar.cpp */,
@@ -671,6 +678,7 @@
 				F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */,
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
 				F531B6411E0A16D7008304F3 /* Block.cpp */,
+				F50FA3041E325E5400435EEA /* Boolean.cpp */,
 				F59D82281E1089E700057FB5 /* BreakStatement.cpp */,
 				F50FA2A51E269E5700435EEA /* CaseStatement.cpp */,
 				F531B6591E0DE52F008304F3 /* Char.cpp */,
@@ -774,6 +782,7 @@
 				F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */,
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
 				F531B6401E0A162D008304F3 /* Block.hpp */,
+				F50FA3031E325DEA00435EEA /* Boolean.hpp */,
 				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
 				F50FA2A21E269E4400435EEA /* CaseStatement.hpp */,
 				F531B6581E0DE4ED008304F3 /* Char.hpp */,
@@ -941,6 +950,7 @@
 				F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
+				F50FA3081E32640B00435EEA /* TestBoolean.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
@@ -980,6 +990,7 @@
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
+				F50FA3061E325E5400435EEA /* Boolean.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
 				F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */,
@@ -998,6 +1009,7 @@
 				F53401111DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F50FA2B71E28BA5600435EEA /* DoStatement.cpp in Sources */,
+				F50FA3051E325E5400435EEA /* Boolean.cpp in Sources */,
 				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,
 				F57411521E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,

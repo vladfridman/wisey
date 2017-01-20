@@ -1,0 +1,9 @@
+int main() {
+  if (false) {
+    return 5;
+  }
+  if (true) {
+    return 7;
+  }
+  return 0;
+}

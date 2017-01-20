@@ -2,6 +2,7 @@
   #include "yazyk/AddditiveMultiplicativeExpression.hpp"
   #include "yazyk/Assignment.hpp"
   #include "yazyk/Block.hpp"
+  #include "yazyk/Boolean.hpp"
   #include "yazyk/BreakStatement.hpp"
   #include "yazyk/CaseStatement.hpp"
   #include "yazyk/Char.hpp"
@@ -83,7 +84,7 @@
  * Tokens used in yazyk 
  */
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
-%token <token> TCEQ TCNE TCLE TCGE
+%token <token> TCEQ TCNE TCLE TCGE TTRUE TFALSE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
 %token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH TDO
@@ -269,6 +270,8 @@ constant
   | TLONG { $$ = new Long(atoll($1->c_str())); delete $1; }
   | TFLOAT { $$ = new Float(atof($1->c_str())); delete $1; }
   | TDOUBLE { $$ = new Double(strtod($1->c_str(), NULL)); delete $1; }
+  | TTRUE { $$ = &True; }
+  | TFALSE { $$ = &False; }
   ;
     
 string
