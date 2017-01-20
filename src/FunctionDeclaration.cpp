@@ -56,7 +56,13 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
   
   mCompoundStatement.generateIR(context);
   
-  scopes.popScope(context.getBasicBlock());
+  /** Add an implied void return */
+  BasicBlock* currentBlock = context.getBasicBlock();
+  if(currentBlock->size() == 0 || !ReturnInst::classof(&currentBlock->back())) {
+    ReturnInst::Create(context.getLLVMContext(), NULL, currentBlock);
+  }
+
+  scopes.popScope(currentBlock);
   return function;
 }
 

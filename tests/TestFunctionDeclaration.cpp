@@ -72,6 +72,7 @@ TEST_F(FunctionDecalarationTest, FunctionFooDeclartaionTest) {
     "\nentry:" +
     "\n  %bar.param = alloca i32" +
     "\n  store i32 %bar, i32* %bar.param" +
+    "\n  ret void" +
     "\n}" +
     "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -92,6 +93,7 @@ TEST_F(FunctionDecalarationTest, FunctionMainDeclartaionTest) {
     "\nentry:" +
     "\n  %bar.param = alloca float" +
     "\n  store float %bar, float* %bar.param" +
+    "\n  ret void" +
     "\n}" +
     "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -101,4 +103,9 @@ TEST_F(FunctionDecalarationTest, FunctionMainDeclartaionTest) {
 
 TEST_F(TestFileSampleRunner, FunctionDecalarationIntFunctionTest) {
   runFile("tests/samples/test_int_function.yz", "10");
+}
+
+
+TEST_F(TestFileSampleRunner, FunctionDecalaratioImpliedReturnTest) {
+  runFile("tests/samples/test_implied_return.yz", "5");
 }

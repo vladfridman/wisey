@@ -17,8 +17,11 @@ namespace yazyk {
  * Represents a return that does not return any expression
  */
 class ReturnVoidStatement : public IStatement {
+
 public:
+
   ReturnVoidStatement() { }
+  
   ~ReturnVoidStatement() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
