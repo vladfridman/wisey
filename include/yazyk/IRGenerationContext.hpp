@@ -15,7 +15,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 
-#include "yazyk/Scope.hpp"
+#include "yazyk/Scopes.hpp"
 
 namespace yazyk {
   
@@ -24,12 +24,12 @@ namespace yazyk {
  */
 class IRGenerationContext {
   llvm::LLVMContext mLLVMContext;
-  std::vector<Scope *> mScopes;
   llvm::Function* mMainFunction;
   llvm::Module* mModule;
   std::unique_ptr<llvm::Module> mOwner;
   llvm::BasicBlock* mBasicBlock;
   std::map<std::string, llvm::StructType*> mModelTypes;
+  Scopes mScopes;
 
 public:
   
@@ -47,23 +47,7 @@ public:
    * Return the main module
    */
   llvm::Module* getModule();
-
-  /**
-   * Returns scoped variable which could be defined either in the current scope or one of 
-   * the parent scopes.
-   */
-  llvm::Value* getVariable(std::string name);
   
-  /**
-   * Set the local stack variable to a given value
-   */
-  void setStackVariable(std::string name, llvm::Value* value);
-
-  /**
-   * Set the local stack variable to a given value
-   */
-  void setHeapVariable(std::string name, llvm::Value* value);
-
   /**
    * Sets the main function for the program
    */
@@ -73,21 +57,6 @@ public:
    * Returns the main function of the program
    */
   llvm::Function* getMainFunction();
-    
-  /**
-   * Pushes a new program scope on the stack of program scopes
-   */
-  void pushScope();
-  
-  /**
-   * Pops a program scope out of the stack
-   */
-  void popScope();
-  
-  /**
-   * Returns current Scope
-   */
-  Scope* getScope();
   
   /**
    * Return current LLVM basic block
@@ -100,26 +69,6 @@ public:
   void setBasicBlock(llvm::BasicBlock* block);
 
   /**
-   * Set block to break to out of a loop or a switch statement
-   */
-  void setBreakToBlock(llvm::BasicBlock* block);
-  
-  /**
-   * Get the block to break to out of a loop or a switch statement
-   */
-  llvm::BasicBlock* getBreakToBlock();
-  
-  /**
-   * Set continue to block for a loop
-   */
-  void setContinueToBlock(llvm::BasicBlock* block);
-  
-  /**
-   * Get continue to block for a loop
-   */
-  llvm::BasicBlock* getContinueToBlock();
-
-  /**
    * Add a MODEL type
    */
   void addModelType(std::string name, llvm::StructType* model);
@@ -128,6 +77,11 @@ public:
    * Look up a MODEL type
    */
   llvm::StructType* getModelType(std::string name);
+  
+  /**
+   * Return Scopes controller
+   */
+  Scopes& getScopes();
   
   /**
    * Returns the LLVMContext

@@ -59,7 +59,7 @@ struct IfStatementTest : Test {
     FunctionType::get(Type::getInt32Ty(llvmContext), false);
     mFunction = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
     mContext.setBasicBlock(BasicBlock::Create(llvmContext, "entry", mFunction));
-    mContext.pushScope();
+    mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   

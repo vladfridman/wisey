@@ -15,13 +15,14 @@ using namespace yazyk;
 Value* ForStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();
+  Scopes& scopes = context.getScopes();
   
   BasicBlock* forCond = BasicBlock::Create(context.getLLVMContext(), "for.cond", function);
   BasicBlock* forBody = BasicBlock::Create(context.getLLVMContext(), "for.body", function);
   BasicBlock* forInc = BasicBlock::Create(context.getLLVMContext(), "for.inc", function);
   BasicBlock* forEnd = BasicBlock::Create(context.getLLVMContext(), "for.end", function);
   
-  context.pushScope();
+  scopes.pushScope();
   
   mStartStatement.generateIR(context);
   SafeBranch::newBranch(forCond, context);
@@ -30,12 +31,12 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   Value* conditionValue = mConditionStatement.generateIR(context);
   SafeBranch::newConditionalBranch(forBody, forEnd, conditionValue, context);
   
-  context.setBreakToBlock(forEnd);
-  context.setContinueToBlock(forInc);
+  scopes.setBreakToBlock(forEnd);
+  scopes.setContinueToBlock(forInc);
   context.setBasicBlock(forBody);
   mBodyStatement.generateIR(context);
-  context.setBreakToBlock(NULL);
-  context.setContinueToBlock(NULL);
+  scopes.setBreakToBlock(NULL);
+  scopes.setContinueToBlock(NULL);
 
   SafeBranch::newBranch(forInc, context);
   context.setBasicBlock(forInc);
@@ -44,7 +45,7 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   SafeBranch::newBranch(forCond, context);
   context.setBasicBlock(forEnd);
   
-  context.popScope();
+  scopes.popScope(context.getBasicBlock());
   
   return conditionValue;
 }

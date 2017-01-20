@@ -16,7 +16,7 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* Assignment::generateIR(IRGenerationContext& context) const {
-  Value* value = context.getVariable(mIdentifier.getName());
+  Value* value = context.getScopes().getVariable(mIdentifier.getName());
   if (value == NULL) {
     Log::e("undeclared variable " + mIdentifier.getName());
     exit(1);

@@ -23,7 +23,7 @@ const string& Identifier::getName() const {
 }
 
 Value* Identifier::generateIR(IRGenerationContext& context) const {
-  Value* value = context.getVariable(mName);
+  Value* value = context.getScopes().getVariable(mName);
   if (value == NULL) {
     Log::e("Undeclared variable " + mName);
     exit(1);

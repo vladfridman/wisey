@@ -53,7 +53,7 @@ struct VariableDeclarationTest : public Test {
     mBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     
     mContext.setBasicBlock(mBlock);
-    mContext.pushScope();
+    mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -69,7 +69,7 @@ TEST_F(VariableDeclarationTest, StackVariableDeclarationWithoutAssignmentTest) {
 
   declaration.generateIR(mContext);
   
-  EXPECT_EQ(mContext.getVariable("foo") != NULL, true);
+  EXPECT_EQ(mContext.getScopes().getVariable("foo") != NULL, true);
   ASSERT_EQ(1ul, mBlock->size());
   *mStringStream << mBlock->front();
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
@@ -85,7 +85,7 @@ TEST_F(VariableDeclarationTest, StackVariableDeclarationWithAssignmentTest) {
   
   declaration.generateIR(mContext);
   
-  EXPECT_EQ(mContext.getVariable("foo") != NULL, true);
+  EXPECT_EQ(mContext.getScopes().getVariable("foo") != NULL, true);
   ASSERT_EQ(2ul, mBlock->size());
   BasicBlock::iterator iterator = mBlock->begin();
   *mStringStream << *iterator;
@@ -113,7 +113,7 @@ TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
   
   declaration.generateIR(mContext);
   
-  EXPECT_EQ(mContext.getVariable("foo") != NULL, true);
+  EXPECT_EQ(mContext.getScopes().getVariable("foo") != NULL, true);
   ASSERT_EQ(2ul, mBlock->size());
   
   BasicBlock::iterator iterator = mBlock->begin();

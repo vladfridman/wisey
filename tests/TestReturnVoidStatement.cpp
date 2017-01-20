@@ -28,7 +28,7 @@ TEST(ReturnVoidStatementTest, ReturnVoidTest) {
   mStringStream = new raw_string_ostream(mStringBuffer);
   BasicBlock *basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry");
   context.setBasicBlock(basicBlock);
-  context.pushScope();
+  context.getScopes().pushScope();
   
   ReturnVoidStatement returnVoidStatement;
   returnVoidStatement.generateIR(context);

@@ -18,7 +18,7 @@ Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   BasicBlock* switchEpilog = BasicBlock::Create(llvmContext, "sw.epilog", function);
-  context.setBreakToBlock(switchEpilog);
+  context.getScopes().setBreakToBlock(switchEpilog);
   BasicBlock* switchDefault = mSwitchCases.defaultStatement != NULL
     ? BasicBlock::Create(llvmContext, "sw.default", function) : NULL;
   
@@ -32,7 +32,7 @@ Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
   generateCasesIR(context, switchDefault, switchEpilog, switchInstruction);
   generateDefaultCaseIR(context, switchDefault, switchEpilog);
   
-  context.setBreakToBlock(NULL);
+  context.getScopes().setBreakToBlock(NULL);
   context.setBasicBlock(switchEpilog);
   
   return conditionValue;

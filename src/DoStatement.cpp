@@ -15,6 +15,7 @@ using namespace yazyk;
 Value* DoStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();
+  Scopes& scopes = context.getScopes();
   
   BasicBlock* doCond = BasicBlock::Create(context.getLLVMContext(), "do.cond", function);
   BasicBlock* doBody = BasicBlock::Create(context.getLLVMContext(), "do.body", function);
@@ -24,8 +25,8 @@ Value* DoStatement::generateIR(IRGenerationContext& context) const {
   
   
   context.setBasicBlock(doBody);
-  context.setBreakToBlock(doEnd);
-  context.setContinueToBlock(doBody);
+  scopes.setBreakToBlock(doEnd);
+  scopes.setContinueToBlock(doBody);
   mStatement.generateIR(context);
   SafeBranch::newBranch(doCond, context);
   
@@ -33,8 +34,8 @@ Value* DoStatement::generateIR(IRGenerationContext& context) const {
   Value* conditionValue = mConditionExpression.generateIR(context);
   SafeBranch::newConditionalBranch(doBody, doEnd, conditionValue, context);
   
-  context.setBreakToBlock(NULL);
-  context.setContinueToBlock(NULL);
+  scopes.setBreakToBlock(NULL);
+  scopes.setContinueToBlock(NULL);
   
   context.setBasicBlock(doEnd);
   

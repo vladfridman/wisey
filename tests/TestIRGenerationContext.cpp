@@ -46,67 +46,6 @@ TEST(IRGenerationContextTest, TestMainFunction) {
   EXPECT_EQ(context.getMainFunction(), function);
 }
 
-TEST(IRGenerationContextTest, TestScopes) {
-  IRGenerationContext context;
-  context.pushScope();
-  LLVMContext &llvmContext = context.getLLVMContext();
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-  Value* barValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
-
-  context.setStackVariable("foo", fooValue);
-  context.pushScope();
-  context.setStackVariable("bar", barValue);
-  
-  EXPECT_EQ(context.getVariable("bar"), barValue);
-  EXPECT_EQ(context.getVariable("foo"), fooValue);
-
-  context.popScope();
-  EXPECT_EQ(context.getVariable("foo"), fooValue);
-  EXPECT_EQ(context.getVariable("bar") == NULL, true);
-  
-  context.setStackVariable("bar", barValue);
-  EXPECT_EQ(context.getVariable("foo"), fooValue);
-  EXPECT_EQ(context.getVariable("bar"), barValue);
-  
-  context.popScope();
-  EXPECT_EQ(context.getVariable("foo") == NULL, true);
-  EXPECT_EQ(context.getVariable("bar") == NULL, true);
-}
-
-TEST(IRGenerationContextTest, TestScopesCorrectlyOrdered) {
-  IRGenerationContext context;
-  context.pushScope();
-  LLVMContext &llvmContext = context.getLLVMContext();
-  Value* outerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-  Value* innerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
-  
-  context.setStackVariable("foo", outerValue);
-  context.pushScope();
-  context.setStackVariable("foo", innerValue);
-  
-  EXPECT_EQ(context.getVariable("foo"), innerValue);
-  
-  context.popScope();
-  
-  EXPECT_EQ(context.getVariable("foo"), outerValue);
-}
-
-TEST(IRGenerationContextTest, TestGetScopeDeathTest) {
-  IRGenerationContext context;
-
-  EXPECT_EXIT(context.getScope(),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not get scope. Scope list is empty.");
-}
-
-TEST(IRGenerationContextTest, TestGetScope) {
-  IRGenerationContext context;
-  context.pushScope();
-  Scope* scope = context.getScope();
-  
-  EXPECT_EQ(scope == NULL, false);
-}
-
 TEST(IRGenerationContextTest, TestModuleIsNotNull) {
   IRGenerationContext context;
   
@@ -164,7 +103,7 @@ public:
     mContext.setMainFunction(function);
     BasicBlock* block = BasicBlock::Create(llvmContext, "entry", function);
     mContext.setBasicBlock(block);
-    mContext.pushScope();
+    mContext.getScopes().pushScope();
     Value* returnValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
     ReturnInst::Create(llvmContext, returnValue, block);
   }

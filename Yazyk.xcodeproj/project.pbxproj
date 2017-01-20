@@ -43,6 +43,9 @@
 		F50FA2F71E2E3B3500435EEA /* TestInteger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2EF1E2E3B2A00435EEA /* TestInteger.cpp */; };
 		F50FA2F81E2E3B3900435EEA /* TestLong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2F01E2E3B2A00435EEA /* TestLong.cpp */; };
 		F50FA2FC1E30051700435EEA /* TestModelTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */; };
+		F50FA2FF1E323AAD00435EEA /* Scopes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2FE1E323AAD00435EEA /* Scopes.cpp */; };
+		F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2FE1E323AAD00435EEA /* Scopes.cpp */; };
+		F50FA3021E3240D800435EEA /* TestScopes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3011E3240D800435EEA /* TestScopes.cpp */; };
 		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
@@ -268,6 +271,9 @@
 		F50FA2F01E2E3B2A00435EEA /* TestLong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLong.cpp; path = tests/TestLong.cpp; sourceTree = "<group>"; };
 		F50FA2FA1E2FC21700435EEA /* Variable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Variable.hpp; path = include/yazyk/Variable.hpp; sourceTree = "<group>"; };
 		F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelTypeSpecifier.cpp; path = tests/TestModelTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F50FA2FD1E32399600435EEA /* Scopes.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Scopes.hpp; path = include/yazyk/Scopes.hpp; sourceTree = "<group>"; };
+		F50FA2FE1E323AAD00435EEA /* Scopes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scopes.cpp; path = src/Scopes.cpp; sourceTree = "<group>"; };
+		F50FA3011E3240D800435EEA /* TestScopes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestScopes.cpp; path = tests/TestScopes.cpp; sourceTree = "<group>"; };
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -571,6 +577,7 @@
 				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
 				F501B4911E1610700010783D /* TestSafeBranch.cpp */,
 				F57411651E01BF18009809FF /* TestScope.cpp */,
+				F50FA3011E3240D800435EEA /* TestScopes.cpp */,
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
 				F531B6561E0DE040008304F3 /* TestString.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
@@ -700,6 +707,7 @@
 				F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */,
 				F51033CD1E1608E30099C27F /* SafeBranch.cpp */,
 				F57411621E01BBFC009809FF /* Scope.cpp */,
+				F50FA2FE1E323AAD00435EEA /* Scopes.cpp */,
 				F531B6531E0DDD96008304F3 /* String.cpp */,
 				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
@@ -806,6 +814,7 @@
 				F57411471E019450009809FF /* ReturnVoidStatement.hpp */,
 				F51033CC1E1606EB0099C27F /* SafeBranch.hpp */,
 				F574115E1E01A983009809FF /* Scope.hpp */,
+				F50FA2FD1E32399600435EEA /* Scopes.hpp */,
 				F531B6521E0DDCE7008304F3 /* String.hpp */,
 				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
 				F50FA2FA1E2FC21700435EEA /* Variable.hpp */,
@@ -898,6 +907,7 @@
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
 				F531B63D1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */,
+				F50FA3021E3240D800435EEA /* TestScopes.cpp in Sources */,
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
 				F50FA2F61E2E3B3200435EEA /* TestFloat.cpp in Sources */,
@@ -942,6 +952,7 @@
 				F50FA2E91E2E3B0F00435EEA /* Double.cpp in Sources */,
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */,
+				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F59D82241E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
 				F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */,
@@ -998,6 +1009,7 @@
 				F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F531B6541E0DDD96008304F3 /* String.cpp in Sources */,
 				F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */,
+				F50FA2FF1E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F531B6481E0A4F76008304F3 /* Assignment.cpp in Sources */,
 				F50FA2E71E2E3B0900435EEA /* Integer.cpp in Sources */,
 				F50FA2E61E2E3B0900435EEA /* Float.cpp in Sources */,

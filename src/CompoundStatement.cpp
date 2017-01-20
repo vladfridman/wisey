@@ -12,9 +12,11 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* CompoundStatement::generateIR(IRGenerationContext& context) const {
-  context.pushScope();
+  Scopes& scopes = context.getScopes();
+  
+  scopes.pushScope();
   mBlock.generateIR(context);
-  context.popScope();
+  scopes.popScope(context.getBasicBlock());
   
   return NULL;
 }

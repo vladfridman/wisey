@@ -56,7 +56,7 @@ public:
 
 TEST_F(ReturnStatementTest, ParentFunctionIsNullDeathTest) {
   mContext.setBasicBlock(BasicBlock::Create(mContext.getLLVMContext(), "entry"));
-  mContext.pushScope();
+  mContext.getScopes().pushScope();
   ReturnStatement returnStatement(mExpression);
 
   Mock::AllowLeak(&mExpression);
@@ -72,7 +72,7 @@ TEST_F(ReturnStatementTest, ParentFunctionIsIncopatableTypeDeathTest) {
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
 
   mContext.setBasicBlock(BasicBlock::Create(llvmContext, "entry", function));
-  mContext.pushScope();
+  mContext.getScopes().pushScope();
   ReturnStatement returnStatement(mExpression);
   
   Mock::AllowLeak(&mExpression);
@@ -87,7 +87,7 @@ TEST_F(ReturnStatementTest, ParentFunctionIntTest) {
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
-  mContext.pushScope();
+  mContext.getScopes().pushScope();
   ReturnStatement returnStatement(mExpression);
 
   returnStatement.generateIR(mContext);
@@ -112,7 +112,7 @@ TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
                                         mContext.getModule());
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
-  mContext.pushScope();
+  mContext.getScopes().pushScope();
   Type* pointerType = Type::getInt32Ty(llvmContext);
   Type* structType = Type::getInt8Ty(llvmContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
@@ -125,7 +125,7 @@ TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
                                                nullptr,
                                                "");
 
-  mContext.setHeapVariable("foo", malloc);
+  mContext.getScopes().setHeapVariable("foo", malloc);
   
   ReturnStatement returnStatement(mExpression);
   

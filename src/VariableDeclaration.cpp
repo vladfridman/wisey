@@ -37,7 +37,7 @@ Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const 
                                      context.getBasicBlock());
   
   
-  context.setStackVariable(mId.getName(), alloc);
+  context.getScopes().setStackVariable(mId.getName(), alloc);
 
   return alloc;
 }
@@ -56,7 +56,7 @@ Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
                                                mId.getName().c_str());
   context.getBasicBlock()->getInstList().push_back(malloc);
 
-  context.setHeapVariable(mId.getName(), malloc);
+  context.getScopes().setHeapVariable(mId.getName(), malloc);
 
   return malloc;
 }

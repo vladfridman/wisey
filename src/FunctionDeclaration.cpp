@@ -17,6 +17,7 @@ using namespace std;
 using namespace yazyk;
 
 Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
+  Scopes& scopes = context.getScopes();
   vector<Type*> argTypes;
   VariableList::const_iterator it;
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
@@ -40,7 +41,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
   }
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   context.setBasicBlock(bblock);
-  context.pushScope();
+  scopes.pushScope();
   
   args = function->arg_begin();
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
@@ -50,12 +51,12 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);
-    context.setStackVariable((**it).getId().getName(), alloc);
+    scopes.setStackVariable((**it).getId().getName(), alloc);
   }
   
   mCompoundStatement.generateIR(context);
   
-  context.popScope();
+  scopes.popScope(context.getBasicBlock());
   return function;
 }
 

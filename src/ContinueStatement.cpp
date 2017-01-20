@@ -14,7 +14,7 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* ContinueStatement::generateIR(IRGenerationContext& context) const {
-  BasicBlock* continueToBlock = context.getContinueToBlock();
+  BasicBlock* continueToBlock = context.getScopes().getContinueToBlock();
   
   if (continueToBlock == NULL) {
     Log::e("continue statement not inside a loop");

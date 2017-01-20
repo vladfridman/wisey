@@ -14,11 +14,11 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* BreakStatement::generateIR(IRGenerationContext& context) const {
-  BasicBlock* breackToBlock = context.getBreakToBlock();
+  BasicBlock* breackToBlock = context.getScopes().getBreakToBlock();
   
   if (breackToBlock == NULL) {
     Log::e("break statement not inside a loop or a switch");
     exit(1);
   }
-  return SafeBranch::newBranch(context.getBreakToBlock(), context);
+  return SafeBranch::newBranch(breackToBlock, context);
 }

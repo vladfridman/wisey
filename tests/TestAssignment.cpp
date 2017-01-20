@@ -45,7 +45,7 @@ public:
   
   AssignmentTest() {
     mContext.setBasicBlock(mBlock);
-    mContext.pushScope();
+    mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
     Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
     ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
@@ -76,7 +76,7 @@ TEST_F(AssignmentTest, SimpleTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
                                      name,
                                      mBlock);
-  mContext.setStackVariable(name, alloc);
+  mContext.getScopes().setStackVariable(name, alloc);
 
   assignment.generateIR(mContext);
 

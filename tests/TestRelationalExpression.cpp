@@ -49,7 +49,7 @@ struct RelationalExpressionTest : Test {
     ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
     mBasicBlock = BasicBlock::Create(context.getLLVMContext(), "test");
     context.setBasicBlock(mBasicBlock);
-    context.pushScope();
+    context.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   

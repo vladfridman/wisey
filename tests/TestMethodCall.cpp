@@ -54,7 +54,7 @@ public:
     mPrintfMethodIdentifier(Identifier("printf")),
     mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
       mContext.setBasicBlock(mBasicBlock);
-      mContext.pushScope();
+      mContext.getScopes().pushScope();
       mStringStream = new raw_string_ostream(mStringBuffer);
       Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
       ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));

@@ -38,11 +38,11 @@ public:
   
   IncrementExpressionTest() : mIdentifier(mName, "bar") {
     mContext.setBasicBlock(mBlock);
-    mContext.pushScope();
+    mContext.getScopes().pushScope();
     AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
                                        mName,
                                        mBlock);
-    mContext.setStackVariable(mName, alloc);
+    mContext.getScopes().setStackVariable(mName, alloc);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 

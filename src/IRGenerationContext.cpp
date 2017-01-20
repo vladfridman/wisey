@@ -40,33 +40,6 @@ Module* IRGenerationContext::getModule() {
   return mModule;
 }
 
-Value* IRGenerationContext::getVariable(string name) {
-  if (mScopes.size() == 0) {
-    return NULL;
-  }
-
-  std::vector<Scope *>::iterator iterator = mScopes.end();
-  do {
-    --iterator;
-    Value* value = (*iterator)->getLocals()[name].getValue();
-    if (value != NULL) {
-      return value;
-    }
-  } while (iterator != mScopes.begin());
-
-  return NULL;
-}
-
-void IRGenerationContext::setStackVariable(string name, Value* value) {
-  Variable variable(value, STACK_VARIABLE);
-  getScope()->getLocals()[name] = variable;
-}
-
-void IRGenerationContext::setHeapVariable(string name, Value* value) {
-  Variable variable(value, HEAP_VARIABLE);
-  getScope()->getLocals()[name] = variable;
-}
-
 void IRGenerationContext::setMainFunction(llvm::Function* function) {
   mMainFunction = function;
 }
@@ -81,67 +54,6 @@ BasicBlock* IRGenerationContext::getBasicBlock() {
 
 void IRGenerationContext::setBasicBlock(BasicBlock* block) {
   mBasicBlock = block;
-}
-
-void IRGenerationContext::pushScope() {
-  mScopes.push_back(new Scope());
-}
-
-void IRGenerationContext::popScope() {
-  Scope* top = mScopes.back();
-  top->maybeFreeOwnedMemory(mBasicBlock);
-  mScopes.pop_back();
-  delete top;
-}
-
-Scope* IRGenerationContext::getScope() {
-  if (mScopes.size() == 0) {
-    Log::e("Can not get scope. Scope list is empty.");
-    exit(1);
-  }
-  return mScopes.back();
-}
-
-void IRGenerationContext::setBreakToBlock(BasicBlock* block) {
-  mScopes.back()->setBreakToBlock(block);
-}
-
-BasicBlock* IRGenerationContext::getBreakToBlock() {
-  if (mScopes.size() == 0) {
-    return NULL;
-  }
-  
-  std::vector<Scope *>::iterator iterator = mScopes.end();
-  do {
-    --iterator;
-    BasicBlock* block = (*iterator)->getBreakToBlock();
-    if (block != NULL) {
-      return block;
-    }
-  } while (iterator != mScopes.begin());
-  
-  return NULL;
-}
-
-void IRGenerationContext::setContinueToBlock(BasicBlock* block) {
-  mScopes.back()->setContinueToBlock(block);
-}
-
-BasicBlock* IRGenerationContext::getContinueToBlock() {
-  if (mScopes.size() == 0) {
-    return NULL;
-  }
-  
-  std::vector<Scope *>::iterator iterator = mScopes.end();
-  do {
-    --iterator;
-    BasicBlock* block = (*iterator)->getContinueToBlock();
-    if (block != NULL) {
-      return block;
-    }
-  } while (iterator != mScopes.begin());
-  
-  return NULL;
 }
 
 void IRGenerationContext::addModelType(string name, StructType* model) {
@@ -160,6 +72,10 @@ StructType* IRGenerationContext::getModelType(string name) {
   }
 
   return mModelTypes[name];
+}
+
+Scopes& IRGenerationContext::getScopes() {
+  return mScopes;
 }
 
 LLVMContext& IRGenerationContext::getLLVMContext() {
