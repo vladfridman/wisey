@@ -9,6 +9,8 @@
 #ifndef Scopes_h
 #define Scopes_h
 
+#include <list>
+
 #include "yazyk/Scope.hpp"
 
 namespace yazyk {
@@ -17,7 +19,7 @@ namespace yazyk {
  * Methods for operating scopes and everything that relates to scopes
  */
 class Scopes {
-  std::vector<Scope *> mScopes;
+  std::list<Scope *> mScopes;
 
 public:
   Scopes() {}

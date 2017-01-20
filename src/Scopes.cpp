@@ -18,14 +18,12 @@ Value* Scopes::getVariable(string name) {
     return NULL;
   }
   
-  std::vector<Scope *>::iterator iterator = mScopes.end();
-  do {
-    --iterator;
+  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
     Value* value = (*iterator)->getLocals()[name].getValue();
     if (value != NULL) {
       return value;
     }
-  } while (iterator != mScopes.begin());
+  }
   
   return NULL;
 }
@@ -41,13 +39,13 @@ void Scopes::setHeapVariable(string name, Value* value) {
 }
 
 void Scopes::pushScope() {
-  mScopes.push_back(new Scope());
+  mScopes.push_front(new Scope());
 }
 
 void Scopes::popScope(BasicBlock* basicBlock) {
-  Scope* top = mScopes.back();
+  Scope* top = mScopes.front();
   top->maybeFreeOwnedMemory(basicBlock);
-  mScopes.pop_back();
+  mScopes.pop_front();
   delete top;
 }
 
@@ -56,11 +54,11 @@ Scope* Scopes::getScope() {
     Log::e("Can not get scope. Scope list is empty.");
     exit(1);
   }
-  return mScopes.back();
+  return mScopes.front();
 }
 
 void Scopes::setBreakToBlock(BasicBlock* block) {
-  mScopes.back()->setBreakToBlock(block);
+  getScope()->setBreakToBlock(block);
 }
 
 BasicBlock* Scopes::getBreakToBlock() {
@@ -68,36 +66,32 @@ BasicBlock* Scopes::getBreakToBlock() {
     return NULL;
   }
   
-  std::vector<Scope *>::iterator iterator = mScopes.end();
-  do {
-    --iterator;
-    BasicBlock* block = (*iterator)->getBreakToBlock();
+  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
+    BasicBlock* block= (*iterator)->getBreakToBlock();
     if (block != NULL) {
       return block;
     }
-  } while (iterator != mScopes.begin());
+  }
   
   return NULL;
 }
 
 void Scopes::setContinueToBlock(BasicBlock* block) {
-  mScopes.back()->setContinueToBlock(block);
+  getScope()->setContinueToBlock(block);
 }
 
 BasicBlock* Scopes::getContinueToBlock() {
   if (mScopes.size() == 0) {
     return NULL;
   }
-  
-  std::vector<Scope *>::iterator iterator = mScopes.end();
-  do {
-    --iterator;
-    BasicBlock* block = (*iterator)->getContinueToBlock();
+ 
+  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
+    BasicBlock* block= (*iterator)->getContinueToBlock();
     if (block != NULL) {
       return block;
     }
-  } while (iterator != mScopes.begin());
-  
+  }
+
   return NULL;
 }
 
