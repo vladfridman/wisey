@@ -4,6 +4,12 @@ model Rectangle {
 }
 
 int main() {
-  Rectangle r;
+  builder(Rectangle)
+    .withWidth(1)
+    .withHeight(3)
+    .build();
+  
+  Rectangle rectangle;
+
   return 0;
 }

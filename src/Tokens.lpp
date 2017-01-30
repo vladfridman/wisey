@@ -5,7 +5,9 @@
   #include "yazyk/CaseStatement.hpp"
   #include "yazyk/DefaultCaseStatement.hpp"
   #include "yazyk/Identifier.hpp"
+  #include "yazyk/ModelBuilderArgument.hpp"
   #include "yazyk/ModelFieldDeclaration.hpp"
+  #include "yazyk/ModelTypeSpecifier.hpp"
   #include "yazyk/PrimitiveTypeSpecifier.hpp"
   #include "yazyk/SwitchStatement.hpp"
   #include "yazyk/VariableDeclaration.hpp"
@@ -49,6 +51,8 @@ WS  [ \t\v\n\f]
 "model"                       return TOKEN(TMODEL);
 "true"                        return TOKEN(TTRUE);
 "false"                       return TOKEN(TFALSE);
+"builder"                     return TOKEN(TBUILDER);
+"build"                       return TOKEN(TBUILD);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);
