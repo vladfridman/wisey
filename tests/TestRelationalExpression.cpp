@@ -35,7 +35,7 @@ public:
 };
 
 struct RelationalExpressionTest : Test {
-  IRGenerationContext context;
+  IRGenerationContext mContext;
   NiceMock<MockExpression> mLeftExpression;
   NiceMock<MockExpression> mRightExpression;
   BasicBlock* mBasicBlock;
@@ -43,13 +43,13 @@ struct RelationalExpressionTest : Test {
   raw_string_ostream* mStringStream;
   
   RelationalExpressionTest() {
-    Value* leftValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 3);
-    Value* rightValue = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
+    Value* leftValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
+    Value* rightValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
     ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
     ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
-    mBasicBlock = BasicBlock::Create(context.getLLVMContext(), "test");
-    context.setBasicBlock(mBasicBlock);
-    context.getScopes().pushScope();
+    mBasicBlock = BasicBlock::Create(mContext.getLLVMContext(), "test");
+    mContext.setBasicBlock(mBasicBlock);
+    mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -61,7 +61,7 @@ struct RelationalExpressionTest : Test {
 
 TEST_F(RelationalExpressionTest, lessThanTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression);
-  expression.generateIR(context);
+  expression.generateIR(mContext);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
@@ -71,7 +71,7 @@ TEST_F(RelationalExpressionTest, lessThanTest) {
 
 TEST_F(RelationalExpressionTest, greaterThanOrEqualTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
-  expression.generateIR(context);
+  expression.generateIR(mContext);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
