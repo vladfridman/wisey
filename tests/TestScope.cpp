@@ -43,15 +43,16 @@ public:
 
 TEST_F(ScopeTest, LocalsTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-  mScope.getLocals()["foo"] = Variable(fooValue, STACK_VARIABLE);
+  mScope.getLocals()["foo"] = new Variable(fooValue, STACK_VARIABLE);
   
-  EXPECT_EQ(mScope.getLocals()["foo"].getValue(), fooValue);
-  EXPECT_EQ(mScope.getLocals()["bar"].getValue() == NULL, true);
+  EXPECT_EQ(mScope.getLocals().count("foo"), 1ul);
+  EXPECT_EQ(mScope.getLocals()["foo"]->getValue(), fooValue);
+  EXPECT_EQ(mScope.getLocals().count("bar"), 0ul);
 }
 
 TEST_F(ScopeTest, MaybeFreeOwnedMemoryHeapVariableTest) {
   Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  mScope.getLocals()["foo"] = Variable(fooValue, HEAP_VARIABLE);
+  mScope.getLocals()["foo"] = new Variable(fooValue, HEAP_VARIABLE);
   
   EXPECT_EQ(mBlock->getInstList().size(), 0ul);
 
@@ -62,7 +63,7 @@ TEST_F(ScopeTest, MaybeFreeOwnedMemoryHeapVariableTest) {
 
 TEST_F(ScopeTest, MaybeFreeOwnedMemoryStackVariableTest) {
   Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  mScope.getLocals()["foo"] = Variable(fooValue, STACK_VARIABLE);
+  mScope.getLocals()["foo"] = new Variable(fooValue, STACK_VARIABLE);
   
   EXPECT_EQ(mBlock->getInstList().size(), 0ul);
   

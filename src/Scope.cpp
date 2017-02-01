@@ -14,7 +14,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-map<string, Variable>& Scope::getLocals() {
+map<string, Variable*>& Scope::getLocals() {
   return mLocals;
 }
 
@@ -39,18 +39,21 @@ void Scope::maybeFreeOwnedMemory(BasicBlock* block) {
     return;
   }
   
-  for (map<string, Variable>::iterator iterator = mLocals.begin();
+  for (map<string, Variable*>::iterator iterator = mLocals.begin();
       iterator != mLocals.end();
       iterator++) {
-    Variable variable = iterator->second;
-    if (variable.getStorageType() != HEAP_VARIABLE) {
+    Variable* variable = iterator->second;
+    if (variable->getStorageType() != HEAP_VARIABLE) {
+      delete variable;
       continue;
     }
-    if (variable.getValue() == NULL) {
+    if (variable->getValue() == NULL) {
+      delete variable;
       continue;
     }
     
-    block->getInstList().push_back(CallInst::CreateFree(variable.getValue(), block));
+    block->getInstList().push_back(CallInst::CreateFree(variable->getValue(), block));
+    delete variable;
   }
   
   mHasOwnedMemoryBeenFreed = true;

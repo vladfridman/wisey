@@ -35,16 +35,16 @@ TEST(ScopesTest, TestScopes) {
   scopes.pushScope();
   scopes.setStackVariable("bar", barValue);
   
-  EXPECT_EQ(scopes.getVariable("bar"), barValue);
-  EXPECT_EQ(scopes.getVariable("foo"), fooValue);
+  EXPECT_EQ(scopes.getVariable("bar")->getValue(), barValue);
+  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
   
   scopes.popScope(NULL);
-  EXPECT_EQ(scopes.getVariable("foo"), fooValue);
+  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
   EXPECT_EQ(scopes.getVariable("bar") == NULL, true);
   
   scopes.setStackVariable("bar", barValue);
-  EXPECT_EQ(scopes.getVariable("foo"), fooValue);
-  EXPECT_EQ(scopes.getVariable("bar"), barValue);
+  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
+  EXPECT_EQ(scopes.getVariable("bar")->getValue(), barValue);
   
   scopes.popScope(NULL);
   EXPECT_EQ(scopes.getVariable("foo") == NULL, true);
@@ -63,11 +63,11 @@ TEST(ScopesTest, TestScopesCorrectlyOrdered) {
   scopes.pushScope();
   scopes.setStackVariable("foo", innerValue);
   
-  EXPECT_EQ(scopes.getVariable("foo"), innerValue);
+  EXPECT_EQ(scopes.getVariable("foo")->getValue(), innerValue);
   
   scopes.popScope(NULL);
   
-  EXPECT_EQ(scopes.getVariable("foo"), outerValue);
+  EXPECT_EQ(scopes.getVariable("foo")->getValue(), outerValue);
 }
 
 TEST(ScopesTest, TestGetScopeDeathTest) {

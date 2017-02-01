@@ -30,7 +30,7 @@ public:
    * Returns scoped variable which could be defined either in the current scope or one of
    * the parent scopes.
    */
-  llvm::Value* getVariable(std::string name);
+  Variable* getVariable(std::string name);
   
   /**
    * Set the local stack variable to a given value
@@ -38,7 +38,7 @@ public:
   void setStackVariable(std::string name, llvm::Value* value);
   
   /**
-   * Set the local stack variable to a given value
+   * Set the local heap variable to a given value
    */
   void setHeapVariable(std::string name, llvm::Value* value);
   

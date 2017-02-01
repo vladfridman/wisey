@@ -19,7 +19,7 @@ namespace yazyk {
  * Each scope has local variables associated with it
  */
 class Scope {
-  std::map<std::string, Variable> mLocals;
+  std::map<std::string, Variable*> mLocals;
   llvm::BasicBlock* mBreakToBlock;
   llvm::BasicBlock* mContinueToBlock;
   bool mHasOwnedMemoryBeenFreed;
@@ -31,7 +31,7 @@ public:
   /**ß
    * Returns map of local variables associated with this program block
    */
-  std::map<std::string, Variable>& getLocals();
+  std::map<std::string, Variable*>& getLocals();
   
   /**
    * Set block to break to out of a loop or a switch statement

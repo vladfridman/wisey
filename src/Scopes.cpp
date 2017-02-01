@@ -13,15 +13,14 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* Scopes::getVariable(string name) {
+Variable* Scopes::getVariable(string name) {
   if (mScopes.size() == 0) {
     return NULL;
   }
   
   for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
-    Value* value = (*iterator)->getLocals()[name].getValue();
-    if (value != NULL) {
-      return value;
+    if ((*iterator)->getLocals().count(name)) {
+      return (*iterator)->getLocals().at(name);
     }
   }
   
@@ -29,13 +28,11 @@ Value* Scopes::getVariable(string name) {
 }
 
 void Scopes::setStackVariable(string name, Value* value) {
-  Variable variable(value, STACK_VARIABLE);
-  getScope()->getLocals()[name] = variable;
+  getScope()->getLocals()[name] = new Variable(value, STACK_VARIABLE);
 }
 
 void Scopes::setHeapVariable(string name, Value* value) {
-  Variable variable(value, HEAP_VARIABLE);
-  getScope()->getLocals()[name] = variable;
+  getScope()->getLocals()[name] = new Variable(value, HEAP_VARIABLE);
 }
 
 void Scopes::pushScope() {
