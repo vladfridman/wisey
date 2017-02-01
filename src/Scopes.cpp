@@ -27,6 +27,26 @@ Variable* Scopes::getVariable(string name) {
   return NULL;
 }
 
+void Scopes::clearVariable(string name) {
+  if (mScopes.size() == 0) {
+    Log::e("Could not clear variable '" + name + "': the Scopes stack is empty");
+    exit(1);
+    return;
+  }
+  
+  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
+    if ((*iterator)->getLocals().count(name) > 0) {
+      delete (*iterator)->getLocals().at(name);
+      (*iterator)->getLocals().erase(name);
+      return;
+    }
+  }
+  
+  Log::e("Could not clear variable '" + name + "': it was not found");
+  exit(1);
+  return;
+}
+
 void Scopes::setStackVariable(string name, Value* value) {
   getScope()->getLocals()[name] = new Variable(value, STACK_VARIABLE);
 }

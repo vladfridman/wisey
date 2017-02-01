@@ -86,3 +86,32 @@ TEST(ScopesTest, TestGetScope) {
   
   EXPECT_EQ(scope == NULL, false);
 }
+
+TEST(ScopesTest, TestClearVariable) {
+  Scopes scopes;
+  LLVMContext llvmContext;
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
+  
+  scopes.pushScope();
+  scopes.setStackVariable("foo", fooValue);
+  
+  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
+  
+  scopes.clearVariable("foo");
+  
+  EXPECT_EQ(scopes.getVariable("foo") == NULL, true);
+}
+
+TEST(ScopesTest, TestClearVariableDeathTest) {
+  Scopes scopes;
+  
+  EXPECT_EXIT(scopes.clearVariable("foo"),
+              ::testing::ExitedWithCode(1),
+              "Error: Could not clear variable 'foo': the Scopes stack is empty");
+  
+  scopes.pushScope();
+  
+  EXPECT_EXIT(scopes.clearVariable("foo"),
+              ::testing::ExitedWithCode(1),
+              "Error: Could not clear variable 'foo': it was not found");
+}

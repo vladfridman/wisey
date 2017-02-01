@@ -33,6 +33,11 @@ public:
   Variable* getVariable(std::string name);
   
   /**
+   * Remove reference to a variable
+   */
+  void clearVariable(std::string name);
+
+  /**
    * Set the local stack variable to a given value
    */
   void setStackVariable(std::string name, llvm::Value* value);
