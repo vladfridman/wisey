@@ -57,7 +57,7 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
 }
 
 void IRGenerationContext::addModelType(string name, StructType* model) {
-  if (mModelTypes[name] != NULL) {
+  if (mModelTypes.count(name)) {
     Log::e("Redefinition of MODEL " + name);
     exit(1);
   }
@@ -66,12 +66,12 @@ void IRGenerationContext::addModelType(string name, StructType* model) {
 }
 
 StructType* IRGenerationContext::getModelType(string name) {
-  if (mModelTypes[name] == NULL) {
+  if (!mModelTypes.count(name)) {
     Log::e("MODEL " + name + " is not defined");
     exit(1);
   }
 
-  return mModelTypes[name];
+  return mModelTypes.at(name);
 }
 
 Scopes& IRGenerationContext::getScopes() {
@@ -94,7 +94,7 @@ void IRGenerationContext::optimizeIR() {
   // Optimization: Constant Propagation transform
   passManager.add(createConstantPropagationPass());
   // Optimization: Dead Instruction Elimination transform
-  passManager.add(createDeadInstEliminationPass());\
+  passManager.add(createDeadInstEliminationPass());
   
   passManager.run(*mModule);
 }
