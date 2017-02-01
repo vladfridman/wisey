@@ -115,3 +115,25 @@ TEST(ScopesTest, TestClearVariableDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Could not clear variable 'foo': it was not found");
 }
+
+TEST(ScopesTest, TestSetHeapVariable) {
+  Scopes scopes;
+  LLVMContext llvmContext;
+  scopes.pushScope();
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
+  scopes.setHeapVariable("foo", fooValue);
+  
+  ASSERT_EQ(scopes.getVariable("foo") != NULL, true);
+  EXPECT_EQ(scopes.getVariable("foo")->getStorageType(), HEAP_VARIABLE);
+  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
+}
+
+TEST(ScopesTest, TestSetUnitializedHeapVariable) {
+  Scopes scopes;
+  scopes.pushScope();
+  scopes.setUnitializedHeapVariable("foo");
+  
+  ASSERT_EQ(scopes.getVariable("foo") != NULL, true);
+  EXPECT_EQ(scopes.getVariable("foo")->getStorageType(), HEAP_VARIABLE_UNINITIALIZED);
+  EXPECT_EQ(scopes.getVariable("foo")->getValue() == NULL, true);
+}

@@ -58,7 +58,6 @@ public:
 };
 
 TEST_F(AssignmentTest, VariableNotDeclaredDeathTest) {
-  NiceMock<MockExpression> expression;
   Identifier identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
   Mock::AllowLeak(&mExpression);
@@ -70,7 +69,6 @@ TEST_F(AssignmentTest, VariableNotDeclaredDeathTest) {
 
 TEST_F(AssignmentTest, SimpleTest) {
   string name = "foo";
-  NiceMock<MockExpression> expression;
   Identifier identifier(name, "bar");
   Assignment assignment(identifier, mExpression);
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
@@ -90,4 +88,28 @@ TEST_F(AssignmentTest, SimpleTest) {
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %foo");
   mStringBuffer.clear();
+}
+
+TEST_F(AssignmentTest, HeapVariableTest) {
+  Scopes& scopes = mContext.getScopes();
+  NiceMock<MockExpression> expression;
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
+  BitCastInst* bitCastInst = new BitCastInst(fooValue,
+                                             fooValue->getType(),
+                                             "foo",
+                                             mContext.getBasicBlock());
+  ON_CALL(expression, generateIR(_)).WillByDefault(Return(bitCastInst));
+  scopes.setHeapVariable("foo", bitCastInst);
+  scopes.setUnitializedHeapVariable("bar");
+  Identifier identifier("bar", "foo");
+  Assignment assignment(identifier, expression);
+  
+  EXPECT_EQ(scopes.getVariable("foo") == NULL, false);
+  EXPECT_EQ(scopes.getVariable("bar") == NULL, false);
+  
+  assignment.generateIR(mContext);
+  
+  EXPECT_EQ(scopes.getVariable("foo") == NULL, true);
+  ASSERT_EQ(scopes.getVariable("bar") == NULL, false);
+  EXPECT_EQ(BitCastInst::classof(scopes.getVariable("bar")->getValue()), true);
 }

@@ -33,9 +33,8 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 
 Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
   AllocaInst *alloc = new AllocaInst(mType.getType(context),
-                                     mId.getName().c_str(),
+                                     mId.getName(),
                                      context.getBasicBlock());
-  
   
   context.getScopes().setStackVariable(mId.getName(), alloc);
 
@@ -43,22 +42,10 @@ Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const 
 }
 
 Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
-  Type* pointerType = Type::getInt32Ty(context.getLLVMContext());
-  Type* structType = mType.getType(context);
-  Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
-  Instruction* malloc = CallInst::CreateMalloc(context.getBasicBlock(),
-                                               pointerType,
-                                               structType,
-                                               allocSize,
-                                               nullptr,
-                                               nullptr,
-                                               mId.getName().c_str());
-  context.getBasicBlock()->getInstList().push_back(malloc);
 
-  context.getScopes().setHeapVariable(mId.getName(), malloc);
+  context.getScopes().setUnitializedHeapVariable(mId.getName());
 
-  return malloc;
+  return NULL;
 }
 
 const ITypeSpecifier& VariableDeclaration::getType() const {

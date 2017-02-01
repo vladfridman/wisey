@@ -43,9 +43,14 @@ public:
   void setStackVariable(std::string name, llvm::Value* value);
   
   /**
-   * Set the local heap variable to a given value
+   * Set the heap variable to a given value
    */
   void setHeapVariable(std::string name, llvm::Value* value);
+  
+  /**
+   * Set a variable that in the future will refer to a heap object
+   */
+  void setUnitializedHeapVariable(std::string name);
   
   /**
    * Pushes a new program scope on the stack of program scopes

@@ -19,6 +19,7 @@ namespace yazyk {
 typedef enum VariableStorageTypeEnum {
   STACK_VARIABLE,
   HEAP_VARIABLE,
+  HEAP_VARIABLE_UNINITIALIZED,
 } VariableStorageType;
 
 /**

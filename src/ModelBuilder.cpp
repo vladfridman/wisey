@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "yazyk/Log.hpp"
 #include "yazyk/ModelBuilder.hpp"
 
@@ -28,5 +30,21 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  return NULL;
+  Type* pointerType = Type::getInt32Ty(context.getLLVMContext());
+  Type* structType = mModelTypeSpecifier.getType(context);
+  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
+  Instruction* malloc = CallInst::CreateMalloc(context.getBasicBlock(),
+                                               pointerType,
+                                               structType,
+                                               allocSize,
+                                               nullptr,
+                                               nullptr,
+                                               "buildervar");
+  
+  context.getBasicBlock()->getInstList().push_back(malloc);
+
+  context.getScopes().setHeapVariable(malloc->getName(), malloc);
+
+  return malloc;
 }

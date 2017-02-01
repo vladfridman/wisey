@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/Log.hpp"
 #include "yazyk/Scope.hpp"
 
 using namespace llvm;
@@ -42,6 +43,7 @@ void Scope::maybeFreeOwnedMemory(BasicBlock* block) {
   for (map<string, Variable*>::iterator iterator = mLocals.begin();
       iterator != mLocals.end();
       iterator++) {
+    string name = iterator->first;
     Variable* variable = iterator->second;
     if (variable->getStorageType() != HEAP_VARIABLE) {
       delete variable;

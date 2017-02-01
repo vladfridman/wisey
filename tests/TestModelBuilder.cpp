@@ -17,7 +17,10 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/ModelBuilder.hpp"
+#include "yazyk/ModelDefinition.hpp"
+#include "yazyk/ModelFieldDeclaration.hpp"
 #include "yazyk/ModelTypeSpecifier.hpp"
+#include "yazyk/PrimitiveTypeSpecifier.hpp"
 
 using ::testing::NiceMock;
 using ::testing::Test;
@@ -36,8 +39,34 @@ struct ModelBuilderTest : Test {
   NiceMock<MockExpression> mFieldValue1;
   NiceMock<MockExpression> mFieldValue2;
   ModelTypeSpecifier mModelTypeSpecifier;
+  BasicBlock *mBlock;
+  string mStringBuffer;
+  raw_string_ostream* mStringStream;
   
-  ModelBuilderTest() : mModelTypeSpecifier(ModelTypeSpecifier("Shape")) { }
+  ModelBuilderTest() : mModelTypeSpecifier(ModelTypeSpecifier("Shape")) {
+    LLVMContext& llvmContext = mContext.getLLVMContext();
+    vector<Type*> types;
+    types.push_back(Type::getInt32Ty(llvmContext));
+    StructType *structType = StructType::create(llvmContext, "Shape");
+    structType->setBody(types);
+    mContext.addModelType("model.Shape", structType);
+
+    FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
+    Function* function = Function::Create(functionType,
+                                          GlobalValue::InternalLinkage,
+                                          "test",
+                                          mContext.getModule());
+    
+    mBlock = BasicBlock::Create(llvmContext, "entry", function);
+    mContext.setBasicBlock(mBlock);
+    mContext.getScopes().pushScope();
+
+    mStringStream = new raw_string_ostream(mStringBuffer);
+  }
+  
+  ~ModelBuilderTest() {
+    delete mStringStream;
+  }
 };
 
 TEST_F(ModelBuilderTest, ValidModelBuilderArgumentsTest) {
@@ -51,7 +80,23 @@ TEST_F(ModelBuilderTest, ValidModelBuilderArgumentsTest) {
   
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
 
-  EXPECT_TRUE(modelBuilder.generateIR(mContext) == NULL);
+  Value* result = modelBuilder.generateIR(mContext);
+  
+  EXPECT_TRUE(result != NULL);
+  EXPECT_TRUE(BitCastInst::classof(result));
+
+  BasicBlock::iterator iterator = mBlock->begin();
+  *mStringStream << *iterator;
+  string expected = string() +
+    "  %malloccall = tail call i8* @malloc(i32 ptrtoint (i32* getelementptr (i32, i32*"
+    " null, i32 1) to i32))";
+  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %buildervar = bitcast i8* %malloccall to %Shape*");
+  mStringBuffer.clear();
 }
 
 TEST_F(ModelBuilderTest, InvalidModelBuilderArgumentsDeathTest) {

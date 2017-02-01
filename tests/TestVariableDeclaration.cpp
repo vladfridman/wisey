@@ -114,20 +114,7 @@ TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
   declaration.generateIR(mContext);
   
   EXPECT_EQ(mContext.getScopes().getVariable("foo") != NULL, true);
-  ASSERT_EQ(2ul, mBlock->size());
-  
-  BasicBlock::iterator iterator = mBlock->begin();
-  *mStringStream << *iterator;
-  string expected = string() +
-    "  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint" +
-    " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))";
-  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = bitcast i8* %malloccall to %test*");
-  mStringBuffer.clear();
+  ASSERT_EQ(0ul, mBlock->size());
 }
 
 TEST_F(TestFileSampleRunner, VariableDeclarationTest) {

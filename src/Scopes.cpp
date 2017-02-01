@@ -55,6 +55,10 @@ void Scopes::setHeapVariable(string name, Value* value) {
   getScope()->getLocals()[name] = new Variable(value, HEAP_VARIABLE);
 }
 
+void Scopes::setUnitializedHeapVariable(string name) {
+  getScope()->getLocals()[name] = new Variable(NULL, HEAP_VARIABLE_UNINITIALIZED);
+}
+
 void Scopes::pushScope() {
   mScopes.push_front(new Scope());
 }
