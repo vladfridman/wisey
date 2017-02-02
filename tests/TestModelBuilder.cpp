@@ -50,6 +50,8 @@ struct ModelBuilderTest : Test {
     StructType *structType = StructType::create(llvmContext, "Shape");
     structType->setBody(types);
     map<string, Type*>* fields = new map<string, Type*>();
+    (*fields)["width"] = Type::getInt32Ty(llvmContext);
+    (*fields)["height"] = Type::getInt32Ty(llvmContext);
     Model* model = new Model(structType, fields);
     mContext.addModel("model.Shape", model);
 

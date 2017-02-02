@@ -10,6 +10,7 @@
 #define ModelBuilderArgument_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/Model.hpp"
 
 namespace yazyk {
 
@@ -34,7 +35,7 @@ public:
   
   ~ModelBuilderArgument() { }
   
-  bool checkArgument();
+  bool checkArgument(Model* model);
 };
   
 /**

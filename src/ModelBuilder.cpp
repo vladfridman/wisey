@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/Log.hpp"
+#include "yazyk/Model.hpp"
 #include "yazyk/ModelBuilder.hpp"
 
 using namespace llvm;
@@ -18,11 +19,12 @@ using namespace yazyk;
 Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   bool areArgumentsWellFormed = true;
   
+  Model* model = context.getModel(mModelTypeSpecifier.getName());
   for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();
        iterator != mModelBuilderArgumentList->end();
        iterator++) {
     ModelBuilderArgument* argument = *iterator;
-    areArgumentsWellFormed &= argument->checkArgument();
+    areArgumentsWellFormed &= argument->checkArgument(model);
   }
   
   if (!areArgumentsWellFormed) {

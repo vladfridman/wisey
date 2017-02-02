@@ -30,17 +30,30 @@ public:
 };
 
 struct ModelBuilderArgumentTest : Test {
+  IRGenerationContext mContext;
   NiceMock<MockExpression> mFieldValue;
+  Model* mModel;
+  
+  ModelBuilderArgumentTest() {
+    LLVMContext& llvmContext = mContext.getLLVMContext();
+    vector<Type*> types;
+    types.push_back(Type::getInt32Ty(llvmContext));
+    StructType *structType = StructType::create(llvmContext, "MyModel");
+    structType->setBody(types);
+    map<string, Type*>* fields = new map<string, Type*>();
+    (*fields)["fieldA"] = Type::getInt32Ty(llvmContext);
+    mModel = new Model(structType, fields);
+  }
 };
 
 TEST_F(ModelBuilderArgumentTest, TestValidModelBuilderArgument) {
   string argumentSpecifier("withFieldA");
   ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
   
-  EXPECT_TRUE(argument.checkArgument());
+  EXPECT_TRUE(argument.checkArgument(mModel));
 }
 
-TEST_F(ModelBuilderArgumentTest, TestInalidModelBuilderArgument) {
+TEST_F(ModelBuilderArgumentTest, TestInvalidModelBuilderArgument) {
   string argumentSpecifier("fieldA");
   ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
   
@@ -48,9 +61,24 @@ TEST_F(ModelBuilderArgumentTest, TestInalidModelBuilderArgument) {
   streambuf *streamBuffer = std::cerr.rdbuf();
   cerr.rdbuf(errorBuffer.rdbuf());
   
-  EXPECT_FALSE(argument.checkArgument());
+  EXPECT_FALSE(argument.checkArgument(mModel));
   EXPECT_STREQ("Error: Model builder argument should start with 'with'. e.g. .withField(value).\n",
                errorBuffer.str().c_str());
 
+  cerr.rdbuf(streamBuffer);
+}
+
+TEST_F(ModelBuilderArgumentTest, TestMisspelledModelBuilderArgument) {
+  string argumentSpecifier("withFielda");
+  ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
+  
+  stringstream errorBuffer;
+  streambuf *streamBuffer = std::cerr.rdbuf();
+  cerr.rdbuf(errorBuffer.rdbuf());
+  
+  EXPECT_FALSE(argument.checkArgument(mModel));
+  EXPECT_STREQ("Error: Model could not find field 'fielda' in MODEL\n",
+               errorBuffer.str().c_str());
+  
   cerr.rdbuf(streamBuffer);
 }
