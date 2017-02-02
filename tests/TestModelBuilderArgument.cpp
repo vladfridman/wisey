@@ -40,8 +40,9 @@ struct ModelBuilderArgumentTest : Test {
     types.push_back(Type::getInt32Ty(llvmContext));
     StructType *structType = StructType::create(llvmContext, "MyModel");
     structType->setBody(types);
-    map<string, Type*>* fields = new map<string, Type*>();
-    (*fields)["fieldA"] = Type::getInt32Ty(llvmContext);
+    map<string, ModelField*>* fields = new map<string, ModelField*>();
+    ModelField* fieldA = new ModelField(Type::getInt32Ty(llvmContext), 0);
+    (*fields)["fieldA"] = fieldA;
     mModel = new Model(structType, fields);
   }
 };

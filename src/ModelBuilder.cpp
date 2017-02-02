@@ -46,6 +46,22 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   
   context.getBasicBlock()->getInstList().push_back(malloc);
 
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Value *Idx[2];
+  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();
+       iterator != mModelBuilderArgumentList->end();
+       iterator++) {
+    ModelBuilderArgument* argument = *iterator;
+    string fieldName = argument->deriveFieldName();
+    Value* fieldValue = argument->getValue(context);
+    ModelField* modelField = model->findField(fieldName);
+    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), modelField->getIndex());
+    GetElementPtrInst* fieldPointer =
+      GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
+  }
+  
   context.getScopes().setHeapVariable(malloc->getName(), malloc);
 
   return malloc;

@@ -16,7 +16,7 @@ StructType* Model::getStructType() {
   return mStructType;
 }
 
-Type* Model::findField(string fieldName) {
+ModelField* Model::findField(string fieldName) {
   if (mFields->count(fieldName)) {
     return mFields->at(fieldName);
   }
@@ -25,5 +25,11 @@ Type* Model::findField(string fieldName) {
 }
 
 Model::~Model() {
+  for (map<string, ModelField*>::iterator iterator = mFields->begin();
+       iterator != mFields->end();
+       iterator++) {
+    ModelField* modelField = iterator->second;
+    delete modelField;
+  }
   delete mFields;
 }

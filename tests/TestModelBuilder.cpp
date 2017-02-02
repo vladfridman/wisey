@@ -29,6 +29,9 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+using ::testing::_;
+using ::testing::Return;
+
 class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
@@ -47,13 +50,20 @@ struct ModelBuilderTest : Test {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
+    types.push_back(Type::getInt32Ty(llvmContext));
     StructType *structType = StructType::create(llvmContext, "Shape");
     structType->setBody(types);
-    map<string, Type*>* fields = new map<string, Type*>();
-    (*fields)["width"] = Type::getInt32Ty(llvmContext);
-    (*fields)["height"] = Type::getInt32Ty(llvmContext);
+    map<string, ModelField*>* fields = new map<string, ModelField*>();
+    ModelField* widthField = new ModelField(Type::getInt32Ty(llvmContext), 0);
+    ModelField* heightField = new ModelField(Type::getInt32Ty(llvmContext), 1);
+    (*fields)["width"] = widthField;
+    (*fields)["height"] = heightField;
     Model* model = new Model(structType, fields);
     mContext.addModel("model.Shape", model);
+    Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
+    ON_CALL(mFieldValue1, generateIR(_)).WillByDefault(Return(fieldValue1));
+    Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
+    ON_CALL(mFieldValue2, generateIR(_)).WillByDefault(Return(fieldValue2));
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,
@@ -89,17 +99,41 @@ TEST_F(ModelBuilderTest, ValidModelBuilderArgumentsTest) {
   EXPECT_TRUE(result != NULL);
   EXPECT_TRUE(BitCastInst::classof(result));
 
+  ASSERT_EQ(6ul, mBlock->size());
+  
   BasicBlock::iterator iterator = mBlock->begin();
   *mStringStream << *iterator;
   string expected = string() +
-    "  %malloccall = tail call i8* @malloc(i32 ptrtoint (i32* getelementptr (i32, i32*"
-    " null, i32 1) to i32))";
+    "  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint" +
+    " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))";
   EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
   mStringBuffer.clear();
   
   iterator++;
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  %buildervar = bitcast i8* %malloccall to %Shape*");
+  mStringBuffer.clear();
+
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %0 = getelementptr %Shape, %Shape* %buildervar, i32 0, i32 0");
+  mStringBuffer.clear();
+
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 3, i32* %0");
+  mStringBuffer.clear();
+
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %1 = getelementptr %Shape, %Shape* %buildervar, i32 0, i32 1");
+  mStringBuffer.clear();
+
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %1");
   mStringBuffer.clear();
 }
 

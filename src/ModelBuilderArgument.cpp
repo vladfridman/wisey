@@ -19,8 +19,7 @@ bool ModelBuilderArgument::checkArgument(Model* model) {
     return false;
   }
   
-  string fieldName = mFieldSpecifier.substr(4);
-  transform(fieldName.begin(), fieldName.begin() + 1, fieldName.begin(), ::tolower);
+  string fieldName = deriveFieldName();
   if (model->findField(fieldName) == NULL) {
     Log::e("Model could not find field '" + fieldName + "' in MODEL '" +
            model->getStructType()->getName().str() + "'");
@@ -28,4 +27,15 @@ bool ModelBuilderArgument::checkArgument(Model* model) {
   }
   
   return true;
+}
+
+string ModelBuilderArgument::deriveFieldName() const {
+  string fieldName = mFieldSpecifier.substr(4);
+  transform(fieldName.begin(), fieldName.begin() + 1, fieldName.begin(), ::tolower);
+  
+  return fieldName;
+}
+
+Value* ModelBuilderArgument::getValue(IRGenerationContext& context) const {
+  return mFieldValue.generateIR(context);
 }

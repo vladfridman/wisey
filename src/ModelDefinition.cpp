@@ -19,14 +19,16 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   StructType *structType = StructType::create(llvmContext, mName);
 
   vector<Type*> types;
-  map<string, Type*> *fields = new map<string, Type*>();
+  map<string, ModelField*> *fields = new map<string, ModelField*>();
   
+  int index = 0;
   for(std::vector<ModelFieldDeclaration *>::iterator iterator = mFields.begin();
       iterator != mFields.end();
-      iterator++) {
+      iterator++, index++) {
     ModelFieldDeclaration *field = *iterator;
     Type* fieldType = field->getType().getType(context);
-    (*fields)[field->getName()] = fieldType;
+    ModelField* modelField = new ModelField(fieldType, index);
+    (*fields)[field->getName()] = modelField;
     types.push_back(fieldType);
   }
   

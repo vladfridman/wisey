@@ -25,17 +25,30 @@ namespace yazyk {
  */
 class ModelBuilderArgument {
   
-  std::string& mFieldSpecifier;
+  std::string mFieldSpecifier;
   IExpression& mFieldValue;
   
 public:
   
-  ModelBuilderArgument(std::string& fieldSpecifier, IExpression& fieldValue)
-  : mFieldSpecifier(fieldSpecifier), mFieldValue(fieldValue) { }
+  ModelBuilderArgument(std::string fieldSpecifier, IExpression& fieldValue)
+    : mFieldSpecifier(fieldSpecifier), mFieldValue(fieldValue) { }
   
   ~ModelBuilderArgument() { }
   
   bool checkArgument(Model* model);
+  
+  /**
+   * Derives field name from builder argument by converting 'widthFieldA' to 'fieldA'
+   */
+  std::string deriveFieldName() const;
+  
+  /**
+   * Computes argument value
+   */
+  llvm::Value* getValue(IRGenerationContext& context) const;
+  
+private:
+  
 };
   
 /**

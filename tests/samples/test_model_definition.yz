@@ -5,8 +5,8 @@ model Rectangle {
 
 int main() {
   Rectangle rectangle = builder(Rectangle)
-    .withWidth(1)
-    .withHeight(3)
+    .withWidth(3)
+    .withHeight(5)
     .build();
 
   return 0;
