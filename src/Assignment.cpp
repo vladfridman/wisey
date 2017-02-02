@@ -15,32 +15,37 @@
 using namespace llvm;
 using namespace yazyk;
 
-Value* Assignment::generateIR(IRGenerationContext& context) const {  Scopes& scopes = context.getScopes();
+Value* Assignment::generateIR(IRGenerationContext& context) const {
 
-  Variable* variable = scopes.getVariable(mIdentifier.getName());
+  Variable* variable = context.getScopes().getVariable(mIdentifier.getName());
   if (variable == NULL) {
     Log::e("undeclared variable " + mIdentifier.getName());
     exit(1);
   }
   
-  Value* expressionValue = mExpression.generateIR(context);
-  
-  Value* result;
-  
-  if (variable->getStorageType() == HEAP_VARIABLE_UNINITIALIZED) {
-    result = new BitCastInst(expressionValue,
-                             expressionValue->getType(),
-                             mIdentifier.getName(),
-                             context.getBasicBlock());
+  return variable->getStorageType() == HEAP_VARIABLE_UNINITIALIZED
+    ? generateIRForHeapVariable(context)
+    : generateIRForStackVariable(context);
+}
 
-    scopes.clearVariable(mIdentifier.getName());
-    scopes.clearVariable(expressionValue->getName());
-    scopes.setHeapVariable(mIdentifier.getName(), result);
-  } else {
-    result = new StoreInst(expressionValue,
-                           variable->getValue(),
-                           context.getBasicBlock());
-  }
+Value* Assignment::generateIRForHeapVariable(IRGenerationContext& context) const {
+  Scopes& scopes = context.getScopes();
+  Value* expressionValue = mExpression.generateIR(context);
+
+  BitCastInst* bitcast = new BitCastInst(expressionValue,
+                                         expressionValue->getType(),
+                                         mIdentifier.getName(),
+                                         context.getBasicBlock());
   
-  return result;
+  scopes.clearVariable(mIdentifier.getName());
+  scopes.clearVariable(expressionValue->getName());
+  scopes.setHeapVariable(mIdentifier.getName(), bitcast);
+
+  return bitcast;
+}
+
+Value* Assignment::generateIRForStackVariable(IRGenerationContext& context) const {
+  return new StoreInst(mExpression.generateIR(context),
+                       context.getScopes().getVariable(mIdentifier.getName())->getValue(),
+                       context.getBasicBlock());
 }

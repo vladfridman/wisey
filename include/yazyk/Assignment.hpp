@@ -29,6 +29,12 @@ public:
   ~Assignment() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+private:
+  
+  llvm::Value* generateIRForHeapVariable(IRGenerationContext& context) const;
+  
+  llvm::Value* generateIRForStackVariable(IRGenerationContext& context) const;
 };
   
 }
