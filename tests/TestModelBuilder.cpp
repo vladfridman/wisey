@@ -150,9 +150,27 @@ TEST_F(ModelBuilderTest, InvalidModelBuilderArgumentsDeathTest) {
   
   const char *expected =
     "Error: Model builder argument should start with 'with'. e.g. .withField\\(value\\)."
-    "\nError: Some arguments for the model builder are not well formed";
+    "\nError: Some arguments for the model 'Shape' builder are not well formed";
 
   EXPECT_EXIT(modelBuilder.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               expected);
 }
+
+TEST_F(ModelBuilderTest, NotAllFieldsAreSetDeathTest) {
+  string argumentSpecifier1("withWidth");
+  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
+  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
+  argumentList->push_back(argument1);
+  
+  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
+  
+  const char *expected =
+    "Error: Field 'height' is not initialized"
+    "\nError: Some fields of the model 'Shape' are not initialized.";
+  
+  EXPECT_EXIT(modelBuilder.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              expected);
+}
+

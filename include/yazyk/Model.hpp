@@ -20,7 +20,7 @@ namespace yazyk {
  */
 class Model {
   llvm::StructType* mStructType;
-  std::map<std::string, ModelField*> *mFields;
+  std::map<std::string, ModelField*>* mFields;
   
 public:
   
@@ -32,6 +32,8 @@ public:
   llvm::StructType* getStructType();
   
   ModelField* findField(std::string fieldName);
+  
+  std::map<std::string, ModelField*>* getFields();
 };
 
 } /* namespace yazyk */

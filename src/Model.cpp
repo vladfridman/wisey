@@ -24,6 +24,10 @@ ModelField* Model::findField(string fieldName) {
   return NULL;
 }
 
+map<string, ModelField*>* Model::getFields() {
+  return mFields;
+}
+
 Model::~Model() {
   for (map<string, ModelField*>::iterator iterator = mFields->begin();
        iterator != mFields->end();

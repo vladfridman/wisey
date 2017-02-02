@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <set>
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/Log.hpp"
@@ -17,20 +18,9 @@ using namespace std;
 using namespace yazyk;
 
 Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
-  bool areArgumentsWellFormed = true;
   
   Model* model = context.getModel(mModelTypeSpecifier.getName());
-  for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();
-       iterator != mModelBuilderArgumentList->end();
-       iterator++) {
-    ModelBuilderArgument* argument = *iterator;
-    areArgumentsWellFormed &= argument->checkArgument(model);
-  }
-  
-  if (!areArgumentsWellFormed) {
-    Log::e("Some arguments for the model builder are not well formed");
-    exit(1);
-  }
+  checkArguments(model);
   
   Type* pointerType = Type::getInt32Ty(context.getLLVMContext());
   Type* structType = mModelTypeSpecifier.getType(context);
@@ -65,4 +55,54 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   context.getScopes().setHeapVariable(malloc->getName(), malloc);
 
   return malloc;
+}
+
+void ModelBuilder::checkArguments(Model* model) const {
+  checkArgumentsAreWellFormed(model);
+  checkAllFieldsAreSet(model);
+}
+
+void ModelBuilder::checkArgumentsAreWellFormed(Model* model) const {
+  bool areArgumentsWellFormed = true;
+  
+  for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();
+       iterator != mModelBuilderArgumentList->end();
+       iterator++) {
+    ModelBuilderArgument* argument = *iterator;
+    areArgumentsWellFormed &= argument->checkArgument(model);
+  }
+  
+  if (!areArgumentsWellFormed) {
+    Log::e("Some arguments for the model '" + model->getStructType()->getName().str() +
+           "' builder are not well formed");
+    exit(1);
+  }
+}
+
+void ModelBuilder::checkAllFieldsAreSet(Model* model) const {
+  bool areAllFieldsInitialized = true;
+
+  set<string> allFieldsThatAreSet;
+  for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();
+       iterator != mModelBuilderArgumentList->end();
+       iterator++) {
+    ModelBuilderArgument* argument = *iterator;
+    allFieldsThatAreSet.insert(argument->deriveFieldName());
+  }
+  
+  for (map<string, ModelField*>::iterator iterator = model->getFields()->begin();
+       iterator != model->getFields()->end();
+       iterator++) {
+    string modelFieldName = iterator->first;
+    if (allFieldsThatAreSet.find(modelFieldName) == allFieldsThatAreSet.end()) {
+      Log::e("Field '" + modelFieldName + "' is not initialized");
+      areAllFieldsInitialized = false;
+    }
+  }
+
+  if (!areAllFieldsInitialized) {
+    Log::e("Some fields of the model '" + model->getStructType()->getName().str()
+           + "' are not initialized.");
+    exit(1);
+  }
 }

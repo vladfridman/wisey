@@ -37,6 +37,14 @@ public:
   ~ModelBuilder() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+private:
+  
+  void checkArguments(Model* model) const;
+  
+  void checkArgumentsAreWellFormed(Model* model) const;
+  
+  void checkAllFieldsAreSet(Model* model) const;
 };
   
 } /* namespace yazyk */
