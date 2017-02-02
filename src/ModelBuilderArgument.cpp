@@ -22,7 +22,8 @@ bool ModelBuilderArgument::checkArgument(Model* model) {
   string fieldName = mFieldSpecifier.substr(4);
   transform(fieldName.begin(), fieldName.begin() + 1, fieldName.begin(), ::tolower);
   if (model->findField(fieldName) == NULL) {
-    Log::e("Model could not find field '" + fieldName + "' in MODEL");
+    Log::e("Model could not find field '" + fieldName + "' in MODEL '" +
+           model->getStructType()->getName().str() + "'");
     return false;
   }
   
