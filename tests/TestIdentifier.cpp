@@ -72,3 +72,13 @@ TEST_F(IdentifierTest, VariableIdentifierTest) {
   EXPECT_STREQ(mStringStream->str().c_str(), "  %bar = load i32, i32* %foo");
   mStringBuffer.clear();
 }
+
+TEST_F(IdentifierTest, HeapVariableTest) {
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
+  mContext.getScopes().setHeapVariable("foo", fooValue);
+  Identifier identifier("foo", "bar");
+  
+  Value* result = identifier.generateIR(mContext);
+  
+  EXPECT_EQ(result, fooValue);
+}

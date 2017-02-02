@@ -28,5 +28,10 @@ Value* Identifier::generateIR(IRGenerationContext& context) const {
     Log::e("Undeclared variable " + mName);
     exit(1);
   }
+  
+  if (variable->getStorageType() == HEAP_VARIABLE) {
+    return variable->getValue();
+  }
+
   return new LoadInst(variable->getValue(), mVariableName, context.getBasicBlock());
 }

@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestFileSampleRunner.hpp"
 #include "yazyk/Assignment.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -112,4 +113,8 @@ TEST_F(AssignmentTest, HeapVariableTest) {
   EXPECT_EQ(scopes.getVariable("foo") == NULL, true);
   ASSERT_EQ(scopes.getVariable("bar") == NULL, false);
   EXPECT_EQ(BitCastInst::classof(scopes.getVariable("bar")->getValue()), true);
+}
+
+TEST_F(TestFileSampleRunner, ModelVariableAssignmentTest) {
+  runFile("tests/samples/test_assignment_model_variable.yz", "0");
 }
