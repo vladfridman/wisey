@@ -41,6 +41,7 @@ struct ModelBuilderTest : Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression> mFieldValue1;
   NiceMock<MockExpression> mFieldValue2;
+  NiceMock<MockExpression> mFieldValue3;
   ModelTypeSpecifier mModelTypeSpecifier;
   BasicBlock *mBlock;
   string mStringBuffer;
@@ -64,6 +65,8 @@ struct ModelBuilderTest : Test {
     ON_CALL(mFieldValue1, generateIR(_)).WillByDefault(Return(fieldValue1));
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
     ON_CALL(mFieldValue2, generateIR(_)).WillByDefault(Return(fieldValue2));
+    Value* fieldValue3 = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
+    ON_CALL(mFieldValue3, generateIR(_)).WillByDefault(Return(fieldValue3));
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,
@@ -157,6 +160,25 @@ TEST_F(ModelBuilderTest, InvalidModelBuilderArgumentsDeathTest) {
               expected);
 }
 
+TEST_F(ModelBuilderTest, IncorrectArgumentTypeDeathTest) {
+  string argumentSpecifier1("withWidth");
+  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
+  string argumentSpecifier2("withHeight");
+  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mFieldValue3);
+  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
+  argumentList->push_back(argument1);
+  argumentList->push_back(argument2);
+  
+  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
+  
+  const char *expected =
+    "Error: Model builder argumet value for field 'height' does not match its type";
+  
+  EXPECT_EXIT(modelBuilder.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              expected);
+}
+
 TEST_F(ModelBuilderTest, NotAllFieldsAreSetDeathTest) {
   string argumentSpecifier1("withWidth");
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
@@ -166,8 +188,8 @@ TEST_F(ModelBuilderTest, NotAllFieldsAreSetDeathTest) {
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
   
   const char *expected =
-    "Error: Field 'height' is not initialized"
-    "\nError: Some fields of the model 'Shape' are not initialized.";
+  "Error: Field 'height' is not initialized"
+  "\nError: Some fields of the model 'Shape' are not initialized.";
   
   EXPECT_EXIT(modelBuilder.generateIR(mContext),
               ::testing::ExitedWithCode(1),
