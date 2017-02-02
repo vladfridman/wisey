@@ -15,6 +15,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 
+#include "yazyk/Model.hpp"
 #include "yazyk/Scopes.hpp"
 
 namespace yazyk {
@@ -28,7 +29,7 @@ class IRGenerationContext {
   llvm::Module* mModule;
   std::unique_ptr<llvm::Module> mOwner;
   llvm::BasicBlock* mBasicBlock;
-  std::map<std::string, llvm::StructType*> mModelTypes;
+  std::map<std::string, Model*> mModels;
   Scopes mScopes;
 
 public:
@@ -37,6 +38,8 @@ public:
     mOwner = llvm::make_unique<llvm::Module>("yazyk", mLLVMContext);
     mModule = mOwner.get();
   }
+  
+  ~IRGenerationContext();
   
   /**
    * Run compiled IR code and return the result
@@ -71,12 +74,12 @@ public:
   /**
    * Add a MODEL type
    */
-  void addModelType(std::string name, llvm::StructType* model);
+  void addModel(std::string name, Model* model);
   
   /**
    * Look up a MODEL type
    */
-  llvm::StructType* getModelType(std::string name);
+  Model* getModel(std::string name);
   
   /**
    * Return Scopes controller

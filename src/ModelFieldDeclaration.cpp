@@ -9,8 +9,13 @@
 #include "yazyk/ModelFieldDeclaration.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace yazyk;
 
 ITypeSpecifier& ModelFieldDeclaration::getType() {
   return mType;
+}
+
+string ModelFieldDeclaration::getName() {
+  return mName;
 }

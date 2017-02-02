@@ -49,7 +49,9 @@ struct ModelBuilderTest : Test {
     types.push_back(Type::getInt32Ty(llvmContext));
     StructType *structType = StructType::create(llvmContext, "Shape");
     structType->setBody(types);
-    mContext.addModelType("model.Shape", structType);
+    map<string, Type*>* fields = new map<string, Type*>();
+    Model* model = new Model(structType, fields);
+    mContext.addModel("model.Shape", model);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,

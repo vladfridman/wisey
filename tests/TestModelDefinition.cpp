@@ -36,12 +36,13 @@ TEST(ModelDefinitionTest, TestSimpleDefinition) {
   ModelDefinition modelDefinition("mymodel", fields);
   
   modelDefinition.generateIR(context);
-  StructType* modelType = context.getModelType("model.mymodel");
+  Model* model = context.getModel("model.mymodel");
+  StructType* structType = model->getStructType();
   
-  ASSERT_TRUE(modelType != NULL);
-  EXPECT_TRUE(modelType->getNumElements() == 2);
-  EXPECT_EQ(modelType->getElementType(0), Type::getInt64Ty(llvmContext));
-  EXPECT_EQ(modelType->getElementType(1), Type::getFloatTy(llvmContext));
+  ASSERT_TRUE(structType != NULL);
+  EXPECT_TRUE(structType->getNumElements() == 2);
+  EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(llvmContext));
+  EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(llvmContext));
 }
 
 TEST_F(TestFileSampleRunner, ModelDefinitionTest) {

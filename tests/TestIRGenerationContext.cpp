@@ -63,18 +63,25 @@ TEST(IRGenerationContextTest, RunCodeFailsWhenMainIsNullDeathTest) {
 TEST(IRGenerationContextTest, ModelTypeRegistryTest) {
   IRGenerationContext context;
   
-  StructType* model = StructType::create(context.getLLVMContext(), "mymodel");
-  context.addModelType("mymodel", model);
+  StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
+  map<string, Type*>* fields = new map<string, Type*>();
+  Model* model = new Model(structType, fields);
+  context.addModel("mymodel", model);
+  Model* resultModel = context.getModel("mymodel");
   
-  EXPECT_EQ(context.getModelType("mymodel"), model);
+  ASSERT_NE(resultModel, nullptr);
+  EXPECT_EQ(context.getModel("mymodel")->getStructType(), structType);
 }
 
 TEST(IRGenerationContextTest, ModelTypeRedefinedDeathTest) {
   IRGenerationContext context;
   
-  StructType* model = StructType::create(context.getLLVMContext(), "mymodel");
-  context.addModelType("mymodel", model);
-  EXPECT_EXIT(context.addModelType("mymodel", model),
+  StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
+  map<string, Type*>* fields = new map<string, Type*>();
+  Model* model = new Model(structType, fields);
+  context.addModel("mymodel", model);
+  
+  EXPECT_EXIT(context.addModel("mymodel", model),
               ::testing::ExitedWithCode(1),
               "Redefinition of MODEL mymodel");
 }
@@ -82,7 +89,7 @@ TEST(IRGenerationContextTest, ModelTypeRedefinedDeathTest) {
 TEST(IRGenerationContextTest, ModelTypeDoesNotExistDeathTest) {
   IRGenerationContext context;
   
-  EXPECT_EXIT(context.getModelType("mymodel"),
+  EXPECT_EXIT(context.getModel("mymodel"),
               ::testing::ExitedWithCode(1),
               "MODEL mymodel is not defined");
 }

@@ -32,6 +32,8 @@ public:
   ~ModelFieldDeclaration() { }
   
   ITypeSpecifier& getType();
+  
+  std::string getName();
 };
   
 } /* namespace yazyk */

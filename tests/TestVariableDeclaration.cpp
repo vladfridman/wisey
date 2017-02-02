@@ -107,8 +107,12 @@ TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
   types.push_back(Type::getInt32Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
-  
-  mContext.addModelType("model.model", structType);
+  map<string, Type*>* fields = new map<string, Type*>();
+  (*fields)["fieldA"] = Type::getInt32Ty(mLLVMContext);
+  (*fields)["fieldB"] = Type::getInt32Ty(mLLVMContext);
+  Model* model = new Model(structType, fields);
+
+  mContext.addModel("model.model", model);
   VariableDeclaration declaration(typeSpecifier, identifier);
   
   declaration.generateIR(mContext);
