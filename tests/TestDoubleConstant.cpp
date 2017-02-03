@@ -1,11 +1,11 @@
 //
-//  TestChar.cpp
+//  TestDoubleConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link Char}
+//  Tests {@link DoubleConstant}
 //
 
 #include <gtest/gtest.h>
@@ -15,21 +15,21 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/Char.hpp"
+#include "yazyk/DoubleConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(CharTest, CharConstantTest) {
+TEST(DoubleConstantTest, DoubleConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
-  Char constantChar('y');
+  DoubleConstant doubleConstant(5.7);
   
-  Value* irValue = constantChar.generateIR(context);
-
+  Value* irValue = doubleConstant.generateIR(context);
+  
   *stringStream << *irValue;
-  EXPECT_STREQ("i8 121", stringStream->str().c_str());
+  EXPECT_STREQ("double 5.700000e+00", stringStream->str().c_str());
 }

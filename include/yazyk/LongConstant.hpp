@@ -1,33 +1,34 @@
 //
-//  Char.hpp
+//  LongConstant.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef Char_h
-#define Char_h
+#ifndef LongConstant_h
+#define LongConstant_h
 
 #include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 
 /**
- * Represents a constant character
+ * Represents a long constant
  */
-class Char : public IExpression {
-  char mValue;
+class LongConstant : public IExpression {
+
+  long long mValue;
   
 public:
 
-  Char(char value) : mValue(value) { }
+  LongConstant(long long value) : mValue(value) { }
   
-  ~Char() {}
+  ~LongConstant() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
   
 } /* namespace yazyk */
 
-#endif /* Char_h */
+#endif /* LongConstant_h */

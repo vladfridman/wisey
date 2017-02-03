@@ -1,13 +1,13 @@
 //
-//  Boolean.hpp
+//  BooleanConstant.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 1/20/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef Boolean_h
-#define Boolean_h
+#ifndef BooleanConstant_h
+#define BooleanConstant_h
 
 #include "yazyk/IExpression.hpp"
 
@@ -16,23 +16,23 @@ namespace yazyk {
 /**
  * Represents a constant boolean
  */
-class Boolean : public IExpression {
+class BooleanConstant : public IExpression {
   bool mValue;
   
 public:
   
-  Boolean(bool value) : mValue(value) { }
+  BooleanConstant(bool value) : mValue(value) { }
   
-  ~Boolean() {}
+  ~BooleanConstant() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
 };
   
-static Boolean True(true);
+static BooleanConstant True(true);
 
-static Boolean False(false);
+static BooleanConstant False(false);
   
 } /* namespace yazyk */
 
-#endif /* Boolean_h */
+#endif /* BooleanConstant_h */

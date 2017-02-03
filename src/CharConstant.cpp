@@ -1,5 +1,5 @@
 //
-//  Integer.cpp
+//  CharConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Integer.hpp"
+#include "yazyk/CharConstant.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value* Integer::generateIR(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), mValue, true);
+Value* CharConstant::generateIR(IRGenerationContext& context) const {
+  return ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), mValue);
 }

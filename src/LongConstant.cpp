@@ -1,5 +1,5 @@
 //
-//  Long.cpp
+//  LongConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Long.hpp"
+#include "yazyk/LongConstant.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value* Long::generateIR(IRGenerationContext& context) const {
+Value* LongConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), mValue, true);
 }

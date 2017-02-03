@@ -1,34 +1,33 @@
 //
-//  Long.hpp
+//  FloatConstant.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef Long_h
-#define Long_h
+#ifndef FloatConstant_h
+#define FloatConstant_h
 
 #include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 
 /**
- * Represents a long constant
+ * Represents a float constant
  */
-class Long : public IExpression {
-
-  long long mValue;
+class FloatConstant: public IExpression {
+  double mValue;
   
 public:
-
-  Long(long long value) : mValue(value) { }
   
-  ~Long() {}
+  FloatConstant(double value) : mValue(value) { }
+
+  ~FloatConstant() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
-  
+
 } /* namespace yazyk */
 
-#endif /* Long_h */
+#endif /* FloatConstant_h */

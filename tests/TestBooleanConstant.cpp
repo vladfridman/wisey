@@ -1,11 +1,11 @@
 //
-//  TestBoolean.cpp
+//  TestBooleanConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 1/20/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link Boolean}
+//  Tests {@link BooleanConstant}
 //
 
 #include <gtest/gtest.h>
@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/Boolean.hpp"
+#include "yazyk/BooleanConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
 using namespace llvm;
@@ -25,28 +25,28 @@ using namespace yazyk;
 
 using ::testing::Test;
 
-struct BooleanTest : public Test {
+struct BooleanConstantTest : public Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   IRGenerationContext mContext;
 
-  BooleanTest() {
+  BooleanConstantTest() {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~BooleanTest() {
+  ~BooleanConstantTest() {
     delete mStringStream;
   }
 };
 
-TEST_F(BooleanTest, BooleanTrueConstantTest) {
+TEST_F(BooleanConstantTest, BooleanTrueConstantTest) {
   Value* irValue = True.generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 true", mStringStream->str().c_str());
 }
 
-TEST_F(BooleanTest, BooleanFalseConstantTest) {
+TEST_F(BooleanConstantTest, BooleanFalseConstantTest) {
   Value* irValue = False.generateIR(mContext);
   
   *mStringStream << *irValue;

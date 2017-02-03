@@ -1,5 +1,5 @@
 //
-//  Char.cpp
+//  FloatConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Char.hpp"
+#include "yazyk/FloatConstant.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value* Char::generateIR(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), mValue);
+Value* FloatConstant::generateIR(IRGenerationContext& context) const {
+  return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), mValue);
 }

@@ -15,18 +15,18 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/Long.hpp"
+#include "yazyk/LongConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(LongTest, LongConstantTest) {
+TEST(LongConstantTest, LongConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
-  Long constantLong(5);
+  LongConstant constantLong(5);
   
   Value* irValue = constantLong.generateIR(context);
   

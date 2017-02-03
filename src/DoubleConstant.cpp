@@ -1,5 +1,5 @@
 //
-//  Double.cpp
+//  DoubleConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Double.hpp"
+#include "yazyk/DoubleConstant.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value* Double::generateIR(IRGenerationContext& context) const {
+Value* DoubleConstant::generateIR(IRGenerationContext& context) const {
   return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), mValue);
 }

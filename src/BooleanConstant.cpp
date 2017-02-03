@@ -1,5 +1,5 @@
 //
-//  Boolean.cpp
+//  BooleanConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 1/20/17.
@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Boolean.hpp"
+#include "yazyk/BooleanConstant.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value* Boolean::generateIR(IRGenerationContext& context) const {
+Value* BooleanConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), mValue);
 }

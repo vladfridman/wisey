@@ -1,11 +1,11 @@
 //
-//  TestFloat.cpp
+//  TestCharConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link Float}
+//  Tests {@link CharConstant}
 //
 
 #include <gtest/gtest.h>
@@ -15,21 +15,21 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/Float.hpp"
+#include "yazyk/CharConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(FloatTest, FloatConstantTest) {
+TEST(CharConstantTest, CharConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
-  Float constantFloat(3.5);
+  CharConstant charConstant('y');
   
-  Value* irValue = constantFloat.generateIR(context);
-  
+  Value* irValue = charConstant.generateIR(context);
+
   *stringStream << *irValue;
-  EXPECT_STREQ("float 3.500000e+00", stringStream->str().c_str());
+  EXPECT_STREQ("i8 121", stringStream->str().c_str());
 }

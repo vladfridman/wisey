@@ -1,33 +1,33 @@
 //
-//  Integer.hpp
+//  CharConstant.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef Integer_h
-#define Integer_h
+#ifndef CharConstant_h
+#define CharConstant_h
 
 #include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 
 /**
- * Represents an integer constant
+ * Represents a constant character
  */
-class Integer : public IExpression {
-
-  long mValue;
+class CharConstant : public IExpression {
+  char mValue;
   
 public:
-  Integer(long value) : mValue(value) { }
 
-  ~Integer() { }
+  CharConstant(char value) : mValue(value) { }
+  
+  ~CharConstant() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
-
+  
 } /* namespace yazyk */
 
-#endif /* Integer_h */
+#endif /* CharConstant_h */
