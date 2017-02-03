@@ -1,12 +1,20 @@
-model Rectangle {
+model Color {
+  double color;
+}
+
+model Shape {
   int width;
-  int height;
+  long height;
+  float depth;
+  Color color;
 }
 
 int main() {
-  Rectangle rectangle = builder(Rectangle)
+  Shape rectangle = builder(Shape)
     .withWidth(3)
-    .withHeight(5)
+    .withHeight(5l)
+    .withDepth(2.0)
+    .withColor(builder(Color).withColor(6.7d).build())
     .build();
 
   return 0;
