@@ -28,11 +28,6 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
     ModelFieldDeclaration *field = *iterator;
     Type* fieldType = field->getType().getType(context);
     
-    // TODO: try to move this into ModelTypeSpecifier perhaps
-    if (field->getType().getStorageType() == HEAP_VARIABLE) {
-      fieldType = fieldType->getPointerTo();
-    }
-    
     ModelField* modelField = new ModelField(fieldType, index);
     (*fields)[field->getName()] = modelField;
     types.push_back(fieldType);

@@ -17,7 +17,7 @@ const string ModelTypeSpecifier::getName() const {
 }
 
 Type* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
-  return context.getModel(mName)->getStructType();
+  return context.getModel(mName)->getStructType()->getPointerTo();
 }
 
 VariableStorageType ModelTypeSpecifier::getStorageType() const {

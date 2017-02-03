@@ -23,7 +23,7 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   checkArguments(model);
   
   Type* pointerType = Type::getInt32Ty(context.getLLVMContext());
-  Type* structType = mModelTypeSpecifier.getType(context);
+  Type* structType = mModelTypeSpecifier.getType(context)->getPointerElementType();
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
   Instruction* malloc = CallInst::CreateMalloc(context.getBasicBlock(),
