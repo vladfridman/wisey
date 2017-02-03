@@ -18,22 +18,22 @@ namespace yazyk {
  * Represents a variable declaration
  */
 class VariableDeclaration : public IStatement {
-  const ITypeSpecifier& mType;
+  const ITypeSpecifier& mTypeSpecifier;
   Identifier& mId;
   IExpression *mAssignmentExpression;
 
 public:
-  VariableDeclaration(const ITypeSpecifier& type, Identifier& id) :
-    mType(type), mId(id), mAssignmentExpression(NULL) { }
+  VariableDeclaration(const ITypeSpecifier& typeSpecifier, Identifier& id) :
+    mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(NULL) { }
 
-  VariableDeclaration(const ITypeSpecifier& type,
+  VariableDeclaration(const ITypeSpecifier& typeSpecifier,
                       Identifier& id,
                       IExpression *assignmentExpression) :
-    mType(type), mId(id), mAssignmentExpression(assignmentExpression) { }
+    mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(assignmentExpression) { }
 
   ~VariableDeclaration() { }
   
-  const ITypeSpecifier& getType() const;
+  const ITypeSpecifier& getTypeSpecifier() const;
   
   const Identifier& getId() const;
   

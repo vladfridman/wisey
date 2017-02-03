@@ -26,7 +26,7 @@ public:
   /**
    * Get LLVM type corresponding to the current type
    */
-  virtual llvm::Type* getType(IRGenerationContext& context) const = 0;
+  virtual llvm::Type* getLLVMType(IRGenerationContext& context) const = 0;
   
   /**
    * Tells whether this type should be allocated on stack or heap

@@ -16,7 +16,7 @@ const string ModelTypeSpecifier::getName() const {
   return mName;
 }
 
-Type* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
+Type* ModelTypeSpecifier::getLLVMType(IRGenerationContext& context) const {
   return context.getModel(mName)->getStructType()->getPointerTo();
 }
 

@@ -21,17 +21,17 @@ namespace yazyk {
  */
 class ModelFieldDeclaration {
 
-  ITypeSpecifier& mType;
+  ITypeSpecifier& mTypeSpecifier;
   const std::string mName;
 
 public:
   
-  ModelFieldDeclaration(ITypeSpecifier& type, const std::string& name)
-    : mType(type), mName(name) { }
+  ModelFieldDeclaration(ITypeSpecifier& typeSpecifier, const std::string& name)
+    : mTypeSpecifier(typeSpecifier), mName(name) { }
   
   ~ModelFieldDeclaration() { }
   
-  ITypeSpecifier& getType();
+  ITypeSpecifier& getTypeSpecifier();
   
   std::string getName();
 };

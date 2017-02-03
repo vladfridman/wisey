@@ -29,7 +29,7 @@ public:
   
   const std::string getName() const;
 
-  llvm::Type* getType(IRGenerationContext& context) const override;
+  llvm::Type* getLLVMType(IRGenerationContext& context) const override;
 
   VariableStorageType getStorageType() const override;
 };

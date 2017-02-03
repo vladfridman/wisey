@@ -12,7 +12,7 @@
 using namespace llvm;
 using namespace yazyk;
 
-Type* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
+Type* PrimitiveTypeSpecifier::getLLVMType(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   if (mType == PRIMITIVE_TYPE_INT) {
     return (Type*) Type::getInt32Ty(llvmContext);

@@ -36,7 +36,7 @@ public:
   
   ~PrimitiveTypeSpecifier() { }
   
-  llvm::Type* getType(IRGenerationContext& context) const override;
+  llvm::Type* getLLVMType(IRGenerationContext& context) const override;
   
   VariableStorageType getStorageType() const override;
 };

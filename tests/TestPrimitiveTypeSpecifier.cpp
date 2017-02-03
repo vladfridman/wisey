@@ -21,6 +21,6 @@ TEST(PrimitiveTypeSpecifierTest, CreationTest) {
   LLVMContext& llvmContext = context.getLLVMContext();
   PrimitiveTypeSpecifier primitiveTypeSpecifier(PRIMITIVE_TYPE_INT);
   
-  EXPECT_EQ(primitiveTypeSpecifier.getType(context), Type::getInt32Ty(llvmContext));
+  EXPECT_EQ(primitiveTypeSpecifier.getLLVMType(context), Type::getInt32Ty(llvmContext));
   EXPECT_EQ(primitiveTypeSpecifier.getStorageType(), STACK_VARIABLE);
 }

@@ -21,10 +21,10 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
   vector<Type*> argTypes;
   VariableList::const_iterator it;
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
-    argTypes.push_back((**it).getType().getType(context));
+    argTypes.push_back((**it).getTypeSpecifier().getLLVMType(context));
   }
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
-  FunctionType *ftype = FunctionType::get(mType.getType(context),
+  FunctionType *ftype = FunctionType::get(mType.getLLVMType(context),
                                           argTypesArray,
                                           false);
   Function *function = Function::Create(ftype,
@@ -47,7 +47,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
     Value *value = &*args;
     string newName = (**it).getId().getName() + ".param";
-    AllocaInst *alloc = new AllocaInst((**it).getType().getType(context),
+    AllocaInst *alloc = new AllocaInst((**it).getTypeSpecifier().getLLVMType(context),
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);

@@ -19,7 +19,7 @@ using namespace std;
 using namespace yazyk;
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
-  Value* value = mType.getStorageType() == HEAP_VARIABLE
+  Value* value = mTypeSpecifier.getStorageType() == HEAP_VARIABLE
     ? allocateOnHeap(context)
     : allocateOnStack(context);
   
@@ -32,7 +32,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 }
 
 Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
-  AllocaInst *alloc = new AllocaInst(mType.getType(context),
+  AllocaInst *alloc = new AllocaInst(mTypeSpecifier.getLLVMType(context),
                                      mId.getName(),
                                      context.getBasicBlock());
   
@@ -48,8 +48,8 @@ Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
   return NULL;
 }
 
-const ITypeSpecifier& VariableDeclaration::getType() const {
-  return mType;
+const ITypeSpecifier& VariableDeclaration::getTypeSpecifier() const {
+  return mTypeSpecifier;
 }
 
 const Identifier& VariableDeclaration::getId() const {
