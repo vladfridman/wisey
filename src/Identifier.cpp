@@ -33,5 +33,5 @@ Value* Identifier::generateIR(IRGenerationContext& context) const {
     return variable->getValue();
   }
 
-  return new LoadInst(variable->getValue(), mVariableName, context.getBasicBlock());
+  return new LoadInst(variable->getValue(), mLLVMVariableName, context.getBasicBlock());
 }

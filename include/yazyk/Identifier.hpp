@@ -16,18 +16,18 @@ namespace yazyk {
 /**
  * Represents an identifier in a yazyk program.
  *
- * Generated IR loads instance of the variable containing value of the identifier
+ * Loads value of the variable named 'name' into an LLVM variable named llvmVariableName
  */
 class Identifier : public IExpression {
   
   const std::string mName;
-  std::string mVariableName;
+  std::string mLLVMVariableName;
   
 public:
-  Identifier(const std::string& name) : mName(name), mVariableName("") { }
+  Identifier(const std::string& name) : mName(name), mLLVMVariableName("") { }
   
-  Identifier(const std::string& name, const std::string& variableName) :
-    mName(name), mVariableName(variableName) { }
+  Identifier(const std::string& name, const std::string& llvmVariableName) :
+    mName(name), mLLVMVariableName(llvmVariableName) { }
   
   ~Identifier() { }
   
