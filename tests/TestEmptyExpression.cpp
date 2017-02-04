@@ -19,5 +19,5 @@ TEST(TestEmptyExpression, SimpleEmptyExpressionTest) {
   IRGenerationContext context;
   EmptyExpression expression;
   
-  EXPECT_EQ(expression.generateIR(context) == NULL, true);
+  EXPECT_EQ(expression.generateIR(context), nullptr);
 }

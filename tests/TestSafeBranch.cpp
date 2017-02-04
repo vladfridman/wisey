@@ -52,8 +52,8 @@ public:
 };
 
 TEST_F(SafeBranchTest, ConsecutiveBranchesNotCreated) {
-  EXPECT_EQ(SafeBranch::newBranch(mBlock1, mContext) == NULL, false);
-  EXPECT_EQ(SafeBranch::newBranch(mBlock2, mContext) == NULL, true);
+  EXPECT_NE(SafeBranch::newBranch(mBlock1, mContext), nullptr);
+  EXPECT_EQ(SafeBranch::newBranch(mBlock2, mContext), nullptr);
 }
 
 TEST_F(SafeBranchTest, ConsecutiveConditionalBranchesNotCreated) {
@@ -65,6 +65,6 @@ TEST_F(SafeBranchTest, ConsecutiveConditionalBranchesNotCreated) {
                                                          mBlock2,
                                                          mConditionValue,
                                                              mContext);
-  EXPECT_EQ(branch1 == NULL, false);
-  EXPECT_EQ(branch2 == NULL, true);
+  EXPECT_NE(branch1, nullptr);
+  EXPECT_EQ(branch2, nullptr);
 }

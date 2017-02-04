@@ -40,15 +40,15 @@ TEST(ScopesTest, TestScopes) {
   
   scopes.popScope(NULL);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
-  EXPECT_EQ(scopes.getVariable("bar") == NULL, true);
+  EXPECT_EQ(scopes.getVariable("bar"), nullptr);
   
   scopes.setStackVariable("bar", barValue);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
   EXPECT_EQ(scopes.getVariable("bar")->getValue(), barValue);
   
   scopes.popScope(NULL);
-  EXPECT_EQ(scopes.getVariable("foo") == NULL, true);
-  EXPECT_EQ(scopes.getVariable("bar") == NULL, true);
+  EXPECT_EQ(scopes.getVariable("foo"), nullptr);
+  EXPECT_EQ(scopes.getVariable("bar"), nullptr);
 }
 
 TEST(ScopesTest, TestScopesCorrectlyOrdered) {
@@ -84,7 +84,7 @@ TEST(ScopesTest, TestGetScope) {
   scopes.pushScope();
   Scope* scope = scopes.getScope();
   
-  EXPECT_EQ(scope == NULL, false);
+  EXPECT_NE(scope, nullptr);
 }
 
 TEST(ScopesTest, TestClearVariable) {
@@ -99,7 +99,7 @@ TEST(ScopesTest, TestClearVariable) {
   
   scopes.clearVariable("foo");
   
-  EXPECT_EQ(scopes.getVariable("foo") == NULL, true);
+  EXPECT_EQ(scopes.getVariable("foo"), nullptr);
 }
 
 TEST(ScopesTest, TestClearVariableDeathTest) {
@@ -123,7 +123,7 @@ TEST(ScopesTest, TestSetHeapVariable) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
   scopes.setHeapVariable("foo", fooValue);
   
-  ASSERT_EQ(scopes.getVariable("foo") != NULL, true);
+  ASSERT_NE(scopes.getVariable("foo"), nullptr);
   EXPECT_EQ(scopes.getVariable("foo")->getStorageType(), HEAP_VARIABLE);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
 }
@@ -133,7 +133,7 @@ TEST(ScopesTest, TestSetUnitializedHeapVariable) {
   scopes.pushScope();
   scopes.setUnitializedHeapVariable("foo");
   
-  ASSERT_EQ(scopes.getVariable("foo") != NULL, true);
+  ASSERT_NE(scopes.getVariable("foo"), nullptr);
   EXPECT_EQ(scopes.getVariable("foo")->getStorageType(), HEAP_VARIABLE_UNINITIALIZED);
-  EXPECT_EQ(scopes.getVariable("foo")->getValue() == NULL, true);
+  EXPECT_EQ(scopes.getVariable("foo")->getValue(), nullptr);
 }

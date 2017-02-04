@@ -20,7 +20,7 @@ TEST(TestEmptyStatement, SimpleEmptyStatementTest) {
   IRGenerationContext context;
   EmptyStatement statement;
   
-  EXPECT_EQ(statement.generateIR(context) == NULL, true);
+  EXPECT_EQ(statement.generateIR(context), nullptr);
 }
 
 TEST_F(TestFileSampleRunner, EmptyStatementRunTest) {

@@ -99,7 +99,7 @@ TEST_F(ModelBuilderTest, ValidModelBuilderArgumentsTest) {
 
   Value* result = modelBuilder.generateIR(mContext);
   
-  EXPECT_TRUE(result != NULL);
+  EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
 
   ASSERT_EQ(6ul, mBlock->size());

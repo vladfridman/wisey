@@ -76,7 +76,7 @@ TEST_F(FunctionDecalarationTest, FunctionFooDeclartaionTest) {
     "\n}" +
     "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  EXPECT_EQ(true, mContext.getMainFunction() == NULL);
+  EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
 TEST_F(FunctionDecalarationTest, FunctionMainDeclartaionTest) {
@@ -97,7 +97,7 @@ TEST_F(FunctionDecalarationTest, FunctionMainDeclartaionTest) {
     "\n}" +
     "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  ASSERT_EQ(false, mContext.getMainFunction() == NULL);
+  ASSERT_NE(mContext.getMainFunction(), nullptr);
   EXPECT_EQ(function, mContext.getMainFunction());
 }
 

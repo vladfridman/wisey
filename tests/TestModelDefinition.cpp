@@ -39,7 +39,7 @@ TEST(ModelDefinitionTest, TestSimpleDefinition) {
   Model* model = context.getModel("model.mymodel");
   StructType* structType = model->getStructType();
   
-  ASSERT_TRUE(structType != NULL);
+  ASSERT_NE(structType, nullptr);
   EXPECT_TRUE(structType->getNumElements() == 2);
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(llvmContext));
   EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(llvmContext));

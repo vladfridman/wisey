@@ -19,7 +19,7 @@ using namespace yazyk;
 TEST(ContinueStatementTest, NoScopesTest) {
   IRGenerationContext context;
   
-  EXPECT_EQ(context.getScopes().getContinueToBlock() == NULL, true);
+  EXPECT_EQ(context.getScopes().getContinueToBlock(), nullptr);
 }
 
 TEST_F(TestFileSampleRunner, ContinueForLoopTest) {

@@ -29,7 +29,7 @@ TEST(IRGenerationContextTest, TestBlockStack) {
   BasicBlock* block1 = BasicBlock::Create(llvmContext, "block1");
   BasicBlock* block2 = BasicBlock::Create(llvmContext, "block2");
   
-  EXPECT_EQ(context.getBasicBlock() == NULL, true);
+  EXPECT_EQ(context.getBasicBlock(), nullptr);
   context.setBasicBlock(block1);
   EXPECT_EQ(context.getBasicBlock(), block1);
   context.setBasicBlock(block2);
@@ -41,7 +41,7 @@ TEST(IRGenerationContextTest, TestMainFunction) {
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), false);
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "main");
 
-  EXPECT_EQ(context.getMainFunction() == NULL, true);
+  EXPECT_EQ(context.getMainFunction(), nullptr);
   context.setMainFunction(function);
   EXPECT_EQ(context.getMainFunction(), function);
 }
@@ -49,7 +49,7 @@ TEST(IRGenerationContextTest, TestMainFunction) {
 TEST(IRGenerationContextTest, TestModuleIsNotNull) {
   IRGenerationContext context;
   
-  EXPECT_EQ(context.getModule() == NULL, false);
+  EXPECT_NE(context.getModule(), nullptr);
 }
 
 TEST(IRGenerationContextTest, RunCodeFailsWhenMainIsNullDeathTest) {

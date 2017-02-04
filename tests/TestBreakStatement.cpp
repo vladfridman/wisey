@@ -19,7 +19,7 @@ using namespace yazyk;
 TEST(BreakStatementTest, NoScopesTest) {
   IRGenerationContext context;
   
-  EXPECT_EQ(context.getScopes().getBreakToBlock() == NULL, true);
+  EXPECT_EQ(context.getScopes().getBreakToBlock(), nullptr);
 }
 
 TEST_F(TestFileSampleRunner, BreakOutOfForLoopTest) {

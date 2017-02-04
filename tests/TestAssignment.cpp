@@ -105,13 +105,13 @@ TEST_F(AssignmentTest, HeapVariableTest) {
   Identifier identifier("bar", "foo");
   Assignment assignment(identifier, expression);
   
-  EXPECT_EQ(scopes.getVariable("foo") == NULL, false);
-  EXPECT_EQ(scopes.getVariable("bar") == NULL, false);
+  EXPECT_NE(scopes.getVariable("foo"), nullptr);
+  EXPECT_NE(scopes.getVariable("bar"), nullptr);
   
   assignment.generateIR(mContext);
   
-  EXPECT_EQ(scopes.getVariable("foo") == NULL, true);
-  ASSERT_EQ(scopes.getVariable("bar") == NULL, false);
+  EXPECT_EQ(scopes.getVariable("foo"), nullptr);
+  ASSERT_NE(scopes.getVariable("bar"), nullptr);
   EXPECT_EQ(BitCastInst::classof(scopes.getVariable("bar")->getValue()), true);
 }
 
