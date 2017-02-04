@@ -19,5 +19,5 @@ Value* CharConstant::generateIR(IRGenerationContext& context) const {
 }
 
 IType* CharConstant::getType() const {
-  return PrimitiveTypes::CHARTYPE;
+  return PrimitiveTypes::CHAR_TYPE;
 }

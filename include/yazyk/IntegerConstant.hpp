@@ -10,13 +10,14 @@
 #define IntegerConstant_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
 
 /**
  * Represents an integer constant
  */
-class IntegerConstant : public IExpression {
+class IntegerConstant : public IExpression, IHasType {
 
   long mValue;
   
@@ -26,6 +27,8 @@ public:
   ~IntegerConstant() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType() const override;
 };
 
 } /* namespace yazyk */

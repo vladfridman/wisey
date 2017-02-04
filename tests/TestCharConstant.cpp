@@ -38,5 +38,5 @@ TEST(CharConstantTest, CharConstantTest) {
 TEST(CharConstantTest, TestCharConstantType) {
   CharConstant charConstant('y');
 
-  EXPECT_EQ(charConstant.getType(), PrimitiveTypes::CHARTYPE);
+  EXPECT_EQ(charConstant.getType(), PrimitiveTypes::CHAR_TYPE);
 }

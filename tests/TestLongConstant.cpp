@@ -17,6 +17,7 @@
 
 #include "yazyk/LongConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -32,4 +33,10 @@ TEST(LongConstantTest, LongConstantTest) {
   
   *stringStream << *irValue;
   EXPECT_STREQ("i64 5", stringStream->str().c_str());
+}
+
+TEST(LongConstantTest, TestLongConstantType) {
+  LongConstant constantLong(5);
+
+  EXPECT_EQ(constantLong.getType(), PrimitiveTypes::LONG_TYPE);
 }

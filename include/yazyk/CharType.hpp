@@ -13,8 +13,6 @@
 
 namespace yazyk {
 
-class CharType;
-  
 /**
  * Represents char expression type
  */

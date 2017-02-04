@@ -17,6 +17,7 @@
 
 #include "yazyk/DoubleConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -32,4 +33,10 @@ TEST(DoubleConstantTest, DoubleConstantTest) {
   
   *stringStream << *irValue;
   EXPECT_STREQ("double 5.700000e+00", stringStream->str().c_str());
+}
+
+TEST(DoubleConstantTest, TestDoubleConstantType) {
+  DoubleConstant doubleConstant(5.7);
+
+  EXPECT_EQ(doubleConstant.getType(), PrimitiveTypes::DOUBLE_TYPE);
 }

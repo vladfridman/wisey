@@ -10,6 +10,10 @@
 #define PrimitiveTypes_h
 
 #include "yazyk/CharType.hpp"
+#include "yazyk/DoubleType.hpp"
+#include "yazyk/FloatType.hpp"
+#include "yazyk/IntType.hpp"
+#include "yazyk/LongType.hpp"
 
 namespace yazyk {
 
@@ -20,7 +24,11 @@ class PrimitiveTypes {
 
 public:
   
-  static CharType* CHARTYPE;
+  static CharType* CHAR_TYPE;
+  static DoubleType* DOUBLE_TYPE;
+  static FloatType* FLOAT_TYPE;
+  static IntType* INT_TYPE;
+  static LongType* LONG_TYPE;
 
 };
   

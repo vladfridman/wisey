@@ -10,13 +10,14 @@
 #define DoubleConstant_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
   
 /**
  * Represents a double constant
  */
-class DoubleConstant : public IExpression {
+class DoubleConstant : public IExpression, IHasType {
   long double mValue;
   
 public:
@@ -26,6 +27,8 @@ public:
   ~DoubleConstant() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType() const override;
 };
   
 } /* namespace yazyk */

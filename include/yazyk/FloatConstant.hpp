@@ -10,13 +10,14 @@
 #define FloatConstant_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
 
 /**
  * Represents a float constant
  */
-class FloatConstant: public IExpression {
+class FloatConstant: public IExpression, IHasType {
   double mValue;
   
 public:
@@ -26,6 +27,8 @@ public:
   ~FloatConstant() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType() const override;
 };
 
 } /* namespace yazyk */

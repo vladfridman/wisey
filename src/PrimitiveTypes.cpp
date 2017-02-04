@@ -10,5 +10,13 @@
 
 using namespace yazyk;
 
-CharType* PrimitiveTypes::CHARTYPE = new CharType();
+CharType* PrimitiveTypes::CHAR_TYPE = new CharType();
+
+DoubleType* PrimitiveTypes::DOUBLE_TYPE = new DoubleType();
+
+FloatType* PrimitiveTypes::FLOAT_TYPE = new FloatType();
+
+IntType* PrimitiveTypes::INT_TYPE = new IntType();
+
+LongType* PrimitiveTypes::LONG_TYPE = new LongType();
 

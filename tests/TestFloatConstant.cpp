@@ -17,6 +17,7 @@
 
 #include "yazyk/FloatConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -32,4 +33,10 @@ TEST(FloatConstantTest, FloatConstantTest) {
   
   *stringStream << *irValue;
   EXPECT_STREQ("float 3.500000e+00", stringStream->str().c_str());
+}
+
+TEST(FloatConstantTest, TestFloatConstantType) {
+  FloatConstant floatConstant(3.5);
+
+  EXPECT_EQ(floatConstant.getType(), PrimitiveTypes::FLOAT_TYPE);
 }

@@ -17,6 +17,7 @@
 
 #include "yazyk/IntegerConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -32,4 +33,10 @@ TEST(IntegerConstantTest, IntegerConstantTest) {
   
   *stringStream << *irValue;
   EXPECT_STREQ("i32 5", stringStream->str().c_str());
+}
+
+TEST(IntegerConstantTest, TestIntegerConstantType) {
+  IntegerConstant integerConstant(5);
+
+  EXPECT_EQ(integerConstant.getType(), PrimitiveTypes::INT_TYPE);
 }

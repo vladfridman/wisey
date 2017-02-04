@@ -10,13 +10,14 @@
 #define LongConstant_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
 
 /**
  * Represents a long constant
  */
-class LongConstant : public IExpression {
+class LongConstant : public IExpression, IHasType {
 
   long long mValue;
   
@@ -27,6 +28,8 @@ public:
   ~LongConstant() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType() const override;
 };
   
 } /* namespace yazyk */

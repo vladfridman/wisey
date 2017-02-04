@@ -9,10 +9,15 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/DoubleConstant.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
 Value* DoubleConstant::generateIR(IRGenerationContext& context) const {
   return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), mValue);
+}
+
+IType* DoubleConstant::getType() const {
+  return PrimitiveTypes::DOUBLE_TYPE;
 }
