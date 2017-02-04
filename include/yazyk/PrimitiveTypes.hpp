@@ -14,6 +14,7 @@
 #include "yazyk/FloatType.hpp"
 #include "yazyk/IntType.hpp"
 #include "yazyk/LongType.hpp"
+#include "yazyk/VoidType.hpp"
 
 namespace yazyk {
 
@@ -29,6 +30,7 @@ public:
   static FloatType* FLOAT_TYPE;
   static IntType* INT_TYPE;
   static LongType* LONG_TYPE;
+  static VoidType* VOID_TYPE;
 
 };
   

@@ -12,12 +12,19 @@
 #include <gmock/gmock.h>
 
 #include "yazyk/EmptyExpression.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace yazyk;
 
-TEST(TestEmptyExpression, SimpleEmptyExpressionTest) {
+TEST(EmptyExpressionTest, SimpleEmptyExpressionTest) {
   IRGenerationContext context;
   EmptyExpression expression;
   
   EXPECT_EQ(expression.generateIR(context), nullptr);
+}
+
+TEST(EmptyExpressionTest, TestEmptyExpressionType) {
+  EmptyExpression expression;
+ 
+  EXPECT_EQ(expression.getType(), PrimitiveTypes::VOID_TYPE);
 }

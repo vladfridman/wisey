@@ -261,6 +261,7 @@
 		F507D2701E4608C200495E2D /* LongType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LongType.hpp; path = include/yazyk/LongType.hpp; sourceTree = "<group>"; };
 		F507D2711E4609D800495E2D /* FloatType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FloatType.hpp; path = include/yazyk/FloatType.hpp; sourceTree = "<group>"; };
 		F507D2721E460A2B00495E2D /* DoubleType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DoubleType.hpp; path = include/yazyk/DoubleType.hpp; sourceTree = "<group>"; };
+		F507D2731E46109200495E2D /* VoidType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VoidType.hpp; path = include/yazyk/VoidType.hpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompoundStatement.cpp; path = tests/TestCompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A21E269E4400435EEA /* CaseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CaseStatement.hpp; path = include/yazyk/CaseStatement.hpp; sourceTree = "<group>"; };
@@ -874,6 +875,7 @@
 				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
 				F50FA2FA1E2FC21700435EEA /* Variable.hpp */,
 				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
+				F507D2731E46109200495E2D /* VoidType.hpp */,
 				F59D82091E0F147000057FB5 /* WhileStatement.hpp */,
 			);
 			name = include;

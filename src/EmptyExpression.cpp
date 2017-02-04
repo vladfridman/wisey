@@ -9,6 +9,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/EmptyExpression.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace yazyk;
@@ -17,4 +18,8 @@ const EmptyExpression EmptyExpression::EMPTY_EXPRESSION = EmptyExpression();
 
 Value* EmptyExpression::generateIR(IRGenerationContext& context) const {
   return NULL;
+}
+
+IType* EmptyExpression::getType() const {
+  return PrimitiveTypes::VOID_TYPE;
 }

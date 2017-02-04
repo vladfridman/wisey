@@ -10,13 +10,14 @@
 #define EmptyExpression_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
   
 /**
  * Represents an empty expression that does not do anything
  */
-class EmptyExpression : public IExpression {
+class EmptyExpression : public IExpression, IHasType {
 
 public:
 
@@ -27,6 +28,8 @@ public:
   ~EmptyExpression() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType() const override;
 };
   
 } /* namespace yazyk */
