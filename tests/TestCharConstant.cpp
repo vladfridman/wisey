@@ -17,6 +17,7 @@
 
 #include "yazyk/CharConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -32,4 +33,10 @@ TEST(CharConstantTest, CharConstantTest) {
 
   *stringStream << *irValue;
   EXPECT_STREQ("i8 121", stringStream->str().c_str());
+}
+
+TEST(CharConstantTest, TestCharConstantType) {
+  CharConstant charConstant('y');
+
+  EXPECT_EQ(charConstant.getType(), PrimitiveTypes::CHARTYPE);
 }

@@ -11,6 +11,8 @@
 		F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4931E161D140010783D /* TestBreakStatement.cpp */; };
 		F507D2651E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D2661E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
+		F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
+		F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
 		F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */; };
@@ -250,6 +252,11 @@
 		F507D2631E43539C00495E2D /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Model.hpp; path = include/yazyk/Model.hpp; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
 		F507D2671E43783000495E2D /* ModelField.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelField.hpp; path = include/yazyk/ModelField.hpp; sourceTree = "<group>"; };
+		F507D2681E44C27D00495E2D /* IType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IType.hpp; path = include/yazyk/IType.hpp; sourceTree = "<group>"; };
+		F507D2691E44C3A400495E2D /* CharType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CharType.hpp; path = include/yazyk/CharType.hpp; sourceTree = "<group>"; };
+		F507D26A1E45FBBA00495E2D /* IHasType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IHasType.hpp; path = include/yazyk/IHasType.hpp; sourceTree = "<group>"; };
+		F507D26B1E45FDF000495E2D /* PrimitiveTypes.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrimitiveTypes.hpp; path = include/yazyk/PrimitiveTypes.hpp; sourceTree = "<group>"; };
+		F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypes.cpp; path = src/PrimitiveTypes.cpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompoundStatement.cpp; path = tests/TestCompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A21E269E4400435EEA /* CaseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CaseStatement.hpp; path = include/yazyk/CaseStatement.hpp; sourceTree = "<group>"; };
@@ -731,6 +738,7 @@
 				F50FA2D11E2D0AD600435EEA /* ModelFieldDeclaration.cpp */,
 				F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */,
 				F569E9ED1DF9CC9600BBB20E /* Parser.ypp */,
+				F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */,
 				F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */,
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
 				F57411411E015961009809FF /* ReturnStatement.cpp */,
@@ -808,6 +816,7 @@
 				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
 				F50FA2A21E269E4400435EEA /* CaseStatement.hpp */,
 				F531B6581E0DE4ED008304F3 /* CharConstant.hpp */,
+				F507D2691E44C3A400495E2D /* CharType.hpp */,
 				F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
 				F58B32831E1635270001CC15 /* ContinueStatement.hpp */,
@@ -824,11 +833,13 @@
 				F531B6781E0E1A61008304F3 /* IExpression.hpp */,
 				F59D821B1E0F651000057FB5 /* IfElseStatement.hpp */,
 				F59D82211E0F6D3400057FB5 /* IfStatement.hpp */,
+				F507D26A1E45FBBA00495E2D /* IHasType.hpp */,
 				F57411691E0422AF009809FF /* IncrementExpression.hpp */,
 				F531B6371E07A4AD008304F3 /* INode.hpp */,
 				F50FA2DF1E2E3AF600435EEA /* IntegerConstant.hpp */,
 				F574115D1E01A52C009809FF /* IRGenerationContext.hpp */,
 				F531B6771E0E19F1008304F3 /* IStatement.hpp */,
+				F507D2681E44C27D00495E2D /* IType.hpp */,
 				F50FA2CC1E2D045000435EEA /* ITypeSpecifier.hpp */,
 				F534FFD81DFBD2750002BF7E /* Log.hpp */,
 				F574114D1E019975009809FF /* LogicalAndExpression.hpp */,
@@ -842,6 +853,7 @@
 				F507D2671E43783000495E2D /* ModelField.hpp */,
 				F50FA2CE1E2D0AC600435EEA /* ModelFieldDeclaration.hpp */,
 				F50FA2CF1E2D0AC600435EEA /* ModelTypeSpecifier.hpp */,
+				F507D26B1E45FDF000495E2D /* PrimitiveTypes.hpp */,
 				F5E2092E1E078B7500E1A147 /* PrimitiveTypeSpecifier.hpp */,
 				F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */,
 				F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */,
@@ -975,6 +987,7 @@
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
 				F50FA2D71E2D12E000435EEA /* TestModelDefinition.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
+				F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */,
 				F50FA2F81E2E3B3900435EEA /* TestLongConstant.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* FunctionDeclaration.cpp in Sources */,
@@ -1083,6 +1096,7 @@
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F50FA2D41E2D0AD600435EEA /* ModelFieldDeclaration.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
+				F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F50FA2E51E2E3B0900435EEA /* DoubleConstant.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 			);

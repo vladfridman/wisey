@@ -10,13 +10,14 @@
 #define CharConstant_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
 
 /**
  * Represents a constant character
  */
-class CharConstant : public IExpression {
+class CharConstant : public IExpression, IHasType {
   char mValue;
   
 public:
@@ -26,6 +27,8 @@ public:
   ~CharConstant() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType() const override;
 };
   
 } /* namespace yazyk */

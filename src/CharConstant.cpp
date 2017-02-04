@@ -9,10 +9,15 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/CharConstant.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
 Value* CharConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), mValue);
+}
+
+IType* CharConstant::getType() const {
+  return PrimitiveTypes::CHARTYPE;
 }
