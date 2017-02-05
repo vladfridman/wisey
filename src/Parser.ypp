@@ -2,7 +2,7 @@
   #include "yazyk/AddditiveMultiplicativeExpression.hpp"
   #include "yazyk/Assignment.hpp"
   #include "yazyk/Block.hpp"
-  #include "yazyk/BooleanConstant.hpp"
+  #include "yazyk/BooleanConstants.hpp"
   #include "yazyk/BreakStatement.hpp"
   #include "yazyk/CaseStatement.hpp"
   #include "yazyk/CharConstant.hpp"
@@ -278,8 +278,8 @@ constant
   | TLONG { $$ = new LongConstant(atoll($1->c_str())); delete $1; }
   | TFLOAT { $$ = new FloatConstant(atof($1->c_str())); delete $1; }
   | TDOUBLE { $$ = new DoubleConstant(strtod($1->c_str(), NULL)); delete $1; }
-  | TTRUE { $$ = &True; }
-  | TFALSE { $$ = &False; }
+  | TTRUE { $$ = BooleanConstants::BOOLEAN_TRUE; }
+  | TFALSE { $$ = BooleanConstants::BOOLEAN_FALSE; }
   ;
     
 string

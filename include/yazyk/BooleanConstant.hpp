@@ -32,10 +32,6 @@ public:
   
 };
   
-static BooleanConstant True(true);
-
-static BooleanConstant False(false);
-  
 } /* namespace yazyk */
 
 #endif /* BooleanConstant_h */

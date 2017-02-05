@@ -17,6 +17,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/BooleanConstant.hpp"
+#include "yazyk/BooleanConstants.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -41,14 +42,14 @@ struct BooleanConstantTest : public Test {
 };
 
 TEST_F(BooleanConstantTest, BooleanTrueConstantTest) {
-  Value* irValue = True.generateIR(mContext);
+  Value* irValue = BooleanConstants::BOOLEAN_TRUE->generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 true", mStringStream->str().c_str());
 }
 
 TEST_F(BooleanConstantTest, BooleanFalseConstantTest) {
-  Value* irValue = False.generateIR(mContext);
+  Value* irValue = BooleanConstants::BOOLEAN_FALSE->generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 false", mStringStream->str().c_str());

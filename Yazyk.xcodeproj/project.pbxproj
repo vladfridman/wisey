@@ -13,6 +13,8 @@
 		F507D2661E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
 		F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
+		F507D2781E474E7C00495E2D /* BooleanConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2761E474E7C00495E2D /* BooleanConstants.cpp */; };
+		F507D2791E474E7C00495E2D /* BooleanConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2761E474E7C00495E2D /* BooleanConstants.cpp */; };
 		F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */; };
@@ -263,6 +265,8 @@
 		F507D2721E460A2B00495E2D /* DoubleType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DoubleType.hpp; path = include/yazyk/DoubleType.hpp; sourceTree = "<group>"; };
 		F507D2731E46109200495E2D /* VoidType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VoidType.hpp; path = include/yazyk/VoidType.hpp; sourceTree = "<group>"; };
 		F507D2741E474AB700495E2D /* BooleanType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanType.hpp; path = include/yazyk/BooleanType.hpp; sourceTree = "<group>"; };
+		F507D2751E474DFE00495E2D /* BooleanConstants.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanConstants.hpp; path = include/yazyk/BooleanConstants.hpp; sourceTree = "<group>"; };
+		F507D2761E474E7C00495E2D /* BooleanConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanConstants.cpp; path = src/BooleanConstants.cpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompoundStatement.cpp; path = tests/TestCompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A21E269E4400435EEA /* CaseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CaseStatement.hpp; path = include/yazyk/CaseStatement.hpp; sourceTree = "<group>"; };
@@ -757,6 +761,7 @@
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
 				F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */,
+				F507D2761E474E7C00495E2D /* BooleanConstants.cpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -819,6 +824,7 @@
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
 				F531B6401E0A162D008304F3 /* Block.hpp */,
 				F50FA3031E325DEA00435EEA /* BooleanConstant.hpp */,
+				F507D2751E474DFE00495E2D /* BooleanConstants.hpp */,
 				F507D2741E474AB700495E2D /* BooleanType.hpp */,
 				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
 				F50FA2A21E269E4400435EEA /* CaseStatement.hpp */,
@@ -1017,6 +1023,7 @@
 				F50FA2E91E2E3B0F00435EEA /* DoubleConstant.cpp in Sources */,
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestFunctionDeclaration.cpp in Sources */,
+				F507D2791E474E7C00495E2D /* BooleanConstants.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F59D82241E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
@@ -1075,6 +1082,7 @@
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
+				F507D2781E474E7C00495E2D /* BooleanConstants.cpp in Sources */,
 				F531B6541E0DDD96008304F3 /* String.cpp in Sources */,
 				F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */,
 				F50FA2FF1E323AAD00435EEA /* Scopes.cpp in Sources */,
