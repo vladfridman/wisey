@@ -88,7 +88,7 @@
 /**
  * Tokens used in yazyk 
  */
-%token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
+%token <string> TIDENTIFIER TTYPEBOOLEAN TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
 %token <token> TCEQ TCNE TCLE TCGE TTRUE TFALSE
 %token <token> TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
@@ -385,7 +385,8 @@ type_specifier
   ;
 
 primitive_type_specifier
-  : TTYPEINT { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT); }
+  : TTYPEBOOLEAN { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_BOOLEAN); }
+  | TTYPEINT { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT); }
   | TTYPELONG { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_LONG); }
   | TTYPEFLOAT { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT); }
   | TTYPEDOUBLE { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_DOUBLE); }

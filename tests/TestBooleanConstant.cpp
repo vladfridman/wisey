@@ -64,3 +64,7 @@ TEST_F(BooleanConstantTest, TestBooleanConstantType) {
 TEST_F(TestFileSampleRunner, BooleanConstantTest) {
   runFile("tests/samples/test_boolean_constant.yz", "7");
 }
+
+TEST_F(TestFileSampleRunner, BooleanVariableTest) {
+  runFile("tests/samples/test_boolean_variable.yz", "5");
+}

@@ -14,7 +14,9 @@ using namespace yazyk;
 
 Type* PrimitiveTypeSpecifier::getLLVMType(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  if (mType == PRIMITIVE_TYPE_INT) {
+  if (mType == PRIMITIVE_TYPE_BOOLEAN) {
+    return (Type*) Type::getInt1Ty(llvmContext);
+  } else if (mType == PRIMITIVE_TYPE_INT) {
     return (Type*) Type::getInt32Ty(llvmContext);
   } else if (mType == PRIMITIVE_TYPE_LONG) {
     return (Type*)  Type::getInt64Ty(llvmContext);

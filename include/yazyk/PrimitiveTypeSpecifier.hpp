@@ -18,6 +18,7 @@ namespace yazyk {
  * Prmitive types used in yazyk
  */
 typedef enum PrimitiveTypeEnum {
+  PRIMITIVE_TYPE_BOOLEAN,
   PRIMITIVE_TYPE_INT,
   PRIMITIVE_TYPE_LONG,
   PRIMITIVE_TYPE_FLOAT,

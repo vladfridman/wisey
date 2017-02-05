@@ -1,0 +1,9 @@
+int main() {
+  boolean var = true;
+  
+  if (var) {
+    return 5;
+  }
+
+  return 0;
+}
