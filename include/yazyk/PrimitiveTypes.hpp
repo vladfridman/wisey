@@ -9,6 +9,7 @@
 #ifndef PrimitiveTypes_h
 #define PrimitiveTypes_h
 
+#include "yazyk/BooleanType.hpp"
 #include "yazyk/CharType.hpp"
 #include "yazyk/DoubleType.hpp"
 #include "yazyk/FloatType.hpp"
@@ -25,6 +26,7 @@ class PrimitiveTypes {
 
 public:
   
+  static BooleanType* BOOLEAN_TYPE;
   static CharType* CHAR_TYPE;
   static DoubleType* DOUBLE_TYPE;
   static FloatType* FLOAT_TYPE;

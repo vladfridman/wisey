@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/BooleanConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -51,6 +52,12 @@ TEST_F(BooleanConstantTest, BooleanFalseConstantTest) {
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 false", mStringStream->str().c_str());
+}
+
+TEST_F(BooleanConstantTest, TestBooleanConstantType) {
+  BooleanConstant booleanConstant(true);
+  
+  EXPECT_EQ(booleanConstant.getType(), PrimitiveTypes::BOOLEAN_TYPE);
 }
 
 TEST_F(TestFileSampleRunner, BooleanConstantTest) {

@@ -10,13 +10,14 @@
 #define BooleanConstant_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
   
 /**
  * Represents a constant boolean
  */
-class BooleanConstant : public IExpression {
+class BooleanConstant : public IExpression, IHasType {
   bool mValue;
   
 public:
@@ -26,6 +27,8 @@ public:
   ~BooleanConstant() {}
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType() const override;
   
 };
   

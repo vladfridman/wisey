@@ -10,6 +10,8 @@
 
 using namespace yazyk;
 
+BooleanType* PrimitiveTypes::BOOLEAN_TYPE = new BooleanType();
+
 CharType* PrimitiveTypes::CHAR_TYPE = new CharType();
 
 DoubleType* PrimitiveTypes::DOUBLE_TYPE = new DoubleType();

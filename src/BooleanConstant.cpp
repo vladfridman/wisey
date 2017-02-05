@@ -9,10 +9,15 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/BooleanConstant.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
 Value* BooleanConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), mValue);
+}
+
+IType* BooleanConstant::getType() const {
+  return PrimitiveTypes::BOOLEAN_TYPE;
 }
