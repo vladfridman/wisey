@@ -34,8 +34,6 @@ public:
   Variable(llvm::Value* value, VariableStorageType storageType)
     : mValue(value), mStorageType(storageType) { }
   
-  Variable() : mValue(NULL), mStorageType(STACK_VARIABLE) {}
-  
   ~Variable() { }
   
   llvm::Value* getValue() { return mValue; }
