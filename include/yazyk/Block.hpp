@@ -11,7 +11,6 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/IStatement.hpp"
 
@@ -20,7 +19,7 @@ namespace yazyk {
 /**
  * Represents a block of statements
  */
-class Block : public IExpression {
+class Block : public IStatement {
   StatementList mStatements;
   
 public:
