@@ -21,9 +21,11 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   
   Model* model = context.getModel(mModelTypeSpecifier.getName());
   checkArguments(model);
+  LLVMContext& llvmContext = context.getLLVMContext();
   
-  Type* pointerType = Type::getInt32Ty(context.getLLVMContext());
-  Type* structType = mModelTypeSpecifier.getLLVMType(context)->getPointerElementType();
+  Type* pointerType = Type::getInt32Ty(llvmContext);
+  IType* yazykType = mModelTypeSpecifier.getType(context);
+  Type* structType = yazykType->getLLVMType(llvmContext)->getPointerElementType();
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
   Instruction* malloc = CallInst::CreateMalloc(context.getBasicBlock(),
@@ -36,7 +38,6 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   
   context.getBasicBlock()->getInstList().push_back(malloc);
 
-  LLVMContext& llvmContext = context.getLLVMContext();
   Value *Idx[2];
   Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();

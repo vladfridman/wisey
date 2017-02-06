@@ -10,6 +10,7 @@
 #define PrimitiveTypeSpecifier_h
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IType.hpp"
 #include "yazyk/ITypeSpecifier.hpp"
 
 namespace yazyk {
@@ -26,7 +27,7 @@ public:
   
   ~PrimitiveTypeSpecifier() { }
   
-  llvm::Type* getLLVMType(IRGenerationContext& context) const override;
+  IType* getType(IRGenerationContext& context) const override;
   
   VariableStorageType getStorageType() const override;
 };

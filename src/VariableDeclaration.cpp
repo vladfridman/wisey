@@ -32,7 +32,8 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 }
 
 Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
-  AllocaInst *alloc = new AllocaInst(mTypeSpecifier.getLLVMType(context),
+  llvm::Type* llvmType = mTypeSpecifier.getType(context)->getLLVMType(context.getLLVMContext());
+  AllocaInst* alloc = new AllocaInst(llvmType,
                                      mId.getName(),
                                      context.getBasicBlock());
   

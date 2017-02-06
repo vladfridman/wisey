@@ -9,6 +9,7 @@
 #ifndef ITypeSpecifier_h
 #define ITypeSpecifier_h
 
+#include "yazyk/IType.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Variable.hpp"
 
@@ -24,9 +25,9 @@ public:
   virtual ~ITypeSpecifier() { }
   
   /**
-   * Get LLVM type corresponding to the current type
+   * Get the type corresponding to the type specifier
    */
-  virtual llvm::Type* getLLVMType(IRGenerationContext& context) const = 0;
+  virtual IType* getType(IRGenerationContext& context) const = 0;
   
   /**
    * Tells whether this type should be allocated on stack or heap

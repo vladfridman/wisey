@@ -26,7 +26,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
       iterator != mFields.end();
       iterator++, index++) {
     ModelFieldDeclaration *field = *iterator;
-    Type* fieldType = field->getTypeSpecifier().getLLVMType(context);
+    Type* fieldType = field->getTypeSpecifier().getType(context)->getLLVMType(llvmContext);
     
     ModelField* modelField = new ModelField(fieldType, index);
     (*fields)[field->getName()] = modelField;

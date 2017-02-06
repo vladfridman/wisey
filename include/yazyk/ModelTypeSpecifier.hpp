@@ -11,6 +11,8 @@
 
 #include <string>
 
+#include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IType.hpp"
 #include "yazyk/ITypeSpecifier.hpp"
 
 namespace yazyk {
@@ -29,7 +31,7 @@ public:
   
   const std::string getName() const;
 
-  llvm::Type* getLLVMType(IRGenerationContext& context) const override;
+  IType* getType(IRGenerationContext& context) const override;
 
   VariableStorageType getStorageType() const override;
 };

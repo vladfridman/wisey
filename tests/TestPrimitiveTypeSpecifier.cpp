@@ -19,9 +19,8 @@ using namespace yazyk;
 
 TEST(PrimitiveTypeSpecifierTest, CreationTest) {
   IRGenerationContext context;
-  LLVMContext& llvmContext = context.getLLVMContext();
   PrimitiveTypeSpecifier primitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   
-  EXPECT_EQ(primitiveTypeSpecifier.getLLVMType(context), Type::getInt32Ty(llvmContext));
+  EXPECT_EQ(primitiveTypeSpecifier.getType(context), PrimitiveTypes::INT_TYPE);
   EXPECT_EQ(primitiveTypeSpecifier.getStorageType(), STACK_VARIABLE);
 }

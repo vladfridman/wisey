@@ -12,8 +12,8 @@
 using namespace llvm;
 using namespace yazyk;
 
-Type* PrimitiveTypeSpecifier::getLLVMType(IRGenerationContext& context) const {
-  return mType->getLLVMType(context.getLLVMContext());
+IType* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
+  return mType;
 }
 
 VariableStorageType PrimitiveTypeSpecifier::getStorageType() const {
