@@ -38,12 +38,12 @@ public:
   /**
    * Looks for a field with a given name in the model
    */
-  ModelField* findField(std::string fieldName);
+  ModelField* findField(std::string fieldName) const;
   
   /**
    * Gets a set of field names and returns the ones that are missing
    */
-  std::vector<std::string> getMissingFields(std::set<std::string> givenFields);
+  std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
 
   std::string getName() const override;
   

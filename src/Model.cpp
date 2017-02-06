@@ -22,7 +22,7 @@ Model::~Model() {
   delete mFields;
 }
 
-ModelField* Model::findField(string fieldName) {
+ModelField* Model::findField(string fieldName) const {
   if (mFields->count(fieldName)) {
     return mFields->at(fieldName);
   }
@@ -30,7 +30,7 @@ ModelField* Model::findField(string fieldName) {
   return NULL;
 }
 
-vector<string> Model::getMissingFields(set<string> givenFields) {
+vector<string> Model::getMissingFields(set<string> givenFields) const {
   vector<string> missingFields;
   
   for (map<string, ModelField*>::iterator iterator = mFields->begin();
