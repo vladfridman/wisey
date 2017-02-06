@@ -11,6 +11,9 @@
 
 #include <string>
 
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Type.h>
+
 namespace yazyk {
 
 /**
@@ -26,6 +29,11 @@ public:
    * Returns type name
    */
   virtual std::string getName() const = 0;
+  
+  /**
+   * Return corresponding LLVM type
+   */
+  virtual llvm::Type* getLLVMType(llvm::LLVMContext& llvmContext) const = 0;
 };
 
 } /* namespace yazyk */

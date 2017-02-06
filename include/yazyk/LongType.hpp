@@ -24,7 +24,9 @@ public:
   
   ~LongType() { }
   
-  std::string getName() const override { return "long"; }
+  std::string getName() const override;
+  
+  llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
 };
   
 } /* namespace yazyk */

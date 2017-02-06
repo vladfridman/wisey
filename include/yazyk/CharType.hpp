@@ -9,6 +9,9 @@
 #ifndef CharType_h
 #define CharType_h
 
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Type.h>
+
 #include "yazyk/IType.hpp"
 
 namespace yazyk {
@@ -24,7 +27,9 @@ public:
   
   ~CharType() { }
   
-  std::string getName() const override { return "char"; }
+  std::string getName() const override;
+  
+  llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
 };
 
 } /* namespace yazyk */

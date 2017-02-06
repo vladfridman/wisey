@@ -9,6 +9,9 @@
 #ifndef VoidType_h
 #define VoidType_h
 
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Type.h>
+
 #include "yazyk/IType.hpp"
 
 namespace yazyk {
@@ -24,7 +27,9 @@ public:
   
   ~VoidType() { }
   
-  std::string getName() const override { return "void"; }
+  std::string getName() const override;
+  
+  llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
 };
   
 } /* namespace yazyk */

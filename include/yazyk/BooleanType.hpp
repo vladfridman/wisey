@@ -24,7 +24,9 @@ public:
   
   ~BooleanType() { }
   
-  std::string getName() const override { return "boolean"; }
+  std::string getName() const override;
+  
+  llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
 };
 
 } /* namespace yazyk */
