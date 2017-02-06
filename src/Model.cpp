@@ -30,8 +30,19 @@ ModelField* Model::findField(string fieldName) {
   return NULL;
 }
 
-map<string, ModelField*>* Model::getFields() {
-  return mFields;
+vector<string> Model::getMissingFields(set<string> givenFields) {
+  vector<string> missingFields;
+  
+  for (map<string, ModelField*>::iterator iterator = mFields->begin();
+       iterator != mFields->end();
+       iterator++) {
+    string modelFieldName = iterator->first;
+    if (givenFields.find(modelFieldName) == givenFields.end()) {
+      missingFields.push_back(modelFieldName);
+    }
+  }
+  
+  return missingFields;
 }
 
 string Model::getName() const {

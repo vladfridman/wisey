@@ -83,8 +83,6 @@ void ModelBuilder::checkArgumentsAreWellFormed(Model* model) const {
 }
 
 void ModelBuilder::checkAllFieldsAreSet(Model* model) const {
-  bool areAllFieldsInitialized = true;
-
   set<string> allFieldsThatAreSet;
   for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();
        iterator != mModelBuilderArgumentList->end();
@@ -93,18 +91,16 @@ void ModelBuilder::checkAllFieldsAreSet(Model* model) const {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
   }
   
-  for (map<string, ModelField*>::iterator iterator = model->getFields()->begin();
-       iterator != model->getFields()->end();
+  vector<string> missingFields = model->getMissingFields(allFieldsThatAreSet);
+  if (missingFields.size() == 0) {
+    return;
+  }
+  
+  for (vector<string>::iterator iterator = missingFields.begin();
+       iterator != missingFields.end();
        iterator++) {
-    string modelFieldName = iterator->first;
-    if (allFieldsThatAreSet.find(modelFieldName) == allFieldsThatAreSet.end()) {
-      Log::e("Field '" + modelFieldName + "' is not initialized");
-      areAllFieldsInitialized = false;
-    }
+    Log::e("Field '" + *iterator + "' is not initialized");
   }
-
-  if (!areAllFieldsInitialized) {
-    Log::e("Some fields of the model '" + model->getName() + "' are not initialized.");
-    exit(1);
-  }
+  Log::e("Some fields of the model '" + model->getName() + "' are not initialized.");
+  exit(1);
 }

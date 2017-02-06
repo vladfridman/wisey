@@ -9,6 +9,8 @@
 #ifndef Model_h
 #define Model_h
 
+#include <set>
+
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/IType.hpp"
@@ -39,9 +41,9 @@ public:
   ModelField* findField(std::string fieldName);
   
   /**
-   * Returns all fields
+   * Gets a set of field names and returns the ones that are missing
    */
-  std::map<std::string, ModelField*>* getFields();
+  std::vector<std::string> getMissingFields(std::set<std::string> givenFields);
 
   std::string getName() const override;
   
