@@ -32,6 +32,7 @@ WS  [ \t\v\n\f]
 
 [ \t\n]                       ;
 "boolean"                     return TOKEN(TTYPEBOOLEAN);
+"char"                        return TOKEN(TTYPECHAR);
 "int"                         return TOKEN(TTYPEINT);
 "long"                        return TOKEN(TTYPELONG);
 "float"                       return TOKEN(TTYPEFLOAT);

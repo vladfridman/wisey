@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestFileSampleRunner.hpp"
 #include "yazyk/CharConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -39,4 +40,8 @@ TEST(CharConstantTest, TestCharConstantType) {
   CharConstant charConstant('y');
 
   EXPECT_EQ(charConstant.getType(), PrimitiveTypes::CHAR_TYPE);
+}
+
+TEST_F(TestFileSampleRunner, CharVariableTest) {
+  runFile("tests/samples/test_char_variable.yz", "7");
 }

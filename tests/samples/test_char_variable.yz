@@ -1,0 +1,9 @@
+int main() {
+  char var = 'y';
+  
+  if (var == 'y') {
+    return 7;
+  }
+
+  return 0;
+}
