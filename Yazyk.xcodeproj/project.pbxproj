@@ -235,6 +235,7 @@
 		F5C6FD851E48B7A00054209D /* LongType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD841E48B7A00054209D /* LongType.cpp */; };
 		F5C6FD861E48B7A00054209D /* LongType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD841E48B7A00054209D /* LongType.cpp */; };
 		F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD871E48B7DE0054209D /* TestLongType.cpp */; };
+		F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD891E48D08F0054209D /* TestModel.cpp */; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -506,6 +507,7 @@
 		F5C6FD821E48B7260054209D /* TestIntType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIntType.cpp; path = tests/TestIntType.cpp; sourceTree = "<group>"; };
 		F5C6FD841E48B7A00054209D /* LongType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LongType.cpp; path = src/LongType.cpp; sourceTree = "<group>"; };
 		F5C6FD871E48B7DE0054209D /* TestLongType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLongType.cpp; path = tests/TestLongType.cpp; sourceTree = "<group>"; };
+		F5C6FD891E48D08F0054209D /* TestModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModel.cpp; path = tests/TestModel.cpp; sourceTree = "<group>"; };
 		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 		F5E209261E07796300E1A147 /* VariableDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableDeclaration.hpp; path = include/yazyk/VariableDeclaration.hpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
@@ -651,6 +653,7 @@
 				F50FA2F01E2E3B2A00435EEA /* TestLongConstant.cpp */,
 				F5C6FD871E48B7DE0054209D /* TestLongType.cpp */,
 				F531B6501E0DCA9C008304F3 /* TestMethodCall.cpp */,
+				F5C6FD891E48D08F0054209D /* TestModel.cpp */,
 				F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */,
 				F5F396DD1E3F898900F34296 /* TestModelBuilderArgument.cpp */,
 				F50FA2D61E2D12E000435EEA /* TestModelDefinition.cpp */,
@@ -1092,6 +1095,7 @@
 				F5C6FD771E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */,
+				F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,

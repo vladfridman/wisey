@@ -24,4 +24,5 @@ TEST(BooleanType, BooleanType) {
   
   EXPECT_EQ(booleanType.getLLVMType(llvmContext), (llvm::Type*) Type::getInt1Ty(llvmContext));
   EXPECT_STREQ(booleanType.getName().c_str(), "boolean");
+  EXPECT_EQ(booleanType.getTypeKind(), PRIMITIVE_TYPE);
 }

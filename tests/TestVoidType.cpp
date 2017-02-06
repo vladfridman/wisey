@@ -24,4 +24,5 @@ TEST(VoidTypeTest, VoidTypeTest) {
   
   EXPECT_EQ(voidType.getLLVMType(llvmContext), Type::getVoidTy(llvmContext));
   EXPECT_STREQ(voidType.getName().c_str(), "void");
+  EXPECT_EQ(voidType.getTypeKind(), PRIMITIVE_TYPE);
 }

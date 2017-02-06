@@ -19,3 +19,7 @@ string CharType::getName() const {
 llvm::Type* CharType::getLLVMType(LLVMContext& llvmContext) const {
   return (llvm::Type*) Type::getInt8Ty(llvmContext);
 }
+
+TypeKind CharType::getTypeKind() const {
+  return PRIMITIVE_TYPE;
+}

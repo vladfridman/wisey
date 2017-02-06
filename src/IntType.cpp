@@ -19,3 +19,7 @@ string IntType::getName() const {
 llvm::Type* IntType::getLLVMType(LLVMContext& llvmContext) const {
   return (llvm::Type*) Type::getInt32Ty(llvmContext);
 }
+
+TypeKind IntType::getTypeKind() const {
+  return PRIMITIVE_TYPE;
+}

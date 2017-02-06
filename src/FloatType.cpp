@@ -19,3 +19,7 @@ string FloatType::getName() const {
 llvm::Type* FloatType::getLLVMType(LLVMContext& llvmContext) const {
   return Type::getFloatTy(llvmContext);
 }
+
+TypeKind FloatType::getTypeKind() const {
+  return PRIMITIVE_TYPE;
+}

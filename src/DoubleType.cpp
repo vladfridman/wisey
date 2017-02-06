@@ -19,3 +19,7 @@ string DoubleType::getName() const {
 llvm::Type* DoubleType::getLLVMType(LLVMContext& llvmContext) const {
   return Type::getDoubleTy(llvmContext);
 }
+
+TypeKind DoubleType::getTypeKind() const {
+  return PRIMITIVE_TYPE;
+}

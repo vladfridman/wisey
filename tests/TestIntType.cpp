@@ -24,4 +24,5 @@ TEST(IntTypeTest, IntTypeTest) {
   
   EXPECT_EQ(intType.getLLVMType(llvmContext), (llvm::Type*) Type::getInt32Ty(llvmContext));
   EXPECT_STREQ(intType.getName().c_str(), "int");
+  EXPECT_EQ(intType.getTypeKind(), PRIMITIVE_TYPE);
 }

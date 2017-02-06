@@ -17,6 +17,15 @@
 namespace yazyk {
 
 /**
+ * Lists possible data type kinds
+ */
+typedef enum TypeKindEnum {
+  PRIMITIVE_TYPE,
+  MODEL_TYPE,
+  CONTROLLER_TYPE,
+} TypeKind;
+
+/**
  * Interface representing expression type in Yazyk language
  */
 class IType {
@@ -34,6 +43,11 @@ public:
    * Return corresponding LLVM type
    */
   virtual llvm::Type* getLLVMType(llvm::LLVMContext& llvmContext) const = 0;
+  
+  /**
+   * Tells what kind of data type is this type: primitive/model/controller
+   */
+  virtual TypeKind getTypeKind() const = 0;
 };
 
 } /* namespace yazyk */

@@ -52,3 +52,7 @@ string Model::getName() const {
 llvm::Type* Model::getLLVMType(LLVMContext& llvmContext) const {
   return mStructType->getPointerTo();
 }
+
+TypeKind Model::getTypeKind() const {
+  return MODEL_TYPE;
+}

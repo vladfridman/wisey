@@ -24,4 +24,5 @@ TEST(FloatTypeTest, FloatTypeTest) {
   
   EXPECT_EQ(floatType.getLLVMType(llvmContext), Type::getFloatTy(llvmContext));
   EXPECT_STREQ(floatType.getName().c_str(), "float");
+  EXPECT_EQ(floatType.getTypeKind(), PRIMITIVE_TYPE);
 }

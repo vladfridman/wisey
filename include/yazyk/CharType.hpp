@@ -30,6 +30,8 @@ public:
   std::string getName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
+  
+  TypeKind getTypeKind() const override;
 };
 
 } /* namespace yazyk */

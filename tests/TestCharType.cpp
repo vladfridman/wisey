@@ -24,4 +24,5 @@ TEST(CharTypeTest, CharTypeTest) {
   
   EXPECT_EQ(charType.getLLVMType(llvmContext), (llvm::Type*) Type::getInt8Ty(llvmContext));
   EXPECT_STREQ(charType.getName().c_str(), "char");
+  EXPECT_EQ(charType.getTypeKind(), PRIMITIVE_TYPE);
 }

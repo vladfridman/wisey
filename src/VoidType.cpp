@@ -19,3 +19,7 @@ string VoidType::getName() const {
 llvm::Type* VoidType::getLLVMType(LLVMContext& llvmContext) const {
   return Type::getVoidTy(llvmContext);
 }
+
+TypeKind VoidType::getTypeKind() const {
+  return PRIMITIVE_TYPE;
+}
