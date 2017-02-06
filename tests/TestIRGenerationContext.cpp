@@ -66,7 +66,7 @@ TEST(IRGenerationContextTest, ModelTypeRegistryTest) {
   StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
   map<string, ModelField*>* fields = new map<string, ModelField*>();
   Model* model = new Model("mymodel", structType, fields);
-  context.addModel("mymodel", model);
+  context.addModel(model);
   Model* resultModel = context.getModel("mymodel");
   
   ASSERT_NE(resultModel, nullptr);
@@ -80,9 +80,9 @@ TEST(IRGenerationContextTest, ModelTypeRedefinedDeathTest) {
   StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
   map<string, ModelField*>* fields = new map<string, ModelField*>();
   Model* model = new Model("mymodel", structType, fields);
-  context.addModel("mymodel", model);
+  context.addModel(model);
   
-  EXPECT_EXIT(context.addModel("mymodel", model),
+  EXPECT_EXIT(context.addModel(model),
               ::testing::ExitedWithCode(1),
               "Redefinition of MODEL mymodel");
 }

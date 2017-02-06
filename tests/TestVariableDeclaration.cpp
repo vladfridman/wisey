@@ -114,7 +114,7 @@ TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
   (*fields)["fieldB"] = fieldB;
   Model* model = new Model("model", structType, fields);
 
-  mContext.addModel("model.model", model);
+  mContext.addModel(model);
   VariableDeclaration declaration(typeSpecifier, identifier);
   
   declaration.generateIR(mContext);

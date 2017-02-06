@@ -36,7 +36,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   structType->setBody(types);
   
   Model* model = new Model(mName, structType, fields);
-  context.addModel(mName, model);
+  context.addModel(model);
   
   return NULL;
 }

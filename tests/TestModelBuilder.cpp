@@ -61,7 +61,7 @@ struct ModelBuilderTest : Test {
     (*fields)["width"] = widthField;
     (*fields)["height"] = heightField;
     Model* model = new Model("Shape", structType, fields);
-    mContext.addModel("Shape", model);
+    mContext.addModel(model);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(mFieldValue1, generateIR(_)).WillByDefault(Return(fieldValue1));
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);

@@ -56,7 +56,8 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
   mBasicBlock = block;
 }
 
-void IRGenerationContext::addModel(string name, Model* model) {
+void IRGenerationContext::addModel(Model* model) {
+  string name = model->getName();
   if (mModels.count(name)) {
     Log::e("Redefinition of MODEL " + name);
     exit(1);

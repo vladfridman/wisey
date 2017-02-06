@@ -74,7 +74,7 @@ public:
   /**
    * Add a MODEL type
    */
-  void addModel(std::string name, Model* model);
+  void addModel(Model* model);
   
   /**
    * Look up a MODEL type
