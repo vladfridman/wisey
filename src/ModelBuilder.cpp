@@ -77,8 +77,7 @@ void ModelBuilder::checkArgumentsAreWellFormed(Model* model) const {
   }
   
   if (!areArgumentsWellFormed) {
-    Log::e("Some arguments for the model '" + model->getStructType()->getName().str() +
-           "' builder are not well formed");
+    Log::e("Some arguments for the model '" + model->getName() + "' builder are not well formed");
     exit(1);
   }
 }
@@ -105,8 +104,7 @@ void ModelBuilder::checkAllFieldsAreSet(Model* model) const {
   }
 
   if (!areAllFieldsInitialized) {
-    Log::e("Some fields of the model '" + model->getStructType()->getName().str()
-           + "' are not initialized.");
+    Log::e("Some fields of the model '" + model->getName() + "' are not initialized.");
     exit(1);
   }
 }

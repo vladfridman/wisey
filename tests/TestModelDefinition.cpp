@@ -36,8 +36,8 @@ TEST(ModelDefinitionTest, TestSimpleDefinition) {
   ModelDefinition modelDefinition("mymodel", fields);
   
   modelDefinition.generateIR(context);
-  Model* model = context.getModel("model.mymodel");
-  StructType* structType = model->getStructType();
+  Model* model = context.getModel("mymodel");
+  StructType* structType = (StructType*) model->getLLVMType(llvmContext)->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
   EXPECT_TRUE(structType->getNumElements() == 2);

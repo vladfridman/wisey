@@ -26,7 +26,7 @@ class ModelDefinition : public IStatement {
 public:
   
   ModelDefinition(std::string name, std::vector<ModelFieldDeclaration*>& fields)
-    : mName("model." + name), mFields(fields) { }
+    : mName(name), mFields(fields) { }
   
   ~ModelDefinition() { }
   

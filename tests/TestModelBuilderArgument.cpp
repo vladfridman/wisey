@@ -43,7 +43,7 @@ struct ModelBuilderArgumentTest : Test {
     map<string, ModelField*>* fields = new map<string, ModelField*>();
     ModelField* fieldA = new ModelField(Type::getInt32Ty(llvmContext), 0);
     (*fields)["fieldA"] = fieldA;
-    mModel = new Model(structType, fields);
+    mModel = new Model("MyModel", structType, fields);
   }
 };
 

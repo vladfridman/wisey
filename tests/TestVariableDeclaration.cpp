@@ -112,7 +112,7 @@ TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
   ModelField* fieldB = new ModelField(Type::getInt32Ty(mLLVMContext), 0);
   (*fields)["fieldA"] = fieldA;
   (*fields)["fieldB"] = fieldB;
-  Model* model = new Model(structType, fields);
+  Model* model = new Model("model", structType, fields);
 
   mContext.addModel("model.model", model);
   VariableDeclaration declaration(typeSpecifier, identifier);

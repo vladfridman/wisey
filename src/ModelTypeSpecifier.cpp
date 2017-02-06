@@ -17,7 +17,7 @@ const string ModelTypeSpecifier::getName() const {
 }
 
 Type* ModelTypeSpecifier::getLLVMType(IRGenerationContext& context) const {
-  return context.getModel(mName)->getStructType()->getPointerTo();
+  return context.getModel(mName)->getLLVMType(context.getLLVMContext());
 }
 
 VariableStorageType ModelTypeSpecifier::getStorageType() const {

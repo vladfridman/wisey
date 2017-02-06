@@ -11,6 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/IType.hpp"
 #include "yazyk/ModelField.hpp"
 
 namespace yazyk {
@@ -18,22 +19,33 @@ namespace yazyk {
 /**
  * Contains information about a MODEL including the llvm::StructType and field information
  */
-class Model {
+class Model : public IType {
+  std::string mName;
   llvm::StructType* mStructType;
   std::map<std::string, ModelField*>* mFields;
   
 public:
   
-  Model(llvm::StructType* structType, std::map<std::string, ModelField*>* fields) :
-    mStructType(structType), mFields(fields) {}
+  Model(std::string name,
+        llvm::StructType* structType,
+        std::map<std::string, ModelField*>* fields) :
+    mName(name), mStructType(structType), mFields(fields) {}
   
   ~Model();
   
-  llvm::StructType* getStructType();
-  
+  /**
+   * Looks for a field with a given name in the model
+   */
   ModelField* findField(std::string fieldName);
   
+  /**
+   * Returns all fields
+   */
   std::map<std::string, ModelField*>* getFields();
+
+  std::string getName() const override;
+  
+  llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
 };
 
 } /* namespace yazyk */

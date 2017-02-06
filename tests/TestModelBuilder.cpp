@@ -30,6 +30,7 @@ using namespace std;
 using namespace yazyk;
 
 using ::testing::_;
+using ::testing::Mock;
 using ::testing::Return;
 
 class MockExpression : public IExpression {
@@ -59,8 +60,8 @@ struct ModelBuilderTest : Test {
     ModelField* heightField = new ModelField(Type::getInt32Ty(llvmContext), 1);
     (*fields)["width"] = widthField;
     (*fields)["height"] = heightField;
-    Model* model = new Model(structType, fields);
-    mContext.addModel("model.Shape", model);
+    Model* model = new Model("Shape", structType, fields);
+    mContext.addModel("Shape", model);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(mFieldValue1, generateIR(_)).WillByDefault(Return(fieldValue1));
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
@@ -141,6 +142,10 @@ TEST_F(ModelBuilderTest, ValidModelBuilderArgumentsTest) {
 }
 
 TEST_F(ModelBuilderTest, InvalidModelBuilderArgumentsDeathTest) {
+  Mock::AllowLeak(&mFieldValue1);
+  Mock::AllowLeak(&mFieldValue2);
+  Mock::AllowLeak(&mFieldValue3);
+
   string argumentSpecifier1("width");
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
   string argumentSpecifier2("withHeight");
@@ -161,6 +166,10 @@ TEST_F(ModelBuilderTest, InvalidModelBuilderArgumentsDeathTest) {
 }
 
 TEST_F(ModelBuilderTest, IncorrectArgumentTypeDeathTest) {
+  Mock::AllowLeak(&mFieldValue1);
+  Mock::AllowLeak(&mFieldValue2);
+  Mock::AllowLeak(&mFieldValue3);
+  
   string argumentSpecifier1("withWidth");
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
   string argumentSpecifier2("withHeight");
@@ -180,6 +189,10 @@ TEST_F(ModelBuilderTest, IncorrectArgumentTypeDeathTest) {
 }
 
 TEST_F(ModelBuilderTest, NotAllFieldsAreSetDeathTest) {
+  Mock::AllowLeak(&mFieldValue1);
+  Mock::AllowLeak(&mFieldValue2);
+  Mock::AllowLeak(&mFieldValue3);
+  
   string argumentSpecifier1("withWidth");
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
   ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();

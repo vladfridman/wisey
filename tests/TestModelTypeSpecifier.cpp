@@ -19,6 +19,6 @@ using namespace yazyk;
 TEST(ModelTypeSpecifierTest, CreationTest) {
   ModelTypeSpecifier modelTypeSpecifier("a");
   
-  EXPECT_EQ(modelTypeSpecifier.getName(), "model.a");
+  EXPECT_EQ(modelTypeSpecifier.getName(), "a");
   EXPECT_EQ(modelTypeSpecifier.getStorageType(), HEAP_VARIABLE);
 }

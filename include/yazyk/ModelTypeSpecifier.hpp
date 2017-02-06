@@ -23,7 +23,7 @@ class ModelTypeSpecifier : public ITypeSpecifier {
 
 public:
   
-  ModelTypeSpecifier(std::string name) : mName("model." + name) { }
+  ModelTypeSpecifier(std::string name) : mName(name) { }
   
   ~ModelTypeSpecifier() { }
   

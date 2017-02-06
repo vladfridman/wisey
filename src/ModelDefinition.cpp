@@ -16,7 +16,7 @@ using namespace yazyk;
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  StructType *structType = StructType::create(llvmContext, mName);
+  StructType *structType = StructType::create(llvmContext, "model." + mName);
 
   vector<Type*> types;
   map<string, ModelField*> *fields = new map<string, ModelField*>();
@@ -35,7 +35,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   
   structType->setBody(types);
   
-  Model* model = new Model(structType, fields);
+  Model* model = new Model(mName, structType, fields);
   context.addModel(mName, model);
   
   return NULL;

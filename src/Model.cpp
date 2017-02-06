@@ -12,8 +12,14 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-StructType* Model::getStructType() {
-  return mStructType;
+Model::~Model() {
+  for (map<string, ModelField*>::iterator iterator = mFields->begin();
+       iterator != mFields->end();
+       iterator++) {
+    ModelField* modelField = iterator->second;
+    delete modelField;
+  }
+  delete mFields;
 }
 
 ModelField* Model::findField(string fieldName) {
@@ -28,12 +34,10 @@ map<string, ModelField*>* Model::getFields() {
   return mFields;
 }
 
-Model::~Model() {
-  for (map<string, ModelField*>::iterator iterator = mFields->begin();
-       iterator != mFields->end();
-       iterator++) {
-    ModelField* modelField = iterator->second;
-    delete modelField;
-  }
-  delete mFields;
+string Model::getName() const {
+  return mName;
+}
+
+llvm::Type* Model::getLLVMType(LLVMContext& llvmContext) const {
+  return mStructType->getPointerTo();
 }
