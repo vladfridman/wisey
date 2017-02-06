@@ -33,6 +33,7 @@
   #include "yazyk/ModelDefinition.hpp"
   #include "yazyk/ModelFieldDeclaration.hpp"
   #include "yazyk/ModelTypeSpecifier.hpp"
+  #include "yazyk/PrimitiveTypes.hpp"
   #include "yazyk/PrimitiveTypeSpecifier.hpp"
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
@@ -385,13 +386,13 @@ type_specifier
   ;
 
 primitive_type_specifier
-  : TTYPEBOOLEAN { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_BOOLEAN); }
-  | TTYPECHAR { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_CHAR); }
-  | TTYPEINT { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT); }
-  | TTYPELONG { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_LONG); }
-  | TTYPEFLOAT { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT); }
-  | TTYPEDOUBLE { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_DOUBLE); }
-  | TTYPEVOID { $$ = new PrimitiveTypeSpecifier(PRIMITIVE_TYPE_VOID); }
+  : TTYPEBOOLEAN { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::BOOLEAN_TYPE); }
+  | TTYPECHAR { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::CHAR_TYPE); }
+  | TTYPEINT { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE); }
+  | TTYPELONG { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE); }
+  | TTYPEFLOAT { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE); }
+  | TTYPEDOUBLE { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::DOUBLE_TYPE); }
+  | TTYPEVOID { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE); }
   ;
 
 model_type_specifier

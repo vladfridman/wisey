@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/ModelDefinition.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
@@ -26,8 +27,8 @@ using namespace yazyk;
 TEST(ModelDefinitionTest, TestSimpleDefinition) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
-  PrimitiveTypeSpecifier longType(PRIMITIVE_TYPE_LONG);
-  PrimitiveTypeSpecifier floatType(PRIMITIVE_TYPE_FLOAT);
+  PrimitiveTypeSpecifier longType(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier floatType(PrimitiveTypes::FLOAT_TYPE);
   ModelFieldDeclaration field1(longType, "field1");
   ModelFieldDeclaration field2(floatType, "field2");
   vector<ModelFieldDeclaration *> fields;

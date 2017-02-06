@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/FunctionDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
@@ -42,8 +43,8 @@ struct FunctionDecalarationTest : Test {
   raw_string_ostream* mStringStream;
   
   FunctionDecalarationTest() :
-    mFloatTypeSpecifier(PrimitiveTypeSpecifier(PRIMITIVE_TYPE_FLOAT)),
-    mIntTypeSpecifier(PrimitiveTypeSpecifier(PRIMITIVE_TYPE_INT)),
+    mFloatTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
+    mIntTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
     mFooFunctionIdentifier(Identifier("foo")),
     mMainFunctionIdentifier(Identifier("main")),
     mArgumentIdentifier(Identifier("bar")),

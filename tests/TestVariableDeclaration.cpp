@@ -19,6 +19,7 @@
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/ModelTypeSpecifier.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
@@ -64,7 +65,7 @@ struct VariableDeclarationTest : public Test {
 
 TEST_F(VariableDeclarationTest, StackVariableDeclarationWithoutAssignmentTest) {
   Identifier identifier("foo", "bar");
-  PrimitiveTypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT);
+  PrimitiveTypeSpecifier typeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableDeclaration declaration(typeSpecifier, identifier);
 
   declaration.generateIR(mContext);
@@ -77,7 +78,7 @@ TEST_F(VariableDeclarationTest, StackVariableDeclarationWithoutAssignmentTest) {
 
 TEST_F(VariableDeclarationTest, StackVariableDeclarationWithAssignmentTest) {
   Identifier identifier("foo", "bar");
-  PrimitiveTypeSpecifier typeSpecifier(PRIMITIVE_TYPE_INT);
+  PrimitiveTypeSpecifier typeSpecifier(PrimitiveTypes::INT_TYPE);
   NiceMock<MockExpression> mExpression;
   Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));

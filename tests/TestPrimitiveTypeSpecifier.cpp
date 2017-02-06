@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
@@ -19,7 +20,7 @@ using namespace yazyk;
 TEST(PrimitiveTypeSpecifierTest, CreationTest) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
-  PrimitiveTypeSpecifier primitiveTypeSpecifier(PRIMITIVE_TYPE_INT);
+  PrimitiveTypeSpecifier primitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   
   EXPECT_EQ(primitiveTypeSpecifier.getLLVMType(context), Type::getInt32Ty(llvmContext));
   EXPECT_EQ(primitiveTypeSpecifier.getStorageType(), STACK_VARIABLE);

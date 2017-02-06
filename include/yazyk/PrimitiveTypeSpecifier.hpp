@@ -15,26 +15,14 @@
 namespace yazyk {
 
 /**
- * Prmitive types used in yazyk
- */
-typedef enum PrimitiveTypeEnum {
-  PRIMITIVE_TYPE_BOOLEAN,
-  PRIMITIVE_TYPE_CHAR,
-  PRIMITIVE_TYPE_INT,
-  PRIMITIVE_TYPE_LONG,
-  PRIMITIVE_TYPE_FLOAT,
-  PRIMITIVE_TYPE_DOUBLE,
-  PRIMITIVE_TYPE_VOID,
-} PrimitiveType;
-
-/**
  * Represents a yazyk primitive type
  */
 class PrimitiveTypeSpecifier : public ITypeSpecifier {
-  PrimitiveType mType;
+  IType* mType;
   
 public:
-  PrimitiveTypeSpecifier(PrimitiveType type) : mType(type) { }
+  
+  PrimitiveTypeSpecifier(IType* type) : mType(type) { }
   
   ~PrimitiveTypeSpecifier() { }
   
