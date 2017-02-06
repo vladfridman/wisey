@@ -14,16 +14,8 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/ModelBuilder.hpp"
-#include "yazyk/ModelDefinition.hpp"
-#include "yazyk/ModelFieldDeclaration.hpp"
-#include "yazyk/ModelTypeSpecifier.hpp"
-#include "yazyk/PrimitiveTypeSpecifier.hpp"
-
-using ::testing::NiceMock;
-using ::testing::Test;
 
 using namespace llvm;
 using namespace std;
@@ -31,7 +23,9 @@ using namespace yazyk;
 
 using ::testing::_;
 using ::testing::Mock;
+using ::testing::NiceMock;
 using ::testing::Return;
+using ::testing::Test;
 
 class MockExpression : public IExpression {
 public:
