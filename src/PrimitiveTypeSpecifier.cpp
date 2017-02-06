@@ -15,7 +15,3 @@ using namespace yazyk;
 IType* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
   return mType;
 }
-
-VariableStorageType PrimitiveTypeSpecifier::getStorageType() const {
-  return STACK_VARIABLE;
-}

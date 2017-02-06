@@ -32,8 +32,6 @@ public:
   const std::string getName() const;
 
   IType* getType(IRGenerationContext& context) const override;
-
-  VariableStorageType getStorageType() const override;
 };
 
 } /* namespace yazyk */

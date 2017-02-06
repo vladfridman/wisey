@@ -22,5 +22,4 @@ TEST(PrimitiveTypeSpecifierTest, CreationTest) {
   PrimitiveTypeSpecifier primitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   
   EXPECT_EQ(primitiveTypeSpecifier.getType(context), PrimitiveTypes::INT_TYPE);
-  EXPECT_EQ(primitiveTypeSpecifier.getStorageType(), STACK_VARIABLE);
 }

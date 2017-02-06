@@ -19,9 +19,9 @@ using namespace std;
 using namespace yazyk;
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
-  Value* value = mTypeSpecifier.getStorageType() == HEAP_VARIABLE
-    ? allocateOnHeap(context)
-    : allocateOnStack(context);
+  Value* value = mTypeSpecifier.getType(context)->getTypeKind() == PRIMITIVE_TYPE
+    ? allocateOnStack(context)
+    : allocateOnHeap(context);
   
   if (mAssignmentExpression != NULL) {
     Assignment assignment(mId, *mAssignmentExpression);

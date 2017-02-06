@@ -19,7 +19,3 @@ const string ModelTypeSpecifier::getName() const {
 IType* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getModel(mName);
 }
-
-VariableStorageType ModelTypeSpecifier::getStorageType() const {
-  return HEAP_VARIABLE;
-}

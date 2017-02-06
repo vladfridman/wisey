@@ -11,7 +11,6 @@
 
 #include "yazyk/IType.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/Variable.hpp"
 
 namespace yazyk {
 
@@ -28,11 +27,6 @@ public:
    * Get the type corresponding to the type specifier
    */
   virtual IType* getType(IRGenerationContext& context) const = 0;
-  
-  /**
-   * Tells whether this type should be allocated on stack or heap
-   */
-  virtual VariableStorageType getStorageType() const = 0;
 };
 
 } /* namespace yazyk */

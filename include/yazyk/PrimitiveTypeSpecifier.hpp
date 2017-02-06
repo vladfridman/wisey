@@ -28,8 +28,6 @@ public:
   ~PrimitiveTypeSpecifier() { }
   
   IType* getType(IRGenerationContext& context) const override;
-  
-  VariableStorageType getStorageType() const override;
 };
   
 } /* namespace yazyk */

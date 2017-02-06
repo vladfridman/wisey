@@ -20,5 +20,4 @@ TEST(ModelTypeSpecifierTest, CreationTest) {
   ModelTypeSpecifier modelTypeSpecifier("a");
   
   EXPECT_EQ(modelTypeSpecifier.getName(), "a");
-  EXPECT_EQ(modelTypeSpecifier.getStorageType(), HEAP_VARIABLE);
 }
