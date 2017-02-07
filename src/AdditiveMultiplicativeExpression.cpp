@@ -1,5 +1,5 @@
 //
-//  AddditiveMultiplicativeExpression.cpp
+//  AdditiveMultiplicativeExpression.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/10/16.
@@ -8,7 +8,7 @@
 
 #include <llvm/IR/InstrTypes.h>
 
-#include "yazyk/AddditiveMultiplicativeExpression.hpp"
+#include "yazyk/AdditiveMultiplicativeExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -17,7 +17,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) const {
+Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) const {
   checkTypes(context);
 
   Instruction::BinaryOps instruction;
@@ -40,12 +40,12 @@ Value* AddditiveMultiplicativeExpression::generateIR(IRGenerationContext& contex
                                       context.getBasicBlock());
 }
 
-IType* AddditiveMultiplicativeExpression::getType(IRGenerationContext& context) const {
+IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) const {
   return mLeftExpression.getType(context);
 }
 
 // TODO: implement a more sensible type checking/casting
-void AddditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context) const {
+void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context) const {
   IType* leftExpressionType = mLeftExpression.getType(context);
   IType* rightExpressionType = mRightExpression.getType(context);
   

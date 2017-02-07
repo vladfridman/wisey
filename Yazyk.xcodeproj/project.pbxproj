@@ -116,8 +116,8 @@
 		F53400E11DFBE7ED0002BF7E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
 		F53400E41DFBF1D10002BF7E /* libgmock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53400E21DFBF1D10002BF7E /* libgmock.a */; };
 		F53400E51DFBF1D10002BF7E /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53400E31DFBF1D10002BF7E /* libgtest.a */; };
-		F53400EE1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */; };
-		F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */; };
+		F53400EE1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */; };
+		F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */; };
 		F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */; };
 		F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */; };
 		F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */; };
@@ -359,8 +359,8 @@
 		F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = RelationalOperation.hpp; path = include/yazyk/RelationalOperation.hpp; sourceTree = "<group>"; };
 		F53400E21DFBF1D10002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = lib/libgmock.a; sourceTree = "<group>"; };
 		F53400E31DFBF1D10002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = lib/libgtest.a; sourceTree = "<group>"; };
-		F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AddditiveMultiplicativeExpression.hpp; path = include/yazyk/AddditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
-		F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AddditiveMultiplicativeExpression.cpp; path = src/AddditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
+		F53400EC1DFC20E70002BF7E /* AdditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AdditiveMultiplicativeExpression.hpp; path = include/yazyk/AdditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
+		F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AdditiveMultiplicativeExpression.cpp; path = src/AdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F53400F11DFC6BA60002BF7E /* test_addition.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_addition.yz; path = tests/samples/test_addition.yz; sourceTree = "<group>"; };
 		F53400F21DFC6BA60002BF7E /* test_division.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_division.yz; path = tests/samples/test_division.yz; sourceTree = "<group>"; };
 		F53400F31DFC6BA60002BF7E /* test_multiplication.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_multiplication.yz; path = tests/samples/test_multiplication.yz; sourceTree = "<group>"; };
@@ -756,7 +756,7 @@
 		F54625BD1DE5E53900074D66 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				F53400ED1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp */,
+				F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */,
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
 				F531B6411E0A16D7008304F3 /* Block.cpp */,
 				F50FA3041E325E5400435EEA /* BooleanConstant.cpp */,
@@ -872,7 +872,7 @@
 		F569E9F91DF9CE6B00BBB20E /* include */ = {
 			isa = PBXGroup;
 			children = (
-				F53400EC1DFC20E70002BF7E /* AddditiveMultiplicativeExpression.hpp */,
+				F53400EC1DFC20E70002BF7E /* AdditiveMultiplicativeExpression.hpp */,
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
 				F531B6401E0A162D008304F3 /* Block.hpp */,
 				F50FA3031E325DEA00435EEA /* BooleanConstant.hpp */,
@@ -1032,7 +1032,7 @@
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
 				F50FA2F61E2E3B3200435EEA /* TestFloatConstant.cpp in Sources */,
-				F53400EF1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
+				F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F50FA2B81E28BA5600435EEA /* DoStatement.cpp in Sources */,
 				F50FA2F51E2E3B2E00435EEA /* TestDoubleConstant.cpp in Sources */,
@@ -1146,7 +1146,7 @@
 				F5C6FD6A1E48B33A0054209D /* VoidType.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
-				F53400EE1DFC21B40002BF7E /* AddditiveMultiplicativeExpression.cpp in Sources */,
+				F53400EE1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,

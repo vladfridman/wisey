@@ -1,13 +1,13 @@
 //
-//  AddditiveMultiplicativeExpression.hpp
+//  AdditiveMultiplicativeExpression.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/10/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef AddditiveMultiplicativeExpression_hpp
-#define AddditiveMultiplicativeExpression_hpp
+#ifndef AdditiveMultiplicativeExpression_hpp
+#define AdditiveMultiplicativeExpression_hpp
 
 #include "yazyk/IExpression.hpp"
 
@@ -16,18 +16,18 @@ namespace yazyk {
 /**
  * Represents simple binary expression such as addition or division
  */
-class AddditiveMultiplicativeExpression : public IExpression {
+class AdditiveMultiplicativeExpression : public IExpression {
   IExpression& mLeftExpression;
   IExpression& mRightExpression;
   int mOperation;
   
 public:
-  AddditiveMultiplicativeExpression(IExpression& leftExpression,
-                                    int operation,
-                                    IExpression& rightExpression) :
+  AdditiveMultiplicativeExpression(IExpression& leftExpression,
+                                   int operation,
+                                   IExpression& rightExpression) :
     mLeftExpression(leftExpression), mRightExpression(rightExpression), mOperation(operation) { }
   
-  ~AddditiveMultiplicativeExpression() { }
+  ~AdditiveMultiplicativeExpression() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 
@@ -40,4 +40,4 @@ private:
 
 } /* namespace yazyk */
 
-#endif /* AddditiveMultiplicativeExpression_hpp */
+#endif /* AdditiveMultiplicativeExpression_hpp */

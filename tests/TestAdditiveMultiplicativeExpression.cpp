@@ -1,11 +1,11 @@
 //
-//  testAddditiveMultiplicativeExpression.cpp
+//  testAdditiveMultiplicativeExpression.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/9/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link AddditiveMultiplicativeExpression}
+//  Tests {@link AdditiveMultiplicativeExpression}
 //
 
 #include <gtest/gtest.h>
@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/AddditiveMultiplicativeExpression.hpp"
+#include "yazyk/AdditiveMultiplicativeExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -37,7 +37,7 @@ public:
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
 };
 
-struct AddditiveMultiplicativeExpressionTest : Test {
+struct AdditiveMultiplicativeExpressionTest : Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression> mLeftExpression;
   NiceMock<MockExpression> mRightExpression;
@@ -45,7 +45,7 @@ struct AddditiveMultiplicativeExpressionTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
-  AddditiveMultiplicativeExpressionTest() {
+  AdditiveMultiplicativeExpressionTest() {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value * leftValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
     Value * rightValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
@@ -59,14 +59,14 @@ struct AddditiveMultiplicativeExpressionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~AddditiveMultiplicativeExpressionTest() {
+  ~AdditiveMultiplicativeExpressionTest() {
     delete mBasicBlock;
     delete mStringStream;
   }
 };
 
-TEST_F(AddditiveMultiplicativeExpressionTest, AdditionTest) {
-  AddditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+TEST_F(AdditiveMultiplicativeExpressionTest, AdditionTest) {
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   expression.generateIR(mContext);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
@@ -75,8 +75,8 @@ TEST_F(AddditiveMultiplicativeExpressionTest, AdditionTest) {
   ASSERT_STREQ(mStringStream->str().c_str(), "  %add = add i32 3, 5");
 }
 
-TEST_F(AddditiveMultiplicativeExpressionTest, SubtractionTest) {
-  AddditiveMultiplicativeExpression expression(mLeftExpression, '-', mRightExpression);
+TEST_F(AdditiveMultiplicativeExpressionTest, SubtractionTest) {
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '-', mRightExpression);
   expression.generateIR(mContext);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
@@ -85,7 +85,7 @@ TEST_F(AddditiveMultiplicativeExpressionTest, SubtractionTest) {
   ASSERT_STREQ(mStringStream->str().c_str(), "  %sub = sub i32 3, 5");
 }
 
-TEST_F(AddditiveMultiplicativeExpressionTest, IncompatibleTypesDeathTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, IncompatibleTypesDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
 
@@ -93,14 +93,14 @@ TEST_F(AddditiveMultiplicativeExpressionTest, IncompatibleTypesDeathTest) {
   ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
   ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
-  AddditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
 
   EXPECT_EXIT(expression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Incopatible types in '\\+' operation");
 }
 
-TEST_F(AddditiveMultiplicativeExpressionTest, NonPrimitiveTypesDeathTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, NonPrimitiveTypesDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
   
@@ -110,21 +110,21 @@ TEST_F(AddditiveMultiplicativeExpressionTest, NonPrimitiveTypesDeathTest) {
   ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(model));
   
-  AddditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   
   EXPECT_EXIT(expression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Can not do operation '\\+' on non-primitive types");
 }
 
-TEST_F(AddditiveMultiplicativeExpressionTest, VoidTypesDeathTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, VoidTypesDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
   
   ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   
-  AddditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   
   EXPECT_EXIT(expression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
