@@ -10,6 +10,7 @@
 #define RelationalExpression_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 #include "yazyk/RelationalOperation.hpp"
 
 namespace yazyk {
@@ -17,7 +18,7 @@ namespace yazyk {
 /**
  * Represents a relational expression such as a >= b
  */
-class RelationalExpression : public IExpression {
+class RelationalExpression : public IExpression, public IHasType {
   IExpression& mLeftExpression;
   IExpression& mRightExpression;
   RelationalOperation mOperation;
@@ -32,6 +33,8 @@ public:
   ~RelationalExpression() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType(IRGenerationContext& context) const override;
 };
   
 } /* namespace yazyk */

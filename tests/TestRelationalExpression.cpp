@@ -18,6 +18,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/RelationalExpression.hpp"
 
 using ::testing::_;
@@ -32,6 +33,7 @@ using namespace yazyk;
 class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
 };
 
 struct RelationalExpressionTest : Test {
@@ -64,6 +66,7 @@ TEST_F(RelationalExpressionTest, lessThanTest) {
   expression.generateIR(mContext);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
+  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp slt i32 3, 5");
@@ -74,6 +77,7 @@ TEST_F(RelationalExpressionTest, greaterThanOrEqualTest) {
   expression.generateIR(mContext);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
+  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp sge i32 3, 5");

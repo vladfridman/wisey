@@ -9,6 +9,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/RelationalExpression.hpp"
 
 using namespace llvm;
@@ -34,4 +35,8 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
                       leftValue,
                       rightValue,
                       "cmp");
+}
+
+IType* RelationalExpression::getType(IRGenerationContext& context) const {
+  return PrimitiveTypes::BOOLEAN_TYPE;
 }
