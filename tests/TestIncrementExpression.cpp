@@ -116,7 +116,12 @@ TEST_F(IncrementExpressionTest, IncorrectIdentifierTypeDeathTest) {
   EXPECT_EXIT(expression->generateIR(mContext),
               ::testing::ExitedWithCode(1),
               expected);
+}
 
+TEST_F(IncrementExpressionTest, TestIncrementExpressionType) {
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
+
+  EXPECT_EQ(expression->getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
 TEST_F(TestFileSampleRunner, IncrementByOneRunTest) {

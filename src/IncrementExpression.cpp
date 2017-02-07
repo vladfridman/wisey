@@ -43,3 +43,6 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
   return mIsPrefix ? incrementResult : originalValue;
 }
 
+IType* IncrementExpression::getType(IRGenerationContext& context) const {
+  return mIdentifier.getType(context);
+}

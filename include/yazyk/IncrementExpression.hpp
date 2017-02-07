@@ -11,13 +11,14 @@
 
 #include "yazyk/IExpression.hpp"
 #include "yazyk/Identifier.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
 
 /**
  * Represents an increment or decrement expresssion such as i++ or i--
  */
-class IncrementExpression : public IExpression {
+class IncrementExpression : public IExpression, IHasType {
   Identifier mIdentifier;
   long long mIncrementBy;
   std::string mVariableName;
@@ -36,6 +37,8 @@ class IncrementExpression : public IExpression {
   
 public:
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType(IRGenerationContext& context) const override;
   
   /**
    * Create increment by one expression
