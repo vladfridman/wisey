@@ -74,6 +74,17 @@ TEST_F(IdentifierTest, VariableIdentifierTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(IdentifierTest, TestVariableType) {
+  string name = "foo";
+  AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
+                                     name,
+                                     mBlock);
+  mContext.getScopes().setStackVariable(name, PrimitiveTypes::INT_TYPE, alloc);
+  Identifier identifier(name, "bar");
+
+  EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
+}
+
 TEST_F(IdentifierTest, HeapVariableTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
   mContext.getScopes().setHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);

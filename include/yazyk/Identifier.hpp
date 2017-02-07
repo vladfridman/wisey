@@ -10,6 +10,7 @@
 #define Identifier_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
 
@@ -18,7 +19,7 @@ namespace yazyk {
  *
  * Loads value of the variable named 'name' into an LLVM variable named llvmVariableName
  */
-class Identifier : public IExpression {
+class Identifier : public IExpression, IHasType {
   
   const std::string mName;
   std::string mLLVMVariableName;
@@ -34,6 +35,12 @@ public:
   const std::string& getName() const;
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType(IRGenerationContext& context) const override;
+  
+private:
+  
+  Variable* checkGetVariable(IRGenerationContext& context) const;
 };
   
 } /* namespace yazyk */

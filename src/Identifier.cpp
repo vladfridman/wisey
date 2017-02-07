@@ -23,15 +23,25 @@ const string& Identifier::getName() const {
 }
 
 Value* Identifier::generateIR(IRGenerationContext& context) const {
-  Variable* variable = context.getScopes().getVariable(mName);
-  if (variable == NULL) {
-    Log::e("Undeclared variable " + mName);
-    exit(1);
-  }
+  Variable* variable = checkGetVariable(context);
   
   if (variable->getStorageType() == HEAP_VARIABLE) {
     return variable->getValue();
   }
 
   return new LoadInst(variable->getValue(), mLLVMVariableName, context.getBasicBlock());
+}
+
+IType* Identifier::getType(IRGenerationContext& context) const {
+  return checkGetVariable(context)->getType();
+}
+
+Variable* Identifier::checkGetVariable(IRGenerationContext& context) const {
+  Variable* variable = context.getScopes().getVariable(mName);
+  if (variable != NULL) {
+    return variable;
+  }
+  
+  Log::e("Undeclared variable " + mName);
+  exit(1);
 }
