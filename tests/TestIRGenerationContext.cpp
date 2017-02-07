@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -93,6 +94,32 @@ TEST(IRGenerationContextTest, ModelTypeDoesNotExistDeathTest) {
   EXPECT_EXIT(context.getModel("mymodel"),
               ::testing::ExitedWithCode(1),
               "MODEL mymodel is not defined");
+}
+
+TEST(IRGenerationContextTest, TestGlobalFunctionDefinition) {
+  IRGenerationContext context;
+
+  context.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
+  
+  EXPECT_EQ(context.getGlobalFunctionType("foo"), PrimitiveTypes::VOID_TYPE);
+}
+
+TEST(IRGenerationContextTest, GlobalFunctionRedefinitionDeathTest) {
+  IRGenerationContext context;
+  
+  context.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
+  
+  EXPECT_EXIT(context.addGlobalFunction(PrimitiveTypes::FLOAT_TYPE, "foo"),
+              ::testing::ExitedWithCode(1),
+              "Error: Redefinition of a global function foo");
+}
+
+TEST(IRGenerationContextTest, GlobalFunctionUndefinedDeathTest) {
+  IRGenerationContext context;
+  
+  EXPECT_EXIT(context.getGlobalFunctionType("foo"),
+              ::testing::ExitedWithCode(1),
+              "Global function foo is not defined");
 }
 
 struct IRGenerationContextRunTest : public ::testing::Test {

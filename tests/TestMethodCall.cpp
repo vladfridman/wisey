@@ -18,6 +18,7 @@
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/MethodCall.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -82,12 +83,14 @@ TEST_F(MethodCallTest, IntMethodCall) {
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
   FunctionType* ftype = FunctionType::get(mIntType, argTypesArray, false);
   Function::Create(ftype, GlobalValue::InternalLinkage, "foo", mContext.getModule());
+  mContext.addGlobalFunction(PrimitiveTypes::INT_TYPE, "foo");
   MethodCall methodCall(mFooMethodIdentifier, mArgumentList);
   
   Value* irValue = methodCall.generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = call i32 @foo(i32 5)", mStringStream->str().c_str());
+  EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
 TEST_F(MethodCallTest, VoidMethodCall) {

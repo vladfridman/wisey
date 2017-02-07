@@ -30,6 +30,7 @@ class IRGenerationContext {
   std::unique_ptr<llvm::Module> mOwner;
   llvm::BasicBlock* mBasicBlock;
   std::map<std::string, Model*> mModels;
+  std::map<std::string, IType*> mGlobalFunctions;
   Scopes mScopes;
 
 public:
@@ -80,6 +81,16 @@ public:
    * Look up a MODEL type
    */
   Model* getModel(std::string name);
+  
+  /**
+   * Add a global function
+   */
+  void addGlobalFunction(yazyk::IType* returnType, std::string functionName);
+  
+  /**
+   * Get the return type of a global function
+   */
+  IType* getGlobalFunctionType(std::string functionName);
   
   /**
    * Return Scopes controller

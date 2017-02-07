@@ -47,3 +47,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
 
   return CallInst::Create(function, args, resultName, context.getBasicBlock());
 }
+
+IType* MethodCall::getType(IRGenerationContext& context) const {
+  return context.getGlobalFunctionType(mId.getName());
+}

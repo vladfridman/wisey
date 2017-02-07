@@ -10,13 +10,14 @@
 #define MethodCall_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
 
 /**
  * Represents a method call identified by id and given arguments
  */
-class MethodCall : public IExpression {
+class MethodCall : public IExpression, IHasType {
   const Identifier& mId;
   ExpressionList mArguments;
   
@@ -27,6 +28,8 @@ public:
     ~MethodCall() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType(IRGenerationContext& context) const override;
   
 private:
   llvm::Function* declarePrintf(IRGenerationContext& context) const;
