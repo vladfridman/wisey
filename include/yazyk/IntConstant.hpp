@@ -1,13 +1,13 @@
 //
-//  IntegerConstant.hpp
+//  IntConstant.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef IntegerConstant_h
-#define IntegerConstant_h
+#ifndef IntConstant_h
+#define IntConstant_h
 
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IHasType.hpp"
@@ -17,14 +17,14 @@ namespace yazyk {
 /**
  * Represents an integer constant
  */
-class IntegerConstant : public IExpression, IHasType {
+class IntConstant : public IExpression, IHasType {
 
   long mValue;
   
 public:
-  IntegerConstant(long value) : mValue(value) { }
+  IntConstant(long value) : mValue(value) { }
 
-  ~IntegerConstant() { }
+  ~IntConstant() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
@@ -33,4 +33,4 @@ public:
 
 } /* namespace yazyk */
 
-#endif /* IntegerConstant_h */
+#endif /* IntConstant_h */

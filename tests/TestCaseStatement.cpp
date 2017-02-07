@@ -20,7 +20,7 @@
 #include "yazyk/Block.hpp"
 #include "yazyk/CaseStatement.hpp"
 #include "yazyk/FloatConstant.hpp"
-#include "yazyk/IntegerConstant.hpp"
+#include "yazyk/IntConstant.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
 using ::testing::_;
@@ -59,7 +59,7 @@ TEST(CaseStatementTest, TestStatementsGetGenerated) {
 TEST(CaseStatementTest, TestConstIntExpressionWorks) {
   IRGenerationContext context;
   Block statementBlock;
-  IntegerConstant expression(5l);
+  IntConstant expression(5l);
   CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
   
   Value* expected = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
