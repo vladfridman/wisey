@@ -10,7 +10,8 @@
 
 #include "yazyk/ConditionalExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/log.hpp"
+#include "yazyk/Log.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
@@ -18,6 +19,8 @@ using namespace std;
 using namespace yazyk;
 
 Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
+  checkTypes(context);
+  
   Value* conditionValue = mConditionExpression.generateIR(context);
   
   Function* function = context.getBasicBlock()->getParent();
@@ -54,3 +57,27 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   return phiNode;
 }
 
+IType* ConditionalExpression::getType(IRGenerationContext& context) const {
+  return mConditionTrueExpression.getType(context);
+}
+
+// TODO: implement a more sensible type checking/casting
+void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
+  IType* trueExpressionType = mConditionTrueExpression.getType(context);
+  IType* falseExpressionType = mConditionFalseExpression.getType(context);
+  
+  if (mConditionExpression.getType(context) != PrimitiveTypes::BOOLEAN_TYPE) {
+    Log::e("Condition in a conditional expression is not of type BOOLEAN");
+    exit(1);
+  }
+  
+  if (trueExpressionType != falseExpressionType) {
+    Log::e("Incopatible types in conditional expression operation");
+    exit(1);
+  }
+  
+  if (trueExpressionType == PrimitiveTypes::VOID_TYPE) {
+    Log::e("Can not use expressions of type VOID in a conditional expression");
+    exit(1);
+  }
+}

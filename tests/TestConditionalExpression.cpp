@@ -20,8 +20,10 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/ConditionalExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using ::testing::_;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -33,6 +35,7 @@ using namespace yazyk;
 class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
 };
 
 struct ConditionalExpressionTest : Test {
@@ -49,7 +52,10 @@ struct ConditionalExpressionTest : Test {
     Value* ifTrueValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
     Value* ifFalseValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
     ON_CALL(mIfTrueExpression, generateIR(_)).WillByDefault(Return(ifTrueValue));
+    ON_CALL(mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(mIfFalseExpression, generateIR(_)).WillByDefault(Return(ifFalseValue));
+    ON_CALL(mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -105,7 +111,7 @@ TEST_F(ConditionalExpressionTest, ConditionalExpressionRunWithFalse) {
 TEST_F(ConditionalExpressionTest, ConditionalExpressionRunWithTrue) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
-  
+ 
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   expression.generateIR(mContext);
   
@@ -137,6 +143,51 @@ TEST_F(ConditionalExpressionTest, ConditionalExpressionRunWithTrue) {
   *mStringStream << iterator->front();
   EXPECT_STREQ(mStringStream->str().c_str(),
                "  %cond = phi i32 [ 3, %cond.true ], [ 5, %cond.false ]");
+}
+
+TEST_F(ConditionalExpressionTest, IncompatibleTypesDeathTest) {
+  Mock::AllowLeak(&mConditionExpression);
+  Mock::AllowLeak(&mIfTrueExpression);
+  Mock::AllowLeak(&mIfFalseExpression);
+  
+  Value* trueValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.5);
+  ON_CALL(mIfTrueExpression, generateIR(_)).WillByDefault(Return(trueValue));
+  ON_CALL(mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  
+  EXPECT_EXIT(expression.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Incopatible types in conditional expression operation");
+}
+
+TEST_F(ConditionalExpressionTest, VoidTypesDeathTest) {
+  Mock::AllowLeak(&mConditionExpression);
+  Mock::AllowLeak(&mIfTrueExpression);
+  Mock::AllowLeak(&mIfFalseExpression);
+  
+  ON_CALL(mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  
+  EXPECT_EXIT(expression.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not use expressions of type VOID in a conditional expression");
+}
+
+TEST_F(ConditionalExpressionTest, ConditionIsNotBooleanDeathTest) {
+  Mock::AllowLeak(&mConditionExpression);
+  Mock::AllowLeak(&mIfTrueExpression);
+  Mock::AllowLeak(&mIfFalseExpression);
+  
+  ON_CALL(mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  
+  EXPECT_EXIT(expression.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Condition in a conditional expression is not of type BOOLEAN");
 }
 
 TEST_F(TestFileSampleRunner, ConditionalExpressionRunTrueConditionTest) {

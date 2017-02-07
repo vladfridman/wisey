@@ -8,6 +8,7 @@
 
 #include "llvm/IR/Constants.h"
 
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/StringConstant.hpp"
 
 using namespace llvm;
@@ -55,3 +56,6 @@ string StringConstant::unescape(const string& input) {
   return result;
 }
 
+IType* StringConstant::getType(IRGenerationContext& context) const {
+  return PrimitiveTypes::VOID_TYPE;
+}

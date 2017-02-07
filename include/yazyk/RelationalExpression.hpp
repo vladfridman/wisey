@@ -18,7 +18,7 @@ namespace yazyk {
 /**
  * Represents a relational expression such as a >= b
  */
-class RelationalExpression : public IExpression, public IHasType {
+class RelationalExpression : public IExpression {
   IExpression& mLeftExpression;
   IExpression& mRightExpression;
   RelationalOperation mOperation;

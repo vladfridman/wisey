@@ -17,7 +17,7 @@ namespace yazyk {
 /**
  * Represents a double constant
  */
-class DoubleConstant : public IExpression, IHasType {
+class DoubleConstant : public IExpression {
   long double mValue;
   
 public:

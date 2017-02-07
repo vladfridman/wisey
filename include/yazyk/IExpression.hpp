@@ -9,6 +9,7 @@
 #ifndef IExpression_h
 #define IExpression_h
 
+#include "yazyk/IHasType.hpp"
 #include "yazyk/INode.hpp"
 
 namespace yazyk {
@@ -16,7 +17,7 @@ namespace yazyk {
 /**
  * Interface representing a yazyk language expression
  */
-class IExpression : public INode {
+class IExpression : public INode, public IHasType {
 };
   
 /**

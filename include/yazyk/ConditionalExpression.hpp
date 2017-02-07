@@ -31,6 +31,12 @@ public:
     mConditionFalseExpression(conditionFalseExpression) {  }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+
+  IType* getType(IRGenerationContext& context) const override;
+  
+private:
+  
+  void checkTypes(IRGenerationContext& context) const;
 };
 
 } /* namespace yazyk */

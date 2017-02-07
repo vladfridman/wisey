@@ -18,7 +18,7 @@ namespace yazyk {
 /**
  * Represents an assignment expression
  */
-class Assignment : public IExpression, public IHasType {
+class Assignment : public IExpression {
   Identifier& mIdentifier;
   IExpression& mExpression;
   

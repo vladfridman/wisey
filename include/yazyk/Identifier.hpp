@@ -19,7 +19,7 @@ namespace yazyk {
  *
  * Loads value of the variable named 'name' into an LLVM variable named llvmVariableName
  */
-class Identifier : public IExpression, IHasType {
+class Identifier : public IExpression {
   
   const std::string mName;
   std::string mLLVMVariableName;

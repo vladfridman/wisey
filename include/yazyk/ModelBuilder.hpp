@@ -38,6 +38,8 @@ public:
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
+  IType* getType(IRGenerationContext& context) const override;
+  
 private:
   
   void checkArguments(Model* model) const;

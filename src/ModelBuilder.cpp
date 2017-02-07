@@ -105,3 +105,7 @@ void ModelBuilder::checkAllFieldsAreSet(Model* model) const {
   Log::e("Some fields of the model '" + model->getName() + "' are not initialized.");
   exit(1);
 }
+
+IType* ModelBuilder::getType(IRGenerationContext& context) const {
+  return mModelTypeSpecifier.getType(context);
+}

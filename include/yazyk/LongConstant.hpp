@@ -17,7 +17,7 @@ namespace yazyk {
 /**
  * Represents a long constant
  */
-class LongConstant : public IExpression, IHasType {
+class LongConstant : public IExpression {
 
   long long mValue;
   

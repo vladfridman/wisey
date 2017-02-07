@@ -17,7 +17,7 @@ namespace yazyk {
 /**
  * Represents an empty expression that does not do anything
  */
-class EmptyExpression : public IExpression, IHasType {
+class EmptyExpression : public IExpression {
 
 public:
 

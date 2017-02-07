@@ -17,7 +17,7 @@ namespace yazyk {
 /**
  * Represents a float constant
  */
-class FloatConstant: public IExpression, IHasType {
+class FloatConstant: public IExpression {
   double mValue;
   
 public:

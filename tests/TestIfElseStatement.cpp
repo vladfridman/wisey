@@ -20,6 +20,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IfElseStatement.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;
@@ -33,6 +34,7 @@ using namespace yazyk;
 class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
 };
 
 class MockStatement : public IStatement {
@@ -53,6 +55,7 @@ struct IfElseStatementTest : Test {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
     ON_CALL(mCondition, generateIR(_)).WillByDefault(Return(conditionValue));
+    ON_CALL(mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
     Value* thenStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
     ON_CALL(mThenStatement, generateIR(_)).WillByDefault(Return(thenStatementValue));
     Value* elseStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);

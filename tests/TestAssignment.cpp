@@ -34,6 +34,7 @@ using ::testing::Test;
 class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
 };
 
 struct AssignmentTest : public Test {
@@ -51,6 +52,7 @@ public:
     mStringStream = new raw_string_ostream(mStringBuffer);
     Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
     ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
+    ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   }
   
   ~AssignmentTest() {

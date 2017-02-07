@@ -17,7 +17,7 @@ namespace yazyk {
 /**
  * Represents a logical OR expression such as 'a || b'
  */
-class LogicalOrExpression : public IExpression, public IHasType {
+class LogicalOrExpression : public IExpression {
   IExpression& mLeftExpression;
   IExpression& mRightExpression;
   

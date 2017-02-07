@@ -17,7 +17,7 @@ namespace yazyk {
 /**
  * Represents a logical AND expression such as 'a && b'
  */
-class LogicalAndExpression : public IExpression, public IHasType {
+class LogicalAndExpression : public IExpression {
   IExpression& mLeftExpression;
   IExpression& mRightExpression;
   

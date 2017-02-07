@@ -17,7 +17,7 @@ namespace yazyk {
 /**
  * Represents a method call identified by id and given arguments
  */
-class MethodCall : public IExpression, IHasType {
+class MethodCall : public IExpression {
   const Identifier& mId;
   ExpressionList mArguments;
   
@@ -30,7 +30,7 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
   IType* getType(IRGenerationContext& context) const override;
-  
+
 private:
   llvm::Function* declarePrintf(IRGenerationContext& context) const;
 };

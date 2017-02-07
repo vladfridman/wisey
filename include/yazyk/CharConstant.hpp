@@ -17,7 +17,7 @@ namespace yazyk {
 /**
  * Represents a constant character
  */
-class CharConstant : public IExpression, IHasType {
+class CharConstant : public IExpression {
   char mValue;
   
 public:

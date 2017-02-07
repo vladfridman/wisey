@@ -17,7 +17,7 @@ namespace yazyk {
 /**
  * Represents a constant boolean
  */
-class BooleanConstant : public IExpression, IHasType {
+class BooleanConstant : public IExpression {
   bool mValue;
   
 public:

@@ -18,7 +18,7 @@ namespace yazyk {
 /**
  * Represents an increment or decrement expresssion such as i++ or i--
  */
-class IncrementExpression : public IExpression, IHasType {
+class IncrementExpression : public IExpression {
   Identifier mIdentifier;
   long long mIncrementBy;
   std::string mVariableName;
