@@ -18,19 +18,19 @@ namespace yazyk {
  * Represents an increment or decrement expresssion such as i++ or i--
  */
 class IncrementExpression : public IExpression {
-  Identifier identifier;
-  long long incrementBy;
-  std::string variableName;
-  bool isPrefix;
+  Identifier mIdentifier;
+  long long mIncrementBy;
+  std::string mVariableName;
+  bool mIsPrefix;
   
   IncrementExpression(Identifier &identifier,
                       long long incrementBy,
                       std::string variableName,
                       bool isPrefix) :
-    identifier(identifier),
-    incrementBy(incrementBy),
-    variableName(variableName),
-    isPrefix(isPrefix) { }
+    mIdentifier(identifier),
+    mIncrementBy(incrementBy),
+    mVariableName(variableName),
+    mIsPrefix(isPrefix) { }
   
   ~IncrementExpression() { }
   

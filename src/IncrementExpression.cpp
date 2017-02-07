@@ -11,24 +11,35 @@
 
 #include "yazyk/IncrementExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/Log.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
-  Value* originalValue = identifier.generateIR(context);
+  IType* identifierType = mIdentifier.getType(context);
+  if (identifierType != PrimitiveTypes::INT_TYPE &&
+      identifierType != PrimitiveTypes::CHAR_TYPE &&
+      identifierType != PrimitiveTypes::LONG_TYPE) {
+    Log::e("Identifier " + mIdentifier.getName() +
+           " is of a type that is incopatible with increment/decrement operation");
+    exit(1);
+  }
+  
+  Value* originalValue = mIdentifier.generateIR(context);
   Value* increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
-                                      incrementBy,
+                                      mIncrementBy,
                                       true);
   
   Value* incrementResult = llvm::BinaryOperator::Create(Instruction::Add,
                                                         originalValue,
                                                         increment,
-                                                        variableName,
+                                                        mVariableName,
                                                         context.getBasicBlock());
   new StoreInst(incrementResult,
-                context.getScopes().getVariable(identifier.getName())->getValue(),
+                context.getScopes().getVariable(mIdentifier.getName())->getValue(),
                 context.getBasicBlock());
-  return isPrefix ? incrementResult : originalValue;
+  return mIsPrefix ? incrementResult : originalValue;
 }
 

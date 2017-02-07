@@ -107,6 +107,18 @@ TEST_F(IncrementExpressionTest, DecrementByOneExpressionTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(IncrementExpressionTest, IncorrectIdentifierTypeDeathTest) {
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
+  mContext.getScopes().setStackVariable(mName, PrimitiveTypes::FLOAT_TYPE, NULL);
+  string expected = "Error: Identifier foo is of a type that is "
+    "incopatible with increment/decrement operation";
+  
+  EXPECT_EXIT(expression->generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              expected);
+
+}
+
 TEST_F(TestFileSampleRunner, IncrementByOneRunTest) {
   runFile("tests/samples/test_increment_by_one.yz", "3");
 }
