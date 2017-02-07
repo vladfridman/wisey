@@ -9,7 +9,7 @@
 #ifndef ITypeSpecifier_h
 #define ITypeSpecifier_h
 
-#include "yazyk/IType.hpp"
+#include "yazyk/IHasType.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
 namespace yazyk {
@@ -17,17 +17,7 @@ namespace yazyk {
 /**
  * Interfaces representing a type that could either be a primitive type, a model or a controller
  */
-class ITypeSpecifier {
-  
-public:
-  
-  virtual ~ITypeSpecifier() { }
-  
-  /**
-   * Get the type corresponding to the type specifier
-   */
-  virtual IType* getType(IRGenerationContext& context) const = 0;
-};
+class ITypeSpecifier : public IHasType { };
 
 } /* namespace yazyk */
 
