@@ -1,5 +1,5 @@
 //
-//  String.cpp
+//  StringConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -8,13 +8,13 @@
 
 #include "llvm/IR/Constants.h"
 
-#include "yazyk/String.hpp"
+#include "yazyk/StringConstant.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* String::generateIR(IRGenerationContext& context) const {
+Value* StringConstant::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Constant* stringConstant = ConstantDataArray::getString(llvmContext, mValue);
   GlobalVariable* globalVariableString =
@@ -31,7 +31,7 @@ Value* String::generateIR(IRGenerationContext& context) const {
   return ConstantExpr::getGetElementPtr(NULL, globalVariableString, indices, true);
 }
 
-string String::unescape(const string& input) {
+string StringConstant::unescape(const string& input) {
   string result;
   string::const_iterator iterator = input.begin();
   while (iterator != input.end())

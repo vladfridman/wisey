@@ -1,11 +1,11 @@
 //
-//  TestString.cpp
+//  TestStringConstant.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link String}
+//  Tests {@link StringConstant}
 //
 
 #include <gtest/gtest.h>
@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/String.hpp"
+#include "yazyk/StringConstant.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -24,24 +24,24 @@ using namespace yazyk;
 
 using ::testing::Test;
 
-struct StringTest : public Test {
+struct StringConstantTest : public Test {
   IRGenerationContext mContext;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
-  StringTest() {
+  StringConstantTest() {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~StringTest() {
+  ~StringConstantTest() {
     delete mStringStream;
   }
 };
 
-TEST_F(StringTest, StringConstantTest) {
-  String string("\"test\"");
+TEST_F(StringConstantTest, StringConstantTest) {
+  StringConstant stringConstant("\"test\"");
   
-  Value* irValue = string.generateIR(mContext);
+  Value* irValue = stringConstant.generateIR(mContext);
 
   *mStringStream << *mContext.getModule();
   *mStringStream << *irValue;
@@ -52,10 +52,10 @@ TEST_F(StringTest, StringConstantTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(StringTest, StringConstantEscapeNewlineTest) {
-  String string("\"test\ntest\"");
+TEST_F(StringConstantTest, StringConstantEscapeNewlineTest) {
+  StringConstant stringConstant("\"test\ntest\"");
   
-  string.generateIR(mContext);
+  stringConstant.generateIR(mContext);
   
   *mStringStream << *mContext.getModule();
   std::string expected = std::string() +

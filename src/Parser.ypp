@@ -38,7 +38,7 @@
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
   #include "yazyk/ReturnVoidStatement.hpp"
-  #include "yazyk/String.hpp"
+  #include "yazyk/StringConstant.hpp"
   #include "yazyk/SwitchStatement.hpp"
   #include "yazyk/VariableDeclaration.hpp"
   #include "yazyk/WhileStatement.hpp"
@@ -289,7 +289,7 @@ string
 primary_expression
   : identifier { $<identifier>$ = $1; }
   | constant
-  | string { $$ = new String(*$1); delete $1; }
+  | string { $$ = new StringConstant(*$1); delete $1; }
   | '(' expression ')' { $$ = $2; }
   ;
 

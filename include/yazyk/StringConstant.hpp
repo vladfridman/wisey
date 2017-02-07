@@ -1,13 +1,13 @@
 //
-//  String.hpp
+//  StringConstant.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef String_h
-#define String_h
+#ifndef StringConstant_h
+#define StringConstant_h
 
 #include "yazyk/IExpression.hpp"
 
@@ -16,13 +16,13 @@ namespace yazyk {
 /**
  * Represents a constant string
  */
-class String : public IExpression {
+class StringConstant : public IExpression {
   std::string mValue;
   
 public:
-  String(std::string input) : mValue(unescape(input.substr(1, input.length() - 2))) { }
+  StringConstant(std::string input) : mValue(unescape(input.substr(1, input.length() - 2))) { }
   
-  ~String() { }
+  ~StringConstant() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
@@ -32,4 +32,4 @@ private:
   
 } /* namespace yazyk */
 
-#endif /* String_h */
+#endif /* StringConstant_h */
