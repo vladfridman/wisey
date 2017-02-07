@@ -23,17 +23,20 @@ namespace yazyk {
  * A function contains Block that contains statements.
  */
 class FunctionDeclaration : public IStatement {
-  const ITypeSpecifier& mType;
+  const ITypeSpecifier& mTypeSpecifier;
   const Identifier& mId;
   VariableList mArguments;
   CompoundStatement& mCompoundStatement;
   
 public:
-  FunctionDeclaration(const ITypeSpecifier& type,
+  FunctionDeclaration(const ITypeSpecifier& typeSpecifier,
                       const Identifier& id,
                       const VariableList& arguments,
                       CompoundStatement& compoundStatement) :
-  mType(type), mId(id), mArguments(arguments), mCompoundStatement(compoundStatement) { }
+  mTypeSpecifier(typeSpecifier),
+  mId(id),
+  mArguments(arguments),
+  mCompoundStatement(compoundStatement) { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

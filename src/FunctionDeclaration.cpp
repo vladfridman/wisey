@@ -26,7 +26,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
     argTypes.push_back(type->getLLVMType(llvmContext));
   }
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
-  FunctionType *ftype = FunctionType::get(mType.getType(context)->getLLVMType(llvmContext),
+  FunctionType *ftype = FunctionType::get(mTypeSpecifier.getType(context)->getLLVMType(llvmContext),
                                           argTypesArray,
                                           false);
   Function *function = Function::Create(ftype,
