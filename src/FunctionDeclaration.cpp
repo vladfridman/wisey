@@ -54,7 +54,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);
-    scopes.setStackVariable((**it).getId().getName(), alloc);
+    scopes.setStackVariable((**it).getId().getName(), type, alloc);
   }
   
   mCompoundStatement.generateIR(context);

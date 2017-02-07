@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/FunctionDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/ReturnStatement.hpp"
 
 using namespace llvm;
@@ -125,7 +126,7 @@ TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
                                                nullptr,
                                                "");
 
-  mContext.getScopes().setHeapVariable("foo", malloc);
+  mContext.getScopes().setHeapVariable("foo", PrimitiveTypes::CHAR_TYPE, malloc);
   
   ReturnStatement returnStatement(mExpression);
   

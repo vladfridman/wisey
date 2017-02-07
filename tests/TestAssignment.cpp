@@ -19,6 +19,7 @@
 #include "yazyk/Assignment.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -75,7 +76,7 @@ TEST_F(AssignmentTest, SimpleTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
                                      name,
                                      mBlock);
-  mContext.getScopes().setStackVariable(name, alloc);
+  mContext.getScopes().setStackVariable(name, PrimitiveTypes::INT_TYPE, alloc);
 
   assignment.generateIR(mContext);
 
@@ -100,8 +101,8 @@ TEST_F(AssignmentTest, HeapVariableTest) {
                                              "foo",
                                              mContext.getBasicBlock());
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(bitCastInst));
-  scopes.setHeapVariable("foo", bitCastInst);
-  scopes.setUnitializedHeapVariable("bar");
+  scopes.setHeapVariable("foo", PrimitiveTypes::INT_TYPE, bitCastInst);
+  scopes.setUnitializedHeapVariable("bar", PrimitiveTypes::INT_TYPE);
   Identifier identifier("bar", "foo");
   Assignment assignment(identifier, expression);
   

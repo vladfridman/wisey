@@ -57,7 +57,7 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
     new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
   }
   
-  context.getScopes().setHeapVariable(malloc->getName(), malloc);
+  context.getScopes().setHeapVariable(malloc->getName(), model, malloc);
 
   return malloc;
 }

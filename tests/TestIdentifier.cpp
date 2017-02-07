@@ -17,6 +17,7 @@
 
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -56,7 +57,7 @@ TEST_F(IdentifierTest, VariableIdentifierTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
                                      name,
                                      mBlock);
-  mContext.getScopes().setStackVariable(name, alloc);
+  mContext.getScopes().setStackVariable(name, PrimitiveTypes::INT_TYPE, alloc);
   Identifier identifier(name, "bar");
   identifier.generateIR(mContext);
   
@@ -75,7 +76,7 @@ TEST_F(IdentifierTest, VariableIdentifierTest) {
 
 TEST_F(IdentifierTest, HeapVariableTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-  mContext.getScopes().setHeapVariable("foo", fooValue);
+  mContext.getScopes().setHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   Identifier identifier("foo", "bar");
   
   Value* result = identifier.generateIR(mContext);

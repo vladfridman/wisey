@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IncrementExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -42,7 +43,7 @@ public:
     AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
                                        mName,
                                        mBlock);
-    mContext.getScopes().setStackVariable(mName, alloc);
+    mContext.getScopes().setStackVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 

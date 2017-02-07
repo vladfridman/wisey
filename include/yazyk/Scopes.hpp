@@ -11,6 +11,7 @@
 
 #include <list>
 
+#include "yazyk/IType.hpp"
 #include "yazyk/Scope.hpp"
 
 namespace yazyk {
@@ -40,17 +41,17 @@ public:
   /**
    * Set the local stack variable to a given value
    */
-  void setStackVariable(std::string name, llvm::Value* value);
+  void setStackVariable(std::string name, IType* type, llvm::Value* value);
   
   /**
    * Set the heap variable to a given value
    */
-  void setHeapVariable(std::string name, llvm::Value* value);
+  void setHeapVariable(std::string name, IType* type, llvm::Value* value);
   
   /**
    * Set a variable that in the future will refer to a heap object
    */
-  void setUnitializedHeapVariable(std::string name);
+  void setUnitializedHeapVariable(std::string name, IType* type);
   
   /**
    * Pushes a new program scope on the stack of program scopes

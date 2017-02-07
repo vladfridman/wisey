@@ -32,19 +32,22 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 }
 
 Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
-  llvm::Type* llvmType = mTypeSpecifier.getType(context)->getLLVMType(context.getLLVMContext());
-  AllocaInst* alloc = new AllocaInst(llvmType,
+  IType* type = mTypeSpecifier.getType(context);
+  AllocaInst* alloc = new AllocaInst(type->getLLVMType(context.getLLVMContext()),
                                      mId.getName(),
                                      context.getBasicBlock());
   
-  context.getScopes().setStackVariable(mId.getName(), alloc);
+  context.getScopes().setStackVariable(mId.getName(), type, alloc);
 
   return alloc;
 }
 
 Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
 
-  context.getScopes().setUnitializedHeapVariable(mId.getName());
+  string variableName = mId.getName();
+  IType* type = mTypeSpecifier.getType(context);
+  
+  context.getScopes().setUnitializedHeapVariable(variableName, type);
 
   return NULL;
 }

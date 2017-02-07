@@ -32,6 +32,9 @@ Value* Assignment::generateIRForHeapVariable(IRGenerationContext& context) const
   Scopes& scopes = context.getScopes();
   Value* expressionValue = mExpression.generateIR(context);
 
+  Variable* variable = scopes.getVariable(mIdentifier.getName());
+  IType* variableType = variable->getType();
+  
   BitCastInst* bitcast = new BitCastInst(expressionValue,
                                          expressionValue->getType(),
                                          mIdentifier.getName(),
@@ -39,7 +42,7 @@ Value* Assignment::generateIRForHeapVariable(IRGenerationContext& context) const
   
   scopes.clearVariable(mIdentifier.getName());
   scopes.clearVariable(expressionValue->getName());
-  scopes.setHeapVariable(mIdentifier.getName(), bitcast);
+  scopes.setHeapVariable(mIdentifier.getName(), variableType, bitcast);
 
   return bitcast;
 }

@@ -11,6 +11,8 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/IType.hpp"
+
 namespace yazyk {
 
 /**
@@ -27,18 +29,21 @@ typedef enum VariableStorageTypeEnum {
  */
 class Variable {
   llvm::Value* mValue;
+  IType* mType;
   VariableStorageType mStorageType;
   
 public:
   
-  Variable(llvm::Value* value, VariableStorageType storageType)
-    : mValue(value), mStorageType(storageType) { }
+  Variable(llvm::Value* value, IType* type, VariableStorageType storageType)
+    : mValue(value), mType(type), mStorageType(storageType) { }
   
   ~Variable() { }
   
   llvm::Value* getValue() { return mValue; }
   
   VariableStorageType getStorageType() { return mStorageType; }
+  
+  IType* getType() { return mType; }
 };
   
 } /* namespace yazyk */

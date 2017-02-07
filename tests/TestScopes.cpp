@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -31,9 +32,9 @@ TEST(ScopesTest, TestScopes) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
   Value* barValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
   
-  scopes.setStackVariable("foo", fooValue);
+  scopes.setStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   scopes.pushScope();
-  scopes.setStackVariable("bar", barValue);
+  scopes.setStackVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
   
   EXPECT_EQ(scopes.getVariable("bar")->getValue(), barValue);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
@@ -42,7 +43,7 @@ TEST(ScopesTest, TestScopes) {
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
   EXPECT_EQ(scopes.getVariable("bar"), nullptr);
   
-  scopes.setStackVariable("bar", barValue);
+  scopes.setStackVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
   EXPECT_EQ(scopes.getVariable("bar")->getValue(), barValue);
   
@@ -59,9 +60,9 @@ TEST(ScopesTest, TestScopesCorrectlyOrdered) {
   Value* outerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
   Value* innerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
   
-  scopes.setStackVariable("foo", outerValue);
+  scopes.setStackVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
   scopes.pushScope();
-  scopes.setStackVariable("foo", innerValue);
+  scopes.setStackVariable("foo", PrimitiveTypes::INT_TYPE, innerValue);
   
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), innerValue);
   
@@ -93,7 +94,7 @@ TEST(ScopesTest, TestClearVariable) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
   
   scopes.pushScope();
-  scopes.setStackVariable("foo", fooValue);
+  scopes.setStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
   
@@ -121,7 +122,7 @@ TEST(ScopesTest, TestSetHeapVariable) {
   LLVMContext llvmContext;
   scopes.pushScope();
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-  scopes.setHeapVariable("foo", fooValue);
+  scopes.setHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   
   ASSERT_NE(scopes.getVariable("foo"), nullptr);
   EXPECT_EQ(scopes.getVariable("foo")->getStorageType(), HEAP_VARIABLE);
@@ -131,7 +132,7 @@ TEST(ScopesTest, TestSetHeapVariable) {
 TEST(ScopesTest, TestSetUnitializedHeapVariable) {
   Scopes scopes;
   scopes.pushScope();
-  scopes.setUnitializedHeapVariable("foo");
+  scopes.setUnitializedHeapVariable("foo", PrimitiveTypes::INT_TYPE);
   
   ASSERT_NE(scopes.getVariable("foo"), nullptr);
   EXPECT_EQ(scopes.getVariable("foo")->getStorageType(), HEAP_VARIABLE_UNINITIALIZED);

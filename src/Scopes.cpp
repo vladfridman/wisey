@@ -47,16 +47,16 @@ void Scopes::clearVariable(string name) {
   return;
 }
 
-void Scopes::setStackVariable(string name, Value* value) {
-  getScope()->getLocals()[name] = new Variable(value, STACK_VARIABLE);
+void Scopes::setStackVariable(string name, IType* type, Value* value) {
+  getScope()->getLocals()[name] = new Variable(value, type, STACK_VARIABLE);
 }
 
-void Scopes::setHeapVariable(string name, Value* value) {
-  getScope()->getLocals()[name] = new Variable(value, HEAP_VARIABLE);
+void Scopes::setHeapVariable(string name, IType* type, Value* value) {
+  getScope()->getLocals()[name] = new Variable(value, type, HEAP_VARIABLE);
 }
 
-void Scopes::setUnitializedHeapVariable(string name) {
-  getScope()->getLocals()[name] = new Variable(NULL, HEAP_VARIABLE_UNINITIALIZED);
+void Scopes::setUnitializedHeapVariable(string name, IType* type) {
+  getScope()->getLocals()[name] = new Variable(NULL, type, HEAP_VARIABLE_UNINITIALIZED);
 }
 
 void Scopes::pushScope() {
