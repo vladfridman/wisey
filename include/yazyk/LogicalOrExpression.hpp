@@ -10,13 +10,14 @@
 #define LogicalOrExpression_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
 
 /**
  * Represents a logical OR expression such as 'a || b'
  */
-class LogicalOrExpression : public IExpression {
+class LogicalOrExpression : public IExpression, public IHasType {
   IExpression& mLeftExpression;
   IExpression& mRightExpression;
   
@@ -28,6 +29,8 @@ public:
   ~LogicalOrExpression() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType(IRGenerationContext& context) const override;
 };
 
 } /* namespace yazyk */

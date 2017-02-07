@@ -11,6 +11,7 @@
 
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LogicalAndExpression.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
@@ -38,4 +39,8 @@ Value* LogicalAndExpression::generateIR(IRGenerationContext& context) const {
   phiNode->addIncoming(rightValue, lastRightBlock);
   
   return phiNode;
+}
+
+IType* LogicalAndExpression::getType(IRGenerationContext& context) const {
+  return PrimitiveTypes::BOOLEAN_TYPE;
 }

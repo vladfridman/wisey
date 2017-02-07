@@ -11,12 +11,13 @@
 
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LogicalOrExpression.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace yazyk;
 
-Value *LogicalOrExpression::generateIR(IRGenerationContext& context) const {
+Value* LogicalOrExpression::generateIR(IRGenerationContext& context) const {
   Value* leftValue = mLeftExpression.generateIR(context);
   BasicBlock* entryBlock = context.getBasicBlock();
   
@@ -38,4 +39,8 @@ Value *LogicalOrExpression::generateIR(IRGenerationContext& context) const {
   phiNode->addIncoming(rightValue, lastRightBlock);
   
   return phiNode;
+}
+
+IType* LogicalOrExpression::getType(IRGenerationContext& context) const {
+  return PrimitiveTypes::BOOLEAN_TYPE;
 }

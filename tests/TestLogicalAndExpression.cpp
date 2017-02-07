@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LogicalAndExpression.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -124,6 +125,12 @@ TEST_F(LogicalAndExpressionTest, LogicalAndFalseValueTest) {
   EXPECT_STREQ(mStringStream->str().c_str(),
                "  %land = phi i1 [ false, %entry ], [ false, %land.rhs ]");
   mStringBuffer.clear();
+}
+
+TEST_F(LogicalAndExpressionTest, TestLogicalAndExpressionType) {
+  LogicalAndExpression expression(mLeftExpression, mRightExpression);
+
+  EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
 }
 
 TEST_F(TestFileSampleRunner, LogicalAndExpressionResultFalseRunTest) {
