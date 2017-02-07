@@ -116,6 +116,18 @@ TEST_F(AssignmentTest, HeapVariableTest) {
   EXPECT_EQ(BitCastInst::classof(scopes.getVariable("bar")->getValue()), true);
 }
 
+TEST_F(AssignmentTest, TestAssignmentExpressionType) {
+  string name = "foo";
+  Identifier identifier(name, "bar");
+  Assignment assignment(identifier, mExpression);
+  AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
+                                     name,
+                                     mBlock);
+  mContext.getScopes().setStackVariable(name, PrimitiveTypes::INT_TYPE, alloc);
+
+  EXPECT_EQ(assignment.getType(mContext), PrimitiveTypes::INT_TYPE);
+}
+
 TEST_F(TestFileSampleRunner, ModelVariableAssignmentTest) {
   runFile("tests/samples/test_assignment_model_variable.yz", "0");
 }

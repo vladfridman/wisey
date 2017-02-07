@@ -11,13 +11,14 @@
 
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IExpression.hpp"
+#include "yazyk/IHasType.hpp"
 
 namespace yazyk {
   
 /**
  * Represents an assignment expression
  */
-class Assignment : public IExpression {
+class Assignment : public IExpression, public IHasType {
   Identifier& mIdentifier;
   IExpression& mExpression;
   
@@ -29,6 +30,8 @@ public:
   ~Assignment() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType(IRGenerationContext& context) const override;
   
 private:
   

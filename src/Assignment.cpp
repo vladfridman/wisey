@@ -52,3 +52,7 @@ Value* Assignment::generateIRForStackVariable(IRGenerationContext& context) cons
                        context.getScopes().getVariable(mIdentifier.getName())->getValue(),
                        context.getBasicBlock());
 }
+
+IType* Assignment::getType(IRGenerationContext& context) const {
+  return mIdentifier.getType(context);
+}
