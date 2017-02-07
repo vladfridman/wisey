@@ -18,6 +18,6 @@ Value* BooleanConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), mValue);
 }
 
-IType* BooleanConstant::getType() const {
+IType* BooleanConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
 }

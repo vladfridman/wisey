@@ -58,7 +58,7 @@ TEST_F(BooleanConstantTest, BooleanFalseConstantTest) {
 TEST_F(BooleanConstantTest, TestBooleanConstantType) {
   BooleanConstant booleanConstant(true);
   
-  EXPECT_EQ(booleanConstant.getType(), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(booleanConstant.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
 }
 
 TEST_F(TestFileSampleRunner, BooleanConstantTest) {

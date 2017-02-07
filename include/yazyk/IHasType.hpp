@@ -9,6 +9,7 @@
 #ifndef IHasType_h
 #define IHasType_h
 
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/IType.hpp"
 
 namespace yazyk {
@@ -25,7 +26,7 @@ public:
   /**
    * Returns type
    */
-  virtual yazyk::IType* getType() const = 0;
+  virtual yazyk::IType* getType(IRGenerationContext& context) const = 0;
 
 };
   

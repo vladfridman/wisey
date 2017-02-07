@@ -37,9 +37,10 @@ TEST(CharConstantTest, CharConstantTest) {
 }
 
 TEST(CharConstantTest, TestCharConstantType) {
+  IRGenerationContext context;
   CharConstant charConstant('y');
 
-  EXPECT_EQ(charConstant.getType(), PrimitiveTypes::CHAR_TYPE);
+  EXPECT_EQ(charConstant.getType(context), PrimitiveTypes::CHAR_TYPE);
 }
 
 TEST_F(TestFileSampleRunner, CharVariableTest) {

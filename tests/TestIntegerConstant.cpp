@@ -36,7 +36,8 @@ TEST(IntegerConstantTest, IntegerConstantTest) {
 }
 
 TEST(IntegerConstantTest, TestIntegerConstantType) {
+  IRGenerationContext context;
   IntegerConstant integerConstant(5);
 
-  EXPECT_EQ(integerConstant.getType(), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(integerConstant.getType(context), PrimitiveTypes::INT_TYPE);
 }

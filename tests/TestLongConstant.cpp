@@ -36,7 +36,8 @@ TEST(LongConstantTest, LongConstantTest) {
 }
 
 TEST(LongConstantTest, TestLongConstantType) {
+  IRGenerationContext context;
   LongConstant constantLong(5);
 
-  EXPECT_EQ(constantLong.getType(), PrimitiveTypes::LONG_TYPE);
+  EXPECT_EQ(constantLong.getType(context), PrimitiveTypes::LONG_TYPE);
 }

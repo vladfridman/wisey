@@ -24,7 +24,8 @@ TEST(EmptyExpressionTest, SimpleEmptyExpressionTest) {
 }
 
 TEST(EmptyExpressionTest, TestEmptyExpressionType) {
+  IRGenerationContext context;
   EmptyExpression expression;
  
-  EXPECT_EQ(expression.getType(), PrimitiveTypes::VOID_TYPE);
+  EXPECT_EQ(expression.getType(context), PrimitiveTypes::VOID_TYPE);
 }

@@ -18,6 +18,6 @@ Value* LongConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), mValue, true);
 }
 
-IType* LongConstant::getType() const {
+IType* LongConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::LONG_TYPE;
 }

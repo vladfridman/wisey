@@ -18,6 +18,6 @@ Value* FloatConstant::generateIR(IRGenerationContext& context) const {
   return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), mValue);
 }
 
-IType* FloatConstant::getType() const {
+IType* FloatConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::FLOAT_TYPE;
 }

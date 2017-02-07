@@ -36,7 +36,8 @@ TEST(DoubleConstantTest, DoubleConstantTest) {
 }
 
 TEST(DoubleConstantTest, TestDoubleConstantType) {
+  IRGenerationContext context;
   DoubleConstant doubleConstant(5.7);
 
-  EXPECT_EQ(doubleConstant.getType(), PrimitiveTypes::DOUBLE_TYPE);
+  EXPECT_EQ(doubleConstant.getType(context), PrimitiveTypes::DOUBLE_TYPE);
 }

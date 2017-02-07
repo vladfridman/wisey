@@ -36,7 +36,8 @@ TEST(FloatConstantTest, FloatConstantTest) {
 }
 
 TEST(FloatConstantTest, TestFloatConstantType) {
+  IRGenerationContext context;
   FloatConstant floatConstant(3.5);
 
-  EXPECT_EQ(floatConstant.getType(), PrimitiveTypes::FLOAT_TYPE);
+  EXPECT_EQ(floatConstant.getType(context), PrimitiveTypes::FLOAT_TYPE);
 }
