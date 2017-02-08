@@ -18,7 +18,7 @@
   #include "yazyk/ExpressionStatement.hpp"
   #include "yazyk/FloatConstant.hpp"
   #include "yazyk/ForStatement.hpp"
-  #include "yazyk/FunctionDeclaration.hpp"
+  #include "yazyk/MethodDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
   #include "yazyk/IfElseStatement.hpp"
   #include "yazyk/IfStatement.hpp"
@@ -108,11 +108,11 @@
 %type <expression> primary_expression relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression model_builder
-%type <variable_vector> function_declaration_arguments
+%type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
 %type <block> program block_item_list global_unit_list
-%type <statement> statement variable_declaration function_definition
-%type <statement> function_argument_declaration jump_statement block_item
+%type <statement> statement variable_declaration method_definition
+%type <statement> method_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
 %type <statement> selection_statement model_definition
 %type <compound_statement> compound_statement
@@ -152,7 +152,7 @@ global_unit_list
   ;
 
 global_unit
-  : function_definition
+  : method_definition
   | model_definition
   ;
 
@@ -256,21 +256,21 @@ variable_declaration
   | type_specifier identifier '=' expression ';' { $$ = new VariableDeclaration(*$1, *$2, $4); }
   ;
         
-function_definition
-  : access_specifier type_specifier identifier '(' function_declaration_arguments ')'
+method_definition
+  : access_specifier type_specifier identifier '(' method_declaration_arguments ')'
       compound_statement
-    { $$ = new FunctionDeclaration($1, *$2, *$3, *$5, *$7); delete $5; }
+    { $$ = new MethodDeclaration($1, *$2, *$3, *$5, *$7); delete $5; }
   ;
 
-function_argument_declaration
+method_argument_declaration
   : type_specifier identifier { $$ = new VariableDeclaration(*$1, *$2); }
   ;
 
-function_declaration_arguments
+method_declaration_arguments
   : /* blank */  { $$ = new VariableList(); }
-  | function_argument_declaration
+  | method_argument_declaration
     { $$ = new VariableList(); $$->push_back($<variable_declaration>1); }
-  | function_declaration_arguments ',' function_argument_declaration
+  | method_declaration_arguments ',' method_argument_declaration
     { $1->push_back($<variable_declaration>3); }
   ;
 

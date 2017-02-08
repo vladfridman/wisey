@@ -1,5 +1,5 @@
 //
-//  FunctionDeclaration.cpp
+//  MethodDeclaration.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/12/16.
@@ -8,7 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/FunctionDeclaration.hpp"
+#include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
@@ -16,7 +16,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
+Value* MethodDeclaration::generateIR(IRGenerationContext& context) const {
   Scopes& scopes = context.getScopes();
   vector<Type*> argTypes;
   VariableList::const_iterator it;

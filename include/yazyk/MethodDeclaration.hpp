@@ -1,13 +1,13 @@
 //
-//  FunctionDeclaration.hpp
+//  MethodDeclaration.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/12/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef FunctionDeclaration_h
-#define FunctionDeclaration_h
+#ifndef MethodDeclaration_h
+#define MethodDeclaration_h
 
 #include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/CompoundStatement.hpp"
@@ -23,7 +23,7 @@ namespace yazyk {
  *
  * A function contains Block that contains statements.
  */
-class FunctionDeclaration : public IStatement {
+class MethodDeclaration : public IStatement {
   const AccessSpecifier mAccessSpecifier;
   const ITypeSpecifier& mTypeSpecifier;
   const Identifier& mId;
@@ -31,11 +31,11 @@ class FunctionDeclaration : public IStatement {
   CompoundStatement& mCompoundStatement;
   
 public:
-  FunctionDeclaration(const AccessSpecifier& accessSpecifier,
-                      const ITypeSpecifier& typeSpecifier,
-                      const Identifier& id,
-                      const VariableList& arguments,
-                      CompoundStatement& compoundStatement) :
+  MethodDeclaration(const AccessSpecifier& accessSpecifier,
+                    const ITypeSpecifier& typeSpecifier,
+                    const Identifier& id,
+                    const VariableList& arguments,
+                    CompoundStatement& compoundStatement) :
   mAccessSpecifier(accessSpecifier),
   mTypeSpecifier(typeSpecifier),
   mId(id),
@@ -47,4 +47,4 @@ public:
 
 } /* namespace yazyk */
 
-#endif /* FunctionDeclaration_h */
+#endif /* MethodDeclaration_h */

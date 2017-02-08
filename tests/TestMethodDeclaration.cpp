@@ -1,11 +1,11 @@
 //
-//  TestFunctionDeclaration.cpp
+//  TestMethodDeclaration.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/13/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link FunctionDecalaration}
+//  Tests {@link MethodDeclaration}
 //
 
 #include <gtest/gtest.h>
@@ -16,8 +16,8 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/AccessSpecifiers.hpp"
-#include "yazyk/FunctionDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
 #include "yazyk/VariableDeclaration.hpp"
@@ -28,7 +28,7 @@ using namespace yazyk;
 
 using ::testing::Test;
 
-struct FunctionDecalarationTest : Test {
+struct MethodDeclarationTest : Test {
   IRGenerationContext mContext;
   PrimitiveTypeSpecifier mFloatTypeSpecifier;
   PrimitiveTypeSpecifier mIntTypeSpecifier;
@@ -43,7 +43,7 @@ struct FunctionDecalarationTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  FunctionDecalarationTest() :
+  MethodDeclarationTest() :
     mFloatTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
     mIntTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
     mFooFunctionIdentifier(Identifier("foo")),
@@ -55,21 +55,21 @@ struct FunctionDecalarationTest : Test {
       mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~FunctionDecalarationTest() {
+  ~MethodDeclarationTest() {
     delete mStringStream;
   }
 };
 
-TEST_F(FunctionDecalarationTest, FunctionFooDeclartaionTest) {
+TEST_F(MethodDeclarationTest, MethodFooDeclartaionTest) {
   mArguments.push_back(&mIntArgument);
-  FunctionDeclaration functionDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
-                                          mFloatTypeSpecifier,
-                                          mFooFunctionIdentifier,
-                                          mArguments,
-                                          mCompoundStatement);
-  Value* function = functionDeclaration.generateIR(mContext);
+  MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
+                                      mFloatTypeSpecifier,
+                                      mFooFunctionIdentifier,
+                                      mArguments,
+                                      mCompoundStatement);
+  Value* method = methodDeclaration.generateIR(mContext);
   
-  *mStringStream << *function;
+  *mStringStream << *method;
   string expected = string() +
     "\ndefine internal float @foo(i32 %bar) {" +
     "\nentry:" +
@@ -82,16 +82,16 @@ TEST_F(FunctionDecalarationTest, FunctionFooDeclartaionTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
-TEST_F(FunctionDecalarationTest, FunctionMainDeclartaionTest) {
+TEST_F(MethodDeclarationTest, MethodMainDeclartaionTest) {
   mArguments.push_back(&mFloatArgument);
-  FunctionDeclaration functionDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
+  MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
                                           mIntTypeSpecifier,
                                           mMainFunctionIdentifier,
                                           mArguments,
                                           mCompoundStatement);
-  Value* function = functionDeclaration.generateIR(mContext);
+  Value* method = methodDeclaration.generateIR(mContext);
   
-  *mStringStream << *function;
+  *mStringStream << *method;
   string expected = string() +
     "\ndefine internal i32 @main(float %bar) {" +
     "\nentry:" +
@@ -102,14 +102,14 @@ TEST_F(FunctionDecalarationTest, FunctionMainDeclartaionTest) {
     "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   ASSERT_NE(mContext.getMainFunction(), nullptr);
-  EXPECT_EQ(function, mContext.getMainFunction());
+  EXPECT_EQ(method, mContext.getMainFunction());
 }
 
-TEST_F(TestFileSampleRunner, FunctionDecalarationIntFunctionTest) {
+TEST_F(TestFileSampleRunner, MethodDecalarationIntFunctionTest) {
   runFile("tests/samples/test_int_function.yz", "10");
 }
 
 
-TEST_F(TestFileSampleRunner, FunctionDecalaratioImpliedReturnTest) {
+TEST_F(TestFileSampleRunner, MethodDecalaratioImpliedReturnTest) {
   runFile("tests/samples/test_implied_return.yz", "5");
 }

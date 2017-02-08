@@ -15,8 +15,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/FunctionDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/ReturnStatement.hpp"
 
