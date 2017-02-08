@@ -17,18 +17,18 @@ namespace yazyk {
  * Represents one field in a model
  */
 class ModelField {
-  llvm::Type* mType;
+  IType* mType;
   int mIndex;
 
 public:
   
-  ModelField(llvm::Type* type, int index) : mType(type), mIndex(index) { }
+  ModelField(IType* type, int index) : mType(type), mIndex(index) { }
   
   ~ModelField() { }
   
   int getIndex() { return mIndex; }
   
-  llvm::Type* getType() { return mType; }
+  IType* getType() const { return mType; }
 };
   
 } /* namespace yazyk */

@@ -50,7 +50,7 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
     Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), modelField->getIndex());
     GetElementPtrInst* fieldPointer =
       GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
-    if (modelField->getType() != fieldValue->getType()) {
+    if (modelField->getType()->getLLVMType(llvmContext) != fieldValue->getType()) {
       Log::e("Model builder argumet value for field '" + fieldName + "' does not match its type");
       exit(1);
     }

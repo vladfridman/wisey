@@ -16,6 +16,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/ModelBuilderArgument.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using ::testing::NiceMock;
 using ::testing::Test;
@@ -42,7 +43,7 @@ struct ModelBuilderArgumentTest : Test {
     StructType *structType = StructType::create(llvmContext, "MyModel");
     structType->setBody(types);
     map<string, ModelField*>* fields = new map<string, ModelField*>();
-    ModelField* fieldA = new ModelField(Type::getInt32Ty(llvmContext), 0);
+    ModelField* fieldA = new ModelField(PrimitiveTypes::INT_TYPE, 0);
     (*fields)["fieldA"] = fieldA;
     mModel = new Model("MyModel", structType, fields);
   }

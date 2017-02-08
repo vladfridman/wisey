@@ -16,6 +16,7 @@
 
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/ModelBuilder.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -51,8 +52,8 @@ struct ModelBuilderTest : Test {
     StructType *structType = StructType::create(llvmContext, "Shape");
     structType->setBody(types);
     map<string, ModelField*>* fields = new map<string, ModelField*>();
-    ModelField* widthField = new ModelField(Type::getInt32Ty(llvmContext), 0);
-    ModelField* heightField = new ModelField(Type::getInt32Ty(llvmContext), 1);
+    ModelField* widthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
+    ModelField* heightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
     (*fields)["width"] = widthField;
     (*fields)["height"] = heightField;
     Model* model = new Model("Shape", structType, fields);

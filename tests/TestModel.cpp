@@ -13,6 +13,7 @@
 #include <llvm/IR/LLVMContext.h>
 
 #include "yazyk/Model.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -34,8 +35,8 @@ struct ModelTest : public Test {
     mStructType = StructType::create(mLLVMContext, "Shape");
     mStructType->setBody(types);
     map<string, ModelField*>* fields = new map<string, ModelField*>();
-    mWidthField = new ModelField(Type::getInt32Ty(mLLVMContext), 0);
-    mHeightField = new ModelField(Type::getInt32Ty(mLLVMContext), 1);
+    mWidthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
+    mHeightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
     (*fields)["width"] = mWidthField;
     (*fields)["height"] = mHeightField;
     mModel = new Model("Shape", mStructType, fields);

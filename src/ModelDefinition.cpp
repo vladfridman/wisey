@@ -26,11 +26,11 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
       iterator != mFields.end();
       iterator++, index++) {
     ModelFieldDeclaration *field = *iterator;
-    Type* fieldType = field->getTypeSpecifier().getType(context)->getLLVMType(llvmContext);
+    IType* fieldType = field->getTypeSpecifier().getType(context);
     
     ModelField* modelField = new ModelField(fieldType, index);
     (*fields)[field->getName()] = modelField;
-    types.push_back(fieldType);
+    types.push_back(fieldType->getLLVMType(llvmContext));
   }
   
   structType->setBody(types);
