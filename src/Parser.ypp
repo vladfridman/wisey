@@ -1,4 +1,5 @@
 %{
+  #include "yazyk/AccessSpecifiers.hpp"
   #include "yazyk/AdditiveMultiplicativeExpression.hpp"
   #include "yazyk/Assignment.hpp"
   #include "yazyk/Block.hpp"
@@ -80,6 +81,7 @@
   yazyk::ModelBuilderArgumentList *model_builder_argument_list;
   yazyk::ModelFieldDeclaration* field;
   yazyk::ModelTypeSpecifier *model_type_specifier;
+  yazyk::AccessSpecifier access_specifier;
   std::vector<yazyk::VariableDeclaration*> *variable_vector;
   std::vector<yazyk::IExpression*> *expression_vector;
   std::vector<yazyk::ModelFieldDeclaration*> *field_vector;
@@ -95,7 +97,7 @@
 %token <token> TTYPEBOOLEAN TTYPECHAR TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
 %token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH TDO
-%token <token> TMODEL TBUILDER TBUILD
+%token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
 
 /**
  * Parsing tree node types
@@ -123,6 +125,7 @@
 %type <model_builder_argument_list> model_builder_argument_list
 %type <model_builder_argument> model_builder_argument
 %type <model_type_specifier> model_type_specifier
+%type <access_specifier> access_specifier
 
 %left '+' '-'
 %left '*' '/'
@@ -254,8 +257,9 @@ variable_declaration
   ;
         
 function_definition
-  : type_specifier identifier '(' function_declaration_arguments ')' compound_statement
-    { $$ = new FunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
+  : access_specifier type_specifier identifier '(' function_declaration_arguments ')'
+      compound_statement
+    { $$ = new FunctionDeclaration($1, *$2, *$3, *$5, *$7); delete $5; }
   ;
 
 function_argument_declaration
@@ -268,6 +272,11 @@ function_declaration_arguments
     { $$ = new VariableList(); $$->push_back($<variable_declaration>1); }
   | function_declaration_arguments ',' function_argument_declaration
     { $1->push_back($<variable_declaration>3); }
+  ;
+
+access_specifier
+  : TPUBLIC { $$ = AccessSpecifiers::PUBLIC_ACCESS }
+  | TPRIVATE { $$ = AccessSpecifiers::PRIVATE_ACCESS }
   ;
 
 identifier

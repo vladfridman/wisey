@@ -3,7 +3,7 @@ model Rectangle {
   int height;
 }
 
-int main() {
+public int main() {
   Rectangle r1 = builder(Rectangle)
     .withWidth(1)
     .withHeight(3)

@@ -1,4 +1,4 @@
-int main() {
+public int main() {
   char var = 'y';
   
   if (var == 'y') {

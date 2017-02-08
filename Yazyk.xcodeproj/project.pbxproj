@@ -12,6 +12,8 @@
 		F504279A1E4B4275001CB148 /* SubIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* SubIdentifier.cpp */; };
 		F504279B1E4B4275001CB148 /* SubIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* SubIdentifier.cpp */; };
 		F504279D1E4B5845001CB148 /* TestSubIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279C1E4B5845001CB148 /* TestSubIdentifier.cpp */; };
+		F50427A01E4B8AAC001CB148 /* AccessSpecifiers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279F1E4B8AAC001CB148 /* AccessSpecifiers.cpp */; };
+		F50427A11E4B8AAC001CB148 /* AccessSpecifiers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279F1E4B8AAC001CB148 /* AccessSpecifiers.cpp */; };
 		F507D2651E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D2661E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
@@ -279,6 +281,8 @@
 		F50427981E4B4102001CB148 /* SubIdentifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SubIdentifier.hpp; path = include/yazyk/SubIdentifier.hpp; sourceTree = "<group>"; };
 		F50427991E4B4275001CB148 /* SubIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SubIdentifier.cpp; path = src/SubIdentifier.cpp; sourceTree = "<group>"; };
 		F504279C1E4B5845001CB148 /* TestSubIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSubIdentifier.cpp; path = tests/TestSubIdentifier.cpp; sourceTree = "<group>"; };
+		F504279E1E4B8615001CB148 /* AccessSpecifiers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AccessSpecifiers.hpp; path = include/yazyk/AccessSpecifiers.hpp; sourceTree = "<group>"; };
+		F504279F1E4B8AAC001CB148 /* AccessSpecifiers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AccessSpecifiers.cpp; path = src/AccessSpecifiers.cpp; sourceTree = "<group>"; };
 		F507D2631E43539C00495E2D /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Model.hpp; path = include/yazyk/Model.hpp; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
 		F507D2671E43783000495E2D /* ModelField.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelField.hpp; path = include/yazyk/ModelField.hpp; sourceTree = "<group>"; };
@@ -763,6 +767,7 @@
 		F54625BD1DE5E53900074D66 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				F504279F1E4B8AAC001CB148 /* AccessSpecifiers.cpp */,
 				F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */,
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
 				F531B6411E0A16D7008304F3 /* Block.cpp */,
@@ -880,6 +885,7 @@
 		F569E9F91DF9CE6B00BBB20E /* include */ = {
 			isa = PBXGroup;
 			children = (
+				F504279E1E4B8615001CB148 /* AccessSpecifiers.hpp */,
 				F53400EC1DFC20E70002BF7E /* AdditiveMultiplicativeExpression.hpp */,
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
 				F531B6401E0A162D008304F3 /* Block.hpp */,
@@ -1066,6 +1072,7 @@
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2DC1E2D329900435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
+				F50427A11E4B8AAC001CB148 /* AccessSpecifiers.cpp in Sources */,
 				F50FA2D91E2D324600435EEA /* SwitchStatement.cpp in Sources */,
 				F5F396DC1E34BFE000F34296 /* ModelBuilderArgument.cpp in Sources */,
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
@@ -1178,6 +1185,7 @@
 				F50FA2D31E2D0AD600435EEA /* ModelDefinition.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
+				F50427A01E4B8AAC001CB148 /* AccessSpecifiers.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F531B65A1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
 				F57411631E01BBFC009809FF /* Scope.cpp in Sources */,

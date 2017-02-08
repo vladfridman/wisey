@@ -1,4 +1,4 @@
-int main() {
+public int main() {
   if (5 > 2) {
     continue;
   }

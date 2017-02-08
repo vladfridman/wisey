@@ -9,7 +9,7 @@ model Shape {
   Color color;
 }
 
-int main() {
+public int main() {
   Shape rectangle = builder(Shape)
     .withWidth(3)
     .withHeight(5l)

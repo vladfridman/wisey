@@ -1,8 +1,8 @@
-void foo() {
+public void foo() {
   int i = 0;
 }
 
-int main() {
+public int main() {
   foo();
   return 5;
 }

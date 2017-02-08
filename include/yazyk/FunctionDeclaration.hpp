@@ -9,6 +9,7 @@
 #ifndef FunctionDeclaration_h
 #define FunctionDeclaration_h
 
+#include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/CompoundStatement.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"
@@ -23,16 +24,19 @@ namespace yazyk {
  * A function contains Block that contains statements.
  */
 class FunctionDeclaration : public IStatement {
+  const AccessSpecifier mAccessSpecifier;
   const ITypeSpecifier& mTypeSpecifier;
   const Identifier& mId;
   VariableList mArguments;
   CompoundStatement& mCompoundStatement;
   
 public:
-  FunctionDeclaration(const ITypeSpecifier& typeSpecifier,
+  FunctionDeclaration(const AccessSpecifier& accessSpecifier,
+                      const ITypeSpecifier& typeSpecifier,
                       const Identifier& id,
                       const VariableList& arguments,
                       CompoundStatement& compoundStatement) :
+  mAccessSpecifier(accessSpecifier),
   mTypeSpecifier(typeSpecifier),
   mId(id),
   mArguments(arguments),

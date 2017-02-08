@@ -1,4 +1,4 @@
-int main() {
+public int main() {
   int i = 10;
   if (i == 10) {
     break;
