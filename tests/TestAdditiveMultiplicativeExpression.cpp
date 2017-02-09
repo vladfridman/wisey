@@ -105,7 +105,10 @@ TEST_F(AdditiveMultiplicativeExpressionTest, NonPrimitiveTypesDeathTest) {
   Mock::AllowLeak(&mRightExpression);
   
   StructType* structType = StructType::create(mContext.getLLVMContext(), "Shape");
-  Model* model = new Model("Shape", structType, new map<string, ModelField*>());
+  Model* model = new Model("Shape",
+                           structType,
+                           new map<string, ModelField*>(),
+                           new map<string, Method*>());
 
   ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(model));

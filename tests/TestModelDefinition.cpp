@@ -15,7 +15,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/ModelDefinition.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
@@ -34,8 +36,26 @@ TEST(ModelDefinitionTest, TestSimpleDefinition) {
   vector<ModelFieldDeclaration *> fields;
   fields.push_back(&field1);
   fields.push_back(&field2);
-  ModelDefinition modelDefinition("mymodel", fields);
   
+  Block block;
+  CompoundStatement compoundStatement(block);
+  PrimitiveTypeSpecifier intTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier floatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  Identifier fooFunctionIdentifier("foo");
+  Identifier intArgumentIdentifier("intargument");
+  VariableDeclaration intArgument(intTypeSpecifier, intArgumentIdentifier);
+  VariableList methodArguments;
+  methodArguments.push_back(&intArgument);
+  MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
+                                      floatTypeSpecifier,
+                                      fooFunctionIdentifier,
+                                      methodArguments,
+                                      compoundStatement);
+  vector<MethodDeclaration *> methods;
+  methods.push_back(&methodDeclaration);
+  
+  ModelDefinition modelDefinition("mymodel", fields, methods);
+
   modelDefinition.generateIR(context);
   Model* model = context.getModel("mymodel");
   StructType* structType = (StructType*) model->getLLVMType(llvmContext)->getPointerElementType();
@@ -44,8 +64,13 @@ TEST(ModelDefinitionTest, TestSimpleDefinition) {
   EXPECT_TRUE(structType->getNumElements() == 2);
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(llvmContext));
   EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(llvmContext));
+  EXPECT_STREQ(model->getName().c_str(), "mymodel");
 }
 
 TEST_F(TestFileSampleRunner, ModelDefinitionTest) {
   runFile("tests/samples/test_model_definition.yz", "0");
+}
+
+TEST_F(TestFileSampleRunner, ModelDefinitionWithMethodTest) {
+  runFile("tests/samples/test_model_method.yz", "0");
 }

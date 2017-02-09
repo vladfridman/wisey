@@ -14,6 +14,7 @@
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"
 #include "yazyk/ITypeSpecifier.hpp"
+#include "yazyk/Method.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
 namespace yazyk {
@@ -43,6 +44,11 @@ public:
   mCompoundStatement(compoundStatement) { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+
+  /**
+   * Returns object representing the method for storage in a model object
+   */
+  Method* getMethod(IRGenerationContext& context) const;
 };
 
 } /* namespace yazyk */

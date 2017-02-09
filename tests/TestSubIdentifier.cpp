@@ -47,7 +47,8 @@ struct SubIdentifierTest : public Test {
     map<string, ModelField*>* fields = new map<string, ModelField*>();
     (*fields)["width"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
     (*fields)["height"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-    Model* model = new Model("Shape", structType, fields);
+    map<string, Method*>* methods = new map<string, Method*>();
+    Model* model = new Model("Shape", structType, fields, methods);
     
     ON_CALL(mExpression, getType(_)).WillByDefault(Return(model));
   }

@@ -66,7 +66,8 @@ TEST(IRGenerationContextTest, ModelTypeRegistryTest) {
   
   StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
   map<string, ModelField*>* fields = new map<string, ModelField*>();
-  Model* model = new Model("mymodel", structType, fields);
+  map<string, Method*>* methods = new map<string, Method*>();
+  Model* model = new Model("mymodel", structType, fields, methods);
   context.addModel(model);
   Model* resultModel = context.getModel("mymodel");
   
@@ -80,7 +81,8 @@ TEST(IRGenerationContextTest, ModelTypeRedefinedDeathTest) {
   
   StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
   map<string, ModelField*>* fields = new map<string, ModelField*>();
-  Model* model = new Model("mymodel", structType, fields);
+  map<string, Method*>* methods = new map<string, Method*>();
+  Model* model = new Model("mymodel", structType, fields, methods);
   context.addModel(model);
   
   EXPECT_EXIT(context.addModel(model),

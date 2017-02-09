@@ -34,7 +34,8 @@ struct MethodDeclarationTest : Test {
   PrimitiveTypeSpecifier mIntTypeSpecifier;
   Identifier mFooFunctionIdentifier;
   Identifier mMainFunctionIdentifier;
-  Identifier mArgumentIdentifier;
+  Identifier mIntArgumentIdentifier;
+  Identifier mFloatArgumentIdentifier;
   VariableDeclaration mIntArgument;
   VariableDeclaration mFloatArgument;
   VariableList mArguments;
@@ -48,9 +49,10 @@ struct MethodDeclarationTest : Test {
     mIntTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
     mFooFunctionIdentifier(Identifier("foo")),
     mMainFunctionIdentifier(Identifier("main")),
-    mArgumentIdentifier(Identifier("bar")),
-    mIntArgument(VariableDeclaration(mIntTypeSpecifier, mArgumentIdentifier)),
-    mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mArgumentIdentifier)),
+    mIntArgumentIdentifier(Identifier("intargument")),
+    mFloatArgumentIdentifier(Identifier("floatargument")),
+    mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
+    mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
     mCompoundStatement(CompoundStatement(mBlock)) {
       mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -71,10 +73,10 @@ TEST_F(MethodDeclarationTest, MethodFooDeclartaionTest) {
   
   *mStringStream << *method;
   string expected = string() +
-    "\ndefine internal float @foo(i32 %bar) {" +
+    "\ndefine internal float @foo(i32 %intargument) {" +
     "\nentry:" +
-    "\n  %bar.param = alloca i32" +
-    "\n  store i32 %bar, i32* %bar.param" +
+    "\n  %intargument.param = alloca i32" +
+    "\n  store i32 %intargument, i32* %intargument.param" +
     "\n  ret void" +
     "\n}" +
     "\n";
@@ -93,16 +95,36 @@ TEST_F(MethodDeclarationTest, MethodMainDeclartaionTest) {
   
   *mStringStream << *method;
   string expected = string() +
-    "\ndefine internal i32 @main(float %bar) {" +
+    "\ndefine internal i32 @main(float %floatargument) {" +
     "\nentry:" +
-    "\n  %bar.param = alloca float" +
-    "\n  store float %bar, float* %bar.param" +
+    "\n  %floatargument.param = alloca float" +
+    "\n  store float %floatargument, float* %floatargument.param" +
     "\n  ret void" +
     "\n}" +
     "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   ASSERT_NE(mContext.getMainFunction(), nullptr);
   EXPECT_EQ(method, mContext.getMainFunction());
+}
+
+TEST_F(MethodDeclarationTest, MethodDescriptorExtractTest) {
+  mArguments.push_back(&mIntArgument);
+  mArguments.push_back(&mFloatArgument);
+  MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
+                                      mFloatTypeSpecifier,
+                                      mFooFunctionIdentifier,
+                                      mArguments,
+                                      mCompoundStatement);
+  Method* method = methodDeclaration.getMethod(mContext);
+  vector<MethodArgument*> arguments = method->getArguments();
+  
+  EXPECT_STREQ(method->getName().c_str(), "foo");
+  EXPECT_EQ(method->getReturnType(), PrimitiveTypes::FLOAT_TYPE);
+  EXPECT_EQ(arguments.size(), 2ul);
+  EXPECT_EQ(arguments.at(0)->getName(), "intargument");
+  EXPECT_EQ(arguments.at(0)->getType(), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(arguments.at(1)->getName(), "floatargument");
+  EXPECT_EQ(arguments.at(1)->getType(), PrimitiveTypes::FLOAT_TYPE);
 }
 
 TEST_F(TestFileSampleRunner, MethodDecalarationIntFunctionTest) {

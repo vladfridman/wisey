@@ -29,6 +29,7 @@
   #include "yazyk/LogicalOrExpression.hpp"
   #include "yazyk/LongConstant.hpp"
   #include "yazyk/MethodCall.hpp"
+  #include "yazyk/MethodDeclaration.hpp"
   #include "yazyk/ModelBuilder.hpp"
   #include "yazyk/ModelBuilderArgument.hpp"
   #include "yazyk/ModelDefinition.hpp"
@@ -82,9 +83,11 @@
   yazyk::ModelFieldDeclaration* field;
   yazyk::ModelTypeSpecifier *model_type_specifier;
   yazyk::AccessSpecifier access_specifier;
+  yazyk::MethodDeclaration* method_declaration;
   std::vector<yazyk::VariableDeclaration*> *variable_vector;
   std::vector<yazyk::IExpression*> *expression_vector;
   std::vector<yazyk::ModelFieldDeclaration*> *field_vector;
+  std::vector<yazyk::MethodDeclaration*> *method_vector;
   std::string *string;
   int token;
 }
@@ -111,7 +114,7 @@
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
 %type <block> program block_item_list global_unit_list
-%type <statement> statement variable_declaration method_definition
+%type <statement> statement variable_declaration
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
 %type <statement> selection_statement model_definition
@@ -119,13 +122,15 @@
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
 %type <switch_cases> case_statement_list case_statement_list_with_default
-%type <field_vector> model_field_declaration_list
+%type <field_vector> model_field_declaration_list model_field_declaration_list_optional
 %type <field> model_field_declaration
 %type <type> type_specifier primitive_type_specifier
 %type <model_builder_argument_list> model_builder_argument_list
 %type <model_builder_argument> model_builder_argument
 %type <model_type_specifier> model_type_specifier
 %type <access_specifier> access_specifier
+%type <method_vector> method_definition_list method_definition_list_optional
+%type <method_declaration> method_definition
 
 %left '+' '-'
 %left '*' '/'
@@ -152,12 +157,18 @@ global_unit_list
   ;
 
 global_unit
-  : method_definition
+  : method_definition { $$ = (IStatement*)$1; }
   | model_definition
   ;
 
 model_definition
-  : TMODEL TIDENTIFIER '{' model_field_declaration_list '}' { $$ = new ModelDefinition(*$2, *$4); }
+  : TMODEL TIDENTIFIER '{' model_field_declaration_list_optional method_definition_list_optional '}'
+    { $$ = new ModelDefinition(*$2, *$4, *$5); }
+  ;
+
+model_field_declaration_list_optional
+  : /* blank */ { $$ = new std::vector<ModelFieldDeclaration*>(); }
+  | model_field_declaration_list
   ;
 
 model_field_declaration_list
@@ -169,6 +180,16 @@ model_field_declaration_list
 
 model_field_declaration
   : type_specifier TIDENTIFIER ';' { $$ = new ModelFieldDeclaration(*$1, *$2); }
+  ;
+
+method_definition_list_optional
+  : /* blank */ { $$ = new std::vector<MethodDeclaration *>(); }
+  | method_definition_list
+  ;
+
+method_definition_list
+  : method_definition { $$ = new std::vector<MethodDeclaration *>(); $$->push_back($1); }
+  | method_definition_list method_definition { $1->push_back($2); }
   ;
 
 compound_statement
@@ -275,8 +296,8 @@ method_declaration_arguments
   ;
 
 access_specifier
-  : TPUBLIC { $$ = AccessSpecifiers::PUBLIC_ACCESS }
-  | TPRIVATE { $$ = AccessSpecifiers::PRIVATE_ACCESS }
+  : TPUBLIC { $$ = AccessSpecifiers::PUBLIC_ACCESS; }
+  | TPRIVATE { $$ = AccessSpecifiers::PRIVATE_ACCESS; }
   ;
 
 identifier
@@ -393,7 +414,7 @@ call_arguments
 
 type_specifier
   : primitive_type_specifier
-  | model_type_specifier
+  | model_type_specifier { $$ = (ITypeSpecifier *)$1; }
   ;
 
 primitive_type_specifier

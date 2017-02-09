@@ -13,13 +13,11 @@ using namespace std;
 using namespace yazyk;
 
 Model::~Model() {
-  for (map<string, ModelField*>::iterator iterator = mFields->begin();
-       iterator != mFields->end();
-       iterator++) {
-    ModelField* modelField = iterator->second;
-    delete modelField;
-  }
+  mFields->clear();
+  mMethods->clear();
+
   delete mFields;
+  delete mMethods;
 }
 
 ModelField* Model::findField(string fieldName) const {

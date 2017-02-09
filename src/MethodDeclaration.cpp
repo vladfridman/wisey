@@ -38,7 +38,7 @@ Value* MethodDeclaration::generateIR(IRGenerationContext& context) const {
   }
   Function::arg_iterator args = function->arg_begin();
   for (it = mArguments.begin(); it != mArguments.end(); it++) {
-    Argument *arg = &*args;
+    llvm::Argument *arg = &*args;
     arg->setName((**it).getId().getName());
   }
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
@@ -69,3 +69,19 @@ Value* MethodDeclaration::generateIR(IRGenerationContext& context) const {
   return function;
 }
 
+Method* MethodDeclaration::getMethod(IRGenerationContext& context) const {
+  vector<MethodArgument*> arguments;
+  
+  for (VariableList::const_iterator iterator = mArguments.begin();
+       iterator != mArguments.end();
+       iterator++) {
+    IType* type = (**iterator).getTypeSpecifier().getType(context);
+    string name = (**iterator).getId().getName();
+    MethodArgument* methodArgument = new MethodArgument(type, name);
+    arguments.push_back(methodArgument);
+  }
+  
+  IType* returnType = mTypeSpecifier.getType(context);
+  
+  return new Method(mId.getName(), returnType, arguments);
+}

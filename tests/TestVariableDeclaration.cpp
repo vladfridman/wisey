@@ -114,7 +114,8 @@ TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
   ModelField* fieldB = new ModelField(PrimitiveTypes::INT_TYPE, 0);
   (*fields)["fieldA"] = fieldA;
   (*fields)["fieldB"] = fieldB;
-  Model* model = new Model("model", structType, fields);
+  map<string, Method*>* methods = new map<string, Method*>();
+  Model* model = new Model("model", structType, fields, methods);
 
   mContext.addModel(model);
   VariableDeclaration declaration(typeSpecifier, identifier);

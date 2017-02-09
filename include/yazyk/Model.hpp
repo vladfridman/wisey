@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/IType.hpp"
+#include "yazyk/Method.hpp"
 #include "yazyk/ModelField.hpp"
 
 namespace yazyk {
@@ -25,13 +26,15 @@ class Model : public IType {
   std::string mName;
   llvm::StructType* mStructType;
   std::map<std::string, ModelField*>* mFields;
+  std::map<std::string, Method*>* mMethods;
   
 public:
   
   Model(std::string name,
         llvm::StructType* structType,
-        std::map<std::string, ModelField*>* fields) :
-    mName(name), mStructType(structType), mFields(fields) {}
+        std::map<std::string, ModelField*>* fields,
+        std::map<std::string, Method*>* methods) :
+    mName(name), mStructType(structType), mFields(fields), mMethods(methods) {}
   
   ~Model();
   

@@ -283,6 +283,8 @@
 		F504279C1E4B5845001CB148 /* TestSubIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSubIdentifier.cpp; path = tests/TestSubIdentifier.cpp; sourceTree = "<group>"; };
 		F504279E1E4B8615001CB148 /* AccessSpecifiers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AccessSpecifiers.hpp; path = include/yazyk/AccessSpecifiers.hpp; sourceTree = "<group>"; };
 		F504279F1E4B8AAC001CB148 /* AccessSpecifiers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AccessSpecifiers.cpp; path = src/AccessSpecifiers.cpp; sourceTree = "<group>"; };
+		F50427A21E4CBDF4001CB148 /* Method.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Method.hpp; path = include/yazyk/Method.hpp; sourceTree = "<group>"; };
+		F50427A41E4CC27F001CB148 /* MethodArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodArgument.hpp; path = include/yazyk/MethodArgument.hpp; sourceTree = "<group>"; };
 		F507D2631E43539C00495E2D /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Model.hpp; path = include/yazyk/Model.hpp; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
 		F507D2671E43783000495E2D /* ModelField.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelField.hpp; path = include/yazyk/ModelField.hpp; sourceTree = "<group>"; };
@@ -927,6 +929,8 @@
 				F57411571E01A022009809FF /* LogicalOrExpression.hpp */,
 				F50FA2E01E2E3AF600435EEA /* LongConstant.hpp */,
 				F507D2701E4608C200495E2D /* LongType.hpp */,
+				F50427A21E4CBDF4001CB148 /* Method.hpp */,
+				F50427A41E4CC27F001CB148 /* MethodArgument.hpp */,
 				F531B64C1E0DC169008304F3 /* MethodCall.hpp */,
 				F534010F1DFF31550002BF7E /* MethodDeclaration.hpp */,
 				F507D2631E43539C00495E2D /* Model.hpp */,

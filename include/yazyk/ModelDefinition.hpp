@@ -12,6 +12,7 @@
 #include "yazyk/Block.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"
+#include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/ModelFieldDeclaration.hpp"
 
 namespace yazyk {
@@ -22,11 +23,14 @@ namespace yazyk {
 class ModelDefinition : public IStatement {
   const std::string mName;
   std::vector<ModelFieldDeclaration *>& mFields;
+  std::vector<MethodDeclaration *>& mMethods;
   
 public:
   
-  ModelDefinition(std::string name, std::vector<ModelFieldDeclaration*>& fields)
-    : mName(name), mFields(fields) { }
+  ModelDefinition(std::string name,
+                  std::vector<ModelFieldDeclaration*>& fields,
+                  std::vector<MethodDeclaration *>& methods)
+    : mName(name), mFields(fields), mMethods(methods) { }
   
   ~ModelDefinition() { }
   

@@ -6,6 +6,7 @@
   #include "yazyk/CaseStatement.hpp"
   #include "yazyk/DefaultCaseStatement.hpp"
   #include "yazyk/Identifier.hpp"
+  #include "yazyk/MethodDeclaration.hpp"
   #include "yazyk/ModelBuilderArgument.hpp"
   #include "yazyk/ModelFieldDeclaration.hpp"
   #include "yazyk/ModelTypeSpecifier.hpp"

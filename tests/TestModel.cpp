@@ -39,7 +39,8 @@ struct ModelTest : public Test {
     mHeightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
     (*fields)["width"] = mWidthField;
     (*fields)["height"] = mHeightField;
-    mModel = new Model("Shape", mStructType, fields);
+    map<string, Method*>* methods = new map<string, Method*>();
+    mModel = new Model("Shape", mStructType, fields, methods);
   }
   
   ~ModelTest() { }

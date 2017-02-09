@@ -45,7 +45,8 @@ struct ModelBuilderArgumentTest : Test {
     map<string, ModelField*>* fields = new map<string, ModelField*>();
     ModelField* fieldA = new ModelField(PrimitiveTypes::INT_TYPE, 0);
     (*fields)["fieldA"] = fieldA;
-    mModel = new Model("MyModel", structType, fields);
+    map<string, Method*>* methods = new map<string, Method*>();
+    mModel = new Model("MyModel", structType, fields, methods);
   }
 };
 

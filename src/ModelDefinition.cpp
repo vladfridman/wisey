@@ -19,10 +19,10 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   StructType *structType = StructType::create(llvmContext, "model." + mName);
 
   vector<Type*> types;
-  map<string, ModelField*> *fields = new map<string, ModelField*>();
+  map<string, ModelField*>* fields = new map<string, ModelField*>();
   
   int index = 0;
-  for(std::vector<ModelFieldDeclaration *>::iterator iterator = mFields.begin();
+  for (vector<ModelFieldDeclaration *>::iterator iterator = mFields.begin();
       iterator != mFields.end();
       iterator++, index++) {
     ModelFieldDeclaration *field = *iterator;
@@ -35,7 +35,16 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   
   structType->setBody(types);
   
-  Model* model = new Model(mName, structType, fields);
+  map<string, Method*>* methods = new map<string, Method*>();
+  for (vector<MethodDeclaration *>::iterator iterator = mMethods.begin();
+       iterator != mMethods.end();
+       iterator++) {
+    MethodDeclaration* methodDeclaration = *iterator;
+    Method* method = methodDeclaration->getMethod(context);
+    (*methods)[method->getName()] = method;
+  }
+  
+  Model* model = new Model(mName, structType, fields, methods);
   context.addModel(model);
   
   return NULL;
