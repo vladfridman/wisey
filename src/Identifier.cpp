@@ -42,6 +42,6 @@ Variable* Identifier::checkGetVariable(IRGenerationContext& context) const {
     return variable;
   }
   
-  Log::e("Undeclared variable " + mName);
+  Log::e("Undeclared variable '" + mName + "'");
   exit(1);
 }

@@ -49,7 +49,7 @@ TEST_F(IdentifierTest, UndeclaredVariableDeathTest) {
 
   EXPECT_EXIT(identifier.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Undeclared variable foo");
+              "Undeclared variable 'foo'");
 }
 
 TEST_F(IdentifierTest, VariableIdentifierTest) {

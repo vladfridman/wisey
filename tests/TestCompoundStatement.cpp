@@ -43,5 +43,5 @@ TEST(TestCompoundStatement, SimpleCompoundStatementTest) {
 TEST_F(TestFileSampleRunner, CompoundStatementOutOfScopeVariableTest) {
   expectFailIRGeneration("tests/samples/test_compound_statement_fail.yz",
                          1,
-                         "Error: Undeclared variable j");
+                         "Error: Undeclared variable 'j'");
 }
