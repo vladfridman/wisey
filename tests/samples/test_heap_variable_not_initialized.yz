@@ -1,0 +1,9 @@
+model Color {
+  int value;
+}
+
+public int main() {
+  Color color;
+
+  return color.value;
+}

@@ -12,7 +12,7 @@
 
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/log.hpp"
+#include "yazyk/Log.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -24,6 +24,11 @@ const string& Identifier::getName() const {
 
 Value* Identifier::generateIR(IRGenerationContext& context) const {
   Variable* variable = checkGetVariable(context);
+  
+  if (variable->getStorageType() == HEAP_VARIABLE_UNINITIALIZED) {
+    Log::e("Variable '" + mName + "' is used before it has been initialized.");
+    exit(1);
+  }
   
   if (variable->getStorageType() == HEAP_VARIABLE) {
     return variable->getValue();

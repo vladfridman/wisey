@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestFileSampleRunner.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -94,3 +95,10 @@ TEST_F(IdentifierTest, HeapVariableTest) {
   
   EXPECT_EQ(result, fooValue);
 }
+
+TEST_F(TestFileSampleRunner, UsingUninitializedHeapVariableDeathTest) {
+  expectFailIRGeneration("tests/samples/test_heap_variable_not_initialized.yz",
+                         1,
+                         "Error: Variable 'color' is used before it has been initialized.");
+}
+
