@@ -15,8 +15,24 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-map<string, IVariable*>& Scope::getLocals() {
-  return mLocals;
+IVariable* Scope::findVariable(string name) {
+  if (mLocals.count(name)) {
+    return mLocals.at(name);
+  }
+  
+  return NULL;
+}
+
+void Scope::setVariable(string name, IVariable* variable) {
+  mLocals[name] = variable;
+}
+
+void Scope::clearVariable(string name) {
+  if (!mLocals.count(name)) {
+    Log::e("Variable '" + name + "' is not set in this scope.");
+    exit(1);
+  }
+  mLocals.erase(name);
 }
 
 void Scope::setBreakToBlock(BasicBlock* block) {

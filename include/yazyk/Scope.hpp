@@ -30,10 +30,20 @@ public:
 
   Scope() : mBreakToBlock(NULL), mContinueToBlock(NULL), mHasOwnedMemoryBeenFreed(false) { }
   
-  /**ß
-   * Returns map of local variables associated with this program block
+  /**
+   * Finds a variable and returns it. Returns NULL if the variable is not found;
    */
-  std::map<std::string, IVariable*>& getLocals();
+  IVariable* findVariable(std::string name);
+  
+  /**
+   * Sets a given variable
+   */
+  void setVariable(std::string name, IVariable* variable);
+  
+  /**
+   * Clears a variable
+   */
+  void clearVariable(std::string name);
   
   /**
    * Set block to break to out of a loop or a switch statement

@@ -20,57 +20,63 @@
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
+using namespace std;
 using namespace llvm;
 using namespace yazyk;
 
+using ::testing::Mock;
+using ::testing::NiceMock;
 using ::testing::Test;
+
+class MockVariable : public IVariable {
+public:
+  MOCK_CONST_METHOD0(getName, string ());
+  MOCK_CONST_METHOD0(getType, IType* ());
+  MOCK_CONST_METHOD0(getValue, Value* ());
+  MOCK_CONST_METHOD2(generateIdentifierIR, Value* (IRGenerationContext&, string));
+  MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, Value*));
+  MOCK_CONST_METHOD1(free, void (BasicBlock*));
+};
 
 struct ScopeTest : public Test {
   IRGenerationContext mContext;
-  LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
-  Function* mFunction;
   Scope mScope;
+  NiceMock<MockVariable>* mMockVariable;
  
 public:
   
-  ScopeTest() : mLLVMContext(mContext.getLLVMContext()), mScope(Scope()) {
-    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    mFunction = Function::Create(functionType,
-                                 GlobalValue::InternalLinkage,
-                                 "test",
-                                 mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+  ScopeTest() : mScope(Scope()) {
+    mMockVariable = new NiceMock<MockVariable>();
   }
 };
 
 TEST_F(ScopeTest, LocalsTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-  mScope.getLocals()["foo"] = new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  mScope.setVariable("foo", mMockVariable);
   
-  EXPECT_EQ(mScope.getLocals().count("foo"), 1ul);
-  EXPECT_EQ(mScope.getLocals()["foo"]->getValue(), fooValue);
-  EXPECT_EQ(mScope.getLocals().count("bar"), 0ul);
+  EXPECT_EQ(mScope.findVariable("foo"), mMockVariable);
+  EXPECT_EQ(mScope.findVariable("bar"), nullptr);
+  
+  mScope.setVariable("bar", mMockVariable);
+  
+  EXPECT_EQ(mScope.findVariable("foo"), mMockVariable);
+  EXPECT_EQ(mScope.findVariable("bar"), mMockVariable);
+  
+  mScope.clearVariable("foo");
+
+  EXPECT_EQ(mScope.findVariable("foo"), nullptr);
+  EXPECT_EQ(mScope.findVariable("bar"), mMockVariable);
+}
+
+TEST_F(ScopeTest, ClearNonExistantVariableDeathTest) {
+  EXPECT_EXIT(mScope.clearVariable("foo"),
+              ::testing::ExitedWithCode(1),
+              "Error: Variable 'foo' is not set in this scope.");
 }
 
 TEST_F(ScopeTest, MaybeFreeOwnedMemoryHeapVariableTest) {
-  Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  mScope.getLocals()["foo"] = new LocalHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  mScope.setVariable("foo", mMockVariable);
   
-  EXPECT_EQ(mBlock->getInstList().size(), 0ul);
-
-  mScope.maybeFreeOwnedMemory(mBlock);
+  EXPECT_CALL(*mMockVariable, free(mContext.getBasicBlock()));
   
-  EXPECT_GT(mBlock->getInstList().size(), 0ul);
-}
-
-TEST_F(ScopeTest, MaybeFreeOwnedMemoryStackVariableTest) {
-  Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  mScope.getLocals()["foo"] = new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
-  
-  EXPECT_EQ(mBlock->getInstList().size(), 0ul);
-  
-  mScope.maybeFreeOwnedMemory(mBlock);
-  
-  EXPECT_EQ(mBlock->getInstList().size(), 0ul);
+  mScope.maybeFreeOwnedMemory(mContext.getBasicBlock());
 }

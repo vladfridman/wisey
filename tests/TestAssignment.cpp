@@ -78,9 +78,10 @@ TEST_F(AssignmentTest, VariableNotDeclaredDeathTest) {
 
 TEST_F(AssignmentTest, TestAssignmentExpressionType) {
   NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   Identifier identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
-  mContext.getScopes().getScope()->getLocals()["foo"] = &mockVariable;
+  mContext.getScopes().setVariable(&mockVariable);
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
 
   EXPECT_EQ(assignment.getType(mContext), PrimitiveTypes::DOUBLE_TYPE);
@@ -88,7 +89,8 @@ TEST_F(AssignmentTest, TestAssignmentExpressionType) {
 
 TEST_F(AssignmentTest, GenerateAssignmentIR) {
   NiceMock<MockVariable> mockVariable;
-  mContext.getScopes().getScope()->getLocals()["foo"] = &mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  mContext.getScopes().setVariable(&mockVariable);
   
   Identifier identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);

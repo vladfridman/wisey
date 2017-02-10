@@ -47,7 +47,7 @@ TEST_F(LocalHeapVariableTest, HeapVariableAssignmentTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   LocalHeapVariable *uninitializedHeapVariable =
     new LocalHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
-  mContext.getScopes().getScope()->getLocals()["foo"] = uninitializedHeapVariable;
+  mContext.getScopes().setVariable(uninitializedHeapVariable);
   BitCastInst* bitCastInst = new BitCastInst(fooValue,
                                              fooValue->getType(),
                                              "foo",

@@ -19,8 +19,9 @@ IVariable* Scopes::getVariable(string name) {
   }
   
   for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
-    if ((*iterator)->getLocals().count(name)) {
-      return (*iterator)->getLocals().at(name);
+    IVariable* variable = (*iterator)->findVariable(name);
+    if (variable != NULL) {
+      return variable;
     }
   }
   
@@ -35,9 +36,9 @@ void Scopes::clearVariable(string name) {
   }
   
   for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
-    if ((*iterator)->getLocals().count(name) > 0) {
-      delete (*iterator)->getLocals().at(name);
-      (*iterator)->getLocals().erase(name);
+    IVariable* variable = (*iterator)->findVariable(name);
+    if (variable != NULL) {
+      (*iterator)->clearVariable(name);
       return;
     }
   }
@@ -48,7 +49,7 @@ void Scopes::clearVariable(string name) {
 }
 
 void Scopes::setVariable(IVariable* variable) {
-  getScope()->getLocals()[variable->getName()] = variable;
+  getScope()->setVariable(variable->getName(), variable);
 }
 
 void Scopes::pushScope() {
