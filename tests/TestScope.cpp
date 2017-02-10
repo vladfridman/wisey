@@ -16,6 +16,8 @@
 
 #include "yazyk/Scope.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/LocalHeapVariable.hpp"
+#include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -44,7 +46,7 @@ public:
 
 TEST_F(ScopeTest, LocalsTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-  mScope.getLocals()["foo"] = new Variable(fooValue, PrimitiveTypes::INT_TYPE, STACK_VARIABLE);
+  mScope.getLocals()["foo"] = new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   
   EXPECT_EQ(mScope.getLocals().count("foo"), 1ul);
   EXPECT_EQ(mScope.getLocals()["foo"]->getValue(), fooValue);
@@ -53,7 +55,7 @@ TEST_F(ScopeTest, LocalsTest) {
 
 TEST_F(ScopeTest, MaybeFreeOwnedMemoryHeapVariableTest) {
   Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  mScope.getLocals()["foo"] = new Variable(fooValue, PrimitiveTypes::INT_TYPE, HEAP_VARIABLE);
+  mScope.getLocals()["foo"] = new LocalHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   
   EXPECT_EQ(mBlock->getInstList().size(), 0ul);
 
@@ -64,7 +66,7 @@ TEST_F(ScopeTest, MaybeFreeOwnedMemoryHeapVariableTest) {
 
 TEST_F(ScopeTest, MaybeFreeOwnedMemoryStackVariableTest) {
   Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  mScope.getLocals()["foo"] = new Variable(fooValue, PrimitiveTypes::INT_TYPE, STACK_VARIABLE);
+  mScope.getLocals()["foo"] = new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   
   EXPECT_EQ(mBlock->getInstList().size(), 0ul);
   

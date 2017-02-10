@@ -24,25 +24,29 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
 using ::testing::Test;
+
+class MockVariable : public IVariable {
+public:
+  MOCK_CONST_METHOD0(getName, string ());
+  MOCK_CONST_METHOD0(getType, IType* ());
+  MOCK_CONST_METHOD0(getValue, Value* ());
+  MOCK_CONST_METHOD2(generateIdentifierIR, Value* (IRGenerationContext&, string));
+  MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, Value*));
+  MOCK_CONST_METHOD1(free, void (BasicBlock*));
+};
 
 struct IdentifierTest : public Test {
   IRGenerationContext mContext;
-  LLVMContext& mLLVMContext = mContext.getLLVMContext();
-  BasicBlock* mBlock = BasicBlock::Create(mLLVMContext, "entry");
-  string mStringBuffer;
-  raw_string_ostream* mStringStream;
 
   IdentifierTest() {
-    mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
-    mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~IdentifierTest() {
-    delete mBlock;
-    delete mStringStream;
-  }
+  ~IdentifierTest() { }
 };
 
 TEST_F(IdentifierTest, UndeclaredVariableDeathTest) {
@@ -53,52 +57,22 @@ TEST_F(IdentifierTest, UndeclaredVariableDeathTest) {
               "Undeclared variable 'foo'");
 }
 
-TEST_F(IdentifierTest, VariableIdentifierTest) {
-  string name = "foo";
-  AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
-                                     name,
-                                     mBlock);
-  mContext.getScopes().setStackVariable(name, PrimitiveTypes::INT_TYPE, alloc);
-  Identifier identifier(name, "bar");
-  identifier.generateIR(mContext);
-  
-  ASSERT_EQ(2ul, mBlock->size());
-  
-  BasicBlock::iterator iterator = mBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %bar = load i32, i32* %foo");
-  mStringBuffer.clear();
-}
-
-TEST_F(IdentifierTest, TestVariableType) {
-  string name = "foo";
-  AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
-                                     name,
-                                     mBlock);
-  mContext.getScopes().setStackVariable(name, PrimitiveTypes::INT_TYPE, alloc);
-  Identifier identifier(name, "bar");
+TEST_F(IdentifierTest, VariableTypeTest) {
+  mContext.getScopes().setStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  Identifier identifier("foo", "bar");
 
   EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(IdentifierTest, HeapVariableTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-  mContext.getScopes().setHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+TEST_F(IdentifierTest, GenerateIdentifierIR) {
+  NiceMock<MockVariable> mockVariable;
+  mContext.getScopes().getScope()->getLocals()["foo"] = &mockVariable;
+  
   Identifier identifier("foo", "bar");
   
-  Value* result = identifier.generateIR(mContext);
+  EXPECT_CALL(mockVariable, generateIdentifierIR(_, "bar")).Times(1);
+  EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(0);
   
-  EXPECT_EQ(result, fooValue);
-}
-
-TEST_F(TestFileSampleRunner, UsingUninitializedHeapVariableDeathTest) {
-  expectFailIRGeneration("tests/samples/test_heap_variable_not_initialized.yz",
-                         1,
-                         "Error: Variable 'color' is used before it has been initialized.");
+  identifier.generateIR(mContext);
 }
 

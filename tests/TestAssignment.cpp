@@ -13,9 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
-#include <llvm/Support/raw_ostream.h>
 
-#include "TestFileSampleRunner.hpp"
 #include "yazyk/Assignment.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -31,6 +29,16 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
+class MockVariable : public IVariable {
+public:
+  MOCK_CONST_METHOD0(getName, string ());
+  MOCK_CONST_METHOD0(getType, IType* ());
+  MOCK_CONST_METHOD0(getValue, Value* ());
+  MOCK_CONST_METHOD2(generateIdentifierIR, Value* (IRGenerationContext&, string));
+  MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, Value*));
+  MOCK_CONST_METHOD1(free, void (BasicBlock*));
+};
+
 class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
@@ -40,24 +48,21 @@ public:
 struct AssignmentTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression> mExpression;
+  Value* mExpressionValue;
   BasicBlock* mBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
-  string mStringBuffer;
-  raw_string_ostream* mStringStream;
 
 public:
   
   AssignmentTest() {
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
-    mStringStream = new raw_string_ostream(mStringBuffer);
-    Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
-    ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
+    mExpressionValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
+    ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(mExpressionValue));
     ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   }
   
   ~AssignmentTest() {
     delete mBlock;
-    delete mStringStream;
   }
 };
 
@@ -71,65 +76,25 @@ TEST_F(AssignmentTest, VariableNotDeclaredDeathTest) {
               "undeclared variable foo");
 }
 
-TEST_F(AssignmentTest, SimpleTest) {
-  string name = "foo";
-  Identifier identifier(name, "bar");
-  Assignment assignment(identifier, mExpression);
-  AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
-                                     name,
-                                     mBlock);
-  mContext.getScopes().setStackVariable(name, PrimitiveTypes::INT_TYPE, alloc);
-
-  assignment.generateIR(mContext);
-
-  ASSERT_EQ(2ul, mBlock->size());
-  BasicBlock::iterator iterator = mBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %foo");
-  mStringBuffer.clear();
-}
-
-TEST_F(AssignmentTest, HeapVariableTest) {
-  Scopes& scopes = mContext.getScopes();
-  NiceMock<MockExpression> expression;
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-  BitCastInst* bitCastInst = new BitCastInst(fooValue,
-                                             fooValue->getType(),
-                                             "foo",
-                                             mContext.getBasicBlock());
-  ON_CALL(expression, generateIR(_)).WillByDefault(Return(bitCastInst));
-  scopes.setHeapVariable("foo", PrimitiveTypes::INT_TYPE, bitCastInst);
-  scopes.setUnitializedHeapVariable("bar", PrimitiveTypes::INT_TYPE);
-  Identifier identifier("bar", "foo");
-  Assignment assignment(identifier, expression);
-  
-  EXPECT_NE(scopes.getVariable("foo"), nullptr);
-  EXPECT_NE(scopes.getVariable("bar"), nullptr);
-  
-  assignment.generateIR(mContext);
-  
-  EXPECT_EQ(scopes.getVariable("foo"), nullptr);
-  ASSERT_NE(scopes.getVariable("bar"), nullptr);
-  EXPECT_EQ(BitCastInst::classof(scopes.getVariable("bar")->getValue()), true);
-}
-
 TEST_F(AssignmentTest, TestAssignmentExpressionType) {
-  string name = "foo";
-  Identifier identifier(name, "bar");
+  NiceMock<MockVariable> mockVariable;
+  Identifier identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
-  AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
-                                     name,
-                                     mBlock);
-  mContext.getScopes().setStackVariable(name, PrimitiveTypes::INT_TYPE, alloc);
+  mContext.getScopes().getScope()->getLocals()["foo"] = &mockVariable;
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
 
-  EXPECT_EQ(assignment.getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(assignment.getType(mContext), PrimitiveTypes::DOUBLE_TYPE);
 }
 
-TEST_F(TestFileSampleRunner, ModelVariableAssignmentTest) {
-  runFile("tests/samples/test_assignment_model_variable.yz", "0");
+TEST_F(AssignmentTest, GenerateAssignmentIR) {
+  NiceMock<MockVariable> mockVariable;
+  mContext.getScopes().getScope()->getLocals()["foo"] = &mockVariable;
+  
+  Identifier identifier("foo", "bar");
+  Assignment assignment(identifier, mExpression);
+  
+  EXPECT_CALL(mockVariable, generateIdentifierIR(_, _)).Times(0);
+  EXPECT_CALL(mockVariable, generateAssignmentIR(_, mExpressionValue)).Times(1);
+  
+  assignment.generateIR(mContext);
 }

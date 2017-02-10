@@ -10,7 +10,7 @@
 #define Identifier_h
 
 #include "yazyk/IExpression.hpp"
-#include "yazyk/IHasType.hpp"
+#include "yazyk/IVariable.hpp"
 
 namespace yazyk {
 
@@ -40,7 +40,7 @@ public:
   
 private:
   
-  Variable* checkGetVariable(IRGenerationContext& context) const;
+  IVariable* checkGetVariable(IRGenerationContext& context) const;
 };
   
 } /* namespace yazyk */

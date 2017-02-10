@@ -125,7 +125,6 @@ TEST(ScopesTest, TestSetHeapVariable) {
   scopes.setHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   
   ASSERT_NE(scopes.getVariable("foo"), nullptr);
-  EXPECT_EQ(scopes.getVariable("foo")->getStorageType(), HEAP_VARIABLE);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
 }
 
@@ -135,6 +134,5 @@ TEST(ScopesTest, TestSetUnitializedHeapVariable) {
   scopes.setUnitializedHeapVariable("foo", PrimitiveTypes::INT_TYPE);
   
   ASSERT_NE(scopes.getVariable("foo"), nullptr);
-  EXPECT_EQ(scopes.getVariable("foo")->getStorageType(), HEAP_VARIABLE_UNINITIALIZED);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), nullptr);
 }

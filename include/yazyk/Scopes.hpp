@@ -12,6 +12,7 @@
 #include <list>
 
 #include "yazyk/IType.hpp"
+#include "yazyk/IVariable.hpp"
 #include "yazyk/Scope.hpp"
 
 namespace yazyk {
@@ -31,7 +32,7 @@ public:
    * Returns scoped variable which could be defined either in the current scope or one of
    * the parent scopes.
    */
-  Variable* getVariable(std::string name);
+  IVariable* getVariable(std::string name);
   
   /**
    * Remove reference to a variable
