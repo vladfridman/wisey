@@ -9,6 +9,7 @@
 #include <set>
 #include <llvm/IR/Constants.h>
 
+#include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Model.hpp"
 #include "yazyk/ModelBuilder.hpp"
@@ -57,7 +58,8 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
     new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
   }
   
-  context.getScopes().setHeapVariable(malloc->getName(), model, malloc);
+  LocalHeapVariable* heapVariable = new LocalHeapVariable(malloc->getName(), model, malloc);
+  context.getScopes().setVariable(heapVariable);
 
   return malloc;
 }

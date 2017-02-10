@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/VariableDeclaration.hpp"
@@ -54,7 +55,8 @@ Value* MethodDeclaration::generateIR(IRGenerationContext& context) const {
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);
-    scopes.setStackVariable((**it).getId().getName(), type, alloc);
+    IVariable* variable = new LocalStackVariable((**it).getId().getName(), type, alloc);
+    scopes.setVariable(variable);
   }
   
   mCompoundStatement.generateIR(context);

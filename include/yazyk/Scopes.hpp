@@ -40,20 +40,10 @@ public:
   void clearVariable(std::string name);
 
   /**
-   * Set the local stack variable to a given value
+   * Add a variable to the scope
    */
-  void setStackVariable(std::string name, IType* type, llvm::Value* value);
-  
-  /**
-   * Set the heap variable to a given value
-   */
-  void setHeapVariable(std::string name, IType* type, llvm::Value* value);
-  
-  /**
-   * Set a variable that in the future will refer to a heap object
-   */
-  void setUnitializedHeapVariable(std::string name, IType* type);
-  
+  void setVariable(IVariable* variable);
+    
   /**
    * Pushes a new program scope on the stack of program scopes
    */

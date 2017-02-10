@@ -46,7 +46,7 @@ void Scope::maybeFreeOwnedMemory(BasicBlock* block) {
     string name = iterator->first;
     IVariable* variable = iterator->second;
     variable->free(block);
-    
+
     delete variable;
   }
   

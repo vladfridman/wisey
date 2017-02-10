@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IncrementExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -43,7 +44,9 @@ public:
     AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
                                        mName,
                                        mBlock);
-    mContext.getScopes().setStackVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
+    
+    LocalStackVariable* variable = new LocalStackVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
+    mContext.getScopes().setVariable(variable);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 
@@ -109,7 +112,8 @@ TEST_F(IncrementExpressionTest, DecrementByOneExpressionTest) {
 
 TEST_F(IncrementExpressionTest, IncorrectIdentifierTypeDeathTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
-  mContext.getScopes().setStackVariable(mName, PrimitiveTypes::FLOAT_TYPE, NULL);
+  LocalStackVariable* variable = new LocalStackVariable(mName, PrimitiveTypes::FLOAT_TYPE, NULL);
+  mContext.getScopes().setVariable(variable);
   string expected = "Error: Identifier foo is of a type that is "
     "incopatible with increment/decrement operation";
   

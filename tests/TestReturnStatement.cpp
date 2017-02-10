@@ -16,6 +16,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/ReturnStatement.hpp"
@@ -127,7 +128,8 @@ TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
                                                nullptr,
                                                "");
 
-  mContext.getScopes().setHeapVariable("foo", PrimitiveTypes::CHAR_TYPE, malloc);
+  LocalHeapVariable* variable = new LocalHeapVariable("foo", PrimitiveTypes::CHAR_TYPE, malloc);
+  mContext.getScopes().setVariable(variable);
   
   ReturnStatement returnStatement(mExpression);
   

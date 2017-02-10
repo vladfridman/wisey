@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -27,6 +28,7 @@ using namespace yazyk;
 using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 class MockVariable : public IVariable {
@@ -58,7 +60,8 @@ TEST_F(IdentifierTest, UndeclaredVariableDeathTest) {
 }
 
 TEST_F(IdentifierTest, VariableTypeTest) {
-  mContext.getScopes().setStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  LocalStackVariable* variable = new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  mContext.getScopes().setVariable(variable);
   Identifier identifier("foo", "bar");
 
   EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
@@ -66,7 +69,8 @@ TEST_F(IdentifierTest, VariableTypeTest) {
 
 TEST_F(IdentifierTest, GenerateIdentifierIR) {
   NiceMock<MockVariable> mockVariable;
-  mContext.getScopes().getScope()->getLocals()["foo"] = &mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  mContext.getScopes().setVariable(&mockVariable);
   
   Identifier identifier("foo", "bar");
   

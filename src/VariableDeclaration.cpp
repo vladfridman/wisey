@@ -12,6 +12,8 @@
 #include "yazyk/Assignment.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/LocalHeapVariable.hpp"
+#include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -37,7 +39,8 @@ Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const 
                                      mId.getName(),
                                      context.getBasicBlock());
   
-  context.getScopes().setStackVariable(mId.getName(), type, alloc);
+  LocalStackVariable* variable = new LocalStackVariable(mId.getName(), type, alloc);
+  context.getScopes().setVariable(variable);
 
   return alloc;
 }
@@ -47,7 +50,8 @@ Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
   string variableName = mId.getName();
   IType* type = mTypeSpecifier.getType(context);
   
-  context.getScopes().setUnitializedHeapVariable(variableName, type);
+  LocalHeapVariable* uninitializedHeapVariable = new LocalHeapVariable(variableName, type, NULL);
+  context.getScopes().setVariable(uninitializedHeapVariable);
 
   return NULL;
 }

@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/LocalHeapVariable.hpp"
-#include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Scopes.hpp"
 
@@ -49,16 +47,8 @@ void Scopes::clearVariable(string name) {
   return;
 }
 
-void Scopes::setStackVariable(string name, IType* type, Value* value) {
-  getScope()->getLocals()[name] = new LocalStackVariable(name, type, value);
-}
-
-void Scopes::setHeapVariable(string name, IType* type, Value* value) {
-  getScope()->getLocals()[name] = new LocalHeapVariable(name, type, value);
-}
-
-void Scopes::setUnitializedHeapVariable(string name, IType* type) {
-  getScope()->getLocals()[name] = new LocalHeapVariable(name, type, NULL);
+void Scopes::setVariable(IVariable* variable) {
+  getScope()->getLocals()[variable->getName()] = variable;
 }
 
 void Scopes::pushScope() {
