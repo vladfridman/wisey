@@ -19,14 +19,14 @@ using namespace yazyk;
 
 Value* MethodDeclaration::generateIR(IRGenerationContext& context) const {
   Scopes& scopes = context.getScopes();
-  vector<Type*> argTypes;
-  VariableList::const_iterator it;
+  vector<Type*> argumentTypes;
+  VariableList::const_iterator iterator;
   LLVMContext& llvmContext = context.getLLVMContext();
-  for (it = mArguments.begin(); it != mArguments.end(); it++) {
-    IType* type = (**it).getTypeSpecifier().getType(context);
-    argTypes.push_back(type->getLLVMType(llvmContext));
+  for (iterator = mArguments.begin(); iterator != mArguments.end(); iterator++) {
+    IType* type = (**iterator).getTypeSpecifier().getType(context);
+    argumentTypes.push_back(type->getLLVMType(llvmContext));
   }
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType *ftype = FunctionType::get(mTypeSpecifier.getType(context)->getLLVMType(llvmContext),
                                           argTypesArray,
                                           false);
@@ -37,26 +37,28 @@ Value* MethodDeclaration::generateIR(IRGenerationContext& context) const {
   if (strcmp(mId.getName().c_str(), "main") == 0) {
     context.setMainFunction(function);
   }
-  Function::arg_iterator args = function->arg_begin();
-  for (it = mArguments.begin(); it != mArguments.end(); it++) {
-    llvm::Argument *arg = &*args;
-    arg->setName((**it).getId().getName());
+  Function::arg_iterator arguments = function->arg_begin();
+  for (iterator = mArguments.begin(); iterator != mArguments.end(); iterator++) {
+    llvm::Argument *argument = &*arguments;
+    argument->setName((**iterator).getId().getName());
+    arguments++;
   }
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   context.setBasicBlock(bblock);
   scopes.pushScope();
   
-  args = function->arg_begin();
-  for (it = mArguments.begin(); it != mArguments.end(); it++) {
-    Value *value = &*args;
-    string newName = (**it).getId().getName() + ".param";
-    IType* type = (**it).getTypeSpecifier().getType(context);
+  arguments = function->arg_begin();
+  for (iterator = mArguments.begin(); iterator != mArguments.end(); iterator++) {
+    Value *value = &*arguments;
+    string newName = (**iterator).getId().getName() + ".param";
+    IType* type = (**iterator).getTypeSpecifier().getType(context);
     AllocaInst *alloc = new AllocaInst(type->getLLVMType(llvmContext),
                                        newName,
                                        bblock);
     value = new StoreInst(value, alloc, bblock);
-    IVariable* variable = new LocalStackVariable((**it).getId().getName(), type, alloc);
+    IVariable* variable = new LocalStackVariable((**iterator).getId().getName(), type, alloc);
     scopes.setVariable(variable);
+    arguments++;
   }
   
   mCompoundStatement.generateIR(context);

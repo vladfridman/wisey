@@ -131,7 +131,10 @@ TEST_F(TestFileSampleRunner, MethodDecalarationIntFunctionTest) {
   runFile("tests/samples/test_int_function.yz", "10");
 }
 
-
-TEST_F(TestFileSampleRunner, MethodDecalaratioImpliedReturnTest) {
+TEST_F(TestFileSampleRunner, MethodDecalarationImpliedReturnTest) {
   runFile("tests/samples/test_implied_return.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, MethodDecalarationMultipleParametersTest) {
+  runFile("tests/samples/test_method_multiple_arguments.yz", "6");
 }
