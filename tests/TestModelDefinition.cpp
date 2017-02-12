@@ -26,6 +26,15 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+
+class MockStatement : public IStatement {
+public:
+  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
+};
+
 TEST(ModelDefinitionTest, TestSimpleDefinition) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -38,6 +47,8 @@ TEST(ModelDefinitionTest, TestSimpleDefinition) {
   fields.push_back(&field2);
   
   Block block;
+  NiceMock<MockStatement> mockStatement;
+  block.getStatements().push_back(&mockStatement);
   CompoundStatement compoundStatement(block);
   PrimitiveTypeSpecifier intTypeSpecifier(PrimitiveTypes::INT_TYPE);
   PrimitiveTypeSpecifier floatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
@@ -56,6 +67,8 @@ TEST(ModelDefinitionTest, TestSimpleDefinition) {
   
   ModelDefinition modelDefinition("mymodel", fields, methods);
 
+  EXPECT_CALL(mockStatement, generateIR(_));
+  
   modelDefinition.generateIR(context);
   Model* model = context.getModel("mymodel");
   StructType* structType = (StructType*) model->getLLVMType(llvmContext)->getPointerElementType();

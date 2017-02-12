@@ -8,7 +8,9 @@
 
 #include <llvm/IR/DerivedTypes.h>
 
+#include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/ModelDefinition.hpp"
+#include "yazyk/ObjectFieldVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -20,6 +22,10 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
 
   vector<Type*> types;
   map<string, ModelField*>* fields = new map<string, ModelField*>();
+  map<string, Method*>* methods = new map<string, Method*>();
+  Model* model = new Model(mName, structType, fields, methods);
+  
+  context.getScopes().pushScope();
   
   int index = 0;
   for (vector<ModelFieldDeclaration *>::iterator iterator = mFields.begin();
@@ -31,21 +37,24 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
     ModelField* modelField = new ModelField(fieldType, index);
     (*fields)[field->getName()] = modelField;
     types.push_back(fieldType->getLLVMType(llvmContext));
+    ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(field->getName(), NULL, model);
+    context.getScopes().setVariable(fieldVariable);
   }
   
   structType->setBody(types);
   
-  map<string, Method*>* methods = new map<string, Method*>();
   for (vector<MethodDeclaration *>::iterator iterator = mMethods.begin();
        iterator != mMethods.end();
        iterator++) {
     MethodDeclaration* methodDeclaration = *iterator;
     Method* method = methodDeclaration->getMethod(context);
     (*methods)[method->getName()] = method;
+    methodDeclaration->generateIR(context, model);
   }
   
-  Model* model = new Model(mName, structType, fields, methods);
   context.addModel(model);
   
+  context.getScopes().popScope(context.getBasicBlock());
+
   return NULL;
 }

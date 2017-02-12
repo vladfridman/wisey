@@ -18,6 +18,7 @@
   #include "yazyk/ExpressionStatement.hpp"
   #include "yazyk/FloatConstant.hpp"
   #include "yazyk/ForStatement.hpp"
+  #include "yazyk/FunctionDeclaration.hpp"
   #include "yazyk/MethodDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
   #include "yazyk/IfElseStatement.hpp"
@@ -157,7 +158,7 @@ global_unit_list
   ;
 
 global_unit
-  : method_definition { $$ = (IStatement*)$1; }
+  : method_definition { $$ = new FunctionDeclaration($1); }
   | model_definition
   ;
 
