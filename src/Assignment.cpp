@@ -19,7 +19,7 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  return variable->generateAssignmentIR(context, mExpression.generateIR(context));
+  return variable->generateAssignmentIR(context, mExpression);
 }
 
 IType* Assignment::getType(IRGenerationContext& context) const {

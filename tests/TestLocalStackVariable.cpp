@@ -9,11 +9,13 @@
 //
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -22,7 +24,17 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
+
+class MockExpression : public IExpression {
+public:
+  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+};
 
 struct LocalStackVariableTest : public Test {
   IRGenerationContext mContext;
@@ -51,8 +63,11 @@ TEST_F(LocalStackVariableTest, GenerateAssignmentIRTest) {
                                      mBlock);
   LocalStackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
   Value* assignValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
+  NiceMock<MockExpression> expression;
+  ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
   
-  localStackVariable.generateAssignmentIR(mContext, assignValue);
+  localStackVariable.generateAssignmentIR(mContext, expression);
   
   ASSERT_EQ(2ul, mBlock->size());
   BasicBlock::iterator iterator = mBlock->begin();

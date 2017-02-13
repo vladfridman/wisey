@@ -9,6 +9,7 @@
 #ifndef LocalHeapVariable_h
 #define LocalHeapVariable_h
 
+#include "yazyk/IExpression.hpp"
 #include "yazyk/IVariable.hpp"
 
 namespace yazyk {
@@ -40,7 +41,7 @@ public:
                                     std::string llvmVariableName) const override;
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                    llvm::Value* assignValue) override;
+                                    IExpression& assignToExpression) override;
 
   void free(llvm::BasicBlock* basicBlock) const override;
 };

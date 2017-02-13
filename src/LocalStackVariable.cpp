@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 
@@ -33,8 +34,8 @@ Value* LocalStackVariable::generateIdentifierIR(IRGenerationContext& context,
 }
 
 Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                Value* assignValue) {
-  return new StoreInst(assignValue,
+                                                IExpression& assignToExpression) {
+  return new StoreInst(assignToExpression.generateIR(context),
                        mValue,
                        context.getBasicBlock());
 }

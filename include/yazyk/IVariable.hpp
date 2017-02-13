@@ -17,6 +17,7 @@
 namespace yazyk {
   
 class IRGenerationContext;
+class IExpression;
 
 /**
  * Interface representing all variables
@@ -56,7 +57,7 @@ public:
    * Generate LLVM IR for when it is assigned to a given value
    */
   virtual llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                            llvm::Value* assignValue) = 0;
+                                            IExpression& assignToExpression) = 0;
   
   /**
    * Free any allocated space associated with this variable

@@ -39,9 +39,10 @@ Value* LocalHeapVariable::generateIdentifierIR(IRGenerationContext& context,
 }
 
 Value* LocalHeapVariable::generateAssignmentIR(IRGenerationContext& context,
-                                               Value* assignValue) {
-  mValue = new BitCastInst(assignValue, assignValue->getType(), mName, context.getBasicBlock());
-  context.getScopes().clearVariable(assignValue->getName());
+                                               IExpression& assignToExpression) {
+  Value* assignToValue = assignToExpression.generateIR(context);
+  mValue = new BitCastInst(assignToValue, assignToValue->getType(), mName, context.getBasicBlock());
+  context.getScopes().clearVariable(assignToValue->getName());
   
   return mValue;
 }

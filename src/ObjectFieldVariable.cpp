@@ -52,7 +52,8 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
   return new LoadInst(fieldPointer, "", context.getBasicBlock());
 }
 
-Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context, Value* assignValue) {
+Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
+                                                 IExpression& assignToExpression) {
   /** Not implemented yet */
   return NULL;
 }

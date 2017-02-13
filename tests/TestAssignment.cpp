@@ -35,7 +35,7 @@ public:
   MOCK_CONST_METHOD0(getType, IType* ());
   MOCK_CONST_METHOD0(getValue, Value* ());
   MOCK_CONST_METHOD2(generateIdentifierIR, Value* (IRGenerationContext&, string));
-  MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, Value*));
+  MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, IExpression&));
   MOCK_CONST_METHOD1(free, void (BasicBlock*));
 };
 
@@ -96,7 +96,7 @@ TEST_F(AssignmentTest, GenerateAssignmentIR) {
   Assignment assignment(identifier, mExpression);
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_, _)).Times(0);
-  EXPECT_CALL(mockVariable, generateAssignmentIR(_, mExpressionValue)).Times(1);
+  EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(1);
   
   assignment.generateIR(mContext);
 }

@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -22,7 +23,17 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
+
+class MockExpression : public IExpression {
+public:
+  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+};
 
 struct LocalHeapVariableTest : public Test {
   IRGenerationContext mContext;
@@ -53,8 +64,11 @@ TEST_F(LocalHeapVariableTest, HeapVariableAssignmentTest) {
                                              "foo",
                                              mContext.getBasicBlock());
   LocalHeapVariable localHeapVariable("bar", PrimitiveTypes::INT_TYPE, bitCastInst);
+  NiceMock<MockExpression> expression;
+  ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(expression, generateIR(_)).WillByDefault(Return(bitCastInst));
   
-  localHeapVariable.generateAssignmentIR(mContext, bitCastInst);
+  localHeapVariable.generateAssignmentIR(mContext, expression);
 
   EXPECT_EQ(mContext.getScopes().getVariable("foo"), nullptr);
   EXPECT_NE(localHeapVariable.getValue(), bitCastInst);

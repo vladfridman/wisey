@@ -39,7 +39,7 @@ public:
                                     std::string llvmVariableName) const override;
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                    llvm::Value* assignValue) override;
+                                    IExpression& assignToExpression) override;
 
   void free(llvm::BasicBlock* basicBlock) const override;
 };

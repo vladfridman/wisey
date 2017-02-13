@@ -37,7 +37,7 @@ public:
   MOCK_CONST_METHOD0(getType, IType* ());
   MOCK_CONST_METHOD0(getValue, Value* ());
   MOCK_CONST_METHOD2(generateIdentifierIR, Value* (IRGenerationContext&, string));
-  MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, Value*));
+  MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, IExpression&));
   MOCK_CONST_METHOD1(free, void (BasicBlock*));
 };
 
