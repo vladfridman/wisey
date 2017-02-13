@@ -32,8 +32,6 @@ struct FunctionDeclarationTest : Test {
   IRGenerationContext mContext;
   PrimitiveTypeSpecifier mFloatTypeSpecifier;
   PrimitiveTypeSpecifier mIntTypeSpecifier;
-  Identifier mFooFunctionIdentifier;
-  Identifier mMainFunctionIdentifier;
   Identifier mIntArgumentIdentifier;
   Identifier mFloatArgumentIdentifier;
   VariableDeclaration mIntArgument;
@@ -47,8 +45,6 @@ struct FunctionDeclarationTest : Test {
   FunctionDeclarationTest() :
   mFloatTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
   mIntTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
-  mFooFunctionIdentifier(Identifier("foo")),
-  mMainFunctionIdentifier(Identifier("main")),
   mIntArgumentIdentifier(Identifier("intargument")),
   mFloatArgumentIdentifier(Identifier("floatargument")),
   mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
@@ -66,7 +62,7 @@ TEST_F(FunctionDeclarationTest, MethodFooDeclartaionTest) {
   mArguments.push_back(&mIntArgument);
   MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
                                       mFloatTypeSpecifier,
-                                      mFooFunctionIdentifier,
+                                      "foo",
                                       mArguments,
                                       mCompoundStatement);
   FunctionDeclaration functionDeclaration(&methodDeclaration);
@@ -89,7 +85,7 @@ TEST_F(FunctionDeclarationTest, MethodMainDeclartaionTest) {
   mArguments.push_back(&mFloatArgument);
   MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
                                       mIntTypeSpecifier,
-                                      mMainFunctionIdentifier,
+                                      "main",
                                       mArguments,
                                       mCompoundStatement);
   FunctionDeclaration functionDeclaration(&methodDeclaration);

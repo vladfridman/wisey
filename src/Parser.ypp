@@ -20,7 +20,6 @@
   #include "yazyk/ForStatement.hpp"
   #include "yazyk/FunctionCall.hpp"
   #include "yazyk/FunctionDeclaration.hpp"
-  #include "yazyk/MethodDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
   #include "yazyk/IfElseStatement.hpp"
   #include "yazyk/IfStatement.hpp"
@@ -279,7 +278,7 @@ variable_declaration
   ;
         
 method_definition
-  : access_specifier type_specifier identifier '(' method_declaration_arguments ')'
+  : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
       compound_statement
     { $$ = new MethodDeclaration($1, *$2, *$3, *$5, *$7); delete $5; }
   ;

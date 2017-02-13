@@ -32,8 +32,6 @@ struct MethodDeclarationTest : Test {
   IRGenerationContext mContext;
   PrimitiveTypeSpecifier mFloatTypeSpecifier;
   PrimitiveTypeSpecifier mIntTypeSpecifier;
-  Identifier mFooFunctionIdentifier;
-  Identifier mMainFunctionIdentifier;
   Identifier mIntArgumentIdentifier;
   Identifier mFloatArgumentIdentifier;
   VariableDeclaration mIntArgument;
@@ -48,8 +46,6 @@ struct MethodDeclarationTest : Test {
   MethodDeclarationTest() :
     mFloatTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
     mIntTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
-    mFooFunctionIdentifier(Identifier("foo")),
-    mMainFunctionIdentifier(Identifier("main")),
     mIntArgumentIdentifier(Identifier("intargument")),
     mFloatArgumentIdentifier(Identifier("floatargument")),
     mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
@@ -81,7 +77,7 @@ TEST_F(MethodDeclarationTest, MethodFooDeclartaionTest) {
   mArguments.push_back(&mIntArgument);
   MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
                                       mFloatTypeSpecifier,
-                                      mFooFunctionIdentifier,
+                                      "foo",
                                       mArguments,
                                       mCompoundStatement);
   Value* method = methodDeclaration.generateIR(mContext, mModel);
@@ -106,7 +102,7 @@ TEST_F(MethodDeclarationTest, MethodDescriptorExtractTest) {
   mArguments.push_back(&mFloatArgument);
   MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
                                       mFloatTypeSpecifier,
-                                      mFooFunctionIdentifier,
+                                      "foo",
                                       mArguments,
                                       mCompoundStatement);
   Method* method = methodDeclaration.getMethod(mContext);

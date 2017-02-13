@@ -24,7 +24,7 @@ Value* MethodDeclaration::generateIR(IRGenerationContext& context, Model* model)
   
   Function* function = createFunction(context, model);
   
-  if (strcmp(mId.getName().c_str(), "main") == 0) {
+  if (strcmp(mMethodName.c_str(), "main") == 0) {
     context.setMainFunction(function);
   }
 
@@ -43,9 +43,9 @@ Value* MethodDeclaration::generateIR(IRGenerationContext& context, Model* model)
 
 string MethodDeclaration::getMethodName(Model* model) const {
   if (model == NULL) {
-    return mId.getName();
+    return mMethodName;
   }
-  return "model." + model->getName() + "." + mId.getName();
+  return "model." + model->getName() + "." + mMethodName;
 }
 
 Function* MethodDeclaration::createFunction(IRGenerationContext& context,
@@ -140,5 +140,5 @@ Method* MethodDeclaration::getMethod(IRGenerationContext& context) const {
   
   IType* returnType = mTypeSpecifier.getType(context);
   
-  return new Method(mId.getName(), returnType, arguments);
+  return new Method(mMethodName, returnType, arguments);
 }

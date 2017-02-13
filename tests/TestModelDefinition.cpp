@@ -52,14 +52,13 @@ TEST(ModelDefinitionTest, TestSimpleDefinition) {
   CompoundStatement compoundStatement(block);
   PrimitiveTypeSpecifier intTypeSpecifier(PrimitiveTypes::INT_TYPE);
   PrimitiveTypeSpecifier floatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  Identifier fooFunctionIdentifier("foo");
   Identifier intArgumentIdentifier("intargument");
   VariableDeclaration intArgument(intTypeSpecifier, intArgumentIdentifier);
   VariableList methodArguments;
   methodArguments.push_back(&intArgument);
   MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
                                       floatTypeSpecifier,
-                                      fooFunctionIdentifier,
+                                      "foo",
                                       methodArguments,
                                       compoundStatement);
   vector<MethodDeclaration *> methods;
