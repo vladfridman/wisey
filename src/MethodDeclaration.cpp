@@ -10,6 +10,7 @@
 
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/MethodDeclaration.hpp"
+#include "yazyk/ModelMethodCall.hpp"
 #include "yazyk/ModelTypeSpecifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/VariableDeclaration.hpp"
@@ -41,13 +42,6 @@ Value* MethodDeclaration::generateIR(IRGenerationContext& context, Model* model)
   return function;
 }
 
-string MethodDeclaration::getMethodName(Model* model) const {
-  if (model == NULL) {
-    return mMethodName;
-  }
-  return "model." + model->getName() + "." + mMethodName;
-}
-
 Function* MethodDeclaration::createFunction(IRGenerationContext& context,
                                             Model* model = NULL) const {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -67,7 +61,7 @@ Function* MethodDeclaration::createFunction(IRGenerationContext& context,
                                           false);
   return Function::Create(ftype,
                           GlobalValue::InternalLinkage,
-                          getMethodName(model).c_str(),
+                          ModelMethodCall::translateMethodToLLVMFunctionName(model, mMethodName),
                           context.getModule());
 }
 
