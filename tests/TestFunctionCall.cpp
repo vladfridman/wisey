@@ -1,5 +1,5 @@
 //
-//  TestMethodCall.cpp
+//  TestFunctionCall.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
