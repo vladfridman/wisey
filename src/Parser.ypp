@@ -35,6 +35,7 @@
   #include "yazyk/ModelBuilderArgument.hpp"
   #include "yazyk/ModelDefinition.hpp"
   #include "yazyk/ModelFieldDeclaration.hpp"
+  #include "yazyk/ModelFieldReference.hpp"
   #include "yazyk/ModelTypeSpecifier.hpp"
   #include "yazyk/PrimitiveTypes.hpp"
   #include "yazyk/PrimitiveTypeSpecifier.hpp"
@@ -42,7 +43,6 @@
   #include "yazyk/ReturnStatement.hpp"
   #include "yazyk/ReturnVoidStatement.hpp"
   #include "yazyk/StringConstant.hpp"
-  #include "yazyk/SubIdentifier.hpp"
   #include "yazyk/SwitchStatement.hpp"
   #include "yazyk/VariableDeclaration.hpp"
   #include "yazyk/WhileStatement.hpp"
@@ -327,7 +327,7 @@ primary_expression
 
 postfix_expression
   : primary_expression { $$ = $1; }
-  | postfix_expression '.' TIDENTIFIER { $$ = new SubIdentifier(*$1, *$3); }
+  | postfix_expression '.' TIDENTIFIER { $$ = new ModelFieldReference(*$1, *$3); }
   | postfix_expression TINCOP { $$ = IncrementExpression::newIncrementByOne(*$<identifier>1); }
   | postfix_expression TDECOP { $$ = IncrementExpression::newDecrementByOne(*$<identifier>1); }
   ;

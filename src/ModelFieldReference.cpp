@@ -1,5 +1,5 @@
 //
-//  SubIdentifier.cpp
+//  ModelFieldReference.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/8/17.
@@ -10,13 +10,13 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/Log.hpp"
-#include "yazyk/SubIdentifier.hpp"
+#include "yazyk/ModelFieldReference.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace yazyk;
 
-Value* SubIdentifier::generateIR(IRGenerationContext& context) const {
+Value* ModelFieldReference::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* expressionValue = mExpression.generateIR(context);
   IType* expressionType = mExpression.getType(context);
@@ -39,11 +39,11 @@ Value* SubIdentifier::generateIR(IRGenerationContext& context) const {
   return new LoadInst(fieldPointer, "", context.getBasicBlock());
 }
 
-IType* SubIdentifier::getType(IRGenerationContext& context) const {
+IType* ModelFieldReference::getType(IRGenerationContext& context) const {
   return checkAndFindField(context)->getType();
 }
 
-ModelField* SubIdentifier::checkAndFindField(IRGenerationContext& context) const {
+ModelField* ModelFieldReference::checkAndFindField(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   assert(expressionType->getTypeKind() != PRIMITIVE_TYPE);
   

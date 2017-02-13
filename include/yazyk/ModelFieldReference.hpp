@@ -1,32 +1,32 @@
 //
-//  SubIdentifier.hpp
+//  ModelFieldReference.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/8/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef SubIdentifier_h
-#define SubIdentifier_h
+#ifndef ModelFieldReference_h
+#define ModelFieldReference_h
 
 #include "yazyk/IExpression.hpp"
 
 namespace yazyk {
 
 /**
- * Represents an identifier that refers to model's field or a method
+ * Represents an identifier that refers to model's field
  */
-class SubIdentifier : public IExpression {
+class ModelFieldReference : public IExpression {
   
   IExpression& mExpression;
   std::string mIdentifier;
   
 public:
   
-  SubIdentifier(IExpression& expression, std::string identifier)
+  ModelFieldReference(IExpression& expression, std::string identifier)
     : mExpression(expression), mIdentifier(identifier) { }
   
-  ~SubIdentifier() { }
+  ~ModelFieldReference() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 
@@ -39,4 +39,4 @@ private:
 
 } /* namespace yazyk */
 
-#endif /* SubIdentifier_h */
+#endif /* ModelFieldReference_h */

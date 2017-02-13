@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4911E1610700010783D /* TestSafeBranch.cpp */; };
 		F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4931E161D140010783D /* TestBreakStatement.cpp */; };
-		F504279A1E4B4275001CB148 /* SubIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* SubIdentifier.cpp */; };
-		F504279B1E4B4275001CB148 /* SubIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* SubIdentifier.cpp */; };
-		F504279D1E4B5845001CB148 /* TestSubIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279C1E4B5845001CB148 /* TestSubIdentifier.cpp */; };
+		F504279A1E4B4275001CB148 /* ModelFieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* ModelFieldReference.cpp */; };
+		F504279B1E4B4275001CB148 /* ModelFieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* ModelFieldReference.cpp */; };
+		F504279D1E4B5845001CB148 /* TestModelFieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279C1E4B5845001CB148 /* TestModelFieldReference.cpp */; };
 		F50427A01E4B8AAC001CB148 /* AccessSpecifiers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279F1E4B8AAC001CB148 /* AccessSpecifiers.cpp */; };
 		F50427A11E4B8AAC001CB148 /* AccessSpecifiers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279F1E4B8AAC001CB148 /* AccessSpecifiers.cpp */; };
 		F50427A81E4D226C001CB148 /* LocalStackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */; };
@@ -290,9 +290,9 @@
 /* Begin PBXFileReference section */
 		F501B4911E1610700010783D /* TestSafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSafeBranch.cpp; path = tests/TestSafeBranch.cpp; sourceTree = "<group>"; };
 		F501B4931E161D140010783D /* TestBreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBreakStatement.cpp; path = tests/TestBreakStatement.cpp; sourceTree = "<group>"; };
-		F50427981E4B4102001CB148 /* SubIdentifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SubIdentifier.hpp; path = include/yazyk/SubIdentifier.hpp; sourceTree = "<group>"; };
-		F50427991E4B4275001CB148 /* SubIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SubIdentifier.cpp; path = src/SubIdentifier.cpp; sourceTree = "<group>"; };
-		F504279C1E4B5845001CB148 /* TestSubIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSubIdentifier.cpp; path = tests/TestSubIdentifier.cpp; sourceTree = "<group>"; };
+		F50427981E4B4102001CB148 /* ModelFieldReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelFieldReference.hpp; path = include/yazyk/ModelFieldReference.hpp; sourceTree = "<group>"; };
+		F50427991E4B4275001CB148 /* ModelFieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelFieldReference.cpp; path = src/ModelFieldReference.cpp; sourceTree = "<group>"; };
+		F504279C1E4B5845001CB148 /* TestModelFieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelFieldReference.cpp; path = tests/TestModelFieldReference.cpp; sourceTree = "<group>"; };
 		F504279E1E4B8615001CB148 /* AccessSpecifiers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AccessSpecifiers.hpp; path = include/yazyk/AccessSpecifiers.hpp; sourceTree = "<group>"; };
 		F504279F1E4B8AAC001CB148 /* AccessSpecifiers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AccessSpecifiers.cpp; path = src/AccessSpecifiers.cpp; sourceTree = "<group>"; };
 		F50427A21E4CBDF4001CB148 /* Method.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Method.hpp; path = include/yazyk/Method.hpp; sourceTree = "<group>"; };
@@ -696,6 +696,7 @@
 				F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */,
 				F5F396DD1E3F898900F34296 /* TestModelBuilderArgument.cpp */,
 				F50FA2D61E2D12E000435EEA /* TestModelDefinition.cpp */,
+				F504279C1E4B5845001CB148 /* TestModelFieldReference.cpp */,
 				F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */,
 				F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
@@ -707,7 +708,6 @@
 				F50FA3011E3240D800435EEA /* TestScopes.cpp */,
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
 				F531B6561E0DE040008304F3 /* TestStringConstant.cpp */,
-				F504279C1E4B5845001CB148 /* TestSubIdentifier.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
@@ -843,6 +843,7 @@
 				F5F396DA1E34BFE000F34296 /* ModelBuilderArgument.cpp */,
 				F50FA2D01E2D0AD600435EEA /* ModelDefinition.cpp */,
 				F50FA2D11E2D0AD600435EEA /* ModelFieldDeclaration.cpp */,
+				F50427991E4B4275001CB148 /* ModelFieldReference.cpp */,
 				F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */,
 				F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */,
 				F569E9ED1DF9CC9600BBB20E /* Parser.ypp */,
@@ -855,7 +856,6 @@
 				F57411621E01BBFC009809FF /* Scope.cpp */,
 				F50FA2FE1E323AAD00435EEA /* Scopes.cpp */,
 				F531B6531E0DDD96008304F3 /* StringConstant.cpp */,
-				F50427991E4B4275001CB148 /* SubIdentifier.cpp */,
 				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
@@ -975,6 +975,7 @@
 				F50FA2CD1E2D0AC600435EEA /* ModelDefinition.hpp */,
 				F507D2671E43783000495E2D /* ModelField.hpp */,
 				F50FA2CE1E2D0AC600435EEA /* ModelFieldDeclaration.hpp */,
+				F50427981E4B4102001CB148 /* ModelFieldReference.hpp */,
 				F50FA2CF1E2D0AC600435EEA /* ModelTypeSpecifier.hpp */,
 				F50427B21E4E3B5C001CB148 /* ObjectFieldVariable.hpp */,
 				F507D26B1E45FDF000495E2D /* PrimitiveTypes.hpp */,
@@ -987,7 +988,6 @@
 				F574115E1E01A983009809FF /* Scope.hpp */,
 				F50FA2FD1E32399600435EEA /* Scopes.hpp */,
 				F531B6521E0DDCE7008304F3 /* StringConstant.hpp */,
-				F50427981E4B4102001CB148 /* SubIdentifier.hpp */,
 				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
 				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
 				F507D2731E46109200495E2D /* VoidType.hpp */,
@@ -1086,7 +1086,7 @@
 				F50FA3021E3240D800435EEA /* TestScopes.cpp in Sources */,
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
-				F504279B1E4B4275001CB148 /* SubIdentifier.cpp in Sources */,
+				F504279B1E4B4275001CB148 /* ModelFieldReference.cpp in Sources */,
 				F50FA2F61E2E3B3200435EEA /* TestFloatConstant.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F50427A91E4D226C001CB148 /* LocalStackVariable.cpp in Sources */,
@@ -1130,7 +1130,7 @@
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
 				F57085F41E5117A9007D627E /* FunctionDeclaration.cpp in Sources */,
-				F504279D1E4B5845001CB148 /* TestSubIdentifier.cpp in Sources */,
+				F504279D1E4B5845001CB148 /* TestModelFieldReference.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
@@ -1258,7 +1258,7 @@
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F50FA2D41E2D0AD600435EEA /* ModelFieldDeclaration.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
-				F504279A1E4B4275001CB148 /* SubIdentifier.cpp in Sources */,
+				F504279A1E4B4275001CB148 /* ModelFieldReference.cpp in Sources */,
 				F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F50FA2E51E2E3B0900435EEA /* DoubleConstant.cpp in Sources */,
 				F5C6FD6F1E48B40F0054209D /* BooleanType.cpp in Sources */,

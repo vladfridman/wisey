@@ -1,11 +1,11 @@
 //
-//  TestSubIdentifier.cpp
+//  TestModelFieldReference.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/8/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link SubIdentifier}
+//  Tests {@link ModelFieldReference}
 //
 
 #include <gtest/gtest.h>
@@ -14,8 +14,8 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/Model.hpp"
+#include "yazyk/ModelFieldReference.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/SubIdentifier.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -33,11 +33,11 @@ public:
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
 };
 
-struct SubIdentifierTest : public Test {
+struct ModelFieldReferenceTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression> mExpression;
   
-  SubIdentifierTest() {
+  ModelFieldReferenceTest() {
     vector<Type*> types;
     LLVMContext& llvmContext = mContext.getLLVMContext();
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -53,21 +53,21 @@ struct SubIdentifierTest : public Test {
     ON_CALL(mExpression, getType(_)).WillByDefault(Return(model));
   }
   
-  ~SubIdentifierTest() { }
+  ~ModelFieldReferenceTest() { }
 };
 
-TEST_F(SubIdentifierTest, TestSubIdentifierType) {
-  SubIdentifier subIdentifier(mExpression, "width");
+TEST_F(ModelFieldReferenceTest, TestModelFieldReferenceType) {
+  ModelFieldReference modelFieldReference(mExpression, "width");
   
-  EXPECT_EQ(subIdentifier.getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(modelFieldReference.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(TestFileSampleRunner, ModelSubIdentifierTest) {
-  runFile("tests/samples/test_model_subidentifier.yz", "7");
+TEST_F(TestFileSampleRunner, ModelModelFieldReferenceTest) {
+  runFile("tests/samples/test_model_field_reference.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, ModelIncorrectSubIdentifierDeathTest) {
-  expectFailIRGeneration("tests/samples/test_model_incorrect_subidentifier.yz",
+TEST_F(TestFileSampleRunner, ModelIncorrectModelFieldReferenceDeathTest) {
+  expectFailIRGeneration("tests/samples/test_model_incorrect_field_reference.yz",
                          1,
                          "Error: Field 'width' is not found in model 'Color'");
 }
