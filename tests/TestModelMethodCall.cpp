@@ -188,3 +188,7 @@ TEST_F(TestFileSampleRunner, ModelMethodCallRunTest) {
   runFile("tests/samples/test_model_method_call.yz", "5");
 }
 
+TEST_F(TestFileSampleRunner, ModelMethodCallMultipleArgumentsRunTest) {
+  runFile("tests/samples/test_model_method_call_multiple_parameters.yz", "8");
+}
+

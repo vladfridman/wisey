@@ -1,0 +1,13 @@
+model Color {
+  int value;
+
+  public int getValue(float a, int b) {
+    return value + b;
+  }
+}
+
+public int main() {
+  Color color = builder(Color).withValue(5).build();
+
+  return color.getValue(2.4, 3);
+}
