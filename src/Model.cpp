@@ -21,11 +21,11 @@ Model::~Model() {
 }
 
 ModelField* Model::findField(string fieldName) const {
-  if (mFields->count(fieldName)) {
-    return mFields->at(fieldName);
+  if (!mFields->count(fieldName)) {
+    return NULL;
   }
   
-  return NULL;
+  return mFields->at(fieldName);
 }
 
 vector<string> Model::getMissingFields(set<string> givenFields) const {
@@ -41,6 +41,14 @@ vector<string> Model::getMissingFields(set<string> givenFields) const {
   }
   
   return missingFields;
+}
+
+Method* Model::findMethod(std::string methodName) const {
+  if (!mMethods->count(methodName)) {
+    return NULL;
+  }
+  
+  return mMethods->at(methodName);
 }
 
 string Model::getName() const {

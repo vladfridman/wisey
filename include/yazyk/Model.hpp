@@ -47,6 +47,11 @@ public:
    * Gets a set of field names and returns the ones that are missing
    */
   std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
+  
+  /**
+   * Findsa method with a given name
+   */
+  Method* findMethod(std::string methodName) const;
 
   std::string getName() const override;
   

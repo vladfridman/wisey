@@ -23,6 +23,7 @@ using ::testing::Test;
 
 struct ModelTest : public Test {
   Model* mModel;
+  Method* mMethod;
   StructType* mStructType;
   ModelField* mWidthField;
   ModelField* mHeightField;
@@ -39,7 +40,10 @@ struct ModelTest : public Test {
     mHeightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
     (*fields)["width"] = mWidthField;
     (*fields)["height"] = mHeightField;
+    vector<MethodArgument*> methodArguments;
+    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
     map<string, Method*>* methods = new map<string, Method*>();
+    (*methods)["foo"] = mMethod;
     mModel = new Model("Shape", mStructType, fields, methods);
   }
   
@@ -56,6 +60,11 @@ TEST_F(ModelTest, TestFindFeild) {
   EXPECT_EQ(mModel->findField("width"), mWidthField);
   EXPECT_EQ(mModel->findField("height"), mHeightField);
   EXPECT_EQ(mModel->findField("depth"), nullptr);
+}
+
+TEST_F(ModelTest, TestFindMethod) {
+  EXPECT_EQ(mModel->findMethod("foo"), mMethod);
+  EXPECT_EQ(mModel->findMethod("bar"), nullptr);
 }
 
 TEST_F(ModelTest, TestGetMissingFields) {
