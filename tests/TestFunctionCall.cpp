@@ -40,8 +40,6 @@ struct FunctionCallTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockExpression> mExpression;
-  Identifier mFooFunctionIdentifier;
-  Identifier mPrintfFunctionIdentifier;
   ExpressionList mArgumentList;
   Type* mIntType;
   BasicBlock* mBasicBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
@@ -52,8 +50,6 @@ public:
   
   FunctionCallTest() :
     mLLVMContext(mContext.getLLVMContext()),
-    mFooFunctionIdentifier(Identifier("foo")),
-    mPrintfFunctionIdentifier(Identifier("printf")),
     mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
       mContext.setBasicBlock(mBasicBlock);
       mContext.getScopes().pushScope();
@@ -70,7 +66,7 @@ public:
 };
 
 TEST_F(FunctionCallTest, FunctionDoesNotExistDeathTest) {
-  FunctionCall functionCall(mFooFunctionIdentifier, mArgumentList);
+  FunctionCall functionCall("foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
 
   EXPECT_EXIT(functionCall.generateIR(mContext),
@@ -85,7 +81,7 @@ TEST_F(FunctionCallTest, IntFunctionCall) {
   FunctionType* ftype = FunctionType::get(mIntType, argTypesArray, false);
   Function::Create(ftype, GlobalValue::InternalLinkage, "foo", mContext.getModule());
   mContext.addGlobalFunction(PrimitiveTypes::INT_TYPE, "foo");
-  FunctionCall functionCall(mFooFunctionIdentifier, mArgumentList);
+  FunctionCall functionCall("foo", mArgumentList);
   
   Value* irValue = functionCall.generateIR(mContext);
   
@@ -102,7 +98,7 @@ TEST_F(FunctionCallTest, VoidFunctionCall) {
                                           argTypesArray,
                                           false);
   Function::Create(ftype, GlobalValue::InternalLinkage, "foo", mContext.getModule());
-  FunctionCall functionCall(mFooFunctionIdentifier, mArgumentList);
+  FunctionCall functionCall("foo", mArgumentList);
   
   Value* irValue = functionCall.generateIR(mContext);
   
@@ -126,7 +122,7 @@ TEST_F(FunctionCallTest, PrintfFunctionCall) {
                                                     indices,
                                                     true);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(strVal));
-  FunctionCall functionCall(mPrintfFunctionIdentifier, mArgumentList);
+  FunctionCall functionCall("printf", mArgumentList);
   
   Value* irValue = functionCall.generateIR(mContext);
   

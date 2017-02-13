@@ -387,7 +387,7 @@ conditional_expression
 expression
   : model_builder
   | identifier '=' expression { $$ = new Assignment(*$<identifier>1, *$3); }
-  | identifier '(' call_arguments ')' { $$ = new FunctionCall(*$1, *$3); delete $3; }
+  | TIDENTIFIER '(' call_arguments ')' { $$ = new FunctionCall(*$1, *$3); delete $3; }
   | conditional_expression
   ;
 

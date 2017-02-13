@@ -10,7 +10,6 @@
 #include <llvm/IR/TypeBuilder.h>
 
 #include "yazyk/FunctionCall.hpp"
-#include "yazyk/Identifier.hpp"
 #include "yazyk/Log.hpp"
 
 using namespace llvm;
@@ -30,9 +29,9 @@ Function* FunctionCall::declarePrintf(IRGenerationContext& context) const {
 }
 
 Value* FunctionCall::generateIR(IRGenerationContext& context) const {
-  Function *function = context.getModule()->getFunction(mId.getName().c_str());
-  if (function == NULL && mId.getName().compare("printf") != 0) {
-    Log::e(string("no such function ") + mId.getName());
+  Function *function = context.getModule()->getFunction(mFunctionName.c_str());
+  if (function == NULL && mFunctionName.compare("printf") != 0) {
+    Log::e(string("no such function ") + mFunctionName);
     exit(1);
   }
   if (function == NULL) {
@@ -49,5 +48,5 @@ Value* FunctionCall::generateIR(IRGenerationContext& context) const {
 }
 
 IType* FunctionCall::getType(IRGenerationContext& context) const {
-  return context.getGlobalFunctionType(mId.getName());
+  return context.getGlobalFunctionType(mFunctionName);
 }

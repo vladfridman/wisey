@@ -10,7 +10,6 @@
 #define FunctionCall_h
 
 #include "yazyk/IExpression.hpp"
-#include "yazyk/Identifier.hpp"
 #include "yazyk/IHasType.hpp"
 
 namespace yazyk {
@@ -19,13 +18,14 @@ namespace yazyk {
  * Represents a function call identified by id and given arguments
  */
 class FunctionCall : public IExpression {
-  const Identifier& mId;
+  std::string mFunctionName;
   ExpressionList mArguments;
   
 public:
-  FunctionCall(const Identifier& id, ExpressionList& arguments) : mId(id), mArguments(arguments) { }
+  FunctionCall(std::string functionName, ExpressionList& arguments) :
+    mFunctionName(functionName), mArguments(arguments) { }
   
-  FunctionCall(const Identifier& id) : mId(id) { }
+  FunctionCall(std::string functionName) : mFunctionName(functionName) { }
 
   ~FunctionCall() { }
   
@@ -34,6 +34,7 @@ public:
   IType* getType(IRGenerationContext& context) const override;
 
 private:
+  
   llvm::Function* declarePrintf(IRGenerationContext& context) const;
 };
   
