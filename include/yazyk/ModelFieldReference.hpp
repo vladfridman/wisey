@@ -20,12 +20,12 @@ namespace yazyk {
 class ModelFieldReference : public IExpression {
   
   IExpression& mExpression;
-  std::string mIdentifier;
+  std::string mFieldName;
   
 public:
   
-  ModelFieldReference(IExpression& expression, std::string identifier)
-    : mExpression(expression), mIdentifier(identifier) { }
+  ModelFieldReference(IExpression& expression, std::string fieldName)
+    : mExpression(expression), mFieldName(fieldName) { }
   
   ~ModelFieldReference() { }
   

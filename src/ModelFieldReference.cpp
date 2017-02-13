@@ -40,7 +40,7 @@ Value* ModelFieldReference::generateIR(IRGenerationContext& context) const {
 Model* ModelFieldReference::getModel(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
-    Log::e("Attempt to reference field '" + mIdentifier + "' in a primitive type expression");
+    Log::e("Attempt to reference field '" + mFieldName + "' in a primitive type expression");
     exit(1);
   }
 
@@ -53,12 +53,12 @@ IType* ModelFieldReference::getType(IRGenerationContext& context) const {
 
 ModelField* ModelFieldReference::checkAndFindField(IRGenerationContext& context) const {
   Model* model = getModel(context);
-  ModelField* modelField = model->findField(mIdentifier);
+  ModelField* modelField = model->findField(mFieldName);
 
   if (modelField != NULL) {
     return modelField;
   }
   
-  Log::e("Field '" + mIdentifier + "' is not found in model '" + model->getName() + "'");
+  Log::e("Field '" + mFieldName + "' is not found in model '" + model->getName() + "'");
   exit(1);
 }
