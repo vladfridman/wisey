@@ -15,6 +15,8 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestFileSampleRunner.hpp"
+#include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/ObjectFieldVariable.hpp"
@@ -24,7 +26,17 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
+
+class MockExpression : public IExpression {
+public:
+  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+};
 
 struct ObjectFieldVariableTest : Test {
   IRGenerationContext mContext;
@@ -98,3 +110,28 @@ TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateIdentifierIRTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
+
+TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateAssignmentIRTest) {
+  NiceMock<MockExpression> assignToExpression;
+  
+  Value* assignToValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
+  
+  mObjectFieldVariable->generateAssignmentIR(mContext, assignToExpression);
+  
+  *mStringStream << *mBasicBlock;
+  string expected = string() +
+    "\nentry:" +
+    "\n  %this.param = alloca %Object*"
+    "\n  %this = load %Object*, %Object** %this.param"
+    "\n  %0 = getelementptr %Object, %Object* %this, i32 0, i32 0"
+    "\n  store i32 5, i32* %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(TestFileSampleRunner, ModelFieldSetTest) {
+  runFile("tests/samples/test_model_field_set.yz", "7");
+}
+

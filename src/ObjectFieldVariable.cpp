@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ObjectFieldVariable.hpp"
@@ -54,8 +55,27 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
 
 Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                                  IExpression& assignToExpression) {
-  /** Not implemented yet */
-  return NULL;
+  ModelField* modelField = checkAndFindField(context);
+  IType* assignToType = assignToExpression.getType(context);
+  if (assignToType != modelField->getType()) {
+    Log::e("Can not assign to field '" + mName + "' of model '" + mModel->getName() +
+           "' because of incompatable types");
+    exit(1);
+  }
+  
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Value *Idx[2];
+  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), modelField->getIndex());
+  Type* structType = mModel->getLLVMType(llvmContext)->getPointerElementType();
+  IVariable* thisVariable = context.getScopes().getVariable("this");
+  Value* loadedValue = new LoadInst(thisVariable->getValue(), "this", context.getBasicBlock());
+  BasicBlock* basicBlock = context.getBasicBlock();
+  GetElementPtrInst* fieldPointer =
+    GetElementPtrInst::Create(structType, loadedValue, Idx, "", basicBlock);
+  Value* assignToValue = assignToExpression.generateIR(context);
+  
+  return new StoreInst(assignToValue, fieldPointer, basicBlock);
 }
 
 void ObjectFieldVariable::free(BasicBlock* basicBlock) const {
