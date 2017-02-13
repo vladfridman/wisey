@@ -62,6 +62,16 @@ TEST_F(ModelFieldReferenceTest, TestModelFieldReferenceType) {
   EXPECT_EQ(modelFieldReference.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
+TEST_F(ModelFieldReferenceTest, TestReferenceFieldInPrimitiveTypeDeathTest) {
+  Mock::AllowLeak(&mExpression);
+  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
+  ModelFieldReference modelFieldReference(mExpression, "width");
+
+  EXPECT_EXIT(modelFieldReference.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Attempt to reference field 'width' in a primitive type expression");
+}
+
 TEST_F(TestFileSampleRunner, ModelModelFieldReferenceTest) {
   runFile("tests/samples/test_model_field_reference.yz", "7");
 }

@@ -10,6 +10,7 @@
 #define ModelFieldReference_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/Model.hpp"
 
 namespace yazyk {
 
@@ -33,6 +34,8 @@ public:
   IType* getType(IRGenerationContext& context) const override;
 
 private:
+  
+  Model* getModel(IRGenerationContext& context) const;
   
   ModelField* checkAndFindField(IRGenerationContext& context) const;
 };

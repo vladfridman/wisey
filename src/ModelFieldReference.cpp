@@ -19,10 +19,8 @@ using namespace yazyk;
 Value* ModelFieldReference::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* expressionValue = mExpression.generateIR(context);
-  IType* expressionType = mExpression.getType(context);
-  assert(expressionType->getTypeKind() != PRIMITIVE_TYPE);
   
-  Model* model = (Model*) expressionType;
+  Model* model = (Model*) getModel(context);
   StructType* structType = (StructType*) model->getLLVMType(llvmContext)->getPointerElementType();
   
   ModelField* modelField = checkAndFindField(context);
@@ -39,15 +37,22 @@ Value* ModelFieldReference::generateIR(IRGenerationContext& context) const {
   return new LoadInst(fieldPointer, "", context.getBasicBlock());
 }
 
+Model* ModelFieldReference::getModel(IRGenerationContext& context) const {
+  IType* expressionType = mExpression.getType(context);
+  if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
+    Log::e("Attempt to reference field '" + mIdentifier + "' in a primitive type expression");
+    exit(1);
+  }
+
+  return (Model*) expressionType;
+}
+
 IType* ModelFieldReference::getType(IRGenerationContext& context) const {
   return checkAndFindField(context)->getType();
 }
 
 ModelField* ModelFieldReference::checkAndFindField(IRGenerationContext& context) const {
-  IType* expressionType = mExpression.getType(context);
-  assert(expressionType->getTypeKind() != PRIMITIVE_TYPE);
-  
-  Model* model = (Model*) expressionType;
+  Model* model = getModel(context);
   ModelField* modelField = model->findField(mIdentifier);
 
   if (modelField != NULL) {
