@@ -18,6 +18,7 @@
   #include "yazyk/ExpressionStatement.hpp"
   #include "yazyk/FloatConstant.hpp"
   #include "yazyk/ForStatement.hpp"
+  #include "yazyk/FunctionCall.hpp"
   #include "yazyk/FunctionDeclaration.hpp"
   #include "yazyk/MethodDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
@@ -29,7 +30,6 @@
   #include "yazyk/LogicalAndExpression.hpp"
   #include "yazyk/LogicalOrExpression.hpp"
   #include "yazyk/LongConstant.hpp"
-  #include "yazyk/MethodCall.hpp"
   #include "yazyk/MethodDeclaration.hpp"
   #include "yazyk/ModelBuilder.hpp"
   #include "yazyk/ModelBuilderArgument.hpp"
@@ -387,7 +387,7 @@ conditional_expression
 expression
   : model_builder
   | identifier '=' expression { $$ = new Assignment(*$<identifier>1, *$3); }
-  | identifier '(' call_arguments ')' { $$ = new MethodCall(*$1, *$3); delete $3; }
+  | identifier '(' call_arguments ')' { $$ = new FunctionCall(*$1, *$3); delete $3; }
   | conditional_expression
   ;
 

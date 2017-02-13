@@ -5,7 +5,7 @@
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link MethodCall}
+//  Tests {@link FunctionCall}
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
@@ -15,9 +15,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "yazyk/FunctionCall.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/MethodCall.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -36,12 +36,12 @@ public:
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
 };
 
-struct MethodCallTest : public Test {
+struct FunctionCallTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockExpression> mExpression;
-  Identifier mFooMethodIdentifier;
-  Identifier mPrintfMethodIdentifier;
+  Identifier mFooFunctionIdentifier;
+  Identifier mPrintfFunctionIdentifier;
   ExpressionList mArgumentList;
   Type* mIntType;
   BasicBlock* mBasicBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
@@ -50,10 +50,10 @@ struct MethodCallTest : public Test {
 
 public:
   
-  MethodCallTest() :
+  FunctionCallTest() :
     mLLVMContext(mContext.getLLVMContext()),
-    mFooMethodIdentifier(Identifier("foo")),
-    mPrintfMethodIdentifier(Identifier("printf")),
+    mFooFunctionIdentifier(Identifier("foo")),
+    mPrintfFunctionIdentifier(Identifier("printf")),
     mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
       mContext.setBasicBlock(mBasicBlock);
       mContext.getScopes().pushScope();
@@ -63,38 +63,38 @@ public:
       mArgumentList.push_back(&mExpression);
   }
   
-  ~MethodCallTest() {
+  ~FunctionCallTest() {
     delete mBasicBlock;
     delete mStringStream;
   }
 };
 
-TEST_F(MethodCallTest, MethodDoesNotExistDeathTest) {
-  MethodCall methodCall(mFooMethodIdentifier, mArgumentList);
+TEST_F(FunctionCallTest, FunctionDoesNotExistDeathTest) {
+  FunctionCall functionCall(mFooFunctionIdentifier, mArgumentList);
   Mock::AllowLeak(&mExpression);
 
-  EXPECT_EXIT(methodCall.generateIR(mContext),
+  EXPECT_EXIT(functionCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: no such function foo");
 }
 
-TEST_F(MethodCallTest, IntMethodCall) {
+TEST_F(FunctionCallTest, IntFunctionCall) {
   vector<Type*> argTypes;
   argTypes.push_back(mIntType);
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
   FunctionType* ftype = FunctionType::get(mIntType, argTypesArray, false);
   Function::Create(ftype, GlobalValue::InternalLinkage, "foo", mContext.getModule());
   mContext.addGlobalFunction(PrimitiveTypes::INT_TYPE, "foo");
-  MethodCall methodCall(mFooMethodIdentifier, mArgumentList);
+  FunctionCall functionCall(mFooFunctionIdentifier, mArgumentList);
   
-  Value* irValue = methodCall.generateIR(mContext);
+  Value* irValue = functionCall.generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = call i32 @foo(i32 5)", mStringStream->str().c_str());
-  EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(functionCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(MethodCallTest, VoidMethodCall) {
+TEST_F(FunctionCallTest, VoidFunctionCall) {
   vector<Type*> argTypes;
   argTypes.push_back(mIntType);
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
@@ -102,15 +102,15 @@ TEST_F(MethodCallTest, VoidMethodCall) {
                                           argTypesArray,
                                           false);
   Function::Create(ftype, GlobalValue::InternalLinkage, "foo", mContext.getModule());
-  MethodCall methodCall(mFooMethodIdentifier, mArgumentList);
+  FunctionCall functionCall(mFooFunctionIdentifier, mArgumentList);
   
-  Value* irValue = methodCall.generateIR(mContext);
+  Value* irValue = functionCall.generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  call void @foo(i32 5)", mStringStream->str().c_str());
 }
 
-TEST_F(MethodCallTest, PrintfMethodCall) {
+TEST_F(FunctionCallTest, PrintfFunctionCall) {
   Constant* strConstant = ConstantDataArray::getString(mLLVMContext, "test");
   GlobalVariable* globalVariableString =
   new GlobalVariable(*mContext.getModule(),
@@ -126,9 +126,9 @@ TEST_F(MethodCallTest, PrintfMethodCall) {
                                                     indices,
                                                     true);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(strVal));
-  MethodCall methodCall(mPrintfMethodIdentifier, mArgumentList);
+  FunctionCall functionCall(mPrintfFunctionIdentifier, mArgumentList);
   
-  Value* irValue = methodCall.generateIR(mContext);
+  Value* irValue = functionCall.generateIR(mContext);
   
   *mStringStream << *irValue;
   string expected = string() +
@@ -137,6 +137,6 @@ TEST_F(MethodCallTest, PrintfMethodCall) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, MethodCallRunTest) {
-  runFile("tests/samples/method_call_run_test.yz", "5");
+TEST_F(TestFileSampleRunner, FunctionCallRunTest) {
+  runFile("tests/samples/function_call_run_test.yz", "5");
 }

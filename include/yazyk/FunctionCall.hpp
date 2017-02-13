@@ -1,31 +1,33 @@
 //
-//  MethodCall.hpp
+//  FunctionCall.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef MethodCall_h
-#define MethodCall_h
+#ifndef FunctionCall_h
+#define FunctionCall_h
 
 #include "yazyk/IExpression.hpp"
+#include "yazyk/Identifier.hpp"
 #include "yazyk/IHasType.hpp"
 
 namespace yazyk {
 
 /**
- * Represents a method call identified by id and given arguments
+ * Represents a function call identified by id and given arguments
  */
-class MethodCall : public IExpression {
+class FunctionCall : public IExpression {
   const Identifier& mId;
   ExpressionList mArguments;
   
 public:
-  MethodCall(const Identifier& id, ExpressionList& arguments) :
-    mId(id), mArguments(arguments) { }
-  MethodCall(const Identifier& id) : mId(id) { }
-    ~MethodCall() { }
+  FunctionCall(const Identifier& id, ExpressionList& arguments) : mId(id), mArguments(arguments) { }
+  
+  FunctionCall(const Identifier& id) : mId(id) { }
+
+  ~FunctionCall() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
@@ -37,4 +39,4 @@ private:
   
 } /* namespace yazyk */
 
-#endif /* MethodCall_h */
+#endif /* FunctionCall_h */

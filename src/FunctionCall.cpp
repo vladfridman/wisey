@@ -1,5 +1,5 @@
 //
-//  MethodCall.cpp
+//  FunctionCall.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -9,15 +9,15 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/TypeBuilder.h>
 
+#include "yazyk/FunctionCall.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/Log.hpp"
-#include "yazyk/MethodCall.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Function* MethodCall::declarePrintf(IRGenerationContext& context) const {
+Function* FunctionCall::declarePrintf(IRGenerationContext& context) const {
   FunctionType *printfType = TypeBuilder<int(char *, ...), false>::get(context.getLLVMContext());
   
   Function *function = cast<Function>(
@@ -29,7 +29,7 @@ Function* MethodCall::declarePrintf(IRGenerationContext& context) const {
   return function;
 }
 
-Value* MethodCall::generateIR(IRGenerationContext& context) const {
+Value* FunctionCall::generateIR(IRGenerationContext& context) const {
   Function *function = context.getModule()->getFunction(mId.getName().c_str());
   if (function == NULL && mId.getName().compare("printf") != 0) {
     Log::e(string("no such function ") + mId.getName());
@@ -48,6 +48,6 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   return CallInst::Create(function, args, resultName, context.getBasicBlock());
 }
 
-IType* MethodCall::getType(IRGenerationContext& context) const {
+IType* FunctionCall::getType(IRGenerationContext& context) const {
   return context.getGlobalFunctionType(mId.getName());
 }
