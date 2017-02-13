@@ -41,6 +41,7 @@ struct MethodDeclarationTest : Test {
   VariableList mArguments;
   Block mBlock;
   CompoundStatement mCompoundStatement;
+  Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -54,6 +55,20 @@ struct MethodDeclarationTest : Test {
     mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
     mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
     mCompoundStatement(CompoundStatement(mBlock)) {
+      LLVMContext& llvmContext = mContext.getLLVMContext();
+      vector<Type*> types;
+      types.push_back(Type::getInt32Ty(llvmContext));
+      types.push_back(Type::getInt32Ty(llvmContext));
+      StructType* structType = StructType::create(llvmContext, "Object");
+      structType->setBody(types);
+      map<string, ModelField*>* fields = new map<string, ModelField*>();
+      ModelField* widthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
+      ModelField* heightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
+      (*fields)["foo"] = widthField;
+      (*fields)["bar"] = heightField;
+      map<string, Method*>* methods = new map<string, Method*>();
+      mModel = new Model("Object", structType, fields, methods);
+      
       mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -69,12 +84,14 @@ TEST_F(MethodDeclarationTest, MethodFooDeclartaionTest) {
                                       mFooFunctionIdentifier,
                                       mArguments,
                                       mCompoundStatement);
-  Value* method = methodDeclaration.generateIR(mContext);
+  Value* method = methodDeclaration.generateIR(mContext, mModel);
   
   *mStringStream << *method;
   string expected = string() +
-    "\ndefine internal float @foo(i32 %intargument) {" +
+    "\ndefine internal float @model.Object.foo(%Object* %this, i32 %intargument) {" +
     "\nentry:" +
+    "\n  %this.param = alloca %Object*" +
+    "\n  store %Object* %this, %Object** %this.param" +
     "\n  %intargument.param = alloca i32" +
     "\n  store i32 %intargument, i32* %intargument.param" +
     "\n  ret void" +
@@ -82,29 +99,6 @@ TEST_F(MethodDeclarationTest, MethodFooDeclartaionTest) {
     "\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
-}
-
-TEST_F(MethodDeclarationTest, MethodMainDeclartaionTest) {
-  mArguments.push_back(&mFloatArgument);
-  MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
-                                          mIntTypeSpecifier,
-                                          mMainFunctionIdentifier,
-                                          mArguments,
-                                          mCompoundStatement);
-  Value* method = methodDeclaration.generateIR(mContext);
-  
-  *mStringStream << *method;
-  string expected = string() +
-    "\ndefine internal i32 @main(float %floatargument) {" +
-    "\nentry:" +
-    "\n  %floatargument.param = alloca float" +
-    "\n  store float %floatargument, float* %floatargument.param" +
-    "\n  ret void" +
-    "\n}" +
-    "\n";
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  ASSERT_NE(mContext.getMainFunction(), nullptr);
-  EXPECT_EQ(method, mContext.getMainFunction());
 }
 
 TEST_F(MethodDeclarationTest, MethodDescriptorExtractTest) {

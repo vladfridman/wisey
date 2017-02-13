@@ -41,6 +41,13 @@ Value* MethodDeclaration::generateIR(IRGenerationContext& context, Model* model)
   return function;
 }
 
+string MethodDeclaration::getMethodName(Model* model) const {
+  if (model == NULL) {
+    return mId.getName();
+  }
+  return "model." + model->getName() + "." + mId.getName();
+}
+
 Function* MethodDeclaration::createFunction(IRGenerationContext& context,
                                             Model* model = NULL) const {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -60,7 +67,7 @@ Function* MethodDeclaration::createFunction(IRGenerationContext& context,
                                           false);
   return Function::Create(ftype,
                           GlobalValue::InternalLinkage,
-                          mId.getName().c_str(),
+                          getMethodName(model).c_str(),
                           context.getModule());
 }
 

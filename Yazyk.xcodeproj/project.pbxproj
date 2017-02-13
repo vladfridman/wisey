@@ -186,6 +186,7 @@
 		F57085F31E5117A9007D627E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */; };
 		F57085F41E5117A9007D627E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */; };
 		F57085F61E511BAC007D627E /* TestObjectFieldVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */; };
+		F57085F81E51BDDF007D627E /* TestFunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F71E51BDDF007D627E /* TestFunctionDeclaration.cpp */; };
 		F57411421E015961009809FF /* ReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411411E015961009809FF /* ReturnStatement.cpp */; };
 		F57411431E015961009809FF /* ReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411411E015961009809FF /* ReturnStatement.cpp */; };
 		F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411451E015DBC009809FF /* TestReturnStatement.cpp */; };
@@ -481,6 +482,7 @@
 		F57085F11E511680007D627E /* FunctionDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FunctionDeclaration.hpp; path = include/yazyk/FunctionDeclaration.hpp; sourceTree = "<group>"; };
 		F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDeclaration.cpp; path = src/FunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectFieldVariable.cpp; path = tests/TestObjectFieldVariable.cpp; sourceTree = "<group>"; };
+		F57085F71E51BDDF007D627E /* TestFunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFunctionDeclaration.cpp; path = tests/TestFunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F57411411E015961009809FF /* ReturnStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ReturnStatement.cpp; path = src/ReturnStatement.cpp; sourceTree = "<group>"; };
 		F57411441E0159AE009809FF /* ReturnStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ReturnStatement.hpp; path = include/yazyk/ReturnStatement.hpp; sourceTree = "<group>"; };
 		F57411451E015DBC009809FF /* TestReturnStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestReturnStatement.cpp; path = tests/TestReturnStatement.cpp; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
 				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
 				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
+				F57085F71E51BDDF007D627E /* TestFunctionDeclaration.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
 				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
@@ -1152,6 +1155,7 @@
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
+				F57085F81E51BDDF007D627E /* TestFunctionDeclaration.cpp in Sources */,
 				F5C6FD771E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */,

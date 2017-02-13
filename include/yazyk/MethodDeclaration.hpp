@@ -54,6 +54,8 @@ public:
   
 private:
   
+  std::string getMethodName(Model* model) const;
+  
   llvm::Function* createFunction(IRGenerationContext& context, Model* model) const;
   
   void createArguments(IRGenerationContext& context,
