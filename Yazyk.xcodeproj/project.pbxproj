@@ -190,6 +190,9 @@
 		F57085FC1E51E2ED007D627E /* ModelMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FB1E51E2ED007D627E /* ModelMethodCall.cpp */; };
 		F57085FD1E51E2ED007D627E /* ModelMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FB1E51E2ED007D627E /* ModelMethodCall.cpp */; };
 		F57085FF1E51F8C9007D627E /* TestModelMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FE1E51F8C9007D627E /* TestModelMethodCall.cpp */; };
+		F57086021E5317E8007D627E /* AutoCast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57086011E5317E8007D627E /* AutoCast.cpp */; };
+		F57086031E5317E8007D627E /* AutoCast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57086011E5317E8007D627E /* AutoCast.cpp */; };
+		F57086051E533667007D627E /* TestAutoCast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57086041E533667007D627E /* TestAutoCast.cpp */; };
 		F57411421E015961009809FF /* ReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411411E015961009809FF /* ReturnStatement.cpp */; };
 		F57411431E015961009809FF /* ReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411411E015961009809FF /* ReturnStatement.cpp */; };
 		F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411451E015DBC009809FF /* TestReturnStatement.cpp */; };
@@ -488,6 +491,9 @@
 		F57085FA1E51E15B007D627E /* ModelMethodCall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelMethodCall.hpp; path = include/yazyk/ModelMethodCall.hpp; sourceTree = "<group>"; };
 		F57085FB1E51E2ED007D627E /* ModelMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelMethodCall.cpp; path = src/ModelMethodCall.cpp; sourceTree = "<group>"; };
 		F57085FE1E51F8C9007D627E /* TestModelMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelMethodCall.cpp; path = tests/TestModelMethodCall.cpp; sourceTree = "<group>"; };
+		F57086001E531726007D627E /* AutoCast.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AutoCast.hpp; path = include/yazyk/AutoCast.hpp; sourceTree = "<group>"; };
+		F57086011E5317E8007D627E /* AutoCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AutoCast.cpp; path = src/AutoCast.cpp; sourceTree = "<group>"; };
+		F57086041E533667007D627E /* TestAutoCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAutoCast.cpp; path = tests/TestAutoCast.cpp; sourceTree = "<group>"; };
 		F57411411E015961009809FF /* ReturnStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ReturnStatement.cpp; path = src/ReturnStatement.cpp; sourceTree = "<group>"; };
 		F57411441E0159AE009809FF /* ReturnStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ReturnStatement.hpp; path = include/yazyk/ReturnStatement.hpp; sourceTree = "<group>"; };
 		F57411451E015DBC009809FF /* TestReturnStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestReturnStatement.cpp; path = tests/TestReturnStatement.cpp; sourceTree = "<group>"; };
@@ -661,6 +667,7 @@
 				F53400F01DFC6B970002BF7E /* samples */,
 				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
+				F57086041E533667007D627E /* TestAutoCast.cpp */,
 				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
 				F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */,
 				F5C6FD731E48B4920054209D /* TestBooleanType.cpp */,
@@ -805,6 +812,7 @@
 				F504279F1E4B8AAC001CB148 /* AccessSpecifiers.cpp */,
 				F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */,
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
+				F57086011E5317E8007D627E /* AutoCast.cpp */,
 				F531B6411E0A16D7008304F3 /* Block.cpp */,
 				F50FA3041E325E5400435EEA /* BooleanConstant.cpp */,
 				F507D2761E474E7C00495E2D /* BooleanConstants.cpp */,
@@ -928,6 +936,7 @@
 				F504279E1E4B8615001CB148 /* AccessSpecifiers.hpp */,
 				F53400EC1DFC20E70002BF7E /* AdditiveMultiplicativeExpression.hpp */,
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
+				F57086001E531726007D627E /* AutoCast.hpp */,
 				F531B6401E0A162D008304F3 /* Block.hpp */,
 				F50FA3031E325DEA00435EEA /* BooleanConstant.hpp */,
 				F507D2751E474DFE00495E2D /* BooleanConstants.hpp */,
@@ -1148,6 +1157,7 @@
 				F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F531B6431E0A16D7008304F3 /* Block.cpp in Sources */,
 				F57411431E015961009809FF /* ReturnStatement.cpp in Sources */,
+				F57086051E533667007D627E /* TestAutoCast.cpp in Sources */,
 				F50FA2E91E2E3B0F00435EEA /* DoubleConstant.cpp in Sources */,
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */,
@@ -1173,6 +1183,7 @@
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
+				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
 				F50FA2DB1E2D329500435EEA /* ModelFieldDeclaration.cpp in Sources */,
 				F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
@@ -1215,6 +1226,7 @@
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F50427AC1E4D2747001CB148 /* LocalHeapVariable.cpp in Sources */,
 				F50FA2B71E28BA5600435EEA /* DoStatement.cpp in Sources */,
+				F57086021E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */,
 				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,
