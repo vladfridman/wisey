@@ -154,3 +154,7 @@ TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
 TEST_F(TestFileSampleRunner, ReturnStatementRunTest) {
   runFile("tests/samples/test_return_int.yz", "5");
 }
+
+TEST_F(TestFileSampleRunner, ReturnStatementCastTest) {
+  runFile("tests/samples/test_return_boolean_cast.yz", "1");
+}

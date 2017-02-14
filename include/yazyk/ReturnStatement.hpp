@@ -19,9 +19,9 @@ namespace yazyk {
  */
 class ReturnStatement : public IStatement {
 public:
-  IExpression& expression;
+  IExpression& mExpression;
   
-  ReturnStatement(IExpression& expression) : expression(expression) { }
+  ReturnStatement(IExpression& expression) : mExpression(expression) { }
   ~ReturnStatement() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
