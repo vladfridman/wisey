@@ -25,10 +25,15 @@ class Scope {
   llvm::BasicBlock* mBreakToBlock;
   llvm::BasicBlock* mContinueToBlock;
   bool mHasOwnedMemoryBeenFreed;
+  IType* mReturnType;
 
 public:
 
-  Scope() : mBreakToBlock(NULL), mContinueToBlock(NULL), mHasOwnedMemoryBeenFreed(false) { }
+  Scope() :
+  mBreakToBlock(NULL),
+  mContinueToBlock(NULL),
+  mHasOwnedMemoryBeenFreed(false),
+  mReturnType(NULL) { }
   
   /**
    * Finds a variable and returns it. Returns NULL if the variable is not found;
@@ -64,6 +69,16 @@ public:
    * Get block to continue to block for a loop
    */
   llvm::BasicBlock* getContinueToBlock();
+
+  /**
+   * Set current method's return type
+   */
+  void setReturnType(IType* type);
+  
+  /**
+   * Get current method's return type
+   */
+  IType* getReturnType();
 
   /**
    * Free memory owned by this scope

@@ -79,6 +79,16 @@ public:
    */
   llvm::BasicBlock* getContinueToBlock();
 
+  /**
+   * Set current method's return type
+   */
+  void setReturnType(IType* type);
+  
+  /**
+   * Get current method's return type
+   */
+  IType* getReturnType();
+  
 };
   
 } /* namespace yazyk */

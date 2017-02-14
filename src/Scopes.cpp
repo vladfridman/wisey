@@ -100,7 +100,7 @@ BasicBlock* Scopes::getContinueToBlock() {
   }
  
   for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
-    BasicBlock* block= (*iterator)->getContinueToBlock();
+    BasicBlock* block = (*iterator)->getContinueToBlock();
     if (block != NULL) {
       return block;
     }
@@ -109,3 +109,21 @@ BasicBlock* Scopes::getContinueToBlock() {
   return NULL;
 }
 
+void Scopes::setReturnType(IType* type) {
+  getScope()->setReturnType(type);
+}
+
+IType* Scopes::getReturnType() {
+  if (mScopes.size() == 0) {
+    return NULL;
+  }
+  
+  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
+    IType* returnType = (*iterator)->getReturnType();
+    if (returnType != NULL) {
+      return returnType;
+    }
+  }
+  
+  return NULL;
+}

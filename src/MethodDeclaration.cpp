@@ -33,6 +33,7 @@ Value* MethodDeclaration::generateIR(IRGenerationContext& context, Model* model)
   context.setBasicBlock(bblock);
   
   context.getScopes().pushScope();
+  context.getScopes().setReturnType(mReturnTypeSpecifier.getType(context));
   createArguments(context, function, model);
   mCompoundStatement.generateIR(context);
   scopes.popScope(context.getBasicBlock());
@@ -56,7 +57,8 @@ Function* MethodDeclaration::createFunction(IRGenerationContext& context,
     argumentTypes.push_back(type->getLLVMType(llvmContext));
   }
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType *ftype = FunctionType::get(mTypeSpecifier.getType(context)->getLLVMType(llvmContext),
+  Type* llvmReturnType = mReturnTypeSpecifier.getType(context)->getLLVMType(llvmContext);
+  FunctionType *ftype = FunctionType::get(llvmReturnType,
                                           argTypesArray,
                                           false);
   return Function::Create(ftype,
@@ -132,7 +134,7 @@ Method* MethodDeclaration::getMethod(IRGenerationContext& context) const {
     arguments.push_back(methodArgument);
   }
   
-  IType* returnType = mTypeSpecifier.getType(context);
+  IType* returnType = mReturnTypeSpecifier.getType(context);
   
   return new Method(mMethodName, returnType, arguments);
 }

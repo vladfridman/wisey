@@ -51,6 +51,14 @@ BasicBlock* Scope::getContinueToBlock() {
   return mContinueToBlock;
 }
 
+void Scope::setReturnType(IType* type) {
+  mReturnType = type;
+}
+
+IType* Scope::getReturnType() {
+  return mReturnType;
+}
+
 void Scope::maybeFreeOwnedMemory(BasicBlock* block) {
   if (mHasOwnedMemoryBeenFreed) {
     return;

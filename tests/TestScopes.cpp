@@ -83,6 +83,19 @@ TEST(ScopesTest, TestScopesCorrectlyOrdered) {
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), outerValue);
 }
 
+TEST(ScopesTest, TestReturnType) {
+  Scopes scopes;
+  LLVMContext llvmContext;
+
+  scopes.pushScope();
+  scopes.setReturnType(PrimitiveTypes::DOUBLE_TYPE);
+  scopes.pushScope();
+  scopes.pushScope();
+  
+  IType* returnType = scopes.getReturnType();
+  EXPECT_EQ(returnType, PrimitiveTypes::DOUBLE_TYPE);
+}
+
 TEST(ScopesTest, TestGetScopeDeathTest) {
   Scopes scopes;
 

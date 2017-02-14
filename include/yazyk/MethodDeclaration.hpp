@@ -27,7 +27,7 @@ namespace yazyk {
  */
 class MethodDeclaration {
   const AccessSpecifier mAccessSpecifier;
-  const ITypeSpecifier& mTypeSpecifier;
+  const ITypeSpecifier& mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
   CompoundStatement& mCompoundStatement;
@@ -35,12 +35,12 @@ class MethodDeclaration {
 public:
   
   MethodDeclaration(const AccessSpecifier& accessSpecifier,
-                    const ITypeSpecifier& typeSpecifier,
+                    const ITypeSpecifier& returnTypeSpecifier,
                     std::string methodName,
                     const VariableList& arguments,
                     CompoundStatement& compoundStatement) :
   mAccessSpecifier(accessSpecifier),
-  mTypeSpecifier(typeSpecifier),
+  mReturnTypeSpecifier(returnTypeSpecifier),
   mMethodName(methodName),
   mArguments(arguments),
   mCompoundStatement(compoundStatement) { }
