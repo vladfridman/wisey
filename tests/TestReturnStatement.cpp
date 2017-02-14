@@ -47,6 +47,7 @@ struct ReturnStatementTest : public Test {
 public:
   ReturnStatementTest() {
     Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
+    ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -76,12 +77,13 @@ TEST_F(ReturnStatementTest, ParentFunctionIsIncopatableTypeDeathTest) {
 
   mContext.setBasicBlock(BasicBlock::Create(llvmContext, "entry", function));
   mContext.getScopes().pushScope();
+  mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
   ReturnStatement returnStatement(mExpression);
   
   Mock::AllowLeak(&mExpression);
   EXPECT_EXIT(returnStatement.generateIR(mContext),
               ExitedWithCode(1),
-              "Can not cast return value to function type");
+              "Error: Incopatible types: can not cast from type 'int' to 'void'");
 }
 
 TEST_F(ReturnStatementTest, ParentFunctionIntTest) {
@@ -91,6 +93,7 @@ TEST_F(ReturnStatementTest, ParentFunctionIntTest) {
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
+  mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
   ReturnStatement returnStatement(mExpression);
 
   returnStatement.generateIR(mContext);
@@ -116,6 +119,7 @@ TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
+  mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
   Type* pointerType = Type::getInt32Ty(llvmContext);
   Type* structType = Type::getInt8Ty(llvmContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
@@ -139,8 +143,8 @@ TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
   *mStringStream << *basicBlock;
   string expected = string() +
     "\nentry:"
-    "\n  tail call void @free(i8* %malloccall)"
     "\n  %conv = zext i32 3 to i64" +
+    "\n  tail call void @free(i8* %malloccall)"
     "\n  ret i64 %conv\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
   
