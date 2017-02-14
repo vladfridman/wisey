@@ -33,7 +33,7 @@ TEST(CharConstantTest, CharConstantTest) {
   Value* irValue = charConstant.generateIR(context);
 
   *stringStream << *irValue;
-  EXPECT_STREQ("i8 121", stringStream->str().c_str());
+  EXPECT_STREQ("i16 121", stringStream->str().c_str());
 }
 
 TEST(CharConstantTest, TestCharConstantType) {

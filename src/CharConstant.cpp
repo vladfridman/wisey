@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* CharConstant::generateIR(IRGenerationContext& context) const {
-  return ConstantInt::get(Type::getInt8Ty(context.getLLVMContext()), mValue);
+  return ConstantInt::get(Type::getInt16Ty(context.getLLVMContext()), mValue);
 }
 
 IType* CharConstant::getType(IRGenerationContext& context) const {

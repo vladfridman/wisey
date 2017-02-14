@@ -80,7 +80,7 @@ TEST_F(AutoCastTest, CastBooleanTest) {
   
   result = AutoCast::maybeCast(mContext, mExpression, PrimitiveTypes::CHAR_TYPE);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = zext i1 true to i8", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = zext i1 true to i16", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext, mExpression, PrimitiveTypes::INT_TYPE);
@@ -107,7 +107,7 @@ TEST_F(AutoCastTest, CastBooleanTest) {
 TEST_F(AutoCastTest, CastCharTest) {
   Mock::AllowLeak(&mExpression);
   Value* result;
-  Value* expressionValue = ConstantInt::get(Type::getInt8Ty(mLLVMContext), 'a');
+  Value* expressionValue = ConstantInt::get(Type::getInt16Ty(mLLVMContext), 'a');
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(expressionValue));
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   
@@ -124,22 +124,22 @@ TEST_F(AutoCastTest, CastCharTest) {
 
   result = AutoCast::maybeCast(mContext, mExpression, PrimitiveTypes::INT_TYPE);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv = zext i8 97 to i32", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv = zext i16 97 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext, mExpression, PrimitiveTypes::LONG_TYPE);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv1 = zext i8 97 to i64", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv1 = zext i16 97 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext, mExpression, PrimitiveTypes::FLOAT_TYPE);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv2 = sitofp i8 97 to float", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv2 = sitofp i16 97 to float", mStringStream->str().c_str());
   mStringBuffer.clear();
   
   result = AutoCast::maybeCast(mContext, mExpression, PrimitiveTypes::DOUBLE_TYPE);
   *mStringStream << *result;
-  EXPECT_STREQ("  %conv3 = sitofp i8 97 to double", mStringStream->str().c_str());
+  EXPECT_STREQ("  %conv3 = sitofp i16 97 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
