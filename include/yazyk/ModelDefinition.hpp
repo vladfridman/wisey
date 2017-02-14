@@ -32,7 +32,7 @@ public:
                   std::vector<MethodDeclaration *>& methods)
     : mName(name), mFields(fields), mMethods(methods) { }
   
-  ~ModelDefinition() { }
+  ~ModelDefinition();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

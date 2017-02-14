@@ -16,6 +16,11 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+ModelDefinition::~ModelDefinition() {
+  mFields.clear();
+  mMethods.clear();
+}
+
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   StructType *structType = StructType::create(llvmContext, "model." + mName);
