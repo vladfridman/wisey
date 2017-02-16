@@ -50,7 +50,14 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
 }
 
 IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) const {
-  return mLeftExpression.getType(context);
+  IType* leftType = mLeftExpression.getType(context);
+  IType* rightType = mRightExpression.getType(context);
+  checkTypes(leftType, rightType);
+
+  if (AutoCast::canCastLosslessFromTo(leftType, rightType)) {
+    return rightType;
+  }
+  return leftType;
 }
 
 // TODO: implement a more sensible type checking/casting

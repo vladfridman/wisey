@@ -134,7 +134,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, VoidTypesDeathTest) {
               "Error: Can not use expressions of type VOID in a '\\+' operation");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, ExplicitCastNeededDeathTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, ExplicitCastNeededOnGenerateIRDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
   
@@ -144,6 +144,20 @@ TEST_F(AdditiveMultiplicativeExpressionTest, ExplicitCastNeededDeathTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   
   EXPECT_EXIT(expression.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Incopatible types in '\\+' operation that require an explicit cast");
+}
+
+TEST_F(AdditiveMultiplicativeExpressionTest, ExplicitCastNeededOnGetTypeDeathTest) {
+  Mock::AllowLeak(&mLeftExpression);
+  Mock::AllowLeak(&mRightExpression);
+  
+  ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  
+  EXPECT_EXIT(expression.getType(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Incopatible types in '\\+' operation that require an explicit cast");
 }
