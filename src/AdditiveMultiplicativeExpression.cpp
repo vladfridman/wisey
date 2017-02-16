@@ -9,6 +9,7 @@
 #include <llvm/IR/InstrTypes.h>
 
 #include "yazyk/AdditiveMultiplicativeExpression.hpp"
+#include "yazyk/AutoCast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -18,7 +19,9 @@ using namespace std;
 using namespace yazyk;
 
 Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) const {
-  checkTypes(context);
+  IType* leftType = mLeftExpression.getType(context);
+  IType* rightType = mRightExpression.getType(context);
+  checkTypes(leftType, rightType);
 
   Instruction::BinaryOps instruction;
   string name;
@@ -30,8 +33,14 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
     default: return NULL;
   }
   
-  Value * leftValue = mLeftExpression.generateIR(context);
-  Value * rightValue = mRightExpression.generateIR(context);
+  Value* leftValue = mLeftExpression.generateIR(context);
+  Value* rightValue = mRightExpression.generateIR(context);
+  
+  if (AutoCast::canCastLosslessFromTo(leftType, rightType)) {
+    leftValue = AutoCast::maybeCast(context, leftType, leftValue, rightType);
+  } else {
+    rightValue = AutoCast::maybeCast(context, rightType, rightValue, leftType);
+  }
   
   return llvm::BinaryOperator::Create(instruction,
                                       leftValue,
@@ -45,22 +54,26 @@ IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) c
 }
 
 // TODO: implement a more sensible type checking/casting
-void AdditiveMultiplicativeExpression::checkTypes(IRGenerationContext& context) const {
-  IType* leftExpressionType = mLeftExpression.getType(context);
-  IType* rightExpressionType = mRightExpression.getType(context);
+void AdditiveMultiplicativeExpression::checkTypes(IType* leftType, IType* rightType) const {
+  if (leftType == PrimitiveTypes::VOID_TYPE || rightType == PrimitiveTypes::VOID_TYPE) {
+    Log::e("Can not use expressions of type VOID in a '" + string(1, mOperation) + "' operation");
+    exit(1);
+  }
   
-  if (leftExpressionType != rightExpressionType) {
+  if (leftType->getTypeKind() != PRIMITIVE_TYPE || rightType->getTypeKind() != PRIMITIVE_TYPE) {
+    Log::e("Can not do operation '" + string(1, mOperation) + "' on non-primitive types");
+    exit(1);
+  }
+
+  if (!AutoCast::canCast(leftType, rightType) && !AutoCast::canCast(rightType, leftType)) {
     Log::e("Incopatible types in '" + string(1, mOperation) + "' operation");
     exit(1);
   }
   
-  if (leftExpressionType->getTypeKind() != PRIMITIVE_TYPE) {
-    Log::e("Can not do operation '" + string(1, mOperation) + "' on non-primitive types");
-    exit(1);
-  }
-  
-  if (leftExpressionType == PrimitiveTypes::VOID_TYPE) {
-    Log::e("Can not use expressions of type VOID in a '" + string(1, mOperation) + "' operation");
+  if (!AutoCast::canCastLosslessFromTo(leftType, rightType) &&
+      !AutoCast::canCastLosslessFromTo(rightType, leftType)) {
+    Log::e("Incopatible types in '" + string(1, mOperation) +
+           "' operation that require an explicit cast");
     exit(1);
   }
 }

@@ -35,7 +35,7 @@ public:
   
 private:
   
-  void checkTypes(IRGenerationContext& context) const;
+  void checkTypes(IType* leftType, IType* rightType) const;
 };
 
 } /* namespace yazyk */
