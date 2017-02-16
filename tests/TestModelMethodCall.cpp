@@ -142,7 +142,20 @@ TEST_F(ModelMethodCallTest, LLVMImplementationNotFoundDeathTest) {
 }
 
 TEST_F(ModelMethodCallTest, IncorrectArgumentTypesDeathTest) {
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mStructType->getPointerTo());
+  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
+                                                 argTypesArray,
+                                                 false);
+  Function::Create(functionType,
+                   GlobalValue::InternalLinkage,
+                   "model.Shape.foo",
+                   mContext.getModule());
+
   NiceMock<MockExpression> argumentExpression;
+  ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   mArgumentList.push_back(&argumentExpression);
   ModelMethodCall methodCall(mExpression, "foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
@@ -190,5 +203,9 @@ TEST_F(TestFileSampleRunner, ModelMethodCallRunTest) {
 
 TEST_F(TestFileSampleRunner, ModelMethodCallMultipleArgumentsRunTest) {
   runFile("tests/samples/test_model_method_call_multiple_parameters.yz", "8");
+}
+
+TEST_F(TestFileSampleRunner, ModelMethodCallAutoCastArgumentRunTest) {
+  runFile("tests/samples/test_method_argument_autocast.yz", "1");
 }
 

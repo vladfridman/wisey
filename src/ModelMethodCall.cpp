@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "yazyk/AutoCast.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ModelMethodCall.hpp"
 
@@ -28,9 +29,21 @@ Value* ModelMethodCall::generateIR(IRGenerationContext& context) const {
   }
   vector<Value*> arguments;
   arguments.push_back(mExpression.generateIR(context));
-  ExpressionList::const_iterator it;
-  for (it = mArguments.begin(); it != mArguments.end(); it++) {
-    arguments.push_back((**it).generateIR(context));
+  vector<MethodArgument*> methodArguments = method->getArguments();
+  vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
+  for (ExpressionList::const_iterator callArgumentIterator = mArguments.begin();
+       callArgumentIterator != mArguments.end();
+       callArgumentIterator++) {
+    Value* callArgumentValue = (**callArgumentIterator).generateIR(context);
+    IType* callArgumentType = (**callArgumentIterator).getType(context);
+    MethodArgument* methodArgument = *methodArgumentIterator;
+    IType* methodArgumentType = methodArgument->getType();
+    Value* callArgumentValueCasted = AutoCast::maybeCast(context,
+                                                         callArgumentType,
+                                                         callArgumentValue,
+                                                         methodArgumentType);
+    arguments.push_back(callArgumentValueCasted);
+    methodArgumentIterator++;
   }
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
   
@@ -81,7 +94,7 @@ void ModelMethodCall::checkArgumentType(Model* model,
     IType* methodArgumentType = methodArgument->getType();
     IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     
-    if (methodArgumentType != callArgumentType) {
+    if (!AutoCast::canCastLosslessFromTo(callArgumentType, methodArgumentType)) {
       Log::e("Call argument types do not match for a call to method '" + method->getName() +
              "' of the model type '" + model->getName() + "'");
       exit(1);

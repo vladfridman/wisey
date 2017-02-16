@@ -1,0 +1,19 @@
+model Color {
+  int value;
+
+  public void setValue(int val) {
+    value = val;
+  }
+
+  public int getValue() {
+    return value;
+  }
+}
+
+public int main() {
+  Color color = builder(Color).withValue(2).build();
+
+  color.setValue(true);
+
+  return color.getValue();
+}
