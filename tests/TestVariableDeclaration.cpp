@@ -83,6 +83,7 @@ TEST_F(VariableDeclarationTest, StackVariableDeclarationWithAssignmentTest) {
   NiceMock<MockExpression> mExpression;
   Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   VariableDeclaration declaration(typeSpecifier, identifier, &mExpression);
   
   declaration.generateIR(mContext);

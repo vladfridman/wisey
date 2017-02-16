@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/AutoCast.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LocalStackVariable.hpp"
@@ -35,7 +36,10 @@ Value* LocalStackVariable::generateIdentifierIR(IRGenerationContext& context,
 
 Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 IExpression& assignToExpression) {
-  return new StoreInst(assignToExpression.generateIR(context),
+  Value* assignToValue = assignToExpression.generateIR(context);
+  IType* assignToType = assignToExpression.getType(context);
+  Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
+  return new StoreInst(castAssignToValue,
                        mValue,
                        context.getBasicBlock());
 }
