@@ -1,0 +1,13 @@
+model Color {
+  int value;
+}
+
+model Shape {
+  int width;
+  int height;
+}
+
+public int main() {
+  Color color = builder(Shape).withWidth(1).withHeight(2).build();
+  return 0;
+}

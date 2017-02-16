@@ -115,3 +115,8 @@ TEST_F(TestFileSampleRunner, UsingUninitializedHeapVariableDeathTest) {
                          "Error: Variable 'color' is used before it has been initialized.");
 }
 
+TEST_F(TestFileSampleRunner, IncompatableHeapVariableTypesInAssignmentDeathTest) {
+  expectFailIRGeneration("tests/samples/test_incompatible_heap_variable_types_in_assignment.yz",
+                         1,
+                         "Error: Incopatible types: can not cast from type 'Shape' to 'Color'");
+}

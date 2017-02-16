@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/AutoCast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/Log.hpp"
@@ -41,7 +42,12 @@ Value* LocalHeapVariable::generateIdentifierIR(IRGenerationContext& context,
 Value* LocalHeapVariable::generateAssignmentIR(IRGenerationContext& context,
                                                IExpression& assignToExpression) {
   Value* assignToValue = assignToExpression.generateIR(context);
-  mValue = new BitCastInst(assignToValue, assignToValue->getType(), mName, context.getBasicBlock());
+  IType* assignToType = assignToExpression.getType(context);
+  Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
+  mValue = new BitCastInst(castAssignToValue,
+                           castAssignToValue->getType(),
+                           mName,
+                           context.getBasicBlock());
   context.getScopes().clearVariable(assignToValue->getName());
   
   return mValue;
