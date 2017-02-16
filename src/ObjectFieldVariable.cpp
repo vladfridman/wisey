@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/AutoCast.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
@@ -57,11 +58,17 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                                  IExpression& assignToExpression) {
   ModelField* modelField = checkAndFindField(context);
   IType* assignToType = assignToExpression.getType(context);
-  if (assignToType != modelField->getType()) {
+  IType* toType = modelField->getType();
+  if (!AutoCast::canCastLosslessFromTo(assignToType, toType)) {
     Log::e("Can not assign to field '" + mName + "' of model '" + mModel->getName() +
            "' because of incompatable types");
     exit(1);
   }
+  Value* assignToValue = AutoCast::maybeCast(context,
+                                             assignToType,
+                                             assignToExpression.generateIR(context),
+                                             toType);
+  
   
   LLVMContext& llvmContext = context.getLLVMContext();
   Value *Idx[2];
@@ -73,7 +80,6 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   BasicBlock* basicBlock = context.getBasicBlock();
   GetElementPtrInst* fieldPointer =
     GetElementPtrInst::Create(structType, loadedValue, Idx, "", basicBlock);
-  Value* assignToValue = assignToExpression.generateIR(context);
   
   return new StoreInst(assignToValue, fieldPointer, basicBlock);
 }

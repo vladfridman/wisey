@@ -131,7 +131,32 @@ TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateAssignmentIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
+TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateAssignmentWithCastIRTest) {
+  NiceMock<MockExpression> assignToExpression;
+  
+  Value* assignToValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
+  
+  mObjectFieldVariable->generateAssignmentIR(mContext, assignToExpression);
+  
+  *mStringStream << *mBasicBlock;
+  string expected = string() +
+  "\nentry:" +
+    "\n  %this.param = alloca %Object*"
+    "\n  %conv = zext i1 true to i32"
+    "\n  %this = load %Object*, %Object** %this.param"
+    "\n  %0 = getelementptr %Object, %Object* %this, i32 0, i32 0"
+    "\n  store i32 %conv, i32* %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, ModelFieldSetTest) {
   runFile("tests/samples/test_model_field_set.yz", "7");
+}
+
+TEST_F(TestFileSampleRunner, ModelFieldSetWithAutocastTest) {
+  runFile("tests/samples/test_model_field_set_with_autocast.yz", "1");
 }
 
