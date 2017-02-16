@@ -13,14 +13,85 @@
 using namespace llvm;
 using namespace yazyk;
 
+bool AutoCast::canCastLosslessFromTo(IType* fromType, IType* toType) {
+  if (fromType->getTypeKind() != toType->getTypeKind()) {
+    return false;
+  }
+  
+  if (fromType->getTypeKind() == PRIMITIVE_TYPE) {
+    return canCastLosslessPrimitiveTypeFromTo(fromType, toType);
+  }
+  
+  return fromType == toType;
+}
+
+bool AutoCast::canCastLosslessPrimitiveTypeFromTo(IType* fromType, IType* toType) {
+  if (toType == PrimitiveTypes::VOID_TYPE || fromType == PrimitiveTypes::VOID_TYPE) {
+    return fromType == toType;
+  }
+  
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
+    return fromType == PrimitiveTypes::BOOLEAN_TYPE;
+  }
+  
+  if (toType == PrimitiveTypes::CHAR_TYPE) {
+    return fromType == PrimitiveTypes::BOOLEAN_TYPE || fromType == PrimitiveTypes::CHAR_TYPE;
+  }
+  
+  if (toType == PrimitiveTypes::INT_TYPE) {
+    return fromType == PrimitiveTypes::BOOLEAN_TYPE ||
+      fromType == PrimitiveTypes::CHAR_TYPE ||
+      fromType == PrimitiveTypes::INT_TYPE;
+  }
+  
+  if (toType == PrimitiveTypes::LONG_TYPE) {
+    return fromType == PrimitiveTypes::BOOLEAN_TYPE ||
+      fromType == PrimitiveTypes::CHAR_TYPE ||
+      fromType == PrimitiveTypes::INT_TYPE ||
+      fromType == PrimitiveTypes::LONG_TYPE;
+  }
+  
+  if (toType == PrimitiveTypes::FLOAT_TYPE) {
+    return fromType == PrimitiveTypes::BOOLEAN_TYPE ||
+      fromType == PrimitiveTypes::CHAR_TYPE ||
+      fromType == PrimitiveTypes::FLOAT_TYPE;
+  }
+  
+  if (toType == PrimitiveTypes::DOUBLE_TYPE) {
+    return fromType == PrimitiveTypes::BOOLEAN_TYPE ||
+      fromType == PrimitiveTypes::CHAR_TYPE ||
+      fromType == PrimitiveTypes::INT_TYPE ||
+      fromType == PrimitiveTypes::FLOAT_TYPE ||
+      fromType == PrimitiveTypes::DOUBLE_TYPE;
+  }
+  
+  return false;
+}
+
+bool AutoCast::canCast(IType* fromType, IType* toType) {
+  if (fromType->getTypeKind() != toType->getTypeKind()) {
+    return false;
+  }
+  
+  if (fromType->getTypeKind() == PRIMITIVE_TYPE) {
+    return (fromType != PrimitiveTypes::VOID_TYPE && toType != PrimitiveTypes::VOID_TYPE) ||
+      (fromType == PrimitiveTypes::VOID_TYPE && toType == PrimitiveTypes::VOID_TYPE);
+  }
+  
+  return fromType == toType;
+}
+
 Value* AutoCast::maybeCast(IRGenerationContext& context,IExpression& expression, IType* toType) {
   IType* expressionType = expression.getType(context);
   if (expressionType == toType) {
     return expression.generateIR(context);
   }
-  
-  if (expressionType->getTypeKind() != toType->getTypeKind()) {
+  if (!canCast(expressionType, toType)) {
     exitIncopatibleTypes(expressionType, toType);
+  }
+  if (!canCastLosslessFromTo(expressionType, toType)) {
+    canCastLosslessFromTo(expressionType, toType);
+    exitNeedExplicitCast(expressionType, toType);
   }
   
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
@@ -35,92 +106,16 @@ Value* AutoCast::maybeCastPrimitiveTypes(IRGenerationContext& context,
                                          IType* toType) {
   IType* expressionType = expression.getType(context);
   
-  if (toType == PrimitiveTypes::VOID_TYPE || expressionType == PrimitiveTypes::VOID_TYPE) {
-    exitIncopatibleTypes(expressionType, toType);
-  }
-  
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
-    exitNeedExplicitCast(expressionType, toType);
-  }
-  
-  if (toType == PrimitiveTypes::CHAR_TYPE) {
-    return maybeCastToChar(context, expression, expressionType);
-  }
-  
-  if (toType == PrimitiveTypes::INT_TYPE) {
-    return maybeCastToInt(context, expression, expressionType);
-  }
-
-  if (toType == PrimitiveTypes::LONG_TYPE) {
-    return maybeCastToLong(context, expression, expressionType);
+  if (toType == PrimitiveTypes::CHAR_TYPE ||
+      toType == PrimitiveTypes::INT_TYPE ||
+      toType == PrimitiveTypes::LONG_TYPE) {
+    return widenIntCast(context, expression, toType);
   }
   
   if (toType == PrimitiveTypes::FLOAT_TYPE) {
-    return maybeCastToFloat(context, expression, expressionType);
+    return intToFloatCast(context, expression, PrimitiveTypes::FLOAT_TYPE);
   }
 
-  if (toType == PrimitiveTypes::DOUBLE_TYPE) {
-    return maybeCastToDouble(context, expression, expressionType);
-  }
-
-  exitIncopatibleTypes(expressionType, toType);
-  return NULL;
-}
-
-Value* AutoCast::maybeCastToChar(IRGenerationContext& context,
-                                 IExpression& expression,
-                                 IType* expressionType) {
-  if (expressionType != PrimitiveTypes::BOOLEAN_TYPE) {
-    exitNeedExplicitCast(expressionType, PrimitiveTypes::CHAR_TYPE);
-  }
-  
-  return widenIntCast(context, expression, PrimitiveTypes::CHAR_TYPE);
-}
-
-Value* AutoCast::maybeCastToInt(IRGenerationContext& context,
-                                IExpression& expression,
-                                IType* expressionType) {
-  if (expressionType != PrimitiveTypes::BOOLEAN_TYPE &&
-      expressionType != PrimitiveTypes::CHAR_TYPE) {
-    exitNeedExplicitCast(expressionType, PrimitiveTypes::INT_TYPE);
-  }
-  
-  return widenIntCast(context, expression, PrimitiveTypes::INT_TYPE);
-}
-
-Value* AutoCast::maybeCastToLong(IRGenerationContext& context,
-                                 IExpression& expression,
-                                 IType* expressionType) {
-  if (expressionType != PrimitiveTypes::BOOLEAN_TYPE &&
-      expressionType != PrimitiveTypes::CHAR_TYPE &&
-      expressionType != PrimitiveTypes::INT_TYPE) {
-    exitNeedExplicitCast(expressionType, PrimitiveTypes::LONG_TYPE);
-  }
-  
-  return widenIntCast(context, expression, PrimitiveTypes::LONG_TYPE);
-}
-
-Value* AutoCast::maybeCastToFloat(IRGenerationContext& context,
-                                  IExpression& expression,
-                                  IType* expressionType) {
-  if (expressionType != PrimitiveTypes::BOOLEAN_TYPE &&
-      expressionType != PrimitiveTypes::CHAR_TYPE) {
-    exitNeedExplicitCast(expressionType, PrimitiveTypes::FLOAT_TYPE);
-  }
-  
-  return intToFloatCast(context, expression, PrimitiveTypes::FLOAT_TYPE);
-}
-
-Value* AutoCast::maybeCastToDouble(IRGenerationContext& context,
-                                   IExpression& expression,
-                                   IType* expressionType) {
-  if (expressionType != PrimitiveTypes::BOOLEAN_TYPE &&
-      expressionType != PrimitiveTypes::CHAR_TYPE &&
-      expressionType != PrimitiveTypes::INT_TYPE &&
-      expressionType != PrimitiveTypes::FLOAT_TYPE) {
-    exitNeedExplicitCast(expressionType, PrimitiveTypes::DOUBLE_TYPE);
-  }
-  
   if (expressionType == PrimitiveTypes::FLOAT_TYPE) {
     return widenFloatCast(context, expression, PrimitiveTypes::DOUBLE_TYPE);
   }
