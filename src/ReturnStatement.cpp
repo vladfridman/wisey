@@ -23,7 +23,10 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  Value* returnValue = AutoCast::maybeCast(context, mExpression, returnType);
+  Value* returnValue = AutoCast::maybeCast(context,
+                                           mExpression.getType(context),
+                                           mExpression.generateIR(context),
+                                           returnType);
   context.getScopes().getScope()->maybeFreeOwnedMemory(context.getBasicBlock());
   
   ReturnInst* result = ReturnInst::Create(context.getLLVMContext(),

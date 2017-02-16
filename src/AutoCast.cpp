@@ -81,86 +81,77 @@ bool AutoCast::canCast(IType* fromType, IType* toType) {
   return fromType == toType;
 }
 
-Value* AutoCast::maybeCast(IRGenerationContext& context,IExpression& expression, IType* toType) {
-  IType* expressionType = expression.getType(context);
-  if (expressionType == toType) {
-    return expression.generateIR(context);
+Value* AutoCast::maybeCast(IRGenerationContext& context,
+                           IType* fromType,
+                           Value* fromValue,
+                           IType* toType) {
+  if (fromType == toType) {
+    return fromValue;
   }
-  if (!canCast(expressionType, toType)) {
-    exitIncopatibleTypes(expressionType, toType);
+  if (!canCast(fromType, toType)) {
+    exitIncopatibleTypes(fromType, toType);
   }
-  if (!canCastLosslessFromTo(expressionType, toType)) {
-    canCastLosslessFromTo(expressionType, toType);
-    exitNeedExplicitCast(expressionType, toType);
-  }
-  
-  if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
-    return maybeCastPrimitiveTypes(context, expression, toType);
+  if (!canCastLosslessFromTo(fromType, toType)) {
+    canCastLosslessFromTo(fromType, toType);
+    exitNeedExplicitCast(fromType, toType);
   }
   
-  return maybeCastModelTypes(context, expression, toType);
+  if (fromType->getTypeKind() == PRIMITIVE_TYPE) {
+    return maybeCastPrimitiveTypes(context, fromType, fromValue, toType);
+  }
+  
+  return fromValue;
 }
 
 Value* AutoCast::maybeCastPrimitiveTypes(IRGenerationContext& context,
-                                         IExpression& expression,
+                                         IType* fromType,
+                                         Value* fromValue,
                                          IType* toType) {
-  IType* expressionType = expression.getType(context);
-  
   if (toType == PrimitiveTypes::CHAR_TYPE ||
       toType == PrimitiveTypes::INT_TYPE ||
       toType == PrimitiveTypes::LONG_TYPE) {
-    return widenIntCast(context, expression, toType);
+    return widenIntCast(context, fromValue, toType);
   }
   
   if (toType == PrimitiveTypes::FLOAT_TYPE) {
-    return intToFloatCast(context, expression, PrimitiveTypes::FLOAT_TYPE);
+    return intToFloatCast(context, fromValue, PrimitiveTypes::FLOAT_TYPE);
   }
 
-  if (expressionType == PrimitiveTypes::FLOAT_TYPE) {
-    return widenFloatCast(context, expression, PrimitiveTypes::DOUBLE_TYPE);
+  if (fromType == PrimitiveTypes::FLOAT_TYPE) {
+    return widenFloatCast(context, fromValue, PrimitiveTypes::DOUBLE_TYPE);
   }
   
-  return intToFloatCast(context, expression, PrimitiveTypes::DOUBLE_TYPE);
+  return intToFloatCast(context, fromValue, PrimitiveTypes::DOUBLE_TYPE);
 }
 
 Value* AutoCast::widenIntCast(IRGenerationContext& context,
-                              IExpression& expression,
+                              Value* fromValue,
                               IType* toType) {
-  Value* fromLLVMValue = expression.generateIR(context);
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return CastInst::CreateZExtOrBitCast(fromLLVMValue,
+  return CastInst::CreateZExtOrBitCast(fromValue,
                                        toLLVMType,
                                        "conv",
                                        context.getBasicBlock());
 }
 
 Value* AutoCast::widenFloatCast(IRGenerationContext& context,
-                                IExpression& expression,
+                                Value* fromValue,
                                 IType* toType) {
-  Value* fromLLVMValue = expression.generateIR(context);
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return new FPExtInst(fromLLVMValue,
+  return new FPExtInst(fromValue,
                        toLLVMType,
                        "conv",
                        context.getBasicBlock());
 }
 
 Value* AutoCast::intToFloatCast(IRGenerationContext& context,
-                                IExpression& expression,
+                                Value* fromValue,
                                 IType* toType) {
-  Value* fromLLVMValue = expression.generateIR(context);
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return new SIToFPInst(fromLLVMValue, toLLVMType, "conv", context.getBasicBlock());
-}
-
-Value* AutoCast::maybeCastModelTypes(IRGenerationContext& context,
-                                     IExpression& expression,
-                                     IType* toType) {
-  /* not imlemented */
-  return expression.generateIR(context);
+  return new SIToFPInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
 }
 
 void AutoCast::exitIncopatibleTypes(IType* fromType, IType* toType) {

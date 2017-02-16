@@ -38,34 +38,32 @@ public:
    * Try to cast expression's value to a given type
    */
   static llvm::Value* maybeCast(IRGenerationContext& context,
-                                IExpression& expression,
+                                IType* fromType,
+                                llvm::Value* fromValue,
                                 IType* toType);
 private:
 
   static bool canCastLosslessPrimitiveTypeFromTo(IType* fromType, IType* toType);
 
   static llvm::Value* maybeCastPrimitiveTypes(IRGenerationContext& context,
-                                              IExpression& expression,
+                                              IType* fromType,
+                                              llvm::Value* fromValue,
                                               IType* toType);
 
-  static llvm::Value* maybeCastModelTypes(IRGenerationContext& context,
-                                          IExpression& expression,
-                                          IType* toType);
-  
   static void exitIncopatibleTypes(IType* fromType, IType* toType);
 
   static void exitNeedExplicitCast(IType* fromType, IType* toType);
 
   static llvm::Value* widenIntCast(IRGenerationContext& context,
-                                   IExpression& expression,
+                                   llvm::Value* fromValue,
                                    IType* toType);
   
   static llvm::Value* widenFloatCast(IRGenerationContext& context,
-                                     IExpression& expression,
+                                     llvm::Value* fromValue,
                                      IType* toType);
   
   static llvm::Value* intToFloatCast(IRGenerationContext& context,
-                                     IExpression& expression,
+                                     llvm::Value* fromValue,
                                      IType* toType);
 };
 
