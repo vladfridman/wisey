@@ -1,0 +1,7 @@
+public int foo() {
+  return 2;
+}
+
+public int main() {
+  return foo() + foo();
+}

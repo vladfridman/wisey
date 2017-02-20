@@ -134,5 +134,9 @@ TEST_F(FunctionCallTest, PrintfFunctionCall) {
 }
 
 TEST_F(TestFileSampleRunner, FunctionCallRunTest) {
-  runFile("tests/samples/function_call_run_test.yz", "5");
+  runFile("tests/samples/test_function_call.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, FunctionCallInExpressionTest) {
+  runFile("tests/samples/test_function_call_in_expression.yz", "4");
 }
