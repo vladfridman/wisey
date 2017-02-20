@@ -1,0 +1,11 @@
+model Shape {
+  int size;
+
+  public int getSize() {
+    return size;
+  }
+}
+
+public int main() {
+  return builder(Shape).withSize(15).build().getSize() * 2;
+}

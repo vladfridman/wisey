@@ -209,3 +209,7 @@ TEST_F(TestFileSampleRunner, ModelMethodCallAutoCastArgumentRunTest) {
   runFile("tests/samples/test_method_argument_autocast.yz", "1");
 }
 
+TEST_F(TestFileSampleRunner, ModelMethodCallInExpressionTest) {
+  runFile("tests/samples/test_method_call_in_expression.yz", "30");
+}
+
