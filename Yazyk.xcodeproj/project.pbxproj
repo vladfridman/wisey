@@ -70,6 +70,9 @@
 		F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */; };
 		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
+		F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797091E5C95BC009B16AA /* TestCastExpression.cpp */; };
+		F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
+		F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
 		F531B6391E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */; };
 		F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */; };
@@ -370,6 +373,9 @@
 		F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanConstant.cpp; path = tests/TestBooleanConstant.cpp; sourceTree = "<group>"; };
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
+		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
+		F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CastExpression.hpp; path = include/yazyk/CastExpression.hpp; sourceTree = "<group>"; };
+		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
 		F530B45E1DFA031A00477384 /* TestsRun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestsRun.cpp; path = tests/TestsRun.cpp; sourceTree = "<group>"; };
 		F531B6371E07A4AD008304F3 /* INode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = INode.hpp; path = include/yazyk/INode.hpp; sourceTree = "<group>"; };
@@ -673,6 +679,7 @@
 				F5C6FD731E48B4920054209D /* TestBooleanType.cpp */,
 				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
 				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
+				F51797091E5C95BC009B16AA /* TestCastExpression.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
 				F5C6FD671E48B16F0054209D /* TestCharType.cpp */,
 				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
@@ -819,6 +826,7 @@
 				F5C6FD6E1E48B40F0054209D /* BooleanType.cpp */,
 				F59D82281E1089E700057FB5 /* BreakStatement.cpp */,
 				F50FA2A51E269E5700435EEA /* CaseStatement.cpp */,
+				F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */,
 				F531B6591E0DE52F008304F3 /* CharConstant.cpp */,
 				F5C6FD641E48AB3B0054209D /* CharType.cpp */,
 				F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */,
@@ -943,6 +951,7 @@
 				F507D2741E474AB700495E2D /* BooleanType.hpp */,
 				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
 				F50FA2A21E269E4400435EEA /* CaseStatement.hpp */,
+				F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */,
 				F531B6581E0DE4ED008304F3 /* CharConstant.hpp */,
 				F507D2691E44C3A400495E2D /* CharType.hpp */,
 				F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */,
@@ -1129,6 +1138,7 @@
 				F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */,
 				F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F57411611E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
+				F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2DC1E2D329900435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
@@ -1173,6 +1183,7 @@
 				F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
+				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
 				F57085F81E51BDDF007D627E /* TestFunctionDeclaration.cpp in Sources */,
 				F5C6FD771E48B50A0054209D /* DoubleType.cpp in Sources */,
@@ -1250,6 +1261,7 @@
 				F5F396DB1E34BFE000F34296 /* ModelBuilderArgument.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
+				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,

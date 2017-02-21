@@ -1,0 +1,4 @@
+public int main() {
+  int i = 2;
+  return (2 + 3) * (i);
+}
