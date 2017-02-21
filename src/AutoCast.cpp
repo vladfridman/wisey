@@ -13,74 +13,6 @@
 using namespace llvm;
 using namespace yazyk;
 
-bool AutoCast::canCastLosslessFromTo(IType* fromType, IType* toType) {
-  if (fromType->getTypeKind() != toType->getTypeKind()) {
-    return false;
-  }
-  
-  if (fromType->getTypeKind() == PRIMITIVE_TYPE) {
-    return canCastLosslessPrimitiveTypeFromTo(fromType, toType);
-  }
-  
-  return fromType == toType;
-}
-
-bool AutoCast::canCastLosslessPrimitiveTypeFromTo(IType* fromType, IType* toType) {
-  if (toType == PrimitiveTypes::VOID_TYPE || fromType == PrimitiveTypes::VOID_TYPE) {
-    return fromType == toType;
-  }
-  
-  if (toType == PrimitiveTypes::BOOLEAN_TYPE) {
-    return fromType == PrimitiveTypes::BOOLEAN_TYPE;
-  }
-  
-  if (toType == PrimitiveTypes::CHAR_TYPE) {
-    return fromType == PrimitiveTypes::BOOLEAN_TYPE || fromType == PrimitiveTypes::CHAR_TYPE;
-  }
-  
-  if (toType == PrimitiveTypes::INT_TYPE) {
-    return fromType == PrimitiveTypes::BOOLEAN_TYPE ||
-      fromType == PrimitiveTypes::CHAR_TYPE ||
-      fromType == PrimitiveTypes::INT_TYPE;
-  }
-  
-  if (toType == PrimitiveTypes::LONG_TYPE) {
-    return fromType == PrimitiveTypes::BOOLEAN_TYPE ||
-      fromType == PrimitiveTypes::CHAR_TYPE ||
-      fromType == PrimitiveTypes::INT_TYPE ||
-      fromType == PrimitiveTypes::LONG_TYPE;
-  }
-  
-  if (toType == PrimitiveTypes::FLOAT_TYPE) {
-    return fromType == PrimitiveTypes::BOOLEAN_TYPE ||
-      fromType == PrimitiveTypes::CHAR_TYPE ||
-      fromType == PrimitiveTypes::FLOAT_TYPE;
-  }
-  
-  if (toType == PrimitiveTypes::DOUBLE_TYPE) {
-    return fromType == PrimitiveTypes::BOOLEAN_TYPE ||
-      fromType == PrimitiveTypes::CHAR_TYPE ||
-      fromType == PrimitiveTypes::INT_TYPE ||
-      fromType == PrimitiveTypes::FLOAT_TYPE ||
-      fromType == PrimitiveTypes::DOUBLE_TYPE;
-  }
-  
-  return false;
-}
-
-bool AutoCast::canCast(IType* fromType, IType* toType) {
-  if (fromType->getTypeKind() != toType->getTypeKind()) {
-    return false;
-  }
-  
-  if (fromType->getTypeKind() == PRIMITIVE_TYPE) {
-    return (fromType != PrimitiveTypes::VOID_TYPE && toType != PrimitiveTypes::VOID_TYPE) ||
-      (fromType == PrimitiveTypes::VOID_TYPE && toType == PrimitiveTypes::VOID_TYPE);
-  }
-  
-  return fromType == toType;
-}
-
 Value* AutoCast::maybeCast(IRGenerationContext& context,
                            IType* fromType,
                            Value* fromValue,
@@ -88,40 +20,15 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
   if (fromType == toType) {
     return fromValue;
   }
-  if (!canCast(fromType, toType)) {
+  if (!fromType->canCastTo(toType)) {
     exitIncopatibleTypes(fromType, toType);
   }
-  if (!canCastLosslessFromTo(fromType, toType)) {
-    canCastLosslessFromTo(fromType, toType);
+  if (!fromType->canCastLosslessTo(toType)) {
+    fromType->canCastLosslessTo(toType);
     exitNeedExplicitCast(fromType, toType);
   }
   
-  if (fromType->getTypeKind() == PRIMITIVE_TYPE) {
-    return maybeCastPrimitiveTypes(context, fromType, fromValue, toType);
-  }
-  
-  return fromValue;
-}
-
-Value* AutoCast::maybeCastPrimitiveTypes(IRGenerationContext& context,
-                                         IType* fromType,
-                                         Value* fromValue,
-                                         IType* toType) {
-  if (toType == PrimitiveTypes::CHAR_TYPE ||
-      toType == PrimitiveTypes::INT_TYPE ||
-      toType == PrimitiveTypes::LONG_TYPE) {
-    return widenIntCast(context, fromValue, toType);
-  }
-  
-  if (toType == PrimitiveTypes::FLOAT_TYPE) {
-    return intToFloatCast(context, fromValue, PrimitiveTypes::FLOAT_TYPE);
-  }
-
-  if (fromType == PrimitiveTypes::FLOAT_TYPE) {
-    return widenFloatCast(context, fromValue, PrimitiveTypes::DOUBLE_TYPE);
-  }
-  
-  return intToFloatCast(context, fromValue, PrimitiveTypes::DOUBLE_TYPE);
+  return fromType->castTo(context, fromValue, toType);
 }
 
 Value* AutoCast::widenIntCast(IRGenerationContext& context,

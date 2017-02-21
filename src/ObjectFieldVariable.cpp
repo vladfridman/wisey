@@ -59,7 +59,7 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   ModelField* modelField = checkAndFindField(context);
   IType* assignToType = assignToExpression.getType(context);
   IType* toType = modelField->getType();
-  if (!AutoCast::canCastLosslessFromTo(assignToType, toType)) {
+  if (!assignToType->canCastLosslessTo(toType)) {
     Log::e("Can not assign to field '" + mName + "' of model '" + mModel->getName() +
            "' because of incompatable types");
     exit(1);

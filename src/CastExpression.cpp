@@ -17,7 +17,7 @@ Value* CastExpression::generateIR(IRGenerationContext& context) const {
   IType* fromType = mExpression.getType(context);
   Value* fromValue = mExpression.generateIR(context);
   IType* toType = mTypeSpecifier.getType(context);
-  if (AutoCast::canCastLosslessFromTo(fromType, toType)) {
+  if (fromType->canCastLosslessTo(toType)) {
     return AutoCast::maybeCast(context, fromType, fromValue, toType);
   }
   return fromValue;

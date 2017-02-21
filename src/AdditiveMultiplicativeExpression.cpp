@@ -36,7 +36,7 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   Value* leftValue = mLeftExpression.generateIR(context);
   Value* rightValue = mRightExpression.generateIR(context);
   
-  if (AutoCast::canCastLosslessFromTo(leftType, rightType)) {
+  if (leftType->canCastLosslessTo(rightType)) {
     leftValue = AutoCast::maybeCast(context, leftType, leftValue, rightType);
   } else {
     rightValue = AutoCast::maybeCast(context, rightType, rightValue, leftType);
@@ -54,7 +54,7 @@ IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) c
   IType* rightType = mRightExpression.getType(context);
   checkTypes(leftType, rightType);
 
-  if (AutoCast::canCastLosslessFromTo(leftType, rightType)) {
+  if (leftType->canCastLosslessTo(rightType)) {
     return rightType;
   }
   return leftType;
@@ -72,13 +72,12 @@ void AdditiveMultiplicativeExpression::checkTypes(IType* leftType, IType* rightT
     exit(1);
   }
 
-  if (!AutoCast::canCast(leftType, rightType) && !AutoCast::canCast(rightType, leftType)) {
+  if (!leftType->canCastTo(rightType) && !rightType->canCastTo(leftType)) {
     Log::e("Incopatible types in '" + string(1, mOperation) + "' operation");
     exit(1);
   }
   
-  if (!AutoCast::canCastLosslessFromTo(leftType, rightType) &&
-      !AutoCast::canCastLosslessFromTo(rightType, leftType)) {
+  if (!leftType->canCastLosslessTo(rightType) && !rightType->canCastLosslessTo(leftType)) {
     Log::e("Incopatible types in '" + string(1, mOperation) +
            "' operation that require an explicit cast");
     exit(1);

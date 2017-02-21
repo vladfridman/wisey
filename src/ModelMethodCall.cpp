@@ -94,7 +94,7 @@ void ModelMethodCall::checkArgumentType(Model* model,
     IType* methodArgumentType = methodArgument->getType();
     IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     
-    if (!AutoCast::canCastLosslessFromTo(callArgumentType, methodArgumentType)) {
+    if (!callArgumentType->canCastLosslessTo(methodArgumentType)) {
       Log::e("Call argument types do not match for a call to method '" + method->getName() +
              "' of the model type '" + model->getName() + "'");
       exit(1);

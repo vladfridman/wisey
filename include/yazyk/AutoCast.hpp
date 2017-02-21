@@ -25,16 +25,6 @@ class AutoCast {
 public:
   
   /**
-   * Tells whether one type can be cast into another without a loss
-   */
-  static bool canCastLosslessFromTo(IType* fromType, IType* toType);
-
-  /**
-   * Tells whether one type can be cast into another at all
-   */
-  static bool canCast(IType* fromType, IType* toType);
-
-  /**
    * Try to cast expression's value to a given type
    */
   static llvm::Value* maybeCast(IRGenerationContext& context,
@@ -88,14 +78,6 @@ public:
                                      llvm::Value* fromValue,
                                      IType* toType);
 private:
-
-  static bool canCastLosslessPrimitiveTypeFromTo(IType* fromType, IType* toType);
-
-  static llvm::Value* maybeCastPrimitiveTypes(IRGenerationContext& context,
-                                              IType* fromType,
-                                              llvm::Value* fromValue,
-                                              IType* toType);
-
 
   static void exitNeedExplicitCast(IType* fromType, IType* toType);
   
