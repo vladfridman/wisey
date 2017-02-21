@@ -6,7 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "yazyk/AutoCast.hpp"
 #include "yazyk/Model.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -61,4 +63,20 @@ llvm::Type* Model::getLLVMType(LLVMContext& llvmContext) const {
 
 TypeKind Model::getTypeKind() const {
   return MODEL_TYPE;
+}
+
+bool Model::canCastTo(IType* toType) const {
+  return toType == this;
+}
+
+bool Model::canCastLosslessTo(IType* toType) const {
+  return toType == this;
+}
+
+Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
+  if (toType == this) {
+    return fromValue;
+  }
+  AutoCast::exitIncopatibleTypes(this, toType);
+  return NULL;
 }

@@ -10,6 +10,7 @@
 
 #include <gtest/gtest.h>
 
+#include <llvm/IR/Constants.h>
 #include <llvm/IR/LLVMContext.h>
 
 #include "yazyk/Model.hpp"
@@ -27,9 +28,10 @@ struct ModelTest : public Test {
   StructType* mStructType;
   ModelField* mWidthField;
   ModelField* mHeightField;
-  LLVMContext mLLVMContext;
+  IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   
-  ModelTest() {
+  ModelTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -75,4 +77,22 @@ TEST_F(ModelTest, TestGetMissingFields) {
   
   ASSERT_EQ(missingFields.size(), 1u);
   EXPECT_EQ(missingFields.at(0), "height");
+}
+
+TEST_F(ModelTest, CanCastToTest) {
+  EXPECT_FALSE(mModel->canCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_TRUE(mModel->canCastTo(mModel));
+}
+
+TEST_F(ModelTest, CanCastLosslessToTest) {
+  EXPECT_FALSE(mModel->canCastLosslessTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_TRUE(mModel->canCastLosslessTo(mModel));
+}
+
+TEST_F(ModelTest, CastToTest) {
+  Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+
+  EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
+              ::testing::ExitedWithCode(1),
+              "Error: Incopatible types: can not cast from type 'Shape' to 'int'");
 }

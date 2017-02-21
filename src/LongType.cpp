@@ -6,7 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "yazyk/AutoCast.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LongType.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -22,4 +25,34 @@ llvm::Type* LongType::getLLVMType(LLVMContext& llvmContext) const {
 
 TypeKind LongType::getTypeKind() const {
   return PRIMITIVE_TYPE;
+}
+
+bool LongType::canCastTo(IType* toType) const {
+  if (toType->getTypeKind() != PRIMITIVE_TYPE) {
+    return false;
+  }
+  
+  return toType != PrimitiveTypes::VOID_TYPE;
+}
+
+bool LongType::canCastLosslessTo(IType* toType) const {
+  if (toType->getTypeKind() != PRIMITIVE_TYPE) {
+    return false;
+  }
+  
+  return toType == PrimitiveTypes::LONG_TYPE;
+}
+
+Value* LongType::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
+  if (toType == PrimitiveTypes::BOOLEAN_TYPE ||
+      toType == PrimitiveTypes::CHAR_TYPE ||
+      toType == PrimitiveTypes::INT_TYPE) {
+    return AutoCast::truncIntCast(context, fromValue, toType);
+  } else if (toType == PrimitiveTypes::LONG_TYPE) {
+    return fromValue;
+  } else if (toType == PrimitiveTypes::FLOAT_TYPE || toType == PrimitiveTypes::DOUBLE_TYPE) {
+    return AutoCast::intToFloatCast(context, fromValue, toType);
+  }
+  AutoCast::exitIncopatibleTypes(this, toType);
+  return NULL;
 }

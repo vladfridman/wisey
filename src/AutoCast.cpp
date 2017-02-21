@@ -135,15 +135,28 @@ Value* AutoCast::widenIntCast(IRGenerationContext& context,
                                        context.getBasicBlock());
 }
 
+Value* AutoCast::truncIntCast(IRGenerationContext& context,
+                              Value* fromValue,
+                              IType* toType) {
+  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
+  
+  return new TruncInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
+}
+
+Value* AutoCast::truncFloatCast(IRGenerationContext& context,
+                                Value* fromValue,
+                                IType* toType) {
+  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
+  
+  return new FPTruncInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
+}
+
 Value* AutoCast::widenFloatCast(IRGenerationContext& context,
                                 Value* fromValue,
                                 IType* toType) {
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return new FPExtInst(fromValue,
-                       toLLVMType,
-                       "conv",
-                       context.getBasicBlock());
+  return new FPExtInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
 }
 
 Value* AutoCast::intToFloatCast(IRGenerationContext& context,
@@ -154,7 +167,15 @@ Value* AutoCast::intToFloatCast(IRGenerationContext& context,
   return new SIToFPInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
 }
 
-void AutoCast::exitIncopatibleTypes(IType* fromType, IType* toType) {
+Value* AutoCast::floatToIntCast(IRGenerationContext& context,
+                                Value* fromValue,
+                                IType* toType) {
+  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
+  
+  return new FPToSIInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
+}
+
+void AutoCast::exitIncopatibleTypes(const IType* fromType, const IType* toType) {
   Log::e("Incopatible types: can not cast from type '" + fromType->getName() +
          "' to '" + toType->getName() + "'");
   exit(1);

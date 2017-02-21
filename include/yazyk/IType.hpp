@@ -10,12 +10,14 @@
 #define IType_h
 
 #include <string>
-
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Type.h>
+#include <llvm/IR/Value.h>
 
 namespace yazyk {
 
+class IRGenerationContext;
+  
 /**
  * Lists possible data type kinds
  */
@@ -48,6 +50,23 @@ public:
    * Tells what kind of data type is this type: primitive/model/controller
    */
   virtual TypeKind getTypeKind() const = 0;
+  
+  /**
+   * Indicates whether this type can be cast to another type
+   */
+  virtual bool canCastTo(IType* toType) const = 0;
+
+  /**
+   * Indicates whether this type can be cast to another type wihtout loss of information
+   */
+  virtual bool canCastLosslessTo(IType* toType) const = 0;
+  
+  /**
+   * Casts given value to a given type
+   */
+  virtual llvm::Value* castTo(IRGenerationContext& context,
+                              llvm::Value* fromValue,
+                              IType* toType) const = 0;
 };
 
 } /* namespace yazyk */

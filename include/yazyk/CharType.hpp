@@ -12,6 +12,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Type.h>
 
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/IType.hpp"
 
 namespace yazyk {
@@ -32,6 +33,14 @@ public:
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
   
   TypeKind getTypeKind() const override;
+  
+  bool canCastTo(IType* toType) const override;
+  
+  bool canCastLosslessTo(IType* toType) const override;
+  
+  llvm::Value* castTo(IRGenerationContext& context,
+                      llvm::Value* fromValue,
+                      IType* toType) const override;
 };
 
 } /* namespace yazyk */

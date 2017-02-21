@@ -548,3 +548,68 @@ TEST_F(AutoCastTest, CastDoubleTest) {
   EXPECT_EQ(result, expressionValue);
 }
 
+TEST_F(AutoCastTest, ExitIncompatobleTypesTest) {
+  EXPECT_EXIT(AutoCast::exitIncopatibleTypes(PrimitiveTypes::CHAR_TYPE, PrimitiveTypes::INT_TYPE),
+              ::testing::ExitedWithCode(1),
+              "Error: Incopatible types: can not cast from type 'char' to 'int'");
+}
+
+TEST_F(AutoCastTest, WidenIntCastTest) {
+  Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+  
+  Value* result = AutoCast::widenIntCast(mContext, expressionValue, PrimitiveTypes::LONG_TYPE);
+  
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv = zext i32 5 to i64", mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(AutoCastTest, TruncIntCastTest) {
+  Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+  
+  Value* result = AutoCast::truncIntCast(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE);
+  
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv = trunc i32 5 to i1", mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(AutoCastTest, TruncIntToFloatCastTest) {
+  Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+  
+  Value* result = AutoCast::intToFloatCast(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE);
+  
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv = sitofp i32 5 to double", mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(AutoCastTest, FloatToIntCastTest) {
+  Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
+  
+  Value* result = AutoCast::floatToIntCast(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE);
+  
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv = fptosi double 2.500000e+00 to i16", mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(AutoCastTest, TruncFloatCastTest) {
+  Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
+  
+  Value* result = AutoCast::truncFloatCast(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE);
+  
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv = fptrunc double 2.500000e+00 to float", mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(AutoCastTest, widenFloatCastTest) {
+  Value* expressionValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 2.5);
+  
+  Value* result = AutoCast::widenFloatCast(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE);
+  
+  *mStringStream << *result;
+  EXPECT_STREQ("  %conv = fpext float 2.500000e+00 to double", mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
