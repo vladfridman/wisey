@@ -26,14 +26,10 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
   }
   if (!fromType->canCastLosslessTo(toType)) {
     fromType->canCastLosslessTo(toType);
-    exitNeedExplicitCast(fromType, toType);
+    Log::e("Incopatible types: need explicit cast from type '" + fromType->getName() +
+           "' to '" + toType->getName() + "'");
+    exit(1);
   }
   
   return fromType->castTo(context, fromValue, toType);
-}
-
-void AutoCast::exitNeedExplicitCast(IType* fromType, IType* toType) {
-  Log::e("Incopatible types: need explicit cast from type '" + fromType->getName() +
-         "' to '" + toType->getName() + "'");
-  exit(1);
 }

@@ -31,11 +31,6 @@ public:
                                 IType* fromType,
                                 llvm::Value* fromValue,
                                 IType* toType);
-
-private:
-
-  static void exitNeedExplicitCast(IType* fromType, IType* toType);
-  
   
 };
 
