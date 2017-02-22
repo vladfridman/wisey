@@ -32,7 +32,6 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
   return fromType->castTo(context, fromValue, toType);
 }
 
-
 void AutoCast::exitNeedExplicitCast(IType* fromType, IType* toType) {
   Log::e("Incopatible types: need explicit cast from type '" + fromType->getName() +
          "' to '" + toType->getName() + "'");
