@@ -213,3 +213,7 @@ TEST_F(TestFileSampleRunner, ModelMethodCallInExpressionTest) {
   runFile("tests/samples/test_method_call_in_expression.yz", "30");
 }
 
+TEST_F(TestFileSampleRunner, ModelMethodCallInExpressionWrappedIdentifierTest) {
+  runFile("tests/samples/test_model_method_call_wrapped_identifier.yz", "5");
+}
+

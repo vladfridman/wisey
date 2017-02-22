@@ -1,0 +1,13 @@
+model Shape {
+  int value;
+
+  public int getValue() {
+    return value;
+  }
+}
+
+public int main() {
+  Shape shape = builder(Shape).withValue(5).build();
+
+  return (shape).value;
+}

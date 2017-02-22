@@ -136,3 +136,7 @@ TEST_F(TestFileSampleRunner, DecrementByOneRunTest) {
   runFile("tests/samples/test_decrement_by_one.yz", "5");
 }
 
+TEST_F(TestFileSampleRunner, IncrementByOneWrappedIdentifierRunTest) {
+  runFile("tests/samples/test_increment_by_one_wrapped_identifier.yz", "7");
+}
+
