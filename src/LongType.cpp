@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/AutoCast.hpp"
+#include "yazyk/Cast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LongType.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -47,12 +47,12 @@ Value* LongType::castTo(IRGenerationContext& context, Value* fromValue, IType* t
   if (toType == PrimitiveTypes::BOOLEAN_TYPE ||
       toType == PrimitiveTypes::CHAR_TYPE ||
       toType == PrimitiveTypes::INT_TYPE) {
-    return AutoCast::truncIntCast(context, fromValue, toType);
+    return Cast::truncIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::LONG_TYPE) {
     return fromValue;
   } else if (toType == PrimitiveTypes::FLOAT_TYPE || toType == PrimitiveTypes::DOUBLE_TYPE) {
-    return AutoCast::intToFloatCast(context, fromValue, toType);
+    return Cast::intToFloatCast(context, fromValue, toType);
   }
-  AutoCast::exitIncopatibleTypes(this, toType);
+  Cast::exitIncopatibleTypes(this, toType);
   return NULL;
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/AutoCast.hpp"
+#include "yazyk/Cast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/VoidType.hpp"
@@ -47,6 +47,6 @@ Value* VoidType::castTo(IRGenerationContext& context, Value* fromValue, IType* t
   if (toType == PrimitiveTypes::VOID_TYPE) {
     return fromValue;
   }
-  AutoCast::exitIncopatibleTypes(this, toType);
+  Cast::exitIncopatibleTypes(this, toType);
   return NULL;
 }

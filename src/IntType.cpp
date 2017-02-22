@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/AutoCast.hpp"
+#include "yazyk/Cast.hpp"
 #include "yazyk/IntType.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -47,14 +47,14 @@ bool IntType::canCastLosslessTo(IType* toType) const {
 
 Value* IntType::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
   if (toType == PrimitiveTypes::BOOLEAN_TYPE || toType == PrimitiveTypes::CHAR_TYPE) {
-    return AutoCast::truncIntCast(context, fromValue, toType);
+    return Cast::truncIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::INT_TYPE) {
     return fromValue;
   } else if (toType == PrimitiveTypes::LONG_TYPE) {
-    return AutoCast::widenIntCast(context, fromValue, toType);
+    return Cast::widenIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::FLOAT_TYPE || toType == PrimitiveTypes::DOUBLE_TYPE) {
-    return AutoCast::intToFloatCast(context, fromValue, toType);
+    return Cast::intToFloatCast(context, fromValue, toType);
   }
-  AutoCast::exitIncopatibleTypes(this, toType);
+  Cast::exitIncopatibleTypes(this, toType);
   return NULL;
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/AutoCast.hpp"
+#include "yazyk/Cast.hpp"
 #include "yazyk/Model.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
@@ -77,6 +77,6 @@ Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toTy
   if (toType == this) {
     return fromValue;
   }
-  AutoCast::exitIncopatibleTypes(this, toType);
+  Cast::exitIncopatibleTypes(this, toType);
   return NULL;
 }

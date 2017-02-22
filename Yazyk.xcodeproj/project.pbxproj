@@ -240,6 +240,9 @@
 		F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */; };
 		F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82281E1089E700057FB5 /* BreakStatement.cpp */; };
 		F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82281E1089E700057FB5 /* BreakStatement.cpp */; };
+		F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB60F1E5DA08200FFC941 /* Cast.cpp */; };
+		F5ADB6111E5DA08200FFC941 /* Cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB60F1E5DA08200FFC941 /* Cast.cpp */; };
+		F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6121E5DA13600FFC941 /* TestCast.cpp */; };
 		F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD671E48B16F0054209D /* TestCharType.cpp */; };
@@ -545,6 +548,9 @@
 		F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIfStatement.cpp; path = tests/TestIfStatement.cpp; sourceTree = "<group>"; };
 		F59D82271E10878F00057FB5 /* BreakStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BreakStatement.hpp; path = include/yazyk/BreakStatement.hpp; sourceTree = "<group>"; };
 		F59D82281E1089E700057FB5 /* BreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BreakStatement.cpp; path = src/BreakStatement.cpp; sourceTree = "<group>"; };
+		F5ADB60E1E5D9FFD00FFC941 /* Cast.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Cast.hpp; path = include/yazyk/Cast.hpp; sourceTree = "<group>"; };
+		F5ADB60F1E5DA08200FFC941 /* Cast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cast.cpp; path = src/Cast.cpp; sourceTree = "<group>"; };
+		F5ADB6121E5DA13600FFC941 /* TestCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCast.cpp; path = tests/TestCast.cpp; sourceTree = "<group>"; };
 		F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompoundStatement.hpp; path = include/yazyk/CompoundStatement.hpp; sourceTree = "<group>"; };
 		F5C6FD641E48AB3B0054209D /* CharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharType.cpp; path = src/CharType.cpp; sourceTree = "<group>"; };
 		F5C6FD671E48B16F0054209D /* TestCharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharType.cpp; path = tests/TestCharType.cpp; sourceTree = "<group>"; };
@@ -679,6 +685,7 @@
 				F5C6FD731E48B4920054209D /* TestBooleanType.cpp */,
 				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
 				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
+				F5ADB6121E5DA13600FFC941 /* TestCast.cpp */,
 				F51797091E5C95BC009B16AA /* TestCastExpression.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
 				F5C6FD671E48B16F0054209D /* TestCharType.cpp */,
@@ -826,6 +833,7 @@
 				F5C6FD6E1E48B40F0054209D /* BooleanType.cpp */,
 				F59D82281E1089E700057FB5 /* BreakStatement.cpp */,
 				F50FA2A51E269E5700435EEA /* CaseStatement.cpp */,
+				F5ADB60F1E5DA08200FFC941 /* Cast.cpp */,
 				F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */,
 				F531B6591E0DE52F008304F3 /* CharConstant.cpp */,
 				F5C6FD641E48AB3B0054209D /* CharType.cpp */,
@@ -951,6 +959,7 @@
 				F507D2741E474AB700495E2D /* BooleanType.hpp */,
 				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
 				F50FA2A21E269E4400435EEA /* CaseStatement.hpp */,
+				F5ADB60E1E5D9FFD00FFC941 /* Cast.hpp */,
 				F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */,
 				F531B6581E0DE4ED008304F3 /* CharConstant.hpp */,
 				F507D2691E44C3A400495E2D /* CharType.hpp */,
@@ -1102,6 +1111,7 @@
 				F5C6FD6B1E48B33A0054209D /* VoidType.cpp in Sources */,
 				F5F396E01E3F8C5700F34296 /* TestModelBuilder.cpp in Sources */,
 				F5C6FD831E48B7260054209D /* TestIntType.cpp in Sources */,
+				F5ADB6111E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F5F396DE1E3F898900F34296 /* TestModelBuilderArgument.cpp in Sources */,
 				F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
 				F50FA2F71E2E3B3500435EEA /* TestIntConstant.cpp in Sources */,
@@ -1155,6 +1165,7 @@
 				F53401121DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
+				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
 				F57085F41E5117A9007D627E /* FunctionDeclaration.cpp in Sources */,
 				F504279D1E4B5845001CB148 /* TestModelFieldReference.cpp in Sources */,
@@ -1288,6 +1299,7 @@
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F57085F31E5117A9007D627E /* FunctionDeclaration.cpp in Sources */,
 				F57085FC1E51E2ED007D627E /* ModelMethodCall.cpp in Sources */,
+				F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F50FA2D41E2D0AD600435EEA /* ModelFieldDeclaration.cpp in Sources */,

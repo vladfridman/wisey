@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/AutoCast.hpp"
 #include "yazyk/BooleanType.hpp"
+#include "yazyk/Cast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -54,10 +54,10 @@ Value* BooleanType::castTo(IRGenerationContext& context, Value* fromValue, IType
   } else if (toType == PrimitiveTypes::CHAR_TYPE ||
              toType == PrimitiveTypes::INT_TYPE ||
              toType == PrimitiveTypes::LONG_TYPE) {
-    return AutoCast::widenIntCast(context, fromValue, toType);
+    return Cast::widenIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::FLOAT_TYPE || toType == PrimitiveTypes::DOUBLE_TYPE) {
-    return AutoCast::intToFloatCast(context, fromValue, toType);
+    return Cast::intToFloatCast(context, fromValue, toType);
   }
-  AutoCast::exitIncopatibleTypes(this, toType);
+  Cast::exitIncopatibleTypes(this, toType);
   return NULL;
 }

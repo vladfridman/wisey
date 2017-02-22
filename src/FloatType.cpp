@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/AutoCast.hpp"
+#include "yazyk/Cast.hpp"
 #include "yazyk/FloatType.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -48,12 +48,12 @@ Value* FloatType::castTo(IRGenerationContext& context, Value* fromValue, IType* 
       toType == PrimitiveTypes::CHAR_TYPE ||
       toType == PrimitiveTypes::INT_TYPE ||
       toType == PrimitiveTypes::LONG_TYPE) {
-    return AutoCast::floatToIntCast(context, fromValue, toType);
+    return Cast::floatToIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::FLOAT_TYPE) {
     return fromValue;
   } else if (toType == PrimitiveTypes::DOUBLE_TYPE) {
-    return AutoCast::widenFloatCast(context, fromValue, toType);
+    return Cast::widenFloatCast(context, fromValue, toType);
   }
-  AutoCast::exitIncopatibleTypes(this, toType);
+  Cast::exitIncopatibleTypes(this, toType);
   return NULL;
 }

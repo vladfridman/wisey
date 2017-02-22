@@ -7,6 +7,7 @@
 //
 
 #include "yazyk/AutoCast.hpp"
+#include "yazyk/Cast.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -21,7 +22,7 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
     return fromValue;
   }
   if (!fromType->canCastTo(toType)) {
-    exitIncopatibleTypes(fromType, toType);
+    Cast::exitIncopatibleTypes(fromType, toType);
   }
   if (!fromType->canCastLosslessTo(toType)) {
     fromType->canCastLosslessTo(toType);
@@ -31,62 +32,6 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
   return fromType->castTo(context, fromValue, toType);
 }
 
-Value* AutoCast::widenIntCast(IRGenerationContext& context,
-                              Value* fromValue,
-                              IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
-  
-  return CastInst::CreateZExtOrBitCast(fromValue,
-                                       toLLVMType,
-                                       "conv",
-                                       context.getBasicBlock());
-}
-
-Value* AutoCast::truncIntCast(IRGenerationContext& context,
-                              Value* fromValue,
-                              IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
-  
-  return new TruncInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
-}
-
-Value* AutoCast::truncFloatCast(IRGenerationContext& context,
-                                Value* fromValue,
-                                IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
-  
-  return new FPTruncInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
-}
-
-Value* AutoCast::widenFloatCast(IRGenerationContext& context,
-                                Value* fromValue,
-                                IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
-  
-  return new FPExtInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
-}
-
-Value* AutoCast::intToFloatCast(IRGenerationContext& context,
-                                Value* fromValue,
-                                IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
-  
-  return new SIToFPInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
-}
-
-Value* AutoCast::floatToIntCast(IRGenerationContext& context,
-                                Value* fromValue,
-                                IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
-  
-  return new FPToSIInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
-}
-
-void AutoCast::exitIncopatibleTypes(const IType* fromType, const IType* toType) {
-  Log::e("Incopatible types: can not cast from type '" + fromType->getName() +
-         "' to '" + toType->getName() + "'");
-  exit(1);
-}
 
 void AutoCast::exitNeedExplicitCast(IType* fromType, IType* toType) {
   Log::e("Incopatible types: need explicit cast from type '" + fromType->getName() +
