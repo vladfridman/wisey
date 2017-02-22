@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestFileSampleRunner.hpp"
 #include "yazyk/Cast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -116,4 +117,8 @@ TEST_F(CastTest, widenFloatCastTest) {
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = fpext float 2.500000e+00 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(TestFileSampleRunner, CastFloatToIntTest) {
+  runFile("tests/samples/test_cast_float_to_int.yz", "3");
 }

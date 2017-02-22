@@ -1,0 +1,5 @@
+public int main() {
+  float f = 3.6;
+
+  return (int) f;
+}
