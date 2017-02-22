@@ -181,3 +181,7 @@ TEST_F(TestFileSampleRunner, DivisionRunTest) {
 TEST_F(TestFileSampleRunner, AdditionWithCastRunTest) {
   runFile("tests/samples/test_addition_with_cast.yz", "3");
 }
+
+TEST_F(TestFileSampleRunner, SubtractionOfDoubleRunTest) {
+  runFile("tests/samples/test_subtraction_of_doubles.yz", "-2");
+}

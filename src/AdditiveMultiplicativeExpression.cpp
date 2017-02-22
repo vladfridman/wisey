@@ -25,11 +25,15 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
 
   Instruction::BinaryOps instruction;
   string name;
+  bool isFloat = leftType == PrimitiveTypes::FLOAT_TYPE ||
+    leftType == PrimitiveTypes::DOUBLE_TYPE ||
+    rightType == PrimitiveTypes::FLOAT_TYPE ||
+    rightType == PrimitiveTypes::DOUBLE_TYPE;
   switch (mOperation) {
-    case '+': name = "add"; instruction = Instruction::Add; break;
-    case '-': name = "sub"; instruction = Instruction::Sub; break;
-    case '*': name = "mul"; instruction = Instruction::Mul; break;
-    case '/': name = "div"; instruction = Instruction::SDiv; break;
+    case '+': name = "add"; instruction = isFloat ? Instruction::FAdd : Instruction::Add; break;
+    case '-': name = "sub"; instruction = isFloat ? Instruction::FSub : Instruction::Sub; break;
+    case '*': name = "mul"; instruction = isFloat ? Instruction::FMul : Instruction::Mul; break;
+    case '/': name = "div"; instruction = isFloat ? Instruction::FDiv : Instruction::SDiv; break;
     default: return NULL;
   }
   
