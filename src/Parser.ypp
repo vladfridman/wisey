@@ -38,6 +38,7 @@
   #include "yazyk/ModelFieldReference.hpp"
   #include "yazyk/ModelMethodCall.hpp"
   #include "yazyk/ModelTypeSpecifier.hpp"
+  #include "yazyk/NegateExpression.hpp"
   #include "yazyk/PrimitiveTypes.hpp"
   #include "yazyk/PrimitiveTypeSpecifier.hpp"
   #include "yazyk/RelationalExpression.hpp"
@@ -114,7 +115,7 @@
 %type <expression> relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression model_builder function_call
-%type <expression> cast_expression primary_expression assignment
+%type <expression> cast_expression primary_expression assignment unary_expression
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
 %type <block> program block_item_list global_unit_list
@@ -347,8 +348,13 @@ postfix_expression
   | postfix_expression TDECOP { $$ = IncrementExpression::newDecrementByOne(*$<identifier>1); }
   ;
 
-cast_expression
+unary_expression
   : postfix_expression
+  | '-' cast_expression { $$ = new NegateExpression(*$2); }
+  ;
+
+cast_expression
+  : unary_expression
   | '(' type_specifier ')' cast_expression { $$ = new CastExpression(*$2, *$4); }
   ;
 

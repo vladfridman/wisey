@@ -243,6 +243,9 @@
 		F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB60F1E5DA08200FFC941 /* Cast.cpp */; };
 		F5ADB6111E5DA08200FFC941 /* Cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB60F1E5DA08200FFC941 /* Cast.cpp */; };
 		F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6121E5DA13600FFC941 /* TestCast.cpp */; };
+		F5ADB61B1E5F568400FFC941 /* NegateExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */; };
+		F5ADB61D1E5F587300FFC941 /* TestNegateExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */; };
+		F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */; };
 		F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD671E48B16F0054209D /* TestCharType.cpp */; };
@@ -551,6 +554,9 @@
 		F5ADB60E1E5D9FFD00FFC941 /* Cast.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Cast.hpp; path = include/yazyk/Cast.hpp; sourceTree = "<group>"; };
 		F5ADB60F1E5DA08200FFC941 /* Cast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cast.cpp; path = src/Cast.cpp; sourceTree = "<group>"; };
 		F5ADB6121E5DA13600FFC941 /* TestCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCast.cpp; path = tests/TestCast.cpp; sourceTree = "<group>"; };
+		F5ADB6181E5F566200FFC941 /* NegateExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NegateExpression.hpp; path = include/yazyk/NegateExpression.hpp; sourceTree = "<group>"; };
+		F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NegateExpression.cpp; path = src/NegateExpression.cpp; sourceTree = "<group>"; };
+		F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNegateExpression.cpp; path = tests/TestNegateExpression.cpp; sourceTree = "<group>"; };
 		F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompoundStatement.hpp; path = include/yazyk/CompoundStatement.hpp; sourceTree = "<group>"; };
 		F5C6FD641E48AB3B0054209D /* CharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharType.cpp; path = src/CharType.cpp; sourceTree = "<group>"; };
 		F5C6FD671E48B16F0054209D /* TestCharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharType.cpp; path = tests/TestCharType.cpp; sourceTree = "<group>"; };
@@ -725,6 +731,7 @@
 				F504279C1E4B5845001CB148 /* TestModelFieldReference.cpp */,
 				F57085FE1E51F8C9007D627E /* TestModelMethodCall.cpp */,
 				F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */,
+				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
 				F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
@@ -875,6 +882,7 @@
 				F50427991E4B4275001CB148 /* ModelFieldReference.cpp */,
 				F57085FB1E51E2ED007D627E /* ModelMethodCall.cpp */,
 				F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */,
+				F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */,
 				F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */,
 				F569E9ED1DF9CC9600BBB20E /* Parser.ypp */,
 				F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */,
@@ -1011,6 +1019,7 @@
 				F50427981E4B4102001CB148 /* ModelFieldReference.hpp */,
 				F57085FA1E51E15B007D627E /* ModelMethodCall.hpp */,
 				F50FA2CF1E2D0AC600435EEA /* ModelTypeSpecifier.hpp */,
+				F5ADB6181E5F566200FFC941 /* NegateExpression.hpp */,
 				F50427B21E4E3B5C001CB148 /* ObjectFieldVariable.hpp */,
 				F507D26B1E45FDF000495E2D /* PrimitiveTypes.hpp */,
 				F5E2092E1E078B7500E1A147 /* PrimitiveTypeSpecifier.hpp */,
@@ -1122,6 +1131,7 @@
 				F50FA3021E3240D800435EEA /* TestScopes.cpp in Sources */,
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
+				F5ADB61D1E5F587300FFC941 /* TestNegateExpression.cpp in Sources */,
 				F504279B1E4B4275001CB148 /* ModelFieldReference.cpp in Sources */,
 				F50FA2F61E2E3B3200435EEA /* TestFloatConstant.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
@@ -1191,6 +1201,7 @@
 				F57085FF1E51F8C9007D627E /* TestModelMethodCall.cpp in Sources */,
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
+				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
 				F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
@@ -1299,6 +1310,7 @@
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F57085F31E5117A9007D627E /* FunctionDeclaration.cpp in Sources */,
 				F57085FC1E51E2ED007D627E /* ModelMethodCall.cpp in Sources */,
+				F5ADB61B1E5F568400FFC941 /* NegateExpression.cpp in Sources */,
 				F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
