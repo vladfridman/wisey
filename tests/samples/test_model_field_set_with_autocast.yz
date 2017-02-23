@@ -1,12 +1,12 @@
 model MColor {
-  int value;
+  int mValue;
 
   public void setValue(boolean a) {
-    value = a;
+    mValue = a;
   }
 
   public int getValue() {
-    return value;
+    return mValue;
   }
 }
 

@@ -1,6 +1,6 @@
 model MRectangle {
-  int width;
-  int height;
+  int mWidth;
+  int mHeight;
 }
 
 public int main() {

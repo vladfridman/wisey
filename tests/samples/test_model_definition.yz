@@ -1,12 +1,12 @@
 model MColor {
-  double color;
+  double mColor;
 }
 
 model MShape {
-  int width;
-  long height;
-  float depth;
-  MColor color;
+  int mWidth;
+  long mHeight;
+  float mDepth;
+  MColor mColor;
 }
 
 public int main() {

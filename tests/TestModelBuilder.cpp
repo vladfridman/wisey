@@ -44,20 +44,20 @@ struct ModelBuilderTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  ModelBuilderTest() : mModelTypeSpecifier(ModelTypeSpecifier("Shape")) {
+  ModelBuilderTest() : mModelTypeSpecifier(ModelTypeSpecifier("MShape")) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
-    StructType *structType = StructType::create(llvmContext, "Shape");
+    StructType *structType = StructType::create(llvmContext, "MShape");
     structType->setBody(types);
     map<string, ModelField*>* fields = new map<string, ModelField*>();
     ModelField* widthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
     ModelField* heightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-    (*fields)["width"] = widthField;
-    (*fields)["height"] = heightField;
+    (*fields)["mWidth"] = widthField;
+    (*fields)["mHeight"] = heightField;
     map<string, Method*>* methods = new map<string, Method*>();
-    Model* model = new Model("Shape", structType, fields, methods);
+    Model* model = new Model("MShape", structType, fields, methods);
     mContext.addModel(model);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(mFieldValue1, generateIR(_)).WillByDefault(Return(fieldValue1));
@@ -112,13 +112,13 @@ TEST_F(ModelBuilderTest, ValidModelBuilderArgumentsTest) {
   
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %buildervar = bitcast i8* %malloccall to %Shape*");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %buildervar = bitcast i8* %malloccall to %MShape*");
   mStringBuffer.clear();
 
   iterator++;
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = getelementptr %Shape, %Shape* %buildervar, i32 0, i32 0");
+               "  %0 = getelementptr %MShape, %MShape* %buildervar, i32 0, i32 0");
   mStringBuffer.clear();
 
   iterator++;
@@ -129,7 +129,7 @@ TEST_F(ModelBuilderTest, ValidModelBuilderArgumentsTest) {
   iterator++;
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %1 = getelementptr %Shape, %Shape* %buildervar, i32 0, i32 1");
+               "  %1 = getelementptr %MShape, %MShape* %buildervar, i32 0, i32 1");
   mStringBuffer.clear();
 
   iterator++;
@@ -155,7 +155,7 @@ TEST_F(ModelBuilderTest, InvalidModelBuilderArgumentsDeathTest) {
   
   const char *expected =
     "Error: Model builder argument should start with 'with'. e.g. .withField\\(value\\)."
-    "\nError: Some arguments for the model 'Shape' builder are not well formed";
+    "\nError: Some arguments for the model 'MShape' builder are not well formed";
 
   EXPECT_EXIT(modelBuilder.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -178,7 +178,7 @@ TEST_F(ModelBuilderTest, IncorrectArgumentTypeDeathTest) {
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
   
   const char *expected =
-    "Error: Model builder argumet value for field 'height' does not match its type";
+    "Error: Model builder argumet value for field 'mHeight' does not match its type";
   
   EXPECT_EXIT(modelBuilder.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -198,8 +198,8 @@ TEST_F(ModelBuilderTest, NotAllFieldsAreSetDeathTest) {
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
   
   const char *expected =
-  "Error: Field 'height' is not initialized"
-  "\nError: Some fields of the model 'Shape' are not initialized.";
+  "Error: Field 'mHeight' is not initialized"
+  "\nError: Some fields of the model 'MShape' are not initialized.";
   
   EXPECT_EXIT(modelBuilder.generateIR(mContext),
               ::testing::ExitedWithCode(1),

@@ -40,13 +40,13 @@ struct ModelBuilderArgumentTest : Test {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
-    StructType *structType = StructType::create(llvmContext, "MyModel");
+    StructType *structType = StructType::create(llvmContext, "MModel");
     structType->setBody(types);
     map<string, ModelField*>* fields = new map<string, ModelField*>();
     ModelField* fieldA = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-    (*fields)["fieldA"] = fieldA;
+    (*fields)["mFieldA"] = fieldA;
     map<string, Method*>* methods = new map<string, Method*>();
-    mModel = new Model("MyModel", structType, fields, methods);
+    mModel = new Model("MModel", structType, fields, methods);
   }
 };
 
@@ -58,7 +58,7 @@ TEST_F(ModelBuilderArgumentTest, TestValidModelBuilderArgument) {
 }
 
 TEST_F(ModelBuilderArgumentTest, TestInvalidModelBuilderArgument) {
-  string argumentSpecifier("fieldA");
+  string argumentSpecifier("mFieldA");
   ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
   
   stringstream errorBuffer;
@@ -81,7 +81,7 @@ TEST_F(ModelBuilderArgumentTest, TestMisspelledModelBuilderArgument) {
   cerr.rdbuf(errorBuffer.rdbuf());
   
   EXPECT_FALSE(argument.checkArgument(mModel));
-  EXPECT_STREQ("Error: Model could not find field 'fielda' in MODEL 'MyModel'\n",
+  EXPECT_STREQ("Error: Model could not find field 'mFielda' in MODEL 'MModel'\n",
                errorBuffer.str().c_str());
   
   cerr.rdbuf(streamBuffer);

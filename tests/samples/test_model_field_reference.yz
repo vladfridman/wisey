@@ -1,13 +1,13 @@
 model MColor {
-  double color;
-  int intensity;
+  double mColor;
+  int mIntensity;
 }
 
 model MShape {
-  int width;
-  long height;
-  float depth;
-  MColor color;
+  int mWidth;
+  long mHeight;
+  float mDepth;
+  MColor mColor;
 }
 
 public int main() {
@@ -18,5 +18,5 @@ public int main() {
     .withColor(builder(MColor).withColor(6.7d).withIntensity(7).build())
     .build();
 
-  return rectangle.color.intensity;
+  return rectangle.mColor.mIntensity;
 }

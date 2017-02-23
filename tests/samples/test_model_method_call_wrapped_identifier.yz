@@ -1,13 +1,13 @@
 model MShape {
-  int value;
+  int mValue;
 
   public int getValue() {
-    return value;
+    return mValue;
   }
 }
 
 public int main() {
   MShape shape = builder(MShape).withValue(5).build();
 
-  return (shape).value;
+  return (shape).mValue;
 }

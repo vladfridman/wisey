@@ -1,10 +1,10 @@
 model MColor {
-  int value;
+  int mValue;
 }
 
 model MShape {
-  int width;
-  int height;
+  int mWidth;
+  int mHeight;
 }
 
 public int main() {

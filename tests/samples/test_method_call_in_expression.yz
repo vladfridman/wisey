@@ -1,8 +1,8 @@
 model MShape {
-  int size;
+  int mSize;
 
   public int getSize() {
-    return size;
+    return mSize;
   }
 }
 

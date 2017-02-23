@@ -29,10 +29,7 @@ bool ModelBuilderArgument::checkArgument(Model* model) {
 }
 
 string ModelBuilderArgument::deriveFieldName() const {
-  string fieldName = mFieldSpecifier.substr(4);
-  transform(fieldName.begin(), fieldName.begin() + 1, fieldName.begin(), ::tolower);
-  
-  return fieldName;
+  return "m" + mFieldSpecifier.substr(4);
 }
 
 Value* ModelBuilderArgument::getValue(IRGenerationContext& context) const {

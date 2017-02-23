@@ -1,8 +1,8 @@
 model MColor {
-  int value;
+  int mValue;
 
   public int getValue(float a, int b) {
-    return value + b;
+    return mValue + b;
   }
 }
 
