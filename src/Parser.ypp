@@ -97,7 +97,7 @@
 /**
  * Tokens used in yazyk 
  */
-%token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL
+%token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL TMODELIDENTIFIER
 %token <token> TCEQ TCNE TCLE TCGE TTRUE TFALSE
 %token <token> TTYPEBOOLEAN TTYPECHAR TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
@@ -172,7 +172,8 @@ global_unit
   ;
 
 model_definition
-  : TMODEL TIDENTIFIER '{' model_field_declaration_list_optional method_definition_list_optional '}'
+  : TMODEL TMODELIDENTIFIER '{' model_field_declaration_list_optional
+      method_definition_list_optional '}'
     { $$ = new ModelDefinition(*$2, *$4, *$5); }
   ;
 
@@ -543,7 +544,7 @@ primitive_type_specifier
   ;
 
 model_type_specifier
-  : TIDENTIFIER { $$ = new ModelTypeSpecifier(*$1); }
+  : TMODELIDENTIFIER { $$ = new ModelTypeSpecifier(*$1); }
   ;
 
 %%

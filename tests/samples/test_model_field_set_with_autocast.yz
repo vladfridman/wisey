@@ -1,4 +1,4 @@
-model Color {
+model MColor {
   int value;
 
   public void setValue(boolean a) {
@@ -11,7 +11,7 @@ model Color {
 }
 
 public int main() {
-  Color color = builder(Color).withValue(5).build();
+  MColor color = builder(MColor).withValue(5).build();
   
   color.setValue(true);
 

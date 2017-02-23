@@ -1,4 +1,4 @@
-model Shape {
+model MShape {
   int value;
 
   public int getValue() {
@@ -7,7 +7,7 @@ model Shape {
 }
 
 public int main() {
-  Shape shape = builder(Shape).withValue(5).build();
+  MShape shape = builder(MShape).withValue(5).build();
 
   return (shape).value;
 }

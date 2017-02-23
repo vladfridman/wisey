@@ -1,13 +1,13 @@
-model Color {
+model MColor {
   int value;
 }
 
-model Shape {
+model MShape {
   int width;
   int height;
 }
 
 public int main() {
-  Color color = builder(Shape).withWidth(1).withHeight(2).build();
+  MColor color = builder(MShape).withWidth(1).withHeight(2).build();
   return 0;
 }

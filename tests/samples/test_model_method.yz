@@ -1,4 +1,4 @@
-model Color {
+model MColor {
   int value;
 
   public int getValue() {
@@ -7,7 +7,7 @@ model Color {
 }
 
 public int main() {
-  Color color = builder(Color).withValue(5).build();
+  MColor color = builder(MColor).withValue(5).build();
 
   return 0;
 }

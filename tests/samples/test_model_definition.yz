@@ -1,20 +1,20 @@
-model Color {
+model MColor {
   double color;
 }
 
-model Shape {
+model MShape {
   int width;
   long height;
   float depth;
-  Color color;
+  MColor color;
 }
 
 public int main() {
-  Shape rectangle = builder(Shape)
+  MShape rectangle = builder(MShape)
     .withWidth(3)
     .withHeight(5l)
     .withDepth(2.0)
-    .withColor(builder(Color).withColor(6.7d).build())
+    .withColor(builder(MColor).withColor(6.7d).build())
     .build();
 
   return 0;

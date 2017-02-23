@@ -79,5 +79,5 @@ TEST_F(TestFileSampleRunner, ModelModelFieldReferenceTest) {
 TEST_F(TestFileSampleRunner, ModelIncorrectModelFieldReferenceDeathTest) {
   expectFailIRGeneration("tests/samples/test_model_incorrect_field_reference.yz",
                          1,
-                         "Error: Field 'width' is not found in model 'Color'");
+                         "Error: Field 'width' is not found in model 'MColor'");
 }

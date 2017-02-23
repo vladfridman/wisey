@@ -1,4 +1,4 @@
-model Shape {
+model MShape {
   int size;
 
   public int getSize() {
@@ -7,5 +7,5 @@ model Shape {
 }
 
 public int main() {
-  return builder(Shape).withSize(15).build().getSize() * 2;
+  return builder(MShape).withSize(15).build().getSize() * 2;
 }

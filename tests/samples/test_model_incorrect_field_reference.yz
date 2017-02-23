@@ -1,9 +1,9 @@
-model Color {
+model MColor {
   int intensity;
 }
 
 public int main() {
-  Color color = builder(Color).withIntensity(2).build();
+  MColor color = builder(MColor).withIntensity(2).build();
 
   return color.width;
 }

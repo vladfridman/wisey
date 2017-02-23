@@ -1,15 +1,15 @@
-model Rectangle {
+model MRectangle {
   int width;
   int height;
 }
 
 public int main() {
-  Rectangle r1 = builder(Rectangle)
+  MRectangle r1 = builder(MRectangle)
     .withWidth(1)
     .withHeight(3)
     .build();
 
-  Rectangle r2 = r1;
+  MRectangle r2 = r1;
 
   return 0;
 }
