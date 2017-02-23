@@ -108,19 +108,12 @@
  * Parsing tree node types
  */
 %type <identifier> identifier
-%type <string> string cast_or_expression
+%type <string> string
 %type <expression> constant expression multiplicative_expression additive_expression
 %type <expression> relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression model_builder function_call
-%type <expression> cast_expression
-%type <expression> expression_except_id
-%type <expression> primary_expression primary_expression_except_id
-%type <expression> postfix_expression_common cast_expression_common
-%type <expression> multiplicative_expression_common additive_expression_common
-%type <expression> relational_expression_common equality_expression_common
-%type <expression> logical_and_expression_common logical_or_expression_common
-%type <expression> conditional_expression_common assignment
+%type <expression> cast_expression primary_expression assignment
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
 %type <block> program block_item_list global_unit_list
@@ -134,7 +127,7 @@
 %type <switch_cases> case_statement_list case_statement_list_with_default
 %type <field_vector> model_field_declaration_list model_field_declaration_list_optional
 %type <field> model_field_declaration
-%type <type> type_specifier primitive_type_specifier cast_operation
+%type <type> type_specifier primitive_type_specifier
 %type <model_builder_argument_list> model_builder_argument_list
 %type <model_builder_argument> model_builder_argument
 %type <model_type_specifier> model_type_specifier
@@ -336,80 +329,30 @@ function_call
 
 primary_expression
   : identifier { $<identifier>$ = $1; }
-  | primary_expression_except_id
-  ;
-
-primary_expression_except_id
-  : constant
+  | constant
   | string { $$ = new StringConstant(*$1); delete $1; }
   | model_builder
   | function_call
-  | '(' expression_except_id ')' { $$ = $2; }
+  | '(' expression ')' { $$ = $2; }
   ;
 
 postfix_expression
   : primary_expression
-  | postfix_expression_common
-  ;
-
-postfix_expression_common
-  : postfix_expression '.' TIDENTIFIER { $$ = new ModelFieldReference(*$1, *$3); }
-  | cast_or_expression '.' TIDENTIFIER
-    {
-      Identifier* identifier = new Identifier(*$1);
-      delete $1;
-      $$ = new ModelFieldReference(*identifier, *$3);
-    }
+  | postfix_expression '.' TIDENTIFIER { $$ = new ModelFieldReference(*$1, *$3); }
   | postfix_expression '.' TIDENTIFIER '(' call_arguments ')'
     { $$ = new ModelMethodCall(*$1, *$3, *$5); }
-  | cast_or_expression '.' TIDENTIFIER '(' call_arguments ')'
-    {
-      Identifier* identifier = new Identifier(*$1);
-      delete $1;
-      $$ = new ModelMethodCall(*identifier, *$3, *$5);
-    }
   | postfix_expression TINCOP { $$ = IncrementExpression::newIncrementByOne(*$<identifier>1); }
-  | cast_or_expression TINCOP
-    {
-      Identifier* identifier = new Identifier(*$1);
-      delete $1;
-      $$ = IncrementExpression::newIncrementByOne(*identifier);
-    }
   | postfix_expression TDECOP { $$ = IncrementExpression::newDecrementByOne(*$<identifier>1); }
-  | cast_or_expression TDECOP
-    {
-      Identifier* identifier = new Identifier(*$1);
-      delete $1;
-      $$ = IncrementExpression::newDecrementByOne(*identifier);
-    }
   ;
 
 cast_expression
   : postfix_expression
-  | cast_expression_common
-  ;
-
-cast_or_expression
-  : '(' TIDENTIFIER ')' { $$ = $2; }
-  ;
-
-cast_operation
-  : cast_or_expression { $$ = new ModelTypeSpecifier(*$1); delete $1; }
-  | '(' primitive_type_specifier ')' { $$ = $2; }
-  ;
-
-cast_expression_common
-  : cast_or_expression { $$ = new Identifier(*$1); delete $1; }
-  | cast_operation cast_expression { $$ = new CastExpression(*$1, *$2); }
+  | '(' type_specifier ')' cast_expression { $$ = new CastExpression(*$2, *$4); }
   ;
 
 multiplicative_expression
   : cast_expression
-  | multiplicative_expression_common
-  ;
-
-multiplicative_expression_common
-  : multiplicative_expression '*' cast_expression
+  | multiplicative_expression '*' cast_expression
     { $$ = new AdditiveMultiplicativeExpression(*$1, '*', *$3); }
   | multiplicative_expression '/' cast_expression
     { $$ = new AdditiveMultiplicativeExpression(*$1, '/', *$3); }
@@ -417,11 +360,7 @@ multiplicative_expression_common
 
 additive_expression
   : multiplicative_expression
-  | additive_expression_common
-  ;
-
-additive_expression_common
-  : additive_expression '+' multiplicative_expression
+  | additive_expression '+' multiplicative_expression
     { $$ = new AdditiveMultiplicativeExpression(*$1, '+', *$3); }
   | additive_expression '-' multiplicative_expression
     { $$ = new AdditiveMultiplicativeExpression(*$1, '-', *$3); }
@@ -429,11 +368,7 @@ additive_expression_common
 
 relational_expression
   : additive_expression
-  | relational_expression_common
-  ;
-
-relational_expression_common
-  : relational_expression '<' additive_expression
+  | relational_expression '<' additive_expression
     { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_LT, *$3); }
   | relational_expression '>' additive_expression
     { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_GT, *$3); }
@@ -445,11 +380,7 @@ relational_expression_common
 
 equality_expression
   : relational_expression
-  | equality_expression_common
-  ;
-
-equality_expression_common
-  : equality_expression TCEQ relational_expression
+  | equality_expression TCEQ relational_expression
     { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_EQ, *$3); }
   | equality_expression TCNE relational_expression
     { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_NE, *$3); }
@@ -457,48 +388,22 @@ equality_expression_common
 
 logical_and_expression
   : equality_expression
-  | logical_and_expression_common
-  ;
-
-logical_and_expression_common
-  : logical_and_expression TANDOP equality_expression { $$ = new LogicalAndExpression(*$1, *$3); }
+  | logical_and_expression TANDOP equality_expression { $$ = new LogicalAndExpression(*$1, *$3); }
   ;
 
 logical_or_expression
   : logical_and_expression
-  | logical_or_expression_common
-  ;
-
-logical_or_expression_common
-  : logical_or_expression TOROP logical_and_expression { $$ = new LogicalOrExpression(*$1, *$3); }
+  | logical_or_expression TOROP logical_and_expression { $$ = new LogicalOrExpression(*$1, *$3); }
   ;
 
 conditional_expression
   : logical_or_expression
-  | conditional_expression_common
-  ;
-
-conditional_expression_common
-  : logical_or_expression '?' expression ':' conditional_expression
+  | logical_or_expression '?' expression ':' conditional_expression
     { $$ = new ConditionalExpression(*$1, *$3, *$5); }
   ;
 
 expression
   : conditional_expression
-  | assignment
-  ;
-
-expression_except_id
-  : primary_expression_except_id
-  | postfix_expression_common
-  | cast_expression_common
-  | multiplicative_expression_common
-  | additive_expression_common
-  | relational_expression_common
-  | equality_expression_common
-  | logical_and_expression_common
-  | logical_or_expression_common
-  | conditional_expression_common
   | assignment
   ;
 
