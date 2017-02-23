@@ -1,9 +1,13 @@
 model MColor {
   int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
 }
 
 public int main() {
   MColor color;
 
-  return color.mValue;
+  return color.getValue();
 }

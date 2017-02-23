@@ -73,7 +73,10 @@ TEST_F(ModelFieldReferenceTest, TestReferenceFieldInPrimitiveTypeDeathTest) {
 }
 
 TEST_F(TestFileSampleRunner, ModelModelFieldReferenceTest) {
-  runFile("tests/samples/test_model_field_reference.yz", "7");
+  expectFailIRGeneration("tests/samples/test_model_field_reference.yz",
+                         1,
+                         "Error: All model fields are private. "
+                         "Implement getters and setters to use fields");
 }
 
 TEST_F(TestFileSampleRunner, ModelIncorrectModelFieldReferenceDeathTest) {

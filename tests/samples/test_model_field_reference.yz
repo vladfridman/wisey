@@ -1,22 +1,9 @@
-model MColor {
-  double mColor;
-  int mIntensity;
-}
-
 model MShape {
-  int mWidth;
-  long mHeight;
-  float mDepth;
-  MColor mColor;
+  int mValue;
 }
 
 public int main() {
-  MShape rectangle = builder(MShape)
-    .withWidth(3)
-    .withHeight(5l)
-    .withDepth(2.0)
-    .withColor(builder(MColor).withColor(6.7d).withIntensity(7).build())
-    .build();
+  MShape shape = builder(MShape).withValue(3).build();
 
-  return rectangle.mColor.mIntensity;
+  return shape.mValue;
 }

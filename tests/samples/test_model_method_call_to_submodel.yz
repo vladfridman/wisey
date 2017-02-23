@@ -1,0 +1,30 @@
+model MColor {
+  double mColor;
+  int mIntensity;
+
+  public int getIntensity() {
+    return mIntensity;
+  }
+}
+
+model MShape {
+  int mWidth;
+  long mHeight;
+  float mDepth;
+  MColor mColor;
+
+  public MColor getColor() {
+    return mColor;
+  }
+}
+
+public int main() {
+  MShape rectangle = builder(MShape)
+    .withWidth(3)
+    .withHeight(5l)
+    .withDepth(2.0)
+    .withColor(builder(MColor).withColor(6.7d).withIntensity(7).build())
+    .build();
+
+  return rectangle.getColor().getIntensity();
+}

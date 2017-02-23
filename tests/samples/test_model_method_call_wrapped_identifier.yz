@@ -9,5 +9,5 @@ model MShape {
 public int main() {
   MShape shape = builder(MShape).withValue(5).build();
 
-  return (shape).mValue;
+  return (shape).getValue();
 }

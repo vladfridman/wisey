@@ -17,34 +17,10 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* ModelFieldReference::generateIR(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Value* expressionValue = mExpression.generateIR(context);
+  checkAndFindField(context);
   
-  Model* model = (Model*) getModel(context);
-  StructType* structType = (StructType*) model->getLLVMType(llvmContext)->getPointerElementType();
-  
-  ModelField* modelField = checkAndFindField(context);
-  Value *Idx[2];
-  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), modelField->getIndex());
-  
-  GetElementPtrInst* fieldPointer = GetElementPtrInst::Create(structType,
-                                                              expressionValue,
-                                                              Idx,
-                                                              "",
-                                                              context.getBasicBlock());
-
-  return new LoadInst(fieldPointer, "", context.getBasicBlock());
-}
-
-Model* ModelFieldReference::getModel(IRGenerationContext& context) const {
-  IType* expressionType = mExpression.getType(context);
-  if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
-    Log::e("Attempt to reference field '" + mFieldName + "' in a primitive type expression");
-    exit(1);
-  }
-
-  return (Model*) expressionType;
+  Log::e("All model fields are private. Implement getters and setters to use fields");
+  exit(1);
 }
 
 IType* ModelFieldReference::getType(IRGenerationContext& context) const {
@@ -52,7 +28,13 @@ IType* ModelFieldReference::getType(IRGenerationContext& context) const {
 }
 
 ModelField* ModelFieldReference::checkAndFindField(IRGenerationContext& context) const {
-  Model* model = getModel(context);
+  IType* expressionType = mExpression.getType(context);
+  if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
+    Log::e("Attempt to reference field '" + mFieldName + "' in a primitive type expression");
+    exit(1);
+  }
+
+  Model* model = (Model*) expressionType;
   ModelField* modelField = model->findField(mFieldName);
 
   if (modelField != NULL) {

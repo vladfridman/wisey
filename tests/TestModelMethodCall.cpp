@@ -205,6 +205,10 @@ TEST_F(TestFileSampleRunner, ModelMethodCallMultipleArgumentsRunTest) {
   runFile("tests/samples/test_model_method_call_multiple_parameters.yz", "8");
 }
 
+TEST_F(TestFileSampleRunner, ModelMethodCallToSubModelRunTest) {
+  runFile("tests/samples/test_model_method_call_to_submodel.yz", "7");
+}
+
 TEST_F(TestFileSampleRunner, ModelMethodCallAutoCastArgumentRunTest) {
   runFile("tests/samples/test_method_argument_autocast.yz", "1");
 }
