@@ -59,7 +59,7 @@ ${BINDIR}:
 	mkdir -p ${BINDIR}
 
 ${PARSERDIR}/y.tab.c: ${SRCDIR}/Parser.ypp | ${PARSERDIR}
-	bison -d -o $@ $<
+	bison -d -v -o $@ $<
 
 ${PARSERDIR}/y.tab.h: ${PARSERDIR}/y.tab.c | ${PARSERDIR}
 
