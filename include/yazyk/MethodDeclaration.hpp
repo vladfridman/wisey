@@ -21,9 +21,9 @@
 namespace yazyk {
 
 /**
- * Represents a function declaration.
+ * Represents a model's method declaration.
  *
- * A function contains Block that contains statements.
+ * A method contains a coumpound statement that is the body of the method.
  */
 class MethodDeclaration {
   const AccessSpecifier mAccessSpecifier;
