@@ -7,6 +7,7 @@
   #include "yazyk/DefaultCaseStatement.hpp"
   #include "yazyk/Identifier.hpp"
   #include "yazyk/MethodDeclaration.hpp"
+  #include "yazyk/MethodSignature.hpp"
   #include "yazyk/ModelBuilderArgument.hpp"
   #include "yazyk/ModelFieldDeclaration.hpp"
   #include "yazyk/ModelTypeSpecifier.hpp"
@@ -53,6 +54,7 @@ WS  [ \t\v\n\f]
 "fallthrough"                 return TOKEN(TFALLTHROUGH);
 "do"                          return TOKEN(TDO);
 "model"                       return TOKEN(TMODEL);
+"interface"                   return TOKEN(TINTERFACE);
 "true"                        return TOKEN(TTRUE);
 "false"                       return TOKEN(TFALSE);
 "builder"                     return TOKEN(TBUILDER);
@@ -84,7 +86,8 @@ WS  [ \t\v\n\f]
 "&&"                          return TOKEN(TANDOP);
 "||"                          return TOKEN(TOROP);
 M[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TMODELIDENTIFIER;
-m[A-Z][a-zA-Z0-9_]*                SAVE_TOKEN; return TMODELFIELDIDENTIFIER;
+I[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TINTERFACEIDENTIFIER;
+m[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TMODELFIELDIDENTIFIER;
 [a-zA-Z_][a-zA-Z0-9_]*        SAVE_TOKEN; return TIDENTIFIER;
 {D}*"."{D}+{E}?{DS}           SAVE_TOKEN; return TDOUBLE;
 {D}+"."{E}?{DS}               SAVE_TOKEN; return TDOUBLE;

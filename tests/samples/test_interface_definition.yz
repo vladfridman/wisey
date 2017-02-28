@@ -1,0 +1,9 @@
+interface IShape {
+  public int getArea();
+
+  public float getLength();
+}
+
+public int main() {
+  return 0;
+}

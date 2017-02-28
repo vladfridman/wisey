@@ -26,11 +26,13 @@
   #include "yazyk/IfStatement.hpp"
   #include "yazyk/IncrementExpression.hpp"
   #include "yazyk/IntConstant.hpp"
+  #include "yazyk/InterfaceDefinition.hpp"
   #include "yazyk/ITypeSpecifier.hpp"
   #include "yazyk/LogicalAndExpression.hpp"
   #include "yazyk/LogicalOrExpression.hpp"
   #include "yazyk/LongConstant.hpp"
   #include "yazyk/MethodDeclaration.hpp"
+  #include "yazyk/MethodSignature.hpp"
   #include "yazyk/ModelBuilder.hpp"
   #include "yazyk/ModelBuilderArgument.hpp"
   #include "yazyk/ModelDefinition.hpp"
@@ -87,10 +89,12 @@
   yazyk::ModelTypeSpecifier *model_type_specifier;
   yazyk::AccessSpecifier access_specifier;
   yazyk::MethodDeclaration* method_declaration;
+  yazyk::MethodSignature* method_signature;
   std::vector<yazyk::VariableDeclaration*> *variable_vector;
   std::vector<yazyk::IExpression*> *expression_vector;
   std::vector<yazyk::ModelFieldDeclaration*> *field_vector;
-  std::vector<yazyk::MethodDeclaration*> *method_vector;
+  std::vector<yazyk::MethodDeclaration*> *method_declaration_vector;
+  std::vector<yazyk::MethodSignature*> *method_signature_vector;
   std::string *string;
   int token;
 }
@@ -99,12 +103,13 @@
  * Tokens used in yazyk 
  */
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL TMODELIDENTIFIER
-%token <string> TMODELFIELDIDENTIFIER
+%token <string> TMODELFIELDIDENTIFIER TINTERFACEIDENTIFIER
 %token <token> TCEQ TCNE TCLE TCGE TTRUE TFALSE
 %token <token> TTYPEBOOLEAN TTYPECHAR TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
 %token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH TDO
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
+%token <token> TINTERFACE
 
 /**
  * Parsing tree node types
@@ -122,7 +127,7 @@
 %type <statement> statement variable_declaration
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
-%type <statement> selection_statement model_definition
+%type <statement> selection_statement model_definition interface_definition
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
@@ -134,8 +139,10 @@
 %type <model_builder_argument> model_builder_argument
 %type <model_type_specifier> model_type_specifier
 %type <access_specifier> access_specifier
-%type <method_vector> method_definition_list method_definition_list_optional
+%type <method_declaration_vector> method_definition_list method_definition_list_optional
+%type <method_signature_vector> method_signature_list method_signature_list_optional
 %type <method_declaration> method_definition
+%type <method_signature> method_signature
 
 %left '+' '-'
 %left '*' '/'
@@ -164,12 +171,33 @@ global_unit_list
 global_unit
   : method_definition { $$ = new FunctionDeclaration($1); }
   | model_definition
+  | interface_definition
+  ;
+
+interface_definition
+  : TINTERFACE TINTERFACEIDENTIFIER '{' method_signature_list_optional '}'
+    { $$ = new InterfaceDefinition(*$2, *$4); delete $2; }
+  ;
+
+method_signature_list_optional
+  : /* blank */ { $$ = new std::vector<MethodSignature *>(); }
+  | method_signature_list
+  ;
+
+method_signature_list
+  : method_signature { $$ = new std::vector<MethodSignature *>(); $$->push_back($1); }
+  | method_signature_list method_signature { $1->push_back($2); }
+  ;
+
+method_signature
+  : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
+    { $$ = new MethodSignature($1, *$2, *$3, *$5); delete $5; }
   ;
 
 model_definition
   : TMODEL TMODELIDENTIFIER '{' model_field_declaration_list_optional
       method_definition_list_optional '}'
-    { $$ = new ModelDefinition(*$2, *$4, *$5); }
+    { $$ = new ModelDefinition(*$2, *$4, *$5); delete $2; }
   ;
 
 model_field_declaration_list_optional
