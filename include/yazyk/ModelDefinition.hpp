@@ -37,6 +37,16 @@ public:
   ~ModelDefinition();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+private:
+  
+  std::vector<llvm::Type*> processFields(IRGenerationContext& context,
+                                         Model* model,
+                                         std::map<std::string, ModelField*>* fields) const;
+  
+  void processMethods(IRGenerationContext& context,
+                      Model* model,
+                      std::map<std::string, Method*>* methods) const;
 };
 
 } /* namespace yazyk */

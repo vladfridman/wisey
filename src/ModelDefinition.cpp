@@ -25,17 +25,33 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   StructType *structType = StructType::create(llvmContext, "model." + mName);
 
-  vector<Type*> types;
   map<string, ModelField*>* fields = new map<string, ModelField*>();
   map<string, Method*>* methods = new map<string, Method*>();
   Model* model = new Model(mName, structType, fields, methods);
   
   context.getScopes().pushScope();
   
+  vector<Type*> types = processFields(context, model, fields);
+  structType->setBody(types);
+  processMethods(context, model, methods);
+  
+  context.addModel(model);
+  
+  context.getScopes().popScope(context.getBasicBlock());
+
+  return NULL;
+}
+
+vector<Type*> ModelDefinition::processFields(IRGenerationContext& context,
+                                             Model* model,
+                                             map<string, ModelField*>* fields) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  vector<Type*> types;
+
   int index = 0;
   for (vector<ModelFieldDeclaration *>::iterator iterator = mFields.begin();
-      iterator != mFields.end();
-      iterator++, index++) {
+       iterator != mFields.end();
+       iterator++, index++) {
     ModelFieldDeclaration *field = *iterator;
     IType* fieldType = field->getTypeSpecifier().getType(context);
     
@@ -46,8 +62,12 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
     context.getScopes().setVariable(fieldVariable);
   }
   
-  structType->setBody(types);
-  
+  return types;
+}
+
+void ModelDefinition::processMethods(IRGenerationContext& context,
+                                     Model* model,
+                                     map<string, Method*>* methods) const {
   for (vector<MethodDeclaration *>::iterator iterator = mMethods.begin();
        iterator != mMethods.end();
        iterator++) {
@@ -56,10 +76,4 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
     (*methods)[method->getName()] = method;
     methodDeclaration->generateIR(context, model);
   }
-  
-  context.addModel(model);
-  
-  context.getScopes().popScope(context.getBasicBlock());
-
-  return NULL;
 }
