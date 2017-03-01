@@ -55,6 +55,7 @@ WS  [ \t\v\n\f]
 "do"                          return TOKEN(TDO);
 "model"                       return TOKEN(TMODEL);
 "interface"                   return TOKEN(TINTERFACE);
+"implements"                  return TOKEN(TIMPLEMENTS);
 "true"                        return TOKEN(TTRUE);
 "false"                       return TOKEN(TFALSE);
 "builder"                     return TOKEN(TBUILDER);

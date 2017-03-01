@@ -95,6 +95,7 @@
   std::vector<yazyk::ModelFieldDeclaration*> *field_vector;
   std::vector<yazyk::MethodDeclaration*> *method_declaration_vector;
   std::vector<yazyk::MethodSignature*> *method_signature_vector;
+  std::vector<std::string> *identifier_list;
   std::string *string;
   int token;
 }
@@ -109,7 +110,7 @@
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
 %token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH TDO
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
-%token <token> TINTERFACE
+%token <token> TINTERFACE TIMPLEMENTS
 
 /**
  * Parsing tree node types
@@ -143,6 +144,7 @@
 %type <method_signature_vector> method_signature_list method_signature_list_optional
 %type <method_declaration> method_definition
 %type <method_signature> method_signature
+%type <identifier_list> interface_list
 
 %left '+' '-'
 %left '*' '/'
@@ -197,7 +199,19 @@ method_signature
 model_definition
   : TMODEL TMODELIDENTIFIER '{' model_field_declaration_list_optional
       method_definition_list_optional '}'
-    { $$ = new ModelDefinition(*$2, *$4, *$5); delete $2; }
+    {
+      std::vector<std::string>* interfaces = new std::vector<std::string>;
+      $$ = new ModelDefinition(*$2, *$4, *$5, *interfaces);
+      delete $2;
+    }
+  | TMODEL TMODELIDENTIFIER TIMPLEMENTS interface_list
+      '{' model_field_declaration_list_optional method_definition_list_optional '}'
+    { $$ = new ModelDefinition(*$2, *$6, *$7, *$4); delete $2; }
+  ;
+
+interface_list
+  : TINTERFACEIDENTIFIER { $$ = new std::vector<std::string>; $$->push_back(*$1); delete $1; }
+  | interface_list ',' TINTERFACEIDENTIFIER { $$ = $1; $$->push_back(*$3); delete $3; }
   ;
 
 model_field_declaration_list_optional

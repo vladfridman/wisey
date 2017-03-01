@@ -24,13 +24,15 @@ class ModelDefinition : public IStatement {
   const std::string mName;
   std::vector<ModelFieldDeclaration *>& mFields;
   std::vector<MethodDeclaration *>& mMethods;
+  std::vector<std::string>& mInterfaces;
   
 public:
   
   ModelDefinition(std::string name,
                   std::vector<ModelFieldDeclaration*>& fields,
-                  std::vector<MethodDeclaration *>& methods)
-    : mName(name), mFields(fields), mMethods(methods) { }
+                  std::vector<MethodDeclaration *>& methods,
+                  std::vector<std::string>& interfaces)
+    : mName(name), mFields(fields), mMethods(methods), mInterfaces(interfaces) { }
   
   ~ModelDefinition();
   

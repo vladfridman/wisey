@@ -1,0 +1,17 @@
+interface IShape {
+  int getArea();
+}
+
+model MSquare implements IShape {
+  int mWidth;
+
+  public int getArea() {
+    return mWidth * mWidth;
+  }
+}
+
+public int main() {
+  MSquare square = builder(MSquare).withWidth(5).build();
+
+  return square.getArea();
+}

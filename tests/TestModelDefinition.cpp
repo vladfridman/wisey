@@ -64,7 +64,8 @@ TEST(ModelDefinitionTest, TestSimpleDefinition) {
   vector<MethodDeclaration *> methods;
   methods.push_back(&methodDeclaration);
   
-  ModelDefinition modelDefinition("mymodel", fields, methods);
+  vector<string> interfaces;
+  ModelDefinition modelDefinition("mymodel", fields, methods, interfaces);
 
   EXPECT_CALL(mockStatement, generateIR(_));
   
@@ -85,4 +86,8 @@ TEST_F(TestFileSampleRunner, ModelDefinitionTest) {
 
 TEST_F(TestFileSampleRunner, ModelDefinitionWithMethodTest) {
   runFile("tests/samples/test_model_method.yz", "0");
+}
+
+TEST_F(TestFileSampleRunner, ModelImplmenetingInterfaceDefinitionTest) {
+  runFile("tests/samples/test_interface_implementation.yz", "25");
 }
