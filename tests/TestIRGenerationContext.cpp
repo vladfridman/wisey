@@ -98,6 +98,41 @@ TEST(IRGenerationContextTest, ModelTypeDoesNotExistDeathTest) {
               "MODEL mymodel is not defined");
 }
 
+TEST(IRGenerationContextTest, InterfaceTypeRegistryTest) {
+  IRGenerationContext context;
+  
+  StructType* structType = StructType::create(context.getLLVMContext(), "myinterface");
+  map<string, Method*>* methods = new map<string, Method*>();
+  Interface* interface = new Interface("myinterface", structType, methods);
+  context.addInterface(interface);
+  Interface* resultInterface = context.getInterface("myinterface");
+  
+  ASSERT_NE(resultInterface, nullptr);
+  EXPECT_EQ(context.getInterface("myinterface")->getLLVMType(context.getLLVMContext()),
+            structType->getPointerTo());
+}
+
+TEST(IRGenerationContextTest, InterfaceTypeRedefinedDeathTest) {
+  IRGenerationContext context;
+  
+  StructType* structType = StructType::create(context.getLLVMContext(), "myinterface");
+  map<string, Method*>* methods = new map<string, Method*>();
+  Interface* interface = new Interface("myinterface", structType, methods);
+  context.addInterface(interface);
+  
+  EXPECT_EXIT(context.addInterface(interface),
+              ::testing::ExitedWithCode(1),
+              "Redefinition of Interface myinterface");
+}
+
+TEST(IRGenerationContextTest, InterfaceTypeDoesNotExistDeathTest) {
+  IRGenerationContext context;
+  
+  EXPECT_EXIT(context.getInterface("myinterface"),
+              ::testing::ExitedWithCode(1),
+              "Interface myinterface is not defined");
+}
+
 TEST(IRGenerationContextTest, TestGlobalFunctionDefinition) {
   IRGenerationContext context;
 

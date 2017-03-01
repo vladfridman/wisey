@@ -25,6 +25,7 @@ typedef enum TypeKindEnum {
   PRIMITIVE_TYPE,
   MODEL_TYPE,
   CONTROLLER_TYPE,
+  INTERFACE_TYPE,
 } TypeKind;
 
 /**

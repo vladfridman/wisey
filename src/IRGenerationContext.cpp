@@ -75,6 +75,25 @@ Model* IRGenerationContext::getModel(string name) {
   return mModels.at(name);
 }
 
+void IRGenerationContext::addInterface(Interface* interface) {
+  string name = interface->getName();
+  if (mInterfaces.count(name)) {
+    Log::e("Redefinition of Interface " + name);
+    exit(1);
+  }
+  
+  mInterfaces[name] = interface;
+}
+
+Interface* IRGenerationContext::getInterface(string name) {
+  if (!mInterfaces.count(name)) {
+    Log::e("Interface " + name + " is not defined");
+    exit(1);
+  }
+  
+  return mInterfaces.at(name);
+}
+
 void IRGenerationContext::addGlobalFunction(IType* returnType, string functionName) {
   if (mGlobalFunctions.count(functionName)) {
     Log::e("Redefinition of a global function " + functionName);

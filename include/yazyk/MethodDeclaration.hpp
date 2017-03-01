@@ -48,7 +48,7 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context, Model* model = NULL) const;
 
   /**
-   * Returns object representing the method for storage in a model object
+   * Returns object representing the method for storage in a Model object
    */
   Method* getMethod(IRGenerationContext& context) const;
   

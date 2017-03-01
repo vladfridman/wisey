@@ -37,8 +37,13 @@ public:
   mMethodName(methodName),
   mArguments(arguments) { }
   
-  ~MethodSignature();
+  ~MethodSignature() { };
   
+  /**
+   * Returns object representing the method for storage in an Interface object
+   */
+  Method* getMethod(IRGenerationContext& context) const;
+
 };
   
 } /* namespace yazyk */
