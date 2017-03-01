@@ -93,6 +93,7 @@ TEST_F(NegateExpressionTest, NegateFloatExpressionTest) {
 TEST_F(NegateExpressionTest, NegateIncompatibleTypeDeathTest) {
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   NegateExpression negateExpression(mExpression);
+  Mock::AllowLeak(&mExpression);
 
   EXPECT_EXIT(negateExpression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
