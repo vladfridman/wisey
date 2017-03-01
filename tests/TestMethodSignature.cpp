@@ -61,10 +61,7 @@ struct MethodSignatureTest : Test {
 TEST_F(MethodSignatureTest, MethodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
-  MethodSignature methodSignature(AccessSpecifiers::PUBLIC_ACCESS,
-                                  mFloatTypeSpecifier,
-                                  "foo",
-                                  mArguments);
+  MethodSignature methodSignature(mFloatTypeSpecifier, "foo", mArguments);
   Method* method = methodSignature.getMethod(mContext);
   vector<MethodArgument*> arguments = method->getArguments();
   

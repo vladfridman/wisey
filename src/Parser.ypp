@@ -190,8 +190,8 @@ method_signature_list
   ;
 
 method_signature
-  : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
-    { $$ = new MethodSignature($1, *$2, *$3, *$5); delete $5; }
+  : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
+    { $$ = new MethodSignature(*$1, *$2, *$4); delete $4; }
   ;
 
 model_definition

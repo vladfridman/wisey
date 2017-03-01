@@ -38,12 +38,9 @@ TEST(InterfaceDefinitionTest, TestSimpleDefinition) {
   VariableDeclaration intArgument(intTypeSpecifier, intArgumentIdentifier);
   VariableList methodArguments;
   methodArguments.push_back(&intArgument);
-  MethodSignature methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
-                                    floatTypeSpecifier,
-                                    "foo",
-                                    methodArguments);
+  MethodSignature methodSignature(floatTypeSpecifier, "foo", methodArguments);
   vector<MethodSignature *> methods;
-  methods.push_back(&methodDeclaration);
+  methods.push_back(&methodSignature);
   
   InterfaceDefinition interfaceDefinition("myinterface", methods);
   

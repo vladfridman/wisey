@@ -21,18 +21,15 @@ namespace yazyk {
  * Represents a method signature contained within an interface
  */
 class MethodSignature {
-  const AccessSpecifier mAccessSpecifier;
   const ITypeSpecifier& mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
   
 public:
   
-  MethodSignature(const AccessSpecifier& accessSpecifier,
-                  const ITypeSpecifier& returnTypeSpecifier,
+  MethodSignature(const ITypeSpecifier& returnTypeSpecifier,
                   std::string methodName,
                   const VariableList& arguments) :
-  mAccessSpecifier(accessSpecifier),
   mReturnTypeSpecifier(returnTypeSpecifier),
   mMethodName(methodName),
   mArguments(arguments) { }

@@ -1,7 +1,7 @@
 interface IShape {
-  public int getArea();
+  int getArea();
 
-  public float getLength();
+  float getLength();
 }
 
 public int main() {
