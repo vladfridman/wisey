@@ -45,7 +45,7 @@ public:
   mArguments(arguments),
   mCompoundStatement(compoundStatement) { }
   
-  llvm::Value* generateIR(IRGenerationContext& context, Model* model = NULL) const;
+  llvm::Function* generateIR(IRGenerationContext& context, Model* model = NULL) const;
 
   /**
    * Returns object representing the method for storage in a Model object

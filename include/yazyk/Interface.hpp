@@ -15,6 +15,7 @@
 
 #include "yazyk/IType.hpp"
 #include "yazyk/Method.hpp"
+#include "yazyk/Model.hpp"
 
 namespace yazyk {
   
@@ -29,8 +30,8 @@ class Interface : public IType {
 public:
   
   Interface(std::string name,
-        llvm::StructType* structType,
-        std::map<std::string, Method*>* methods) :
+            llvm::StructType* structType,
+            std::map<std::string, Method*>* methods) :
   mName(name), mStructType(structType), mMethods(methods) {}
   
   ~Interface();
@@ -39,6 +40,14 @@ public:
    * Finds a method with a given name
    */
   Method* findMethod(std::string methodName) const;
+  
+  /**
+   * Generate functions that map interface methods to model methods
+   */
+  void generateMapFunctionsIR(IRGenerationContext& context,
+                              Model* model,
+                              std::vector<llvm::Constant*>& vtableArray,
+                              int interfaceIndex) const;
   
   std::string getName() const override;
   
@@ -53,6 +62,14 @@ public:
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       IType* toType) const override;
+  
+private:
+  
+  void generateMapFunctionForMethod(IRGenerationContext& context,
+                                    Model* model,
+                                    std::vector<llvm::Constant*>& vtableArray,
+                                    int interfaceIndex,
+                                    Method* method) const;
 };
   
 } /* namespace yazyk */

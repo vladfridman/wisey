@@ -46,12 +46,22 @@ private:
                      std::vector<llvm::Type*>& types,
                      int index) const;
   
-  void processMethods(IRGenerationContext& context,
-                      Model* model,
-                      std::map<std::string, Method*>* methods) const;
+  std::vector<llvm::Constant*> processMethods(IRGenerationContext& context,
+                                              Model* model,
+                                              std::map<std::string, Method*>* methods) const;
   
-  int processInterfaces(IRGenerationContext& context,
-                        std::vector<llvm::Type*>& types) const;
+  std::vector<Interface*> processInterfaces(IRGenerationContext& context,
+                                            std::vector<llvm::Type*>& types) const;
+
+  
+  void processInterfaceMethods(IRGenerationContext& context,
+                               Model* model,
+                               std::vector<Interface*> interfaces,
+                               std::vector<llvm::Constant*>& vtableArray) const;
+  
+  void generateVTableIR(IRGenerationContext& context,
+                        Model* model,
+                        std::vector<llvm::Constant*>& vtableArray) const;
 };
 
 } /* namespace yazyk */

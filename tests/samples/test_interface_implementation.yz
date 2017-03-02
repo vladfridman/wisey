@@ -1,12 +1,20 @@
-interface IShape {
+interface IObject {
   int getArea();
 }
 
-model MSquare implements IShape {
+interface IShape {
+  int getColor(int a);
+}
+
+model MSquare implements IShape, IObject {
   int mWidth;
 
   public int getArea() {
     return mWidth * mWidth;
+  }
+
+  public int getColor(int a) {
+    return a;
   }
 }
 

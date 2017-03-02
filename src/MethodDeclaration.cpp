@@ -19,7 +19,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Value* MethodDeclaration::generateIR(IRGenerationContext& context, Model* model) const {
+Function* MethodDeclaration::generateIR(IRGenerationContext& context, Model* model) const {
   Scopes& scopes = context.getScopes();
   VariableList::const_iterator iterator;
   IType* returnType = mReturnTypeSpecifier.getType(context);

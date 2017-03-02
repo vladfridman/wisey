@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+#include <llvm/IR/GlobalValue.h>
 #include <llvm/IR/DerivedTypes.h>
 
 #include "yazyk/LocalHeapVariable.hpp"
@@ -28,15 +30,15 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   map<string, ModelField*>* fields = new map<string, ModelField*>();
   map<string, Method*>* methods = new map<string, Method*>();
   Model* model = new Model(mName, structType, fields, methods);
-  
   context.getScopes().pushScope();
   
   vector<Type*> types;
-  
-  int index = processInterfaces(context, types);
-  processFields(context, model, fields, types, index);
+  vector<Interface*> interfaces = processInterfaces(context, types);
+  processFields(context, model, fields, types, (int) interfaces.size());
   structType->setBody(types);
-  processMethods(context, model, methods);
+  vector<Constant*> vtableArray = processMethods(context, model, methods);
+  processInterfaceMethods(context, model, interfaces, vtableArray);
+  generateVTableIR(context, model, vtableArray);
   
   context.addModel(model);
   
@@ -66,27 +68,64 @@ void ModelDefinition::processFields(IRGenerationContext& context,
   }
 }
 
-void ModelDefinition::processMethods(IRGenerationContext& context,
-                                     Model* model,
-                                     map<string, Method*>* methods) const {
+std::vector<llvm::Constant*> ModelDefinition::processMethods(IRGenerationContext& context,
+                                                             Model* model,
+                                                             map<string, Method*>* methods) const {
+  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  vector<Constant*> modelMethodsArray;
+  
   for (vector<MethodDeclaration *>::iterator iterator = mMethods.begin();
        iterator != mMethods.end();
        iterator++) {
     MethodDeclaration* methodDeclaration = *iterator;
     Method* method = methodDeclaration->getMethod(context);
     (*methods)[method->getName()] = method;
-    methodDeclaration->generateIR(context, model);
+    Function* function = methodDeclaration->generateIR(context, model);
+    Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
+    modelMethodsArray.push_back(bitCast);
+  }
+  return modelMethodsArray;
+}
+
+std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& context,
+                                                           vector<Type*>& types) const {
+  vector<Interface*> interfaces;
+  for (std::vector<std::string>::iterator iterator = mInterfaces.begin();
+       iterator != mInterfaces.end();
+       iterator++) {
+    Interface* interface = context.getInterface(*iterator);
+    types.push_back(interface->getLLVMType(context.getLLVMContext()));
+    interfaces.push_back(interface);
+  }
+  return interfaces;
+}
+
+void ModelDefinition::processInterfaceMethods(IRGenerationContext& context,
+                                              Model* model,
+                                              vector<Interface*> interfaces,
+                                              vector<Constant*>& vtableArray) const {
+  int index = 0;
+  for (vector<Interface*>::iterator iterator = interfaces.begin();
+       iterator != interfaces.end();
+       iterator++, index++) {
+    Interface* interface = *iterator;
+    interface->generateMapFunctionsIR(context, model, vtableArray, index);
   }
 }
 
-int ModelDefinition::processInterfaces(IRGenerationContext& context,
-                                       vector<Type*>& types) const {
-  int index = 0;
-  for (std::vector<std::string>::iterator iterator = mInterfaces.begin();
-       iterator != mInterfaces.end();
-       iterator++, index++) {
-    Interface* interface = context.getInterface(*iterator);
-    types.push_back(interface->getLLVMType(context.getLLVMContext()));
-  }
-  return index;
+void ModelDefinition::generateVTableIR(IRGenerationContext& context,
+                                       Model* model,
+                                       vector<Constant*>& vtableArray) const {
+  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  ArrayRef<Constant*> arrayRef(vtableArray);
+  ArrayType* arrayType = ArrayType::get(pointerType, vtableArray.size());
+  Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
+  
+  string name = "model." + model->getName() + ".vtable";
+  new GlobalVariable(*context.getModule(),
+                     arrayType,
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     constantArray,
+                     name);
 }

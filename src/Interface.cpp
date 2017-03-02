@@ -28,6 +28,26 @@ Method* Interface::findMethod(std::string methodName) const {
   return mMethods->at(methodName);
 }
 
+void Interface::generateMapFunctionsIR(IRGenerationContext& context,
+                                       Model* model,
+                                       vector<Constant*>& vtableArray,
+                                       int interfaceIndex) const {
+  for (map<string, Method*>::iterator iterator = mMethods->begin();
+       iterator != mMethods->end();
+       iterator++) {
+    Method* method = iterator->second;
+    generateMapFunctionForMethod(context, model, vtableArray, interfaceIndex, method);
+  }
+}
+
+void Interface::generateMapFunctionForMethod(IRGenerationContext& context,
+                                             Model* model,
+                                             vector<Constant*>& vtableArray,
+                                             int interfaceIndex,
+                                             Method* method) const {
+  
+}
+
 string Interface::getName() const {
   return mName;
 }
