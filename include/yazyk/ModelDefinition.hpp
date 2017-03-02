@@ -40,13 +40,18 @@ public:
   
 private:
   
-  std::vector<llvm::Type*> processFields(IRGenerationContext& context,
-                                         Model* model,
-                                         std::map<std::string, ModelField*>* fields) const;
+  void processFields(IRGenerationContext& context,
+                     Model* model,
+                     std::map<std::string, ModelField*>* fields,
+                     std::vector<llvm::Type*>& types,
+                     int index) const;
   
   void processMethods(IRGenerationContext& context,
                       Model* model,
                       std::map<std::string, Method*>* methods) const;
+  
+  int processInterfaces(IRGenerationContext& context,
+                        std::vector<llvm::Type*>& types) const;
 };
 
 } /* namespace yazyk */

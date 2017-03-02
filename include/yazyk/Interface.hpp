@@ -36,7 +36,7 @@ public:
   ~Interface();
   
   /**
-   * Findsa method with a given name
+   * Finds a method with a given name
    */
   Method* findMethod(std::string methodName) const;
   

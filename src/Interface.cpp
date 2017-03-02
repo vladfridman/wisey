@@ -33,7 +33,7 @@ string Interface::getName() const {
 }
 
 llvm::Type* Interface::getLLVMType(LLVMContext& llvmContext) const {
-  return mStructType->getPointerTo();
+  return mStructType;
 }
 
 TypeKind Interface::getTypeKind() const {

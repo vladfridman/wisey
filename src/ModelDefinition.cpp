@@ -31,7 +31,10 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   
   context.getScopes().pushScope();
   
-  vector<Type*> types = processFields(context, model, fields);
+  vector<Type*> types;
+  
+  int index = processInterfaces(context, types);
+  processFields(context, model, fields, types, index);
   structType->setBody(types);
   processMethods(context, model, methods);
   
@@ -42,13 +45,13 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-vector<Type*> ModelDefinition::processFields(IRGenerationContext& context,
-                                             Model* model,
-                                             map<string, ModelField*>* fields) const {
+void ModelDefinition::processFields(IRGenerationContext& context,
+                                    Model* model,
+                                    map<string, ModelField*>* fields,
+                                    vector<Type*>& types,
+                                    int index) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> types;
 
-  int index = 0;
   for (vector<ModelFieldDeclaration *>::iterator iterator = mFields.begin();
        iterator != mFields.end();
        iterator++, index++) {
@@ -61,8 +64,6 @@ vector<Type*> ModelDefinition::processFields(IRGenerationContext& context,
     ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(field->getName(), NULL, model);
     context.getScopes().setVariable(fieldVariable);
   }
-  
-  return types;
 }
 
 void ModelDefinition::processMethods(IRGenerationContext& context,
@@ -76,4 +77,16 @@ void ModelDefinition::processMethods(IRGenerationContext& context,
     (*methods)[method->getName()] = method;
     methodDeclaration->generateIR(context, model);
   }
+}
+
+int ModelDefinition::processInterfaces(IRGenerationContext& context,
+                                       vector<Type*>& types) const {
+  int index = 0;
+  for (std::vector<std::string>::iterator iterator = mInterfaces.begin();
+       iterator != mInterfaces.end();
+       iterator++, index++) {
+    Interface* interface = context.getInterface(*iterator);
+    types.push_back(interface->getLLVMType(context.getLLVMContext()));
+  }
+  return index;
 }

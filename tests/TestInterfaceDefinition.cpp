@@ -46,8 +46,7 @@ TEST(InterfaceDefinitionTest, TestSimpleDefinition) {
   
   interfaceDefinition.generateIR(context);
   Interface* interface = context.getInterface("myinterface");
-  StructType* structType = (StructType*) interface->getLLVMType(llvmContext)
-    ->getPointerElementType();
+  StructType* structType = (StructType*) interface->getLLVMType(llvmContext);
   
   ASSERT_NE(structType, nullptr);
   EXPECT_TRUE(structType->getNumElements() == 1);

@@ -109,7 +109,7 @@ TEST(IRGenerationContextTest, InterfaceTypeRegistryTest) {
   
   ASSERT_NE(resultInterface, nullptr);
   EXPECT_EQ(context.getInterface("myinterface")->getLLVMType(context.getLLVMContext()),
-            structType->getPointerTo());
+            structType);
 }
 
 TEST(IRGenerationContextTest, InterfaceTypeRedefinedDeathTest) {

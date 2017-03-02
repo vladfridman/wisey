@@ -48,7 +48,7 @@ struct InterfaceTest : public Test {
 TEST_F(InterfaceTest, TestInterfaceInstantiation) {
   EXPECT_STREQ(mInterface->getName().c_str(), "Shape");
   EXPECT_EQ(mInterface->getTypeKind(), INTERFACE_TYPE);
-  EXPECT_EQ(mInterface->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+  EXPECT_EQ(mInterface->getLLVMType(mLLVMContext), mStructType);
 }
 
 TEST_F(InterfaceTest, TestFindMethod) {
