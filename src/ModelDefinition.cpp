@@ -36,9 +36,8 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   vector<Interface*> interfaces = processInterfaces(context, types);
   processFields(context, model, fields, types, (int) interfaces.size());
   structType->setBody(types);
-  vector<Constant*> vtableArray = processMethods(context, model, methods);
-  processInterfaceMethods(context, model, interfaces, vtableArray);
-  generateVTableIR(context, model, vtableArray);
+  map<string, Function*> methodFunctionMap = processMethods(context, model, methods);
+  processInterfaceMethods(context, model, interfaces, methodFunctionMap);
   
   context.addModel(model);
   
@@ -68,11 +67,10 @@ void ModelDefinition::processFields(IRGenerationContext& context,
   }
 }
 
-std::vector<llvm::Constant*> ModelDefinition::processMethods(IRGenerationContext& context,
-                                                             Model* model,
-                                                             map<string, Method*>* methods) const {
-  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  vector<Constant*> modelMethodsArray;
+map<string, Function*> ModelDefinition::processMethods(IRGenerationContext& context,
+                                                       Model* model,
+                                                       map<string, Method*>* methods) const {
+  map<string, Function*> methodFunctionMap;
   
   for (vector<MethodDeclaration *>::iterator iterator = mMethods.begin();
        iterator != mMethods.end();
@@ -81,10 +79,9 @@ std::vector<llvm::Constant*> ModelDefinition::processMethods(IRGenerationContext
     Method* method = methodDeclaration->getMethod(context);
     (*methods)[method->getName()] = method;
     Function* function = methodDeclaration->generateIR(context, model);
-    Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
-    modelMethodsArray.push_back(bitCast);
+    methodFunctionMap[method->getName()] = function;
   }
-  return modelMethodsArray;
+  return methodFunctionMap;
 }
 
 std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& context,
@@ -103,22 +100,23 @@ std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& 
 void ModelDefinition::processInterfaceMethods(IRGenerationContext& context,
                                               Model* model,
                                               vector<Interface*> interfaces,
-                                              vector<Constant*>& vtableArray) const {
+                                              map<string, Function*>& methodFunctionMap) const {
+  vector<Constant*> vTableArray;
   int index = 0;
   for (vector<Interface*>::iterator iterator = interfaces.begin();
        iterator != interfaces.end();
        iterator++, index++) {
     Interface* interface = *iterator;
-    interface->generateMapFunctionsIR(context, model, vtableArray, index);
+    vector<Constant*> vTablePortion =
+      interface->generateMapFunctionsIR(context, model, methodFunctionMap, index);
+    for (Constant* vTableEntry : vTablePortion) {
+      vTableArray.push_back(vTableEntry);
+    }
   }
-}
 
-void ModelDefinition::generateVTableIR(IRGenerationContext& context,
-                                       Model* model,
-                                       vector<Constant*>& vtableArray) const {
+  ArrayRef<Constant*> arrayRef(vTableArray);
   Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  ArrayRef<Constant*> arrayRef(vtableArray);
-  ArrayType* arrayType = ArrayType::get(pointerType, vtableArray.size());
+  ArrayType* arrayType = ArrayType::get(pointerType, vTableArray.size());
   Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
   
   string name = "model." + model->getName() + ".vtable";

@@ -44,10 +44,11 @@ public:
   /**
    * Generate functions that map interface methods to model methods
    */
-  void generateMapFunctionsIR(IRGenerationContext& context,
-                              Model* model,
-                              std::vector<llvm::Constant*>& vtableArray,
-                              int interfaceIndex) const;
+  std::vector<llvm::Constant*> generateMapFunctionsIR(IRGenerationContext& context,
+                                                      Model* model,
+                                                      std::map<std::string, llvm::Function*>&
+                                                        methodFunctionMap,
+                                                      int interfaceIndex) const;
   
   std::string getName() const override;
   
@@ -65,11 +66,12 @@ public:
   
 private:
   
-  void generateMapFunctionForMethod(IRGenerationContext& context,
-                                    Model* model,
-                                    std::vector<llvm::Constant*>& vtableArray,
-                                    int interfaceIndex,
-                                    Method* method) const;
+  llvm::Constant* generateMapFunctionForMethod(IRGenerationContext& context,
+                                               Model* model,
+                                               std::map<std::string, llvm::Function*>&
+                                                methodFunctionMap,
+                                               int interfaceIndex,
+                                               Method* method) const;
 };
   
 } /* namespace yazyk */

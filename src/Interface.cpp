@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "yazyk/Cast.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -29,23 +31,30 @@ Method* Interface::findMethod(std::string methodName) const {
   return mMethods->at(methodName);
 }
 
-void Interface::generateMapFunctionsIR(IRGenerationContext& context,
-                                       Model* model,
-                                       vector<Constant*>& vtableArray,
-                                       int interfaceIndex) const {
+vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context,
+                                                    Model* model,
+                                                    map<string, Function*>& methodFunctionMap,
+                                                    int interfaceIndex) const {
+  vector<Constant*> vTableArray;
   for (map<string, Method*>::iterator iterator = mMethods->begin();
        iterator != mMethods->end();
        iterator++) {
     Method* method = iterator->second;
-    generateMapFunctionForMethod(context, model, vtableArray, interfaceIndex, method);
+    Constant* vTableEntry = generateMapFunctionForMethod(context,
+                                                         model,
+                                                         methodFunctionMap,
+                                                         interfaceIndex,
+                                                         method);
+    vTableArray.push_back(vTableEntry);
   }
+  return vTableArray;
 }
 
-void Interface::generateMapFunctionForMethod(IRGenerationContext& context,
-                                             Model* model,
-                                             vector<Constant*>& vtableArray,
-                                             int interfaceIndex,
-                                             Method* method) const {
+Constant* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
+                                                  Model* model,
+                                                  map<string, Function*>& methodFunctionMap,
+                                                  int interfaceIndex,
+                                                  Method* method) const {
   Method* modelMethod = model->findMethod(method->getName());
   if (modelMethod == NULL) {
     Log::e("Method '" + method->getName() + "' of interface '" + mName +
@@ -59,6 +68,11 @@ void Interface::generateMapFunctionForMethod(IRGenerationContext& context,
            + model->getName() + "'");
     exit(1);
   }
+  
+  Function* function = methodFunctionMap.at(method->getName());
+  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
+  return bitCast;
 }
 
 string Interface::getName() const {
