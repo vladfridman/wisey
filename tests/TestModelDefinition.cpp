@@ -139,7 +139,3 @@ TEST_F(TestFileSampleRunner, ModelDefinitionTest) {
 TEST_F(TestFileSampleRunner, ModelDefinitionWithMethodTest) {
   runFile("tests/samples/test_model_method.yz", "0");
 }
-
-TEST_F(TestFileSampleRunner, ModelImplmenetingInterfaceDefinitionTest) {
-  runFile("tests/samples/test_interface_implementation.yz", "25");
-}

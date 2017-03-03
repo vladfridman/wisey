@@ -68,10 +68,22 @@ private:
   
   llvm::Function* generateMapFunctionForMethod(IRGenerationContext& context,
                                                Model* model,
-                                               std::map<std::string, llvm::Function*>&
-                                                methodFunctionMap,
+                                               llvm::Function* modelFunction,
                                                int interfaceIndex,
                                                Method* method) const;
+
+  void generateMapFunctionBody(IRGenerationContext& context,
+                               Model* model,
+                               llvm::Function* modelFunction,
+                               llvm::Function* mapFunction,
+                               int interfaceIndex,
+                               Method* method) const;
+
+  llvm::Value* storeArgumentValue(IRGenerationContext& context,
+                                  llvm::BasicBlock* basicBlock,
+                                  std::string variableName,
+                                  IType* variableType,
+                                  llvm::Value* variableValue) const;
 };
   
 } /* namespace yazyk */

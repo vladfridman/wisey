@@ -12,6 +12,7 @@
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
+#include "yazyk/ModelMethodCall.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -41,11 +42,13 @@ vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context
        iterator != mMethods->end();
        iterator++) {
     Method* method = iterator->second;
+    Function* modelFunction = methodFunctionMap.count(method->getName())
+      ? methodFunctionMap.at(method->getName()) : NULL;
     Function* function = generateMapFunctionForMethod(context,
-                                                         model,
-                                                         methodFunctionMap,
-                                                         interfaceIndex,
-                                                         method);
+                                                      model,
+                                                      modelFunction,
+                                                      interfaceIndex,
+                                                      method);
     Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
     vTableArrayProtion.push_back(bitCast);
   }
@@ -54,7 +57,7 @@ vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context
 
 Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                                                   Model* model,
-                                                  map<string, Function*>& methodFunctionMap,
+                                                  llvm::Function* modelFunction,
                                                   int interfaceIndex,
                                                   Method* method) const {
   Method* modelMethod = model->findMethod(method->getName());
@@ -71,12 +74,92 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
   
-  Function* modelFunction = methodFunctionMap.at(method->getName());
   if (interfaceIndex == 0) {
     return modelFunction;
   }
   
-  return modelFunction;
+  string functionName =
+    ModelMethodCall::translateInterfaceMethodToLLVMFunctionName(model, this,method->getName());
+  Function* function = Function::Create(modelFunction->getFunctionType(),
+                                        GlobalValue::InternalLinkage,
+                                        functionName,
+                                        context.getModule());
+  Function::arg_iterator arguments = function->arg_begin();
+  llvm::Argument *argument = &*arguments;
+  argument->setName("this");
+  arguments++;
+  vector<MethodArgument*> methodArguments = method->getArguments();
+  for (MethodArgument* methodArgument : method->getArguments()) {
+    llvm::Argument *argument = &*arguments;
+    argument->setName(methodArgument->getName());
+    arguments++;
+  }
+  
+  generateMapFunctionBody(context, model, modelFunction, function, interfaceIndex, method);
+
+  return function;
+}
+
+void Interface::generateMapFunctionBody(IRGenerationContext& context,
+                                        Model* model,
+                                        Function* modelFunction,
+                                        Function* mapFunction,
+                                        int interfaceIndex,
+                                        Method* method) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  BasicBlock *basicBlock = BasicBlock::Create(llvmContext, "entry", mapFunction, 0);
+  
+  Function::arg_iterator arguments = mapFunction->arg_begin();
+  Value* interfaceThis = storeArgumentValue(context, basicBlock, "this", model, &*arguments);
+  arguments++;
+  vector<Value*> argumentPointers;
+  for (MethodArgument* methodArgument : method->getArguments()) {
+    Value* argumentPointer = storeArgumentValue(context,
+                                                basicBlock,
+                                                methodArgument->getName(),
+                                                methodArgument->getType(),
+                                                &*arguments);
+    argumentPointers.push_back(argumentPointer);
+    arguments++;
+  }
+  
+  Value* interfaceThisLoaded = new LoadInst(interfaceThis, "this", basicBlock);
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  Type* pointerType = int8Type->getPointerTo();
+  Value* castedInterfaceThis = new BitCastInst(interfaceThisLoaded, pointerType, "", basicBlock);
+  Value *Idx[1];
+  Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -8 * interfaceIndex);
+  Value* modelThis = GetElementPtrInst::Create(int8Type, castedInterfaceThis, Idx, "", basicBlock);
+  Value* castedModelThis = new BitCastInst(modelThis,
+                                           interfaceThisLoaded->getType(),
+                                           "",
+                                           basicBlock);
+  vector<Value*> callArguments;
+  callArguments.push_back(castedModelThis);
+  for (Value* argumentPointer : argumentPointers) {
+    Value* loadedCallArgument = new LoadInst(argumentPointer, "", basicBlock);
+    callArguments.push_back(loadedCallArgument);
+  }
+  
+  if (modelFunction->getReturnType()->isVoidTy()) {
+    CallInst::Create(modelFunction, callArguments, "", basicBlock);
+    ReturnInst::Create(llvmContext, NULL, basicBlock);
+  } else {
+    Value* result = CallInst::Create(modelFunction, callArguments, "call", basicBlock);
+    ReturnInst::Create(llvmContext, result, basicBlock);
+  }
+}
+
+llvm::Value* Interface::storeArgumentValue(IRGenerationContext& context,
+                                           BasicBlock* basicBlock,
+                                           string variableName,
+                                           IType* variableType,
+                                           Value* variableValue) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  string newName = variableName + ".param";
+  AllocaInst *alloc = new AllocaInst(variableType->getLLVMType(llvmContext), newName, basicBlock);
+  new StoreInst(variableValue, alloc, basicBlock);
+  return alloc;
 }
 
 string Interface::getName() const {

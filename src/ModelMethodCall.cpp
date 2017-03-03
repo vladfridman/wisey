@@ -112,7 +112,7 @@ string ModelMethodCall::translateModelMethodToLLVMFunctionName(Model* model, str
 }
 
 string ModelMethodCall::translateInterfaceMethodToLLVMFunctionName(Model* model,
-                                                                   Interface* interface,
+                                                                   const Interface* interface,
                                                                    string methodName) {
   if (model == NULL) {
     return methodName;

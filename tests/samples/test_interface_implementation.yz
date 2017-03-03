@@ -1,12 +1,17 @@
-interface IObject {
+interface IShape {
   int getArea();
 }
 
-interface IShape {
+interface IObject {
   int getColor(int a);
 }
 
-model MSquare implements IShape, IObject {
+interface IClickable {
+  void click();
+  void tap();
+}
+
+model MSquare implements IShape, IObject, IClickable {
   int mWidth;
 
   public int getArea() {
@@ -15,6 +20,12 @@ model MSquare implements IShape, IObject {
 
   public int getColor(int a) {
     return a;
+  }
+
+  public void click() {
+  }
+
+  public void tap() {
   }
 }
 

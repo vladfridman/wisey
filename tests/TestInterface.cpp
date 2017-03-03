@@ -70,3 +70,8 @@ TEST_F(TestFileSampleRunner, InterfaceMethodDifferentArgumentTypesDeathTest) {
                          "Error: Method 'getArea' of interface 'IShape' has different "
                          "argument types when implmeneted by model 'MSquare'");
 }
+
+TEST_F(TestFileSampleRunner, ModelImplmenetingInterfaceDefinitionTest) {
+  runFile("tests/samples/test_interface_implementation.yz", "25");
+}
+

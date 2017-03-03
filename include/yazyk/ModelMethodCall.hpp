@@ -42,7 +42,7 @@ public:
    * Translate model method name into its LLVM implemenation function name
    */
   static std::string translateInterfaceMethodToLLVMFunctionName(Model* model,
-                                                                Interface* interface,
+                                                                const Interface* interface,
                                                                 std::string methodName);
 
 private:
