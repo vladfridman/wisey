@@ -19,7 +19,7 @@ Value* ModelMethodCall::generateIR(IRGenerationContext& context) const {
   Method* method = getMethod(context);
   checkArgumentType(model, method, context);
 
-  string llvmFunctionName = translateMethodToLLVMFunctionName(model, mMethodName);
+  string llvmFunctionName = translateModelMethodToLLVMFunctionName(model, mMethodName);
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
   if (function == NULL) {
@@ -104,9 +104,18 @@ void ModelMethodCall::checkArgumentType(Model* model,
   }
 }
 
-string ModelMethodCall::translateMethodToLLVMFunctionName(Model* model, string methodName) {
+string ModelMethodCall::translateModelMethodToLLVMFunctionName(Model* model, string methodName) {
   if (model == NULL) {
     return methodName;
   }
   return "model." + model->getName() + "." + methodName;
+}
+
+string ModelMethodCall::translateInterfaceMethodToLLVMFunctionName(Model* model,
+                                                                   Interface* interface,
+                                                                   string methodName) {
+  if (model == NULL) {
+    return methodName;
+  }
+  return "model." + model->getName() + ".interface." + interface->getName() + "." + methodName;
 }

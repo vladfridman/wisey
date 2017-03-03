@@ -35,22 +35,24 @@ vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context
                                                     Model* model,
                                                     map<string, Function*>& methodFunctionMap,
                                                     int interfaceIndex) const {
-  vector<Constant*> vTableArray;
+  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  vector<Constant*> vTableArrayProtion;
   for (map<string, Method*>::iterator iterator = mMethods->begin();
        iterator != mMethods->end();
        iterator++) {
     Method* method = iterator->second;
-    Constant* vTableEntry = generateMapFunctionForMethod(context,
+    Function* function = generateMapFunctionForMethod(context,
                                                          model,
                                                          methodFunctionMap,
                                                          interfaceIndex,
                                                          method);
-    vTableArray.push_back(vTableEntry);
+    Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
+    vTableArrayProtion.push_back(bitCast);
   }
-  return vTableArray;
+  return vTableArrayProtion;
 }
 
-Constant* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
+Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                                                   Model* model,
                                                   map<string, Function*>& methodFunctionMap,
                                                   int interfaceIndex,
@@ -69,10 +71,12 @@ Constant* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
   
-  Function* function = methodFunctionMap.at(method->getName());
-  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
-  return bitCast;
+  Function* modelFunction = methodFunctionMap.at(method->getName());
+  if (interfaceIndex == 0) {
+    return modelFunction;
+  }
+  
+  return modelFunction;
 }
 
 string Interface::getName() const {

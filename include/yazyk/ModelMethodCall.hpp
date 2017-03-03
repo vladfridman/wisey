@@ -34,9 +34,16 @@ public:
   IType* getType(IRGenerationContext& context) const override;
   
   /**
-   * Translate method name into its LLVM implemenation function name
+   * Translate model method name into its LLVM implemenation function name
    */
-  static std::string translateMethodToLLVMFunctionName(Model* model, std::string methodName);
+  static std::string translateModelMethodToLLVMFunctionName(Model* model, std::string methodName);
+
+  /**
+   * Translate model method name into its LLVM implemenation function name
+   */
+  static std::string translateInterfaceMethodToLLVMFunctionName(Model* model,
+                                                                Interface* interface,
+                                                                std::string methodName);
 
 private:
 

@@ -66,7 +66,7 @@ public:
   
 private:
   
-  llvm::Constant* generateMapFunctionForMethod(IRGenerationContext& context,
+  llvm::Function* generateMapFunctionForMethod(IRGenerationContext& context,
                                                Model* model,
                                                std::map<std::string, llvm::Function*>&
                                                 methodFunctionMap,

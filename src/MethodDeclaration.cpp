@@ -65,9 +65,11 @@ Function* MethodDeclaration::createFunction(IRGenerationContext& context,
   FunctionType *ftype = FunctionType::get(llvmReturnType,
                                           argTypesArray,
                                           false);
+  string functionName = ModelMethodCall::translateModelMethodToLLVMFunctionName(model, mMethodName);
+
   return Function::Create(ftype,
                           GlobalValue::InternalLinkage,
-                          ModelMethodCall::translateMethodToLLVMFunctionName(model, mMethodName),
+                          functionName,
                           context.getModule());
 }
 
