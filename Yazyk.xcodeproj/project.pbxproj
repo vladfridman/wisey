@@ -255,6 +255,9 @@
 		F5ADB6221E66F9B400FFC941 /* Interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6201E66F9B400FFC941 /* Interface.cpp */; };
 		F5ADB6241E6705CC00FFC941 /* TestMethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6231E6705CC00FFC941 /* TestMethodSignature.cpp */; };
 		F5ADB6261E67075400FFC941 /* TestInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6251E67075400FFC941 /* TestInterface.cpp */; };
+		F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
+		F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
+		F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */; };
 		F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD671E48B16F0054209D /* TestCharType.cpp */; };
@@ -575,6 +578,8 @@
 		F5ADB6201E66F9B400FFC941 /* Interface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Interface.cpp; path = src/Interface.cpp; sourceTree = "<group>"; };
 		F5ADB6231E6705CC00FFC941 /* TestMethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodSignature.cpp; path = tests/TestMethodSignature.cpp; sourceTree = "<group>"; };
 		F5ADB6251E67075400FFC941 /* TestInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterface.cpp; path = tests/TestInterface.cpp; sourceTree = "<group>"; };
+		F5ADB6271E69831A00FFC941 /* Method.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Method.cpp; path = src/Method.cpp; sourceTree = "<group>"; };
+		F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethod.cpp; path = tests/TestMethod.cpp; sourceTree = "<group>"; };
 		F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompoundStatement.hpp; path = include/yazyk/CompoundStatement.hpp; sourceTree = "<group>"; };
 		F5C6FD641E48AB3B0054209D /* CharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharType.cpp; path = src/CharType.cpp; sourceTree = "<group>"; };
 		F5C6FD671E48B16F0054209D /* TestCharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharType.cpp; path = tests/TestCharType.cpp; sourceTree = "<group>"; };
@@ -743,6 +748,7 @@
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
 				F50FA2F01E2E3B2A00435EEA /* TestLongConstant.cpp */,
 				F5C6FD871E48B7DE0054209D /* TestLongType.cpp */,
+				F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */,
 				F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */,
 				F5ADB6231E6705CC00FFC941 /* TestMethodSignature.cpp */,
 				F5C6FD891E48D08F0054209D /* TestModel.cpp */,
@@ -896,6 +902,7 @@
 				F50FA2E41E2E3B0900435EEA /* LongConstant.cpp */,
 				F5C6FD841E48B7A00054209D /* LongType.cpp */,
 				F569E9F71DF9CE6600BBB20E /* main.cpp */,
+				F5ADB6271E69831A00FFC941 /* Method.cpp */,
 				F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */,
 				F51797101E6605FC009B16AA /* MethodSignature.cpp */,
 				F507D2641E43551900495E2D /* Model.cpp */,
@@ -1163,6 +1170,7 @@
 				F5ADB61D1E5F587300FFC941 /* TestNegateExpression.cpp in Sources */,
 				F504279B1E4B4275001CB148 /* ModelFieldReference.cpp in Sources */,
 				F50FA2F61E2E3B3200435EEA /* TestFloatConstant.cpp in Sources */,
+				F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */,
 				F5ADB6261E67075400FFC941 /* TestInterface.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F50427A91E4D226C001CB148 /* LocalStackVariable.cpp in Sources */,
@@ -1184,6 +1192,7 @@
 				F531B6571E0DE040008304F3 /* TestStringConstant.cpp in Sources */,
 				F57411661E01BF18009809FF /* TestScope.cpp in Sources */,
 				F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
+				F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
 				F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */,
 				F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
@@ -1313,6 +1322,7 @@
 				F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */,
 				F50FA2FF1E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F531B6481E0A4F76008304F3 /* Assignment.cpp in Sources */,
+				F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */,
 				F50FA2E71E2E3B0900435EEA /* IntConstant.cpp in Sources */,
 				F50FA2E61E2E3B0900435EEA /* FloatConstant.cpp in Sources */,
 				F5F396DB1E34BFE000F34296 /* ModelBuilderArgument.cpp in Sources */,

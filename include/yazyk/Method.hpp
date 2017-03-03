@@ -29,11 +29,25 @@ public:
   
   ~Method() { mArguments.clear(); }
   
+  /**
+   * Returns the method's name
+   */
   std::string getName() const { return mName; }
   
+  /**
+   * Returns method's return type
+   */
   IType* getReturnType() const { return mReturnType; }
   
+  /**
+   * Returns an array of method arguments
+   */
   std::vector<MethodArgument*> getArguments() { return mArguments; }
+  
+  /**
+   * Tells whether the two methods are equal in terms of their name, return type and arguments
+   */
+  bool equals(Method* method) const;
 };
 
 } /* namespace yazyk */
