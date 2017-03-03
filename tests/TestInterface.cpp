@@ -13,6 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/LLVMContext.h>
 
+#include "TestFileSampleRunner.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -54,4 +55,18 @@ TEST_F(InterfaceTest, TestInterfaceInstantiation) {
 TEST_F(InterfaceTest, TestFindMethod) {
   EXPECT_EQ(mInterface->findMethod("foo"), mMethod);
   EXPECT_EQ(mInterface->findMethod("bar"), nullptr);
+}
+
+TEST_F(TestFileSampleRunner, InterfaceMethodNotImplmentedDeathTest) {
+  expectFailIRGeneration("tests/samples/test_interface_method_not_implmented.yz",
+                         1,
+                         "Error: Method 'getArea' of interface 'IShape' is not "
+                         "implemented by model 'MSquare'");
+}
+
+TEST_F(TestFileSampleRunner, InterfaceMethodDifferentArgumentTypesDeathTest) {
+  expectFailIRGeneration("tests/samples/test_interface_method_arguments_dont_match.yz",
+                         1,
+                         "Error: Method 'getArea' of interface 'IShape' has different "
+                         "argument types when implmeneted by model 'MSquare'");
 }

@@ -1,0 +1,11 @@
+interface IShape {
+  int getArea();
+}
+
+model MSquare implements IShape {
+  int mWidth;
+
+  public int getColor() {
+    return 5;
+  }
+}

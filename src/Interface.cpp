@@ -9,6 +9,7 @@
 #include "yazyk/Cast.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/Log.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -45,7 +46,19 @@ void Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                                              vector<Constant*>& vtableArray,
                                              int interfaceIndex,
                                              Method* method) const {
+  Method* modelMethod = model->findMethod(method->getName());
+  if (modelMethod == NULL) {
+    Log::e("Method '" + method->getName() + "' of interface '" + mName +
+           "' is not implemented by model '" + model->getName() + "'");
+    exit(1);
+  }
   
+  if (!modelMethod->equals(method)) {
+    Log::e("Method '" + method->getName() + "' of interface '" + mName +
+           "' has different argument types when implmeneted by model '"
+           + model->getName() + "'");
+    exit(1);
+  }
 }
 
 string Interface::getName() const {
