@@ -67,13 +67,20 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
   
+  if (modelMethod->getReturnType() != method->getReturnType()) {
+    Log::e("Method '" + method->getName() + "' of interface '" + mName +
+           "' has different return type when implmeneted by model '"
+           + model->getName() + "'");
+    exit(1);
+  }
+  
   if (!modelMethod->equals(method)) {
     Log::e("Method '" + method->getName() + "' of interface '" + mName +
            "' has different argument types when implmeneted by model '"
            + model->getName() + "'");
     exit(1);
   }
-  
+
   if (interfaceIndex == 0) {
     return modelFunction;
   }

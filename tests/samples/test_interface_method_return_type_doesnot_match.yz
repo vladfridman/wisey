@@ -1,0 +1,11 @@
+interface IShape {
+  int getArea(float a);
+}
+
+model MSquare implements IShape {
+  int mWidth;
+
+  public float getArea(int a) {
+    return 5.0;
+  }
+}
