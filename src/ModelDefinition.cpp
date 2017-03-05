@@ -53,10 +53,7 @@ void ModelDefinition::processFields(IRGenerationContext& context,
                                     int index) const {
   LLVMContext& llvmContext = context.getLLVMContext();
 
-  for (vector<ModelFieldDeclaration *>::iterator iterator = mFields.begin();
-       iterator != mFields.end();
-       iterator++, index++) {
-    ModelFieldDeclaration *field = *iterator;
+  for (ModelFieldDeclaration* field : mFields) {
     IType* fieldType = field->getTypeSpecifier().getType(context);
     
     ModelField* modelField = new ModelField(fieldType, index);
@@ -64,6 +61,7 @@ void ModelDefinition::processFields(IRGenerationContext& context,
     types.push_back(fieldType->getLLVMType(llvmContext));
     ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(field->getName(), NULL, model);
     context.getScopes().setVariable(fieldVariable);
+    index++;
   }
 }
 
@@ -72,10 +70,7 @@ map<string, Function*> ModelDefinition::processMethods(IRGenerationContext& cont
                                                        map<string, Method*>* methods) const {
   map<string, Function*> methodFunctionMap;
   
-  for (vector<MethodDeclaration *>::iterator iterator = mMethods.begin();
-       iterator != mMethods.end();
-       iterator++) {
-    MethodDeclaration* methodDeclaration = *iterator;
+  for (MethodDeclaration* methodDeclaration : mMethods) {
     Method* method = methodDeclaration->getMethod(context);
     (*methods)[method->getName()] = method;
     Function* function = methodDeclaration->generateIR(context, model);
@@ -87,10 +82,8 @@ map<string, Function*> ModelDefinition::processMethods(IRGenerationContext& cont
 std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& context,
                                                            vector<Type*>& types) const {
   vector<Interface*> interfaces;
-  for (std::vector<std::string>::iterator iterator = mInterfaces.begin();
-       iterator != mInterfaces.end();
-       iterator++) {
-    Interface* interface = context.getInterface(*iterator);
+  for (string interfaceName : mInterfaces) {
+    Interface* interface = context.getInterface(interfaceName);
     types.push_back(interface->getLLVMType(context.getLLVMContext()));
     interfaces.push_back(interface);
   }
@@ -103,15 +96,13 @@ void ModelDefinition::processInterfaceMethods(IRGenerationContext& context,
                                               map<string, Function*>& methodFunctionMap) const {
   vector<Constant*> vTableArray;
   int index = 0;
-  for (vector<Interface*>::iterator iterator = interfaces.begin();
-       iterator != interfaces.end();
-       iterator++, index++) {
-    Interface* interface = *iterator;
+  for (Interface* interface : interfaces) {
     vector<Constant*> vTablePortion =
       interface->generateMapFunctionsIR(context, model, methodFunctionMap, index);
     for (Constant* vTableEntry : vTablePortion) {
       vTableArray.push_back(vTableEntry);
     }
+    index++;
   }
 
   ArrayRef<Constant*> arrayRef(vTableArray);

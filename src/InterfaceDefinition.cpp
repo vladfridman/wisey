@@ -26,10 +26,7 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   types.push_back(vtableType);
   structType->setBody(types);
   
-  for (vector<MethodSignature *>::iterator iterator = mMethods.begin();
-       iterator != mMethods.end();
-       iterator++) {
-    MethodSignature* methodSignature = *iterator;
+  for (MethodSignature* methodSignature : mMethods) {
     Method* method = methodSignature->getMethod(context);
     (*methods)[method->getName()] = method;
   }

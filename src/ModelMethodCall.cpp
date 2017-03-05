@@ -31,11 +31,9 @@ Value* ModelMethodCall::generateIR(IRGenerationContext& context) const {
   arguments.push_back(mExpression.generateIR(context));
   vector<MethodArgument*> methodArguments = method->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
-  for (ExpressionList::const_iterator callArgumentIterator = mArguments.begin();
-       callArgumentIterator != mArguments.end();
-       callArgumentIterator++) {
-    Value* callArgumentValue = (**callArgumentIterator).generateIR(context);
-    IType* callArgumentType = (**callArgumentIterator).getType(context);
+  for (IExpression* callArgument : mArguments) {
+    Value* callArgumentValue = callArgument->generateIR(context);
+    IType* callArgumentType = callArgument->getType(context);
     MethodArgument* methodArgument = *methodArgumentIterator;
     IType* methodArgumentType = methodArgument->getType();
     Value* callArgumentValueCasted = AutoCast::maybeCast(context,
@@ -87,10 +85,7 @@ void ModelMethodCall::checkArgumentType(Model* model,
     exit(1);
   }
   
-  for (vector<MethodArgument*>::iterator iterator = methodArguments.begin();
-       iterator != methodArguments.end();
-       iterator++) {
-    MethodArgument* methodArgument = *iterator;
+  for (MethodArgument* methodArgument : methodArguments) {
     IType* methodArgumentType = methodArgument->getType();
     IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     

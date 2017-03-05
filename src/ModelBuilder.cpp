@@ -41,10 +41,7 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
 
   Value *Idx[2];
   Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();
-       iterator != mModelBuilderArgumentList->end();
-       iterator++) {
-    ModelBuilderArgument* argument = *iterator;
+  for (ModelBuilderArgument* argument : *mModelBuilderArgumentList) {
     string fieldName = argument->deriveFieldName();
     Value* fieldValue = argument->getValue(context);
     ModelField* modelField = model->findField(fieldName);
@@ -72,10 +69,7 @@ void ModelBuilder::checkArguments(Model* model) const {
 void ModelBuilder::checkArgumentsAreWellFormed(Model* model) const {
   bool areArgumentsWellFormed = true;
   
-  for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();
-       iterator != mModelBuilderArgumentList->end();
-       iterator++) {
-    ModelBuilderArgument* argument = *iterator;
+  for (ModelBuilderArgument* argument : *mModelBuilderArgumentList) {
     areArgumentsWellFormed &= argument->checkArgument(model);
   }
   
@@ -87,10 +81,7 @@ void ModelBuilder::checkArgumentsAreWellFormed(Model* model) const {
 
 void ModelBuilder::checkAllFieldsAreSet(Model* model) const {
   set<string> allFieldsThatAreSet;
-  for (vector<ModelBuilderArgument*>::iterator iterator = mModelBuilderArgumentList->begin();
-       iterator != mModelBuilderArgumentList->end();
-       iterator++) {
-    ModelBuilderArgument* argument = *iterator;
+  for (ModelBuilderArgument* argument : *mModelBuilderArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
   }
   
@@ -99,10 +90,8 @@ void ModelBuilder::checkAllFieldsAreSet(Model* model) const {
     return;
   }
   
-  for (vector<string>::iterator iterator = missingFields.begin();
-       iterator != missingFields.end();
-       iterator++) {
-    Log::e("Field '" + *iterator + "' is not initialized");
+  for (string missingField : missingFields) {
+    Log::e("Field '" + missingField + "' is not initialized");
   }
   Log::e("Some fields of the model '" + model->getName() + "' are not initialized.");
   exit(1);

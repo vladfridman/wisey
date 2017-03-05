@@ -18,8 +18,8 @@ IVariable* Scopes::getVariable(string name) {
     return NULL;
   }
   
-  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
-    IVariable* variable = (*iterator)->findVariable(name);
+  for (Scope* scope : mScopes) {
+    IVariable* variable = scope->findVariable(name);
     if (variable != NULL) {
       return variable;
     }
@@ -35,10 +35,10 @@ void Scopes::clearVariable(string name) {
     return;
   }
   
-  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
-    IVariable* variable = (*iterator)->findVariable(name);
+  for (Scope* scope : mScopes) {
+    IVariable* variable = scope->findVariable(name);
     if (variable != NULL) {
-      (*iterator)->clearVariable(name);
+      scope->clearVariable(name);
       return;
     }
   }
@@ -80,8 +80,8 @@ BasicBlock* Scopes::getBreakToBlock() {
     return NULL;
   }
   
-  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
-    BasicBlock* block= (*iterator)->getBreakToBlock();
+  for (Scope* scope : mScopes) {
+    BasicBlock* block= scope->getBreakToBlock();
     if (block != NULL) {
       return block;
     }
@@ -99,8 +99,8 @@ BasicBlock* Scopes::getContinueToBlock() {
     return NULL;
   }
  
-  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
-    BasicBlock* block = (*iterator)->getContinueToBlock();
+  for (Scope* scope : mScopes) {
+    BasicBlock* block = scope->getContinueToBlock();
     if (block != NULL) {
       return block;
     }
@@ -118,8 +118,8 @@ IType* Scopes::getReturnType() {
     return NULL;
   }
   
-  for(list<Scope *>::iterator iterator = mScopes.begin(); iterator != mScopes.end(); iterator++) {
-    IType* returnType = (*iterator)->getReturnType();
+  for (Scope* scope : mScopes) {
+    IType* returnType = scope->getReturnType();
     if (returnType != NULL) {
       return returnType;
     }
