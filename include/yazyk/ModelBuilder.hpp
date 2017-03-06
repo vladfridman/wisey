@@ -53,6 +53,10 @@ private:
   void initializeFields(IRGenerationContext& context,
                         Model* model,
                         llvm::Instruction* malloc) const;
+  
+  void initializeVTable(IRGenerationContext& context,
+                        Model* model,
+                        llvm::Instruction* malloc) const;
 };
   
 } /* namespace yazyk */

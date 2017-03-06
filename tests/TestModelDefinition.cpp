@@ -112,13 +112,11 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
   GlobalVariable* vTablePointer = mContext.getModule()->getGlobalVariable("model.mymodel.vtable");
   
   EXPECT_NE(vTablePointer, nullptr);
-  ASSERT_TRUE(vTablePointer->getType()->getPointerElementType()->isArrayTy());
-  EXPECT_EQ(vTablePointer->getType()->getPointerElementType()->getArrayNumElements(), 1u);
+  ASSERT_TRUE(vTablePointer->getType()->getPointerElementType()->isStructTy());
+  EXPECT_EQ(vTablePointer->getType()->getPointerElementType()->getStructNumElements(), 1u);
   Constant* vTableInitializer = vTablePointer->getInitializer();
-  ASSERT_TRUE(vTableInitializer->getType()->isArrayTy());
-  EXPECT_EQ(vTableInitializer->getType()->getArrayNumElements(), 1u);
-  ArrayRef<Constant*> arrayRef = (ArrayRef<Constant*>) vTablePointer;
-  ASSERT_EQ(arrayRef.size(), 1u);
+  ASSERT_TRUE(vTableInitializer->getType()->isStructTy());
+  EXPECT_EQ(vTableInitializer->getType()->getStructNumElements(), 1u);
 }
 
 TEST_F(ModelDefinitionTest, InterfaceNotDefinedDeathTest) {

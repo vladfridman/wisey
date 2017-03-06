@@ -94,26 +94,31 @@ void ModelDefinition::processInterfaceMethods(IRGenerationContext& context,
                                               Model* model,
                                               vector<Interface*> interfaces,
                                               map<string, Function*>& methodFunctionMap) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
   vector<Constant*> vTableArray;
+  vector<Type*> vTableTypes;
   int index = 0;
   for (Interface* interface : interfaces) {
     vector<Constant*> vTablePortion =
       interface->generateMapFunctionsIR(context, model, methodFunctionMap, index);
-    for (Constant* vTableEntry : vTablePortion) {
-      vTableArray.push_back(vTableEntry);
-    }
+    ArrayRef<Constant*> arrayRef(vTablePortion);
+    Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+    ArrayType* arrayType = ArrayType::get(pointerType, vTablePortion.size());
+    Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
+
+    vTableArray.push_back(constantArray);
+    vTableTypes.push_back(arrayType);
     index++;
   }
 
-  ArrayRef<Constant*> arrayRef(vTableArray);
-  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  ArrayType* arrayType = ArrayType::get(pointerType, vTableArray.size());
-  Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
+  StructType* structType = StructType::get(llvmContext, vTableTypes);
+  Constant* constantStruct = ConstantStruct::get(structType, vTableArray);
   
   new GlobalVariable(*context.getModule(),
-                     arrayType,
+                     structType,
                      true,
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                     constantArray,
+                     constantStruct,
                      model->getVTableName());
 }

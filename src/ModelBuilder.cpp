@@ -51,6 +51,12 @@ Instruction* ModelBuilder::createMalloc(IRGenerationContext& context, Model* mod
   return malloc;
 }
 
+void ModelBuilder::initializeVTable(IRGenerationContext& context,
+                                    Model* model,
+                                    Instruction* malloc) const {
+  
+}
+
 void ModelBuilder::initializeFields(IRGenerationContext& context,
                                     Model* model,
                                     Instruction* malloc) const {
