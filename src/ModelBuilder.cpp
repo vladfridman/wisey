@@ -21,7 +21,17 @@ using namespace yazyk;
 Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   
   Model* model = context.getModel(mModelTypeSpecifier.getName());
+  
   checkArguments(model);
+  
+  Instruction* malloc = createMalloc(context, model);
+
+  initializeFields(context, model, malloc);
+  
+  return malloc;
+}
+
+Instruction* ModelBuilder::createMalloc(IRGenerationContext& context, Model* model) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* pointerType = Type::getInt32Ty(llvmContext);
@@ -36,8 +46,17 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
                                                nullptr,
                                                nullptr,
                                                "buildervar");
-  
   context.getBasicBlock()->getInstList().push_back(malloc);
+
+  return malloc;
+}
+
+void ModelBuilder::initializeFields(IRGenerationContext& context,
+                                    Model* model,
+                                    Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  IType* yazykType = mModelTypeSpecifier.getType(context);
+  Type* structType = yazykType->getLLVMType(llvmContext)->getPointerElementType();
 
   Value *Idx[2];
   Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
@@ -47,7 +66,7 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
     ModelField* modelField = model->findField(fieldName);
     Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), modelField->getIndex());
     GetElementPtrInst* fieldPointer =
-      GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
     if (modelField->getType()->getLLVMType(llvmContext) != fieldValue->getType()) {
       Log::e("Model builder argumet value for field '" + fieldName + "' does not match its type");
       exit(1);
@@ -57,8 +76,6 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   
   LocalHeapVariable* heapVariable = new LocalHeapVariable(malloc->getName(), model, malloc);
   context.getScopes().setVariable(heapVariable);
-
-  return malloc;
 }
 
 void ModelBuilder::checkArguments(Model* model) const {

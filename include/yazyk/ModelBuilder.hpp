@@ -47,6 +47,12 @@ private:
   void checkArgumentsAreWellFormed(Model* model) const;
   
   void checkAllFieldsAreSet(Model* model) const;
+  
+  llvm::Instruction* createMalloc(IRGenerationContext& context, Model* model) const;
+  
+  void initializeFields(IRGenerationContext& context,
+                        Model* model,
+                        llvm::Instruction* malloc) const;
 };
   
 } /* namespace yazyk */
