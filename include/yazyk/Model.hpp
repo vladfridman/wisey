@@ -53,6 +53,11 @@ public:
    */
   Method* findMethod(std::string methodName) const;
 
+  /**
+   * Returns the name of the vTable global varaible
+   */
+  std::string getVTableName() const;
+  
   std::string getName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;

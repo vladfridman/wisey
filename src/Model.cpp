@@ -53,6 +53,10 @@ Method* Model::findMethod(std::string methodName) const {
   return mMethods->at(methodName);
 }
 
+string Model::getVTableName() const {
+  return "model." + getName() + ".vtable";
+}
+
 string Model::getName() const {
   return mName;
 }

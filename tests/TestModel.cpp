@@ -54,6 +54,7 @@ struct ModelTest : public Test {
 
 TEST_F(ModelTest, TestModelInstantiation) {
   EXPECT_STREQ(mModel->getName().c_str(), "Shape");
+  EXPECT_STREQ(mModel->getVTableName().c_str(), "model.Shape.vtable");
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
 }

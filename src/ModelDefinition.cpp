@@ -110,11 +110,10 @@ void ModelDefinition::processInterfaceMethods(IRGenerationContext& context,
   ArrayType* arrayType = ArrayType::get(pointerType, vTableArray.size());
   Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
   
-  string name = "model." + model->getName() + ".vtable";
   new GlobalVariable(*context.getModule(),
                      arrayType,
                      true,
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      constantArray,
-                     name);
+                     model->getVTableName());
 }
