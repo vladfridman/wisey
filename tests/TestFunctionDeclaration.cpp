@@ -60,12 +60,11 @@ struct FunctionDeclarationTest : Test {
 
 TEST_F(FunctionDeclarationTest, MethodFooDeclartaionTest) {
   mArguments.push_back(&mIntArgument);
-  MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
-                                      mFloatTypeSpecifier,
-                                      "foo",
-                                      mArguments,
-                                      mCompoundStatement);
-  FunctionDeclaration functionDeclaration(&methodDeclaration);
+  FunctionDeclaration functionDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
+                                          mFloatTypeSpecifier,
+                                          "foo",
+                                          mArguments,
+                                          mCompoundStatement);
   Value* method = functionDeclaration.generateIR(mContext);
   
   *mStringStream << *method;
@@ -83,12 +82,11 @@ TEST_F(FunctionDeclarationTest, MethodFooDeclartaionTest) {
 
 TEST_F(FunctionDeclarationTest, MethodMainDeclartaionTest) {
   mArguments.push_back(&mFloatArgument);
-  MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
-                                      mIntTypeSpecifier,
-                                      "main",
-                                      mArguments,
-                                      mCompoundStatement);
-  FunctionDeclaration functionDeclaration(&methodDeclaration);
+  FunctionDeclaration functionDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
+                                          mIntTypeSpecifier,
+                                          "main",
+                                          mArguments,
+                                          mCompoundStatement);
   Value* method = functionDeclaration.generateIR(mContext);
   
   *mStringStream << *method;

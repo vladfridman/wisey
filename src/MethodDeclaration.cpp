@@ -29,9 +29,7 @@ Function* MethodDeclaration::generateIR(IRGenerationContext& context, Model* mod
   if (strcmp(mMethodName.c_str(), "main") == 0) {
     context.setMainFunction(function);
   }
-  if (model == NULL) {
-    context.addGlobalFunction(returnType, mMethodName);
-  }
+  context.addGlobalFunction(returnType, mMethodName);
 
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   context.setBasicBlock(bblock);
@@ -47,13 +45,10 @@ Function* MethodDeclaration::generateIR(IRGenerationContext& context, Model* mod
   return function;
 }
 
-Function* MethodDeclaration::createFunction(IRGenerationContext& context,
-                                            Model* model = NULL) const {
+Function* MethodDeclaration::createFunction(IRGenerationContext& context, Model* model) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
-  if (model != NULL) {
-    argumentTypes.push_back(model->getLLVMType(llvmContext));
-  }
+  argumentTypes.push_back(model->getLLVMType(llvmContext));
   for (VariableList::const_iterator iterator = mArguments.begin();
        iterator != mArguments.end();
        iterator++) {
@@ -77,11 +72,9 @@ void MethodDeclaration::createArguments(IRGenerationContext& context,
                                         Function* function,
                                         Model* model) const {
   Function::arg_iterator arguments = function->arg_begin();
-  if (model != NULL) {
-    llvm::Argument *argument = &*arguments;
-    argument->setName("this");
-    arguments++;
-  }
+  llvm::Argument *argument = &*arguments;
+  argument->setName("this");
+  arguments++;
   for (VariableList::const_iterator iterator = mArguments.begin();
        iterator != mArguments.end();
        iterator++) {
@@ -91,10 +84,8 @@ void MethodDeclaration::createArguments(IRGenerationContext& context,
   }
   
   arguments = function->arg_begin();
-  if (model != NULL) {
-    storeArgumentValue(context, "this", model, &*arguments);
-    arguments++;
-  }
+  storeArgumentValue(context, "this", model, &*arguments);
+  arguments++;
   for (VariableList::const_iterator iterator = mArguments.begin();
        iterator != mArguments.end();
        iterator++) {

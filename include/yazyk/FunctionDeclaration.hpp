@@ -9,8 +9,14 @@
 #ifndef FunctionDeclaration_h
 #define FunctionDeclaration_h
 
+#include "yazyk/AccessSpecifiers.hpp"
+#include "yazyk/CompoundStatement.hpp"
+#include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"
-#include "yazyk/MethodDeclaration.hpp"
+#include "yazyk/ITypeSpecifier.hpp"
+#include "yazyk/Method.hpp"
+#include "yazyk/Model.hpp"
+#include "yazyk/VariableDeclaration.hpp"
 
 namespace yazyk {
 
@@ -20,14 +26,39 @@ namespace yazyk {
  * TODO: remove this class when global functions are removed
  */
 class FunctionDeclaration : public IStatement {
-  MethodDeclaration* mMethodDeclaration;
+  const AccessSpecifier mAccessSpecifier;
+  const ITypeSpecifier& mReturnTypeSpecifier;
+  std::string mMethodName;
+  VariableList mArguments;
+  CompoundStatement& mCompoundStatement;
   
 public:
   
-  FunctionDeclaration(MethodDeclaration* methodDeclaration)
-    : mMethodDeclaration(methodDeclaration) { }
-  
+  FunctionDeclaration(const AccessSpecifier& accessSpecifier,
+                      const ITypeSpecifier& returnTypeSpecifier,
+                      std::string methodName,
+                      const VariableList& arguments,
+                      CompoundStatement& compoundStatement) :
+  mAccessSpecifier(accessSpecifier),
+  mReturnTypeSpecifier(returnTypeSpecifier),
+  mMethodName(methodName),
+  mArguments(arguments),
+  mCompoundStatement(compoundStatement) { }
+    
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+
+private:
+  
+  llvm::Function* createFunction(IRGenerationContext& context) const;
+  
+  void createArguments(IRGenerationContext& context, llvm::Function* function) const;
+  
+  void addImpliedVoidReturn(IRGenerationContext& context) const;
+  
+  void storeArgumentValue(IRGenerationContext& context,
+                          std::string variableName,
+                          IType* variableType,
+                          llvm::Value* variableValue) const;
 };
   
 } /* namespace yazyk */
