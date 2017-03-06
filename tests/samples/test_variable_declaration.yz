@@ -1,4 +1,4 @@
-public int main() {
+int main() {
   int a = 5;
   return a;
 }

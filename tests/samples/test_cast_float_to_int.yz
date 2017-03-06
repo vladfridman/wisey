@@ -1,4 +1,4 @@
-public int main() {
+int main() {
   float f = 3.6;
 
   return (int) f;

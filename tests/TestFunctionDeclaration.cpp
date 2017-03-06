@@ -15,7 +15,6 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/FunctionDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -60,8 +59,7 @@ struct FunctionDeclarationTest : Test {
 
 TEST_F(FunctionDeclarationTest, MethodFooDeclartaionTest) {
   mArguments.push_back(&mIntArgument);
-  FunctionDeclaration functionDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
-                                          mFloatTypeSpecifier,
+  FunctionDeclaration functionDeclaration(mFloatTypeSpecifier,
                                           "foo",
                                           mArguments,
                                           mCompoundStatement);
@@ -82,8 +80,7 @@ TEST_F(FunctionDeclarationTest, MethodFooDeclartaionTest) {
 
 TEST_F(FunctionDeclarationTest, MethodMainDeclartaionTest) {
   mArguments.push_back(&mFloatArgument);
-  FunctionDeclaration functionDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
-                                          mIntTypeSpecifier,
+  FunctionDeclaration functionDeclaration(mIntTypeSpecifier,
                                           "main",
                                           mArguments,
                                           mCompoundStatement);

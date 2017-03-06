@@ -6,7 +6,7 @@ model MColor {
   }
 }
 
-public int main() {
+int main() {
   MColor color;
 
   return color.getValue();

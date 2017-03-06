@@ -18,7 +18,7 @@ model MShape {
   }
 }
 
-public int main() {
+int main() {
   MShape rectangle = builder(MShape)
     .withWidth(3)
     .withHeight(5l)

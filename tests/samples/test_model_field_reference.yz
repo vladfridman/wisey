@@ -2,7 +2,7 @@ model MShape {
   int mValue;
 }
 
-public int main() {
+int main() {
   MShape shape = builder(MShape).withValue(3).build();
 
   return shape.mValue;

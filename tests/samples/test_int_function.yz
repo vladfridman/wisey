@@ -1,7 +1,7 @@
-public int foo(int x) {
+int foo(int x) {
   return x;
 }
 
-public int main() {
+int main() {
   return foo(10);
 }

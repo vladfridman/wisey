@@ -26,7 +26,6 @@ namespace yazyk {
  * TODO: remove this class when global functions are removed
  */
 class FunctionDeclaration : public IStatement {
-  const AccessSpecifier mAccessSpecifier;
   const ITypeSpecifier& mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
@@ -34,12 +33,10 @@ class FunctionDeclaration : public IStatement {
   
 public:
   
-  FunctionDeclaration(const AccessSpecifier& accessSpecifier,
-                      const ITypeSpecifier& returnTypeSpecifier,
+  FunctionDeclaration(const ITypeSpecifier& returnTypeSpecifier,
                       std::string methodName,
                       const VariableList& arguments,
                       CompoundStatement& compoundStatement) :
-  mAccessSpecifier(accessSpecifier),
   mReturnTypeSpecifier(returnTypeSpecifier),
   mMethodName(methodName),
   mArguments(arguments),

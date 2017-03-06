@@ -10,7 +10,7 @@ model MColor {
   }
 }
 
-public int main() {
+int main() {
   MColor color = builder(MColor).withValue(2).build();
 
   color.setValue(true);

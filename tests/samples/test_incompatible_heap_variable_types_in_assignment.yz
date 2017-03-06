@@ -7,7 +7,7 @@ model MShape {
   int mHeight;
 }
 
-public int main() {
+int main() {
   MColor color = builder(MShape).withWidth(1).withHeight(2).build();
   return 0;
 }

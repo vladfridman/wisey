@@ -2,7 +2,7 @@ model MColor {
   int mIntensity;
 }
 
-public int main() {
+int main() {
   MColor color = builder(MColor).withIntensity(2).build();
 
   return color.mWidth;

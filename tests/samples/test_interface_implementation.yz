@@ -29,7 +29,7 @@ model MSquare implements IShape, IObject, IClickable {
   }
 }
 
-public int main() {
+int main() {
   MSquare square = builder(MSquare).withWidth(5).build();
 
   return square.getArea();

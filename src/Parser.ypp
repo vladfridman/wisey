@@ -327,9 +327,8 @@ variable_declaration
   ;
 
 function_definition
-  : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
-      compound_statement
-    { $$ = new FunctionDeclaration($1, *$2, *$3, *$5, *$7); delete $5; }
+  : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' compound_statement
+    { $$ = new FunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
   ;
 
 method_definition

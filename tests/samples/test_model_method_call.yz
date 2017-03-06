@@ -6,7 +6,7 @@ model MColor {
   }
 }
 
-public int main() {
+int main() {
   MColor color = builder(MColor).withValue(5).build();
 
   return color.getValue();

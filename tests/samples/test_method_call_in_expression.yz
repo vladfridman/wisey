@@ -6,6 +6,6 @@ model MShape {
   }
 }
 
-public int main() {
+int main() {
   return builder(MShape).withSize(15).build().getSize() * 2;
 }

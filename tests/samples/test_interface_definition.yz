@@ -4,6 +4,6 @@ interface IShape {
   float getLength();
 }
 
-public int main() {
+int main() {
   return 0;
 }
