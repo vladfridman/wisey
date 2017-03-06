@@ -61,7 +61,8 @@ struct ObjectFieldVariableTest : Test {
     (*fields)["foo"] = widthField;
     (*fields)["bar"] = heightField;
     map<string, Method*>* methods = new map<string, Method*>();
-    mModel = new Model("Object", structType, fields, methods);
+    vector<Interface*> interfaces;
+    mModel = new Model("Object", structType, fields, methods, interfaces);
  
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

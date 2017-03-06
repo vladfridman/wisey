@@ -116,7 +116,8 @@ TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
   (*fields)["fieldA"] = fieldA;
   (*fields)["fieldB"] = fieldB;
   map<string, Method*>* methods = new map<string, Method*>();
-  Model* model = new Model("model", structType, fields, methods);
+  vector<Interface*> interfaces;
+  Model* model = new Model("model", structType, fields, methods, interfaces);
 
   mContext.addModel(model);
   VariableDeclaration declaration(typeSpecifier, identifier);

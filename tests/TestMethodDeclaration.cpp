@@ -63,7 +63,8 @@ struct MethodDeclarationTest : Test {
       (*fields)["foo"] = widthField;
       (*fields)["bar"] = heightField;
       map<string, Method*>* methods = new map<string, Method*>();
-      mModel = new Model("Object", structType, fields, methods);
+      vector<Interface*> interfaces;
+      mModel = new Model("Object", structType, fields, methods, interfaces);
       
       mStringStream = new raw_string_ostream(mStringBuffer);
   }

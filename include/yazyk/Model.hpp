@@ -19,6 +19,8 @@
 
 namespace yazyk {
 
+class Interface;
+  
 /**
  * Contains information about a MODEL including the llvm::StructType and field information
  */
@@ -27,14 +29,20 @@ class Model : public IType {
   llvm::StructType* mStructType;
   std::map<std::string, ModelField*>* mFields;
   std::map<std::string, Method*>* mMethods;
+  std::vector<Interface*> mInterfaces;
   
 public:
   
   Model(std::string name,
         llvm::StructType* structType,
         std::map<std::string, ModelField*>* fields,
-        std::map<std::string, Method*>* methods) :
-    mName(name), mStructType(structType), mFields(fields), mMethods(methods) {}
+        std::map<std::string, Method*>* methods,
+        std::vector<Interface*> interfaces) :
+  mName(name),
+  mStructType(structType),
+  mFields(fields),
+  mMethods(methods),
+  mInterfaces(interfaces) {}
   
   ~Model();
   

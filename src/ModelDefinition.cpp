@@ -29,18 +29,19 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
 
   map<string, ModelField*>* fields = new map<string, ModelField*>();
   map<string, Method*>* methods = new map<string, Method*>();
-  Model* model = new Model(mName, structType, fields, methods);
-  context.getScopes().pushScope();
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
+  Model* model = new Model(mName, structType, fields, methods, interfaces);
+
+  context.getScopes().pushScope();
+
   processFields(context, model, fields, types, (int) interfaces.size());
   structType->setBody(types);
   map<string, Function*> methodFunctionMap = processMethods(context, model, methods);
   processInterfaceMethods(context, model, interfaces, methodFunctionMap);
-  
+
   context.addModel(model);
-  
   context.getScopes().popScope(context.getBasicBlock());
 
   return NULL;

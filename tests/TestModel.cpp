@@ -46,7 +46,8 @@ struct ModelTest : public Test {
     mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
     map<string, Method*>* methods = new map<string, Method*>();
     (*methods)["foo"] = mMethod;
-    mModel = new Model("Shape", mStructType, fields, methods);
+    vector<Interface*> interfaces;
+    mModel = new Model("Shape", mStructType, fields, methods, interfaces);
   }
   
   ~ModelTest() { }

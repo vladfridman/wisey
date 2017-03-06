@@ -74,8 +74,9 @@ public:
     mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
     map<string, Method*>* methods = new map<string, Method*>();
     (*methods)["foo"] = mMethod;
-    (*methods)["bar"] = new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments);;
-    mModel = new Model("Square", mStructType, fields, methods);
+    (*methods)["bar"] = new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments);
+    vector<Interface*> interfaces;
+    mModel = new Model("Square", mStructType, fields, methods, interfaces);
 
     mBasicBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
     mContext.setBasicBlock(mBasicBlock);
