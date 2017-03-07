@@ -24,6 +24,8 @@ using ::testing::Test;
 
 struct ModelTest : public Test {
   Model* mModel;
+  Model* mCircleModel;
+  Interface* mInterface;
   Method* mMethod;
   StructType* mStructType;
   ModelField* mWidthField;
@@ -35,7 +37,7 @@ struct ModelTest : public Test {
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
-    mStructType = StructType::create(mLLVMContext, "Shape");
+    mStructType = StructType::create(mLLVMContext, "Square");
     mStructType->setBody(types);
     map<string, ModelField*>* fields = new map<string, ModelField*>();
     mWidthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
@@ -46,19 +48,42 @@ struct ModelTest : public Test {
     mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
     map<string, Method*>* methods = new map<string, Method*>();
     (*methods)["foo"] = mMethod;
+    
+    vector<Type*> interfaceTypes;
+    StructType* interfaceStructType = StructType::create(mLLVMContext, "Shape");
+    interfaceStructType->setBody(interfaceTypes);
+    vector<MethodArgument*> interfaceMethodArguments;
+    Method* interfaceMethod = new Method("foo", PrimitiveTypes::INT_TYPE, interfaceMethodArguments);
+    map<string, Method*>* interfaceMethods = new map<string, Method*>();
+    (*interfaceMethods)["foo"] = interfaceMethod;
+    mInterface = new Interface("Shape", interfaceStructType, interfaceMethods);
+   
     vector<Interface*> interfaces;
-    mModel = new Model("Shape", mStructType, fields, methods, interfaces);
-  }
+    interfaces.push_back(mInterface);
+    mModel = new Model("Square", mStructType, fields, methods, interfaces);
+
+    StructType* circleStructType = StructType::create(mLLVMContext, "Circle");
+    vector<Type*> circleTypes;
+    circleStructType->setBody(circleTypes);
+    map<string, Method*>* circleMethods = new map<string, Method*>();
+    map<string, ModelField*>* circleFields = new map<string, ModelField*>();
+    vector<Interface*> circleInterfaces;
+    mCircleModel = new Model("Circle",
+                             circleStructType,
+                             circleFields,
+                             circleMethods,
+                             circleInterfaces);
+}
   
   ~ModelTest() { }
 };
 
 TEST_F(ModelTest, TestModelInstantiation) {
-  EXPECT_STREQ(mModel->getName().c_str(), "Shape");
-  EXPECT_STREQ(mModel->getVTableName().c_str(), "model.Shape.vtable");
+  EXPECT_STREQ(mModel->getName().c_str(), "Square");
+  EXPECT_STREQ(mModel->getVTableName().c_str(), "model.Square.vtable");
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
-  EXPECT_EQ(mModel->getInterfaces().size(), 0u);
+  EXPECT_EQ(mModel->getInterfaces().size(), 1u);
 }
 
 TEST_F(ModelTest, TestFindFeild) {
@@ -84,18 +109,26 @@ TEST_F(ModelTest, TestGetMissingFields) {
 
 TEST_F(ModelTest, CanCastToTest) {
   EXPECT_FALSE(mModel->canCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->canCastTo(mCircleModel));
   EXPECT_TRUE(mModel->canCastTo(mModel));
+  EXPECT_TRUE(mModel->canCastTo(mInterface));
 }
 
 TEST_F(ModelTest, CanCastLosslessToTest) {
   EXPECT_FALSE(mModel->canCastLosslessTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->canCastLosslessTo(mCircleModel));
   EXPECT_TRUE(mModel->canCastLosslessTo(mModel));
+  EXPECT_TRUE(mModel->canCastLosslessTo(mInterface));
 }
 
-TEST_F(ModelTest, CastToTest) {
+TEST_F(ModelTest, CastTest) {
+  
+}
+
+TEST_F(ModelTest, CastToDeathTest) {
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
   EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'Shape' to 'int'");
+              "Error: Incopatible types: can not cast from type 'Square' to 'int'");
 }
