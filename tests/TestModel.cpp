@@ -39,11 +39,11 @@ struct ModelTest : public Test {
     types.push_back(Type::getInt32Ty(mLLVMContext));
     mStructType = StructType::create(mLLVMContext, "Square");
     mStructType->setBody(types);
-    map<string, ModelField*>* fields = new map<string, ModelField*>();
+    map<string, ModelField*> fields;
     mWidthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
     mHeightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-    (*fields)["width"] = mWidthField;
-    (*fields)["height"] = mHeightField;
+    fields["width"] = mWidthField;
+    fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
     mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
     map<string, Method*>* methods = new map<string, Method*>();
@@ -66,7 +66,7 @@ struct ModelTest : public Test {
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
     map<string, Method*>* circleMethods = new map<string, Method*>();
-    map<string, ModelField*>* circleFields = new map<string, ModelField*>();
+    map<string, ModelField*> circleFields;
     vector<Interface*> circleInterfaces;
     mCircleModel = new Model("Circle",
                              circleStructType,

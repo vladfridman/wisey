@@ -106,9 +106,10 @@ TEST_F(AdditiveMultiplicativeExpressionTest, NonPrimitiveTypesDeathTest) {
   
   StructType* structType = StructType::create(mContext.getLLVMContext(), "Shape");
   vector<Interface*> interfaces;
+  map<string, ModelField*> fields;
   Model* model = new Model("Shape",
                            structType,
-                           new map<string, ModelField*>(),
+                           fields,
                            new map<string, Method*>(),
                            interfaces);
 

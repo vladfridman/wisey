@@ -55,11 +55,11 @@ struct ObjectFieldVariableTest : Test {
     types.push_back(Type::getInt32Ty(llvmContext));
     StructType* structType = StructType::create(llvmContext, "Object");
     structType->setBody(types);
-    map<string, ModelField*>* fields = new map<string, ModelField*>();
+    map<string, ModelField*> fields;
     ModelField* widthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
     ModelField* heightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-    (*fields)["foo"] = widthField;
-    (*fields)["bar"] = heightField;
+    fields["foo"] = widthField;
+    fields["bar"] = heightField;
     map<string, Method*>* methods = new map<string, Method*>();
     vector<Interface*> interfaces;
     mModel = new Model("Object", structType, fields, methods, interfaces);

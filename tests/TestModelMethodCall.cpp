@@ -63,11 +63,11 @@ public:
     types.push_back(Type::getInt32Ty(mLLVMContext));
     mStructType = StructType::create(mLLVMContext, "Square");
     mStructType->setBody(types);
-    map<string, ModelField*>* fields = new map<string, ModelField*>();
+    map<string, ModelField*> fields;
     mWidthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
     mHeightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-    (*fields)["width"] = mWidthField;
-    (*fields)["height"] = mHeightField;
+    fields["width"] = mWidthField;
+    fields["height"] = mHeightField;
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);

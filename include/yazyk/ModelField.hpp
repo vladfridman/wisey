@@ -18,15 +18,15 @@ namespace yazyk {
  */
 class ModelField {
   IType* mType;
-  int mIndex;
+  unsigned long mIndex;
 
 public:
   
-  ModelField(IType* type, int index) : mType(type), mIndex(index) { }
+  ModelField(IType* type, unsigned long index) : mType(type), mIndex(index) { }
   
   ~ModelField() { }
   
-  int getIndex() { return mIndex; }
+  unsigned long getIndex() { return mIndex; }
   
   IType* getType() const { return mType; }
 };

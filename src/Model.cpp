@@ -16,26 +16,25 @@ using namespace std;
 using namespace yazyk;
 
 Model::~Model() {
-  mFields->clear();
+  mFields.clear();
   mMethods->clear();
-
-  delete mFields;
+  
   delete mMethods;
 }
 
 ModelField* Model::findField(string fieldName) const {
-  if (!mFields->count(fieldName)) {
+  if (!mFields.count(fieldName)) {
     return NULL;
   }
   
-  return mFields->at(fieldName);
+  return mFields.at(fieldName);
 }
 
 vector<string> Model::getMissingFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (map<string, ModelField*>::iterator iterator = mFields->begin();
-       iterator != mFields->end();
+  for (map<string, ModelField*>::const_iterator iterator = mFields.begin();
+       iterator != mFields.end();
        iterator++) {
     string modelFieldName = iterator->first;
     if (givenFields.find(modelFieldName) == givenFields.end()) {

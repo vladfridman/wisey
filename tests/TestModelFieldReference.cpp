@@ -44,9 +44,9 @@ struct ModelFieldReferenceTest : public Test {
     types.push_back(Type::getInt32Ty(llvmContext));
     StructType* structType = StructType::create(llvmContext, "Shape");
     structType->setBody(types);
-    map<string, ModelField*>* fields = new map<string, ModelField*>();
-    (*fields)["width"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-    (*fields)["height"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
+    map<string, ModelField*> fields;
+    fields["width"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
+    fields["height"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
     map<string, Method*>* methods = new map<string, Method*>();
     vector<Interface*> interfaces;
     Model* model = new Model("Shape", structType, fields, methods, interfaces);

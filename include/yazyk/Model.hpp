@@ -27,7 +27,7 @@ class Interface;
 class Model : public IType {
   std::string mName;
   llvm::StructType* mStructType;
-  std::map<std::string, ModelField*>* mFields;
+  std::map<std::string, ModelField*> mFields;
   std::map<std::string, Method*>* mMethods;
   std::vector<Interface*> mInterfaces;
   
@@ -35,7 +35,7 @@ public:
   
   Model(std::string name,
         llvm::StructType* structType,
-        std::map<std::string, ModelField*>* fields,
+        std::map<std::string, ModelField*> fields,
         std::map<std::string, Method*>* methods,
         std::vector<Interface*> interfaces) :
   mName(name),

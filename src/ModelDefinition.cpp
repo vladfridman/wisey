@@ -19,24 +19,23 @@ using namespace std;
 using namespace yazyk;
 
 ModelDefinition::~ModelDefinition() {
-  mFields.clear();
-  mMethods.clear();
+  mFieldDeclarations.clear();
+  mMethodDeclarations.clear();
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   StructType *structType = StructType::create(llvmContext, "model." + mName);
-
-  map<string, ModelField*>* fields = new map<string, ModelField*>();
-  map<string, Method*>* methods = new map<string, Method*>();
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
+  map<string, ModelField*> fields = createModelFields(context);
+  map<string, Method*>* methods = new map<string, Method*>();
   Model* model = new Model(mName, structType, fields, methods, interfaces);
 
   context.getScopes().pushScope();
 
-  processFields(context, model, fields, types, (int) interfaces.size());
+  createFieldVariables(context, model, types);
   structType->setBody(types);
   map<string, Function*> methodFunctionMap = processMethods(context, model, methods);
   processInterfaceMethods(context, model, interfaces, methodFunctionMap);
@@ -47,22 +46,32 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-void ModelDefinition::processFields(IRGenerationContext& context,
-                                    Model* model,
-                                    map<string, ModelField*>* fields,
-                                    vector<Type*>& types,
-                                    int index) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-
-  for (ModelFieldDeclaration* field : mFields) {
-    IType* fieldType = field->getTypeSpecifier().getType(context);
+map<string, ModelField*> ModelDefinition::createModelFields(IRGenerationContext& context) const {
+  map<string, ModelField*> fields;
+  int index = 0;
+  for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
+    IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
-    ModelField* modelField = new ModelField(fieldType, index);
-    (*fields)[field->getName()] = modelField;
-    types.push_back(fieldType->getLLVMType(llvmContext));
-    ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(field->getName(), NULL, model);
-    context.getScopes().setVariable(fieldVariable);
+    ModelField* modelField = new ModelField(fieldType, mInterfaces.size() + index);
+    fields[fieldDeclaration->getName()] = modelField;
     index++;
+  }
+  return fields;
+}
+
+void ModelDefinition::createFieldVariables(IRGenerationContext& context,
+                                           Model* model,
+                                           vector<Type*>& types) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
+    IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
+    
+    types.push_back(fieldType->getLLVMType(llvmContext));
+    ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(fieldDeclaration->getName(),
+                                                                 NULL,
+                                                                 model);
+    context.getScopes().setVariable(fieldVariable);
   }
 }
 
@@ -71,7 +80,7 @@ map<string, Function*> ModelDefinition::processMethods(IRGenerationContext& cont
                                                        map<string, Method*>* methods) const {
   map<string, Function*> methodFunctionMap;
   
-  for (MethodDeclaration* methodDeclaration : mMethods) {
+  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
     Method* method = methodDeclaration->getMethod(context);
     (*methods)[method->getName()] = method;
     Function* function = methodDeclaration->generateIR(context, model);

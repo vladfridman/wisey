@@ -22,17 +22,20 @@ namespace yazyk {
  */
 class ModelDefinition : public IStatement {
   const std::string mName;
-  std::vector<ModelFieldDeclaration *>& mFields;
-  std::vector<MethodDeclaration *>& mMethods;
-  std::vector<std::string>& mInterfaces;
+  std::vector<ModelFieldDeclaration*> mFieldDeclarations;
+  std::vector<MethodDeclaration*> mMethodDeclarations;
+  std::vector<std::string> mInterfaces;
   
 public:
   
   ModelDefinition(std::string name,
-                  std::vector<ModelFieldDeclaration*>& fields,
-                  std::vector<MethodDeclaration *>& methods,
-                  std::vector<std::string>& interfaces)
-    : mName(name), mFields(fields), mMethods(methods), mInterfaces(interfaces) { }
+                  std::vector<ModelFieldDeclaration*> fieldDeclarations,
+                  std::vector<MethodDeclaration *> methodDeclarations,
+                  std::vector<std::string> interfaces) :
+  mName(name),
+  mFieldDeclarations(fieldDeclarations),
+  mMethodDeclarations(methodDeclarations),
+  mInterfaces(interfaces) { }
   
   ~ModelDefinition();
   
@@ -40,11 +43,11 @@ public:
   
 private:
   
-  void processFields(IRGenerationContext& context,
-                     Model* model,
-                     std::map<std::string, ModelField*>* fields,
-                     std::vector<llvm::Type*>& types,
-                     int index) const;
+  std::map<std::string, ModelField*> createModelFields(IRGenerationContext& context) const;
+  
+  void createFieldVariables(IRGenerationContext& context,
+                            Model* model,
+                            std::vector<llvm::Type*>& types) const;
   
   std::map<std::string, llvm::Function*> processMethods(IRGenerationContext& context,
                                                         Model* model,
