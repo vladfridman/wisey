@@ -58,6 +58,7 @@ TEST_F(ModelTest, TestModelInstantiation) {
   EXPECT_STREQ(mModel->getVTableName().c_str(), "model.Shape.vtable");
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+  EXPECT_EQ(mModel->getInterfaces().size(), 0u);
 }
 
 TEST_F(ModelTest, TestFindFeild) {

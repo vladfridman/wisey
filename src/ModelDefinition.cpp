@@ -113,13 +113,13 @@ void ModelDefinition::processInterfaceMethods(IRGenerationContext& context,
     index++;
   }
 
-  StructType* structType = StructType::get(llvmContext, vTableTypes);
-  Constant* constantStruct = ConstantStruct::get(structType, vTableArray);
+  StructType* vTableGlobalType = StructType::get(llvmContext, vTableTypes);
+  Constant* vTableGlobalConstantStruct = ConstantStruct::get(vTableGlobalType, vTableArray);
   
   new GlobalVariable(*context.getModule(),
-                     structType,
+                     vTableGlobalType,
                      true,
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                     constantStruct,
+                     vTableGlobalConstantStruct,
                      model->getVTableName());
 }

@@ -66,6 +66,11 @@ public:
    */
   std::string getVTableName() const;
   
+  /**
+   * Returns interfaces that this model implements
+   */
+  std::vector<Interface*> getInterfaces() const;
+  
   std::string getName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
