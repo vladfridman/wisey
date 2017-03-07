@@ -84,6 +84,10 @@ public:
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       IType* toType) const override;
+  
+private:
+  
+  bool doesImplmenetInterface(Interface* interface) const;
 };
 
 } /* namespace yazyk */

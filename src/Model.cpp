@@ -7,6 +7,7 @@
 //
 
 #include "yazyk/Cast.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/Model.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
@@ -74,17 +75,42 @@ TypeKind Model::getTypeKind() const {
 }
 
 bool Model::canCastTo(IType* toType) const {
-  return toType == this;
+  if (toType == this) {
+    return true;
+  }
+  if (toType->getTypeKind() == MODEL_TYPE) {
+    return false;
+  }
+  if (toType->getTypeKind() == INTERFACE_TYPE && doesImplmenetInterface((Interface*) toType)) {
+    return true;
+  }
+  return false;
 }
 
 bool Model::canCastLosslessTo(IType* toType) const {
-  return toType == this;
+  return canCastTo(toType);
 }
 
 Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
   if (toType == this) {
     return fromValue;
   }
-  Cast::exitIncopatibleTypes(this, toType);
-  return NULL;
+  if (!canCastTo(toType)) {
+    Cast::exitIncopatibleTypes(this, toType);
+    return NULL;
+  }
+  
+  return new BitCastInst(fromValue,
+                         toType->getLLVMType(context.getLLVMContext()),
+                         "",
+                         context.getBasicBlock());
+}
+
+bool Model::doesImplmenetInterface(Interface* interface) const {
+  for (Interface* implementedInterface : mInterfaces) {
+    if (implementedInterface == interface) {
+      return true;
+    }
+  }
+  return false;
 }
