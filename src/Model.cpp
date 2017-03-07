@@ -17,9 +17,7 @@ using namespace yazyk;
 
 Model::~Model() {
   mFields.clear();
-  mMethods->clear();
-  
-  delete mMethods;
+  mMethods.clear();
 }
 
 ModelField* Model::findField(string fieldName) const {
@@ -46,11 +44,11 @@ vector<string> Model::getMissingFields(set<string> givenFields) const {
 }
 
 Method* Model::findMethod(std::string methodName) const {
-  if (!mMethods->count(methodName)) {
+  if (!mMethods.count(methodName)) {
     return NULL;
   }
   
-  return mMethods->at(methodName);
+  return mMethods.at(methodName);
 }
 
 string Model::getVTableName() const {

@@ -113,7 +113,7 @@ TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
   map<string, ModelField*> fields;
   fields["fieldA"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
   fields["fieldB"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-  map<string, Method*>* methods = new map<string, Method*>();
+  map<string, Method*> methods;
   vector<Interface*> interfaces;
   Model* model = new Model("model", structType, fields, methods, interfaces);
 

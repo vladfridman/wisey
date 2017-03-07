@@ -46,8 +46,8 @@ struct ModelTest : public Test {
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
     mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
-    map<string, Method*>* methods = new map<string, Method*>();
-    (*methods)["foo"] = mMethod;
+    map<string, Method*> methods;
+    methods["foo"] = mMethod;
     
     vector<Type*> interfaceTypes;
     StructType* interfaceStructType = StructType::create(mLLVMContext, "Shape");
@@ -65,7 +65,7 @@ struct ModelTest : public Test {
     StructType* circleStructType = StructType::create(mLLVMContext, "Circle");
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    map<string, Method*>* circleMethods = new map<string, Method*>();
+    map<string, Method*> circleMethods;
     map<string, ModelField*> circleFields;
     vector<Interface*> circleInterfaces;
     mCircleModel = new Model("Circle",

@@ -43,16 +43,16 @@ public:
   
 private:
   
-  std::map<std::string, ModelField*> createModelFields(IRGenerationContext& context) const;
+  std::map<std::string, ModelField*> createFields(IRGenerationContext& context) const;
   
   void createFieldVariables(IRGenerationContext& context,
                             Model* model,
                             std::vector<llvm::Type*>& types) const;
   
-  std::map<std::string, llvm::Function*> processMethods(IRGenerationContext& context,
-                                                        Model* model,
-                                                        std::map<std::string, Method*>*
-                                                          methods) const;
+  std::map<std::string, Method*> createMethods(IRGenerationContext& context) const;
+  
+  std::map<std::string, llvm::Function*> generateMethodsIR(IRGenerationContext& context,
+                                                           Model* model) const;
   
   std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                             std::vector<llvm::Type*>& types) const;

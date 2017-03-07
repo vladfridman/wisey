@@ -60,7 +60,7 @@ struct MethodDeclarationTest : Test {
       map<string, ModelField*> fields;
       fields["foo"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
       fields["bar"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-      map<string, Method*>* methods = new map<string, Method*>();
+      map<string, Method*> methods;
       vector<Interface*> interfaces;
       mModel = new Model("Object", structType, fields, methods, interfaces);
       

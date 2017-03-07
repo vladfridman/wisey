@@ -107,11 +107,8 @@ TEST_F(AdditiveMultiplicativeExpressionTest, NonPrimitiveTypesDeathTest) {
   StructType* structType = StructType::create(mContext.getLLVMContext(), "Shape");
   vector<Interface*> interfaces;
   map<string, ModelField*> fields;
-  Model* model = new Model("Shape",
-                           structType,
-                           fields,
-                           new map<string, Method*>(),
-                           interfaces);
+  map<string, Method*> methods;
+  Model* model = new Model("Shape", structType, fields, methods, interfaces);
 
   ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(model));

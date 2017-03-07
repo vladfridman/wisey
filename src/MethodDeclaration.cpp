@@ -129,3 +129,7 @@ Method* MethodDeclaration::getMethod(IRGenerationContext& context) const {
   
   return new Method(mMethodName, returnType, arguments);
 }
+
+string MethodDeclaration::getMethodName() const {
+  return mMethodName;
+}

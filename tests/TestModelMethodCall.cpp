@@ -72,9 +72,9 @@ public:
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
     mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
-    map<string, Method*>* methods = new map<string, Method*>();
-    (*methods)["foo"] = mMethod;
-    (*methods)["bar"] = new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments);
+    map<string, Method*> methods;
+    methods["foo"] = mMethod;
+    methods["bar"] = new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments);
     vector<Interface*> interfaces;
     mModel = new Model("Square", mStructType, fields, methods, interfaces);
 

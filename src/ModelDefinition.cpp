@@ -29,15 +29,15 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
-  map<string, ModelField*> fields = createModelFields(context);
-  map<string, Method*>* methods = new map<string, Method*>();
+  map<string, ModelField*> fields = createFields(context);
+  map<string, Method*> methods = createMethods(context);
   Model* model = new Model(mName, structType, fields, methods, interfaces);
 
   context.getScopes().pushScope();
 
   createFieldVariables(context, model, types);
   structType->setBody(types);
-  map<string, Function*> methodFunctionMap = processMethods(context, model, methods);
+  map<string, Function*> methodFunctionMap = generateMethodsIR(context, model);
   processInterfaceMethods(context, model, interfaces, methodFunctionMap);
 
   context.addModel(model);
@@ -46,7 +46,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-map<string, ModelField*> ModelDefinition::createModelFields(IRGenerationContext& context) const {
+map<string, ModelField*> ModelDefinition::createFields(IRGenerationContext& context) const {
   map<string, ModelField*> fields;
   int index = 0;
   for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
@@ -75,14 +75,21 @@ void ModelDefinition::createFieldVariables(IRGenerationContext& context,
   }
 }
 
-map<string, Function*> ModelDefinition::processMethods(IRGenerationContext& context,
-                                                       Model* model,
-                                                       map<string, Method*>* methods) const {
+map<string, Method*> ModelDefinition::createMethods(IRGenerationContext& context) const {
+  map<string, Method*> methods;
+  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+    Method* method = methodDeclaration->getMethod(context);
+    methods[method->getName()] = method;
+  }
+  return methods;
+}
+
+map<string, Function*> ModelDefinition::generateMethodsIR(IRGenerationContext& context,
+                                                          Model* model) const {
   map<string, Function*> methodFunctionMap;
   
   for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    Method* method = methodDeclaration->getMethod(context);
-    (*methods)[method->getName()] = method;
+    Method* method = model->findMethod(methodDeclaration->getMethodName());
     Function* function = methodDeclaration->generateIR(context, model);
     methodFunctionMap[method->getName()] = function;
   }

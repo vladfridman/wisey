@@ -52,6 +52,11 @@ public:
    */
   Method* getMethod(IRGenerationContext& context) const;
   
+  /**
+   * Returns method's name
+   */
+  std::string getMethodName() const;
+  
 private:
   
   llvm::Function* createFunction(IRGenerationContext& context, Model* model) const;
