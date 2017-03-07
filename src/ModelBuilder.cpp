@@ -60,8 +60,8 @@ void ModelBuilder::initializeVTable(IRGenerationContext& context,
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
   Type* vTableType = functionType->getPointerTo()->getPointerTo();
   
-  vector<Interface*> interfaces = model->getInterfaces();
-  for (unsigned int interfaceIndex = 0; interfaceIndex < interfaces.size(); interfaceIndex++) {
+  unsigned long numberOfInterfaces = model->getInterfaces().size();
+  for (unsigned int interfaceIndex = 0; interfaceIndex < numberOfInterfaces; interfaceIndex++) {
     Value* vTableStart;
     if (interfaceIndex == 0) {
       vTableStart = malloc;
