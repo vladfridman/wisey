@@ -103,7 +103,7 @@ TEST_F(ModelMethodCallTest, TranslateModelMethodToLLVMFunctionNameTest) {
 
 TEST_F(ModelMethodCallTest, TranslateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, "Shape");
-  map<string, Method*>* interfaceMethods = new map<string, Method*>();
+  map<string, Method*> interfaceMethods;
   Interface* interface = new Interface("Shape", structType, interfaceMethods);
   string functionName =
     ModelMethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");

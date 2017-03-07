@@ -18,18 +18,18 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   StructType *structType = StructType::create(llvmContext, "interface." + mName);
   
   vector<Type*> types;
-  map<string, Method*>* methods = new map<string, Method*>();
+  map<string, Method*> methods;
+  for (MethodSignature* methodSignature : mMethods) {
+    Method* method = methodSignature->getMethod(context);
+    methods[method->getName()] = methodSignature->getMethod(context);
+  }
+  
   Interface* interface = new Interface(mName, structType, methods);
   
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
   types.push_back(vtableType);
   structType->setBody(types);
-  
-  for (MethodSignature* methodSignature : mMethods) {
-    Method* method = methodSignature->getMethod(context);
-    (*methods)[method->getName()] = method;
-  }
   
   context.addInterface(interface);
   

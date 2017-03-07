@@ -53,9 +53,8 @@ struct ModelTest : public Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, "Shape");
     interfaceStructType->setBody(interfaceTypes);
     vector<MethodArgument*> interfaceMethodArguments;
-    Method* interfaceMethod = new Method("foo", PrimitiveTypes::INT_TYPE, interfaceMethodArguments);
-    map<string, Method*>* interfaceMethods = new map<string, Method*>();
-    (*interfaceMethods)["foo"] = interfaceMethod;
+    map<string, Method*> interfaceMethods;
+    interfaceMethods["foo"] = new Method("foo", PrimitiveTypes::INT_TYPE, interfaceMethodArguments);
     mInterface = new Interface("Shape", interfaceStructType, interfaceMethods);
    
     vector<Interface*> interfaces;

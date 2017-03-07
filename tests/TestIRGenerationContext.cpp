@@ -104,7 +104,7 @@ TEST(IRGenerationContextTest, InterfaceTypeRegistryTest) {
   IRGenerationContext context;
   
   StructType* structType = StructType::create(context.getLLVMContext(), "myinterface");
-  map<string, Method*>* methods = new map<string, Method*>();
+  map<string, Method*> methods;
   Interface* interface = new Interface("myinterface", structType, methods);
   context.addInterface(interface);
   Interface* resultInterface = context.getInterface("myinterface");
@@ -118,7 +118,7 @@ TEST(IRGenerationContextTest, InterfaceTypeRedefinedDeathTest) {
   IRGenerationContext context;
   
   StructType* structType = StructType::create(context.getLLVMContext(), "myinterface");
-  map<string, Method*>* methods = new map<string, Method*>();
+  map<string, Method*> methods;
   Interface* interface = new Interface("myinterface", structType, methods);
   context.addInterface(interface);
   

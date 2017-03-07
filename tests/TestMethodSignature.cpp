@@ -50,7 +50,7 @@ struct MethodSignatureTest : Test {
     types.push_back(Type::getInt32Ty(llvmContext));
     StructType* structType = StructType::create(llvmContext, "Interface");
     structType->setBody(types);
-    map<string, Method*>* methods = new map<string, Method*>();
+    map<string, Method*> methods;
     mInterface = new Interface("Interface", structType, methods);
   }
   

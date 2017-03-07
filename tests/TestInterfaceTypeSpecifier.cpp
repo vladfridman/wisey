@@ -24,9 +24,8 @@ TEST(InterfaceTypeSpecifierTest, CreationTest) {
   StructType* structType = StructType::create(context.getLLVMContext(), "IShape");
   structType->setBody(types);
   vector<MethodArgument*> methodArguments;
-  Method* method = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
-  map<string, Method*>* methods = new map<string, Method*>();
-  (*methods)["foo"] = method;
+  map<string, Method*> methods;
+  methods["foo"] = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
   Interface* interface = new Interface("IShape", structType, methods);
   context.addInterface(interface);
   

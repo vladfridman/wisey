@@ -99,8 +99,8 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
   types.push_back(vtableType);
   structType->setBody(types);
-  map<string, Method*>* interfaceMethods = new map<string, Method*>();
-  (*interfaceMethods)["foo"] = mMethodDeclaration->getMethod(mContext);
+  map<string, Method*> interfaceMethods;
+  interfaceMethods["foo"] = mMethodDeclaration->getMethod(mContext);
   Interface *interface = new Interface("myinterface", structType, interfaceMethods);
   mContext.addInterface(interface);
   vector<string> interfaces;

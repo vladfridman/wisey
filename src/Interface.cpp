@@ -19,17 +19,15 @@ using namespace std;
 using namespace yazyk;
 
 Interface::~Interface() {
-  mMethods->clear();
-  
-  delete mMethods;
+  mMethods.clear();
 }
 
 Method* Interface::findMethod(std::string methodName) const {
-  if (!mMethods->count(methodName)) {
+  if (!mMethods.count(methodName)) {
     return NULL;
   }
   
-  return mMethods->at(methodName);
+  return mMethods.at(methodName);
 }
 
 vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context,
@@ -38,8 +36,8 @@ vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context
                                                     int interfaceIndex) const {
   Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   vector<Constant*> vTableArrayProtion;
-  for (map<string, Method*>::iterator iterator = mMethods->begin();
-       iterator != mMethods->end();
+  for (map<string, Method*>::const_iterator iterator = mMethods.begin();
+       iterator != mMethods.end();
        iterator++) {
     Method* method = iterator->second;
     Function* modelFunction = methodFunctionMap.count(method->getName())
