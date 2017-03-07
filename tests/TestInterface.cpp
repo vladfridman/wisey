@@ -49,7 +49,7 @@ struct InterfaceTest : public Test {
 TEST_F(InterfaceTest, TestInterfaceInstantiation) {
   EXPECT_STREQ(mInterface->getName().c_str(), "Shape");
   EXPECT_EQ(mInterface->getTypeKind(), INTERFACE_TYPE);
-  EXPECT_EQ(mInterface->getLLVMType(mLLVMContext), mStructType);
+  EXPECT_EQ(mInterface->getLLVMType(mLLVMContext), mStructType->getPointerTo());
 }
 
 TEST_F(InterfaceTest, TestFindMethod) {
@@ -79,6 +79,6 @@ TEST_F(TestFileSampleRunner, InterfaceMethodDifferentArgumentTypesDeathTest) {
 }
 
 TEST_F(TestFileSampleRunner, ModelImplmenetingInterfaceDefinitionTest) {
-  runFile("tests/samples/test_interface_implementation.yz", "25");
+  runFile("tests/samples/test_interface_implementation.yz", "0");
 }
 

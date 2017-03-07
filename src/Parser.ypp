@@ -27,6 +27,7 @@
   #include "yazyk/IncrementExpression.hpp"
   #include "yazyk/IntConstant.hpp"
   #include "yazyk/InterfaceDefinition.hpp"
+  #include "yazyk/InterfaceTypeSpecifier.hpp"
   #include "yazyk/ITypeSpecifier.hpp"
   #include "yazyk/LogicalAndExpression.hpp"
   #include "yazyk/LogicalOrExpression.hpp"
@@ -73,30 +74,31 @@
  */
 %union {
   yazyk::INode *node;
-  yazyk::IExpression *expression;
-  yazyk::IStatement *statement;
-  yazyk::Block *block;
-  yazyk::CompoundStatement *compound_statement;
-  yazyk::CaseStatement *case_statement;
-  yazyk::DefaultCaseStatement *default_case_statement;
-  yazyk::SwitchCases *switch_cases;
-  yazyk::ITypeSpecifier *type;
-  yazyk::Identifier *identifier;
-  yazyk::VariableDeclaration *variable_declaration;
-  yazyk::ModelBuilderArgument *model_builder_argument;
+  yazyk::IExpression* expression;
+  yazyk::IStatement* statement;
+  yazyk::Block* block;
+  yazyk::CompoundStatement* compound_statement;
+  yazyk::CaseStatement* case_statement;
+  yazyk::DefaultCaseStatement* default_case_statement;
+  yazyk::SwitchCases* switch_cases;
+  yazyk::ITypeSpecifier* type;
+  yazyk::Identifier* identifier;
+  yazyk::VariableDeclaration* variable_declaration;
+  yazyk::ModelBuilderArgument* model_builder_argument;
   yazyk::ModelBuilderArgumentList *model_builder_argument_list;
   yazyk::ModelFieldDeclaration* field;
-  yazyk::ModelTypeSpecifier *model_type_specifier;
+  yazyk::ModelTypeSpecifier* model_type_specifier;
+  yazyk::InterfaceTypeSpecifier* interface_type_specifier;
   yazyk::AccessSpecifier access_specifier;
   yazyk::MethodDeclaration* method_declaration;
   yazyk::MethodSignature* method_signature;
-  std::vector<yazyk::VariableDeclaration*> *variable_vector;
-  std::vector<yazyk::IExpression*> *expression_vector;
-  std::vector<yazyk::ModelFieldDeclaration*> *field_vector;
-  std::vector<yazyk::MethodDeclaration*> *method_declaration_vector;
-  std::vector<yazyk::MethodSignature*> *method_signature_vector;
-  std::vector<std::string> *identifier_list;
-  std::string *string;
+  std::vector<yazyk::VariableDeclaration*>* variable_vector;
+  std::vector<yazyk::IExpression*>* expression_vector;
+  std::vector<yazyk::ModelFieldDeclaration*>* field_vector;
+  std::vector<yazyk::MethodDeclaration*>* method_declaration_vector;
+  std::vector<yazyk::MethodSignature*>* method_signature_vector;
+  std::vector<std::string>* identifier_list;
+  std::string* string;
   int token;
 }
 
@@ -139,6 +141,7 @@
 %type <model_builder_argument_list> model_builder_argument_list
 %type <model_builder_argument> model_builder_argument
 %type <model_type_specifier> model_type_specifier
+%type <interface_type_specifier> interface_type_specifier
 %type <access_specifier> access_specifier
 %type <method_declaration_vector> method_definition_list method_definition_list_optional
 %type <method_signature_vector> method_signature_list method_signature_list_optional
@@ -490,7 +493,8 @@ call_arguments
 
 type_specifier
   : primitive_type_specifier
-  | model_type_specifier { $$ = (ITypeSpecifier *)$1; }
+  | model_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | interface_type_specifier { $$ = (ITypeSpecifier*) $1; }
   ;
 
 primitive_type_specifier
@@ -505,6 +509,10 @@ primitive_type_specifier
 
 model_type_specifier
   : TMODELIDENTIFIER { $$ = new ModelTypeSpecifier(*$1); }
+  ;
+
+interface_type_specifier
+  : TINTERFACEIDENTIFIER { $$ = new InterfaceTypeSpecifier(*$1); }
   ;
 
 %%

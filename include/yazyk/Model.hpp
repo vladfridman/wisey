@@ -87,7 +87,7 @@ public:
   
 private:
   
-  bool doesImplmenetInterface(Interface* interface) const;
+  int getInterfaceIndex(Interface* interface) const;
 };
 
 } /* namespace yazyk */

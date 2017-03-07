@@ -46,9 +46,11 @@ TEST(InterfaceDefinitionTest, TestSimpleDefinition) {
   
   interfaceDefinition.generateIR(context);
   Interface* interface = context.getInterface("myinterface");
-  StructType* structType = (StructType*) interface->getLLVMType(llvmContext);
+  Type* pointerType = interface->getLLVMType(llvmContext);
   
-  ASSERT_NE(structType, nullptr);
+  ASSERT_NE(pointerType, nullptr);
+  EXPECT_TRUE(pointerType->isPointerTy());
+  StructType* structType = (StructType*) pointerType->getPointerElementType();
   EXPECT_TRUE(structType->getNumElements() == 1);
   Type* arrayOfFunctionsType = structType->getElementType(0);
   ASSERT_TRUE(arrayOfFunctionsType->isPointerTy());

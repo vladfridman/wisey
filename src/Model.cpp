@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "yazyk/Cast.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Model.hpp"
@@ -78,7 +80,7 @@ bool Model::canCastTo(IType* toType) const {
   if (toType->getTypeKind() == MODEL_TYPE) {
     return false;
   }
-  if (toType->getTypeKind() == INTERFACE_TYPE && doesImplmenetInterface((Interface*) toType)) {
+  if (toType->getTypeKind() == INTERFACE_TYPE && getInterfaceIndex((Interface*) toType) >= 0) {
     return true;
   }
   return false;
@@ -96,18 +98,29 @@ Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toTy
     Cast::exitIncopatibleTypes(this, toType);
     return NULL;
   }
+  LLVMContext& llvmContext = context.getLLVMContext();
+  BasicBlock* basicBlock = context.getBasicBlock();
+  Interface* interface = (Interface*) toType;
+  int interfaceIndex = getInterfaceIndex(interface);
+  if (interfaceIndex == 0) {
+    return new BitCastInst(fromValue, interface->getLLVMType(llvmContext), "", basicBlock);
+  }
   
-  return new BitCastInst(fromValue,
-                         toType->getLLVMType(context.getLLVMContext()),
-                         "",
-                         context.getBasicBlock());
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  BitCastInst* bitcast = new BitCastInst(fromValue, int8Type->getPointerTo(), "", basicBlock);
+  Value *Idx[1];
+  Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 8 * interfaceIndex);
+  Value* thunk = GetElementPtrInst::Create(int8Type, bitcast, Idx, "add.ptr", basicBlock);
+  return new BitCastInst(thunk, interface->getLLVMType(llvmContext), "", basicBlock);
 }
 
-bool Model::doesImplmenetInterface(Interface* interface) const {
+int Model::getInterfaceIndex(Interface* interface) const {
+  int index = 0;
   for (Interface* implementedInterface : mInterfaces) {
     if (implementedInterface == interface) {
-      return true;
+      return index;
     }
+    index++;
   }
-  return false;
+  return -1;
 }
