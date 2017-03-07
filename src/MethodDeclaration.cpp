@@ -22,15 +22,9 @@ using namespace yazyk;
 Function* MethodDeclaration::generateIR(IRGenerationContext& context, Model* model) const {
   Scopes& scopes = context.getScopes();
   VariableList::const_iterator iterator;
-  IType* returnType = mReturnTypeSpecifier.getType(context);
   
   Function* function = createFunction(context, model);
   
-  if (strcmp(mMethodName.c_str(), "main") == 0) {
-    context.setMainFunction(function);
-  }
-  context.addGlobalFunction(returnType, mMethodName);
-
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   context.setBasicBlock(bblock);
   
