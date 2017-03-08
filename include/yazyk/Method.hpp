@@ -21,11 +21,18 @@ class Method {
   std::string mName;
   IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
+  unsigned long mIndex;
   
 public:
   
-  Method(std::string name, IType* returnType, std::vector<MethodArgument*> arguments)
-    : mName(name), mReturnType(returnType), mArguments(arguments) { }
+  Method(std::string name,
+         IType* returnType,
+         std::vector<MethodArgument*> arguments,
+         unsigned long index) :
+  mName(name),
+  mReturnType(returnType),
+  mArguments(arguments),
+  mIndex(index) { }
   
   ~Method() { mArguments.clear(); }
   
@@ -48,6 +55,11 @@ public:
    * Tells whether the two methods are equal in terms of their name, return type and arguments
    */
   bool equals(Method* method) const;
+  
+  /**
+   * Tells index of this method in the container model or interface
+   */
+  unsigned long getIndex() const;
 };
 
 } /* namespace yazyk */

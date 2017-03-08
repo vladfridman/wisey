@@ -30,7 +30,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
   map<string, ModelField*> fields = createFields(context);
-  map<string, Method*> methods = createMethods(context);
+  vector<Method*> methods = createMethods(context);
   Model* model = new Model(mName, structType, fields, methods, interfaces);
 
   context.getScopes().pushScope();
@@ -75,11 +75,11 @@ void ModelDefinition::createFieldVariables(IRGenerationContext& context,
   }
 }
 
-map<string, Method*> ModelDefinition::createMethods(IRGenerationContext& context) const {
-  map<string, Method*> methods;
+vector<Method*> ModelDefinition::createMethods(IRGenerationContext& context) const {
+  vector<Method*> methods;
   for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    Method* method = methodDeclaration->getMethod(context);
-    methods[method->getName()] = method;
+    Method* method = methodDeclaration->getMethod(context, methods.size());
+    methods.push_back(method);
   }
   return methods;
 }

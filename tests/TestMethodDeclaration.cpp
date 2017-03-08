@@ -60,7 +60,7 @@ struct MethodDeclarationTest : Test {
       map<string, ModelField*> fields;
       fields["foo"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
       fields["bar"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-      map<string, Method*> methods;
+      vector<Method*> methods;
       vector<Interface*> interfaces;
       mModel = new Model("Object", structType, fields, methods, interfaces);
       
@@ -104,7 +104,7 @@ TEST_F(MethodDeclarationTest, MethodDescriptorExtractTest) {
                                       "foo",
                                       mArguments,
                                       mCompoundStatement);
-  Method* method = methodDeclaration.getMethod(mContext);
+  Method* method = methodDeclaration.getMethod(mContext, 0);
   vector<MethodArgument*> arguments = method->getArguments();
   
   EXPECT_STREQ(method->getName().c_str(), "foo");

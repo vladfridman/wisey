@@ -22,12 +22,21 @@ Interface::~Interface() {
   mMethods.clear();
 }
 
+Interface::Interface(string name, StructType* structType, vector<Method*> methods) {
+  mName = name;
+  mStructType = structType;
+  mMethods = methods;
+  for (Method* method : mMethods) {
+    mNameToMethodMap[method->getName()] = method;
+  }
+}
+
 Method* Interface::findMethod(std::string methodName) const {
-  if (!mMethods.count(methodName)) {
+  if (!mNameToMethodMap.count(methodName)) {
     return NULL;
   }
   
-  return mMethods.at(methodName);
+  return mNameToMethodMap.at(methodName);
 }
 
 vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context,
@@ -36,10 +45,7 @@ vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context
                                                     int interfaceIndex) const {
   Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   vector<Constant*> vTableArrayProtion;
-  for (map<string, Method*>::const_iterator iterator = mMethods.begin();
-       iterator != mMethods.end();
-       iterator++) {
-    Method* method = iterator->second;
+  for (Method* method : mMethods) {
     Function* modelFunction = methodFunctionMap.count(method->getName())
       ? methodFunctionMap.at(method->getName()) : NULL;
     Function* function = generateMapFunctionForMethod(context,

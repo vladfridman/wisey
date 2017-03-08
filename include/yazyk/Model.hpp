@@ -28,7 +28,8 @@ class Model : public IType {
   std::string mName;
   llvm::StructType* mStructType;
   std::map<std::string, ModelField*> mFields;
-  std::map<std::string, Method*> mMethods;
+  std::vector<Method*> mMethods;
+  std::map<std::string, Method*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
   
 public:
@@ -36,13 +37,8 @@ public:
   Model(std::string name,
         llvm::StructType* structType,
         std::map<std::string, ModelField*> fields,
-        std::map<std::string, Method*> methods,
-        std::vector<Interface*> interfaces) :
-  mName(name),
-  mStructType(structType),
-  mFields(fields),
-  mMethods(methods),
-  mInterfaces(interfaces) {}
+        std::vector<Method*> methods,
+        std::vector<Interface*> interfaces);
   
   ~Model();
   

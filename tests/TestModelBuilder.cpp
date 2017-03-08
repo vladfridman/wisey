@@ -56,7 +56,7 @@ struct ModelBuilderTest : Test {
     ModelField* heightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
     fields["mWidth"] = widthField;
     fields["mHeight"] = heightField;
-    map<string, Method*> methods;
+    vector<Method*> methods;
     vector<Interface*> interfaces;
     Model* model = new Model("MShape", structType, fields, methods, interfaces);
     mContext.addModel(model);

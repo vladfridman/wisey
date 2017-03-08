@@ -39,7 +39,7 @@ public:
   /**
    * Returns object representing the method for storage in an Interface object
    */
-  Method* getMethod(IRGenerationContext& context) const;
+  Method* getMethod(IRGenerationContext& context, unsigned long index) const;
 
 };
   

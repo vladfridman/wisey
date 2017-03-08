@@ -51,33 +51,40 @@ struct ModelTest : public Test {
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
-    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
-    map<string, Method*> methods;
-    methods["foo"] = mMethod;
-    methods["bar"] = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);;
+    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0);
+    vector<Method*> methods;
+    methods.push_back(mMethod);
+    methods.push_back(new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments, 1));
     
     vector<Type*> shapeInterfaceTypes;
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, "IShape");
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
-    map<string, Method*> shapeInterfaceMethods;
-    shapeInterfaceMethods["foo"] =
-      new Method("foo", PrimitiveTypes::INT_TYPE, shapeInterfaceMethodArguments);
+    vector<Method*> shapeInterfaceMethods;
+    Method* methodFoo = new Method("foo",
+                                   PrimitiveTypes::INT_TYPE,
+                                   shapeInterfaceMethodArguments,
+                                   0);
+    shapeInterfaceMethods.push_back(methodFoo);
     mShapeInterface = new Interface("IShape", shapeIinterfaceStructType, shapeInterfaceMethods);
    
     vector<Type*> objectInterfaceTypes;
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, "IObject");
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
-    map<string, Method*> objectInterfaceMethods;
-    objectInterfaceMethods["bar"] =
-      new Method("bar", PrimitiveTypes::INT_TYPE, objectInterfaceMethodArguments);
+    vector<Method*> objectInterfaceMethods;
+    Method* methodBar = new Method("bar",
+                                   PrimitiveTypes::INT_TYPE,
+                                   objectInterfaceMethodArguments,
+                                   0);
+    objectInterfaceMethods.push_back(methodBar);
+    
     mObjectInterface = new Interface("IObject", objectInterfaceStructType, objectInterfaceMethods);
     
     vector<Type*> carInterfaceTypes;
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, "ICar");
     carInterfaceStructType->setBody(carInterfaceTypes);
-    map<string, Method*> carInterfaceMethods;
+    vector<Method*> carInterfaceMethods;
     mCarInterface = new Interface("ICar", carInterfaceStructType, carInterfaceMethods);
     
     vector<Interface*> interfaces;
@@ -88,7 +95,7 @@ struct ModelTest : public Test {
     StructType* circleStructType = StructType::create(mLLVMContext, "MCircle");
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    map<string, Method*> circleMethods;
+    vector<Method*> circleMethods;
     map<string, ModelField*> circleFields;
     vector<Interface*> circleInterfaces;
     mCircleModel = new Model("Circle",
@@ -132,6 +139,11 @@ TEST_F(ModelTest, TestFindFeild) {
 TEST_F(ModelTest, TestFindMethod) {
   EXPECT_EQ(mModel->findMethod("foo"), mMethod);
   EXPECT_EQ(mModel->findMethod("get"), nullptr);
+}
+
+TEST_F(ModelTest, TestMethodIndexes) {
+  EXPECT_EQ(mModel->findMethod("foo")->getIndex(), 0u);
+  EXPECT_EQ(mModel->findMethod("bar")->getIndex(), 1u);
 }
 
 TEST_F(ModelTest, TestGetMissingFields) {

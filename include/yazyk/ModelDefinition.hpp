@@ -49,7 +49,7 @@ private:
                             Model* model,
                             std::vector<llvm::Type*>& types) const;
   
-  std::map<std::string, Method*> createMethods(IRGenerationContext& context) const;
+  std::vector<Method*> createMethods(IRGenerationContext& context) const;
   
   std::map<std::string, llvm::Function*> generateMethodsIR(IRGenerationContext& context,
                                                            Model* model) const;

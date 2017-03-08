@@ -25,14 +25,14 @@ namespace yazyk {
 class Interface : public IType {
   std::string mName;
   llvm::StructType* mStructType;
-  std::map<std::string, Method*> mMethods;
+  std::vector<Method*> mMethods;
+  std::map<std::string, Method*> mNameToMethodMap;
   
 public:
   
   Interface(std::string name,
             llvm::StructType* structType,
-            std::map<std::string, Method*> methods) :
-  mName(name), mStructType(structType), mMethods(methods) {}
+            std::vector<Method*> methods);
   
   ~Interface();
   

@@ -30,7 +30,7 @@ public:
     std::vector<MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
-    mMethod = new Method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments);
+    mMethod = new Method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0);
   }
 };
 
@@ -46,7 +46,7 @@ TEST_F(MethodTest, EqualsTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
-  Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments);
+  Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0);
   
   ASSERT_TRUE(method.equals(mMethod));
 }
@@ -57,7 +57,7 @@ TEST_F(MethodTest, NameNotEqualsTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
-  Method method("differentname", PrimitiveTypes::BOOLEAN_TYPE, arguments);
+  Method method("differentname", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0);
   
   ASSERT_FALSE(method.equals(mMethod));
 }
@@ -66,7 +66,7 @@ TEST_F(MethodTest, NumberOfArgumentsNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
-  Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments);
+  Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0);
   
   ASSERT_FALSE(method.equals(mMethod));
 }
@@ -77,7 +77,7 @@ TEST_F(MethodTest, TypeOfArgumentsNotEqualsTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
-  Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments);
+  Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0);
   
   ASSERT_FALSE(method.equals(mMethod));
 }

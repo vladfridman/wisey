@@ -66,7 +66,7 @@ TEST(IRGenerationContextTest, ModelTypeRegistryTest) {
   
   StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
   map<string, ModelField*> fields;
-  map<string, Method*> methods;
+  vector<Method*> methods;
   vector<Interface*> interfaces;
   Model* model = new Model("mymodel", structType, fields, methods, interfaces);
   context.addModel(model);
@@ -82,7 +82,7 @@ TEST(IRGenerationContextTest, ModelTypeRedefinedDeathTest) {
   
   StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
   map<string, ModelField*> fields;
-  map<string, Method*> methods;
+  vector<Method*> methods;
   vector<Interface*> interfaces;
   Model* model = new Model("mymodel", structType, fields, methods, interfaces);
   context.addModel(model);
@@ -105,7 +105,7 @@ TEST(IRGenerationContextTest, InterfaceTypeRegistryTest) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   StructType* structType = StructType::create(llvmContext, "myinterface");
-  map<string, Method*> methods;
+  vector<Method*> methods;
   Interface* interface = new Interface("myinterface", structType, methods);
   context.addInterface(interface);
   Interface* resultInterface = context.getInterface("myinterface");
@@ -119,7 +119,7 @@ TEST(IRGenerationContextTest, InterfaceTypeRedefinedDeathTest) {
   IRGenerationContext context;
   
   StructType* structType = StructType::create(context.getLLVMContext(), "myinterface");
-  map<string, Method*> methods;
+  vector<Method*> methods;
   Interface* interface = new Interface("myinterface", structType, methods);
   context.addInterface(interface);
   

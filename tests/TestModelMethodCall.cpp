@@ -71,10 +71,10 @@ public:
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
-    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments);
-    map<string, Method*> methods;
-    methods["foo"] = mMethod;
-    methods["bar"] = new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments);
+    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0);
+    vector<Method*> methods;
+    methods.push_back(mMethod);
+    methods.push_back(new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments, 1));
     vector<Interface*> interfaces;
     mModel = new Model("Square", mStructType, fields, methods, interfaces);
 
@@ -103,7 +103,7 @@ TEST_F(ModelMethodCallTest, TranslateModelMethodToLLVMFunctionNameTest) {
 
 TEST_F(ModelMethodCallTest, TranslateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, "Shape");
-  map<string, Method*> interfaceMethods;
+  vector<Method*> interfaceMethods;
   Interface* interface = new Interface("Shape", structType, interfaceMethods);
   string functionName =
     ModelMethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");

@@ -12,7 +12,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Method* MethodSignature::getMethod(IRGenerationContext& context) const {
+Method* MethodSignature::getMethod(IRGenerationContext& context, unsigned long index) const {
   vector<MethodArgument*> arguments;
   
   for (VariableList::const_iterator iterator = mArguments.begin();
@@ -26,5 +26,5 @@ Method* MethodSignature::getMethod(IRGenerationContext& context) const {
   
   IType* returnType = mReturnTypeSpecifier.getType(context);
   
-  return new Method(mMethodName, returnType, arguments);
+  return new Method(mMethodName, returnType, arguments, index);
 }

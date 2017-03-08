@@ -58,7 +58,7 @@ struct ObjectFieldVariableTest : Test {
     map<string, ModelField*> fields;
     fields["foo"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
     fields["bar"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-    map<string, Method*> methods;
+    vector<Method*> methods;
     vector<Interface*> interfaces;
     mModel = new Model("Object", structType, fields, methods, interfaces);
  

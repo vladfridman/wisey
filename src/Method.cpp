@@ -31,3 +31,7 @@ bool Method::equals(Method* method) const {
   
   return !mName.compare(method->getName()) && mReturnType == method->getReturnType();
 }
+
+unsigned long Method::getIndex() const {
+  return mIndex;
+}

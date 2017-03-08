@@ -22,6 +22,22 @@ Model::~Model() {
   mMethods.clear();
 }
 
+Model::Model(string name,
+             StructType* structType,
+             map<string, ModelField*> fields,
+             vector<Method*> methods,
+             vector<Interface*> interfaces) {
+  mName = name;
+  mStructType = structType;
+  mFields = fields;
+  mMethods = methods;
+  mInterfaces = interfaces;
+  
+  for (Method* method : methods) {
+    mNameToMethodMap[method->getName()] = method;
+  }
+}
+
 ModelField* Model::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
@@ -46,11 +62,11 @@ vector<string> Model::getMissingFields(set<string> givenFields) const {
 }
 
 Method* Model::findMethod(std::string methodName) const {
-  if (!mMethods.count(methodName)) {
+  if (!mNameToMethodMap.count(methodName)) {
     return NULL;
   }
   
-  return mMethods.at(methodName);
+  return mNameToMethodMap.at(methodName);
 }
 
 string Model::getVTableName() const {
