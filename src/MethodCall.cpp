@@ -15,32 +15,32 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
-  IType* expressionType = mExpression.getType(context);
-  if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
-    Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
-    exit(1);
+  ICallableObjectType* callableObject = getCallableObject(context);
+  Method* method = getMethod(context);
+  checkArgumentType(callableObject, method, context);
+  if (callableObject->getTypeKind() == MODEL_TYPE) {
+    return generateModelMethodCallIR(context, (Model*) callableObject, method);
   }
-  if (expressionType->getTypeKind() == MODEL_TYPE) {
-    return generateModelMethodCallIR(context, (Model*) expressionType);
-  }
-  if (expressionType->getTypeKind() == INTERFACE_TYPE) {
-    return generateInterfaceMethodCallIR(context, (Interface*) expressionType);
+  if (callableObject->getTypeKind() == INTERFACE_TYPE) {
+    return generateInterfaceMethodCallIR(context, (Interface*) callableObject, method);
   }
   Log::e("Method '" + mMethodName + "()' call on an unknown object type '" +
-         expressionType->getName() + "'");
+         callableObject->getName() + "'");
   exit(1);
 }
 
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
-                                                 Interface* interface) const {
+                                                 Interface* interface,
+                                                 Method* method) const {
+  Log::e("Interface methods calls are not yet implemented");
+  exit(1);
   // TODO: implement interface method calls
   return NULL;
 }
 
-Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context, Model* model) const {
-  Method* method = getMethod(context);
-  checkArgumentType(model, method, context);
-
+Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
+                                             Model* model,
+                                             Method* method) const {
   string llvmFunctionName = translateModelMethodToLLVMFunctionName(model, mMethodName);
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
@@ -74,36 +74,42 @@ IType* MethodCall::getType(IRGenerationContext& context) const {
   return getMethod(context)->getReturnType();
 }
 
-Model* MethodCall::getModel(IRGenerationContext& context) const {
+ICallableObjectType* MethodCall::getCallableObject(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
     exit(1);
   }
-  
-  return (Model*) expressionType;
+  if (expressionType->getTypeKind() == INTERFACE_TYPE ||
+      expressionType->getTypeKind() == MODEL_TYPE) {
+    return (ICallableObjectType*) expressionType;
+  }
+  Log::e("Method '" + mMethodName + "()' call on a non-callable object type '" +
+         expressionType->getName() + "'");
+  exit(1);
 }
 
 Method* MethodCall::getMethod(IRGenerationContext& context) const {
-  Model* model = (Model*) getModel(context);
-  Method* method = model->findMethod(mMethodName);
+  ICallableObjectType* callableObject = getCallableObject(context);
+  Method* method = callableObject->findMethod(mMethodName);
   if (method == NULL) {
-    Log::e("Method '" + mMethodName + "' is not found in model '" + model->getName() + "'");
+    Log::e("Method '" + mMethodName + "' is not found in callable object '" +
+           callableObject->getName() + "'");
     exit(1);
   }
   
   return method;
 }
 
-void MethodCall::checkArgumentType(Model* model,
-                                        Method* method,
-                                        IRGenerationContext& context) const {
+void MethodCall::checkArgumentType(ICallableObjectType* callableObject,
+                                   Method* method,
+                                   IRGenerationContext& context) const {
   vector<MethodArgument*> methodArguments = method->getArguments();
   vector<IExpression*>::const_iterator callArgumentsIterator = mArguments.begin();
   
   if (mArguments.size() != method->getArguments().size()) {
     Log::e("Number of arguments for method call '" + method->getName() +
-           "' of the model type '" + model->getName() + "' is not correct");
+           "' of the model type '" + callableObject->getName() + "' is not correct");
     exit(1);
   }
   
@@ -113,7 +119,7 @@ void MethodCall::checkArgumentType(Model* model,
     
     if (!callArgumentType->canCastLosslessTo(methodArgumentType)) {
       Log::e("Call argument types do not match for a call to method '" + method->getName() +
-             "' of the model type '" + model->getName() + "'");
+             "' of the model type '" + callableObject->getName() + "'");
       exit(1);
     }
     

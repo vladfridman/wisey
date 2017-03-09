@@ -9,6 +9,7 @@
 #ifndef MethodCall_h
 #define MethodCall_h
 
+#include "yazyk/ICallableObjectType.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/Method.hpp"
 
@@ -47,16 +48,21 @@ public:
 
 private:
 
-  llvm::Value* generateModelMethodCallIR(IRGenerationContext& context, Model* model) const;
+  llvm::Value* generateModelMethodCallIR(IRGenerationContext& context,
+                                         Model* model,
+                                         Method* method) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
-                                             Interface* interface) const;
+                                             Interface* interface,
+                                             Method* method) const;
   
-  Model* getModel(IRGenerationContext& context) const;
+  ICallableObjectType* getCallableObject(IRGenerationContext& context) const;
   
   Method* getMethod(IRGenerationContext& context) const;
   
-  void checkArgumentType(Model* model, Method* method, IRGenerationContext& context) const;
+  void checkArgumentType(ICallableObjectType* model,
+                         Method* method,
+                         IRGenerationContext& context) const;
 
 };
 

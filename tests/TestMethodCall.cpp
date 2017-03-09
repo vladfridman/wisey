@@ -127,7 +127,7 @@ TEST_F(MethodCallTest, MethodDoesNotExistDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Method 'lorem' is not found in model 'Square'");
+              "Error: Method 'lorem' is not found in callable object 'Square'");
 }
 
 TEST_F(MethodCallTest, MethodCallOnPrimitiveTypeDeathTest) {
@@ -153,7 +153,7 @@ TEST_F(MethodCallTest, UnknownObjectTypeCallDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Method 'foo\\(\\)' call on an unknown object type 'Unknown'");
+              "Error: Method 'foo\\(\\)' call on a non-callable object type 'Unknown'");
 }
 
 TEST_F(MethodCallTest, IncorrectNumberOfArgumentsDeathTest) {

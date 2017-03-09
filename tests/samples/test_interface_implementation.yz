@@ -31,7 +31,7 @@ model MSquare implements IShape, IObject, IClickable {
 
 int main() {
   MSquare square = builder(MSquare).withWidth(5).build();
-  (IClickable)square;
+  (IObject)square;
 
   return 0;
 }
