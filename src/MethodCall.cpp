@@ -15,7 +15,29 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
-  Model* model = (Model*) getModel(context);
+  IType* expressionType = mExpression.getType(context);
+  if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
+    Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
+    exit(1);
+  }
+  if (expressionType->getTypeKind() == MODEL_TYPE) {
+    return generateModelMethodCallIR(context, (Model*) expressionType);
+  }
+  if (expressionType->getTypeKind() == INTERFACE_TYPE) {
+    return generateInterfaceMethodCallIR(context, (Interface*) expressionType);
+  }
+  Log::e("Method '" + mMethodName + "()' call on an unknown object type '" +
+         expressionType->getName() + "'");
+  exit(1);
+}
+
+Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
+                                                 Interface* interface) const {
+  // TODO: implement interface method calls
+  return NULL;
+}
+
+Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context, Model* model) const {
   Method* method = getMethod(context);
   checkArgumentType(model, method, context);
 

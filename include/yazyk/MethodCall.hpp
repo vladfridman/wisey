@@ -47,6 +47,11 @@ public:
 
 private:
 
+  llvm::Value* generateModelMethodCallIR(IRGenerationContext& context, Model* model) const;
+  
+  llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
+                                             Interface* interface) const;
+  
   Model* getModel(IRGenerationContext& context) const;
   
   Method* getMethod(IRGenerationContext& context) const;

@@ -38,6 +38,16 @@ public:
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
 };
 
+class MockType : public IType {
+public:
+  MOCK_CONST_METHOD0(getName, string ());
+  MOCK_CONST_METHOD1(getLLVMType, Type* (LLVMContext&));
+  MOCK_CONST_METHOD0(getTypeKind, TypeKind ());
+  MOCK_CONST_METHOD1(canCastTo, bool (IType*));
+  MOCK_CONST_METHOD1(canCastLosslessTo, bool (IType*));
+  MOCK_CONST_METHOD3(castTo, Value* (IRGenerationContext&, Value*, IType*));
+};
+
 struct MethodCallTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
@@ -128,6 +138,22 @@ TEST_F(MethodCallTest, MethodCallOnPrimitiveTypeDeathTest) {
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Attempt to call a method 'foo' on a primitive type expression");
+}
+
+TEST_F(MethodCallTest, UnknownObjectTypeCallDeathTest) {
+  NiceMock<MockExpression> expression;
+  NiceMock<MockType> unknownType;
+  ON_CALL(unknownType, getTypeKind()).WillByDefault(Return(CONTROLLER_TYPE));
+  ON_CALL(unknownType, getName()).WillByDefault(Return(string("Unknown")));
+  ON_CALL(expression, getType(_)).WillByDefault(Return(&unknownType));
+  MethodCall methodCall(expression, "foo", mArgumentList);
+  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(&expression);
+  Mock::AllowLeak(&unknownType);
+  
+  EXPECT_EXIT(methodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Method 'foo\\(\\)' call on an unknown object type 'Unknown'");
 }
 
 TEST_F(MethodCallTest, IncorrectNumberOfArgumentsDeathTest) {

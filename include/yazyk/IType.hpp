@@ -23,9 +23,9 @@ class IRGenerationContext;
  */
 typedef enum TypeKindEnum {
   PRIMITIVE_TYPE,
+  INTERFACE_TYPE,
   MODEL_TYPE,
   CONTROLLER_TYPE,
-  INTERFACE_TYPE,
 } TypeKind;
 
 /**
