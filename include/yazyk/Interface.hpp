@@ -13,7 +13,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/IType.hpp"
+#include "yazyk/ICallableObjectType.hpp"
 #include "yazyk/Method.hpp"
 #include "yazyk/Model.hpp"
 
@@ -22,7 +22,7 @@ namespace yazyk {
 /**
  * Contains information about an Interface including the llvm::StructType and method information
  */
-class Interface : public IType {
+class Interface : public ICallableObjectType {
   std::string mName;
   llvm::StructType* mStructType;
   std::vector<Method*> mMethods;
@@ -37,11 +37,6 @@ public:
   ~Interface();
   
   /**
-   * Finds a method with a given name
-   */
-  Method* findMethod(std::string methodName) const;
-  
-  /**
    * Generate functions that map interface methods to model methods
    */
   std::vector<llvm::Constant*> generateMapFunctionsIR(IRGenerationContext& context,
@@ -50,6 +45,8 @@ public:
                                                         methodFunctionMap,
                                                       int interfaceIndex) const;
   
+  Method* findMethod(std::string methodName) const override;
+
   std::string getName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;

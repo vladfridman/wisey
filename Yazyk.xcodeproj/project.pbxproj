@@ -608,6 +608,7 @@
 		F5EEDD9E1E6EF43A00215278 /* InterfaceTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceTypeSpecifier.hpp; path = include/yazyk/InterfaceTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceTypeSpecifier.cpp; path = src/InterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceTypeSpecifier.cpp; path = tests/TestInterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5EEDDA41E718C7800215278 /* ICallableObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ICallableObjectType.hpp; path = include/yazyk/ICallableObjectType.hpp; sourceTree = "<group>"; };
 		F5F396D21E3495BD00F34296 /* ModelBuilder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelBuilder.hpp; path = include/yazyk/ModelBuilder.hpp; sourceTree = "<group>"; };
 		F5F396D61E34BBDD00F34296 /* ModelBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelBuilder.cpp; path = src/ModelBuilder.cpp; sourceTree = "<group>"; };
 		F5F396D91E34BD0400F34296 /* ModelBuilderArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelBuilderArgument.hpp; path = include/yazyk/ModelBuilderArgument.hpp; sourceTree = "<group>"; };
@@ -1025,6 +1026,7 @@
 				F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */,
 				F531B64C1E0DC169008304F3 /* FunctionCall.hpp */,
 				F57085F11E511680007D627E /* FunctionDeclaration.hpp */,
+				F5EEDDA41E718C7800215278 /* ICallableObjectType.hpp */,
 				F57411711E043E80009809FF /* Identifier.hpp */,
 				F531B6781E0E1A61008304F3 /* IExpression.hpp */,
 				F59D821B1E0F651000057FB5 /* IfElseStatement.hpp */,

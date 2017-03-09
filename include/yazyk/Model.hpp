@@ -13,7 +13,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/IType.hpp"
+#include "yazyk/ICallableObjectType.hpp"
 #include "yazyk/Method.hpp"
 #include "yazyk/ModelField.hpp"
 
@@ -24,7 +24,7 @@ class Interface;
 /**
  * Contains information about a MODEL including the llvm::StructType and field information
  */
-class Model : public IType {
+class Model : public ICallableObjectType {
   std::string mName;
   llvm::StructType* mStructType;
   std::map<std::string, ModelField*> mFields;
@@ -53,11 +53,6 @@ public:
   std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
   
   /**
-   * Findsa method with a given name
-   */
-  Method* findMethod(std::string methodName) const;
-
-  /**
    * Returns the name of the vTable global varaible
    */
   std::string getVTableName() const;
@@ -67,6 +62,8 @@ public:
    */
   std::vector<Interface*> getInterfaces() const;
   
+  Method* findMethod(std::string methodName) const override;
+
   std::string getName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
