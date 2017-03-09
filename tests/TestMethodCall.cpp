@@ -1,11 +1,11 @@
 //
-//  TestModelMethodCall.cpp
+//  TestMethodCall.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/13/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ModelMethodCall}
+//  Tests {@link MethodCall}
 //
 
 #include <gtest/gtest.h>
@@ -19,7 +19,7 @@
 #include "yazyk/Identifier.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/ModelMethodCall.hpp"
+#include "yazyk/MethodCall.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -38,7 +38,7 @@ public:
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
 };
 
-struct ModelMethodCallTest : public Test {
+struct MethodCallTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockExpression> mExpression;
@@ -55,7 +55,7 @@ struct ModelMethodCallTest : public Test {
   
 public:
   
-  ModelMethodCallTest() :
+  MethodCallTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
     vector<Type*> types;
@@ -89,30 +89,30 @@ public:
     ON_CALL(mExpression, getType(_)).WillByDefault(Return(mModel));
   }
   
-  ~ModelMethodCallTest() {
+  ~MethodCallTest() {
     delete mBasicBlock;
     delete mStringStream;
   }
 };
 
-TEST_F(ModelMethodCallTest, TranslateModelMethodToLLVMFunctionNameTest) {
-  string functionName = ModelMethodCall::translateModelMethodToLLVMFunctionName(mModel, "foo");
+TEST_F(MethodCallTest, TranslateModelMethodToLLVMFunctionNameTest) {
+  string functionName = MethodCall::translateModelMethodToLLVMFunctionName(mModel, "foo");
   
   EXPECT_STREQ(functionName.c_str(), "model.Square.foo");
 }
 
-TEST_F(ModelMethodCallTest, TranslateInterfaceMethodToLLVMFunctionNameTest) {
+TEST_F(MethodCallTest, TranslateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, "Shape");
   vector<Method*> interfaceMethods;
   Interface* interface = new Interface("Shape", structType, interfaceMethods);
   string functionName =
-    ModelMethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");
+    MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");
   
   EXPECT_STREQ(functionName.c_str(), "model.Square.interface.Shape.foo");
 }
 
-TEST_F(ModelMethodCallTest, MethodDoesNotExistDeathTest) {
-  ModelMethodCall methodCall(mExpression, "lorem", mArgumentList);
+TEST_F(MethodCallTest, MethodDoesNotExistDeathTest) {
+  MethodCall methodCall(mExpression, "lorem", mArgumentList);
   Mock::AllowLeak(&mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
@@ -120,9 +120,9 @@ TEST_F(ModelMethodCallTest, MethodDoesNotExistDeathTest) {
               "Error: Method 'lorem' is not found in model 'Square'");
 }
 
-TEST_F(ModelMethodCallTest, MethodCallOnPrimitiveTypeDeathTest) {
+TEST_F(MethodCallTest, MethodCallOnPrimitiveTypeDeathTest) {
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
-  ModelMethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
@@ -130,8 +130,8 @@ TEST_F(ModelMethodCallTest, MethodCallOnPrimitiveTypeDeathTest) {
               "Attempt to call a method 'foo' on a primitive type expression");
 }
 
-TEST_F(ModelMethodCallTest, IncorrectNumberOfArgumentsDeathTest) {
-  ModelMethodCall methodCall(mExpression, "foo", mArgumentList);
+TEST_F(MethodCallTest, IncorrectNumberOfArgumentsDeathTest) {
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
@@ -140,11 +140,11 @@ TEST_F(ModelMethodCallTest, IncorrectNumberOfArgumentsDeathTest) {
               "is not correct");
 }
 
-TEST_F(ModelMethodCallTest, LLVMImplementationNotFoundDeathTest) {
+TEST_F(MethodCallTest, LLVMImplementationNotFoundDeathTest) {
   NiceMock<MockExpression> argumentExpression;
   ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(&argumentExpression);
-  ModelMethodCall methodCall(mExpression, "bar", mArgumentList);
+  MethodCall methodCall(mExpression, "bar", mArgumentList);
   Mock::AllowLeak(&mExpression);
   Mock::AllowLeak(&argumentExpression);
   
@@ -153,7 +153,7 @@ TEST_F(ModelMethodCallTest, LLVMImplementationNotFoundDeathTest) {
               "Error: LLVM function implementing model 'Square' method 'bar' was not found");
 }
 
-TEST_F(ModelMethodCallTest, IncorrectArgumentTypesDeathTest) {
+TEST_F(MethodCallTest, IncorrectArgumentTypesDeathTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
@@ -169,7 +169,7 @@ TEST_F(ModelMethodCallTest, IncorrectArgumentTypesDeathTest) {
   NiceMock<MockExpression> argumentExpression;
   ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   mArgumentList.push_back(&argumentExpression);
-  ModelMethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
   Mock::AllowLeak(&argumentExpression);
 
@@ -179,7 +179,7 @@ TEST_F(ModelMethodCallTest, IncorrectArgumentTypesDeathTest) {
               "of the model type 'Square");
 }
 
-TEST_F(ModelMethodCallTest, ModelMethodCallTest) {
+TEST_F(MethodCallTest, ModelMethodCallTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
@@ -197,7 +197,7 @@ TEST_F(ModelMethodCallTest, ModelMethodCallTest) {
   ON_CALL(argumentExpression, generateIR(_)).WillByDefault(Return(value));
   ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(&argumentExpression);
-  ModelMethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
   Mock::AllowLeak(&argumentExpression);
   

@@ -1,13 +1,13 @@
 //
-//  ModelMethodCall.hpp
+//  MethodCall.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/13/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ModelMethodCall_h
-#define ModelMethodCall_h
+#ifndef MethodCall_h
+#define MethodCall_h
 
 #include "yazyk/IExpression.hpp"
 #include "yazyk/Method.hpp"
@@ -15,19 +15,19 @@
 namespace yazyk {
 
 /**
- * Represents a call to a model's method
+ * Represents a method call for an object that could be a model or an interface or a controller
  */
-class ModelMethodCall : public IExpression {
+class MethodCall : public IExpression {
   IExpression& mExpression;
   std::string mMethodName;
   ExpressionList mArguments;
   
 public:
   
-  ModelMethodCall(IExpression& expression, std::string methodName, ExpressionList& arguments)
+  MethodCall(IExpression& expression, std::string methodName, ExpressionList& arguments)
   : mExpression(expression), mMethodName(methodName), mArguments(arguments) { }
   
-  ~ModelMethodCall() { };
+  ~MethodCall() { };
 
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
@@ -57,4 +57,4 @@ private:
 
 } /* namespace yazyk */
 
-#endif /* ModelMethodCall_h */
+#endif /* MethodCall_h */

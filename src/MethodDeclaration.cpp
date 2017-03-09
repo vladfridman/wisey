@@ -10,7 +10,7 @@
 
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/MethodDeclaration.hpp"
-#include "yazyk/ModelMethodCall.hpp"
+#include "yazyk/MethodCall.hpp"
 #include "yazyk/ModelTypeSpecifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/VariableDeclaration.hpp"
@@ -54,7 +54,7 @@ Function* MethodDeclaration::createFunction(IRGenerationContext& context, Model*
   FunctionType *ftype = FunctionType::get(llvmReturnType,
                                           argTypesArray,
                                           false);
-  string functionName = ModelMethodCall::translateModelMethodToLLVMFunctionName(model, mMethodName);
+  string functionName = MethodCall::translateModelMethodToLLVMFunctionName(model, mMethodName);
 
   return Function::Create(ftype,
                           GlobalValue::InternalLinkage,

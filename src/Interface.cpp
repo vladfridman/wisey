@@ -12,7 +12,7 @@
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
-#include "yazyk/ModelMethodCall.hpp"
+#include "yazyk/MethodCall.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -90,7 +90,7 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
   }
   
   string functionName =
-    ModelMethodCall::translateInterfaceMethodToLLVMFunctionName(model, this,method->getName());
+    MethodCall::translateInterfaceMethodToLLVMFunctionName(model, this,method->getName());
   Function* function = Function::Create(modelFunction->getFunctionType(),
                                         GlobalValue::InternalLinkage,
                                         functionName,

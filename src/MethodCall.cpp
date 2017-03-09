@@ -1,5 +1,5 @@
 //
-//  ModelMethodCall.cpp
+//  MethodCall.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/13/17.
@@ -8,13 +8,13 @@
 
 #include "yazyk/AutoCast.hpp"
 #include "yazyk/Log.hpp"
-#include "yazyk/ModelMethodCall.hpp"
+#include "yazyk/MethodCall.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace yazyk;
 
-Value* ModelMethodCall::generateIR(IRGenerationContext& context) const {
+Value* MethodCall::generateIR(IRGenerationContext& context) const {
   Model* model = (Model*) getModel(context);
   Method* method = getMethod(context);
   checkArgumentType(model, method, context);
@@ -48,11 +48,11 @@ Value* ModelMethodCall::generateIR(IRGenerationContext& context) const {
   return CallInst::Create(function, arguments, resultName, context.getBasicBlock());
 }
 
-IType* ModelMethodCall::getType(IRGenerationContext& context) const {
+IType* MethodCall::getType(IRGenerationContext& context) const {
   return getMethod(context)->getReturnType();
 }
 
-Model* ModelMethodCall::getModel(IRGenerationContext& context) const {
+Model* MethodCall::getModel(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
@@ -62,7 +62,7 @@ Model* ModelMethodCall::getModel(IRGenerationContext& context) const {
   return (Model*) expressionType;
 }
 
-Method* ModelMethodCall::getMethod(IRGenerationContext& context) const {
+Method* MethodCall::getMethod(IRGenerationContext& context) const {
   Model* model = (Model*) getModel(context);
   Method* method = model->findMethod(mMethodName);
   if (method == NULL) {
@@ -73,7 +73,7 @@ Method* ModelMethodCall::getMethod(IRGenerationContext& context) const {
   return method;
 }
 
-void ModelMethodCall::checkArgumentType(Model* model,
+void MethodCall::checkArgumentType(Model* model,
                                         Method* method,
                                         IRGenerationContext& context) const {
   vector<MethodArgument*> methodArguments = method->getArguments();
@@ -99,14 +99,14 @@ void ModelMethodCall::checkArgumentType(Model* model,
   }
 }
 
-string ModelMethodCall::translateModelMethodToLLVMFunctionName(Model* model, string methodName) {
+string MethodCall::translateModelMethodToLLVMFunctionName(Model* model, string methodName) {
   if (model == NULL) {
     return methodName;
   }
   return "model." + model->getName() + "." + methodName;
 }
 
-string ModelMethodCall::translateInterfaceMethodToLLVMFunctionName(Model* model,
+string MethodCall::translateInterfaceMethodToLLVMFunctionName(Model* model,
                                                                    const Interface* interface,
                                                                    string methodName) {
   if (model == NULL) {

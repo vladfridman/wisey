@@ -195,9 +195,9 @@
 		F57085F41E5117A9007D627E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */; };
 		F57085F61E511BAC007D627E /* TestObjectFieldVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */; };
 		F57085F81E51BDDF007D627E /* TestFunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F71E51BDDF007D627E /* TestFunctionDeclaration.cpp */; };
-		F57085FC1E51E2ED007D627E /* ModelMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FB1E51E2ED007D627E /* ModelMethodCall.cpp */; };
-		F57085FD1E51E2ED007D627E /* ModelMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FB1E51E2ED007D627E /* ModelMethodCall.cpp */; };
-		F57085FF1E51F8C9007D627E /* TestModelMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FE1E51F8C9007D627E /* TestModelMethodCall.cpp */; };
+		F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FB1E51E2ED007D627E /* MethodCall.cpp */; };
+		F57085FD1E51E2ED007D627E /* MethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FB1E51E2ED007D627E /* MethodCall.cpp */; };
+		F57085FF1E51F8C9007D627E /* TestMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */; };
 		F57086021E5317E8007D627E /* AutoCast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57086011E5317E8007D627E /* AutoCast.cpp */; };
 		F57086031E5317E8007D627E /* AutoCast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57086011E5317E8007D627E /* AutoCast.cpp */; };
 		F57086051E533667007D627E /* TestAutoCast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57086041E533667007D627E /* TestAutoCast.cpp */; };
@@ -520,9 +520,9 @@
 		F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDeclaration.cpp; path = src/FunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectFieldVariable.cpp; path = tests/TestObjectFieldVariable.cpp; sourceTree = "<group>"; };
 		F57085F71E51BDDF007D627E /* TestFunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFunctionDeclaration.cpp; path = tests/TestFunctionDeclaration.cpp; sourceTree = "<group>"; };
-		F57085FA1E51E15B007D627E /* ModelMethodCall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelMethodCall.hpp; path = include/yazyk/ModelMethodCall.hpp; sourceTree = "<group>"; };
-		F57085FB1E51E2ED007D627E /* ModelMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelMethodCall.cpp; path = src/ModelMethodCall.cpp; sourceTree = "<group>"; };
-		F57085FE1E51F8C9007D627E /* TestModelMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelMethodCall.cpp; path = tests/TestModelMethodCall.cpp; sourceTree = "<group>"; };
+		F57085FA1E51E15B007D627E /* MethodCall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodCall.hpp; path = include/yazyk/MethodCall.hpp; sourceTree = "<group>"; };
+		F57085FB1E51E2ED007D627E /* MethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodCall.cpp; path = src/MethodCall.cpp; sourceTree = "<group>"; };
+		F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodCall.cpp; path = tests/TestMethodCall.cpp; sourceTree = "<group>"; };
 		F57086001E531726007D627E /* AutoCast.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AutoCast.hpp; path = include/yazyk/AutoCast.hpp; sourceTree = "<group>"; };
 		F57086011E5317E8007D627E /* AutoCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AutoCast.cpp; path = src/AutoCast.cpp; sourceTree = "<group>"; };
 		F57086041E533667007D627E /* TestAutoCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAutoCast.cpp; path = tests/TestAutoCast.cpp; sourceTree = "<group>"; };
@@ -756,6 +756,7 @@
 				F50FA2F01E2E3B2A00435EEA /* TestLongConstant.cpp */,
 				F5C6FD871E48B7DE0054209D /* TestLongType.cpp */,
 				F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */,
+				F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */,
 				F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */,
 				F5ADB6231E6705CC00FFC941 /* TestMethodSignature.cpp */,
 				F5C6FD891E48D08F0054209D /* TestModel.cpp */,
@@ -763,7 +764,6 @@
 				F5F396DD1E3F898900F34296 /* TestModelBuilderArgument.cpp */,
 				F50FA2D61E2D12E000435EEA /* TestModelDefinition.cpp */,
 				F504279C1E4B5845001CB148 /* TestModelFieldReference.cpp */,
-				F57085FE1E51F8C9007D627E /* TestModelMethodCall.cpp */,
 				F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */,
 				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
 				F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */,
@@ -911,6 +911,7 @@
 				F5C6FD841E48B7A00054209D /* LongType.cpp */,
 				F569E9F71DF9CE6600BBB20E /* main.cpp */,
 				F5ADB6271E69831A00FFC941 /* Method.cpp */,
+				F57085FB1E51E2ED007D627E /* MethodCall.cpp */,
 				F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */,
 				F51797101E6605FC009B16AA /* MethodSignature.cpp */,
 				F507D2641E43551900495E2D /* Model.cpp */,
@@ -919,7 +920,6 @@
 				F50FA2D01E2D0AD600435EEA /* ModelDefinition.cpp */,
 				F50FA2D11E2D0AD600435EEA /* ModelFieldDeclaration.cpp */,
 				F50427991E4B4275001CB148 /* ModelFieldReference.cpp */,
-				F57085FB1E51E2ED007D627E /* ModelMethodCall.cpp */,
 				F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */,
 				F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */,
 				F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */,
@@ -1051,6 +1051,7 @@
 				F507D2701E4608C200495E2D /* LongType.hpp */,
 				F50427A21E4CBDF4001CB148 /* Method.hpp */,
 				F50427A41E4CC27F001CB148 /* MethodArgument.hpp */,
+				F57085FA1E51E15B007D627E /* MethodCall.hpp */,
 				F534010F1DFF31550002BF7E /* MethodDeclaration.hpp */,
 				F517970B1E633FB7009B16AA /* MethodSignature.hpp */,
 				F507D2631E43539C00495E2D /* Model.hpp */,
@@ -1060,7 +1061,6 @@
 				F507D2671E43783000495E2D /* ModelField.hpp */,
 				F50FA2CE1E2D0AC600435EEA /* ModelFieldDeclaration.hpp */,
 				F50427981E4B4102001CB148 /* ModelFieldReference.hpp */,
-				F57085FA1E51E15B007D627E /* ModelMethodCall.hpp */,
 				F50FA2CF1E2D0AC600435EEA /* ModelTypeSpecifier.hpp */,
 				F5ADB6181E5F566200FFC941 /* NegateExpression.hpp */,
 				F50427B21E4E3B5C001CB148 /* ObjectFieldVariable.hpp */,
@@ -1169,7 +1169,7 @@
 				F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
 				F50FA2F71E2E3B3500435EEA /* TestIntConstant.cpp in Sources */,
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
-				F57085FD1E51E2ED007D627E /* ModelMethodCall.cpp in Sources */,
+				F57085FD1E51E2ED007D627E /* MethodCall.cpp in Sources */,
 				F531B63D1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F574116C1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F51797141E660779009B16AA /* TestInterfaceDefinition.cpp in Sources */,
@@ -1249,7 +1249,7 @@
 				F59D82241E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F5C6FD7E1E48B6810054209D /* TestFloatType.cpp in Sources */,
 				F5C6FD701E48B40F0054209D /* BooleanType.cpp in Sources */,
-				F57085FF1E51F8C9007D627E /* TestModelMethodCall.cpp in Sources */,
+				F57085FF1E51F8C9007D627E /* TestMethodCall.cpp in Sources */,
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
@@ -1366,7 +1366,7 @@
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F57085F31E5117A9007D627E /* FunctionDeclaration.cpp in Sources */,
-				F57085FC1E51E2ED007D627E /* ModelMethodCall.cpp in Sources */,
+				F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */,
 				F5ADB61B1E5F568400FFC941 /* NegateExpression.cpp in Sources */,
 				F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
