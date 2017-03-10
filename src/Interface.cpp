@@ -83,7 +83,7 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
   
-  if (!modelMethod->equals(methodSignature)) {
+  if (!IMethodDescriptor::compare(modelMethod, methodSignature)) {
     Log::e("Method '" + methodSignature->getName() + "' of interface '" + mName +
            "' has different argument types when implmeneted by model '"
            + model->getName() + "'");

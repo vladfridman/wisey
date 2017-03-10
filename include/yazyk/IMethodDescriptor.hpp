@@ -48,11 +48,6 @@ public:
   virtual std::vector<MethodArgument*> getArguments() const = 0;
   
   /**
-   * Tells whether the two methods are equal in terms of their name, return type and arguments
-   */
-  virtual bool equals(IMethodDescriptor* methodDescriptor) const = 0;
-  
-  /**
    * Tells index of this method in the container model or interface
    */
   virtual unsigned long getIndex() const = 0;
@@ -63,6 +58,11 @@ public:
   virtual llvm::FunctionType* getLLVMFunctionType(IRGenerationContext& context,
                                                   ICallableObjectType* callableObject) const = 0;
   
+  /**
+   * Returns two if two method descriptors are the same in terms of their name, return type
+   * and argument types
+   */
+  static bool compare(IMethodDescriptor* method1, IMethodDescriptor* method2);
 };
   
 } /* namespace yazyk */

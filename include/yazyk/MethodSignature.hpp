@@ -39,8 +39,6 @@ public:
   
   std::vector<MethodArgument*> getArguments() const override;
   
-  bool equals(IMethodDescriptor* methodDescriptor) const override;
-  
   unsigned long getIndex() const override;
   
   llvm::FunctionType* getLLVMFunctionType(IRGenerationContext& context,

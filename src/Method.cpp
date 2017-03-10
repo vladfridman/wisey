@@ -30,27 +30,6 @@ vector<MethodArgument*> Method::getArguments() const {
   return mArguments;
 }
 
-bool Method::equals(IMethodDescriptor* methodDescriptor) const {
-  vector<MethodArgument*> thatArugments = methodDescriptor->getArguments();
-  if (mArguments.size() != thatArugments.size()) {
-    return false;
-  }
-  
-  vector<MethodArgument*>::const_iterator thatArgumentIterator = thatArugments.begin();
-  for (vector<MethodArgument*>::const_iterator thisArgumentIterator = mArguments.begin();
-       thisArgumentIterator != mArguments.end();
-       thisArgumentIterator++, thatArgumentIterator++) {
-    MethodArgument* thisArgument = *thisArgumentIterator;
-    MethodArgument* thatArgument = *thatArgumentIterator;
-    if (thisArgument->getType() != thatArgument->getType()) {
-      return false;
-    }
-  }
-  
-  return !mName.compare(methodDescriptor->getName()) &&
-  mReturnType == methodDescriptor->getReturnType();
-}
-
 unsigned long Method::getIndex() const {
   return mIndex;
 }
