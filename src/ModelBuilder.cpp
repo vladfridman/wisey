@@ -9,6 +9,7 @@
 #include <set>
 #include <llvm/IR/Constants.h>
 
+#include "yazyk/Environment.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Model.hpp"
@@ -68,7 +69,8 @@ void ModelBuilder::initializeVTable(IRGenerationContext& context,
     } else {
       Value* vTableStartCalculation = new BitCastInst(malloc, genericPointerType, "", basicBlock);
       Value *Idx[1];
-      Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 8 * interfaceIndex);
+      unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
+      Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
       vTableStart = GetElementPtrInst::Create(genericPointerType->getPointerElementType(),
                                               vTableStartCalculation,
                                               Idx,

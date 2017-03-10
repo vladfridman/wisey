@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/Cast.hpp"
+#include "yazyk/Environment.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Model.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -125,7 +126,8 @@ Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toTy
   Type* int8Type = Type::getInt8Ty(llvmContext);
   BitCastInst* bitcast = new BitCastInst(fromValue, int8Type->getPointerTo(), "", basicBlock);
   Value *Idx[1];
-  Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 8 * interfaceIndex);
+  unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
+  Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
   Value* thunk = GetElementPtrInst::Create(int8Type, bitcast, Idx, "add.ptr", basicBlock);
   return new BitCastInst(thunk, interface->getLLVMType(llvmContext), "", basicBlock);
 }

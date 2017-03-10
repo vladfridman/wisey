@@ -33,6 +33,8 @@
 		F508E0691E72D954005D6115 /* IMethodDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */; };
 		F508E06A1E72D954005D6115 /* IMethodDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */; };
 		F508E06C1E72DC7D005D6115 /* TestIMethodDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */; };
+		F508E06F1E73076E005D6115 /* Environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E06E1E73076E005D6115 /* Environment.cpp */; };
+		F508E0701E73076E005D6115 /* Environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E06E1E73076E005D6115 /* Environment.cpp */; };
 		F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */; };
 		F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */; };
@@ -362,6 +364,8 @@
 		F508E0651E72CB0E005D6115 /* MethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignature.cpp; path = src/MethodSignature.cpp; sourceTree = "<group>"; };
 		F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodDescriptor.cpp; path = src/IMethodDescriptor.cpp; sourceTree = "<group>"; };
 		F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIMethodDescriptor.cpp; path = tests/TestIMethodDescriptor.cpp; sourceTree = "<group>"; };
+		F508E06D1E7306B1005D6115 /* Environment.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Environment.hpp; path = include/yazyk/Environment.hpp; sourceTree = "<group>"; };
+		F508E06E1E73076E005D6115 /* Environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environment.cpp; path = src/Environment.cpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompoundStatement.cpp; path = tests/TestCompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A21E269E4400435EEA /* CaseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CaseStatement.hpp; path = include/yazyk/CaseStatement.hpp; sourceTree = "<group>"; };
@@ -898,6 +902,7 @@
 				F50FA2E11E2E3B0900435EEA /* DoubleConstant.cpp */,
 				F5C6FD751E48B50A0054209D /* DoubleType.cpp */,
 				F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */,
+				F508E06E1E73076E005D6115 /* Environment.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
 				F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */,
 				F5C6FD7A1E48B64C0054209D /* FloatType.cpp */,
@@ -1033,6 +1038,7 @@
 				F507D2721E460A2B00495E2D /* DoubleType.hpp */,
 				F59D82151E0F40E800057FB5 /* EmptyExpression.hpp */,
 				F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */,
+				F508E06D1E7306B1005D6115 /* Environment.hpp */,
 				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
 				F50FA2DE1E2E3AF600435EEA /* FloatConstant.hpp */,
 				F507D2711E4609D800495E2D /* FloatType.hpp */,
@@ -1303,6 +1309,7 @@
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F531B6511E0DCA9C008304F3 /* TestFunctionCall.cpp in Sources */,
 				F50FA2EA1E2E3B1200435EEA /* FloatConstant.cpp in Sources */,
+				F508E0701E73076E005D6115 /* Environment.cpp in Sources */,
 				F5EEDDA11E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
 				F531B64F1E0DC1D4008304F3 /* FunctionCall.cpp in Sources */,
 				F50427AF1E4DD329001CB148 /* TestLocalStackVariable.cpp in Sources */,
@@ -1340,6 +1347,7 @@
 				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,
 				F57411521E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F5C6FD6A1E48B33A0054209D /* VoidType.cpp in Sources */,
+				F508E06F1E73076E005D6115 /* Environment.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F53400EE1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,

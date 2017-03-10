@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/Cast.hpp"
+#include "yazyk/Environment.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
@@ -48,8 +49,16 @@ vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context
                                                     Model* model,
                                                     map<string, Function*>& methodFunctionMap,
                                                     int interfaceIndex) const {
-  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   vector<Constant*> vTableArrayProtion;
+  if (interfaceIndex == 0) {
+    vTableArrayProtion.push_back(ConstantExpr::getNullValue(pointerType));
+  } else {
+    unsigned int unthunkBy = -interfaceIndex * Environment::getAddressSizeInBytes();
+    ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
+    vTableArrayProtion.push_back(ConstantExpr::getIntToPtr(unthunk, pointerType));
+  }
   for (MethodSignature* methodSignature : mMethodSignatures) {
     Function* modelFunction = methodFunctionMap.count(methodSignature->getName())
       ? methodFunctionMap.at(methodSignature->getName()) : NULL;
