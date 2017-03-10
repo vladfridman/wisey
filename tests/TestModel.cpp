@@ -51,10 +51,10 @@ struct ModelTest : public Test {
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
-    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0);
+    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
-    methods.push_back(new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments, 1));
+    methods.push_back(new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments, 1, NULL));
     
     vector<Type*> shapeInterfaceTypes;
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, "IShape");
@@ -64,7 +64,8 @@ struct ModelTest : public Test {
     Method* methodFoo = new Method("foo",
                                    PrimitiveTypes::INT_TYPE,
                                    shapeInterfaceMethodArguments,
-                                   0);
+                                   0,
+                                   NULL);
     shapeInterfaceMethods.push_back(methodFoo);
     mShapeInterface = new Interface("IShape", shapeIinterfaceStructType, shapeInterfaceMethods);
    
@@ -76,7 +77,8 @@ struct ModelTest : public Test {
     Method* methodBar = new Method("bar",
                                    PrimitiveTypes::INT_TYPE,
                                    objectInterfaceMethodArguments,
-                                   0);
+                                   0,
+                                   NULL);
     objectInterfaceMethods.push_back(methodBar);
     
     mObjectInterface = new Interface("IObject", objectInterfaceStructType, objectInterfaceMethods);

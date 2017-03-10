@@ -45,8 +45,6 @@ public:
   mArguments(arguments),
   mCompoundStatement(compoundStatement) { }
   
-  llvm::Function* generateIR(IRGenerationContext& context, Model* model = NULL) const;
-
   /**
    * Returns object representing the method for storage in a Model object
    */
@@ -57,21 +55,6 @@ public:
    */
   std::string getMethodName() const;
   
-private:
-  
-  llvm::Function* createFunction(IRGenerationContext& context, Model* model) const;
-  
-  void createArguments(IRGenerationContext& context,
-                       llvm::Function* function,
-                       Model* model) const;
-  
-  void addImpliedVoidReturn(IRGenerationContext& context) const;
-  
-  void storeArgumentValue(IRGenerationContext& context,
-                          std::string variableName,
-                          IType* variableType,
-                          llvm::Value* variableValue) const;
-
 };
 
 } /* namespace yazyk */

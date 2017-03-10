@@ -13,6 +13,7 @@
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/MethodCall.hpp"
+#include "yazyk/Model.hpp"
 
 using namespace llvm;
 using namespace std;

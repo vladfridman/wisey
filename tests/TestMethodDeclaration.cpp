@@ -9,10 +9,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 #include <llvm/IR/Constants.h>
-#include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/AccessSpecifiers.hpp"
@@ -39,9 +37,6 @@ struct MethodDeclarationTest : Test {
   VariableList mArguments;
   Block mBlock;
   CompoundStatement mCompoundStatement;
-  Model* mModel;
-  string mStringBuffer;
-  raw_string_ostream* mStringStream;
   
   MethodDeclarationTest() :
     mFloatTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
@@ -51,50 +46,8 @@ struct MethodDeclarationTest : Test {
     mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
     mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
     mCompoundStatement(CompoundStatement(mBlock)) {
-      LLVMContext& llvmContext = mContext.getLLVMContext();
-      vector<Type*> types;
-      types.push_back(Type::getInt32Ty(llvmContext));
-      types.push_back(Type::getInt32Ty(llvmContext));
-      StructType* structType = StructType::create(llvmContext, "Object");
-      structType->setBody(types);
-      map<string, ModelField*> fields;
-      fields["foo"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-      fields["bar"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-      vector<Method*> methods;
-      vector<Interface*> interfaces;
-      mModel = new Model("Object", structType, fields, methods, interfaces);
-      
-      mStringStream = new raw_string_ostream(mStringBuffer);
-  }
-  
-  ~MethodDeclarationTest() {
-    delete mStringStream;
   }
 };
-
-TEST_F(MethodDeclarationTest, MethodFooDeclartaionTest) {
-  mArguments.push_back(&mIntArgument);
-  MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
-                                      mFloatTypeSpecifier,
-                                      "foo",
-                                      mArguments,
-                                      mCompoundStatement);
-  Value* method = methodDeclaration.generateIR(mContext, mModel);
-  
-  *mStringStream << *method;
-  string expected = string() +
-    "\ndefine internal float @model.Object.foo(%Object* %this, i32 %intargument) {" +
-    "\nentry:" +
-    "\n  %this.param = alloca %Object*" +
-    "\n  store %Object* %this, %Object** %this.param" +
-    "\n  %intargument.param = alloca i32" +
-    "\n  store i32 %intargument, i32* %intargument.param" +
-    "\n  ret void" +
-    "\n}" +
-    "\n";
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  EXPECT_EQ(mContext.getMainFunction(), nullptr);
-}
 
 TEST_F(MethodDeclarationTest, MethodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);

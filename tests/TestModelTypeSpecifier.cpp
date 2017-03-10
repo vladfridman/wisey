@@ -34,7 +34,7 @@ TEST(ModelTypeSpecifierTest, CreationTest) {
   fields["height"] = heightField;
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
-  methods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0));
+  methods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));
   vector<Interface*> interfaces;
   Model* model = new Model("MSquare", structType, fields, methods, interfaces);
   context.addModel(model);

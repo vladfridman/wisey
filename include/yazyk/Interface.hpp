@@ -15,9 +15,10 @@
 
 #include "yazyk/ICallableObjectType.hpp"
 #include "yazyk/Method.hpp"
-#include "yazyk/Model.hpp"
 
 namespace yazyk {
+
+class Model;
   
 /**
  * Contains information about an Interface including the llvm::StructType and method information

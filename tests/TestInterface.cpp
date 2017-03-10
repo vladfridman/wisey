@@ -37,7 +37,7 @@ struct InterfaceTest : public Test {
     mStructType = StructType::create(mLLVMContext, "Shape");
     mStructType->setBody(types);
     vector<MethodArgument*> methodArguments;
-    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0);
+    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
     mInterface = new Interface("Shape", mStructType, methods);

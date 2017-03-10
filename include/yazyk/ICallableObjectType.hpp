@@ -10,9 +10,10 @@
 #define ICallableObjectType_h
 
 #include "yazyk/IType.hpp"
-#include "yazyk/Method.hpp"
 
 namespace yazyk {
+  
+class Method;
   
 /**
  * Represents an IType of a callable object such as a Model or an Interface

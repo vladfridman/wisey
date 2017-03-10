@@ -90,7 +90,7 @@ map<string, Function*> ModelDefinition::generateMethodsIR(IRGenerationContext& c
   
   for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
     Method* method = model->findMethod(methodDeclaration->getMethodName());
-    Function* function = methodDeclaration->generateIR(context, model);
+    Function* function = method->generateIR(context, model);
     methodFunctionMap[method->getName()] = function;
   }
   return methodFunctionMap;

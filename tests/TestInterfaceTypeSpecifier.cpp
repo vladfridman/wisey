@@ -25,7 +25,7 @@ TEST(InterfaceTypeSpecifierTest, CreationTest) {
   structType->setBody(types);
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
-  methods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0));
+  methods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));
   Interface* interface = new Interface("IShape", structType, methods);
   context.addInterface(interface);
   

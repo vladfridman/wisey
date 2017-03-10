@@ -8,110 +8,13 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/MethodDeclaration.hpp"
-#include "yazyk/MethodCall.hpp"
-#include "yazyk/ModelTypeSpecifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
-
-Function* MethodDeclaration::generateIR(IRGenerationContext& context, Model* model) const {
-  Scopes& scopes = context.getScopes();
-  VariableList::const_iterator iterator;
-  
-  Function* function = createFunction(context, model);
-  
-  BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
-  context.setBasicBlock(bblock);
-  
-  context.getScopes().pushScope();
-  context.getScopes().setReturnType(mReturnTypeSpecifier.getType(context));
-  createArguments(context, function, model);
-  mCompoundStatement.generateIR(context);
-  scopes.popScope(context.getBasicBlock());
-  
-  addImpliedVoidReturn(context);
-  
-  return function;
-}
-
-Function* MethodDeclaration::createFunction(IRGenerationContext& context, Model* model) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(model->getLLVMType(llvmContext));
-  for (VariableList::const_iterator iterator = mArguments.begin();
-       iterator != mArguments.end();
-       iterator++) {
-    IType* type = (**iterator).getTypeSpecifier().getType(context);
-    argumentTypes.push_back(type->getLLVMType(llvmContext));
-  }
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = mReturnTypeSpecifier.getType(context)->getLLVMType(llvmContext);
-  FunctionType *ftype = FunctionType::get(llvmReturnType,
-                                          argTypesArray,
-                                          false);
-  string functionName = MethodCall::translateModelMethodToLLVMFunctionName(model, mMethodName);
-
-  return Function::Create(ftype,
-                          GlobalValue::InternalLinkage,
-                          functionName,
-                          context.getModule());
-}
-
-void MethodDeclaration::createArguments(IRGenerationContext& context,
-                                        Function* function,
-                                        Model* model) const {
-  Function::arg_iterator arguments = function->arg_begin();
-  llvm::Argument *argument = &*arguments;
-  argument->setName("this");
-  arguments++;
-  for (VariableList::const_iterator iterator = mArguments.begin();
-       iterator != mArguments.end();
-       iterator++) {
-    llvm::Argument *argument = &*arguments;
-    argument->setName((**iterator).getId().getName());
-    arguments++;
-  }
-  
-  arguments = function->arg_begin();
-  storeArgumentValue(context, "this", model, &*arguments);
-  arguments++;
-  for (VariableList::const_iterator iterator = mArguments.begin();
-       iterator != mArguments.end();
-       iterator++) {
-    VariableDeclaration* variableDeclaration = *iterator;
-    storeArgumentValue(context,
-                       variableDeclaration->getId().getName(),
-                       variableDeclaration->getTypeSpecifier().getType(context),
-                       &*arguments);
-    arguments++;
-  }
-}
-
-void MethodDeclaration::storeArgumentValue(IRGenerationContext& context,
-                                           std::string variableName,
-                                           IType* variableType,
-                                           llvm::Value* variableValue) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  string newName = variableName + ".param";
-  AllocaInst *alloc = new AllocaInst(variableType->getLLVMType(llvmContext),
-                                     newName,
-                                     context.getBasicBlock());
-  new StoreInst(variableValue, alloc, context.getBasicBlock());
-  IVariable* variable = new LocalStackVariable(variableName, variableType, alloc);
-  context.getScopes().setVariable(variable);
-}
-
-void MethodDeclaration::addImpliedVoidReturn(IRGenerationContext& context) const {
-  BasicBlock* currentBlock = context.getBasicBlock();
-  if(currentBlock->size() == 0 || !ReturnInst::classof(&currentBlock->back())) {
-    ReturnInst::Create(context.getLLVMContext(), NULL, currentBlock);
-  }
-}
 
 Method* MethodDeclaration::getMethod(IRGenerationContext& context, unsigned long index) const {
   vector<MethodArgument*> arguments;
@@ -127,7 +30,7 @@ Method* MethodDeclaration::getMethod(IRGenerationContext& context, unsigned long
   
   IType* returnType = mReturnTypeSpecifier.getType(context);
   
-  return new Method(mMethodName, returnType, arguments, index);
+  return new Method(mMethodName, returnType, arguments, index, &mCompoundStatement);
 }
 
 string MethodDeclaration::getMethodName() const {

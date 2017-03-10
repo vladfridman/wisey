@@ -26,5 +26,5 @@ Method* MethodSignature::getMethod(IRGenerationContext& context, unsigned long i
   
   IType* returnType = mReturnTypeSpecifier.getType(context);
   
-  return new Method(mMethodName, returnType, arguments, index);
+  return new Method(mMethodName, returnType, arguments, index, NULL);
 }

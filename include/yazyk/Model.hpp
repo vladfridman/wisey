@@ -81,6 +81,7 @@ public:
 private:
   
   int getInterfaceIndex(Interface* interface) const;
+  
 };
 
 } /* namespace yazyk */
