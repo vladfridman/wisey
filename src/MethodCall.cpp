@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "yazyk/AutoCast.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/MethodArgument.hpp"
@@ -33,10 +35,28 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
-  Log::e("Interface methods calls are not yet implemented");
-  exit(1);
-  // TODO: implement interface method calls
-  return NULL;
+  BasicBlock* basicBlock = context.getBasicBlock();
+  Value* expressionValue = mExpression.generateIR(context);
+  FunctionType* functionType =
+    IMethodDescriptor::getLLVMFunctionType(methodDescriptor, context, interface);
+  Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
+  BitCastInst* vTablePointer =
+    new BitCastInst(expressionValue, pointerToVTablePointer, "", basicBlock);
+  LoadInst* vTable = new LoadInst(vTablePointer, "vtable", basicBlock);
+  Value *Idx[1];
+  Idx[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
+                            methodDescriptor->getIndex());
+  GetElementPtrInst* virtualFunction = GetElementPtrInst::Create(functionType->getPointerTo(),
+                                                                 vTable,
+                                                                 Idx,
+                                                                 "vfn",
+                                                                 basicBlock);
+  LoadInst* function = new LoadInst(virtualFunction, "", basicBlock);
+  
+  return createFunctionCall(context,
+                            (Function*) function,
+                            functionType->getReturnType(),
+                            methodDescriptor);
 }
 
 Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
@@ -50,6 +70,14 @@ Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
            mMethodName + "' was not found");
     exit(1);
   }
+
+  return createFunctionCall(context, function, function->getReturnType(), methodDescriptor);
+}
+
+CallInst* MethodCall::createFunctionCall(IRGenerationContext& context,
+                                         Function* function,
+                                         Type* returnType,
+                                         IMethodDescriptor* methodDescriptor) const {
   vector<Value*> arguments;
   arguments.push_back(mExpression.generateIR(context));
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
@@ -66,7 +94,7 @@ Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
     arguments.push_back(callArgumentValueCasted);
     methodArgumentIterator++;
   }
-  string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
+  string resultName = returnType->isVoidTy() ? "" : "call";
   
   return CallInst::Create(function, arguments, resultName, context.getBasicBlock());
 }

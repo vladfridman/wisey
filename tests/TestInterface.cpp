@@ -80,6 +80,6 @@ TEST_F(TestFileSampleRunner, InterfaceMethodDifferentArgumentTypesDeathTest) {
 }
 
 TEST_F(TestFileSampleRunner, ModelImplmenetingInterfaceDefinitionTest) {
-  runFile("tests/samples/test_interface_implementation.yz", "0");
+  runFile("tests/samples/test_interface_implementation.yz", "90");
 }
 

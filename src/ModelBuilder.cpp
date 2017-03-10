@@ -89,7 +89,6 @@ void ModelBuilder::initializeVTable(IRGenerationContext& context,
                                                         basicBlock);
     BitCastInst* bitcast = new BitCastInst(initializerStart, vTableType, "", basicBlock);
     new StoreInst(bitcast, vTablePointer, basicBlock);
-    interfaceIndex++;
   }
 }
 

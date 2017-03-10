@@ -1,4 +1,5 @@
 interface IShape {
+  int getPerimeter();
   int getArea();
 }
 
@@ -13,6 +14,10 @@ interface IClickable {
 
 model MSquare implements IShape, IObject, IClickable {
   int mWidth;
+
+  public int getPerimeter() {
+    return mWidth + mWidth;
+  }
 
   public int getArea() {
     return mWidth * mWidth;
@@ -31,7 +36,6 @@ model MSquare implements IShape, IObject, IClickable {
 
 int main() {
   MSquare square = builder(MSquare).withWidth(5).build();
-  (IObject)square;
 
-  return 0;
+  return ((IObject) square).getColor(55) + ((IShape) square).getArea() + ((IShape) square).getPerimeter();
 }
