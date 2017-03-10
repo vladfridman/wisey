@@ -41,9 +41,6 @@ public:
   
   unsigned long getIndex() const override;
   
-  llvm::FunctionType* getLLVMFunctionType(IRGenerationContext& context,
-                                          ICallableObjectType* callableObject) const override;
-
 };
   
 } /* namespace yazyk */

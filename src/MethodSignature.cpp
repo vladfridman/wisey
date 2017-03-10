@@ -29,17 +29,3 @@ vector<MethodArgument*> MethodSignature::getArguments() const {
 unsigned long MethodSignature::getIndex() const {
   return mIndex;
 }
-
-FunctionType* MethodSignature::getLLVMFunctionType(IRGenerationContext& context,
-                                                   ICallableObjectType* callableObject) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(callableObject->getLLVMType(llvmContext));
-  for (MethodArgument* methodArgument : mArguments) {
-    IType* type = methodArgument->getType();
-    argumentTypes.push_back(type->getLLVMType(llvmContext));
-  }
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = mReturnType->getLLVMType(llvmContext);
-  return FunctionType::get(llvmReturnType, argTypesArray, false);
-}

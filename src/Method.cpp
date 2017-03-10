@@ -34,20 +34,6 @@ unsigned long Method::getIndex() const {
   return mIndex;
 }
 
-FunctionType* Method::getLLVMFunctionType(IRGenerationContext& context,
-                                          ICallableObjectType* callableObject) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(callableObject->getLLVMType(llvmContext));
-  for (MethodArgument* methodArgument : mArguments) {
-    IType* type = methodArgument->getType();
-    argumentTypes.push_back(type->getLLVMType(llvmContext));
-  }
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = mReturnType->getLLVMType(llvmContext);
-  return FunctionType::get(llvmReturnType, argTypesArray, false);
-}
-
 Function* Method::generateIR(IRGenerationContext& context, Model* model) const {
   Scopes& scopes = context.getScopes();
   
@@ -68,7 +54,9 @@ Function* Method::generateIR(IRGenerationContext& context, Model* model) const {
 }
 
 Function* Method::createFunction(IRGenerationContext& context, Model* model) const {
-  FunctionType *ftype = getLLVMFunctionType(context, model);
+  FunctionType *ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
+                                                               context,
+                                                               model);
   string functionName = MethodCall::translateModelMethodToLLVMFunctionName(model, mName);
   
   return Function::Create(ftype,

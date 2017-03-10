@@ -27,6 +27,7 @@ struct IMethodDescriptorTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Method* mMethod;
+  Model* mModel;
   
 public:
   
@@ -38,7 +39,19 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     mMethod = new Method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0, NULL);
-  }
+
+    vector<Type*> types;
+    types.push_back(Type::getInt32Ty(mLLVMContext));
+    types.push_back(Type::getInt32Ty(mLLVMContext));
+    StructType* structType = StructType::create(mLLVMContext, "Object");
+    structType->setBody(types);
+    map<string, ModelField*> fields;
+    fields["foo"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
+    fields["bar"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
+    vector<Method*> methods;
+    vector<Interface*> interfaces;
+    mModel = new Model("Object", structType, fields, methods, interfaces);
+}
 };
 
 TEST_F(IMethodDescriptorTest, CompareTest) {
@@ -81,5 +94,18 @@ TEST_F(IMethodDescriptorTest, TypeOfArgumentsNotEqualsTest) {
   Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0, NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
+}
+
+TEST_F(IMethodDescriptorTest, GetLLVMFunctionTypeTest) {
+  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<MethodArgument*> arguments;
+  arguments.push_back(intArgument);
+  MethodSignature method("foo", PrimitiveTypes::FLOAT_TYPE, arguments, 0);
+  FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(&method, mContext, mModel);
+  
+  EXPECT_EQ(functionType->getReturnType(), Type::getFloatTy(mLLVMContext));
+  EXPECT_EQ(functionType->getNumParams(), 2u);
+  EXPECT_EQ(functionType->getParamType(0), mModel->getLLVMType(mLLVMContext));
+  EXPECT_EQ(functionType->getParamType(1), Type::getInt32Ty(mLLVMContext));
 }
 

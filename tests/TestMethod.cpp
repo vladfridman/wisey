@@ -94,16 +94,3 @@ TEST_F(MethodTest, MethodFooIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
-
-TEST_F(MethodTest, GetLLVMFunctionTypeTest) {
-  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
-  arguments.push_back(intArgument);
-  Method method("foo", PrimitiveTypes::FLOAT_TYPE, arguments, 0, &mCompoundStatement);
-  FunctionType* functionType = method.getLLVMFunctionType(mContext, mModel);
-  
-  EXPECT_EQ(functionType->getReturnType(), Type::getFloatTy(mLLVMContext));
-  EXPECT_EQ(functionType->getNumParams(), 2u);
-  EXPECT_EQ(functionType->getParamType(0), mModel->getLLVMType(mLLVMContext));
-  EXPECT_EQ(functionType->getParamType(1), Type::getInt32Ty(mLLVMContext));
-}

@@ -56,9 +56,6 @@ public:
   
   unsigned long getIndex() const override;
   
-  llvm::FunctionType* getLLVMFunctionType(IRGenerationContext& context,
-                                          ICallableObjectType* callableObject) const override;
-
 private:
   
   llvm::Function* createFunction(IRGenerationContext& context, Model* model) const;

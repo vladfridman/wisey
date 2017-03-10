@@ -53,16 +53,17 @@ public:
   virtual unsigned long getIndex() const = 0;
   
   /**
-   * Returns function type corresponding to this method
-   */
-  virtual llvm::FunctionType* getLLVMFunctionType(IRGenerationContext& context,
-                                                  ICallableObjectType* callableObject) const = 0;
-  
-  /**
    * Returns two if two method descriptors are the same in terms of their name, return type
    * and argument types
    */
   static bool compare(IMethodDescriptor* method1, IMethodDescriptor* method2);
+  
+  /**
+   * Returns function type corresponding to the given method descirptor
+   */
+  static llvm::FunctionType* getLLVMFunctionType(IMethodDescriptor* method,
+                                                 IRGenerationContext& context,
+                                                 ICallableObjectType* callableObject);
 };
   
 } /* namespace yazyk */

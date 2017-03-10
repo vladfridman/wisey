@@ -7,6 +7,7 @@
 //
 
 #include "yazyk/IMethodDescriptor.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/MethodArgument.hpp"
 
 using namespace std;
@@ -33,4 +34,20 @@ bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* m
   
   return !method1->getName().compare(method2->getName()) &&
     method1->getReturnType() == method2->getReturnType();
+}
+
+
+FunctionType* IMethodDescriptor::getLLVMFunctionType(IMethodDescriptor* method,
+                                                     IRGenerationContext& context,
+                                                     ICallableObjectType* callableObject) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(callableObject->getLLVMType(llvmContext));
+  for (MethodArgument* methodArgument : method->getArguments()) {
+    IType* type = methodArgument->getType();
+    argumentTypes.push_back(type->getLLVMType(llvmContext));
+  }
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = method->getReturnType()->getLLVMType(llvmContext);
+  return FunctionType::get(llvmReturnType, argTypesArray, false);
 }
