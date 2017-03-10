@@ -62,7 +62,7 @@ public:
   /**
    * Free any allocated space associated with this variable
    */
-  virtual void free(llvm::BasicBlock* basicBlock) const = 0;
+  virtual void free(IRGenerationContext& context) const = 0;
 };
   
 } /* namespace yazyk */

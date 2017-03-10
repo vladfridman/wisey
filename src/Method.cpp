@@ -46,7 +46,7 @@ Function* Method::generateIR(IRGenerationContext& context, Model* model) const {
   context.getScopes().setReturnType(mReturnType);
   createArguments(context, function, model);
   mCompoundStatement->generateIR(context);
-  scopes.popScope(context.getBasicBlock());
+  scopes.popScope(context);
   
   maybeAddImpliedVoidReturn(context);
   

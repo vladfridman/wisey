@@ -45,7 +45,7 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   SafeBranch::newBranch(forCond, context);
   context.setBasicBlock(forEnd);
   
-  scopes.popScope(context.getBasicBlock());
+  scopes.popScope(context);
   
   return conditionValue;
 }

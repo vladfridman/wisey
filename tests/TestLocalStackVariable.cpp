@@ -135,7 +135,7 @@ TEST_F(LocalStackVariableTest, GenerateIdentifierIRTest) {
 TEST_F(LocalStackVariableTest, TestFree) {
   LocalStackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
 
-  localStackVariable.free(mBlock);
+  localStackVariable.free(mContext);
   
   ASSERT_EQ(mBlock->size(), 0u);
 }

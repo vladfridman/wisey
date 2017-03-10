@@ -83,7 +83,7 @@ public:
   /**
    * Free memory owned by this scope
    */
-  void maybeFreeOwnedMemory(llvm::BasicBlock* block);
+  void maybeFreeOwnedMemory(IRGenerationContext& context);
 };
   
 } // namespace yazyk

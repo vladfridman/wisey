@@ -56,9 +56,9 @@ void Scopes::pushScope() {
   mScopes.push_front(new Scope());
 }
 
-void Scopes::popScope(BasicBlock* basicBlock) {
+void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
-  top->maybeFreeOwnedMemory(basicBlock);
+  top->maybeFreeOwnedMemory(context);
   mScopes.pop_front();
   delete top;
 }

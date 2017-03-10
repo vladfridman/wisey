@@ -53,10 +53,11 @@ Value* LocalHeapVariable::generateAssignmentIR(IRGenerationContext& context,
   return mValue;
 }
 
-void LocalHeapVariable::free(BasicBlock* basicBlock) const {
+void LocalHeapVariable::free(IRGenerationContext& context) const {
   if (mValue == NULL) {
     return;
   }
   
+  BasicBlock* basicBlock = context.getBasicBlock();
   basicBlock->getInstList().push_back(CallInst::CreateFree(mValue, basicBlock));
 }

@@ -42,7 +42,7 @@ public:
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                     IExpression& assignToExpression) override;
   
-  void free(llvm::BasicBlock* basicBlock) const override;
+  void free(IRGenerationContext& context) const override;
   
 private:
   

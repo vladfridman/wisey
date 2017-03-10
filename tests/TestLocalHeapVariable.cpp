@@ -97,7 +97,7 @@ TEST_F(LocalHeapVariableTest, FreeTest) {
 
   EXPECT_EQ(mBlock->size(), 0u);
 
-  localHeapVariable.free(mBlock);
+  localHeapVariable.free(mContext);
   
   EXPECT_EQ(mBlock->size(), 2u);
   BasicBlock::iterator iterator = mBlock->begin();

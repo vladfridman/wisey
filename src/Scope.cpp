@@ -59,7 +59,7 @@ IType* Scope::getReturnType() {
   return mReturnType;
 }
 
-void Scope::maybeFreeOwnedMemory(BasicBlock* block) {
+void Scope::maybeFreeOwnedMemory(IRGenerationContext& context) {
   if (mHasOwnedMemoryBeenFreed) {
     return;
   }
@@ -69,7 +69,7 @@ void Scope::maybeFreeOwnedMemory(BasicBlock* block) {
       iterator++) {
     string name = iterator->first;
     IVariable* variable = iterator->second;
-    variable->free(block);
+    variable->free(context);
 
     delete variable;
   }

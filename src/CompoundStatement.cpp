@@ -16,7 +16,7 @@ Value* CompoundStatement::generateIR(IRGenerationContext& context) const {
   
   scopes.pushScope();
   mBlock.generateIR(context);
-  scopes.popScope(context.getBasicBlock());
+  scopes.popScope(context);
   
   return NULL;
 }

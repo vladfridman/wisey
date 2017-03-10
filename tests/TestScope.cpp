@@ -24,6 +24,7 @@ using namespace std;
 using namespace llvm;
 using namespace yazyk;
 
+using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Test;
@@ -35,7 +36,7 @@ public:
   MOCK_CONST_METHOD0(getValue, Value* ());
   MOCK_CONST_METHOD2(generateIdentifierIR, Value* (IRGenerationContext&, string));
   MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, IExpression&));
-  MOCK_CONST_METHOD1(free, void (BasicBlock*));
+  MOCK_CONST_METHOD1(free, void (IRGenerationContext&));
 };
 
 struct ScopeTest : public Test {
@@ -76,7 +77,7 @@ TEST_F(ScopeTest, ClearNonExistantVariableDeathTest) {
 TEST_F(ScopeTest, MaybeFreeOwnedMemoryHeapVariableTest) {
   mScope.setVariable("foo", mMockVariable);
   
-  EXPECT_CALL(*mMockVariable, free(mContext.getBasicBlock()));
+  EXPECT_CALL(*mMockVariable, free(_));
   
-  mScope.maybeFreeOwnedMemory(mContext.getBasicBlock());
+  mScope.maybeFreeOwnedMemory(mContext);
 }

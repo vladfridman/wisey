@@ -44,5 +44,5 @@ Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,
                        context.getBasicBlock());
 }
 
-void LocalStackVariable::free(BasicBlock* basicBlock) const {
+void LocalStackVariable::free(IRGenerationContext& context) const {
 }

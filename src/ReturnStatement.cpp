@@ -27,7 +27,7 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                            mExpression.getType(context),
                                            mExpression.generateIR(context),
                                            returnType);
-  context.getScopes().getScope()->maybeFreeOwnedMemory(context.getBasicBlock());
+  context.getScopes().getScope()->maybeFreeOwnedMemory(context);
   
   ReturnInst* result = ReturnInst::Create(context.getLLVMContext(),
                                           returnValue,

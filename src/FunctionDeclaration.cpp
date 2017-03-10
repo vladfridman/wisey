@@ -32,7 +32,7 @@ Value* FunctionDeclaration::generateIR(IRGenerationContext& context) const {
   context.getScopes().setReturnType(mReturnTypeSpecifier.getType(context));
   createArguments(context, function);
   mCompoundStatement.generateIR(context);
-  scopes.popScope(context.getBasicBlock());
+  scopes.popScope(context);
   
   addImpliedVoidReturn(context);
   

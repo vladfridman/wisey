@@ -28,7 +28,8 @@ using ::testing::Test;
 
 TEST(ScopesTest, TestScopes) {
   Scopes scopes;
-  LLVMContext llvmContext;
+  IRGenerationContext context;
+  LLVMContext& llvmContext = context.getLLVMContext();
   
   scopes.pushScope();
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
@@ -45,7 +46,7 @@ TEST(ScopesTest, TestScopes) {
   EXPECT_EQ(scopes.getVariable("bar")->getValue(), barValue);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
   
-  scopes.popScope(NULL);
+  scopes.popScope(context);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
   EXPECT_EQ(scopes.getVariable("bar"), nullptr);
   
@@ -54,14 +55,15 @@ TEST(ScopesTest, TestScopes) {
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
   EXPECT_EQ(scopes.getVariable("bar")->getValue(), barValue);
   
-  scopes.popScope(NULL);
+  scopes.popScope(context);
   EXPECT_EQ(scopes.getVariable("foo"), nullptr);
   EXPECT_EQ(scopes.getVariable("bar"), nullptr);
 }
 
 TEST(ScopesTest, TestScopesCorrectlyOrdered) {
   Scopes scopes;
-  LLVMContext llvmContext;
+  IRGenerationContext context;
+  LLVMContext& llvmContext = context.getLLVMContext();
   
   scopes.pushScope();
   Value* outerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
@@ -78,7 +80,7 @@ TEST(ScopesTest, TestScopesCorrectlyOrdered) {
   
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), innerValue);
   
-  scopes.popScope(NULL);
+  scopes.popScope(context);
   
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), outerValue);
 }

@@ -84,7 +84,7 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   return new StoreInst(assignToValue, fieldPointer, basicBlock);
 }
 
-void ObjectFieldVariable::free(BasicBlock* basicBlock) const {
+void ObjectFieldVariable::free(IRGenerationContext& context) const {
   /** Not implmeneted yet */
 }
 

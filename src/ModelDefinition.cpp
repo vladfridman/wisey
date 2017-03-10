@@ -41,7 +41,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   processInterfaceMethods(context, model, interfaces, methodFunctionMap);
 
   context.addModel(model);
-  context.getScopes().popScope(context.getBasicBlock());
+  context.getScopes().popScope(context);
 
   return NULL;
 }

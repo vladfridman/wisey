@@ -52,7 +52,7 @@ public:
   /**
    * Pops a program scope out of the stack
    */
-  void popScope(llvm::BasicBlock* basicBlock);
+  void popScope(IRGenerationContext& context);
   
   /**
    * Returns current Scope
