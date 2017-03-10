@@ -12,7 +12,7 @@
 #include "yazyk/Block.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"
-#include "yazyk/MethodSignature.hpp"
+#include "yazyk/MethodSignatureDeclaration.hpp"
 #include "yazyk/ModelFieldDeclaration.hpp"
 
 namespace yazyk {
@@ -22,13 +22,13 @@ namespace yazyk {
  */
 class InterfaceDefinition : public IStatement {
   const std::string mName;
-  std::vector<MethodSignature *>& mMethods;
+  std::vector<MethodSignatureDeclaration *>& mMethodSignatureDeclarations;
   
 public:
   
   InterfaceDefinition(std::string name,
-                      std::vector<MethodSignature *>& methods)
-  : mName(name), mMethods(methods) { }
+                      std::vector<MethodSignatureDeclaration *>& methodSignatureDeclarations)
+  : mName(name), mMethodSignatureDeclarations(methodSignatureDeclarations) { }
   
   ~InterfaceDefinition() { };
   

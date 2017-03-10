@@ -1,11 +1,11 @@
 //
-//  TestMethodSignature.cpp
+//  TestMethodSignatureDeclaration.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 3/1/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link MethodSignature}
+//  Tests {@link MethodSignatureDeclaration}
 //
 
 #include <gtest/gtest.h>
@@ -15,7 +15,7 @@
 
 #include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/MethodSignature.hpp"
+#include "yazyk/MethodSignatureDeclaration.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
 #include "yazyk/VariableDeclaration.hpp"
@@ -26,7 +26,7 @@ using namespace yazyk;
 
 using ::testing::Test;
 
-struct MethodSignatureTest : Test {
+struct MethodSignatureDeclarationTest : Test {
   IRGenerationContext mContext;
   PrimitiveTypeSpecifier mFloatTypeSpecifier;
   PrimitiveTypeSpecifier mIntTypeSpecifier;
@@ -37,7 +37,7 @@ struct MethodSignatureTest : Test {
   VariableList mArguments;
   Interface* mInterface;
   
-  MethodSignatureTest() :
+  MethodSignatureDeclarationTest() :
   mFloatTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
   mIntTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
   mIntArgumentIdentifier(Identifier("intargument")),
@@ -54,15 +54,15 @@ struct MethodSignatureTest : Test {
     mInterface = new Interface("Interface", structType, methods);
   }
   
-  ~MethodSignatureTest() {
+  ~MethodSignatureDeclarationTest() {
   }
 };
 
-TEST_F(MethodSignatureTest, MethodDescriptorExtractTest) {
+TEST_F(MethodSignatureDeclarationTest, MethodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
-  MethodSignature methodSignature(mFloatTypeSpecifier, "foo", mArguments);
-  Method* method = methodSignature.createMethod(mContext, 0);
+  MethodSignatureDeclaration methodSignatureDeclaration(mFloatTypeSpecifier, "foo", mArguments);
+  Method* method = methodSignatureDeclaration.createMethod(mContext, 0);
   vector<MethodArgument*> arguments = method->getArguments();
   
   EXPECT_STREQ(method->getName().c_str(), "foo");

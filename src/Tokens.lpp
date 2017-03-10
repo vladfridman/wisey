@@ -8,7 +8,7 @@
   #include "yazyk/Identifier.hpp"
   #include "yazyk/InterfaceTypeSpecifier.hpp"
   #include "yazyk/MethodDeclaration.hpp"
-  #include "yazyk/MethodSignature.hpp"
+  #include "yazyk/MethodSignatureDeclaration.hpp"
   #include "yazyk/ModelBuilderArgument.hpp"
   #include "yazyk/ModelFieldDeclaration.hpp"
   #include "yazyk/ModelTypeSpecifier.hpp"

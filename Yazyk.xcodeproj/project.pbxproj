@@ -73,8 +73,8 @@
 		F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797091E5C95BC009B16AA /* TestCastExpression.cpp */; };
 		F517970E1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
 		F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
-		F51797111E6605FC009B16AA /* MethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797101E6605FC009B16AA /* MethodSignature.cpp */; };
-		F51797121E6605FC009B16AA /* MethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797101E6605FC009B16AA /* MethodSignature.cpp */; };
+		F51797111E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */; };
+		F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */; };
 		F51797141E660779009B16AA /* TestInterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */; };
 		F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
@@ -253,7 +253,7 @@
 		F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */; };
 		F5ADB6211E66F9B400FFC941 /* Interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6201E66F9B400FFC941 /* Interface.cpp */; };
 		F5ADB6221E66F9B400FFC941 /* Interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6201E66F9B400FFC941 /* Interface.cpp */; };
-		F5ADB6241E6705CC00FFC941 /* TestMethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6231E6705CC00FFC941 /* TestMethodSignature.cpp */; };
+		F5ADB6241E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6231E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp */; };
 		F5ADB6261E67075400FFC941 /* TestInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6251E67075400FFC941 /* TestInterface.cpp */; };
 		F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
 		F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
@@ -395,10 +395,10 @@
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
-		F517970B1E633FB7009B16AA /* MethodSignature.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodSignature.hpp; path = include/yazyk/MethodSignature.hpp; sourceTree = "<group>"; };
+		F517970B1E633FB7009B16AA /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/yazyk/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
 		F517970C1E660064009B16AA /* InterfaceDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceDefinition.hpp; path = include/yazyk/InterfaceDefinition.hpp; sourceTree = "<group>"; };
 		F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceDefinition.cpp; path = src/InterfaceDefinition.cpp; sourceTree = "<group>"; };
-		F51797101E6605FC009B16AA /* MethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignature.cpp; path = src/MethodSignature.cpp; sourceTree = "<group>"; };
+		F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignatureDeclaration.cpp; path = src/MethodSignatureDeclaration.cpp; sourceTree = "<group>"; };
 		F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceDefinition.cpp; path = tests/TestInterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CastExpression.hpp; path = include/yazyk/CastExpression.hpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
@@ -579,7 +579,7 @@
 		F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNegateExpression.cpp; path = tests/TestNegateExpression.cpp; sourceTree = "<group>"; };
 		F5ADB61F1E66F84C00FFC941 /* Interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Interface.hpp; path = include/yazyk/Interface.hpp; sourceTree = "<group>"; };
 		F5ADB6201E66F9B400FFC941 /* Interface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Interface.cpp; path = src/Interface.cpp; sourceTree = "<group>"; };
-		F5ADB6231E6705CC00FFC941 /* TestMethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodSignature.cpp; path = tests/TestMethodSignature.cpp; sourceTree = "<group>"; };
+		F5ADB6231E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodSignatureDeclaration.cpp; path = tests/TestMethodSignatureDeclaration.cpp; sourceTree = "<group>"; };
 		F5ADB6251E67075400FFC941 /* TestInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterface.cpp; path = tests/TestInterface.cpp; sourceTree = "<group>"; };
 		F5ADB6271E69831A00FFC941 /* Method.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Method.cpp; path = src/Method.cpp; sourceTree = "<group>"; };
 		F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethod.cpp; path = tests/TestMethod.cpp; sourceTree = "<group>"; };
@@ -759,7 +759,7 @@
 				F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */,
 				F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */,
 				F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */,
-				F5ADB6231E6705CC00FFC941 /* TestMethodSignature.cpp */,
+				F5ADB6231E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp */,
 				F5C6FD891E48D08F0054209D /* TestModel.cpp */,
 				F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */,
 				F5F396DD1E3F898900F34296 /* TestModelBuilderArgument.cpp */,
@@ -914,7 +914,7 @@
 				F5ADB6271E69831A00FFC941 /* Method.cpp */,
 				F57085FB1E51E2ED007D627E /* MethodCall.cpp */,
 				F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */,
-				F51797101E6605FC009B16AA /* MethodSignature.cpp */,
+				F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */,
 				F507D2641E43551900495E2D /* Model.cpp */,
 				F5F396D61E34BBDD00F34296 /* ModelBuilder.cpp */,
 				F5F396DA1E34BFE000F34296 /* ModelBuilderArgument.cpp */,
@@ -1055,7 +1055,7 @@
 				F50427A41E4CC27F001CB148 /* MethodArgument.hpp */,
 				F57085FA1E51E15B007D627E /* MethodCall.hpp */,
 				F534010F1DFF31550002BF7E /* MethodDeclaration.hpp */,
-				F517970B1E633FB7009B16AA /* MethodSignature.hpp */,
+				F517970B1E633FB7009B16AA /* MethodSignatureDeclaration.hpp */,
 				F507D2631E43539C00495E2D /* Model.hpp */,
 				F5F396D21E3495BD00F34296 /* ModelBuilder.hpp */,
 				F5F396D91E34BD0400F34296 /* ModelBuilderArgument.hpp */,
@@ -1217,7 +1217,7 @@
 				F50FA2D91E2D324600435EEA /* SwitchStatement.cpp in Sources */,
 				F5F396DC1E34BFE000F34296 /* ModelBuilderArgument.cpp in Sources */,
 				F50427B51E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */,
-				F51797121E6605FC009B16AA /* MethodSignature.cpp in Sources */,
+				F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
 				F50FA2D71E2D12E000435EEA /* TestModelDefinition.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
@@ -1280,7 +1280,7 @@
 				F5C6FD811E48B6E80054209D /* IntType.cpp in Sources */,
 				F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */,
 				F574114A1E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
-				F5ADB6241E6705CC00FFC941 /* TestMethodSignature.cpp in Sources */,
+				F5ADB6241E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp in Sources */,
 				F50FA2FC1E30051700435EEA /* TestModelTypeSpecifier.cpp in Sources */,
 				F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
@@ -1316,7 +1316,7 @@
 				F50FA2B71E28BA5600435EEA /* DoStatement.cpp in Sources */,
 				F57086021E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F517970E1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
-				F51797111E6605FC009B16AA /* MethodSignature.cpp in Sources */,
+				F51797111E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */,
 				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,

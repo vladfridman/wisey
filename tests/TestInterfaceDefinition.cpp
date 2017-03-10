@@ -16,7 +16,7 @@
 #include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/InterfaceDefinition.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/MethodSignature.hpp"
+#include "yazyk/MethodSignatureDeclaration.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
 
@@ -38,9 +38,9 @@ TEST(InterfaceDefinitionTest, TestSimpleDefinition) {
   VariableDeclaration intArgument(intTypeSpecifier, intArgumentIdentifier);
   VariableList methodArguments;
   methodArguments.push_back(&intArgument);
-  MethodSignature methodSignature(floatTypeSpecifier, "foo", methodArguments);
-  vector<MethodSignature *> methods;
-  methods.push_back(&methodSignature);
+  MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier, "foo", methodArguments);
+  vector<MethodSignatureDeclaration *> methods;
+  methods.push_back(&methodSignatureDeclaration);
   
   InterfaceDefinition interfaceDefinition("myinterface", methods);
   

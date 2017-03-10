@@ -1,13 +1,13 @@
 //
-//  MethodSignature.hpp
+//  MethodSignatureDeclaration.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/26/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef MethodSignature_h
-#define MethodSignature_h
+#ifndef MethodSignatureDeclaration_h
+#define MethodSignatureDeclaration_h
 
 #include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/Identifier.hpp"
@@ -18,23 +18,23 @@
 namespace yazyk {
   
 /**
- * Represents a method signature contained within an interface
+ * Represents a method signature declaration contained within an interface
  */
-class MethodSignature {
+class MethodSignatureDeclaration {
   const ITypeSpecifier& mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
   
 public:
   
-  MethodSignature(const ITypeSpecifier& returnTypeSpecifier,
+  MethodSignatureDeclaration(const ITypeSpecifier& returnTypeSpecifier,
                   std::string methodName,
                   const VariableList& arguments) :
   mReturnTypeSpecifier(returnTypeSpecifier),
   mMethodName(methodName),
   mArguments(arguments) { }
   
-  ~MethodSignature() { };
+  ~MethodSignatureDeclaration() { };
   
   /**
    * Returns object representing the method for storage in an Interface object
@@ -45,4 +45,4 @@ public:
   
 } /* namespace yazyk */
 
-#endif /* MethodSignature_h */
+#endif /* MethodSignatureDeclaration_h */

@@ -34,7 +34,7 @@
   #include "yazyk/LongConstant.hpp"
   #include "yazyk/MethodCall.hpp"
   #include "yazyk/MethodDeclaration.hpp"
-  #include "yazyk/MethodSignature.hpp"
+  #include "yazyk/MethodSignatureDeclaration.hpp"
   #include "yazyk/ModelBuilder.hpp"
   #include "yazyk/ModelBuilderArgument.hpp"
   #include "yazyk/ModelDefinition.hpp"
@@ -91,12 +91,12 @@
   yazyk::InterfaceTypeSpecifier* interface_type_specifier;
   yazyk::AccessSpecifier access_specifier;
   yazyk::MethodDeclaration* method_declaration;
-  yazyk::MethodSignature* method_signature;
+  yazyk::MethodSignatureDeclaration* method_signature;
   std::vector<yazyk::VariableDeclaration*>* variable_vector;
   std::vector<yazyk::IExpression*>* expression_vector;
   std::vector<yazyk::ModelFieldDeclaration*>* field_vector;
   std::vector<yazyk::MethodDeclaration*>* method_declaration_vector;
-  std::vector<yazyk::MethodSignature*>* method_signature_vector;
+  std::vector<yazyk::MethodSignatureDeclaration*>* method_signature_vector;
   std::vector<std::string>* identifier_list;
   std::string* string;
   int token;
@@ -185,18 +185,18 @@ interface_definition
   ;
 
 method_signature_list_optional
-  : /* blank */ { $$ = new std::vector<MethodSignature *>(); }
+  : /* blank */ { $$ = new std::vector<MethodSignatureDeclaration *>(); }
   | method_signature_list
   ;
 
 method_signature_list
-  : method_signature { $$ = new std::vector<MethodSignature *>(); $$->push_back($1); }
+  : method_signature { $$ = new std::vector<MethodSignatureDeclaration *>(); $$->push_back($1); }
   | method_signature_list method_signature { $1->push_back($2); }
   ;
 
 method_signature
   : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
-    { $$ = new MethodSignature(*$1, *$2, *$4); delete $4; }
+    { $$ = new MethodSignatureDeclaration(*$1, *$2, *$4); delete $4; }
   ;
 
 model_definition

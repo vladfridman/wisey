@@ -1,18 +1,18 @@
 //
-//  MethodSignature.cpp
+//  MethodSignatureDeclaration.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/28/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/MethodSignature.hpp"
+#include "yazyk/MethodSignatureDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Method* MethodSignature::createMethod(IRGenerationContext& context, unsigned long index) const {
+Method* MethodSignatureDeclaration::createMethod(IRGenerationContext& context, unsigned long index) const {
   vector<MethodArgument*> arguments;
   
   for (VariableList::const_iterator iterator = mArguments.begin();

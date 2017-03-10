@@ -20,8 +20,8 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   vector<Type*> types;
   vector<Method*> methods;
   unsigned int index = 0;
-  for (MethodSignature* methodSignature : mMethods) {
-    Method* method = methodSignature->createMethod(context, index);
+  for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
+    Method* method = methodSignatureDeclaration->createMethod(context, index);
     methods.push_back(method);
     index++;
   }
