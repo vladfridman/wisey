@@ -57,7 +57,7 @@ TEST_F(MethodDeclarationTest, MethodDescriptorExtractTest) {
                                       "foo",
                                       mArguments,
                                       mCompoundStatement);
-  Method* method = methodDeclaration.getMethod(mContext, 0);
+  Method* method = methodDeclaration.createMethod(mContext, 0);
   vector<MethodArgument*> arguments = method->getArguments();
   
   EXPECT_STREQ(method->getName().c_str(), "foo");

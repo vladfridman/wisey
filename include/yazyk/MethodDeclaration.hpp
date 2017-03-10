@@ -48,7 +48,7 @@ public:
   /**
    * Returns object representing the method for storage in a Model object
    */
-  Method* getMethod(IRGenerationContext& context, unsigned long index) const;
+  Method* createMethod(IRGenerationContext& context, unsigned long index) const;
   
   /**
    * Returns method's name

@@ -62,7 +62,7 @@ TEST_F(MethodSignatureTest, MethodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
   MethodSignature methodSignature(mFloatTypeSpecifier, "foo", mArguments);
-  Method* method = methodSignature.getMethod(mContext, 0);
+  Method* method = methodSignature.createMethod(mContext, 0);
   vector<MethodArgument*> arguments = method->getArguments();
   
   EXPECT_STREQ(method->getName().c_str(), "foo");

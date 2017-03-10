@@ -78,7 +78,7 @@ void ModelDefinition::createFieldVariables(IRGenerationContext& context,
 vector<Method*> ModelDefinition::createMethods(IRGenerationContext& context) const {
   vector<Method*> methods;
   for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    Method* method = methodDeclaration->getMethod(context, methods.size());
+    Method* method = methodDeclaration->createMethod(context, methods.size());
     methods.push_back(method);
   }
   return methods;

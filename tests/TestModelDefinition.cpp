@@ -100,7 +100,7 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
   types.push_back(vtableType);
   structType->setBody(types);
   vector<Method*> interfaceMethods;
-  interfaceMethods.push_back(mMethodDeclaration->getMethod(mContext, 0));
+  interfaceMethods.push_back(mMethodDeclaration->createMethod(mContext, 0));
   Interface *interface = new Interface("myinterface", structType, interfaceMethods);
   mContext.addInterface(interface);
   vector<string> interfaces;

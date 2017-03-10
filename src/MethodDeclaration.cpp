@@ -16,7 +16,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-Method* MethodDeclaration::getMethod(IRGenerationContext& context, unsigned long index) const {
+Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned long index) const {
   vector<MethodArgument*> arguments;
   
   for (VariableList::const_iterator iterator = mArguments.begin();
