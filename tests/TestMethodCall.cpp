@@ -19,6 +19,7 @@
 #include "yazyk/Identifier.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodCall.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -113,7 +114,7 @@ TEST_F(MethodCallTest, TranslateModelMethodToLLVMFunctionNameTest) {
 
 TEST_F(MethodCallTest, TranslateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, "Shape");
-  vector<Method*> interfaceMethods;
+  vector<MethodSignature*> interfaceMethods;
   Interface* interface = new Interface("Shape", structType, interfaceMethods);
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");

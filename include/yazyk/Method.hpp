@@ -11,10 +11,7 @@
 
 #include <llvm/IR/DerivedTypes.h>
 
-#include "yazyk/ICallableObjectType.hpp"
-#include "yazyk/IType.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/MethodArgument.hpp"
+#include "yazyk/IMethodDescriptor.hpp"
 
 namespace yazyk {
   
@@ -24,7 +21,7 @@ class Model;
 /**
  * Contains information about a method including its return type and all of its arguments
  */
-class Method {
+class Method : public IMethodDescriptor {
   std::string mName;
   IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
@@ -47,40 +44,22 @@ public:
   ~Method() { mArguments.clear(); }
   
   /**
-   * Returns the method's name
-   */
-  std::string getName() const;
-  
-  /**
-   * Returns method's return type
-   */
-  IType* getReturnType() const;
-  
-  /**
-   * Returns an array of method arguments
-   */
-  std::vector<MethodArgument*> getArguments() const;
-  
-  /**
-   * Tells whether the two methods are equal in terms of their name, return type and arguments
-   */
-  bool equals(Method* method) const;
-  
-  /**
-   * Tells index of this method in the container model or interface
-   */
-  unsigned long getIndex() const;
-  
-  /**
-   * Returns function type corresponding to this method
-   */
-  llvm::FunctionType* getLLVMFunctionType(IRGenerationContext& context,
-                                          ICallableObjectType* callableObject) const;
-
-  /**
    * Generate IR for this method in a given model
    */
   llvm::Function* generateIR(IRGenerationContext& context, Model* model) const;
+
+  std::string getName() const override;
+  
+  IType* getReturnType() const override;
+  
+  std::vector<MethodArgument*> getArguments() const override;
+  
+  bool equals(IMethodDescriptor* methodDescriptor) const override;
+  
+  unsigned long getIndex() const override;
+  
+  llvm::FunctionType* getLLVMFunctionType(IRGenerationContext& context,
+                                          ICallableObjectType* callableObject) const override;
 
 private:
   

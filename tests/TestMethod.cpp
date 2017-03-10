@@ -15,6 +15,7 @@
 
 #include "yazyk/CompoundStatement.hpp"
 #include "yazyk/Method.hpp"
+#include "yazyk/MethodArgument.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;

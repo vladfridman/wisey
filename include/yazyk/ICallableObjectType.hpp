@@ -13,7 +13,7 @@
 
 namespace yazyk {
   
-class Method;
+class IMethodDescriptor;
   
 /**
  * Represents an IType of a callable object such as a Model or an Interface
@@ -25,7 +25,7 @@ public:
   /**
    * Finds a method with a given name
    */
-  virtual Method* findMethod(std::string methodName) const = 0;
+  virtual IMethodDescriptor* findMethod(std::string methodName) const = 0;
 
 };
 

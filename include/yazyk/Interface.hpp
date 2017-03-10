@@ -14,10 +14,11 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/ICallableObjectType.hpp"
-#include "yazyk/Method.hpp"
+#include "yazyk/MethodSignature.hpp"
 
 namespace yazyk {
 
+class MethodSignature;
 class Model;
   
 /**
@@ -26,14 +27,14 @@ class Model;
 class Interface : public ICallableObjectType {
   std::string mName;
   llvm::StructType* mStructType;
-  std::vector<Method*> mMethods;
-  std::map<std::string, Method*> mNameToMethodMap;
+  std::vector<MethodSignature*> mMethodSignatures;
+  std::map<std::string, MethodSignature*> mNameToMethodSignatureMap;
   
 public:
   
   Interface(std::string name,
             llvm::StructType* structType,
-            std::vector<Method*> methods);
+            std::vector<MethodSignature*> methodSignatures);
   
   ~Interface();
   
@@ -46,7 +47,7 @@ public:
                                                         methodFunctionMap,
                                                       int interfaceIndex) const;
   
-  Method* findMethod(std::string methodName) const override;
+  MethodSignature* findMethod(std::string methodName) const override;
 
   std::string getName() const override;
   
@@ -68,14 +69,14 @@ private:
                                                Model* model,
                                                llvm::Function* modelFunction,
                                                int interfaceIndex,
-                                               Method* method) const;
+                                               MethodSignature* methodSignature) const;
 
   void generateMapFunctionBody(IRGenerationContext& context,
                                Model* model,
                                llvm::Function* modelFunction,
                                llvm::Function* mapFunction,
                                int interfaceIndex,
-                               Method* method) const;
+                               MethodSignature* methodSignature) const;
 
   llvm::Value* storeArgumentValue(IRGenerationContext& context,
                                   llvm::BasicBlock* basicBlock,

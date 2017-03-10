@@ -14,6 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "yazyk/MethodSignature.hpp"
 #include "yazyk/Model.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -60,33 +61,31 @@ struct ModelTest : public Test {
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, "IShape");
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
-    vector<Method*> shapeInterfaceMethods;
-    Method* methodFoo = new Method("foo",
-                                   PrimitiveTypes::INT_TYPE,
-                                   shapeInterfaceMethodArguments,
-                                   0,
-                                   NULL);
-    shapeInterfaceMethods.push_back(methodFoo);
+    vector<MethodSignature*> shapeInterfaceMethods;
+    MethodSignature* methodFooSignature = new MethodSignature("foo",
+                                                              PrimitiveTypes::INT_TYPE,
+                                                              shapeInterfaceMethodArguments,
+                                                              0);
+    shapeInterfaceMethods.push_back(methodFooSignature);
     mShapeInterface = new Interface("IShape", shapeIinterfaceStructType, shapeInterfaceMethods);
    
     vector<Type*> objectInterfaceTypes;
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, "IObject");
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
-    vector<Method*> objectInterfaceMethods;
-    Method* methodBar = new Method("bar",
-                                   PrimitiveTypes::INT_TYPE,
-                                   objectInterfaceMethodArguments,
-                                   0,
-                                   NULL);
-    objectInterfaceMethods.push_back(methodBar);
+    vector<MethodSignature*> objectInterfaceMethods;
+    MethodSignature* methodBarSignature = new MethodSignature("bar",
+                                                              PrimitiveTypes::INT_TYPE,
+                                                              objectInterfaceMethodArguments,
+                                                              0);
+    objectInterfaceMethods.push_back(methodBarSignature);
     
     mObjectInterface = new Interface("IObject", objectInterfaceStructType, objectInterfaceMethods);
     
     vector<Type*> carInterfaceTypes;
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, "ICar");
     carInterfaceStructType->setBody(carInterfaceTypes);
-    vector<Method*> carInterfaceMethods;
+    vector<MethodSignature*> carInterfaceMethods;
     mCarInterface = new Interface("ICar", carInterfaceStructType, carInterfaceMethods);
     
     vector<Interface*> interfaces;

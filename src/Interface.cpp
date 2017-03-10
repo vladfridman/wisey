@@ -12,7 +12,9 @@
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
+#include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodCall.hpp"
+#include "yazyk/MethodSignature.hpp"
 #include "yazyk/Model.hpp"
 
 using namespace llvm;
@@ -20,24 +22,26 @@ using namespace std;
 using namespace yazyk;
 
 Interface::~Interface() {
-  mMethods.clear();
+  mNameToMethodSignatureMap.clear();
 }
 
-Interface::Interface(string name, StructType* structType, vector<Method*> methods) {
+Interface::Interface(string name,
+                     StructType* structType,
+                     vector<MethodSignature*> methodSignatures) {
   mName = name;
   mStructType = structType;
-  mMethods = methods;
-  for (Method* method : mMethods) {
-    mNameToMethodMap[method->getName()] = method;
+  mMethodSignatures = methodSignatures;
+  for (MethodSignature* methodSignature : methodSignatures) {
+    mNameToMethodSignatureMap[methodSignature->getName()] = methodSignature;
   }
 }
 
-Method* Interface::findMethod(std::string methodName) const {
-  if (!mNameToMethodMap.count(methodName)) {
+MethodSignature* Interface::findMethod(std::string methodName) const {
+  if (!mNameToMethodSignatureMap.count(methodName)) {
     return NULL;
   }
   
-  return mNameToMethodMap.at(methodName);
+  return mNameToMethodSignatureMap.at(methodName);
 }
 
 vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context,
@@ -46,14 +50,14 @@ vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context
                                                     int interfaceIndex) const {
   Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   vector<Constant*> vTableArrayProtion;
-  for (Method* method : mMethods) {
-    Function* modelFunction = methodFunctionMap.count(method->getName())
-      ? methodFunctionMap.at(method->getName()) : NULL;
+  for (MethodSignature* methodSignature : mMethodSignatures) {
+    Function* modelFunction = methodFunctionMap.count(methodSignature->getName())
+      ? methodFunctionMap.at(methodSignature->getName()) : NULL;
     Function* function = generateMapFunctionForMethod(context,
                                                       model,
                                                       modelFunction,
                                                       interfaceIndex,
-                                                      method);
+                                                      methodSignature);
     Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
     vTableArrayProtion.push_back(bitCast);
   }
@@ -64,23 +68,23 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                                                   Model* model,
                                                   llvm::Function* modelFunction,
                                                   int interfaceIndex,
-                                                  Method* method) const {
-  Method* modelMethod = model->findMethod(method->getName());
+                                                  MethodSignature* methodSignature) const {
+  Method* modelMethod = model->findMethod(methodSignature->getName());
   if (modelMethod == NULL) {
-    Log::e("Method '" + method->getName() + "' of interface '" + mName +
+    Log::e("Method '" + methodSignature->getName() + "' of interface '" + mName +
            "' is not implemented by model '" + model->getName() + "'");
     exit(1);
   }
   
-  if (modelMethod->getReturnType() != method->getReturnType()) {
-    Log::e("Method '" + method->getName() + "' of interface '" + mName +
+  if (modelMethod->getReturnType() != methodSignature->getReturnType()) {
+    Log::e("Method '" + methodSignature->getName() + "' of interface '" + mName +
            "' has different return type when implmeneted by model '"
            + model->getName() + "'");
     exit(1);
   }
   
-  if (!modelMethod->equals(method)) {
-    Log::e("Method '" + method->getName() + "' of interface '" + mName +
+  if (!modelMethod->equals(methodSignature)) {
+    Log::e("Method '" + methodSignature->getName() + "' of interface '" + mName +
            "' has different argument types when implmeneted by model '"
            + model->getName() + "'");
     exit(1);
@@ -91,7 +95,7 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
   }
   
   string functionName =
-    MethodCall::translateInterfaceMethodToLLVMFunctionName(model, this,method->getName());
+    MethodCall::translateInterfaceMethodToLLVMFunctionName(model, this, methodSignature->getName());
   Function* function = Function::Create(modelFunction->getFunctionType(),
                                         GlobalValue::InternalLinkage,
                                         functionName,
@@ -100,14 +104,14 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
   llvm::Argument *argument = &*arguments;
   argument->setName("this");
   arguments++;
-  vector<MethodArgument*> methodArguments = method->getArguments();
-  for (MethodArgument* methodArgument : method->getArguments()) {
+  vector<MethodArgument*> methodArguments = methodSignature->getArguments();
+  for (MethodArgument* methodArgument : methodSignature->getArguments()) {
     llvm::Argument *argument = &*arguments;
     argument->setName(methodArgument->getName());
     arguments++;
   }
   
-  generateMapFunctionBody(context, model, modelFunction, function, interfaceIndex, method);
+  generateMapFunctionBody(context, model, modelFunction, function, interfaceIndex, methodSignature);
 
   return function;
 }
@@ -117,7 +121,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
                                         Function* modelFunction,
                                         Function* mapFunction,
                                         int interfaceIndex,
-                                        Method* method) const {
+                                        MethodSignature* methodSignature) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock *basicBlock = BasicBlock::Create(llvmContext, "entry", mapFunction, 0);
   
@@ -125,7 +129,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Value* interfaceThis = storeArgumentValue(context, basicBlock, "this", model, &*arguments);
   arguments++;
   vector<Value*> argumentPointers;
-  for (MethodArgument* methodArgument : method->getArguments()) {
+  for (MethodArgument* methodArgument : methodSignature->getArguments()) {
     Value* argumentPointer = storeArgumentValue(context,
                                                 basicBlock,
                                                 methodArgument->getName(),

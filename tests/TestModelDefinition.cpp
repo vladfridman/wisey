@@ -18,7 +18,9 @@
 #include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodDeclaration.hpp"
+#include "yazyk/MethodSignature.hpp"
 #include "yazyk/ModelDefinition.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
@@ -99,9 +101,15 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
   types.push_back(vtableType);
   structType->setBody(types);
-  vector<Method*> interfaceMethods;
-  interfaceMethods.push_back(mMethodDeclaration->createMethod(mContext, 0));
-  Interface *interface = new Interface("myinterface", structType, interfaceMethods);
+  vector<MethodSignature*> interfaceMethodSignatures;
+  vector<MethodArgument*> methodArguments;
+  methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
+  MethodSignature* methodSignature = new MethodSignature("foo",
+                                                         PrimitiveTypes::FLOAT_TYPE,
+                                                         methodArguments,
+                                                         0);
+  interfaceMethodSignatures.push_back(methodSignature);
+  Interface *interface = new Interface("myinterface", structType, interfaceMethodSignatures);
   mContext.addInterface(interface);
   vector<string> interfaces;
   interfaces.push_back("myinterface");

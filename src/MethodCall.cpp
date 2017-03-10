@@ -8,6 +8,7 @@
 
 #include "yazyk/AutoCast.hpp"
 #include "yazyk/Log.hpp"
+#include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodCall.hpp"
 
 using namespace std;
@@ -16,13 +17,13 @@ using namespace yazyk;
 
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
   ICallableObjectType* callableObject = getCallableObject(context);
-  Method* method = getMethod(context);
-  checkArgumentType(callableObject, method, context);
+  IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
+  checkArgumentType(callableObject, methodDescriptor, context);
   if (callableObject->getTypeKind() == MODEL_TYPE) {
-    return generateModelMethodCallIR(context, (Model*) callableObject, method);
+    return generateModelMethodCallIR(context, (Model*) callableObject, methodDescriptor);
   }
   if (callableObject->getTypeKind() == INTERFACE_TYPE) {
-    return generateInterfaceMethodCallIR(context, (Interface*) callableObject, method);
+    return generateInterfaceMethodCallIR(context, (Interface*) callableObject, methodDescriptor);
   }
   Log::e("Method '" + mMethodName + "()' call on an unknown object type '" +
          callableObject->getName() + "'");
@@ -31,7 +32,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
 
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  Interface* interface,
-                                                 Method* method) const {
+                                                 IMethodDescriptor* methodDescriptor) const {
   Log::e("Interface methods calls are not yet implemented");
   exit(1);
   // TODO: implement interface method calls
@@ -40,7 +41,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
 
 Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
                                              Model* model,
-                                             Method* method) const {
+                                             IMethodDescriptor* methodDescriptor) const {
   string llvmFunctionName = translateModelMethodToLLVMFunctionName(model, mMethodName);
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
@@ -51,7 +52,7 @@ Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
   }
   vector<Value*> arguments;
   arguments.push_back(mExpression.generateIR(context));
-  vector<MethodArgument*> methodArguments = method->getArguments();
+  vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {
     Value* callArgumentValue = callArgument->generateIR(context);
@@ -71,7 +72,7 @@ Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
 }
 
 IType* MethodCall::getType(IRGenerationContext& context) const {
-  return getMethod(context)->getReturnType();
+  return getMethodDescriptor(context)->getReturnType();
 }
 
 ICallableObjectType* MethodCall::getCallableObject(IRGenerationContext& context) const {
@@ -89,26 +90,26 @@ ICallableObjectType* MethodCall::getCallableObject(IRGenerationContext& context)
   exit(1);
 }
 
-Method* MethodCall::getMethod(IRGenerationContext& context) const {
+IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   ICallableObjectType* callableObject = getCallableObject(context);
-  Method* method = callableObject->findMethod(mMethodName);
-  if (method == NULL) {
+  IMethodDescriptor* methodDescriptor = callableObject->findMethod(mMethodName);
+  if (methodDescriptor == NULL) {
     Log::e("Method '" + mMethodName + "' is not found in callable object '" +
            callableObject->getName() + "'");
     exit(1);
   }
   
-  return method;
+  return methodDescriptor;
 }
 
 void MethodCall::checkArgumentType(ICallableObjectType* callableObject,
-                                   Method* method,
+                                   IMethodDescriptor* methodDescriptor,
                                    IRGenerationContext& context) const {
-  vector<MethodArgument*> methodArguments = method->getArguments();
+  vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<IExpression*>::const_iterator callArgumentsIterator = mArguments.begin();
   
-  if (mArguments.size() != method->getArguments().size()) {
-    Log::e("Number of arguments for method call '" + method->getName() +
+  if (mArguments.size() != methodDescriptor->getArguments().size()) {
+    Log::e("Number of arguments for method call '" + methodDescriptor->getName() +
            "' of the model type '" + callableObject->getName() + "' is not correct");
     exit(1);
   }
@@ -118,7 +119,7 @@ void MethodCall::checkArgumentType(ICallableObjectType* callableObject,
     IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     
     if (!callArgumentType->canCastLosslessTo(methodArgumentType)) {
-      Log::e("Call argument types do not match for a call to method '" + method->getName() +
+      Log::e("Call argument types do not match for a call to method '" + methodDescriptor->getName() +
              "' of the model type '" + callableObject->getName() + "'");
       exit(1);
     }

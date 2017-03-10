@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/VariableDeclaration.hpp"

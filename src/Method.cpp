@@ -10,6 +10,7 @@
 #include "yazyk/ICallableObjectType.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/Method.hpp"
+#include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodCall.hpp"
 #include "yazyk/Model.hpp"
 
@@ -29,8 +30,8 @@ vector<MethodArgument*> Method::getArguments() const {
   return mArguments;
 }
 
-bool Method::equals(Method* method) const {
-  vector<MethodArgument*> thatArugments = method->getArguments();
+bool Method::equals(IMethodDescriptor* methodDescriptor) const {
+  vector<MethodArgument*> thatArugments = methodDescriptor->getArguments();
   if (mArguments.size() != thatArugments.size()) {
     return false;
   }
@@ -46,7 +47,8 @@ bool Method::equals(Method* method) const {
     }
   }
   
-  return !mName.compare(method->getName()) && mReturnType == method->getReturnType();
+  return !mName.compare(methodDescriptor->getName()) &&
+  mReturnType == methodDescriptor->getReturnType();
 }
 
 unsigned long Method::getIndex() const {

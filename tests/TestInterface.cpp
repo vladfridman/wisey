@@ -15,6 +15,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/Interface.hpp"
+#include "yazyk/MethodSignature.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -25,7 +26,7 @@ using ::testing::Test;
 
 struct InterfaceTest : public Test {
   Interface* mInterface;
-  Method* mMethod;
+  MethodSignature* mMethodSignature;
   StructType* mStructType;
   ModelField* mWidthField;
   ModelField* mHeightField;
@@ -37,10 +38,10 @@ struct InterfaceTest : public Test {
     mStructType = StructType::create(mLLVMContext, "Shape");
     mStructType->setBody(types);
     vector<MethodArgument*> methodArguments;
-    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL);
-    vector<Method*> methods;
-    methods.push_back(mMethod);
-    mInterface = new Interface("Shape", mStructType, methods);
+    mMethodSignature = new MethodSignature("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0);
+    vector<MethodSignature*> methodSignatures;
+    methodSignatures.push_back(mMethodSignature);
+    mInterface = new Interface("Shape", mStructType, methodSignatures);
   }
   
   ~InterfaceTest() { }
@@ -53,7 +54,7 @@ TEST_F(InterfaceTest, TestInterfaceInstantiation) {
 }
 
 TEST_F(InterfaceTest, TestFindMethod) {
-  EXPECT_EQ(mInterface->findMethod("foo"), mMethod);
+  EXPECT_EQ(mInterface->findMethod("foo"), mMethodSignature);
   EXPECT_EQ(mInterface->findMethod("bar"), nullptr);
 }
 

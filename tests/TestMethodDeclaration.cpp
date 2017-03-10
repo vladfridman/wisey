@@ -15,6 +15,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"

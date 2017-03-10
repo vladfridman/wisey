@@ -15,6 +15,8 @@
 
 #include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/MethodArgument.hpp"
+#include "yazyk/MethodSignature.hpp"
 #include "yazyk/MethodSignatureDeclaration.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/PrimitiveTypeSpecifier.hpp"
@@ -50,8 +52,8 @@ struct MethodSignatureDeclarationTest : Test {
     types.push_back(Type::getInt32Ty(llvmContext));
     StructType* structType = StructType::create(llvmContext, "Interface");
     structType->setBody(types);
-    vector<Method*> methods;
-    mInterface = new Interface("Interface", structType, methods);
+    vector<MethodSignature*> methodSignatures;
+    mInterface = new Interface("Interface", structType, methodSignatures);
   }
   
   ~MethodSignatureDeclarationTest() {
@@ -62,11 +64,11 @@ TEST_F(MethodSignatureDeclarationTest, MethodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
   MethodSignatureDeclaration methodSignatureDeclaration(mFloatTypeSpecifier, "foo", mArguments);
-  Method* method = methodSignatureDeclaration.createMethod(mContext, 0);
-  vector<MethodArgument*> arguments = method->getArguments();
+  MethodSignature* methodSignature = methodSignatureDeclaration.createMethodSignature(mContext, 0);
+  vector<MethodArgument*> arguments = methodSignature->getArguments();
   
-  EXPECT_STREQ(method->getName().c_str(), "foo");
-  EXPECT_EQ(method->getReturnType(), PrimitiveTypes::FLOAT_TYPE);
+  EXPECT_STREQ(methodSignature->getName().c_str(), "foo");
+  EXPECT_EQ(methodSignature->getReturnType(), PrimitiveTypes::FLOAT_TYPE);
   EXPECT_EQ(arguments.size(), 2ul);
   EXPECT_EQ(arguments.at(0)->getName(), "intargument");
   EXPECT_EQ(arguments.at(0)->getType(), PrimitiveTypes::INT_TYPE);

@@ -50,18 +50,18 @@ private:
 
   llvm::Value* generateModelMethodCallIR(IRGenerationContext& context,
                                          Model* model,
-                                         Method* method) const;
+                                         IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
                                              Interface* interface,
-                                             Method* method) const;
+                                             IMethodDescriptor* methodDescriptor) const;
   
   ICallableObjectType* getCallableObject(IRGenerationContext& context) const;
   
-  Method* getMethod(IRGenerationContext& context) const;
+  IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
   
   void checkArgumentType(ICallableObjectType* model,
-                         Method* method,
+                         IMethodDescriptor* methodDescriptor,
                          IRGenerationContext& context) const;
 
 };

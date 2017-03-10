@@ -105,8 +105,8 @@ TEST(IRGenerationContextTest, InterfaceTypeRegistryTest) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   StructType* structType = StructType::create(llvmContext, "myinterface");
-  vector<Method*> methods;
-  Interface* interface = new Interface("myinterface", structType, methods);
+  vector<MethodSignature*> methodSignatures;
+  Interface* interface = new Interface("myinterface", structType, methodSignatures);
   context.addInterface(interface);
   Interface* resultInterface = context.getInterface("myinterface");
   
@@ -119,8 +119,8 @@ TEST(IRGenerationContextTest, InterfaceTypeRedefinedDeathTest) {
   IRGenerationContext context;
   
   StructType* structType = StructType::create(context.getLLVMContext(), "myinterface");
-  vector<Method*> methods;
-  Interface* interface = new Interface("myinterface", structType, methods);
+  vector<MethodSignature*> methodSignatures;
+  Interface* interface = new Interface("myinterface", structType, methodSignatures);
   context.addInterface(interface);
   
   EXPECT_EXIT(context.addInterface(interface),

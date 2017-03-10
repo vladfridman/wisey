@@ -18,15 +18,16 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   StructType *structType = StructType::create(llvmContext, "interface." + mName);
   
   vector<Type*> types;
-  vector<Method*> methods;
+  vector<MethodSignature*> methodSignatures;
   unsigned int index = 0;
   for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
-    Method* method = methodSignatureDeclaration->createMethod(context, index);
-    methods.push_back(method);
+    MethodSignature* methodSignature =
+      methodSignatureDeclaration->createMethodSignature(context, index);
+    methodSignatures.push_back(methodSignature);
     index++;
   }
   
-  Interface* interface = new Interface(mName, structType, methods);
+  Interface* interface = new Interface(mName, structType, methodSignatures);
   
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
   Type* vtableType = functionType->getPointerTo()->getPointerTo();

@@ -12,6 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "yazyk/InterfaceTypeSpecifier.hpp"
+#include "yazyk/MethodSignature.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -24,9 +25,13 @@ TEST(InterfaceTypeSpecifierTest, CreationTest) {
   StructType* structType = StructType::create(context.getLLVMContext(), "IShape");
   structType->setBody(types);
   vector<MethodArgument*> methodArguments;
-  vector<Method*> methods;
-  methods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));
-  Interface* interface = new Interface("IShape", structType, methods);
+  vector<MethodSignature*> methodSignatures;
+  MethodSignature* methodSignature = new MethodSignature("foo",
+                                                         PrimitiveTypes::INT_TYPE,
+                                                         methodArguments,
+                                                         0);
+  methodSignatures.push_back(methodSignature);
+  Interface* interface = new Interface("IShape", structType, methodSignatures);
   context.addInterface(interface);
   
   InterfaceTypeSpecifier interfaceTypeSpecifier("IShape");
