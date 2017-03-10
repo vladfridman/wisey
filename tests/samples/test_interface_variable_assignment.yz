@@ -1,0 +1,42 @@
+interface IShape {
+  int getPerimeter();
+  int getArea();
+}
+
+interface IObject {
+  int getColor(int a);
+}
+
+interface IClickable {
+  void click();
+  void tap();
+}
+
+model MSquare implements IShape, IObject, IClickable {
+  int mWidth;
+
+  public int getPerimeter() {
+    return mWidth + mWidth;
+  }
+
+  public int getArea() {
+    return mWidth * mWidth;
+  }
+
+  public int getColor(int a) {
+    return a;
+  }
+
+  public void click() {
+  }
+
+  public void tap() {
+  }
+}
+
+int main() {
+  MSquare square = builder(MSquare).withWidth(5).build();
+
+  IShape shape = square;
+  return shape.getArea();
+}

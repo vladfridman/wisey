@@ -41,6 +41,7 @@ public:
 struct ReturnStatementTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression> mExpression;
+  Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
@@ -51,6 +52,19 @@ public:
     ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
 
     mStringStream = new raw_string_ostream(mStringBuffer);
+    
+    vector<Type*> types;
+    LLVMContext& llvmContext = mContext.getLLVMContext();
+    types.push_back(Type::getInt32Ty(llvmContext));
+    types.push_back(Type::getInt32Ty(llvmContext));
+    StructType* structType = StructType::create(llvmContext, "Shape");
+    structType->setBody(types);
+    map<string, ModelField*> fields;
+    fields["width"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
+    fields["height"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
+    vector<Method*> methods;
+    vector<Interface*> interfaces;
+    mModel = new Model("Shape", structType, fields, methods, interfaces);
   }
 
   ~ReturnStatementTest() {
@@ -132,7 +146,7 @@ TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
                                                nullptr,
                                                "");
 
-  LocalHeapVariable* variable = new LocalHeapVariable("foo", PrimitiveTypes::CHAR_TYPE, malloc);
+  LocalHeapVariable* variable = new LocalHeapVariable("foo", mModel, malloc);
   mContext.getScopes().setVariable(variable);
   
   ReturnStatement returnStatement(mExpression);

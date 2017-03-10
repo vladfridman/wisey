@@ -55,7 +55,7 @@ vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context
   if (interfaceIndex == 0) {
     vTableArrayProtion.push_back(ConstantExpr::getNullValue(pointerType));
   } else {
-    unsigned int unthunkBy = -interfaceIndex * Environment::getAddressSizeInBytes();
+    int unthunkBy = -interfaceIndex * Environment::getAddressSizeInBytes();
     ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
     vTableArrayProtion.push_back(ConstantExpr::getIntToPtr(unthunk, pointerType));
   }

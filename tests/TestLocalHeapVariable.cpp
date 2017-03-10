@@ -39,6 +39,7 @@ struct LocalHeapVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
+  Model* mModel;
   
 public:
   
@@ -51,7 +52,19 @@ public:
     mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
-  }
+
+    vector<Type*> types;
+    LLVMContext& llvmContext = mContext.getLLVMContext();
+    types.push_back(Type::getInt32Ty(llvmContext));
+    types.push_back(Type::getInt32Ty(llvmContext));
+    StructType* structType = StructType::create(llvmContext, "Shape");
+    structType->setBody(types);
+    map<string, ModelField*> fields;
+    fields["width"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
+    fields["height"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
+    vector<Method*> methods;
+    vector<Interface*> interfaces;
+    mModel = new Model("Shape", structType, fields, methods, interfaces);}
 };
 
 TEST_F(LocalHeapVariableTest, HeapVariableAssignmentTest) {
@@ -93,7 +106,7 @@ TEST_F(LocalHeapVariableTest, UninitializedHeapVariableIdentifierDeathTest) {
 
 TEST_F(LocalHeapVariableTest, FreeTest) {
   Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  LocalHeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  LocalHeapVariable localHeapVariable("foo", mModel, fooValue);
 
   EXPECT_EQ(mBlock->size(), 0u);
 
@@ -107,6 +120,10 @@ TEST_F(LocalHeapVariableTest, FreeTest) {
 
 TEST_F(TestFileSampleRunner, ModelVariableAssignmentTest) {
   runFile("tests/samples/test_assignment_model_variable.yz", "0");
+}
+
+TEST_F(TestFileSampleRunner, InterfaceVariableAssignmentTest) {
+  runFile("tests/samples/test_interface_variable_assignment.yz", "25");
 }
 
 TEST_F(TestFileSampleRunner, UsingUninitializedHeapVariableDeathTest) {
