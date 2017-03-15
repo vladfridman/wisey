@@ -41,8 +41,9 @@ TEST(InterfaceDefinitionTest, TestSimpleDefinition) {
   MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier, "foo", methodArguments);
   vector<MethodSignatureDeclaration *> methods;
   methods.push_back(&methodSignatureDeclaration);
+  vector<string> parentInterfaces;
   
-  InterfaceDefinition interfaceDefinition("myinterface", methods);
+  InterfaceDefinition interfaceDefinition("myinterface", parentInterfaces, methods);
   
   interfaceDefinition.generateIR(context);
   Interface* interface = context.getInterface("myinterface");

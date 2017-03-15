@@ -27,6 +27,7 @@ using ::testing::Test;
 struct ModelTest : public Test {
   Model* mModel;
   Model* mCircleModel;
+  Interface* mSubShapeInterface;
   Interface* mShapeInterface;
   Interface* mObjectInterface;
   Interface* mCarInterface;
@@ -57,17 +58,38 @@ struct ModelTest : public Test {
     methods.push_back(mMethod);
     methods.push_back(new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments, 1, NULL));
     
+    vector<Type*> subShapeInterfaceTypes;
+    StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, "ISubShape");
+    subShapeIinterfaceStructType->setBody(subShapeInterfaceTypes);
+    vector<MethodArgument*> subShapeInterfaceMethodArguments;
+    vector<MethodSignature*> subShapeInterfaceMethods;
+    MethodSignature* methodFooSignature = new MethodSignature("foo",
+                                                              PrimitiveTypes::INT_TYPE,
+                                                              subShapeInterfaceMethodArguments,
+                                                              0);
+    subShapeInterfaceMethods.push_back(methodFooSignature);
+    vector<Interface*> subShapeParentInterfaces;
+    mSubShapeInterface = new Interface("ISubShape",
+                                       subShapeIinterfaceStructType,
+                                       subShapeParentInterfaces,
+                                       subShapeInterfaceMethods);
+    
     vector<Type*> shapeInterfaceTypes;
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, "IShape");
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
-    MethodSignature* methodFooSignature = new MethodSignature("foo",
-                                                              PrimitiveTypes::INT_TYPE,
-                                                              shapeInterfaceMethodArguments,
-                                                              0);
+    methodFooSignature = new MethodSignature("foo",
+                                             PrimitiveTypes::INT_TYPE,
+                                             shapeInterfaceMethodArguments,
+                                             0);
     shapeInterfaceMethods.push_back(methodFooSignature);
-    mShapeInterface = new Interface("IShape", shapeIinterfaceStructType, shapeInterfaceMethods);
+    vector<Interface*> shapeParentInterfaces;
+    shapeParentInterfaces.push_back(mSubShapeInterface);
+    mShapeInterface = new Interface("IShape",
+                                    shapeIinterfaceStructType,
+                                    shapeParentInterfaces,
+                                    shapeInterfaceMethods);
    
     vector<Type*> objectInterfaceTypes;
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, "IObject");
@@ -79,14 +101,21 @@ struct ModelTest : public Test {
                                                               objectInterfaceMethodArguments,
                                                               0);
     objectInterfaceMethods.push_back(methodBarSignature);
-    
-    mObjectInterface = new Interface("IObject", objectInterfaceStructType, objectInterfaceMethods);
+    vector<Interface*> objectParentInterfaces;
+    mObjectInterface = new Interface("IObject",
+                                     objectInterfaceStructType,
+                                     objectParentInterfaces,
+                                     objectInterfaceMethods);
     
     vector<Type*> carInterfaceTypes;
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, "ICar");
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<MethodSignature*> carInterfaceMethods;
-    mCarInterface = new Interface("ICar", carInterfaceStructType, carInterfaceMethods);
+    vector<Interface*> carParentInterfaces;
+    mCarInterface = new Interface("ICar",
+                                  carInterfaceStructType,
+                                  carParentInterfaces,
+                                  carInterfaceMethods);
     
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
@@ -99,7 +128,7 @@ struct ModelTest : public Test {
     vector<Method*> circleMethods;
     map<string, ModelField*> circleFields;
     vector<Interface*> circleInterfaces;
-    mCircleModel = new Model("Circle",
+    mCircleModel = new Model("MCircle",
                              circleStructType,
                              circleFields,
                              circleMethods,
@@ -188,7 +217,7 @@ TEST_F(ModelTest, CastToFirstInterfaceTest) {
 TEST_F(ModelTest, CastToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
-  mModel->castTo(mContext, pointer, mObjectInterface);
+  mModel->castTo(mContext, pointer, mSubShapeInterface);
   ASSERT_EQ(mBasicBlock->size(), 3u);
   
   BasicBlock::iterator iterator = mBasicBlock->begin();
@@ -203,7 +232,7 @@ TEST_F(ModelTest, CastToSecondInterfaceTest) {
   
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = bitcast i8* %add.ptr to %IObject*");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = bitcast i8* %add.ptr to %ISubShape*");
   mStringBuffer.clear();
 }
 
@@ -213,4 +242,13 @@ TEST_F(ModelTest, CastToDeathTest) {
   EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Incopatible types: can not cast from type 'MSquare' to 'int'");
+}
+
+TEST_F(ModelTest, GetFlattenedInterfaceHierarchyTest) {
+  vector<Interface*> allInterfaces = mModel->getFlattenedInterfaceHierarchy();
+  
+  EXPECT_EQ(allInterfaces.size(), 3u);
+  EXPECT_EQ(allInterfaces.at(0), mShapeInterface);
+  EXPECT_EQ(allInterfaces.at(1), mSubShapeInterface);
+  EXPECT_EQ(allInterfaces.at(2), mObjectInterface);
 }

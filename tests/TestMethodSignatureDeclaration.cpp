@@ -53,7 +53,8 @@ struct MethodSignatureDeclarationTest : Test {
     StructType* structType = StructType::create(llvmContext, "Interface");
     structType->setBody(types);
     vector<MethodSignature*> methodSignatures;
-    mInterface = new Interface("Interface", structType, methodSignatures);
+    vector<Interface*> parentInterfaces;
+    mInterface = new Interface("Interface", structType, parentInterfaces, methodSignatures);
   }
   
   ~MethodSignatureDeclarationTest() {

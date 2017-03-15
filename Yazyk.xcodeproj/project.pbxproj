@@ -265,6 +265,7 @@
 		F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
 		F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
 		F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */; };
+		F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */; };
 		F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD671E48B16F0054209D /* TestCharType.cpp */; };
@@ -598,6 +599,7 @@
 		F5ADB6271E69831A00FFC941 /* Method.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Method.cpp; path = src/Method.cpp; sourceTree = "<group>"; };
 		F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethod.cpp; path = tests/TestMethod.cpp; sourceTree = "<group>"; };
 		F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompoundStatement.hpp; path = include/yazyk/CompoundStatement.hpp; sourceTree = "<group>"; };
+		F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodSignature.cpp; path = tests/TestMethodSignature.cpp; sourceTree = "<group>"; };
 		F5C6FD641E48AB3B0054209D /* CharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharType.cpp; path = src/CharType.cpp; sourceTree = "<group>"; };
 		F5C6FD671E48B16F0054209D /* TestCharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharType.cpp; path = tests/TestCharType.cpp; sourceTree = "<group>"; };
 		F5C6FD691E48B33A0054209D /* VoidType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VoidType.cpp; path = src/VoidType.cpp; sourceTree = "<group>"; };
@@ -774,6 +776,7 @@
 				F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */,
 				F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */,
 				F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */,
+				F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */,
 				F5ADB6231E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp */,
 				F5C6FD891E48D08F0054209D /* TestModel.cpp */,
 				F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */,
@@ -1257,6 +1260,7 @@
 				F504279D1E4B5845001CB148 /* TestModelFieldReference.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
+				F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
 				F574114C1E019597009809FF /* TestReturnVoidStatement.cpp in Sources */,

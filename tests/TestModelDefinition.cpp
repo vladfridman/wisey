@@ -109,7 +109,11 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
                                                          methodArguments,
                                                          0);
   interfaceMethodSignatures.push_back(methodSignature);
-  Interface *interface = new Interface("myinterface", structType, interfaceMethodSignatures);
+  vector<Interface*> parentInterfaces;
+  Interface *interface = new Interface("myinterface",
+                                       structType,
+                                       parentInterfaces,
+                                       interfaceMethodSignatures);
   mContext.addInterface(interface);
   vector<string> interfaces;
   interfaces.push_back("myinterface");

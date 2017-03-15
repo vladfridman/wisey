@@ -57,6 +57,7 @@ WS  [ \t\v\n\f]
 "model"                       return TOKEN(TMODEL);
 "interface"                   return TOKEN(TINTERFACE);
 "implements"                  return TOKEN(TIMPLEMENTS);
+"extends"                     return TOKEN(TEXTENDS);
 "true"                        return TOKEN(TTRUE);
 "false"                       return TOKEN(TFALSE);
 "builder"                     return TOKEN(TBUILDER);

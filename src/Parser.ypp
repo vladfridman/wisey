@@ -112,7 +112,7 @@
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
 %token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH TDO
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
-%token <token> TINTERFACE TIMPLEMENTS
+%token <token> TINTERFACE TIMPLEMENTS TEXTENDS
 
 /**
  * Parsing tree node types
@@ -181,7 +181,14 @@ global_unit
 
 interface_definition
   : TINTERFACE TINTERFACEIDENTIFIER '{' method_signature_list_optional '}'
-    { $$ = new InterfaceDefinition(*$2, *$4); delete $2; }
+    {
+      std::vector<std::string> interfaceList;
+      $$ = new InterfaceDefinition(*$2, interfaceList, *$4);
+      delete $2;
+    }
+  | TINTERFACE TINTERFACEIDENTIFIER TEXTENDS interface_list
+      '{' method_signature_list_optional '}'
+    { $$ = new InterfaceDefinition(*$2, *$4, *$6); delete $2; }
   ;
 
 method_signature_list_optional

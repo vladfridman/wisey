@@ -31,7 +31,8 @@ TEST(InterfaceTypeSpecifierTest, CreationTest) {
                                                          methodArguments,
                                                          0);
   methodSignatures.push_back(methodSignature);
-  Interface* interface = new Interface("IShape", structType, methodSignatures);
+  vector<Interface*> parentInterfaces;
+  Interface* interface = new Interface("IShape", structType, parentInterfaces, methodSignatures);
   context.addInterface(interface);
   
   InterfaceTypeSpecifier interfaceTypeSpecifier("IShape");

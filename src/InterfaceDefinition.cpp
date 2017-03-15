@@ -15,25 +15,32 @@ using namespace yazyk;
 
 Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  StructType *structType = StructType::create(llvmContext, "interface." + mName);
   
-  vector<Type*> types;
   vector<MethodSignature*> methodSignatures;
-  unsigned int index = 0;
+  unsigned int methodIndex = 0;
   for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
     MethodSignature* methodSignature =
-      methodSignatureDeclaration->createMethodSignature(context, index);
+      methodSignatureDeclaration->createMethodSignature(context, methodIndex);
     methodSignatures.push_back(methodSignature);
-    index++;
+    methodIndex++;
   }
-  
-  Interface* interface = new Interface(mName, structType, methodSignatures);
   
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
+  vector<Type*> types;
   types.push_back(vtableType);
-  structType->setBody(types);
   
+  vector<Interface*> parentInterfaces;
+  for (string parentInterfaceName : mParentInterfaceNames) {
+    Interface* parentInterface = context.getInterface(parentInterfaceName);
+    types.push_back(parentInterface->getLLVMType(context.getLLVMContext())
+                    ->getPointerElementType());
+    parentInterfaces.push_back(parentInterface);
+  }
+  
+  StructType *structType = StructType::create(llvmContext, "interface." + mName);
+  structType->setBody(types);
+  Interface* interface = new Interface(mName, structType, parentInterfaces, methodSignatures);
   context.addInterface(interface);
   
   return NULL;

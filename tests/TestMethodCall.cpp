@@ -115,7 +115,8 @@ TEST_F(MethodCallTest, TranslateModelMethodToLLVMFunctionNameTest) {
 TEST_F(MethodCallTest, TranslateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, "Shape");
   vector<MethodSignature*> interfaceMethods;
-  Interface* interface = new Interface("Shape", structType, interfaceMethods);
+  vector<Interface*> methodInterface;
+  Interface* interface = new Interface("Shape", structType, methodInterface, interfaceMethods);
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");
   

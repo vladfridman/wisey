@@ -23,18 +23,61 @@ using namespace std;
 using namespace yazyk;
 
 Interface::~Interface() {
+  mParentInterfaces.clear();
   mNameToMethodSignatureMap.clear();
 }
 
 Interface::Interface(string name,
                      StructType* structType,
+                     vector<Interface*> parentInterfaces,
                      vector<MethodSignature*> methodSignatures) {
   mName = name;
   mStructType = structType;
+  mParentInterfaces = parentInterfaces;
   mMethodSignatures = methodSignatures;
-  for (MethodSignature* methodSignature : methodSignatures) {
+  
+  prepare();
+}
+
+void Interface::prepare() {
+  for (MethodSignature* methodSignature : mMethodSignatures) {
     mNameToMethodSignatureMap[methodSignature->getName()] = methodSignature;
+    mAllMethodSignatures.push_back(methodSignature);
   }
+
+  unsigned long methodIndex = mMethodSignatures.size();
+  for (Interface* parentInterface : mParentInterfaces) {
+    methodIndex = includeInterfaceMethods(parentInterface, methodIndex);
+  }
+}
+
+unsigned long Interface::includeInterfaceMethods(Interface* parentInterface,
+                                                 unsigned long methodIndex) {
+  vector<MethodSignature*> inheritedMethods = parentInterface->getAllMethodSignatures();
+  for (MethodSignature* methodSignature : inheritedMethods) {
+    MethodSignature* existingMethod = findMethod(methodSignature->getName());
+    if (existingMethod && !IMethodDescriptor::compare(existingMethod, methodSignature)) {
+      Log::e("Interface '" + mName + "' overrides method '" + existingMethod->getName()
+             + "' of parent interface with a wrong signature.");
+      exit(1);
+    }
+    if (existingMethod) {
+      continue;
+    }
+    MethodSignature* copySignature = methodSignature->createCopyWithIndex(methodIndex++);
+    mAllMethodSignatures.push_back(copySignature);
+    mNameToMethodSignatureMap[copySignature->getName()] = copySignature;
+    methodIndex++;
+  }
+  return methodIndex;
+}
+
+vector<MethodSignature*> Interface::getAllMethodSignatures() const {
+  return mAllMethodSignatures;
+}
+
+vector<Interface*> Interface::getParentInterfaces() const {
+  return mParentInterfaces;
 }
 
 MethodSignature* Interface::findMethod(std::string methodName) const {
@@ -45,21 +88,21 @@ MethodSignature* Interface::findMethod(std::string methodName) const {
   return mNameToMethodSignatureMap.at(methodName);
 }
 
-vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context,
-                                                    Model* model,
-                                                    map<string, Function*>& methodFunctionMap,
-                                                    int interfaceIndex) const {
+vector<vector<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& context,
+                                                            Model* model,
+                                                            map<string, Function*>& methodFunctionMap,
+                                                            unsigned long interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   vector<Constant*> vTableArrayProtion;
   if (interfaceIndex == 0) {
     vTableArrayProtion.push_back(ConstantExpr::getNullValue(pointerType));
   } else {
-    int unthunkBy = -interfaceIndex * Environment::getAddressSizeInBytes();
+    long unthunkBy = -Environment::getAddressSizeInBytes() * ((long) interfaceIndex);
     ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
     vTableArrayProtion.push_back(ConstantExpr::getIntToPtr(unthunk, pointerType));
   }
-  for (MethodSignature* methodSignature : mMethodSignatures) {
+  for (MethodSignature* methodSignature : mAllMethodSignatures) {
     Function* modelFunction = methodFunctionMap.count(methodSignature->getName())
       ? methodFunctionMap.at(methodSignature->getName()) : NULL;
     Function* function = generateMapFunctionForMethod(context,
@@ -70,13 +113,25 @@ vector<Constant*> Interface::generateMapFunctionsIR(IRGenerationContext& context
     Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
     vTableArrayProtion.push_back(bitCast);
   }
-  return vTableArrayProtion;
+  vector<vector<Constant*>> vSubTable;
+  vSubTable.push_back(vTableArrayProtion);
+  for (Interface* parentInterface : mParentInterfaces) {
+    vector<vector<Constant*>> parentInterfaceTables =
+      parentInterface->generateMapFunctionsIR(context,
+                                              model,
+                                              methodFunctionMap,
+                                              interfaceIndex + vSubTable.size());
+    for (vector<Constant*> parentInterfaceTable : parentInterfaceTables) {
+      vSubTable.push_back(parentInterfaceTable);
+    }
+  }
+  return vSubTable;
 }
 
 Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                                                   Model* model,
                                                   llvm::Function* modelFunction,
-                                                  int interfaceIndex,
+                                                  unsigned long interfaceIndex,
                                                   MethodSignature* methodSignature) const {
   Method* modelMethod = model->findMethod(methodSignature->getName());
   if (modelMethod == NULL) {
@@ -129,7 +184,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
                                         Model* model,
                                         Function* modelFunction,
                                         Function* mapFunction,
-                                        int interfaceIndex,
+                                        unsigned long interfaceIndex,
                                         MethodSignature* methodSignature) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock *basicBlock = BasicBlock::Create(llvmContext, "entry", mapFunction, 0);
@@ -153,7 +208,8 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Type* pointerType = int8Type->getPointerTo();
   Value* castedInterfaceThis = new BitCastInst(interfaceThisLoaded, pointerType, "", basicBlock);
   Value *Idx[1];
-  Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), -8 * interfaceIndex);
+  Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
+                            -interfaceIndex * Environment::getAddressSizeInBytes());
   Value* modelThis = GetElementPtrInst::Create(int8Type, castedInterfaceThis, Idx, "", basicBlock);
   Value* castedModelThis = new BitCastInst(modelThis,
                                            interfaceThisLoaded->getType(),

@@ -22,13 +22,17 @@ namespace yazyk {
  */
 class InterfaceDefinition : public IStatement {
   const std::string mName;
-  std::vector<MethodSignatureDeclaration *>& mMethodSignatureDeclarations;
+  std::vector<std::string> mParentInterfaceNames;
+  std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;
   
 public:
   
   InterfaceDefinition(std::string name,
-                      std::vector<MethodSignatureDeclaration *>& methodSignatureDeclarations)
-  : mName(name), mMethodSignatureDeclarations(methodSignatureDeclarations) { }
+                      std::vector<std::string> parentInterfaceNames,
+                      std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations) :
+  mName(name),
+  mParentInterfaceNames(parentInterfaceNames),
+  mMethodSignatureDeclarations(methodSignatureDeclarations) { }
   
   ~InterfaceDefinition() { };
   

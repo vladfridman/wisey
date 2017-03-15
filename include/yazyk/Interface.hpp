@@ -27,13 +27,20 @@ class Model;
 class Interface : public ICallableObjectType {
   std::string mName;
   llvm::StructType* mStructType;
+  std::vector<Interface*> mParentInterfaces;
   std::vector<MethodSignature*> mMethodSignatures;
+  
+  /** 
+   * includes inherited method signatures 
+   */
+  std::vector<MethodSignature*> mAllMethodSignatures;
   std::map<std::string, MethodSignature*> mNameToMethodSignatureMap;
   
 public:
   
   Interface(std::string name,
             llvm::StructType* structType,
+            std::vector<Interface*> parentInterfaces,
             std::vector<MethodSignature*> methodSignatures);
   
   ~Interface();
@@ -41,11 +48,17 @@ public:
   /**
    * Generate functions that map interface methods to model methods
    */
-  std::vector<llvm::Constant*> generateMapFunctionsIR(IRGenerationContext& context,
-                                                      Model* model,
-                                                      std::map<std::string, llvm::Function*>&
-                                                        methodFunctionMap,
-                                                      int interfaceIndex) const;
+  std::vector<std::vector<llvm::Constant*>> generateMapFunctionsIR(IRGenerationContext& context,
+                                                                   Model* model,
+                                                                   std::map<std::string,
+                                                                    llvm::Function*>&
+                                                                   methodFunctionMap,
+                                                                   unsigned long interfaceIndex) const;
+  
+  /**
+   * Returns parent interfaces
+   */
+  std::vector<Interface*> getParentInterfaces() const;
   
   MethodSignature* findMethod(std::string methodName) const override;
 
@@ -65,17 +78,27 @@ public:
   
 private:
   
+  void prepare();
+  
+  unsigned long includeInterfaceMethods(Interface* parentInterface,
+                                        unsigned long methodIndex);
+  
+  /**
+   * Get all method signatures including the ones inherited from parent interfaces
+   */
+  std::vector<MethodSignature*> getAllMethodSignatures() const;
+
   llvm::Function* generateMapFunctionForMethod(IRGenerationContext& context,
                                                Model* model,
                                                llvm::Function* modelFunction,
-                                               int interfaceIndex,
+                                               unsigned long interfaceIndex,
                                                MethodSignature* methodSignature) const;
 
   void generateMapFunctionBody(IRGenerationContext& context,
                                Model* model,
                                llvm::Function* modelFunction,
                                llvm::Function* mapFunction,
-                               int interfaceIndex,
+                               unsigned long interfaceIndex,
                                MethodSignature* methodSignature) const;
 
   llvm::Value* storeArgumentValue(IRGenerationContext& context,

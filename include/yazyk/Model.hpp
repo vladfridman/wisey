@@ -31,6 +31,7 @@ class Model : public ICallableObjectType {
   std::vector<Method*> mMethods;
   std::map<std::string, Method*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
+  std::vector<Interface*> mFlattenedInterfaceHierarchy;
   
 public:
   
@@ -62,6 +63,11 @@ public:
    */
   std::vector<Interface*> getInterfaces() const;
   
+  /**
+   * Returns a list of all interfaces this model implements including inherited interfaces
+   */
+  std::vector<Interface*> getFlattenedInterfaceHierarchy() const;
+  
   Method* findMethod(std::string methodName) const override;
 
   std::string getName() const override;
@@ -81,6 +87,10 @@ public:
 private:
   
   int getInterfaceIndex(Interface* interface) const;
+  
+  std::vector<Interface*> createFlattenedInterfaceHierarchy() const;
+  
+  void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   
 };
 

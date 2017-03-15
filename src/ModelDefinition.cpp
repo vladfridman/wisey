@@ -29,7 +29,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
-  map<string, ModelField*> fields = createFields(context);
+  map<string, ModelField*> fields = createFields(context, interfaces.size());
   vector<Method*> methods = createMethods(context);
   Model* model = new Model(mName, structType, fields, methods, interfaces);
 
@@ -46,13 +46,14 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-map<string, ModelField*> ModelDefinition::createFields(IRGenerationContext& context) const {
+map<string, ModelField*> ModelDefinition::createFields(IRGenerationContext& context,
+                                                       unsigned long numberOfInterfaces) const {
   map<string, ModelField*> fields;
-  int index = 0;
+  unsigned long index = 0;
   for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
-    ModelField* modelField = new ModelField(fieldType, mInterfaces.size() + index);
+    ModelField* modelField = new ModelField(fieldType, numberOfInterfaces + index);
     fields[fieldDeclaration->getName()] = modelField;
     index++;
   }
@@ -101,7 +102,7 @@ std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& 
   vector<Interface*> interfaces;
   for (string interfaceName : mInterfaces) {
     Interface* interface = context.getInterface(interfaceName);
-    types.push_back(interface->getLLVMType(context.getLLVMContext()));
+    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
     interfaces.push_back(interface);
   }
   return interfaces;
@@ -115,18 +116,18 @@ void ModelDefinition::processInterfaceMethods(IRGenerationContext& context,
   
   vector<Constant*> vTableArray;
   vector<Type*> vTableTypes;
-  int index = 0;
   for (Interface* interface : interfaces) {
-    vector<Constant*> vTablePortion =
-      interface->generateMapFunctionsIR(context, model, methodFunctionMap, index);
-    ArrayRef<Constant*> arrayRef(vTablePortion);
-    Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-    ArrayType* arrayType = ArrayType::get(pointerType, vTablePortion.size());
-    Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
-
-    vTableArray.push_back(constantArray);
-    vTableTypes.push_back(arrayType);
-    index++;
+    vector<vector<Constant*>> vSubTable =
+      interface->generateMapFunctionsIR(context, model, methodFunctionMap, vTableArray.size());
+    for (vector<Constant*> vTablePortion : vSubTable) {
+      ArrayRef<Constant*> arrayRef(vTablePortion);
+      Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+      ArrayType* arrayType = ArrayType::get(pointerType, vTablePortion.size());
+      Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
+      
+      vTableArray.push_back(constantArray);
+      vTableTypes.push_back(arrayType);
+    }
   }
 
   StructType* vTableGlobalType = StructType::get(llvmContext, vTableTypes);

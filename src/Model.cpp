@@ -37,6 +37,7 @@ Model::Model(string name,
   for (Method* method : methods) {
     mNameToMethodMap[method->getName()] = method;
   }
+  mFlattenedInterfaceHierarchy = createFlattenedInterfaceHierarchy();
 }
 
 ModelField* Model::findField(string fieldName) const {
@@ -76,6 +77,26 @@ string Model::getVTableName() const {
 
 vector<Interface*> Model::getInterfaces() const {
   return mInterfaces;
+}
+
+vector<Interface*> Model::getFlattenedInterfaceHierarchy() const {
+  return mFlattenedInterfaceHierarchy;
+}
+
+vector<Interface*> Model::createFlattenedInterfaceHierarchy() const {
+  vector<Interface*> result;
+  for (Interface* interface : mInterfaces) {
+    addInterfaceAndItsParents(result, interface);
+  }
+  return result;
+}
+
+void Model::addInterfaceAndItsParents(vector<Interface*>& result, Interface* interface) const {
+  result.push_back(interface);
+  vector<Interface*> parentInterfaces = interface->getParentInterfaces();
+  for (Interface* interface : parentInterfaces) {
+    addInterfaceAndItsParents(result, interface);
+  }
 }
 
 string Model::getName() const {
@@ -134,7 +155,7 @@ Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toTy
 
 int Model::getInterfaceIndex(Interface* interface) const {
   int index = 0;
-  for (Interface* implementedInterface : mInterfaces) {
+  for (Interface* implementedInterface : mFlattenedInterfaceHierarchy) {
     if (implementedInterface == interface) {
       return index;
     }

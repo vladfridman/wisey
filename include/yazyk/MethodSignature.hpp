@@ -33,6 +33,11 @@ public:
   
   ~MethodSignature() { mArguments.clear(); }
   
+  /**
+   * Creates a copy of the object with a different index
+   */
+  MethodSignature* createCopyWithIndex(unsigned long index) const;
+  
   std::string getName() const override;
   
   IType* getReturnType() const override;

@@ -29,3 +29,7 @@ vector<MethodArgument*> MethodSignature::getArguments() const {
 unsigned long MethodSignature::getIndex() const {
   return mIndex;
 }
+
+MethodSignature* MethodSignature::createCopyWithIndex(unsigned long index) const {
+  return new MethodSignature(mName, mReturnType, mArguments, index);
+}

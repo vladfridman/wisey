@@ -41,7 +41,8 @@ struct InterfaceTest : public Test {
     mMethodSignature = new MethodSignature("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0);
     vector<MethodSignature*> methodSignatures;
     methodSignatures.push_back(mMethodSignature);
-    mInterface = new Interface("Shape", mStructType, methodSignatures);
+    vector<Interface*> parentInterfaces;
+    mInterface = new Interface("Shape", mStructType, parentInterfaces, methodSignatures);
   }
   
   ~InterfaceTest() { }
@@ -51,6 +52,7 @@ TEST_F(InterfaceTest, TestInterfaceInstantiation) {
   EXPECT_STREQ(mInterface->getName().c_str(), "Shape");
   EXPECT_EQ(mInterface->getTypeKind(), INTERFACE_TYPE);
   EXPECT_EQ(mInterface->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+  EXPECT_EQ(mInterface->getParentInterfaces().size(), 0u);
 }
 
 TEST_F(InterfaceTest, TestFindMethod) {
@@ -81,5 +83,9 @@ TEST_F(TestFileSampleRunner, InterfaceMethodDifferentArgumentTypesDeathTest) {
 
 TEST_F(TestFileSampleRunner, ModelImplmenetingInterfaceDefinitionTest) {
   runFile("tests/samples/test_interface_implementation.yz", "90");
+}
+
+TEST_F(TestFileSampleRunner, InterfaceInheritanceTest) {
+  runFile("tests/samples/test_level2_inheritance.yz", "235");
 }
 
