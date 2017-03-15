@@ -89,3 +89,7 @@ TEST_F(TestFileSampleRunner, InterfaceInheritanceTest) {
   runFile("tests/samples/test_level2_inheritance.yz", "235");
 }
 
+TEST_F(TestFileSampleRunner, InterfaceMultipleInheritanceTest) {
+  runFile("tests/samples/test_interface_multiple_inheritance.yz", "5");
+}
+
