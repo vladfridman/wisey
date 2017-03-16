@@ -27,32 +27,49 @@ using ::testing::Test;
 struct InterfaceTest : public Test {
   Interface* mInterface;
   MethodSignature* mMethodSignature;
-  StructType* mStructType;
+  StructType* mShapeStructType;
   ModelField* mWidthField;
   ModelField* mHeightField;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   
   InterfaceTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<Type*> types;
-    mStructType = StructType::create(mLLVMContext, "Shape");
-    mStructType->setBody(types);
-    vector<MethodArgument*> methodArguments;
-    mMethodSignature = new MethodSignature("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0);
-    vector<MethodSignature*> methodSignatures;
-    methodSignatures.push_back(mMethodSignature);
-    vector<Interface*> parentInterfaces;
-    mInterface = new Interface("Shape", mStructType, parentInterfaces, methodSignatures);
+    vector<Type*> objectTypes;
+    StructType* objectStructType = StructType::create(mLLVMContext, "IObject");
+    objectStructType->setBody(objectTypes);
+    vector<MethodSignature*> objectMethodSignatures;
+    vector<Interface*> objectParentInterfaces;
+    Interface* shapeInterface = new Interface("IShape",
+                                              mShapeStructType,
+                                              objectParentInterfaces,
+                                              objectMethodSignatures);
+
+    vector<Type*> shapeTypes;
+    mShapeStructType = StructType::create(mLLVMContext, "IShape");
+    mShapeStructType->setBody(shapeTypes);
+    vector<MethodArgument*> shapeMethodArguments;
+    mMethodSignature = new MethodSignature("foo",
+                                           PrimitiveTypes::INT_TYPE,
+                                           shapeMethodArguments,
+                                           0);
+    vector<MethodSignature*> shapeMethodSignatures;
+    shapeMethodSignatures.push_back(mMethodSignature);
+    vector<Interface*> shapeParentInterfaces;
+    shapeParentInterfaces.push_back(shapeInterface);
+    mInterface = new Interface("IShape",
+                               mShapeStructType,
+                               shapeParentInterfaces,
+                               shapeMethodSignatures);
   }
   
   ~InterfaceTest() { }
 };
 
 TEST_F(InterfaceTest, TestInterfaceInstantiation) {
-  EXPECT_STREQ(mInterface->getName().c_str(), "Shape");
+  EXPECT_STREQ(mInterface->getName().c_str(), "IShape");
   EXPECT_EQ(mInterface->getTypeKind(), INTERFACE_TYPE);
-  EXPECT_EQ(mInterface->getLLVMType(mLLVMContext), mStructType->getPointerTo());
-  EXPECT_EQ(mInterface->getParentInterfaces().size(), 0u);
+  EXPECT_EQ(mInterface->getLLVMType(mLLVMContext), mShapeStructType->getPointerTo());
+  EXPECT_EQ(mInterface->getParentInterfaces().size(), 1u);
 }
 
 TEST_F(InterfaceTest, TestFindMethod) {

@@ -80,6 +80,15 @@ vector<Interface*> Interface::getParentInterfaces() const {
   return mParentInterfaces;
 }
 
+bool Interface::doesExtendInterface(Interface* interface) const {
+  for (Interface* parentInterface : mParentInterfaces) {
+    if (parentInterface == interface || parentInterface->doesExtendInterface(interface)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 MethodSignature* Interface::findMethod(std::string methodName) const {
   if (!mNameToMethodSignatureMap.count(methodName)) {
     return NULL;

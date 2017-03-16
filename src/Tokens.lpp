@@ -64,6 +64,7 @@ WS  [ \t\v\n\f]
 "build"                       return TOKEN(TBUILD);
 "public"                      return TOKEN(TPUBLIC);
 "private"                     return TOKEN(TPRIVATE);
+"instanceof"                  return TOKEN(TINSTANCEOF);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

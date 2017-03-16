@@ -266,6 +266,9 @@
 		F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
 		F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */; };
 		F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */; };
+		F5B9B1531E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */; };
+		F5B9B1541E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */; };
+		F5B9B1581E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */; };
 		F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD641E48AB3B0054209D /* CharType.cpp */; };
 		F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD671E48B16F0054209D /* TestCharType.cpp */; };
@@ -600,6 +603,9 @@
 		F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethod.cpp; path = tests/TestMethod.cpp; sourceTree = "<group>"; };
 		F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompoundStatement.hpp; path = include/yazyk/CompoundStatement.hpp; sourceTree = "<group>"; };
 		F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodSignature.cpp; path = tests/TestMethodSignature.cpp; sourceTree = "<group>"; };
+		F5B9B1511E7A9CA500456CB4 /* TypeComparisionExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TypeComparisionExpression.hpp; path = include/yazyk/TypeComparisionExpression.hpp; sourceTree = "<group>"; };
+		F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TypeComparisionExpression.cpp; path = src/TypeComparisionExpression.cpp; sourceTree = "<group>"; };
+		F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTypeComparisionExpression.cpp; path = tests/TestTypeComparisionExpression.cpp; sourceTree = "<group>"; };
 		F5C6FD641E48AB3B0054209D /* CharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharType.cpp; path = src/CharType.cpp; sourceTree = "<group>"; };
 		F5C6FD671E48B16F0054209D /* TestCharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharType.cpp; path = tests/TestCharType.cpp; sourceTree = "<group>"; };
 		F5C6FD691E48B33A0054209D /* VoidType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VoidType.cpp; path = src/VoidType.cpp; sourceTree = "<group>"; };
@@ -796,6 +802,7 @@
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
 				F531B6561E0DE040008304F3 /* TestStringConstant.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
+				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
 				F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */,
@@ -957,6 +964,7 @@
 				F531B6531E0DDD96008304F3 /* StringConstant.cpp */,
 				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
+				F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
 				F5C6FD691E48B33A0054209D /* VoidType.cpp */,
 				F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */,
@@ -1101,6 +1109,7 @@
 				F50FA2FD1E32399600435EEA /* Scopes.hpp */,
 				F531B6521E0DDCE7008304F3 /* StringConstant.hpp */,
 				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
+				F5B9B1511E7A9CA500456CB4 /* TypeComparisionExpression.hpp */,
 				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
 				F507D2731E46109200495E2D /* VoidType.hpp */,
 				F59D82091E0F147000057FB5 /* WhileStatement.hpp */,
@@ -1245,6 +1254,7 @@
 				F50427B51E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */,
 				F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
+				F5B9B1581E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp in Sources */,
 				F50FA2D71E2D12E000435EEA /* TestModelDefinition.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
 				F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
@@ -1269,6 +1279,7 @@
 				F531B6431E0A16D7008304F3 /* Block.cpp in Sources */,
 				F57411431E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F57086051E533667007D627E /* TestAutoCast.cpp in Sources */,
+				F5B9B1541E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
 				F50FA2E91E2E3B0F00435EEA /* DoubleConstant.cpp in Sources */,
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */,
@@ -1356,6 +1367,7 @@
 				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F53400EE1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
+				F5B9B1531E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
 				F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */,

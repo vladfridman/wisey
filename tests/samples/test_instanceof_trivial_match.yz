@@ -1,0 +1,40 @@
+interface IObject {
+  int getSize();
+}
+
+interface IHasFreezer extends IObject {
+}
+
+interface IHasElectricSupply {
+}
+
+interface IHasDoor{
+  void open();
+}
+
+interface ICar {
+}
+
+interface IDevice extends IHasDoor, IHasElectricSupply, IHasFreezer {
+}
+
+model MFridge implements IDevice {
+  int mSize;
+
+  public void open() {
+  }
+
+  public int getSize() {
+    return mSize;
+  }
+}
+
+int main() {
+  MFridge fridge = builder(MFridge).withSize(5).build();
+
+  int result1 = fridge instanceof IObject;
+  int result2 = ((IHasFreezer) fridge) instanceof IObject;
+  int result3 = fridge instanceof ICar;
+  
+  return result1 + result2 + result3;
+}

@@ -60,6 +60,11 @@ public:
    */
   std::vector<Interface*> getParentInterfaces() const;
   
+  /**
+   * Tells whether this interface extends a given one
+   */
+  bool doesExtendInterface(Interface* interface) const;
+  
   MethodSignature* findMethod(std::string methodName) const override;
 
   std::string getName() const override;

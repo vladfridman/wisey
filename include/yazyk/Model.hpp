@@ -68,6 +68,11 @@ public:
    */
   std::vector<Interface*> getFlattenedInterfaceHierarchy() const;
   
+  /**
+   * Tells whether this model implements a given interface
+   */
+  bool doesImplmentInterface(Interface* interface) const;
+  
   Method* findMethod(std::string methodName) const override;
 
   std::string getName() const override;

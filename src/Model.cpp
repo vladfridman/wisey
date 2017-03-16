@@ -83,6 +83,11 @@ vector<Interface*> Model::getFlattenedInterfaceHierarchy() const {
   return mFlattenedInterfaceHierarchy;
 }
 
+bool Model::doesImplmentInterface(Interface* interface) const {
+  // TODO: optimize this
+  return getInterfaceIndex(interface) >= 0;
+}
+
 vector<Interface*> Model::createFlattenedInterfaceHierarchy() const {
   vector<Interface*> result;
   for (Interface* interface : mInterfaces) {

@@ -252,3 +252,10 @@ TEST_F(ModelTest, GetFlattenedInterfaceHierarchyTest) {
   EXPECT_EQ(allInterfaces.at(1), mSubShapeInterface);
   EXPECT_EQ(allInterfaces.at(2), mObjectInterface);
 }
+
+TEST_F(ModelTest, DoesImplmentInterfaceTest) {
+  EXPECT_TRUE(mModel->doesImplmentInterface(mSubShapeInterface));
+  EXPECT_TRUE(mModel->doesImplmentInterface(mShapeInterface));
+  EXPECT_TRUE(mModel->doesImplmentInterface(mObjectInterface));
+  EXPECT_FALSE(mModel->doesImplmentInterface(mCarInterface));
+}
