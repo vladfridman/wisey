@@ -236,6 +236,14 @@ TEST_F(ModelTest, CastToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ModelTest, getModelNameVariableNameTest) {
+  ASSERT_STREQ(mModel->getModelNameVariableName().c_str(), "model.MSquare.name");
+}
+
+TEST_F(ModelTest, getTypeTableName) {
+  ASSERT_STREQ(mModel->getTypeTableName().c_str(), "model.MSquare.typetable");
+}
+
 TEST_F(ModelTest, CastToDeathTest) {
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 

@@ -89,6 +89,10 @@ bool Interface::doesExtendInterface(Interface* interface) const {
   return false;
 }
 
+string Interface::getInterfaceNameVariableName() const {
+  return "interface." + mName + ".name";
+}
+
 MethodSignature* Interface::findMethod(std::string methodName) const {
   if (!mNameToMethodSignatureMap.count(methodName)) {
     return NULL;

@@ -75,6 +75,14 @@ string Model::getVTableName() const {
   return "model." + getName() + ".vtable";
 }
 
+string Model::getModelNameVariableName() const {
+  return "model." + getName() + ".name";
+}
+
+string Model::getTypeTableName() const {
+  return "model." + getName() + ".typetable";
+}
+
 vector<Interface*> Model::getInterfaces() const {
   return mInterfaces;
 }

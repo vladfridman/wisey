@@ -77,6 +77,10 @@ TEST_F(InterfaceTest, TestFindMethod) {
   EXPECT_EQ(mInterface->findMethod("bar"), nullptr);
 }
 
+TEST_F(InterfaceTest, getInterfaceNameVariableNameTest) {
+  EXPECT_STREQ(mInterface->getInterfaceNameVariableName().c_str(), "interface.IShape.name");
+}
+
 TEST_F(TestFileSampleRunner, InterfaceMethodNotImplmentedDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_not_implmented.yz",
                          1,

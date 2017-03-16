@@ -114,6 +114,14 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
                                        structType,
                                        parentInterfaces,
                                        interfaceMethodSignatures);
+  Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());
+  new GlobalVariable(*mContext.getModule(),
+                     stringConstant->getType(),
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     stringConstant,
+                     interface->getInterfaceNameVariableName());
+
   mContext.addInterface(interface);
   vector<string> interfaces;
   interfaces.push_back("myinterface");
@@ -129,6 +137,12 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
   Constant* vTableInitializer = vTablePointer->getInitializer();
   ASSERT_TRUE(vTableInitializer->getType()->isStructTy());
   EXPECT_EQ(vTableInitializer->getType()->getStructNumElements(), 1u);
+
+  GlobalVariable* vModelTypesPointer =
+    mContext.getModule()->getGlobalVariable("model.mymodel.typetable");
+  EXPECT_NE(vModelTypesPointer, nullptr);
+  ASSERT_TRUE(vModelTypesPointer->getType()->getPointerElementType()->isArrayTy());
+  EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 2u);
 }
 
 TEST_F(ModelDefinitionTest, InterfaceNotDefinedDeathTest) {

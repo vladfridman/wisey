@@ -37,6 +37,10 @@ public:
   ~InterfaceDefinition() { };
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+private:
+  
+  void defineModelTypeName(IRGenerationContext& context, Interface* model) const;
 };
   
 } /* namespace yazyk */

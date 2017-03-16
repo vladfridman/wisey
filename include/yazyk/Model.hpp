@@ -59,6 +59,16 @@ public:
   std::string getVTableName() const;
   
   /**
+   * Returns the name of the global varaible containing the name of this model
+   */
+  std::string getModelNameVariableName() const;
+  
+  /**
+   * Returns the name of the global varaible containing types that this model implements
+   */
+  std::string getTypeTableName() const;
+ 
+  /**
    * Returns interfaces that this model implements
    */
   std::vector<Interface*> getInterfaces() const;

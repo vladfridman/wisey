@@ -65,6 +65,11 @@ public:
    */
   bool doesExtendInterface(Interface* interface) const;
   
+  /**
+   * Returns the name of the global varaible containing the name of this interface
+   */
+  std::string getInterfaceNameVariableName() const;
+  
   MethodSignature* findMethod(std::string methodName) const override;
 
   std::string getName() const override;

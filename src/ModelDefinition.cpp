@@ -39,6 +39,8 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   structType->setBody(types);
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, model);
   processInterfaceMethods(context, model, interfaces, methodFunctionMap);
+  defineModelTypeName(context, model);
+  addTypeInformation(context, model);
 
   context.addModel(model);
   context.getScopes().popScope(context);
@@ -139,4 +141,45 @@ void ModelDefinition::processInterfaceMethods(IRGenerationContext& context,
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      vTableGlobalConstantStruct,
                      model->getVTableName());
+}
+
+void ModelDefinition::defineModelTypeName(IRGenerationContext& context, Model* model) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Constant* stringConstant = ConstantDataArray::getString(llvmContext, model->getName());
+  new GlobalVariable(*context.getModule(),
+                     stringConstant->getType(),
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     stringConstant,
+                     model->getModelNameVariableName());
+}
+
+void ModelDefinition::addTypeInformation(IRGenerationContext& context, Model* model) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  vector<Interface*> interfaces = model->getFlattenedInterfaceHierarchy();
+  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+
+  GlobalVariable* modelNamePointer =
+    context.getModule()->getGlobalVariable(model->getModelNameVariableName());
+  Constant* bitCast = ConstantExpr::getBitCast(modelNamePointer, pointerType);
+
+  vector<Constant*> typeNames;
+  typeNames.push_back(bitCast);
+  
+  for (Interface* interface : interfaces) {
+    GlobalVariable* interfaceNamePointer =
+      context.getModule()->getGlobalVariable(interface->getInterfaceNameVariableName());
+    Constant* bitCast = ConstantExpr::getBitCast(interfaceNamePointer, pointerType);
+    typeNames.push_back(bitCast);
+  }
+  ArrayRef<Constant*> arrayRef(typeNames);
+  ArrayType* arrayType = ArrayType::get(pointerType, typeNames.size());
+  Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
+ 
+  new GlobalVariable(*context.getModule(),
+                     arrayType,
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     constantArray,
+                     model->getTypeTableName());
 }

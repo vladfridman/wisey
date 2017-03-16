@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "yazyk/Interface.hpp"
 #include "yazyk/InterfaceDefinition.hpp"
 
@@ -43,5 +45,20 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   Interface* interface = new Interface(mName, structType, parentInterfaces, methodSignatures);
   context.addInterface(interface);
   
+  defineModelTypeName(context, interface);
+  
   return NULL;
 }
+
+void InterfaceDefinition::defineModelTypeName(IRGenerationContext& context,
+                                              Interface* interface) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Constant* stringConstant = ConstantDataArray::getString(llvmContext, interface->getName());
+  new GlobalVariable(*context.getModule(),
+                     stringConstant->getType(),
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     stringConstant,
+                     interface->getInterfaceNameVariableName());
+}
+

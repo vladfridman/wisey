@@ -63,6 +63,10 @@ private:
                                Model* model,
                                std::vector<Interface*> interfaces,
                                std::map<std::string, llvm::Function*>& methodFunctionMap) const;
+
+  void defineModelTypeName(IRGenerationContext& context, Model* model) const;
+  
+  void addTypeInformation(IRGenerationContext& context, Model* model) const;
 };
 
 } /* namespace yazyk */
