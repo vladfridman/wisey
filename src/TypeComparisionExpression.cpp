@@ -49,7 +49,11 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
   Interface* interface = (Interface*) expressionType;
   ICallableObjectType* callableObjectType = (ICallableObjectType*) mTypeSpecifier.getType(context);
   
-  return interface->callInstanceOf(context, expressionValue, callableObjectType);
+  Value* interfaceIndex = interface->callInstanceOf(context, expressionValue, callableObjectType);
+  ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
+  BasicBlock* basicBlock = context.getBasicBlock();
+  
+  return new ICmpInst(*basicBlock, ICmpInst::ICMP_SGE, interfaceIndex, zero, "instanceof");
 }
 
 IType* TypeComparisionExpression::getType(IRGenerationContext& context) const {

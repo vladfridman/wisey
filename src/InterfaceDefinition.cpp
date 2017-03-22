@@ -72,37 +72,40 @@ void InterfaceDefinition::defineInstanceOf(IRGenerationContext& context,
   Function* function = createInstanceOfFunction(context, interface);
   
   BasicBlock* lastBasicBlock = context.getBasicBlock();
-  BasicBlock* entryBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
-  BasicBlock* whileCond = BasicBlock::Create(context.getLLVMContext(), "while.cond", function);
-  BasicBlock* whileBody = BasicBlock::Create(context.getLLVMContext(), "while.body", function);
-  BasicBlock* returnFalse = BasicBlock::Create(context.getLLVMContext(), "return.false", function);
-  BasicBlock* returnTrue = BasicBlock::Create(context.getLLVMContext(), "return.true", function);
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
+  BasicBlock* whileCond = BasicBlock::Create(llvmContext, "while.cond", function);
+  BasicBlock* whileBody = BasicBlock::Create(llvmContext, "while.body", function);
+  BasicBlock* returnNotFound = BasicBlock::Create(llvmContext, "return.notfound", function);
+  BasicBlock* returnFound = BasicBlock::Create(llvmContext, "return.found", function);
   
-  Value* iterator = new AllocaInst(Type::getInt64Ty(llvmContext), "iterator", entryBlock);
-  new StoreInst(ConstantInt::get(Type::getInt64Ty(llvmContext), 0), iterator, entryBlock);
+  Value* iterator = new AllocaInst(Type::getInt32Ty(llvmContext), "iterator", entryBlock);
+  new StoreInst(ConstantInt::get(Type::getInt32Ty(llvmContext), 0), iterator, entryBlock);
   
   Value* arrayOfStrings = composeInstanceOfEntryBlock(context, entryBlock, whileCond, function);
 
   Value* stringPointer = composeInstanceOfWhileConditionBlock(context,
                                                               whileCond,
                                                               whileBody,
-                                                              returnFalse,
+                                                              returnNotFound,
                                                               iterator,
                                                               arrayOfStrings);
 
   composeInstanceOfWhileBodyBlock(context,
                                   whileBody,
                                   whileCond,
-                                  returnTrue,
+                                  returnFound,
                                   iterator,
                                   stringPointer,
                                   function);
   
-  context.setBasicBlock(returnTrue);
-  ReturnInst::Create(llvmContext, ConstantInt::get(Type::getInt1Ty(llvmContext), 1), returnTrue);
+  context.setBasicBlock(returnFound);
+  LoadInst* iteratorLoaded = new LoadInst(iterator, "", returnFound);
+  ReturnInst::Create(llvmContext, iteratorLoaded, returnFound);
   
-  context.setBasicBlock(returnFalse);
-  ReturnInst::Create(llvmContext, ConstantInt::get(Type::getInt1Ty(llvmContext), 0), returnFalse);
+  context.setBasicBlock(returnNotFound);
+  ReturnInst::Create(llvmContext,
+                     ConstantInt::get(Type::getInt32Ty(llvmContext), -1),
+                     returnNotFound);
   
   context.setBasicBlock(lastBasicBlock);
 }
@@ -116,7 +119,7 @@ Function* InterfaceDefinition::createInstanceOfFunction(IRGenerationContext& con
   argumentTypes.push_back(interface->getLLVMType(llvmContext));
   argumentTypes.push_back(int8Type->getPointerTo());
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = PrimitiveTypes::BOOLEAN_TYPE->getLLVMType(llvmContext);
+  Type* llvmReturnType = PrimitiveTypes::INT_TYPE->getLLVMType(llvmContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,
@@ -219,7 +222,7 @@ void InterfaceDefinition::composeInstanceOfWhileBodyBlock(IRGenerationContext& c
   LoadInst* iteratorLoaded = new LoadInst(iterator, "", whileBody);
   Value* increment = BinaryOperator::Create(Instruction::Add,
                                             iteratorLoaded,
-                                            ConstantInt::get(Type::getInt64Ty(llvmContext), 1),
+                                            ConstantInt::get(Type::getInt32Ty(llvmContext), 1),
                                             "inc",
                                             whileBody);
   new StoreInst(increment, iterator, whileBody);
