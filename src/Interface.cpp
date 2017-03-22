@@ -105,45 +105,30 @@ MethodSignature* Interface::findMethod(std::string methodName) const {
   return mNameToMethodSignatureMap.at(methodName);
 }
 
-vector<vector<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& context,
-                                                            Model* model,
-                                                            map<string, Function*>& methodFunctionMap,
-                                                            GlobalVariable* typeTable,
-                                                            unsigned long interfaceIndex) const {
+vector<list<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& context,
+                                                          Model* model,
+                                                          map<string, Function*>& methodFunctionMap,
+                                                          unsigned long interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  vector<Constant*> vTableArrayProtion;
-  if (interfaceIndex == 0) {
-    vTableArrayProtion.push_back(ConstantExpr::getNullValue(pointerType));
-    Constant* bitCast = ConstantExpr::getBitCast(typeTable, pointerType);
-    vTableArrayProtion.push_back(bitCast);
-  } else {
-    long unthunkBy = -Environment::getAddressSizeInBytes() * ((long) interfaceIndex);
-    ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
-    vTableArrayProtion.push_back(ConstantExpr::getIntToPtr(unthunk, pointerType));
-    vTableArrayProtion.push_back(ConstantExpr::getNullValue(pointerType));
-  }
+  list<Constant*> vTableArrayProtion;
   for (MethodSignature* methodSignature : mAllMethodSignatures) {
     Function* modelFunction = methodFunctionMap.count(methodSignature->getName())
       ? methodFunctionMap.at(methodSignature->getName()) : NULL;
-    Function* function = generateMapFunctionForMethod(context,
-                                                      model,
-                                                      modelFunction,
-                                                      interfaceIndex,
-                                                      methodSignature);
+    Function* function =
+      generateMapFunctionForMethod(context, model, modelFunction, interfaceIndex, methodSignature);
     Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
     vTableArrayProtion.push_back(bitCast);
   }
-  vector<vector<Constant*>> vSubTable;
+  vector<list<Constant*>> vSubTable;
   vSubTable.push_back(vTableArrayProtion);
   for (Interface* parentInterface : mParentInterfaces) {
-    vector<vector<Constant*>> parentInterfaceTables =
+    vector<list<Constant*>> parentInterfaceTables =
       parentInterface->generateMapFunctionsIR(context,
                                               model,
                                               methodFunctionMap,
-                                              typeTable,
                                               interfaceIndex + vSubTable.size());
-    for (vector<Constant*> parentInterfaceTable : parentInterfaceTables) {
+    for (list<Constant*> parentInterfaceTable : parentInterfaceTables) {
       vSubTable.push_back(parentInterfaceTable);
     }
   }

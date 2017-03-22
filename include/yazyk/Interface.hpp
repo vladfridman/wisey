@@ -9,7 +9,8 @@
 #ifndef Interface_hpp
 #define Interface_hpp
 
-#include <set>
+#include <list>
+#include <vector>
 
 #include <llvm/IR/Instructions.h>
 
@@ -48,13 +49,12 @@ public:
   /**
    * Generate functions that map interface methods to model methods
    */
-  std::vector<std::vector<llvm::Constant*>> generateMapFunctionsIR(IRGenerationContext& context,
-                                                                   Model* model,
-                                                                   std::map<std::string,
-                                                                    llvm::Function*>&
-                                                                   methodFunctionMap,
-                                                                   llvm::GlobalVariable* typeTable,
-                                                                   unsigned long interfaceIndex) const;
+  std::vector<std::list<llvm::Constant*>> generateMapFunctionsIR(IRGenerationContext& context,
+                                                                 Model* model,
+                                                                 std::map<std::string,
+                                                                 llvm::Function*>&
+                                                                 methodFunctionMap,
+                                                                 unsigned long interfaceIndex) const;
   
   /**
    * Returns parent interfaces

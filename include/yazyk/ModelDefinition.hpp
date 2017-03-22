@@ -62,11 +62,28 @@ private:
   void processInterfaceMethods(IRGenerationContext& context,
                                Model* model,
                                std::vector<Interface*> interfaces,
-                               std::map<std::string, llvm::Function*>& methodFunctionMap) const;
+                               std::map<std::string, llvm::Function*>& methodFunctionMap,
+                               llvm::GlobalVariable* typeListGlobal) const;
 
+  std::vector<std::list<llvm::Constant*>>
+    generateInterfaceMapFunctions(IRGenerationContext& context,
+                                  Model* model,
+                                  std::vector<Interface*> interfaces,
+                                  std::map<std::string, llvm::Function*>& methodFunctionMap) const;
+
+  std::vector<std::vector<llvm::Constant*>>
+    addUnthunkAndTypeTableInfo(IRGenerationContext& context,
+                               Model* model,
+                               llvm::GlobalVariable* typeListGlobal,
+                               std::vector<std::list<llvm::Constant*>> interfaceMapFunctions) const;
+ 
+  void createVTableGlobal(IRGenerationContext& context,
+                          Model* model,
+                          std::vector<std::vector<llvm::Constant*>> interfaceVTables) const;
+  
   void defineModelTypeName(IRGenerationContext& context, Model* model) const;
   
-  void addTypeInformation(IRGenerationContext& context, Model* model) const;
+  llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context, Model* model) const;
 };
 
 } /* namespace yazyk */
