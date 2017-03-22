@@ -49,7 +49,7 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
   Interface* interface = (Interface*) expressionType;
   ICallableObjectType* callableObjectType = (ICallableObjectType*) mTypeSpecifier.getType(context);
   
-  return Interface::callInstanceOf(context, interface, expressionValue, callableObjectType);
+  return interface->callInstanceOf(context, expressionValue, callableObjectType);
 }
 
 IType* TypeComparisionExpression::getType(IRGenerationContext& context) const {

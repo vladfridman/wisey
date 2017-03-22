@@ -305,11 +305,10 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
 }
 
 CallInst* Interface::callInstanceOf(IRGenerationContext& context,
-                                    Interface* interface,
                                     Value* interfaceObject,
-                                    ICallableObjectType* callableObjectType) {
+                                    ICallableObjectType* callableObjectType) const {
   BasicBlock* basicBlock = context.getBasicBlock();
-  Function* function = context.getModule()->getFunction(interface->getInstanceOfFunctionName());
+  Function* function = context.getModule()->getFunction(getInstanceOfFunctionName());
   
   GlobalVariable* typeName =
     context.getModule()->getGlobalVariable(callableObjectType->getObjectNameGlobalVariableName());

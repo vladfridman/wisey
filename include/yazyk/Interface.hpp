@@ -72,19 +72,17 @@ public:
   std::string getInstanceOfFunctionName() const;
 
   /**
+   * Call instanceof function and check whether interfaceObject is of type callableObjectType
+   */
+  llvm::CallInst* callInstanceOf(IRGenerationContext& context,
+                                 llvm::Value* interfaceObject,
+                                 ICallableObjectType* callableObjectType) const;
+
+  /**
    * Given a value of type interface get the pointer back to the original object that implements it
    */
   static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
   
-  /**
-   * Call instanceof function and check whether interfaceObject of type interface
-   * is also of type callableObjectType
-   */
-  static llvm::CallInst* callInstanceOf(IRGenerationContext& context,
-                                        Interface* interface,
-                                        llvm::Value* interfaceObject,
-                                        ICallableObjectType* callableObjectType);
-
   MethodSignature* findMethod(std::string methodName) const override;
 
   std::string getObjectNameGlobalVariableName() const override;
