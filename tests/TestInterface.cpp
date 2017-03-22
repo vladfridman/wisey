@@ -26,7 +26,8 @@ using namespace yazyk;
 using ::testing::Test;
 
 struct InterfaceTest : public Test {
-  Interface* mInterface;
+  Interface* mShapeInterface;
+  Interface* mObjectInterface;
   MethodSignature* mMethodSignature;
   StructType* mShapeStructType;
   ModelField* mWidthField;
@@ -43,10 +44,10 @@ struct InterfaceTest : public Test {
     objectStructType->setBody(objectTypes);
     vector<MethodSignature*> objectMethodSignatures;
     vector<Interface*> objectParentInterfaces;
-    Interface* shapeInterface = new Interface("IShape",
-                                              mShapeStructType,
-                                              objectParentInterfaces,
-                                              objectMethodSignatures);
+    mObjectInterface = new Interface("IObject",
+                                     mShapeStructType,
+                                     objectParentInterfaces,
+                                     objectMethodSignatures);
 
     vector<Type*> shapeTypes;
     mShapeStructType = StructType::create(mLLVMContext, "IShape");
@@ -59,11 +60,11 @@ struct InterfaceTest : public Test {
     vector<MethodSignature*> shapeMethodSignatures;
     shapeMethodSignatures.push_back(mMethodSignature);
     vector<Interface*> shapeParentInterfaces;
-    shapeParentInterfaces.push_back(shapeInterface);
-    mInterface = new Interface("IShape",
-                               mShapeStructType,
-                               shapeParentInterfaces,
-                               shapeMethodSignatures);
+    shapeParentInterfaces.push_back(mObjectInterface);
+    mShapeInterface = new Interface("IShape",
+                                    mShapeStructType,
+                                    shapeParentInterfaces,
+                                    shapeMethodSignatures);
 
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -84,23 +85,28 @@ struct InterfaceTest : public Test {
 };
 
 TEST_F(InterfaceTest, TestInterfaceInstantiation) {
-  EXPECT_STREQ(mInterface->getName().c_str(), "IShape");
-  EXPECT_EQ(mInterface->getTypeKind(), INTERFACE_TYPE);
-  EXPECT_EQ(mInterface->getLLVMType(mLLVMContext), mShapeStructType->getPointerTo());
-  EXPECT_EQ(mInterface->getParentInterfaces().size(), 1u);
+  EXPECT_STREQ(mShapeInterface->getName().c_str(), "IShape");
+  EXPECT_EQ(mShapeInterface->getTypeKind(), INTERFACE_TYPE);
+  EXPECT_EQ(mShapeInterface->getLLVMType(mLLVMContext), mShapeStructType->getPointerTo());
+  EXPECT_EQ(mShapeInterface->getParentInterfaces().size(), 1u);
 }
 
 TEST_F(InterfaceTest, TestFindMethod) {
-  EXPECT_EQ(mInterface->findMethod("foo"), mMethodSignature);
-  EXPECT_EQ(mInterface->findMethod("bar"), nullptr);
+  EXPECT_EQ(mShapeInterface->findMethod("foo"), mMethodSignature);
+  EXPECT_EQ(mShapeInterface->findMethod("bar"), nullptr);
 }
 
 TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {
-  EXPECT_STREQ(mInterface->getObjectNameGlobalVariableName().c_str(), "interface.IShape.name");
+  EXPECT_STREQ(mShapeInterface->getObjectNameGlobalVariableName().c_str(), "interface.IShape.name");
 }
 
 TEST_F(InterfaceTest, getInstanceOfFunctionNameTest) {
-  EXPECT_STREQ(mInterface->getInstanceOfFunctionName().c_str(), "interface.IShape.instanceof");
+  EXPECT_STREQ(mShapeInterface->getInstanceOfFunctionName().c_str(), "interface.IShape.instanceof");
+}
+
+TEST_F(InterfaceTest, doesExtendInterfaceTest) {
+  EXPECT_FALSE(mObjectInterface->doesExtendInterface(mShapeInterface));
+  EXPECT_TRUE(mShapeInterface->doesExtendInterface(mObjectInterface));
 }
 
 TEST_F(InterfaceTest, getOriginalObjectTest) {
