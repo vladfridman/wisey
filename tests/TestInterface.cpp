@@ -99,6 +99,10 @@ TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {
   EXPECT_STREQ(mInterface->getObjectNameGlobalVariableName().c_str(), "interface.IShape.name");
 }
 
+TEST_F(InterfaceTest, getInstanceOfFunctionNameTest) {
+  EXPECT_STREQ(mInterface->getInstanceOfFunctionName().c_str(), "interface.IShape.instanceof");
+}
+
 TEST_F(InterfaceTest, getOriginalObjectTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   Interface::getOriginalObject(mContext, nullPointerValue);

@@ -260,3 +260,16 @@ TEST_F(TestTypeComparisionExpressionTest, CompareInterfaceAndInterfaceTypesTest)
 TEST_F(TestFileSampleRunner, InstanceOfTrivialMatchTest) {
   runFile("tests/samples/test_instanceof_trivial_match.yz", "2");
 }
+
+TEST_F(TestFileSampleRunner, InterfaceInstanceOfModelMatchTest) {
+  runFile("tests/samples/test_interface_instanceof_model_match.yz", "1");
+}
+
+TEST_F(TestFileSampleRunner, InterfaceInstanceOfInterfaceMatchTest) {
+  runFile("tests/samples/test_interface_instanceof_interface_match.yz", "1");
+}
+
+TEST_F(TestFileSampleRunner, InterfaceInstanceOfInterfaceNotMatchTest) {
+  runFile("tests/samples/test_interface_instanceof_interface_notmatch.yz", "0");
+}
+

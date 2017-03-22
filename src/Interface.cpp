@@ -93,6 +93,10 @@ string Interface::getObjectNameGlobalVariableName() const {
   return "interface." + mName + ".name";
 }
 
+string Interface::getInstanceOfFunctionName() const {
+  return "interface." + mName + ".instanceof";
+}
+
 MethodSignature* Interface::findMethod(std::string methodName) const {
   if (!mNameToMethodSignatureMap.count(methodName)) {
     return NULL;

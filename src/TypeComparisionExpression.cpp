@@ -44,9 +44,32 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const
 }
 
 Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext& context) const {
-  // TODO: implement this
-  return ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), 0);
-}
+  BasicBlock* basicBlock = context.getBasicBlock();
+
+  Value* expressionValue = mExpression.generateIR(context);
+  IType* expressionType = mExpression.getType(context);
+  Interface* interface = (Interface*) expressionType;
+  Function* function = context.getModule()->getFunction(interface->getInstanceOfFunctionName());
+  ICallableObjectType* callableObjectType = (ICallableObjectType*) mTypeSpecifier.getType(context);
+
+  GlobalVariable* typeName =
+    context.getModule()->getGlobalVariable(callableObjectType->getObjectNameGlobalVariableName());
+  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
+  Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  GetElementPtrInst* pointerToNameString =
+    GetElementPtrInst::Create(typeName->getType()->getPointerElementType(),
+                              typeName,
+                              Idx,
+                              "",
+                              basicBlock);
+  
+  vector<Value*> arguments;
+  arguments.push_back(expressionValue);
+  arguments.push_back(pointerToNameString);
+
+  return CallInst::Create(function, arguments, "instanceof", basicBlock);}
 
 IType* TypeComparisionExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;

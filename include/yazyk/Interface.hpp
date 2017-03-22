@@ -67,6 +67,11 @@ public:
   bool doesExtendInterface(Interface* interface) const;
   
   /**
+   * Return function name that implements instanceof operation
+   */
+  std::string getInstanceOfFunctionName() const;
+
+  /**
    * Given a value of type interface get the pointer back to the original object that implements it
    */
   static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
