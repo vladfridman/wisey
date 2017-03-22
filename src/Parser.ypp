@@ -4,6 +4,7 @@
   #include "yazyk/Assignment.hpp"
   #include "yazyk/Block.hpp"
   #include "yazyk/BooleanConstants.hpp"
+  #include "yazyk/BooleanNotExpression.hpp"
   #include "yazyk/BreakStatement.hpp"
   #include "yazyk/CaseStatement.hpp"
   #include "yazyk/CastExpression.hpp"
@@ -410,6 +411,7 @@ postfix_expression
 unary_expression
   : postfix_expression
   | '-' cast_expression { $$ = new NegateExpression(*$2); }
+  | '!' cast_expression { $$ = new BooleanNotExpression(*$2); }
   ;
 
 cast_expression
