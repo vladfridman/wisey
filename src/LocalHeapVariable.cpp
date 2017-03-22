@@ -66,28 +66,6 @@ void LocalHeapVariable::free(IRGenerationContext& context) const {
     return;
   }
 
-  // Unthunking from interface pointer back to the original object
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* int8Type = Type::getInt8Ty(llvmContext);
-  Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  BitCastInst* vTablePointer = new BitCastInst(mValue, pointerType, "", basicBlock);
-  LoadInst* vTable = new LoadInst(vTablePointer, "vtable", basicBlock);
-  Value *Idx[1];
-  Idx[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
-  GetElementPtrInst* unthunkPointer = GetElementPtrInst::Create(int8Type->getPointerTo(),
-                                                                vTable,
-                                                                Idx,
-                                                                "unthunkpointer",
-                                                                basicBlock);
-  
-  LoadInst* pointerToVal = new LoadInst(unthunkPointer, "unthunkbypointer", basicBlock);
-  Value* unthunkBy = new PtrToIntInst(pointerToVal,
-                                      Type::getInt64Ty(llvmContext),
-                                      "unthunkby",
-                                      basicBlock);
-  
-  BitCastInst* bitcast = new BitCastInst(mValue, int8Type->getPointerTo(), "", basicBlock);
-  Idx[0] = unthunkBy;
-  Value* thisptr = GetElementPtrInst::Create(int8Type, bitcast, Idx, "this.ptr", basicBlock);
-  basicBlock->getInstList().push_back(CallInst::CreateFree(thisptr, basicBlock));
+  Value* thisPointer = Interface::getOriginalObject(context, mValue);
+  basicBlock->getInstList().push_back(CallInst::CreateFree(thisPointer, basicBlock));
 }

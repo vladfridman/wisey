@@ -12,6 +12,7 @@
 
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/LLVMContext.h>
+#include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/Interface.hpp"
@@ -32,6 +33,9 @@ struct InterfaceTest : public Test {
   ModelField* mHeightField;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
+  BasicBlock* mBlock;
+  string mStringBuffer;
+  raw_string_ostream* mStringStream;
   
   InterfaceTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> objectTypes;
@@ -60,9 +64,23 @@ struct InterfaceTest : public Test {
                                mShapeStructType,
                                shapeParentInterfaces,
                                shapeMethodSignatures);
-  }
+
+    FunctionType* functionType =
+    FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
+    Function* function = Function::Create(functionType,
+                                          GlobalValue::InternalLinkage,
+                                          "main",
+                                          mContext.getModule());
+    
+    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBlock);
+    mContext.getScopes().pushScope();
+    mStringStream = new raw_string_ostream(mStringBuffer);
+}
   
-  ~InterfaceTest() { }
+  ~InterfaceTest() {
+    delete mStringStream;
+  }
 };
 
 TEST_F(InterfaceTest, TestInterfaceInstantiation) {
@@ -79,6 +97,25 @@ TEST_F(InterfaceTest, TestFindMethod) {
 
 TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {
   EXPECT_STREQ(mInterface->getObjectNameGlobalVariableName().c_str(), "interface.IShape.name");
+}
+
+TEST_F(InterfaceTest, getOriginalObjectTest) {
+  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  Interface::getOriginalObject(mContext, nullPointerValue);
+
+  ASSERT_EQ(7ul, mBlock->size());
+  *mStringStream << *mBlock;
+  string expected =
+    "\nentry:"
+    "\n  %0 = bitcast i8* null to i8***"
+    "\n  %vtable = load i8**, i8*** %0"
+    "\n  %unthungentry = getelementptr i8*, i8** %vtable, i64 0"
+    "\n  %unthunkbypointer = load i8*, i8** %unthungentry"
+    "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
+    "\n  %1 = bitcast i8* null to i8*"
+    "\n  %this.ptr = getelementptr i8, i8* %1, i64 %unthunkby\n";
+
+  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }
 
 TEST_F(TestFileSampleRunner, InterfaceMethodNotImplmentedDeathTest) {

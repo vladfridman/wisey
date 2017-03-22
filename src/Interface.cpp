@@ -282,3 +282,30 @@ Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* 
   // TODO: implement casting
   return NULL;
 }
+
+Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  BasicBlock* basicBlock = context.getBasicBlock();
+
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
+  BitCastInst* vTablePointer = new BitCastInst(value, pointerType, "", basicBlock);
+  LoadInst* vTable = new LoadInst(vTablePointer, "vtable", basicBlock);
+  Value *Idx[1];
+  Idx[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
+  GetElementPtrInst* unthunkPointer = GetElementPtrInst::Create(int8Type->getPointerTo(),
+                                                                vTable,
+                                                                Idx,
+                                                                "unthungentry",
+                                                                basicBlock);
+
+  LoadInst* pointerToVal = new LoadInst(unthunkPointer, "unthunkbypointer", basicBlock);
+  Value* unthunkBy = new PtrToIntInst(pointerToVal,
+                                      Type::getInt64Ty(llvmContext),
+                                      "unthunkby",
+                                      basicBlock);
+
+  BitCastInst* bitcast = new BitCastInst(value, int8Type->getPointerTo(), "", basicBlock);
+  Idx[0] = unthunkBy;
+  return GetElementPtrInst::Create(int8Type, bitcast, Idx, "this.ptr", basicBlock);
+}
