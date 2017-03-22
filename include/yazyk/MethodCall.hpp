@@ -19,6 +19,8 @@ namespace yazyk {
  * Represents a method call for an object that could be a model or an interface or a controller
  */
 class MethodCall : public IExpression {
+  const unsigned int VTABLE_METHODS_OFFSET = 2;
+  
   IExpression& mExpression;
   std::string mMethodName;
   ExpressionList mArguments;

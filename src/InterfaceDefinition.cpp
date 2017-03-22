@@ -51,7 +51,7 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
 }
 
 void InterfaceDefinition::defineInterfaceTypeName(IRGenerationContext& context,
-                                              Interface* interface) const {
+                                                  Interface* interface) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Constant* stringConstant = ConstantDataArray::getString(llvmContext, interface->getName());
   new GlobalVariable(*context.getModule(),

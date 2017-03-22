@@ -45,7 +45,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   LoadInst* vTable = new LoadInst(vTablePointer, "vtable", basicBlock);
   Value *Idx[1];
   Idx[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
-                            methodDescriptor->getIndex() + 1);
+                            methodDescriptor->getIndex() + VTABLE_METHODS_OFFSET);
   GetElementPtrInst* virtualFunction = GetElementPtrInst::Create(functionType->getPointerTo(),
                                                                  vTable,
                                                                  Idx,

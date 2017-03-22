@@ -38,9 +38,9 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   createFieldVariables(context, model, types);
   structType->setBody(types);
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, model);
-  processInterfaceMethods(context, model, interfaces, methodFunctionMap);
   defineModelTypeName(context, model);
   addTypeInformation(context, model);
+  processInterfaceMethods(context, model, interfaces, methodFunctionMap);
 
   context.addModel(model);
   context.getScopes().popScope(context);
@@ -118,9 +118,14 @@ void ModelDefinition::processInterfaceMethods(IRGenerationContext& context,
   
   vector<Constant*> vTableArray;
   vector<Type*> vTableTypes;
+  GlobalVariable* typeTable = context.getModule()->getGlobalVariable(model->getTypeTableName());
   for (Interface* interface : interfaces) {
     vector<vector<Constant*>> vSubTable =
-      interface->generateMapFunctionsIR(context, model, methodFunctionMap, vTableArray.size());
+      interface->generateMapFunctionsIR(context,
+                                        model,
+                                        methodFunctionMap,
+                                        typeTable,
+                                        vTableArray.size());
     for (vector<Constant*> vTablePortion : vSubTable) {
       ArrayRef<Constant*> arrayRef(vTablePortion);
       Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
@@ -159,19 +164,27 @@ void ModelDefinition::addTypeInformation(IRGenerationContext& context, Model* mo
   vector<Interface*> interfaces = model->getFlattenedInterfaceHierarchy();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
 
-  GlobalVariable* modelNamePointer =
+  GlobalVariable* modelNameGlobal =
     context.getModule()->getGlobalVariable(model->getObjectNameGlobalVariableName());
-  Constant* bitCast = ConstantExpr::getBitCast(modelNamePointer, pointerType);
-
+  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  Type* elementType = modelNameGlobal->getType()->getPointerElementType();
+  Constant* modelNamePointer = ConstantExpr::getGetElementPtr(elementType, modelNameGlobal, Idx);
+  
   vector<Constant*> typeNames;
-  typeNames.push_back(bitCast);
+  typeNames.push_back(modelNamePointer);
   
   for (Interface* interface : interfaces) {
-    GlobalVariable* interfaceNamePointer =
+    GlobalVariable* interfaceNameGlobal =
       context.getModule()->getGlobalVariable(interface->getObjectNameGlobalVariableName());
-    Constant* bitCast = ConstantExpr::getBitCast(interfaceNamePointer, pointerType);
-    typeNames.push_back(bitCast);
+    Type* elementType = interfaceNameGlobal->getType()->getPointerElementType();
+    Constant* interfaceNamePointer =
+      ConstantExpr::getGetElementPtr(elementType, interfaceNameGlobal, Idx);
+    typeNames.push_back(interfaceNamePointer);
   }
+  typeNames.push_back(ConstantExpr::getNullValue(pointerType));
   ArrayRef<Constant*> arrayRef(typeNames);
   ArrayType* arrayType = ArrayType::get(pointerType, typeNames.size());
   Constant* constantArray = ConstantArray::get(arrayType, arrayRef);

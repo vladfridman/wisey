@@ -104,16 +104,20 @@ MethodSignature* Interface::findMethod(std::string methodName) const {
 vector<vector<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& context,
                                                             Model* model,
                                                             map<string, Function*>& methodFunctionMap,
+                                                            GlobalVariable* typeTable,
                                                             unsigned long interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   vector<Constant*> vTableArrayProtion;
   if (interfaceIndex == 0) {
     vTableArrayProtion.push_back(ConstantExpr::getNullValue(pointerType));
+    Constant* bitCast = ConstantExpr::getBitCast(typeTable, pointerType);
+    vTableArrayProtion.push_back(bitCast);
   } else {
     long unthunkBy = -Environment::getAddressSizeInBytes() * ((long) interfaceIndex);
     ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
     vTableArrayProtion.push_back(ConstantExpr::getIntToPtr(unthunk, pointerType));
+    vTableArrayProtion.push_back(ConstantExpr::getNullValue(pointerType));
   }
   for (MethodSignature* methodSignature : mAllMethodSignatures) {
     Function* modelFunction = methodFunctionMap.count(methodSignature->getName())
@@ -133,6 +137,7 @@ vector<vector<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext&
       parentInterface->generateMapFunctionsIR(context,
                                               model,
                                               methodFunctionMap,
+                                              typeTable,
                                               interfaceIndex + vSubTable.size());
     for (vector<Constant*> parentInterfaceTable : parentInterfaceTables) {
       vSubTable.push_back(parentInterfaceTable);

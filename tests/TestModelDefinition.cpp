@@ -142,7 +142,7 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
     mContext.getModule()->getGlobalVariable("model.mymodel.typetable");
   EXPECT_NE(vModelTypesPointer, nullptr);
   ASSERT_TRUE(vModelTypesPointer->getType()->getPointerElementType()->isArrayTy());
-  EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 2u);
+  EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 3u);
 }
 
 TEST_F(ModelDefinitionTest, InterfaceNotDefinedDeathTest) {

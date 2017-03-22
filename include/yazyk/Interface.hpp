@@ -53,6 +53,7 @@ public:
                                                                    std::map<std::string,
                                                                     llvm::Function*>&
                                                                    methodFunctionMap,
+                                                                   llvm::GlobalVariable* typeTable,
                                                                    unsigned long interfaceIndex) const;
   
   /**
