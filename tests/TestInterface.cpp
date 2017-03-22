@@ -88,7 +88,6 @@ TEST_F(InterfaceTest, TestInterfaceInstantiation) {
   EXPECT_STREQ(mShapeInterface->getName().c_str(), "IShape");
   EXPECT_EQ(mShapeInterface->getTypeKind(), INTERFACE_TYPE);
   EXPECT_EQ(mShapeInterface->getLLVMType(mLLVMContext), mShapeStructType->getPointerTo());
-  EXPECT_EQ(mShapeInterface->getParentInterfaces().size(), 1u);
 }
 
 TEST_F(InterfaceTest, TestFindMethod) {
@@ -102,6 +101,12 @@ TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {
 
 TEST_F(InterfaceTest, getInstanceOfFunctionNameTest) {
   EXPECT_STREQ(mShapeInterface->getInstanceOfFunctionName().c_str(), "interface.IShape.instanceof");
+}
+
+TEST_F(InterfaceTest, getParentInterfacesTest) {
+  EXPECT_EQ(mShapeInterface->getParentInterfaces().size(), 1u);
+  EXPECT_EQ(mShapeInterface->getParentInterfaces().at(0), mObjectInterface);
+  EXPECT_EQ(mObjectInterface->getParentInterfaces().size(), 0u);
 }
 
 TEST_F(InterfaceTest, doesExtendInterfaceTest) {
