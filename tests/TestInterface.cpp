@@ -45,7 +45,7 @@ struct InterfaceTest : public Test {
     vector<MethodSignature*> objectMethodSignatures;
     vector<Interface*> objectParentInterfaces;
     mObjectInterface = new Interface("IObject",
-                                     mShapeStructType,
+                                     objectStructType,
                                      objectParentInterfaces,
                                      objectMethodSignatures);
 
@@ -66,12 +66,31 @@ struct InterfaceTest : public Test {
                                     shapeParentInterfaces,
                                     shapeMethodSignatures);
 
-    FunctionType* functionType =
-    FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
+    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                            mShapeInterface->getName());
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                       stringConstant,
+                       mShapeInterface->getObjectNameGlobalVariableName());
+
+    vector<Type*> argumentTypes;
+    argumentTypes.push_back(mObjectInterface->getLLVMType(mLLVMContext));
+    argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+    ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+    Type* llvmReturnType = PrimitiveTypes::BOOLEAN_TYPE->getLLVMType(mLLVMContext);
+    FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
-                                          "main",
+                                          mObjectInterface->getInstanceOfFunctionName(),
                                           mContext.getModule());
+
+    functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
+    function = Function::Create(functionType,
+                                GlobalValue::InternalLinkage,
+                                "main",
+                                mContext.getModule());
     
     mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBlock);
@@ -130,6 +149,21 @@ TEST_F(InterfaceTest, getOriginalObjectTest) {
     "\n  %1 = bitcast i8* null to i8*"
     "\n  %this.ptr = getelementptr i8, i8* %1, i64 %unthunkby\n";
 
+  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+}
+
+TEST_F(InterfaceTest, callInstanceOfTest) {
+  Value* nullPointerValue =
+    ConstantPointerNull::get((PointerType*) mObjectInterface->getLLVMType(mLLVMContext));
+  Interface::callInstanceOf(mContext, mObjectInterface, nullPointerValue, mShapeInterface);
+  
+  ASSERT_EQ(2ul, mBlock->size());
+  *mStringStream << *mBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = getelementptr [7 x i8], [7 x i8]* @interface.IShape.name, i32 0, i32 0"
+  "\n  %instanceof = call i1 @interface.IObject.instanceof(%IObject* null, i8* %0)\n";
+  
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }
 

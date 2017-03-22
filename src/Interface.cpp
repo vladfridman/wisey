@@ -303,3 +303,30 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
   Idx[0] = unthunkBy;
   return GetElementPtrInst::Create(int8Type, bitcast, Idx, "this.ptr", basicBlock);
 }
+
+CallInst* Interface::callInstanceOf(IRGenerationContext& context,
+                                    Interface* interface,
+                                    Value* interfaceObject,
+                                    ICallableObjectType* callableObjectType) {
+  BasicBlock* basicBlock = context.getBasicBlock();
+  Function* function = context.getModule()->getFunction(interface->getInstanceOfFunctionName());
+  
+  GlobalVariable* typeName =
+    context.getModule()->getGlobalVariable(callableObjectType->getObjectNameGlobalVariableName());
+  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
+  Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  GetElementPtrInst* pointerToNameString =
+  GetElementPtrInst::Create(typeName->getType()->getPointerElementType(),
+                            typeName,
+                            Idx,
+                            "",
+                            basicBlock);
+  
+  vector<Value*> arguments;
+  arguments.push_back(interfaceObject);
+  arguments.push_back(pointerToNameString);
+  
+  return CallInst::Create(function, arguments, "instanceof", basicBlock);
+}
