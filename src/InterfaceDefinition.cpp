@@ -45,12 +45,12 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   Interface* interface = new Interface(mName, structType, parentInterfaces, methodSignatures);
   context.addInterface(interface);
   
-  defineModelTypeName(context, interface);
+  defineInterfaceTypeName(context, interface);
   
   return NULL;
 }
 
-void InterfaceDefinition::defineModelTypeName(IRGenerationContext& context,
+void InterfaceDefinition::defineInterfaceTypeName(IRGenerationContext& context,
                                               Interface* interface) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Constant* stringConstant = ConstantDataArray::getString(llvmContext, interface->getName());
@@ -59,6 +59,6 @@ void InterfaceDefinition::defineModelTypeName(IRGenerationContext& context,
                      true,
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      stringConstant,
-                     interface->getInterfaceNameVariableName());
+                     interface->getObjectNameGlobalVariableName());
 }
 

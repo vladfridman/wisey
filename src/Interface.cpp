@@ -89,7 +89,7 @@ bool Interface::doesExtendInterface(Interface* interface) const {
   return false;
 }
 
-string Interface::getInterfaceNameVariableName() const {
+string Interface::getObjectNameGlobalVariableName() const {
   return "interface." + mName + ".name";
 }
 

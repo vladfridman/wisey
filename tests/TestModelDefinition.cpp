@@ -120,7 +120,7 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
                      true,
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      stringConstant,
-                     interface->getInterfaceNameVariableName());
+                     interface->getObjectNameGlobalVariableName());
 
   mContext.addInterface(interface);
   vector<string> interfaces;

@@ -27,6 +27,10 @@ public:
    */
   virtual IMethodDescriptor* findMethod(std::string methodName) const = 0;
 
+  /**
+   * Returns name of the global variable containing name of this Callable Object in string format
+   */
+  virtual std::string getObjectNameGlobalVariableName() const = 0;
 };
 
 } /* namespace yazyk */

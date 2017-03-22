@@ -57,12 +57,7 @@ public:
    * Returns the name of the vTable global varaible
    */
   std::string getVTableName() const;
-  
-  /**
-   * Returns the name of the global varaible containing the name of this model
-   */
-  std::string getModelNameVariableName() const;
-  
+
   /**
    * Returns the name of the global varaible containing types that this model implements
    */
@@ -85,6 +80,8 @@ public:
   
   Method* findMethod(std::string methodName) const override;
 
+  std::string getObjectNameGlobalVariableName() const override;
+  
   std::string getName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;

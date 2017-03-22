@@ -75,7 +75,7 @@ string Model::getVTableName() const {
   return "model." + getName() + ".vtable";
 }
 
-string Model::getModelNameVariableName() const {
+string Model::getObjectNameGlobalVariableName() const {
   return "model." + getName() + ".name";
 }
 

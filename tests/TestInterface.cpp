@@ -77,8 +77,8 @@ TEST_F(InterfaceTest, TestFindMethod) {
   EXPECT_EQ(mInterface->findMethod("bar"), nullptr);
 }
 
-TEST_F(InterfaceTest, getInterfaceNameVariableNameTest) {
-  EXPECT_STREQ(mInterface->getInterfaceNameVariableName().c_str(), "interface.IShape.name");
+TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {
+  EXPECT_STREQ(mInterface->getObjectNameGlobalVariableName().c_str(), "interface.IShape.name");
 }
 
 TEST_F(TestFileSampleRunner, InterfaceMethodNotImplmentedDeathTest) {

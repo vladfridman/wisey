@@ -151,7 +151,7 @@ void ModelDefinition::defineModelTypeName(IRGenerationContext& context, Model* m
                      true,
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      stringConstant,
-                     model->getModelNameVariableName());
+                     model->getObjectNameGlobalVariableName());
 }
 
 void ModelDefinition::addTypeInformation(IRGenerationContext& context, Model* model) const {
@@ -160,7 +160,7 @@ void ModelDefinition::addTypeInformation(IRGenerationContext& context, Model* mo
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
 
   GlobalVariable* modelNamePointer =
-    context.getModule()->getGlobalVariable(model->getModelNameVariableName());
+    context.getModule()->getGlobalVariable(model->getObjectNameGlobalVariableName());
   Constant* bitCast = ConstantExpr::getBitCast(modelNamePointer, pointerType);
 
   vector<Constant*> typeNames;
@@ -168,7 +168,7 @@ void ModelDefinition::addTypeInformation(IRGenerationContext& context, Model* mo
   
   for (Interface* interface : interfaces) {
     GlobalVariable* interfaceNamePointer =
-      context.getModule()->getGlobalVariable(interface->getInterfaceNameVariableName());
+      context.getModule()->getGlobalVariable(interface->getObjectNameGlobalVariableName());
     Constant* bitCast = ConstantExpr::getBitCast(interfaceNamePointer, pointerType);
     typeNames.push_back(bitCast);
   }

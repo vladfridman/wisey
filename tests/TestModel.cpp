@@ -236,8 +236,8 @@ TEST_F(ModelTest, CastToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelTest, getModelNameVariableNameTest) {
-  ASSERT_STREQ(mModel->getModelNameVariableName().c_str(), "model.MSquare.name");
+TEST_F(ModelTest, getObjectNameGlobalVariableNameTest) {
+  ASSERT_STREQ(mModel->getObjectNameGlobalVariableName().c_str(), "model.MSquare.name");
 }
 
 TEST_F(ModelTest, getTypeTableName) {

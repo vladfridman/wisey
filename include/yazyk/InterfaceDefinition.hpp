@@ -40,7 +40,7 @@ public:
   
 private:
   
-  void defineModelTypeName(IRGenerationContext& context, Interface* model) const;
+  void defineInterfaceTypeName(IRGenerationContext& context, Interface* model) const;
 };
   
 } /* namespace yazyk */
