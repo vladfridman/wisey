@@ -64,7 +64,7 @@ unsigned long Interface::includeInterfaceMethods(Interface* parentInterface,
     if (existingMethod) {
       continue;
     }
-    MethodSignature* copySignature = methodSignature->createCopyWithIndex(methodIndex++);
+    MethodSignature* copySignature = methodSignature->createCopyWithIndex(methodIndex);
     mAllMethodSignatures.push_back(copySignature);
     mNameToMethodSignatureMap[copySignature->getName()] = copySignature;
     methodIndex++;

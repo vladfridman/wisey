@@ -1,0 +1,27 @@
+interface IObject {
+  int getSize();
+}
+
+interface IHasDoor {
+  void open();
+}
+
+interface IDevice extends IHasDoor, IObject {
+}
+
+model MFridge implements IDevice {
+  int mSize;
+
+  public void open() {
+  }
+
+  public int getSize() {
+    return mSize;
+  }
+}
+
+int main() {
+  MFridge fridge = builder(MFridge).withSize(15).build();
+
+  return ((IDevice) fridge).getSize();
+}
