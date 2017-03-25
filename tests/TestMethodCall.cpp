@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockType.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/Interface.hpp"
@@ -33,16 +34,6 @@ using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
-
-class MockType : public IType {
-public:
-  MOCK_CONST_METHOD0(getName, string ());
-  MOCK_CONST_METHOD1(getLLVMType, Type* (LLVMContext&));
-  MOCK_CONST_METHOD0(getTypeKind, TypeKind ());
-  MOCK_CONST_METHOD1(canCastTo, bool (IType*));
-  MOCK_CONST_METHOD1(canCastLosslessTo, bool (IType*));
-  MOCK_CONST_METHOD3(castTo, Value* (IRGenerationContext&, Value*, IType*));
-};
 
 struct MethodCallTest : public Test {
   IRGenerationContext mContext;
