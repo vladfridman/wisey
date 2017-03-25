@@ -34,6 +34,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 class MockStatement : public IStatement {

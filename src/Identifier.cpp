@@ -35,3 +35,7 @@ IVariable* Identifier::checkGetVariable(IRGenerationContext& context) const {
   Log::e("Undeclared variable '" + mName + "'");
   exit(1);
 }
+
+void Identifier::releaseOwnership(IRGenerationContext& context) const {
+  context.getScopes().clearVariable(mName);
+}

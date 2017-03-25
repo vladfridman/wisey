@@ -45,3 +45,8 @@ Value* NegateExpression::generateIR(IRGenerationContext& context) const {
 IType* NegateExpression::getType(IRGenerationContext& context) const {
   return mExpression.getType(context);
 }
+
+void NegateExpression::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a negate expression result, it is not a heap pointer");
+  exit(1);
+}

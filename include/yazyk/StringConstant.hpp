@@ -28,6 +28,8 @@ public:
   
   IType* getType(IRGenerationContext& context) const override;
   
+  void releaseOwnership(IRGenerationContext& context) const override;
+  
 private:
   std::string unescape(const std::string& input);
 };

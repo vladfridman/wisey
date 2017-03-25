@@ -41,3 +41,12 @@ TEST(LongConstantTest, TestLongConstantType) {
 
   EXPECT_EQ(constantLong.getType(context), PrimitiveTypes::LONG_TYPE);
 }
+
+TEST(LongConstantTest, releaseOwnershipDeathTest) {
+  IRGenerationContext context;
+  LongConstant constantLong(5);
+  
+  EXPECT_EXIT(constantLong.releaseOwnership(context),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of a long constant, it is not a heap pointer");
+}

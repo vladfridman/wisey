@@ -19,9 +19,19 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  return variable->generateAssignmentIR(context, mExpression);
+  Value* result = variable->generateAssignmentIR(context, mExpression);
+  
+  if (getType(context)->getTypeKind() != PRIMITIVE_TYPE) {
+    mExpression.releaseOwnership(context);
+  }
+  
+  return result;
 }
 
 IType* Assignment::getType(IRGenerationContext& context) const {
   return mIdentifier.getType(context);
+}
+
+void Assignment::releaseOwnership(IRGenerationContext& context) const {
+  mIdentifier.releaseOwnership(context);
 }

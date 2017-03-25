@@ -40,6 +40,8 @@ public:
   
   IType* getType(IRGenerationContext& context) const override;
   
+  void releaseOwnership(IRGenerationContext& context) const override;
+  
   /**
    * Create increment by one expression
    */

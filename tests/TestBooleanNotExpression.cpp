@@ -34,6 +34,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct BooleanNotExpressionTest : Test {
@@ -85,6 +86,16 @@ TEST_F(BooleanNotExpressionTest, NegateIncompatibleTypeDeathTest) {
   EXPECT_EXIT(booleanNotExpression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Boolean NOT operator '!' can only be applied to boolean types");
+}
+
+TEST_F(BooleanNotExpressionTest, releaseOwnershipDeathTest) {
+  BooleanNotExpression booleanNotExpression(mExpression);
+  Mock::AllowLeak(&mExpression);
+  
+  EXPECT_EXIT(booleanNotExpression.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of a boolean NOT expression, "
+              "it is not a heap pointer");
 }
 
 TEST_F(TestFileSampleRunner, BooleanNotRunTest) {

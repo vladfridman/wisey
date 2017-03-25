@@ -43,6 +43,15 @@ TEST(CharConstantTest, TestCharConstantType) {
   EXPECT_EQ(charConstant.getType(context), PrimitiveTypes::CHAR_TYPE);
 }
 
+TEST(CharConstantTest, releaseOwnershipDeathTest) {
+  IRGenerationContext context;
+  CharConstant charConstant('y');
+  
+  EXPECT_EXIT(charConstant.releaseOwnership(context),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of a char constant, it is not a heap pointer");
+}
+
 TEST_F(TestFileSampleRunner, CharVariableTest) {
   runFile("tests/samples/test_char_variable.yz", "7");
 }

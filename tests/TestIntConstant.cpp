@@ -41,3 +41,12 @@ TEST(IntConstantTest, TestIntConstantType) {
 
   EXPECT_EQ(intConstant.getType(context), PrimitiveTypes::INT_TYPE);
 }
+
+TEST(IntConstantTest, releaseOwnershipDeathTest) {
+  IRGenerationContext context;
+  IntConstant intConstant(5);
+  
+  EXPECT_EXIT(intConstant.releaseOwnership(context),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of an int constant, it is not a heap pointer");
+}

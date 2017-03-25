@@ -64,6 +64,12 @@ IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) c
   return leftType;
 }
 
+void AdditiveMultiplicativeExpression::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of an additive/multiplicative expression, "
+         "it is not a heap pointer");
+  exit(1);
+}
+
 // TODO: implement a more sensible type checking/casting
 void AdditiveMultiplicativeExpression::checkTypes(IType* leftType, IType* rightType) const {
   if (leftType == PrimitiveTypes::VOID_TYPE || rightType == PrimitiveTypes::VOID_TYPE) {

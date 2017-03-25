@@ -44,3 +44,8 @@ ModelField* ModelFieldReference::checkAndFindField(IRGenerationContext& context)
   Log::e("Field '" + mFieldName + "' is not found in model '" + model->getName() + "'");
   exit(1);
 }
+
+void ModelFieldReference::releaseOwnership(IRGenerationContext &context) const {
+  Log::e("Model fields can not be references and objects they reference can not be released");
+  exit(1);
+}

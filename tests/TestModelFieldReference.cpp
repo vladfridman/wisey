@@ -31,6 +31,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct ModelFieldReferenceTest : public Test {
@@ -71,6 +72,16 @@ TEST_F(ModelFieldReferenceTest, TestReferenceFieldInPrimitiveTypeDeathTest) {
   EXPECT_EXIT(modelFieldReference.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Attempt to reference field 'width' in a primitive type expression");
+}
+
+TEST_F(ModelFieldReferenceTest, releaseOwnershipDeathTest) {
+  Mock::AllowLeak(&mExpression);
+  ModelFieldReference modelFieldReference(mExpression, "width");
+  
+  EXPECT_EXIT(modelFieldReference.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Model fields can not be references and "
+              "objects they reference can not be released");
 }
 
 TEST_F(TestFileSampleRunner, ModelModelFieldReferenceTest) {

@@ -63,3 +63,11 @@ TEST_F(StringConstantTest, StringConstantEscapeNewlineTest) {
     "@.str = internal constant [10 x i8] c\"test\\0Atest\\00\"\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
+
+TEST_F(StringConstantTest, releaseOwnershipDeathTest) {
+  StringConstant stringConstant("\"test\ntest\"");
+  
+  EXPECT_EXIT(stringConstant.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Can not release ownership of a string constant, it is not a heap pointer");
+}

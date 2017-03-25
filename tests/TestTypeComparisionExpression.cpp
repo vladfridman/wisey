@@ -36,6 +36,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 class MockTypeSpecifier : public ITypeSpecifier {
@@ -255,6 +256,17 @@ TEST_F(TestTypeComparisionExpressionTest, CompareInterfaceAndInterfaceTypesTest)
   Value* value = typeComparision.generateIR(mContext);
   
   EXPECT_EQ(value, mTrueValue);
+}
+
+TEST_F(TestTypeComparisionExpressionTest, releaseOwnershipDeathTest) {
+  NiceMock<MockExpression> expression;
+  NiceMock<MockTypeSpecifier> typeSpecifier;
+  TypeComparisionExpression typeComparision(expression, typeSpecifier);
+  
+  EXPECT_EXIT(typeComparision.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Can not release ownership of an instanceof operation result, "
+              "it is not a heap pointer");
 }
 
 TEST_F(TestFileSampleRunner, InstanceOfTrivialMatchTest) {

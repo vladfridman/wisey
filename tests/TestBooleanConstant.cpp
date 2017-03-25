@@ -61,6 +61,14 @@ TEST_F(BooleanConstantTest, TestBooleanConstantType) {
   EXPECT_EQ(booleanConstant.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
 }
 
+TEST_F(BooleanConstantTest, releaseOwnershipDeathTest) {
+  BooleanConstant booleanConstant(true);
+  
+  EXPECT_EXIT(booleanConstant.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of a boolean constant, it is not a heap pointer");
+}
+
 TEST_F(TestFileSampleRunner, BooleanConstantTest) {
   runFile("tests/samples/test_boolean_constant.yz", "7");
 }

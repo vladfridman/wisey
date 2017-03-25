@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <set>
+#include <sstream>
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/Environment.hpp"
@@ -117,8 +117,19 @@ void ModelBuilder::initializeFields(IRGenerationContext& context,
     new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
   }
   
-  LocalHeapVariable* heapVariable = new LocalHeapVariable(malloc->getName(), model, malloc);
+  LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(), model, malloc);
   context.getScopes().setVariable(heapVariable);
+}
+
+void ModelBuilder::releaseOwnership(IRGenerationContext& context) const {
+  context.getScopes().clearVariable(getVariableName());
+}
+
+string ModelBuilder::getVariableName() const {
+  ostringstream stream;
+  stream << "__tmp" << (long) this;
+
+  return stream.str();
 }
 
 void ModelBuilder::checkArguments(Model* model) const {

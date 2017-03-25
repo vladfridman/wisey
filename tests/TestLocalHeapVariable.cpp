@@ -33,6 +33,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct LocalHeapVariableTest : public Test {
@@ -83,10 +84,8 @@ TEST_F(LocalHeapVariableTest, HeapVariableAssignmentTest) {
   
   localHeapVariable.generateAssignmentIR(mContext, expression);
 
-  EXPECT_EQ(mContext.getScopes().getVariable("foo"), nullptr);
   EXPECT_NE(localHeapVariable.getValue(), bitCastInst);
   EXPECT_TRUE(BitCastInst::classof(localHeapVariable.getValue()));
-  EXPECT_STREQ(localHeapVariable.getValue()->getName().str().c_str(), "bar");
 }
 
 TEST_F(LocalHeapVariableTest, HeapVariableIdentifierTest) {

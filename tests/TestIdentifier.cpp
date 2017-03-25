@@ -80,3 +80,16 @@ TEST_F(IdentifierTest, GenerateIdentifierIR) {
   identifier.generateIR(mContext);
 }
 
+TEST_F(IdentifierTest, releaseOwnership) {
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  mContext.getScopes().setVariable(&mockVariable);
+  Identifier identifier("foo", "bar");
+  
+  EXPECT_EQ(mContext.getScopes().getVariable("foo"), &mockVariable);
+
+  identifier.releaseOwnership(mContext);
+  
+  EXPECT_EQ(mContext.getScopes().getVariable("foo"), nullptr);
+}
+

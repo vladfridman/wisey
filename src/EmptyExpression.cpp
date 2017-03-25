@@ -9,6 +9,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/EmptyExpression.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -22,4 +23,9 @@ Value* EmptyExpression::generateIR(IRGenerationContext& context) const {
 
 IType* EmptyExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::VOID_TYPE;
+}
+
+void EmptyExpression::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of an empty epxression, it is not a heap pointer");
+  exit(1);
 }

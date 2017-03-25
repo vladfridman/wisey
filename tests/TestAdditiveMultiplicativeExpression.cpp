@@ -35,6 +35,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct AdditiveMultiplicativeExpressionTest : Test {
@@ -160,6 +161,18 @@ TEST_F(AdditiveMultiplicativeExpressionTest, ExplicitCastNeededOnGetTypeDeathTes
   EXPECT_EXIT(expression.getType(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Incopatible types in '\\+' operation that require an explicit cast");
+}
+
+TEST_F(AdditiveMultiplicativeExpressionTest, releaseOwnershipDeathTest) {
+  Mock::AllowLeak(&mLeftExpression);
+  Mock::AllowLeak(&mRightExpression);
+
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  
+  EXPECT_EXIT(expression.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of an additive/multiplicative expression, "
+              "it is not a heap pointer");
 }
 
 TEST_F(TestFileSampleRunner, AdditionRunTest) {

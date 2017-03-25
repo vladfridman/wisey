@@ -25,6 +25,7 @@ using namespace std;
 using namespace yazyk;
 
 using ::testing::_;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -33,6 +34,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 class MockTypeSpecifier : public ITypeSpecifier {
@@ -48,6 +50,7 @@ struct CastExpressionTest : public Test {
   raw_string_ostream* mStringStream;
   NiceMock<MockExpression> mExpression;
   NiceMock<MockTypeSpecifier> mTypeSpecifier;
+  Interface* mCarInterface;
   
 public:
   
@@ -62,6 +65,16 @@ public:
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     
+    vector<Type*> carInterfaceTypes;
+    StructType* carInterfaceStructType = StructType::create(mContext.getLLVMContext(), "ICar");
+    carInterfaceStructType->setBody(carInterfaceTypes);
+    vector<MethodSignature*> carInterfaceMethods;
+    vector<Interface*> carParentInterfaces;
+    mCarInterface = new Interface("ICar",
+                                  carInterfaceStructType,
+                                  carParentInterfaces,
+                                  carInterfaceMethods);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -84,6 +97,27 @@ TEST_F(CastExpressionTest, CastExpressionAutoCastTest) {
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = zext i1 true to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(CastExpressionTest, releaseOwnershipTest) {
+  ON_CALL(mTypeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
+  CastExpression castExpression(mTypeSpecifier, mExpression);
+  
+  EXPECT_CALL(mExpression, releaseOwnership(_)).Times(1);
+  
+  castExpression.releaseOwnership(mContext);
+}
+
+TEST_F(CastExpressionTest, releaseOwnershipDeathTest) {
+  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(&mTypeSpecifier);
+  ON_CALL(mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  CastExpression castExpression(mTypeSpecifier, mExpression);
+  
+  EXPECT_EXIT(castExpression.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of a cast to primitive type, "
+              "it is not a heap pointer");
 }
 
 TEST_F(TestFileSampleRunner, CastOrExpressionGrammarTest) {

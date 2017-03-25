@@ -34,6 +34,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct FunctionCallTest : public Test {
@@ -131,6 +132,15 @@ TEST_F(FunctionCallTest, PrintfFunctionCall) {
     "  %call = call i32 (i8*, ...) " +
     "@printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str, i32 0, i32 0))";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
+TEST_F(FunctionCallTest, releaseOwndershipTest) {
+  FunctionCall functionCall("foo", mArgumentList);
+  Mock::AllowLeak(&mExpression);
+  
+  EXPECT_EXIT(functionCall.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Function call result ownership release is not implemented");
 }
 
 TEST_F(TestFileSampleRunner, FunctionCallRunTest) {

@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/BooleanConstant.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -20,4 +21,9 @@ Value* BooleanConstant::generateIR(IRGenerationContext& context) const {
 
 IType* BooleanConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
+}
+
+void BooleanConstant::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a boolean constant, it is not a heap pointer");
+  exit(1);
 }

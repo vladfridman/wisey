@@ -47,9 +47,8 @@ Value* LocalHeapVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   mValue = new BitCastInst(castAssignToValue,
                            castAssignToValue->getType(),
-                           mName,
+                           "",
                            context.getBasicBlock());
-  context.getScopes().clearVariable(assignToValue->getName());
   
   return mValue;
 }

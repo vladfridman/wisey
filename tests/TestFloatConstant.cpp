@@ -41,3 +41,12 @@ TEST(FloatConstantTest, TestFloatConstantType) {
 
   EXPECT_EQ(floatConstant.getType(context), PrimitiveTypes::FLOAT_TYPE);
 }
+
+TEST(FloatConstantTest, releaseOwnershipDeathTest) {
+  IRGenerationContext context;
+  FloatConstant floatConstant(3.5);
+  
+  EXPECT_EXIT(floatConstant.releaseOwnership(context),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of a float constant, it is not a heap pointer");
+}

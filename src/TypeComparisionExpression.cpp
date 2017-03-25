@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/TypeComparisionExpression.hpp"
 
@@ -58,4 +59,9 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
 
 IType* TypeComparisionExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
+}
+
+void TypeComparisionExpression::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of an instanceof operation result, it is not a heap pointer");
+  exit(1);
 }

@@ -8,6 +8,8 @@
 //  Tests {@link ModelBuilder}
 //
 
+#include <sstream>
+
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
@@ -32,6 +34,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct ModelBuilderTest : Test {
@@ -137,6 +140,28 @@ TEST_F(ModelBuilderTest, ValidModelBuilderArgumentsTest) {
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %1");
   mStringBuffer.clear();
+}
+
+TEST_F(ModelBuilderTest, releaseOwnershipTest) {
+  string argumentSpecifier1("withWidth");
+  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
+  string argumentSpecifier2("withHeight");
+  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mFieldValue2);
+  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
+  argumentList->push_back(argument1);
+  argumentList->push_back(argument2);
+  
+  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
+  modelBuilder.generateIR(mContext);
+  ostringstream stream;
+  stream << "__tmp" << (long) &modelBuilder;
+  string temporaryVariableName = stream.str();
+  
+  EXPECT_NE(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
+  
+  modelBuilder.releaseOwnership(mContext);
+
+  EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
 }
 
 TEST_F(ModelBuilderTest, InvalidModelBuilderArgumentsDeathTest) {

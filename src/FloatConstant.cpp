@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/FloatConstant.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -20,4 +21,9 @@ Value* FloatConstant::generateIR(IRGenerationContext& context) const {
 
 IType* FloatConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::FLOAT_TYPE;
+}
+
+void FloatConstant::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a float constant, it is not a heap pointer");
+  exit(1);
 }

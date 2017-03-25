@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/LongConstant.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -20,4 +21,9 @@ Value* LongConstant::generateIR(IRGenerationContext& context) const {
 
 IType* LongConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::LONG_TYPE;
+}
+
+void LongConstant::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a long constant, it is not a heap pointer");
+  exit(1);
 }

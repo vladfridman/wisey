@@ -36,6 +36,8 @@ public:
   
   IType* getType(IRGenerationContext& context) const override;
   
+  void releaseOwnership(IRGenerationContext& context) const override;
+  
   /**
    * Translate model method name into its LLVM implemenation function name
    */

@@ -37,6 +37,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 class MockType : public IType {
@@ -166,6 +167,15 @@ TEST_F(MethodCallTest, IncorrectNumberOfArgumentsDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Number of arguments for method call 'foo' of the model type 'Square' "
               "is not correct");
+}
+
+TEST_F(MethodCallTest, releaseOwnershipDeathTest) {
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  Mock::AllowLeak(&mExpression);
+  
+  EXPECT_EXIT(methodCall.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Releasing ownership of a method call result is not implemented");
 }
 
 TEST_F(MethodCallTest, LLVMImplementationNotFoundDeathTest) {

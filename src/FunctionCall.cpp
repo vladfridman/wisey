@@ -50,3 +50,8 @@ Value* FunctionCall::generateIR(IRGenerationContext& context) const {
 IType* FunctionCall::getType(IRGenerationContext& context) const {
   return context.getGlobalFunctionType(mFunctionName);
 }
+
+void FunctionCall::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Function call result ownership release is not implemented");
+  exit(1);
+}

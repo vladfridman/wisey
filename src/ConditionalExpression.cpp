@@ -61,6 +61,11 @@ IType* ConditionalExpression::getType(IRGenerationContext& context) const {
   return mConditionTrueExpression.getType(context);
 }
 
+void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a conditional expression result, it is not a heap pointer");
+  exit(1);
+}
+
 // TODO: implement a more sensible type checking/casting
 void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   IType* trueExpressionType = mConditionTrueExpression.getType(context);

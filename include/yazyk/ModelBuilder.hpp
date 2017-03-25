@@ -40,7 +40,11 @@ public:
   
   IType* getType(IRGenerationContext& context) const override;
   
+  void releaseOwnership(IRGenerationContext& context) const override;
+  
 private:
+  
+  std::string getVariableName() const;
   
   void checkArguments(Model* model) const;
   

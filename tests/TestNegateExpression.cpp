@@ -34,6 +34,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct NegateExpressionTest : Test {
@@ -98,6 +99,15 @@ TEST_F(NegateExpressionTest, NegateIncompatibleTypeDeathTest) {
   EXPECT_EXIT(negateExpression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Can not apply negate operation to type 'void'");
+}
+
+TEST_F(NegateExpressionTest, releaseOwnershipDeathTest) {
+  NegateExpression negateExpression(mExpression);
+  Mock::AllowLeak(&mExpression);
+  
+  EXPECT_EXIT(negateExpression.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Can not release ownership of a negate expression result, it is not a heap pointer");
 }
 
 TEST_F(TestFileSampleRunner, NegateIntRunTest) {

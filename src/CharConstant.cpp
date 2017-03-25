@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/CharConstant.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -20,4 +21,9 @@ Value* CharConstant::generateIR(IRGenerationContext& context) const {
 
 IType* CharConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::CHAR_TYPE;
+}
+
+void CharConstant::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a char constant, it is not a heap pointer");
+  exit(1);
 }

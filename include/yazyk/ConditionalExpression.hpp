@@ -34,6 +34,8 @@ public:
 
   IType* getType(IRGenerationContext& context) const override;
   
+  void releaseOwnership(IRGenerationContext& context) const override;
+
 private:
   
   void checkTypes(IRGenerationContext& context) const;

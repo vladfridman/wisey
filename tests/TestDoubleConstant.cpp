@@ -41,3 +41,12 @@ TEST(DoubleConstantTest, TestDoubleConstantType) {
 
   EXPECT_EQ(doubleConstant.getType(context), PrimitiveTypes::DOUBLE_TYPE);
 }
+
+TEST(DoubleConstantTest, releaseOwnershipDeathTest) {
+  IRGenerationContext context;
+  DoubleConstant doubleConstant(5.7);
+  
+  EXPECT_EXIT(doubleConstant.releaseOwnership(context),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of a double constant, it is not a heap pointer");
+}

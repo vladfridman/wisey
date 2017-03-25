@@ -29,3 +29,12 @@ TEST(EmptyExpressionTest, TestEmptyExpressionType) {
  
   EXPECT_EQ(expression.getType(context), PrimitiveTypes::VOID_TYPE);
 }
+
+TEST(EmptyExpressionTest, releaseOwnershipDeathTest) {
+  IRGenerationContext context;
+  EmptyExpression expression;
+  
+  EXPECT_EXIT(expression.releaseOwnership(context),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of an empty epxression, it is not a heap pointer");
+}

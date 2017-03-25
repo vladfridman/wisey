@@ -9,6 +9,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/RelationalExpression.hpp"
 
@@ -39,4 +40,9 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
 
 IType* RelationalExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
+}
+
+void RelationalExpression::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a relational expression result, it is not a heap pointer");
+  exit(1);
 }

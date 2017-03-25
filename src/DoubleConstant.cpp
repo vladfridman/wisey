@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/DoubleConstant.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -20,4 +21,9 @@ Value* DoubleConstant::generateIR(IRGenerationContext& context) const {
 
 IType* DoubleConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::DOUBLE_TYPE;
+}
+
+void DoubleConstant::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a double constant, it is not a heap pointer");
+  exit(1);
 }

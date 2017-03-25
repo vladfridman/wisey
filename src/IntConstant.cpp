@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/IntConstant.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -20,4 +21,9 @@ Value* IntConstant::generateIR(IRGenerationContext& context) const {
 
 IType* IntConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::INT_TYPE;
+}
+
+void IntConstant::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of an int constant, it is not a heap pointer");
+  exit(1);
 }

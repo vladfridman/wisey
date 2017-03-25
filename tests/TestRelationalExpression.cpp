@@ -22,6 +22,7 @@
 #include "yazyk/RelationalExpression.hpp"
 
 using ::testing::_;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -34,6 +35,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct RelationalExpressionTest : Test {
@@ -81,6 +83,17 @@ TEST_F(RelationalExpressionTest, greaterThanOrEqualTest) {
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp sge i32 3, 5");
+}
+
+TEST_F(RelationalExpressionTest, releaseOwnershipDeathTest) {
+  Mock::AllowLeak(&mLeftExpression);
+  Mock::AllowLeak(&mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
+
+  EXPECT_EXIT(expression.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Can not release ownership of a relational expression result, "
+              "it is not a heap pointer");
 }
 
 TEST_F(TestFileSampleRunner, LessThanRunTest) {

@@ -122,6 +122,15 @@ TEST_F(IncrementExpressionTest, IncorrectIdentifierTypeDeathTest) {
               expected);
 }
 
+TEST_F(IncrementExpressionTest, releaseOwnershipDeathTest) {
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
+  
+  EXPECT_EXIT(expression->releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Can not release ownership of an increment operation result, "
+              "it is not a heap pointer");
+}
+
 TEST_F(IncrementExpressionTest, TestIncrementExpressionType) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
 

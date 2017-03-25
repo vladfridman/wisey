@@ -34,6 +34,7 @@ class MockExpression : public IExpression {
 public:
   MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct LogicalAndExpressionTest : Test {
@@ -132,6 +133,18 @@ TEST_F(LogicalAndExpressionTest, TestLogicalAndExpressionType) {
   LogicalAndExpression expression(mLeftExpression, mRightExpression);
 
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
+}
+
+TEST_F(LogicalAndExpressionTest, releaseOwnershipDeathTest) {
+  Mock::AllowLeak(&mLeftExpression);
+  Mock::AllowLeak(&mRightExpression);
+  
+  LogicalAndExpression expression(mLeftExpression, mRightExpression);
+  
+  EXPECT_EXIT(expression.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of a logical AND operation result, "
+              "it is not a heap pointer");
 }
 
 TEST_F(TestFileSampleRunner, LogicalAndExpressionResultFalseRunTest) {

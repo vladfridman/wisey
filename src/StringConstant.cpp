@@ -8,6 +8,7 @@
 
 #include "llvm/IR/Constants.h"
 
+#include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/StringConstant.hpp"
 
@@ -58,4 +59,9 @@ string StringConstant::unescape(const string& input) {
 
 IType* StringConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::VOID_TYPE;
+}
+
+void StringConstant::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a string constant, it is not a heap pointer");
+  exit(1);
 }

@@ -103,6 +103,11 @@ IType* MethodCall::getType(IRGenerationContext& context) const {
   return getMethodDescriptor(context)->getReturnType();
 }
 
+void MethodCall::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Releasing ownership of a method call result is not implemented");
+  exit(1);
+}
+
 ICallableObjectType* MethodCall::getCallableObject(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {

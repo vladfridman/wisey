@@ -10,6 +10,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/LogicalOrExpression.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/SafeBranch.hpp"
@@ -43,4 +44,9 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context) const {
 
 IType* LogicalOrExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
+}
+
+void LogicalOrExpression::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a logical OR operation result, it is not a heap pointer");
+  exit(1);
 }
