@@ -18,6 +18,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockStatement.hpp"
 #include "yazyk/Block.hpp"
 #include "yazyk/CaseStatement.hpp"
 #include "yazyk/FloatConstant.hpp"
@@ -32,11 +33,6 @@ using ::testing::Test;
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
-
-class MockStatement : public IStatement {
-public:
-  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
-};
 
 TEST(CaseStatementTest, TestStatementsGetGenerated) {
   IRGenerationContext context;

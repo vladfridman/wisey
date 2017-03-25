@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockStatement.hpp"
 #include "yazyk/Block.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 
@@ -24,11 +25,6 @@ using namespace yazyk;
 
 using ::testing::_;
 using ::testing::NiceMock;
-
-class MockStatement : public IStatement {
-public:
-  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
-};
 
 TEST(BlockTest, SimpleTest) {
   NiceMock<MockStatement> mockStatement1;

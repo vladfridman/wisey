@@ -14,6 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/AccessSpecifiers.hpp"
 #include "yazyk/Interface.hpp"
@@ -33,11 +34,6 @@ using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Test;
-
-class MockStatement : public IStatement {
-public:
-  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
-};
 
 struct ModelDefinitionTest : public Test {
   IRGenerationContext mContext;

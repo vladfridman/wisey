@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/CompoundStatement.hpp"
 
@@ -19,11 +20,6 @@ using namespace yazyk;
 
 using ::testing::_;
 using ::testing::NiceMock;
-
-class MockStatement : public IStatement {
-public:
-  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
-};
 
 TEST(TestCompoundStatement, SimpleCompoundStatementTest) {
   NiceMock<MockStatement> mockStatement1;
