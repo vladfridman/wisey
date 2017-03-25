@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockTypeSpecifier.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/CastExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -30,11 +31,6 @@ using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
-
-class MockTypeSpecifier : public ITypeSpecifier {
-public:
-  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
-};
 
 struct CastExpressionTest : public Test {
   IRGenerationContext mContext;
