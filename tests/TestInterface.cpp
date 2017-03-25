@@ -143,8 +143,8 @@ TEST_F(InterfaceTest, getOriginalObjectTest) {
     "\nentry:"
     "\n  %0 = bitcast i8* null to i8***"
     "\n  %vtable = load i8**, i8*** %0"
-    "\n  %unthungentry = getelementptr i8*, i8** %vtable, i64 0"
-    "\n  %unthunkbypointer = load i8*, i8** %unthungentry"
+    "\n  %unthunkentry = getelementptr i8*, i8** %vtable, i64 0"
+    "\n  %unthunkbypointer = load i8*, i8** %unthunkentry"
     "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
     "\n  %1 = bitcast i8* null to i8*"
     "\n  %this.ptr = getelementptr i8, i8* %1, i64 %unthunkby\n";
@@ -165,6 +165,23 @@ TEST_F(InterfaceTest, callInstanceOfTest) {
   "\n  %instanceof = call i1 @interface.IObject.instanceof(%IObject* null, i8* %0)\n";
   
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+}
+
+TEST_F(InterfaceTest, getCastFunctionNameTest) {
+  EXPECT_STREQ(mObjectInterface->getCastFunctionName(mShapeInterface).c_str(),
+               "cast.IObject.to.IShape");
+}
+
+TEST_F(InterfaceTest, canCastToTest) {
+  EXPECT_FALSE(mObjectInterface->canCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_TRUE(mObjectInterface->canCastTo(mShapeInterface));
+  EXPECT_TRUE(mShapeInterface->canCastTo(mObjectInterface));
+}
+
+TEST_F(InterfaceTest, canCastLosslessToTest) {
+  EXPECT_FALSE(mObjectInterface->canCastLosslessTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mObjectInterface->canCastLosslessTo(mShapeInterface));
+  EXPECT_TRUE(mShapeInterface->canCastLosslessTo(mObjectInterface));
 }
 
 TEST_F(TestFileSampleRunner, InterfaceMethodNotImplmentedDeathTest) {
@@ -202,4 +219,16 @@ TEST_F(TestFileSampleRunner, ModelWithMultipleInterfaceInheritanceTest) {
 
 TEST_F(TestFileSampleRunner, InterfaceWithMultipleInterfaceInheritanceTest) {
   runFile("tests/samples/test_interface_multiple_interface_inheritance.yz", "15");
+}
+
+TEST_F(TestFileSampleRunner, InterfaceCastToModelTest) {
+  runFile("tests/samples/test_interface_cast_to_model.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, InterfaceCastToInterfaceTest) {
+  runFile("tests/samples/test_interface_cast_to_interface.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, InterfaceCastToAnotherInterfaceTest) {
+  runFile("tests/samples/test_interface_cast_to_another_interface.yz", "5");
 }

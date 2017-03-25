@@ -70,7 +70,7 @@ public:
 
 TEST_F(LocalHeapVariableTest, HeapVariableAssignmentTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalHeapVariable *uninitializedHeapVariable =
+  LocalHeapVariable* uninitializedHeapVariable =
     new LocalHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   BitCastInst* bitCastInst = new BitCastInst(fooValue,
@@ -84,7 +84,7 @@ TEST_F(LocalHeapVariableTest, HeapVariableAssignmentTest) {
   
   localHeapVariable.generateAssignmentIR(mContext, expression);
 
-  EXPECT_NE(localHeapVariable.getValue(), bitCastInst);
+  EXPECT_EQ(localHeapVariable.getValue(), bitCastInst);
   EXPECT_TRUE(BitCastInst::classof(localHeapVariable.getValue()));
 }
 

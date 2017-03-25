@@ -12,11 +12,13 @@
 #include "yazyk/Environment.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodCall.hpp"
 #include "yazyk/MethodSignature.hpp"
 #include "yazyk/Model.hpp"
+#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -263,18 +265,111 @@ TypeKind Interface::getTypeKind() const {
 }
 
 bool Interface::canCastTo(IType* toType) const {
-  // TODO: implement casting
-  return false;
+  if (toType->getTypeKind() == PRIMITIVE_TYPE) {
+    return false;
+  }
+  
+  // Assume can perform cast and check at run time
+  return true;
 }
 
 bool Interface::canCastLosslessTo(IType* toType) const {
-  // TODO: implement casting
+  if (toType->getTypeKind() == PRIMITIVE_TYPE) {
+    return false;
+  }
+  
+  if (toType->getTypeKind() == INTERFACE_TYPE && doesExtendInterface((Interface*) toType)) {
+    return true;
+  }
+  
   return false;
 }
 
+string Interface::getCastFunctionName(ICallableObjectType* toType) const {
+  return "cast." + getName() + ".to." + toType->getName();
+}
+
 Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
-  // TODO: implement casting
-  return NULL;
+  ICallableObjectType* toCallableType = (ICallableObjectType*) toType;
+  BasicBlock* basicBlock = context.getBasicBlock();
+  Function* castFunction = context.getModule()->getFunction(getCastFunctionName(toCallableType));
+  
+  if (castFunction == NULL) {
+    castFunction = defineCastFunction(context, fromValue, toCallableType);
+  }
+  
+  vector<Value*> arguments;
+  arguments.push_back(fromValue);
+  
+  Value* result = CallInst::Create(castFunction, arguments, "castTo", basicBlock);
+
+  return result;
+}
+
+Function* Interface::defineCastFunction(IRGenerationContext& context,
+                                        Value* fromValue,
+                                        ICallableObjectType* toType) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(getLLVMType(llvmContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = toType->getLLVMType(llvmContext);
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  Function* function = Function::Create(functionType,
+                                        GlobalValue::InternalLinkage,
+                                        getCastFunctionName(toType),
+                                        context.getModule());
+  
+  Function::arg_iterator functionArguments = function->arg_begin();
+  Argument* thisArgument = &*functionArguments;
+  thisArgument->setName("this");
+  functionArguments++;
+  
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
+  BasicBlock* lessThanZero = BasicBlock::Create(llvmContext, "less.than.zero", function);
+  BasicBlock* notLessThanZero = BasicBlock::Create(llvmContext, "not.less.than.zero", function);
+  BasicBlock* moreThanOne = BasicBlock::Create(llvmContext, "more.than.one", function);
+  BasicBlock* zeroOrOne = BasicBlock::Create(llvmContext, "zero.or.one", function);
+  
+  BasicBlock* lastBasicBlock = context.getBasicBlock();
+
+  context.setBasicBlock(entryBlock);
+  Value* instanceof = callInstanceOf(context, thisArgument, (ICallableObjectType*) toType);
+  Value* originalObject = getOriginalObject(context, thisArgument);
+  ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  ICmpInst* compareToZero = new ICmpInst(*entryBlock, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
+  SafeBranch::newConditionalBranch(lessThanZero, notLessThanZero, compareToZero, context);
+  
+  context.setBasicBlock(lessThanZero);
+  // TODO: throw a cast exception here once exceptions are implemented
+  Value* nullPointer = ConstantPointerNull::get((PointerType*) toType->getLLVMType(llvmContext));
+  ReturnInst::Create(llvmContext, nullPointer, lessThanZero);
+
+  context.setBasicBlock(notLessThanZero);
+  ICmpInst* compareToOne = new ICmpInst(*notLessThanZero, ICmpInst::ICMP_SGT, instanceof, one, "cmp");
+  SafeBranch::newConditionalBranch(moreThanOne, zeroOrOne, compareToOne, context);
+
+  context.setBasicBlock(moreThanOne);
+  ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),
+                                        Environment::getAddressSizeInBytes());
+  BitCastInst* bitcast = new BitCastInst(originalObject, int8Type->getPointerTo(), "", moreThanOne);
+  Value* thunkBy = BinaryOperator::Create(Instruction::Mul, instanceof, bytes, "", moreThanOne);
+  Value *Idx[1];
+  Idx[0] = thunkBy;
+  Value* thunk = GetElementPtrInst::Create(int8Type, bitcast, Idx, "add.ptr", moreThanOne);
+  Value* castValue = new BitCastInst(thunk, toType->getLLVMType(llvmContext), "", moreThanOne);
+  ReturnInst::Create(llvmContext, castValue, moreThanOne);
+
+  context.setBasicBlock(zeroOrOne);
+  castValue = new BitCastInst(originalObject, toType->getLLVMType(llvmContext), "", zeroOrOne);
+  ReturnInst::Create(llvmContext, castValue, zeroOrOne);
+  
+  context.setBasicBlock(lastBasicBlock);
+  
+  return function;
 }
 
 Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) {
@@ -290,7 +385,7 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
   GetElementPtrInst* unthunkPointer = GetElementPtrInst::Create(int8Type->getPointerTo(),
                                                                 vTable,
                                                                 Idx,
-                                                                "unthungentry",
+                                                                "unthunkentry",
                                                                 basicBlock);
 
   LoadInst* pointerToVal = new LoadInst(unthunkPointer, "unthunkbypointer", basicBlock);

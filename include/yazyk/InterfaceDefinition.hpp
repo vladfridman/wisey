@@ -66,6 +66,13 @@ private:
                                        llvm::Value* iterator,
                                        llvm::Value* stringPointer,
                                        llvm::Function* function) const;
+  
+  void composeReturnFound(IRGenerationContext& context,
+                          llvm::BasicBlock* returnFound,
+                          llvm::Value* iterator) const;
+  
+  void composeReturnNotFound(IRGenerationContext& context,
+                             llvm::BasicBlock* returnNotFound) const;
 };
   
 } /* namespace yazyk */

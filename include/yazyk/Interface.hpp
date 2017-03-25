@@ -70,14 +70,19 @@ public:
    * Return function name that implements instanceof operation
    */
   std::string getInstanceOfFunctionName() const;
-
+  
+  /**
+   * Return function name that casts this interface into a given ICallableObject type
+   */
+  std::string getCastFunctionName(ICallableObjectType* toType) const;
+  
   /**
    * Call instanceof function and check whether interfaceObject is of type callableObjectType
    */
   llvm::CallInst* callInstanceOf(IRGenerationContext& context,
                                  llvm::Value* interfaceObject,
                                  ICallableObjectType* callableObjectType) const;
-
+  
   /**
    * Given a value of type interface get the pointer back to the original object that implements it
    */
@@ -131,6 +136,10 @@ private:
                                   std::string variableName,
                                   IType* variableType,
                                   llvm::Value* variableValue) const;
+  
+  llvm::Function* defineCastFunction(IRGenerationContext& context,
+                                     llvm::Value* fromValue,
+                                     ICallableObjectType* toType) const;
 };
   
 } /* namespace yazyk */

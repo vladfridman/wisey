@@ -44,11 +44,7 @@ Value* LocalHeapVariable::generateAssignmentIR(IRGenerationContext& context,
                                                IExpression& assignToExpression) {
   Value* assignToValue = assignToExpression.generateIR(context);
   IType* assignToType = assignToExpression.getType(context);
-  Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
-  mValue = new BitCastInst(castAssignToValue,
-                           castAssignToValue->getType(),
-                           "",
-                           context.getBasicBlock());
+  mValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   
   return mValue;
 }

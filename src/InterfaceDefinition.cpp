@@ -98,14 +98,9 @@ void InterfaceDefinition::defineInstanceOf(IRGenerationContext& context,
                                   stringPointer,
                                   function);
   
-  context.setBasicBlock(returnFound);
-  LoadInst* iteratorLoaded = new LoadInst(iterator, "", returnFound);
-  ReturnInst::Create(llvmContext, iteratorLoaded, returnFound);
+  composeReturnFound(context, returnFound, iterator);
   
-  context.setBasicBlock(returnNotFound);
-  ReturnInst::Create(llvmContext,
-                     ConstantInt::get(Type::getInt32Ty(llvmContext), -1),
-                     returnNotFound);
+  composeReturnNotFound(context, returnNotFound);
   
   context.setBasicBlock(lastBasicBlock);
 }
@@ -237,4 +232,26 @@ void InterfaceDefinition::composeInstanceOfWhileBodyBlock(IRGenerationContext& c
                                       compareToArgument,
                                       "cmp");
   SafeBranch::newConditionalBranch(returnTrue, whileCond, doesTypeMatch, context);
+}
+
+void InterfaceDefinition::composeReturnFound(IRGenerationContext& context,
+                                             BasicBlock* returnFound,
+                                             Value* iterator) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  context.setBasicBlock(returnFound);
+  LoadInst* iteratorLoaded = new LoadInst(iterator, "", returnFound);
+  ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Value* decrement =
+  BinaryOperator::Create(Instruction::Sub, iteratorLoaded, one, "dec", returnFound);
+  ReturnInst::Create(llvmContext, decrement, returnFound);
+}
+
+void InterfaceDefinition::composeReturnNotFound(IRGenerationContext& context,
+                                                BasicBlock* returnNotFound) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  ConstantInt* negativeOne = ConstantInt::get(Type::getInt32Ty(llvmContext), -1);
+  
+  context.setBasicBlock(returnNotFound);
+  ReturnInst::Create(llvmContext, negativeOne, returnNotFound);
 }
