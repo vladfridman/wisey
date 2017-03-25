@@ -35,7 +35,7 @@ public:
   
   bool canCastTo(IType* toType) const override;
   
-  bool canCastLosslessTo(IType* toType) const override;
+  bool canAutoCastTo(IType* toType) const override;
   
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,

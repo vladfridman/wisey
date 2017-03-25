@@ -35,7 +35,7 @@ bool LongType::canCastTo(IType* toType) const {
   return toType != PrimitiveTypes::VOID_TYPE;
 }
 
-bool LongType::canCastLosslessTo(IType* toType) const {
+bool LongType::canAutoCastTo(IType* toType) const {
   if (toType->getTypeKind() != PRIMITIVE_TYPE) {
     return false;
   }

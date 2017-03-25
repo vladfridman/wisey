@@ -35,7 +35,7 @@ bool DoubleType::canCastTo(IType* toType) const {
   return toType != PrimitiveTypes::VOID_TYPE;
 }
 
-bool DoubleType::canCastLosslessTo(IType* toType) const {
+bool DoubleType::canAutoCastTo(IType* toType) const {
   if (toType->getTypeKind() != PRIMITIVE_TYPE) {
     return false;
   }

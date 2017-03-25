@@ -58,9 +58,9 @@ public:
   virtual bool canCastTo(IType* toType) const = 0;
 
   /**
-   * Indicates whether this type can be cast to another type wihtout loss of information
+   * Indicates whether this type can be auto cast to another type
    */
-  virtual bool canCastLosslessTo(IType* toType) const = 0;
+  virtual bool canAutoCastTo(IType* toType) const = 0;
   
   /**
    * Casts given value to a given type

@@ -137,7 +137,7 @@ bool Model::canCastTo(IType* toType) const {
   return false;
 }
 
-bool Model::canCastLosslessTo(IType* toType) const {
+bool Model::canAutoCastTo(IType* toType) const {
   return canCastTo(toType);
 }
 

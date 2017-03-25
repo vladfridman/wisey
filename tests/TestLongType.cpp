@@ -58,14 +58,14 @@ TEST_F(LongTypeTest, longTypeTest) {
   EXPECT_EQ(mLongType.getTypeKind(), PRIMITIVE_TYPE);
 }
 
-TEST_F(LongTypeTest, canCastLosslessTest) {
-  EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::VOID_TYPE));
-  EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::BOOLEAN_TYPE));
-  EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::CHAR_TYPE));
-  EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_TRUE(mLongType.canCastLosslessTo(PrimitiveTypes::LONG_TYPE));
-  EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::FLOAT_TYPE));
-  EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::DOUBLE_TYPE));
+TEST_F(LongTypeTest, canAutoCastToTest) {
+  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::BOOLEAN_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::CHAR_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_TRUE(mLongType.canAutoCastTo(PrimitiveTypes::LONG_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::FLOAT_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
 TEST_F(LongTypeTest, canCastTest) {

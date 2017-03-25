@@ -24,7 +24,7 @@ public:
   MOCK_CONST_METHOD1(getLLVMType, llvm::Type* (llvm::LLVMContext&));
   MOCK_CONST_METHOD0(getTypeKind, yazyk::TypeKind ());
   MOCK_CONST_METHOD1(canCastTo, bool (yazyk::IType*));
-  MOCK_CONST_METHOD1(canCastLosslessTo, bool (yazyk::IType*));
+  MOCK_CONST_METHOD1(canAutoCastTo, bool (yazyk::IType*));
   MOCK_CONST_METHOD3(castTo, llvm::Value* (yazyk::IRGenerationContext&,
                                            llvm::Value*,
                                            yazyk::IType*));

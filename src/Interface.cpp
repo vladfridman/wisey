@@ -273,7 +273,7 @@ bool Interface::canCastTo(IType* toType) const {
   return true;
 }
 
-bool Interface::canCastLosslessTo(IType* toType) const {
+bool Interface::canAutoCastTo(IType* toType) const {
   if (toType->getTypeKind() == PRIMITIVE_TYPE) {
     return false;
   }

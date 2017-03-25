@@ -178,10 +178,10 @@ TEST_F(InterfaceTest, canCastToTest) {
   EXPECT_TRUE(mShapeInterface->canCastTo(mObjectInterface));
 }
 
-TEST_F(InterfaceTest, canCastLosslessToTest) {
-  EXPECT_FALSE(mObjectInterface->canCastLosslessTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mObjectInterface->canCastLosslessTo(mShapeInterface));
-  EXPECT_TRUE(mShapeInterface->canCastLosslessTo(mObjectInterface));
+TEST_F(InterfaceTest, canAutoCastToTest) {
+  EXPECT_FALSE(mObjectInterface->canAutoCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mObjectInterface->canAutoCastTo(mShapeInterface));
+  EXPECT_TRUE(mShapeInterface->canAutoCastTo(mObjectInterface));
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {

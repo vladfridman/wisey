@@ -194,12 +194,12 @@ TEST_F(ModelTest, canCastToTest) {
   EXPECT_TRUE(mModel->canCastTo(mShapeInterface));
 }
 
-TEST_F(ModelTest, canCastLosslessToTest) {
-  EXPECT_FALSE(mModel->canCastLosslessTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mModel->canCastLosslessTo(mCircleModel));
-  EXPECT_FALSE(mModel->canCastLosslessTo(mCarInterface));
-  EXPECT_TRUE(mModel->canCastLosslessTo(mModel));
-  EXPECT_TRUE(mModel->canCastLosslessTo(mShapeInterface));
+TEST_F(ModelTest, canAutoCastToTest) {
+  EXPECT_FALSE(mModel->canAutoCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->canAutoCastTo(mCircleModel));
+  EXPECT_FALSE(mModel->canAutoCastTo(mCarInterface));
+  EXPECT_TRUE(mModel->canAutoCastTo(mModel));
+  EXPECT_TRUE(mModel->canAutoCastTo(mShapeInterface));
 }
 
 TEST_F(ModelTest, castToFirstInterfaceTest) {
