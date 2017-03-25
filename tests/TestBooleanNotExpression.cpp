@@ -15,6 +15,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/BooleanNotExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -29,13 +30,6 @@ using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
-
-class MockExpression : public IExpression {
-public:
-  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
-};
 
 struct BooleanNotExpressionTest : Test {
   IRGenerationContext mContext;

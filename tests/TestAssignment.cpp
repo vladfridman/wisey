@@ -14,6 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "MockExpression.hpp"
 #include "yazyk/Assignment.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -37,13 +38,6 @@ public:
   MOCK_CONST_METHOD2(generateIdentifierIR, Value* (IRGenerationContext&, string));
   MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, IExpression&));
   MOCK_CONST_METHOD1(free, void (IRGenerationContext&));
-};
-
-class MockExpression : public IExpression {
-public:
-  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
 };
 
 struct AssignmentTest : public Test {

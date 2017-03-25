@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/Interface.hpp"
@@ -32,13 +33,6 @@ using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
-
-class MockExpression : public IExpression {
-public:
-  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
-};
 
 class MockType : public IType {
 public:

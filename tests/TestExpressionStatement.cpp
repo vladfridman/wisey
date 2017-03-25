@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/ExpressionStatement.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -25,13 +26,6 @@ using namespace yazyk;
 
 using ::testing::_;
 using ::testing::NiceMock;
-
-class MockExpression : public IExpression {
-public:
-  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
-};
 
 TEST(ExpressionStatementTest, CreatingTest) {
   IRGenerationContext context;

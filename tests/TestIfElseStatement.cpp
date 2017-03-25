@@ -17,6 +17,7 @@
 #include <llvm/IR/Value.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IfElseStatement.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -30,13 +31,6 @@ using ::testing::Test;
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
-
-class MockExpression : public IExpression {
-public:
-  MOCK_CONST_METHOD1(generateIR, Value* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(getType, IType* (IRGenerationContext&));
-  MOCK_CONST_METHOD1(releaseOwnership, void (IRGenerationContext&));
-};
 
 class MockStatement : public IStatement {
 public:
