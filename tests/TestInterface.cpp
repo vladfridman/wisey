@@ -232,3 +232,8 @@ TEST_F(TestFileSampleRunner, interfaceCastToInterfaceRunTest) {
 TEST_F(TestFileSampleRunner, interfaceCastToAnotherInterfaceRunTest) {
   runFile("tests/samples/test_interface_cast_to_another_interface.yz", "5");
 }
+
+TEST_F(TestFileSampleRunner, interfaceAutoCastRunTest) {
+  runFile("tests/samples/test_interface_autocast.yz", "5");
+}
+
