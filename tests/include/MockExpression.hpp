@@ -25,5 +25,4 @@ public:
   MOCK_CONST_METHOD1(releaseOwnership, void (yazyk::IRGenerationContext&));
 };
 
-
 #endif /* MockExpression_h */

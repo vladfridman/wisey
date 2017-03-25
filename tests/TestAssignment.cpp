@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "MockExpression.hpp"
+#include "MockVariable.hpp"
 #include "yazyk/Assignment.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -29,16 +30,6 @@ using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
-
-class MockVariable : public IVariable {
-public:
-  MOCK_CONST_METHOD0(getName, string ());
-  MOCK_CONST_METHOD0(getType, IType* ());
-  MOCK_CONST_METHOD0(getValue, Value* ());
-  MOCK_CONST_METHOD2(generateIdentifierIR, Value* (IRGenerationContext&, string));
-  MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, IExpression&));
-  MOCK_CONST_METHOD1(free, void (IRGenerationContext&));
-};
 
 struct AssignmentTest : public Test {
   IRGenerationContext mContext;

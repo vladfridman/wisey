@@ -634,6 +634,7 @@
 		F5E2092E1E078B7500E1A147 /* PrimitiveTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrimitiveTypeSpecifier.hpp; path = include/yazyk/PrimitiveTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypeSpecifier.cpp; path = src/PrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5E48B8E1E870E150087CC70 /* MockExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockExpression.hpp; path = tests/include/MockExpression.hpp; sourceTree = "<group>"; };
+		F5E48B8F1E8710DB0087CC70 /* MockVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockVariable.hpp; path = tests/include/MockVariable.hpp; sourceTree = "<group>"; };
 		F5EEDD9E1E6EF43A00215278 /* InterfaceTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceTypeSpecifier.hpp; path = include/yazyk/InterfaceTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceTypeSpecifier.cpp; path = src/InterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceTypeSpecifier.cpp; path = tests/TestInterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -858,6 +859,7 @@
 			isa = PBXGroup;
 			children = (
 				F5E48B8E1E870E150087CC70 /* MockExpression.hpp */,
+				F5E48B8F1E8710DB0087CC70 /* MockVariable.hpp */,
 				F53401041DFEDA3C0002BF7E /* TestFileSampleRunner.hpp */,
 			);
 			name = include;

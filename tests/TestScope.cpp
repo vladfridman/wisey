@@ -14,6 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "MockVariable.hpp"
 #include "yazyk/Scope.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
@@ -28,16 +29,6 @@ using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Test;
-
-class MockVariable : public IVariable {
-public:
-  MOCK_CONST_METHOD0(getName, string ());
-  MOCK_CONST_METHOD0(getType, IType* ());
-  MOCK_CONST_METHOD0(getValue, Value* ());
-  MOCK_CONST_METHOD2(generateIdentifierIR, Value* (IRGenerationContext&, string));
-  MOCK_METHOD2(generateAssignmentIR, Value* (IRGenerationContext&, IExpression&));
-  MOCK_CONST_METHOD1(free, void (IRGenerationContext&));
-};
 
 struct ScopeTest : public Test {
   IRGenerationContext mContext;
