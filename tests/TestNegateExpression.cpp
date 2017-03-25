@@ -59,7 +59,7 @@ struct NegateExpressionTest : Test {
   }
 };
 
-TEST_F(NegateExpressionTest, NegateIntExpressionTest) {
+TEST_F(NegateExpressionTest, negateIntExpressionTest) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
@@ -72,7 +72,7 @@ TEST_F(NegateExpressionTest, NegateIntExpressionTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(NegateExpressionTest, NegateFloatExpressionTest) {
+TEST_F(NegateExpressionTest, negateFloatExpressionTest) {
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.5);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
@@ -85,7 +85,7 @@ TEST_F(NegateExpressionTest, NegateFloatExpressionTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(NegateExpressionTest, NegateIncompatibleTypeDeathTest) {
+TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   NegateExpression negateExpression(mExpression);
   Mock::AllowLeak(&mExpression);
@@ -104,6 +104,6 @@ TEST_F(NegateExpressionTest, releaseOwnershipDeathTest) {
               "Can not release ownership of a negate expression result, it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, NegateIntRunTest) {
+TEST_F(TestFileSampleRunner, negateIntRunTest) {
   runFile("tests/samples/test_unary_minus.yz", "-5");
 }

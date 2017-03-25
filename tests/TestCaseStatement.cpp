@@ -34,7 +34,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(CaseStatementTest, TestStatementsGetGenerated) {
+TEST(CaseStatementTest, statementsGetGeneratedTest) {
   IRGenerationContext context;
   NiceMock<MockStatement> statement;
   NiceMock<MockExpression> expression;
@@ -48,7 +48,7 @@ TEST(CaseStatementTest, TestStatementsGetGenerated) {
   delete caseStatement;
 }
 
-TEST(CaseStatementTest, TestConstIntExpressionWorks) {
+TEST(CaseStatementTest, constantIntExpressionWorksTest) {
   IRGenerationContext context;
   Block statementBlock;
   IntConstant expression(5l);
@@ -60,7 +60,7 @@ TEST(CaseStatementTest, TestConstIntExpressionWorks) {
   delete caseStatement;
 }
 
-TEST(CaseStatementTest, TestNonIntExpressionDeathTest) {
+TEST(CaseStatementTest, nonIntExpressionDeathTest) {
   IRGenerationContext context;
   Block statementBlock;
   FloatConstant expression(5.2f);
@@ -71,7 +71,7 @@ TEST(CaseStatementTest, TestNonIntExpressionDeathTest) {
               "Error: Case expression should be an integer constant");
 }
 
-TEST(CaseStatementTest, TestStatementsIsMarkedFallThrough) {
+TEST(CaseStatementTest, statementsIsMarkedFallThroughTest) {
   IRGenerationContext context;
   NiceMock<MockExpression> expression;
   Block statementBlock;

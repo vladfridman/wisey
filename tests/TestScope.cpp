@@ -42,7 +42,7 @@ public:
   }
 };
 
-TEST_F(ScopeTest, LocalsTest) {
+TEST_F(ScopeTest, localsTest) {
   mScope.setVariable("foo", mMockVariable);
   
   EXPECT_EQ(mScope.findVariable("foo"), mMockVariable);
@@ -59,13 +59,13 @@ TEST_F(ScopeTest, LocalsTest) {
   EXPECT_EQ(mScope.findVariable("bar"), mMockVariable);
 }
 
-TEST_F(ScopeTest, ClearNonExistantVariableDeathTest) {
+TEST_F(ScopeTest, clearNonExistantVariableDeathTest) {
   EXPECT_EXIT(mScope.clearVariable("foo"),
               ::testing::ExitedWithCode(1),
               "Error: Variable 'foo' is not set in this scope.");
 }
 
-TEST_F(ScopeTest, MaybeFreeOwnedMemoryHeapVariableTest) {
+TEST_F(ScopeTest, maybeFreeOwnedMemoryHeapVariableTest) {
   mScope.setVariable("foo", mMockVariable);
   
   EXPECT_CALL(*mMockVariable, free(_));

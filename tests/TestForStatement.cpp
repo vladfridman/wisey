@@ -67,7 +67,7 @@ struct ForStatementTest : Test {
   }
 };
 
-TEST_F(ForStatementTest, ForStatementSimpleTest) {
+TEST_F(ForStatementTest, forStatementSimpleTest) {
   ForStatement forStatement(mStartStatement,
                             mConditionStatement,
                             mIncrementExpression,
@@ -108,23 +108,23 @@ TEST_F(ForStatementTest, ForStatementSimpleTest) {
   EXPECT_STREQ("for.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, ForStatementRunTest) {
+TEST_F(TestFileSampleRunner, forStatementRunTest) {
   runFile("tests/samples/test_for_statement.yz", "90");
 }
 
-TEST_F(TestFileSampleRunner, ForStatementWithNoIncrementRunTest) {
+TEST_F(TestFileSampleRunner, forStatementWithNoIncrementRunTest) {
   runFile("tests/samples/test_for_statement_with_no_increment.yz", "100");
 }
 
-TEST_F(TestFileSampleRunner, ForStatementWithNoDeclarationRunTest) {
+TEST_F(TestFileSampleRunner, forStatementWithNoDeclarationRunTest) {
   runFile("tests/samples/test_for_statement_with_no_declaration.yz", "10");
 }
 
-TEST_F(TestFileSampleRunner, ForStatementWithNoDeclarationNoIncrementRunTest) {
+TEST_F(TestFileSampleRunner, forStatementWithNoDeclarationNoIncrementRunTest) {
   runFile("tests/samples/test_for_statement_with_no_declaration_no_increment.yz", "11");
 }
 
-TEST_F(TestFileSampleRunner, ForStatementLocalVariableScopeTest) {
+TEST_F(TestFileSampleRunner, forStatementLocalVariableScopeRunDeathTest) {
   expectFailIRGeneration("tests/samples/test_for_statement_scope.yz",
                          1,
                          "Error: Undeclared variable 'i'");

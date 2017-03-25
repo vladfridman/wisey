@@ -28,14 +28,14 @@ struct MethodSignatureTest : Test {
   }
 };
 
-TEST_F(MethodSignatureTest, MethodSignatureTest) {
+TEST_F(MethodSignatureTest, methodSignatureTest) {
   EXPECT_STREQ(mMethodSignature->getName().c_str(), "foo");
   EXPECT_EQ(mMethodSignature->getReturnType(), PrimitiveTypes::LONG_TYPE);
   EXPECT_EQ(mMethodSignature->getArguments().size(), 0u);
   EXPECT_EQ(mMethodSignature->getIndex(), 1u);
 }
 
-TEST_F(MethodSignatureTest, CreateCopyWithIndexTest) {
+TEST_F(MethodSignatureTest, createCopyWithIndexTest) {
   MethodSignature* copy = mMethodSignature->createCopyWithIndex(55);
   
   EXPECT_STREQ(copy->getName().c_str(), "foo");

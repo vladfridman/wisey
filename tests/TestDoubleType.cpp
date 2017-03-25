@@ -52,13 +52,13 @@ public:
   }
 };
 
-TEST_F(DoubleTypeTest, DoubleTypeTest) {
+TEST_F(DoubleTypeTest, doubleTypeTest) {
   EXPECT_EQ(mDoubleType.getLLVMType(mLLVMContext), Type::getDoubleTy(mLLVMContext));
   EXPECT_STREQ(mDoubleType.getName().c_str(), "double");
   EXPECT_EQ(mDoubleType.getTypeKind(), PRIMITIVE_TYPE);
 }
 
-TEST_F(DoubleTypeTest, CanCastLosslessTest) {
+TEST_F(DoubleTypeTest, canCastLosslessTest) {
   EXPECT_FALSE(mDoubleType.canCastLosslessTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mDoubleType.canCastLosslessTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_FALSE(mDoubleType.canCastLosslessTo(PrimitiveTypes::CHAR_TYPE));
@@ -68,7 +68,7 @@ TEST_F(DoubleTypeTest, CanCastLosslessTest) {
   EXPECT_TRUE(mDoubleType.canCastLosslessTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(DoubleTypeTest, CanCastTest) {
+TEST_F(DoubleTypeTest, canCastTest) {
   EXPECT_FALSE(mDoubleType.canCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_TRUE(mDoubleType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mDoubleType.canCastTo(PrimitiveTypes::CHAR_TYPE));
@@ -78,7 +78,7 @@ TEST_F(DoubleTypeTest, CanCastTest) {
   EXPECT_TRUE(mDoubleType.canCastTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(DoubleTypeTest, CastToTest) {
+TEST_F(DoubleTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   

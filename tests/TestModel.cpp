@@ -152,7 +152,7 @@ struct ModelTest : public Test {
   }
 };
 
-TEST_F(ModelTest, TestModelInstantiation) {
+TEST_F(ModelTest, modelInstantiationTest) {
   EXPECT_STREQ(mModel->getName().c_str(), "MSquare");
   EXPECT_STREQ(mModel->getVTableName().c_str(), "model.MSquare.vtable");
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
@@ -160,23 +160,23 @@ TEST_F(ModelTest, TestModelInstantiation) {
   EXPECT_EQ(mModel->getInterfaces().size(), 2u);
 }
 
-TEST_F(ModelTest, TestFindFeild) {
+TEST_F(ModelTest, findFeildTest) {
   EXPECT_EQ(mModel->findField("width"), mWidthField);
   EXPECT_EQ(mModel->findField("height"), mHeightField);
   EXPECT_EQ(mModel->findField("depth"), nullptr);
 }
 
-TEST_F(ModelTest, TestFindMethod) {
+TEST_F(ModelTest, findMethodTest) {
   EXPECT_EQ(mModel->findMethod("foo"), mMethod);
   EXPECT_EQ(mModel->findMethod("get"), nullptr);
 }
 
-TEST_F(ModelTest, TestMethodIndexes) {
+TEST_F(ModelTest, methodIndexesTest) {
   EXPECT_EQ(mModel->findMethod("foo")->getIndex(), 0u);
   EXPECT_EQ(mModel->findMethod("bar")->getIndex(), 1u);
 }
 
-TEST_F(ModelTest, TestGetMissingFields) {
+TEST_F(ModelTest, getMissingFieldsTest) {
   set<string> givenFields;
   givenFields.insert("width");
   
@@ -186,7 +186,7 @@ TEST_F(ModelTest, TestGetMissingFields) {
   EXPECT_EQ(missingFields.at(0), "height");
 }
 
-TEST_F(ModelTest, CanCastToTest) {
+TEST_F(ModelTest, canCastToTest) {
   EXPECT_FALSE(mModel->canCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_FALSE(mModel->canCastTo(mCircleModel));
   EXPECT_FALSE(mModel->canCastTo(mCarInterface));
@@ -194,7 +194,7 @@ TEST_F(ModelTest, CanCastToTest) {
   EXPECT_TRUE(mModel->canCastTo(mShapeInterface));
 }
 
-TEST_F(ModelTest, CanCastLosslessToTest) {
+TEST_F(ModelTest, canCastLosslessToTest) {
   EXPECT_FALSE(mModel->canCastLosslessTo(PrimitiveTypes::INT_TYPE));
   EXPECT_FALSE(mModel->canCastLosslessTo(mCircleModel));
   EXPECT_FALSE(mModel->canCastLosslessTo(mCarInterface));
@@ -202,7 +202,7 @@ TEST_F(ModelTest, CanCastLosslessToTest) {
   EXPECT_TRUE(mModel->canCastLosslessTo(mShapeInterface));
 }
 
-TEST_F(ModelTest, CastToFirstInterfaceTest) {
+TEST_F(ModelTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
   mModel->castTo(mContext, pointer, mShapeInterface);
@@ -214,7 +214,7 @@ TEST_F(ModelTest, CastToFirstInterfaceTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelTest, CastToSecondInterfaceTest) {
+TEST_F(ModelTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
   mModel->castTo(mContext, pointer, mSubShapeInterface);
@@ -244,7 +244,7 @@ TEST_F(ModelTest, getTypeTableName) {
   ASSERT_STREQ(mModel->getTypeTableName().c_str(), "model.MSquare.typetable");
 }
 
-TEST_F(ModelTest, CastToDeathTest) {
+TEST_F(ModelTest, castToDeathTest) {
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
   EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
@@ -252,7 +252,7 @@ TEST_F(ModelTest, CastToDeathTest) {
               "Error: Incopatible types: can not cast from type 'MSquare' to 'int'");
 }
 
-TEST_F(ModelTest, GetFlattenedInterfaceHierarchyTest) {
+TEST_F(ModelTest, getFlattenedInterfaceHierarchyTest) {
   vector<Interface*> allInterfaces = mModel->getFlattenedInterfaceHierarchy();
   
   EXPECT_EQ(allInterfaces.size(), 3u);
@@ -261,7 +261,7 @@ TEST_F(ModelTest, GetFlattenedInterfaceHierarchyTest) {
   EXPECT_EQ(allInterfaces.at(2), mObjectInterface);
 }
 
-TEST_F(ModelTest, DoesImplmentInterfaceTest) {
+TEST_F(ModelTest, doesImplmentInterfaceTest) {
   EXPECT_TRUE(mModel->doesImplmentInterface(mSubShapeInterface));
   EXPECT_TRUE(mModel->doesImplmentInterface(mShapeInterface));
   EXPECT_TRUE(mModel->doesImplmentInterface(mObjectInterface));

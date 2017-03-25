@@ -38,7 +38,7 @@ struct StringConstantTest : public Test {
   }
 };
 
-TEST_F(StringConstantTest, StringConstantTest) {
+TEST_F(StringConstantTest, stringConstantTest) {
   StringConstant stringConstant("\"test\"");
   
   Value* irValue = stringConstant.generateIR(mContext);
@@ -52,7 +52,7 @@ TEST_F(StringConstantTest, StringConstantTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(StringConstantTest, StringConstantEscapeNewlineTest) {
+TEST_F(StringConstantTest, stringConstantEscapeNewlineTest) {
   StringConstant stringConstant("\"test\ntest\"");
   
   stringConstant.generateIR(mContext);

@@ -24,7 +24,7 @@ using namespace yazyk;
 
 using ::testing::Test;
 
-TEST(IRGenerationContextTest, TestBlockStack) {
+TEST(IRGenerationContextTest, blockStackTest) {
   IRGenerationContext context;
   LLVMContext &llvmContext = context.getLLVMContext();
   BasicBlock* block1 = BasicBlock::Create(llvmContext, "block1");
@@ -37,7 +37,7 @@ TEST(IRGenerationContextTest, TestBlockStack) {
   EXPECT_EQ(context.getBasicBlock(), block2);
 }
 
-TEST(IRGenerationContextTest, TestMainFunction) {
+TEST(IRGenerationContextTest, mainFunctionTest) {
   IRGenerationContext context;
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), false);
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "main");
@@ -47,13 +47,13 @@ TEST(IRGenerationContextTest, TestMainFunction) {
   EXPECT_EQ(context.getMainFunction(), function);
 }
 
-TEST(IRGenerationContextTest, TestModuleIsNotNull) {
+TEST(IRGenerationContextTest, moduleIsNotNullTest) {
   IRGenerationContext context;
   
   EXPECT_NE(context.getModule(), nullptr);
 }
 
-TEST(IRGenerationContextTest, RunCodeFailsWhenMainIsNullDeathTest) {
+TEST(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
   IRGenerationContext context;
   
   EXPECT_EXIT(context.runCode(),
@@ -61,7 +61,7 @@ TEST(IRGenerationContextTest, RunCodeFailsWhenMainIsNullDeathTest) {
               "Function main is not defined. Exiting.");
 }
 
-TEST(IRGenerationContextTest, ModelTypeRegistryTest) {
+TEST(IRGenerationContextTest, modelTypeRegistryTest) {
   IRGenerationContext context;
   
   StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
@@ -77,7 +77,7 @@ TEST(IRGenerationContextTest, ModelTypeRegistryTest) {
             structType->getPointerTo());
 }
 
-TEST(IRGenerationContextTest, ModelTypeRedefinedDeathTest) {
+TEST(IRGenerationContextTest, modelTypeRedefinedDeathTest) {
   IRGenerationContext context;
   
   StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
@@ -92,7 +92,7 @@ TEST(IRGenerationContextTest, ModelTypeRedefinedDeathTest) {
               "Redefinition of MODEL mymodel");
 }
 
-TEST(IRGenerationContextTest, ModelTypeDoesNotExistDeathTest) {
+TEST(IRGenerationContextTest, modelTypeDoesNotExistDeathTest) {
   IRGenerationContext context;
   
   EXPECT_EXIT(context.getModel("mymodel"),
@@ -100,7 +100,7 @@ TEST(IRGenerationContextTest, ModelTypeDoesNotExistDeathTest) {
               "MODEL mymodel is not defined");
 }
 
-TEST(IRGenerationContextTest, InterfaceTypeRegistryTest) {
+TEST(IRGenerationContextTest, interfaceTypeRegistryTest) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
   
@@ -119,7 +119,7 @@ TEST(IRGenerationContextTest, InterfaceTypeRegistryTest) {
             structType);
 }
 
-TEST(IRGenerationContextTest, InterfaceTypeRedefinedDeathTest) {
+TEST(IRGenerationContextTest, interfaceTypeRedefinedDeathTest) {
   IRGenerationContext context;
   
   StructType* structType = StructType::create(context.getLLVMContext(), "myinterface");
@@ -136,7 +136,7 @@ TEST(IRGenerationContextTest, InterfaceTypeRedefinedDeathTest) {
               "Redefinition of Interface myinterface");
 }
 
-TEST(IRGenerationContextTest, InterfaceTypeDoesNotExistDeathTest) {
+TEST(IRGenerationContextTest, interfaceTypeDoesNotExistDeathTest) {
   IRGenerationContext context;
   
   EXPECT_EXIT(context.getInterface("myinterface"),
@@ -144,7 +144,7 @@ TEST(IRGenerationContextTest, InterfaceTypeDoesNotExistDeathTest) {
               "Interface myinterface is not defined");
 }
 
-TEST(IRGenerationContextTest, TestGlobalFunctionDefinition) {
+TEST(IRGenerationContextTest, globalFunctionDefinitionTest) {
   IRGenerationContext context;
 
   context.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
@@ -152,7 +152,7 @@ TEST(IRGenerationContextTest, TestGlobalFunctionDefinition) {
   EXPECT_EQ(context.getGlobalFunctionType("foo"), PrimitiveTypes::VOID_TYPE);
 }
 
-TEST(IRGenerationContextTest, GlobalFunctionRedefinitionDeathTest) {
+TEST(IRGenerationContextTest, globalFunctionRedefinitionDeathTest) {
   IRGenerationContext context;
   
   context.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
@@ -162,7 +162,7 @@ TEST(IRGenerationContextTest, GlobalFunctionRedefinitionDeathTest) {
               "Error: Redefinition of a global function foo");
 }
 
-TEST(IRGenerationContextTest, GlobalFunctionUndefinedDeathTest) {
+TEST(IRGenerationContextTest, globalFunctionUndefinedDeathTest) {
   IRGenerationContext context;
   
   EXPECT_EXIT(context.getGlobalFunctionType("foo"),
@@ -195,13 +195,13 @@ public:
   }
 };
 
-TEST_F(IRGenerationContextRunTest, RunCodeTest) {
+TEST_F(IRGenerationContextRunTest, runCodeTest) {
   GenericValue result = mContext.runCode();
   
   EXPECT_EQ(result.IntVal.toString(10, true), "5");
 }
 
-TEST_F(IRGenerationContextRunTest, TestPrintAssembly) {
+TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
   string mStringBuffer;
   raw_string_ostream mStringStream(mStringBuffer);
   

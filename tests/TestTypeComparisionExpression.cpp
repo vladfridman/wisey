@@ -164,7 +164,7 @@ struct TestTypeComparisionExpressionTest : public Test {
   }
 };
 
-TEST_F(TestTypeComparisionExpressionTest, CompareIdenticalPrimiteveTypesTest) {
+TEST_F(TestTypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   NiceMock<MockTypeSpecifier> typeSpecifier;
@@ -176,7 +176,7 @@ TEST_F(TestTypeComparisionExpressionTest, CompareIdenticalPrimiteveTypesTest) {
   EXPECT_EQ(value, mTrueValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, CompareDifferntPrimiteveTypesTest) {
+TEST_F(TestTypeComparisionExpressionTest, compareDifferntPrimiteveTypesTest) {
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   NiceMock<MockTypeSpecifier> typeSpecifier;
@@ -188,7 +188,7 @@ TEST_F(TestTypeComparisionExpressionTest, CompareDifferntPrimiteveTypesTest) {
   EXPECT_EQ(value, mFalseValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, CompareIdenticalModelTypesTest) {
+TEST_F(TestTypeComparisionExpressionTest, compareIdenticalModelTypesTest) {
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mCircleModel));
   NiceMock<MockTypeSpecifier> typeSpecifier;
@@ -200,7 +200,7 @@ TEST_F(TestTypeComparisionExpressionTest, CompareIdenticalModelTypesTest) {
   EXPECT_EQ(value, mTrueValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, CompareDifferentModelTypesTest) {
+TEST_F(TestTypeComparisionExpressionTest, compareDifferentModelTypesTest) {
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mCircleModel));
   NiceMock<MockTypeSpecifier> typeSpecifier;
@@ -212,7 +212,7 @@ TEST_F(TestTypeComparisionExpressionTest, CompareDifferentModelTypesTest) {
   EXPECT_EQ(value, mFalseValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, CompareModelAndInterfaceTypesTest) {
+TEST_F(TestTypeComparisionExpressionTest, compareModelAndInterfaceTypesTest) {
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mSquareModel));
   NiceMock<MockTypeSpecifier> typeSpecifier;
@@ -224,7 +224,7 @@ TEST_F(TestTypeComparisionExpressionTest, CompareModelAndInterfaceTypesTest) {
   EXPECT_EQ(value, mTrueValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, CompareModelAndInterfaceTypesNotMatchTest) {
+TEST_F(TestTypeComparisionExpressionTest, compareModelAndInterfaceTypesNotMatchTest) {
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mSquareModel));
   NiceMock<MockTypeSpecifier> typeSpecifier;
@@ -236,7 +236,7 @@ TEST_F(TestTypeComparisionExpressionTest, CompareModelAndInterfaceTypesNotMatchT
   EXPECT_EQ(value, mFalseValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, CompareInterfaceAndInterfaceTypesTest) {
+TEST_F(TestTypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest) {
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mShapeInterface));
   NiceMock<MockTypeSpecifier> typeSpecifier;
@@ -259,19 +259,19 @@ TEST_F(TestTypeComparisionExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, InstanceOfTrivialMatchTest) {
+TEST_F(TestFileSampleRunner, instanceOfTrivialMatchRunTest) {
   runFile("tests/samples/test_instanceof_trivial_match.yz", "2");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceInstanceOfModelMatchTest) {
+TEST_F(TestFileSampleRunner, interfaceInstanceOfModelMatchRunTest) {
   runFile("tests/samples/test_interface_instanceof_model_match.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceInstanceOfInterfaceMatchTest) {
+TEST_F(TestFileSampleRunner, interfaceInstanceOfInterfaceMatchRunTest) {
   runFile("tests/samples/test_interface_instanceof_interface_match.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceInstanceOfInterfaceNotMatchTest) {
+TEST_F(TestFileSampleRunner, interfaceInstanceOfInterfaceNotMatchRunTest) {
   runFile("tests/samples/test_interface_instanceof_interface_notmatch.yz", "0");
 }
 

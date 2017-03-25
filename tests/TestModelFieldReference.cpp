@@ -52,13 +52,13 @@ struct ModelFieldReferenceTest : public Test {
   ~ModelFieldReferenceTest() { }
 };
 
-TEST_F(ModelFieldReferenceTest, TestModelFieldReferenceType) {
+TEST_F(ModelFieldReferenceTest, modelFieldReferenceTypeTest) {
   ModelFieldReference modelFieldReference(mExpression, "width");
   
   EXPECT_EQ(modelFieldReference.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(ModelFieldReferenceTest, TestReferenceFieldInPrimitiveTypeDeathTest) {
+TEST_F(ModelFieldReferenceTest, referenceFieldInPrimitiveTypeDeathTest) {
   Mock::AllowLeak(&mExpression);
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
   ModelFieldReference modelFieldReference(mExpression, "width");
@@ -78,14 +78,14 @@ TEST_F(ModelFieldReferenceTest, releaseOwnershipDeathTest) {
               "objects they reference can not be released");
 }
 
-TEST_F(TestFileSampleRunner, ModelModelFieldReferenceTest) {
+TEST_F(TestFileSampleRunner, modelModelFieldReferenceRunDeathTest) {
   expectFailIRGeneration("tests/samples/test_model_field_reference.yz",
                          1,
                          "Error: All model fields are private. "
                          "Implement getters and setters to use fields");
 }
 
-TEST_F(TestFileSampleRunner, ModelIncorrectModelFieldReferenceDeathTest) {
+TEST_F(TestFileSampleRunner, modelIncorrectModelFieldReferenceRunDeathTest) {
   expectFailIRGeneration("tests/samples/test_model_incorrect_field_reference.yz",
                          1,
                          "Error: Field 'mWidth' is not found in model 'MColor'");

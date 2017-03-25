@@ -59,7 +59,7 @@ struct WhileStatementTest : Test {
   }
 };
 
-TEST_F(WhileStatementTest, WhileStatementSimpleTest) {
+TEST_F(WhileStatementTest, whileStatementSimpleTest) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
   
@@ -93,7 +93,7 @@ TEST_F(WhileStatementTest, WhileStatementSimpleTest) {
   EXPECT_STREQ("while.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, WhileStatementRunTest) {
+TEST_F(TestFileSampleRunner, whileStatementRunTest) {
   runFile("tests/samples/test_while_statement.yz", "10");
 }
 

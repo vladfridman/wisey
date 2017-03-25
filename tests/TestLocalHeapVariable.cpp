@@ -62,7 +62,7 @@ public:
     mModel = new Model("Shape", structType, fields, methods, interfaces);}
 };
 
-TEST_F(LocalHeapVariableTest, HeapVariableAssignmentTest) {
+TEST_F(LocalHeapVariableTest, heapVariableAssignmentTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   LocalHeapVariable* uninitializedHeapVariable =
     new LocalHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
@@ -82,14 +82,14 @@ TEST_F(LocalHeapVariableTest, HeapVariableAssignmentTest) {
   EXPECT_TRUE(BitCastInst::classof(localHeapVariable.getValue()));
 }
 
-TEST_F(LocalHeapVariableTest, HeapVariableIdentifierTest) {
+TEST_F(LocalHeapVariableTest, heapVariableIdentifierTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   LocalHeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
  
   EXPECT_EQ(localHeapVariable.generateIdentifierIR(mContext, "bar"), fooValue);
 }
 
-TEST_F(LocalHeapVariableTest, UninitializedHeapVariableIdentifierDeathTest) {
+TEST_F(LocalHeapVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
   LocalHeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   
   EXPECT_EXIT(localHeapVariable.generateIdentifierIR(mContext, "bar"),
@@ -97,7 +97,7 @@ TEST_F(LocalHeapVariableTest, UninitializedHeapVariableIdentifierDeathTest) {
               "Variable 'foo' is used before it has been initialized.");
 }
 
-TEST_F(LocalHeapVariableTest, FreeTest) {
+TEST_F(LocalHeapVariableTest, freeTest) {
   Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
   LocalHeapVariable localHeapVariable("foo", mModel, fooValue);
 
@@ -111,21 +111,21 @@ TEST_F(LocalHeapVariableTest, FreeTest) {
   EXPECT_TRUE(CallInst::classof(&(*++iterator)));
 }
 
-TEST_F(TestFileSampleRunner, ModelVariableAssignmentTest) {
+TEST_F(TestFileSampleRunner, modelVariableAssignmentRunTest) {
   runFile("tests/samples/test_assignment_model_variable.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceVariableAssignmentTest) {
+TEST_F(TestFileSampleRunner, interfaceVariableAssignmentRunTest) {
   runFile("tests/samples/test_interface_variable_assignment.yz", "25");
 }
 
-TEST_F(TestFileSampleRunner, UsingUninitializedHeapVariableDeathTest) {
+TEST_F(TestFileSampleRunner, usingUninitializedHeapVariableRunDeathTest) {
   expectFailIRGeneration("tests/samples/test_heap_variable_not_initialized.yz",
                          1,
                          "Error: Variable 'color' is used before it has been initialized.");
 }
 
-TEST_F(TestFileSampleRunner, IncompatableHeapVariableTypesInAssignmentDeathTest) {
+TEST_F(TestFileSampleRunner, IncompatableHeapVariableTypesInAssignmentRunDeathTest) {
   expectFailIRGeneration("tests/samples/test_incompatible_heap_variable_types_in_assignment.yz",
                          1,
                          "Error: Incopatible types: can not cast from type 'MShape' to 'MColor'");

@@ -18,7 +18,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(ModelTypeSpecifierTest, CreationTest) {
+TEST(ModelTypeSpecifierTest, creationTest) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
   

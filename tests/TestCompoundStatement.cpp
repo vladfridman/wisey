@@ -21,7 +21,7 @@ using namespace yazyk;
 using ::testing::_;
 using ::testing::NiceMock;
 
-TEST(TestCompoundStatement, SimpleCompoundStatementTest) {
+TEST(TestCompoundStatement, simpleCompoundStatementTest) {
   NiceMock<MockStatement> mockStatement1;
   NiceMock<MockStatement> mockStatement2;
   IRGenerationContext context;
@@ -36,7 +36,7 @@ TEST(TestCompoundStatement, SimpleCompoundStatementTest) {
   compoundStatement.generateIR(context);
 }
 
-TEST_F(TestFileSampleRunner, CompoundStatementOutOfScopeVariableTest) {
+TEST_F(TestFileSampleRunner, compoundStatementOutOfScopeVariableRunDeathTest) {
   expectFailIRGeneration("tests/samples/test_compound_statement_fail.yz",
                          1,
                          "Error: Undeclared variable 'j'");

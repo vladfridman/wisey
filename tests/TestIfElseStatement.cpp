@@ -66,7 +66,7 @@ struct IfElseStatementTest : Test {
   }
 };
 
-TEST_F(IfElseStatementTest, IfThenStatementSimpleTest) {
+TEST_F(IfElseStatementTest, ifThenStatementSimpleTest) {
   IfElseStatement ifElseStatement(mCondition, mThenStatement, mElseStatement);
   ifElseStatement.generateIR(mContext);
   
@@ -97,6 +97,6 @@ TEST_F(IfElseStatementTest, IfThenStatementSimpleTest) {
   EXPECT_STREQ("if.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, IfThenElseStatementRunTest) {
+TEST_F(TestFileSampleRunner, ifThenElseStatementRunTest) {
   runFile("tests/samples/test_if_then_else_statement.yz", "7");
 }

@@ -50,7 +50,7 @@ struct MethodDeclarationTest : Test {
   }
 };
 
-TEST_F(MethodDeclarationTest, MethodDescriptorExtractTest) {
+TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
   MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
@@ -70,14 +70,14 @@ TEST_F(MethodDeclarationTest, MethodDescriptorExtractTest) {
   EXPECT_EQ(arguments.at(1)->getType(), PrimitiveTypes::FLOAT_TYPE);
 }
 
-TEST_F(TestFileSampleRunner, MethodDecalarationIntFunctionTest) {
+TEST_F(TestFileSampleRunner, methodDecalarationIntFunctionRunTest) {
   runFile("tests/samples/test_int_function.yz", "10");
 }
 
-TEST_F(TestFileSampleRunner, MethodDecalarationImpliedReturnTest) {
+TEST_F(TestFileSampleRunner, methodDecalarationImpliedReturnRunTest) {
   runFile("tests/samples/test_implied_return.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, MethodDecalarationMultipleParametersTest) {
+TEST_F(TestFileSampleRunner, methodDecalarationMultipleParametersRunTest) {
   runFile("tests/samples/test_method_multiple_arguments.yz", "6");
 }

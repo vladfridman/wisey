@@ -53,7 +53,7 @@ public:
   }
 };
 
-TEST_F(LocalStackVariableTest, GenerateAssignmentIRTest) {
+TEST_F(LocalStackVariableTest, generateAssignmentIRTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
                                      "foo",
                                      mBlock);
@@ -77,7 +77,7 @@ TEST_F(LocalStackVariableTest, GenerateAssignmentIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LocalStackVariableTest, GenerateAssignmentIRWithCastTest) {
+TEST_F(LocalStackVariableTest, generateAssignmentIRWithCastTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
                                      "foo",
                                      mBlock);
@@ -106,7 +106,7 @@ TEST_F(LocalStackVariableTest, GenerateAssignmentIRWithCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LocalStackVariableTest, GenerateIdentifierIRTest) {
+TEST_F(LocalStackVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
                                      "foo",
                                      mBlock);
@@ -127,7 +127,7 @@ TEST_F(LocalStackVariableTest, GenerateIdentifierIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LocalStackVariableTest, TestFree) {
+TEST_F(LocalStackVariableTest, freeTest) {
   LocalStackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
 
   localStackVariable.free(mContext);
@@ -135,6 +135,6 @@ TEST_F(LocalStackVariableTest, TestFree) {
   ASSERT_EQ(mBlock->size(), 0u);
 }
 
-TEST_F(TestFileSampleRunner, AssignmentWithAutocastRunTest) {
+TEST_F(TestFileSampleRunner, assignmentWithAutocastRunTest) {
   runFile("tests/samples/test_assignment_with_autocast.yz", "1");
 }

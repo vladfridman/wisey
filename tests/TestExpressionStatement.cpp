@@ -27,7 +27,7 @@ using namespace yazyk;
 using ::testing::_;
 using ::testing::NiceMock;
 
-TEST(ExpressionStatementTest, CreatingTest) {
+TEST(ExpressionStatementTest, creatingTest) {
   IRGenerationContext context;
   NiceMock<MockExpression> expression;
   ExpressionStatement expressionStatement(expression);

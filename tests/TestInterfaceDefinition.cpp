@@ -28,7 +28,7 @@ using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
 
-TEST(InterfaceDefinitionTest, TestSimpleDefinition) {
+TEST(InterfaceDefinitionTest, simpleDefinitionTest) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
   
@@ -66,6 +66,6 @@ TEST(InterfaceDefinitionTest, TestSimpleDefinition) {
   EXPECT_STREQ(interface->getName().c_str(), "myinterface");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceDefinitionTest) {
+TEST_F(TestFileSampleRunner, interfaceDefinitionRunTest) {
   runFile("tests/samples/test_interface_definition.yz", "0");
 }

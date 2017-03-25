@@ -60,7 +60,7 @@ struct AdditiveMultiplicativeExpressionTest : Test {
   }
 };
 
-TEST_F(AdditiveMultiplicativeExpressionTest, AdditionTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   expression.generateIR(mContext);
   
@@ -70,7 +70,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, AdditionTest) {
   ASSERT_STREQ(mStringStream->str().c_str(), "  %add = add i32 3, 5");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, SubtractionTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '-', mRightExpression);
   expression.generateIR(mContext);
   
@@ -80,7 +80,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, SubtractionTest) {
   ASSERT_STREQ(mStringStream->str().c_str(), "  %sub = sub i32 3, 5");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, IncompatibleTypesDeathTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
 
@@ -95,7 +95,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, IncompatibleTypesDeathTest) {
               "Error: Incopatible types in '\\+' operation");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, NonPrimitiveTypesDeathTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
   
@@ -115,7 +115,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, NonPrimitiveTypesDeathTest) {
               "Error: Can not do operation '\\+' on non-primitive types");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, VoidTypesDeathTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
   
@@ -129,7 +129,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, VoidTypesDeathTest) {
               "Error: Can not use expressions of type VOID in a '\\+' operation");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, ExplicitCastNeededOnGenerateIRDeathTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
   
@@ -143,7 +143,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, ExplicitCastNeededOnGenerateIRDeath
               "Error: Incopatible types in '\\+' operation that require an explicit cast");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, ExplicitCastNeededOnGetTypeDeathTest) {
+TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
   
@@ -169,26 +169,26 @@ TEST_F(AdditiveMultiplicativeExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, AdditionRunTest) {
+TEST_F(TestFileSampleRunner, additionRunTest) {
   runFile("tests/samples/test_addition.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, SubtractionRunTest) {
+TEST_F(TestFileSampleRunner, subtractionRunTest) {
   runFile("tests/samples/test_subtraction.yz", "14");
 }
 
-TEST_F(TestFileSampleRunner, MultiplicationRunTest) {
+TEST_F(TestFileSampleRunner, multiplicationRunTest) {
   runFile("tests/samples/test_multiplication.yz", "50");
 }
 
-TEST_F(TestFileSampleRunner, DivisionRunTest) {
+TEST_F(TestFileSampleRunner, divisionRunTest) {
   runFile("tests/samples/test_division.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, AdditionWithCastRunTest) {
+TEST_F(TestFileSampleRunner, additionWithCastRunTest) {
   runFile("tests/samples/test_addition_with_cast.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, SubtractionOfDoubleRunTest) {
+TEST_F(TestFileSampleRunner, subtractionOfDoubleRunTest) {
   runFile("tests/samples/test_subtraction_of_doubles.yz", "-2");
 }

@@ -67,7 +67,7 @@ public:
   }
 };
 
-TEST_F(ReturnStatementTest, ParentFunctionIsNullDeathTest) {
+TEST_F(ReturnStatementTest, parentFunctionIsNullDeathTest) {
   mContext.setBasicBlock(BasicBlock::Create(mContext.getLLVMContext(), "entry"));
   mContext.getScopes().pushScope();
   ReturnStatement returnStatement(mExpression);
@@ -78,7 +78,7 @@ TEST_F(ReturnStatementTest, ParentFunctionIsNullDeathTest) {
               "No corresponding method found for RETURN");
 }
 
-TEST_F(ReturnStatementTest, ParentFunctionIsIncopatableTypeDeathTest) {
+TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
   LLVMContext &llvmContext = mContext.getLLVMContext();
 
   FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
@@ -95,7 +95,7 @@ TEST_F(ReturnStatementTest, ParentFunctionIsIncopatableTypeDeathTest) {
               "Error: Incopatible types: can not cast from type 'int' to 'void'");
 }
 
-TEST_F(ReturnStatementTest, ParentFunctionIntTest) {
+TEST_F(ReturnStatementTest, parentFunctionIntTest) {
   LLVMContext &llvmContext = mContext.getLLVMContext();
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(llvmContext), false);
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
@@ -118,7 +118,7 @@ TEST_F(ReturnStatementTest, ParentFunctionIntTest) {
   delete function;
 }
 
-TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
+TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
   LLVMContext &llvmContext = mContext.getLLVMContext();
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(llvmContext), false);
   Function* function = Function::Create(functionType,
@@ -160,10 +160,10 @@ TEST_F(ReturnStatementTest, HeapVariablesAreClearedTest) {
   basicBlock->getInstList().push_front(malloc);
 }
 
-TEST_F(TestFileSampleRunner, ReturnStatementRunTest) {
+TEST_F(TestFileSampleRunner, returnStatementRunTest) {
   runFile("tests/samples/test_return_int.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, ReturnStatementCastTest) {
+TEST_F(TestFileSampleRunner, returnStatementCastRunTest) {
   runFile("tests/samples/test_return_boolean_cast.yz", "1");
 }

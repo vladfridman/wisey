@@ -51,12 +51,12 @@ public:
   }
 };
 
-TEST_F(SafeBranchTest, ConsecutiveBranchesNotCreated) {
+TEST_F(SafeBranchTest, consecutiveBranchesNotCreated) {
   EXPECT_NE(SafeBranch::newBranch(mBlock1, mContext), nullptr);
   EXPECT_EQ(SafeBranch::newBranch(mBlock2, mContext), nullptr);
 }
 
-TEST_F(SafeBranchTest, ConsecutiveConditionalBranchesNotCreated) {
+TEST_F(SafeBranchTest, consecutiveConditionalBranchesNotCreated) {
   BranchInst* branch1 = SafeBranch::newConditionalBranch(mBlock1,
                                                          mBlock2,
                                                          mConditionValue,

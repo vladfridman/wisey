@@ -54,7 +54,7 @@ public:
 }
 };
 
-TEST_F(IMethodDescriptorTest, CompareTest) {
+TEST_F(IMethodDescriptorTest, compareTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar2");
   std::vector<MethodArgument*> arguments;
@@ -65,7 +65,7 @@ TEST_F(IMethodDescriptorTest, CompareTest) {
   ASSERT_TRUE(IMethodDescriptor::compare(&method, mMethod));
 }
 
-TEST_F(IMethodDescriptorTest, NameNotEqualsTest) {
+TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar2");
   std::vector<MethodArgument*> arguments;
@@ -76,7 +76,7 @@ TEST_F(IMethodDescriptorTest, NameNotEqualsTest) {
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
 
-TEST_F(IMethodDescriptorTest, NumberOfArgumentsNotEqualsTest) {
+TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
@@ -85,7 +85,7 @@ TEST_F(IMethodDescriptorTest, NumberOfArgumentsNotEqualsTest) {
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
 
-TEST_F(IMethodDescriptorTest, TypeOfArgumentsNotEqualsTest) {
+TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "argChar2");
   std::vector<MethodArgument*> arguments;
@@ -96,7 +96,7 @@ TEST_F(IMethodDescriptorTest, TypeOfArgumentsNotEqualsTest) {
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
 
-TEST_F(IMethodDescriptorTest, GetLLVMFunctionTypeTest) {
+TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);

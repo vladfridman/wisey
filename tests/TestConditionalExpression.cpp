@@ -66,7 +66,7 @@ struct ConditionalExpressionTest : Test {
   }
 };
 
-TEST_F(ConditionalExpressionTest, ConditionalExpressionRunWithFalse) {
+TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithFalse) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 0);
   ON_CALL(mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
 
@@ -103,7 +103,7 @@ TEST_F(ConditionalExpressionTest, ConditionalExpressionRunWithFalse) {
                "  %cond = phi i32 [ 3, %cond.true ], [ 5, %cond.false ]");
 }
 
-TEST_F(ConditionalExpressionTest, ConditionalExpressionRunWithTrue) {
+TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithTrue) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
  
@@ -140,7 +140,7 @@ TEST_F(ConditionalExpressionTest, ConditionalExpressionRunWithTrue) {
                "  %cond = phi i32 [ 3, %cond.true ], [ 5, %cond.false ]");
 }
 
-TEST_F(ConditionalExpressionTest, IncompatibleTypesDeathTest) {
+TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   Mock::AllowLeak(&mConditionExpression);
   Mock::AllowLeak(&mIfTrueExpression);
   Mock::AllowLeak(&mIfFalseExpression);
@@ -156,7 +156,7 @@ TEST_F(ConditionalExpressionTest, IncompatibleTypesDeathTest) {
               "Error: Incopatible types in conditional expression operation");
 }
 
-TEST_F(ConditionalExpressionTest, VoidTypesDeathTest) {
+TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {
   Mock::AllowLeak(&mConditionExpression);
   Mock::AllowLeak(&mIfTrueExpression);
   Mock::AllowLeak(&mIfFalseExpression);
@@ -171,7 +171,7 @@ TEST_F(ConditionalExpressionTest, VoidTypesDeathTest) {
               "Error: Can not use expressions of type VOID in a conditional expression");
 }
 
-TEST_F(ConditionalExpressionTest, ConditionIsNotBooleanDeathTest) {
+TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
   Mock::AllowLeak(&mConditionExpression);
   Mock::AllowLeak(&mIfTrueExpression);
   Mock::AllowLeak(&mIfFalseExpression);
@@ -198,10 +198,10 @@ TEST_F(ConditionalExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, ConditionalExpressionRunTrueConditionTest) {
+TEST_F(TestFileSampleRunner, conditionalExpressionRunTrueConditionRunTest) {
   runFile("tests/samples/test_conditional_with_true.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, ConditionalExpressionRunFlaseConditionTest) {
+TEST_F(TestFileSampleRunner, conditionalExpressionRunFlaseConditionRunTest) {
   runFile("tests/samples/test_conditional_with_false.yz", "5");
 }

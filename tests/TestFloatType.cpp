@@ -52,13 +52,13 @@ public:
   }
 };
 
-TEST_F(FloatTypeTest, FloatTypeTest) {
+TEST_F(FloatTypeTest, floatTypeTest) {
   EXPECT_EQ(mFloatType.getLLVMType(mLLVMContext), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(mFloatType.getName().c_str(), "float");
   EXPECT_EQ(mFloatType.getTypeKind(), PRIMITIVE_TYPE);
 }
 
-TEST_F(FloatTypeTest, CanCastLosslessTest) {
+TEST_F(FloatTypeTest, canCastLosslessTest) {
   EXPECT_FALSE(mFloatType.canCastLosslessTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mFloatType.canCastLosslessTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_FALSE(mFloatType.canCastLosslessTo(PrimitiveTypes::CHAR_TYPE));
@@ -68,7 +68,7 @@ TEST_F(FloatTypeTest, CanCastLosslessTest) {
   EXPECT_TRUE(mFloatType.canCastLosslessTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(FloatTypeTest, CanCastTest) {
+TEST_F(FloatTypeTest, canCastTest) {
   EXPECT_FALSE(mFloatType.canCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_TRUE(mFloatType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mFloatType.canCastTo(PrimitiveTypes::CHAR_TYPE));
@@ -78,7 +78,7 @@ TEST_F(FloatTypeTest, CanCastTest) {
   EXPECT_TRUE(mFloatType.canCastTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(FloatTypeTest, CastToTest) {
+TEST_F(FloatTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 2.5);
   

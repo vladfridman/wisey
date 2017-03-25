@@ -82,7 +82,7 @@ struct ModelBuilderTest : Test {
   }
 };
 
-TEST_F(ModelBuilderTest, ValidModelBuilderArgumentsTest) {
+TEST_F(ModelBuilderTest, validModelBuilderArgumentsTest) {
   string argumentSpecifier1("withWidth");
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
   string argumentSpecifier2("withHeight");
@@ -158,7 +158,7 @@ TEST_F(ModelBuilderTest, releaseOwnershipTest) {
   EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
 }
 
-TEST_F(ModelBuilderTest, InvalidModelBuilderArgumentsDeathTest) {
+TEST_F(ModelBuilderTest, invalidModelBuilderArgumentsDeathTest) {
   Mock::AllowLeak(&mFieldValue1);
   Mock::AllowLeak(&mFieldValue2);
   Mock::AllowLeak(&mFieldValue3);
@@ -182,7 +182,7 @@ TEST_F(ModelBuilderTest, InvalidModelBuilderArgumentsDeathTest) {
               expected);
 }
 
-TEST_F(ModelBuilderTest, IncorrectArgumentTypeDeathTest) {
+TEST_F(ModelBuilderTest, incorrectArgumentTypeDeathTest) {
   Mock::AllowLeak(&mFieldValue1);
   Mock::AllowLeak(&mFieldValue2);
   Mock::AllowLeak(&mFieldValue3);
@@ -205,7 +205,7 @@ TEST_F(ModelBuilderTest, IncorrectArgumentTypeDeathTest) {
               expected);
 }
 
-TEST_F(ModelBuilderTest, NotAllFieldsAreSetDeathTest) {
+TEST_F(ModelBuilderTest, notAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(&mFieldValue1);
   Mock::AllowLeak(&mFieldValue2);
   Mock::AllowLeak(&mFieldValue3);

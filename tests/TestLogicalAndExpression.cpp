@@ -61,7 +61,7 @@ struct LogicalAndExpressionTest : Test {
 };
 
 
-TEST_F(LogicalAndExpressionTest, LogicalAndTrueValueTest) {
+TEST_F(LogicalAndExpressionTest, logicalAndTrueValueTest) {
   ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(mTrueValue));
   ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(mTrueValue));
 
@@ -92,7 +92,7 @@ TEST_F(LogicalAndExpressionTest, LogicalAndTrueValueTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LogicalAndExpressionTest, LogicalAndFalseValueTest) {
+TEST_F(LogicalAndExpressionTest, logicalAndFalseValueTest) {
   ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(mTrueValue));
   ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
   
@@ -123,7 +123,7 @@ TEST_F(LogicalAndExpressionTest, LogicalAndFalseValueTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LogicalAndExpressionTest, TestLogicalAndExpressionType) {
+TEST_F(LogicalAndExpressionTest, getTypeTest) {
   LogicalAndExpression expression(mLeftExpression, mRightExpression);
 
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
@@ -141,10 +141,10 @@ TEST_F(LogicalAndExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, LogicalAndExpressionResultFalseRunTest) {
+TEST_F(TestFileSampleRunner, logicalAndExpressionResultFalseRunTest) {
   runFile("tests/samples/test_logical_and_result_false.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, LogicalAndExpressionResultTrueRunTest) {
+TEST_F(TestFileSampleRunner, logicalAndExpressionResultTrueRunTest) {
   runFile("tests/samples/test_logical_and_result_true.yz", "1");
 }

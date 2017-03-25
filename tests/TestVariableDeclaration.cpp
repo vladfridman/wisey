@@ -59,7 +59,7 @@ struct VariableDeclarationTest : public Test {
   }
 };
 
-TEST_F(VariableDeclarationTest, StackVariableDeclarationWithoutAssignmentTest) {
+TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   Identifier identifier("foo", "bar");
   PrimitiveTypeSpecifier typeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableDeclaration declaration(typeSpecifier, identifier);
@@ -72,7 +72,7 @@ TEST_F(VariableDeclarationTest, StackVariableDeclarationWithoutAssignmentTest) {
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
 }
 
-TEST_F(VariableDeclarationTest, StackVariableDeclarationWithAssignmentTest) {
+TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   Identifier identifier("foo", "bar");
   PrimitiveTypeSpecifier typeSpecifier(PrimitiveTypes::INT_TYPE);
   NiceMock<MockExpression> mExpression;
@@ -96,7 +96,7 @@ TEST_F(VariableDeclarationTest, StackVariableDeclarationWithAssignmentTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
+TEST_F(VariableDeclarationTest, heapVariableDeclarationWithoutAssignmentTest) {
   Identifier identifier("foo", "bar");
   ModelTypeSpecifier typeSpecifier("model");
   
@@ -121,10 +121,10 @@ TEST_F(VariableDeclarationTest, HeapVariableDeclarationWithoutAssignmentTest) {
   ASSERT_EQ(0ul, mBlock->size());
 }
 
-TEST_F(TestFileSampleRunner, VariableDeclarationTest) {
+TEST_F(TestFileSampleRunner, variableDeclarationRunTest) {
   runFile("tests/samples/test_variable_declaration.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, VariableDeclarationAssignToZeroTest) {
+TEST_F(TestFileSampleRunner, variableDeclarationAssignToZeroRunTest) {
   runFile("tests/samples/test_variable_declaration_assign_to_zero.yz", "0");
 }

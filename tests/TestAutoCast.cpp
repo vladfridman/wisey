@@ -52,7 +52,7 @@ public:
   }
 };
 
-TEST_F(AutoCastTest, CastBooleanTest) {
+TEST_F(AutoCastTest, castBooleanTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
 
@@ -110,7 +110,7 @@ TEST_F(AutoCastTest, CastBooleanTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(AutoCastTest, CastCharTest) {
+TEST_F(AutoCastTest, castCharTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt16Ty(mLLVMContext), 'a');
   
@@ -167,7 +167,7 @@ TEST_F(AutoCastTest, CastCharTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(AutoCastTest, CastIntTest) {
+TEST_F(AutoCastTest, castIntTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
@@ -222,7 +222,7 @@ TEST_F(AutoCastTest, CastIntTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(AutoCastTest, CastLongTest) {
+TEST_F(AutoCastTest, castLongTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5l);
   
@@ -275,7 +275,7 @@ TEST_F(AutoCastTest, CastLongTest) {
               "Error: Incopatible types: need explicit cast from type 'long' to 'double'");
 }
 
-TEST_F(AutoCastTest, CastFloatTest) {
+TEST_F(AutoCastTest, castFloatTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 2.5);
   
@@ -329,7 +329,7 @@ TEST_F(AutoCastTest, CastFloatTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(AutoCastTest, CastDoubleTest) {
+TEST_F(AutoCastTest, castDoubleTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   

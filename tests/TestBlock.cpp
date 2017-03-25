@@ -26,7 +26,7 @@ using namespace yazyk;
 using ::testing::_;
 using ::testing::NiceMock;
 
-TEST(BlockTest, SimpleTest) {
+TEST(BlockTest, simpleTest) {
   NiceMock<MockStatement> mockStatement1;
   NiceMock<MockStatement> mockStatement2;
   IRGenerationContext context;

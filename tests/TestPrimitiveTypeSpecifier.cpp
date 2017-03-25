@@ -17,7 +17,7 @@
 using namespace llvm;
 using namespace yazyk;
 
-TEST(PrimitiveTypeSpecifierTest, CreationTest) {
+TEST(PrimitiveTypeSpecifierTest, creationTest) {
   IRGenerationContext context;
   PrimitiveTypeSpecifier primitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   

@@ -85,13 +85,13 @@ struct ObjectFieldVariableTest : Test {
   }
 };
 
-TEST_F(ObjectFieldVariableTest, BasicFieldsTest) {
+TEST_F(ObjectFieldVariableTest, basicFieldsTest) {
   EXPECT_STREQ(mObjectFieldVariable->getName().c_str(), "foo");
   EXPECT_EQ(mObjectFieldVariable->getType(), PrimitiveTypes::INT_TYPE);
   EXPECT_EQ(mObjectFieldVariable->getValue(), mObjectFieldValue);
 }
 
-TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateIdentifierIRTest) {
+TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateIdentifierIRTest) {
   mObjectFieldVariable->generateIdentifierIR(mContext, "test");
 
   *mStringStream << *mBasicBlock;
@@ -105,7 +105,7 @@ TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateIdentifierIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateAssignmentIRTest) {
+TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   Value* assignToValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
@@ -125,7 +125,7 @@ TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateAssignmentIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateAssignmentWithCastIRTest) {
+TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   Value* assignToValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
@@ -146,11 +146,11 @@ TEST_F(ObjectFieldVariableTest, ObjectFieldVariableGenerateAssignmentWithCastIRT
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, ModelFieldSetTest) {
+TEST_F(TestFileSampleRunner, modelFieldSetRunTest) {
   runFile("tests/samples/test_model_field_set.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, ModelFieldSetWithAutocastTest) {
+TEST_F(TestFileSampleRunner, modelFieldSetWithAutocastRunTest) {
   runFile("tests/samples/test_model_field_set_with_autocast.yz", "1");
 }
 

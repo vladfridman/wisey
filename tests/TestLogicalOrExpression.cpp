@@ -60,7 +60,7 @@ struct LogicalOrExpressionTest : Test {
   }
 };
 
-TEST_F(LogicalOrExpressionTest, LogicalAndTrueValueTest) {
+TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
   ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(mTrueValue));
   ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
   
@@ -91,7 +91,7 @@ TEST_F(LogicalOrExpressionTest, LogicalAndTrueValueTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LogicalOrExpressionTest, LogicalAndFalseValueTest) {
+TEST_F(LogicalOrExpressionTest, logicalAndFalseValueTest) {
   ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
   ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
   
@@ -122,7 +122,7 @@ TEST_F(LogicalOrExpressionTest, LogicalAndFalseValueTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LogicalOrExpressionTest, TestLogicalOrExpressionType) {
+TEST_F(LogicalOrExpressionTest, logicalOrExpressionTypeTest) {
   LogicalOrExpression expression(mLeftExpression, mRightExpression);
   
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);

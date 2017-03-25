@@ -92,13 +92,13 @@ public:
   }
 };
 
-TEST_F(MethodCallTest, TranslateModelMethodToLLVMFunctionNameTest) {
+TEST_F(MethodCallTest, translateModelMethodToLLVMFunctionNameTest) {
   string functionName = MethodCall::translateModelMethodToLLVMFunctionName(mModel, "foo");
   
   EXPECT_STREQ(functionName.c_str(), "model.Square.foo");
 }
 
-TEST_F(MethodCallTest, TranslateInterfaceMethodToLLVMFunctionNameTest) {
+TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, "Shape");
   vector<MethodSignature*> interfaceMethods;
   vector<Interface*> methodInterface;
@@ -109,7 +109,7 @@ TEST_F(MethodCallTest, TranslateInterfaceMethodToLLVMFunctionNameTest) {
   EXPECT_STREQ(functionName.c_str(), "model.Square.interface.Shape.foo");
 }
 
-TEST_F(MethodCallTest, MethodDoesNotExistDeathTest) {
+TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
   MethodCall methodCall(mExpression, "lorem", mArgumentList);
   Mock::AllowLeak(&mExpression);
   
@@ -118,7 +118,7 @@ TEST_F(MethodCallTest, MethodDoesNotExistDeathTest) {
               "Error: Method 'lorem' is not found in callable object 'Square'");
 }
 
-TEST_F(MethodCallTest, MethodCallOnPrimitiveTypeDeathTest) {
+TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   MethodCall methodCall(mExpression, "foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
@@ -128,7 +128,7 @@ TEST_F(MethodCallTest, MethodCallOnPrimitiveTypeDeathTest) {
               "Attempt to call a method 'foo' on a primitive type expression");
 }
 
-TEST_F(MethodCallTest, UnknownObjectTypeCallDeathTest) {
+TEST_F(MethodCallTest, unknownObjectTypeCallDeathTest) {
   NiceMock<MockExpression> expression;
   NiceMock<MockType> unknownType;
   ON_CALL(unknownType, getTypeKind()).WillByDefault(Return(CONTROLLER_TYPE));
@@ -144,7 +144,7 @@ TEST_F(MethodCallTest, UnknownObjectTypeCallDeathTest) {
               "Error: Method 'foo\\(\\)' call on a non-callable object type 'Unknown'");
 }
 
-TEST_F(MethodCallTest, IncorrectNumberOfArgumentsDeathTest) {
+TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   MethodCall methodCall(mExpression, "foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
   
@@ -163,7 +163,7 @@ TEST_F(MethodCallTest, releaseOwnershipDeathTest) {
               "Error: Releasing ownership of a method call result is not implemented");
 }
 
-TEST_F(MethodCallTest, LLVMImplementationNotFoundDeathTest) {
+TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   NiceMock<MockExpression> argumentExpression;
   ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(&argumentExpression);
@@ -176,7 +176,7 @@ TEST_F(MethodCallTest, LLVMImplementationNotFoundDeathTest) {
               "Error: LLVM function implementing model 'Square' method 'bar' was not found");
 }
 
-TEST_F(MethodCallTest, IncorrectArgumentTypesDeathTest) {
+TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
@@ -202,7 +202,7 @@ TEST_F(MethodCallTest, IncorrectArgumentTypesDeathTest) {
               "of the model type 'Square");
 }
 
-TEST_F(MethodCallTest, ModelMethodCallTest) {
+TEST_F(MethodCallTest, modelMethodCallTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
@@ -232,27 +232,27 @@ TEST_F(MethodCallTest, ModelMethodCallTest) {
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(TestFileSampleRunner, ModelMethodCallRunTest) {
+TEST_F(TestFileSampleRunner, modelMethodCallRunTest) {
   runFile("tests/samples/test_model_method_call.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, ModelMethodCallMultipleArgumentsRunTest) {
+TEST_F(TestFileSampleRunner, modelMethodCallMultipleArgumentsRunTest) {
   runFile("tests/samples/test_model_method_call_multiple_parameters.yz", "8");
 }
 
-TEST_F(TestFileSampleRunner, ModelMethodCallToSubModelRunTest) {
+TEST_F(TestFileSampleRunner, modelMethodCallToSubModelRunTest) {
   runFile("tests/samples/test_model_method_call_to_submodel.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, ModelMethodCallAutoCastArgumentRunTest) {
+TEST_F(TestFileSampleRunner, modelMethodCallAutoCastArgumentRunTest) {
   runFile("tests/samples/test_method_argument_autocast.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, ModelMethodCallInExpressionTest) {
+TEST_F(TestFileSampleRunner, modelMethodCallInExpressionRunTest) {
   runFile("tests/samples/test_method_call_in_expression.yz", "30");
 }
 
-TEST_F(TestFileSampleRunner, ModelMethodCallInExpressionWrappedIdentifierTest) {
+TEST_F(TestFileSampleRunner, modelMethodCallInExpressionWrappedIdentifierRunTest) {
   runFile("tests/samples/test_model_method_call_wrapped_identifier.yz", "5");
 }
 

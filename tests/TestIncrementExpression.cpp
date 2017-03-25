@@ -56,7 +56,7 @@ public:
   }
 };
 
-TEST_F(IncrementExpressionTest, IncrementByOneExpressionTest) {
+TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
   expression->generateIR(mContext);
  
@@ -83,7 +83,7 @@ TEST_F(IncrementExpressionTest, IncrementByOneExpressionTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(IncrementExpressionTest, DecrementByOneExpressionTest) {
+TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newDecrementByOne(mIdentifier);
   expression->generateIR(mContext);
   
@@ -110,7 +110,7 @@ TEST_F(IncrementExpressionTest, DecrementByOneExpressionTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(IncrementExpressionTest, IncorrectIdentifierTypeDeathTest) {
+TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
   LocalStackVariable* variable = new LocalStackVariable(mName, PrimitiveTypes::FLOAT_TYPE, NULL);
   mContext.getScopes().setVariable(variable);
@@ -131,21 +131,21 @@ TEST_F(IncrementExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(IncrementExpressionTest, TestIncrementExpressionType) {
+TEST_F(IncrementExpressionTest, incrementExpressionTypeTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
 
   EXPECT_EQ(expression->getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(TestFileSampleRunner, IncrementByOneRunTest) {
+TEST_F(TestFileSampleRunner, incrementByOneRunTest) {
   runFile("tests/samples/test_increment_by_one.yz", "3");
 }
 
-TEST_F(TestFileSampleRunner, DecrementByOneRunTest) {
+TEST_F(TestFileSampleRunner, decrementByOneRunTest) {
   runFile("tests/samples/test_decrement_by_one.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, IncrementByOneWrappedIdentifierRunTest) {
+TEST_F(TestFileSampleRunner, incrementByOneWrappedIdentifierRunTest) {
   runFile("tests/samples/test_increment_by_one_wrapped_identifier.yz", "7");
 }
 

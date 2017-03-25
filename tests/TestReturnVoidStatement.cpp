@@ -21,7 +21,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(ReturnVoidStatementTest, ReturnVoidTest) {
+TEST(ReturnVoidStatementTest, returnVoidTest) {
   IRGenerationContext context;
   string mStringBuffer;
   raw_string_ostream* mStringStream;

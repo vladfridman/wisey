@@ -23,7 +23,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(DoubleConstantTest, DoubleConstantTest) {
+TEST(DoubleConstantTest, doubleConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
@@ -35,7 +35,7 @@ TEST(DoubleConstantTest, DoubleConstantTest) {
   EXPECT_STREQ("double 5.700000e+00", stringStream->str().c_str());
 }
 
-TEST(DoubleConstantTest, TestDoubleConstantType) {
+TEST(DoubleConstantTest, doubleConstantTypeTest) {
   IRGenerationContext context;
   DoubleConstant doubleConstant(5.7);
 

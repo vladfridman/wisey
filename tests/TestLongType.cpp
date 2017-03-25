@@ -52,13 +52,13 @@ public:
   }
 };
 
-TEST_F(LongTypeTest, LongTypeTest) {
+TEST_F(LongTypeTest, longTypeTest) {
   EXPECT_EQ(mLongType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt64Ty(mLLVMContext));
   EXPECT_STREQ(mLongType.getName().c_str(), "long");
   EXPECT_EQ(mLongType.getTypeKind(), PRIMITIVE_TYPE);
 }
 
-TEST_F(LongTypeTest, CanCastLosslessTest) {
+TEST_F(LongTypeTest, canCastLosslessTest) {
   EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::CHAR_TYPE));
@@ -68,7 +68,7 @@ TEST_F(LongTypeTest, CanCastLosslessTest) {
   EXPECT_FALSE(mLongType.canCastLosslessTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(LongTypeTest, CanCastTest) {
+TEST_F(LongTypeTest, canCastTest) {
   EXPECT_FALSE(mLongType.canCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::CHAR_TYPE));
@@ -78,7 +78,7 @@ TEST_F(LongTypeTest, CanCastTest) {
   EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(LongTypeTest, CastToTest) {
+TEST_F(LongTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt64Ty(mLLVMContext), 5l);
   

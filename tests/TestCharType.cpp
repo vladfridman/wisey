@@ -52,13 +52,13 @@ public:
   }
 };
 
-TEST_F(CharTypeTest, CharTypeTest) {
+TEST_F(CharTypeTest, charTypeTest) {
   EXPECT_EQ(mCharType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt16Ty(mLLVMContext));
   EXPECT_STREQ(mCharType.getName().c_str(), "char");
   EXPECT_EQ(mCharType.getTypeKind(), PRIMITIVE_TYPE);
 }
 
-TEST_F(CharTypeTest, CanCastLosslessTest) {
+TEST_F(CharTypeTest, canCastLosslessTest) {
   EXPECT_FALSE(mCharType.canCastLosslessTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mCharType.canCastLosslessTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mCharType.canCastLosslessTo(PrimitiveTypes::CHAR_TYPE));
@@ -68,7 +68,7 @@ TEST_F(CharTypeTest, CanCastLosslessTest) {
   EXPECT_TRUE(mCharType.canCastLosslessTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(CharTypeTest, CanCastTest) {
+TEST_F(CharTypeTest, canCastTest) {
   EXPECT_FALSE(mCharType.canCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_TRUE(mCharType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mCharType.canCastTo(PrimitiveTypes::CHAR_TYPE));
@@ -78,7 +78,7 @@ TEST_F(CharTypeTest, CanCastTest) {
   EXPECT_TRUE(mCharType.canCastTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(CharTypeTest, CastToTest) {
+TEST_F(CharTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt16Ty(mLLVMContext), 'a');
   

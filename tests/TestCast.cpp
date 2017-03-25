@@ -53,13 +53,13 @@ public:
   }
 };
 
-TEST_F(CastTest, ExitIncompatobleTypesTest) {
+TEST_F(CastTest, exitIncompatobleTypesTest) {
   EXPECT_EXIT(Cast::exitIncopatibleTypes(PrimitiveTypes::CHAR_TYPE, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Incopatible types: can not cast from type 'char' to 'int'");
 }
 
-TEST_F(CastTest, WidenIntCastTest) {
+TEST_F(CastTest, widenIntCastTest) {
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   Value* result = Cast::widenIntCast(mContext, expressionValue, PrimitiveTypes::LONG_TYPE);
@@ -69,7 +69,7 @@ TEST_F(CastTest, WidenIntCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(CastTest, TruncIntCastTest) {
+TEST_F(CastTest, truncIntCastTest) {
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   Value* result = Cast::truncIntCast(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE);
@@ -79,7 +79,7 @@ TEST_F(CastTest, TruncIntCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(CastTest, TruncIntToFloatCastTest) {
+TEST_F(CastTest, truncIntToFloatCastTest) {
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   Value* result = Cast::intToFloatCast(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE);
@@ -89,7 +89,7 @@ TEST_F(CastTest, TruncIntToFloatCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(CastTest, FloatToIntCastTest) {
+TEST_F(CastTest, floatToIntCastTest) {
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   
   Value* result = Cast::floatToIntCast(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE);
@@ -99,7 +99,7 @@ TEST_F(CastTest, FloatToIntCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(CastTest, TruncFloatCastTest) {
+TEST_F(CastTest, truncFloatCastTest) {
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   
   Value* result = Cast::truncFloatCast(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE);
@@ -119,6 +119,6 @@ TEST_F(CastTest, widenFloatCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(TestFileSampleRunner, CastFloatToIntTest) {
+TEST_F(TestFileSampleRunner, castFloatToIntRunTest) {
   runFile("tests/samples/test_cast_float_to_int.yz", "3");
 }

@@ -13,18 +13,18 @@
 
 #include "TestFileSampleRunner.hpp"
 
-TEST_F(TestFileSampleRunner, SwitchStatementTest) {
+TEST_F(TestFileSampleRunner, switchStatementRunTest) {
   runFile("tests/samples/test_switch_statement.yz", "2");
 }
 
-TEST_F(TestFileSampleRunner, SwitchStatementWithBreaksTest) {
+TEST_F(TestFileSampleRunner, switchStatementWithBreaksRunTest) {
   runFile("tests/samples/test_switch_statement_with_breaks.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, SwitchStatementWithDefaultTest) {
+TEST_F(TestFileSampleRunner, switchStatementWithDefaultRunTest) {
   runFile("tests/samples/test_switch_statement_with_default.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, SwitchStatementWithFallThroughTest) {
+TEST_F(TestFileSampleRunner, switchStatementWithFallThroughRunTest) {
   runFile("tests/samples/test_switch_statement_with_fallthrough.yz", "7");
 }

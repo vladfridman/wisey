@@ -52,13 +52,13 @@ public:
   }
 };
 
-TEST_F(BooleanTypeTest, BooleanTypeTest) {
+TEST_F(BooleanTypeTest, booleanTypeTest) {
   EXPECT_EQ(mBoleanType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt1Ty(mLLVMContext));
   EXPECT_STREQ(mBoleanType.getName().c_str(), "boolean");
   EXPECT_EQ(mBoleanType.getTypeKind(), PRIMITIVE_TYPE);
 }
 
-TEST_F(BooleanTypeTest, CanCastLosslessTest) {
+TEST_F(BooleanTypeTest, canCastLosslessTest) {
   EXPECT_FALSE(mBoleanType.canCastLosslessTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_TRUE(mBoleanType.canCastLosslessTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mBoleanType.canCastLosslessTo(PrimitiveTypes::CHAR_TYPE));
@@ -68,7 +68,7 @@ TEST_F(BooleanTypeTest, CanCastLosslessTest) {
   EXPECT_TRUE(mBoleanType.canCastLosslessTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(BooleanTypeTest, CanCastTest) {
+TEST_F(BooleanTypeTest, canCastTest) {
   EXPECT_FALSE(mBoleanType.canCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_TRUE(mBoleanType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mBoleanType.canCastTo(PrimitiveTypes::CHAR_TYPE));
@@ -78,7 +78,7 @@ TEST_F(BooleanTypeTest, CanCastTest) {
   EXPECT_TRUE(mBoleanType.canCastTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(BooleanTypeTest, CastToTest) {
+TEST_F(BooleanTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   

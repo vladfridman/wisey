@@ -90,18 +90,18 @@ TEST_F(RelationalExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, LessThanRunTest) {
+TEST_F(TestFileSampleRunner, lessThanRunTest) {
   runFile("tests/samples/test_less_than.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, GreaterThanOrEqualRunTest) {
+TEST_F(TestFileSampleRunner, greaterThanOrEqualRunTest) {
   runFile("tests/samples/test_greater_than_or_equal.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, EqualRunTest) {
+TEST_F(TestFileSampleRunner, equalRunTest) {
   runFile("tests/samples/test_equal.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, NotEqualRunTest) {
+TEST_F(TestFileSampleRunner, notEqualRunTest) {
   runFile("tests/samples/test_not_equal.yz", "1");
 }

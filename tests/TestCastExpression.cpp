@@ -73,7 +73,7 @@ public:
   }
 };
 
-TEST_F(CastExpressionTest, CastExpressionAutoCastTest) {
+TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(expressionValue));
@@ -110,6 +110,6 @@ TEST_F(CastExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, CastOrExpressionGrammarTest) {
+TEST_F(TestFileSampleRunner, CastOrExpressionGrammarRunTest) {
   runFile("tests/samples/test_cast_or_expression.yz", "10");
 }

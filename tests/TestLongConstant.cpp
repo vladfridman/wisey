@@ -23,7 +23,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(LongConstantTest, LongConstantTest) {
+TEST(LongConstantTest, longConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
@@ -35,7 +35,7 @@ TEST(LongConstantTest, LongConstantTest) {
   EXPECT_STREQ("i64 5", stringStream->str().c_str());
 }
 
-TEST(LongConstantTest, TestLongConstantType) {
+TEST(LongConstantTest, longConstantTypeTest) {
   IRGenerationContext context;
   LongConstant constantLong(5);
 

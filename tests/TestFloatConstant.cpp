@@ -23,7 +23,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(FloatConstantTest, FloatConstantTest) {
+TEST(FloatConstantTest, floatConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
@@ -35,7 +35,7 @@ TEST(FloatConstantTest, FloatConstantTest) {
   EXPECT_STREQ("float 3.500000e+00", stringStream->str().c_str());
 }
 
-TEST(FloatConstantTest, TestFloatConstantType) {
+TEST(FloatConstantTest, floatConstantTypeTest) {
   IRGenerationContext context;
   FloatConstant floatConstant(3.5);
 

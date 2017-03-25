@@ -16,25 +16,25 @@
 
 using namespace yazyk;
 
-TEST(BreakStatementTest, NoScopesTest) {
+TEST(BreakStatementTest, noScopesTest) {
   IRGenerationContext context;
   
   EXPECT_EQ(context.getScopes().getBreakToBlock(), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, BreakOutOfForLoopTest) {
+TEST_F(TestFileSampleRunner, breakOutOfForLoopRunTest) {
   runFile("tests/samples/test_break_out_of_for_loop.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, BreakOutOfNestedForLoopsTest) {
+TEST_F(TestFileSampleRunner, breakOutOfNestedForLoopsRunTest) {
   runFile("tests/samples/test_break_out_of_nested_for_loop.yz", "99");
 }
 
-TEST_F(TestFileSampleRunner, BreakOutOfWhileLoopTest) {
+TEST_F(TestFileSampleRunner, breakOutOfWhileLoopRunTest) {
   runFile("tests/samples/test_break_out_of_while_loop.yz", "51");
 }
 
-TEST_F(TestFileSampleRunner, BreakOutOfIfStatementTest) {
+TEST_F(TestFileSampleRunner, breakOutOfIfStatementRunDeathTest) {
   expectFailIRGeneration("tests/samples/test_break_out_of_if_statement.yz",
                          1,
                          "Error: break statement not inside a loop or a switch");

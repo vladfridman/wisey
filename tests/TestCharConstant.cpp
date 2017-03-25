@@ -24,7 +24,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(CharConstantTest, CharConstantTest) {
+TEST(CharConstantTest, charConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
@@ -36,7 +36,7 @@ TEST(CharConstantTest, CharConstantTest) {
   EXPECT_STREQ("i16 121", stringStream->str().c_str());
 }
 
-TEST(CharConstantTest, TestCharConstantType) {
+TEST(CharConstantTest, charConstantTypeTest) {
   IRGenerationContext context;
   CharConstant charConstant('y');
 
@@ -52,6 +52,6 @@ TEST(CharConstantTest, releaseOwnershipDeathTest) {
               "Error: Can not release ownership of a char constant, it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, CharVariableTest) {
+TEST_F(TestFileSampleRunner, charVariableRunTest) {
   runFile("tests/samples/test_char_variable.yz", "7");
 }

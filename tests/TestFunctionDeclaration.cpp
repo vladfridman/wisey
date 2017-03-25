@@ -57,7 +57,7 @@ struct FunctionDeclarationTest : Test {
   }
 };
 
-TEST_F(FunctionDeclarationTest, MethodFooDeclartaionTest) {
+TEST_F(FunctionDeclarationTest, methodFooDeclartaionTest) {
   mArguments.push_back(&mIntArgument);
   FunctionDeclaration functionDeclaration(mFloatTypeSpecifier,
                                           "foo",
@@ -78,7 +78,7 @@ TEST_F(FunctionDeclarationTest, MethodFooDeclartaionTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
-TEST_F(FunctionDeclarationTest, MethodMainDeclartaionTest) {
+TEST_F(FunctionDeclarationTest, methodMainDeclartaionTest) {
   mArguments.push_back(&mFloatArgument);
   FunctionDeclaration functionDeclaration(mIntTypeSpecifier,
                                           "main",

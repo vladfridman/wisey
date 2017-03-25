@@ -103,13 +103,13 @@ struct InterfaceTest : public Test {
   }
 };
 
-TEST_F(InterfaceTest, TestInterfaceInstantiation) {
+TEST_F(InterfaceTest, interfaceInstantiationTest) {
   EXPECT_STREQ(mShapeInterface->getName().c_str(), "IShape");
   EXPECT_EQ(mShapeInterface->getTypeKind(), INTERFACE_TYPE);
   EXPECT_EQ(mShapeInterface->getLLVMType(mLLVMContext), mShapeStructType->getPointerTo());
 }
 
-TEST_F(InterfaceTest, TestFindMethod) {
+TEST_F(InterfaceTest, findMethodTest) {
   EXPECT_EQ(mShapeInterface->findMethod("foo"), mMethodSignature);
   EXPECT_EQ(mShapeInterface->findMethod("bar"), nullptr);
 }
@@ -184,51 +184,51 @@ TEST_F(InterfaceTest, canCastLosslessToTest) {
   EXPECT_TRUE(mShapeInterface->canCastLosslessTo(mObjectInterface));
 }
 
-TEST_F(TestFileSampleRunner, InterfaceMethodNotImplmentedDeathTest) {
+TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_not_implmented.yz",
                          1,
                          "Error: Method 'getArea' of interface 'IShape' is not "
                          "implemented by model 'MSquare'");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceMethodDifferentReturnTypeDeathTest) {
+TEST_F(TestFileSampleRunner, interfaceMethodDifferentReturnTypeDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_return_type_doesnot_match.yz",
                          1,
                          "Error: Method 'getArea' of interface 'IShape' has different "
                          "return type when implmeneted by model 'MSquare'");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceMethodDifferentArgumentTypesDeathTest) {
+TEST_F(TestFileSampleRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_arguments_dont_match.yz",
                          1,
                          "Error: Method 'getArea' of interface 'IShape' has different "
                          "argument types when implmeneted by model 'MSquare'");
 }
 
-TEST_F(TestFileSampleRunner, ModelImplmenetingInterfaceDefinitionTest) {
+TEST_F(TestFileSampleRunner, modelImplmenetingInterfaceDefinitionRunTest) {
   runFile("tests/samples/test_interface_implementation.yz", "90");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceInheritanceTest) {
+TEST_F(TestFileSampleRunner, interfaceInheritanceRunTest) {
   runFile("tests/samples/test_level2_inheritance.yz", "235");
 }
 
-TEST_F(TestFileSampleRunner, ModelWithMultipleInterfaceInheritanceTest) {
+TEST_F(TestFileSampleRunner, modelWithMultipleInterfaceInheritanceRunTest) {
   runFile("tests/samples/test_model_multiple_interface_inheritance.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceWithMultipleInterfaceInheritanceTest) {
+TEST_F(TestFileSampleRunner, interfaceWithMultipleInterfaceInheritanceRunTest) {
   runFile("tests/samples/test_interface_multiple_interface_inheritance.yz", "15");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceCastToModelTest) {
+TEST_F(TestFileSampleRunner, interfaceCastToModelRunTest) {
   runFile("tests/samples/test_interface_cast_to_model.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceCastToInterfaceTest) {
+TEST_F(TestFileSampleRunner, interfaceCastToInterfaceRunTest) {
   runFile("tests/samples/test_interface_cast_to_interface.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, InterfaceCastToAnotherInterfaceTest) {
+TEST_F(TestFileSampleRunner, interfaceCastToAnotherInterfaceRunTest) {
   runFile("tests/samples/test_interface_cast_to_another_interface.yz", "5");
 }

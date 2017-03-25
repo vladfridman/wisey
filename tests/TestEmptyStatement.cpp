@@ -16,13 +16,13 @@
 
 using namespace yazyk;
 
-TEST(TestEmptyStatement, SimpleEmptyStatementTest) {
+TEST(TestEmptyStatement, simpleEmptyStatementTest) {
   IRGenerationContext context;
   EmptyStatement statement;
   
   EXPECT_EQ(statement.generateIR(context), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, EmptyStatementRunTest) {
+TEST_F(TestFileSampleRunner, emptyStatementRunTest) {
   runFile("tests/samples/test_empty_statement.yz", "5");
 }

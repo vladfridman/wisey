@@ -59,7 +59,7 @@ struct BooleanNotExpressionTest : Test {
   }
 };
 
-TEST_F(BooleanNotExpressionTest, NegateIntExpressionTest) {
+TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
   Value* one = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(one));
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
@@ -72,7 +72,7 @@ TEST_F(BooleanNotExpressionTest, NegateIntExpressionTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(BooleanNotExpressionTest, NegateIncompatibleTypeDeathTest) {
+TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   BooleanNotExpression booleanNotExpression(mExpression);
   Mock::AllowLeak(&mExpression);
@@ -92,6 +92,6 @@ TEST_F(BooleanNotExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, BooleanNotRunTest) {
+TEST_F(TestFileSampleRunner, booleanNotRunTest) {
   runFile("tests/samples/test_boolean_not.yz", "1");
 }

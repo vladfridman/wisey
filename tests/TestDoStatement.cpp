@@ -59,7 +59,7 @@ struct DoStatementTest : Test {
   }
 };
 
-TEST_F(DoStatementTest, DoStatementSimpleTest) {
+TEST_F(DoStatementTest, doStatementSimpleTest) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
   
@@ -93,6 +93,6 @@ TEST_F(DoStatementTest, DoStatementSimpleTest) {
   EXPECT_STREQ("do.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, DoStatementRunTest) {
+TEST_F(TestFileSampleRunner, doStatementRunTest) {
   runFile("tests/samples/test_do_statement.yz", "5");
 }

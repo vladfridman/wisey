@@ -60,7 +60,7 @@ public:
   }
 };
 
-TEST_F(FunctionCallTest, FunctionDoesNotExistDeathTest) {
+TEST_F(FunctionCallTest, functionDoesNotExistDeathTest) {
   FunctionCall functionCall("foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
 
@@ -69,7 +69,7 @@ TEST_F(FunctionCallTest, FunctionDoesNotExistDeathTest) {
               "Error: no such function foo");
 }
 
-TEST_F(FunctionCallTest, IntFunctionCall) {
+TEST_F(FunctionCallTest, intFunctionCall) {
   vector<Type*> argTypes;
   argTypes.push_back(mIntType);
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
@@ -85,7 +85,7 @@ TEST_F(FunctionCallTest, IntFunctionCall) {
   EXPECT_EQ(functionCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(FunctionCallTest, VoidFunctionCall) {
+TEST_F(FunctionCallTest, voidFunctionCall) {
   vector<Type*> argTypes;
   argTypes.push_back(mIntType);
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argTypes);
@@ -101,7 +101,7 @@ TEST_F(FunctionCallTest, VoidFunctionCall) {
   EXPECT_STREQ("  call void @foo(i32 5)", mStringStream->str().c_str());
 }
 
-TEST_F(FunctionCallTest, PrintfFunctionCall) {
+TEST_F(FunctionCallTest, printfFunctionCall) {
   Constant* strConstant = ConstantDataArray::getString(mLLVMContext, "test");
   GlobalVariable* globalVariableString =
   new GlobalVariable(*mContext.getModule(),
@@ -141,6 +141,6 @@ TEST_F(TestFileSampleRunner, FunctionCallRunTest) {
   runFile("tests/samples/test_function_call.yz", "5");
 }
 
-TEST_F(TestFileSampleRunner, FunctionCallInExpressionTest) {
+TEST_F(TestFileSampleRunner, FunctionCallInExpressionRunTest) {
   runFile("tests/samples/test_function_call_in_expression.yz", "4");
 }

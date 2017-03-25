@@ -41,21 +41,21 @@ struct BooleanConstantTest : public Test {
   }
 };
 
-TEST_F(BooleanConstantTest, BooleanTrueConstantTest) {
+TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
   Value* irValue = BooleanConstants::BOOLEAN_TRUE->generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 true", mStringStream->str().c_str());
 }
 
-TEST_F(BooleanConstantTest, BooleanFalseConstantTest) {
+TEST_F(BooleanConstantTest, booleanFalseConstantTest) {
   Value* irValue = BooleanConstants::BOOLEAN_FALSE->generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 false", mStringStream->str().c_str());
 }
 
-TEST_F(BooleanConstantTest, TestBooleanConstantType) {
+TEST_F(BooleanConstantTest, booleanConstantTypeTest) {
   BooleanConstant booleanConstant(true);
   
   EXPECT_EQ(booleanConstant.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
@@ -69,10 +69,10 @@ TEST_F(BooleanConstantTest, releaseOwnershipDeathTest) {
               "Error: Can not release ownership of a boolean constant, it is not a heap pointer");
 }
 
-TEST_F(TestFileSampleRunner, BooleanConstantTest) {
+TEST_F(TestFileSampleRunner, booleanConstantRunTest) {
   runFile("tests/samples/test_boolean_constant.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, BooleanVariableTest) {
+TEST_F(TestFileSampleRunner, booleanVariableRunTest) {
   runFile("tests/samples/test_boolean_variable.yz", "5");
 }

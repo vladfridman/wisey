@@ -64,7 +64,7 @@ public:
   }
 };
 
-TEST_F(AssignmentTest, VariableNotDeclaredDeathTest) {
+TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
   Identifier identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
   Mock::AllowLeak(&mExpression);
@@ -74,7 +74,7 @@ TEST_F(AssignmentTest, VariableNotDeclaredDeathTest) {
               "undeclared variable foo");
 }
 
-TEST_F(AssignmentTest, TestAssignmentExpressionType) {
+TEST_F(AssignmentTest, assignmentExpressionTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   Identifier identifier("foo", "bar");

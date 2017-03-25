@@ -16,14 +16,14 @@
 
 using namespace yazyk;
 
-TEST(EmptyExpressionTest, SimpleEmptyExpressionTest) {
+TEST(EmptyExpressionTest, simpleEmptyExpressionTest) {
   IRGenerationContext context;
   EmptyExpression expression;
   
   EXPECT_EQ(expression.generateIR(context), nullptr);
 }
 
-TEST(EmptyExpressionTest, TestEmptyExpressionType) {
+TEST(EmptyExpressionTest, emptyExpressionTypeTest) {
   IRGenerationContext context;
   EmptyExpression expression;
  

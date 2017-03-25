@@ -66,7 +66,7 @@ struct ModelDefinitionTest : public Test {
   }
 };
 
-TEST_F(ModelDefinitionTest, TestSimpleDefinition) {
+TEST_F(ModelDefinitionTest, simpleDefinitionTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   ModelFieldDeclaration* field1 = new ModelFieldDeclaration(*longType, "field1");
@@ -90,7 +90,7 @@ TEST_F(ModelDefinitionTest, TestSimpleDefinition) {
   EXPECT_STREQ(model->getName().c_str(), "mymodel");
 }
 
-TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
+TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   StructType *structType = StructType::create(mLLVMContext, "interface.myinterface");
   vector<Type*> types;
   Type* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), true);
@@ -141,7 +141,7 @@ TEST_F(ModelDefinitionTest, TestInterfaceImplmenetationDefinition) {
   EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 3u);
 }
 
-TEST_F(ModelDefinitionTest, InterfaceNotDefinedDeathTest) {
+TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   vector<string> interfaces;
   interfaces.push_back("myinterface");
   
@@ -152,10 +152,10 @@ TEST_F(ModelDefinitionTest, InterfaceNotDefinedDeathTest) {
               "Error: Interface myinterface is not defined");
 }
 
-TEST_F(TestFileSampleRunner, ModelDefinitionTest) {
+TEST_F(TestFileSampleRunner, modelDefinitionRunTest) {
   runFile("tests/samples/test_model_definition.yz", "0");
 }
 
-TEST_F(TestFileSampleRunner, ModelDefinitionWithMethodTest) {
+TEST_F(TestFileSampleRunner, modelDefinitionWithMethodRunTest) {
   runFile("tests/samples/test_model_method.yz", "0");
 }

@@ -61,7 +61,7 @@ struct MethodSignatureDeclarationTest : Test {
   }
 };
 
-TEST_F(MethodSignatureDeclarationTest, MethodDescriptorExtractTest) {
+TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
   MethodSignatureDeclaration methodSignatureDeclaration(mFloatTypeSpecifier, "foo", mArguments);

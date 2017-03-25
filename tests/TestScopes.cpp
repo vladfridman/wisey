@@ -26,7 +26,7 @@ using namespace yazyk;
 
 using ::testing::Test;
 
-TEST(ScopesTest, TestScopes) {
+TEST(ScopesTest, scopesTest) {
   Scopes scopes;
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -60,7 +60,7 @@ TEST(ScopesTest, TestScopes) {
   EXPECT_EQ(scopes.getVariable("bar"), nullptr);
 }
 
-TEST(ScopesTest, TestScopesCorrectlyOrdered) {
+TEST(ScopesTest, scopesCorrectlyOrderedTest) {
   Scopes scopes;
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -85,7 +85,7 @@ TEST(ScopesTest, TestScopesCorrectlyOrdered) {
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), outerValue);
 }
 
-TEST(ScopesTest, TestReturnType) {
+TEST(ScopesTest, returnTypeTest) {
   Scopes scopes;
   LLVMContext llvmContext;
 
@@ -98,7 +98,7 @@ TEST(ScopesTest, TestReturnType) {
   EXPECT_EQ(returnType, PrimitiveTypes::DOUBLE_TYPE);
 }
 
-TEST(ScopesTest, TestGetScopeDeathTest) {
+TEST(ScopesTest, getScopeDeathTest) {
   Scopes scopes;
 
   EXPECT_EXIT(scopes.getScope(),
@@ -106,7 +106,7 @@ TEST(ScopesTest, TestGetScopeDeathTest) {
               "Error: Can not get scope. Scope list is empty.");
 }
 
-TEST(ScopesTest, TestGetScope) {
+TEST(ScopesTest, getScopeTest) {
   Scopes scopes;
   
   scopes.pushScope();
@@ -115,7 +115,7 @@ TEST(ScopesTest, TestGetScope) {
   EXPECT_NE(scope, nullptr);
 }
 
-TEST(ScopesTest, TestClearVariable) {
+TEST(ScopesTest, clearVariableTest) {
   Scopes scopes;
   LLVMContext llvmContext;
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
@@ -132,7 +132,7 @@ TEST(ScopesTest, TestClearVariable) {
   EXPECT_EQ(scopes.getVariable("foo"), nullptr);
 }
 
-TEST(ScopesTest, TestClearVariableDeathTest) {
+TEST(ScopesTest, clearVariableDeathTest) {
   Scopes scopes;
   
   EXPECT_EXIT(scopes.clearVariable("foo"),
@@ -146,7 +146,7 @@ TEST(ScopesTest, TestClearVariableDeathTest) {
               "Error: Could not clear variable 'foo': it was not found");
 }
 
-TEST(ScopesTest, TestSetHeapVariable) {
+TEST(ScopesTest, setHeapVariableTest) {
   Scopes scopes;
   LLVMContext llvmContext;
   scopes.pushScope();
@@ -159,7 +159,7 @@ TEST(ScopesTest, TestSetHeapVariable) {
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
 }
 
-TEST(ScopesTest, TestSetUnitializedHeapVariable) {
+TEST(ScopesTest, setUnitializedHeapVariableTest) {
   Scopes scopes;
   scopes.pushScope();
   

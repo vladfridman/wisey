@@ -42,7 +42,7 @@ struct IdentifierTest : public Test {
   ~IdentifierTest() { }
 };
 
-TEST_F(IdentifierTest, UndeclaredVariableDeathTest) {
+TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
   Identifier identifier("foo", "bar");
 
   EXPECT_EXIT(identifier.generateIR(mContext),
@@ -50,7 +50,7 @@ TEST_F(IdentifierTest, UndeclaredVariableDeathTest) {
               "Undeclared variable 'foo'");
 }
 
-TEST_F(IdentifierTest, VariableTypeTest) {
+TEST_F(IdentifierTest, variableTypeTest) {
   LocalStackVariable* variable = new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   mContext.getScopes().setVariable(variable);
   Identifier identifier("foo", "bar");
@@ -58,7 +58,7 @@ TEST_F(IdentifierTest, VariableTypeTest) {
   EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(IdentifierTest, GenerateIdentifierIR) {
+TEST_F(IdentifierTest, generateIdentifierIR) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   mContext.getScopes().setVariable(&mockVariable);

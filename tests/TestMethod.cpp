@@ -67,13 +67,13 @@ public:
   }
 };
 
-TEST_F(MethodTest, BasicMethodsTest) {
+TEST_F(MethodTest, basicMethodsTest) {
   ASSERT_STREQ(mMethod->getName().c_str(), "mymethod");
   ASSERT_EQ(mMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
   ASSERT_EQ(mMethod->getArguments().size(), 2u);
 }
 
-TEST_F(MethodTest, MethodFooIRTest) {
+TEST_F(MethodTest, methodFooIRTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);

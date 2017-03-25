@@ -52,13 +52,13 @@ public:
   }
 };
 
-TEST_F(VoidTypeTest, VoidTypeTest) {
+TEST_F(VoidTypeTest, voidTypeTest) {
   EXPECT_EQ(mVoidType.getLLVMType(mLLVMContext), Type::getVoidTy(mLLVMContext));
   EXPECT_STREQ(mVoidType.getName().c_str(), "void");
   EXPECT_EQ(mVoidType.getTypeKind(), PRIMITIVE_TYPE);
 }
 
-TEST_F(VoidTypeTest, CanCastLosslessTest) {
+TEST_F(VoidTypeTest, canCastLosslessTest) {
   EXPECT_TRUE(mVoidType.canCastLosslessTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mVoidType.canCastLosslessTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_FALSE(mVoidType.canCastLosslessTo(PrimitiveTypes::CHAR_TYPE));
@@ -68,7 +68,7 @@ TEST_F(VoidTypeTest, CanCastLosslessTest) {
   EXPECT_FALSE(mVoidType.canCastLosslessTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(VoidTypeTest, CanCastTest) {
+TEST_F(VoidTypeTest, canCastTest) {
   EXPECT_TRUE(mVoidType.canCastTo(PrimitiveTypes::VOID_TYPE));
   EXPECT_FALSE(mVoidType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_FALSE(mVoidType.canCastTo(PrimitiveTypes::CHAR_TYPE));
@@ -78,7 +78,7 @@ TEST_F(VoidTypeTest, CanCastTest) {
   EXPECT_FALSE(mVoidType.canCastTo(PrimitiveTypes::DOUBLE_TYPE));
 }
 
-TEST_F(VoidTypeTest, CastToTest) {
+TEST_F(VoidTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   

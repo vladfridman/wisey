@@ -63,7 +63,7 @@ struct IfStatementTest : Test {
   }
 };
 
-TEST_F(IfStatementTest, IfStatementSimpleTest) {
+TEST_F(IfStatementTest, ifStatementSimpleTest) {
   IfStatement ifStatement(mCondition, mThenStatement);
   ifStatement.generateIR(mContext);
   
@@ -87,6 +87,6 @@ TEST_F(IfStatementTest, IfStatementSimpleTest) {
   EXPECT_STREQ("if.end", iterator->getName().str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, IfThenStatementRunTest) {
+TEST_F(TestFileSampleRunner, ifThenStatementRunTest) {
   runFile("tests/samples/test_if_then_statement.yz", "9");
 }

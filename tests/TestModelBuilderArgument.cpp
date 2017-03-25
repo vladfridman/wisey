@@ -46,14 +46,14 @@ struct ModelBuilderArgumentTest : Test {
   }
 };
 
-TEST_F(ModelBuilderArgumentTest, TestValidModelBuilderArgument) {
+TEST_F(ModelBuilderArgumentTest, validModelBuilderArgumentTest) {
   string argumentSpecifier("withFieldA");
   ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
   
   EXPECT_TRUE(argument.checkArgument(mModel));
 }
 
-TEST_F(ModelBuilderArgumentTest, TestInvalidModelBuilderArgument) {
+TEST_F(ModelBuilderArgumentTest, invalidModelBuilderArgumentTest) {
   string argumentSpecifier("mFieldA");
   ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
   
@@ -68,7 +68,7 @@ TEST_F(ModelBuilderArgumentTest, TestInvalidModelBuilderArgument) {
   cerr.rdbuf(streamBuffer);
 }
 
-TEST_F(ModelBuilderArgumentTest, TestMisspelledModelBuilderArgument) {
+TEST_F(ModelBuilderArgumentTest, misspelledModelBuilderArgumentTest) {
   string argumentSpecifier("withFielda");
   ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
   

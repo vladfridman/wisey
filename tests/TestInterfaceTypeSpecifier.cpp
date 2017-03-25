@@ -19,7 +19,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-TEST(InterfaceTypeSpecifierTest, CreationTest) {
+TEST(InterfaceTypeSpecifierTest, creationTest) {
   IRGenerationContext context;
   vector<Type*> types;
   StructType* structType = StructType::create(context.getLLVMContext(), "IShape");
