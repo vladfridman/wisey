@@ -31,7 +31,7 @@ TEST_F(TestFileSampleRunner, ContinueNestedForLoopsTest) {
 }
 
 TEST_F(TestFileSampleRunner, ContinueWhileLoopTest) {
-  runFile("tests/samples/continue_while_loop.yz", "20");
+  runFile("tests/samples/test_continue_while_loop.yz", "20");
 }
 
 TEST_F(TestFileSampleRunner, ContinueInIfStatementTest) {
