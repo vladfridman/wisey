@@ -11,9 +11,9 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/CompoundStatement.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IStatement.hpp"
 
 namespace yazyk {
   
@@ -23,11 +23,11 @@ namespace yazyk {
  */
 class IfStatement : public IStatement {
   IExpression& mCondition;
-  IStatement& mThenStatement;
+  CompoundStatement& mThenStatement;
   
 public:
   
-  IfStatement(IExpression& condition, IStatement& thenStatement) :
+  IfStatement(IExpression& condition, CompoundStatement& thenStatement) :
     mCondition(condition), mThenStatement(thenStatement) { }
   
   ~IfStatement() { }

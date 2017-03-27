@@ -20,6 +20,8 @@
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "yazyk/Block.hpp"
+#include "yazyk/CompoundStatement.hpp"
 #include "yazyk/IfStatement.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -37,17 +39,20 @@ struct IfStatementTest : Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression> mCondition;
   NiceMock<MockStatement> mThenStatement;
+  Block mThenBlock;
+  CompoundStatement mThenCompoundStatement;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
   
-  IfStatementTest() {
+  IfStatementTest() : mThenCompoundStatement(mThenBlock) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
     ON_CALL(mCondition, generateIR(_)).WillByDefault(Return(conditionValue));
     ON_CALL(mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
     Value* thenStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
     ON_CALL(mThenStatement, generateIR(_)).WillByDefault(Return(thenStatementValue));
+    mThenBlock.getStatements().push_back(&mThenStatement);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -64,7 +69,7 @@ struct IfStatementTest : Test {
 };
 
 TEST_F(IfStatementTest, ifStatementSimpleTest) {
-  IfStatement ifStatement(mCondition, mThenStatement);
+  IfStatement ifStatement(mCondition, mThenCompoundStatement);
   ifStatement.generateIR(mContext);
   
   ASSERT_EQ(3ul, mFunction->size());
@@ -89,4 +94,8 @@ TEST_F(IfStatementTest, ifStatementSimpleTest) {
 
 TEST_F(TestFileSampleRunner, ifThenStatementRunTest) {
   runFile("tests/samples/test_if_then_statement.yz", "9");
+}
+
+TEST_F(TestFileSampleRunner, ifStatemenScopeRunTest) {
+  runFile("tests/samples/test_fibonacci_model_calculator.yz", "21");
 }

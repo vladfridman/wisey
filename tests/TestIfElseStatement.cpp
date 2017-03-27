@@ -20,6 +20,8 @@
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "yazyk/Block.hpp"
+#include "yazyk/CompoundStatement.hpp"
 #include "yazyk/IfElseStatement.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -38,19 +40,26 @@ struct IfElseStatementTest : Test {
   NiceMock<MockExpression> mCondition;
   NiceMock<MockStatement> mThenStatement;
   NiceMock<MockStatement> mElseStatement;
+  Block mThenBlock;
+  Block mElseBlock;
+  CompoundStatement mThenCompoundStatement;
+  CompoundStatement mElseCompoundStatement;
+  
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
   
-  IfElseStatementTest() {
+  IfElseStatementTest() : mThenCompoundStatement(mThenBlock), mElseCompoundStatement(mElseBlock) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
     ON_CALL(mCondition, generateIR(_)).WillByDefault(Return(conditionValue));
     ON_CALL(mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
     Value* thenStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
     ON_CALL(mThenStatement, generateIR(_)).WillByDefault(Return(thenStatementValue));
+    mThenBlock.getStatements().push_back(&mThenStatement);
     Value* elseStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
     ON_CALL(mElseStatement, generateIR(_)).WillByDefault(Return(elseStatementValue));
+    mElseBlock.getStatements().push_back(&mElseStatement);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -67,7 +76,7 @@ struct IfElseStatementTest : Test {
 };
 
 TEST_F(IfElseStatementTest, ifThenStatementSimpleTest) {
-  IfElseStatement ifElseStatement(mCondition, mThenStatement, mElseStatement);
+  IfElseStatement ifElseStatement(mCondition, mThenCompoundStatement, mElseCompoundStatement);
   ifElseStatement.generateIR(mContext);
   
   ASSERT_EQ(4ul, mFunction->size());
