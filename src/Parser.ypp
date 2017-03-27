@@ -12,6 +12,9 @@
   #include "yazyk/CompoundStatement.hpp"
   #include "yazyk/ConditionalExpression.hpp"
   #include "yazyk/ContinueStatement.hpp"
+  #include "yazyk/ControllerDefinition.hpp"
+  #include "yazyk/ControllerFieldDeclaration.hpp"
+  #include "yazyk/ControllerTypeSpecifier.hpp"
   #include "yazyk/DefaultCaseStatement.hpp"
   #include "yazyk/DoStatement.hpp"
   #include "yazyk/DoubleConstant.hpp"
@@ -88,17 +91,20 @@
   yazyk::VariableDeclaration* variable_declaration;
   yazyk::ModelBuilderArgument* model_builder_argument;
   yazyk::ModelBuilderArgumentList *model_builder_argument_list;
-  yazyk::ModelFieldDeclaration* field;
+  yazyk::ModelFieldDeclaration* model_field;
   yazyk::ModelTypeSpecifier* model_type_specifier;
+  yazyk::ControllerTypeSpecifier* controller_type_specifier;
   yazyk::InterfaceTypeSpecifier* interface_type_specifier;
+  yazyk::ControllerFieldDeclaration* controller_field;
   yazyk::AccessSpecifier access_specifier;
   yazyk::MethodDeclaration* method_declaration;
   yazyk::MethodSignatureDeclaration* method_signature;
   std::vector<yazyk::VariableDeclaration*>* variable_vector;
   std::vector<yazyk::IExpression*>* expression_vector;
-  std::vector<yazyk::ModelFieldDeclaration*>* field_vector;
+  std::vector<yazyk::ModelFieldDeclaration*>* model_field_vector;
   std::vector<yazyk::MethodDeclaration*>* method_declaration_vector;
   std::vector<yazyk::MethodSignatureDeclaration*>* method_signature_vector;
+  std::vector<yazyk::ControllerFieldDeclaration*>* controller_field_vector;
   std::vector<std::string>* identifier_list;
   std::string* string;
   int token;
@@ -108,13 +114,14 @@
  * Tokens used in yazyk 
  */
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL TMODELIDENTIFIER
-%token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER
+%token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER
 %token <token> TCEQ TCNE TCLE TCGE TTRUE TFALSE
 %token <token> TTYPEBOOLEAN TTYPECHAR TTYPEINT TTYPELONG TTYPEFLOAT TTYPEDOUBLE TTYPEVOID
 %token <token> TRETURN TANDOP TOROP TINCOP TDECOP TWHILE TFOR TIF TELSE TBREAK TCONTINUE
 %token <token> TSWITCH TCASE TDEFAULT TFALLTHROUGH TDO
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
 %token <token> TINTERFACE TIMPLEMENTS TEXTENDS TINSTANCEOF
+%token <token> TCONTROLLER TINJECT TRECEIVE TSTATE
 
 /**
  * Parsing tree node types
@@ -134,16 +141,27 @@
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
 %type <statement> selection_statement model_definition interface_definition function_definition
+%type <statement> controller_definition
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
 %type <switch_cases> case_statement_list case_statement_list_with_default
-%type <field_vector> model_field_declaration_list model_field_declaration_list_optional
-%type <field> model_field_declaration
+%type <model_field_vector> model_field_declaration_list model_field_declaration_list_optional
+%type <model_field> model_field_declaration
+%type <controller_field_vector> controller_received_fields_optional
+%type <controller_field_vector> controller_received_fields_list
+%type <controller_field_vector> controller_injected_fields_optional
+%type <controller_field_vector> controller_injected_fields_list
+%type <controller_field_vector> controller_state_fields_optional
+%type <controller_field_vector> controller_state_fields_list
+%type <controller_field> controller_received_field_declaration
+%type <controller_field> controller_injected_field_declaration
+%type <controller_field> controller_state_field_declaration
 %type <type> type_specifier primitive_type_specifier
 %type <model_builder_argument_list> model_builder_argument_list
 %type <model_builder_argument> model_builder_argument
 %type <model_type_specifier> model_type_specifier
+%type <controller_type_specifier> controller_type_specifier
 %type <interface_type_specifier> interface_type_specifier
 %type <access_specifier> access_specifier
 %type <method_declaration_vector> method_definition_list method_definition_list_optional
@@ -180,6 +198,7 @@ global_unit
   : function_definition
   | model_definition
   | interface_definition
+  | controller_definition
   ;
 
 interface_definition
@@ -207,6 +226,86 @@ method_signature_list
 method_signature
   : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
     { $$ = new MethodSignatureDeclaration(*$1, *$2, *$4); delete $4; }
+  ;
+
+controller_definition
+  : TCONTROLLER TCONTROLLERIDENTIFIER
+      '{' controller_received_fields_optional controller_injected_fields_optional
+      controller_state_fields_optional method_definition_list_optional '}'
+    {
+      std::vector<std::string>* interfaces = new std::vector<std::string>;
+      $$ = new ControllerDefinition(*$2, *$4, *$5, *$6, *$7, *interfaces);
+      delete $2;
+    }
+  | TCONTROLLER TCONTROLLERIDENTIFIER TIMPLEMENTS interface_list
+    '{' controller_received_fields_optional controller_injected_fields_optional
+      controller_state_fields_optional method_definition_list_optional '}'
+    { $$ = new ControllerDefinition(*$2, *$6, *$7, *$8, *$9, *$4); }
+  ;
+
+controller_received_fields_optional
+  : /* blank */ { $$ = new std::vector<ControllerFieldDeclaration*>(); }
+  | controller_received_fields_list
+  ;
+
+controller_received_fields_list
+  : controller_received_field_declaration
+    { $$ = new std::vector<ControllerFieldDeclaration*>(); $$->push_back($1); }
+  | controller_received_fields_list controller_received_field_declaration
+    { $1->push_back($2); }
+  ;
+
+controller_received_field_declaration
+  : TRECEIVE type_specifier TFIELDIDENTIFIER ';'
+    {
+      std::vector<IExpression*> arguments;
+      $$ = new ControllerFieldDeclaration(RECEIVED_FIELD, *$2, *$3, arguments);
+    }
+  ;
+
+controller_injected_fields_optional
+  : /* blank */ { $$ = new std::vector<ControllerFieldDeclaration*>(); }
+  | controller_injected_fields_list
+  ;
+
+controller_injected_fields_list
+  : controller_injected_field_declaration
+    { $$ = new std::vector<ControllerFieldDeclaration*>(); $$->push_back($1); }
+  | controller_injected_fields_list controller_injected_field_declaration
+    { $1->push_back($2); }
+  ;
+
+controller_injected_field_declaration
+  : TINJECT type_specifier TFIELDIDENTIFIER ';'
+    {
+      std::vector<IExpression*> arguments;
+      $$ = new ControllerFieldDeclaration(INJECTED_FIELD, *$2, *$3, arguments);
+    }
+  | TINJECT type_specifier TFIELDIDENTIFIER '(' call_arguments ')' ';'
+    {
+      $$ = new ControllerFieldDeclaration(INJECTED_FIELD, *$2, *$3, *$5);
+    }
+
+  ;
+
+controller_state_fields_optional
+  : /* blank */ { $$ = new std::vector<ControllerFieldDeclaration*>(); }
+  | controller_state_fields_list
+  ;
+
+controller_state_fields_list
+  : controller_state_field_declaration
+    { $$ = new std::vector<ControllerFieldDeclaration*>(); $$->push_back($1); }
+  | controller_state_fields_list controller_state_field_declaration
+    { $1->push_back($2); }
+  ;
+
+controller_state_field_declaration
+  : TSTATE type_specifier TFIELDIDENTIFIER ';'
+    {
+      std::vector<IExpression*> arguments;
+      $$ = new ControllerFieldDeclaration(STATE_FIELD, *$2, *$3, arguments);
+    }
   ;
 
 model_definition
@@ -511,6 +610,7 @@ call_arguments
 type_specifier
   : primitive_type_specifier
   | model_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | controller_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | interface_type_specifier { $$ = (ITypeSpecifier*) $1; }
   ;
 
@@ -526,6 +626,10 @@ primitive_type_specifier
 
 model_type_specifier
   : TMODELIDENTIFIER { $$ = new ModelTypeSpecifier(*$1); }
+  ;
+
+controller_type_specifier
+  : TCONTROLLERIDENTIFIER { $$ = new ControllerTypeSpecifier(*$1); }
   ;
 
 interface_type_specifier

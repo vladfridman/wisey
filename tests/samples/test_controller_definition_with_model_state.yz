@@ -1,0 +1,59 @@
+model MIntNumber {
+  int mNumber;
+
+  public int getNumber() {
+    return mNumber;
+  }
+}
+
+controller CFibonacciCalculator {
+
+  receive int mIndex;
+
+  state MIntNumber mResult;
+  state boolean mIsComputed;
+
+  public MIntNumber calculate() {
+    if(mIsComputed) {
+      return getCachedResult();
+    }
+
+    int previous = 0;
+    int current = 1;
+    
+    if (mIndex <= 0) {
+      setCachedResult(mIndex);
+      return getCachedResult();
+    }
+
+    for (int i = 1; i < mIndex; i++) {
+      int next = previous + current;
+      previous = current;
+      current = next;
+    }
+    setCachedResult(current);
+    return getCachedResult();
+  }
+
+  private void setCachedResult(int result) {
+    mResult = builder(MIntNumber).withNumber(result).build();
+  }
+
+  private MIntNumber getCachedResult() {
+    return mResult;
+  }
+}
+
+controller CProgram implements IProgrammController {
+  inject CFibonacciCalculator mFibonacciCalculator(5);
+
+  public int run() {
+    MIntNumber intNumber = mFibonacciCalculator.calculate();
+    intNumber.getNumber();
+    return intNumber.getNumber();
+  }
+}
+
+int main() {
+  return 0;
+}

@@ -1,0 +1,30 @@
+controller CFibonacciCalculator {
+
+  receive int mIndex;
+
+  public int calculate() {
+    int previous = 0;
+    int current = 1;
+    if (mIndex <= 0) {
+      return mIndex;
+    }    
+    for (int i = 1; i < mIndex; i++) {
+      int next = previous + current;
+      previous = current;
+      current = next;
+    }
+    return current;
+  }
+}
+
+controller CProgram implements IProgrammController {
+  inject CFibonacciCalculator mFibonacciCalculator(5);
+
+  public int run() {
+    return mFibonacciCalculator.calculate();
+  }
+}
+
+int main() {
+  return 0;
+}

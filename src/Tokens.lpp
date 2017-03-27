@@ -3,6 +3,8 @@
   #include "yazyk/AccessSpecifiers.hpp"
   #include "yazyk/Block.hpp"
   #include "yazyk/CompoundStatement.hpp"
+  #include "yazyk/ControllerFieldDeclaration.hpp"
+  #include "yazyk/ControllerTypeSpecifier.hpp"
   #include "yazyk/CaseStatement.hpp"
   #include "yazyk/DefaultCaseStatement.hpp"
   #include "yazyk/Identifier.hpp"
@@ -58,6 +60,10 @@ WS  [ \t\v\n\f]
 "interface"                   return TOKEN(TINTERFACE);
 "implements"                  return TOKEN(TIMPLEMENTS);
 "extends"                     return TOKEN(TEXTENDS);
+"controller"                  return TOKEN(TCONTROLLER);
+"receive"                     return TOKEN(TRECEIVE);
+"inject"                      return TOKEN(TINJECT);
+"state"                       return TOKEN(TSTATE);
 "true"                        return TOKEN(TTRUE);
 "false"                       return TOKEN(TFALSE);
 "builder"                     return TOKEN(TBUILDER);
@@ -92,6 +98,7 @@ WS  [ \t\v\n\f]
 "||"                          return TOKEN(TOROP);
 M[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TMODELIDENTIFIER;
 I[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TINTERFACEIDENTIFIER;
+C[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TCONTROLLERIDENTIFIER;
 m[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TFIELDIDENTIFIER;
 [a-zA-Z_][a-zA-Z0-9_]*        SAVE_TOKEN; return TIDENTIFIER;
 {D}*"."{D}+{E}?{DS}           SAVE_TOKEN; return TDOUBLE;

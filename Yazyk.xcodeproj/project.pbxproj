@@ -77,6 +77,13 @@
 		F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */; };
 		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
+		F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
+		F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
+		F51581241E89B02F009CE419 /* ControllerFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581231E89B02F009CE419 /* ControllerFieldDeclaration.cpp */; };
+		F51581251E89B02F009CE419 /* ControllerFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581231E89B02F009CE419 /* ControllerFieldDeclaration.cpp */; };
+		F51581281E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */; };
+		F51581291E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */; };
+		F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */; };
 		F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797091E5C95BC009B16AA /* TestCastExpression.cpp */; };
 		F517970E1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
 		F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
@@ -415,6 +422,13 @@
 		F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanConstant.cpp; path = tests/TestBooleanConstant.cpp; sourceTree = "<group>"; };
 		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
 		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
+		F515811E1E894FE6009CE419 /* ControllerFieldDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerFieldDeclaration.hpp; path = include/yazyk/ControllerFieldDeclaration.hpp; sourceTree = "<group>"; };
+		F515811F1E8960EE009CE419 /* ControllerDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerDefinition.hpp; path = include/yazyk/ControllerDefinition.hpp; sourceTree = "<group>"; };
+		F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerDefinition.cpp; path = src/ControllerDefinition.cpp; sourceTree = "<group>"; };
+		F51581231E89B02F009CE419 /* ControllerFieldDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerFieldDeclaration.cpp; path = src/ControllerFieldDeclaration.cpp; sourceTree = "<group>"; };
+		F51581261E89B966009CE419 /* ControllerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerTypeSpecifier.hpp; path = include/yazyk/ControllerTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifier.cpp; path = src/ControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerDefinition.cpp; path = tests/TestControllerDefinition.cpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
 		F517970B1E633FB7009B16AA /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/yazyk/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
 		F517970C1E660064009B16AA /* InterfaceDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceDefinition.hpp; path = include/yazyk/InterfaceDefinition.hpp; sourceTree = "<group>"; };
@@ -762,6 +776,7 @@
 				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
+				F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */,
 				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
 				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
 				F5C6FD781E48B59C0054209D /* TestDoubleType.cpp */,
@@ -925,6 +940,9 @@
 				F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
 				F58B32841E1635850001CC15 /* ContinueStatement.cpp */,
+				F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */,
+				F51581231E89B02F009CE419 /* ControllerFieldDeclaration.cpp */,
+				F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */,
 				F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */,
 				F50FA2B61E28BA5600435EEA /* DoStatement.cpp */,
 				F50FA2E11E2E3B0900435EEA /* DoubleConstant.cpp */,
@@ -1062,6 +1080,9 @@
 				F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
 				F58B32831E1635270001CC15 /* ContinueStatement.hpp */,
+				F515811F1E8960EE009CE419 /* ControllerDefinition.hpp */,
+				F515811E1E894FE6009CE419 /* ControllerFieldDeclaration.hpp */,
+				F51581261E89B966009CE419 /* ControllerTypeSpecifier.hpp */,
 				F50FA2B11E27DCA500435EEA /* DefaultCaseStatement.hpp */,
 				F50FA2B51E28BA0500435EEA /* DoStatement.hpp */,
 				F50FA2DD1E2E3AF600435EEA /* DoubleConstant.hpp */,
@@ -1258,6 +1279,7 @@
 				F57411661E01BF18009809FF /* TestScope.cpp in Sources */,
 				F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F508E06A1E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
+				F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
 				F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
 				F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */,
@@ -1289,6 +1311,7 @@
 				F504279D1E4B5845001CB148 /* TestModelFieldReference.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
+				F51581251E89B02F009CE419 /* ControllerFieldDeclaration.cpp in Sources */,
 				F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
@@ -1317,11 +1340,13 @@
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
+				F51581291E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */,
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
 				F57085F81E51BDDF007D627E /* TestFunctionDeclaration.cpp in Sources */,
 				F5C6FD771E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
 				F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */,
+				F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */,
 				F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
@@ -1384,6 +1409,7 @@
 				F57411521E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F5C6FD6A1E48B33A0054209D /* VoidType.cpp in Sources */,
 				F508E06F1E73076E005D6115 /* Environment.cpp in Sources */,
+				F51581281E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F53400EE1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
@@ -1424,6 +1450,8 @@
 				F50FA2D51E2D0AD600435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */,
+				F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
+				F51581241E89B02F009CE419 /* ControllerFieldDeclaration.cpp in Sources */,
 				F57411591E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F507D2651E43551900495E2D /* Model.cpp in Sources */,
