@@ -87,6 +87,7 @@
 		F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515812E1E8AAB12009CE419 /* Controller.cpp */; };
 		F51581301E8AAB12009CE419 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515812E1E8AAB12009CE419 /* Controller.cpp */; };
 		F51581321E8AB1A9009CE419 /* TestController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581311E8AB1A9009CE419 /* TestController.cpp */; };
+		F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */; };
 		F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797091E5C95BC009B16AA /* TestCastExpression.cpp */; };
 		F517970E1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
 		F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
@@ -436,6 +437,7 @@
 		F515812D1E8AA85A009CE419 /* Controller.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Controller.hpp; path = include/yazyk/Controller.hpp; sourceTree = "<group>"; };
 		F515812E1E8AAB12009CE419 /* Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Controller.cpp; path = src/Controller.cpp; sourceTree = "<group>"; };
 		F51581311E8AB1A9009CE419 /* TestController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestController.cpp; path = tests/TestController.cpp; sourceTree = "<group>"; };
+		F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerTypeSpecifier.cpp; path = tests/TestControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
 		F517970B1E633FB7009B16AA /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/yazyk/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
 		F517970C1E660064009B16AA /* InterfaceDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceDefinition.hpp; path = include/yazyk/InterfaceDefinition.hpp; sourceTree = "<group>"; };
@@ -785,6 +787,7 @@
 				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
 				F51581311E8AB1A9009CE419 /* TestController.cpp */,
 				F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */,
+				F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */,
 				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
 				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
 				F5C6FD781E48B59C0054209D /* TestDoubleType.cpp */,
@@ -1365,6 +1368,7 @@
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
+				F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */,
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
 				F50FA2DB1E2D329500435EEA /* ModelFieldDeclaration.cpp in Sources */,

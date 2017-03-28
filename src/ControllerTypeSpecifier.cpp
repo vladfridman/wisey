@@ -17,6 +17,6 @@ const string ControllerTypeSpecifier::getName() const {
 }
 
 IType* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
-  return NULL;
+  return context.getController(mName);
 }
 
