@@ -13,8 +13,8 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/ICallableObjectType.hpp"
 #include "yazyk/IObjectWithFieldsType.hpp"
+#include "yazyk/IObjectWithMethodsType.hpp"
 #include "yazyk/Method.hpp"
 #include "yazyk/ModelField.hpp"
 
@@ -25,7 +25,7 @@ class Interface;
 /**
  * Contains information about a MODEL including the llvm::StructType and field information
  */
-class Model : public ICallableObjectType, public IObjectWithFieldsType {
+class Model : public IObjectWithFieldsType, public IObjectWithMethodsType {
   std::string mName;
   llvm::StructType* mStructType;
   std::map<std::string, ModelField*> mFields;

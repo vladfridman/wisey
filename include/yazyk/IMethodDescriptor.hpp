@@ -16,7 +16,7 @@
 
 namespace yazyk {
   
-class ICallableObjectType;
+class IObjectWithMethodsType;
 class IRGenerationContext;
 class IType;
 class MethodArgument;
@@ -63,7 +63,7 @@ public:
    */
   static llvm::FunctionType* getLLVMFunctionType(IMethodDescriptor* method,
                                                  IRGenerationContext& context,
-                                                 ICallableObjectType* callableObject);
+                                                 IObjectWithMethodsType* object);
 };
   
 } /* namespace yazyk */

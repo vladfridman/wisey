@@ -7,7 +7,6 @@
 //
 
 #include "yazyk/CompoundStatement.hpp"
-#include "yazyk/ICallableObjectType.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/Method.hpp"
 #include "yazyk/MethodArgument.hpp"

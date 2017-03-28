@@ -58,7 +58,7 @@ public:
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
-    mStructType = StructType::create(mLLVMContext, "Square");
+    mStructType = StructType::create(mLLVMContext, "MSquare");
     mStructType->setBody(types);
     map<string, ModelField*> fields;
     mWidthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
@@ -73,7 +73,7 @@ public:
     methods.push_back(mMethod);
     methods.push_back(new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments, 1, NULL));
     vector<Interface*> interfaces;
-    mModel = new Model("Square", mStructType, fields, methods, interfaces);
+    mModel = new Model("MSquare", mStructType, fields, methods, interfaces);
 
     mBasicBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
     mContext.setBasicBlock(mBasicBlock);
@@ -95,18 +95,18 @@ public:
 TEST_F(MethodCallTest, translateModelMethodToLLVMFunctionNameTest) {
   string functionName = MethodCall::translateModelMethodToLLVMFunctionName(mModel, "foo");
   
-  EXPECT_STREQ(functionName.c_str(), "model.Square.foo");
+  EXPECT_STREQ(functionName.c_str(), "model.MSquare.foo");
 }
 
 TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
-  StructType* structType = StructType::create(mLLVMContext, "Shape");
+  StructType* structType = StructType::create(mLLVMContext, "IShape");
   vector<MethodSignature*> interfaceMethods;
   vector<Interface*> methodInterface;
-  Interface* interface = new Interface("Shape", structType, methodInterface, interfaceMethods);
+  Interface* interface = new Interface("IShape", structType, methodInterface, interfaceMethods);
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");
   
-  EXPECT_STREQ(functionName.c_str(), "model.Square.interface.Shape.foo");
+  EXPECT_STREQ(functionName.c_str(), "model.MSquare.interface.IShape.foo");
 }
 
 TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
@@ -115,7 +115,7 @@ TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Method 'lorem' is not found in callable object 'Square'");
+              "Error: Method 'lorem' is not found in object 'MSquare'");
 }
 
 TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
@@ -141,7 +141,8 @@ TEST_F(MethodCallTest, unknownObjectTypeCallDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Method 'foo\\(\\)' call on a non-callable object type 'Unknown'");
+              "Error: Method 'foo\\(\\)' call on an object type "
+              "that does not have methods 'Unknown'");
 }
 
 TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
@@ -150,7 +151,7 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Number of arguments for method call 'foo' of the model type 'Square' "
+              "Error: Number of arguments for method call 'foo' of the object type 'MSquare' "
               "is not correct");
 }
 
@@ -173,7 +174,7 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: LLVM function implementing model 'Square' method 'bar' was not found");
+              "Error: LLVM function implementing model 'MSquare' method 'bar' was not found");
 }
 
 TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
@@ -199,7 +200,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Call argument types do not match for a call to method 'foo' "
-              "of the model type 'Square");
+              "of the object type 'MSquare");
 }
 
 TEST_F(MethodCallTest, modelMethodCallTest) {
@@ -212,7 +213,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
-                   "model.Square.foo",
+                   "model.MSquare.foo",
                    mContext.getModule());
   
   NiceMock<MockExpression> argumentExpression;
@@ -227,7 +228,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   Value* irValue = methodCall.generateIR(mContext);
 
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = call i32 @model.Square.foo(%Square* %test, float 0x4014CCCCC0000000)",
+  EXPECT_STREQ("  %call = call i32 @model.MSquare.foo(%MSquare* %test, float 0x4014CCCCC0000000)",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }

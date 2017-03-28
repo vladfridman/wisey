@@ -1,13 +1,13 @@
 //
-//  ICallableObjectType.hpp
+//  IObjectWithMethodsType.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 3/9/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ICallableObjectType_h
-#define ICallableObjectType_h
+#ifndef IObjectWithMethodsType_h
+#define IObjectWithMethodsType_h
 
 #include "yazyk/IType.hpp"
 
@@ -16,9 +16,9 @@ namespace yazyk {
 class IMethodDescriptor;
   
 /**
- * Represents an IType of a callable object such as a Model or an Interface
+ * Represents an object that has methods such as a Model or an Interface
  */
-class ICallableObjectType : public virtual IType {
+class IObjectWithMethodsType : public virtual IType {
   
 public:
   
@@ -35,4 +35,4 @@ public:
 
 } /* namespace yazyk */
 
-#endif /* ICallableObjectType_h */
+#endif /* IObjectWithMethodsType_h */

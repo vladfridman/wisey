@@ -286,17 +286,18 @@ bool Interface::canAutoCastTo(IType* toType) const {
   return false;
 }
 
-string Interface::getCastFunctionName(ICallableObjectType* toType) const {
+string Interface::getCastFunctionName(IObjectWithMethodsType* toType) const {
   return "cast." + getName() + ".to." + toType->getName();
 }
 
 Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
-  ICallableObjectType* toCallableType = dynamic_cast<ICallableObjectType*>(toType);
+  IObjectWithMethodsType* toObjectWithMethodsType = dynamic_cast<IObjectWithMethodsType*>(toType);
   BasicBlock* basicBlock = context.getBasicBlock();
-  Function* castFunction = context.getModule()->getFunction(getCastFunctionName(toCallableType));
+  Function* castFunction =
+    context.getModule()->getFunction(getCastFunctionName(toObjectWithMethodsType));
   
   if (castFunction == NULL) {
-    castFunction = defineCastFunction(context, fromValue, toCallableType);
+    castFunction = defineCastFunction(context, fromValue, toObjectWithMethodsType);
   }
   
   vector<Value*> arguments;
@@ -309,7 +310,7 @@ Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* 
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         Value* fromValue,
-                                        ICallableObjectType* toType) const {
+                                        IObjectWithMethodsType* toType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Type = Type::getInt8Ty(llvmContext);
   
@@ -337,7 +338,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   BasicBlock* lastBasicBlock = context.getBasicBlock();
 
   context.setBasicBlock(entryBlock);
-  Value* instanceof = callInstanceOf(context, thisArgument, (ICallableObjectType*) toType);
+  Value* instanceof = callInstanceOf(context, thisArgument, (IObjectWithMethodsType*) toType);
   Value* originalObject = getOriginalObject(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
@@ -403,7 +404,7 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
 
 CallInst* Interface::callInstanceOf(IRGenerationContext& context,
                                     Value* interfaceObject,
-                                    ICallableObjectType* callableObjectType) const {
+                                    IObjectWithMethodsType* callableObjectType) const {
   BasicBlock* basicBlock = context.getBasicBlock();
   Function* function = context.getModule()->getFunction(getInstanceOfFunctionName());
   

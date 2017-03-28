@@ -9,7 +9,7 @@
 #ifndef MethodCall_h
 #define MethodCall_h
 
-#include "yazyk/ICallableObjectType.hpp"
+#include "yazyk/IObjectWithMethodsType.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/Method.hpp"
 
@@ -60,11 +60,11 @@ private:
                                              Interface* interface,
                                              IMethodDescriptor* methodDescriptor) const;
   
-  ICallableObjectType* getCallableObject(IRGenerationContext& context) const;
+  IObjectWithMethodsType* getObjectWithMethods(IRGenerationContext& context) const;
   
   IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
   
-  void checkArgumentType(ICallableObjectType* model,
+  void checkArgumentType(IObjectWithMethodsType* objectWithMethods,
                          IMethodDescriptor* methodDescriptor,
                          IRGenerationContext& context) const;
 

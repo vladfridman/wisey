@@ -14,7 +14,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/ICallableObjectType.hpp"
+#include "yazyk/IObjectWithMethodsType.hpp"
 #include "yazyk/MethodSignature.hpp"
 
 namespace yazyk {
@@ -25,7 +25,7 @@ class Model;
 /**
  * Contains information about an Interface including the llvm::StructType and method information
  */
-class Interface : public ICallableObjectType {
+class Interface : public IObjectWithMethodsType {
   std::string mName;
   llvm::StructType* mStructType;
   std::vector<Interface*> mParentInterfaces;
@@ -74,14 +74,14 @@ public:
   /**
    * Return function name that casts this interface into a given ICallableObject type
    */
-  std::string getCastFunctionName(ICallableObjectType* toType) const;
+  std::string getCastFunctionName(IObjectWithMethodsType* toType) const;
   
   /**
    * Call instanceof function and check whether interfaceObject is of type callableObjectType
    */
   llvm::CallInst* callInstanceOf(IRGenerationContext& context,
                                  llvm::Value* interfaceObject,
-                                 ICallableObjectType* callableObjectType) const;
+                                 IObjectWithMethodsType* object) const;
   
   /**
    * Given a value of type interface get the pointer back to the original object that implements it
@@ -139,7 +139,7 @@ private:
   
   llvm::Function* defineCastFunction(IRGenerationContext& context,
                                      llvm::Value* fromValue,
-                                     ICallableObjectType* toType) const;
+                                     IObjectWithMethodsType* toType) const;
 };
   
 } /* namespace yazyk */

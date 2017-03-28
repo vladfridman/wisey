@@ -39,10 +39,10 @@ bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* m
 
 FunctionType* IMethodDescriptor::getLLVMFunctionType(IMethodDescriptor* method,
                                                      IRGenerationContext& context,
-                                                     ICallableObjectType* callableObject) {
+                                                     IObjectWithMethodsType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(callableObject->getLLVMType(llvmContext));
+  argumentTypes.push_back(object->getLLVMType(llvmContext));
   for (MethodArgument* methodArgument : method->getArguments()) {
     IType* type = methodArgument->getType();
     argumentTypes.push_back(type->getLLVMType(llvmContext));

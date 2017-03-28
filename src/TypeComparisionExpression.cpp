@@ -48,10 +48,11 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
   Value* expressionValue = mExpression.generateIR(context);
   IType* expressionType = mExpression.getType(context);
   Interface* interface = dynamic_cast<Interface*>(expressionType);
-  ICallableObjectType* callableObjectType =
-    dynamic_cast<ICallableObjectType*>(mTypeSpecifier.getType(context));
+  IObjectWithMethodsType* objectWithMethodsType =
+    dynamic_cast<IObjectWithMethodsType*>(mTypeSpecifier.getType(context));
   
-  Value* interfaceIndex = interface->callInstanceOf(context, expressionValue, callableObjectType);
+  Value* interfaceIndex =
+    interface->callInstanceOf(context, expressionValue, objectWithMethodsType);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
   BasicBlock* basicBlock = context.getBasicBlock();
   

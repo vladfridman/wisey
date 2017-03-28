@@ -18,17 +18,19 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
-  ICallableObjectType* callableObject = getCallableObject(context);
+  IObjectWithMethodsType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
-  checkArgumentType(callableObject, methodDescriptor, context);
-  if (callableObject->getTypeKind() == MODEL_TYPE) {
-    return generateModelMethodCallIR(context, (Model*) callableObject, methodDescriptor);
+  checkArgumentType(objectWithMethodsType, methodDescriptor, context);
+  if (objectWithMethodsType->getTypeKind() == MODEL_TYPE) {
+    return generateModelMethodCallIR(context, (Model*) objectWithMethodsType, methodDescriptor);
   }
-  if (callableObject->getTypeKind() == INTERFACE_TYPE) {
-    return generateInterfaceMethodCallIR(context, (Interface*) callableObject, methodDescriptor);
+  if (objectWithMethodsType->getTypeKind() == INTERFACE_TYPE) {
+    return generateInterfaceMethodCallIR(context,
+                                         (Interface*) objectWithMethodsType,
+                                         methodDescriptor);
   }
   Log::e("Method '" + mMethodName + "()' call on an unknown object type '" +
-         callableObject->getName() + "'");
+         objectWithMethodsType->getName() + "'");
   exit(1);
 }
 
@@ -108,7 +110,7 @@ void MethodCall::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-ICallableObjectType* MethodCall::getCallableObject(IRGenerationContext& context) const {
+IObjectWithMethodsType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
@@ -116,26 +118,26 @@ ICallableObjectType* MethodCall::getCallableObject(IRGenerationContext& context)
   }
   if (expressionType->getTypeKind() == INTERFACE_TYPE ||
       expressionType->getTypeKind() == MODEL_TYPE) {
-    return dynamic_cast<ICallableObjectType*>(expressionType);
+    return dynamic_cast<IObjectWithMethodsType*>(expressionType);
   }
-  Log::e("Method '" + mMethodName + "()' call on a non-callable object type '" +
+  Log::e("Method '" + mMethodName + "()' call on an object type that does not have methods '" +
          expressionType->getName() + "'");
   exit(1);
 }
 
 IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {
-  ICallableObjectType* callableObject = getCallableObject(context);
-  IMethodDescriptor* methodDescriptor = callableObject->findMethod(mMethodName);
+  IObjectWithMethodsType* objectWithMethods = getObjectWithMethods(context);
+  IMethodDescriptor* methodDescriptor = objectWithMethods->findMethod(mMethodName);
   if (methodDescriptor == NULL) {
-    Log::e("Method '" + mMethodName + "' is not found in callable object '" +
-           callableObject->getName() + "'");
+    Log::e("Method '" + mMethodName + "' is not found in object '" +
+           objectWithMethods->getName() + "'");
     exit(1);
   }
   
   return methodDescriptor;
 }
 
-void MethodCall::checkArgumentType(ICallableObjectType* callableObject,
+void MethodCall::checkArgumentType(IObjectWithMethodsType* objectWithMethods,
                                    IMethodDescriptor* methodDescriptor,
                                    IRGenerationContext& context) const {
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
@@ -143,7 +145,7 @@ void MethodCall::checkArgumentType(ICallableObjectType* callableObject,
   
   if (mArguments.size() != methodDescriptor->getArguments().size()) {
     Log::e("Number of arguments for method call '" + methodDescriptor->getName() +
-           "' of the model type '" + callableObject->getName() + "' is not correct");
+           "' of the object type '" + objectWithMethods->getName() + "' is not correct");
     exit(1);
   }
   
@@ -152,8 +154,9 @@ void MethodCall::checkArgumentType(ICallableObjectType* callableObject,
     IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     
     if (!callArgumentType->canAutoCastTo(methodArgumentType)) {
-      Log::e("Call argument types do not match for a call to method '" + methodDescriptor->getName() +
-             "' of the model type '" + callableObject->getName() + "'");
+      Log::e("Call argument types do not match for a call to method '" +
+             methodDescriptor->getName() +
+             "' of the object type '" + objectWithMethods->getName() + "'");
       exit(1);
     }
     
