@@ -47,8 +47,8 @@ struct MethodCallTest : public Test {
   Model* mModel;
   Method* mMethod;
   StructType* mStructType;
-  ModelField* mWidthField;
-  ModelField* mHeightField;
+  Field* mWidthField;
+  Field* mHeightField;
   
 public:
   
@@ -60,9 +60,9 @@ public:
     types.push_back(Type::getInt32Ty(mLLVMContext));
     mStructType = StructType::create(mLLVMContext, "MSquare");
     mStructType->setBody(types);
-    map<string, ModelField*> fields;
-    mWidthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-    mHeightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
+    map<string, Field*> fields;
+    mWidthField = new Field(PrimitiveTypes::INT_TYPE, 0);
+    mHeightField = new Field(PrimitiveTypes::INT_TYPE, 1);
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");

@@ -70,9 +70,9 @@ struct TestTypeComparisionExpressionTest : public Test {
     squareTypes.push_back(Type::getInt32Ty(mLLVMContext));
     StructType* squareStructType = StructType::create(mLLVMContext, "MSquare");
     squareStructType->setBody(squareTypes);
-    map<string, ModelField*> squareFields;
-    squareFields["width"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-    squareFields["height"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
+    map<string, Field*> squareFields;
+    squareFields["width"] = new Field(PrimitiveTypes::INT_TYPE, 0);
+    squareFields["height"] = new Field(PrimitiveTypes::INT_TYPE, 1);
     vector<MethodArgument*> methodArguments;
     vector<Method*> squareMethods;
     squareMethods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));
@@ -150,7 +150,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
     vector<Method*> circleMethods;
-    map<string, ModelField*> circleFields;
+    map<string, Field*> circleFields;
     vector<Interface*> circleInterfaces;
     mCircleModel = new Model("MCircle",
                              circleStructType,

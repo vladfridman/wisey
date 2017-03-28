@@ -33,8 +33,8 @@ struct ModelTest : public Test {
   Interface* mCarInterface;
   Method* mMethod;
   StructType* mStructType;
-  ModelField* mWidthField;
-  ModelField* mHeightField;
+  Field* mWidthField;
+  Field* mHeightField;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock *mBasicBlock;
@@ -47,9 +47,9 @@ struct ModelTest : public Test {
     types.push_back(Type::getInt32Ty(mLLVMContext));
     mStructType = StructType::create(mLLVMContext, "MSquare");
     mStructType->setBody(types);
-    map<string, ModelField*> fields;
-    mWidthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-    mHeightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
+    map<string, Field*> fields;
+    mWidthField = new Field(PrimitiveTypes::INT_TYPE, 0);
+    mHeightField = new Field(PrimitiveTypes::INT_TYPE, 1);
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
@@ -126,7 +126,7 @@ struct ModelTest : public Test {
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
     vector<Method*> circleMethods;
-    map<string, ModelField*> circleFields;
+    map<string, Field*> circleFields;
     vector<Interface*> circleInterfaces;
     mCircleModel = new Model("MCircle",
                              circleStructType,

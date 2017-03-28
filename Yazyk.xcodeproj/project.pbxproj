@@ -359,7 +359,7 @@
 		F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectFieldVariable.cpp; path = src/ObjectFieldVariable.cpp; sourceTree = "<group>"; };
 		F507D2631E43539C00495E2D /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Model.hpp; path = include/yazyk/Model.hpp; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
-		F507D2671E43783000495E2D /* ModelField.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelField.hpp; path = include/yazyk/ModelField.hpp; sourceTree = "<group>"; };
+		F507D2671E43783000495E2D /* Field.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Field.hpp; path = include/yazyk/Field.hpp; sourceTree = "<group>"; };
 		F507D2681E44C27D00495E2D /* IType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IType.hpp; path = include/yazyk/IType.hpp; sourceTree = "<group>"; };
 		F507D2691E44C3A400495E2D /* CharType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CharType.hpp; path = include/yazyk/CharType.hpp; sourceTree = "<group>"; };
 		F507D26A1E45FBBA00495E2D /* IHasType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IHasType.hpp; path = include/yazyk/IHasType.hpp; sourceTree = "<group>"; };
@@ -1092,6 +1092,7 @@
 				F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */,
 				F508E06D1E7306B1005D6115 /* Environment.hpp */,
 				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
+				F507D2671E43783000495E2D /* Field.hpp */,
 				F50FA2DE1E2E3AF600435EEA /* FloatConstant.hpp */,
 				F507D2711E4609D800495E2D /* FloatType.hpp */,
 				F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */,
@@ -1134,7 +1135,6 @@
 				F5F396D21E3495BD00F34296 /* ModelBuilder.hpp */,
 				F5F396D91E34BD0400F34296 /* ModelBuilderArgument.hpp */,
 				F50FA2CD1E2D0AC600435EEA /* ModelDefinition.hpp */,
-				F507D2671E43783000495E2D /* ModelField.hpp */,
 				F50FA2CE1E2D0AC600435EEA /* ModelFieldDeclaration.hpp */,
 				F50427981E4B4102001CB148 /* ModelFieldReference.hpp */,
 				F50FA2CF1E2D0AC600435EEA /* ModelTypeSpecifier.hpp */,

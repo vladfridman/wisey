@@ -25,7 +25,7 @@ Model::~Model() {
 
 Model::Model(string name,
              StructType* structType,
-             map<string, ModelField*> fields,
+             map<string, Field*> fields,
              vector<Method*> methods,
              vector<Interface*> interfaces) {
   mName = name;
@@ -40,7 +40,7 @@ Model::Model(string name,
   mFlattenedInterfaceHierarchy = createFlattenedInterfaceHierarchy();
 }
 
-ModelField* Model::findField(string fieldName) const {
+Field* Model::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
   }
@@ -51,12 +51,12 @@ ModelField* Model::findField(string fieldName) const {
 vector<string> Model::getMissingFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (map<string, ModelField*>::const_iterator iterator = mFields.begin();
+  for (map<string, Field*>::const_iterator iterator = mFields.begin();
        iterator != mFields.end();
        iterator++) {
-    string modelFieldName = iterator->first;
-    if (givenFields.find(modelFieldName) == givenFields.end()) {
-      missingFields.push_back(modelFieldName);
+    string fieldName = iterator->first;
+    if (givenFields.find(fieldName) == givenFields.end()) {
+      missingFields.push_back(fieldName);
     }
   }
   

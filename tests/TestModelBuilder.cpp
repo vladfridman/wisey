@@ -48,11 +48,9 @@ struct ModelBuilderTest : Test {
     types.push_back(Type::getInt32Ty(llvmContext));
     StructType *structType = StructType::create(llvmContext, "MShape");
     structType->setBody(types);
-    map<string, ModelField*> fields;
-    ModelField* widthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-    ModelField* heightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-    fields["mWidth"] = widthField;
-    fields["mHeight"] = heightField;
+    map<string, Field*> fields;
+    fields["mWidth"] = new Field(PrimitiveTypes::INT_TYPE, 0);
+    fields["mHeight"] = new Field(PrimitiveTypes::INT_TYPE, 1);
     vector<Method*> methods;
     vector<Interface*> interfaces;
     Model* model = new Model("MShape", structType, fields, methods, interfaces);

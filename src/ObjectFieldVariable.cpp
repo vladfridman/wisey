@@ -40,10 +40,10 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
   
   StructType* structType = (StructType*) mObject->getLLVMType(llvmContext)->getPointerElementType();
   
-  ModelField* modelField = checkAndFindField(context);
+  Field* field = checkAndFindField(context);
   Value *Idx[2];
   Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), modelField->getIndex());
+  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
   
   GetElementPtrInst* fieldPointer = GetElementPtrInst::Create(structType,
                                                               loadedValue,
@@ -56,9 +56,9 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
 
 Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                                  IExpression& assignToExpression) {
-  ModelField* modelField = checkAndFindField(context);
+  Field* field = checkAndFindField(context);
   IType* assignToType = assignToExpression.getType(context);
-  IType* toType = modelField->getType();
+  IType* toType = field->getType();
   if (!assignToType->canAutoCastTo(toType)) {
     Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getName() +
            "' because of incompatable types");
@@ -73,7 +73,7 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   Value *Idx[2];
   Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), modelField->getIndex());
+  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
   Type* structType = mObject->getLLVMType(llvmContext)->getPointerElementType();
   IVariable* thisVariable = context.getScopes().getVariable("this");
   Value* loadedValue = new LoadInst(thisVariable->getValue(), "this", context.getBasicBlock());
@@ -88,11 +88,11 @@ void ObjectFieldVariable::free(IRGenerationContext& context) const {
   /** Not implmeneted yet */
 }
 
-ModelField* ObjectFieldVariable::checkAndFindField(IRGenerationContext& context) const {
-  ModelField* modelField = mObject->findField(mName);
+Field* ObjectFieldVariable::checkAndFindField(IRGenerationContext& context) const {
+  Field* field = mObject->findField(mName);
   
-  if (modelField != NULL) {
-    return modelField;
+  if (field != NULL) {
+    return field;
   }
   
   Log::e("Field '" + mName + "' is not found in object '" + mObject->getName() + "'");

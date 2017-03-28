@@ -37,7 +37,7 @@ public:
 
 private:
   
-   ModelField* checkAndFindField(IRGenerationContext& context) const;
+   Field* checkAndFindField(IRGenerationContext& context) const;
 };
 
 } /* namespace yazyk */

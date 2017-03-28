@@ -27,11 +27,9 @@ TEST(ModelTypeSpecifierTest, creationTest) {
   types.push_back(Type::getInt32Ty(llvmContext));
   StructType* structType = StructType::create(llvmContext, "MSquare");
   structType->setBody(types);
-  map<string, ModelField*> fields;
-  ModelField* widthField = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-  ModelField* heightField = new ModelField(PrimitiveTypes::INT_TYPE, 1);
-  fields["width"] = widthField;
-  fields["height"] = heightField;
+  map<string, Field*> fields;
+  fields["width"] = new Field(PrimitiveTypes::INT_TYPE, 0);
+  fields["height"] = new Field(PrimitiveTypes::INT_TYPE, 1);
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
   methods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));

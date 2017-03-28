@@ -27,7 +27,7 @@ IType* ModelFieldReference::getType(IRGenerationContext& context) const {
   return checkAndFindField(context)->getType();
 }
 
-ModelField* ModelFieldReference::checkAndFindField(IRGenerationContext& context) const {
+Field* ModelFieldReference::checkAndFindField(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to reference field '" + mFieldName + "' in a primitive type expression");
@@ -35,10 +35,10 @@ ModelField* ModelFieldReference::checkAndFindField(IRGenerationContext& context)
   }
 
   Model* model = dynamic_cast<Model*>(expressionType);
-  ModelField* modelField = model->findField(mFieldName);
+  Field* field = model->findField(mFieldName);
 
-  if (modelField != NULL) {
-    return modelField;
+  if (field != NULL) {
+    return field;
   }
   
   Log::e("Field '" + mFieldName + "' is not found in model '" + model->getName() + "'");

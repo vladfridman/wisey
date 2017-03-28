@@ -30,7 +30,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
-  map<string, ModelField*> fields = createFields(context, interfaces.size());
+  map<string, Field*> fields = createFields(context, interfaces.size());
   vector<Method*> methods = createMethods(context);
   Model* model = new Model(mName, structType, fields, methods, interfaces);
 
@@ -49,15 +49,15 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-map<string, ModelField*> ModelDefinition::createFields(IRGenerationContext& context,
-                                                       unsigned long numberOfInterfaces) const {
-  map<string, ModelField*> fields;
+map<string, Field*> ModelDefinition::createFields(IRGenerationContext& context,
+                                                  unsigned long numberOfInterfaces) const {
+  map<string, Field*> fields;
   unsigned long index = 0;
   for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
-    ModelField* modelField = new ModelField(fieldType, numberOfInterfaces + index);
-    fields[fieldDeclaration->getName()] = modelField;
+    Field* field = new Field(fieldType, numberOfInterfaces + index);
+    fields[fieldDeclaration->getName()] = field;
     index++;
   }
   return fields;

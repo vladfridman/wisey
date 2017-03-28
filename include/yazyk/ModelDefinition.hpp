@@ -43,8 +43,8 @@ public:
   
 private:
   
-  std::map<std::string, ModelField*> createFields(IRGenerationContext& context,
-                                                  unsigned long numberOfInterfaces) const;
+  std::map<std::string, Field*> createFields(IRGenerationContext& context,
+                                             unsigned long numberOfInterfaces) const;
   
   void createFieldVariables(IRGenerationContext& context,
                             Model* model,

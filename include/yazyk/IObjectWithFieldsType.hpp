@@ -13,7 +13,7 @@
 
 namespace yazyk {
 
-class ModelField;
+class Field;
   
 /**
  * Represents an IType of an object with fields such as a Model or a Controller
@@ -25,7 +25,7 @@ public:
   /**
    * Looks for a field with a given name in the object
    */
-  virtual ModelField* findField(std::string fieldName) const = 0;
+  virtual Field* findField(std::string fieldName) const = 0;
 
 };
   

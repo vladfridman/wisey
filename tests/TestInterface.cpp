@@ -30,8 +30,8 @@ struct InterfaceTest : public Test {
   Interface* mObjectInterface;
   MethodSignature* mMethodSignature;
   StructType* mShapeStructType;
-  ModelField* mWidthField;
-  ModelField* mHeightField;
+  Field* mWidthField;
+  Field* mHeightField;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;

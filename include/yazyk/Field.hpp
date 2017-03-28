@@ -1,13 +1,13 @@
 //
-//  ModelField.hpp
+//  Field.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/2/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ModelField_h
-#define ModelField_h
+#ifndef Field_h
+#define Field_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -16,15 +16,15 @@ namespace yazyk {
 /**
  * Represents one field in a model
  */
-class ModelField {
+class Field {
   IType* mType;
   unsigned long mIndex;
 
 public:
   
-  ModelField(IType* type, unsigned long index) : mType(type), mIndex(index) { }
+  Field(IType* type, unsigned long index) : mType(type), mIndex(index) { }
   
-  ~ModelField() { }
+  ~Field() { }
   
   unsigned long getIndex() { return mIndex; }
   
@@ -33,4 +33,4 @@ public:
   
 } /* namespace yazyk */
 
-#endif /* ModelField_h */
+#endif /* Field_h */

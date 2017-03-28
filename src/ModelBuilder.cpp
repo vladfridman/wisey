@@ -106,11 +106,11 @@ void ModelBuilder::initializeFields(IRGenerationContext& context,
   for (ModelBuilderArgument* argument : *mModelBuilderArgumentList) {
     string fieldName = argument->deriveFieldName();
     Value* fieldValue = argument->getValue(context);
-    ModelField* modelField = model->findField(fieldName);
-    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), modelField->getIndex());
+    Field* field = model->findField(fieldName);
+    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer =
     GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
-    if (modelField->getType()->getLLVMType(llvmContext) != fieldValue->getType()) {
+    if (field->getType()->getLLVMType(llvmContext) != fieldValue->getType()) {
       Log::e("Model builder argumet value for field '" + fieldName + "' does not match its type");
       exit(1);
     }

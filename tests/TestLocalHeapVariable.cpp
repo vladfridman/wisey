@@ -54,9 +54,9 @@ public:
     types.push_back(Type::getInt32Ty(llvmContext));
     StructType* structType = StructType::create(llvmContext, "Shape");
     structType->setBody(types);
-    map<string, ModelField*> fields;
-    fields["width"] = new ModelField(PrimitiveTypes::INT_TYPE, 0);
-    fields["height"] = new ModelField(PrimitiveTypes::INT_TYPE, 1);
+    map<string, Field*> fields;
+    fields["width"] = new Field(PrimitiveTypes::INT_TYPE, 0);
+    fields["height"] = new Field(PrimitiveTypes::INT_TYPE, 1);
     vector<Method*> methods;
     vector<Interface*> interfaces;
     mModel = new Model("Shape", structType, fields, methods, interfaces);}
