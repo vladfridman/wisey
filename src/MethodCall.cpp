@@ -116,7 +116,7 @@ ICallableObjectType* MethodCall::getCallableObject(IRGenerationContext& context)
   }
   if (expressionType->getTypeKind() == INTERFACE_TYPE ||
       expressionType->getTypeKind() == MODEL_TYPE) {
-    return (ICallableObjectType*) expressionType;
+    return dynamic_cast<ICallableObjectType*>(expressionType);
   }
   Log::e("Method '" + mMethodName + "()' call on a non-callable object type '" +
          expressionType->getName() + "'");

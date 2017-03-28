@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/ICallableObjectType.hpp"
+#include "yazyk/IObjectWithFieldsType.hpp"
 #include "yazyk/Method.hpp"
 #include "yazyk/ModelField.hpp"
 
@@ -24,7 +25,7 @@ class Interface;
 /**
  * Contains information about a MODEL including the llvm::StructType and field information
  */
-class Model : public ICallableObjectType {
+class Model : public ICallableObjectType, public IObjectWithFieldsType {
   std::string mName;
   llvm::StructType* mStructType;
   std::map<std::string, ModelField*> mFields;
@@ -42,11 +43,6 @@ public:
         std::vector<Interface*> interfaces);
   
   ~Model();
-  
-  /**
-   * Looks for a field with a given name in the model
-   */
-  ModelField* findField(std::string fieldName) const;
   
   /**
    * Gets a set of field names and returns the ones that are missing
@@ -77,6 +73,8 @@ public:
    * Tells whether this model implements a given interface
    */
   bool doesImplmentInterface(Interface* interface) const;
+  
+  ModelField* findField(std::string fieldName) const override;
   
   Method* findMethod(std::string methodName) const override;
 

@@ -429,6 +429,7 @@
 		F51581261E89B966009CE419 /* ControllerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerTypeSpecifier.hpp; path = include/yazyk/ControllerTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifier.cpp; path = src/ControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerDefinition.cpp; path = tests/TestControllerDefinition.cpp; sourceTree = "<group>"; };
+		F515812C1E8A7FB7009CE419 /* IObjectWithFieldsType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithFieldsType.hpp; path = include/yazyk/IObjectWithFieldsType.hpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
 		F517970B1E633FB7009B16AA /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/yazyk/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
 		F517970C1E660064009B16AA /* InterfaceDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceDefinition.hpp; path = include/yazyk/InterfaceDefinition.hpp; sourceTree = "<group>"; };
@@ -1110,6 +1111,7 @@
 				F517970C1E660064009B16AA /* InterfaceDefinition.hpp */,
 				F5EEDD9E1E6EF43A00215278 /* InterfaceTypeSpecifier.hpp */,
 				F507D26F1E46088D00495E2D /* IntType.hpp */,
+				F515812C1E8A7FB7009CE419 /* IObjectWithFieldsType.hpp */,
 				F574115D1E01A52C009809FF /* IRGenerationContext.hpp */,
 				F531B6771E0E19F1008304F3 /* IStatement.hpp */,
 				F507D2681E44C27D00495E2D /* IType.hpp */,

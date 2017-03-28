@@ -278,7 +278,8 @@ bool Interface::canAutoCastTo(IType* toType) const {
     return false;
   }
   
-  if (toType->getTypeKind() == INTERFACE_TYPE && doesExtendInterface((Interface*) toType)) {
+  if (toType->getTypeKind() == INTERFACE_TYPE &&
+      doesExtendInterface(dynamic_cast<Interface*>(toType))) {
     return true;
   }
   
@@ -290,7 +291,7 @@ string Interface::getCastFunctionName(ICallableObjectType* toType) const {
 }
 
 Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
-  ICallableObjectType* toCallableType = (ICallableObjectType*) toType;
+  ICallableObjectType* toCallableType = dynamic_cast<ICallableObjectType*>(toType);
   BasicBlock* basicBlock = context.getBasicBlock();
   Function* castFunction = context.getModule()->getFunction(getCastFunctionName(toCallableType));
   

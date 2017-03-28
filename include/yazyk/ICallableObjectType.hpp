@@ -18,7 +18,7 @@ class IMethodDescriptor;
 /**
  * Represents an IType of a callable object such as a Model or an Interface
  */
-class ICallableObjectType : public IType {
+class ICallableObjectType : public virtual IType {
   
 public:
   

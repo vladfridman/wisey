@@ -33,12 +33,12 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const
     return valueFalse;
   }
   if (expressionType->getTypeKind() == MODEL_TYPE && type->getTypeKind() == INTERFACE_TYPE) {
-    Model* model = (Model*) expressionType;
-    return model->doesImplmentInterface((Interface*) type) ? valueTrue : valueFalse;
+    Model* model = dynamic_cast<Model*>(expressionType);
+    return model->doesImplmentInterface(dynamic_cast<Interface*>(type)) ? valueTrue : valueFalse;
   }
-  Interface* interface = (Interface*) expressionType;
+  Interface* interface = dynamic_cast<Interface*>(expressionType);
   if (type->getTypeKind() == INTERFACE_TYPE &&
-      interface->doesExtendInterface((Interface*) type)) {
+      interface->doesExtendInterface(dynamic_cast<Interface*>(type))) {
     return valueTrue;
   }
   return checkInterfaceImplemented(context);
@@ -47,8 +47,9 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const
 Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext& context) const {
   Value* expressionValue = mExpression.generateIR(context);
   IType* expressionType = mExpression.getType(context);
-  Interface* interface = (Interface*) expressionType;
-  ICallableObjectType* callableObjectType = (ICallableObjectType*) mTypeSpecifier.getType(context);
+  Interface* interface = dynamic_cast<Interface*>(expressionType);
+  ICallableObjectType* callableObjectType =
+    dynamic_cast<ICallableObjectType*>(mTypeSpecifier.getType(context));
   
   Value* interfaceIndex = interface->callInstanceOf(context, expressionValue, callableObjectType);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);

@@ -131,7 +131,8 @@ bool Model::canCastTo(IType* toType) const {
   if (toType->getTypeKind() == MODEL_TYPE) {
     return false;
   }
-  if (toType->getTypeKind() == INTERFACE_TYPE && getInterfaceIndex((Interface*) toType) >= 0) {
+  if (toType->getTypeKind() == INTERFACE_TYPE &&
+      getInterfaceIndex(dynamic_cast<Interface*>(toType)) >= 0) {
     return true;
   }
   return false;
@@ -151,7 +152,7 @@ Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toTy
   }
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock* basicBlock = context.getBasicBlock();
-  Interface* interface = (Interface*) toType;
+  Interface* interface = dynamic_cast<Interface*>(toType);
   int interfaceIndex = getInterfaceIndex(interface);
   if (interfaceIndex == 0) {
     return new BitCastInst(fromValue, interface->getLLVMType(llvmContext), "", basicBlock);

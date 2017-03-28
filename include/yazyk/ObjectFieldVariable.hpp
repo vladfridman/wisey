@@ -9,6 +9,7 @@
 #ifndef ObjectFieldVariable_h
 #define ObjectFieldVariable_h
 
+#include "yazyk/IObjectWithFieldsType.hpp"
 #include "yazyk/IVariable.hpp"
 #include "yazyk/Model.hpp"
 
@@ -21,12 +22,12 @@ class ObjectFieldVariable : public IVariable {
   
   std::string mName;
   llvm::Value* mValue;
-  Model* mModel;
+  IObjectWithFieldsType* mObject;
   
 public:
   
-  ObjectFieldVariable(std::string name, llvm::Value* value, Model* model)
-    : mName(name), mValue(value), mModel(model) { }
+  ObjectFieldVariable(std::string name, llvm::Value* value, IObjectWithFieldsType* object)
+    : mName(name), mValue(value), mObject(object) { }
   
   ~ObjectFieldVariable() {}
   

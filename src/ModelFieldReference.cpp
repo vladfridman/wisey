@@ -34,7 +34,7 @@ ModelField* ModelFieldReference::checkAndFindField(IRGenerationContext& context)
     exit(1);
   }
 
-  Model* model = (Model*) expressionType;
+  Model* model = dynamic_cast<Model*>(expressionType);
   ModelField* modelField = model->findField(mFieldName);
 
   if (modelField != NULL) {
