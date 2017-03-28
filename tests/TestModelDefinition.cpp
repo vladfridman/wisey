@@ -44,7 +44,6 @@ struct ModelDefinitionTest : public Test {
   Block mBlock;
   NiceMock<MockStatement> mMockStatement;
  
-  
   ModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     mBlock.getStatements().push_back(&mMockStatement);
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock);

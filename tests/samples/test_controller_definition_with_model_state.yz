@@ -1,3 +1,7 @@
+interface IProgrammController {
+  int run();
+}
+
 model MIntNumber {
   int mNumber;
 

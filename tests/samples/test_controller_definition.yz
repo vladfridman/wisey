@@ -1,3 +1,7 @@
+interface IProgrammController {
+  int run();
+}
+
 controller CFibonacciCalculator {
 
   receive int mIndex;

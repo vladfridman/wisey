@@ -84,6 +84,9 @@
 		F51581281E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */; };
 		F51581291E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */; };
 		F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */; };
+		F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515812E1E8AAB12009CE419 /* Controller.cpp */; };
+		F51581301E8AAB12009CE419 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515812E1E8AAB12009CE419 /* Controller.cpp */; };
+		F51581321E8AB1A9009CE419 /* TestController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581311E8AB1A9009CE419 /* TestController.cpp */; };
 		F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797091E5C95BC009B16AA /* TestCastExpression.cpp */; };
 		F517970E1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
 		F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
@@ -430,6 +433,9 @@
 		F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifier.cpp; path = src/ControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerDefinition.cpp; path = tests/TestControllerDefinition.cpp; sourceTree = "<group>"; };
 		F515812C1E8A7FB7009CE419 /* IObjectWithFieldsType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithFieldsType.hpp; path = include/yazyk/IObjectWithFieldsType.hpp; sourceTree = "<group>"; };
+		F515812D1E8AA85A009CE419 /* Controller.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Controller.hpp; path = include/yazyk/Controller.hpp; sourceTree = "<group>"; };
+		F515812E1E8AAB12009CE419 /* Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Controller.cpp; path = src/Controller.cpp; sourceTree = "<group>"; };
+		F51581311E8AB1A9009CE419 /* TestController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestController.cpp; path = tests/TestController.cpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
 		F517970B1E633FB7009B16AA /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/yazyk/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
 		F517970C1E660064009B16AA /* InterfaceDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceDefinition.hpp; path = include/yazyk/InterfaceDefinition.hpp; sourceTree = "<group>"; };
@@ -777,6 +783,7 @@
 				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
+				F51581311E8AB1A9009CE419 /* TestController.cpp */,
 				F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */,
 				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
 				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
@@ -941,6 +948,7 @@
 				F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
 				F58B32841E1635850001CC15 /* ContinueStatement.cpp */,
+				F515812E1E8AAB12009CE419 /* Controller.cpp */,
 				F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */,
 				F51581231E89B02F009CE419 /* ControllerFieldDeclaration.cpp */,
 				F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */,
@@ -1081,6 +1089,7 @@
 				F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */,
 				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
 				F58B32831E1635270001CC15 /* ContinueStatement.hpp */,
+				F515812D1E8AA85A009CE419 /* Controller.hpp */,
 				F515811F1E8960EE009CE419 /* ControllerDefinition.hpp */,
 				F515811E1E894FE6009CE419 /* ControllerFieldDeclaration.hpp */,
 				F51581261E89B966009CE419 /* ControllerTypeSpecifier.hpp */,
@@ -1283,6 +1292,7 @@
 				F508E06A1E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
 				F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
 				F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */,
+				F51581301E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
 				F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */,
 				F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
@@ -1330,6 +1340,7 @@
 				F507D2791E474E7C00495E2D /* BooleanConstants.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F5C6FD7C1E48B64C0054209D /* FloatType.cpp in Sources */,
+				F51581321E8AB1A9009CE419 /* TestController.cpp in Sources */,
 				F59D82241E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F5C6FD7E1E48B6810054209D /* TestFloatType.cpp in Sources */,
 				F5C6FD701E48B40F0054209D /* BooleanType.cpp in Sources */,
@@ -1398,6 +1409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
+				F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F50427AC1E4D2747001CB148 /* LocalHeapVariable.cpp in Sources */,

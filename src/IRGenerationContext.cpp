@@ -75,6 +75,25 @@ Model* IRGenerationContext::getModel(string name) {
   return mModels.at(name);
 }
 
+void IRGenerationContext::addController(Controller* controller) {
+  string name = controller->getName();
+  if (mControllers.count(name)) {
+    Log::e("Redefinition of Controller " + name);
+    exit(1);
+  }
+  
+  mControllers[name] = controller;
+}
+
+Controller* IRGenerationContext::getController(string name) {
+  if (!mControllers.count(name)) {
+    Log::e("Controller " + name + " is not defined");
+    exit(1);
+  }
+  
+  return mControllers.at(name);
+}
+
 void IRGenerationContext::addInterface(Interface* interface) {
   string name = interface->getName();
   if (mInterfaces.count(name)) {

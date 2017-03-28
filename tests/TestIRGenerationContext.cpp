@@ -73,7 +73,7 @@ TEST(IRGenerationContextTest, modelTypeRegistryTest) {
   Model* resultModel = context.getModel("mymodel");
   
   ASSERT_NE(resultModel, nullptr);
-  EXPECT_EQ(context.getModel("mymodel")->getLLVMType(context.getLLVMContext()),
+  EXPECT_EQ(resultModel->getLLVMType(context.getLLVMContext()),
             structType->getPointerTo());
 }
 
@@ -98,6 +98,45 @@ TEST(IRGenerationContextTest, modelTypeDoesNotExistDeathTest) {
   EXPECT_EXIT(context.getModel("mymodel"),
               ::testing::ExitedWithCode(1),
               "MODEL mymodel is not defined");
+}
+
+TEST(IRGenerationContextTest, controllerTypeRegistryTest) {
+  IRGenerationContext context;
+  
+  StructType* structType = StructType::create(context.getLLVMContext(), "CMyController");
+  map<string, Field*> fields;
+  vector<Method*> methods;
+  vector<Interface*> interfaces;
+  Controller* controller = new Controller("CMyController", structType, fields, methods, interfaces);
+  context.addController(controller);
+  Controller* resultController = context.getController("CMyController");
+  
+  ASSERT_NE(resultController, nullptr);
+  EXPECT_EQ(resultController->getLLVMType(context.getLLVMContext()),
+            structType->getPointerTo());
+}
+
+TEST(IRGenerationContextTest, controllerTypeRedefinedDeathTest) {
+  IRGenerationContext context;
+  
+  StructType* structType = StructType::create(context.getLLVMContext(), "CMyController");
+  map<string, Field*> fields;
+  vector<Method*> methods;
+  vector<Interface*> interfaces;
+  Controller* controller = new Controller("CMyController", structType, fields, methods, interfaces);
+  context.addController(controller);
+  
+  EXPECT_EXIT(context.addController(controller),
+              ::testing::ExitedWithCode(1),
+              "Redefinition of Controller CMyController");
+}
+
+TEST(IRGenerationContextTest, controllerTypeDoesNotExistDeathTest) {
+  IRGenerationContext context;
+  
+  EXPECT_EXIT(context.getController("CMyController"),
+              ::testing::ExitedWithCode(1),
+              "Controller CMyController is not defined");
 }
 
 TEST(IRGenerationContextTest, interfaceTypeRegistryTest) {

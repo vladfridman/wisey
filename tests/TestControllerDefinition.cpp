@@ -8,7 +8,94 @@
 //  Tests {@link ControllerDefinition}
 //
 
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+#include <llvm/IR/Constants.h>
+#include <llvm/Support/raw_ostream.h>
+
+#include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "yazyk/AccessSpecifiers.hpp"
+#include "yazyk/ControllerDefinition.hpp"
+#include "yazyk/Interface.hpp"
+#include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/MethodArgument.hpp"
+#include "yazyk/MethodDeclaration.hpp"
+#include "yazyk/MethodSignature.hpp"
+#include "yazyk/PrimitiveTypes.hpp"
+#include "yazyk/PrimitiveTypeSpecifier.hpp"
+
+using namespace llvm;
+using namespace std;
+using namespace yazyk;
+
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Test;
+
+struct ControllerDefinitionTest : public Test {
+  IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
+  MethodDeclaration *mMethodDeclaration;
+  vector<ControllerFieldDeclaration*> mReceivedFields;
+  vector<ControllerFieldDeclaration*> mInjectedFields;
+  vector<ControllerFieldDeclaration*> mStateFields;
+  vector<MethodDeclaration*> mMethodDeclarations;
+  Block mBlock;
+  NiceMock<MockStatement> mMockStatement;
+  
+  ControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
+    mBlock.getStatements().push_back(&mMockStatement);
+    CompoundStatement* compoundStatement = new CompoundStatement(mBlock);
+    PrimitiveTypeSpecifier* intTypeSpecifier =
+    new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    PrimitiveTypeSpecifier* floatTypeSpecifier =
+    new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+    Identifier* intArgumentIdentifier = new Identifier("intargument");
+    VariableDeclaration* intArgument =
+    new VariableDeclaration(*intTypeSpecifier, *intArgumentIdentifier);
+    VariableList methodArguments;
+    methodArguments.push_back(intArgument);
+    mMethodDeclaration = new MethodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
+                                               *floatTypeSpecifier,
+                                               "foo",
+                                               methodArguments,
+                                               *compoundStatement);
+    mMethodDeclarations.push_back(mMethodDeclaration);
+  }
+};
+
+TEST_F(ControllerDefinitionTest, simpleDefinitionTest) {
+  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  ExpressionList arguments;
+  ControllerFieldDeclaration* field1 =
+    new ControllerFieldDeclaration(RECEIVED_FIELD, *longType, "field1", arguments);
+  ControllerFieldDeclaration* field2 =
+    new ControllerFieldDeclaration(RECEIVED_FIELD, *floatType, "field2", arguments);
+  mReceivedFields.push_back(field1);
+  mReceivedFields.push_back(field2);
+  
+  vector<string> interfaces;
+  ControllerDefinition controllerDefinition("CMyController",
+                                            mReceivedFields,
+                                            mInjectedFields,
+                                            mStateFields,
+                                            mMethodDeclarations,
+                                            interfaces);
+  
+  controllerDefinition.generateIR(mContext);
+  
+  ASSERT_NE(mContext.getController("CMyController"), nullptr);
+
+  Controller* controller = mContext.getController("CMyController");
+  StructType* structType =
+    (StructType*) controller->getLLVMType(mLLVMContext)->getPointerElementType();
+  
+  ASSERT_NE(structType, nullptr);
+}
 
 TEST_F(TestFileSampleRunner, controllerDefinitionSyntaxRunTest) {
   runFile("tests/samples/test_controller_definition.yz", "0");

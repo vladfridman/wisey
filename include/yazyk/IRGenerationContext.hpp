@@ -15,6 +15,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 
+#include "yazyk/Controller.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/Model.hpp"
 #include "yazyk/Scopes.hpp"
@@ -31,6 +32,7 @@ class IRGenerationContext {
   std::unique_ptr<llvm::Module> mOwner;
   llvm::BasicBlock* mBasicBlock;
   std::map<std::string, Model*> mModels;
+  std::map<std::string, Controller*> mControllers;
   std::map<std::string, Interface*> mInterfaces;
   std::map<std::string, IType*> mGlobalFunctions;
   Scopes mScopes;
@@ -83,6 +85,16 @@ public:
    * Look up a MODEL type
    */
   Model* getModel(std::string name);
+
+  /**
+   * Add a Controller type
+   */
+  void addController(Controller* model);
+  
+  /**
+   * Look up a Controller type
+   */
+  Controller* getController(std::string name);
   
   /**
    * Add an Interface type
