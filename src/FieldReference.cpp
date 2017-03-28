@@ -1,5 +1,5 @@
 //
-//  ModelFieldReference.cpp
+//  FieldReference.cpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/8/17.
@@ -9,25 +9,25 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/FieldReference.hpp"
 #include "yazyk/Log.hpp"
-#include "yazyk/ModelFieldReference.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace yazyk;
 
-Value* ModelFieldReference::generateIR(IRGenerationContext& context) const {
+Value* FieldReference::generateIR(IRGenerationContext& context) const {
   checkAndFindField(context);
   
   Log::e("All model fields are private. Implement getters and setters to use fields");
   exit(1);
 }
 
-IType* ModelFieldReference::getType(IRGenerationContext& context) const {
+IType* FieldReference::getType(IRGenerationContext& context) const {
   return checkAndFindField(context)->getType();
 }
 
-Field* ModelFieldReference::checkAndFindField(IRGenerationContext& context) const {
+Field* FieldReference::checkAndFindField(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to reference field '" + mFieldName + "' in a primitive type expression");
@@ -45,7 +45,7 @@ Field* ModelFieldReference::checkAndFindField(IRGenerationContext& context) cons
   exit(1);
 }
 
-void ModelFieldReference::releaseOwnership(IRGenerationContext &context) const {
+void FieldReference::releaseOwnership(IRGenerationContext &context) const {
   Log::e("Model fields can not be references and objects they reference can not be released");
   exit(1);
 }
