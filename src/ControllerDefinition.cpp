@@ -16,7 +16,7 @@ using namespace yazyk;
 ControllerDefinition::~ControllerDefinition() {
   mReceivedFeildDeclarations.clear();
   mInjectedFeildDeclarations.clear();
-  mStateFeildDeclarations.clear();
+  mStateFieldDeclarations.clear();
   mMethodDeclarations.clear();
 }
 
@@ -67,7 +67,7 @@ map<string, Field*> ControllerDefinition::createFields(IRGenerationContext& cont
     fields[fieldDeclaration->getName()] = field;
     index++;
   }
-  for (ControllerFieldDeclaration* fieldDeclaration : mStateFeildDeclarations) {
+  for (ControllerFieldDeclaration* fieldDeclaration : mStateFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
     Field* field = new Field(fieldType, numberOfInterfaces + index);

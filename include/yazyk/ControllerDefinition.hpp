@@ -25,7 +25,7 @@ class ControllerDefinition : public IStatement {
   std::string mName;
   std::vector<ControllerFieldDeclaration*> mReceivedFeildDeclarations;
   std::vector<ControllerFieldDeclaration*> mInjectedFeildDeclarations;
-  std::vector<ControllerFieldDeclaration*> mStateFeildDeclarations;
+  std::vector<ControllerFieldDeclaration*> mStateFieldDeclarations;
   std::vector<MethodDeclaration*> mMethodDeclarations;
   std::vector<std::string> mInterfaces;
   
@@ -40,7 +40,7 @@ public:
   mName(name),
   mReceivedFeildDeclarations(receivedFieldDeclarations),
   mInjectedFeildDeclarations(injectedFieldDeclarations),
-  mStateFeildDeclarations(stateFieldDeclarations),
+  mStateFieldDeclarations(stateFieldDeclarations),
   mMethodDeclarations(methodDeclarations),
   mInterfaces(interfaces) { }
   
