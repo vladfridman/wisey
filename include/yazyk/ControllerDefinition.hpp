@@ -23,8 +23,8 @@ namespace yazyk {
  */
 class ControllerDefinition : public IStatement {
   std::string mName;
-  std::vector<ControllerFieldDeclaration*> mReceivedFeildDeclarations;
-  std::vector<ControllerFieldDeclaration*> mInjectedFeildDeclarations;
+  std::vector<ControllerFieldDeclaration*> mReceivedFieldDeclarations;
+  std::vector<ControllerFieldDeclaration*> mInjectedFieldDeclarations;
   std::vector<ControllerFieldDeclaration*> mStateFieldDeclarations;
   std::vector<MethodDeclaration*> mMethodDeclarations;
   std::vector<std::string> mInterfaces;
@@ -38,8 +38,8 @@ public:
                        std::vector<MethodDeclaration*> methodDeclarations,
                        std::vector<std::string> interfaces) :
   mName(name),
-  mReceivedFeildDeclarations(receivedFieldDeclarations),
-  mInjectedFeildDeclarations(injectedFieldDeclarations),
+  mReceivedFieldDeclarations(receivedFieldDeclarations),
+  mInjectedFieldDeclarations(injectedFieldDeclarations),
   mStateFieldDeclarations(stateFieldDeclarations),
   mMethodDeclarations(methodDeclarations),
   mInterfaces(interfaces) { }

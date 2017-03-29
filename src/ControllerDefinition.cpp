@@ -14,8 +14,8 @@ using namespace std;
 using namespace yazyk;
 
 ControllerDefinition::~ControllerDefinition() {
-  mReceivedFeildDeclarations.clear();
-  mInjectedFeildDeclarations.clear();
+  mReceivedFieldDeclarations.clear();
+  mInjectedFieldDeclarations.clear();
   mStateFieldDeclarations.clear();
   mMethodDeclarations.clear();
 }
@@ -53,14 +53,14 @@ map<string, Field*> ControllerDefinition::createFields(IRGenerationContext& cont
                                                        unsigned long numberOfInterfaces) const {
   map<string, Field*> fields;
   unsigned long index = 0;
-  for (ControllerFieldDeclaration* fieldDeclaration : mReceivedFeildDeclarations) {
+  for (ControllerFieldDeclaration* fieldDeclaration : mReceivedFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
     Field* field = new Field(fieldType, numberOfInterfaces + index);
     fields[fieldDeclaration->getName()] = field;
     index++;
   }
-  for (ControllerFieldDeclaration* fieldDeclaration : mInjectedFeildDeclarations) {
+  for (ControllerFieldDeclaration* fieldDeclaration : mInjectedFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
     Field* field = new Field(fieldType, numberOfInterfaces + index);
