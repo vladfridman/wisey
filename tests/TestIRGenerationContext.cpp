@@ -104,10 +104,18 @@ TEST(IRGenerationContextTest, controllerTypeRegistryTest) {
   IRGenerationContext context;
   
   StructType* structType = StructType::create(context.getLLVMContext(), "CMyController");
-  map<string, Field*> fields;
+  vector<Field*> receivedFields;
+  vector<Field*> injectedFields;
+  vector<Field*> stateFields;
   vector<Method*> methods;
   vector<Interface*> interfaces;
-  Controller* controller = new Controller("CMyController", structType, fields, methods, interfaces);
+  Controller* controller = new Controller("CMyController",
+                                          structType,
+                                          receivedFields,
+                                          injectedFields,
+                                          stateFields,
+                                          methods,
+                                          interfaces);
   context.addController(controller);
   Controller* resultController = context.getController("CMyController");
   
@@ -120,10 +128,18 @@ TEST(IRGenerationContextTest, controllerTypeRedefinedDeathTest) {
   IRGenerationContext context;
   
   StructType* structType = StructType::create(context.getLLVMContext(), "CMyController");
-  map<string, Field*> fields;
+  vector<Field*> receivedFields;
+  vector<Field*> injectedFields;
+  vector<Field*> stateFields;
   vector<Method*> methods;
   vector<Interface*> interfaces;
-  Controller* controller = new Controller("CMyController", structType, fields, methods, interfaces);
+  Controller* controller = new Controller("CMyController",
+                                          structType,
+                                          receivedFields,
+                                          injectedFields,
+                                          stateFields,
+                                          methods,
+                                          interfaces);
   context.addController(controller);
   
   EXPECT_EXIT(context.addController(controller),

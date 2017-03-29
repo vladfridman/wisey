@@ -7,27 +7,43 @@
 //
 
 #include "yazyk/Controller.hpp"
+#include "yazyk/Field.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
 Controller::~Controller() {
-  mFields.clear();
+  mReceivedFields.clear();
+  mInjectedFields.clear();
+  mStateFields.clear();
   mMethods.clear();
 }
 
 Controller::Controller(string name,
-             StructType* structType,
-             map<string, Field*> fields,
-             vector<Method*> methods,
-             vector<Interface*> interfaces) {
+                       StructType* structType,
+                       vector<Field*> receivedFields,
+                       vector<Field*> injectedFields,
+                       vector<Field*> stateFields,
+                       vector<Method*> methods,
+                       vector<Interface*> interfaces) {
   mName = name;
   mStructType = structType;
-  mFields = fields;
+  mReceivedFields = receivedFields;
+  mInjectedFields = injectedFields;
+  mStateFields = stateFields;
   mMethods = methods;
   mInterfaces = interfaces;
   
+  for (Field* field : receivedFields) {
+    mFields[field->getName()] = field;
+  }
+  for (Field* field : injectedFields) {
+    mFields[field->getName()] = field;
+  }
+  for (Field* field : stateFields) {
+    mFields[field->getName()] = field;
+  }
   for (Method* method : methods) {
     mNameToMethodMap[method->getName()] = method;
   }

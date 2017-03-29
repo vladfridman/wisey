@@ -27,14 +27,22 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
   types.push_back(Type::getInt32Ty(llvmContext));
   StructType* structType = StructType::create(llvmContext, "CMultiplier");
   structType->setBody(types);
-  map<string, Field*> fields;
-  fields["left"] = new Field(PrimitiveTypes::INT_TYPE, "left", 0);
-  fields["right"] = new Field(PrimitiveTypes::INT_TYPE, "right", 1);
+  vector<Field*> receivedFields;
+  vector<Field*> injectedFields;
+  vector<Field*> stateFields;
+  receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "left", 0));
+  receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "right", 1));
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
   methods.push_back(new Method("multiply", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));
   vector<Interface*> interfaces;
-  Controller* controller = new Controller("CMultiplier", structType, fields, methods, interfaces);
+  Controller* controller = new Controller("CMultiplier",
+                                          structType,
+                                          receivedFields,
+                                          injectedFields,
+                                          stateFields,
+                                          methods,
+                                          interfaces);
   context.addController(controller);
   
   ControllerTypeSpecifier controllerTypeSpecifier("CMultiplier");

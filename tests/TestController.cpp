@@ -41,11 +41,13 @@ struct ControllerTest : public Test {
     types.push_back(Type::getInt32Ty(mLLVMContext));
     mStructType = StructType::create(mLLVMContext, "CMultiplier");
     mStructType->setBody(types);
-    map<string, Field*> fields;
+    vector<Field*> receivedFields;
+    vector<Field*> injectedFields;
+    vector<Field*> stateFields;
     mLeftField = new Field(PrimitiveTypes::INT_TYPE, "left", 0);
     mRightField = new Field(PrimitiveTypes::INT_TYPE, "right", 1);
-    fields["left"] = mLeftField;
-    fields["right"] = mRightField;
+    receivedFields.push_back(mLeftField);
+    receivedFields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
     mMethod = new Method("calculate", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL);
     vector<Method*> methods;
@@ -53,7 +55,13 @@ struct ControllerTest : public Test {
     methods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 1, NULL));
     
     vector<Interface*> interfaces;
-    mController = new Controller("CMultiplier", mStructType, fields, methods, interfaces);
+    mController = new Controller("CMultiplier",
+                                 mStructType,
+                                 receivedFields,
+                                 injectedFields,
+                                 stateFields,
+                                 methods,
+                                 interfaces);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     Function* function = Function::Create(functionType,

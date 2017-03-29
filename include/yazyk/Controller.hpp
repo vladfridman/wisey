@@ -24,8 +24,11 @@ namespace yazyk {
 class Controller : public IObjectWithFieldsType, public IObjectWithMethodsType {
   std::string mName;
   llvm::StructType* mStructType;
-  std::map<std::string, Field*> mFields;
+  std::vector<Field*> mReceivedFields;
+  std::vector<Field*> mInjectedFields;
+  std::vector<Field*> mStateFields;
   std::vector<Method*> mMethods;
+  std::map<std::string, Field*> mFields;
   std::map<std::string, Method*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
   
@@ -33,7 +36,9 @@ public:
   
   Controller(std::string name,
              llvm::StructType* structType,
-             std::map<std::string, Field*> fields,
+             std::vector<Field*> receivedFields,
+             std::vector<Field*> injectedFields,
+             std::vector<Field*> stateFields,
              std::vector<Method*> methods,
              std::vector<Interface*> interfaces);
   

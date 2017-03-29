@@ -53,8 +53,10 @@ private:
   std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                             std::vector<llvm::Type*>& types) const;
 
-  std::map<std::string, Field*> createFields(IRGenerationContext& context,
-                                             unsigned long numberOfInterfaces) const;
+  std::vector<Field*> fieldDeclarationsToFields(IRGenerationContext& context,
+                                                std::vector<ControllerFieldDeclaration*>
+                                                  declarations,
+                                                unsigned long startIndex) const;
 
   std::vector<Method*> createMethods(IRGenerationContext& context) const;
 };

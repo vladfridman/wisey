@@ -26,9 +26,25 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
-  map<string, Field*> fields = createFields(context, interfaces.size());
+  vector<Field*> receivedFields = fieldDeclarationsToFields(context,
+                                                            mReceivedFieldDeclarations,
+                                                            interfaces.size());
+  vector<Field*> injectedFields = fieldDeclarationsToFields(context,
+                                                            mInjectedFieldDeclarations,
+                                                            interfaces.size() +
+                                                            receivedFields.size());
+  vector<Field*> stateFields = fieldDeclarationsToFields(context,
+                                                         mStateFieldDeclarations,
+                                                         interfaces.size() + receivedFields.size() +
+                                                         injectedFields.size());
   vector<Method*> methods = createMethods(context);
-  Controller* controller = new Controller(mName, structType, fields, methods, interfaces);
+  Controller* controller = new Controller(mName,
+                                          structType,
+                                          receivedFields,
+                                          injectedFields,
+                                          stateFields,
+                                          methods,
+                                          interfaces);
   
   context.getScopes().pushScope();
 
@@ -49,31 +65,18 @@ vector<Interface*> ControllerDefinition::processInterfaces(IRGenerationContext& 
   return interfaces;
 }
 
-map<string, Field*> ControllerDefinition::createFields(IRGenerationContext& context,
-                                                       unsigned long numberOfInterfaces) const {
-  map<string, Field*> fields;
-  unsigned long index = 0;
+vector<Field*> ControllerDefinition::fieldDeclarationsToFields(IRGenerationContext& context,
+                                                               vector<ControllerFieldDeclaration*>
+                                                                declarations,
+                                                               unsigned long startIndex) const {
+  vector<Field*> fields;
   for (ControllerFieldDeclaration* fieldDeclaration : mReceivedFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
-    Field* field = new Field(fieldType, fieldDeclaration->getName(), numberOfInterfaces + index);
-    fields[fieldDeclaration->getName()] = field;
-    index++;
+    Field* field = new Field(fieldType, fieldDeclaration->getName(), startIndex + fields.size());
+    fields.push_back(field);
   }
-  for (ControllerFieldDeclaration* fieldDeclaration : mInjectedFieldDeclarations) {
-    IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
-    
-    Field* field = new Field(fieldType, fieldDeclaration->getName(), numberOfInterfaces + index);
-    fields[fieldDeclaration->getName()] = field;
-    index++;
-  }
-  for (ControllerFieldDeclaration* fieldDeclaration : mStateFieldDeclarations) {
-    IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
-    
-    Field* field = new Field(fieldType, fieldDeclaration->getName(), numberOfInterfaces + index);
-    fields[fieldDeclaration->getName()] = field;
-    index++;
-  }
+  
   return fields;
 }
 
