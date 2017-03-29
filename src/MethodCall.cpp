@@ -21,8 +21,11 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   IObjectWithMethodsType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   checkArgumentType(objectWithMethodsType, methodDescriptor, context);
-  if (objectWithMethodsType->getTypeKind() == MODEL_TYPE) {
-    return generateModelMethodCallIR(context, (Model*) objectWithMethodsType, methodDescriptor);
+  if (objectWithMethodsType->getTypeKind() == MODEL_TYPE ||
+      objectWithMethodsType->getTypeKind() == CONTROLLER_TYPE) {
+    return generateModelMethodCallIR(context,
+                                     (IObjectWithMethodsType*) objectWithMethodsType,
+                                     methodDescriptor);
   }
   if (objectWithMethodsType->getTypeKind() == INTERFACE_TYPE) {
     return generateInterfaceMethodCallIR(context,
@@ -62,13 +65,13 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
 }
 
 Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
-                                             Model* model,
+                                             IObjectWithMethodsType* object,
                                              IMethodDescriptor* methodDescriptor) const {
-  string llvmFunctionName = translateModelMethodToLLVMFunctionName(model, mMethodName);
+  string llvmFunctionName = translateObjectMethodToLLVMFunctionName(object, mMethodName);
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
   if (function == NULL) {
-    Log::e("LLVM function implementing model '" + model->getName() + "' method '" +
+    Log::e("LLVM function implementing model '" + object->getName() + "' method '" +
            mMethodName + "' was not found");
     exit(1);
   }
@@ -164,18 +167,19 @@ void MethodCall::checkArgumentType(IObjectWithMethodsType* objectWithMethods,
   }
 }
 
-string MethodCall::translateModelMethodToLLVMFunctionName(Model* model, string methodName) {
-  if (model == NULL) {
+string MethodCall::translateObjectMethodToLLVMFunctionName(IObjectWithMethodsType* object,
+                                                           string methodName) {
+  if (object == NULL) {
     return methodName;
   }
-  return "model." + model->getName() + "." + methodName;
+  return "object." + object->getName() + "." + methodName;
 }
 
-string MethodCall::translateInterfaceMethodToLLVMFunctionName(Model* model,
-                                                                   const Interface* interface,
-                                                                   string methodName) {
-  if (model == NULL) {
+string MethodCall::translateInterfaceMethodToLLVMFunctionName(IObjectWithMethodsType* object,
+                                                              const Interface* interface,
+                                                              string methodName) {
+  if (object == NULL) {
     return methodName;
   }
-  return "model." + model->getName() + ".interface." + interface->getName() + "." + methodName;
+  return "object." + object->getName() + ".interface." + interface->getName() + "." + methodName;
 }

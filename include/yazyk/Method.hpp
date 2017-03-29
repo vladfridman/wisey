@@ -44,9 +44,10 @@ public:
   ~Method() { mArguments.clear(); }
   
   /**
-   * Generate IR for this method in a given model
+   * Generate IR for this method in a given model or a controller object
    */
-  llvm::Function* generateIR(IRGenerationContext& context, Model* model) const;
+  llvm::Function* generateIR(IRGenerationContext& context,
+                             IObjectWithMethodsType* objectType) const;
 
   std::string getName() const override;
   
@@ -58,11 +59,12 @@ public:
   
 private:
   
-  llvm::Function* createFunction(IRGenerationContext& context, Model* model) const;
+  llvm::Function* createFunction(IRGenerationContext& context,
+                                 IObjectWithMethodsType* objectType) const;
   
   void createArguments(IRGenerationContext& context,
                        llvm::Function* function,
-                       Model* model) const;
+                       IObjectWithMethodsType* objectType) const;
   
   void maybeAddImpliedVoidReturn(IRGenerationContext& context) const;
   

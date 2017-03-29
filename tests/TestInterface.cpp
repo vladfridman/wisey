@@ -188,21 +188,21 @@ TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_not_implmented.yz",
                          1,
                          "Error: Method 'getArea' of interface 'IShape' is not "
-                         "implemented by model 'MSquare'");
+                         "implemented by object 'MSquare'");
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodDifferentReturnTypeDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_return_type_doesnot_match.yz",
                          1,
                          "Error: Method 'getArea' of interface 'IShape' has different "
-                         "return type when implmeneted by model 'MSquare'");
+                         "return type when implmeneted by object 'MSquare'");
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_arguments_dont_match.yz",
                          1,
                          "Error: Method 'getArea' of interface 'IShape' has different "
-                         "argument types when implmeneted by model 'MSquare'");
+                         "argument types when implmeneted by object 'MSquare'");
 }
 
 TEST_F(TestFileSampleRunner, modelImplmenetingInterfaceDefinitionRunTest) {

@@ -41,19 +41,20 @@ public:
   /**
    * Translate model method name into its LLVM implemenation function name
    */
-  static std::string translateModelMethodToLLVMFunctionName(Model* model, std::string methodName);
+  static std::string translateObjectMethodToLLVMFunctionName(IObjectWithMethodsType* object,
+                                                             std::string methodName);
 
   /**
    * Translate model method name into its LLVM implemenation function name
    */
-  static std::string translateInterfaceMethodToLLVMFunctionName(Model* model,
+  static std::string translateInterfaceMethodToLLVMFunctionName(IObjectWithMethodsType* object,
                                                                 const Interface* interface,
                                                                 std::string methodName);
 
 private:
 
   llvm::Value* generateModelMethodCallIR(IRGenerationContext& context,
-                                         Model* model,
+                                         IObjectWithMethodsType* object,
                                          IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,

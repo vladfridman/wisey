@@ -33,17 +33,18 @@ unsigned long Method::getIndex() const {
   return mIndex;
 }
 
-Function* Method::generateIR(IRGenerationContext& context, Model* model) const {
+Function* Method::generateIR(IRGenerationContext& context,
+                             IObjectWithMethodsType* objectType) const {
   Scopes& scopes = context.getScopes();
   
-  Function* function = createFunction(context, model);
+  Function* function = createFunction(context, objectType);
   
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   context.setBasicBlock(bblock);
   
   context.getScopes().pushScope();
   context.getScopes().setReturnType(mReturnType);
-  createArguments(context, function, model);
+  createArguments(context, function, objectType);
   mCompoundStatement->generateIR(context);
   scopes.popScope(context);
   
@@ -52,11 +53,12 @@ Function* Method::generateIR(IRGenerationContext& context, Model* model) const {
   return function;
 }
 
-Function* Method::createFunction(IRGenerationContext& context, Model* model) const {
+Function* Method::createFunction(IRGenerationContext& context,
+                                 IObjectWithMethodsType* objectType) const {
   FunctionType *ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
                                                                context,
-                                                               model);
-  string functionName = MethodCall::translateModelMethodToLLVMFunctionName(model, mName);
+                                                               objectType);
+  string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
   return Function::Create(ftype,
                           GlobalValue::InternalLinkage,
@@ -64,7 +66,9 @@ Function* Method::createFunction(IRGenerationContext& context, Model* model) con
                           context.getModule());
 }
 
-void Method::createArguments(IRGenerationContext& context, Function* function, Model* model) const {
+void Method::createArguments(IRGenerationContext& context,
+                             Function* function,
+                             IObjectWithMethodsType* objectType) const {
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName("this");
@@ -76,7 +80,7 @@ void Method::createArguments(IRGenerationContext& context, Function* function, M
   }
   
   llvmFunctionArguments = function->arg_begin();
-  storeArgumentValue(context, "this", model, &*llvmFunctionArguments);
+  storeArgumentValue(context, "this", objectType, &*llvmFunctionArguments);
   llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     storeArgumentValue(context,
@@ -88,9 +92,9 @@ void Method::createArguments(IRGenerationContext& context, Function* function, M
 }
 
 void Method::storeArgumentValue(IRGenerationContext& context,
-                                           std::string variableName,
-                                           IType* variableType,
-                                           llvm::Value* variableValue) const {
+                                std::string variableName,
+                                IType* variableType,
+                                llvm::Value* variableValue) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   string newName = variableName + ".param";
   AllocaInst *alloc = new AllocaInst(variableType->getLLVMType(llvmContext),

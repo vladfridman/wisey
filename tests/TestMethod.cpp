@@ -82,7 +82,7 @@ TEST_F(MethodTest, methodFooIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal float @model.Object.foo(%Object* %this, i32 %intargument) {"
+  "\ndefine internal float @object.Object.foo(%Object* %this, i32 %intargument) {"
   "\nentry:"
   "\n  %this.param = alloca %Object*"
   "\n  store %Object* %this, %Object** %this.param"

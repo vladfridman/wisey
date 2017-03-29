@@ -88,10 +88,10 @@ public:
   }
 };
 
-TEST_F(MethodCallTest, translateModelMethodToLLVMFunctionNameTest) {
-  string functionName = MethodCall::translateModelMethodToLLVMFunctionName(mModel, "foo");
+TEST_F(MethodCallTest, translateObjectMethodToLLVMFunctionNameTest) {
+  string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(mModel, "foo");
   
-  EXPECT_STREQ(functionName.c_str(), "model.MSquare.foo");
+  EXPECT_STREQ(functionName.c_str(), "object.MSquare.foo");
 }
 
 TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
@@ -102,7 +102,7 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");
   
-  EXPECT_STREQ(functionName.c_str(), "model.MSquare.interface.IShape.foo");
+  EXPECT_STREQ(functionName.c_str(), "object.MSquare.interface.IShape.foo");
 }
 
 TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
@@ -209,7 +209,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
-                   "model.MSquare.foo",
+                   "object.MSquare.foo",
                    mContext.getModule());
   
   NiceMock<MockExpression> argumentExpression;
@@ -224,7 +224,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   Value* irValue = methodCall.generateIR(mContext);
 
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = call i32 @model.MSquare.foo(%MSquare* %test, float 0x4014CCCCC0000000)",
+  EXPECT_STREQ("  %call = call i32 @object.MSquare.foo(%MSquare* %test, float 0x4014CCCCC0000000)",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
