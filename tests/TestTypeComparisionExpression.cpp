@@ -71,8 +71,8 @@ struct TestTypeComparisionExpressionTest : public Test {
     StructType* squareStructType = StructType::create(mLLVMContext, "MSquare");
     squareStructType->setBody(squareTypes);
     map<string, Field*> squareFields;
-    squareFields["width"] = new Field(PrimitiveTypes::INT_TYPE, 0);
-    squareFields["height"] = new Field(PrimitiveTypes::INT_TYPE, 1);
+    squareFields["width"] = new Field(PrimitiveTypes::INT_TYPE, "width", 0);
+    squareFields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1);
     vector<MethodArgument*> methodArguments;
     vector<Method*> squareMethods;
     squareMethods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));

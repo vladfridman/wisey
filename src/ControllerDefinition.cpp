@@ -56,21 +56,21 @@ map<string, Field*> ControllerDefinition::createFields(IRGenerationContext& cont
   for (ControllerFieldDeclaration* fieldDeclaration : mReceivedFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
-    Field* field = new Field(fieldType, numberOfInterfaces + index);
+    Field* field = new Field(fieldType, fieldDeclaration->getName(), numberOfInterfaces + index);
     fields[fieldDeclaration->getName()] = field;
     index++;
   }
   for (ControllerFieldDeclaration* fieldDeclaration : mInjectedFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
-    Field* field = new Field(fieldType, numberOfInterfaces + index);
+    Field* field = new Field(fieldType, fieldDeclaration->getName(), numberOfInterfaces + index);
     fields[fieldDeclaration->getName()] = field;
     index++;
   }
   for (ControllerFieldDeclaration* fieldDeclaration : mStateFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
-    Field* field = new Field(fieldType, numberOfInterfaces + index);
+    Field* field = new Field(fieldType, fieldDeclaration->getName(), numberOfInterfaces + index);
     fields[fieldDeclaration->getName()] = field;
     index++;
   }

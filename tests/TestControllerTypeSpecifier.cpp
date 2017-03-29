@@ -28,8 +28,8 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
   StructType* structType = StructType::create(llvmContext, "CMultiplier");
   structType->setBody(types);
   map<string, Field*> fields;
-  fields["left"] = new Field(PrimitiveTypes::INT_TYPE, 0);
-  fields["right"] = new Field(PrimitiveTypes::INT_TYPE, 1);
+  fields["left"] = new Field(PrimitiveTypes::INT_TYPE, "left", 0);
+  fields["right"] = new Field(PrimitiveTypes::INT_TYPE, "right", 1);
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
   methods.push_back(new Method("multiply", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));

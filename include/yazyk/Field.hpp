@@ -18,17 +18,22 @@ namespace yazyk {
  */
 class Field {
   IType* mType;
+  std::string mName;
   unsigned long mIndex;
 
 public:
   
-  Field(IType* type, unsigned long index) : mType(type), mIndex(index) { }
+  Field(IType* type, std::string name, unsigned long index) :
+  mType(type), mName(name), mIndex(index) { }
   
   ~Field() { }
   
-  unsigned long getIndex() { return mIndex; }
-  
   IType* getType() const { return mType; }
+
+  std::string getName() const { return mName; }
+  
+  unsigned long getIndex() const { return mIndex; }
+  
 };
   
 } /* namespace yazyk */

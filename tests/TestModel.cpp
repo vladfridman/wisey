@@ -48,8 +48,8 @@ struct ModelTest : public Test {
     mStructType = StructType::create(mLLVMContext, "MSquare");
     mStructType->setBody(types);
     map<string, Field*> fields;
-    mWidthField = new Field(PrimitiveTypes::INT_TYPE, 0);
-    mHeightField = new Field(PrimitiveTypes::INT_TYPE, 1);
+    mWidthField = new Field(PrimitiveTypes::INT_TYPE, "width", 0);
+    mHeightField = new Field(PrimitiveTypes::INT_TYPE, "height", 1);
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;

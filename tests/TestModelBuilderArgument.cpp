@@ -38,7 +38,7 @@ struct ModelBuilderArgumentTest : Test {
     StructType *structType = StructType::create(llvmContext, "MModel");
     structType->setBody(types);
     map<string, Field*> fields;
-    Field* fieldA = new Field(PrimitiveTypes::INT_TYPE, 0);
+    Field* fieldA = new Field(PrimitiveTypes::INT_TYPE, "mFieldA", 0);
     fields["mFieldA"] = fieldA;
     vector<Method*> methods;
     vector<Interface*> interfaces;

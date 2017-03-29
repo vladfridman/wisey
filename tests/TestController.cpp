@@ -42,8 +42,8 @@ struct ControllerTest : public Test {
     mStructType = StructType::create(mLLVMContext, "CMultiplier");
     mStructType->setBody(types);
     map<string, Field*> fields;
-    mLeftField = new Field(PrimitiveTypes::INT_TYPE, 0);
-    mRightField = new Field(PrimitiveTypes::INT_TYPE, 1);
+    mLeftField = new Field(PrimitiveTypes::INT_TYPE, "left", 0);
+    mRightField = new Field(PrimitiveTypes::INT_TYPE, "right", 1);
     fields["left"] = mLeftField;
     fields["right"] = mRightField;
     vector<MethodArgument*> methodArguments;
