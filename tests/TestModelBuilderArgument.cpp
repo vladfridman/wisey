@@ -19,7 +19,9 @@
 #include "yazyk/ModelBuilderArgument.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
+using ::testing::_;
 using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 using namespace llvm;
@@ -28,8 +30,9 @@ using namespace yazyk;
 
 struct ModelBuilderArgumentTest : Test {
   IRGenerationContext mContext;
-  NiceMock<MockExpression> mFieldValue;
+  NiceMock<MockExpression> mFieldExpression;
   Model* mModel;
+  Value* mValue;
   
   ModelBuilderArgumentTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
@@ -38,24 +41,27 @@ struct ModelBuilderArgumentTest : Test {
     StructType *structType = StructType::create(llvmContext, "MModel");
     structType->setBody(types);
     map<string, Field*> fields;
-    Field* fieldA = new Field(PrimitiveTypes::INT_TYPE, "mFieldA", 0);
-    fields["mFieldA"] = fieldA;
+    fields["mFieldA"] = new Field(PrimitiveTypes::INT_TYPE, "mFieldA", 0);;
     vector<Method*> methods;
     vector<Interface*> interfaces;
     mModel = new Model("MModel", structType, fields, methods, interfaces);
+    
+    mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
+    ON_CALL(mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));
+    ON_CALL(mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   }
 };
 
 TEST_F(ModelBuilderArgumentTest, validModelBuilderArgumentTest) {
   string argumentSpecifier("withFieldA");
-  ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
+  ModelBuilderArgument argument(argumentSpecifier, mFieldExpression);
   
   EXPECT_TRUE(argument.checkArgument(mModel));
 }
 
 TEST_F(ModelBuilderArgumentTest, invalidModelBuilderArgumentTest) {
   string argumentSpecifier("mFieldA");
-  ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
+  ModelBuilderArgument argument(argumentSpecifier, mFieldExpression);
   
   stringstream errorBuffer;
   streambuf *streamBuffer = std::cerr.rdbuf();
@@ -70,7 +76,7 @@ TEST_F(ModelBuilderArgumentTest, invalidModelBuilderArgumentTest) {
 
 TEST_F(ModelBuilderArgumentTest, misspelledModelBuilderArgumentTest) {
   string argumentSpecifier("withFielda");
-  ModelBuilderArgument argument(argumentSpecifier, mFieldValue);
+  ModelBuilderArgument argument(argumentSpecifier, mFieldExpression);
   
   stringstream errorBuffer;
   streambuf *streamBuffer = std::cerr.rdbuf();
@@ -81,4 +87,18 @@ TEST_F(ModelBuilderArgumentTest, misspelledModelBuilderArgumentTest) {
                errorBuffer.str().c_str());
   
   cerr.rdbuf(streamBuffer);
+}
+
+TEST_F(ModelBuilderArgumentTest, getValueTest) {
+  string argumentSpecifier("withFieldA");
+  ModelBuilderArgument argument(argumentSpecifier, mFieldExpression);
+  
+  EXPECT_EQ(argument.getValue(mContext), mValue);
+}
+
+TEST_F(ModelBuilderArgumentTest, getTypeTest) {
+  string argumentSpecifier("withFieldA");
+  ModelBuilderArgument argument(argumentSpecifier, mFieldExpression);
+  
+  EXPECT_EQ(argument.getType(mContext), PrimitiveTypes::FLOAT_TYPE);
 }

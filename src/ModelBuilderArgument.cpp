@@ -35,5 +35,9 @@ string ModelBuilderArgument::deriveFieldName() const {
 }
 
 Value* ModelBuilderArgument::getValue(IRGenerationContext& context) const {
-  return mFieldValue.generateIR(context);
+  return mFieldExpression.generateIR(context);
+}
+
+IType* ModelBuilderArgument::getType(IRGenerationContext& context) const {
+  return mFieldExpression.getType(context);
 }

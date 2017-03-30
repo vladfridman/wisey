@@ -27,12 +27,12 @@ class IExpression;
 class ModelBuilderArgument {
   
   std::string mFieldSpecifier;
-  IExpression& mFieldValue;
+  IExpression& mFieldExpression;
   
 public:
   
-  ModelBuilderArgument(std::string fieldSpecifier, IExpression& fieldValue)
-    : mFieldSpecifier(fieldSpecifier), mFieldValue(fieldValue) { }
+  ModelBuilderArgument(std::string fieldSpecifier, IExpression& fieldExpression)
+    : mFieldSpecifier(fieldSpecifier), mFieldExpression(fieldExpression) { }
   
   ~ModelBuilderArgument() { }
   
@@ -47,6 +47,11 @@ public:
    * Computes argument value
    */
   llvm::Value* getValue(IRGenerationContext& context) const;
+  
+  /**
+   * Tells argument type
+   */
+  IType* getType(IRGenerationContext& context) const;
   
 private:
   

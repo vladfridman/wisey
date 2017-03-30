@@ -34,9 +34,8 @@ using ::testing::Test;
 struct ModelBuilderTest : Test {
   IRGenerationContext mContext;
   Model* mModel;
-  NiceMock<MockExpression> mFieldValue1;
-  NiceMock<MockExpression> mFieldValue2;
-  NiceMock<MockExpression> mFieldValue3;
+  NiceMock<MockExpression> mField1Expression;
+  NiceMock<MockExpression> mField2Expression;
   ModelTypeSpecifier mModelTypeSpecifier;
   BasicBlock *mBlock;
   string mStringBuffer;
@@ -57,11 +56,11 @@ struct ModelBuilderTest : Test {
     mModel = new Model("MShape", structType, fields, methods, interfaces);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-    ON_CALL(mFieldValue1, generateIR(_)).WillByDefault(Return(fieldValue1));
+    ON_CALL(mField1Expression, generateIR(_)).WillByDefault(Return(fieldValue1));
+    ON_CALL(mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
-    ON_CALL(mFieldValue2, generateIR(_)).WillByDefault(Return(fieldValue2));
-    Value* fieldValue3 = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
-    ON_CALL(mFieldValue3, generateIR(_)).WillByDefault(Return(fieldValue3));
+    ON_CALL(mField2Expression, generateIR(_)).WillByDefault(Return(fieldValue2));
+    ON_CALL(mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,
@@ -83,9 +82,9 @@ struct ModelBuilderTest : Test {
 
 TEST_F(ModelBuilderTest, releaseOwnershipTest) {
   string argumentSpecifier1("withWidth");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
+  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withHeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mFieldValue2);
+  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField2Expression);
   ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
   argumentList->push_back(argument1);
   argumentList->push_back(argument2);
