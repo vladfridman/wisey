@@ -109,8 +109,7 @@ IType* MethodCall::getType(IRGenerationContext& context) const {
 }
 
 void MethodCall::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Releasing ownership of a method call result is not implemented");
-  exit(1);
+  // TODO implement this if needed
 }
 
 IObjectWithMethodsType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {

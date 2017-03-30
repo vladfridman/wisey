@@ -134,15 +134,6 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
               "is not correct");
 }
 
-TEST_F(MethodCallTest, releaseOwnershipDeathTest) {
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
-  Mock::AllowLeak(&mExpression);
-  
-  EXPECT_EXIT(methodCall.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Releasing ownership of a method call result is not implemented");
-}
-
 TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   NiceMock<MockExpression> argumentExpression;
   ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
@@ -234,5 +225,9 @@ TEST_F(TestFileSampleRunner, modelMethodCallInExpressionRunTest) {
 
 TEST_F(TestFileSampleRunner, modelMethodCallInExpressionWrappedIdentifierRunTest) {
   runFile("tests/samples/test_model_method_call_wrapped_identifier.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, methodCallToMethodCallRunTest) {
+  runFile("tests/samples/test_method_call_to_method_call.yz", "10");
 }
 
