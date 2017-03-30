@@ -124,23 +124,6 @@ TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
               "Attempt to call a method 'foo' on a primitive type expression");
 }
 
-TEST_F(MethodCallTest, unknownObjectTypeCallDeathTest) {
-  NiceMock<MockExpression> expression;
-  NiceMock<MockType> unknownType;
-  ON_CALL(unknownType, getTypeKind()).WillByDefault(Return(CONTROLLER_TYPE));
-  ON_CALL(unknownType, getName()).WillByDefault(Return(string("Unknown")));
-  ON_CALL(expression, getType(_)).WillByDefault(Return(&unknownType));
-  MethodCall methodCall(expression, "foo", mArgumentList);
-  Mock::AllowLeak(&mExpression);
-  Mock::AllowLeak(&expression);
-  Mock::AllowLeak(&unknownType);
-  
-  EXPECT_EXIT(methodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Method 'foo\\(\\)' call on an object type "
-              "that does not have methods 'Unknown'");
-}
-
 TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   MethodCall methodCall(mExpression, "foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
@@ -170,7 +153,7 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: LLVM function implementing model 'MSquare' method 'bar' was not found");
+              "Error: LLVM function implementing object 'MSquare' method 'bar' was not found");
 }
 
 TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {

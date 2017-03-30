@@ -136,11 +136,3 @@ TEST_F(FunctionCallTest, releaseOwndershipTest) {
               ::testing::ExitedWithCode(1),
               "Error: Function call result ownership release is not implemented");
 }
-
-TEST_F(TestFileSampleRunner, FunctionCallRunTest) {
-  runFile("tests/samples/test_function_call.yz", "5");
-}
-
-TEST_F(TestFileSampleRunner, FunctionCallInExpressionRunTest) {
-  runFile("tests/samples/test_function_call_in_expression.yz", "4");
-}

@@ -71,7 +71,7 @@ Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
   if (function == NULL) {
-    Log::e("LLVM function implementing model '" + object->getName() + "' method '" +
+    Log::e("LLVM function implementing object '" + object->getName() + "' method '" +
            mMethodName + "' was not found");
     exit(1);
   }
@@ -119,13 +119,8 @@ IObjectWithMethodsType* MethodCall::getObjectWithMethods(IRGenerationContext& co
     Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
     exit(1);
   }
-  if (expressionType->getTypeKind() == INTERFACE_TYPE ||
-      expressionType->getTypeKind() == MODEL_TYPE) {
-    return dynamic_cast<IObjectWithMethodsType*>(expressionType);
-  }
-  Log::e("Method '" + mMethodName + "()' call on an object type that does not have methods '" +
-         expressionType->getName() + "'");
-  exit(1);
+  
+  return dynamic_cast<IObjectWithMethodsType*>(expressionType);
 }
 
 IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {

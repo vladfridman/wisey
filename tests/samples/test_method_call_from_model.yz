@@ -1,0 +1,16 @@
+model MCircle {
+  int mRadius;
+
+  public int getRadius() {
+    return mRadius;
+  }
+
+  public int getDiameter() {
+    return 2 * getRadius();
+  }
+}
+
+int main() {
+  MCircle circle = builder(MCircle).withRadius(5).build();
+  return circle.getDiameter();
+}

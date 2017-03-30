@@ -1,8 +1,11 @@
-void foo() {
-  int i = 0;
+model MModel {
+  public void foo() {
+    int i = 0;
+  }
 }
 
 int main() {
-  foo();
+  MModel m = builder(MModel).build();
+  m.foo();
   return 5;
 }

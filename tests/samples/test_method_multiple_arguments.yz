@@ -1,7 +1,10 @@
-int foo(int a, int b, int c) {
-  return a + b + c;
+model MModel {
+  public int foo(int a, int b, int c) {
+    return a + b + c;
+  }
 }
 
 int main() {
-  return foo(1, 2, 3);
+  MModel m = builder(MModel).build();
+  return m.foo(1, 2, 3);
 }
