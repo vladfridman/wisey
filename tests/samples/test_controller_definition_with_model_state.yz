@@ -17,14 +17,6 @@ controller CFibonacciCalculator {
   state MIntNumber mResult;
   state boolean mIsComputed;
 
-  private void setCachedResult(int result) {
-    mResult = builder(MIntNumber).withNumber(result).build();
-  }
-
-  private MIntNumber getCachedResult() {
-    return mResult;
-  }
-
   public MIntNumber calculate() {
     if(mIsComputed) {
       return getCachedResult();
@@ -45,6 +37,14 @@ controller CFibonacciCalculator {
     }
     setCachedResult(current);
     return getCachedResult();
+  }
+
+  private void setCachedResult(int result) {
+    mResult = builder(MIntNumber).withNumber(result).build();
+  }
+
+  private MIntNumber getCachedResult() {
+    return mResult;
   }
 }
 

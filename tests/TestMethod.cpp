@@ -73,12 +73,26 @@ TEST_F(MethodTest, basicMethodsTest) {
   ASSERT_EQ(mMethod->getArguments().size(), 2u);
 }
 
-TEST_F(MethodTest, methodFooIRTest) {
+TEST_F(MethodTest, defineFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   Method method("foo", PrimitiveTypes::FLOAT_TYPE, arguments, 0, &mCompoundStatement);
-  Value* function = method.generateIR(mContext, mModel);
+  Function* function = method.defineFunction(mContext, mModel);
+  
+  *mStringStream << *function;
+  string expected = "\ndeclare internal float @object.Object.foo(%Object*, i32)\n";
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  EXPECT_EQ(mContext.getMainFunction(), nullptr);
+}
+
+TEST_F(MethodTest, generateIRTest) {
+  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<MethodArgument*> arguments;
+  arguments.push_back(intArgument);
+  Method method("foo", PrimitiveTypes::FLOAT_TYPE, arguments, 0, &mCompoundStatement);
+  Function* function = method.defineFunction(mContext, mModel);
+  method.generateIR(mContext, function, mModel);
   
   *mStringStream << *function;
   string expected =

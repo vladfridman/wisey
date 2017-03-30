@@ -33,11 +33,23 @@ unsigned long Method::getIndex() const {
   return mIndex;
 }
 
-Function* Method::generateIR(IRGenerationContext& context,
-                             IObjectWithMethodsType* objectType) const {
-  Scopes& scopes = context.getScopes();
+Function* Method::defineFunction(IRGenerationContext& context,
+                                 IObjectWithMethodsType* objectType) const {
+  FunctionType *ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
+                                                               context,
+                                                               objectType);
+  string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
-  Function* function = createFunction(context, objectType);
+  return Function::Create(ftype,
+                          GlobalValue::InternalLinkage,
+                          functionName,
+                          context.getModule());
+}
+
+void Method::generateIR(IRGenerationContext& context,
+                        Function* function,
+                        IObjectWithMethodsType* objectType) const {
+  Scopes& scopes = context.getScopes();
   
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
   context.setBasicBlock(bblock);
@@ -49,21 +61,6 @@ Function* Method::generateIR(IRGenerationContext& context,
   scopes.popScope(context);
   
   maybeAddImpliedVoidReturn(context);
-  
-  return function;
-}
-
-Function* Method::createFunction(IRGenerationContext& context,
-                                 IObjectWithMethodsType* objectType) const {
-  FunctionType *ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
-                                                               context,
-                                                               objectType);
-  string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
-  
-  return Function::Create(ftype,
-                          GlobalValue::InternalLinkage,
-                          functionName,
-                          context.getModule());
 }
 
 void Method::createArguments(IRGenerationContext& context,

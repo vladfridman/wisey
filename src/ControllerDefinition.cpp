@@ -129,12 +129,21 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
 map<string, Function*> ControllerDefinition::generateMethodsIR(IRGenerationContext& context,
                                                                Controller* controller) const {
   map<string, Function*> methodFunctionMap;
+  vector<tuple<Method*, Function*>> methodsWithFunctions;
   
   for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
     Method* method = controller->findMethod(methodDeclaration->getMethodName());
-    Function* function = method->generateIR(context, controller);
+    Function* function = method->defineFunction(context, controller);
     methodFunctionMap[method->getName()] = function;
+    methodsWithFunctions.push_back(make_tuple(method, function));
   }
+  
+  for (tuple<Method*, Function*> methodAndFunction : methodsWithFunctions) {
+    Method* method = get<0>(methodAndFunction);
+    Function* function = get<1>(methodAndFunction);
+    method->generateIR(context, function, controller);
+  }
+  
   return methodFunctionMap;
 }
 

@@ -91,12 +91,21 @@ vector<Method*> ModelDefinition::createMethods(IRGenerationContext& context) con
 map<string, Function*> ModelDefinition::generateMethodsIR(IRGenerationContext& context,
                                                           Model* model) const {
   map<string, Function*> methodFunctionMap;
+  vector<tuple<Method*, Function*>> methodsWithFunctions;
   
   for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
     Method* method = model->findMethod(methodDeclaration->getMethodName());
-    Function* function = method->generateIR(context, model);
+    Function* function = method->defineFunction(context, model);
     methodFunctionMap[method->getName()] = function;
+    methodsWithFunctions.push_back(make_tuple(method, function));
   }
+  
+  for (tuple<Method*, Function*> methodAndFunction : methodsWithFunctions) {
+    Method* method = get<0>(methodAndFunction);
+    Function* function = get<1>(methodAndFunction);
+    method->generateIR(context, function, model);
+  }
+  
   return methodFunctionMap;
 }
 

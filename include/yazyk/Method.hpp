@@ -44,10 +44,17 @@ public:
   ~Method() { mArguments.clear(); }
   
   /**
+   * Defines LLVM function for this method
+   */
+  llvm::Function* defineFunction(IRGenerationContext& context,
+                                 IObjectWithMethodsType* objectType) const;
+  
+  /**
    * Generate IR for this method in a given model or a controller object
    */
-  llvm::Function* generateIR(IRGenerationContext& context,
-                             IObjectWithMethodsType* objectType) const;
+  void generateIR(IRGenerationContext& context,
+                  llvm::Function* function,
+                  IObjectWithMethodsType* objectType) const;
 
   std::string getName() const override;
   
@@ -58,9 +65,6 @@ public:
   unsigned long getIndex() const override;
   
 private:
-  
-  llvm::Function* createFunction(IRGenerationContext& context,
-                                 IObjectWithMethodsType* objectType) const;
   
   void createArguments(IRGenerationContext& context,
                        llvm::Function* function,
