@@ -81,60 +81,6 @@ struct ModelBuilderTest : Test {
   }
 };
 
-TEST_F(ModelBuilderTest, validModelBuilderArgumentsTest) {
-  string argumentSpecifier1("withWidth");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
-  string argumentSpecifier2("withHeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mFieldValue2);
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
-  argumentList->push_back(argument1);
-  argumentList->push_back(argument2);
-  
-  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
-
-  Value* result = modelBuilder.generateIR(mContext);
-  
-  EXPECT_NE(result, nullptr);
-  EXPECT_TRUE(BitCastInst::classof(result));
-
-  ASSERT_EQ(6ul, mBlock->size());
-  
-  BasicBlock::iterator iterator = mBlock->begin();
-  *mStringStream << *iterator;
-  string expected = string() +
-    "  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint" +
-    " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))";
-  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %buildervar = bitcast i8* %malloccall to %MShape*");
-  mStringBuffer.clear();
-
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = getelementptr %MShape, %MShape* %buildervar, i32 0, i32 0");
-  mStringBuffer.clear();
-
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 3, i32* %0");
-  mStringBuffer.clear();
-
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %1 = getelementptr %MShape, %MShape* %buildervar, i32 0, i32 1");
-  mStringBuffer.clear();
-
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %1");
-  mStringBuffer.clear();
-}
-
 TEST_F(ModelBuilderTest, releaseOwnershipTest) {
   string argumentSpecifier1("withWidth");
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
@@ -155,74 +101,6 @@ TEST_F(ModelBuilderTest, releaseOwnershipTest) {
   modelBuilder.releaseOwnership(mContext);
 
   EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
-}
-
-TEST_F(ModelBuilderTest, invalidModelBuilderArgumentsDeathTest) {
-  Mock::AllowLeak(&mFieldValue1);
-  Mock::AllowLeak(&mFieldValue2);
-  Mock::AllowLeak(&mFieldValue3);
-
-  string argumentSpecifier1("width");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
-  string argumentSpecifier2("withHeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mFieldValue2);
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
-  argumentList->push_back(argument1);
-  argumentList->push_back(argument2);
-  
-  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
-  
-  const char *expected =
-    "Error: Model builder argument should start with 'with'. e.g. .withField\\(value\\)."
-    "\nError: Some arguments for the model 'MShape' builder are not well formed";
-
-  EXPECT_EXIT(modelBuilder.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              expected);
-}
-
-TEST_F(ModelBuilderTest, incorrectArgumentTypeDeathTest) {
-  Mock::AllowLeak(&mFieldValue1);
-  Mock::AllowLeak(&mFieldValue2);
-  Mock::AllowLeak(&mFieldValue3);
-  
-  string argumentSpecifier1("withWidth");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
-  string argumentSpecifier2("withHeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mFieldValue3);
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
-  argumentList->push_back(argument1);
-  argumentList->push_back(argument2);
-  
-  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
-  
-  const char *expected =
-    "Error: Model builder argumet value for field 'mHeight' does not match its type";
-  
-  EXPECT_EXIT(modelBuilder.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              expected);
-}
-
-TEST_F(ModelBuilderTest, notAllFieldsAreSetDeathTest) {
-  Mock::AllowLeak(&mFieldValue1);
-  Mock::AllowLeak(&mFieldValue2);
-  Mock::AllowLeak(&mFieldValue3);
-  
-  string argumentSpecifier1("withWidth");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
-  argumentList->push_back(argument1);
-  
-  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
-  
-  const char *expected =
-  "Error: Field 'mHeight' is not initialized"
-  "\nError: Some fields of the model 'MShape' are not initialized.";
-  
-  EXPECT_EXIT(modelBuilder.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              expected);
 }
 
 TEST_F(ModelBuilderTest, testGetType) {

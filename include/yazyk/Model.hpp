@@ -17,6 +17,7 @@
 #include "yazyk/IObjectWithFieldsType.hpp"
 #include "yazyk/IObjectWithMethodsType.hpp"
 #include "yazyk/Method.hpp"
+#include "yazyk/ModelBuilderArgument.hpp"
 
 namespace yazyk {
 
@@ -74,6 +75,12 @@ public:
    */
   bool doesImplmentInterface(Interface* interface) const;
   
+  /**
+   * Builds an instance of this model and initializes all fields
+   */
+  llvm::Instruction* build(IRGenerationContext& context,
+                           ModelBuilderArgumentList* modelBuilderArgumentList) const;
+  
   Field* findField(std::string fieldName) const override;
   
   Method* findMethod(std::string methodName) const override;
@@ -102,6 +109,21 @@ private:
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   
+  void checkArguments(ModelBuilderArgumentList* modelBuilderArgumentList) const;
+  
+  void checkArgumentsAreWellFormed(ModelBuilderArgumentList* modelBuilderArgumentList) const;
+  
+  void checkAllFieldsAreSet(ModelBuilderArgumentList* modelBuilderArgumentList) const;
+  
+  llvm::Instruction* createMalloc(IRGenerationContext& context) const;
+
+  void initializeFields(IRGenerationContext& context,
+                        ModelBuilderArgumentList* modelBuilderArgumentList,
+                        llvm::Instruction* malloc) const;
+
+  void initializeVTable(IRGenerationContext& context,
+                        ModelBuilderArgumentList* modelBuilderArgumentList,
+                        llvm::Instruction* malloc) const;
 };
 
 } /* namespace yazyk */

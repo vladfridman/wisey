@@ -77,7 +77,7 @@ TEST_F(ModelBuilderArgumentTest, misspelledModelBuilderArgumentTest) {
   cerr.rdbuf(errorBuffer.rdbuf());
   
   EXPECT_FALSE(argument.checkArgument(mModel));
-  EXPECT_STREQ("Error: Model could not find field 'mFielda' in MODEL 'MModel'\n",
+  EXPECT_STREQ("Error: Model builder could not find field 'mFielda' in MODEL 'MModel'\n",
                errorBuffer.str().c_str());
   
   cerr.rdbuf(streamBuffer);

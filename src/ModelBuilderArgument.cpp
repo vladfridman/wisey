@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "yazyk/IExpression.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ModelBuilderArgument.hpp"
 
@@ -13,7 +14,7 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
-bool ModelBuilderArgument::checkArgument(Model* model) {
+bool ModelBuilderArgument::checkArgument(const Model* model) {
   if (mFieldSpecifier.substr(0, 4).compare("with")) {
     Log::e("Model builder argument should start with 'with'. e.g. .withField(value).");
     return false;
@@ -21,7 +22,8 @@ bool ModelBuilderArgument::checkArgument(Model* model) {
   
   string fieldName = deriveFieldName();
   if (model->findField(fieldName) == NULL) {
-    Log::e("Model could not find field '" + fieldName + "' in MODEL '" + model->getName() + "'");
+    Log::e("Model builder could not find field '" + fieldName + "' in MODEL '" +
+           model->getName() + "'");
     return false;
   }
   

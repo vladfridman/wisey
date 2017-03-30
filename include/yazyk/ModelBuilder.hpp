@@ -46,21 +46,6 @@ private:
   
   std::string getVariableName() const;
   
-  void checkArguments(Model* model) const;
-  
-  void checkArgumentsAreWellFormed(Model* model) const;
-  
-  void checkAllFieldsAreSet(Model* model) const;
-  
-  llvm::Instruction* createMalloc(IRGenerationContext& context) const;
-  
-  void initializeFields(IRGenerationContext& context,
-                        Model* model,
-                        llvm::Instruction* malloc) const;
-  
-  void initializeVTable(IRGenerationContext& context,
-                        Model* model,
-                        llvm::Instruction* malloc) const;
 };
   
 } /* namespace yazyk */

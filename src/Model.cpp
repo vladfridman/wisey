@@ -177,3 +177,135 @@ int Model::getInterfaceIndex(Interface* interface) const {
   }
   return -1;
 }
+
+Instruction* Model::build(IRGenerationContext& context,
+                          ModelBuilderArgumentList* modelBuilderArgumentList) const {
+  checkArguments(modelBuilderArgumentList);
+  Instruction* malloc = createMalloc(context);
+  initializeFields(context, modelBuilderArgumentList, malloc);
+  initializeVTable(context, modelBuilderArgumentList, malloc);
+  
+  return malloc;
+}
+
+void Model::checkArguments(ModelBuilderArgumentList* modelBuilderArgumentList) const {
+  checkArgumentsAreWellFormed(modelBuilderArgumentList);
+  checkAllFieldsAreSet(modelBuilderArgumentList);
+}
+
+void Model::checkArgumentsAreWellFormed(ModelBuilderArgumentList* modelBuilderArgumentList) const {
+  bool areArgumentsWellFormed = true;
+  
+  for (ModelBuilderArgument* argument : *modelBuilderArgumentList) {
+    areArgumentsWellFormed &= argument->checkArgument(this);
+  }
+  
+  if (!areArgumentsWellFormed) {
+    Log::e("Some arguments for the model '" + mName + "' builder are not well formed");
+    exit(1);
+  }
+}
+
+void Model::checkAllFieldsAreSet(ModelBuilderArgumentList* modelBuilderArgumentList) const {
+  set<string> allFieldsThatAreSet;
+  for (ModelBuilderArgument* argument : *modelBuilderArgumentList) {
+    allFieldsThatAreSet.insert(argument->deriveFieldName());
+  }
+  
+  vector<string> missingFields = getMissingFields(allFieldsThatAreSet);
+  if (missingFields.size() == 0) {
+    return;
+  }
+  
+  for (string missingField : missingFields) {
+    Log::e("Field '" + missingField + "' is not initialized");
+  }
+  Log::e("Some fields of the model '" + mName + "' are not initialized.");
+  exit(1);
+}
+
+Instruction* Model::createMalloc(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Type* pointerType = Type::getInt32Ty(llvmContext);
+  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
+  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
+  Instruction* malloc = CallInst::CreateMalloc(context.getBasicBlock(),
+                                               pointerType,
+                                               structType,
+                                               allocSize,
+                                               nullptr,
+                                               nullptr,
+                                               "buildervar");
+  context.getBasicBlock()->getInstList().push_back(malloc);
+  
+  return malloc;
+}
+
+void Model::initializeFields(IRGenerationContext& context,
+                             ModelBuilderArgumentList* modelBuilderArgumentList,
+                             Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
+  
+  Value *Idx[2];
+  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (ModelBuilderArgument* argument : *modelBuilderArgumentList) {
+    string fieldName = argument->deriveFieldName();
+    Value* fieldValue = argument->getValue(context);
+    Field* field = findField(fieldName);
+    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    GetElementPtrInst* fieldPointer =
+    GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    if (field->getType()->getLLVMType(llvmContext) != fieldValue->getType()) {
+      Log::e("Model builder argumet value for field '" + fieldName + "' does not match its type");
+      exit(1);
+    }
+    new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
+  }
+}
+
+void Model::initializeVTable(IRGenerationContext& context,
+                             ModelBuilderArgumentList* modelBuilderArgumentList,
+                             Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  BasicBlock* basicBlock = context.getBasicBlock();
+  GlobalVariable* vTableGlobal = context.getModule()->getGlobalVariable(getVTableName());
+  
+  Type* genericPointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
+  Type* vTableType = functionType->getPointerTo()->getPointerTo();
+  
+  vector<Interface*> interfaces = getFlattenedInterfaceHierarchy();
+  for (unsigned int interfaceIndex = 0; interfaceIndex < interfaces.size(); interfaceIndex++) {
+    Value* vTableStart;
+    if (interfaceIndex == 0) {
+      vTableStart = malloc;
+    } else {
+      Value* vTableStartCalculation = new BitCastInst(malloc, genericPointerType, "", basicBlock);
+      Value *Idx[1];
+      unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
+      Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
+      vTableStart = GetElementPtrInst::Create(genericPointerType->getPointerElementType(),
+                                              vTableStartCalculation,
+                                              Idx,
+                                              "",
+                                              basicBlock);
+    }
+    
+    Value* vTablePointer = new BitCastInst(vTableStart, vTableType->getPointerTo(), "", basicBlock);
+    Value *Idx[3];
+    Idx[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), interfaceIndex);
+    Idx[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+    Value* initializerStart = GetElementPtrInst::Create(vTableGlobal->getType()->
+                                                        getPointerElementType(),
+                                                        vTableGlobal,
+                                                        Idx,
+                                                        "",
+                                                        basicBlock);
+    BitCastInst* bitcast = new BitCastInst(initializerStart, vTableType, "", basicBlock);
+    new StoreInst(bitcast, vTablePointer, basicBlock);
+  }
+}

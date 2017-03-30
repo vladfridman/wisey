@@ -14,19 +14,28 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockExpression.hpp"
 #include "yazyk/MethodSignature.hpp"
 #include "yazyk/Model.hpp"
+#include "yazyk/ModelTypeSpecifier.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ModelTest : public Test {
+  IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   Model* mModel;
   Model* mCircleModel;
+  Model* mStarModel;
   Interface* mSubShapeInterface;
   Interface* mShapeInterface;
   Interface* mObjectInterface;
@@ -35,8 +44,9 @@ struct ModelTest : public Test {
   StructType* mStructType;
   Field* mWidthField;
   Field* mHeightField;
-  IRGenerationContext mContext;
-  LLVMContext& mLLVMContext;
+  NiceMock<MockExpression> mFieldValue1;
+  NiceMock<MockExpression> mFieldValue2;
+  NiceMock<MockExpression> mFieldValue3;
   BasicBlock *mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -133,6 +143,25 @@ struct ModelTest : public Test {
                              circleFields,
                              circleMethods,
                              circleInterfaces);
+
+    vector<Type*> starTypes;
+    starTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    starTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    StructType *starStructType = StructType::create(mLLVMContext, "MStar");
+    starStructType->setBody(starTypes);
+    map<string, Field*> starFields;
+    starFields["mBrightness"] = new Field(PrimitiveTypes::INT_TYPE, "mBrightness", 0);
+    starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1);
+    vector<Method*> starMethods;
+    vector<Interface*> starInterfaces;
+    mStarModel = new Model("MStar", starStructType, starFields, starMethods, starInterfaces);
+    mContext.addModel(mStarModel);
+    Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
+    ON_CALL(mFieldValue1, generateIR(_)).WillByDefault(Return(fieldValue1));
+    Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
+    ON_CALL(mFieldValue2, generateIR(_)).WillByDefault(Return(fieldValue2));
+    Value* fieldValue3 = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
+    ON_CALL(mFieldValue3, generateIR(_)).WillByDefault(Return(fieldValue3));
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -245,6 +274,9 @@ TEST_F(ModelTest, getTypeTableName) {
 }
 
 TEST_F(ModelTest, castToDeathTest) {
+  Mock::AllowLeak(&mFieldValue1);
+  Mock::AllowLeak(&mFieldValue2);
+  Mock::AllowLeak(&mFieldValue3);
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
   EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
@@ -266,4 +298,118 @@ TEST_F(ModelTest, doesImplmentInterfaceTest) {
   EXPECT_TRUE(mModel->doesImplmentInterface(mShapeInterface));
   EXPECT_TRUE(mModel->doesImplmentInterface(mObjectInterface));
   EXPECT_FALSE(mModel->doesImplmentInterface(mCarInterface));
+}
+
+TEST_F(ModelTest, buildTest) {
+  string argumentSpecifier1("withBrightness");
+  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
+  string argumentSpecifier2("withWeight");
+  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mFieldValue2);
+  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
+  argumentList->push_back(argument1);
+  argumentList->push_back(argument2);
+  
+  Value* result = mStarModel->build(mContext, argumentList);
+  
+  EXPECT_NE(result, nullptr);
+  EXPECT_TRUE(BitCastInst::classof(result));
+  
+  ASSERT_EQ(6ul, mBasicBlock->size());
+  
+  BasicBlock::iterator iterator = mBasicBlock->begin();
+  *mStringStream << *iterator;
+  string expected = string() +
+  "  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint" +
+  " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))";
+  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %buildervar = bitcast i8* %malloccall to %MStar*");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %0 = getelementptr %MStar, %MStar* %buildervar, i32 0, i32 0");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 3, i32* %0");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %1 = getelementptr %MStar, %MStar* %buildervar, i32 0, i32 1");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %1");
+  mStringBuffer.clear();
+}
+
+TEST_F(ModelTest, buildInvalidModelBuilderArgumentsDeathTest) {
+  Mock::AllowLeak(&mFieldValue1);
+  Mock::AllowLeak(&mFieldValue2);
+  Mock::AllowLeak(&mFieldValue3);
+  
+  string argumentSpecifier1("width");
+  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
+  string argumentSpecifier2("withWeight");
+  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mFieldValue2);
+  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
+  argumentList->push_back(argument1);
+  argumentList->push_back(argument2);
+  
+  const char *expected =
+  "Error: Model builder argument should start with 'with'. e.g. .withField\\(value\\)."
+  "\nError: Some arguments for the model 'MStar' builder are not well formed";
+  
+  EXPECT_EXIT(mStarModel->build(mContext, argumentList),
+              ::testing::ExitedWithCode(1),
+              expected);
+}
+
+TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
+  Mock::AllowLeak(&mFieldValue1);
+  Mock::AllowLeak(&mFieldValue2);
+  Mock::AllowLeak(&mFieldValue3);
+  
+  string argumentSpecifier1("withBrightness");
+  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
+  string argumentSpecifier2("withWeight");
+  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mFieldValue3);
+  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
+  argumentList->push_back(argument1);
+  argumentList->push_back(argument2);
+  
+  const char *expected = "Error: Model builder argumet value for field 'mWeight' "
+    "does not match its type";
+  
+  EXPECT_EXIT(mStarModel->build(mContext, argumentList),
+              ::testing::ExitedWithCode(1),
+              expected);
+}
+
+TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
+  Mock::AllowLeak(&mFieldValue1);
+  Mock::AllowLeak(&mFieldValue2);
+  Mock::AllowLeak(&mFieldValue3);
+  
+  string argumentSpecifier1("withBrightness");
+  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mFieldValue1);
+  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
+  argumentList->push_back(argument1);
+  
+  const char *expected =
+  "Error: Field 'mWeight' is not initialized"
+  "\nError: Some fields of the model 'MStar' are not initialized.";
+  
+  EXPECT_EXIT(mStarModel->build(mContext, argumentList),
+              ::testing::ExitedWithCode(1),
+              expected);
 }

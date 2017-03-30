@@ -9,11 +9,12 @@
 #ifndef ModelBuilderArgument_h
 #define ModelBuilderArgument_h
 
-#include "yazyk/IExpression.hpp"
 #include "yazyk/Model.hpp"
 
 namespace yazyk {
 
+class IExpression;
+  
 /**
  * Represents one argument in the model builder pattern.
  *
@@ -35,7 +36,7 @@ public:
   
   ~ModelBuilderArgument() { }
   
-  bool checkArgument(Model* model);
+  bool checkArgument(const Model* model);
   
   /**
    * Derives field name from builder argument by converting 'widthFieldA' to 'fieldA'
