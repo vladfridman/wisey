@@ -52,7 +52,7 @@ private:
   
   void checkAllFieldsAreSet(Model* model) const;
   
-  llvm::Instruction* createMalloc(IRGenerationContext& context, Model* model) const;
+  llvm::Instruction* createMalloc(IRGenerationContext& context) const;
   
   void initializeFields(IRGenerationContext& context,
                         Model* model,

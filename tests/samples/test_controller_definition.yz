@@ -22,12 +22,15 @@ controller CFibonacciCalculator {
 }
 
 controller CProgram implements IProgram {
+  inject CFibonacciCalculator mFibonacciCalculator(5);
 
   public int run() {
-    return 0;
+    return mFibonacciCalculator.calculate();
   }
 }
 
 int main() {
+  CProgram program = inject(CProgram);
+
   return 0;
 }

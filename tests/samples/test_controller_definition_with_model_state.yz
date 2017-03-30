@@ -59,5 +59,7 @@ controller CProgram implements IProgram {
 }
 
 int main() {
+  CProgram program = inject(CProgram);
+
   return 0;
 }

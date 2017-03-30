@@ -14,6 +14,7 @@
   #include "yazyk/ContinueStatement.hpp"
   #include "yazyk/ControllerDefinition.hpp"
   #include "yazyk/ControllerFieldDeclaration.hpp"
+  #include "yazyk/ControllerInjector.hpp"
   #include "yazyk/ControllerTypeSpecifier.hpp"
   #include "yazyk/DefaultCaseStatement.hpp"
   #include "yazyk/DoStatement.hpp"
@@ -133,7 +134,7 @@
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression model_builder method_call
 %type <expression> cast_expression primary_expression assignment unary_expression
-%type <expression> type_comparision_expression
+%type <expression> type_comparision_expression controller_injector
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
 %type <block> program block_item_list global_unit_list
@@ -498,6 +499,7 @@ primary_expression
   | constant
   | string { $$ = new StringConstant(*$1); delete $1; }
   | model_builder
+  | controller_injector
   | method_call
   | '(' expression ')' { $$ = $2; }
   ;
@@ -587,6 +589,10 @@ expression
 
 assignment
   : identifier '=' expression { $$ = new Assignment(*$<identifier>1, *$3); }
+  ;
+
+controller_injector
+  : TINJECT '(' controller_type_specifier ')' { $$ = new ControllerInjector(*$3); }
   ;
 
 model_builder

@@ -23,14 +23,17 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   
   Model* model = context.getModel(mModelTypeSpecifier.getName());
   checkArguments(model);
-  Instruction* malloc = createMalloc(context, model);
+  Instruction* malloc = createMalloc(context);
   initializeFields(context, model, malloc);
   initializeVTable(context, model, malloc);
+  
+  LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(), model, malloc);
+  context.getScopes().setVariable(heapVariable);
   
   return malloc;
 }
 
-Instruction* ModelBuilder::createMalloc(IRGenerationContext& context, Model* model) const {
+Instruction* ModelBuilder::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* pointerType = Type::getInt32Ty(llvmContext);
@@ -116,9 +119,6 @@ void ModelBuilder::initializeFields(IRGenerationContext& context,
     }
     new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
   }
-  
-  LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(), model, malloc);
-  context.getScopes().setVariable(heapVariable);
 }
 
 void ModelBuilder::releaseOwnership(IRGenerationContext& context) const {
