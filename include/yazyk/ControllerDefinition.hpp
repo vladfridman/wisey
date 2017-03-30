@@ -59,6 +59,45 @@ private:
                                                 unsigned long startIndex) const;
 
   std::vector<Method*> createMethods(IRGenerationContext& context) const;
+
+  void createFieldVariables(IRGenerationContext& context,
+                            Controller* controller,
+                            std::vector<llvm::Type*>& types) const;
+
+  void createFieldVariablesForDeclarations(IRGenerationContext& context,
+                                           std::vector<ControllerFieldDeclaration*> declarations,
+                                           Controller* controller,
+                                           std::vector<llvm::Type*>& types) const;
+
+  std::map<std::string, llvm::Function*> generateMethodsIR(IRGenerationContext& context,
+                                                           Controller* controller) const;
+
+  void defineTypeName(IRGenerationContext& context, Controller* controller) const;
+
+  llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context,
+                                             Controller* controller) const;
+
+  void processInterfaceMethods(IRGenerationContext& context,
+                               Controller* controller,
+                               std::vector<Interface*> interfaces,
+                               std::map<std::string, llvm::Function*>& methodFunctionMap,
+                               llvm::GlobalVariable* typeListGlobal) const;
+
+  std::vector<std::list<llvm::Constant*>>
+  generateInterfaceMapFunctions(IRGenerationContext& context,
+                                Controller* controller,
+                                std::vector<Interface*> interfaces,
+                                std::map<std::string, llvm::Function*>& methodFunctionMap) const;
+
+  std::vector<std::vector<llvm::Constant*>>
+  addUnthunkAndTypeTableInfo(IRGenerationContext& context,
+                             Controller* controller,
+                             llvm::GlobalVariable* typeListGlobal,
+                             std::vector<std::list<llvm::Constant*>> interfaceMapFunctions) const;
+
+  void createVTableGlobal(IRGenerationContext& context,
+                          Controller* controller,
+                          std::vector<std::vector<llvm::Constant*>> interfaceVTables) const;
 };
 
 } /* namespace yazyk */

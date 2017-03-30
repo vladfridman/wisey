@@ -31,6 +31,7 @@ class Controller : public IObjectWithFieldsType, public IObjectWithMethodsType {
   std::map<std::string, Field*> mFields;
   std::map<std::string, Method*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
+  std::vector<Interface*> mFlattenedInterfaceHierarchy;
   
 public:
   
@@ -49,7 +50,21 @@ public:
    */
   std::vector<Interface*> getInterfaces() const;
 
+  /**
+   * Returns a list of all interfaces this model implements including inherited interfaces
+   */
+  std::vector<Interface*> getFlattenedInterfaceHierarchy() const;
   
+  /**
+   * Returns the name of the global varaible containing types that this model implements
+   */
+  std::string getTypeTableName() const;
+
+  /**
+   * Returns the name of the vTable global varaible
+   */
+  std::string getVTableName() const;
+
   Field* findField(std::string fieldName) const override;
   
   Method* findMethod(std::string methodName) const override;
@@ -69,6 +84,13 @@ public:
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       IType* toType) const override;
+
+private:
+
+  std::vector<Interface*> createFlattenedInterfaceHierarchy() const;
+  
+  void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
+
 };
   
 } /* namespace yazyk */

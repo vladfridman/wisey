@@ -39,7 +39,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   createFieldVariables(context, model, types);
   structType->setBody(types);
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, model);
-  defineModelTypeName(context, model);
+  defineTypeName(context, model);
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, model);
   processInterfaceMethods(context, model, interfaces, methodFunctionMap, typeListGlobal);
 
@@ -207,7 +207,7 @@ void ModelDefinition::createVTableGlobal(IRGenerationContext& context,
                      model->getVTableName());
 }
 
-void ModelDefinition::defineModelTypeName(IRGenerationContext& context, Model* model) const {
+void ModelDefinition::defineTypeName(IRGenerationContext& context, Model* model) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Constant* stringConstant = ConstantDataArray::getString(llvmContext, model->getName());
   new GlobalVariable(*context.getModule(),

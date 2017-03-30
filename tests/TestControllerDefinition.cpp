@@ -86,6 +86,8 @@ TEST_F(ControllerDefinitionTest, simpleDefinitionTest) {
                                             mMethodDeclarations,
                                             interfaces);
   
+  EXPECT_CALL(mMockStatement, generateIR(_));
+
   controllerDefinition.generateIR(mContext);
   
   ASSERT_NE(mContext.getController("CMyController"), nullptr);
@@ -95,12 +97,12 @@ TEST_F(ControllerDefinitionTest, simpleDefinitionTest) {
     (StructType*) controller->getLLVMType(mLLVMContext)->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
+  EXPECT_TRUE(structType->getNumElements() == 2);
+  EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
+  EXPECT_STREQ(controller->getName().c_str(), "CMyController");
 }
 
 TEST_F(TestFileSampleRunner, controllerDefinitionSyntaxRunTest) {
   runFile("tests/samples/test_controller_definition.yz", "0");
-}
-
-TEST_F(TestFileSampleRunner, controllerDefinitionWithModelStateSyntaxRunTest) {
-  runFile("tests/samples/test_controller_definition_with_model_state.yz", "0");
 }

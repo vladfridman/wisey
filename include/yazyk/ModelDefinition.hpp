@@ -81,7 +81,7 @@ private:
                           Model* model,
                           std::vector<std::vector<llvm::Constant*>> interfaceVTables) const;
   
-  void defineModelTypeName(IRGenerationContext& context, Model* model) const;
+  void defineTypeName(IRGenerationContext& context, Model* model) const;
   
   llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context, Model* model) const;
 };

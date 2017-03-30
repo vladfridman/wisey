@@ -47,10 +47,23 @@ Controller::Controller(string name,
   for (Method* method : methods) {
     mNameToMethodMap[method->getName()] = method;
   }
+  mFlattenedInterfaceHierarchy = createFlattenedInterfaceHierarchy();
 }
 
 vector<Interface*> Controller::getInterfaces() const {
   return mInterfaces;
+}
+
+vector<Interface*> Controller::getFlattenedInterfaceHierarchy() const {
+  return mFlattenedInterfaceHierarchy;
+}
+
+string Controller::getTypeTableName() const {
+  return "controller." + getName() + ".typetable";
+}
+
+string Controller::getVTableName() const {
+  return "controller." + getName() + ".vtable";
 }
 
 Field* Controller::findField(string fieldName) const {
@@ -98,4 +111,20 @@ bool Controller::canAutoCastTo(IType* toType) const {
 Value* Controller::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
   // TODO implement casting for controllers
   return NULL;
+}
+
+vector<Interface*> Controller::createFlattenedInterfaceHierarchy() const {
+  vector<Interface*> result;
+  for (Interface* interface : mInterfaces) {
+    addInterfaceAndItsParents(result, interface);
+  }
+  return result;
+}
+
+void Controller::addInterfaceAndItsParents(vector<Interface*>& result, Interface* interface) const {
+  result.push_back(interface);
+  vector<Interface*> parentInterfaces = interface->getParentInterfaces();
+  for (Interface* interface : parentInterfaces) {
+    addInterfaceAndItsParents(result, interface);
+  }
 }

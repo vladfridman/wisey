@@ -1,4 +1,4 @@
-interface IProgrammController {
+interface IProgram {
   int run();
 }
 
@@ -21,11 +21,10 @@ controller CFibonacciCalculator {
   }
 }
 
-controller CProgram implements IProgrammController {
-  inject CFibonacciCalculator mFibonacciCalculator(5);
+controller CProgram implements IProgram {
 
   public int run() {
-    return mFibonacciCalculator.calculate();
+    return 0;
   }
 }
 
