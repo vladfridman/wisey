@@ -33,6 +33,7 @@ using ::testing::Test;
 
 struct ModelBuilderTest : Test {
   IRGenerationContext mContext;
+  Model* mModel;
   NiceMock<MockExpression> mFieldValue1;
   NiceMock<MockExpression> mFieldValue2;
   NiceMock<MockExpression> mFieldValue3;
@@ -53,8 +54,8 @@ struct ModelBuilderTest : Test {
     fields["mHeight"] = new Field(PrimitiveTypes::INT_TYPE, "mHeight", 1);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    Model* model = new Model("MShape", structType, fields, methods, interfaces);
-    mContext.addModel(model);
+    mModel = new Model("MShape", structType, fields, methods, interfaces);
+    mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(mFieldValue1, generateIR(_)).WillByDefault(Return(fieldValue1));
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
@@ -224,3 +225,10 @@ TEST_F(ModelBuilderTest, notAllFieldsAreSetDeathTest) {
               expected);
 }
 
+TEST_F(ModelBuilderTest, testGetType) {
+  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
+  
+  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
+
+  EXPECT_EQ(modelBuilder.getType(mContext), mModel);
+}
