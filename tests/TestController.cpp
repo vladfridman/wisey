@@ -25,6 +25,7 @@ using ::testing::Test;
 
 struct ControllerTest : public Test {
   Controller* mController;
+  Controller* mAdditorController;
   Interface* mCalculatorInterface;
   Interface* mScienceCalculatorInterface;
   Interface* mObjectInterface;
@@ -120,6 +121,27 @@ struct ControllerTest : public Test {
                                  methods,
                                  interfaces);
     
+    vector<Type*> additorTypes;
+    additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    StructType *additorStructType = StructType::create(mLLVMContext, "CAdditor");
+    additorStructType->setBody(additorTypes);
+    vector<Field*> additorReceivedFields;
+    vector<Field*> additorInjectedFields;
+    vector<Field*> additorStateFields;
+    stateFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "left", 0));
+    stateFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "right", 1));
+    vector<Method*> additorMethods;
+    vector<Interface*> additorInterfaces;
+    mAdditorController = new Controller("CAdditor",
+                                        additorStructType,
+                                        additorReceivedFields,
+                                        additorInjectedFields,
+                                        additorStateFields,
+                                        additorMethods,
+                                        additorInterfaces);
+    mContext.addController(mController);
+
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -178,4 +200,26 @@ TEST_F(ControllerTest, getFlattenedInterfaceHierarchyTest) {
   EXPECT_EQ(allInterfaces.at(0), mScienceCalculatorInterface);
   EXPECT_EQ(allInterfaces.at(1), mCalculatorInterface);
   EXPECT_EQ(allInterfaces.at(2), mObjectInterface);
+}
+
+TEST_F(ControllerTest, testInject) {
+  Value* result = mAdditorController->inject(mContext);
+  
+  EXPECT_NE(result, nullptr);
+  EXPECT_TRUE(BitCastInst::classof(result));
+  
+  EXPECT_EQ(2ul, mBasicBlock->size());
+  
+  BasicBlock::iterator iterator = mBasicBlock->begin();
+  *mStringStream << *iterator;
+  string expected = "  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint"
+    " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))";
+  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %injectvar = bitcast i8* %malloccall to %CAdditor*");
+  mStringBuffer.clear();
 }

@@ -64,6 +64,11 @@ public:
    * Returns the name of the vTable global varaible
    */
   std::string getVTableName() const;
+  
+  /**
+   * Inject an instance of this controller into LLVM code
+   */
+  llvm::Instruction* inject(IRGenerationContext& context) const;
 
   Field* findField(std::string fieldName) const override;
   
@@ -91,6 +96,9 @@ private:
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
 
+  llvm::Instruction* createMalloc(IRGenerationContext& context) const;
+  
+  void initializeVTable(IRGenerationContext& context, llvm::Instruction* malloc) const;
 };
   
 } /* namespace yazyk */

@@ -6,8 +6,12 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "yazyk/Controller.hpp"
+#include "yazyk/Environment.hpp"
 #include "yazyk/Field.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -64,6 +68,74 @@ string Controller::getTypeTableName() const {
 
 string Controller::getVTableName() const {
   return "controller." + getName() + ".vtable";
+}
+
+Instruction* Controller::createMalloc(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Type* pointerType = Type::getInt32Ty(llvmContext);
+  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
+  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
+  Instruction* malloc = CallInst::CreateMalloc(context.getBasicBlock(),
+                                               pointerType,
+                                               structType,
+                                               allocSize,
+                                               nullptr,
+                                               nullptr,
+                                               "injectvar");
+  context.getBasicBlock()->getInstList().push_back(malloc);
+  
+  return malloc;
+}
+
+void Controller::initializeVTable(IRGenerationContext& context, Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  BasicBlock* basicBlock = context.getBasicBlock();
+  GlobalVariable* vTableGlobal = context.getModule()->getGlobalVariable(getVTableName());
+  
+  Type* genericPointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
+  Type* vTableType = functionType->getPointerTo()->getPointerTo();
+  
+  vector<Interface*> interfaces = getFlattenedInterfaceHierarchy();
+  for (unsigned int interfaceIndex = 0; interfaceIndex < interfaces.size(); interfaceIndex++) {
+    Value* vTableStart;
+    if (interfaceIndex == 0) {
+      vTableStart = malloc;
+    } else {
+      Value* vTableStartCalculation = new BitCastInst(malloc, genericPointerType, "", basicBlock);
+      Value *Idx[1];
+      unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
+      Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
+      vTableStart = GetElementPtrInst::Create(genericPointerType->getPointerElementType(),
+                                              vTableStartCalculation,
+                                              Idx,
+                                              "",
+                                              basicBlock);
+    }
+    
+    Value* vTablePointer = new BitCastInst(vTableStart, vTableType->getPointerTo(), "", basicBlock);
+    Value *Idx[3];
+    Idx[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), interfaceIndex);
+    Idx[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+    Value* initializerStart = GetElementPtrInst::Create(vTableGlobal->getType()->
+                                                        getPointerElementType(),
+                                                        vTableGlobal,
+                                                        Idx,
+                                                        "",
+                                                        basicBlock);
+    BitCastInst* bitcast = new BitCastInst(initializerStart, vTableType, "", basicBlock);
+    new StoreInst(bitcast, vTablePointer, basicBlock);
+  }
+}
+
+Instruction* Controller::inject(IRGenerationContext& context) const {
+  Instruction* malloc = createMalloc(context);
+  initializeVTable(context, malloc);
+  
+  return malloc;
 }
 
 Field* Controller::findField(string fieldName) const {

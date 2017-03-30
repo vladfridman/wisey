@@ -36,13 +36,7 @@ public:
 
 private:
   
-  llvm::Instruction* createMalloc(IRGenerationContext& context) const;
-
   std::string getVariableName() const;
-
-  void initializeVTable(IRGenerationContext& context,
-                        Controller* controller,
-                        llvm::Instruction* malloc) const;
 };
   
 } /* namespace yazyk */
