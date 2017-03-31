@@ -294,3 +294,35 @@ TEST_F(ControllerTest, testInjectNonInjectableTypeDeathTest) {
               ::testing::ExitedWithCode(1),
               expected);
 }
+
+TEST_F(ControllerTest, testInjectTooFewArgumentsDeathTest) {
+  ExpressionList injectionArguments;
+  NiceMock<MockExpression> injectArgument1;
+  Mock::AllowLeak(&injectArgument1);
+  injectionArguments.push_back(&injectArgument1);
+  
+  const char *expected = "Error: Not all received fields of controller 'CAdditor' are initialized.";
+  
+  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
+              ::testing::ExitedWithCode(1),
+              expected);
+}
+
+TEST_F(ControllerTest, testInjectTooManyArgumentsDeathTest) {
+  ExpressionList injectionArguments;
+  NiceMock<MockExpression> injectArgument1;
+  NiceMock<MockExpression> injectArgument2;
+  NiceMock<MockExpression> injectArgument3;
+  Mock::AllowLeak(&injectArgument1);
+  Mock::AllowLeak(&injectArgument2);
+  Mock::AllowLeak(&injectArgument3);
+  injectionArguments.push_back(&injectArgument1);
+  injectionArguments.push_back(&injectArgument2);
+  injectionArguments.push_back(&injectArgument3);
+  
+  const char *expected = "Error: Too many arguments provided when injecting controller 'CAdditor'";
+  
+  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
+              ::testing::ExitedWithCode(1),
+              expected);
+}

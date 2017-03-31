@@ -93,6 +93,8 @@ public:
 
 private:
 
+  void checkArguments(ExpressionList received) const;
+  
   std::vector<Interface*> createFlattenedInterfaceHierarchy() const;
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;

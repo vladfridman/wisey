@@ -164,7 +164,7 @@ struct ModelTest : public Test {
     Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
     ON_CALL(mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    Value* field3Value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 2.0f);
+    Value* field3Value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
     ON_CALL(mField3Expression, generateIR(_)).WillByDefault(Return(field3Value));
     ON_CALL(mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 

@@ -57,6 +57,7 @@ Controller::Controller(string name,
 }
 
 Instruction* Controller::inject(IRGenerationContext& context, ExpressionList received) const {
+  checkArguments(received);
   Instruction* malloc = createMalloc(context);
   initializeReceivedFields(context, received, malloc);
   initializeInjectedFields(context, malloc);
@@ -64,6 +65,18 @@ Instruction* Controller::inject(IRGenerationContext& context, ExpressionList rec
   initializeVTable(context, malloc);
   
   return malloc;
+}
+
+void Controller::checkArguments(ExpressionList received) const {
+  if (received.size() == mReceivedFields.size()) {
+    return;
+  }
+  if (received.size() < mReceivedFields.size()) {
+    Log::e("Not all received fields of controller '" + mName + "' are initialized.");
+    exit(1);
+  }
+  Log::e("Too many arguments provided when injecting controller '" + mName + "'");
+  exit(1);
 }
 
 vector<Interface*> Controller::getInterfaces() const {
