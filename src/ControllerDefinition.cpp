@@ -84,7 +84,10 @@ vector<Field*> ControllerDefinition::fieldDeclarationsToFields(IRGenerationConte
   for (ControllerFieldDeclaration* fieldDeclaration : declarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
-    Field* field = new Field(fieldType, fieldDeclaration->getName(), startIndex + fields.size());
+    Field* field = new Field(fieldType,
+                             fieldDeclaration->getName(),
+                             startIndex + fields.size(),
+                             fieldDeclaration->getArguments());
     fields.push_back(field);
   }
   

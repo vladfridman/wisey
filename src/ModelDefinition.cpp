@@ -52,12 +52,14 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
 map<string, Field*> ModelDefinition::createFields(IRGenerationContext& context,
                                                   unsigned long numberOfInterfaces) const {
   map<string, Field*> fields;
+  ExpressionList arguments;
   for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
     Field* field = new Field(fieldType,
                              fieldDeclaration->getName(),
-                             numberOfInterfaces + fields.size());
+                             numberOfInterfaces + fields.size(),
+                             arguments);
     fields[fieldDeclaration->getName()] = field;
   }
   return fields;

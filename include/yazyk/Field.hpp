@@ -11,6 +11,9 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/IExpression.hpp"
+#include "yazyk/IType.hpp"
+
 namespace yazyk {
 
 /**
@@ -20,11 +23,12 @@ class Field {
   IType* mType;
   std::string mName;
   unsigned long mIndex;
+  ExpressionList mArguments;
 
 public:
   
-  Field(IType* type, std::string name, unsigned long index) :
-  mType(type), mName(name), mIndex(index) { }
+  Field(IType* type, std::string name, unsigned long index, ExpressionList arguments) :
+  mType(type), mName(name), mIndex(index), mArguments(arguments) { }
   
   ~Field() { }
   
@@ -34,6 +38,7 @@ public:
   
   unsigned long getIndex() const { return mIndex; }
   
+  ExpressionList getArguments() const { return mArguments; }
 };
   
 } /* namespace yazyk */

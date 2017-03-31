@@ -30,8 +30,9 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
   vector<Field*> receivedFields;
   vector<Field*> injectedFields;
   vector<Field*> stateFields;
-  receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "left", 0));
-  receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "right", 1));
+  ExpressionList fieldArguments;
+  receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments));
+  receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments));
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
   methods.push_back(new Method("multiply", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));

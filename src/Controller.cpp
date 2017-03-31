@@ -11,7 +11,9 @@
 #include "yazyk/Controller.hpp"
 #include "yazyk/Environment.hpp"
 #include "yazyk/Field.hpp"
+#include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/Log.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -52,6 +54,16 @@ Controller::Controller(string name,
     mNameToMethodMap[method->getName()] = method;
   }
   mFlattenedInterfaceHierarchy = createFlattenedInterfaceHierarchy();
+}
+
+Instruction* Controller::inject(IRGenerationContext& context, ExpressionList received) const {
+  Instruction* malloc = createMalloc(context);
+  initializeReceivedFields(context, received, malloc);
+  initializeInjectedFields(context, malloc);
+  initializeStateFields(context, malloc);
+  initializeVTable(context, malloc);
+  
+  return malloc;
 }
 
 vector<Interface*> Controller::getInterfaces() const {
@@ -131,13 +143,6 @@ void Controller::initializeVTable(IRGenerationContext& context, Instruction* mal
   }
 }
 
-Instruction* Controller::inject(IRGenerationContext& context) const {
-  Instruction* malloc = createMalloc(context);
-  initializeVTable(context, malloc);
-  
-  return malloc;
-}
-
 Field* Controller::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
@@ -199,4 +204,81 @@ void Controller::addInterfaceAndItsParents(vector<Interface*>& result, Interface
   for (Interface* interface : parentInterfaces) {
     addInterfaceAndItsParents(result, interface);
   }
+}
+
+void Controller::initializeReceivedFields(IRGenerationContext& context,
+                                          ExpressionList& controllerInjectorArguments,
+                                          Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
+  
+  Value *Idx[2];
+  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  unsigned int fieldIndex = 0;
+  for (IExpression* argument : controllerInjectorArguments) {
+    Value* fieldValue = argument->generateIR(context);
+    IType* fieldType = argument->getType(context);
+    Field* field = mReceivedFields[fieldIndex];
+    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    GetElementPtrInst* fieldPointer =
+    GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    if (field->getType() != fieldType) {
+      Log::e("Controller injector argumet value for field '" + field->getName() +
+             "' does not match its type");
+      exit(1);
+    }
+    new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
+    fieldIndex++;
+  }
+}
+
+void Controller::initializeInjectedFields(IRGenerationContext& context, Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
+
+  Value *Idx[2];
+  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (Field* field : mInjectedFields) {
+    IType* fieldType = field->getType();
+    if (fieldType->getTypeKind() != CONTROLLER_TYPE) {
+      Log::e("Attempt to inject a variable that is not a Controller");
+      exit(1);
+    }
+    Controller* controller = dynamic_cast<Controller*>(fieldType);
+    Value* fieldValue = controller->inject(context, field->getArguments());
+    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    GetElementPtrInst* fieldPointer =
+    GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
+  }
+}
+
+void Controller::initializeStateFields(IRGenerationContext& context, Instruction* malloc) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
+  
+  Value *Idx[2];
+  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  for (Field* field : mStateFields) {
+    IType* fieldType = field->getType();
+    Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);
+    
+    Value* fieldValue;
+    if (fieldLLVMType->isPointerTy()) {
+      fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(llvmContext));
+    } else if (fieldLLVMType->isFloatTy()) {
+      fieldValue = ConstantFP::get(fieldLLVMType, 0.0);
+    } else if (fieldLLVMType->isIntegerTy()) {
+      fieldValue = ConstantInt::get(fieldLLVMType, 0);
+    } else {
+      Log::e("Unexpected state field type, can not initialize");
+      exit(1);
+    }
+    
+    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    GetElementPtrInst* fieldPointer =
+    GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
+  }
+ 
 }

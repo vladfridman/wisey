@@ -40,8 +40,9 @@ struct FieldReferenceTest : public Test {
     StructType* structType = StructType::create(llvmContext, "MShape");
     structType->setBody(types);
     map<string, Field*> fields;
-    fields["width"] = new Field(PrimitiveTypes::INT_TYPE, "width", 0);
-    fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1);
+    ExpressionList fieldArguments;
+    fields["width"] = new Field(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
+    fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
     Model* model = new Model("MShape", structType, fields, methods, interfaces);

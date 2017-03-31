@@ -58,8 +58,9 @@ struct ModelTest : public Test {
     mStructType = StructType::create(mLLVMContext, "MSquare");
     mStructType->setBody(types);
     map<string, Field*> fields;
-    mWidthField = new Field(PrimitiveTypes::INT_TYPE, "width", 0);
-    mHeightField = new Field(PrimitiveTypes::INT_TYPE, "height", 1);
+    ExpressionList fieldArguments;
+    mWidthField = new Field(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
+    mHeightField = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
@@ -150,19 +151,20 @@ struct ModelTest : public Test {
     StructType *starStructType = StructType::create(mLLVMContext, "MStar");
     starStructType->setBody(starTypes);
     map<string, Field*> starFields;
-    starFields["mBrightness"] = new Field(PrimitiveTypes::INT_TYPE, "mBrightness", 0);
-    starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1);
+    starFields["mBrightness"] =
+      new Field(PrimitiveTypes::INT_TYPE, "mBrightness", 0, fieldArguments);
+    starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
     vector<Method*> starMethods;
     vector<Interface*> starInterfaces;
     mStarModel = new Model("MStar", starStructType, starFields, starMethods, starInterfaces);
     mContext.addModel(mStarModel);
-    Value* field1Value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
+    Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
     ON_CALL(mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    Value* field2Value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
+    Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
     ON_CALL(mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    Value* field3Value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
+    Value* field3Value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 2.0f);
     ON_CALL(mField3Expression, generateIR(_)).WillByDefault(Return(field3Value));
     ON_CALL(mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 

@@ -11,6 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/IExpression.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IObjectWithFieldsType.hpp"
 #include "yazyk/IObjectWithMethodsType.hpp"
@@ -68,7 +69,7 @@ public:
   /**
    * Inject an instance of this controller into LLVM code
    */
-  llvm::Instruction* inject(IRGenerationContext& context) const;
+  llvm::Instruction* inject(IRGenerationContext& context, ExpressionList expressionList) const;
 
   Field* findField(std::string fieldName) const override;
   
@@ -99,6 +100,16 @@ private:
   llvm::Instruction* createMalloc(IRGenerationContext& context) const;
   
   void initializeVTable(IRGenerationContext& context, llvm::Instruction* malloc) const;
+  
+  void initializeReceivedFields(IRGenerationContext& context,
+                                ExpressionList& controllerInjectorArguments,
+                                llvm::Instruction* malloc) const;
+  
+  void initializeInjectedFields(IRGenerationContext& context,
+                                llvm::Instruction* malloc) const;
+  
+  void initializeStateFields(IRGenerationContext& context,
+                             llvm::Instruction* malloc) const;
 };
   
 } /* namespace yazyk */

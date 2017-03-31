@@ -41,7 +41,8 @@ struct ModelBuilderArgumentTest : Test {
     StructType *structType = StructType::create(llvmContext, "MModel");
     structType->setBody(types);
     map<string, Field*> fields;
-    fields["mFieldA"] = new Field(PrimitiveTypes::INT_TYPE, "mFieldA", 0);;
+    ExpressionList fieldArguments;
+    fields["mFieldA"] = new Field(PrimitiveTypes::INT_TYPE, "mFieldA", 0, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
     mModel = new Model("MModel", structType, fields, methods, interfaces);

@@ -19,7 +19,8 @@ using namespace yazyk;
 Value* ControllerInjector::generateIR(IRGenerationContext& context) const {
   
   Controller* controller = context.getController(mControllerTypeSpecifier.getName());
-  Instruction* malloc = controller->inject(context);
+  ExpressionList arguments;
+  Instruction* malloc = controller->inject(context, arguments);
 
   LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(), controller, malloc);
   context.getScopes().setVariable(heapVariable);

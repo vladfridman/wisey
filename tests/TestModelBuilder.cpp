@@ -49,8 +49,9 @@ struct ModelBuilderTest : Test {
     StructType *structType = StructType::create(llvmContext, "MShape");
     structType->setBody(types);
     map<string, Field*> fields;
-    fields["mWidth"] = new Field(PrimitiveTypes::INT_TYPE, "mWidth", 0);
-    fields["mHeight"] = new Field(PrimitiveTypes::INT_TYPE, "mHeight", 1);
+    ExpressionList fieldArguments;
+    fields["mWidth"] = new Field(PrimitiveTypes::INT_TYPE, "mWidth", 0, fieldArguments);
+    fields["mHeight"] = new Field(PrimitiveTypes::INT_TYPE, "mHeight", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
     mModel = new Model("MShape", structType, fields, methods, interfaces);

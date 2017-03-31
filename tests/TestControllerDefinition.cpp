@@ -104,9 +104,9 @@ TEST_F(ControllerDefinitionTest, simpleDefinitionTest) {
 }
 
 TEST_F(TestFileSampleRunner, controllerDefinitionSyntaxRunTest) {
-  runFile("tests/samples/test_controller_definition.yz", "0");
+  runFile("tests/samples/test_controller_definition.yz", "8");
 }
 
 TEST_F(TestFileSampleRunner, controllerDefinitionWithModelStateSyntaxRunTest) {
-  runFile("tests/samples/test_controller_definition_with_model_state.yz", "0");
+  runFile("tests/samples/test_controller_definition_with_model_state.yz", "21");
 }

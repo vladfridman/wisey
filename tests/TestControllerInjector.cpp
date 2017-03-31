@@ -52,8 +52,9 @@ struct ControllerInjectorTest : Test {
     vector<Field*> receivedFields;
     vector<Field*> injectedFields;
     vector<Field*> stateFields;
-    stateFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "left", 0));
-    stateFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "right", 1));
+    ExpressionList fieldArguments;
+    stateFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments));
+    stateFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments));
     vector<Method*> methods;
     vector<Interface*> interfaces;
     mController = new Controller("CMultiplier",
@@ -82,29 +83,6 @@ struct ControllerInjectorTest : Test {
     delete mStringStream;
   }
 };
-
-TEST_F(ControllerInjectorTest, validInjectorTest) {
-  ControllerInjector controllerInjector(mControllerTypeSpecifier);
-  Value* result = controllerInjector.generateIR(mContext);
-  
-  EXPECT_NE(result, nullptr);
-  EXPECT_TRUE(BitCastInst::classof(result));
-  
-  EXPECT_EQ(2ul, mBlock->size());
-  
-  BasicBlock::iterator iterator = mBlock->begin();
-  *mStringStream << *iterator;
-  string expected = "  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint"
-    " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))";
-  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %injectvar = bitcast i8* %malloccall to %CMultiplier*");
-  mStringBuffer.clear();
-}
 
 TEST_F(ControllerInjectorTest, releaseOwnershipTest) {
   ControllerInjector controllerInjector(mControllerTypeSpecifier);

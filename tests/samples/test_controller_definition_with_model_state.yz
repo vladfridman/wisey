@@ -49,7 +49,7 @@ controller CFibonacciCalculator {
 }
 
 controller CProgram implements IProgram {
-  inject CFibonacciCalculator mFibonacciCalculator(5);
+  inject CFibonacciCalculator mFibonacciCalculator(8);
 
   public int run() {
     MIntNumber intNumber = mFibonacciCalculator.calculate();
@@ -61,5 +61,5 @@ controller CProgram implements IProgram {
 int main() {
   CProgram program = inject(CProgram);
 
-  return 0;
+  return program.run();
 }

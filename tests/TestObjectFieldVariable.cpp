@@ -51,8 +51,9 @@ struct ObjectFieldVariableTest : Test {
     StructType* structType = StructType::create(llvmContext, "Object");
     structType->setBody(types);
     map<string, Field*> fields;
-    fields["foo"] = new Field(PrimitiveTypes::INT_TYPE, "foo", 0);
-    fields["bar"] = new Field(PrimitiveTypes::INT_TYPE, "bar", 1);
+    ExpressionList fieldArguments;
+    fields["foo"] = new Field(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
+    fields["bar"] = new Field(PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
     mModel = new Model("Object", structType, fields, methods, interfaces);

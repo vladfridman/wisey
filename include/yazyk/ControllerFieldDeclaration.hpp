@@ -51,6 +51,8 @@ public:
   ITypeSpecifier& getTypeSpecifier() const;
   
   std::string getName() const;
+  
+  ExpressionList& getArguments() const;
 };
   
 } /* namespace yazyk */
