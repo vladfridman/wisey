@@ -10,6 +10,7 @@
 #include <llvm/IR/TypeBuilder.h>
 
 #include "yazyk/FunctionCall.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 
 using namespace llvm;

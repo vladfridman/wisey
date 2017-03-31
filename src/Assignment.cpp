@@ -7,6 +7,7 @@
 //
 
 #include "yazyk/Assignment.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 
 using namespace llvm;

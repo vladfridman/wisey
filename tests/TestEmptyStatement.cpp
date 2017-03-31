@@ -13,6 +13,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/EmptyStatement.hpp"
+#include "yazyk/IRGenerationContext.hpp"
 
 using namespace yazyk;
 

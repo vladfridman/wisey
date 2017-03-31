@@ -9,11 +9,10 @@
 #ifndef ModelBuilderArgument_h
 #define ModelBuilderArgument_h
 
-#include "yazyk/Model.hpp"
-
 namespace yazyk {
 
 class IExpression;
+class Model;
   
 /**
  * Represents one argument in the model builder pattern.

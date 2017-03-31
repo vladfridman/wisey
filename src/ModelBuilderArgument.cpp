@@ -8,6 +8,7 @@
 
 #include "yazyk/IExpression.hpp"
 #include "yazyk/Log.hpp"
+#include "yazyk/Model.hpp"
 #include "yazyk/ModelBuilderArgument.hpp"
 
 using namespace llvm;

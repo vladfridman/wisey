@@ -9,10 +9,11 @@
 #ifndef IHasType_h
 #define IHasType_h
 
-#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/IType.hpp"
 
 namespace yazyk {
+
+class IRGenerationContext;
 
 /**
  * Interface representing a typed entity

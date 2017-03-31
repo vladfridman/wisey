@@ -9,9 +9,11 @@
 #ifndef INode_h
 #define INode_h
 
-#include "yazyk/IRGenerationContext.hpp"
+#include <llvm/IR/Value.h>
 
 namespace yazyk {
+
+class IRGenerationContext;
 
 /**
  * Interface representing a node in AST of yazyk parser.
