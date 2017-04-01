@@ -20,6 +20,11 @@ using namespace yazyk;
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
   IObjectWithMethodsType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
+  if (!checkAccess(context, objectWithMethodsType, methodDescriptor)) {
+    Log::e("Method '" + mMethodName + "()' of object '" + objectWithMethodsType->getName() +
+           "' is private");
+    exit(1);
+  }
   checkArgumentType(objectWithMethodsType, methodDescriptor, context);
   if (objectWithMethodsType->getTypeKind() == MODEL_TYPE ||
       objectWithMethodsType->getTypeKind() == CONTROLLER_TYPE) {
@@ -35,6 +40,18 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   Log::e("Method '" + mMethodName + "()' call on an unknown object type '" +
          objectWithMethodsType->getName() + "'");
   exit(1);
+}
+
+bool MethodCall::checkAccess(IRGenerationContext& context,
+                             IObjectWithMethodsType* object,
+                             IMethodDescriptor* methodDescriptor) const {
+  
+  if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
+    return true;
+  }
+  IVariable* thisVariable = context.getScopes().getVariable("this");
+  
+  return thisVariable != NULL && thisVariable->getType() == object;
 }
 
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,

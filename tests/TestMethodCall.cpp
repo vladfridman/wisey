@@ -243,3 +243,13 @@ TEST_F(TestFileSampleRunner, methodCallToMethodCallRunTest) {
   runFile("tests/samples/test_method_call_to_method_call.yz", "10");
 }
 
+TEST_F(TestFileSampleRunner, methodCallToPrivateMethodViaPublicMethodRunTest) {
+  runFile("tests/samples/test_call_to_private_method_via_public_method.yz", "20");
+}
+
+TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
+  expectFailIRGeneration("tests/samples/test_private_method_call.yz",
+                         1,
+                         "Error: Method 'getDouble\\(\\)' of object 'CService' is private");
+}
+

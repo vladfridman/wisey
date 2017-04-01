@@ -53,6 +53,10 @@ public:
 
 private:
 
+  bool checkAccess(IRGenerationContext& context,
+                   IObjectWithMethodsType* object,
+                   IMethodDescriptor* methodDescriptor) const;
+  
   llvm::Value* generateModelMethodCallIR(IRGenerationContext& context,
                                          IObjectWithMethodsType* object,
                                          IMethodDescriptor* methodDescriptor) const;

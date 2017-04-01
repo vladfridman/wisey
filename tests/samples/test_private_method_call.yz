@@ -1,0 +1,29 @@
+interface IProgram {
+  int run();
+}
+
+controller CService {
+  receive int mNumber;
+
+  public int getNumber() {
+    return getDouble();
+  }
+
+  private int getDouble() {
+    return mNumber * 2;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService mService(5);
+
+  public int run() {
+    return mService.getDouble();
+  }
+}
+
+int main() {
+  CProgram program = inject(CProgram);
+
+  return program.run();
+}
