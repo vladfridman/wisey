@@ -1,6 +1,6 @@
 %{
   #include <string>
-  #include "yazyk/AccessSpecifiers.hpp"
+  #include "yazyk/AccessSpecifier.hpp"
   #include "yazyk/Block.hpp"
   #include "yazyk/CompoundStatement.hpp"
   #include "yazyk/ControllerFieldDeclaration.hpp"

@@ -1,5 +1,5 @@
 %{
-  #include "yazyk/AccessSpecifiers.hpp"
+  #include "yazyk/AccessSpecifier.hpp"
   #include "yazyk/AdditiveMultiplicativeExpression.hpp"
   #include "yazyk/Assignment.hpp"
   #include "yazyk/Block.hpp"
@@ -463,8 +463,8 @@ method_declaration_arguments
   ;
 
 access_specifier
-  : TPUBLIC { $$ = AccessSpecifiers::PUBLIC_ACCESS; }
-  | TPRIVATE { $$ = AccessSpecifiers::PRIVATE_ACCESS; }
+  : TPUBLIC { $$ = AccessSpecifier::PUBLIC_ACCESS; }
+  | TPRIVATE { $$ = AccessSpecifier::PRIVATE_ACCESS; }
   ;
 
 identifier

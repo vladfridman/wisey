@@ -9,7 +9,7 @@
 #ifndef MethodDeclaration_h
 #define MethodDeclaration_h
 
-#include "yazyk/AccessSpecifiers.hpp"
+#include "yazyk/AccessSpecifier.hpp"
 #include "yazyk/CompoundStatement.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"

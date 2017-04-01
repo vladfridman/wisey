@@ -13,7 +13,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/AccessSpecifiers.hpp"
+#include "yazyk/AccessSpecifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodDeclaration.hpp"
@@ -53,7 +53,7 @@ struct MethodDeclarationTest : Test {
 TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
-  MethodDeclaration methodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
+  MethodDeclaration methodDeclaration(AccessSpecifier::PUBLIC_ACCESS,
                                       mFloatTypeSpecifier,
                                       "foo",
                                       mArguments,

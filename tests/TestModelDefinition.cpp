@@ -16,7 +16,7 @@
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/AccessSpecifiers.hpp"
+#include "yazyk/AccessSpecifier.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/MethodArgument.hpp"
@@ -56,7 +56,7 @@ struct ModelDefinitionTest : public Test {
       new VariableDeclaration(*intTypeSpecifier, *intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    mMethodDeclaration = new MethodDeclaration(AccessSpecifiers::PUBLIC_ACCESS,
+    mMethodDeclaration = new MethodDeclaration(AccessSpecifier::PUBLIC_ACCESS,
                                                *floatTypeSpecifier,
                                                "foo",
                                                methodArguments,
