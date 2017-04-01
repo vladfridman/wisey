@@ -27,6 +27,7 @@ TEST(InterfaceTypeSpecifierTest, creationTest) {
   vector<MethodArgument*> methodArguments;
   vector<MethodSignature*> methodSignatures;
   MethodSignature* methodSignature = new MethodSignature("foo",
+                                                         AccessSpecifier::PUBLIC_ACCESS,
                                                          PrimitiveTypes::INT_TYPE,
                                                          methodArguments,
                                                          0);

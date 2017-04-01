@@ -9,6 +9,7 @@
 #ifndef MethodSignature_h
 #define MethodSignature_h
 
+#include "yazyk/AccessSpecifier.hpp"
 #include "yazyk/IMethodDescriptor.hpp"
 
 namespace yazyk {
@@ -16,6 +17,7 @@ namespace yazyk {
 class MethodSignature : public IMethodDescriptor {
   
   std::string mName;
+  AccessSpecifier mAccessSpecifier;
   IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
   unsigned long mIndex;
@@ -23,10 +25,12 @@ class MethodSignature : public IMethodDescriptor {
 public:
   
   MethodSignature(std::string name,
+                  AccessSpecifier accessSpecifier,
                   IType* returnType,
                   std::vector<MethodArgument*> arguments,
                   unsigned long index) :
   mName(name),
+  mAccessSpecifier(accessSpecifier),
   mReturnType(returnType),
   mArguments(arguments),
   mIndex(index) { }
@@ -39,6 +43,8 @@ public:
   MethodSignature* createCopyWithIndex(unsigned long index) const;
   
   std::string getName() const override;
+  
+  AccessSpecifier getAccessSpecifier() const override;
   
   IType* getReturnType() const override;
   

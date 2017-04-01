@@ -31,7 +31,12 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
   
   IType* returnType = mReturnTypeSpecifier.getType(context);
   
-  return new Method(mMethodName, returnType, arguments, index, &mCompoundStatement);
+  return new Method(mMethodName,
+                    mAccessSpecifier,
+                    returnType,
+                    arguments,
+                    index,
+                    &mCompoundStatement);
 }
 
 string MethodDeclaration::getMethodName() const {

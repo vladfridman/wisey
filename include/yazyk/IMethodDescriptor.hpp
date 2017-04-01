@@ -16,6 +16,7 @@
 
 namespace yazyk {
   
+class AccessSpecifier;
 class IObjectWithMethodsType;
 class IRGenerationContext;
 class IType;
@@ -36,6 +37,11 @@ public:
    * Returns the method's name
    */
   virtual std::string getName() const = 0;
+  
+  /**
+   * Return whether this method has a PRIVATE or PUBLIC access
+   */
+  virtual AccessSpecifier getAccessSpecifier() const = 0;
   
   /**
    * Returns method's return type

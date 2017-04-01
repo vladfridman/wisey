@@ -45,7 +45,12 @@ public:
     std::vector<MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
-    mMethod = new Method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0, NULL);
+    mMethod = new Method("mymethod",
+                         AccessSpecifier::PUBLIC_ACCESS,
+                         PrimitiveTypes::BOOLEAN_TYPE,
+                         arguments,
+                         0,
+                         NULL);
 
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -78,7 +83,12 @@ TEST_F(MethodTest, defineFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
-  Method method("foo", PrimitiveTypes::FLOAT_TYPE, arguments, 0, &mCompoundStatement);
+  Method method("foo",
+                AccessSpecifier::PUBLIC_ACCESS,
+                PrimitiveTypes::FLOAT_TYPE,
+                arguments,
+                0,
+                &mCompoundStatement);
   Function* function = method.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
@@ -91,7 +101,12 @@ TEST_F(MethodTest, generateIRTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
-  Method method("foo", PrimitiveTypes::FLOAT_TYPE, arguments, 0, &mCompoundStatement);
+  Method method("foo",
+                AccessSpecifier::PUBLIC_ACCESS,
+                PrimitiveTypes::FLOAT_TYPE,
+                arguments,
+                0,
+                &mCompoundStatement);
   Function* function = method.defineFunction(mContext, mModel);
   method.generateIR(mContext, function, mModel);
   

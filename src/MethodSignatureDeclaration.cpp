@@ -29,5 +29,9 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   
   IType* returnType = mReturnTypeSpecifier.getType(context);
   
-  return new MethodSignature(mMethodName, returnType, arguments, index);
+  return new MethodSignature(mMethodName,
+                             AccessSpecifier::PUBLIC_ACCESS,
+                             returnType,
+                             arguments,
+                             index);
 }

@@ -18,6 +18,10 @@ string MethodSignature::getName() const {
   return mName;
 }
 
+AccessSpecifier MethodSignature::getAccessSpecifier() const {
+  return mAccessSpecifier;
+}
+
 IType* MethodSignature::getReturnType() const {
   return mReturnType;
 }
@@ -31,5 +35,5 @@ unsigned long MethodSignature::getIndex() const {
 }
 
 MethodSignature* MethodSignature::createCopyWithIndex(unsigned long index) const {
-  return new MethodSignature(mName, mReturnType, mArguments, index);
+  return new MethodSignature(mName, mAccessSpecifier, mReturnType, mArguments, index);
 }

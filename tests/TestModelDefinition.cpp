@@ -100,6 +100,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<MethodArgument*> methodArguments;
   methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
   MethodSignature* methodSignature = new MethodSignature("foo",
+                                                         AccessSpecifier::PUBLIC_ACCESS,
                                                          PrimitiveTypes::FLOAT_TYPE,
                                                          methodArguments,
                                                          0);

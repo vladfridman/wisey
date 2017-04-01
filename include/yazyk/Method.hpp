@@ -11,6 +11,7 @@
 
 #include <llvm/IR/DerivedTypes.h>
 
+#include "yazyk/AccessSpecifier.hpp"
 #include "yazyk/IMethodDescriptor.hpp"
 
 namespace yazyk {
@@ -23,6 +24,7 @@ class Model;
  */
 class Method : public IMethodDescriptor {
   std::string mName;
+  AccessSpecifier mAccessSpecifier;
   IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
   unsigned long mIndex;
@@ -31,11 +33,13 @@ class Method : public IMethodDescriptor {
 public:
   
   Method(std::string name,
+         AccessSpecifier accessSpecifier,
          IType* returnType,
          std::vector<MethodArgument*> arguments,
          unsigned long index,
          CompoundStatement* compoundStatement) :
   mName(name),
+  mAccessSpecifier(accessSpecifier),
   mReturnType(returnType),
   mArguments(arguments),
   mIndex(index),
@@ -57,6 +61,8 @@ public:
                   IObjectWithMethodsType* objectType) const;
 
   std::string getName() const override;
+  
+  AccessSpecifier getAccessSpecifier() const override;
   
   IType* getReturnType() const override;
   

@@ -38,7 +38,12 @@ public:
     std::vector<MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
-    mMethod = new Method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0, NULL);
+    mMethod = new Method("mymethod",
+                         AccessSpecifier::PUBLIC_ACCESS,
+                         PrimitiveTypes::BOOLEAN_TYPE,
+                         arguments,
+                         0,
+                         NULL);
 
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -61,7 +66,12 @@ TEST_F(IMethodDescriptorTest, compareTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
-  Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0, NULL);
+  Method method("mymethod",
+                AccessSpecifier::PUBLIC_ACCESS,
+                PrimitiveTypes::BOOLEAN_TYPE,
+                arguments,
+                0,
+                NULL);
   
   ASSERT_TRUE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -72,7 +82,12 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
-  Method method("differentname", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0, NULL);
+  Method method("differentname",
+                AccessSpecifier::PUBLIC_ACCESS,
+                PrimitiveTypes::BOOLEAN_TYPE,
+                arguments,
+                0,
+                NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -81,7 +96,12 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
-  Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0, NULL);
+  Method method("mymethod",
+                AccessSpecifier::PUBLIC_ACCESS,
+                PrimitiveTypes::BOOLEAN_TYPE,
+                arguments,
+                0,
+                NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -92,7 +112,12 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
-  Method method("mymethod", PrimitiveTypes::BOOLEAN_TYPE, arguments, 0, NULL);
+  Method method("mymethod",
+                AccessSpecifier::PUBLIC_ACCESS,
+                PrimitiveTypes::BOOLEAN_TYPE,
+                arguments,
+                0,
+                NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -101,7 +126,11 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
-  MethodSignature method("foo", PrimitiveTypes::FLOAT_TYPE, arguments, 0);
+  MethodSignature method("foo",
+                         AccessSpecifier::PUBLIC_ACCESS,
+                         PrimitiveTypes::FLOAT_TYPE,
+                         arguments,
+                         0);
   FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(&method, mContext, mModel);
   
   EXPECT_EQ(functionType->getReturnType(), Type::getFloatTy(mLLVMContext));

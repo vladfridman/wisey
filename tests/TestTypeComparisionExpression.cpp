@@ -76,8 +76,20 @@ struct TestTypeComparisionExpressionTest : public Test {
     squareFields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<MethodArgument*> methodArguments;
     vector<Method*> squareMethods;
-    squareMethods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));
-    squareMethods.push_back(new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments, 1, NULL));
+    Method* fooMethod = new Method("foo",
+                                   AccessSpecifier::PUBLIC_ACCESS,
+                                   PrimitiveTypes::INT_TYPE,
+                                   methodArguments,
+                                   0,
+                                   NULL);
+    Method* barMethod = new Method("bar",
+                                   AccessSpecifier::PUBLIC_ACCESS,
+                                   PrimitiveTypes::INT_TYPE,
+                                   methodArguments,
+                                   1,
+                                   NULL);
+    squareMethods.push_back(fooMethod);
+    squareMethods.push_back(barMethod);
     
     vector<Type*> subShapeInterfaceTypes;
     StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, "ISubShape");
@@ -85,6 +97,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     vector<MethodArgument*> subShapeInterfaceMethodArguments;
     vector<MethodSignature*> subShapeInterfaceMethods;
     MethodSignature* methodFooSignature = new MethodSignature("foo",
+                                                              AccessSpecifier::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               subShapeInterfaceMethodArguments,
                                                               0);
@@ -101,6 +114,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
     methodFooSignature = new MethodSignature("foo",
+                                             AccessSpecifier::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
                                              shapeInterfaceMethodArguments,
                                              0);
@@ -118,6 +132,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
     MethodSignature* methodBarSignature = new MethodSignature("bar",
+                                                              AccessSpecifier::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
                                                               0);

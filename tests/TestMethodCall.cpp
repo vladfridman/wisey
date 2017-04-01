@@ -65,10 +65,21 @@ public:
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
-    mMethod = new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL);
+    mMethod = new Method("foo",
+                         AccessSpecifier::PUBLIC_ACCESS,
+                         PrimitiveTypes::INT_TYPE,
+                         methodArguments,
+                         0,
+                         NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
-    methods.push_back(new Method("bar", PrimitiveTypes::INT_TYPE, methodArguments, 1, NULL));
+    Method* barMethod = new Method("bar",
+                                   AccessSpecifier::PUBLIC_ACCESS,
+                                   PrimitiveTypes::INT_TYPE,
+                                   methodArguments,
+                                   1,
+                                   NULL);
+    methods.push_back(barMethod);
     vector<Interface*> interfaces;
     mModel = new Model("MSquare", mStructType, fields, methods, interfaces);
 

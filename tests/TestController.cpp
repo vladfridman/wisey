@@ -53,6 +53,7 @@ struct ControllerTest : public Test {
     vector<MethodArgument*> calculatorInterfaceMethodArguments;
     vector<MethodSignature*> calculatorInterfaceMethods;
     MethodSignature* calculateSignature = new MethodSignature("calculate",
+                                                              AccessSpecifier::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               calculatorInterfaceMethodArguments,
                                                               0);
@@ -82,6 +83,7 @@ struct ControllerTest : public Test {
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
     MethodSignature* methodBarSignature = new MethodSignature("foo",
+                                                              AccessSpecifier::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
                                                               0);
@@ -107,10 +109,21 @@ struct ControllerTest : public Test {
     receivedFields.push_back(mLeftField);
     receivedFields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
-    mMethod = new Method("calculate", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL);
+    mMethod = new Method("calculate",
+                         AccessSpecifier::PUBLIC_ACCESS,
+                         PrimitiveTypes::INT_TYPE,
+                         methodArguments,
+                         0,
+                         NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
-    methods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 1, NULL));
+    Method* fooMethod = new Method("foo",
+                                   AccessSpecifier::PUBLIC_ACCESS,
+                                   PrimitiveTypes::INT_TYPE,
+                                   methodArguments,
+                                   1,
+                                   NULL);
+    methods.push_back(fooMethod);
     
     vector<Interface*> interfaces;
     interfaces.push_back(mScienceCalculatorInterface);

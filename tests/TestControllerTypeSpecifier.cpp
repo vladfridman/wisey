@@ -35,7 +35,13 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
   receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments));
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
-  methods.push_back(new Method("multiply", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));
+  Method* multiplyMethod = new Method("multiply",
+                                      AccessSpecifier::PUBLIC_ACCESS,
+                                      PrimitiveTypes::INT_TYPE,
+                                      methodArguments,
+                                      0,
+                                      NULL);
+  methods.push_back(multiplyMethod);
   vector<Interface*> interfaces;
   Controller* controller = new Controller("CMultiplier",
                                           structType,

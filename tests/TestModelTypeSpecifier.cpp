@@ -33,7 +33,13 @@ TEST(ModelTypeSpecifierTest, creationTest) {
   fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
-  methods.push_back(new Method("foo", PrimitiveTypes::INT_TYPE, methodArguments, 0, NULL));
+  Method* fooMethod = new Method("foo",
+                                 AccessSpecifier::PUBLIC_ACCESS,
+                                 PrimitiveTypes::INT_TYPE,
+                                 methodArguments,
+                                 0,
+                                 NULL);
+  methods.push_back(fooMethod);
   vector<Interface*> interfaces;
   Model* model = new Model("MSquare", structType, fields, methods, interfaces);
   context.addModel(model);

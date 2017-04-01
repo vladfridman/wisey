@@ -21,6 +21,10 @@ string Method::getName() const {
   return mName;
 }
 
+AccessSpecifier Method::getAccessSpecifier() const {
+  return mAccessSpecifier;
+}
+
 IType* Method::getReturnType() const {
   return mReturnType;
 }
