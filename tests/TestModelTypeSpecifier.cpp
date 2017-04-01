@@ -34,7 +34,7 @@ TEST(ModelTypeSpecifierTest, creationTest) {
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
   Method* fooMethod = new Method("foo",
-                                 AccessSpecifier::PUBLIC_ACCESS,
+                                 AccessLevel::PUBLIC_ACCESS,
                                  PrimitiveTypes::INT_TYPE,
                                  methodArguments,
                                  0,

@@ -53,7 +53,7 @@ struct ControllerTest : public Test {
     vector<MethodArgument*> calculatorInterfaceMethodArguments;
     vector<MethodSignature*> calculatorInterfaceMethods;
     MethodSignature* calculateSignature = new MethodSignature("calculate",
-                                                              AccessSpecifier::PUBLIC_ACCESS,
+                                                              AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               calculatorInterfaceMethodArguments,
                                                               0);
@@ -83,7 +83,7 @@ struct ControllerTest : public Test {
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
     MethodSignature* methodBarSignature = new MethodSignature("foo",
-                                                              AccessSpecifier::PUBLIC_ACCESS,
+                                                              AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
                                                               0);
@@ -110,7 +110,7 @@ struct ControllerTest : public Test {
     receivedFields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
     mMethod = new Method("calculate",
-                         AccessSpecifier::PUBLIC_ACCESS,
+                         AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          0,
@@ -118,7 +118,7 @@ struct ControllerTest : public Test {
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* fooMethod = new Method("foo",
-                                   AccessSpecifier::PUBLIC_ACCESS,
+                                   AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    1,

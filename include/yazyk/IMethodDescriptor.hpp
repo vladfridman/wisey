@@ -14,7 +14,7 @@
 
 #include <llvm/IR/DerivedTypes.h>
 
-#include "yazyk/AccessSpecifier.hpp"
+#include "yazyk/AccessLevel.hpp"
 
 namespace yazyk {
   
@@ -42,7 +42,7 @@ public:
   /**
    * Return whether this method has a PRIVATE or PUBLIC access
    */
-  virtual AccessSpecifier getAccessSpecifier() const = 0;
+  virtual AccessLevel getAccessLevel() const = 0;
   
   /**
    * Returns method's return type

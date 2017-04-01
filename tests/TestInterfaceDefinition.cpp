@@ -13,7 +13,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/AccessSpecifier.hpp"
+#include "yazyk/AccessLevel.hpp"
 #include "yazyk/InterfaceDefinition.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/MethodSignatureDeclaration.hpp"

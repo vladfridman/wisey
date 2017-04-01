@@ -54,7 +54,7 @@ struct InterfaceTest : public Test {
     mShapeStructType->setBody(shapeTypes);
     vector<MethodArgument*> shapeMethodArguments;
     mMethodSignature = new MethodSignature("foo",
-                                           AccessSpecifier::PUBLIC_ACCESS,
+                                           AccessLevel::PUBLIC_ACCESS,
                                            PrimitiveTypes::INT_TYPE,
                                            shapeMethodArguments,
                                            0);

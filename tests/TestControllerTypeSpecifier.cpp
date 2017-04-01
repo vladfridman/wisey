@@ -36,7 +36,7 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
   Method* multiplyMethod = new Method("multiply",
-                                      AccessSpecifier::PUBLIC_ACCESS,
+                                      AccessLevel::PUBLIC_ACCESS,
                                       PrimitiveTypes::INT_TYPE,
                                       methodArguments,
                                       0,

@@ -16,7 +16,7 @@
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/AccessSpecifier.hpp"
+#include "yazyk/AccessLevel.hpp"
 #include "yazyk/ControllerDefinition.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -58,7 +58,7 @@ struct ControllerDefinitionTest : public Test {
     new VariableDeclaration(*intTypeSpecifier, *intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    mMethodDeclaration = new MethodDeclaration(AccessSpecifier::PUBLIC_ACCESS,
+    mMethodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                *floatTypeSpecifier,
                                                "foo",
                                                methodArguments,

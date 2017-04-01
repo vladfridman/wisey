@@ -39,7 +39,7 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     mMethod = new Method("mymethod",
-                         AccessSpecifier::PUBLIC_ACCESS,
+                         AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
                          0,
@@ -67,7 +67,7 @@ TEST_F(IMethodDescriptorTest, compareTest) {
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   Method method("mymethod",
-                AccessSpecifier::PUBLIC_ACCESS,
+                AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 0,
@@ -83,7 +83,7 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   Method method("differentname",
-                AccessSpecifier::PUBLIC_ACCESS,
+                AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 0,
@@ -97,7 +97,7 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   Method method("mymethod",
-                AccessSpecifier::PUBLIC_ACCESS,
+                AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 0,
@@ -113,7 +113,7 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   Method method("mymethod",
-                AccessSpecifier::PUBLIC_ACCESS,
+                AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 0,
@@ -127,7 +127,7 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   MethodSignature method("foo",
-                         AccessSpecifier::PUBLIC_ACCESS,
+                         AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::FLOAT_TYPE,
                          arguments,
                          0);

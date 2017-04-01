@@ -16,7 +16,7 @@
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/AccessSpecifier.hpp"
+#include "yazyk/AccessLevel.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/MethodArgument.hpp"
@@ -56,7 +56,7 @@ struct ModelDefinitionTest : public Test {
       new VariableDeclaration(*intTypeSpecifier, *intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    mMethodDeclaration = new MethodDeclaration(AccessSpecifier::PUBLIC_ACCESS,
+    mMethodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                *floatTypeSpecifier,
                                                "foo",
                                                methodArguments,
@@ -100,7 +100,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<MethodArgument*> methodArguments;
   methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
   MethodSignature* methodSignature = new MethodSignature("foo",
-                                                         AccessSpecifier::PUBLIC_ACCESS,
+                                                         AccessLevel::PUBLIC_ACCESS,
                                                          PrimitiveTypes::FLOAT_TYPE,
                                                          methodArguments,
                                                          0);

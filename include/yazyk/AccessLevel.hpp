@@ -1,24 +1,24 @@
 //
-//  AccessSpecifier.hpp
+//  AccessLevel.hpp
 //  Yazyk
 //
 //  Created by Vladimir Fridman on 2/8/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef AccessSpecifier_h
-#define AccessSpecifier_h
+#ifndef AccessLevel_h
+#define AccessLevel_h
 
 namespace yazyk {
 
 /**
  * Represents public and private access levels to model methods
  */
-typedef enum AccessSpecifierEnum {
+typedef enum AccessLevelEnum {
   PRIVATE_ACCESS,
   PUBLIC_ACCESS,
-} AccessSpecifier;
+} AccessLevel;
   
 } /* namespace yazyk */
 
-#endif /* AccessSpecifier_h */
+#endif /* AccessLevel_h */

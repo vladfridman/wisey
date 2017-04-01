@@ -46,7 +46,7 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     mMethod = new Method("mymethod",
-                         AccessSpecifier::PUBLIC_ACCESS,
+                         AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
                          0,
@@ -84,7 +84,7 @@ TEST_F(MethodTest, defineFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   Method method("foo",
-                AccessSpecifier::PUBLIC_ACCESS,
+                AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
                 0,
@@ -102,7 +102,7 @@ TEST_F(MethodTest, generateIRTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   Method method("foo",
-                AccessSpecifier::PUBLIC_ACCESS,
+                AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
                 0,

@@ -1,5 +1,5 @@
 %{
-  #include "yazyk/AccessSpecifier.hpp"
+  #include "yazyk/AccessLevel.hpp"
   #include "yazyk/AdditiveMultiplicativeExpression.hpp"
   #include "yazyk/Assignment.hpp"
   #include "yazyk/Block.hpp"
@@ -97,7 +97,7 @@
   yazyk::ControllerTypeSpecifier* controller_type_specifier;
   yazyk::InterfaceTypeSpecifier* interface_type_specifier;
   yazyk::ControllerFieldDeclaration* controller_field;
-  yazyk::AccessSpecifier access_specifier;
+  yazyk::AccessLevel access_specifier;
   yazyk::MethodDeclaration* method_declaration;
   yazyk::MethodSignatureDeclaration* method_signature;
   std::vector<yazyk::VariableDeclaration*>* variable_vector;
@@ -463,8 +463,8 @@ method_declaration_arguments
   ;
 
 access_specifier
-  : TPUBLIC { $$ = AccessSpecifier::PUBLIC_ACCESS; }
-  | TPRIVATE { $$ = AccessSpecifier::PRIVATE_ACCESS; }
+  : TPUBLIC { $$ = AccessLevel::PUBLIC_ACCESS; }
+  | TPRIVATE { $$ = AccessLevel::PRIVATE_ACCESS; }
   ;
 
 identifier

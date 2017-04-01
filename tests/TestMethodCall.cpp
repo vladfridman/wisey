@@ -66,7 +66,7 @@ public:
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
     mMethod = new Method("foo",
-                         AccessSpecifier::PUBLIC_ACCESS,
+                         AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          0,
@@ -74,7 +74,7 @@ public:
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* barMethod = new Method("bar",
-                                   AccessSpecifier::PUBLIC_ACCESS,
+                                   AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    1,

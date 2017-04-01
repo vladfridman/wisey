@@ -9,7 +9,7 @@
 #ifndef MethodDeclaration_h
 #define MethodDeclaration_h
 
-#include "yazyk/AccessSpecifier.hpp"
+#include "yazyk/AccessLevel.hpp"
 #include "yazyk/CompoundStatement.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"
@@ -26,7 +26,7 @@ namespace yazyk {
  * A method contains a coumpound statement that is the body of the method.
  */
 class MethodDeclaration {
-  const AccessSpecifier mAccessSpecifier;
+  const AccessLevel mAccessLevel;
   const ITypeSpecifier& mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
@@ -34,12 +34,12 @@ class MethodDeclaration {
   
 public:
   
-  MethodDeclaration(const AccessSpecifier accessSpecifier,
+  MethodDeclaration(const AccessLevel AccessLevel,
                     const ITypeSpecifier& returnTypeSpecifier,
                     std::string methodName,
                     const VariableList& arguments,
                     CompoundStatement& compoundStatement) :
-  mAccessSpecifier(accessSpecifier),
+  mAccessLevel(AccessLevel),
   mReturnTypeSpecifier(returnTypeSpecifier),
   mMethodName(methodName),
   mArguments(arguments),

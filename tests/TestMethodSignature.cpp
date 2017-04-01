@@ -25,7 +25,7 @@ struct MethodSignatureTest : Test {
   MethodSignatureTest() {
     vector<MethodArgument*> arguments;
     mMethodSignature = new MethodSignature("foo",
-                                           AccessSpecifier::PUBLIC_ACCESS,
+                                           AccessLevel::PUBLIC_ACCESS,
                                            PrimitiveTypes::LONG_TYPE,
                                            arguments,
                                            1);

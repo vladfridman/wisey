@@ -32,7 +32,7 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
   IType* returnType = mReturnTypeSpecifier.getType(context);
   
   return new Method(mMethodName,
-                    mAccessSpecifier,
+                    mAccessLevel,
                     returnType,
                     arguments,
                     index,

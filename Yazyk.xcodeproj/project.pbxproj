@@ -349,7 +349,7 @@
 		F50427981E4B4102001CB148 /* FieldReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldReference.hpp; path = include/yazyk/FieldReference.hpp; sourceTree = "<group>"; };
 		F50427991E4B4275001CB148 /* FieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldReference.cpp; path = src/FieldReference.cpp; sourceTree = "<group>"; };
 		F504279C1E4B5845001CB148 /* TestFieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldReference.cpp; path = tests/TestFieldReference.cpp; sourceTree = "<group>"; };
-		F504279E1E4B8615001CB148 /* AccessSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AccessSpecifier.hpp; path = include/yazyk/AccessSpecifier.hpp; sourceTree = "<group>"; };
+		F504279E1E4B8615001CB148 /* AccessLevel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AccessLevel.hpp; path = include/yazyk/AccessLevel.hpp; sourceTree = "<group>"; };
 		F50427A21E4CBDF4001CB148 /* Method.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Method.hpp; path = include/yazyk/Method.hpp; sourceTree = "<group>"; };
 		F50427A41E4CC27F001CB148 /* MethodArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodArgument.hpp; path = include/yazyk/MethodArgument.hpp; sourceTree = "<group>"; };
 		F50427A51E4D05DB001CB148 /* IVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IVariable.hpp; path = include/yazyk/IVariable.hpp; sourceTree = "<group>"; };
@@ -1078,7 +1078,7 @@
 		F569E9F91DF9CE6B00BBB20E /* include */ = {
 			isa = PBXGroup;
 			children = (
-				F504279E1E4B8615001CB148 /* AccessSpecifier.hpp */,
+				F504279E1E4B8615001CB148 /* AccessLevel.hpp */,
 				F53400EC1DFC20E70002BF7E /* AdditiveMultiplicativeExpression.hpp */,
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
 				F57086001E531726007D627E /* AutoCast.hpp */,

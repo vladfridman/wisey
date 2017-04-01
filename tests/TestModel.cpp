@@ -65,7 +65,7 @@ struct ModelTest : public Test {
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
     mMethod = new Method("foo",
-                         AccessSpecifier::PUBLIC_ACCESS,
+                         AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          0,
@@ -73,7 +73,7 @@ struct ModelTest : public Test {
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* barMethod = new Method("bar",
-                                   AccessSpecifier::PUBLIC_ACCESS,
+                                   AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    1,
@@ -86,7 +86,7 @@ struct ModelTest : public Test {
     vector<MethodArgument*> subShapeInterfaceMethodArguments;
     vector<MethodSignature*> subShapeInterfaceMethods;
     MethodSignature* methodFooSignature = new MethodSignature("foo",
-                                                              AccessSpecifier::PUBLIC_ACCESS,
+                                                              AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               subShapeInterfaceMethodArguments,
                                                               0);
@@ -103,7 +103,7 @@ struct ModelTest : public Test {
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
     methodFooSignature = new MethodSignature("foo",
-                                             AccessSpecifier::PUBLIC_ACCESS,
+                                             AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
                                              shapeInterfaceMethodArguments,
                                              0);
@@ -121,7 +121,7 @@ struct ModelTest : public Test {
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
     MethodSignature* methodBarSignature = new MethodSignature("bar",
-                                                              AccessSpecifier::PUBLIC_ACCESS,
+                                                              AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
                                                               0);

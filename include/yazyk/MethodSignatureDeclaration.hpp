@@ -9,7 +9,7 @@
 #ifndef MethodSignatureDeclaration_h
 #define MethodSignatureDeclaration_h
 
-#include "yazyk/AccessSpecifier.hpp"
+#include "yazyk/AccessLevel.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"
 #include "yazyk/ITypeSpecifier.hpp"

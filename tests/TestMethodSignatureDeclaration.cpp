@@ -13,7 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/AccessSpecifier.hpp"
+#include "yazyk/AccessLevel.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodSignature.hpp"

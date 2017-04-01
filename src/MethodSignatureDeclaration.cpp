@@ -30,7 +30,7 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   IType* returnType = mReturnTypeSpecifier.getType(context);
   
   return new MethodSignature(mMethodName,
-                             AccessSpecifier::PUBLIC_ACCESS,
+                             AccessLevel::PUBLIC_ACCESS,
                              returnType,
                              arguments,
                              index);
