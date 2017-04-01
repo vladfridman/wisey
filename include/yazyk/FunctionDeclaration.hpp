@@ -9,7 +9,6 @@
 #ifndef FunctionDeclaration_h
 #define FunctionDeclaration_h
 
-#include "yazyk/AccessSpecifier.hpp"
 #include "yazyk/CompoundStatement.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IStatement.hpp"

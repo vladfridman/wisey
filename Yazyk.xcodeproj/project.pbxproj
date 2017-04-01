@@ -12,8 +12,6 @@
 		F504279A1E4B4275001CB148 /* FieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* FieldReference.cpp */; };
 		F504279B1E4B4275001CB148 /* FieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* FieldReference.cpp */; };
 		F504279D1E4B5845001CB148 /* TestFieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279C1E4B5845001CB148 /* TestFieldReference.cpp */; };
-		F50427A01E4B8AAC001CB148 /* AccessSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279F1E4B8AAC001CB148 /* AccessSpecifier.cpp */; };
-		F50427A11E4B8AAC001CB148 /* AccessSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279F1E4B8AAC001CB148 /* AccessSpecifier.cpp */; };
 		F50427A81E4D226C001CB148 /* LocalStackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */; };
 		F50427A91E4D226C001CB148 /* LocalStackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */; };
 		F50427AC1E4D2747001CB148 /* LocalHeapVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427AB1E4D2747001CB148 /* LocalHeapVariable.cpp */; };
@@ -352,7 +350,6 @@
 		F50427991E4B4275001CB148 /* FieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldReference.cpp; path = src/FieldReference.cpp; sourceTree = "<group>"; };
 		F504279C1E4B5845001CB148 /* TestFieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldReference.cpp; path = tests/TestFieldReference.cpp; sourceTree = "<group>"; };
 		F504279E1E4B8615001CB148 /* AccessSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AccessSpecifier.hpp; path = include/yazyk/AccessSpecifier.hpp; sourceTree = "<group>"; };
-		F504279F1E4B8AAC001CB148 /* AccessSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AccessSpecifier.cpp; path = src/AccessSpecifier.cpp; sourceTree = "<group>"; };
 		F50427A21E4CBDF4001CB148 /* Method.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Method.hpp; path = include/yazyk/Method.hpp; sourceTree = "<group>"; };
 		F50427A41E4CC27F001CB148 /* MethodArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodArgument.hpp; path = include/yazyk/MethodArgument.hpp; sourceTree = "<group>"; };
 		F50427A51E4D05DB001CB148 /* IVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IVariable.hpp; path = include/yazyk/IVariable.hpp; sourceTree = "<group>"; };
@@ -940,7 +937,6 @@
 		F54625BD1DE5E53900074D66 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				F504279F1E4B8AAC001CB148 /* AccessSpecifier.cpp */,
 				F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */,
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
 				F57086011E5317E8007D627E /* AutoCast.cpp */,
@@ -1314,7 +1310,6 @@
 				F534010A1DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2DC1E2D329900435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
-				F50427A11E4B8AAC001CB148 /* AccessSpecifier.cpp in Sources */,
 				F50FA2D91E2D324600435EEA /* SwitchStatement.cpp in Sources */,
 				F5F396DC1E34BFE000F34296 /* ModelBuilderArgument.cpp in Sources */,
 				F50427B51E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */,
@@ -1468,7 +1463,6 @@
 				F50FA2D31E2D0AD600435EEA /* ModelDefinition.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
-				F50427A01E4B8AAC001CB148 /* AccessSpecifier.cpp in Sources */,
 				F5ADB6211E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F531B65A1E0DE52F008304F3 /* CharConstant.cpp in Sources */,

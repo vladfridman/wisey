@@ -14,13 +14,10 @@ namespace yazyk {
 /**
  * Represents public and private access levels to model methods
  */
-class AccessSpecifier {
-
-public:
-  
-  static AccessSpecifier PRIVATE_ACCESS;
-  static AccessSpecifier PUBLIC_ACCESS;
-};
+typedef enum AccessSpecifierEnum {
+  PRIVATE_ACCESS,
+  PUBLIC_ACCESS,
+} AccessSpecifier;
   
 } /* namespace yazyk */
 

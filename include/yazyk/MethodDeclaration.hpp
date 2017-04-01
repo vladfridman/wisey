@@ -34,7 +34,7 @@ class MethodDeclaration {
   
 public:
   
-  MethodDeclaration(const AccessSpecifier& accessSpecifier,
+  MethodDeclaration(const AccessSpecifier accessSpecifier,
                     const ITypeSpecifier& returnTypeSpecifier,
                     std::string methodName,
                     const VariableList& arguments,

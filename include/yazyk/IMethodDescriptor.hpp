@@ -14,9 +14,10 @@
 
 #include <llvm/IR/DerivedTypes.h>
 
+#include "yazyk/AccessSpecifier.hpp"
+
 namespace yazyk {
   
-class AccessSpecifier;
 class IObjectWithMethodsType;
 class IRGenerationContext;
 class IType;
