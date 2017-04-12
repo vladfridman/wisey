@@ -14,7 +14,7 @@
 
 #include "yazyk/Block.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/log.hpp"
+#include "yazyk/Log.hpp"
 
 using namespace llvm;
 using namespace std;
