@@ -16,7 +16,6 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "MockType.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/Interface.hpp"

@@ -8,7 +8,7 @@
 
 #include "yazyk/AutoCast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/log.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/ReturnStatement.hpp"
 
 #include <llvm/IR/Instructions.h>
