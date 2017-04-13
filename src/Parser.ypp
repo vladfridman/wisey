@@ -54,6 +54,7 @@
   #include "yazyk/ReturnVoidStatement.hpp"
   #include "yazyk/StringConstant.hpp"
   #include "yazyk/SwitchStatement.hpp"
+  #include "yazyk/ThrowStatement.hpp"
   #include "yazyk/TypeComparisionExpression.hpp"
   #include "yazyk/VariableDeclaration.hpp"
   #include "yazyk/WhileStatement.hpp"
@@ -123,6 +124,7 @@
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
 %token <token> TINTERFACE TIMPLEMENTS TEXTENDS TINSTANCEOF
 %token <token> TCONTROLLER TINJECT TRECEIVE TSTATE
+%token <token> TTHROW
 
 /**
  * Parsing tree node types
@@ -142,7 +144,7 @@
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
 %type <statement> selection_statement model_definition interface_definition function_definition
-%type <statement> controller_definition
+%type <statement> controller_definition throw_statement
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
@@ -378,6 +380,7 @@ statement
   | selection_statement
   | iteration_statement
   | jump_statement
+  | throw_statement
   ;
 
 case_statement_list_with_default
@@ -432,6 +435,10 @@ jump_statement
   | TBREAK ';' { $$ = new BreakStatement(); }
   | TRETURN ';' { $$ =  new ReturnVoidStatement(); }
   | TRETURN expression ';' { $$ = new ReturnStatement(*$2); }
+  ;
+
+throw_statement
+  : TTHROW expression ';' { $$ = new ThrowStatement(*$2); }
   ;
 
 variable_declaration

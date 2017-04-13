@@ -210,6 +210,9 @@
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
 		F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9F71DF9CE6600BBB20E /* main.cpp */; };
+		F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */; };
+		F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */; };
+		F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */; };
 		F57085F31E5117A9007D627E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */; };
 		F57085F41E5117A9007D627E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */; };
 		F57085F61E511BAC007D627E /* TestObjectFieldVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */; };
@@ -563,6 +566,9 @@
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
 		F569E9F71DF9CE6600BBB20E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
+		F56AD49A1E9F4DAC0020868C /* ThrowStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowStatement.hpp; path = include/yazyk/ThrowStatement.hpp; sourceTree = "<group>"; };
+		F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowStatement.cpp; path = src/ThrowStatement.cpp; sourceTree = "<group>"; };
+		F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowStatement.cpp; path = tests/TestThrowStatement.cpp; sourceTree = "<group>"; };
 		F57085F11E511680007D627E /* FunctionDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FunctionDeclaration.hpp; path = include/yazyk/FunctionDeclaration.hpp; sourceTree = "<group>"; };
 		F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDeclaration.cpp; path = src/FunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectFieldVariable.cpp; path = tests/TestObjectFieldVariable.cpp; sourceTree = "<group>"; };
@@ -844,6 +850,7 @@
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
 				F531B6561E0DE040008304F3 /* TestStringConstant.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
+				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
 				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
@@ -1015,6 +1022,7 @@
 				F50FA2FE1E323AAD00435EEA /* Scopes.cpp */,
 				F531B6531E0DDD96008304F3 /* StringConstant.cpp */,
 				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
+				F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */,
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
 				F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
@@ -1168,6 +1176,7 @@
 				F50FA2FD1E32399600435EEA /* Scopes.hpp */,
 				F531B6521E0DDCE7008304F3 /* StringConstant.hpp */,
 				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
+				F56AD49A1E9F4DAC0020868C /* ThrowStatement.hpp */,
 				F5B9B1511E7A9CA500456CB4 /* TypeComparisionExpression.hpp */,
 				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
 				F507D2731E46109200495E2D /* VoidType.hpp */,
@@ -1397,6 +1406,7 @@
 				F531B64F1E0DC1D4008304F3 /* FunctionCall.cpp in Sources */,
 				F50427AF1E4DD329001CB148 /* TestLocalStackVariable.cpp in Sources */,
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
+				F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */,
 				F508E06C1E72DC7D005D6115 /* TestIMethodDescriptor.cpp in Sources */,
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
@@ -1404,6 +1414,7 @@
 				F5F396D81E34BBDD00F34296 /* ModelBuilder.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
+				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */,
@@ -1458,6 +1469,7 @@
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
+				F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
 				F50FA2D31E2D0AD600435EEA /* ModelDefinition.cpp in Sources */,
