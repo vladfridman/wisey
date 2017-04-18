@@ -15,7 +15,7 @@ using namespace std;
 using namespace llvm;
 using namespace yazyk;
 
-Constant* IObjectWithMethodsType::getObjectNamePointer(IObjectWithMethodsType *object,
+Constant* IObjectWithMethodsType::getObjectNamePointer(const IObjectWithMethodsType *object,
                                                        IRGenerationContext& context) {
   GlobalVariable* nameGlobal =
     context.getModule()->getGlobalVariable(object->getObjectNameGlobalVariableName());

@@ -35,7 +35,7 @@ public:
   /**
    * Returns an i8* constant pointer to the name of the collable object
    */
-  static llvm::Constant* getObjectNamePointer(IObjectWithMethodsType* object,
+  static llvm::Constant* getObjectNamePointer(const IObjectWithMethodsType* object,
                                               IRGenerationContext& context);
 };
 
