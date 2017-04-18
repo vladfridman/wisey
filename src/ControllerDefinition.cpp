@@ -168,24 +168,15 @@ GlobalVariable* ControllerDefinition::createTypeListGlobal(IRGenerationContext& 
   vector<Interface*> interfaces = controller->getFlattenedInterfaceHierarchy();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   
-  GlobalVariable* modelNameGlobal =
-  context.getModule()->getGlobalVariable(controller->getObjectNameGlobalVariableName());
-  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  Value* Idx[2];
-  Idx[0] = zeroInt32;
-  Idx[1] = zeroInt32;
-  Type* elementType = modelNameGlobal->getType()->getPointerElementType();
-  Constant* modelNamePointer = ConstantExpr::getGetElementPtr(elementType, modelNameGlobal, Idx);
+  Constant* controllerNamePointer =
+    IObjectWithMethodsType::getObjectNamePointer(controller, context);
   
   vector<Constant*> typeNames;
-  typeNames.push_back(modelNamePointer);
+  typeNames.push_back(controllerNamePointer);
   
   for (Interface* interface : interfaces) {
-    GlobalVariable* interfaceNameGlobal =
-    context.getModule()->getGlobalVariable(interface->getObjectNameGlobalVariableName());
-    Type* elementType = interfaceNameGlobal->getType()->getPointerElementType();
     Constant* interfaceNamePointer =
-    ConstantExpr::getGetElementPtr(elementType, interfaceNameGlobal, Idx);
+      IObjectWithMethodsType::getObjectNamePointer(interface, context);
     typeNames.push_back(interfaceNamePointer);
   }
   typeNames.push_back(ConstantExpr::getNullValue(pointerType));

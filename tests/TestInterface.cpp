@@ -158,12 +158,12 @@ TEST_F(InterfaceTest, callInstanceOfTest) {
     ConstantPointerNull::get((PointerType*) mObjectInterface->getLLVMType(mLLVMContext));
   mObjectInterface->callInstanceOf(mContext, nullPointerValue, mShapeInterface);
   
-  ASSERT_EQ(2ul, mBlock->size());
+  ASSERT_EQ(1ul, mBlock->size());
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = getelementptr [7 x i8], [7 x i8]* @interface.IShape.name, i32 0, i32 0"
-  "\n  %instanceof = call i1 @interface.IObject.instanceof(%IObject* null, i8* %0)\n";
+  "\n  %instanceof = call i1 @interface.IObject.instanceof(%IObject* null, "
+  "i8* getelementptr inbounds ([7 x i8], [7 x i8]* @interface.IShape.name, i32 0, i32 0))\n";
   
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }

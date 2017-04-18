@@ -213,6 +213,9 @@
 		F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */; };
 		F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */; };
 		F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */; };
+		F56AD4A11E9F66C40020868C /* IObjectWithMethodsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD4A01E9F66C40020868C /* IObjectWithMethodsType.cpp */; };
+		F56AD4A21E9F66C40020868C /* IObjectWithMethodsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD4A01E9F66C40020868C /* IObjectWithMethodsType.cpp */; };
+		F56AD4A41E9F6D5B0020868C /* TestIObjectWithMethodsType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD4A31E9F6D5B0020868C /* TestIObjectWithMethodsType.cpp */; };
 		F57085F31E5117A9007D627E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */; };
 		F57085F41E5117A9007D627E /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */; };
 		F57085F61E511BAC007D627E /* TestObjectFieldVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */; };
@@ -450,6 +453,7 @@
 		F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceDefinition.cpp; path = src/InterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignatureDeclaration.cpp; path = src/MethodSignatureDeclaration.cpp; sourceTree = "<group>"; };
 		F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceDefinition.cpp; path = tests/TestInterfaceDefinition.cpp; sourceTree = "<group>"; };
+		F51BA8FD1EA689440038C98B /* MockObjectWithMethodsType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectWithMethodsType.hpp; path = tests/include/MockObjectWithMethodsType.hpp; sourceTree = "<group>"; };
 		F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CastExpression.hpp; path = include/yazyk/CastExpression.hpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -569,6 +573,8 @@
 		F56AD49A1E9F4DAC0020868C /* ThrowStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowStatement.hpp; path = include/yazyk/ThrowStatement.hpp; sourceTree = "<group>"; };
 		F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowStatement.cpp; path = src/ThrowStatement.cpp; sourceTree = "<group>"; };
 		F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowStatement.cpp; path = tests/TestThrowStatement.cpp; sourceTree = "<group>"; };
+		F56AD4A01E9F66C40020868C /* IObjectWithMethodsType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectWithMethodsType.cpp; path = src/IObjectWithMethodsType.cpp; sourceTree = "<group>"; };
+		F56AD4A31E9F6D5B0020868C /* TestIObjectWithMethodsType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIObjectWithMethodsType.cpp; path = tests/TestIObjectWithMethodsType.cpp; sourceTree = "<group>"; };
 		F57085F11E511680007D627E /* FunctionDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FunctionDeclaration.hpp; path = include/yazyk/FunctionDeclaration.hpp; sourceTree = "<group>"; };
 		F57085F21E5117A9007D627E /* FunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDeclaration.cpp; path = src/FunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectFieldVariable.cpp; path = tests/TestObjectFieldVariable.cpp; sourceTree = "<group>"; };
@@ -821,6 +827,7 @@
 				F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */,
 				F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */,
 				F5C6FD821E48B7260054209D /* TestIntType.cpp */,
+				F56AD4A31E9F6D5B0020868C /* TestIObjectWithMethodsType.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
 				F50427B01E4DD621001CB148 /* TestLocalHeapVariable.cpp */,
 				F50427AE1E4DD329001CB148 /* TestLocalStackVariable.cpp */,
@@ -899,6 +906,7 @@
 			isa = PBXGroup;
 			children = (
 				F5E48B8E1E870E150087CC70 /* MockExpression.hpp */,
+				F51BA8FD1EA689440038C98B /* MockObjectWithMethodsType.hpp */,
 				F5E48B901E87122E0087CC70 /* MockStatement.hpp */,
 				F5E48B921E8713F00087CC70 /* MockType.hpp */,
 				F5E48B911E8713630087CC70 /* MockTypeSpecifier.hpp */,
@@ -989,6 +997,7 @@
 				F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */,
 				F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */,
 				F5C6FD7F1E48B6E80054209D /* IntType.cpp */,
+				F56AD4A01E9F66C40020868C /* IObjectWithMethodsType.cpp */,
 				F574115F1E01AC98009809FF /* IRGenerationContext.cpp */,
 				F50427AB1E4D2747001CB148 /* LocalHeapVariable.cpp */,
 				F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */,
@@ -1363,6 +1372,7 @@
 				F5C6FD7E1E48B6810054209D /* TestFloatType.cpp in Sources */,
 				F5C6FD701E48B40F0054209D /* BooleanType.cpp in Sources */,
 				F57085FF1E51F8C9007D627E /* TestMethodCall.cpp in Sources */,
+				F56AD4A41E9F6D5B0020868C /* TestIObjectWithMethodsType.cpp in Sources */,
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
@@ -1415,6 +1425,7 @@
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
+				F56AD4A21E9F66C40020868C /* IObjectWithMethodsType.cpp in Sources */,
 				F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */,
@@ -1494,6 +1505,7 @@
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F531B64E1E0DC1D4008304F3 /* FunctionCall.cpp in Sources */,
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
+				F56AD4A11E9F66C40020868C /* IObjectWithMethodsType.cpp in Sources */,
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F57085F31E5117A9007D627E /* FunctionDeclaration.cpp in Sources */,
 				F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */,
