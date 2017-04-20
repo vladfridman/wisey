@@ -97,6 +97,7 @@
 		F51797141E660779009B16AA /* TestInterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */; };
 		F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
+		F52F2C991EA95C7B0081DE38 /* TestTryCatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
 		F531B6391E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */; };
 		F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */; };
@@ -456,6 +457,9 @@
 		F51BA8FD1EA689440038C98B /* MockObjectWithMethodsType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectWithMethodsType.hpp; path = tests/include/MockObjectWithMethodsType.hpp; sourceTree = "<group>"; };
 		F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CastExpression.hpp; path = include/yazyk/CastExpression.hpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
+		F52F2C951EA94F070081DE38 /* Catch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Catch.hpp; path = include/yazyk/Catch.hpp; sourceTree = "<group>"; };
+		F52F2C971EA957B50081DE38 /* TryCatchStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TryCatchStatement.hpp; path = include/yazyk/TryCatchStatement.hpp; sourceTree = "<group>"; };
+		F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTryCatch.cpp; path = tests/TestTryCatch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
 		F530B45E1DFA031A00477384 /* TestsRun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestsRun.cpp; path = tests/TestsRun.cpp; sourceTree = "<group>"; };
 		F531B6371E07A4AD008304F3 /* INode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = INode.hpp; path = include/yazyk/INode.hpp; sourceTree = "<group>"; };
@@ -858,6 +862,7 @@
 				F531B6561E0DE040008304F3 /* TestStringConstant.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
 				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
+				F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */,
 				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
@@ -1108,6 +1113,7 @@
 				F50FA2A21E269E4400435EEA /* CaseStatement.hpp */,
 				F5ADB60E1E5D9FFD00FFC941 /* Cast.hpp */,
 				F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */,
+				F52F2C951EA94F070081DE38 /* Catch.hpp */,
 				F531B6581E0DE4ED008304F3 /* CharConstant.hpp */,
 				F507D2691E44C3A400495E2D /* CharType.hpp */,
 				F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */,
@@ -1186,6 +1192,7 @@
 				F531B6521E0DDCE7008304F3 /* StringConstant.hpp */,
 				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
 				F56AD49A1E9F4DAC0020868C /* ThrowStatement.hpp */,
+				F52F2C971EA957B50081DE38 /* TryCatchStatement.hpp */,
 				F5B9B1511E7A9CA500456CB4 /* TypeComparisionExpression.hpp */,
 				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
 				F507D2731E46109200495E2D /* VoidType.hpp */,
@@ -1299,6 +1306,7 @@
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */,
 				F50FA2B81E28BA5600435EEA /* DoStatement.cpp in Sources */,
+				F52F2C991EA95C7B0081DE38 /* TestTryCatch.cpp in Sources */,
 				F50FA2F51E2E3B2E00435EEA /* TestDoubleConstant.cpp in Sources */,
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
 				F50427B11E4DD621001CB148 /* TestLocalHeapVariable.cpp in Sources */,

@@ -6,6 +6,7 @@
   #include "yazyk/BooleanConstants.hpp"
   #include "yazyk/BooleanNotExpression.hpp"
   #include "yazyk/BreakStatement.hpp"
+  #include "yazyk/Catch.hpp"
   #include "yazyk/CaseStatement.hpp"
   #include "yazyk/CastExpression.hpp"
   #include "yazyk/CharConstant.hpp"
@@ -54,6 +55,7 @@
   #include "yazyk/ReturnVoidStatement.hpp"
   #include "yazyk/StringConstant.hpp"
   #include "yazyk/SwitchStatement.hpp"
+  #include "yazyk/TryCatchStatement.hpp"
   #include "yazyk/ThrowStatement.hpp"
   #include "yazyk/TypeComparisionExpression.hpp"
   #include "yazyk/VariableDeclaration.hpp"
@@ -101,6 +103,8 @@
   yazyk::AccessLevel access_specifier;
   yazyk::MethodDeclaration* method_declaration;
   yazyk::MethodSignatureDeclaration* method_signature;
+  yazyk::Catch* catch_clause;
+  std::vector<yazyk::Catch*>* catch_vector;
   std::vector<yazyk::VariableDeclaration*>* variable_vector;
   std::vector<yazyk::IExpression*>* expression_vector;
   std::vector<yazyk::ModelFieldDeclaration*>* model_field_vector;
@@ -124,7 +128,7 @@
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
 %token <token> TINTERFACE TIMPLEMENTS TEXTENDS TINSTANCEOF
 %token <token> TCONTROLLER TINJECT TRECEIVE TSTATE
-%token <token> TTHROW
+%token <token> TTHROW TTRY TCATCH
 
 /**
  * Parsing tree node types
@@ -144,7 +148,7 @@
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
 %type <statement> selection_statement model_definition interface_definition function_definition
-%type <statement> controller_definition throw_statement
+%type <statement> controller_definition throw_statement try_catch_statement
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
@@ -172,6 +176,8 @@
 %type <method_declaration> method_definition
 %type <method_signature> method_signature
 %type <identifier_list> interface_list
+%type <catch_clause> catch_clause
+%type <catch_vector> catch_block
 
 %left '+' '-'
 %left '*' '/'
@@ -381,6 +387,7 @@ statement
   | iteration_statement
   | jump_statement
   | throw_statement
+  | try_catch_statement
   ;
 
 case_statement_list_with_default
@@ -439,6 +446,22 @@ jump_statement
 
 throw_statement
   : TTHROW expression ';' { $$ = new ThrowStatement(*$2); }
+  ;
+
+try_catch_statement
+  : TTRY compound_statement catch_block { $$ = new TryCatchStatement(*$2, *$3); delete $3; }
+  ;
+
+catch_block
+  : catch_clause { $$ = new std::vector<Catch *>(); $$->push_back($1); }
+  | catch_block catch_clause { $1->push_back($2); }
+  ;
+
+catch_clause
+  : TCATCH '(' model_type_specifier TIDENTIFIER ')' compound_statement
+    { $$ = new Catch(*$3, *$4, *$6); }
+  | TCATCH '(' interface_type_specifier TIDENTIFIER ')' compound_statement
+    { $$ = new Catch(*$3, *$4, *$6); }
   ;
 
 variable_declaration
