@@ -108,7 +108,13 @@ void Method::storeArgumentValue(IRGenerationContext& context,
 
 void Method::maybeAddImpliedVoidReturn(IRGenerationContext& context) const {
   BasicBlock* currentBlock = context.getBasicBlock();
-  if(currentBlock->size() == 0 || !ReturnInst::classof(&currentBlock->back())) {
+  if(currentBlock->size() == 0) {
+    ReturnInst::Create(context.getLLVMContext(), NULL, currentBlock);
+    return;
+  }
+  
+  Instruction* last = &currentBlock->back();
+  if (!ReturnInst::classof(last) && !UnreachableInst::classof(last)) {
     ReturnInst::Create(context.getLLVMContext(), NULL, currentBlock);
   }
 }

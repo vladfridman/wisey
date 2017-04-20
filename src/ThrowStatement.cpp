@@ -23,11 +23,13 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
     Log::e("Thrown object can only be a model");
     exit(1);
   }
+
+  LLVMContext& llvmContext = context.getLLVMContext();
   
   Model* model = dynamic_cast<Model*>(expressionType);
   GlobalVariable* rtti = model->getOrCreateRTTI(context);
   
-  PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* expressionValue = mExpression.generateIR(context);
   BitCastInst* expressionValueBitcast = new BitCastInst(expressionValue,
                                                         int8PointerType,
@@ -42,7 +44,11 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   ExpressionList::const_iterator it;
   
   Function* throwFunction = getThrowFunction(context);
-  return CallInst::Create(throwFunction, arguments, "", context.getBasicBlock());
+  CallInst* callInst = CallInst::Create(throwFunction, arguments, "", context.getBasicBlock());
+  
+  new UnreachableInst(llvmContext, context.getBasicBlock());
+  
+  return callInst;
 }
 
 Function* ThrowStatement::getThrowFunction(IRGenerationContext& context) const {

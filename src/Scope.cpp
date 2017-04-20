@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Scope.hpp"
 
@@ -64,6 +65,13 @@ void Scope::maybeFreeOwnedMemory(IRGenerationContext& context) {
     return;
   }
   
+  BasicBlock* currentBlock = context.getBasicBlock();
+  if(currentBlock != NULL &&
+     currentBlock->size() > 0 &&
+     UnreachableInst::classof(&currentBlock->back())) {
+    return;
+  }
+
   for (map<string, IVariable*>::iterator iterator = mLocals.begin();
       iterator != mLocals.end();
       iterator++) {
