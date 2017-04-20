@@ -188,6 +188,47 @@ Instruction* Model::build(IRGenerationContext& context,
   return malloc;
 }
 
+GlobalVariable* Model::getOrCreateRTTI(IRGenerationContext& context) const {
+  GlobalVariable* rttiGlobal = context.getModule()->getGlobalVariable(getRTTIVariableName());
+  if (rttiGlobal != NULL) {
+    return rttiGlobal;
+  }
+  
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+ 
+  Constant* modelNamePointer =
+    IObjectWithMethodsType::getObjectNamePointer(this, context);
+
+  Constant* cxxabiv117ClassType =
+    context.getModule()->getOrInsertGlobal("_ZTVN10__cxxabiv117__class_type_infoE",
+                                           int8PointerType);
+  Value* Idx[1];
+  Idx[0] = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 2);
+  Type* elementType = cxxabiv117ClassType->getType()->getPointerElementType();
+  Constant* cxxabiv117ClassTypeElement =
+    ConstantExpr::getGetElementPtr(elementType, cxxabiv117ClassType, Idx);
+  Constant* cxxabiv117ClassTypeElementBitcast =
+    ConstantExpr::getTruncOrBitCast(cxxabiv117ClassTypeElement, int8PointerType);
+  
+  vector<Constant*> rttiArray;
+  vector<Type*> types;
+  rttiArray.push_back(cxxabiv117ClassTypeElementBitcast);
+  rttiArray.push_back(modelNamePointer);
+  types.push_back(int8PointerType);
+  types.push_back(int8PointerType);
+  
+  StructType* rttiGlobalType = StructType::get(llvmContext, types);
+  Constant* rttiGlobalConstantStruct = ConstantStruct::get(rttiGlobalType, rttiArray);
+
+  return new GlobalVariable(*context.getModule(),
+                            rttiGlobalType,
+                            true,
+                            GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                            rttiGlobalConstantStruct,
+                            getRTTIVariableName());
+}
+
 void Model::checkArguments(ModelBuilderArgumentList* modelBuilderArgumentList) const {
   checkArgumentsAreWellFormed(modelBuilderArgumentList);
   checkAllFieldsAreSet(modelBuilderArgumentList);
@@ -310,4 +351,8 @@ void Model::initializeVTable(IRGenerationContext& context,
     BitCastInst* bitcast = new BitCastInst(initializerStart, vTableType, "", basicBlock);
     new StoreInst(bitcast, vTablePointer, basicBlock);
   }
+}
+
+string Model::getRTTIVariableName() const {
+  return "model." + getName() + ".rtti";
 }

@@ -45,9 +45,9 @@ void TestFileSampleRunner::parseFile(string fileName) {
 }
 
 void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
-  parseFile(fileName);
-  
   IRGenerationContext context;
+
+  parseFile(fileName);
   programBlock->generateIR(context);
 
   GenericValue result = context.runCode();
@@ -59,12 +59,22 @@ void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
 void TestFileSampleRunner::expectFailIRGeneration(string fileName,
                                                   int expectedErrorCode,
                                                   string expectedErrorMessage) {
-  parseFile(fileName);
-  
   IRGenerationContext context;
 
+  parseFile(fileName);
+  
   EXPECT_EXIT(programBlock->generateIR(context),
               ::testing::ExitedWithCode(expectedErrorCode),
               expectedErrorMessage);
+}
+
+void TestFileSampleRunner::expectDeathDuringRun(string fileName,
+                                                string expectedErrorMessage) {
+  IRGenerationContext context;
+
+  parseFile(fileName);
+  programBlock->generateIR(context);
+  
+  ASSERT_DEATH(context.runCode(), expectedErrorMessage);
 }
 

@@ -35,6 +35,14 @@ public:
                               int expectedErrorCode,
                               std::string expectedErrorMessage);
 
+  /**
+   * Call this to run a sample yazyk file that is expected to pass IR generation but
+   * that will die during run with a given error message
+   */
+  void expectDeathDuringRun(std::string fileName,
+                            std::string expectedErrorMessage);
+  
+
 private:
   
   void parseFile(std::string fileName);

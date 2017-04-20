@@ -81,6 +81,11 @@ public:
   llvm::Instruction* build(IRGenerationContext& context,
                            ModelBuilderArgumentList* modelBuilderArgumentList) const;
   
+  /**
+   * Returns a global variable with type description for this model in RTTI format
+   */
+  llvm::GlobalVariable* getOrCreateRTTI(IRGenerationContext& context) const;
+  
   Field* findField(std::string fieldName) const override;
   
   Method* findMethod(std::string methodName) const override;
@@ -124,6 +129,8 @@ private:
   void initializeVTable(IRGenerationContext& context,
                         ModelBuilderArgumentList* modelBuilderArgumentList,
                         llvm::Instruction* malloc) const;
+  
+  std::string getRTTIVariableName() const;
 };
 
 } /* namespace yazyk */
