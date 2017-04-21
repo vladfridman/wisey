@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockType.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/LocalStackVariable.hpp"
@@ -24,6 +25,10 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 TEST(ScopesTest, scopesTest) {
@@ -169,4 +174,19 @@ TEST(ScopesTest, setUnitializedHeapVariableTest) {
   
   ASSERT_NE(scopes.getVariable("foo"), nullptr);
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), nullptr);
+}
+
+TEST(ScopesTest, reportUnhandledExceptionsDeathTest) {
+  IRGenerationContext context;
+  Scopes scopes;
+  scopes.pushScope();
+
+  NiceMock<MockType> mockExceptionType;
+  Mock::AllowLeak(&mockExceptionType);
+  ON_CALL(mockExceptionType, getName()).WillByDefault(Return("MExceptions"));
+  scopes.getScope()->addException(&mockExceptionType);
+  
+  EXPECT_EXIT(scopes.popScope(context),
+              ::testing::ExitedWithCode(1),
+              "Error: Exception MExceptions is not handled");
 }

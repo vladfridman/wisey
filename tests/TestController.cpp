@@ -109,11 +109,13 @@ struct ControllerTest : public Test {
     receivedFields.push_back(mLeftField);
     receivedFields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
+    vector<IType*> thrownExceptions;
     mMethod = new Method("calculate",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          0,
+                         thrownExceptions,
                          NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
@@ -122,6 +124,7 @@ struct ControllerTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    1,
+                                   thrownExceptions,
                                    NULL);
     methods.push_back(fooMethod);
     

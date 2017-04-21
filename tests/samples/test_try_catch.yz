@@ -2,7 +2,7 @@ interface IProgram {
   int run();
 }
 
-model MExcpeption {
+model MException {
   int mValue;
 
   public int getValue() {
@@ -11,8 +11,8 @@ model MExcpeption {
 }
 
 controller CThrower {
-  public int doThrow() {
-    MExcpeption exception = builder(MExcpeption).withValue(3).build();
+  public int doThrow() throws MException {
+    MException exception = builder(MException).withValue(3).build();
     throw exception;
   }
 }

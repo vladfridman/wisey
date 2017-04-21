@@ -89,6 +89,9 @@ public:
    */
   IType* getReturnType();
   
+private:
+  
+  void reportUnhandledExceptions(std::set<IType*> exceptions);
 };
   
 } /* namespace yazyk */

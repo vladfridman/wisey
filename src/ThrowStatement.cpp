@@ -25,10 +25,11 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   }
 
   LLVMContext& llvmContext = context.getLLVMContext();
+  context.getScopes().getScope()->addException(expressionType);
   
   Model* model = dynamic_cast<Model*>(expressionType);
   GlobalVariable* rtti = model->getOrCreateRTTI(context);
-  
+
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* expressionValue = mExpression.generateIR(context);
   BitCastInst* expressionValueBitcast = new BitCastInst(expressionValue,

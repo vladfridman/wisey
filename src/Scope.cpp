@@ -84,3 +84,15 @@ void Scope::maybeFreeOwnedMemory(IRGenerationContext& context) {
   
   mHasOwnedMemoryBeenFreed = true;
 }
+
+void Scope::addException(IType* exception) {
+  mExceptions.insert(exception);
+}
+
+void Scope::removeException(IType* exception) {
+  mExceptions.erase(exception);
+}
+
+set<IType*> Scope::getExceptions() {
+  return mExceptions;
+}

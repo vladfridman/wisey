@@ -64,11 +64,13 @@ public:
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
+    vector<IType*> thrownExceptions;
     mMethod = new Method("foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          0,
+                         thrownExceptions,
                          NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
@@ -77,6 +79,7 @@ public:
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    1,
+                                   thrownExceptions,
                                    NULL);
     methods.push_back(barMethod);
     vector<Interface*> interfaces;

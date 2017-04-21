@@ -26,6 +26,7 @@ class Scope {
   llvm::BasicBlock* mContinueToBlock;
   bool mHasOwnedMemoryBeenFreed;
   IType* mReturnType;
+  std::set<IType*> mExceptions;
 
 public:
 
@@ -84,6 +85,22 @@ public:
    * Free memory owned by this scope
    */
   void maybeFreeOwnedMemory(IRGenerationContext& context);
+  
+  /**
+   * Add an exception type that maybe thrown in this scope
+   */
+  void addException(IType* exception);
+  
+  /**
+   * Remove an exception type from the list of exceptions that maybe thrown
+   */
+  void removeException(IType* exception);
+  
+  /**
+   * Get the list of thrown exceptions
+   */
+  std::set<IType*> getExceptions();
+  
 };
   
 } // namespace yazyk

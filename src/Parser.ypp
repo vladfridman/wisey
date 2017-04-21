@@ -35,6 +35,7 @@
   #include "yazyk/IntConstant.hpp"
   #include "yazyk/InterfaceDefinition.hpp"
   #include "yazyk/InterfaceTypeSpecifier.hpp"
+  #include "yazyk/IObjectWithMethodsType.hpp"
   #include "yazyk/ITypeSpecifier.hpp"
   #include "yazyk/LogicalAndExpression.hpp"
   #include "yazyk/LogicalOrExpression.hpp"
@@ -111,6 +112,7 @@
   std::vector<yazyk::MethodDeclaration*>* method_declaration_vector;
   std::vector<yazyk::MethodSignatureDeclaration*>* method_signature_vector;
   std::vector<yazyk::ControllerFieldDeclaration*>* controller_field_vector;
+  std::vector<yazyk::ITypeSpecifier*>* type_list;
   std::vector<std::string>* identifier_list;
   std::string* string;
   int token;
@@ -128,7 +130,7 @@
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
 %token <token> TINTERFACE TIMPLEMENTS TEXTENDS TINSTANCEOF
 %token <token> TCONTROLLER TINJECT TRECEIVE TSTATE
-%token <token> TTHROW TTRY TCATCH
+%token <token> TTHROW TTHROWS TTRY TCATCH
 
 /**
  * Parsing tree node types
@@ -170,6 +172,7 @@
 %type <model_type_specifier> model_type_specifier
 %type <controller_type_specifier> controller_type_specifier
 %type <interface_type_specifier> interface_type_specifier
+%type <type> exception_type_specifier
 %type <access_specifier> access_specifier
 %type <method_declaration_vector> method_definition_list method_definition_list_optional
 %type <method_signature_vector> method_signature_list method_signature_list_optional
@@ -178,6 +181,7 @@
 %type <identifier_list> interface_list
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
+%type <type_list> exception_type_specifier_list
 
 %left '+' '-'
 %left '*' '/'
@@ -458,9 +462,7 @@ catch_block
   ;
 
 catch_clause
-  : TCATCH '(' model_type_specifier TIDENTIFIER ')' compound_statement
-    { $$ = new Catch(*$3, *$4, *$6); }
-  | TCATCH '(' interface_type_specifier TIDENTIFIER ')' compound_statement
+  : TCATCH '(' exception_type_specifier TIDENTIFIER ')' compound_statement
     { $$ = new Catch(*$3, *$4, *$6); }
   ;
 
@@ -477,7 +479,25 @@ function_definition
 method_definition
   : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
       compound_statement
-    { $$ = new MethodDeclaration($1, *$2, *$3, *$5, *$7); delete $5; }
+    {
+      std::vector<ITypeSpecifier*> exceptions;
+      $$ = new MethodDeclaration($1, *$2, *$3, *$5, exceptions, *$7);
+      delete $5;
+    }
+  | access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
+    TTHROWS exception_type_specifier_list compound_statement
+    {
+      $$ = new MethodDeclaration($1, *$2, *$3, *$5, *$8, *$9);
+      delete $5;
+      delete $8;
+    }
+  ;
+
+exception_type_specifier_list
+  : exception_type_specifier
+  { $$ = new std::vector<ITypeSpecifier*>(); $$->push_back($1); }
+  | exception_type_specifier_list ',' exception_type_specifier
+    { $1->push_back($3); }
   ;
 
 method_argument_declaration
@@ -674,6 +694,11 @@ controller_type_specifier
 
 interface_type_specifier
   : TINTERFACEIDENTIFIER { $$ = new InterfaceTypeSpecifier(*$1); }
+  ;
+
+exception_type_specifier
+  : model_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | interface_type_specifier { $$ = (ITypeSpecifier*) $1; }
   ;
 
 %%

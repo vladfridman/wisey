@@ -64,11 +64,13 @@ struct ModelTest : public Test {
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
+    vector<IType*> thrownExceptions;
     mMethod = new Method("foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          0,
+                         thrownExceptions,
                          NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
@@ -77,6 +79,7 @@ struct ModelTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    1,
+                                   thrownExceptions,
                                    NULL);
     methods.push_back(barMethod);
     

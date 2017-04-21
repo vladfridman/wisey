@@ -30,6 +30,7 @@ class MethodDeclaration {
   const ITypeSpecifier& mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
+  std::vector<ITypeSpecifier*> mExceptions;
   CompoundStatement& mCompoundStatement;
   
 public:
@@ -38,11 +39,13 @@ public:
                     const ITypeSpecifier& returnTypeSpecifier,
                     std::string methodName,
                     const VariableList& arguments,
+                    std::vector<ITypeSpecifier*> exceptions,
                     CompoundStatement& compoundStatement) :
   mAccessLevel(AccessLevel),
   mReturnTypeSpecifier(returnTypeSpecifier),
   mMethodName(methodName),
   mArguments(arguments),
+  mExceptions(exceptions),
   mCompoundStatement(compoundStatement) { }
   
   /**

@@ -28,6 +28,7 @@ class Method : public IMethodDescriptor {
   IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
   unsigned long mIndex;
+  std::vector<IType*> mThrownExceptions;
   CompoundStatement* mCompoundStatement;
   
 public:
@@ -37,12 +38,14 @@ public:
          IType* returnType,
          std::vector<MethodArgument*> arguments,
          unsigned long index,
+         std::vector<IType*> thrownExceptions,
          CompoundStatement* compoundStatement) :
   mName(name),
   mAccessLevel(accessLevel),
   mReturnType(returnType),
   mArguments(arguments),
   mIndex(index),
+  mThrownExceptions(thrownExceptions),
   mCompoundStatement(compoundStatement) { }
   
   ~Method() { mArguments.clear(); }
@@ -82,6 +85,8 @@ private:
                           std::string variableName,
                           IType* variableType,
                           llvm::Value* variableValue) const;
+  
+  void checkForUnhandledExceptions(IRGenerationContext& context) const;
 };
 
 } /* namespace yazyk */

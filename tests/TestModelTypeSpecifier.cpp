@@ -33,11 +33,13 @@ TEST(ModelTypeSpecifierTest, creationTest) {
   fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
+  vector<IType*> thrownExceptions;
   Method* fooMethod = new Method("foo",
                                  AccessLevel::PUBLIC_ACCESS,
                                  PrimitiveTypes::INT_TYPE,
                                  methodArguments,
                                  0,
+                                 thrownExceptions,
                                  NULL);
   methods.push_back(fooMethod);
   vector<Interface*> interfaces;

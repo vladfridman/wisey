@@ -76,17 +76,20 @@ struct TestTypeComparisionExpressionTest : public Test {
     squareFields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<MethodArgument*> methodArguments;
     vector<Method*> squareMethods;
+    vector<IType*> thrownExceptions;
     Method* fooMethod = new Method("foo",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    0,
+                                   thrownExceptions,
                                    NULL);
     Method* barMethod = new Method("bar",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    1,
+                                   thrownExceptions,
                                    NULL);
     squareMethods.push_back(fooMethod);
     squareMethods.push_back(barMethod);

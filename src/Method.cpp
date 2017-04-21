@@ -8,6 +8,7 @@
 
 #include "yazyk/CompoundStatement.hpp"
 #include "yazyk/LocalStackVariable.hpp"
+#include "yazyk/Log.hpp"
 #include "yazyk/Method.hpp"
 #include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodCall.hpp"
@@ -62,6 +63,8 @@ void Method::generateIR(IRGenerationContext& context,
   context.getScopes().setReturnType(mReturnType);
   createArguments(context, function, objectType);
   mCompoundStatement->generateIR(context);
+  
+  checkForUnhandledExceptions(context);
   scopes.popScope(context);
   
   maybeAddImpliedVoidReturn(context);
@@ -108,7 +111,7 @@ void Method::storeArgumentValue(IRGenerationContext& context,
 
 void Method::maybeAddImpliedVoidReturn(IRGenerationContext& context) const {
   BasicBlock* currentBlock = context.getBasicBlock();
-  if(currentBlock->size() == 0) {
+  if (currentBlock->size() == 0) {
     ReturnInst::Create(context.getLLVMContext(), NULL, currentBlock);
     return;
   }
@@ -116,5 +119,29 @@ void Method::maybeAddImpliedVoidReturn(IRGenerationContext& context) const {
   Instruction* last = &currentBlock->back();
   if (!ReturnInst::classof(last) && !UnreachableInst::classof(last)) {
     ReturnInst::Create(context.getLLVMContext(), NULL, currentBlock);
+  }
+}
+
+void Method::checkForUnhandledExceptions(IRGenerationContext& context) const {
+  Scope* scope = context.getScopes().getScope();
+  set<IType*> exceptions = scope->getExceptions();
+  if (exceptions.size() == 0) {
+    return;
+  }
+  
+  for (IType* thrownException : mThrownExceptions) {
+    scope->removeException(thrownException);
+  }
+  
+  exceptions = scope->getExceptions();
+  bool hasUnhangledExceptions = false;
+  for (IType* exception : exceptions) {
+    Log::e("Method " + getName() + " neither handles the exception " + exception->getName() +
+           " nor throws it");
+    hasUnhangledExceptions = true;
+  }
+  
+  if (hasUnhangledExceptions) {
+    exit(1);
   }
 }

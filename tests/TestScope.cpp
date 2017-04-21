@@ -14,6 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "MockType.hpp"
 #include "MockVariable.hpp"
 #include "yazyk/Scope.hpp"
 #include "yazyk/IRGenerationContext.hpp"
@@ -34,6 +35,7 @@ struct ScopeTest : public Test {
   IRGenerationContext mContext;
   Scope mScope;
   NiceMock<MockVariable>* mMockVariable;
+  NiceMock<MockType> mMockType;
  
 public:
   
@@ -71,4 +73,16 @@ TEST_F(ScopeTest, maybeFreeOwnedMemoryHeapVariableTest) {
   EXPECT_CALL(*mMockVariable, free(_));
   
   mScope.maybeFreeOwnedMemory(mContext);
+}
+
+TEST_F(ScopeTest, exceptionsTest) {
+  ASSERT_EQ(mScope.getExceptions().size(), 0u);
+  
+  mScope.addException(&mMockType);
+  
+  ASSERT_EQ(mScope.getExceptions().size(), 1u);
+  
+  mScope.removeException(&mMockType);
+  
+  ASSERT_EQ(mScope.getExceptions().size(), 0u);
 }

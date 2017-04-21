@@ -56,10 +56,12 @@ struct ModelDefinitionTest : public Test {
       new VariableDeclaration(*intTypeSpecifier, *intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
+    vector<ITypeSpecifier*> thrownExceptions;
     mMethodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                *floatTypeSpecifier,
                                                "foo",
                                                methodArguments,
+                                               thrownExceptions,
                                                *compoundStatement);
     mMethodDeclarations.push_back(mMethodDeclaration);
   }

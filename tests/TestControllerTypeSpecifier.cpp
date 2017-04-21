@@ -35,11 +35,13 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
   receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments));
   vector<MethodArgument*> methodArguments;
   vector<Method*> methods;
+  vector<IType*> thrownExceptions;
   Method* multiplyMethod = new Method("multiply",
                                       AccessLevel::PUBLIC_ACCESS,
                                       PrimitiveTypes::INT_TYPE,
                                       methodArguments,
                                       0,
+                                      thrownExceptions,
                                       NULL);
   methods.push_back(multiplyMethod);
   vector<Interface*> interfaces;

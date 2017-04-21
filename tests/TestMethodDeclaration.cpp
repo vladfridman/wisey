@@ -53,10 +53,12 @@ struct MethodDeclarationTest : Test {
 TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
+  vector<ITypeSpecifier*> thrownExceptions;
   MethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                       mFloatTypeSpecifier,
                                       "foo",
                                       mArguments,
+                                      thrownExceptions,
                                       mCompoundStatement);
   Method* method = methodDeclaration.createMethod(mContext, 0);
   vector<MethodArgument*> arguments = method->getArguments();

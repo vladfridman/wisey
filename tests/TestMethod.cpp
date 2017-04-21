@@ -13,6 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestFileSampleRunner.hpp"
 #include "yazyk/CompoundStatement.hpp"
 #include "yazyk/Method.hpp"
 #include "yazyk/MethodArgument.hpp"
@@ -45,11 +46,13 @@ public:
     std::vector<MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
+    vector<IType*> thrownExceptions;
     mMethod = new Method("mymethod",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
                          0,
+                         thrownExceptions,
                          NULL);
 
     vector<Type*> types;
@@ -83,11 +86,13 @@ TEST_F(MethodTest, defineFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
+  vector<IType*> thrownExceptions;
   Method method("foo",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
                 0,
+                thrownExceptions,
                 &mCompoundStatement);
   Function* function = method.defineFunction(mContext, mModel);
   
@@ -101,11 +106,13 @@ TEST_F(MethodTest, generateIRTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
+  vector<IType*> thrownExceptions;
   Method method("foo",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
                 0,
+                thrownExceptions,
                 &mCompoundStatement);
   Function* function = method.defineFunction(mContext, mModel);
   method.generateIR(mContext, function, mModel);
@@ -124,3 +131,11 @@ TEST_F(MethodTest, generateIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
+
+TEST_F(TestFileSampleRunner, methodMissesThrowsQualifierDeathTest) {
+  expectFailIRGeneration("tests/samples/test_missing_throws.yz",
+                         1,
+                         "Error: Method doThrow neither handles the exception MException "
+                         "nor throws it");
+}
+

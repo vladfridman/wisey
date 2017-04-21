@@ -31,11 +31,17 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
   
   IType* returnType = mReturnTypeSpecifier.getType(context);
   
+  vector<IType*> thrownExceptions;
+  for (ITypeSpecifier* exceptionTypeSpecifier : mExceptions) {
+    thrownExceptions.push_back(exceptionTypeSpecifier->getType(context));
+  }
+  
   return new Method(mMethodName,
                     mAccessLevel,
                     returnType,
                     arguments,
                     index,
+                    thrownExceptions,
                     &mCompoundStatement);
 }
 

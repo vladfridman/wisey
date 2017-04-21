@@ -92,10 +92,11 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   
   Value* result = throwStatement.generateIR(mContext);
   EXPECT_NE(result, nullptr);
+  EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
 }
 
 TEST_F(TestFileSampleRunner, throwStatementRunDeathTest) {
   expectDeathDuringRun("tests/samples/test_throw.yz",
                        "libc\\+\\+abi\\.dylib: terminating with uncaught "
-                       "exception of type MExcpeption");
+                       "exception of type MException");
 }

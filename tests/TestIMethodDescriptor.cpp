@@ -38,11 +38,13 @@ public:
     std::vector<MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
+    vector<IType*> thrownExceptions;
     mMethod = new Method("mymethod",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
                          0,
+                         thrownExceptions,
                          NULL);
 
     vector<Type*> types;
@@ -63,14 +65,16 @@ public:
 TEST_F(IMethodDescriptorTest, compareTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar2");
-  std::vector<MethodArgument*> arguments;
+  vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
+  vector<IType*> thrownExceptions;
   Method method("mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 0,
+                thrownExceptions,
                 NULL);
   
   ASSERT_TRUE(IMethodDescriptor::compare(&method, mMethod));
@@ -79,14 +83,16 @@ TEST_F(IMethodDescriptorTest, compareTest) {
 TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar2");
-  std::vector<MethodArgument*> arguments;
+  vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
+  vector<IType*> thrownExceptions;
   Method method("differentname",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 0,
+                thrownExceptions,
                 NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
@@ -94,13 +100,15 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
 
 TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
-  std::vector<MethodArgument*> arguments;
+  vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
+  vector<IType*> thrownExceptions;
   Method method("mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 0,
+                thrownExceptions,
                 NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
@@ -109,14 +117,16 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
 TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "argChar2");
-  std::vector<MethodArgument*> arguments;
+  vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
+  vector<IType*> thrownExceptions;
   Method method("mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 0,
+                thrownExceptions,
                 NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
@@ -124,7 +134,7 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
 
 TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
-  std::vector<MethodArgument*> arguments;
+  vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   MethodSignature method("foo",
                          AccessLevel::PUBLIC_ACCESS,

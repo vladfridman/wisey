@@ -6,6 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <set>
+
+#include "yazyk/IObjectWithMethodsType.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Scopes.hpp"
 
@@ -59,8 +62,22 @@ void Scopes::pushScope() {
 void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
   top->maybeFreeOwnedMemory(context);
+  set<IType*> exceptions = top->getExceptions();
   mScopes.pop_front();
   delete top;
+  
+  if (exceptions.size() == 0) {
+    return;
+  }
+  
+  if (mScopes.size() == 0) {
+    reportUnhandledExceptions(exceptions);
+  }
+  
+  top = mScopes.front();
+  for (IType* exception : exceptions) {
+    top->addException(exception);
+  }
 }
 
 Scope* Scopes::getScope() {
@@ -126,4 +143,11 @@ IType* Scopes::getReturnType() {
   }
   
   return NULL;
+}
+
+void Scopes::reportUnhandledExceptions(std::set<IType*> exceptions) {
+  for (IType* exception : exceptions) {
+    Log::e("Exception " + exception->getName() + " is not handled");
+  }
+  exit(1);
 }
