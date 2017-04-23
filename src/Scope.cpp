@@ -89,6 +89,12 @@ void Scope::addException(IType* exception) {
   mExceptions.insert(exception);
 }
 
+void Scope::addExceptions(vector<IType*> exceptions) {
+  for (IType* exception : exceptions) {
+    mExceptions.insert(exception);
+  }
+}
+
 void Scope::removeException(IType* exception) {
   mExceptions.erase(exception);
 }

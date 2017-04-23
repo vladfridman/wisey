@@ -92,6 +92,11 @@ public:
   void addException(IType* exception);
   
   /**
+   * Add several exception types that may thrown in this scope
+   */
+  void addExceptions(std::vector<IType*> exceptions);
+
+  /**
    * Remove an exception type from the list of exceptions that maybe thrown
    */
   void removeException(IType* exception);

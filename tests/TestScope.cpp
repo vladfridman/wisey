@@ -75,7 +75,7 @@ TEST_F(ScopeTest, maybeFreeOwnedMemoryHeapVariableTest) {
   mScope.maybeFreeOwnedMemory(mContext);
 }
 
-TEST_F(ScopeTest, exceptionsTest) {
+TEST_F(ScopeTest, addExceptionTest) {
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   
   mScope.addException(&mMockType);
@@ -86,3 +86,23 @@ TEST_F(ScopeTest, exceptionsTest) {
   
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
 }
+
+TEST_F(ScopeTest, addExceptionsTest) {
+  NiceMock<MockType> mockType;
+
+  ASSERT_EQ(mScope.getExceptions().size(), 0u);
+  
+  vector<IType*> exceptions;
+  exceptions.push_back(&mMockType);
+  exceptions.push_back(&mockType);
+  
+  mScope.addExceptions(exceptions);
+  
+  ASSERT_EQ(mScope.getExceptions().size(), 2u);
+  
+  mScope.removeException(&mMockType);
+  mScope.removeException(&mockType);
+  
+  ASSERT_EQ(mScope.getExceptions().size(), 0u);
+}
+
