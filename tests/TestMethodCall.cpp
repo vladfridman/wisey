@@ -255,3 +255,10 @@ TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
                          "Error: Method 'getDouble\\(\\)' of object 'CService' is private");
 }
 
+TEST_F(TestFileSampleRunner, methodExceptionNotHandledDeathTest) {
+  expectFailIRGeneration("tests/samples/test_method_exception_not_handled.yz",
+                         1,
+                         "Error: Method doSomething neither handles the exception MException "
+                         "nor throws it");
+}
+

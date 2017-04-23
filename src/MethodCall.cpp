@@ -26,6 +26,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   checkArgumentType(objectWithMethodsType, methodDescriptor, context);
+  context.getScopes().getScope()->addExceptions(methodDescriptor->getThrownExceptions());
   if (objectWithMethodsType->getTypeKind() == MODEL_TYPE ||
       objectWithMethodsType->getTypeKind() == CONTROLLER_TYPE) {
     return generateModelMethodCallIR(context,
