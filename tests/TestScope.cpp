@@ -29,6 +29,7 @@ using namespace yazyk;
 using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ScopeTest : public Test {
@@ -41,6 +42,7 @@ public:
   
   ScopeTest() : mScope(Scope()) {
     mMockVariable = new NiceMock<MockVariable>();
+    ON_CALL(mMockType, getName()).WillByDefault(Return("MExceptionA"));
   }
 };
 
@@ -89,6 +91,7 @@ TEST_F(ScopeTest, addExceptionTest) {
 
 TEST_F(ScopeTest, addExceptionsTest) {
   NiceMock<MockType> mockType;
+  ON_CALL(mockType, getName()).WillByDefault(Return("MExceptionB"));
 
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   

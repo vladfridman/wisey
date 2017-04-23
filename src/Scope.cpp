@@ -86,19 +86,22 @@ void Scope::maybeFreeOwnedMemory(IRGenerationContext& context) {
 }
 
 void Scope::addException(IType* exception) {
-  mExceptions.insert(exception);
+  if (mExceptions.count(exception->getName())) {
+    return;
+  }
+  mExceptions[exception->getName()] = exception;
 }
 
 void Scope::addExceptions(vector<IType*> exceptions) {
   for (IType* exception : exceptions) {
-    mExceptions.insert(exception);
+    addException(exception);
   }
 }
 
 void Scope::removeException(IType* exception) {
-  mExceptions.erase(exception);
+  mExceptions.erase(exception->getName());
 }
 
-set<IType*> Scope::getExceptions() {
+map<string, IType*> Scope::getExceptions() {
   return mExceptions;
 }

@@ -91,7 +91,7 @@ public:
   
 private:
   
-  void reportUnhandledExceptions(std::set<IType*> exceptions);
+  void reportUnhandledExceptions(std::map<std::string, IType*> exceptions);
 };
   
 } /* namespace yazyk */

@@ -128,7 +128,7 @@ void Method::maybeAddImpliedVoidReturn(IRGenerationContext& context) const {
 
 void Method::checkForUnhandledExceptions(IRGenerationContext& context) const {
   Scope* scope = context.getScopes().getScope();
-  set<IType*> exceptions = scope->getExceptions();
+  map<string, IType*> exceptions = scope->getExceptions();
   if (exceptions.size() == 0) {
     return;
   }
@@ -139,8 +139,10 @@ void Method::checkForUnhandledExceptions(IRGenerationContext& context) const {
   
   exceptions = scope->getExceptions();
   bool hasUnhangledExceptions = false;
-  for (IType* exception : exceptions) {
-    Log::e("Method " + getName() + " neither handles the exception " + exception->getName() +
+  for (map<string, IType*>::const_iterator iterator = exceptions.begin();
+       iterator != exceptions.end();
+       iterator++) {
+    Log::e("Method " + getName() + " neither handles the exception " + iterator->first +
            " nor throws it");
     hasUnhangledExceptions = true;
   }

@@ -62,7 +62,7 @@ void Scopes::pushScope() {
 void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
   top->maybeFreeOwnedMemory(context);
-  set<IType*> exceptions = top->getExceptions();
+  map<string, IType*> exceptions = top->getExceptions();
   mScopes.pop_front();
   delete top;
   
@@ -75,8 +75,10 @@ void Scopes::popScope(IRGenerationContext& context) {
   }
   
   top = mScopes.front();
-  for (IType* exception : exceptions) {
-    top->addException(exception);
+  for (map<string, IType*>::iterator iterator = exceptions.begin();
+       iterator != exceptions.end();
+       iterator++) {
+    top->addException(iterator->second);
   }
 }
 
@@ -145,9 +147,11 @@ IType* Scopes::getReturnType() {
   return NULL;
 }
 
-void Scopes::reportUnhandledExceptions(std::set<IType*> exceptions) {
-  for (IType* exception : exceptions) {
-    Log::e("Exception " + exception->getName() + " is not handled");
+void Scopes::reportUnhandledExceptions(map<string, IType*> exceptions) {
+  for (map<string, IType*>::iterator iterator = exceptions.begin();
+       iterator != exceptions.end();
+       iterator++) {
+    Log::e("Exception " + iterator->first + " is not handled");
   }
   exit(1);
 }

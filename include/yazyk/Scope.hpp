@@ -26,7 +26,7 @@ class Scope {
   llvm::BasicBlock* mContinueToBlock;
   bool mHasOwnedMemoryBeenFreed;
   IType* mReturnType;
-  std::set<IType*> mExceptions;
+  std::map<std::string, IType*> mExceptions;
 
 public:
 
@@ -102,9 +102,9 @@ public:
   void removeException(IType* exception);
   
   /**
-   * Get the list of thrown exceptions
+   * Get exceptions that could be thrown in this scope
    */
-  std::set<IType*> getExceptions();
+  std::map<std::string, IType*> getExceptions();
   
 };
   
