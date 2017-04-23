@@ -1,0 +1,14 @@
+model MException {
+}
+
+interface IShape {
+  int getArea();
+}
+
+model MSquare implements IShape {
+  int mWidth;
+
+  public int getArea() throws MException {
+    return 5;
+  }
+}

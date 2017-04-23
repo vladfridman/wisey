@@ -29,9 +29,15 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   
   IType* returnType = mReturnTypeSpecifier.getType(context);
   
+  vector<IType*> exceptions;
+  for (ITypeSpecifier* typeSpecifier : mThrownExceptions) {
+    exceptions.push_back(typeSpecifier->getType(context));
+  }
+  
   return new MethodSignature(mMethodName,
                              AccessLevel::PUBLIC_ACCESS,
                              returnType,
                              arguments,
+                             exceptions,
                              index);
 }

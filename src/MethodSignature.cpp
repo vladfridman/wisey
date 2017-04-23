@@ -34,6 +34,15 @@ unsigned long MethodSignature::getIndex() const {
   return mIndex;
 }
 
+vector<IType*> MethodSignature::getThrownExceptions() const {
+  return mThrownExceptions;
+}
+
 MethodSignature* MethodSignature::createCopyWithIndex(unsigned long index) const {
-  return new MethodSignature(mName, mAccessLevel, mReturnType, mArguments, index);
+  return new MethodSignature(mName,
+                             mAccessLevel,
+                             mReturnType,
+                             mArguments,
+                             mThrownExceptions,
+                             index);
 }

@@ -100,11 +100,13 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   structType->setBody(types);
   vector<MethodSignature*> interfaceMethodSignatures;
   vector<MethodArgument*> methodArguments;
+  vector<IType*> methodThrownExceptions;
   methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
   MethodSignature* methodSignature = new MethodSignature("foo",
                                                          AccessLevel::PUBLIC_ACCESS,
                                                          PrimitiveTypes::FLOAT_TYPE,
                                                          methodArguments,
+                                                         methodThrownExceptions,
                                                          0);
   interfaceMethodSignatures.push_back(methodSignature);
   vector<Interface*> parentInterfaces;

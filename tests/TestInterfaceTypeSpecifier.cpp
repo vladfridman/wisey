@@ -26,10 +26,12 @@ TEST(InterfaceTypeSpecifierTest, creationTest) {
   structType->setBody(types);
   vector<MethodArgument*> methodArguments;
   vector<MethodSignature*> methodSignatures;
+  vector<IType*> methodExceptions;
   MethodSignature* methodSignature = new MethodSignature("foo",
                                                          AccessLevel::PUBLIC_ACCESS,
                                                          PrimitiveTypes::INT_TYPE,
                                                          methodArguments,
+                                                         methodExceptions,
                                                          0);
   methodSignatures.push_back(methodSignature);
   vector<Interface*> parentInterfaces;

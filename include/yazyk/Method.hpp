@@ -27,9 +27,9 @@ class Method : public IMethodDescriptor {
   AccessLevel mAccessLevel;
   IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
-  unsigned long mIndex;
   std::vector<IType*> mThrownExceptions;
   CompoundStatement* mCompoundStatement;
+  unsigned long mIndex;
   
 public:
   
@@ -37,16 +37,16 @@ public:
          AccessLevel accessLevel,
          IType* returnType,
          std::vector<MethodArgument*> arguments,
-         unsigned long index,
          std::vector<IType*> thrownExceptions,
-         CompoundStatement* compoundStatement) :
+         CompoundStatement* compoundStatement,
+         unsigned long index) :
   mName(name),
   mAccessLevel(accessLevel),
   mReturnType(returnType),
   mArguments(arguments),
-  mIndex(index),
   mThrownExceptions(thrownExceptions),
-  mCompoundStatement(compoundStatement) { }
+  mCompoundStatement(compoundStatement),
+  mIndex(index) { }
   
   ~Method() { mArguments.clear(); }
   
@@ -72,6 +72,8 @@ public:
   std::vector<MethodArgument*> getArguments() const override;
   
   unsigned long getIndex() const override;
+  
+  std::vector<IType*> getThrownExceptions() const override;
   
 private:
   

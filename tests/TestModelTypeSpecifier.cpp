@@ -38,9 +38,9 @@ TEST(ModelTypeSpecifierTest, creationTest) {
                                  AccessLevel::PUBLIC_ACCESS,
                                  PrimitiveTypes::INT_TYPE,
                                  methodArguments,
-                                 0,
                                  thrownExceptions,
-                                 NULL);
+                                 NULL,
+                                 0);
   methods.push_back(fooMethod);
   vector<Interface*> interfaces;
   Model* model = new Model("MSquare", structType, fields, methods, interfaces);

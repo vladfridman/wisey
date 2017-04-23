@@ -40,9 +40,9 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
                     mAccessLevel,
                     returnType,
                     arguments,
-                    index,
                     thrownExceptions,
-                    &mCompoundStatement);
+                    &mCompoundStatement,
+                    index);
 }
 
 string MethodDeclaration::getMethodName() const {

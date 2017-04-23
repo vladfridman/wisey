@@ -51,9 +51,9 @@ public:
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
-                         0,
                          thrownExceptions,
-                         NULL);
+                         NULL,
+                         0);
 
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -91,9 +91,9 @@ TEST_F(MethodTest, defineFunctionTest) {
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
-                0,
                 thrownExceptions,
-                &mCompoundStatement);
+                &mCompoundStatement,
+                0);
   Function* function = method.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
@@ -111,9 +111,9 @@ TEST_F(MethodTest, generateIRTest) {
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
-                0,
                 thrownExceptions,
-                &mCompoundStatement);
+                &mCompoundStatement,
+                0);
   Function* function = method.defineFunction(mContext, mModel);
   method.generateIR(mContext, function, mModel);
   

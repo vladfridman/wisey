@@ -20,19 +20,22 @@ class MethodSignature : public IMethodDescriptor {
   AccessLevel mAccessLevel;
   IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
+  std::vector<IType*> mThrownExceptions;
   unsigned long mIndex;
-  
+
 public:
   
   MethodSignature(std::string name,
                   AccessLevel accessLevel,
                   IType* returnType,
                   std::vector<MethodArgument*> arguments,
+                  std::vector<IType*> thrownExceptions,
                   unsigned long index) :
   mName(name),
   mAccessLevel(accessLevel),
   mReturnType(returnType),
   mArguments(arguments),
+  mThrownExceptions(thrownExceptions),
   mIndex(index) { }
   
   ~MethodSignature() { mArguments.clear(); }
@@ -51,6 +54,8 @@ public:
   std::vector<MethodArgument*> getArguments() const override;
   
   unsigned long getIndex() const override;
+  
+  std::vector<IType*> getThrownExceptions() const override;
   
 };
   

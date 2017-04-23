@@ -69,18 +69,18 @@ public:
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
-                         0,
                          thrownExceptions,
-                         NULL);
+                         NULL,
+                         0);
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* barMethod = new Method("bar",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
-                                   1,
                                    thrownExceptions,
-                                   NULL);
+                                   NULL,
+                                   1);
     methods.push_back(barMethod);
     vector<Interface*> interfaces;
     mModel = new Model("MSquare", mStructType, fields, methods, interfaces);

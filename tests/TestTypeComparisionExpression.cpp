@@ -81,16 +81,16 @@ struct TestTypeComparisionExpressionTest : public Test {
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
-                                   0,
                                    thrownExceptions,
-                                   NULL);
+                                   NULL,
+                                   0);
     Method* barMethod = new Method("bar",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
-                                   1,
                                    thrownExceptions,
-                                   NULL);
+                                   NULL,
+                                   1);
     squareMethods.push_back(fooMethod);
     squareMethods.push_back(barMethod);
     
@@ -99,10 +99,12 @@ struct TestTypeComparisionExpressionTest : public Test {
     subShapeIinterfaceStructType->setBody(subShapeInterfaceTypes);
     vector<MethodArgument*> subShapeInterfaceMethodArguments;
     vector<MethodSignature*> subShapeInterfaceMethods;
+    vector<IType*> subShapeThrownExceptions;
     MethodSignature* methodFooSignature = new MethodSignature("foo",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               subShapeInterfaceMethodArguments,
+                                                              subShapeThrownExceptions,
                                                               0);
     subShapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> subShapeParentInterfaces;
@@ -116,10 +118,12 @@ struct TestTypeComparisionExpressionTest : public Test {
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
+    vector<IType*> shapeThrownExceptions;
     methodFooSignature = new MethodSignature("foo",
                                              AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
                                              shapeInterfaceMethodArguments,
+                                             shapeThrownExceptions,
                                              0);
     shapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> shapeParentInterfaces;
@@ -134,10 +138,12 @@ struct TestTypeComparisionExpressionTest : public Test {
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
+    vector<IType*> objectThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("bar",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
+                                                              objectThrownExceptions,
                                                               0);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<Interface*> objectParentInterfaces;

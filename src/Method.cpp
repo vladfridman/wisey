@@ -38,6 +38,10 @@ unsigned long Method::getIndex() const {
   return mIndex;
 }
 
+vector<IType*> Method::getThrownExceptions() const {
+  return mThrownExceptions;
+}
+
 Function* Method::defineFunction(IRGenerationContext& context,
                                  IObjectWithMethodsType* objectType) const {
   FunctionType *ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,

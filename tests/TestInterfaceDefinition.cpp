@@ -38,7 +38,11 @@ TEST(InterfaceDefinitionTest, simpleDefinitionTest) {
   VariableDeclaration intArgument(intTypeSpecifier, intArgumentIdentifier);
   VariableList methodArguments;
   methodArguments.push_back(&intArgument);
-  MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier, "foo", methodArguments);
+  vector<ITypeSpecifier*> thrownExceptions;
+  MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier,
+                                                        "foo",
+                                                        methodArguments,
+                                                        thrownExceptions);
   vector<MethodSignatureDeclaration *> methods;
   methods.push_back(&methodSignatureDeclaration);
   vector<string> parentInterfaces;

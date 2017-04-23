@@ -140,6 +140,11 @@ private:
   llvm::Function* defineCastFunction(IRGenerationContext& context,
                                      llvm::Value* fromValue,
                                      IObjectWithMethodsType* toType) const;
+  
+  bool doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
+                                          IMethodDescriptor* objectMethodDescriptor,
+                                          std::string objectName) const;
+  
 };
   
 } /* namespace yazyk */

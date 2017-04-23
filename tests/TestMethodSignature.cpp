@@ -24,10 +24,12 @@ struct MethodSignatureTest : Test {
   
   MethodSignatureTest() {
     vector<MethodArgument*> arguments;
+    vector<IType*> thrownExceptions;
     mMethodSignature = new MethodSignature("foo",
                                            AccessLevel::PUBLIC_ACCESS,
                                            PrimitiveTypes::LONG_TYPE,
                                            arguments,
+                                           thrownExceptions,
                                            1);
   }
 };

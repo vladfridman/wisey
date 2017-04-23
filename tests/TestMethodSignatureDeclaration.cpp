@@ -64,7 +64,11 @@ struct MethodSignatureDeclarationTest : Test {
 TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
-  MethodSignatureDeclaration methodSignatureDeclaration(mFloatTypeSpecifier, "foo", mArguments);
+  vector<ITypeSpecifier*> thrownExceptions;
+  MethodSignatureDeclaration methodSignatureDeclaration(mFloatTypeSpecifier,
+                                                        "foo",
+                                                        mArguments,
+                                                        thrownExceptions);
   MethodSignature* methodSignature = methodSignatureDeclaration.createMethodSignature(mContext, 0);
   vector<MethodArgument*> arguments = methodSignature->getArguments();
   

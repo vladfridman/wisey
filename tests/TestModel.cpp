@@ -69,18 +69,18 @@ struct ModelTest : public Test {
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
-                         0,
                          thrownExceptions,
-                         NULL);
+                         NULL,
+                         0);
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* barMethod = new Method("bar",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
-                                   1,
                                    thrownExceptions,
-                                   NULL);
+                                   NULL,
+                                   1);
     methods.push_back(barMethod);
     
     vector<Type*> subShapeInterfaceTypes;
@@ -88,10 +88,12 @@ struct ModelTest : public Test {
     subShapeIinterfaceStructType->setBody(subShapeInterfaceTypes);
     vector<MethodArgument*> subShapeInterfaceMethodArguments;
     vector<MethodSignature*> subShapeInterfaceMethods;
+    vector<IType*> subShapeInterfaceThrownExceptions;
     MethodSignature* methodFooSignature = new MethodSignature("foo",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               subShapeInterfaceMethodArguments,
+                                                              subShapeInterfaceThrownExceptions,
                                                               0);
     subShapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> subShapeParentInterfaces;
@@ -105,10 +107,12 @@ struct ModelTest : public Test {
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
+    vector<IType*> shapeInterfaceThrownExceptions;
     methodFooSignature = new MethodSignature("foo",
                                              AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
                                              shapeInterfaceMethodArguments,
+                                             shapeInterfaceThrownExceptions,
                                              0);
     shapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> shapeParentInterfaces;
@@ -123,10 +127,12 @@ struct ModelTest : public Test {
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
+    vector<IType*> objectInterfaceThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("bar",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
+                                                              objectInterfaceThrownExceptions,
                                                               0);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<Interface*> objectParentInterfaces;

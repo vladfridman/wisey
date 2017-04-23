@@ -49,7 +49,7 @@ public:
   mCompoundStatement(compoundStatement) { }
   
   /**
-   * Returns object representing the method for storage in a Model object
+   * Returns object representing the method that will be saved in a Model object
    */
   Method* createMethod(IRGenerationContext& context, unsigned long index) const;
   

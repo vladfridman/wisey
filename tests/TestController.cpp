@@ -52,10 +52,12 @@ struct ControllerTest : public Test {
     calculatorIinterfaceStructType->setBody(calculatorInterfaceTypes);
     vector<MethodArgument*> calculatorInterfaceMethodArguments;
     vector<MethodSignature*> calculatorInterfaceMethods;
+    vector<IType*> calculatorThrownExceptions;
     MethodSignature* calculateSignature = new MethodSignature("calculate",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               calculatorInterfaceMethodArguments,
+                                                              calculatorThrownExceptions,
                                                               0);
     calculatorInterfaceMethods.push_back(calculateSignature);
     vector<Interface*> calculatorParentInterfaces;
@@ -82,10 +84,12 @@ struct ControllerTest : public Test {
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
+    vector<IType*> objectThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("foo",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
+                                                              objectThrownExceptions,
                                                               0);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<Interface*> objectParentInterfaces;
@@ -114,8 +118,8 @@ struct ControllerTest : public Test {
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
-                         0,
                          thrownExceptions,
+                         0,
                          NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
@@ -123,9 +127,9 @@ struct ControllerTest : public Test {
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
-                                   1,
                                    thrownExceptions,
-                                   NULL);
+                                   NULL,
+                                   1);
     methods.push_back(fooMethod);
     
     vector<Interface*> interfaces;

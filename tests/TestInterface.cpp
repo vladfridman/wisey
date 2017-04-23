@@ -53,10 +53,12 @@ struct InterfaceTest : public Test {
     mShapeStructType = StructType::create(mLLVMContext, "IShape");
     mShapeStructType->setBody(shapeTypes);
     vector<MethodArgument*> shapeMethodArguments;
+    vector<IType*> thrownExceptions;
     mMethodSignature = new MethodSignature("foo",
                                            AccessLevel::PUBLIC_ACCESS,
                                            PrimitiveTypes::INT_TYPE,
                                            shapeMethodArguments,
+                                           thrownExceptions,
                                            0);
     vector<MethodSignature*> shapeMethodSignatures;
     shapeMethodSignatures.push_back(mMethodSignature);
@@ -204,6 +206,16 @@ TEST_F(TestFileSampleRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
                          1,
                          "Error: Method 'getArea' of interface 'IShape' has different "
                          "argument types when implmeneted by object 'MSquare'");
+}
+
+TEST_F(TestFileSampleRunner, interfaceExceptionsDoNotReconcileDeathTest) {
+  expectFailIRGeneration("tests/samples/test_interface_method_exceptions_dont_reconcile.yz",
+                         1,
+                         "Error: Method 'getArea' of object 'MSquare' throws an unexpected "
+                         "exception of type 'MException'\n"
+                         "Error: Exceptions thrown by method 'getArea' of interface 'IShape' "
+                         "do not reconcile with exceptions thrown by its implementation "
+                         "in object 'MSquare'");
 }
 
 TEST_F(TestFileSampleRunner, modelImplmenetingInterfaceDefinitionRunTest) {

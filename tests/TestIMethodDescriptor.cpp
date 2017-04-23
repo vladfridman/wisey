@@ -43,9 +43,9 @@ public:
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
-                         0,
                          thrownExceptions,
-                         NULL);
+                         NULL,
+                         0);
 
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -73,9 +73,9 @@ TEST_F(IMethodDescriptorTest, compareTest) {
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
-                0,
                 thrownExceptions,
-                NULL);
+                NULL,
+                0);
   
   ASSERT_TRUE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -91,9 +91,9 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
-                0,
                 thrownExceptions,
-                NULL);
+                NULL,
+                0);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -107,9 +107,9 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
-                0,
                 thrownExceptions,
-                NULL);
+                NULL,
+                0);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -125,9 +125,9 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
-                0,
                 thrownExceptions,
-                NULL);
+                NULL,
+                0);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -135,11 +135,13 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
 TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   vector<MethodArgument*> arguments;
+  vector<IType*> thrownExceptions;
   arguments.push_back(intArgument);
   MethodSignature method("foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::FLOAT_TYPE,
                          arguments,
+                         thrownExceptions,
                          0);
   FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(&method, mContext, mModel);
   

@@ -40,9 +40,9 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
                                       AccessLevel::PUBLIC_ACCESS,
                                       PrimitiveTypes::INT_TYPE,
                                       methodArguments,
-                                      0,
                                       thrownExceptions,
-                                      NULL);
+                                      NULL,
+                                      0);
   methods.push_back(multiplyMethod);
   vector<Interface*> interfaces;
   Controller* controller = new Controller("CMultiplier",

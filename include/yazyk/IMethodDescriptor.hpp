@@ -60,6 +60,11 @@ public:
   virtual unsigned long getIndex() const = 0;
   
   /**
+   * Returns a list of exceptions this method throws
+   */
+  virtual std::vector<IType*> getThrownExceptions() const = 0;
+  
+  /**
    * Returns two if two method descriptors are the same in terms of their name, return type
    * and argument types
    */

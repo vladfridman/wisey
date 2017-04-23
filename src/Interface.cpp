@@ -141,23 +141,33 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                                                   IObjectWithMethodsType* object,
                                                   llvm::Function* modelFunction,
                                                   unsigned long interfaceIndex,
-                                                  MethodSignature* methodSignature) const {
-  IMethodDescriptor* methodDescriptor = object->findMethod(methodSignature->getName());
-  if (methodDescriptor == NULL) {
-    Log::e("Method '" + methodSignature->getName() + "' of interface '" + mName +
+                                                  MethodSignature* interfaceMethodSignature) const {
+  IMethodDescriptor* objectMethodDescriptor =
+    object->findMethod(interfaceMethodSignature->getName());
+  if (objectMethodDescriptor == NULL) {
+    Log::e("Method '" + interfaceMethodSignature->getName() + "' of interface '" + mName +
            "' is not implemented by object '" + object->getName() + "'");
     exit(1);
   }
   
-  if (methodDescriptor->getReturnType() != methodSignature->getReturnType()) {
-    Log::e("Method '" + methodSignature->getName() + "' of interface '" + mName +
+  if (objectMethodDescriptor->getReturnType() != interfaceMethodSignature->getReturnType()) {
+    Log::e("Method '" + interfaceMethodSignature->getName() + "' of interface '" + mName +
            "' has different return type when implmeneted by object '"
            + object->getName() + "'");
     exit(1);
   }
   
-  if (!IMethodDescriptor::compare(methodDescriptor, methodSignature)) {
-    Log::e("Method '" + methodSignature->getName() + "' of interface '" + mName +
+  if (doesMethodHaveUnexpectedExceptions(interfaceMethodSignature,
+                                         objectMethodDescriptor,
+                                         object->getName())) {
+    Log::e("Exceptions thrown by method '" +  interfaceMethodSignature->getName() +
+           "' of interface '" + mName + "' do not reconcile with exceptions thrown by its " +
+           "implementation in object '" + object->getName() + "'");
+    exit(1);
+  }
+  
+  if (!IMethodDescriptor::compare(objectMethodDescriptor, interfaceMethodSignature)) {
+    Log::e("Method '" + interfaceMethodSignature->getName() + "' of interface '" + mName +
            "' has different argument types when implmeneted by object '"
            + object->getName() + "'");
     exit(1);
@@ -170,7 +180,7 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(object,
                                                            this,
-                                                           methodSignature->getName());
+                                                           interfaceMethodSignature->getName());
   Function* function = Function::Create(modelFunction->getFunctionType(),
                                         GlobalValue::InternalLinkage,
                                         functionName,
@@ -179,8 +189,8 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
   llvm::Argument *argument = &*arguments;
   argument->setName("this");
   arguments++;
-  vector<MethodArgument*> methodArguments = methodSignature->getArguments();
-  for (MethodArgument* methodArgument : methodSignature->getArguments()) {
+  vector<MethodArgument*> methodArguments = interfaceMethodSignature->getArguments();
+  for (MethodArgument* methodArgument : interfaceMethodSignature->getArguments()) {
     llvm::Argument *argument = &*arguments;
     argument->setName(methodArgument->getName());
     arguments++;
@@ -191,9 +201,29 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                           modelFunction,
                           function,
                           interfaceIndex,
-                          methodSignature);
+                          interfaceMethodSignature);
 
   return function;
+}
+
+bool Interface::doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
+                                                   IMethodDescriptor* objectMethodDescriptor,
+                                                   string objectName) const {
+  map<string, IType*> interfaceExceptionsMap;
+  for (IType* interfaceException : interfaceMethodSignature->getThrownExceptions()) {
+    interfaceExceptionsMap[interfaceException->getName()] = interfaceException;
+  }
+
+  bool result = false;
+  for (IType* objectException : objectMethodDescriptor->getThrownExceptions()) {
+    if (!interfaceExceptionsMap.count(objectException->getName())) {
+      Log::e("Method '" + objectMethodDescriptor->getName() + "' of object '" + objectName +
+             "' throws an unexpected exception of type '" + objectException->getName() + "'");
+      result = true;
+    }
+  }
+  
+  return result;
 }
 
 void Interface::generateMapFunctionBody(IRGenerationContext& context,

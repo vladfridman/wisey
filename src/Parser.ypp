@@ -238,7 +238,17 @@ method_signature_list
 
 method_signature
   : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
-    { $$ = new MethodSignatureDeclaration(*$1, *$2, *$4); delete $4; }
+      {
+        std::vector<ITypeSpecifier*> thrownExceptions;
+        $$ = new MethodSignatureDeclaration(*$1, *$2, *$4, thrownExceptions); delete $4;
+      }
+  | type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
+    TTHROWS exception_type_specifier_list ';'
+      {
+        $$ = new MethodSignatureDeclaration(*$1, *$2, *$4, *$7);
+        delete $4;
+        delete $7;
+      }
   ;
 
 controller_definition

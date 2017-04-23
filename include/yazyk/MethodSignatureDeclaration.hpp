@@ -24,15 +24,18 @@ class MethodSignatureDeclaration {
   const ITypeSpecifier& mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
+  std::vector<ITypeSpecifier*> mThrownExceptions;
   
 public:
   
   MethodSignatureDeclaration(const ITypeSpecifier& returnTypeSpecifier,
-                  std::string methodName,
-                  const VariableList& arguments) :
+                             std::string methodName,
+                             const VariableList& arguments,
+                             std::vector<ITypeSpecifier*> thrownExceptions) :
   mReturnTypeSpecifier(returnTypeSpecifier),
   mMethodName(methodName),
-  mArguments(arguments) { }
+  mArguments(arguments),
+  mThrownExceptions(thrownExceptions) { }
   
   ~MethodSignatureDeclaration() { };
   
