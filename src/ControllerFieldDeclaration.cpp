@@ -24,6 +24,6 @@ string ControllerFieldDeclaration::getName() const {
   return mName;
 }
 
-ExpressionList& ControllerFieldDeclaration::getArguments() const {
+ExpressionList ControllerFieldDeclaration::getArguments() const {
   return mArguments;
 }

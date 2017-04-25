@@ -31,14 +31,14 @@ class ControllerFieldDeclaration {
   FieldQualifier mFieldQualifier;
   ITypeSpecifier& mTypeSpecifier;
   std::string mName;
-  ExpressionList& mArguments;
+  ExpressionList mArguments;
   
 public:
   
   ControllerFieldDeclaration(FieldQualifier fieldQualifier,
                              ITypeSpecifier& typeSpecifier,
                              std::string name,
-                             ExpressionList& arguments) :
+                             ExpressionList arguments) :
   mFieldQualifier(fieldQualifier),
   mTypeSpecifier(typeSpecifier),
   mName(name),
@@ -52,7 +52,7 @@ public:
   
   std::string getName() const;
   
-  ExpressionList& getArguments() const;
+  ExpressionList getArguments() const;
 };
   
 } /* namespace yazyk */
