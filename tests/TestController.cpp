@@ -119,8 +119,8 @@ struct ControllerTest : public Test {
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          thrownExceptions,
-                         0,
-                         NULL);
+                         NULL,
+                         0);
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* fooMethod = new Method("foo",
