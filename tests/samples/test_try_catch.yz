@@ -12,7 +12,7 @@ model MException {
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException exception = builder(MException).withValue(3).build();
+    MException exception = builder(MException).withValue(255).build();
     throw exception;
   }
 }
@@ -21,12 +21,13 @@ controller CCatcher {
   inject CThrower mThrower;
 
   public int doTryCatch() {
+    int value = 5;
     try {
       mThrower.doThrow();
     } catch (MException exception) {
-      return exception.getValue();
+      value = exception.getValue();
     }
-    return 5;
+    return value;
   }
 }
 

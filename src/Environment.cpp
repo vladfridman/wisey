@@ -13,3 +13,7 @@ using namespace yazyk;
 unsigned short Environment::getAddressSizeInBytes() {
   return 8;
 }
+
+unsigned int Environment::getDefaultMemoryAllignment() {
+  return 4;
+}

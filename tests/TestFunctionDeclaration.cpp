@@ -88,7 +88,7 @@ TEST_F(FunctionDeclarationTest, methodMainDeclartaionTest) {
   
   *mStringStream << *method;
   string expected = string() +
-    "\ndefine internal i32 @main(float %floatargument) {" +
+    "\ndefine i32 @main(float %floatargument) {" +
     "\nentry:" +
     "\n  %floatargument.param = alloca float" +
     "\n  store float %floatargument, float* %floatargument.param" +

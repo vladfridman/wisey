@@ -27,7 +27,12 @@ public:
    * program against the expected one.
    */
   void runFile(std::string fileName, std::string expectedResult);
-  
+
+  /**
+   * Compile and run given file and compare the result
+   */
+  void compileAndRunFile(std::string fileName, int expectedResult);
+
   /**
    * Call this to run a sample yazyk file that is expected to fail at IR generation
    */
@@ -46,6 +51,8 @@ public:
 private:
   
   void parseFile(std::string fileName);
+  
+  std::string exec(const char* cmd);
 };
 
 #endif /* TestFileSampleRunner_h */

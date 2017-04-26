@@ -50,20 +50,22 @@ int main(int argc, char **argv)
     exit(1);
   }
   
+  char* bitcodeFileName = NULL;
+  if (argc > 2) {
+    bitcodeFileName = getBitcodeOutputFile(argc, argv);
+  }
+  
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
-  
-  Log::i("opening " + string(argv[1]));
+
+  if (!bitcodeFileName) {
+    Log::i("opening " + string(argv[1]));
+  }
 
   yyin = fopen(argv[1], "r");
   if (yyin == NULL) {
     Log::e(string("File ") + argv[1] + " not found!");
     exit(1);
-  }
-  
-  char* bitcodeFileName = NULL;
-  if (argc > 2) {
-    bitcodeFileName = getBitcodeOutputFile(argc, argv);
   }
   
   yyparse();

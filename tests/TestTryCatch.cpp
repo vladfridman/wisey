@@ -10,7 +10,7 @@
 
 #include "TestFileSampleRunner.hpp"
 
-TEST_F(TestFileSampleRunner, tryCatchParseTest) {
-  runFile("tests/samples/test_try_catch.yz", "5");
+TEST_F(TestFileSampleRunner, tryCatchTest) {
+  compileAndRunFile("tests/samples/test_try_catch.yz", 255);
 }
 

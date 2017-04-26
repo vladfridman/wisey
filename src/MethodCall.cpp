@@ -97,10 +97,10 @@ Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
   return createFunctionCall(context, function, function->getReturnType(), methodDescriptor);
 }
 
-CallInst* MethodCall::createFunctionCall(IRGenerationContext& context,
-                                         Function* function,
-                                         Type* returnType,
-                                         IMethodDescriptor* methodDescriptor) const {
+Value* MethodCall::createFunctionCall(IRGenerationContext& context,
+                                      Function* function,
+                                      Type* returnType,
+                                      IMethodDescriptor* methodDescriptor) const {
   vector<Value*> arguments;
   arguments.push_back(mExpression.generateIR(context));
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
@@ -119,7 +119,16 @@ CallInst* MethodCall::createFunctionCall(IRGenerationContext& context,
   }
   string resultName = returnType->isVoidTy() ? "" : "call";
   
-  return CallInst::Create(function, arguments, resultName, context.getBasicBlock());
+  if (!methodDescriptor->getThrownExceptions().size()) {
+    return CallInst::Create(function, arguments, resultName, context.getBasicBlock());
+  }
+  BasicBlock* exceptionContinueBlock = context.getScopes().getExceptionContinueBlock();
+  return InvokeInst::Create(function,
+                            exceptionContinueBlock,
+                            context.getScopes().getLandingPadBlock(),
+                            arguments,
+                            resultName,
+                            context.getBasicBlock());
 }
 
 IType* MethodCall::getType(IRGenerationContext& context) const {

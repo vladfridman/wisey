@@ -59,7 +59,7 @@ public:
    * Returns the name of the global varaible containing types that this model implements
    */
   std::string getTypeTableName() const;
- 
+
   /**
    * Returns the name of the global variable containing RTTI type representing this model
    */

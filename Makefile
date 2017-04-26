@@ -84,5 +84,5 @@ $(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/yazyk/%.hpp | ${PARSERDIR}/Tokens
 ${BINDIR}/yazyk: $(OBJ) | ${BINDIR}
 	$(LD) -o $@ $(LDFLAGS) $^
 
-${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAIN) | ${BINDIR}
+${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAIN) | ${BINDIR} ${BINDIR}/yazyk
 	$(CC) -o ${BINDIR}/runtests $(LDFLAGS) -lgtest -lgmock $^

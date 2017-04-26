@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockType.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/Interface.hpp"
@@ -38,6 +39,7 @@ struct MethodCallTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockExpression> mExpression;
+  NiceMock<MockType> mExceptionType;
   ExpressionList mArgumentList;
   Type* mIntType;
   BasicBlock* mBasicBlock;
@@ -64,28 +66,30 @@ public:
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
-    vector<IType*> thrownExceptions;
+    vector<IType*> fooThrownExceptions;
     mMethod = new Method("foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
-                         thrownExceptions,
+                         fooThrownExceptions,
                          NULL,
                          0);
     vector<Method*> methods;
     methods.push_back(mMethod);
+    vector<IType*> barThrownExceptions;
+    barThrownExceptions.push_back(&mExceptionType);
     Method* barMethod = new Method("bar",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
-                                   thrownExceptions,
+                                   barThrownExceptions,
                                    NULL,
                                    1);
     methods.push_back(barMethod);
     vector<Interface*> interfaces;
     mModel = new Model("MSquare", mStructType, fields, methods, interfaces);
 
-    mBasicBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry");
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -206,13 +210,43 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(&argumentExpression);
   MethodCall methodCall(mExpression, "foo", mArgumentList);
-  Mock::AllowLeak(&mExpression);
-  Mock::AllowLeak(&argumentExpression);
   
   Value* irValue = methodCall.generateIR(mContext);
 
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = call i32 @object.MSquare.foo(%MSquare* %test, float 0x4014CCCCC0000000)",
+               mStringStream->str().c_str());
+  EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
+}
+
+TEST_F(MethodCallTest, modelMethodInvokeTest) {
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mStructType->getPointerTo());
+  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
+                                                 argTypesArray,
+                                                 false);
+  Function::Create(functionType,
+                   GlobalValue::InternalLinkage,
+                   "object.MSquare.bar",
+                   mContext.getModule());
+  
+  NiceMock<MockExpression> argumentExpression;
+  Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
+  ON_CALL(argumentExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  mArgumentList.push_back(&argumentExpression);
+  MethodCall methodCall(mExpression, "bar", mArgumentList);
+  mContext.getScopes().setLandingPadBlock(BasicBlock::Create(mLLVMContext, "eh.landing.pad"));
+  mContext.getScopes().setExceptionContinueBlock(BasicBlock::Create(mLLVMContext, "eh.continue"));
+
+  Value* irValue = methodCall.generateIR(mContext);
+  
+  *mStringStream << *irValue;
+  EXPECT_STREQ("  %call = invoke i32 @object.MSquare.bar("
+               "%MSquare* %test, float 0x4014CCCCC0000000)\n"
+               "          to label %eh.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }

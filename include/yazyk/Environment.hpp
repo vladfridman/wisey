@@ -25,6 +25,13 @@ public:
    */
   static unsigned short getAddressSizeInBytes();
   
+  /**
+   * Default memory allignment
+   *
+   * https://www.ibm.com/developerworks/library/pa-dalign/
+   */
+  static unsigned int getDefaultMemoryAllignment();
+  
 };
   
 } /* namespace yazyk */

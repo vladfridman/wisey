@@ -30,7 +30,7 @@ public:
   ~ThrowStatement() { }
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
+
 };
   
 } /* namespace yazyk */

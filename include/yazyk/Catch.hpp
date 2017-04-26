@@ -28,6 +28,18 @@ public:
   : mTypeSpecifier(typeSpecifier), mIdentifier(identifier), mStatement(statement) { }
   
   ~Catch() { }
+  
+  /**
+   * Returns the object type corresponding to the exception in this catch clause
+   */
+  Model* getType(IRGenerationContext& context) const;
+  
+  /**
+   * Generate IR for this catch for a given exception and add it to the given basic block
+   */
+  void generateIR(IRGenerationContext& context,
+                  llvm::Value* wrappedException,
+                  llvm::BasicBlock* catchBlock) const;
 };
   
 } /* namespace yazyk */

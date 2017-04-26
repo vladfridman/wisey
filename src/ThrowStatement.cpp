@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/Environment.hpp"
 #include "yazyk/IntrinsicFunctions.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ThrowStatement.hpp"
@@ -49,22 +50,23 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
                                             basicBlock);
 
   vector<Value*> memCopyArguments;
+  unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
   memCopyArguments.push_back(exceptionAlloca);
   memCopyArguments.push_back(expressionValueBitcast);
   memCopyArguments.push_back(modelSize);
-  memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), 8));
+  memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
   memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);
   CallInst::Create(memCopyFunction, memCopyArguments, "", basicBlock);
+
+  context.getScopes().getScope()->maybeFreeOwnedMemory(context);
 
   vector<Value*> throwArguments;
   throwArguments.push_back(exceptionAlloca);
   throwArguments.push_back(rttiBitcast);
   throwArguments.push_back(ConstantPointerNull::get(int8PointerType));
-  ExpressionList::const_iterator it;
 
   Function* throwFunction = IntrinsicFunctions::getThrowFunction(context);
-
   CallInst* callInst = CallInst::Create(throwFunction, throwArguments, "", basicBlock);
 
   new UnreachableInst(llvmContext, basicBlock);

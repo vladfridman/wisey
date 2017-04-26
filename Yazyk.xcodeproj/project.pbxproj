@@ -95,6 +95,7 @@
 		F51797111E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */; };
 		F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */; };
 		F51797141E660779009B16AA /* TestInterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */; };
+		F518B5E81EB2240C00577EEB /* TestCatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F518B5E71EB2240C00577EEB /* TestCatch.cpp */; };
 		F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F52F2C991EA95C7B0081DE38 /* TestTryCatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */; };
@@ -316,6 +317,10 @@
 		F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */; };
 		F5CB180D1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */; };
 		F5CB180F1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */; };
+		F5CB18111EB0C615007E2E43 /* TryCatchStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */; };
+		F5CB18131EB0D96A007E2E43 /* Catch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB18121EB0D96A007E2E43 /* Catch.cpp */; };
+		F5CB18141EB0D96A007E2E43 /* Catch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB18121EB0D96A007E2E43 /* Catch.cpp */; };
+		F5CB18151EB0F1BA007E2E43 /* TryCatchStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -457,6 +462,7 @@
 		F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceDefinition.cpp; path = src/InterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignatureDeclaration.cpp; path = src/MethodSignatureDeclaration.cpp; sourceTree = "<group>"; };
 		F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceDefinition.cpp; path = tests/TestInterfaceDefinition.cpp; sourceTree = "<group>"; };
+		F518B5E71EB2240C00577EEB /* TestCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCatch.cpp; path = tests/TestCatch.cpp; sourceTree = "<group>"; };
 		F51BA8FD1EA689440038C98B /* MockObjectWithMethodsType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectWithMethodsType.hpp; path = tests/include/MockObjectWithMethodsType.hpp; sourceTree = "<group>"; };
 		F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CastExpression.hpp; path = include/yazyk/CastExpression.hpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
@@ -676,6 +682,8 @@
 		F5CB180A1EB0C125007E2E43 /* IntrinsicFunctions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IntrinsicFunctions.hpp; path = include/yazyk/IntrinsicFunctions.hpp; sourceTree = "<group>"; };
 		F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IntrinsicFunctions.cpp; path = src/IntrinsicFunctions.cpp; sourceTree = "<group>"; };
 		F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIntrinsicFunctions.cpp; path = tests/TestIntrinsicFunctions.cpp; sourceTree = "<group>"; };
+		F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TryCatchStatement.cpp; path = src/TryCatchStatement.cpp; sourceTree = "<group>"; };
+		F5CB18121EB0D96A007E2E43 /* Catch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Catch.cpp; path = src/Catch.cpp; sourceTree = "<group>"; };
 		F5E209261E07796300E1A147 /* VariableDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableDeclaration.hpp; path = include/yazyk/VariableDeclaration.hpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestVariableDeclaration.cpp; path = tests/TestVariableDeclaration.cpp; sourceTree = "<group>"; };
@@ -805,6 +813,7 @@
 				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
 				F5ADB6121E5DA13600FFC941 /* TestCast.cpp */,
 				F51797091E5C95BC009B16AA /* TestCastExpression.cpp */,
+				F518B5E71EB2240C00577EEB /* TestCatch.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
 				F5C6FD671E48B16F0054209D /* TestCharType.cpp */,
 				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
@@ -976,6 +985,7 @@
 				F50FA2A51E269E5700435EEA /* CaseStatement.cpp */,
 				F5ADB60F1E5DA08200FFC941 /* Cast.cpp */,
 				F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */,
+				F5CB18121EB0D96A007E2E43 /* Catch.cpp */,
 				F531B6591E0DE52F008304F3 /* CharConstant.cpp */,
 				F5C6FD641E48AB3B0054209D /* CharType.cpp */,
 				F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */,
@@ -1046,6 +1056,7 @@
 				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
 				F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */,
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
+				F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */,
 				F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
 				F5C6FD691E48B33A0054209D /* VoidType.cpp */,
@@ -1320,6 +1331,7 @@
 				F530B4601DFA032100477384 /* TestsRun.cpp in Sources */,
 				F5CB180D1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F50427B11E4DD621001CB148 /* TestLocalHeapVariable.cpp in Sources */,
+				F518B5E81EB2240C00577EEB /* TestCatch.cpp in Sources */,
 				F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */,
 				F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */,
@@ -1358,9 +1370,11 @@
 				F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */,
 				F50FA2F81E2E3B3900435EEA /* TestLongConstant.cpp in Sources */,
+				F5CB18141EB0D96A007E2E43 /* Catch.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
 				F515813E1E8D5640009CE419 /* TestControllerInjector.cpp in Sources */,
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
+				F5CB18151EB0F1BA007E2E43 /* TryCatchStatement.cpp in Sources */,
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
@@ -1503,6 +1517,8 @@
 				F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
+				F5CB18111EB0C615007E2E43 /* TryCatchStatement.cpp in Sources */,
+				F5CB18131EB0D96A007E2E43 /* Catch.cpp in Sources */,
 				F50FA2D31E2D0AD600435EEA /* ModelDefinition.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,

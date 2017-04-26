@@ -53,10 +53,10 @@ Function* FunctionDeclaration::createFunction(IRGenerationContext& context) cons
   FunctionType *ftype = FunctionType::get(llvmReturnType,
                                           argTypesArray,
                                           false);
-  return Function::Create(ftype,
-                          GlobalValue::InternalLinkage,
-                          mMethodName,
-                          context.getModule());
+  GlobalValue::LinkageTypes likage = strcmp(mMethodName.c_str(), "main")
+  ? GlobalValue::InternalLinkage : GlobalValue::ExternalLinkage;
+  
+  return Function::Create(ftype, likage, mMethodName, context.getModule());
 }
 
 void FunctionDeclaration::createArguments(IRGenerationContext& context, Function* function) const {

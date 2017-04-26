@@ -73,10 +73,10 @@ private:
                          IMethodDescriptor* methodDescriptor,
                          IRGenerationContext& context) const;
 
-  llvm::CallInst* createFunctionCall(IRGenerationContext& context,
-                                     llvm::Function* function,
-                                     llvm::Type* returnType,
-                                     IMethodDescriptor* methodDescriptor) const;
+  llvm::Value* createFunctionCall(IRGenerationContext& context,
+                                  llvm::Function* function,
+                                  llvm::Type* returnType,
+                                  IMethodDescriptor* methodDescriptor) const;
 };
 
 } /* namespace yazyk */
