@@ -40,6 +40,18 @@ Model::Model(string name,
   mFlattenedInterfaceHierarchy = createFlattenedInterfaceHierarchy();
 }
 
+Value* Model::getSize(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  BasicBlock* basicBlock = context.getBasicBlock();
+  Value* nullPointer = ConstantPointerNull::get(mStructType->getPointerTo());
+  Value *Idx[1];
+  Idx[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Value* sizePointer = GetElementPtrInst::Create(mStructType, nullPointer, Idx, "", basicBlock);
+  
+  return new PtrToIntInst(sizePointer, Type::getInt64Ty(llvmContext), "", basicBlock);
+}
+
 Field* Model::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;

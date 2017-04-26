@@ -91,6 +91,11 @@ public:
    */
   llvm::GlobalVariable* getOrCreateRTTI(IRGenerationContext& context) const;
   
+  /**
+   * Returns the size of this object in bytes
+   */
+  llvm::Value* getSize(IRGenerationContext& context) const;
+  
   Field* findField(std::string fieldName) const override;
   
   Method* findMethod(std::string methodName) const override;

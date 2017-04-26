@@ -191,15 +191,16 @@ struct ModelTest : public Test {
     ON_CALL(mField3Expression, generateIR(_)).WillByDefault(Return(field3Value));
     ON_CALL(mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
-    FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
+    FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
-                                          "test",
+                                          "main",
                                           mContext.getModule());
     
     mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
+    mContext.setMainFunction(function);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
@@ -215,6 +216,14 @@ TEST_F(ModelTest, modelInstantiationTest) {
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
   EXPECT_EQ(mModel->getInterfaces().size(), 2u);
+}
+
+TEST_F(ModelTest, getSizeTest) {
+  Value* value = mModel->getSize(mContext);
+  ReturnInst::Create(mContext.getLLVMContext(), value, mContext.getBasicBlock());
+  GenericValue result = mContext.runCode();
+  
+  EXPECT_EQ(result.IntVal, 8);
 }
 
 TEST_F(ModelTest, findFeildTest) {
