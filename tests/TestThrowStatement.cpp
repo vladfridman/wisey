@@ -58,6 +58,7 @@ struct ThrowStatementTest : public Test {
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
                        "model.MCircle.name");
+    mCircleModel->createRTTI(mContext);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

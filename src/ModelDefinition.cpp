@@ -46,6 +46,8 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   context.addModel(model);
   context.getScopes().popScope(context);
 
+  model->createRTTI(context);
+  
   return NULL;
 }
 

@@ -167,6 +167,13 @@ struct ModelTest : public Test {
                              circleFields,
                              circleMethods,
                              circleInterfaces);
+    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, "model.MCircle.name");
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                       stringConstant,
+                       "model.MCircle.name");
 
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -224,6 +231,16 @@ TEST_F(ModelTest, getSizeTest) {
   GenericValue result = mContext.runCode();
   
   EXPECT_EQ(result.IntVal, 8);
+}
+
+TEST_F(ModelTest, createRTTITest) {
+  GlobalVariable* rtti = mContext.getModule()->
+  getGlobalVariable(mCircleModel->getRTTIVariableName());
+  ASSERT_EQ(rtti, nullptr);
+  
+  mCircleModel->createRTTI(mContext);
+  rtti = mContext.getModule()->getGlobalVariable(mCircleModel->getRTTIVariableName());
+  ASSERT_NE(rtti, nullptr);
 }
 
 TEST_F(ModelTest, findFeildTest) {

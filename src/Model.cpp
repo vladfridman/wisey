@@ -200,12 +200,7 @@ Instruction* Model::build(IRGenerationContext& context,
   return malloc;
 }
 
-GlobalVariable* Model::getOrCreateRTTI(IRGenerationContext& context) const {
-  GlobalVariable* rttiGlobal = context.getModule()->getGlobalVariable(getRTTIVariableName());
-  if (rttiGlobal != NULL) {
-    return rttiGlobal;
-  }
-  
+void Model::createRTTI(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
  
@@ -233,12 +228,12 @@ GlobalVariable* Model::getOrCreateRTTI(IRGenerationContext& context) const {
   StructType* rttiGlobalType = StructType::get(llvmContext, types);
   Constant* rttiGlobalConstantStruct = ConstantStruct::get(rttiGlobalType, rttiArray);
 
-  return new GlobalVariable(*context.getModule(),
-                            rttiGlobalType,
-                            true,
-                            GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                            rttiGlobalConstantStruct,
-                            getRTTIVariableName());
+  new GlobalVariable(*context.getModule(),
+                     rttiGlobalType,
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     rttiGlobalConstantStruct,
+                     getRTTIVariableName());
 }
 
 void Model::checkArguments(ModelBuilderArgumentList* modelBuilderArgumentList) const {

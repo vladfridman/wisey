@@ -87,9 +87,9 @@ public:
                            ModelBuilderArgumentList* modelBuilderArgumentList) const;
   
   /**
-   * Returns a global variable with type description for this model in RTTI format
+   * Creates a global variable with type description for this model in RTTI format
    */
-  llvm::GlobalVariable* getOrCreateRTTI(IRGenerationContext& context) const;
+  void createRTTI(IRGenerationContext& context) const;
   
   /**
    * Returns the size of this object in bytes
