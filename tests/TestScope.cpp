@@ -64,6 +64,9 @@ TEST_F(ScopeTest, localsTest) {
 }
 
 TEST_F(ScopeTest, clearNonExistantVariableDeathTest) {
+  Mock::AllowLeak(mMockVariable);
+  Mock::AllowLeak(&mMockType);
+  
   EXPECT_EXIT(mScope.clearVariable("foo"),
               ::testing::ExitedWithCode(1),
               "Error: Variable 'foo' is not set in this scope.");
