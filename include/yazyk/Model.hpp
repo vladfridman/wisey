@@ -61,6 +61,11 @@ public:
   std::string getTypeTableName() const;
  
   /**
+   * Returns the name of the global variable containing RTTI type representing this model
+   */
+  std::string getRTTIVariableName() const;
+
+  /**
    * Returns interfaces that this model implements
    */
   std::vector<Interface*> getInterfaces() const;
@@ -129,8 +134,6 @@ private:
   void initializeVTable(IRGenerationContext& context,
                         ModelBuilderArgumentList* modelBuilderArgumentList,
                         llvm::Instruction* malloc) const;
-  
-  std::string getRTTIVariableName() const;
 };
 
 } /* namespace yazyk */

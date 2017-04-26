@@ -297,8 +297,12 @@ TEST_F(ModelTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ(mModel->getObjectNameGlobalVariableName().c_str(), "model.MSquare.name");
 }
 
-TEST_F(ModelTest, getTypeTableName) {
+TEST_F(ModelTest, getTypeTableNameTest) {
   ASSERT_STREQ(mModel->getTypeTableName().c_str(), "model.MSquare.typetable");
+}
+
+TEST_F(ModelTest, getRTTIVariableNameTest) {
+  ASSERT_STREQ(mModel->getRTTIVariableName().c_str(), "model.MSquare.rtti");
 }
 
 TEST_F(ModelTest, castToDeathTest) {
