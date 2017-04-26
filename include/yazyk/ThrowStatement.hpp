@@ -31,9 +31,6 @@ public:
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
-private:
-  
-  llvm::Function* getThrowFunction(IRGenerationContext& context) const;
 };
   
 } /* namespace yazyk */

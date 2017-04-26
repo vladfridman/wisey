@@ -10,6 +10,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/TypeBuilder.h>
 
+#include "yazyk/IntrinsicFunctions.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ThrowStatement.hpp"
 
@@ -44,21 +45,10 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   arguments.push_back(ConstantPointerNull::get(int8PointerType));
   ExpressionList::const_iterator it;
   
-  Function* throwFunction = getThrowFunction(context);
+  Function* throwFunction = IntrinsicFunctions::getThrowFunction(context);
   CallInst* callInst = CallInst::Create(throwFunction, arguments, "", context.getBasicBlock());
   
   new UnreachableInst(llvmContext, context.getBasicBlock());
   
   return callInst;
-}
-
-Function* ThrowStatement::getThrowFunction(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  FunctionType *cxxThrowType = TypeBuilder<void (types::i<8>*, types::i<8>*, types::i<8>*), false>
-  ::get(llvmContext);
-  
-  AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
-  return cast<Function>(context.getModule()->getOrInsertFunction("__cxa_throw",
-                                                                 cxxThrowType,
-                                                                 attributeSet));
 }

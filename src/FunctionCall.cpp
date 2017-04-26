@@ -10,24 +10,13 @@
 #include <llvm/IR/TypeBuilder.h>
 
 #include "yazyk/FunctionCall.hpp"
+#include "yazyk/IntrinsicFunctions.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace yazyk;
-
-Function* FunctionCall::declarePrintf(IRGenerationContext& context) const {
-  FunctionType *printfType = TypeBuilder<int(char *, ...), false>::get(context.getLLVMContext());
-  
-  Function *function = cast<Function>(
-    context.getModule()->getOrInsertFunction(
-      "printf",
-      printfType,
-      AttributeSet().addAttribute(context.getLLVMContext(), 1U, Attribute::NoAlias)));
-  
-  return function;
-}
 
 Value* FunctionCall::generateIR(IRGenerationContext& context) const {
   Function *function = context.getModule()->getFunction(mFunctionName.c_str());
@@ -36,7 +25,7 @@ Value* FunctionCall::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   if (function == NULL) {
-    function = declarePrintf(context);
+    function = IntrinsicFunctions::getPrintfFunction(context);
   }
   vector<Value*> args;
   ExpressionList::const_iterator it;

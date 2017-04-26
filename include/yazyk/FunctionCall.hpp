@@ -35,9 +35,6 @@ public:
   
   void releaseOwnership(IRGenerationContext& context) const override;
 
-private:
-  
-  llvm::Function* declarePrintf(IRGenerationContext& context) const;
 };
   
 } /* namespace yazyk */
