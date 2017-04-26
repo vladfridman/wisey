@@ -117,14 +117,52 @@ BasicBlock* Scopes::getContinueToBlock() {
   if (mScopes.size() == 0) {
     return NULL;
   }
- 
+  
   for (Scope* scope : mScopes) {
     BasicBlock* block = scope->getContinueToBlock();
     if (block != NULL) {
       return block;
     }
   }
+  
+  return NULL;
+}
 
+void Scopes::setLandingPadBlock(BasicBlock* basicBlock) {
+  getScope()->setLandingPadBlock(basicBlock);
+}
+
+BasicBlock* Scopes::getLandingPadBlock() {
+  if (mScopes.size() == 0) {
+    return NULL;
+  }
+  
+  for (Scope* scope : mScopes) {
+    BasicBlock* block= scope->getLandingPadBlock();
+    if (block != NULL) {
+      return block;
+    }
+  }
+  
+  return NULL;
+}
+
+void Scopes::setExceptionContinueBlock(BasicBlock* basicBlock) {
+  getScope()->setExceptionContinueBlock(basicBlock);
+}
+
+BasicBlock* Scopes::getExceptionContinueBlock() {
+  if (mScopes.size() == 0) {
+    return NULL;
+  }
+  
+  for (Scope* scope : mScopes) {
+    BasicBlock* block= scope->getExceptionContinueBlock();
+    if (block != NULL) {
+      return block;
+    }
+  }
+  
   return NULL;
 }
 

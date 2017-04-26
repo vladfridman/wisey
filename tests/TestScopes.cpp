@@ -176,6 +176,30 @@ TEST(ScopesTest, setUnitializedHeapVariableTest) {
   EXPECT_EQ(scopes.getVariable("foo")->getValue(), nullptr);
 }
 
+TEST(ScopesTest, setLandingPadBlockTest) {
+  LLVMContext context;
+  Scopes scopes;
+  scopes.pushScope();
+  BasicBlock* basicBlock = BasicBlock::Create(context);
+
+  scopes.setLandingPadBlock(basicBlock);
+  scopes.pushScope();
+  
+  ASSERT_EQ(scopes.getLandingPadBlock(), basicBlock);
+}
+
+TEST(ScopesTest, setExceptionContinueBlockTest) {
+  LLVMContext context;
+  Scopes scopes;
+  scopes.pushScope();
+  BasicBlock* basicBlock = BasicBlock::Create(context);
+
+  scopes.setExceptionContinueBlock(basicBlock);
+  scopes.pushScope();
+  
+  ASSERT_EQ(scopes.getExceptionContinueBlock(), basicBlock);
+}
+
 TEST(ScopesTest, reportUnhandledExceptionsDeathTest) {
   IRGenerationContext context;
   Scopes scopes;

@@ -52,6 +52,22 @@ BasicBlock* Scope::getContinueToBlock() {
   return mContinueToBlock;
 }
 
+void Scope::setLandingPadBlock(BasicBlock* block) {
+  mLandingPadBlock = block;
+}
+
+BasicBlock* Scope::getLandingPadBlock() {
+  return mLandingPadBlock;
+}
+
+void Scope::setExceptionContinueBlock(BasicBlock* block) {
+  mExceptionContinueBlock = block;
+}
+
+BasicBlock* Scope::getExceptionContinueBlock() {
+  return mExceptionContinueBlock;
+}
+
 void Scope::setReturnType(IType* type) {
   mReturnType = type;
 }
@@ -71,14 +87,14 @@ void Scope::maybeFreeOwnedMemory(IRGenerationContext& context) {
      UnreachableInst::classof(&currentBlock->back())) {
     return;
   }
-
+  
   for (map<string, IVariable*>::iterator iterator = mLocals.begin();
-      iterator != mLocals.end();
-      iterator++) {
+       iterator != mLocals.end();
+       iterator++) {
     string name = iterator->first;
     IVariable* variable = iterator->second;
     variable->free(context);
-
+    
     delete variable;
   }
   
