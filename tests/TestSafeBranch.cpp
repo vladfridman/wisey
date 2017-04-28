@@ -64,7 +64,7 @@ TEST_F(SafeBranchTest, consecutiveConditionalBranchesNotCreated) {
   BranchInst* branch2 = SafeBranch::newConditionalBranch(mBlock1,
                                                          mBlock2,
                                                          mConditionValue,
-                                                             mContext);
+                                                         mContext);
   EXPECT_NE(branch1, nullptr);
   EXPECT_EQ(branch2, nullptr);
 }

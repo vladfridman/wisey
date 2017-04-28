@@ -14,7 +14,7 @@ using namespace yazyk;
 BranchInst* SafeBranch::newBranch(BasicBlock* toBlock, IRGenerationContext& context) {
   BasicBlock* currentBlock = context.getBasicBlock();
   
-  if(currentBlock->size() > 0 && TerminatorInst::classof(&currentBlock->back())) {
+  if(currentBlock->getTerminator()) {
     return NULL;
   }
   
@@ -27,7 +27,7 @@ BranchInst* SafeBranch::newConditionalBranch(BasicBlock* ifTrueBlock,
                                              IRGenerationContext& context) {
   BasicBlock* currentBlock = context.getBasicBlock();
   
-  if(currentBlock->size() > 0 && TerminatorInst::classof(&currentBlock->back())) {
+  if(currentBlock->getTerminator()) {
     return NULL;
   }
   
