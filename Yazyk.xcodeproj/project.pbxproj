@@ -208,6 +208,9 @@
 		F55496F71E06280900DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
 		F55496F81E06281D00DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
 		F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */; };
+		F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
+		F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
+		F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */; };
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
@@ -579,6 +582,9 @@
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
 		F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = /usr/local/lib/libLLVMGlobalISel.a; sourceTree = "<absolute>"; };
 		F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifier.cpp; path = tests/TestIdentifier.cpp; sourceTree = "<group>"; };
+		F5601F381EB399EE00C9E2D8 /* IRWriter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IRWriter.hpp; path = include/yazyk/IRWriter.hpp; sourceTree = "<group>"; };
+		F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRWriter.cpp; path = src/IRWriter.cpp; sourceTree = "<group>"; };
+		F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRWriter.cpp; path = tests/TestIRWriter.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
@@ -849,6 +855,7 @@
 				F5C6FD821E48B7260054209D /* TestIntType.cpp */,
 				F56AD4A31E9F6D5B0020868C /* TestIObjectWithMethodsType.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
+				F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */,
 				F50427B01E4DD621001CB148 /* TestLocalHeapVariable.cpp */,
 				F50427AE1E4DD329001CB148 /* TestLocalStackVariable.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
@@ -1022,6 +1029,7 @@
 				F5C6FD7F1E48B6E80054209D /* IntType.cpp */,
 				F56AD4A01E9F66C40020868C /* IObjectWithMethodsType.cpp */,
 				F574115F1E01AC98009809FF /* IRGenerationContext.cpp */,
+				F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */,
 				F50427AB1E4D2747001CB148 /* LocalHeapVariable.cpp */,
 				F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */,
 				F569E9EB1DF9CC9600BBB20E /* Log.cpp */,
@@ -1175,6 +1183,7 @@
 				F515812C1E8A7FB7009CE419 /* IObjectWithFieldsType.hpp */,
 				F5EEDDA41E718C7800215278 /* IObjectWithMethodsType.hpp */,
 				F574115D1E01A52C009809FF /* IRGenerationContext.hpp */,
+				F5601F381EB399EE00C9E2D8 /* IRWriter.hpp */,
 				F531B6771E0E19F1008304F3 /* IStatement.hpp */,
 				F507D2681E44C27D00495E2D /* IType.hpp */,
 				F50FA2CC1E2D045000435EEA /* ITypeSpecifier.hpp */,
@@ -1367,6 +1376,7 @@
 				F5CB180F1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp in Sources */,
 				F50FA2D71E2D12E000435EEA /* TestModelDefinition.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
+				F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */,
 				F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */,
 				F50FA2F81E2E3B3900435EEA /* TestLongConstant.cpp in Sources */,
@@ -1461,6 +1471,7 @@
 				F56AD4A21E9F66C40020868C /* IObjectWithMethodsType.cpp in Sources */,
 				F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
+				F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* StringConstant.cpp in Sources */,
 				F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */,
@@ -1513,6 +1524,7 @@
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
+				F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */,

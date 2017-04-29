@@ -8,6 +8,7 @@
 
 #include "yazyk/AutoCast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ReturnStatement.hpp"
 
@@ -29,9 +30,6 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                            returnType);
   context.getScopes().getScope()->maybeFreeOwnedMemory(context);
   
-  ReturnInst* result = ReturnInst::Create(context.getLLVMContext(),
-                                          returnValue,
-                                          context.getBasicBlock());
-  return result;
+  return IRWriter::createReturnInst(context, returnValue);
 }
 
