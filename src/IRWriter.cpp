@@ -42,3 +42,18 @@ BranchInst* IRWriter::createConditionalBranch(IRGenerationContext& context,
   
   return BranchInst::Create(ifTrueBlock, ifFalseBlock, condition, currentBlock);
 }
+
+BinaryOperator* IRWriter::createBinaryOperator(IRGenerationContext& context,
+                                               Instruction::BinaryOps instruction,
+                                               Value* leftValue,
+                                               Value* rightValue,
+                                               string llvmVariableName) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+
+  return BinaryOperator::Create(instruction, leftValue, rightValue, llvmVariableName, currentBlock);
+}
+

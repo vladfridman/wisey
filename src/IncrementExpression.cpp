@@ -11,6 +11,7 @@
 
 #include "yazyk/IncrementExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -32,11 +33,12 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
                                       mIncrementBy,
                                       true);
   
-  Value* incrementResult = llvm::BinaryOperator::Create(Instruction::Add,
-                                                        originalValue,
-                                                        increment,
-                                                        mVariableName,
-                                                        context.getBasicBlock());
+  Value* incrementResult = IRWriter::createBinaryOperator(context,
+                                                          Instruction::Add,
+                                                          originalValue,
+                                                          increment,
+                                                          mVariableName);
+
   new StoreInst(incrementResult,
                 context.getScopes().getVariable(mIdentifier.getName())->getValue(),
                 context.getBasicBlock());

@@ -78,3 +78,18 @@ TEST_F(IRWriterTest, createConditionalBranchTest) {
   EXPECT_NE(branch1, nullptr);
   EXPECT_EQ(branch2, nullptr);
 }
+
+TEST_F(IRWriterTest, createBinaryOperator) {
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  IRWriter::createBinaryOperator(mContext, Instruction::Add, value, value, "");
+
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+
+  IRWriter::createReturnInst(mContext, value);
+
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+
+  IRWriter::createBinaryOperator(mContext, Instruction::Add, value, value, "");
+
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

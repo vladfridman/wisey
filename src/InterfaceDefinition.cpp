@@ -215,11 +215,12 @@ void InterfaceDefinition::composeInstanceOfWhileBodyBlock(IRGenerationContext& c
   context.setBasicBlock(whileBody);
   
   LoadInst* iteratorLoaded = new LoadInst(iterator, "", whileBody);
-  Value* increment = BinaryOperator::Create(Instruction::Add,
-                                            iteratorLoaded,
-                                            ConstantInt::get(Type::getInt32Ty(llvmContext), 1),
-                                            "inc",
-                                            whileBody);
+  ConstantInt* one =  ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Value* increment = IRWriter::createBinaryOperator(context,
+                                                    Instruction::Add,
+                                                    iteratorLoaded,
+                                                    one,
+                                                    "inc");
   new StoreInst(increment, iterator, whileBody);
 
   Function::arg_iterator functionArguments = function->arg_begin();
@@ -242,8 +243,11 @@ void InterfaceDefinition::composeReturnFound(IRGenerationContext& context,
   context.setBasicBlock(returnFound);
   LoadInst* iteratorLoaded = new LoadInst(iterator, "", returnFound);
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* decrement =
-  BinaryOperator::Create(Instruction::Sub, iteratorLoaded, one, "dec", returnFound);
+  Value* decrement = IRWriter::createBinaryOperator(context,
+                                                    Instruction::Sub,
+                                                    iteratorLoaded,
+                                                    one,
+                                                    "dec");
   ReturnInst::Create(llvmContext, decrement, returnFound);
 }
 

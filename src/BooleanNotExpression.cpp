@@ -11,6 +11,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/BooleanNotExpression.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -25,11 +26,8 @@ Value* BooleanNotExpression::generateIR(IRGenerationContext& context) const {
   }
   
   Value* one = ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), 1);
-  return llvm::BinaryOperator::Create(Instruction::Xor,
-                                      mExpression.generateIR(context),
-                                      one,
-                                      "lnot",
-                                      context.getBasicBlock());
+  Value* expressionValue = mExpression.generateIR(context);
+  return IRWriter::createBinaryOperator(context, Instruction::Xor, expressionValue, one, "lnot");
 }
 
 IType* BooleanNotExpression::getType(IRGenerationContext& context) const {

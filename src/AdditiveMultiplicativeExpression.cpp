@@ -11,6 +11,7 @@
 #include "yazyk/AdditiveMultiplicativeExpression.hpp"
 #include "yazyk/AutoCast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -46,11 +47,7 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
     rightValue = AutoCast::maybeCast(context, rightType, rightValue, leftType);
   }
   
-  return llvm::BinaryOperator::Create(instruction,
-                                      leftValue,
-                                      rightValue,
-                                      name,
-                                      context.getBasicBlock());
+  return IRWriter::createBinaryOperator(context, instruction, leftValue, rightValue, name);
 }
 
 IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) const {

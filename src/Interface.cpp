@@ -395,8 +395,8 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),
                                         Environment::getAddressSizeInBytes());
   BitCastInst* bitcast = new BitCastInst(originalObject, int8Type->getPointerTo(), "", moreThanOne);
-  Value* offset = BinaryOperator::Create(Instruction::Sub, instanceof, one, "", moreThanOne);
-  Value* thunkBy = BinaryOperator::Create(Instruction::Mul, offset, bytes, "", moreThanOne);
+  Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, instanceof, one, "");
+  Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
   Value *Idx[1];
   Idx[0] = thunkBy;
   Value* thunk = GetElementPtrInst::Create(int8Type, bitcast, Idx, "add.ptr", moreThanOne);

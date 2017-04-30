@@ -10,6 +10,7 @@
 #include <llvm/IR/InstrTypes.h>
 #include <llvm/IR/Instructions.h>
 
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/NegateExpression.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -26,20 +27,19 @@ Value* NegateExpression::generateIR(IRGenerationContext& context) const {
   
   if (type == PrimitiveTypes::FLOAT_TYPE || type == PrimitiveTypes::DOUBLE_TYPE) {
     Value* zero = ConstantFP::get(type->getLLVMType(context.getLLVMContext()), 0);
-    return llvm::BinaryOperator::Create(Instruction::FSub,
-                                        zero,
-                                        mExpression.generateIR(context),
-                                        "fsub",
-                                        context.getBasicBlock());
- 
+    return IRWriter::createBinaryOperator(context,
+                                          Instruction::FSub,
+                                          zero,
+                                          mExpression.generateIR(context),
+                                          "fsub");
   }
   
   Value* zero = ConstantInt::get(type->getLLVMType(context.getLLVMContext()), 0);
-  return llvm::BinaryOperator::Create(Instruction::Sub,
-                                      zero,
-                                      mExpression.generateIR(context),
-                                      "sub",
-                                      context.getBasicBlock());
+  return IRWriter::createBinaryOperator(context,
+                                        Instruction::Sub,
+                                        zero,
+                                        mExpression.generateIR(context),
+                                        "sub");
 }
 
 IType* NegateExpression::getType(IRGenerationContext& context) const {

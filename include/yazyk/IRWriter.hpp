@@ -39,10 +39,19 @@ public:
   /**
    * Create a conditional branch if the current basic block does not already have a terminator
    */
-  static llvm::BranchInst* createConditionalBranch(yazyk::IRGenerationContext& context,
+  static llvm::BranchInst* createConditionalBranch(IRGenerationContext& context,
                                                    llvm::BasicBlock* ifTrueBlock,
                                                    llvm::BasicBlock* ifFalseBlock,
                                                    llvm::Value* condition);
+  
+  /**
+   * Create binary operator which could be an addition, multiplications, etc.
+   */
+  static llvm::BinaryOperator* createBinaryOperator(IRGenerationContext& context,
+                                                    llvm::Instruction::BinaryOps instruction,
+                                                    llvm::Value* leftValue,
+                                                    llvm::Value* rightValue,
+                                                    std::string llvmVariableName);
 };
   
 } /* namespace yazyk */
