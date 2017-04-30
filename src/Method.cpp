@@ -7,6 +7,7 @@
 //
 
 #include "yazyk/CompoundStatement.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Method.hpp"
@@ -114,15 +115,9 @@ void Method::storeArgumentValue(IRGenerationContext& context,
 }
 
 void Method::maybeAddImpliedVoidReturn(IRGenerationContext& context) const {
-  BasicBlock* currentBlock = context.getBasicBlock();
-  if (currentBlock->size() == 0) {
-    ReturnInst::Create(context.getLLVMContext(), NULL, currentBlock);
+  if (!context.getBasicBlock()->getTerminator()) {
+    IRWriter::createReturnInst(context, NULL);
     return;
-  }
-  
-  Instruction* last = &currentBlock->back();
-  if (!ReturnInst::classof(last) && !UnreachableInst::classof(last)) {
-    ReturnInst::Create(context.getLLVMContext(), NULL, currentBlock);
   }
 }
 

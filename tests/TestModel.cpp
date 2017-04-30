@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/MethodSignature.hpp"
 #include "yazyk/Model.hpp"
 #include "yazyk/ModelTypeSpecifier.hpp"
@@ -227,7 +228,7 @@ TEST_F(ModelTest, modelInstantiationTest) {
 
 TEST_F(ModelTest, getSizeTest) {
   Value* value = mModel->getSize(mContext);
-  ReturnInst::Create(mContext.getLLVMContext(), value, mContext.getBasicBlock());
+  IRWriter::createReturnInst(mContext, value);
   GenericValue result = mContext.runCode();
   
   EXPECT_EQ(result.IntVal, 8);

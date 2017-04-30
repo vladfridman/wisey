@@ -7,6 +7,7 @@
 //
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/ReturnVoidStatement.hpp"
 
 #include <llvm/IR/Instructions.h>
@@ -15,5 +16,5 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
-  return ReturnInst::Create(context.getLLVMContext(), NULL, context.getBasicBlock());
+  IRWriter::createReturnInst(context, NULL);
 }

@@ -7,6 +7,7 @@
 //
 
 #include "yazyk/FunctionDeclaration.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 
 using namespace llvm;
@@ -99,6 +100,6 @@ void FunctionDeclaration::storeArgumentValue(IRGenerationContext& context,
 void FunctionDeclaration::addImpliedVoidReturn(IRGenerationContext& context) const {
   BasicBlock* currentBlock = context.getBasicBlock();
   if(currentBlock->size() == 0 || !ReturnInst::classof(&currentBlock->back())) {
-    ReturnInst::Create(context.getLLVMContext(), NULL, currentBlock);
+    IRWriter::createReturnInst(context, NULL);
   }
 }

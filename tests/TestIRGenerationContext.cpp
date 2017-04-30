@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -239,11 +240,11 @@ public:
                                           "main",
                                           mContext.getModule());
     mContext.setMainFunction(function);
-    BasicBlock* block = BasicBlock::Create(llvmContext, "entry", function);
-    mContext.setBasicBlock(block);
+    BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
+    mContext.setBasicBlock(basicBlock);
     mContext.getScopes().pushScope();
     Value* returnValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
-    ReturnInst::Create(llvmContext, returnValue, block);
+    IRWriter::createReturnInst(mContext, returnValue);
   }
   
   ~IRGenerationContextRunTest() {

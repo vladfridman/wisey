@@ -234,6 +234,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
                                         MethodSignature* methodSignature) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock *basicBlock = BasicBlock::Create(llvmContext, "entry", mapFunction, 0);
+  context.setBasicBlock(basicBlock);
   
   Function::arg_iterator arguments = mapFunction->arg_begin();
   Value* interfaceThis = storeArgumentValue(context, basicBlock, "this", object, &*arguments);
@@ -270,10 +271,10 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   
   if (modelFunction->getReturnType()->isVoidTy()) {
     CallInst::Create(modelFunction, callArguments, "", basicBlock);
-    ReturnInst::Create(llvmContext, NULL, basicBlock);
+    IRWriter::createReturnInst(context, NULL);
   } else {
     Value* result = CallInst::Create(modelFunction, callArguments, "call", basicBlock);
-    ReturnInst::Create(llvmContext, result, basicBlock);
+    IRWriter::createReturnInst(context, result);
   }
 }
 
@@ -385,7 +386,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   context.setBasicBlock(lessThanZero);
   // TODO: throw a cast exception here once exceptions are implemented
   Value* nullPointer = ConstantPointerNull::get((PointerType*) toType->getLLVMType(llvmContext));
-  ReturnInst::Create(llvmContext, nullPointer, lessThanZero);
+  IRWriter::createReturnInst(context, nullPointer);
 
   context.setBasicBlock(notLessThanZero);
   ICmpInst* compareToOne = new ICmpInst(*notLessThanZero, ICmpInst::ICMP_SGT, instanceof, one, "cmp");
@@ -401,11 +402,11 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   Idx[0] = thunkBy;
   Value* thunk = GetElementPtrInst::Create(int8Type, bitcast, Idx, "add.ptr", moreThanOne);
   Value* castValue = new BitCastInst(thunk, toType->getLLVMType(llvmContext), "", moreThanOne);
-  ReturnInst::Create(llvmContext, castValue, moreThanOne);
+  IRWriter::createReturnInst(context, castValue);
 
   context.setBasicBlock(zeroOrOne);
   castValue = new BitCastInst(originalObject, toType->getLLVMType(llvmContext), "", zeroOrOne);
-  ReturnInst::Create(llvmContext, castValue, zeroOrOne);
+  IRWriter::createReturnInst(context, castValue);
   
   context.setBasicBlock(lastBasicBlock);
   

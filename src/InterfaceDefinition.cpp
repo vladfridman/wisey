@@ -248,7 +248,7 @@ void InterfaceDefinition::composeReturnFound(IRGenerationContext& context,
                                                     iteratorLoaded,
                                                     one,
                                                     "dec");
-  ReturnInst::Create(llvmContext, decrement, returnFound);
+  IRWriter::createReturnInst(context, decrement);
 }
 
 void InterfaceDefinition::composeReturnNotFound(IRGenerationContext& context,
@@ -257,5 +257,5 @@ void InterfaceDefinition::composeReturnNotFound(IRGenerationContext& context,
   ConstantInt* negativeOne = ConstantInt::get(Type::getInt32Ty(llvmContext), -1);
   
   context.setBasicBlock(returnNotFound);
-  ReturnInst::Create(llvmContext, negativeOne, returnNotFound);
+  IRWriter::createReturnInst(context, negativeOne);
 }
