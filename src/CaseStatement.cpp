@@ -8,7 +8,6 @@
 
 #include "yazyk/CaseStatement.hpp"
 #include "yazyk/Log.hpp"
-#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace yazyk;

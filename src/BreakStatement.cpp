@@ -7,8 +7,8 @@
 //
 
 #include "yazyk/BreakStatement.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
-#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace yazyk;
@@ -20,5 +20,5 @@ Value* BreakStatement::generateIR(IRGenerationContext& context) const {
     Log::e("break statement not inside a loop or a switch");
     exit(1);
   }
-  return SafeBranch::newBranch(breackToBlock, context);
+  return IRWriter::createBranch(context, breackToBlock);
 }

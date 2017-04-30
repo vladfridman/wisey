@@ -22,19 +22,20 @@ using ::testing::Test;
 struct IRWriterTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
+  Function* mMainFunction;
   BasicBlock* mBasicBlock;
   
   IRWriterTest() : mLLVMContext(mContext.getLLVMContext()) {
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "main",
-                                          mContext.getModule());
+    mMainFunction = Function::Create(functionType,
+                                     GlobalValue::InternalLinkage,
+                                     "main",
+                                     mContext.getModule());
     
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mMainFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
-    mContext.setMainFunction(function);
+    mContext.setMainFunction(mMainFunction);
   }
   
   ~IRWriterTest() {}
@@ -51,4 +52,29 @@ TEST_F(IRWriterTest, createReturnInstTest) {
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
   EXPECT_EQ(mBasicBlock->getTerminator(), returnInst);
+}
+
+TEST_F(IRWriterTest, createBranchTest) {
+  BasicBlock* block1 = BasicBlock::Create(mLLVMContext, "block1");
+  BasicBlock* block2 = BasicBlock::Create(mLLVMContext, "block2");
+  
+  EXPECT_NE(IRWriter::createBranch(mContext, block1), nullptr);
+  EXPECT_EQ(IRWriter::createBranch(mContext, block2), nullptr);
+}
+
+TEST_F(IRWriterTest, createConditionalBranchTest) {
+  BasicBlock* block1 = BasicBlock::Create(mLLVMContext, "block1");
+  BasicBlock* block2 = BasicBlock::Create(mLLVMContext, "block2");
+  Value* conditionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
+  
+  BranchInst* branch1 = IRWriter::createConditionalBranch(mContext,
+                                                          block1,
+                                                          block2,
+                                                          conditionValue);
+  BranchInst* branch2 = IRWriter::createConditionalBranch(mContext,
+                                                          block1,
+                                                          block2,
+                                                          conditionValue);
+  EXPECT_NE(branch1, nullptr);
+  EXPECT_EQ(branch2, nullptr);
 }

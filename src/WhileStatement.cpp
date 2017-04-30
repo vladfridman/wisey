@@ -6,7 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/SafeBranch.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/WhileStatement.hpp"
 
 using namespace llvm;
@@ -21,10 +21,10 @@ Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* whileBody = BasicBlock::Create(context.getLLVMContext(), "while.body", function);
   BasicBlock* whileEnd = BasicBlock::Create(context.getLLVMContext(), "while.end", function);
   
-  SafeBranch::newBranch(whileCond, context);
+  IRWriter::createBranch(context, whileCond);
   context.setBasicBlock(whileCond);
   Value* conditionValue = mConditionExpression.generateIR(context);
-  SafeBranch::newConditionalBranch(whileBody, whileEnd, conditionValue, context);
+  IRWriter::createConditionalBranch(context, whileBody, whileEnd, conditionValue);
   
   context.setBasicBlock(whileBody);
   scopes.setBreakToBlock(whileEnd);
@@ -33,7 +33,7 @@ Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   scopes.setBreakToBlock(NULL);
   scopes.setContinueToBlock(NULL);
 
-  SafeBranch::newBranch(whileCond, context);
+  IRWriter::createBranch(context, whileCond);
 
   context.setBasicBlock(whileEnd);
 

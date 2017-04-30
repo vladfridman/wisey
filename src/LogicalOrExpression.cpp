@@ -10,10 +10,10 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/LogicalOrExpression.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace yazyk;
@@ -26,12 +26,12 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context) const {
   
   BasicBlock* basicBlockRight = BasicBlock::Create(context.getLLVMContext(), "lor.rhs", function);
   BasicBlock* basicBlockEnd = BasicBlock::Create(context.getLLVMContext(), "lor.end", function);
-  SafeBranch::newConditionalBranch(basicBlockEnd, basicBlockRight, leftValue, context);
+  IRWriter::createConditionalBranch(context, basicBlockEnd, basicBlockRight, leftValue);
   
   context.setBasicBlock(basicBlockRight);
   Value* rightValue = mRightExpression.generateIR(context);
   BasicBlock* lastRightBlock = context.getBasicBlock();
-  SafeBranch::newBranch(basicBlockEnd, context);
+  IRWriter::createBranch(context, basicBlockEnd);
   
   context.setBasicBlock(basicBlockEnd);
   Type* type = Type::getInt1Ty(context.getLLVMContext());

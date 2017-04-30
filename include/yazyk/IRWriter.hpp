@@ -30,6 +30,19 @@ public:
    */
   static llvm::ReturnInst* createReturnInst(IRGenerationContext& context, llvm::Value* returnValue);
   
+  /**
+   * Create a conditional branch if the current basic block does not already have a terminator
+   */
+  static llvm::BranchInst* createBranch(IRGenerationContext& context,
+                                        llvm::BasicBlock* toBlock);
+  
+  /**
+   * Create a conditional branch if the current basic block does not already have a terminator
+   */
+  static llvm::BranchInst* createConditionalBranch(yazyk::IRGenerationContext& context,
+                                                   llvm::BasicBlock* ifTrueBlock,
+                                                   llvm::BasicBlock* ifFalseBlock,
+                                                   llvm::Value* condition);
 };
   
 } /* namespace yazyk */

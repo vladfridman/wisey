@@ -7,7 +7,7 @@
 //
 
 #include "yazyk/IfStatement.hpp"
-#include "yazyk/SafeBranch.hpp"
+#include "yazyk/IRWriter.hpp"
 
 using namespace llvm;
 using namespace yazyk;
@@ -20,11 +20,11 @@ Value* IfStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* ifEnd = BasicBlock::Create(context.getLLVMContext(), "if.end", function);
   
   Value* conditionValue = mCondition.generateIR(context);
-  SafeBranch::newConditionalBranch(ifThen, ifEnd, conditionValue, context);
+  IRWriter::createConditionalBranch(context, ifThen, ifEnd, conditionValue);
   
   context.setBasicBlock(ifThen);
   mThenStatement.generateIR(context);
-  SafeBranch::newBranch(ifEnd, context);
+  IRWriter::createBranch(context, ifEnd);
   
   context.setBasicBlock(ifEnd);
   

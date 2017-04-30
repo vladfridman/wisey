@@ -7,8 +7,8 @@
 //
 
 #include "yazyk/ContinueStatement.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
-#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace yazyk;
@@ -20,5 +20,5 @@ Value* ContinueStatement::generateIR(IRGenerationContext& context) const {
     Log::e("continue statement not inside a loop");
     exit(1);
   }
-  return SafeBranch::newBranch(continueToBlock, context);
+  return IRWriter::createBranch(context, continueToBlock);
 }

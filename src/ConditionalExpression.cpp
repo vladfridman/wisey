@@ -10,9 +10,9 @@
 
 #include "yazyk/ConditionalExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -28,19 +28,19 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   BasicBlock* blockCondTrue = BasicBlock::Create(context.getLLVMContext(), "cond.true", function);
   BasicBlock* blockCondFalse = BasicBlock::Create(context.getLLVMContext(), "cond.false", function);
   BasicBlock* blockCondEnd = BasicBlock::Create(context.getLLVMContext(), "cond.end", function);
-  SafeBranch::newConditionalBranch(blockCondTrue, blockCondFalse, conditionValue, context);
+  IRWriter::createConditionalBranch(context, blockCondTrue, blockCondFalse, conditionValue);
   
   context.setBasicBlock(blockCondTrue);
   Value * condTrueValue = mConditionTrueExpression.generateIR(context);
   Type * condTrueResultType = condTrueValue->getType();
   BasicBlock * lastBlock = context.getBasicBlock();
-  SafeBranch::newBranch(blockCondEnd, context);
+  IRWriter::createBranch(context, blockCondEnd);
 
   context.setBasicBlock(blockCondFalse);
   Value * condFalseValue = mConditionFalseExpression.generateIR(context);
   Type * condFalseResultType = condTrueValue->getType();
   lastBlock = context.getBasicBlock();
-  SafeBranch::newBranch(blockCondEnd, context);
+  IRWriter::createBranch(context, blockCondEnd);
 
   if (condTrueResultType != condFalseResultType) {
     Log::e("Results of different type in a conditional expresion!");

@@ -18,3 +18,27 @@ ReturnInst* IRWriter::createReturnInst(IRGenerationContext& context, Value* retu
   }
   return ReturnInst::Create(context.getLLVMContext(), returnValue, context.getBasicBlock());
 }
+
+BranchInst* IRWriter::createBranch(IRGenerationContext& context,
+                                   BasicBlock* toBlock) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return BranchInst::Create(toBlock, currentBlock);
+}
+
+BranchInst* IRWriter::createConditionalBranch(IRGenerationContext& context,
+                                              BasicBlock* ifTrueBlock,
+                                              BasicBlock* ifFalseBlock,
+                                              Value* condition) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return BranchInst::Create(ifTrueBlock, ifFalseBlock, condition, currentBlock);
+}

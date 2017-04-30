@@ -7,7 +7,7 @@
 //
 
 #include "yazyk/DoStatement.hpp"
-#include "yazyk/SafeBranch.hpp"
+#include "yazyk/IRWriter.hpp"
 
 using namespace llvm;
 using namespace yazyk;
@@ -21,18 +21,17 @@ Value* DoStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* doBody = BasicBlock::Create(context.getLLVMContext(), "do.body", function);
   BasicBlock* doEnd = BasicBlock::Create(context.getLLVMContext(), "do.end", function);
   
-  SafeBranch::newBranch(doBody, context);
-  
+  IRWriter::createBranch(context, doBody);
   
   context.setBasicBlock(doBody);
   scopes.setBreakToBlock(doEnd);
   scopes.setContinueToBlock(doBody);
   mStatement.generateIR(context);
-  SafeBranch::newBranch(doCond, context);
+  IRWriter::createBranch(context, doCond);
   
   context.setBasicBlock(doCond);
   Value* conditionValue = mConditionExpression.generateIR(context);
-  SafeBranch::newConditionalBranch(doBody, doEnd, conditionValue, context);
+  IRWriter::createConditionalBranch(context, doBody, doEnd, conditionValue);
   
   scopes.setBreakToBlock(NULL);
   scopes.setContinueToBlock(NULL);

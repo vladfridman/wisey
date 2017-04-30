@@ -7,8 +7,8 @@
 //
 
 #include "yazyk/CaseStatement.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/SwitchStatement.hpp"
-#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace yazyk;
@@ -60,7 +60,7 @@ void SwitchStatement::generateCasesIR(IRGenerationContext& context,
     
     context.setBasicBlock(currentCaseBlock);
     caseStatement->generateIR(context);
-    SafeBranch::newBranch(caseStatement->isFallThrough() ? nextCaseBlock : switchEpilog, context);
+    IRWriter::createBranch(context, caseStatement->isFallThrough() ? nextCaseBlock : switchEpilog);
     
     switchInstruction->addCase(caseStatement->getExpressionValue(context), currentCaseBlock);
   }
@@ -76,5 +76,5 @@ void SwitchStatement::generateDefaultCaseIR(IRGenerationContext& context,
   
   context.setBasicBlock(switchDefault);
   mSwitchCases.defaultStatement->generateIR(context);
-  SafeBranch::newBranch(switchEpilog, context);
+  IRWriter::createBranch(context, switchEpilog);
 }

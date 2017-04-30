@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4911E1610700010783D /* TestSafeBranch.cpp */; };
 		F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4931E161D140010783D /* TestBreakStatement.cpp */; };
 		F504279A1E4B4275001CB148 /* FieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* FieldReference.cpp */; };
 		F504279B1E4B4275001CB148 /* FieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* FieldReference.cpp */; };
@@ -73,8 +72,6 @@
 		F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3041E325E5400435EEA /* BooleanConstant.cpp */; };
 		F50FA3061E325E5400435EEA /* BooleanConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3041E325E5400435EEA /* BooleanConstant.cpp */; };
 		F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */; };
-		F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
-		F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51033CD1E1608E30099C27F /* SafeBranch.cpp */; };
 		F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581241E89B02F009CE419 /* ControllerFieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581231E89B02F009CE419 /* ControllerFieldDeclaration.cpp */; };
@@ -362,7 +359,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F501B4911E1610700010783D /* TestSafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSafeBranch.cpp; path = tests/TestSafeBranch.cpp; sourceTree = "<group>"; };
 		F501B4931E161D140010783D /* TestBreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBreakStatement.cpp; path = tests/TestBreakStatement.cpp; sourceTree = "<group>"; };
 		F50427981E4B4102001CB148 /* FieldReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldReference.hpp; path = include/yazyk/FieldReference.hpp; sourceTree = "<group>"; };
 		F50427991E4B4275001CB148 /* FieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldReference.cpp; path = src/FieldReference.cpp; sourceTree = "<group>"; };
@@ -442,8 +438,6 @@
 		F50FA3031E325DEA00435EEA /* BooleanConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanConstant.hpp; path = include/yazyk/BooleanConstant.hpp; sourceTree = "<group>"; };
 		F50FA3041E325E5400435EEA /* BooleanConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanConstant.cpp; path = src/BooleanConstant.cpp; sourceTree = "<group>"; };
 		F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanConstant.cpp; path = tests/TestBooleanConstant.cpp; sourceTree = "<group>"; };
-		F51033CC1E1606EB0099C27F /* SafeBranch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SafeBranch.hpp; path = include/yazyk/SafeBranch.hpp; sourceTree = "<group>"; };
-		F51033CD1E1608E30099C27F /* SafeBranch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SafeBranch.cpp; path = src/SafeBranch.cpp; sourceTree = "<group>"; };
 		F515811E1E894FE6009CE419 /* ControllerFieldDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerFieldDeclaration.hpp; path = include/yazyk/ControllerFieldDeclaration.hpp; sourceTree = "<group>"; };
 		F515811F1E8960EE009CE419 /* ControllerDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerDefinition.hpp; path = include/yazyk/ControllerDefinition.hpp; sourceTree = "<group>"; };
 		F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerDefinition.cpp; path = src/ControllerDefinition.cpp; sourceTree = "<group>"; };
@@ -878,7 +872,6 @@
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
 				F57411451E015DBC009809FF /* TestReturnStatement.cpp */,
 				F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */,
-				F501B4911E1610700010783D /* TestSafeBranch.cpp */,
 				F57411651E01BF18009809FF /* TestScope.cpp */,
 				F50FA3011E3240D800435EEA /* TestScopes.cpp */,
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
@@ -1057,7 +1050,6 @@
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
 				F57411411E015961009809FF /* ReturnStatement.cpp */,
 				F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */,
-				F51033CD1E1608E30099C27F /* SafeBranch.cpp */,
 				F57411621E01BBFC009809FF /* Scope.cpp */,
 				F50FA2FE1E323AAD00435EEA /* Scopes.cpp */,
 				F531B6531E0DDD96008304F3 /* StringConstant.cpp */,
@@ -1215,7 +1207,6 @@
 				F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */,
 				F57411441E0159AE009809FF /* ReturnStatement.hpp */,
 				F57411471E019450009809FF /* ReturnVoidStatement.hpp */,
-				F51033CC1E1606EB0099C27F /* SafeBranch.hpp */,
 				F574115E1E01A983009809FF /* Scope.hpp */,
 				F50FA2FD1E32399600435EEA /* Scopes.hpp */,
 				F531B6521E0DDCE7008304F3 /* StringConstant.hpp */,
@@ -1420,7 +1411,6 @@
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
-				F501B4921E1610700010783D /* TestSafeBranch.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
@@ -1469,7 +1459,6 @@
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F56AD4A21E9F66C40020868C /* IObjectWithMethodsType.cpp in Sources */,
-				F51033CF1E1608E30099C27F /* SafeBranch.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */,
@@ -1544,7 +1533,6 @@
 				F50FA2E81E2E3B0900435EEA /* LongConstant.cpp in Sources */,
 				F50FA2D51E2D0AD600435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
-				F51033CE1E1608E30099C27F /* SafeBranch.cpp in Sources */,
 				F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
 				F51581241E89B02F009CE419 /* ControllerFieldDeclaration.cpp in Sources */,
 				F57411591E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,

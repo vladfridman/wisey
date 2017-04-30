@@ -12,13 +12,13 @@
 #include "yazyk/Environment.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodCall.hpp"
 #include "yazyk/MethodSignature.hpp"
 #include "yazyk/Model.hpp"
-#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -380,7 +380,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   ICmpInst* compareToZero = new ICmpInst(*entryBlock, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
-  SafeBranch::newConditionalBranch(lessThanZero, notLessThanZero, compareToZero, context);
+  IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareToZero);
   
   context.setBasicBlock(lessThanZero);
   // TODO: throw a cast exception here once exceptions are implemented
@@ -389,7 +389,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
 
   context.setBasicBlock(notLessThanZero);
   ICmpInst* compareToOne = new ICmpInst(*notLessThanZero, ICmpInst::ICMP_SGT, instanceof, one, "cmp");
-  SafeBranch::newConditionalBranch(moreThanOne, zeroOrOne, compareToOne, context);
+  IRWriter::createConditionalBranch(context, moreThanOne, zeroOrOne, compareToOne);
 
   context.setBasicBlock(moreThanOne);
   ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),

@@ -10,8 +10,8 @@
 
 #include "yazyk/Interface.hpp"
 #include "yazyk/InterfaceDefinition.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/SafeBranch.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -165,7 +165,7 @@ BitCastInst* InterfaceDefinition::composeInstanceOfEntryBlock(IRGenerationContex
                                                  "arrayOfStrings",
                                                  entryBlock);
   
-  SafeBranch::newBranch(whileCond, context);
+  IRWriter::createBranch(context, whileCond);
   
   return arrayOfStrings;
 }
@@ -198,7 +198,7 @@ LoadInst* InterfaceDefinition::composeInstanceOfWhileConditionBlock(IRGeneration
                                           nullPointerValue,
                                           "cmpnull");
 
-  SafeBranch::newConditionalBranch(returnFalse, whileBody, checkStringIsNull, context);
+  IRWriter::createConditionalBranch(context, returnFalse, whileBody, checkStringIsNull);
   
   return stringPointer;
 }
@@ -231,7 +231,7 @@ void InterfaceDefinition::composeInstanceOfWhileBodyBlock(IRGenerationContext& c
                                       stringPointer,
                                       compareToArgument,
                                       "cmp");
-  SafeBranch::newConditionalBranch(returnTrue, whileCond, doesTypeMatch, context);
+  IRWriter::createConditionalBranch(context, returnTrue, whileCond, doesTypeMatch);
 }
 
 void InterfaceDefinition::composeReturnFound(IRGenerationContext& context,
