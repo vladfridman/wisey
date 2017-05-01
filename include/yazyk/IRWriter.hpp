@@ -52,6 +52,14 @@ public:
                                                     llvm::Value* leftValue,
                                                     llvm::Value* rightValue,
                                                     std::string llvmVariableName);
+
+  /**
+   * Create a call to a given function with supplied arguments
+   */
+  static llvm::CallInst* createCallInst(IRGenerationContext& context,
+                                        llvm::Function* function,
+                                        std::vector<llvm::Value*> arguments,
+                                        std::string resultName);
 };
   
 } /* namespace yazyk */

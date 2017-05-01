@@ -57,3 +57,15 @@ BinaryOperator* IRWriter::createBinaryOperator(IRGenerationContext& context,
   return BinaryOperator::Create(instruction, leftValue, rightValue, llvmVariableName, currentBlock);
 }
 
+CallInst* IRWriter::createCallInst(IRGenerationContext& context,
+                                   Function* function,
+                                   vector<Value*> arguments,
+                                   string resultName) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return CallInst::Create(function, arguments, resultName, currentBlock);
+}

@@ -11,6 +11,7 @@
 #include <llvm/IR/TypeBuilder.h>
 
 #include "yazyk/IntrinsicFunctions.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/TryCatchStatement.hpp"
 
@@ -111,7 +112,8 @@ void TryCatchStatement::generateResumeAndFail(IRGenerationContext& context,
   Function* unexpectedFunction = IntrinsicFunctions::getUnexpectedFunction(context);
   vector<Value*> arguments;
   arguments.push_back(wrappedException);
-  CallInst::Create(unexpectedFunction, arguments, "", unexpectedBlock);
+  context.setBasicBlock(unexpectedBlock);
+  IRWriter::createCallInst(context, unexpectedFunction, arguments, "");
   new UnreachableInst(llvmContext, unexpectedBlock);
   
   ResumeInst::Create(landingPadInst, resumeBlock);
@@ -135,7 +137,8 @@ TryCatchStatement::generateSelectCatchByExceptionType(IRGenerationContext& conte
     Value* rttiBitcast = new BitCastInst(rtti, int8PointerType, "", currentBlock);
     vector<Value*> arguments;
     arguments.push_back(rttiBitcast);
-    CallInst* typeId = CallInst::Create(typeIdFunction, arguments, "", currentBlock);
+    context.setBasicBlock(currentBlock);
+    CallInst* typeId = IRWriter::createCallInst(context, typeIdFunction, arguments, "");
     typeId->setTailCall();
     ICmpInst* compare = new ICmpInst(*currentBlock, ICmpInst::ICMP_EQ, exceptionTypeId, typeId);
     string catchBlockName = "catch." + exceptionType->getName();

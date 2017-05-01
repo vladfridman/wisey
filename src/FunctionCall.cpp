@@ -12,6 +12,7 @@
 #include "yazyk/FunctionCall.hpp"
 #include "yazyk/IntrinsicFunctions.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 
 using namespace llvm;
@@ -34,7 +35,7 @@ Value* FunctionCall::generateIR(IRGenerationContext& context) const {
   }
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
 
-  return CallInst::Create(function, args, resultName, context.getBasicBlock());
+  return IRWriter::createCallInst(context, function, args, resultName);
 }
 
 IType* FunctionCall::getType(IRGenerationContext& context) const {

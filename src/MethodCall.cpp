@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "yazyk/AutoCast.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodCall.hpp"
@@ -120,7 +121,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   string resultName = returnType->isVoidTy() ? "" : "call";
   
   if (!methodDescriptor->getThrownExceptions().size()) {
-    return CallInst::Create(function, arguments, resultName, context.getBasicBlock());
+    return IRWriter::createCallInst(context, function, arguments, resultName);
   }
   BasicBlock* exceptionContinueBlock = context.getScopes().getExceptionContinueBlock();
   return InvokeInst::Create(function,

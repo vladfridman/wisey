@@ -8,6 +8,7 @@
 
 #include "yazyk/Catch.hpp"
 #include "yazyk/IntrinsicFunctions.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 
 using namespace llvm;
@@ -28,16 +29,16 @@ void Catch::generateIR(IRGenerationContext& context,
   Function* beginCatchFunction = IntrinsicFunctions::getBeginCatchFunction(context);
   Function* endCatchFunction = IntrinsicFunctions::getEndCatchFunction(context);
 
+  context.getScopes().pushScope();
+  context.setBasicBlock(catchBlock);
+  
   Model* exceptionType = getType(context);
   Type* exceptionLLVMType = exceptionType->getLLVMType(context.getLLVMContext());
   Type* exceptionStructLLVMType = ((PointerType*) exceptionLLVMType)->getPointerElementType();
   vector<Value*> arguments;
   arguments.push_back(wrappedException);
-  Value* exceptionPointer = CallInst::Create(beginCatchFunction, arguments, "", catchBlock);
+  CallInst* exceptionPointer = IRWriter::createCallInst(context, beginCatchFunction, arguments, "");
   Value* exception = new BitCastInst(exceptionPointer, exceptionLLVMType, "", catchBlock);
-  
-  context.getScopes().pushScope();
-  context.setBasicBlock(catchBlock);
   
   AllocaInst* expectionSpace = new AllocaInst(exceptionStructLLVMType, "", catchBlock);
   Value* exceptionLoaded = new LoadInst(exception, "", catchBlock);
@@ -45,7 +46,7 @@ void Catch::generateIR(IRGenerationContext& context,
   AllocaInst* alloca = new AllocaInst(exceptionLLVMType, "", catchBlock);
   new StoreInst(expectionSpace, alloca, catchBlock);
   vector<Value*> endCatchArguments;
-  CallInst::Create(endCatchFunction, endCatchArguments, "", catchBlock);
+  IRWriter::createCallInst(context, endCatchFunction, endCatchArguments, "");
   
   IVariable* exceptionVariable = new LocalStackVariable(mIdentifier, exceptionType, alloca);
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);

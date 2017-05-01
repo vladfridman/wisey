@@ -93,3 +93,19 @@ TEST_F(IRWriterTest, createBinaryOperator) {
 
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, createCallInstTest) {
+  vector<Value*> arguments;
+  IRWriter::createCallInst(mContext, mMainFunction, arguments, "");
+
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+
+  IRWriter::createCallInst(mContext, mMainFunction, arguments, "");
+
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

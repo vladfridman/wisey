@@ -270,10 +270,10 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   }
   
   if (modelFunction->getReturnType()->isVoidTy()) {
-    CallInst::Create(modelFunction, callArguments, "", basicBlock);
+    IRWriter::createCallInst(context, modelFunction, callArguments, "");
     IRWriter::createReturnInst(context, NULL);
   } else {
-    Value* result = CallInst::Create(modelFunction, callArguments, "call", basicBlock);
+    Value* result = IRWriter::createCallInst(context, modelFunction, callArguments, "call");
     IRWriter::createReturnInst(context, result);
   }
 }
@@ -330,7 +330,6 @@ string Interface::getCastFunctionName(IObjectWithMethodsType* toType) const {
 
 Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
   IObjectWithMethodsType* toObjectWithMethodsType = dynamic_cast<IObjectWithMethodsType*>(toType);
-  BasicBlock* basicBlock = context.getBasicBlock();
   Function* castFunction =
     context.getModule()->getFunction(getCastFunctionName(toObjectWithMethodsType));
   
@@ -341,9 +340,7 @@ Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* 
   vector<Value*> arguments;
   arguments.push_back(fromValue);
   
-  Value* result = CallInst::Create(castFunction, arguments, "castTo", basicBlock);
-
-  return result;
+  return IRWriter::createCallInst(context, castFunction, arguments, "castTo");
 }
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
@@ -443,7 +440,6 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
 CallInst* Interface::callInstanceOf(IRGenerationContext& context,
                                     Value* interfaceObject,
                                     IObjectWithMethodsType* callableObjectType) const {
-  BasicBlock* basicBlock = context.getBasicBlock();
   Function* function = context.getModule()->getFunction(getInstanceOfFunctionName());
   
   Constant* namePointer = IObjectWithMethodsType::getObjectNamePointer(callableObjectType, context);
@@ -452,5 +448,5 @@ CallInst* Interface::callInstanceOf(IRGenerationContext& context,
   arguments.push_back(interfaceObject);
   arguments.push_back(namePointer);
   
-  return CallInst::Create(function, arguments, "instanceof", basicBlock);
+  return IRWriter::createCallInst(context, function, arguments, "instanceof");
 }

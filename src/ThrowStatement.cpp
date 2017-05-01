@@ -11,6 +11,7 @@
 
 #include "yazyk/Environment.hpp"
 #include "yazyk/IntrinsicFunctions.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ThrowStatement.hpp"
 
@@ -44,10 +45,10 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   vector<Value*> allocateExceptionArguments;
   allocateExceptionArguments.push_back(modelSize);
   Function* allocateExceptionFunction = IntrinsicFunctions::getAllocateExceptionFunction(context);
-  Value* exceptionAlloca = CallInst::Create(allocateExceptionFunction,
-                                            allocateExceptionArguments,
-                                            "",
-                                            basicBlock);
+  Value* exceptionAlloca = IRWriter::createCallInst(context,
+                                                    allocateExceptionFunction,
+                                                    allocateExceptionArguments,
+                                                    "");
 
   vector<Value*> memCopyArguments;
   unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
@@ -57,7 +58,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   memCopyArguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
   memCopyArguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);
-  CallInst::Create(memCopyFunction, memCopyArguments, "", basicBlock);
+  IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "");
 
   context.getScopes().getScope()->maybeFreeOwnedMemory(context);
 
@@ -67,7 +68,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   throwArguments.push_back(ConstantPointerNull::get(int8PointerType));
 
   Function* throwFunction = IntrinsicFunctions::getThrowFunction(context);
-  CallInst* callInst = CallInst::Create(throwFunction, throwArguments, "", basicBlock);
+  CallInst* callInst = IRWriter::createCallInst(context, throwFunction, throwArguments, "");
 
   new UnreachableInst(llvmContext, basicBlock);
 
