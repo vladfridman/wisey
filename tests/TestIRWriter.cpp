@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 
 #include <llvm/IR/Constants.h>
+#include <llvm/Support/raw_ostream.h>
 
 #include "yazyk/IRWriter.hpp"
 
@@ -24,6 +25,8 @@ struct IRWriterTest : public Test {
   LLVMContext& mLLVMContext;
   Function* mMainFunction;
   BasicBlock* mBasicBlock;
+  string mStringBuffer;
+  raw_string_ostream* mStringStream;
   
   IRWriterTest() : mLLVMContext(mContext.getLLVMContext()) {
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
@@ -36,9 +39,13 @@ struct IRWriterTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     mContext.setMainFunction(mMainFunction);
-  }
+
+    mStringStream = new raw_string_ostream(mStringBuffer);
+}
   
-  ~IRWriterTest() {}
+  ~IRWriterTest() {
+    delete mStringStream;
+  }
 };
 
 TEST_F(IRWriterTest, createReturnInstTest) {
@@ -46,6 +53,8 @@ TEST_F(IRWriterTest, createReturnInstTest) {
   ReturnInst* returnInst = IRWriter::createReturnInst(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *returnInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  ret i32 1");
 
   value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 2);
   IRWriter::createReturnInst(mContext, value);
@@ -58,8 +67,15 @@ TEST_F(IRWriterTest, createBranchTest) {
   BasicBlock* block1 = BasicBlock::Create(mLLVMContext, "block1");
   BasicBlock* block2 = BasicBlock::Create(mLLVMContext, "block2");
   
-  EXPECT_NE(IRWriter::createBranch(mContext, block1), nullptr);
-  EXPECT_EQ(IRWriter::createBranch(mContext, block2), nullptr);
+  BranchInst* branchInst = IRWriter::createBranch(mContext, block1);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *branchInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  br label %block1");
+
+  IRWriter::createBranch(mContext, block2);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
 }
 
 TEST_F(IRWriterTest, createConditionalBranchTest) {
@@ -67,23 +83,26 @@ TEST_F(IRWriterTest, createConditionalBranchTest) {
   BasicBlock* block2 = BasicBlock::Create(mLLVMContext, "block2");
   Value* conditionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   
-  BranchInst* branch1 = IRWriter::createConditionalBranch(mContext,
-                                                          block1,
-                                                          block2,
-                                                          conditionValue);
-  BranchInst* branch2 = IRWriter::createConditionalBranch(mContext,
-                                                          block1,
-                                                          block2,
-                                                          conditionValue);
-  EXPECT_NE(branch1, nullptr);
-  EXPECT_EQ(branch2, nullptr);
+  BranchInst* branchInst =
+  IRWriter::createConditionalBranch(mContext, block1, block2, conditionValue);
+
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *branchInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  br i1 true, label %block1, label %block2");
+  
+  IRWriter::createConditionalBranch(mContext, block1, block2, conditionValue);
+
+  EXPECT_EQ(mBasicBlock->size(), 1u);
 }
 
 TEST_F(IRWriterTest, createBinaryOperator) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  BinaryOperator* binaryOperator =
   IRWriter::createBinaryOperator(mContext, Instruction::Add, value, value, "");
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *binaryOperator;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = add i32 1, 1");
 
   IRWriter::createReturnInst(mContext, value);
 
@@ -96,9 +115,11 @@ TEST_F(IRWriterTest, createBinaryOperator) {
 
 TEST_F(IRWriterTest, createCallInstTest) {
   vector<Value*> arguments;
-  IRWriter::createCallInst(mContext, mMainFunction, arguments, "");
+  CallInst* callInst = IRWriter::createCallInst(mContext, mMainFunction, arguments, "");
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *callInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = call i64 @main()");
 
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   IRWriter::createReturnInst(mContext, value);
@@ -114,9 +135,13 @@ TEST_F(IRWriterTest, createMallocTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   allocSize = ConstantExpr::getTruncOrBitCast(allocSize, Type::getInt32Ty(mLLVMContext));
-  IRWriter::createMalloc(mContext, structType, allocSize, "");
+  Instruction* instruction = IRWriter::createMalloc(mContext, structType, allocSize, "");
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *instruction;
+  ASSERT_STREQ(mStringStream->str().c_str(),
+               "  %malloccall = tail call i8* @malloc(i32 ptrtoint "
+               "(i8* getelementptr (i8, i8* null, i32 1) to i32))");
   
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   IRWriter::createReturnInst(mContext, value);
@@ -130,9 +155,11 @@ TEST_F(IRWriterTest, createMallocTest) {
 
 TEST_F(IRWriterTest, createFreeTest) {
   Value* value = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  IRWriter::createFree(mContext, value);
+  Instruction* instruction = IRWriter::createFree(mContext, value);
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *instruction;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  tail call void @free(i8* null)");
   
   IRWriter::createReturnInst(mContext, value);
   
