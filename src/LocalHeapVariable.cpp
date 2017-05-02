@@ -11,6 +11,7 @@
 
 #include "yazyk/AutoCast.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Scopes.hpp"
@@ -54,13 +55,11 @@ void LocalHeapVariable::free(IRGenerationContext& context) const {
     return;
   }
   
-  BasicBlock* basicBlock = context.getBasicBlock();
-
   if (mType->getTypeKind() == MODEL_TYPE) {
-    basicBlock->getInstList().push_back(CallInst::CreateFree(mValue, basicBlock));
+    IRWriter::createFree(context, mValue);
     return;
   }
 
   Value* thisPointer = Interface::getOriginalObject(context, mValue);
-  basicBlock->getInstList().push_back(CallInst::CreateFree(thisPointer, basicBlock));
+  IRWriter::createFree(context, thisPointer);
 }

@@ -127,3 +127,18 @@ TEST_F(IRWriterTest, createMallocTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, createFreeTest) {
+  Value* value = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  IRWriter::createFree(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::createFree(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

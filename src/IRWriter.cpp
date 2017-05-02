@@ -92,3 +92,16 @@ Instruction* IRWriter::createMalloc(IRGenerationContext& context,
   
   return malloc;
 }
+
+Instruction* IRWriter::createFree(IRGenerationContext& context, Value* value) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+
+  Instruction* instruction = CallInst::CreateFree(value, currentBlock);
+  currentBlock->getInstList().push_back(instruction);
+  
+  return instruction;
+}

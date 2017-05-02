@@ -62,12 +62,17 @@ public:
                                         std::string resultName);
 
   /**
-   * Create a call to malloc function
+   * Create a call to malloc function that allocates memory on heap
    */
   static llvm::Instruction* createMalloc(IRGenerationContext& context,
                                          llvm::Type* structType,
                                          llvm::Value* allocSize,
                                          std::string variableName);
+  
+  /**
+   * Create a call to free function that frees heep allocated memory
+   */
+  static llvm::Instruction* createFree(IRGenerationContext& context, llvm::Value* value);
 };
   
 } /* namespace yazyk */
