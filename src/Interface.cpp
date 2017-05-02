@@ -253,15 +253,14 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Value* interfaceThisLoaded = new LoadInst(interfaceThis, "this", basicBlock);
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo();
-  Value* castedInterfaceThis = new BitCastInst(interfaceThisLoaded, pointerType, "", basicBlock);
+  Value* castedInterfaceThis = IRWriter::newBitCastInst(context, interfaceThisLoaded, pointerType);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                             -interfaceIndex * Environment::getAddressSizeInBytes());
   Value* modelThis = IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
-  Value* castedModelThis = new BitCastInst(modelThis,
-                                           interfaceThisLoaded->getType(),
-                                           "",
-                                           basicBlock);
+  Value* castedModelThis = IRWriter::newBitCastInst(context,
+                                                    modelThis,
+                                                    interfaceThisLoaded->getType());
   vector<Value*> callArguments;
   callArguments.push_back(castedModelThis);
   for (Value* argumentPointer : argumentPointers) {
@@ -386,23 +385,25 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   IRWriter::createReturnInst(context, nullPointer);
 
   context.setBasicBlock(notLessThanZero);
-  ICmpInst* compareToOne = new ICmpInst(*notLessThanZero, ICmpInst::ICMP_SGT, instanceof, one, "cmp");
+  ICmpInst* compareToOne =
+  new ICmpInst(*notLessThanZero, ICmpInst::ICMP_SGT, instanceof, one, "cmp");
   IRWriter::createConditionalBranch(context, moreThanOne, zeroOrOne, compareToOne);
 
   context.setBasicBlock(moreThanOne);
   ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),
                                         Environment::getAddressSizeInBytes());
-  BitCastInst* bitcast = new BitCastInst(originalObject, int8Type->getPointerTo(), "", moreThanOne);
+  BitCastInst* bitcast =
+  IRWriter::newBitCastInst(context, originalObject, int8Type->getPointerTo());
   Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, instanceof, one, "");
   Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
   Value* index[1];
   index[0] = thunkBy;
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
-  Value* castValue = new BitCastInst(thunk, toType->getLLVMType(llvmContext), "", moreThanOne);
+  Value* castValue = IRWriter::newBitCastInst(context, thunk, toType->getLLVMType(llvmContext));
   IRWriter::createReturnInst(context, castValue);
 
   context.setBasicBlock(zeroOrOne);
-  castValue = new BitCastInst(originalObject, toType->getLLVMType(llvmContext), "", zeroOrOne);
+  castValue = IRWriter::newBitCastInst(context, originalObject, toType->getLLVMType(llvmContext));
   IRWriter::createReturnInst(context, castValue);
   
   context.setBasicBlock(lastBasicBlock);
@@ -416,7 +417,7 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
 
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  BitCastInst* vTablePointer = new BitCastInst(value, pointerType, "", basicBlock);
+  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, value, pointerType);
   LoadInst* vTable = new LoadInst(vTablePointer, "vtable", basicBlock);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
@@ -428,7 +429,7 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
                                       "unthunkby",
                                       basicBlock);
 
-  BitCastInst* bitcast = new BitCastInst(value, int8Type->getPointerTo(), "", basicBlock);
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, value, int8Type->getPointerTo());
   index[0] = unthunkBy;
   return IRWriter::createGetElementPtrInst(context, bitcast, index);
 }

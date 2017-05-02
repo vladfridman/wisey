@@ -65,7 +65,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
     IMethodDescriptor::getLLVMFunctionType(methodDescriptor, context, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
-    new BitCastInst(expressionValue, pointerToVTablePointer, "", basicBlock);
+  IRWriter::newBitCastInst(context, expressionValue, pointerToVTablePointer);
   LoadInst* vTable = new LoadInst(vTablePointer, "vtable", basicBlock);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),

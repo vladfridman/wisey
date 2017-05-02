@@ -120,3 +120,13 @@ GetElementPtrInst* IRWriter::createGetElementPtrInst(IRGenerationContext& contex
                                    "",
                                    currentBlock);
 }
+
+BitCastInst* IRWriter::newBitCastInst(IRGenerationContext& context, Value* value, Type* type) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new BitCastInst(value, type, "", currentBlock);
+}

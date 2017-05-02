@@ -127,12 +127,12 @@ TryCatchStatement::generateSelectCatchByExceptionType(IRGenerationContext& conte
   BasicBlock* currentBlock = landingPadBlock;
   
   for (Catch* catchClause : mCatchList) {
+    context.setBasicBlock(currentBlock);
     Model* exceptionType = catchClause->getType(context);
     Value* rtti = context.getModule()->getGlobalVariable(exceptionType->getRTTIVariableName());
-    Value* rttiBitcast = new BitCastInst(rtti, int8PointerType, "", currentBlock);
+    Value* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
     vector<Value*> arguments;
     arguments.push_back(rttiBitcast);
-    context.setBasicBlock(currentBlock);
     CallInst* typeId = IRWriter::createCallInst(context, typeIdFunction, arguments, "");
     typeId->setTailCall();
     ICmpInst* compare = new ICmpInst(*currentBlock, ICmpInst::ICMP_EQ, exceptionTypeId, typeId);

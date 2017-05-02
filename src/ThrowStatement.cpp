@@ -35,11 +35,9 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
 
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* expressionValue = mExpression.generateIR(context);
-  BitCastInst* expressionValueBitcast = new BitCastInst(expressionValue,
-                                                        int8PointerType,
-                                                        "",
-                                                        basicBlock);
-  BitCastInst* rttiBitcast = new BitCastInst(rtti, int8PointerType, "", basicBlock);
+  BitCastInst* expressionValueBitcast =
+  IRWriter::newBitCastInst(context, expressionValue, int8PointerType);
+  BitCastInst* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
 
   Value* modelSize = model->getSize(context);
   vector<Value*> allocateExceptionArguments;

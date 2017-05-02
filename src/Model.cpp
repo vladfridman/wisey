@@ -168,16 +168,16 @@ Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toTy
   Interface* interface = dynamic_cast<Interface*>(toType);
   int interfaceIndex = getInterfaceIndex(interface);
   if (interfaceIndex == 0) {
-    return new BitCastInst(fromValue, interface->getLLVMType(llvmContext), "", basicBlock);
+    return IRWriter::newBitCastInst(context, fromValue, interface->getLLVMType(llvmContext));
   }
   
   Type* int8Type = Type::getInt8Ty(llvmContext);
-  BitCastInst* bitcast = new BitCastInst(fromValue, int8Type->getPointerTo(), "", basicBlock);
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, fromValue, int8Type->getPointerTo());
   Value* index[1];
   unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
-  return new BitCastInst(thunk, interface->getLLVMType(llvmContext), "", basicBlock);
+  return IRWriter::newBitCastInst(context, thunk, interface->getLLVMType(llvmContext));
 }
 
 int Model::getInterfaceIndex(Interface* interface) const {
@@ -324,20 +324,21 @@ void Model::initializeVTable(IRGenerationContext& context,
     if (interfaceIndex == 0) {
       vTableStart = malloc;
     } else {
-      Value* vTableStartCalculation = new BitCastInst(malloc, genericPointerType, "", basicBlock);
+      Value* vTableStartCalculation = IRWriter::newBitCastInst(context, malloc, genericPointerType);
       Value* index[1];
       unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
       index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
       vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
     }
     
-    Value* vTablePointer = new BitCastInst(vTableStart, vTableType->getPointerTo(), "", basicBlock);
+    Value* vTablePointer =
+    IRWriter::newBitCastInst(context, vTableStart, vTableType->getPointerTo());
     Value* index[3];
     index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), interfaceIndex);
     index[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
     Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, index);
-    BitCastInst* bitcast = new BitCastInst(initializerStart, vTableType, "", basicBlock);
+    BitCastInst* bitcast = IRWriter::newBitCastInst(context, initializerStart, vTableType);
     new StoreInst(bitcast, vTablePointer, basicBlock);
   }
 }

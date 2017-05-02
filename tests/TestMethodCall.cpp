@@ -21,6 +21,7 @@
 #include "yazyk/Identifier.hpp"
 #include "yazyk/Interface.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/MethodArgument.hpp"
 #include "yazyk/MethodCall.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -89,19 +90,26 @@ public:
     vector<Interface*> interfaces;
     mModel = new Model("MSquare", mStructType, fields, methods, interfaces);
 
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry");
+    FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
+    Function* mainFunction = Function::Create(functionType,
+                                              GlobalValue::InternalLinkage,
+                                              "main",
+                                              mContext.getModule());
+    
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mainFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
+    mContext.setMainFunction(mainFunction);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     Value* nullPointer = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-    Value* bitcast = new BitCastInst(nullPointer, mStructType->getPointerTo(), "test", mBasicBlock);
+    Value* bitcast = IRWriter::newBitCastInst(mContext, nullPointer, mStructType->getPointerTo());
     ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(bitcast));
     ON_CALL(mExpression, getType(_)).WillByDefault(Return(mModel));
   }
   
   ~MethodCallTest() {
-    delete mBasicBlock;
     delete mStringStream;
   }
 };
@@ -214,7 +222,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   Value* irValue = methodCall.generateIR(mContext);
 
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = call i32 @object.MSquare.foo(%MSquare* %test, float 0x4014CCCCC0000000)",
+  EXPECT_STREQ("  %call = call i32 @object.MSquare.foo(%MSquare* %0, float 0x4014CCCCC0000000)",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
@@ -245,7 +253,7 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = invoke i32 @object.MSquare.bar("
-               "%MSquare* %test, float 0x4014CCCCC0000000)\n"
+               "%MSquare* %0, float 0x4014CCCCC0000000)\n"
                "          to label %eh.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);

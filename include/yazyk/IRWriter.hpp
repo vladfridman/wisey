@@ -81,6 +81,13 @@ public:
                                                           llvm::Value* value,
                                                           llvm::ArrayRef<llvm::Value *> index);
 
+  /**
+   * Add a BitCastInst to the current basic block casting value to the given type
+   */
+  static llvm::BitCastInst* newBitCastInst(IRGenerationContext& context,
+                                           llvm::Value* value,
+                                           llvm::Type* type);
+
 };
   
 } /* namespace yazyk */

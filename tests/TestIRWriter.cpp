@@ -187,3 +187,22 @@ TEST_F(IRWriterTest, createGetElementPtrInstTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newBitCastInst) {
+  PointerType* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  PointerType* castToType = int8PointerType->getPointerTo();
+  Value* value = ConstantPointerNull::get(int8PointerType);
+  BitCastInst* bitCastInst = IRWriter::newBitCastInst(mContext, value, castToType);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *bitCastInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %0 = bitcast i8* null to i8**");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newBitCastInst(mContext, value, castToType);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

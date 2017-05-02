@@ -38,7 +38,7 @@ void Catch::generateIR(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(wrappedException);
   CallInst* exceptionPointer = IRWriter::createCallInst(context, beginCatchFunction, arguments, "");
-  Value* exception = new BitCastInst(exceptionPointer, exceptionLLVMType, "", catchBlock);
+  Value* exception = IRWriter::newBitCastInst(context, exceptionPointer, exceptionLLVMType);
   
   AllocaInst* expectionSpace = new AllocaInst(exceptionStructLLVMType, "", catchBlock);
   Value* exceptionLoaded = new LoadInst(exception, "", catchBlock);

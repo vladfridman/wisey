@@ -147,19 +147,15 @@ BitCastInst* InterfaceDefinition::composeInstanceOfEntryBlock(IRGenerationContex
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   
   
-  BitCastInst* vTablePointer = new BitCastInst(originalObject,
-                                               pointerToArrayOfStrings,
-                                               "",
-                                               entryBlock);
+  BitCastInst* vTablePointer =
+  IRWriter::newBitCastInst(context, originalObject, pointerToArrayOfStrings);
   LoadInst* vTable = new LoadInst(vTablePointer, "vtable", entryBlock);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
   GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
   LoadInst* typeArrayI8 = new LoadInst(typeArrayPointerI8, "typeArrayI8", entryBlock);
-  BitCastInst* arrayOfStrings =  new BitCastInst(typeArrayI8,
-                                                 int8Type->getPointerTo()->getPointerTo(),
-                                                 "arrayOfStrings",
-                                                 entryBlock);
+  BitCastInst* arrayOfStrings =
+  IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
   
   IRWriter::createBranch(context, whileCond);
   

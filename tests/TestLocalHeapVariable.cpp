@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -68,10 +69,7 @@ TEST_F(LocalHeapVariableTest, heapVariableAssignmentTest) {
   LocalHeapVariable* uninitializedHeapVariable =
     new LocalHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
-  BitCastInst* bitCastInst = new BitCastInst(fooValue,
-                                             fooValue->getType(),
-                                             "foo",
-                                             mContext.getBasicBlock());
+  BitCastInst* bitCastInst = IRWriter::newBitCastInst(mContext, fooValue, fooValue->getType());
   LocalHeapVariable localHeapVariable("bar", PrimitiveTypes::INT_TYPE, bitCastInst);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));

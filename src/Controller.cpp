@@ -122,20 +122,22 @@ void Controller::initializeVTable(IRGenerationContext& context, Instruction* mal
     if (interfaceIndex == 0) {
       vTableStart = malloc;
     } else {
-      Value* vTableStartCalculation = new BitCastInst(malloc, genericPointerType, "", basicBlock);
+      Value* vTableStartCalculation = IRWriter::newBitCastInst(context, malloc, genericPointerType);
       Value* index[1];
       unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
       index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
       vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
     }
     
-    Value* vTablePointer = new BitCastInst(vTableStart, vTableType->getPointerTo(), "", basicBlock);
+    Value* vTablePointer = IRWriter::newBitCastInst(context,
+                                                    vTableStart,
+                                                    vTableType->getPointerTo());
     Value* index[3];
     index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), interfaceIndex);
     index[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
     Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, index);
-    BitCastInst* bitcast = new BitCastInst(initializerStart, vTableType, "", basicBlock);
+    BitCastInst* bitcast = IRWriter::newBitCastInst(context, initializerStart, vTableType);
     new StoreInst(bitcast, vTablePointer, basicBlock);
   }
 }
