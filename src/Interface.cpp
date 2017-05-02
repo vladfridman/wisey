@@ -254,10 +254,10 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo();
   Value* castedInterfaceThis = new BitCastInst(interfaceThisLoaded, pointerType, "", basicBlock);
-  Value *Idx[1];
-  Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                             -interfaceIndex * Environment::getAddressSizeInBytes());
-  Value* modelThis = GetElementPtrInst::Create(int8Type, castedInterfaceThis, Idx, "", basicBlock);
+  Value* modelThis = IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
   Value* castedModelThis = new BitCastInst(modelThis,
                                            interfaceThisLoaded->getType(),
                                            "",
@@ -395,9 +395,9 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   BitCastInst* bitcast = new BitCastInst(originalObject, int8Type->getPointerTo(), "", moreThanOne);
   Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, instanceof, one, "");
   Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
-  Value *Idx[1];
-  Idx[0] = thunkBy;
-  Value* thunk = GetElementPtrInst::Create(int8Type, bitcast, Idx, "add.ptr", moreThanOne);
+  Value* index[1];
+  index[0] = thunkBy;
+  Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
   Value* castValue = new BitCastInst(thunk, toType->getLLVMType(llvmContext), "", moreThanOne);
   IRWriter::createReturnInst(context, castValue);
 
@@ -418,13 +418,9 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
   Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer = new BitCastInst(value, pointerType, "", basicBlock);
   LoadInst* vTable = new LoadInst(vTablePointer, "vtable", basicBlock);
-  Value *Idx[1];
-  Idx[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
-  GetElementPtrInst* unthunkPointer = GetElementPtrInst::Create(int8Type->getPointerTo(),
-                                                                vTable,
-                                                                Idx,
-                                                                "unthunkentry",
-                                                                basicBlock);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
+  GetElementPtrInst* unthunkPointer = IRWriter::createGetElementPtrInst(context, vTable, index);
 
   LoadInst* pointerToVal = new LoadInst(unthunkPointer, "unthunkbypointer", basicBlock);
   Value* unthunkBy = new PtrToIntInst(pointerToVal,
@@ -433,8 +429,8 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
                                       basicBlock);
 
   BitCastInst* bitcast = new BitCastInst(value, int8Type->getPointerTo(), "", basicBlock);
-  Idx[0] = unthunkBy;
-  return GetElementPtrInst::Create(int8Type, bitcast, Idx, "this.ptr", basicBlock);
+  index[0] = unthunkBy;
+  return IRWriter::createGetElementPtrInst(context, bitcast, index);
 }
 
 CallInst* Interface::callInstanceOf(IRGenerationContext& context,

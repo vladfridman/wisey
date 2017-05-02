@@ -311,12 +311,12 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
 
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %add.ptr = getelementptr i8, i8* %0, i64 8");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
   mStringBuffer.clear();
   
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = bitcast i8* %add.ptr to %ISubShape*");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %2 = bitcast i8* %1 to %ISubShape*");
   mStringBuffer.clear();
 }
 

@@ -146,13 +146,13 @@ TEST_F(InterfaceTest, getOriginalObjectTest) {
     "\nentry:"
     "\n  %0 = bitcast i8* null to i8***"
     "\n  %vtable = load i8**, i8*** %0"
-    "\n  %unthunkentry = getelementptr i8*, i8** %vtable, i64 0"
-    "\n  %unthunkbypointer = load i8*, i8** %unthunkentry"
+    "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
+    "\n  %unthunkbypointer = load i8*, i8** %1"
     "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-    "\n  %1 = bitcast i8* null to i8*"
-    "\n  %this.ptr = getelementptr i8, i8* %1, i64 %unthunkby\n";
+    "\n  %2 = bitcast i8* null to i8*"
+    "\n  %3 = getelementptr i8, i8* %2, i64 %unthunkby\n";
 
-  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(InterfaceTest, callInstanceOfTest) {

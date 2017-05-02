@@ -123,27 +123,18 @@ void Controller::initializeVTable(IRGenerationContext& context, Instruction* mal
       vTableStart = malloc;
     } else {
       Value* vTableStartCalculation = new BitCastInst(malloc, genericPointerType, "", basicBlock);
-      Value *Idx[1];
+      Value* index[1];
       unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
-      Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
-      vTableStart = GetElementPtrInst::Create(genericPointerType->getPointerElementType(),
-                                              vTableStartCalculation,
-                                              Idx,
-                                              "",
-                                              basicBlock);
+      index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
+      vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
     }
     
     Value* vTablePointer = new BitCastInst(vTableStart, vTableType->getPointerTo(), "", basicBlock);
-    Value *Idx[3];
-    Idx[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), interfaceIndex);
-    Idx[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    Value* initializerStart = GetElementPtrInst::Create(vTableGlobal->getType()->
-                                                        getPointerElementType(),
-                                                        vTableGlobal,
-                                                        Idx,
-                                                        "",
-                                                        basicBlock);
+    Value* index[3];
+    index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), interfaceIndex);
+    index[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+    Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, index);
     BitCastInst* bitcast = new BitCastInst(initializerStart, vTableType, "", basicBlock);
     new StoreInst(bitcast, vTablePointer, basicBlock);
   }
@@ -216,18 +207,16 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           ExpressionList& controllerInjectorArguments,
                                           Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
   
-  Value *Idx[2];
-  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  Value* index[2];
+  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   unsigned int fieldIndex = 0;
   for (IExpression* argument : controllerInjectorArguments) {
     Value* fieldValue = argument->generateIR(context);
     IType* fieldType = argument->getType(context);
     Field* field = mReceivedFields[fieldIndex];
-    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
-    GetElementPtrInst* fieldPointer =
-    GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     if (field->getType() != fieldType) {
       Log::e("Controller injector argumet value for field '" + field->getName() +
              "' does not match its type");
@@ -240,10 +229,9 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
 
 void Controller::initializeInjectedFields(IRGenerationContext& context, Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
 
-  Value *Idx[2];
-  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  Value *index[2];
+  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (Field* field : mInjectedFields) {
     IType* fieldType = field->getType();
     if (fieldType->getTypeKind() != CONTROLLER_TYPE) {
@@ -252,19 +240,17 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     }
     Controller* controller = dynamic_cast<Controller*>(fieldType);
     Value* fieldValue = controller->inject(context, field->getArguments());
-    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
-    GetElementPtrInst* fieldPointer =
-    GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
   }
 }
 
 void Controller::initializeStateFields(IRGenerationContext& context, Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
   
-  Value *Idx[2];
-  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  Value *index[2];
+  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (Field* field : mStateFields) {
     IType* fieldType = field->getType();
     Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);
@@ -281,9 +267,8 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
       exit(1);
     }
     
-    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
-    GetElementPtrInst* fieldPointer =
-    GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
   }
  

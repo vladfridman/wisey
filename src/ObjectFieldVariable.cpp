@@ -12,6 +12,7 @@
 #include "yazyk/AutoCast.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ObjectFieldVariable.hpp"
 
@@ -41,15 +42,11 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
   StructType* structType = (StructType*) mObject->getLLVMType(llvmContext)->getPointerElementType();
   
   Field* field = checkAndFindField(context);
-  Value *Idx[2];
-  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+  Value* index[2];
+  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
   
-  GetElementPtrInst* fieldPointer = GetElementPtrInst::Create(structType,
-                                                              loadedValue,
-                                                              Idx,
-                                                              "",
-                                                              context.getBasicBlock());
+  GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, loadedValue, index);
   
   return new LoadInst(fieldPointer, "", context.getBasicBlock());
 }
@@ -71,15 +68,13 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   
   
   LLVMContext& llvmContext = context.getLLVMContext();
-  Value *Idx[2];
-  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
-  Type* structType = mObject->getLLVMType(llvmContext)->getPointerElementType();
+  Value* index[2];
+  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
   IVariable* thisVariable = context.getScopes().getVariable("this");
   Value* loadedValue = new LoadInst(thisVariable->getValue(), "this", context.getBasicBlock());
   BasicBlock* basicBlock = context.getBasicBlock();
-  GetElementPtrInst* fieldPointer =
-    GetElementPtrInst::Create(structType, loadedValue, Idx, "", basicBlock);
+  GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, loadedValue, index);
   
   return new StoreInst(assignToValue, fieldPointer, basicBlock);
 }

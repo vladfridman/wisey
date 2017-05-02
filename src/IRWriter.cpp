@@ -104,3 +104,19 @@ Instruction* IRWriter::createFree(IRGenerationContext& context, Value* value) {
   
   return instruction;
 }
+
+GetElementPtrInst* IRWriter::createGetElementPtrInst(IRGenerationContext& context,
+                                                     Value* value,
+                                                     ArrayRef<Value *> index) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+
+  return GetElementPtrInst::Create(value->getType()->getPointerElementType(),
+                                   value,
+                                   index,
+                                   "",
+                                   currentBlock);
+}

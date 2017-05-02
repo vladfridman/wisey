@@ -56,6 +56,7 @@ tuple<LandingPadInst*, Value*, Value*>
 TryCatchStatement::generateLandingPad(IRGenerationContext& context,
                                       BasicBlock* landingPadBlock) const {
   LLVMContext& llvmContext = context.getLLVMContext();
+  context.setBasicBlock(landingPadBlock);
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   vector<Type*> landingPadReturnTypes;
   landingPadReturnTypes.push_back(int8PointerType);
@@ -76,20 +77,14 @@ TryCatchStatement::generateLandingPad(IRGenerationContext& context,
   Value* landingPadReturnValueAlloca = new AllocaInst(landingPadReturnType, "", landingPadBlock);
   new StoreInst(landingPad, landingPadReturnValueAlloca, landingPadBlock);
   
-  Value *Idx[2];
-  Idx[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  Value* wrappedExceptionPointer = GetElementPtrInst::Create(landingPadReturnType,
-                                                             landingPadReturnValueAlloca,
-                                                             Idx,
-                                                             "",
-                                                             landingPadBlock);
-  Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* exceptionTypeIdPointer = GetElementPtrInst::Create(landingPadReturnType,
-                                                            landingPadReturnValueAlloca,
-                                                            Idx,
-                                                            "",
-                                                            landingPadBlock);
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  Value* wrappedExceptionPointer =
+  IRWriter::createGetElementPtrInst(context, landingPadReturnValueAlloca, index);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Value* exceptionTypeIdPointer =
+  IRWriter::createGetElementPtrInst(context, landingPadReturnValueAlloca, index);
   Value* wrappedException = new LoadInst(wrappedExceptionPointer, "", landingPadBlock);
   Value* exceptionTypeId = new LoadInst(exceptionTypeIdPointer, "", landingPadBlock);
   

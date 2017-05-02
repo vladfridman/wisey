@@ -73,6 +73,14 @@ public:
    * Create a call to free function that frees heep allocated memory
    */
   static llvm::Instruction* createFree(IRGenerationContext& context, llvm::Value* value);
+
+  /**
+   * Create a GetElementPtrInst instruction for a given array or struct with given indexes
+   */
+  static llvm::GetElementPtrInst* createGetElementPtrInst(IRGenerationContext& context,
+                                                          llvm::Value* value,
+                                                          llvm::ArrayRef<llvm::Value *> index);
+
 };
   
 } /* namespace yazyk */

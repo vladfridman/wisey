@@ -152,13 +152,9 @@ BitCastInst* InterfaceDefinition::composeInstanceOfEntryBlock(IRGenerationContex
                                                "",
                                                entryBlock);
   LoadInst* vTable = new LoadInst(vTablePointer, "vtable", entryBlock);
-  Value *Idx[1];
-  Idx[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
-  GetElementPtrInst* typeArrayPointerI8 = GetElementPtrInst::Create(int8Type->getPointerTo(),
-                                                                    vTable,
-                                                                    Idx,
-                                                                    "typeArrayPointerI8",
-                                                                    entryBlock);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
+  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
   LoadInst* typeArrayI8 = new LoadInst(typeArrayPointerI8, "typeArrayI8", entryBlock);
   BitCastInst* arrayOfStrings =  new BitCastInst(typeArrayI8,
                                                  int8Type->getPointerTo()->getPointerTo(),
@@ -181,13 +177,9 @@ LoadInst* InterfaceDefinition::composeInstanceOfWhileConditionBlock(IRGeneration
   context.setBasicBlock(whileCond);
   
   LoadInst* iteratorLoaded = new LoadInst(iterator, "", whileCond);
-  Value* Idx[1];
-  Idx[0] = iteratorLoaded;
-  Value* stringPointerPointer = GetElementPtrInst::Create(int8Type->getPointerTo(),
-                                                          arrayOfStrings,
-                                                          Idx,
-                                                          "stringPointerPointer",
-                                                          whileCond);
+  Value* index[1];
+  index[0] = iteratorLoaded;
+  Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
   
   LoadInst* stringPointer = new LoadInst(stringPointerPointer, "stringPointer", whileCond);
   

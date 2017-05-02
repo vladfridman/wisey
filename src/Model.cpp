@@ -46,9 +46,9 @@ Value* Model::getSize(IRGenerationContext& context) const {
   
   BasicBlock* basicBlock = context.getBasicBlock();
   Value* nullPointer = ConstantPointerNull::get(mStructType->getPointerTo());
-  Value *Idx[1];
-  Idx[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* sizePointer = GetElementPtrInst::Create(mStructType, nullPointer, Idx, "", basicBlock);
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
+  Value* sizePointer = IRWriter::createGetElementPtrInst(context, nullPointer, index);
   
   return new PtrToIntInst(sizePointer, Type::getInt64Ty(llvmContext), "", basicBlock);
 }
@@ -173,10 +173,10 @@ Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toTy
   
   Type* int8Type = Type::getInt8Ty(llvmContext);
   BitCastInst* bitcast = new BitCastInst(fromValue, int8Type->getPointerTo(), "", basicBlock);
-  Value *Idx[1];
+  Value* index[1];
   unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
-  Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
-  Value* thunk = GetElementPtrInst::Create(int8Type, bitcast, Idx, "add.ptr", basicBlock);
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
+  Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
   return new BitCastInst(thunk, interface->getLLVMType(llvmContext), "", basicBlock);
 }
 
@@ -288,18 +288,16 @@ void Model::initializeFields(IRGenerationContext& context,
                              ModelBuilderArgumentList* modelBuilderArgumentList,
                              Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
   
-  Value *Idx[2];
-  Idx[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  Value* index[2];
+  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (ModelBuilderArgument* argument : *modelBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);
     IType* argumentType = argument->getType(context);
     Field* field = findField(argumentName);
-    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
-    GetElementPtrInst* fieldPointer =
-    GetElementPtrInst::Create(structType, malloc, Idx, "", context.getBasicBlock());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     if (field->getType() != argumentType) {
       Log::e("Model builder argument value for field '" + argumentName +
              "' does not match its type");
@@ -327,27 +325,18 @@ void Model::initializeVTable(IRGenerationContext& context,
       vTableStart = malloc;
     } else {
       Value* vTableStartCalculation = new BitCastInst(malloc, genericPointerType, "", basicBlock);
-      Value *Idx[1];
+      Value* index[1];
       unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
-      Idx[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
-      vTableStart = GetElementPtrInst::Create(genericPointerType->getPointerElementType(),
-                                              vTableStartCalculation,
-                                              Idx,
-                                              "",
-                                              basicBlock);
+      index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
+      vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
     }
     
     Value* vTablePointer = new BitCastInst(vTableStart, vTableType->getPointerTo(), "", basicBlock);
-    Value *Idx[3];
-    Idx[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    Idx[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), interfaceIndex);
-    Idx[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    Value* initializerStart = GetElementPtrInst::Create(vTableGlobal->getType()->
-                                                        getPointerElementType(),
-                                                        vTableGlobal,
-                                                        Idx,
-                                                        "",
-                                                        basicBlock);
+    Value* index[3];
+    index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), interfaceIndex);
+    index[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+    Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, index);
     BitCastInst* bitcast = new BitCastInst(initializerStart, vTableType, "", basicBlock);
     new StoreInst(bitcast, vTablePointer, basicBlock);
   }
