@@ -107,7 +107,7 @@ void TryCatchStatement::generateResumeAndFail(IRGenerationContext& context,
   ICmpInst* compare = new ICmpInst(*currentBlock, ICmpInst::ICMP_SLT, exceptionTypeId, zero);
   BasicBlock* unexpectedBlock = BasicBlock::Create(llvmContext, "unexpected", function);
   BasicBlock* resumeBlock = BasicBlock::Create(llvmContext, "resume", function);
-  BranchInst::Create(unexpectedBlock, resumeBlock, compare, currentBlock);
+  IRWriter::createConditionalBranch(context, unexpectedBlock, resumeBlock, compare);
   
   Function* unexpectedFunction = IntrinsicFunctions::getUnexpectedFunction(context);
   vector<Value*> arguments;
@@ -146,7 +146,7 @@ TryCatchStatement::generateSelectCatchByExceptionType(IRGenerationContext& conte
     catchesAndBlocks.push_back(make_tuple(catchClause, catchBlock));
     string nextBlockName = "not." + exceptionType->getName();
     BasicBlock* nextBlock = BasicBlock::Create(llvmContext, nextBlockName, function);
-    BranchInst::Create(catchBlock, nextBlock, compare, currentBlock);
+    IRWriter::createConditionalBranch(context, catchBlock, nextBlock, compare);
     currentBlock = nextBlock;
   }
   

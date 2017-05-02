@@ -53,5 +53,5 @@ void Catch::generateIR(IRGenerationContext& context,
   mStatement.generateIR(context);
   context.getScopes().popScope(context);
   
-  BranchInst::Create(exceptionContinueBlock, catchBlock);
+  IRWriter::createBranch(context, exceptionContinueBlock);
 }
