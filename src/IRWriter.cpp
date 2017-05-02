@@ -130,3 +130,13 @@ BitCastInst* IRWriter::newBitCastInst(IRGenerationContext& context, Value* value
   
   return new BitCastInst(value, type, "", currentBlock);
 }
+
+StoreInst* IRWriter::newStoreInst(IRGenerationContext& context, Value* value, Value* pointer) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new StoreInst(value, pointer, currentBlock);
+}

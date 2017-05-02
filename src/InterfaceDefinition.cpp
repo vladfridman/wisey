@@ -78,8 +78,10 @@ void InterfaceDefinition::defineInstanceOf(IRGenerationContext& context,
   BasicBlock* returnNotFound = BasicBlock::Create(llvmContext, "return.notfound", function);
   BasicBlock* returnFound = BasicBlock::Create(llvmContext, "return.found", function);
   
+  context.setBasicBlock(entryBlock);
   Value* iterator = new AllocaInst(Type::getInt32Ty(llvmContext), "iterator", entryBlock);
-  new StoreInst(ConstantInt::get(Type::getInt32Ty(llvmContext), 0), iterator, entryBlock);
+  ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  IRWriter::newStoreInst(context, zero, iterator);
   
   Value* arrayOfStrings = composeInstanceOfEntryBlock(context, entryBlock, whileCond, function);
 
@@ -209,7 +211,7 @@ void InterfaceDefinition::composeInstanceOfWhileBodyBlock(IRGenerationContext& c
                                                     iteratorLoaded,
                                                     one,
                                                     "inc");
-  new StoreInst(increment, iterator, whileBody);
+  IRWriter::newStoreInst(context, increment, iterator);
 
   Function::arg_iterator functionArguments = function->arg_begin();
   functionArguments++;

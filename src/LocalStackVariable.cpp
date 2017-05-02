@@ -11,6 +11,7 @@
 #include "yazyk/AutoCast.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 
 using namespace std;
@@ -39,9 +40,7 @@ Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* assignToValue = assignToExpression.generateIR(context);
   IType* assignToType = assignToExpression.getType(context);
   Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
-  return new StoreInst(castAssignToValue,
-                       mValue,
-                       context.getBasicBlock());
+  return IRWriter::newStoreInst(context, castAssignToValue, mValue);
 }
 
 void LocalStackVariable::free(IRGenerationContext& context) const {

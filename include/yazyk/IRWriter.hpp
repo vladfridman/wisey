@@ -88,6 +88,14 @@ public:
                                            llvm::Value* value,
                                            llvm::Type* type);
 
+  /**
+   * Add StoreInst instruction to the current basic block storing the value in the memory pointed to
+   * by the given pointer
+   */
+  static llvm::StoreInst* newStoreInst(IRGenerationContext& context,
+                                       llvm::Value* value,
+                                       llvm::Value* pointer);
+
 };
   
 } /* namespace yazyk */

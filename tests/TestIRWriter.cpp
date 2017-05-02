@@ -206,3 +206,22 @@ TEST_F(IRWriterTest, newBitCastInst) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newStoreInst) {
+  PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
+  Value* pointer = ConstantPointerNull::get(int32PointerType);
+  ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
+  StoreInst* storeInst = IRWriter::newStoreInst(mContext, value, pointer);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *storeInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  store i32 0, i32* null");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newStoreInst(mContext, value, pointer);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

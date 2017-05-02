@@ -303,7 +303,7 @@ void Model::initializeFields(IRGenerationContext& context,
              "' does not match its type");
       exit(1);
     }
-    new StoreInst(argumentValue, fieldPointer, context.getBasicBlock());
+    IRWriter::newStoreInst(context, argumentValue, fieldPointer);
   }
 }
 
@@ -339,7 +339,7 @@ void Model::initializeVTable(IRGenerationContext& context,
     index[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
     Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, index);
     BitCastInst* bitcast = IRWriter::newBitCastInst(context, initializerStart, vTableType);
-    new StoreInst(bitcast, vTablePointer, basicBlock);
+    IRWriter::newStoreInst(context, bitcast, vTablePointer);
   }
 }
 

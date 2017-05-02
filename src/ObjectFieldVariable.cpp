@@ -76,7 +76,7 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   BasicBlock* basicBlock = context.getBasicBlock();
   GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, loadedValue, index);
   
-  return new StoreInst(assignToValue, fieldPointer, basicBlock);
+  return IRWriter::newStoreInst(context, assignToValue, fieldPointer);
 }
 
 void ObjectFieldVariable::free(IRGenerationContext& context) const {

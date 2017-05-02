@@ -285,7 +285,7 @@ llvm::Value* Interface::storeArgumentValue(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   string newName = variableName + ".param";
   AllocaInst *alloc = new AllocaInst(variableType->getLLVMType(llvmContext), newName, basicBlock);
-  new StoreInst(variableValue, alloc, basicBlock);
+  IRWriter::newStoreInst(context, variableValue, alloc);
   return alloc;
 }
 

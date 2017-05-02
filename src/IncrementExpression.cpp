@@ -39,9 +39,9 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
                                                           increment,
                                                           mVariableName);
 
-  new StoreInst(incrementResult,
-                context.getScopes().getVariable(mIdentifier.getName())->getValue(),
-                context.getBasicBlock());
+  IRWriter::newStoreInst(context,
+                         incrementResult,
+                         context.getScopes().getVariable(mIdentifier.getName())->getValue());
   return mIsPrefix ? incrementResult : originalValue;
 }
 

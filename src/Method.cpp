@@ -109,7 +109,7 @@ void Method::storeArgumentValue(IRGenerationContext& context,
   AllocaInst *alloc = new AllocaInst(variableType->getLLVMType(llvmContext),
                                      newName,
                                      context.getBasicBlock());
-  new StoreInst(variableValue, alloc, context.getBasicBlock());
+  IRWriter::newStoreInst(context, variableValue, alloc);
   IVariable* variable = new LocalStackVariable(variableName, variableType, alloc);
   context.getScopes().setVariable(variable);
 }

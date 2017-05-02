@@ -42,9 +42,9 @@ void Catch::generateIR(IRGenerationContext& context,
   
   AllocaInst* expectionSpace = new AllocaInst(exceptionStructLLVMType, "", catchBlock);
   Value* exceptionLoaded = new LoadInst(exception, "", catchBlock);
-  new StoreInst(exceptionLoaded, expectionSpace, catchBlock);
+  IRWriter::newStoreInst(context, exceptionLoaded, expectionSpace);
   AllocaInst* alloca = new AllocaInst(exceptionLLVMType, "", catchBlock);
-  new StoreInst(expectionSpace, alloca, catchBlock);
+  IRWriter::newStoreInst(context, expectionSpace, alloca);
   vector<Value*> endCatchArguments;
   IRWriter::createCallInst(context, endCatchFunction, endCatchArguments, "");
   

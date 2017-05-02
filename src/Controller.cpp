@@ -138,7 +138,7 @@ void Controller::initializeVTable(IRGenerationContext& context, Instruction* mal
     index[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
     Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, index);
     BitCastInst* bitcast = IRWriter::newBitCastInst(context, initializerStart, vTableType);
-    new StoreInst(bitcast, vTablePointer, basicBlock);
+    IRWriter::newStoreInst(context, bitcast, vTablePointer);
   }
 }
 
@@ -224,7 +224,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
              "' does not match its type");
       exit(1);
     }
-    new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
+    IRWriter::newStoreInst(context, fieldValue, fieldPointer);
     fieldIndex++;
   }
 }
@@ -244,7 +244,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     Value* fieldValue = controller->inject(context, field->getArguments());
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
+    IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
 }
 
@@ -271,7 +271,7 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
     
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    new StoreInst(fieldValue, fieldPointer, context.getBasicBlock());
+    IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
  
 }

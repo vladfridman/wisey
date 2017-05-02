@@ -75,7 +75,7 @@ TryCatchStatement::generateLandingPad(IRGenerationContext& context,
   }
   
   Value* landingPadReturnValueAlloca = new AllocaInst(landingPadReturnType, "", landingPadBlock);
-  new StoreInst(landingPad, landingPadReturnValueAlloca, landingPadBlock);
+  IRWriter::newStoreInst(context, landingPad, landingPadReturnValueAlloca);
   
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
