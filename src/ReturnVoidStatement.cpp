@@ -16,5 +16,5 @@ using namespace llvm;
 using namespace yazyk;
 
 Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
-  IRWriter::createReturnInst(context, NULL);
+  return IRWriter::createReturnInst(context, NULL);
 }

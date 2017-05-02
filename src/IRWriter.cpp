@@ -69,3 +69,26 @@ CallInst* IRWriter::createCallInst(IRGenerationContext& context,
   
   return CallInst::Create(function, arguments, resultName, currentBlock);
 }
+
+Instruction* IRWriter::createMalloc(IRGenerationContext& context,
+                                    Type* structType,
+                                    Value* allocSize,
+                                    string variableName) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+
+  Type* pointerType = Type::getInt32Ty(context.getLLVMContext());
+  Instruction* malloc = CallInst::CreateMalloc(currentBlock,
+                                               pointerType,
+                                               structType,
+                                               allocSize,
+                                               nullptr,
+                                               nullptr,
+                                               variableName);
+  currentBlock->getInstList().push_back(malloc);
+  
+  return malloc;
+}

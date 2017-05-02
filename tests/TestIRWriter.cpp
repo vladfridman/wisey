@@ -109,3 +109,21 @@ TEST_F(IRWriterTest, createCallInstTest) {
 
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, createMallocTest) {
+  Type* structType = Type::getInt8Ty(mLLVMContext);
+  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, Type::getInt32Ty(mLLVMContext));
+  IRWriter::createMalloc(mContext, structType, allocSize, "");
+
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::createMalloc(mContext, structType, allocSize, "");
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

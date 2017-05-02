@@ -13,6 +13,7 @@
 #include "yazyk/Field.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 
 using namespace llvm;
@@ -98,18 +99,10 @@ string Controller::getVTableName() const {
 Instruction* Controller::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  Type* pointerType = Type::getInt32Ty(llvmContext);
   Type* structType = getLLVMType(llvmContext)->getPointerElementType();
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
-  Instruction* malloc = CallInst::CreateMalloc(context.getBasicBlock(),
-                                               pointerType,
-                                               structType,
-                                               allocSize,
-                                               nullptr,
-                                               nullptr,
-                                               "injectvar");
-  context.getBasicBlock()->getInstList().push_back(malloc);
+  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, Type::getInt32Ty(llvmContext));
+  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "injectvar");
   
   return malloc;
 }

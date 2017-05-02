@@ -60,6 +60,14 @@ public:
                                         llvm::Function* function,
                                         std::vector<llvm::Value*> arguments,
                                         std::string resultName);
+
+  /**
+   * Create a call to malloc function
+   */
+  static llvm::Instruction* createMalloc(IRGenerationContext& context,
+                                         llvm::Type* structType,
+                                         llvm::Value* allocSize,
+                                         std::string variableName);
 };
   
 } /* namespace yazyk */

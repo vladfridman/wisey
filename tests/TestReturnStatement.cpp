@@ -17,6 +17,7 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/MethodDeclaration.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
@@ -130,17 +131,11 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
-  Type* pointerType = Type::getInt32Ty(llvmContext);
+
   Type* structType = Type::getInt8Ty(llvmContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
-  Instruction* malloc = CallInst::CreateMalloc(basicBlock,
-                                               pointerType,
-                                               structType,
-                                               allocSize,
-                                               nullptr,
-                                               nullptr,
-                                               "");
+  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, Type::getInt32Ty(llvmContext));
+  Instruction* malloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
 
   LocalHeapVariable* variable = new LocalHeapVariable("foo", mModel, malloc);
   mContext.getScopes().setVariable(variable);
@@ -149,16 +144,16 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
   
   returnStatement.generateIR(mContext);
   
-  ASSERT_EQ(3ul, basicBlock->size());
+  ASSERT_EQ(4ul, basicBlock->size());
   *mStringStream << *basicBlock;
-  string expected = string() +
+  string expected =
     "\nentry:"
-    "\n  %conv = zext i32 3 to i64" +
+    "\n  %malloccall = tail call i8* @malloc(i32 ptrtoint "
+      "(i8* getelementptr (i8, i8* null, i32 1) to i32))"
+    "\n  %conv = zext i32 3 to i64"
     "\n  tail call void @free(i8* %malloccall)"
     "\n  ret i64 %conv\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
-  
-  basicBlock->getInstList().push_front(malloc);
 }
 
 TEST_F(TestFileSampleRunner, returnStatementRunTest) {

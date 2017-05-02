@@ -13,6 +13,7 @@
 #include "yazyk/Log.hpp"
 #include "yazyk/Model.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -275,18 +276,10 @@ void Model::checkAllFieldsAreSet(ModelBuilderArgumentList* modelBuilderArgumentL
 Instruction* Model::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  Type* pointerType = Type::getInt32Ty(llvmContext);
   Type* structType = getLLVMType(llvmContext)->getPointerElementType();
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, pointerType);
-  Instruction* malloc = CallInst::CreateMalloc(context.getBasicBlock(),
-                                               pointerType,
-                                               structType,
-                                               allocSize,
-                                               nullptr,
-                                               nullptr,
-                                               "buildervar");
-  context.getBasicBlock()->getInstList().push_back(malloc);
+  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, Type::getInt32Ty(llvmContext));
+  Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "buildervar");
   
   return malloc;
 }
