@@ -225,3 +225,21 @@ TEST_F(IRWriterTest, newStoreInst) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newAllocaInst) {
+  Type* int32Type = Type::getInt32Ty(mLLVMContext);
+  ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
+  AllocaInst* allocaInst = IRWriter::newAllocaInst(mContext, int32Type, "foo");
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *allocaInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newAllocaInst(mContext, int32Type, "foo");
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}
