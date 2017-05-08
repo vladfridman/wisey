@@ -32,7 +32,7 @@ Value* LocalStackVariable::getValue() const {
 
 Value* LocalStackVariable::generateIdentifierIR(IRGenerationContext& context,
                                                 std::string llvmVariableName) const {
-  return new LoadInst(mValue, llvmVariableName, context.getBasicBlock());
+  return IRWriter::newLoadInst(context, mValue, llvmVariableName);
 }
 
 Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,

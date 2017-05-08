@@ -148,14 +148,13 @@ BitCastInst* InterfaceDefinition::composeInstanceOfEntryBlock(IRGenerationContex
   
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   
-  
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, originalObject, pointerToArrayOfStrings);
-  LoadInst* vTable = new LoadInst(vTablePointer, "vtable", entryBlock);
+  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
   GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* typeArrayI8 = new LoadInst(typeArrayPointerI8, "typeArrayI8", entryBlock);
+  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
   BitCastInst* arrayOfStrings =
   IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
   
@@ -174,12 +173,12 @@ LoadInst* InterfaceDefinition::composeInstanceOfWhileConditionBlock(IRGeneration
   
   context.setBasicBlock(whileCond);
   
-  LoadInst* iteratorLoaded = new LoadInst(iterator, "", whileCond);
+  LoadInst* iteratorLoaded = IRWriter::newLoadInst(context, iterator, "");
   Value* index[1];
   index[0] = iteratorLoaded;
   Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
   
-  LoadInst* stringPointer = new LoadInst(stringPointerPointer, "stringPointer", whileCond);
+  LoadInst* stringPointer = IRWriter::newLoadInst(context, stringPointerPointer, "stringPointer");
   
   Value* nullPointerValue = ConstantPointerNull::get(int8Type->getPointerTo());
   Value* checkStringIsNull = new ICmpInst(*whileCond,
@@ -204,7 +203,7 @@ void InterfaceDefinition::composeInstanceOfWhileBodyBlock(IRGenerationContext& c
 
   context.setBasicBlock(whileBody);
   
-  LoadInst* iteratorLoaded = new LoadInst(iterator, "", whileBody);
+  LoadInst* iteratorLoaded = IRWriter::newLoadInst(context, iterator, "");
   ConstantInt* one =  ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Value* increment = IRWriter::createBinaryOperator(context,
                                                     Instruction::Add,
@@ -231,7 +230,7 @@ void InterfaceDefinition::composeReturnFound(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   
   context.setBasicBlock(returnFound);
-  LoadInst* iteratorLoaded = new LoadInst(iterator, "", returnFound);
+  LoadInst* iteratorLoaded = IRWriter::newLoadInst(context, iterator, "");
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Value* decrement = IRWriter::createBinaryOperator(context,
                                                     Instruction::Sub,

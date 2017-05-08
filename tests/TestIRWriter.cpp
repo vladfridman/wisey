@@ -243,3 +243,22 @@ TEST_F(IRWriterTest, newAllocaInst) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newLoadInst) {
+  PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
+  Value* pointer = ConstantPointerNull::get(int32PointerType);
+  LoadInst* loadInst = IRWriter::newLoadInst(mContext, pointer, "foo");
+  ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *loadInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %foo = load i32, i32* null");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newLoadInst(mContext, pointer, "foo");
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

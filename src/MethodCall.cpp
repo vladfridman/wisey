@@ -59,19 +59,18 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
-  BasicBlock* basicBlock = context.getBasicBlock();
   Value* expressionValue = mExpression.generateIR(context);
   FunctionType* functionType =
     IMethodDescriptor::getLLVMFunctionType(methodDescriptor, context, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, expressionValue, pointerToVTablePointer);
-  LoadInst* vTable = new LoadInst(vTablePointer, "vtable", basicBlock);
+  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
                             methodDescriptor->getIndex() + VTABLE_METHODS_OFFSET);
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* function = new LoadInst(virtualFunction, "", basicBlock);
+  LoadInst* function = IRWriter::newLoadInst(context, virtualFunction, "");
   
   return createFunctionCall(context,
                             (Function*) function,

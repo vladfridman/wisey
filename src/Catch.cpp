@@ -41,7 +41,7 @@ void Catch::generateIR(IRGenerationContext& context,
   Value* exception = IRWriter::newBitCastInst(context, exceptionPointer, exceptionLLVMType);
   
   AllocaInst* expectionSpace = IRWriter::newAllocaInst(context, exceptionStructLLVMType, "");
-  Value* exceptionLoaded = new LoadInst(exception, "", catchBlock);
+  Value* exceptionLoaded = IRWriter::newLoadInst(context, exception, "");
   IRWriter::newStoreInst(context, exceptionLoaded, expectionSpace);
   AllocaInst* alloca = IRWriter::newAllocaInst(context, exceptionLLVMType, "");
   IRWriter::newStoreInst(context, expectionSpace, alloca);

@@ -250,7 +250,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
     arguments++;
   }
   
-  Value* interfaceThisLoaded = new LoadInst(interfaceThis, "this", basicBlock);
+  Value* interfaceThisLoaded = IRWriter::newLoadInst(context, interfaceThis, "this");
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo();
   Value* castedInterfaceThis = IRWriter::newBitCastInst(context, interfaceThisLoaded, pointerType);
@@ -264,7 +264,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   vector<Value*> callArguments;
   callArguments.push_back(castedModelThis);
   for (Value* argumentPointer : argumentPointers) {
-    Value* loadedCallArgument = new LoadInst(argumentPointer, "", basicBlock);
+    Value* loadedCallArgument = IRWriter::newLoadInst(context, argumentPointer, "");
     callArguments.push_back(loadedCallArgument);
   }
   
@@ -419,12 +419,12 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, value, pointerType);
-  LoadInst* vTable = new LoadInst(vTablePointer, "vtable", basicBlock);
+  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
   GetElementPtrInst* unthunkPointer = IRWriter::createGetElementPtrInst(context, vTable, index);
 
-  LoadInst* pointerToVal = new LoadInst(unthunkPointer, "unthunkbypointer", basicBlock);
+  LoadInst* pointerToVal = IRWriter::newLoadInst(context, unthunkPointer, "unthunkbypointer");
   Value* unthunkBy = new PtrToIntInst(pointerToVal,
                                       Type::getInt64Ty(llvmContext),
                                       "unthunkby",

@@ -109,7 +109,6 @@ Instruction* Controller::createMalloc(IRGenerationContext& context) const {
 
 void Controller::initializeVTable(IRGenerationContext& context, Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  BasicBlock* basicBlock = context.getBasicBlock();
   GlobalVariable* vTableGlobal = context.getModule()->getGlobalVariable(getVTableName());
   
   Type* genericPointerType = Type::getInt8Ty(llvmContext)->getPointerTo();

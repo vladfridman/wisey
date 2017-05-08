@@ -104,6 +104,13 @@ public:
                                          llvm::Type* type,
                                          std::string variableName);
 
+  
+  /**
+   * Add LoadInst instruction to the the current basic block loading a variable value from pointer
+   */
+  static llvm::LoadInst* newLoadInst(IRGenerationContext& context,
+                                     llvm::Value* pointer,
+                                     std::string variableName);
 };
   
 } /* namespace yazyk */

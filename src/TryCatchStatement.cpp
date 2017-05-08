@@ -85,8 +85,8 @@ TryCatchStatement::generateLandingPad(IRGenerationContext& context,
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Value* exceptionTypeIdPointer =
   IRWriter::createGetElementPtrInst(context, landingPadReturnValueAlloca, index);
-  Value* wrappedException = new LoadInst(wrappedExceptionPointer, "", landingPadBlock);
-  Value* exceptionTypeId = new LoadInst(exceptionTypeIdPointer, "", landingPadBlock);
+  Value* wrappedException = IRWriter::newLoadInst(context, wrappedExceptionPointer, "");
+  Value* exceptionTypeId = IRWriter::newLoadInst(context, exceptionTypeIdPointer, "");
   
   return make_tuple(landingPad, wrappedException, exceptionTypeId);
 }

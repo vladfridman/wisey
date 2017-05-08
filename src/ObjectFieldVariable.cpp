@@ -37,9 +37,7 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
   IVariable* thisVariable = context.getScopes().getVariable("this");
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  Value* loadedValue = new LoadInst(thisVariable->getValue(), "this", context.getBasicBlock());
-  
-  StructType* structType = (StructType*) mObject->getLLVMType(llvmContext)->getPointerElementType();
+  Value* loadedValue = IRWriter::newLoadInst(context, thisVariable->getValue(), "this");
   
   Field* field = checkAndFindField(context);
   Value* index[2];
@@ -48,7 +46,7 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
   
   GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, loadedValue, index);
   
-  return new LoadInst(fieldPointer, "", context.getBasicBlock());
+  return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
 Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -72,8 +70,7 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
   IVariable* thisVariable = context.getScopes().getVariable("this");
-  Value* loadedValue = new LoadInst(thisVariable->getValue(), "this", context.getBasicBlock());
-  BasicBlock* basicBlock = context.getBasicBlock();
+  Value* loadedValue = IRWriter::newLoadInst(context, thisVariable->getValue(), "this");
   GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, loadedValue, index);
   
   return IRWriter::newStoreInst(context, assignToValue, fieldPointer);

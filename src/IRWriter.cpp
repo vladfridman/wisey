@@ -150,3 +150,15 @@ AllocaInst* IRWriter::newAllocaInst(IRGenerationContext& context, Type* type, st
   
   return new AllocaInst(type, variableName, currentBlock);
 }
+
+LoadInst* IRWriter::newLoadInst(IRGenerationContext& context,
+                                Value* pointer,
+                                string variableName) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new LoadInst(pointer, variableName, currentBlock);
+}
