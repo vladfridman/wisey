@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IncrementExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -41,9 +42,7 @@ public:
   IncrementExpressionTest() : mIdentifier(mName, "bar") {
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
-    AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mLLVMContext),
-                                       mName,
-                                       mBlock);
+    AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), mName);
     
     LocalStackVariable* variable = new LocalStackVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
     mContext.getScopes().setVariable(variable);

@@ -140,3 +140,13 @@ StoreInst* IRWriter::newStoreInst(IRGenerationContext& context, Value* value, Va
   
   return new StoreInst(value, pointer, currentBlock);
 }
+
+AllocaInst* IRWriter::newAllocaInst(IRGenerationContext& context, Type* type, string variableName) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new AllocaInst(type, variableName, currentBlock);
+}

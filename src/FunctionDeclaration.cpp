@@ -88,10 +88,9 @@ void FunctionDeclaration::storeArgumentValue(IRGenerationContext& context,
                                            IType* variableType,
                                            llvm::Value* variableValue) const {
   LLVMContext& llvmContext = context.getLLVMContext();
+  Type* llvmType = variableType->getLLVMType(llvmContext);
   string newName = variableName + ".param";
-  AllocaInst *alloc = new AllocaInst(variableType->getLLVMType(llvmContext),
-                                     newName,
-                                     context.getBasicBlock());
+  AllocaInst *alloc = IRWriter::newAllocaInst(context, llvmType, newName);
   IRWriter::newStoreInst(context, variableValue, alloc);
   IVariable* variable = new LocalStackVariable(variableName, variableType, alloc);
   context.getScopes().setVariable(variable);

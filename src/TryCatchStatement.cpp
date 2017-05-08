@@ -74,7 +74,7 @@ TryCatchStatement::generateLandingPad(IRGenerationContext& context,
     context.getScopes().getScope()->removeException(exceptionType);
   }
   
-  Value* landingPadReturnValueAlloca = new AllocaInst(landingPadReturnType, "", landingPadBlock);
+  Value* landingPadReturnValueAlloca = IRWriter::newAllocaInst(context, landingPadReturnType, "");
   IRWriter::newStoreInst(context, landingPad, landingPadReturnValueAlloca);
   
   Value* index[2];

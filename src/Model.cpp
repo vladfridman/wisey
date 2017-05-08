@@ -164,7 +164,6 @@ Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toTy
     return NULL;
   }
   LLVMContext& llvmContext = context.getLLVMContext();
-  BasicBlock* basicBlock = context.getBasicBlock();
   Interface* interface = dynamic_cast<Interface*>(toType);
   int interfaceIndex = getInterfaceIndex(interface);
   if (interfaceIndex == 0) {
@@ -311,7 +310,6 @@ void Model::initializeVTable(IRGenerationContext& context,
                              ModelBuilderArgumentList* modelBuilderArgumentList,
                              Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  BasicBlock* basicBlock = context.getBasicBlock();
   GlobalVariable* vTableGlobal = context.getModule()->getGlobalVariable(getVTableName());
   
   Type* genericPointerType = Type::getInt8Ty(llvmContext)->getPointerTo();

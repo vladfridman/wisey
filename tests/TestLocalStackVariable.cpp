@@ -19,6 +19,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "yazyk/IExpression.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -34,13 +35,14 @@ using ::testing::Test;
 
 struct LocalStackVariableTest : public Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
 public:
   
-  LocalStackVariableTest() {
+  LocalStackVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     mBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
@@ -54,11 +56,10 @@ public:
 };
 
 TEST_F(LocalStackVariableTest, generateAssignmentIRTest) {
-  AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
-                                     "foo",
-                                     mBlock);
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
+
   LocalStackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
-  Value* assignValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
+  Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
@@ -78,11 +79,9 @@ TEST_F(LocalStackVariableTest, generateAssignmentIRTest) {
 }
 
 TEST_F(LocalStackVariableTest, generateAssignmentIRWithCastTest) {
-  AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
-                                     "foo",
-                                     mBlock);
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
   LocalStackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
-  Value* assignValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
+  Value* assignValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
@@ -107,9 +106,7 @@ TEST_F(LocalStackVariableTest, generateAssignmentIRWithCastTest) {
 }
 
 TEST_F(LocalStackVariableTest, generateIdentifierIRTest) {
-  AllocaInst* alloc = new AllocaInst(Type::getInt32Ty(mContext.getLLVMContext()),
-                                     "foo",
-                                     mBlock);
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
   LocalStackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
   
   localStackVariable.generateIdentifierIR(mContext, "bar");

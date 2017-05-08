@@ -79,7 +79,7 @@ void InterfaceDefinition::defineInstanceOf(IRGenerationContext& context,
   BasicBlock* returnFound = BasicBlock::Create(llvmContext, "return.found", function);
   
   context.setBasicBlock(entryBlock);
-  Value* iterator = new AllocaInst(Type::getInt32Ty(llvmContext), "iterator", entryBlock);
+  Value* iterator = IRWriter::newAllocaInst(context, Type::getInt32Ty(llvmContext), "iterator");
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   IRWriter::newStoreInst(context, zero, iterator);
   

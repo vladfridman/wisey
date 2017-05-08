@@ -12,6 +12,7 @@
 #include "yazyk/Assignment.hpp"
 #include "yazyk/Identifier.hpp"
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
 #include "yazyk/LocalStackVariable.hpp"
 #include "yazyk/VariableDeclaration.hpp"
@@ -35,9 +36,8 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 
 Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
   IType* type = mTypeSpecifier.getType(context);
-  AllocaInst* alloc = new AllocaInst(type->getLLVMType(context.getLLVMContext()),
-                                     mId.getName(),
-                                     context.getBasicBlock());
+  Type* llvmType = type->getLLVMType(context.getLLVMContext());
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId.getName());
   
   LocalStackVariable* variable = new LocalStackVariable(mId.getName(), type, alloc);
   context.getScopes().setVariable(variable);

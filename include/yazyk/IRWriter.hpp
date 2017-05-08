@@ -96,6 +96,14 @@ public:
                                        llvm::Value* value,
                                        llvm::Value* pointer);
 
+  /**
+   * Add AllocaInst instruction to the the current basic block allocating on stack memory
+   * for a given type
+   */
+  static llvm::AllocaInst* newAllocaInst(IRGenerationContext& context,
+                                         llvm::Type* type,
+                                         std::string variableName);
+
 };
   
 } /* namespace yazyk */
