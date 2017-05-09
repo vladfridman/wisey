@@ -27,7 +27,7 @@ Value* Cast::truncIntCast(IRGenerationContext& context,
                           IType* toType) {
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return new TruncInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
+  return IRWriter::newTruncInst(context, fromValue, toLLVMType);
 }
 
 Value* Cast::truncFloatCast(IRGenerationContext& context,

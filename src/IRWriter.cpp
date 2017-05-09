@@ -174,3 +174,15 @@ CastInst* IRWriter::createZExtOrBitCast(IRGenerationContext& context,
   
   return CastInst::CreateZExtOrBitCast(fromValue, toLLVMType, "conv", currentBlock);
 }
+
+TruncInst* IRWriter::newTruncInst(IRGenerationContext& context,
+                                  Value* fromValue,
+                                  Type* toLLVMType) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new TruncInst(fromValue, toLLVMType, "conv", currentBlock);
+}

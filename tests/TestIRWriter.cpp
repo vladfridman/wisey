@@ -280,3 +280,21 @@ TEST_F(IRWriterTest, createZExtOrBitCastTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newTruncInstTest) {
+  ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
+  Type* type = Type::getInt16Ty(mLLVMContext);
+  CastInst* castInst = IRWriter::newTruncInst(mContext, value, type);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *castInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = trunc i32 0 to i16");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newTruncInst(mContext, value, type);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

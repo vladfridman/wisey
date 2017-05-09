@@ -119,6 +119,13 @@ public:
                                              llvm::Value* fromValue,
                                              llvm::Type* toLLVMType);
 
+  /**
+   * Add a TruncInst that truncates an int value to a given int type
+   */
+  static llvm::TruncInst* newTruncInst(IRGenerationContext& context,
+                                       llvm::Value* fromValue,
+                                       llvm::Type* toLLVMType);
+
 };
   
 } /* namespace yazyk */
