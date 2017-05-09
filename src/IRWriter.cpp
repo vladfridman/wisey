@@ -162,3 +162,15 @@ LoadInst* IRWriter::newLoadInst(IRGenerationContext& context,
   
   return new LoadInst(pointer, variableName, currentBlock);
 }
+
+CastInst* IRWriter::createZExtOrBitCast(IRGenerationContext& context,
+                                        Value* fromValue,
+                                        Type* toLLVMType) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return CastInst::CreateZExtOrBitCast(fromValue, toLLVMType, "conv", currentBlock);
+}

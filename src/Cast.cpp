@@ -7,6 +7,7 @@
 //
 
 #include "yazyk/Cast.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 
@@ -18,10 +19,7 @@ Value* Cast::widenIntCast(IRGenerationContext& context,
                           IType* toType) {
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return CastInst::CreateZExtOrBitCast(fromValue,
-                                       toLLVMType,
-                                       "conv",
-                                       context.getBasicBlock());
+  return IRWriter::createZExtOrBitCast(context, fromValue, toLLVMType);
 }
 
 Value* Cast::truncIntCast(IRGenerationContext& context,

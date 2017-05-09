@@ -111,6 +111,14 @@ public:
   static llvm::LoadInst* newLoadInst(IRGenerationContext& context,
                                      llvm::Value* pointer,
                                      std::string variableName);
+  
+  /**
+   * Add a CastInst that zero-extends an int value to a longer int type
+   */
+  static llvm::CastInst* createZExtOrBitCast(IRGenerationContext& context,
+                                             llvm::Value* fromValue,
+                                             llvm::Type* toLLVMType);
+
 };
   
 } /* namespace yazyk */
