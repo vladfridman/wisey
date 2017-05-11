@@ -235,3 +235,15 @@ FPToSIInst* IRWriter::newFPToSIInst(IRGenerationContext& context,
   return new FPToSIInst(fromValue, toLLVMType, "conv", currentBlock);
 }
 
+PtrToIntInst* IRWriter::newPtrToIntInst(IRGenerationContext& context,
+                                        Value* fromValue,
+                                        Type* toLLVMType,
+                                        string variableName) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new PtrToIntInst(fromValue, toLLVMType, variableName, currentBlock);
+}

@@ -414,7 +414,6 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
 
 Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  BasicBlock* basicBlock = context.getBasicBlock();
 
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
@@ -425,10 +424,10 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
   GetElementPtrInst* unthunkPointer = IRWriter::createGetElementPtrInst(context, vTable, index);
 
   LoadInst* pointerToVal = IRWriter::newLoadInst(context, unthunkPointer, "unthunkbypointer");
-  Value* unthunkBy = new PtrToIntInst(pointerToVal,
-                                      Type::getInt64Ty(llvmContext),
-                                      "unthunkby",
-                                      basicBlock);
+  Value* unthunkBy = IRWriter::newPtrToIntInst(context,
+                                               pointerToVal,
+                                               Type::getInt64Ty(llvmContext),
+                                               "unthunkby");
 
   BitCastInst* bitcast = IRWriter::newBitCastInst(context, value, int8Type->getPointerTo());
   index[0] = unthunkBy;

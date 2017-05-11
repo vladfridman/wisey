@@ -152,6 +152,14 @@ public:
   static llvm::FPToSIInst* newFPToSIInst(IRGenerationContext& context,
                                          llvm::Value* fromValue,
                                          llvm::Type* toLLVMType);
+  
+  /**
+   * Add a PtrToIntInst that converts a pointer type to a given int type
+   */
+  static llvm::PtrToIntInst* newPtrToIntInst(IRGenerationContext& context,
+                                             llvm::Value* fromValue,
+                                             llvm::Type* toLLVMType,
+                                             std::string variableName);
 };
   
 } /* namespace yazyk */

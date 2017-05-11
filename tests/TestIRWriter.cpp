@@ -371,3 +371,21 @@ TEST_F(IRWriterTest, newFPToSIInstTest) {
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
+TEST_F(IRWriterTest, newPtrToIntInstTest) {
+  PointerType* int32PointerType = Type::getInt32Ty(mLLVMContext)->getPointerTo();
+  Value* pointer = ConstantPointerNull::get(int32PointerType);
+  Type* type = Type::getInt16Ty(mLLVMContext);
+  CastInst* castInst = IRWriter::newPtrToIntInst(mContext, pointer, type, "conv");
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *castInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = ptrtoint i32* null to i16");
+  
+  IRWriter::createReturnInst(mContext, ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0));
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newPtrToIntInst(mContext, pointer, type, "conv");
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

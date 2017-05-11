@@ -44,13 +44,12 @@ Model::Model(string name,
 Value* Model::getSize(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  BasicBlock* basicBlock = context.getBasicBlock();
   Value* nullPointer = ConstantPointerNull::get(mStructType->getPointerTo());
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Value* sizePointer = IRWriter::createGetElementPtrInst(context, nullPointer, index);
   
-  return new PtrToIntInst(sizePointer, Type::getInt64Ty(llvmContext), "", basicBlock);
+  return IRWriter::newPtrToIntInst(context, sizePointer, Type::getInt64Ty(llvmContext), "");
 }
 
 Field* Model::findField(string fieldName) const {
