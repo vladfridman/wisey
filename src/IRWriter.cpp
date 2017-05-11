@@ -247,3 +247,23 @@ PtrToIntInst* IRWriter::newPtrToIntInst(IRGenerationContext& context,
   
   return new PtrToIntInst(fromValue, toLLVMType, variableName, currentBlock);
 }
+
+PHINode* IRWriter::createPhiNode(IRGenerationContext& context,
+                                 Type* type,
+                                 string variableName,
+                                 Value* condTrueValue,
+                                 BasicBlock* condTrueBasicBlock,
+                                 Value* condFalseValue,
+                                 BasicBlock* condFalseBasicBlock) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+
+  PHINode* phiNode = PHINode::Create(type, 2, variableName, currentBlock);
+  phiNode->addIncoming(condTrueValue, condTrueBasicBlock);
+  phiNode->addIncoming(condFalseValue, condFalseBasicBlock);
+  
+  return phiNode;
+}

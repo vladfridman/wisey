@@ -160,6 +160,18 @@ public:
                                              llvm::Value* fromValue,
                                              llvm::Type* toLLVMType,
                                              std::string variableName);
+  
+  /**
+   * Add a PHINode that merges two conditional execution paths
+   */
+  static llvm::PHINode* createPhiNode(IRGenerationContext& context,
+                                      llvm::Type* type,
+                                      std::string variableName,
+                                      llvm::Value* condTrueValue,
+                                      llvm::BasicBlock* condTrueBasicBlock,
+                                      llvm::Value* condFalseValue,
+                                      llvm::BasicBlock* condFalseBasicBlock);
+
 };
   
 } /* namespace yazyk */

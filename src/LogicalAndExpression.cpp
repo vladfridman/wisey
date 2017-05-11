@@ -35,9 +35,13 @@ Value* LogicalAndExpression::generateIR(IRGenerationContext& context) const {
   
   context.setBasicBlock(basicBlockEnd);
   Type* type = Type::getInt1Ty(context.getLLVMContext());
-  PHINode* phiNode = PHINode::Create(type, 0, "land", context.getBasicBlock());
-  phiNode->addIncoming(ConstantInt::getFalse(context.getLLVMContext()), entryBlock);
-  phiNode->addIncoming(rightValue, lastRightBlock);
+  PHINode* phiNode = IRWriter::createPhiNode(context,
+                                             type,
+                                             "land",
+                                             ConstantInt::getFalse(context.getLLVMContext()),
+                                             entryBlock,
+                                             rightValue,
+                                             lastRightBlock);
   
   return phiNode;
 }

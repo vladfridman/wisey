@@ -389,3 +389,26 @@ TEST_F(IRWriterTest, newPtrToIntInstTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, createPhiNodeTest) {
+  Type* int1Type = Type::getInt1Ty(mLLVMContext);
+  BasicBlock* block1 = BasicBlock::Create(mLLVMContext, "block1", mMainFunction);
+  BasicBlock* block2 = BasicBlock::Create(mLLVMContext, "block2", mMainFunction);
+  ConstantInt* trueValue = ConstantInt::getTrue(mLLVMContext);
+  ConstantInt* falseValue = ConstantInt::getFalse(mLLVMContext);
+  PHINode* phiNode =
+    IRWriter::createPhiNode(mContext, int1Type, "phi", trueValue, block1, falseValue, block2);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *phiNode;
+  ASSERT_STREQ(mStringStream->str().c_str(),
+               "  %phi = phi i1 [ true, %block1 ], [ false, %block2 ]");
+  
+  IRWriter::createReturnInst(mContext, ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0));
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::createPhiNode(mContext, int1Type, "phi", trueValue, block1, falseValue, block2);
+
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

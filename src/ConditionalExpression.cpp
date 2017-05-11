@@ -31,14 +31,14 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   IRWriter::createConditionalBranch(context, blockCondTrue, blockCondFalse, conditionValue);
   
   context.setBasicBlock(blockCondTrue);
-  Value * condTrueValue = mConditionTrueExpression.generateIR(context);
-  Type * condTrueResultType = condTrueValue->getType();
-  BasicBlock * lastBlock = context.getBasicBlock();
+  Value* condTrueValue = mConditionTrueExpression.generateIR(context);
+  Type* condTrueResultType = condTrueValue->getType();
+  BasicBlock* lastBlock = context.getBasicBlock();
   IRWriter::createBranch(context, blockCondEnd);
 
   context.setBasicBlock(blockCondFalse);
-  Value * condFalseValue = mConditionFalseExpression.generateIR(context);
-  Type * condFalseResultType = condTrueValue->getType();
+  Value* condFalseValue = mConditionFalseExpression.generateIR(context);
+  Type* condFalseResultType = condTrueValue->getType();
   lastBlock = context.getBasicBlock();
   IRWriter::createBranch(context, blockCondEnd);
 
@@ -47,12 +47,13 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   }
 
   context.setBasicBlock(blockCondEnd);
-  PHINode * phiNode = PHINode::Create(condTrueResultType,
-                                      0,
-                                      "cond",
-                                      context.getBasicBlock());
-  phiNode->addIncoming(condTrueValue, blockCondTrue);
-  phiNode->addIncoming(condFalseValue, blockCondFalse);
+  PHINode* phiNode = IRWriter::createPhiNode(context,
+                                             condTrueResultType,
+                                             "cond",
+                                             condTrueValue,
+                                             blockCondTrue,
+                                             condFalseValue,
+                                             blockCondFalse);
   
   return phiNode;
 }

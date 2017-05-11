@@ -35,9 +35,13 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context) const {
   
   context.setBasicBlock(basicBlockEnd);
   Type* type = Type::getInt1Ty(context.getLLVMContext());
-  PHINode* phiNode = PHINode::Create(type, 0, "lor", context.getBasicBlock());
-  phiNode->addIncoming(ConstantInt::getTrue(context.getLLVMContext()), entryBlock);
-  phiNode->addIncoming(rightValue, lastRightBlock);
+  PHINode* phiNode = IRWriter::createPhiNode(context,
+                                             type,
+                                             "lor",
+                                             ConstantInt::getTrue(context.getLLVMContext()),
+                                             entryBlock,
+                                             rightValue,
+                                             lastRightBlock);
   
   return phiNode;
 }
