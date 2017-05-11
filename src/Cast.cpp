@@ -51,7 +51,7 @@ Value* Cast::intToFloatCast(IRGenerationContext& context,
                             IType* toType) {
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return new SIToFPInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
+  return IRWriter::newSIToFPInst(context, fromValue, toLLVMType);
 }
 
 Value* Cast::floatToIntCast(IRGenerationContext& context,

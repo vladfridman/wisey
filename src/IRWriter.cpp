@@ -211,3 +211,15 @@ FPExtInst* IRWriter::newFPExtInst(IRGenerationContext& context,
   return new FPExtInst(fromValue, toLLVMType, "conv", currentBlock);
 }
 
+SIToFPInst* IRWriter::newSIToFPInst(IRGenerationContext& context,
+                                   Value* fromValue,
+                                   Type* toLLVMType) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new SIToFPInst(fromValue, toLLVMType, "conv", currentBlock);
+}
+

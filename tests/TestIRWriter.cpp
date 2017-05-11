@@ -334,3 +334,22 @@ TEST_F(IRWriterTest, newFPExtInstTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newSIToFPInstTest) {
+  ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
+  Type* type = Type::getDoubleTy(mLLVMContext);
+  CastInst* castInst = IRWriter::newSIToFPInst(mContext, value, type);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *castInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = sitofp i32 0 to double");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newSIToFPInst(mContext, value, type);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}
+
