@@ -14,3 +14,7 @@ TEST_F(TestFileSampleRunner, tryCatchTest) {
   compileAndRunFile("tests/samples/test_try_catch.yz", 255);
 }
 
+TEST_F(TestFileSampleRunner, tryCatchTwoTypeTest) {
+  compileAndRunFile("tests/samples/test_try_catch_two_types.yz", 127);
+}
+
