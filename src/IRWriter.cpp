@@ -198,3 +198,16 @@ FPTruncInst* IRWriter::newFPTruncInst(IRGenerationContext& context,
   
   return new FPTruncInst(fromValue, toLLVMType, "conv", currentBlock);
 }
+
+FPExtInst* IRWriter::newFPExtInst(IRGenerationContext& context,
+                                  Value* fromValue,
+                                  Type* toLLVMType) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new FPExtInst(fromValue, toLLVMType, "conv", currentBlock);
+}
+

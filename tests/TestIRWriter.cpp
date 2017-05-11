@@ -316,3 +316,21 @@ TEST_F(IRWriterTest, newFPTruncInstTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newFPExtInstTest) {
+  Constant* value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 0);
+  Type* type = Type::getDoubleTy(mLLVMContext);
+  CastInst* castInst = IRWriter::newFPExtInst(mContext, value, type);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *castInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = fpext float 0.000000e+00 to double");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newFPExtInst(mContext, value, type);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}

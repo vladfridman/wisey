@@ -43,7 +43,7 @@ Value* Cast::widenFloatCast(IRGenerationContext& context,
                             IType* toType) {
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return new FPExtInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
+  return IRWriter::newFPExtInst(context, fromValue, toLLVMType);
 }
 
 Value* Cast::intToFloatCast(IRGenerationContext& context,

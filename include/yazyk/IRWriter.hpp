@@ -132,6 +132,12 @@ public:
                                            llvm::Value* fromValue,
                                            llvm::Type* toLLVMType);
 
+  /**
+   * Add a FPExtInst that widens a float value to a given float type
+   */
+  static llvm::FPExtInst* newFPExtInst(IRGenerationContext& context,
+                                       llvm::Value* fromValue,
+                                       llvm::Type* toLLVMType);
 };
   
 } /* namespace yazyk */
