@@ -163,3 +163,7 @@ TEST_F(TestFileSampleRunner, returnStatementRunTest) {
 TEST_F(TestFileSampleRunner, returnStatementCastRunTest) {
   runFile("tests/samples/test_return_boolean_cast.yz", "1");
 }
+
+TEST_F(TestFileSampleRunner, earlyReturnRunTest) {
+  runFile("tests/samples/test_early_return.yz", "1");
+}
