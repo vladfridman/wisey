@@ -35,7 +35,7 @@ Value* Cast::truncFloatCast(IRGenerationContext& context,
                             IType* toType) {
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return new FPTruncInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
+  return IRWriter::newFPTruncInst(context, fromValue, toLLVMType);
 }
 
 Value* Cast::widenFloatCast(IRGenerationContext& context,

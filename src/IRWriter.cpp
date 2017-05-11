@@ -186,3 +186,15 @@ TruncInst* IRWriter::newTruncInst(IRGenerationContext& context,
   
   return new TruncInst(fromValue, toLLVMType, "conv", currentBlock);
 }
+
+FPTruncInst* IRWriter::newFPTruncInst(IRGenerationContext& context,
+                                    Value* fromValue,
+                                    Type* toLLVMType) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new FPTruncInst(fromValue, toLLVMType, "conv", currentBlock);
+}

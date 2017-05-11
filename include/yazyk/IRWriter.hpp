@@ -125,6 +125,12 @@ public:
   static llvm::TruncInst* newTruncInst(IRGenerationContext& context,
                                        llvm::Value* fromValue,
                                        llvm::Type* toLLVMType);
+  /**
+   * Add a FPTruncInst that truncates a float value to a given float type
+   */
+  static llvm::FPTruncInst* newFPTruncInst(IRGenerationContext& context,
+                                           llvm::Value* fromValue,
+                                           llvm::Type* toLLVMType);
 
 };
   

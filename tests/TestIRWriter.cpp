@@ -298,3 +298,21 @@ TEST_F(IRWriterTest, newTruncInstTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newFPTruncInstTest) {
+  Constant* value = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 0);
+  Type* type = Type::getFloatTy(mLLVMContext);
+  CastInst* castInst = IRWriter::newFPTruncInst(mContext, value, type);
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *castInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %conv = fptrunc double 0.000000e+00 to float");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newFPTruncInst(mContext, value, type);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}
