@@ -21,13 +21,12 @@ controller CCatcher {
   inject CThrower mThrower;
 
   public int doTryCatch() {
-    int value = 5;
     try {
       mThrower.doThrow();
     } catch (MException exception) {
-      value = exception.getValue();
+      return exception.getValue();
     }
-    return value;
+    return 5;
   }
 }
 
