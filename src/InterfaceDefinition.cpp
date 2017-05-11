@@ -181,11 +181,8 @@ LoadInst* InterfaceDefinition::composeInstanceOfWhileConditionBlock(IRGeneration
   LoadInst* stringPointer = IRWriter::newLoadInst(context, stringPointerPointer, "stringPointer");
   
   Value* nullPointerValue = ConstantPointerNull::get(int8Type->getPointerTo());
-  Value* checkStringIsNull = new ICmpInst(*whileCond,
-                                          ICmpInst::ICMP_EQ,
-                                          stringPointer,
-                                          nullPointerValue,
-                                          "cmpnull");
+  Value* checkStringIsNull =
+    IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, stringPointer, nullPointerValue, "cmpnull");
 
   IRWriter::createConditionalBranch(context, returnFalse, whileBody, checkStringIsNull);
   
@@ -216,11 +213,8 @@ void InterfaceDefinition::composeInstanceOfWhileBodyBlock(IRGenerationContext& c
   functionArguments++;
   Argument* compareToArgument = &*functionArguments;
 
-  Value* doesTypeMatch = new ICmpInst(*whileBody,
-                                      ICmpInst::ICMP_EQ,
-                                      stringPointer,
-                                      compareToArgument,
-                                      "cmp");
+  Value* doesTypeMatch =
+    IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, stringPointer, compareToArgument, "cmp");
   IRWriter::createConditionalBranch(context, returnTrue, whileCond, doesTypeMatch);
 }
 

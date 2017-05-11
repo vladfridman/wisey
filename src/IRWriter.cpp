@@ -267,3 +267,17 @@ PHINode* IRWriter::createPhiNode(IRGenerationContext& context,
   
   return phiNode;
 }
+
+ICmpInst* IRWriter::newICmpInst(IRGenerationContext& context,
+                                ICmpInst::Predicate predicate,
+                                Value* leftValue,
+                                Value* rightValue,
+                                string variableName) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new ICmpInst(*currentBlock, predicate, leftValue, rightValue, variableName);
+}

@@ -9,6 +9,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "yazyk/IRGenerationContext.hpp"
+#include "yazyk/IRWriter.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/PrimitiveTypes.hpp"
 #include "yazyk/RelationalExpression.hpp"
@@ -31,11 +32,7 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
   Value * leftValue = mLeftExpression.generateIR(context);
   Value * rightValue = mRightExpression.generateIR(context);
   
-  return new ICmpInst(*context.getBasicBlock(),
-                      predicate,
-                      leftValue,
-                      rightValue,
-                      "cmp");
+  return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
 }
 
 IType* RelationalExpression::getType(IRGenerationContext& context) const {

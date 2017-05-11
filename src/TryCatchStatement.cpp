@@ -98,8 +98,7 @@ void TryCatchStatement::generateResumeAndFail(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getBasicBlock()->getParent();
   Constant* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  BasicBlock* currentBlock = context.getBasicBlock();
-  ICmpInst* compare = new ICmpInst(*currentBlock, ICmpInst::ICMP_SLT, exceptionTypeId, zero);
+  ICmpInst* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, exceptionTypeId, zero, "");
   BasicBlock* unexpectedBlock = BasicBlock::Create(llvmContext, "unexpected", function);
   BasicBlock* resumeBlock = BasicBlock::Create(llvmContext, "resume", function);
   IRWriter::createConditionalBranch(context, unexpectedBlock, resumeBlock, compare);
@@ -135,7 +134,8 @@ TryCatchStatement::generateSelectCatchByExceptionType(IRGenerationContext& conte
     arguments.push_back(rttiBitcast);
     CallInst* typeId = IRWriter::createCallInst(context, typeIdFunction, arguments, "");
     typeId->setTailCall();
-    ICmpInst* compare = new ICmpInst(*currentBlock, ICmpInst::ICMP_EQ, exceptionTypeId, typeId);
+    ICmpInst* compare =
+      IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, exceptionTypeId, typeId, "");
     string catchBlockName = "catch." + exceptionType->getName();
     BasicBlock* catchBlock = BasicBlock::Create(llvmContext, catchBlockName, function);
     catchesAndBlocks.push_back(make_tuple(catchClause, catchBlock));

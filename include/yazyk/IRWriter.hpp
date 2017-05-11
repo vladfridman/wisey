@@ -172,6 +172,14 @@ public:
                                       llvm::Value* condFalseValue,
                                       llvm::BasicBlock* condFalseBasicBlock);
 
+  /**
+   * Add an ICmpInst that compares two values
+   */
+  static llvm::ICmpInst* newICmpInst(IRGenerationContext& context,
+                                     llvm::ICmpInst::Predicate predicate,
+                                     llvm::Value* leftValue,
+                                     llvm::Value* rightValue,
+                                     std::string variableName);
 };
   
 } /* namespace yazyk */

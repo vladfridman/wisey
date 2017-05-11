@@ -377,7 +377,8 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   Value* originalObject = getOriginalObject(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  ICmpInst* compareToZero = new ICmpInst(*entryBlock, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
+  ICmpInst* compareToZero =
+    IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
   IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareToZero);
   
   context.setBasicBlock(lessThanZero);
@@ -387,7 +388,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
 
   context.setBasicBlock(notLessThanZero);
   ICmpInst* compareToOne =
-  new ICmpInst(*notLessThanZero, ICmpInst::ICMP_SGT, instanceof, one, "cmp");
+    IRWriter::newICmpInst(context, ICmpInst::ICMP_SGT, instanceof, one, "cmp");
   IRWriter::createConditionalBranch(context, moreThanOne, zeroOrOne, compareToOne);
 
   context.setBasicBlock(moreThanOne);

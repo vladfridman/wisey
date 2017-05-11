@@ -412,3 +412,20 @@ TEST_F(IRWriterTest, createPhiNodeTest) {
 
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newICmpInstTest) {
+  ConstantInt* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
+  ICmpInst* iCmpInst = IRWriter::newICmpInst(mContext, ICmpInst::ICMP_SGE, value, value, "cmp");
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *iCmpInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp sge i32 0, 0");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newICmpInst(mContext, ICmpInst::ICMP_SGE, value, value, "cmp");
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}
