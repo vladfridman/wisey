@@ -223,3 +223,15 @@ SIToFPInst* IRWriter::newSIToFPInst(IRGenerationContext& context,
   return new SIToFPInst(fromValue, toLLVMType, "conv", currentBlock);
 }
 
+FPToSIInst* IRWriter::newFPToSIInst(IRGenerationContext& context,
+                                    Value* fromValue,
+                                    Type* toLLVMType) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new FPToSIInst(fromValue, toLLVMType, "conv", currentBlock);
+}
+

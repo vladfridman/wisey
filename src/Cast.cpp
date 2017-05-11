@@ -59,7 +59,7 @@ Value* Cast::floatToIntCast(IRGenerationContext& context,
                             IType* toType) {
   Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
   
-  return new FPToSIInst(fromValue, toLLVMType, "conv", context.getBasicBlock());
+  return IRWriter::newFPToSIInst(context, fromValue, toLLVMType);
 }
 
 void Cast::exitIncopatibleTypes(const IType* fromType, const IType* toType) {

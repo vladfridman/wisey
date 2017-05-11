@@ -145,6 +145,13 @@ public:
   static llvm::SIToFPInst* newSIToFPInst(IRGenerationContext& context,
                                          llvm::Value* fromValue,
                                          llvm::Type* toLLVMType);
+  
+  /**
+   * Add a FPToSIInst that casts float type to int
+   */
+  static llvm::FPToSIInst* newFPToSIInst(IRGenerationContext& context,
+                                         llvm::Value* fromValue,
+                                         llvm::Type* toLLVMType);
 };
   
 } /* namespace yazyk */
