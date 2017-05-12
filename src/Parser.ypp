@@ -708,7 +708,6 @@ interface_type_specifier
 
 exception_type_specifier
   : model_type_specifier { $$ = (ITypeSpecifier*) $1; }
-  | interface_type_specifier { $$ = (ITypeSpecifier*) $1; }
   ;
 
 %%
