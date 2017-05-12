@@ -20,6 +20,7 @@ Scope::~Scope() {
   if (mExceptionFinally) {
     delete mExceptionFinally;
   }
+  mExceptions.clear();
 }
 
 IVariable* Scope::findVariable(string name) {
