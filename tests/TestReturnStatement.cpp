@@ -134,7 +134,6 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
 
   Type* structType = Type::getInt8Ty(llvmContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, Type::getInt32Ty(llvmContext));
   Instruction* malloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
 
   LocalHeapVariable* variable = new LocalHeapVariable("foo", mModel, malloc);
@@ -148,8 +147,8 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
   *mStringStream << *basicBlock;
   string expected =
     "\nentry:"
-    "\n  %malloccall = tail call i8* @malloc(i32 ptrtoint "
-      "(i8* getelementptr (i8, i8* null, i32 1) to i32))"
+    "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
+      "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
     "\n  %conv = zext i32 3 to i64"
     "\n  tail call void @free(i8* %malloccall)"
     "\n  ret i64 %conv\n";

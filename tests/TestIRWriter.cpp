@@ -134,14 +134,13 @@ TEST_F(IRWriterTest, createCallInstTest) {
 TEST_F(IRWriterTest, createMallocTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, Type::getInt32Ty(mLLVMContext));
   Instruction* instruction = IRWriter::createMalloc(mContext, structType, allocSize, "");
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *instruction;
   ASSERT_STREQ(mStringStream->str().c_str(),
-               "  %malloccall = tail call i8* @malloc(i32 ptrtoint "
-               "(i8* getelementptr (i8, i8* null, i32 1) to i32))");
+               "  %malloccall = tail call i8* @malloc(i64 ptrtoint "
+               "(i8* getelementptr (i8, i8* null, i32 1) to i64))");
   
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   IRWriter::createReturnInst(mContext, value);

@@ -79,7 +79,7 @@ Instruction* IRWriter::createMalloc(IRGenerationContext& context,
     return NULL;
   }
 
-  Type* pointerType = Type::getInt32Ty(context.getLLVMContext());
+  Type* pointerType = Type::getInt64Ty(context.getLLVMContext());
   Instruction* malloc = CallInst::CreateMalloc(currentBlock,
                                                pointerType,
                                                structType,

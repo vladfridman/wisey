@@ -272,8 +272,8 @@ TEST_F(ControllerTest, injectTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint "
-  "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))"
+  "\n  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
+  "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))"
   "\n  %injectvar = bitcast i8* %malloccall to %CAdditor*"
   "\n  %0 = getelementptr %CAdditor, %CAdditor* %injectvar, i32 0, i32 0\n  store i32 3, i32* %0"
   "\n  %1 = getelementptr %CAdditor, %CAdditor* %injectvar, i32 0, i32 1\n  store i32 5, i32* %1\n";

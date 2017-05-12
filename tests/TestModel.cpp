@@ -378,8 +378,8 @@ TEST_F(ModelTest, buildTest) {
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
   string expected = string() +
-  "  %malloccall = tail call i8* @malloc(i32 trunc (i64 mul nuw (i64 ptrtoint" +
-  " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2) to i32))";
+  "  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint" +
+  " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))";
   EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
   mStringBuffer.clear();
   

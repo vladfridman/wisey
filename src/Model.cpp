@@ -276,7 +276,6 @@ Instruction* Model::createMalloc(IRGenerationContext& context) const {
   
   Type* structType = getLLVMType(llvmContext)->getPointerElementType();
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  allocSize = ConstantExpr::getTruncOrBitCast(allocSize, Type::getInt32Ty(llvmContext));
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "buildervar");
   
   return malloc;
