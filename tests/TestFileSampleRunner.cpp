@@ -82,7 +82,7 @@ void TestFileSampleRunner::compileAndRunFile(string fileName, int expectedResult
   
   string yazykCompileCommand = "bin/yazyk " + fileName + " -o build/test.bc";
   exec(yazykCompileCommand.c_str());
-  exec("llc -filetype=obj build/test.bc");
+  exec("/usr/local/bin/llc -filetype=obj build/test.bc");
   exec("g++ -o build/test build/test.o");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);
