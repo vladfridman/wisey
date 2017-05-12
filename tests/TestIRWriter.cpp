@@ -133,17 +133,15 @@ TEST_F(IRWriterTest, createCallInstTest) {
 
 TEST_F(IRWriterTest, createInvokeInstTest) {
   vector<Value*> arguments;
-  BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue", mMainFunction);
   BasicBlock* landingpadBlock = BasicBlock::Create(mLLVMContext, "eh.lpad", mMainFunction);
   mContext.getScopes().setLandingPadBlock(landingpadBlock);
-  mContext.getScopes().setExceptionContinueBlock(continueBlock);
   InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
   *mStringStream << *invokeInst;
   ASSERT_STREQ(mStringStream->str().c_str(),
                "  %0 = invoke i64 @main()\n"
-               "          to label %eh.continue unwind label %eh.lpad");
+               "          to label %invoke.continue unwind label %eh.lpad");
   
   IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
   

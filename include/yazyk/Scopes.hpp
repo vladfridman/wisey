@@ -100,12 +100,12 @@ public:
   llvm::BasicBlock* getLandingPadBlock();
 
   /**
-   * Sets the exception continue block that is the block after the last catch
+   * Set the basic block for instructions after the try/catch
    */
   void setExceptionContinueBlock(llvm::BasicBlock* basicBlock);
 
   /**
-   * Returns the exception continue block that is the block after the last catch
+   * Returns the basic block for instructions after the try/catch
    */
   llvm::BasicBlock* getExceptionContinueBlock();
 

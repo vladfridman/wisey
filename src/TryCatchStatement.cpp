@@ -32,6 +32,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
 
   context.getScopes().pushScope();
   mTryBlock.generateIR(context);
+  IRWriter::createBranch(context, continueBlock);
   context.getScopes().popScope(context);
   
   tuple<LandingPadInst*, Value*, Value*>

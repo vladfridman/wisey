@@ -13,10 +13,12 @@ using namespace std;
 using namespace yazyk;
 
 ReturnInst* IRWriter::createReturnInst(IRGenerationContext& context, Value* returnValue) {
-  if (context.getBasicBlock()->getTerminator()) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+
+  if (currentBlock->getTerminator()) {
     return NULL;
   }
-  return ReturnInst::Create(context.getLLVMContext(), returnValue, context.getBasicBlock());
+  return ReturnInst::Create(context.getLLVMContext(), returnValue, currentBlock);
 }
 
 BranchInst* IRWriter::createBranch(IRGenerationContext& context, BasicBlock* toBlock) {
@@ -79,12 +81,19 @@ InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
     return NULL;
   }
   
-  return InvokeInst::Create(function,
-                            context.getScopes().getExceptionContinueBlock(),
-                            context.getScopes().getLandingPadBlock(),
-                            arguments,
-                            resultName,
-                            context.getBasicBlock());
+  BasicBlock* continueToBlock = BasicBlock::Create(context.getLLVMContext(),
+                                                   "invoke.continue",
+                                                   currentBlock->getParent());
+  InvokeInst* invokeInst = InvokeInst::Create(function,
+                                              continueToBlock,
+                                              context.getScopes().getLandingPadBlock(),
+                                              arguments,
+                                              resultName,
+                                              currentBlock);
+  
+  context.setBasicBlock(continueToBlock);
+  
+  return invokeInst;
 }
 
 Instruction* IRWriter::createMalloc(IRGenerationContext& context,

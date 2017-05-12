@@ -254,7 +254,7 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = invoke i32 @object.MSquare.bar("
                "%MSquare* %0, float 0x4014CCCCC0000000)\n"
-               "          to label %eh.continue unwind label %eh.landing.pad",
+               "          to label %invoke.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
