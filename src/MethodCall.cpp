@@ -118,13 +118,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   if (!methodDescriptor->getThrownExceptions().size()) {
     return IRWriter::createCallInst(context, function, arguments, resultName);
   }
-  BasicBlock* exceptionContinueBlock = context.getScopes().getExceptionContinueBlock();
-  return InvokeInst::Create(function,
-                            exceptionContinueBlock,
-                            context.getScopes().getLandingPadBlock(),
-                            arguments,
-                            resultName,
-                            context.getBasicBlock());
+  return IRWriter::createInvokeInst(context, function, arguments, resultName);
 }
 
 IType* MethodCall::getType(IRGenerationContext& context) const {

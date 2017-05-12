@@ -60,6 +60,14 @@ public:
                                         llvm::Function* function,
                                         std::vector<llvm::Value*> arguments,
                                         std::string resultName);
+ 
+  /**
+   * Create a call to a given function using invoke with supplied arguments
+   */
+  static llvm::InvokeInst* createInvokeInst(IRGenerationContext& context,
+                                            llvm::Function* function,
+                                            std::vector<llvm::Value*> arguments,
+                                            std::string resultName);
 
   /**
    * Create a call to malloc function that allocates memory on heap

@@ -69,6 +69,24 @@ CallInst* IRWriter::createCallInst(IRGenerationContext& context,
   return CallInst::Create(function, arguments, resultName, currentBlock);
 }
 
+InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
+                                       Function* function,
+                                       vector<Value*> arguments,
+                                       string resultName) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return InvokeInst::Create(function,
+                            context.getScopes().getExceptionContinueBlock(),
+                            context.getScopes().getLandingPadBlock(),
+                            arguments,
+                            resultName,
+                            context.getBasicBlock());
+}
+
 Instruction* IRWriter::createMalloc(IRGenerationContext& context,
                                     Type* structType,
                                     Value* allocSize,
