@@ -19,9 +19,8 @@ using namespace yazyk;
 
 TEST(TestEmptyStatement, simpleEmptyStatementTest) {
   IRGenerationContext context;
-  EmptyStatement statement;
   
-  EXPECT_EQ(statement.generateIR(context), nullptr);
+  EXPECT_EQ(EmptyStatement::EMPTY_STATEMENT.generateIR(context), nullptr);
 }
 
 TEST_F(TestFileSampleRunner, emptyStatementRunTest) {
