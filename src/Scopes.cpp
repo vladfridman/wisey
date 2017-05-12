@@ -8,6 +8,7 @@
 
 #include <set>
 
+#include "yazyk/EmptyStatement.hpp"
 #include "yazyk/IObjectWithMethodsType.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/Scopes.hpp"
@@ -164,6 +165,25 @@ BasicBlock* Scopes::getExceptionContinueBlock() {
   }
   
   return NULL;
+}
+
+void Scopes::setExceptionFinally(const IStatement* finallyStatement) {
+  getScope()->setExceptionFinally(finallyStatement);
+}
+
+const IStatement* Scopes::getExceptionFinally() {
+  if (mScopes.size() == 0) {
+    return &EmptyStatement::EMPTY_STATEMENT;
+  }
+  
+  for (Scope* scope : mScopes) {
+    const IStatement* finallyStatement = scope->getExceptionFinally();
+    if (finallyStatement != NULL) {
+      return finallyStatement;
+    }
+  }
+  
+  return &EmptyStatement::EMPTY_STATEMENT;
 }
 
 void Scopes::setReturnType(IType* type) {

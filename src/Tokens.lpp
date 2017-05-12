@@ -76,6 +76,7 @@ WS  [ \t\v\n\f]
 "throws"                      return TOKEN(TTHROWS);
 "try"                         return TOKEN(TTRY);
 "catch"                       return TOKEN(TCATCH);
+"finally"                     return TOKEN(TFINALLY);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

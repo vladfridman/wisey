@@ -1,0 +1,54 @@
+interface IProgram {
+  int run();
+}
+
+model MException {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CThrower {
+  public int doThrow() throws MException {
+    MException exception = builder(MException).withValue(255).build();
+    throw exception;
+  }
+}
+
+controller CCatcher {
+  inject CThrower mThrower;
+
+  public int doTryCatch() throws MException {
+    int value = 1;
+    try {
+      value = value + mThrower.doThrow();
+    } catch (MException exception) {
+      value = value + 2;
+    } finally {
+      value = value + 3;
+    }
+    return value;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CCatcher mCatcher;
+
+  public int run() {
+    try {
+      int val = mCatcher.doTryCatch();
+      return val;
+    } catch (MException exception) {
+      return 25;
+    }
+    return 0;
+  }
+}
+
+int main() {
+  CProgram program = inject(CProgram);
+
+  return program.run();
+}

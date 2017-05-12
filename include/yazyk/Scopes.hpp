@@ -12,6 +12,7 @@
 #include <list>
 
 #include "yazyk/IType.hpp"
+#include "yazyk/IStatement.hpp"
 #include "yazyk/IVariable.hpp"
 #include "yazyk/Scope.hpp"
 
@@ -108,6 +109,16 @@ public:
    * Returns the basic block for instructions after the try/catch
    */
   llvm::BasicBlock* getExceptionContinueBlock();
+
+  /**
+   * Set the statement that should always by executed for a try/catch block
+   */
+  void setExceptionFinally(const IStatement* finallyStatement);
+  
+  /**
+   * Returns the statement that should always by executed for a try/catch block
+   */
+  const IStatement* getExceptionFinally();
 
 private:
 

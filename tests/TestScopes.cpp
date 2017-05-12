@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockStatement.hpp"
 #include "MockType.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/LocalHeapVariable.hpp"
@@ -198,6 +199,18 @@ TEST(ScopesTest, setExceptionContinueBlockTest) {
   scopes.pushScope();
   
   ASSERT_EQ(scopes.getExceptionContinueBlock(), basicBlock);
+}
+
+TEST(ScopesTest, setExceptionFinallyTest) {
+  LLVMContext context;
+  Scopes scopes;
+  scopes.pushScope();
+  NiceMock<MockStatement>* mockStatement = new NiceMock<MockStatement>();
+  
+  scopes.setExceptionFinally(mockStatement);
+  scopes.pushScope();
+  
+  ASSERT_EQ(scopes.getExceptionFinally(), mockStatement);
 }
 
 TEST(ScopesTest, reportUnhandledExceptionsDeathTest) {

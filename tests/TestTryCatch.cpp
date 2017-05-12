@@ -29,3 +29,7 @@ TEST_F(TestFileSampleRunner, tryCatchContinueTest) {
 TEST_F(TestFileSampleRunner, tryCatchReturnNoThrowTest) {
   compileAndRunFile("tests/samples/test_try_catch_return_no_throw.yz", 3);
 }
+
+TEST_F(TestFileSampleRunner, tryCatchReturnFinallyTest) {
+  compileAndRunFile("tests/samples/test_try_catch_finally.yz", 3);
+}

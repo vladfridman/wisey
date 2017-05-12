@@ -24,11 +24,12 @@ namespace yazyk {
 class TryCatchStatement : public IStatement {
   IStatement& mTryBlock;
   std::vector<Catch*> mCatchList;
+  const IStatement* mFinally;
   
 public:
   
-  TryCatchStatement(IStatement& tryBlock, std::vector<Catch*> catchList)
-  : mTryBlock(tryBlock), mCatchList(catchList) { }
+  TryCatchStatement(IStatement& tryBlock, std::vector<Catch*> catchList, const IStatement* finallyClause)
+  : mTryBlock(tryBlock), mCatchList(catchList), mFinally(finallyClause) { }
   
   ~TryCatchStatement() { }
   

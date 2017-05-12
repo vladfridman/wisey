@@ -16,6 +16,12 @@ using namespace llvm;
 using namespace std;
 using namespace yazyk;
 
+Scope::~Scope() {
+  if (mExceptionFinally) {
+    delete mExceptionFinally;
+  }
+}
+
 IVariable* Scope::findVariable(string name) {
   if (mLocals.count(name)) {
     return mLocals.at(name);
@@ -66,6 +72,14 @@ void Scope::setExceptionContinueBlock(BasicBlock* block) {
 
 BasicBlock* Scope::getExceptionContinueBlock() {
   return mExceptionContinueBlock;
+}
+
+void Scope::setExceptionFinally(const IStatement* finallyStatement) {
+  mExceptionFinally = finallyStatement;
+}
+
+const IStatement* Scope::getExceptionFinally() {
+  return mExceptionFinally;
 }
 
 void Scope::setReturnType(IType* type) {

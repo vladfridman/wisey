@@ -11,6 +11,7 @@
 
 #include <map>
 
+#include "yazyk/IStatement.hpp"
 #include "yazyk/IVariable.hpp"
 
 namespace yazyk {
@@ -26,6 +27,7 @@ class Scope {
   llvm::BasicBlock* mContinueToBlock;
   llvm::BasicBlock* mLandingPadBlock;
   llvm::BasicBlock* mExceptionContinueBlock;
+  const IStatement* mExceptionFinally;
   bool mHasOwnedMemoryBeenFreed;
   IType* mReturnType;
   std::map<std::string, IType*> mExceptions;
@@ -37,8 +39,11 @@ public:
   mContinueToBlock(NULL),
   mLandingPadBlock(NULL),
   mExceptionContinueBlock(NULL),
+  mExceptionFinally(NULL),
   mHasOwnedMemoryBeenFreed(false),
   mReturnType(NULL) { }
+  
+  ~Scope();
 
   /**
    * Finds a variable and returns it. Returns NULL if the variable is not found;
@@ -94,6 +99,16 @@ public:
    * Returns the exception continue block that is the block after the last catch
    */
   llvm::BasicBlock* getExceptionContinueBlock();
+
+  /**
+   * Set the statement that should always by executed for a try/catch block
+   */
+  void setExceptionFinally(const IStatement* finallyStatement);
+  
+  /**
+   * Returns the statement that should always by executed for a try/catch block
+   */
+  const IStatement* getExceptionFinally();
 
   /**
    * Set current method's return type

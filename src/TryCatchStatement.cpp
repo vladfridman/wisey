@@ -29,6 +29,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* continueBlock = BasicBlock::Create(llvmContext, "eh.continue", function);
   context.getScopes().setLandingPadBlock(landingPadBlock);
   context.getScopes().setExceptionContinueBlock(continueBlock);
+  context.getScopes().setExceptionFinally(mFinally);
 
   context.getScopes().pushScope();
   mTryBlock.generateIR(context);
