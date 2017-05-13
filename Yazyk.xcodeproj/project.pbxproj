@@ -253,6 +253,8 @@
 		F57411741E043EE4009809FF /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57411721E043EE4009809FF /* Identifier.cpp */; };
 		F57780A51EC673EC0049542D /* EmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780A41EC673EC0049542D /* EmptyStatement.cpp */; };
 		F57780A61EC673EC0049542D /* EmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780A41EC673EC0049542D /* EmptyStatement.cpp */; };
+		F57780A91EC7778A0049542D /* ProgramPrefix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780A81EC7778A0049542D /* ProgramPrefix.cpp */; };
+		F57780AA1EC7778A0049542D /* ProgramPrefix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780A81EC7778A0049542D /* ProgramPrefix.cpp */; };
 		F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */; };
 		F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */; };
 		F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */; };
@@ -624,6 +626,8 @@
 		F57411711E043E80009809FF /* Identifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Identifier.hpp; path = include/yazyk/Identifier.hpp; sourceTree = "<group>"; };
 		F57411721E043EE4009809FF /* Identifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Identifier.cpp; path = src/Identifier.cpp; sourceTree = "<group>"; };
 		F57780A41EC673EC0049542D /* EmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmptyStatement.cpp; path = src/EmptyStatement.cpp; sourceTree = "<group>"; };
+		F57780A71EC775D40049542D /* ProgramPrefix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ProgramPrefix.hpp; path = include/yazyk/ProgramPrefix.hpp; sourceTree = "<group>"; };
+		F57780A81EC7778A0049542D /* ProgramPrefix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramPrefix.cpp; path = src/ProgramPrefix.cpp; sourceTree = "<group>"; };
 		F57E2E261E82D69900FE1DB9 /* BooleanNotExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanNotExpression.hpp; path = include/yazyk/BooleanNotExpression.hpp; sourceTree = "<group>"; };
 		F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanNotExpression.cpp; path = src/BooleanNotExpression.cpp; sourceTree = "<group>"; };
 		F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanNotExpression.cpp; path = tests/TestBooleanNotExpression.cpp; sourceTree = "<group>"; };
@@ -1051,6 +1055,7 @@
 				F569E9ED1DF9CC9600BBB20E /* Parser.ypp */,
 				F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */,
 				F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */,
+				F57780A81EC7778A0049542D /* ProgramPrefix.cpp */,
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
 				F57411411E015961009809FF /* ReturnStatement.cpp */,
 				F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */,
@@ -1207,6 +1212,7 @@
 				F50427B21E4E3B5C001CB148 /* ObjectFieldVariable.hpp */,
 				F507D26B1E45FDF000495E2D /* PrimitiveTypes.hpp */,
 				F5E2092E1E078B7500E1A147 /* PrimitiveTypeSpecifier.hpp */,
+				F57780A71EC775D40049542D /* ProgramPrefix.hpp */,
 				F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */,
 				F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */,
 				F57411441E0159AE009809FF /* ReturnStatement.hpp */,
@@ -1448,6 +1454,7 @@
 				F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F531B6511E0DCA9C008304F3 /* TestFunctionCall.cpp in Sources */,
+				F57780AA1EC7778A0049542D /* ProgramPrefix.cpp in Sources */,
 				F50FA2EA1E2E3B1200435EEA /* FloatConstant.cpp in Sources */,
 				F508E0701E73076E005D6115 /* Environment.cpp in Sources */,
 				F5EEDDA11E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
@@ -1564,6 +1571,7 @@
 				F508E0661E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
 				F508E0691E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
 				F5C6FD6F1E48B40F0054209D /* BooleanType.cpp in Sources */,
+				F57780A91EC7778A0049542D /* ProgramPrefix.cpp in Sources */,
 				F5C6FD851E48B7A00054209D /* LongType.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F5C6FD801E48B6E80054209D /* IntType.cpp in Sources */,

@@ -15,6 +15,7 @@
 #include "yazyk/Block.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
+#include "yazyk/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -71,6 +72,8 @@ int main(int argc, char **argv)
   yyparse();
   
   IRGenerationContext context;
+  ProgramPrefix programPrefix;
+  programPrefix.generateIR(context);
   programBlock->generateIR(context);
   verifyModule(*context.getModule());
 
