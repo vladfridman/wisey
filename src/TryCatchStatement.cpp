@@ -33,9 +33,14 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
 
   context.getScopes().pushScope();
   mTryBlock.generateIR(context);
-  IRWriter::createBranch(context, continueBlock);
   context.getScopes().popScope(context);
   
+  context.getScopes().pushScope();
+  context.getScopes().getExceptionFinally()->generateIR(context);
+  context.getScopes().popScope(context);
+
+  IRWriter::createBranch(context, continueBlock);
+
   tuple<LandingPadInst*, Value*, Value*>
   landingPadIR = generateLandingPad(context, landingPadBlock);
   LandingPadInst* landingPadInst = get<0>(landingPadIR);
@@ -49,6 +54,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   
   context.getScopes().setLandingPadBlock(NULL);
   context.getScopes().setExceptionContinueBlock(NULL);
+  context.getScopes().setExceptionFinally(NULL);
   context.setBasicBlock(continueBlock);
   
   return NULL;

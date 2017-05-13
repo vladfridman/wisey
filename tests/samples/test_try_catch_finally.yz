@@ -20,7 +20,7 @@ controller CThrower {
 controller CCatcher {
   inject CThrower mThrower;
 
-  public int doTryCatch() throws MException {
+  public int doTryCatch() {
     int value = 1;
     try {
       value = value + mThrower.doThrow();
@@ -29,7 +29,7 @@ controller CCatcher {
     } finally {
       value = value + 3;
     }
-    return value;
+    return value + 1;
   }
 }
 
@@ -37,13 +37,7 @@ controller CProgram implements IProgram {
   inject CCatcher mCatcher;
 
   public int run() {
-    try {
-      int val = mCatcher.doTryCatch();
-      return val;
-    } catch (MException exception) {
-      return 25;
-    }
-    return 0;
+    return mCatcher.doTryCatch();
   }
 }
 

@@ -18,6 +18,14 @@ ReturnInst* IRWriter::createReturnInst(IRGenerationContext& context, Value* retu
   if (currentBlock->getTerminator()) {
     return NULL;
   }
+  
+  context.getScopes().getExceptionFinally()->generateIR(context);
+  currentBlock = context.getBasicBlock();
+  
+  if (currentBlock->getTerminator()) {
+    return NULL;
+  }
+
   return ReturnInst::Create(context.getLLVMContext(), returnValue, currentBlock);
 }
 

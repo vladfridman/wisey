@@ -31,5 +31,5 @@ TEST_F(TestFileSampleRunner, tryCatchReturnNoThrowTest) {
 }
 
 TEST_F(TestFileSampleRunner, tryCatchReturnFinallyTest) {
-  compileAndRunFile("tests/samples/test_try_catch_finally.yz", 3);
+  compileAndRunFile("tests/samples/test_try_catch_finally.yz", 7);
 }
