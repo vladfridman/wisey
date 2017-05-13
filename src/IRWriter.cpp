@@ -316,3 +316,14 @@ ICmpInst* IRWriter::newICmpInst(IRGenerationContext& context,
   
   return new ICmpInst(*currentBlock, predicate, leftValue, rightValue, variableName);
 }
+
+ResumeInst* IRWriter::createResumeInst(IRGenerationContext& context,
+                                       LandingPadInst* landingPadInst) {
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return ResumeInst::Create(landingPadInst, currentBlock);
+}

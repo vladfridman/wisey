@@ -188,6 +188,13 @@ public:
                                      llvm::Value* leftValue,
                                      llvm::Value* rightValue,
                                      std::string variableName);
+
+  /**
+   * Add an ResumeInst that resumes propagation of an exception
+   */
+  static llvm::ResumeInst* createResumeInst(IRGenerationContext& context,
+                                            llvm::LandingPadInst* landingPadInst);
+
 };
   
 } /* namespace yazyk */

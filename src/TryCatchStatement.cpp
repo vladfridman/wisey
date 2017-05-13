@@ -78,6 +78,10 @@ TryCatchStatement::generateLandingPad(IRGenerationContext& context,
     context.getScopes().getScope()->removeException(exceptionType);
   }
   
+  if (mCatchList.size() == 0) {
+    landingPad->setCleanup(true);
+  }
+  
   Value* landingPadReturnValueAlloca = IRWriter::newAllocaInst(context, landingPadReturnType, "");
   IRWriter::newStoreInst(context, landingPad, landingPadReturnValueAlloca);
   
@@ -111,10 +115,13 @@ void TryCatchStatement::generateResumeAndFail(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(wrappedException);
   context.setBasicBlock(unexpectedBlock);
+  context.getScopes().getExceptionFinally()->generateIR(context);
   IRWriter::createCallInst(context, unexpectedFunction, arguments, "");
   new UnreachableInst(llvmContext, unexpectedBlock);
   
-  ResumeInst::Create(landingPadInst, resumeBlock);
+  context.setBasicBlock(resumeBlock);
+  context.getScopes().getExceptionFinally()->generateIR(context);
+  IRWriter::createResumeInst(context, landingPadInst);
 }
 
 vector<tuple<Catch*, BasicBlock*>>

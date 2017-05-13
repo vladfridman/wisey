@@ -445,3 +445,21 @@ TEST_F(IRWriterTest, newICmpInstTest) {
   
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, createResumeInstTest) {
+  Type* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  vector<Type*> landingPadReturnTypes;
+  landingPadReturnTypes.push_back(int8PointerType);
+  landingPadReturnTypes.push_back(Type::getInt32Ty(mLLVMContext));
+  StructType* landingPadReturnType = StructType::get(mLLVMContext, landingPadReturnTypes);
+  LandingPadInst* landingPad = LandingPadInst::Create(landingPadReturnType, 0, "", mBasicBlock);
+  
+  ResumeInst* resumeInst = IRWriter::createResumeInst(mContext, landingPad);
+
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  *mStringStream << *resumeInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  resume { i8*, i32 } %0");
+  
+  IRWriter::createResumeInst(mContext, landingPad);
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}
