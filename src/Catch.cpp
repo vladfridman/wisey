@@ -67,9 +67,7 @@ void Catch::generateIR(IRGenerationContext& context,
   mStatement.generateIR(context);
   context.getScopes().popScope(context);
   
-  context.getScopes().pushScope();
   context.getScopes().getExceptionFinally()->generateIR(context);
-  context.getScopes().popScope(context);
   
   IRWriter::createBranch(context, exceptionContinueBlock);
 }

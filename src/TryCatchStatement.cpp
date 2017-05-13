@@ -31,13 +31,9 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   context.getScopes().setExceptionContinueBlock(continueBlock);
   context.getScopes().setExceptionFinally(mFinally);
 
-  context.getScopes().pushScope();
   mTryBlock.generateIR(context);
-  context.getScopes().popScope(context);
   
-  context.getScopes().pushScope();
   context.getScopes().getExceptionFinally()->generateIR(context);
-  context.getScopes().popScope(context);
 
   IRWriter::createBranch(context, continueBlock);
 
