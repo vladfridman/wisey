@@ -2,6 +2,7 @@
   #include "yazyk/AccessLevel.hpp"
   #include "yazyk/AdditiveMultiplicativeExpression.hpp"
   #include "yazyk/Assignment.hpp"
+  #include "yazyk/BindAction.hpp"
   #include "yazyk/Block.hpp"
   #include "yazyk/BooleanConstants.hpp"
   #include "yazyk/BooleanNotExpression.hpp"
@@ -34,6 +35,7 @@
   #include "yazyk/IncrementExpression.hpp"
   #include "yazyk/IntConstant.hpp"
   #include "yazyk/InterfaceDefinition.hpp"
+  #include "yazyk/InterfaceInjector.hpp"
   #include "yazyk/InterfaceTypeSpecifier.hpp"
   #include "yazyk/IObjectWithMethodsType.hpp"
   #include "yazyk/ITypeSpecifier.hpp"
@@ -130,7 +132,7 @@
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
 %token <token> TINTERFACE TIMPLEMENTS TEXTENDS TINSTANCEOF
 %token <token> TCONTROLLER TINJECT TRECEIVE TSTATE
-%token <token> TTHROW TTHROWS TTRY TCATCH TFINALLY
+%token <token> TTHROW TTHROWS TTRY TCATCH TFINALLY TBIND TTO
 
 /**
  * Parsing tree node types
@@ -151,6 +153,7 @@
 %type <statement> global_unit declaration expression_statement iteration_statement
 %type <statement> selection_statement model_definition interface_definition function_definition
 %type <statement> controller_definition throw_statement try_catch_statement finally_clause
+%type <statement> bind_action
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
@@ -212,6 +215,12 @@ global_unit
   | model_definition
   | interface_definition
   | controller_definition
+  | bind_action
+  ;
+
+bind_action
+  : TBIND '(' TCONTROLLERIDENTIFIER ')' '.' TTO '(' TINTERFACEIDENTIFIER ')' ';'
+    { $$ = new BindAction(*$3, *$8); }
   ;
 
 interface_definition
@@ -661,6 +670,7 @@ assignment
 
 controller_injector
   : TINJECT '(' controller_type_specifier ')' { $$ = new ControllerInjector(*$3); }
+  | TINJECT '(' interface_type_specifier ')' { $$ = new InterfaceInjector(*$3); }
   ;
 
 model_builder

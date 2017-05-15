@@ -255,6 +255,12 @@
 		F57780A61EC673EC0049542D /* EmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780A41EC673EC0049542D /* EmptyStatement.cpp */; };
 		F57780A91EC7778A0049542D /* ProgramPrefix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780A81EC7778A0049542D /* ProgramPrefix.cpp */; };
 		F57780AA1EC7778A0049542D /* ProgramPrefix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780A81EC7778A0049542D /* ProgramPrefix.cpp */; };
+		F57780AD1EC7CC7B0049542D /* BindAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780AC1EC7CC7B0049542D /* BindAction.cpp */; };
+		F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780AC1EC7CC7B0049542D /* BindAction.cpp */; };
+		F57780B11EC7E07A0049542D /* InterfaceInjector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780B01EC7E07A0049542D /* InterfaceInjector.cpp */; };
+		F57780B21EC7E07A0049542D /* InterfaceInjector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780B01EC7E07A0049542D /* InterfaceInjector.cpp */; };
+		F57780B41ECA384B0049542D /* TestBindAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780B31ECA384B0049542D /* TestBindAction.cpp */; };
+		F57780B61ECA6B460049542D /* TestInterfaceInjector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780B51ECA6B460049542D /* TestInterfaceInjector.cpp */; };
 		F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */; };
 		F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */; };
 		F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */; };
@@ -628,6 +634,12 @@
 		F57780A41EC673EC0049542D /* EmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmptyStatement.cpp; path = src/EmptyStatement.cpp; sourceTree = "<group>"; };
 		F57780A71EC775D40049542D /* ProgramPrefix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ProgramPrefix.hpp; path = include/yazyk/ProgramPrefix.hpp; sourceTree = "<group>"; };
 		F57780A81EC7778A0049542D /* ProgramPrefix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramPrefix.cpp; path = src/ProgramPrefix.cpp; sourceTree = "<group>"; };
+		F57780AB1EC7CB610049542D /* BindAction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BindAction.hpp; path = include/yazyk/BindAction.hpp; sourceTree = "<group>"; };
+		F57780AC1EC7CC7B0049542D /* BindAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BindAction.cpp; path = src/BindAction.cpp; sourceTree = "<group>"; };
+		F57780AF1EC7E0020049542D /* InterfaceInjector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceInjector.hpp; path = include/yazyk/InterfaceInjector.hpp; sourceTree = "<group>"; };
+		F57780B01EC7E07A0049542D /* InterfaceInjector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceInjector.cpp; path = src/InterfaceInjector.cpp; sourceTree = "<group>"; };
+		F57780B31ECA384B0049542D /* TestBindAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBindAction.cpp; path = tests/TestBindAction.cpp; sourceTree = "<group>"; };
+		F57780B51ECA6B460049542D /* TestInterfaceInjector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceInjector.cpp; path = tests/TestInterfaceInjector.cpp; sourceTree = "<group>"; };
 		F57E2E261E82D69900FE1DB9 /* BooleanNotExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanNotExpression.hpp; path = include/yazyk/BooleanNotExpression.hpp; sourceTree = "<group>"; };
 		F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanNotExpression.cpp; path = src/BooleanNotExpression.cpp; sourceTree = "<group>"; };
 		F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanNotExpression.cpp; path = tests/TestBooleanNotExpression.cpp; sourceTree = "<group>"; };
@@ -812,6 +824,7 @@
 				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
 				F57086041E533667007D627E /* TestAutoCast.cpp */,
+				F57780B31ECA384B0049542D /* TestBindAction.cpp */,
 				F531B6441E0A4A7D008304F3 /* TestBlock.cpp */,
 				F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */,
 				F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */,
@@ -851,6 +864,7 @@
 				F50FA2EF1E2E3B2A00435EEA /* TestIntConstant.cpp */,
 				F5ADB6251E67075400FFC941 /* TestInterface.cpp */,
 				F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */,
+				F57780B51ECA6B460049542D /* TestInterfaceInjector.cpp */,
 				F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */,
 				F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */,
 				F5C6FD821E48B7260054209D /* TestIntType.cpp */,
@@ -983,6 +997,7 @@
 				F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */,
 				F531B6471E0A4F76008304F3 /* Assignment.cpp */,
 				F57086011E5317E8007D627E /* AutoCast.cpp */,
+				F57780AC1EC7CC7B0049542D /* BindAction.cpp */,
 				F531B6411E0A16D7008304F3 /* Block.cpp */,
 				F50FA3041E325E5400435EEA /* BooleanConstant.cpp */,
 				F507D2761E474E7C00495E2D /* BooleanConstants.cpp */,
@@ -1025,6 +1040,7 @@
 				F50FA2E31E2E3B0900435EEA /* IntConstant.cpp */,
 				F5ADB6201E66F9B400FFC941 /* Interface.cpp */,
 				F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */,
+				F57780B01EC7E07A0049542D /* InterfaceInjector.cpp */,
 				F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */,
 				F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */,
 				F5C6FD7F1E48B6E80054209D /* IntType.cpp */,
@@ -1132,6 +1148,7 @@
 				F53400EC1DFC20E70002BF7E /* AdditiveMultiplicativeExpression.hpp */,
 				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
 				F57086001E531726007D627E /* AutoCast.hpp */,
+				F57780AB1EC7CB610049542D /* BindAction.hpp */,
 				F531B6401E0A162D008304F3 /* Block.hpp */,
 				F50FA3031E325DEA00435EEA /* BooleanConstant.hpp */,
 				F507D2751E474DFE00495E2D /* BooleanConstants.hpp */,
@@ -1178,6 +1195,7 @@
 				F50FA2DF1E2E3AF600435EEA /* IntConstant.hpp */,
 				F5ADB61F1E66F84C00FFC941 /* Interface.hpp */,
 				F517970C1E660064009B16AA /* InterfaceDefinition.hpp */,
+				F57780AF1EC7E0020049542D /* InterfaceInjector.hpp */,
 				F5EEDD9E1E6EF43A00215278 /* InterfaceTypeSpecifier.hpp */,
 				F5CB180A1EB0C125007E2E43 /* IntrinsicFunctions.hpp */,
 				F507D26F1E46088D00495E2D /* IntType.hpp */,
@@ -1317,6 +1335,7 @@
 				F5F396DE1E3F898900F34296 /* TestModelBuilderArgument.cpp in Sources */,
 				F508E0671E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
 				F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
+				F57780B21EC7E07A0049542D /* InterfaceInjector.cpp in Sources */,
 				F50FA2F71E2E3B3500435EEA /* TestIntConstant.cpp in Sources */,
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
 				F57085FD1E51E2ED007D627E /* MethodCall.cpp in Sources */,
@@ -1352,6 +1371,7 @@
 				F531B65B1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
 				F50FA2EB1E2E3B1500435EEA /* IntConstant.cpp in Sources */,
 				F531B65D1E0DEB26008304F3 /* TestCharConstant.cpp in Sources */,
+				F57780B61ECA6B460049542D /* TestInterfaceInjector.cpp in Sources */,
 				F531B6571E0DE040008304F3 /* TestStringConstant.cpp in Sources */,
 				F57411661E01BF18009809FF /* TestScope.cpp in Sources */,
 				F515813C1E8D433B009CE419 /* ControllerInjector.cpp in Sources */,
@@ -1410,6 +1430,7 @@
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */,
 				F507D2791E474E7C00495E2D /* BooleanConstants.cpp in Sources */,
+				F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F5C6FD7C1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F51581321E8AB1A9009CE419 /* TestController.cpp in Sources */,
@@ -1462,6 +1483,7 @@
 				F50427AF1E4DD329001CB148 /* TestLocalStackVariable.cpp in Sources */,
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */,
+				F57780B41ECA384B0049542D /* TestBindAction.cpp in Sources */,
 				F508E06C1E72DC7D005D6115 /* TestIMethodDescriptor.cpp in Sources */,
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
@@ -1526,6 +1548,7 @@
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
+				F57780AD1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
@@ -1533,6 +1556,7 @@
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
 				F5CB18111EB0C615007E2E43 /* TryCatchStatement.cpp in Sources */,
 				F5CB18131EB0D96A007E2E43 /* Catch.cpp in Sources */,
+				F57780B11EC7E07A0049542D /* InterfaceInjector.cpp in Sources */,
 				F50FA2D31E2D0AD600435EEA /* ModelDefinition.cpp in Sources */,
 				F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,

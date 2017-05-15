@@ -113,6 +113,23 @@ Interface* IRGenerationContext::getInterface(string name) {
   return mInterfaces.at(name);
 }
 
+void IRGenerationContext::bindInterfaceToController(Interface* interface, Controller* controller) {
+  if (mBindings.count(interface)) {
+    Log::e("Interface " + interface->getName() + " is already bound to " +
+           mBindings[interface]->getName() + " and can not be bound to " + controller->getName());
+    exit(1);
+  }
+  mBindings[interface] = controller;
+}
+
+Controller* IRGenerationContext::getBoundController(Interface* interface) {
+  if (!mBindings.count(interface)) {
+    Log::e("No controller is bound to interface " + interface->getName());
+    exit(1);
+  }
+  return mBindings[interface];
+}
+
 void IRGenerationContext::addGlobalFunction(IType* returnType, string functionName) {
   if (mGlobalFunctions.count(functionName)) {
     Log::e("Redefinition of a global function " + functionName);

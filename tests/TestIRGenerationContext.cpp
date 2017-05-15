@@ -25,205 +25,206 @@ using namespace yazyk;
 
 using ::testing::Test;
 
-TEST(IRGenerationContextTest, blockStackTest) {
-  IRGenerationContext context;
-  LLVMContext &llvmContext = context.getLLVMContext();
-  BasicBlock* block1 = BasicBlock::Create(llvmContext, "block1");
-  BasicBlock* block2 = BasicBlock::Create(llvmContext, "block2");
+struct IRGenerationContextTest : public Test {
+  IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
+  Interface* mInterface;
+  Controller* mController;
+  Model* mModel;
   
-  EXPECT_EQ(context.getBasicBlock(), nullptr);
-  context.setBasicBlock(block1);
-  EXPECT_EQ(context.getBasicBlock(), block1);
-  context.setBasicBlock(block2);
-  EXPECT_EQ(context.getBasicBlock(), block2);
+  IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
+    StructType* interfaceStructType = StructType::create(mLLVMContext, "IMyInterface");
+    vector<Interface*> interfaceParentInterfaces;
+    vector<MethodSignature*> interfaceMethodSignatures;
+    mInterface = new Interface("IMyInterface",
+                               interfaceStructType,
+                               interfaceParentInterfaces,
+                               interfaceMethodSignatures);
+    
+    StructType* controllerStructType = StructType::create(mLLVMContext, "CMyController");
+    vector<Field*> controllerReceivedFields;
+    vector<Field*> controllerInjectedFields;
+    vector<Field*> controllerStateFields;
+    vector<Method*> controllerMethods;
+    vector<Interface*> controllerInterfaces;
+    mController = new Controller("CMyController",
+                                 controllerStructType,
+                                 controllerReceivedFields,
+                                 controllerInjectedFields,
+                                 controllerStateFields,
+                                 controllerMethods,
+                                 controllerInterfaces);
+
+    StructType* modelStructType = StructType::create(mLLVMContext, "MMyModel");
+    map<string, Field*> modelFields;
+    vector<Method*> modelMethods;
+    vector<Interface*> modelInterfaces;
+    mModel = new Model("MMyModel", modelStructType, modelFields, modelMethods, modelInterfaces);
+
+  }
+  
+  ~IRGenerationContextTest() { }
+};
+
+TEST_F(IRGenerationContextTest, blockStackTest) {
+  BasicBlock* block1 = BasicBlock::Create(mLLVMContext, "block1");
+  BasicBlock* block2 = BasicBlock::Create(mLLVMContext, "block2");
+  
+  EXPECT_EQ(mContext.getBasicBlock(), nullptr);
+  mContext.setBasicBlock(block1);
+  EXPECT_EQ(mContext.getBasicBlock(), block1);
+  mContext.setBasicBlock(block2);
+  EXPECT_EQ(mContext.getBasicBlock(), block2);
 }
 
-TEST(IRGenerationContextTest, mainFunctionTest) {
-  IRGenerationContext context;
-  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), false);
+TEST_F(IRGenerationContextTest, mainFunctionTest) {
+  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "main");
 
-  EXPECT_EQ(context.getMainFunction(), nullptr);
-  context.setMainFunction(function);
-  EXPECT_EQ(context.getMainFunction(), function);
+  EXPECT_EQ(mContext.getMainFunction(), nullptr);
+  mContext.setMainFunction(function);
+  EXPECT_EQ(mContext.getMainFunction(), function);
 }
 
-TEST(IRGenerationContextTest, moduleIsNotNullTest) {
-  IRGenerationContext context;
-  
-  EXPECT_NE(context.getModule(), nullptr);
+TEST_F(IRGenerationContextTest, moduleIsNotNullTest) {
+  EXPECT_NE(mContext.getModule(), nullptr);
 }
 
-TEST(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
-  IRGenerationContext context;
-  
-  EXPECT_EXIT(context.runCode(),
+TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
+  EXPECT_EXIT(mContext.runCode(),
               ::testing::ExitedWithCode(1),
               "Function main is not defined. Exiting.");
 }
 
-TEST(IRGenerationContextTest, modelTypeRegistryTest) {
-  IRGenerationContext context;
+TEST_F(IRGenerationContextTest, modelTypeRegistryTest) {
+  mContext.addModel(mModel);
   
-  StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
-  map<string, Field*> fields;
-  vector<Method*> methods;
-  vector<Interface*> interfaces;
-  Model* model = new Model("mymodel", structType, fields, methods, interfaces);
-  context.addModel(model);
-  Model* resultModel = context.getModel("mymodel");
+  Model* resultModel = mContext.getModel("MMyModel");
   
-  ASSERT_NE(resultModel, nullptr);
-  EXPECT_EQ(resultModel->getLLVMType(context.getLLVMContext()),
-            structType->getPointerTo());
+  EXPECT_EQ(resultModel, mModel);
 }
 
-TEST(IRGenerationContextTest, modelTypeRedefinedDeathTest) {
-  IRGenerationContext context;
+TEST_F(IRGenerationContextTest, modelTypeRedefinedDeathTest) {
+  mContext.addModel(mModel);
   
-  StructType* structType = StructType::create(context.getLLVMContext(), "mymodel");
-  map<string, Field*> fields;
-  vector<Method*> methods;
-  vector<Interface*> interfaces;
-  Model* model = new Model("mymodel", structType, fields, methods, interfaces);
-  context.addModel(model);
-  
-  EXPECT_EXIT(context.addModel(model),
+  EXPECT_EXIT(mContext.addModel(mModel),
               ::testing::ExitedWithCode(1),
-              "Redefinition of MODEL mymodel");
+              "Redefinition of MODEL MMyModel");
 }
 
-TEST(IRGenerationContextTest, modelTypeDoesNotExistDeathTest) {
-  IRGenerationContext context;
-  
-  EXPECT_EXIT(context.getModel("mymodel"),
+TEST_F(IRGenerationContextTest, modelTypeDoesNotExistDeathTest) {
+  EXPECT_EXIT(mContext.getModel("MMyModel"),
               ::testing::ExitedWithCode(1),
-              "MODEL mymodel is not defined");
+              "MODEL MMyModel is not defined");
 }
 
-TEST(IRGenerationContextTest, controllerTypeRegistryTest) {
-  IRGenerationContext context;
+TEST_F(IRGenerationContextTest, controllerTypeRegistryTest) {
+  mContext.addController(mController);
+  Controller* resultController = mContext.getController("CMyController");
   
-  StructType* structType = StructType::create(context.getLLVMContext(), "CMyController");
-  vector<Field*> receivedFields;
-  vector<Field*> injectedFields;
-  vector<Field*> stateFields;
-  vector<Method*> methods;
-  vector<Interface*> interfaces;
-  Controller* controller = new Controller("CMyController",
-                                          structType,
-                                          receivedFields,
-                                          injectedFields,
-                                          stateFields,
-                                          methods,
-                                          interfaces);
-  context.addController(controller);
-  Controller* resultController = context.getController("CMyController");
-  
-  ASSERT_NE(resultController, nullptr);
-  EXPECT_EQ(resultController->getLLVMType(context.getLLVMContext()),
-            structType->getPointerTo());
+  EXPECT_EQ(resultController, mController);
 }
 
-TEST(IRGenerationContextTest, controllerTypeRedefinedDeathTest) {
-  IRGenerationContext context;
+TEST_F(IRGenerationContextTest, controllerTypeRedefinedDeathTest) {
+  mContext.addController(mController);
   
-  StructType* structType = StructType::create(context.getLLVMContext(), "CMyController");
-  vector<Field*> receivedFields;
-  vector<Field*> injectedFields;
-  vector<Field*> stateFields;
-  vector<Method*> methods;
-  vector<Interface*> interfaces;
-  Controller* controller = new Controller("CMyController",
-                                          structType,
-                                          receivedFields,
-                                          injectedFields,
-                                          stateFields,
-                                          methods,
-                                          interfaces);
-  context.addController(controller);
-  
-  EXPECT_EXIT(context.addController(controller),
+  EXPECT_EXIT(mContext.addController(mController),
               ::testing::ExitedWithCode(1),
               "Redefinition of Controller CMyController");
 }
 
-TEST(IRGenerationContextTest, controllerTypeDoesNotExistDeathTest) {
-  IRGenerationContext context;
-  
-  EXPECT_EXIT(context.getController("CMyController"),
+TEST_F(IRGenerationContextTest, controllerTypeDoesNotExistDeathTest) {
+  EXPECT_EXIT(mContext.getController("CMyController"),
               ::testing::ExitedWithCode(1),
               "Controller CMyController is not defined");
 }
 
-TEST(IRGenerationContextTest, interfaceTypeRegistryTest) {
-  IRGenerationContext context;
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  StructType* structType = StructType::create(llvmContext, "myinterface");
+TEST_F(IRGenerationContextTest, interfaceTypeRegistryTest) {
+  StructType* structType = StructType::create(mLLVMContext, "IMyInterface");
   vector<MethodSignature*> methodSignatures;
   vector<Interface*> parentInterfaces;
-  Interface* interface = new Interface("myinterface",
+  Interface* interface = new Interface("IMyInterface",
                                        structType,
                                        parentInterfaces,
                                        methodSignatures);
-  context.addInterface(interface);
-  Interface* resultInterface = context.getInterface("myinterface");
+  mContext.addInterface(interface);
+  Interface* resultInterface = mContext.getInterface("IMyInterface");
   
   ASSERT_NE(resultInterface, nullptr);
-  EXPECT_EQ(context.getInterface("myinterface")->getLLVMType(llvmContext)->getPointerElementType(),
+  EXPECT_EQ(mContext.getInterface("IMyInterface")->getLLVMType(mLLVMContext)->
+            getPointerElementType(),
             structType);
 }
 
-TEST(IRGenerationContextTest, interfaceTypeRedefinedDeathTest) {
-  IRGenerationContext context;
-  
-  StructType* structType = StructType::create(context.getLLVMContext(), "myinterface");
+TEST_F(IRGenerationContextTest, interfaceTypeRedefinedDeathTest) {
+  StructType* structType = StructType::create(mLLVMContext, "IMyInterface");
   vector<MethodSignature*> methodSignatures;
   vector<Interface*> parentInterfaces;
-  Interface* interface = new Interface("myinterface",
+  Interface* interface = new Interface("IMyInterface",
                                        structType,
                                        parentInterfaces,
                                        methodSignatures);
-  context.addInterface(interface);
+  mContext.addInterface(interface);
   
-  EXPECT_EXIT(context.addInterface(interface),
+  EXPECT_EXIT(mContext.addInterface(interface),
               ::testing::ExitedWithCode(1),
-              "Redefinition of Interface myinterface");
+              "Redefinition of Interface IMyInterface");
 }
 
-TEST(IRGenerationContextTest, interfaceTypeDoesNotExistDeathTest) {
-  IRGenerationContext context;
-  
-  EXPECT_EXIT(context.getInterface("myinterface"),
+TEST_F(IRGenerationContextTest, interfaceTypeDoesNotExistDeathTest) {
+  EXPECT_EXIT(mContext.getInterface("myinterface"),
               ::testing::ExitedWithCode(1),
               "Interface myinterface is not defined");
 }
 
-TEST(IRGenerationContextTest, globalFunctionDefinitionTest) {
-  IRGenerationContext context;
-
-  context.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
+TEST_F(IRGenerationContextTest, globalFunctionDefinitionTest) {
+  mContext.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
   
-  EXPECT_EQ(context.getGlobalFunctionType("foo"), PrimitiveTypes::VOID_TYPE);
+  EXPECT_EQ(mContext.getGlobalFunctionType("foo"), PrimitiveTypes::VOID_TYPE);
 }
 
-TEST(IRGenerationContextTest, globalFunctionRedefinitionDeathTest) {
-  IRGenerationContext context;
+TEST_F(IRGenerationContextTest, globalFunctionRedefinitionDeathTest) {
+  mContext.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
   
-  context.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
-  
-  EXPECT_EXIT(context.addGlobalFunction(PrimitiveTypes::FLOAT_TYPE, "foo"),
+  EXPECT_EXIT(mContext.addGlobalFunction(PrimitiveTypes::FLOAT_TYPE, "foo"),
               ::testing::ExitedWithCode(1),
               "Error: Redefinition of a global function foo");
 }
 
-TEST(IRGenerationContextTest, globalFunctionUndefinedDeathTest) {
-  IRGenerationContext context;
-  
-  EXPECT_EXIT(context.getGlobalFunctionType("foo"),
+TEST_F(IRGenerationContextTest, globalFunctionUndefinedDeathTest) {
+  EXPECT_EXIT(mContext.getGlobalFunctionType("foo"),
               ::testing::ExitedWithCode(1),
               "Global function foo is not defined");
+}
+
+TEST_F(IRGenerationContextTest, getBoundControllerDeathTest) {
+  mContext.addController(mController);
+  mContext.addInterface(mInterface);
+  
+  EXPECT_EXIT(mContext.getBoundController(mInterface),
+              ::testing::ExitedWithCode(1),
+              "Error: No controller is bound to interface IMyInterface");
+}
+
+TEST_F(IRGenerationContextTest, bindInterfaceToControllerTest) {
+  mContext.addController(mController);
+  mContext.addInterface(mInterface);
+  
+  mContext.bindInterfaceToController(mInterface, mController);
+  
+  EXPECT_EQ(mContext.getBoundController(mInterface), mController);
+}
+
+TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
+  mContext.addController(mController);
+  mContext.addInterface(mInterface);
+  
+  mContext.bindInterfaceToController(mInterface, mController);
+
+  EXPECT_EXIT(mContext.bindInterfaceToController(mInterface, mController),
+              ::testing::ExitedWithCode(1),
+              "Error: Interface IMyInterface is already bound to CMyController "
+              "and can not be bound to CMyController");
 }
 
 struct IRGenerationContextRunTest : public ::testing::Test {

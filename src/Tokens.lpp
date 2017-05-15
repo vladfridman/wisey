@@ -77,6 +77,8 @@ WS  [ \t\v\n\f]
 "try"                         return TOKEN(TTRY);
 "catch"                       return TOKEN(TCATCH);
 "finally"                     return TOKEN(TFINALLY);
+"bind"                        return TOKEN(TBIND);
+"to"                          return TOKEN(TTO);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

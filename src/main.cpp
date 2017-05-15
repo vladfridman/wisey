@@ -42,8 +42,7 @@ char* getBitcodeOutputFile(int argc, char **argv) {
 /**
  * Main for running the compiler
  */
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   Log::setLogLevel(DEBUGLEVEL);
 
   if (argc <= 1) {

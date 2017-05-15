@@ -35,6 +35,7 @@ class IRGenerationContext {
   std::map<std::string, Controller*> mControllers;
   std::map<std::string, Interface*> mInterfaces;
   std::map<std::string, IType*> mGlobalFunctions;
+  std::map<Interface*, Controller*> mBindings;
   Scopes mScopes;
 
 public:
@@ -105,6 +106,16 @@ public:
    * Look up an Interface type
    */
   Interface* getInterface(std::string name);
+  
+  /**
+   * Bind an interface to a controller for injection
+   */
+  void bindInterfaceToController(Interface* interface, Controller* controller);
+  
+  /**
+   * Returns controller bound to the given interface
+   */
+  Controller* getBoundController(Interface* interface);
   
   /**
    * Add a global function
