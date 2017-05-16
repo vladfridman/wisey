@@ -36,6 +36,7 @@ struct ControllerTest : public Test {
   Interface* mCalculatorInterface;
   Interface* mScienceCalculatorInterface;
   Interface* mObjectInterface;
+  Interface* mVehicleInterface;
   Method* mMethod;
   StructType* mStructType;
   Field* mLeftField;
@@ -62,9 +63,9 @@ struct ControllerTest : public Test {
     calculatorInterfaceMethods.push_back(calculateSignature);
     vector<Interface*> calculatorParentInterfaces;
     mCalculatorInterface = new Interface("ICalculator",
-                                       calculatorIinterfaceStructType,
-                                       calculatorParentInterfaces,
-                                       calculatorInterfaceMethods);
+                                         calculatorIinterfaceStructType,
+                                         calculatorParentInterfaces,
+                                         calculatorInterfaceMethods);
     
     vector<Type*> scienceCalculatorInterfaceTypes;
     StructType* scienceCalculatorIinterfaceStructType =
@@ -188,6 +189,18 @@ struct ControllerTest : public Test {
                                         doublerInterfaces);
     mContext.addController(mDoublerController);
 
+    vector<Type*> vehicleInterfaceTypes;
+    StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, "IVehicle");
+    vehicleInterfaceStructType->setBody(vehicleInterfaceTypes);
+    vector<MethodArgument*> vehicleInterfaceMethodArguments;
+    vector<MethodSignature*> vehicleInterfaceMethods;
+    vector<IType*> vehicleThrownExceptions;
+    vector<Interface*> vehicleParentInterfaces;
+    mVehicleInterface = new Interface("IVehicle",
+                                      vehicleInterfaceStructType,
+                                      vehicleParentInterfaces,
+                                      vehicleInterfaceMethods);
+    
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -238,6 +251,57 @@ TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {
 TEST_F(ControllerTest, getTypeTableNameTest) {
   ASSERT_STREQ(mMultiplierController->getTypeTableName().c_str(),
                "controller.CMultiplier.typetable");
+}
+
+TEST_F(ControllerTest, canCastToTest) {
+  EXPECT_FALSE(mMultiplierController->canCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mMultiplierController->canCastTo(mAdditorController));
+  EXPECT_FALSE(mMultiplierController->canCastTo(mVehicleInterface));
+  EXPECT_TRUE(mMultiplierController->canCastTo(mMultiplierController));
+  EXPECT_TRUE(mMultiplierController->canCastTo(mCalculatorInterface));
+}
+
+TEST_F(ControllerTest, canAutoCastToTest) {
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mAdditorController));
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(mVehicleInterface));
+  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mMultiplierController));
+  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mCalculatorInterface));
+}
+
+TEST_F(ControllerTest, castToFirstInterfaceTest) {
+  ConstantPointerNull* pointer =
+  ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mLLVMContext));
+  mMultiplierController->castTo(mContext, pointer, mScienceCalculatorInterface);
+  ASSERT_EQ(mBasicBlock->size(), 1u);
+  
+  BasicBlock::iterator iterator = mBasicBlock->begin();
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %0 = bitcast %CMultiplier* null to %IScienceCalculator*");
+  mStringBuffer.clear();
+}
+
+TEST_F(ControllerTest, castToSecondInterfaceTest) {
+  ConstantPointerNull* pointer =
+  ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mLLVMContext));
+  mMultiplierController->castTo(mContext, pointer, mCalculatorInterface);
+  ASSERT_EQ(mBasicBlock->size(), 3u);
+  
+  BasicBlock::iterator iterator = mBasicBlock->begin();
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = bitcast %CMultiplier* null to i8*");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %2 = bitcast i8* %1 to %ICalculator*");
+  mStringBuffer.clear();
 }
 
 TEST_F(ControllerTest, getFlattenedInterfaceHierarchyTest) {

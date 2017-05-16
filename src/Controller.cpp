@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "yazyk/Cast.hpp"
 #include "yazyk/Controller.hpp"
 #include "yazyk/Environment.hpp"
 #include "yazyk/Field.hpp"
@@ -173,18 +174,53 @@ TypeKind Controller::getTypeKind() const {
 }
 
 bool Controller::canCastTo(IType* toType) const {
-  // TODO implement casting for controllers
+  if (toType == this) {
+    return true;
+  }
+  if (toType->getTypeKind() == INTERFACE_TYPE &&
+      getInterfaceIndex(dynamic_cast<Interface*>(toType)) >= 0) {
+    return true;
+  }
   return false;
 }
 
 bool Controller::canAutoCastTo(IType* toType) const {
-  // TODO implement casting for controllers
-  return false;
+  return canCastTo(toType);
 }
 
 Value* Controller::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
-  // TODO implement casting for controllers
-  return NULL;
+  if (toType == this) {
+    return fromValue;
+  }
+  if (!canCastTo(toType)) {
+    Cast::exitIncopatibleTypes(this, toType);
+    return NULL;
+  }
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Interface* interface = dynamic_cast<Interface*>(toType);
+  int interfaceIndex = getInterfaceIndex(interface);
+  if (interfaceIndex == 0) {
+    return IRWriter::newBitCastInst(context, fromValue, interface->getLLVMType(llvmContext));
+  }
+  
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, fromValue, int8Type->getPointerTo());
+  Value* index[1];
+  unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
+  Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
+  return IRWriter::newBitCastInst(context, thunk, interface->getLLVMType(llvmContext));
+}
+
+int Controller::getInterfaceIndex(Interface* interface) const {
+  int index = 0;
+  for (Interface* implementedInterface : mFlattenedInterfaceHierarchy) {
+    if (implementedInterface == interface) {
+      return index;
+    }
+    index++;
+  }
+  return -1;
 }
 
 vector<Interface*> Controller::createFlattenedInterfaceHierarchy() const {

@@ -140,9 +140,6 @@ bool Model::canCastTo(IType* toType) const {
   if (toType == this) {
     return true;
   }
-  if (toType->getTypeKind() == MODEL_TYPE) {
-    return false;
-  }
   if (toType->getTypeKind() == INTERFACE_TYPE &&
       getInterfaceIndex(dynamic_cast<Interface*>(toType)) >= 0) {
     return true;
