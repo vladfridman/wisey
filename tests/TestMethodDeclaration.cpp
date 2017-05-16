@@ -73,7 +73,7 @@ TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
 }
 
 TEST_F(TestFileSampleRunner, methodDecalarationIntFunctionRunTest) {
-  runFile("tests/samples/test_int_function.yz", "10");
+  runFile("tests/samples/test_int_method.yz", "10");
 }
 
 TEST_F(TestFileSampleRunner, methodDecalarationImpliedReturnRunTest) {
