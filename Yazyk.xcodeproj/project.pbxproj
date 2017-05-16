@@ -257,9 +257,6 @@
 		F57780B61ECA6B460049542D /* TestInterfaceInjector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780B51ECA6B460049542D /* TestInterfaceInjector.cpp */; };
 		F57780B91ECA81750049542D /* ProgramSuffix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780B81ECA81750049542D /* ProgramSuffix.cpp */; };
 		F57780BA1ECA81750049542D /* ProgramSuffix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780B81ECA81750049542D /* ProgramSuffix.cpp */; };
-		F57780BC1ECAC53F0049542D /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780BB1ECAC53F0049542D /* FunctionDeclaration.cpp */; };
-		F57780BF1ECAC5610049542D /* TestFunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780BE1ECAC5610049542D /* TestFunctionDeclaration.cpp */; };
-		F57780C01ECACC790049542D /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780BB1ECAC53F0049542D /* FunctionDeclaration.cpp */; };
 		F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */; };
 		F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */; };
 		F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */; };
@@ -635,9 +632,6 @@
 		F57780B51ECA6B460049542D /* TestInterfaceInjector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceInjector.cpp; path = tests/TestInterfaceInjector.cpp; sourceTree = "<group>"; };
 		F57780B71ECA81260049542D /* ProgramSuffix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ProgramSuffix.hpp; path = include/yazyk/ProgramSuffix.hpp; sourceTree = "<group>"; };
 		F57780B81ECA81750049542D /* ProgramSuffix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramSuffix.cpp; path = src/ProgramSuffix.cpp; sourceTree = "<group>"; };
-		F57780BB1ECAC53F0049542D /* FunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionDeclaration.cpp; path = src/FunctionDeclaration.cpp; sourceTree = "<group>"; };
-		F57780BD1ECAC54F0049542D /* FunctionDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FunctionDeclaration.hpp; path = include/yazyk/FunctionDeclaration.hpp; sourceTree = "<group>"; };
-		F57780BE1ECAC5610049542D /* TestFunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFunctionDeclaration.cpp; path = tests/TestFunctionDeclaration.cpp; sourceTree = "<group>"; };
 		F57E2E261E82D69900FE1DB9 /* BooleanNotExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanNotExpression.hpp; path = include/yazyk/BooleanNotExpression.hpp; sourceTree = "<group>"; };
 		F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanNotExpression.cpp; path = src/BooleanNotExpression.cpp; sourceTree = "<group>"; };
 		F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanNotExpression.cpp; path = tests/TestBooleanNotExpression.cpp; sourceTree = "<group>"; };
@@ -852,7 +846,6 @@
 				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
 				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
 				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
-				F57780BE1ECAC5610049542D /* TestFunctionDeclaration.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
 				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
@@ -1027,7 +1020,6 @@
 				F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */,
 				F5C6FD7A1E48B64C0054209D /* FloatType.cpp */,
 				F59D82101E0F311B00057FB5 /* ForStatement.cpp */,
-				F57780BB1ECAC53F0049542D /* FunctionDeclaration.cpp */,
 				F57411721E043EE4009809FF /* Identifier.cpp */,
 				F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */,
 				F59D82221E0F6DAE00057FB5 /* IfStatement.cpp */,
@@ -1179,7 +1171,6 @@
 				F50FA2DE1E2E3AF600435EEA /* FloatConstant.hpp */,
 				F507D2711E4609D800495E2D /* FloatType.hpp */,
 				F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */,
-				F57780BD1ECAC54F0049542D /* FunctionDeclaration.hpp */,
 				F57411711E043E80009809FF /* Identifier.hpp */,
 				F531B6781E0E1A61008304F3 /* IExpression.hpp */,
 				F59D821B1E0F651000057FB5 /* IfElseStatement.hpp */,
@@ -1447,7 +1438,6 @@
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
 				F5C6FD771E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
-				F57780C01ECACC790049542D /* FunctionDeclaration.cpp in Sources */,
 				F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */,
 				F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */,
 				F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */,
@@ -1506,7 +1496,6 @@
 				F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
-				F57780BF1ECAC5610049542D /* TestFunctionDeclaration.cpp in Sources */,
 				F50427AC1E4D2747001CB148 /* LocalHeapVariable.cpp in Sources */,
 				F50FA2B71E28BA5600435EEA /* DoStatement.cpp in Sources */,
 				F57086021E5317E8007D627E /* AutoCast.cpp in Sources */,
@@ -1574,7 +1563,6 @@
 				F507D2651E43551900495E2D /* Model.cpp in Sources */,
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
-				F57780BC1ECAC53F0049542D /* FunctionDeclaration.cpp in Sources */,
 				F56AD4A11E9F66C40020868C /* IObjectWithMethodsType.cpp in Sources */,
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */,

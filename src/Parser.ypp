@@ -27,7 +27,6 @@
   #include "yazyk/FieldReference.hpp"
   #include "yazyk/FloatConstant.hpp"
   #include "yazyk/ForStatement.hpp"
-  #include "yazyk/FunctionDeclaration.hpp"
   #include "yazyk/Identifier.hpp"
   #include "yazyk/IfElseStatement.hpp"
   #include "yazyk/IfStatement.hpp"
@@ -150,7 +149,7 @@
 %type <statement> statement variable_declaration
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
-%type <statement> selection_statement model_definition interface_definition function_definition
+%type <statement> selection_statement model_definition interface_definition
 %type <statement> controller_definition throw_statement try_catch_statement finally_clause
 %type <statement> bind_action
 %type <compound_statement> compound_statement
@@ -210,8 +209,7 @@ global_unit_list
   ;
 
 global_unit
-  : function_definition
-  | model_definition
+  : model_definition
   | interface_definition
   | controller_definition
   | bind_action
@@ -495,11 +493,6 @@ finally_clause
 variable_declaration
   : type_specifier identifier ';' { $$ = new VariableDeclaration(*$1, *$2); }
   | type_specifier identifier '=' expression ';' { $$ = new VariableDeclaration(*$1, *$2, $4); }
-  ;
-
-function_definition
-  : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' compound_statement
-    { $$ = new FunctionDeclaration(*$1, *$2, *$4, *$6); delete $4; }
   ;
 
 method_definition
