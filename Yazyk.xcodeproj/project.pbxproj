@@ -83,9 +83,6 @@
 		F51581301E8AAB12009CE419 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515812E1E8AAB12009CE419 /* Controller.cpp */; };
 		F51581321E8AB1A9009CE419 /* TestController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581311E8AB1A9009CE419 /* TestController.cpp */; };
 		F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */; };
-		F515813B1E8D433B009CE419 /* ControllerInjector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515813A1E8D433B009CE419 /* ControllerInjector.cpp */; };
-		F515813C1E8D433B009CE419 /* ControllerInjector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515813A1E8D433B009CE419 /* ControllerInjector.cpp */; };
-		F515813E1E8D5640009CE419 /* TestControllerInjector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515813D1E8D5640009CE419 /* TestControllerInjector.cpp */; };
 		F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797091E5C95BC009B16AA /* TestCastExpression.cpp */; };
 		F517970E1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
 		F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */; };
@@ -456,9 +453,6 @@
 		F515812E1E8AAB12009CE419 /* Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Controller.cpp; path = src/Controller.cpp; sourceTree = "<group>"; };
 		F51581311E8AB1A9009CE419 /* TestController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestController.cpp; path = tests/TestController.cpp; sourceTree = "<group>"; };
 		F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerTypeSpecifier.cpp; path = tests/TestControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
-		F51581391E8D423F009CE419 /* ControllerInjector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerInjector.hpp; path = include/yazyk/ControllerInjector.hpp; sourceTree = "<group>"; };
-		F515813A1E8D433B009CE419 /* ControllerInjector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerInjector.cpp; path = src/ControllerInjector.cpp; sourceTree = "<group>"; };
-		F515813D1E8D5640009CE419 /* TestControllerInjector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerInjector.cpp; path = tests/TestControllerInjector.cpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
 		F517970B1E633FB7009B16AA /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/yazyk/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
 		F517970C1E660064009B16AA /* InterfaceDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceDefinition.hpp; path = include/yazyk/InterfaceDefinition.hpp; sourceTree = "<group>"; };
@@ -833,7 +827,6 @@
 				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
 				F51581311E8AB1A9009CE419 /* TestController.cpp */,
 				F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */,
-				F515813D1E8D5640009CE419 /* TestControllerInjector.cpp */,
 				F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */,
 				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
 				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
@@ -1006,7 +999,6 @@
 				F515812E1E8AAB12009CE419 /* Controller.cpp */,
 				F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */,
 				F51581231E89B02F009CE419 /* ControllerFieldDeclaration.cpp */,
-				F515813A1E8D433B009CE419 /* ControllerInjector.cpp */,
 				F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */,
 				F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */,
 				F50FA2B61E28BA5600435EEA /* DoStatement.cpp */,
@@ -1156,7 +1148,6 @@
 				F515812D1E8AA85A009CE419 /* Controller.hpp */,
 				F515811F1E8960EE009CE419 /* ControllerDefinition.hpp */,
 				F515811E1E894FE6009CE419 /* ControllerFieldDeclaration.hpp */,
-				F51581391E8D423F009CE419 /* ControllerInjector.hpp */,
 				F51581261E89B966009CE419 /* ControllerTypeSpecifier.hpp */,
 				F50FA2B11E27DCA500435EEA /* DefaultCaseStatement.hpp */,
 				F50FA2B51E28BA0500435EEA /* DoStatement.hpp */,
@@ -1362,7 +1353,6 @@
 				F57780B61ECA6B460049542D /* TestInterfaceInjector.cpp in Sources */,
 				F531B6571E0DE040008304F3 /* TestStringConstant.cpp in Sources */,
 				F57411661E01BF18009809FF /* TestScope.cpp in Sources */,
-				F515813C1E8D433B009CE419 /* ControllerInjector.cpp in Sources */,
 				F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F508E06A1E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
 				F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
@@ -1391,7 +1381,6 @@
 				F50FA2F81E2E3B3900435EEA /* TestLongConstant.cpp in Sources */,
 				F5CB18141EB0D96A007E2E43 /* Catch.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
-				F515813E1E8D5640009CE419 /* TestControllerInjector.cpp in Sources */,
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
 				F5CB18151EB0F1BA007E2E43 /* TryCatchStatement.cpp in Sources */,
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
@@ -1527,7 +1516,6 @@
 				F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */,
 				F50FA2E71E2E3B0900435EEA /* IntConstant.cpp in Sources */,
 				F50FA2E61E2E3B0900435EEA /* FloatConstant.cpp in Sources */,
-				F515813B1E8D433B009CE419 /* ControllerInjector.cpp in Sources */,
 				F5F396DB1E34BFE000F34296 /* ModelBuilderArgument.cpp in Sources */,
 				F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
