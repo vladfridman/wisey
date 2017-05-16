@@ -16,7 +16,7 @@
 namespace yazyk {
   
 /**
- * Things that need to be run before the main program
+ * Things that need to be run before the parsed program code
  */
 class ProgramPrefix : public IStatement {
 
