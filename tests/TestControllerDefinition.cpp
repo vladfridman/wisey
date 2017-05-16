@@ -112,3 +112,8 @@ TEST_F(TestFileSampleRunner, controllerDefinitionSyntaxRunTest) {
 TEST_F(TestFileSampleRunner, controllerDefinitionWithModelStateSyntaxRunTest) {
   runFile("tests/samples/test_controller_definition_with_model_state.yz", "21");
 }
+
+TEST_F(TestFileSampleRunner, controllerDefinitionWithInjectedInterfaceFieldRunTest) {
+  runFile("tests/samples/test_controller_definition_with_injected_interface_field.yz", "8");
+}
+

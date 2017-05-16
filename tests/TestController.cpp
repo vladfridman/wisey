@@ -361,22 +361,17 @@ TEST_F(ControllerTest, testInjectWrongTypeOfArgumentDeathTest) {
   injectionArguments.push_back(&injectArgument1);
   injectionArguments.push_back(&injectArgument2);
   
-  const char *expected = "Error: Controller injector argumet value for "
-  "field 'right' does not match its type";
-  
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
-              expected);
+              "Error: Controller injector argumet value for field 'right' does not match its type");
 }
 
 TEST_F(ControllerTest, testInjectNonInjectableTypeDeathTest) {
   ExpressionList injectionArguments;
   
-  const char *expected = "Error: Attempt to inject a variable that is not a Controller";
-  
   EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
-              expected);
+              "Error: Attempt to inject a variable that is not a Controller or an Interface");
 }
 
 TEST_F(ControllerTest, testInjectTooFewArgumentsDeathTest) {
@@ -385,11 +380,9 @@ TEST_F(ControllerTest, testInjectTooFewArgumentsDeathTest) {
   Mock::AllowLeak(&injectArgument1);
   injectionArguments.push_back(&injectArgument1);
   
-  const char *expected = "Error: Not all received fields of controller 'CAdditor' are initialized.";
-  
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
-              expected);
+              "Error: Not all received fields of controller 'CAdditor' are initialized.");
 }
 
 TEST_F(ControllerTest, testInjectTooManyArgumentsDeathTest) {
@@ -404,9 +397,7 @@ TEST_F(ControllerTest, testInjectTooManyArgumentsDeathTest) {
   injectionArguments.push_back(&injectArgument2);
   injectionArguments.push_back(&injectArgument3);
   
-  const char *expected = "Error: Too many arguments provided when injecting controller 'CAdditor'";
-  
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
-              expected);
+              "Error: Too many arguments provided when injecting controller 'CAdditor'");
 }

@@ -84,6 +84,12 @@ vector<Field*> ControllerDefinition::fieldDeclarationsToFields(IRGenerationConte
   for (ControllerFieldDeclaration* fieldDeclaration : declarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
     
+    if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
+        fieldType->getTypeKind() == INTERFACE_TYPE) {
+      Interface* interface = dynamic_cast<Interface*>(fieldType);
+      fieldType = context.getBoundController(interface);
+    }
+    
     Field* field = new Field(fieldType,
                              fieldDeclaration->getName(),
                              startIndex + fields.size(),
@@ -120,6 +126,12 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
   
   for (ControllerFieldDeclaration* fieldDeclaration : declarations) {
     IType* fieldType = fieldDeclaration->getTypeSpecifier().getType(context);
+
+    if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
+        fieldType->getTypeKind() == INTERFACE_TYPE) {
+      Interface* interface = dynamic_cast<Interface*>(fieldType);
+      fieldType = context.getBoundController(interface);
+    }
     
     types.push_back(fieldType->getLLVMType(llvmContext));
     ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(fieldDeclaration->getName(),

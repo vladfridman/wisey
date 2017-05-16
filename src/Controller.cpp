@@ -271,7 +271,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
   for (Field* field : mInjectedFields) {
     IType* fieldType = field->getType();
     if (fieldType->getTypeKind() != CONTROLLER_TYPE) {
-      Log::e("Attempt to inject a variable that is not a Controller");
+      Log::e("Attempt to inject a variable that is not a Controller or an Interface");
       exit(1);
     }
     Controller* controller = dynamic_cast<Controller*>(fieldType);
@@ -307,5 +307,4 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
- 
 }

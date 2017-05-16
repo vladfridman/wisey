@@ -114,6 +114,7 @@ private:
   
   void initializeStateFields(IRGenerationContext& context,
                              llvm::Instruction* malloc) const;
+  
 };
   
 } /* namespace yazyk */
