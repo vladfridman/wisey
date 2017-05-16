@@ -1,3 +1,8 @@
-int main() {
-  return 45 / 9;
+controller CProgram implements IProgram {
+
+  public int run() {
+    return 45 / 9;
+  }
 }
+
+bind(CProgram).to(IProgram);

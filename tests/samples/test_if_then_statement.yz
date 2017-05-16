@@ -1,10 +1,15 @@
-int main() {
-  int a = 5;
+controller CProgram implements IProgram {
 
-  if (a >= 5) {
-    a = 8;
+  public int run() {
+    int a = 5;
+
+    if (a >= 5) {
+      a = 8;
+    }
+    a++;
+
+    return a;
   }
-  a++;
+} 
 
-  return a;
-}
+bind(CProgram).to(IProgram);

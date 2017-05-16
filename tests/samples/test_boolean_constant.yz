@@ -1,9 +1,14 @@
-int main() {
-  if (false) {
-    return 5;
+controller CProgram implements IProgram {
+
+  public int run() {
+    if (false) {
+      return 5;
+    }
+    if (true) {
+      return 7;
+    }
+    return 0;
   }
-  if (true) {
-    return 7;
-  }
-  return 0;
 }
+
+bind(CProgram).to(IProgram);

@@ -1,7 +1,12 @@
-int main() {
-  int i = 10;
-  if (i == 10) {
-    break;
+controller CProgram implements IProgram {
+
+  public int run() {
+    int i = 10;
+    if (i == 10) {
+      break;
+    }
+    return i;
   }
-  return i;
 }
+
+bind(CProgram).to(IProgram);

@@ -7,7 +7,12 @@ model MShape {
   int mHeight;
 }
 
-int main() {
-  MColor color = builder(MShape).withWidth(1).withHeight(2).build();
-  return 0;
-}
+controller CProgram implements IProgram {
+
+  public int run() {
+    MColor color = builder(MShape).withWidth(1).withHeight(2).build();
+    return 0;
+  }
+} 
+
+bind(CProgram).to(IProgram);

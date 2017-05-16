@@ -1,9 +1,14 @@
-int main() {
-  char var = 'y';
-  
-  if (var == 'y') {
-    return 7;
-  }
+controller CProgram implements IProgram {
 
-  return 0;
+  public int run() {
+    char var = 'y';
+    
+    if (var == 'y') {
+      return 7;
+    }
+
+    return 0;
+  }
 }
+
+bind(CProgram).to(IProgram);

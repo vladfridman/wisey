@@ -1,4 +1,9 @@
-int main() {
-  int i = 2;
-  return (2 + 3) * (i);
+controller CProgram implements IProgram {
+
+  public int run() {
+    int i = 2;
+    return (2 + 3) * (i);
+  }
 }
+
+bind(CProgram).to(IProgram);

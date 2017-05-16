@@ -6,8 +6,13 @@ model MColor {
   }
 }
 
-int main() {
-  MColor color = builder(MColor).withValue(5).build();
+controller CProgram implements IProgram {
 
-  return color.getValue(2.4, 3);
+  public int run() {
+    MColor color = builder(MColor).withValue(5).build();
+
+    return color.getValue(2.4, 3);
+  }
 }
+
+bind(CProgram).to(IProgram);

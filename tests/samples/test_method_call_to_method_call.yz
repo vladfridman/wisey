@@ -10,7 +10,12 @@ model MCircle {
   }
 }
 
-int main() {
-  MCircle circle = builder(MCircle).withRadius(5).build();
-  return circle.getDiameter();
+controller CProgram implements IProgram {
+
+  public int run() {
+    MCircle circle = builder(MCircle).withRadius(5).build();
+    return circle.getDiameter();
+  }
 }
+
+bind(CProgram).to(IProgram);

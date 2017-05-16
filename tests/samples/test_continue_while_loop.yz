@@ -1,12 +1,17 @@
-int main() {
-  int i = 0;
-  int j = 0;
-  while (i < 100) {
-    i++;
-    if (i > 20) {
-      continue;
+controller CProgram implements IProgram {
+
+  public int run() {
+    int i = 0;
+    int j = 0;
+    while (i < 100) {
+      i++;
+      if (i > 20) {
+        continue;
+      }
+      j++;
     }
-    j++;
+    return j;
   }
-  return j;
 }
+
+bind(CProgram).to(IProgram);

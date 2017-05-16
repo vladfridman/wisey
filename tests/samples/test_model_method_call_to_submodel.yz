@@ -18,13 +18,18 @@ model MShape {
   }
 }
 
-int main() {
-  MShape rectangle = builder(MShape)
-    .withWidth(3)
-    .withHeight(5l)
-    .withDepth(2.0)
-    .withColor(builder(MColor).withColor(6.7d).withIntensity(7).build())
-    .build();
+controller CProgram implements IProgram {
 
-  return rectangle.getColor().getIntensity();
+  public int run() {
+    MShape rectangle = builder(MShape)
+      .withWidth(3)
+      .withHeight(5l)
+      .withDepth(2.0)
+      .withColor(builder(MColor).withColor(6.7d).withIntensity(7).build())
+      .build();
+
+    return rectangle.getColor().getIntensity();
+  }
 }
+
+bind(CProgram).to(IProgram);

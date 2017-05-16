@@ -6,8 +6,13 @@ model MColor {
   }
 }
 
-int main() {
-  MColor color;
+controller CProgram implements IProgram {
 
-  return color.getValue();
-}
+  public int run() {
+    MColor color;
+
+    return color.getValue();
+  }
+} 
+
+bind(CProgram).to(IProgram);

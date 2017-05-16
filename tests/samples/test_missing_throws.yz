@@ -19,14 +19,10 @@ controller CCatcher {
 
 controller CProgram implements IProgram {
   inject CCatcher mCatcher;
-
+  
   public int run() {
     return mCatcher.doSomething();
   }
 }
 
-int main() {
-  CProgram program = inject(CProgram);
-
-  return program.run();
-}
+bind(CProgram).to(IProgram);

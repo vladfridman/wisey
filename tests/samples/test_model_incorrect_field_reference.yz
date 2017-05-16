@@ -2,8 +2,13 @@ model MColor {
   int mIntensity;
 }
 
-int main() {
-  MColor color = builder(MColor).withIntensity(2).build();
+controller CProgram implements IProgram {
 
-  return color.mWidth;
+  public int run() {
+    MColor color = builder(MColor).withIntensity(2).build();
+
+    return color.mWidth;
+  }
 }
+
+bind(CProgram).to(IProgram);

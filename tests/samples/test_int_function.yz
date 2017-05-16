@@ -4,7 +4,12 @@ model MModel {
   }
 }
 
-int main() {
-  MModel m = builder(MModel).build();
-  return m.foo(10);
-}
+controller CProgram implements IProgram {
+
+  public int run() {
+    MModel m = builder(MModel).build();
+    return m.foo(10);
+  }
+} 
+
+bind(CProgram).to(IProgram);

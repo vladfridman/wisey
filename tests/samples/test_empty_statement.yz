@@ -1,4 +1,9 @@
-int main() {
-  ;
-  return 5;
-}
+controller CProgram implements IProgram {
+
+  public int run() {
+    ;
+    return 5;
+  }
+} 
+
+bind(CProgram).to(IProgram);

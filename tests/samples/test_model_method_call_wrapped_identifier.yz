@@ -6,8 +6,13 @@ model MShape {
   }
 }
 
-int main() {
-  MShape shape = builder(MShape).withValue(5).build();
+controller CProgram implements IProgram {
 
-  return (shape).getValue();
+  public int run() {
+    MShape shape = builder(MShape).withValue(5).build();
+
+    return (shape).getValue();
+  }
 }
+
+bind(CProgram).to(IProgram);

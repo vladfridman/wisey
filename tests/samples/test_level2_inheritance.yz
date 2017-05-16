@@ -34,9 +34,15 @@ model MSquare implements IClickable, IShape {
   }
 }
 
-int main() {
-  MSquare square = builder(MSquare).withWidth(5).build();
+controller CProgram implements IProgram {
 
-  return square.getPerimeter() + square.getArea() + square.getColor(55) + ((IShape) square).getPerimeter() +
-    ((IShape) square).getArea() + ((IShape) square).getColor(55) + ((IObject) square).getColor(55);
+  public int run() {
+    MSquare square = builder(MSquare).withWidth(5).build();
+
+    return square.getPerimeter() + square.getArea() + square.getColor(55) + 
+      ((IShape) square).getPerimeter() + ((IShape) square).getArea() + 
+      ((IShape) square).getColor(55) + ((IObject) square).getColor(55);
+  }
 }
+
+bind(CProgram).to(IProgram);

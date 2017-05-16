@@ -10,10 +10,15 @@ model MColor {
   }
 }
 
-int main() {
-  MColor color = builder(MColor).withValue(2).build();
+controller CProgram implements IProgram {
 
-  color.setValue(true);
+  public int run() {
+    MColor color = builder(MColor).withValue(2).build();
 
-  return color.getValue();
+    color.setValue(true);
+
+    return color.getValue();
+  }
 }
+
+bind(CProgram).to(IProgram);

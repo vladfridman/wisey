@@ -1,8 +1,13 @@
-int main() {
-  int i = 0;
-  for (; i < 11; ) {
-    i++;
+controller CProgram implements IProgram {
+
+  public int run() {
+    int i = 0;
+    for (; i < 11; ) {
+      i++;
+    }
+    
+    return i;
   }
-  
-  return i;
-}
+} 
+
+bind(CProgram).to(IProgram);

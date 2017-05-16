@@ -41,8 +41,4 @@ controller CProgram implements IProgram {
   }
 }
 
-int main() {
-  CProgram program = inject(CProgram);
-
-  return program.run();
-}
+bind(CProgram).to(IProgram);

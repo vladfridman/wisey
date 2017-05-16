@@ -1,10 +1,15 @@
-int main() {
-  int i = 0;
-  while (i < 100) {
-    if (i == 51) {
-      break;
+controller CProgram implements IProgram {
+
+  public int run() {
+    int i = 0;
+    while (i < 100) {
+      if (i == 51) {
+        break;
+      }
+      i++;
     }
-    i++;
+    return i;
   }
-  return i;
 }
+
+bind(CProgram).to(IProgram);

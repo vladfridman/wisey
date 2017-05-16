@@ -6,6 +6,11 @@ model MShape {
   }
 }
 
-int main() {
-  return builder(MShape).withSize(15).build().getSize() * 2;
+controller CProgram implements IProgram {
+
+  public int run() {
+    return builder(MShape).withSize(15).build().getSize() * 2;
+  }
 }
+
+bind(CProgram).to(IProgram);

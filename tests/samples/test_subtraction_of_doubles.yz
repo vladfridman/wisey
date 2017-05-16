@@ -1,5 +1,9 @@
-int main() {
-  double f = 0 - 2.5d;
+controller CProgram implements IProgram {
+  public int run() {
+    double f = 0 - 2.5d;
 
-  return (int) f;
+    return (int) f;
+  }
 }
+
+bind(CProgram).to(IProgram);

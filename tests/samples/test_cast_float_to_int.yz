@@ -1,5 +1,10 @@
-int main() {
-  float f = 3.6;
+controller CProgram implements IProgram {
 
-  return (int) f;
+  public int run() {
+    float f = 3.6;
+
+    return (int) f;
+  }
 }
+
+bind(CProgram).to(IProgram);

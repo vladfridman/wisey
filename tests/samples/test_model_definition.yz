@@ -9,13 +9,18 @@ model MShape {
   MColor mColor;
 }
 
-int main() {
-  MShape rectangle = builder(MShape)
-    .withWidth(3)
-    .withHeight(5l)
-    .withDepth(2.0)
-    .withColor(builder(MColor).withColor(6.7d).build())
-    .build();
+controller CProgram implements IProgram {
 
-  return 0;
+  public int run() {
+    MShape rectangle = builder(MShape)
+      .withWidth(3)
+      .withHeight(5l)
+      .withDepth(2.0)
+      .withColor(builder(MColor).withColor(6.7d).build())
+      .build();
+
+    return 0;
+  }
 }
+
+bind(CProgram).to(IProgram);

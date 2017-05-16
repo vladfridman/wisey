@@ -1,3 +1,8 @@
-int main() {
-  return 5 > 2 && (10 - 9) < 1;
+controller CProgram implements IProgram {
+
+  public int run() {
+    return 5 > 2 && (10 - 9) < 1;
+  }
 }
+
+bind(CProgram).to(IProgram);

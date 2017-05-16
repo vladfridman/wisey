@@ -29,14 +29,16 @@ model MFridge implements IDevice {
   }
 }
 
-int main() {
-  MFridge fridge = builder(MFridge).withSize(5).build();
+controller CProgram implements IProgram {
 
-  IDevice device = fridge;
-  
-  IHasFreezer freezer = device;
+  public int run() {
+    MFridge fridge = builder(MFridge).withSize(5).build();
+    IDevice device = fridge;  
+    IHasFreezer freezer = device;
+    IObject object = freezer;
 
-  IObject object = freezer;
+    return object.getSize();
+  }
+} 
 
-  return object.getSize();
-}
+bind(CProgram).to(IProgram);

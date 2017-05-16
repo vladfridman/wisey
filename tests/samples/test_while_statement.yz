@@ -1,8 +1,13 @@
-int main() {
-  int i = 0;
-  while (i < 10) {
-    i++;
-  }
+controller CProgram implements IProgram {
+
+  public int run() {
+    int i = 0;
+    while (i < 10) {
+      i++;
+    }
   
-  return i;
+    return i;
+  }
 }
+
+bind(CProgram).to(IProgram);

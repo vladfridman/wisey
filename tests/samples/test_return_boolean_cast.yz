@@ -1,5 +1,10 @@
-int main() {
-  boolean var = true;
+controller CProgram implements IProgram {
 
-  return var;
+  public int run() {
+    boolean var = true;
+
+    return var;
+  }
 }
+
+bind(CProgram).to(IProgram);

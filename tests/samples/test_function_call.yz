@@ -2,6 +2,11 @@ int foo(int argument) {
   return argument + 2;
 }
 
-int main() {
-  return foo(3);
-}
+ontroller CProgram implements IProgram {
+
+  public int run() {
+    return foo(3);
+  }
+} 
+
+bind(CProgram).to(IProgram);

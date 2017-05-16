@@ -14,6 +14,7 @@
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ProgramPrefix.hpp"
+#include "yazyk/ProgramSuffix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -47,10 +48,12 @@ void TestFileSampleRunner::parseFile(string fileName) {
 void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
   IRGenerationContext context;
   ProgramPrefix programPrefix;
+  ProgramSuffix programSuffix;
 
   parseFile(fileName);
   programPrefix.generateIR(context);
   programBlock->generateIR(context);
+  programSuffix.generateIR(context);
 
   GenericValue result = context.runCode();
   string resultString = result.IntVal.toString(10, true);
@@ -63,6 +66,7 @@ void TestFileSampleRunner::expectFailIRGeneration(string fileName,
                                                   string expectedErrorMessage) {
   IRGenerationContext context;
   ProgramPrefix programPrefix;
+  ProgramSuffix programSuffix;
 
   parseFile(fileName);
   programPrefix.generateIR(context);
@@ -76,10 +80,12 @@ void TestFileSampleRunner::expectDeathDuringRun(string fileName,
                                                 string expectedErrorMessage) {
   IRGenerationContext context;
   ProgramPrefix programPrefix;
+  ProgramSuffix programSuffix;
 
   parseFile(fileName);
   programPrefix.generateIR(context);
   programBlock->generateIR(context);
+  programSuffix.generateIR(context);
   
   ASSERT_DEATH(context.runCode(), expectedErrorMessage);
 }

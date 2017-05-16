@@ -4,6 +4,11 @@ interface IShape {
   float getLength();
 }
 
-int main() {
-  return 0;
-}
+controller CProgram implements IProgram {
+
+  public int run() {
+    return 0;
+  }
+} 
+
+bind(CProgram).to(IProgram);

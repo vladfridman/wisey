@@ -1,5 +1,10 @@
-int main() {
-  if (5 > 2) {
-    continue;
+controller CProgram implements IProgram {
+
+  public int run() {
+    if (5 > 2) {
+      continue;
+    }
   }
 }
+
+bind(CProgram).to(IProgram);

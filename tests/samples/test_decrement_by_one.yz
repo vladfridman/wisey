@@ -1,5 +1,10 @@
-int main() {
-  int i = 6;
-  i--;
-  return i;
+controller CProgram implements IProgram {
+
+  public int run() {
+    int i = 6;
+    i--;
+    return i;
+  }
 }
+
+bind(CProgram).to(IProgram);

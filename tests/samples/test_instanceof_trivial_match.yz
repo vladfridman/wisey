@@ -29,12 +29,17 @@ model MFridge implements IDevice {
   }
 }
 
-int main() {
-  MFridge fridge = builder(MFridge).withSize(5).build();
+controller CProgram implements IProgram {
 
-  int result1 = fridge instanceof IObject;
-  int result2 = ((IHasFreezer) fridge) instanceof IObject;
-  int result3 = fridge instanceof ICar;
-  
-  return result1 + result2 + result3;
-}
+  public int run() {
+    MFridge fridge = builder(MFridge).withSize(5).build();
+
+    int result1 = fridge instanceof IObject;
+    int result2 = ((IHasFreezer) fridge) instanceof IObject;
+    int result3 = fridge instanceof ICar;
+    
+    return result1 + result2 + result3;
+  }
+} 
+
+bind(CProgram).to(IProgram);

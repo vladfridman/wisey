@@ -1,3 +1,8 @@
-int main() {
-  return !false;
+controller CProgram implements IProgram {
+
+  public int run() {
+    return !false;
+  }
 }
+
+bind(CProgram).to(IProgram);

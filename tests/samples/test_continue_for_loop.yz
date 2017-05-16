@@ -1,11 +1,16 @@
-int main() {
-  int j = 0;
-  for (int i = 0; i < 100; i++) {
-    if (i >= 9) {
-      continue;
-    }
-    j++;
-  }
+controller CProgram implements IProgram {
 
-  return j;
+  public int run() {
+    int j = 0;
+    for (int i = 0; i < 100; i++) {
+      if (i >= 9) {
+        continue;
+      }
+      j++;
+    }
+
+    return j;
+  }
 }
+
+bind(CProgram).to(IProgram);

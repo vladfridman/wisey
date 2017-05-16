@@ -1,12 +1,17 @@
-int main() {
-  int i;
-  for (i = 0; i < 10; i++) {
-    if (i == 5) {
-      if (i > 2) {
-        break;
-      }
-    }   
+controller CProgram implements IProgram {
+
+  public int run() {
+    int i;
+    for (i = 0; i < 10; i++) {
+      if (i == 5) {
+        if (i > 2) {
+          break;
+        }
+      }   
+    }
+    
+    return i;
   }
-  
-  return i;
 }
+
+bind(CProgram).to(IProgram);

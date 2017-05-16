@@ -16,6 +16,7 @@
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
 #include "yazyk/ProgramPrefix.hpp"
+#include "yazyk/ProgramSuffix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -72,8 +73,12 @@ int main(int argc, char **argv) {
   
   IRGenerationContext context;
   ProgramPrefix programPrefix;
+  ProgramSuffix programSuffix;
+  
   programPrefix.generateIR(context);
   programBlock->generateIR(context);
+  programSuffix.generateIR(context);
+  
   verifyModule(*context.getModule());
 
   if (bitcodeFileName == NULL) {

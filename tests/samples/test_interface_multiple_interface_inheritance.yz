@@ -20,8 +20,13 @@ model MFridge implements IDevice {
   }
 }
 
-int main() {
-  MFridge fridge = builder(MFridge).withSize(15).build();
+controller CProgram implements IProgram {
 
-  return ((IDevice) fridge).getSize();
+  public int run() {
+    MFridge fridge = builder(MFridge).withSize(15).build();
+
+    return ((IDevice) fridge).getSize();
+  }
 }
+
+bind(CProgram).to(IProgram);
