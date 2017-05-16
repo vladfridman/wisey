@@ -107,9 +107,6 @@
 		F531B6481E0A4F76008304F3 /* Assignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6471E0A4F76008304F3 /* Assignment.cpp */; };
 		F531B6491E0A4F76008304F3 /* Assignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6471E0A4F76008304F3 /* Assignment.cpp */; };
 		F531B64B1E0A5329008304F3 /* TestAssignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B64A1E0A5329008304F3 /* TestAssignment.cpp */; };
-		F531B64E1E0DC1D4008304F3 /* FunctionCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B64D1E0DC1D4008304F3 /* FunctionCall.cpp */; };
-		F531B64F1E0DC1D4008304F3 /* FunctionCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B64D1E0DC1D4008304F3 /* FunctionCall.cpp */; };
-		F531B6511E0DCA9C008304F3 /* TestFunctionCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6501E0DCA9C008304F3 /* TestFunctionCall.cpp */; };
 		F531B6541E0DDD96008304F3 /* StringConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6531E0DDD96008304F3 /* StringConstant.cpp */; };
 		F531B6551E0DDD96008304F3 /* StringConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6531E0DDD96008304F3 /* StringConstant.cpp */; };
 		F531B6571E0DE040008304F3 /* TestStringConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6561E0DE040008304F3 /* TestStringConstant.cpp */; };
@@ -262,6 +259,7 @@
 		F57780BA1ECA81750049542D /* ProgramSuffix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780B81ECA81750049542D /* ProgramSuffix.cpp */; };
 		F57780BC1ECAC53F0049542D /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780BB1ECAC53F0049542D /* FunctionDeclaration.cpp */; };
 		F57780BF1ECAC5610049542D /* TestFunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780BE1ECAC5610049542D /* TestFunctionDeclaration.cpp */; };
+		F57780C01ECACC790049542D /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57780BB1ECAC53F0049542D /* FunctionDeclaration.cpp */; };
 		F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */; };
 		F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */; };
 		F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */; };
@@ -490,9 +488,6 @@
 		F531B6461E0A4F0D008304F3 /* Assignment.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Assignment.hpp; path = include/yazyk/Assignment.hpp; sourceTree = "<group>"; };
 		F531B6471E0A4F76008304F3 /* Assignment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Assignment.cpp; path = src/Assignment.cpp; sourceTree = "<group>"; };
 		F531B64A1E0A5329008304F3 /* TestAssignment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAssignment.cpp; path = tests/TestAssignment.cpp; sourceTree = "<group>"; };
-		F531B64C1E0DC169008304F3 /* FunctionCall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FunctionCall.hpp; path = include/yazyk/FunctionCall.hpp; sourceTree = "<group>"; };
-		F531B64D1E0DC1D4008304F3 /* FunctionCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FunctionCall.cpp; path = src/FunctionCall.cpp; sourceTree = "<group>"; };
-		F531B6501E0DCA9C008304F3 /* TestFunctionCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFunctionCall.cpp; path = tests/TestFunctionCall.cpp; sourceTree = "<group>"; };
 		F531B6521E0DDCE7008304F3 /* StringConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StringConstant.hpp; path = include/yazyk/StringConstant.hpp; sourceTree = "<group>"; };
 		F531B6531E0DDD96008304F3 /* StringConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringConstant.cpp; path = src/StringConstant.cpp; sourceTree = "<group>"; };
 		F531B6561E0DE040008304F3 /* TestStringConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStringConstant.cpp; path = tests/TestStringConstant.cpp; sourceTree = "<group>"; };
@@ -857,7 +852,6 @@
 				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
 				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
 				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
-				F531B6501E0DCA9C008304F3 /* TestFunctionCall.cpp */,
 				F57780BE1ECAC5610049542D /* TestFunctionDeclaration.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
@@ -1033,7 +1027,6 @@
 				F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */,
 				F5C6FD7A1E48B64C0054209D /* FloatType.cpp */,
 				F59D82101E0F311B00057FB5 /* ForStatement.cpp */,
-				F531B64D1E0DC1D4008304F3 /* FunctionCall.cpp */,
 				F57780BB1ECAC53F0049542D /* FunctionDeclaration.cpp */,
 				F57411721E043EE4009809FF /* Identifier.cpp */,
 				F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */,
@@ -1186,7 +1179,6 @@
 				F50FA2DE1E2E3AF600435EEA /* FloatConstant.hpp */,
 				F507D2711E4609D800495E2D /* FloatType.hpp */,
 				F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */,
-				F531B64C1E0DC169008304F3 /* FunctionCall.hpp */,
 				F57780BD1ECAC54F0049542D /* FunctionDeclaration.hpp */,
 				F57411711E043E80009809FF /* Identifier.hpp */,
 				F531B6781E0E1A61008304F3 /* IExpression.hpp */,
@@ -1455,6 +1447,7 @@
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
 				F5C6FD771E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F57411461E015DBC009809FF /* TestReturnStatement.cpp in Sources */,
+				F57780C01ECACC790049542D /* FunctionDeclaration.cpp in Sources */,
 				F59D82171E0F414F00057FB5 /* TestEmptyExpression.cpp in Sources */,
 				F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */,
 				F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */,
@@ -1478,12 +1471,10 @@
 				F50FA2FC1E30051700435EEA /* TestModelTypeSpecifier.cpp in Sources */,
 				F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
-				F531B6511E0DCA9C008304F3 /* TestFunctionCall.cpp in Sources */,
 				F57780AA1EC7778A0049542D /* ProgramPrefix.cpp in Sources */,
 				F50FA2EA1E2E3B1200435EEA /* FloatConstant.cpp in Sources */,
 				F508E0701E73076E005D6115 /* Environment.cpp in Sources */,
 				F5EEDDA11E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
-				F531B64F1E0DC1D4008304F3 /* FunctionCall.cpp in Sources */,
 				F50427AF1E4DD329001CB148 /* TestLocalStackVariable.cpp in Sources */,
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */,
@@ -1582,7 +1573,6 @@
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F507D2651E43551900495E2D /* Model.cpp in Sources */,
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
-				F531B64E1E0DC1D4008304F3 /* FunctionCall.cpp in Sources */,
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F57780BC1ECAC53F0049542D /* FunctionDeclaration.cpp in Sources */,
 				F56AD4A11E9F66C40020868C /* IObjectWithMethodsType.cpp in Sources */,
