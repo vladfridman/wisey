@@ -43,7 +43,7 @@ struct BooleanNotExpressionTest : Test {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     
     FunctionType* functionType =
-    FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
+    FunctionType::get(Type::getInt32Ty(llvmContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
                                           "main",
