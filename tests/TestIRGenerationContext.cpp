@@ -207,6 +207,19 @@ TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
               "and can not be bound to CMyController");
 }
 
+TEST_F(IRGenerationContextTest, setPackageDeathTest) {
+  EXPECT_EXIT(mContext.setPackage("with.Uppercase.letters"),
+              ::testing::ExitedWithCode(1),
+              "Error: Package names should only conain lowercase characters");
+}
+
+TEST_F(IRGenerationContextTest, setPackageTest) {
+  string package = "some.wierd_name.of1package";
+  mContext.setPackage(package);
+  
+  EXPECT_EQ(mContext.getPackage(), package);
+}
+
 struct IRGenerationContextRunTest : public ::testing::Test {
   IRGenerationContext mContext;
   

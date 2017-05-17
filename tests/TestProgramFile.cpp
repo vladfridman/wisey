@@ -28,12 +28,14 @@ using ::testing::Test;
 struct ProgramFileTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockStatement> mStatement;
+  string mPackage;
   Block* mBlock;
   ProgramFile* mProgramFile;
   
   ProgramFileTest() {
+    mPackage = "systems.vos.wisey.compiler.tests";
     mBlock = new Block();
-    mProgramFile = new ProgramFile(mBlock);
+    mProgramFile = new ProgramFile(mPackage, mBlock);
   }
   
   ~ProgramFileTest() {

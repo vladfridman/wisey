@@ -79,6 +79,7 @@ WS  [ \t\v\n\f]
 "finally"                     return TOKEN(TFINALLY);
 "bind"                        return TOKEN(TBIND);
 "to"                          return TOKEN(TTO);
+"package"                     return TOKEN(TPACKAGE);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);

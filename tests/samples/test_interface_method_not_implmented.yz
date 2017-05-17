@@ -1,3 +1,5 @@
+package systems.vos.wisey.compiler.tests;
+
 interface IShape {
   int getArea();
 }

@@ -1,3 +1,5 @@
+package systems.vos.wisey.compiler.tests;
+
 model MModel {
   public void foo() {
     int i = 0;

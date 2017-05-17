@@ -1,3 +1,5 @@
+package systems.vos.wisey.compiler.tests;
+
 controller CService {
   receive int mNumber;
 

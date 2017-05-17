@@ -1,3 +1,5 @@
+package systems.vos.wisey.compiler.tests;
+
 controller CFibonacciCalculator {
 
   receive int mIndex;

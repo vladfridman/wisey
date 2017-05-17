@@ -19,11 +19,12 @@ namespace yazyk {
  */
 class ProgramFile : public IStatement {
 
+  std::string mPackage;
   Block* mBlock;
   
 public:
   
-  ProgramFile(Block* block) : mBlock(block) { }
+  ProgramFile(std::string package, Block* block) : mPackage(package), mBlock(block) { }
   
   ~ProgramFile();
   

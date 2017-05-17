@@ -17,5 +17,7 @@ ProgramFile::~ProgramFile() {
 }
 
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {
+  context.setPackage(mPackage);
+  
   return mBlock->generateIR(context);
 }

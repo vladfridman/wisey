@@ -1,3 +1,5 @@
+package systems.vos.wisey.compiler.tests;
+
 model MModel {
   public int foo(int x) {
     return x;

@@ -36,6 +36,7 @@ class IRGenerationContext {
   std::map<std::string, Interface*> mInterfaces;
   std::map<std::string, IType*> mGlobalFunctions;
   std::map<Interface*, Controller*> mBindings;
+  std::string mPackage;
   Scopes mScopes;
 
 public:
@@ -116,7 +117,17 @@ public:
    * Returns controller bound to the given interface
    */
   Controller* getBoundController(Interface* interface);
-    
+  
+  /**
+   * Set the package name
+   */
+  void setPackage(std::string package);
+  
+  /**
+   * Get the current package name
+   */
+  std::string getPackage();
+  
   /**
    * Return Scopes controller
    */

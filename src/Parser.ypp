@@ -130,13 +130,13 @@
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
 %token <token> TINTERFACE TIMPLEMENTS TEXTENDS TINSTANCEOF
 %token <token> TCONTROLLER TINJECT TRECEIVE TSTATE
-%token <token> TTHROW TTHROWS TTRY TCATCH TFINALLY TBIND TTO
+%token <token> TTHROW TTHROWS TTRY TCATCH TFINALLY TBIND TTO TPACKAGE
 
 /**
  * Parsing tree node types
  */
 %type <identifier> identifier
-%type <string> string_literal
+%type <string> string_literal package package_name
 %type <expression> constant expression multiplicative_expression additive_expression
 %type <expression> relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression
@@ -201,7 +201,17 @@
 %%
 
 program
-  : global_unit_list { programFile = new ProgramFile($1); }
+  : package global_unit_list { programFile = new ProgramFile(*$1, $2); delete $1; }
+  ;
+
+package
+  : TPACKAGE package_name ';' { $$ = $2; }
+  ;
+
+package_name
+  : TIDENTIFIER
+  | package_name '.' TIDENTIFIER
+    { $$ = $1; $$->append(std::string(".")); $$->append(*$3); delete $3; }
   ;
 
 global_unit_list

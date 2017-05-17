@@ -130,6 +130,21 @@ Controller* IRGenerationContext::getBoundController(Interface* interface) {
   return mBindings[interface];
 }
 
+void IRGenerationContext::setPackage(string package) {
+  if (any_of(begin(package),
+             end(package),
+             []( char c ) { return (isupper(c)); })) {
+    Log::e("Package names should only conain lowercase characters");
+    exit(1);
+  }
+    
+  mPackage = package;
+}
+
+string IRGenerationContext::getPackage() {
+  return mPackage;
+}
+
 Scopes& IRGenerationContext::getScopes() {
   return mScopes;
 }

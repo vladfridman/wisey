@@ -1,3 +1,5 @@
+package systems.vos.wisey.compiler.tests;
+
 controller CProgram implements IProgram {
   public int run() {
     double f = 0 - 2.5d;
