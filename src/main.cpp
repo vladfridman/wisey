@@ -12,9 +12,9 @@
 #include <llvm/Support/TargetSelect.h>
 #include <llvm-c/Target.h>
 
-#include "yazyk/Block.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
+#include "yazyk/ProgramFile.hpp"
 #include "yazyk/ProgramPrefix.hpp"
 #include "yazyk/ProgramSuffix.hpp"
 
@@ -23,7 +23,7 @@ using namespace std;
 using namespace yazyk;
 
 extern int yyparse();
-extern Block* programBlock;
+extern ProgramFile* programFile;
 extern FILE* yyin;
 
 char* getBitcodeOutputFile(int argc, char **argv) {
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
   ProgramSuffix programSuffix;
   
   programPrefix.generateIR(context);
-  programBlock->generateIR(context);
+  programFile->generateIR(context);
   programSuffix.generateIR(context);
   
   verifyModule(*context.getModule());

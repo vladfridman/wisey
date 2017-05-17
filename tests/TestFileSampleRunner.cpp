@@ -10,9 +10,9 @@
 #include <llvm-c/Target.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/Block.hpp"
 #include "yazyk/IRGenerationContext.hpp"
 #include "yazyk/Log.hpp"
+#include "yazyk/ProgramFile.hpp"
 #include "yazyk/ProgramPrefix.hpp"
 #include "yazyk/ProgramSuffix.hpp"
 
@@ -22,7 +22,7 @@ using namespace yazyk;
 
 extern int yyparse();
 extern FILE* yyin;
-extern Block* programBlock;
+extern ProgramFile* programFile;
 
 TestFileSampleRunner::TestFileSampleRunner() {
   InitializeNativeTarget();
@@ -52,7 +52,7 @@ void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
 
   parseFile(fileName);
   programPrefix.generateIR(context);
-  programBlock->generateIR(context);
+  programFile->generateIR(context);
   programSuffix.generateIR(context);
 
   GenericValue result = context.runCode();
@@ -71,7 +71,7 @@ void TestFileSampleRunner::expectFailIRGeneration(string fileName,
   parseFile(fileName);
   programPrefix.generateIR(context);
   
-  EXPECT_EXIT(programBlock->generateIR(context),
+  EXPECT_EXIT(programFile->generateIR(context),
               ::testing::ExitedWithCode(expectedErrorCode),
               expectedErrorMessage);
 }
@@ -84,7 +84,7 @@ void TestFileSampleRunner::expectDeathDuringRun(string fileName,
 
   parseFile(fileName);
   programPrefix.generateIR(context);
-  programBlock->generateIR(context);
+  programFile->generateIR(context);
   programSuffix.generateIR(context);
   
   ASSERT_DEATH(context.runCode(), expectedErrorMessage);

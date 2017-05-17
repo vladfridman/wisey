@@ -49,6 +49,7 @@
   #include "yazyk/NegateExpression.hpp"
   #include "yazyk/PrimitiveTypes.hpp"
   #include "yazyk/PrimitiveTypeSpecifier.hpp"
+  #include "yazyk/ProgramFile.hpp"
   #include "yazyk/RelationalExpression.hpp"
   #include "yazyk/ReturnStatement.hpp"
   #include "yazyk/ReturnVoidStatement.hpp"
@@ -63,7 +64,7 @@
   using namespace std;
   using namespace yazyk;
   
-  Block *programBlock; /* the top level root node of our final AST */
+  ProgramFile *programFile;
   
   extern int yylex();
   
@@ -103,6 +104,7 @@
   yazyk::MethodDeclaration* method_declaration;
   yazyk::MethodSignatureDeclaration* method_signature;
   yazyk::Catch* catch_clause;
+  yazyk::ProgramFile* program_file;
   std::vector<yazyk::Catch*>* catch_vector;
   std::vector<yazyk::VariableDeclaration*>* variable_vector;
   std::vector<yazyk::IExpression*>* expression_vector;
@@ -143,7 +145,8 @@
 %type <expression> type_comparision_expression
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
-%type <block> program block_item_list global_unit_list
+%type <block> block_item_list global_unit_list
+%type <program_file> program
 %type <statement> statement variable_declaration
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
@@ -198,7 +201,7 @@
 %%
 
 program
-  : global_unit_list { programBlock = $1; }
+  : global_unit_list { programFile = new ProgramFile($1); }
   ;
 
 global_unit_list

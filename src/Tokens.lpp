@@ -1,7 +1,6 @@
 %{
   #include <string>
   #include "yazyk/AccessLevel.hpp"
-  #include "yazyk/Block.hpp"
   #include "yazyk/Catch.hpp"
   #include "yazyk/CompoundStatement.hpp"
   #include "yazyk/ControllerFieldDeclaration.hpp"
@@ -16,6 +15,7 @@
   #include "yazyk/ModelFieldDeclaration.hpp"
   #include "yazyk/ModelTypeSpecifier.hpp"
   #include "yazyk/PrimitiveTypeSpecifier.hpp"
+  #include "yazyk/ProgramFile.hpp"
   #include "yazyk/SwitchStatement.hpp"
   #include "yazyk/VariableDeclaration.hpp"
   #include "y.tab.h"
