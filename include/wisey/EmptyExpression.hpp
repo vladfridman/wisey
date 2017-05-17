@@ -1,6 +1,6 @@
 //
 //  EmptyExpression.hpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 12/24/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.

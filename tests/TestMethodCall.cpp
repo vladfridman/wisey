@@ -1,6 +1,6 @@
 //
 //  TestMethodCall.cpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 2/13/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.

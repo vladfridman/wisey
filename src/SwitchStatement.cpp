@@ -1,6 +1,6 @@
 //
 //  SwitchStatement.cpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 1/11/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.

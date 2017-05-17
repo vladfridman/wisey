@@ -1,6 +1,6 @@
 //
 //  MockObjectWithMethodsType.hpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 4/18/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.

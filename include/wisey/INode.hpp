@@ -1,6 +1,6 @@
 //
 //  INode.hpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 12/18/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.

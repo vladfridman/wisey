@@ -1,6 +1,6 @@
 //
 //  TestIntrinsicFunctions.cpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 4/26/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.

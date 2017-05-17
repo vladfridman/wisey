@@ -1,6 +1,6 @@
 //
 //  Method.cpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 3/3/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.

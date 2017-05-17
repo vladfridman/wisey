@@ -1,6 +1,6 @@
 //
 //  TestIRWriter.cpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 4/29/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.

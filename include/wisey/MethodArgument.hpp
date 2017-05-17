@@ -1,6 +1,6 @@
 //
 //  MethodArgument.hpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 2/9/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.

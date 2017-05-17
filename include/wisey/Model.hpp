@@ -1,6 +1,6 @@
 //
 //  Model.hpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 2/2/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.

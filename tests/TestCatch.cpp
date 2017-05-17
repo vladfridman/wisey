@@ -1,6 +1,6 @@
 //
 //  TestCatch.cpp
-//  Yazyk
+//  Wisey
 //
 //  Created by Vladimir Fridman on 4/27/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
