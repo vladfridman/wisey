@@ -177,26 +177,6 @@ TEST_F(IRGenerationContextTest, interfaceTypeDoesNotExistDeathTest) {
               "Interface myinterface is not defined");
 }
 
-TEST_F(IRGenerationContextTest, globalFunctionDefinitionTest) {
-  mContext.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
-  
-  EXPECT_EQ(mContext.getGlobalFunctionType("foo"), PrimitiveTypes::VOID_TYPE);
-}
-
-TEST_F(IRGenerationContextTest, globalFunctionRedefinitionDeathTest) {
-  mContext.addGlobalFunction(PrimitiveTypes::VOID_TYPE, "foo");
-  
-  EXPECT_EXIT(mContext.addGlobalFunction(PrimitiveTypes::FLOAT_TYPE, "foo"),
-              ::testing::ExitedWithCode(1),
-              "Error: Redefinition of a global function foo");
-}
-
-TEST_F(IRGenerationContextTest, globalFunctionUndefinedDeathTest) {
-  EXPECT_EXIT(mContext.getGlobalFunctionType("foo"),
-              ::testing::ExitedWithCode(1),
-              "Global function foo is not defined");
-}
-
 TEST_F(IRGenerationContextTest, getBoundControllerDeathTest) {
   mContext.addController(mController);
   mContext.addInterface(mInterface);

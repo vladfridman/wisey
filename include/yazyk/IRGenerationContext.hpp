@@ -116,17 +116,7 @@ public:
    * Returns controller bound to the given interface
    */
   Controller* getBoundController(Interface* interface);
-  
-  /**
-   * Add a global function
-   */
-  void addGlobalFunction(yazyk::IType* returnType, std::string functionName);
-  
-  /**
-   * Get the return type of a global function
-   */
-  IType* getGlobalFunctionType(std::string functionName);
-  
+    
   /**
    * Return Scopes controller
    */

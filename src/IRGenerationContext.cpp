@@ -130,24 +130,6 @@ Controller* IRGenerationContext::getBoundController(Interface* interface) {
   return mBindings[interface];
 }
 
-void IRGenerationContext::addGlobalFunction(IType* returnType, string functionName) {
-  if (mGlobalFunctions.count(functionName)) {
-    Log::e("Redefinition of a global function " + functionName);
-    exit(1);
-  }
-  
-  mGlobalFunctions[functionName] = returnType;
-}
-
-IType* IRGenerationContext::getGlobalFunctionType(string functionName) {
-  if (!mGlobalFunctions.count(functionName)) {
-    Log::e("Global function " + functionName + " is not defined");
-    exit(1);
-  }
-
-  return mGlobalFunctions.at(functionName);
-}
-
 Scopes& IRGenerationContext::getScopes() {
   return mScopes;
 }
