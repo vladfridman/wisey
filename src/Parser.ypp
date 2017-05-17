@@ -134,7 +134,7 @@
  * Parsing tree node types
  */
 %type <identifier> identifier
-%type <string> string
+%type <string> string_literal
 %type <expression> constant expression multiplicative_expression additive_expression
 %type <expression> relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression
@@ -215,7 +215,7 @@ global_unit
 
 bind_action
   : TBIND '(' TCONTROLLERIDENTIFIER ')' '.' TTO '(' TINTERFACEIDENTIFIER ')' ';'
-    { $$ = new BindAction(*$3, *$8); }
+    { $$ = new BindAction(*$3, *$8); delete $3; delete $8; }
   ;
 
 interface_definition
@@ -244,12 +244,15 @@ method_signature
   : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
       {
         std::vector<ITypeSpecifier*> thrownExceptions;
-        $$ = new MethodSignatureDeclaration(*$1, *$2, *$4, thrownExceptions); delete $4;
+        $$ = new MethodSignatureDeclaration(*$1, *$2, *$4, thrownExceptions);
+        delete $2;
+        delete $4;
       }
   | type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
     TTHROWS exception_type_specifier_list ';'
       {
         $$ = new MethodSignatureDeclaration(*$1, *$2, *$4, *$7);
+        delete $2;
         delete $4;
         delete $7;
       }
@@ -267,7 +270,7 @@ controller_definition
   | TCONTROLLER TCONTROLLERIDENTIFIER TIMPLEMENTS interface_list
     '{' controller_received_fields_optional controller_injected_fields_optional
       controller_state_fields_optional method_definition_list_optional '}'
-    { $$ = new ControllerDefinition(*$2, *$6, *$7, *$8, *$9, *$4); }
+    { $$ = new ControllerDefinition(*$2, *$6, *$7, *$8, *$9, *$4); delete $2; }
   ;
 
 controller_received_fields_optional
@@ -287,6 +290,7 @@ controller_received_field_declaration
     {
       std::vector<IExpression*> arguments;
       $$ = new ControllerFieldDeclaration(RECEIVED_FIELD, *$2, *$3, arguments);
+      delete $3;
     }
   ;
 
@@ -307,10 +311,12 @@ controller_injected_field_declaration
     {
       std::vector<IExpression*> arguments;
       $$ = new ControllerFieldDeclaration(INJECTED_FIELD, *$2, *$3, arguments);
+      delete $3;
     }
   | TINJECT type_specifier TFIELDIDENTIFIER '(' call_arguments ')' ';'
     {
       $$ = new ControllerFieldDeclaration(INJECTED_FIELD, *$2, *$3, *$5);
+      delete $3;
     }
 
   ;
@@ -332,6 +338,7 @@ controller_state_field_declaration
     {
       std::vector<IExpression*> arguments;
       $$ = new ControllerFieldDeclaration(STATE_FIELD, *$2, *$3, arguments);
+      delete $3;
     }
   ;
 
@@ -366,7 +373,7 @@ model_field_declaration_list
   ;
 
 model_field_declaration
-  : type_specifier TFIELDIDENTIFIER ';' { $$ = new ModelFieldDeclaration(*$1, *$2); }
+  : type_specifier TFIELDIDENTIFIER ';' { $$ = new ModelFieldDeclaration(*$1, *$2); delete $2; }
   ;
 
 method_definition_list_optional
@@ -481,7 +488,7 @@ catch_block
 
 catch_clause
   : TCATCH '(' exception_type_specifier TIDENTIFIER ')' compound_statement
-    { $$ = new Catch(*$3, *$4, *$6); }
+    { $$ = new Catch(*$3, *$4, *$6); delete $4; }
   ;
 
 finally_clause
@@ -499,12 +506,14 @@ method_definition
     {
       std::vector<ITypeSpecifier*> exceptions;
       $$ = new MethodDeclaration($1, *$2, *$3, *$5, exceptions, *$7);
+      delete $3;
       delete $5;
     }
   | access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
     TTHROWS exception_type_specifier_list compound_statement
     {
       $$ = new MethodDeclaration($1, *$2, *$3, *$5, *$8, *$9);
+      delete $3;
       delete $5;
       delete $8;
     }
@@ -540,7 +549,7 @@ identifier
   ;
 
 constant
-  : TCHAR { $$ = new CharConstant($1->c_str()[1]); }
+  : TCHAR { $$ = new CharConstant($1->c_str()[1]); delete $1; }
   | TINTEGER { $$ = new IntConstant(atol($1->c_str())); delete $1; }
   | TLONG { $$ = new LongConstant(atoll($1->c_str())); delete $1; }
   | TFLOAT { $$ = new FloatConstant(atof($1->c_str())); delete $1; }
@@ -549,7 +558,7 @@ constant
   | TFALSE { $$ = BooleanConstants::BOOLEAN_FALSE; }
   ;
     
-string
+string_literal
   : STRING_LITERAL
   ;
 
@@ -557,14 +566,16 @@ method_call
   : TIDENTIFIER '(' call_arguments ')'
     {
       Identifier* thisIdentifier = new Identifier("this");
-      $$ = new MethodCall(*thisIdentifier, *$1, *$3); delete $1; delete $3;
+      $$ = new MethodCall(*thisIdentifier, *$1, *$3);
+      delete $1;
+      delete $3;
     }
   ;
 
 primary_expression
   : identifier { $<identifier>$ = $1; }
   | constant
-  | string { $$ = new StringConstant(*$1); delete $1; }
+  | string_literal { $$ = new StringConstant(*$1); delete $1; }
   | model_builder
   | method_call
   | '(' expression ')' { $$ = $2; }
@@ -572,9 +583,9 @@ primary_expression
 
 postfix_expression
   : primary_expression
-  | postfix_expression '.' TFIELDIDENTIFIER { $$ = new FieldReference(*$1, *$3); }
+  | postfix_expression '.' TFIELDIDENTIFIER { $$ = new FieldReference(*$1, *$3); delete $3; }
   | postfix_expression '.' TIDENTIFIER '(' call_arguments ')'
-    { $$ = new MethodCall(*$1, *$3, *$5); delete $5; }
+    { $$ = new MethodCall(*$1, *$3, *$5); delete $3; delete $5; }
   | postfix_expression TINCOP { $$ = IncrementExpression::newIncrementByOne(*$<identifier>1); }
   | postfix_expression TDECOP { $$ = IncrementExpression::newDecrementByOne(*$<identifier>1); }
   ;
@@ -670,7 +681,8 @@ model_builder_argument_list
   ;
 
 model_builder_argument
-  : '.' TIDENTIFIER '(' expression ')' { $$ = new ModelBuilderArgument(*$2, *$4); }
+  : '.' TIDENTIFIER '(' expression ')'
+    { $$ = new ModelBuilderArgument(*$2, *$4); delete $2; }
   ;
 
 call_arguments
@@ -697,15 +709,15 @@ primitive_type_specifier
   ;
 
 model_type_specifier
-  : TMODELIDENTIFIER { $$ = new ModelTypeSpecifier(*$1); }
+  : TMODELIDENTIFIER { $$ = new ModelTypeSpecifier(*$1); delete $1; }
   ;
 
 controller_type_specifier
-  : TCONTROLLERIDENTIFIER { $$ = new ControllerTypeSpecifier(*$1); }
+  : TCONTROLLERIDENTIFIER { $$ = new ControllerTypeSpecifier(*$1); delete $1; }
   ;
 
 interface_type_specifier
-  : TINTERFACEIDENTIFIER { $$ = new InterfaceTypeSpecifier(*$1); }
+  : TINTERFACEIDENTIFIER { $$ = new InterfaceTypeSpecifier(*$1); delete $1; }
   ;
 
 exception_type_specifier
