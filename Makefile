@@ -12,7 +12,7 @@ BUILDDIR = build
 SRCDIR = ${CURDIR}/src
 # System header files that include the headers for LLVM
 ISYSTEMDIR = /usr/local/include
-# Yazyk header files
+# Project header files
 INCLUDEDIR = ${CURDIR}/include
 # Tests header files
 TESTINCLUDEDIR = ${CURDIR}/tests/include
@@ -42,7 +42,7 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 # Flags used for linking
 LDFLAGS = `llvm-config --ldflags` `llvm-config --libs engine` `llvm-config --system-libs` -L$(LIBDIR)
 
-default: ${BINDIR}/yazyk
+default: ${BINDIR}/wisey
 
 clean:
 	rm -rf ${BINDIR} ${BUILDDIR} ${PARSERDIR}
@@ -81,8 +81,8 @@ $(BUILDDIR)/main.o: ${SRCDIR}/main.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 $(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/yazyk/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
-${BINDIR}/yazyk: $(OBJ) | ${BINDIR}
+${BINDIR}/wisey: $(OBJ) | ${BINDIR}
 	$(LD) -o $@ $(LDFLAGS) $^
 
-${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAIN) | ${BINDIR} ${BINDIR}/yazyk
+${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAIN) | ${BINDIR} ${BINDIR}/wisey
 	$(CC) -o ${BINDIR}/runtests $(LDFLAGS) -lgtest -lgmock $^

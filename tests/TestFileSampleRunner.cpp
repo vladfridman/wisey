@@ -93,8 +93,8 @@ void TestFileSampleRunner::expectDeathDuringRun(string fileName,
 void TestFileSampleRunner::compileAndRunFile(string fileName, int expectedResult) {
   exec("mkdir -p build");
   
-  string yazykCompileCommand = "bin/yazyk " + fileName + " -o build/test.bc";
-  exec(yazykCompileCommand.c_str());
+  string wiseyCompileCommand = "bin/wisey " + fileName + " -o build/test.bc";
+  exec(wiseyCompileCommand.c_str());
   exec("/usr/local/bin/llc -filetype=obj build/test.bc");
   exec("g++ -o build/test build/test.o");
   int result = system("build/test");

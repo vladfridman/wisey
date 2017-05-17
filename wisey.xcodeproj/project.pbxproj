@@ -540,7 +540,7 @@
 		F5404F391E109CBD00A31543 /* test_variable_declaration_assign_to_zero.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration_assign_to_zero.yz; path = tests/samples/test_variable_declaration_assign_to_zero.yz; sourceTree = "<group>"; };
 		F5404F3A1E109CBD00A31543 /* test_variable_declaration.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration.yz; path = tests/samples/test_variable_declaration.yz; sourceTree = "<group>"; };
 		F5404F3B1E109CBD00A31543 /* test_while_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_while_statement.yz; path = tests/samples/test_while_statement.yz; sourceTree = "<group>"; };
-		F546258D1DE5E43A00074D66 /* Yazyk */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Yazyk; sourceTree = BUILT_PRODUCTS_DIR; };
+		F546258D1DE5E43A00074D66 /* wisey */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wisey; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54625B11DE5E53200074D66 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = /usr/local/lib/libLLVMX86Disassembler.a; sourceTree = "<absolute>"; };
 		F54625C01DE5EA2800074D66 /* libLLVMX86AsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86AsmParser.a; path = /usr/local/lib/libLLVMX86AsmParser.a; sourceTree = "<absolute>"; };
@@ -689,7 +689,6 @@
 		F5C6FD841E48B7A00054209D /* LongType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LongType.cpp; path = src/LongType.cpp; sourceTree = "<group>"; };
 		F5C6FD871E48B7DE0054209D /* TestLongType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLongType.cpp; path = tests/TestLongType.cpp; sourceTree = "<group>"; };
 		F5C6FD891E48D08F0054209D /* TestModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModel.cpp; path = tests/TestModel.cpp; sourceTree = "<group>"; };
-		F5CA5DA91DEC8D2C00EF64EA /* input.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.yz; path = samples/input.yz; sourceTree = "<group>"; };
 		F5CB180A1EB0C125007E2E43 /* IntrinsicFunctions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IntrinsicFunctions.hpp; path = include/yazyk/IntrinsicFunctions.hpp; sourceTree = "<group>"; };
 		F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IntrinsicFunctions.cpp; path = src/IntrinsicFunctions.cpp; sourceTree = "<group>"; };
 		F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIntrinsicFunctions.cpp; path = tests/TestIntrinsicFunctions.cpp; sourceTree = "<group>"; };
@@ -961,7 +960,6 @@
 			isa = PBXGroup;
 			children = (
 				F54625B11DE5E53200074D66 /* Makefile */,
-				F54626141DE709F400074D66 /* samples */,
 				F54626041DE5EDA700074D66 /* lib */,
 				F569E9F91DF9CE6B00BBB20E /* include */,
 				F54625BD1DE5E53900074D66 /* src */,
@@ -975,7 +973,7 @@
 		F546258E1DE5E43A00074D66 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F546258D1DE5E43A00074D66 /* Yazyk */,
+				F546258D1DE5E43A00074D66 /* wisey */,
 				F530B4561DFA02C900477384 /* runtests */,
 			);
 			name = Products;
@@ -1122,14 +1120,6 @@
 			name = lib;
 			sourceTree = "<group>";
 		};
-		F54626141DE709F400074D66 /* samples */ = {
-			isa = PBXGroup;
-			children = (
-				F5CA5DA91DEC8D2C00EF64EA /* input.yz */,
-			);
-			name = samples;
-			sourceTree = "<group>";
-		};
 		F569E9F91DF9CE6B00BBB20E /* include */ = {
 			isa = PBXGroup;
 			children = (
@@ -1257,9 +1247,9 @@
 			productReference = F530B4561DFA02C900477384 /* runtests */;
 			productType = "com.apple.product-type.tool";
 		};
-		F546258C1DE5E43A00074D66 /* Yazyk */ = {
+		F546258C1DE5E43A00074D66 /* wisey */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F54625941DE5E43A00074D66 /* Build configuration list for PBXNativeTarget "Yazyk" */;
+			buildConfigurationList = F54625941DE5E43A00074D66 /* Build configuration list for PBXNativeTarget "wisey" */;
 			buildPhases = (
 				F54625891DE5E43A00074D66 /* Sources */,
 				F546258A1DE5E43A00074D66 /* Frameworks */,
@@ -1269,9 +1259,9 @@
 			);
 			dependencies = (
 			);
-			name = Yazyk;
+			name = wisey;
 			productName = ToyCompiler;
-			productReference = F546258D1DE5E43A00074D66 /* Yazyk */;
+			productReference = F546258D1DE5E43A00074D66 /* wisey */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -1291,7 +1281,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F54625881DE5E43A00074D66 /* Build configuration list for PBXProject "Yazyk" */;
+			buildConfigurationList = F54625881DE5E43A00074D66 /* Build configuration list for PBXProject "wisey" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1303,7 +1293,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F546258C1DE5E43A00074D66 /* Yazyk */,
+				F546258C1DE5E43A00074D66 /* wisey */,
 				F530B4551DFA02C900477384 /* runtests */,
 			);
 		};
@@ -1880,7 +1870,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F54625881DE5E43A00074D66 /* Build configuration list for PBXProject "Yazyk" */ = {
+		F54625881DE5E43A00074D66 /* Build configuration list for PBXProject "wisey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F54625921DE5E43A00074D66 /* Debug */,
@@ -1889,7 +1879,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F54625941DE5E43A00074D66 /* Build configuration list for PBXNativeTarget "Yazyk" */ = {
+		F54625941DE5E43A00074D66 /* Build configuration list for PBXNativeTarget "wisey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F54625951DE5E43A00074D66 /* Debug */,
