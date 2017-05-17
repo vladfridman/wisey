@@ -13,8 +13,8 @@
 #include <llvm/IR/Verifier.h>
 #include <llvm/Transforms/Scalar.h>
 
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/Log.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/Log.hpp"
 
 using namespace llvm;
 using namespace std;

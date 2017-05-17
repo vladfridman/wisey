@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/IRWriter.hpp"
+#include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -6,14 +6,14 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/Identifier.hpp"
-#include "yazyk/InterfaceInjector.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/MethodCall.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/ProgramSuffix.hpp"
-#include "yazyk/ReturnStatement.hpp"
-#include "yazyk/VariableDeclaration.hpp"
+#include "wisey/Identifier.hpp"
+#include "wisey/InterfaceInjector.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/MethodCall.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramSuffix.hpp"
+#include "wisey/ReturnStatement.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

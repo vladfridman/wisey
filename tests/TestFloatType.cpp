@@ -14,8 +14,8 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/FloatType.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/FloatType.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

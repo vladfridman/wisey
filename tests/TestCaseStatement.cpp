@@ -19,11 +19,11 @@
 
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
-#include "yazyk/Block.hpp"
-#include "yazyk/CaseStatement.hpp"
-#include "yazyk/FloatConstant.hpp"
-#include "yazyk/IntConstant.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/Block.hpp"
+#include "wisey/CaseStatement.hpp"
+#include "wisey/FloatConstant.hpp"
+#include "wisey/IntConstant.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;

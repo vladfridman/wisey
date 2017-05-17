@@ -16,9 +16,9 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/LogicalAndExpression.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/LogicalAndExpression.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

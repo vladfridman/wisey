@@ -8,17 +8,17 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Cast.hpp"
-#include "yazyk/Environment.hpp"
-#include "yazyk/Interface.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/LocalHeapVariable.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/MethodCall.hpp"
-#include "yazyk/MethodSignature.hpp"
-#include "yazyk/Model.hpp"
+#include "wisey/Cast.hpp"
+#include "wisey/Environment.hpp"
+#include "wisey/Interface.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/MethodCall.hpp"
+#include "wisey/MethodSignature.hpp"
+#include "wisey/Model.hpp"
 
 using namespace llvm;
 using namespace std;

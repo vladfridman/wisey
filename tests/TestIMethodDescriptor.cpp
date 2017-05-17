@@ -13,9 +13,9 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/Method.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/Method.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

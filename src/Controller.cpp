@@ -8,14 +8,14 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Cast.hpp"
-#include "yazyk/Controller.hpp"
-#include "yazyk/Environment.hpp"
-#include "yazyk/Field.hpp"
-#include "yazyk/IExpression.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/Log.hpp"
+#include "wisey/Cast.hpp"
+#include "wisey/Controller.hpp"
+#include "wisey/Environment.hpp"
+#include "wisey/Field.hpp"
+#include "wisey/IExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 
 using namespace llvm;
 using namespace std;

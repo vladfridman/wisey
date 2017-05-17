@@ -8,9 +8,9 @@
 
 #include <sstream>
 
-#include "yazyk/Environment.hpp"
-#include "yazyk/InterfaceInjector.hpp"
-#include "yazyk/LocalHeapVariable.hpp"
+#include "wisey/Environment.hpp"
+#include "wisey/InterfaceInjector.hpp"
+#include "wisey/LocalHeapVariable.hpp"
 
 using namespace llvm;
 using namespace std;

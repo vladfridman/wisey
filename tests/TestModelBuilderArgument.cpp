@@ -16,8 +16,8 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/ModelBuilderArgument.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/ModelBuilderArgument.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;

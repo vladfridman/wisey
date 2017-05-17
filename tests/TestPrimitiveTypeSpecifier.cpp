@@ -11,8 +11,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/PrimitiveTypeSpecifier.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace yazyk;

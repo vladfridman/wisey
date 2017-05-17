@@ -11,8 +11,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "yazyk/EmptyExpression.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/EmptyExpression.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace yazyk;
 

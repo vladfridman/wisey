@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "yazyk/IExpression.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/IExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 /**
  * Defines a mock object for IExpression

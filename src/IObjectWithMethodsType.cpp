@@ -8,8 +8,8 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/IObjectWithMethodsType.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/IObjectWithMethodsType.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 using namespace std;
 using namespace llvm;

@@ -12,9 +12,9 @@
 #include <gmock/gmock.h>
 
 #include "MockStatement.hpp"
-#include "yazyk/Catch.hpp"
-#include "yazyk/ModelTypeSpecifier.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/Catch.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

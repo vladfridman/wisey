@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/EmptyExpression.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/EmptyExpression.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace yazyk;

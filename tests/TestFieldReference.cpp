@@ -13,10 +13,10 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/FieldReference.hpp"
-#include "yazyk/IExpression.hpp"
-#include "yazyk/Model.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/FieldReference.hpp"
+#include "wisey/IExpression.hpp"
+#include "wisey/Model.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/Scope.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/Scope.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/ModelFieldDeclaration.hpp"
+#include "wisey/ModelFieldDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

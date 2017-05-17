@@ -9,11 +9,11 @@
 #include <sstream>
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Environment.hpp"
-#include "yazyk/LocalHeapVariable.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/Model.hpp"
-#include "yazyk/ModelBuilder.hpp"
+#include "wisey/Environment.hpp"
+#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/Model.hpp"
+#include "wisey/ModelBuilder.hpp"
 
 using namespace llvm;
 using namespace std;

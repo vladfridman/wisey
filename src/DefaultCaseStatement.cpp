@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/DefaultCaseStatement.hpp"
+#include "wisey/DefaultCaseStatement.hpp"
 
 using namespace llvm;
 using namespace yazyk;

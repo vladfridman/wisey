@@ -10,11 +10,11 @@
 #include <llvm-c/Target.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/ProgramFile.hpp"
-#include "yazyk/ProgramPrefix.hpp"
-#include "yazyk/ProgramSuffix.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/ProgramFile.hpp"
+#include "wisey/ProgramPrefix.hpp"
+#include "wisey/ProgramSuffix.hpp"
 
 using namespace llvm;
 using namespace std;

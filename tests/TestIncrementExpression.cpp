@@ -16,11 +16,11 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/IncrementExpression.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/LocalStackVariable.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/IncrementExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalStackVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

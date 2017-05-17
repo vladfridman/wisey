@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Interface.hpp"
-#include "yazyk/InterfaceDefinition.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/Interface.hpp"
+#include "wisey/InterfaceDefinition.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

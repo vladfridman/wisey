@@ -15,9 +15,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "yazyk/Controller.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/Controller.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

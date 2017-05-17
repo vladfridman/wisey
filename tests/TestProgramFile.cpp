@@ -14,7 +14,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockStatement.hpp"
-#include "yazyk/ProgramFile.hpp"
+#include "wisey/ProgramFile.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -16,15 +16,15 @@
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/AccessLevel.hpp"
-#include "yazyk/ControllerDefinition.hpp"
-#include "yazyk/Interface.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/MethodDeclaration.hpp"
-#include "yazyk/MethodSignature.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/PrimitiveTypeSpecifier.hpp"
+#include "wisey/AccessLevel.hpp"
+#include "wisey/ControllerDefinition.hpp"
+#include "wisey/Interface.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodSignature.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

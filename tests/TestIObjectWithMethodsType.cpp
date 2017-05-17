@@ -14,8 +14,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockObjectWithMethodsType.hpp"
-#include "yazyk/IObjectWithMethodsType.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/IObjectWithMethodsType.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 using namespace std;
 using namespace llvm;

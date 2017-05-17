@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/Environment.hpp"
+#include "wisey/Environment.hpp"
 
 using namespace yazyk;
 

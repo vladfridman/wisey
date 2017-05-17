@@ -16,9 +16,9 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/AdditiveMultiplicativeExpression.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/AdditiveMultiplicativeExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
 using ::testing::Mock;

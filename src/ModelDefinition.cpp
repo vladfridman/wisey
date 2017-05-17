@@ -10,10 +10,10 @@
 #include <llvm/IR/GlobalValue.h>
 #include <llvm/IR/DerivedTypes.h>
 
-#include "yazyk/Environment.hpp"
-#include "yazyk/LocalHeapVariable.hpp"
-#include "yazyk/ModelDefinition.hpp"
-#include "yazyk/ObjectFieldVariable.hpp"
+#include "wisey/Environment.hpp"
+#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/ModelDefinition.hpp"
+#include "wisey/ObjectFieldVariable.hpp"
 
 using namespace llvm;
 using namespace std;

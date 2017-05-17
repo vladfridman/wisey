@@ -16,8 +16,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockStatement.hpp"
-#include "yazyk/Block.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/Block.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

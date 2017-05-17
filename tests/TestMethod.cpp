@@ -14,10 +14,10 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/CompoundStatement.hpp"
-#include "yazyk/Method.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/CompoundStatement.hpp"
+#include "wisey/Method.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

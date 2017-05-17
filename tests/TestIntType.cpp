@@ -14,8 +14,8 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/IntType.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/IntType.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

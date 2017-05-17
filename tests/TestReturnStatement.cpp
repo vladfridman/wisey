@@ -16,12 +16,12 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/LocalHeapVariable.hpp"
-#include "yazyk/MethodDeclaration.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/ReturnStatement.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/MethodDeclaration.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ReturnStatement.hpp"
 
 using namespace llvm;
 using namespace std;

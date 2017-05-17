@@ -10,8 +10,8 @@
 
 #include <gtest/gtest.h>
 
-#include "yazyk/BindAction.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/BindAction.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

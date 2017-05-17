@@ -16,10 +16,10 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/BooleanConstant.hpp"
-#include "yazyk/BooleanConstants.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/BooleanConstant.hpp"
+#include "wisey/BooleanConstants.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

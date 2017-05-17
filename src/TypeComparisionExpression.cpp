@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/TypeComparisionExpression.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/TypeComparisionExpression.hpp"
 
 using namespace llvm;
 using namespace std;

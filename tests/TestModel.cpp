@@ -15,11 +15,11 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/MethodSignature.hpp"
-#include "yazyk/Model.hpp"
-#include "yazyk/ModelTypeSpecifier.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/MethodSignature.hpp"
+#include "wisey/Model.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

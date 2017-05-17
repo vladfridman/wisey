@@ -11,8 +11,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "yazyk/ControllerTypeSpecifier.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

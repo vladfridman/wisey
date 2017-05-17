@@ -6,9 +6,9 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/Identifier.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/Log.hpp"
+#include "wisey/Identifier.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/Log.hpp"
 
 using namespace llvm;
 using namespace std;

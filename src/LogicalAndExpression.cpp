@@ -9,11 +9,11 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/LogicalAndExpression.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/LogicalAndExpression.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace yazyk;

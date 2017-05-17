@@ -78,7 +78,7 @@ $(BUILDDIR)/Tokens.o: ${PARSERDIR}/Tokens.cpp | ${BUILDDIR}
 $(BUILDDIR)/main.o: ${SRCDIR}/main.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
-$(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/yazyk/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
+$(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/wisey/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
 ${BINDIR}/wisey: $(OBJ) | ${BINDIR}

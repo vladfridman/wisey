@@ -6,9 +6,9 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/ContinueStatement.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/Log.hpp"
+#include "wisey/ContinueStatement.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 
 using namespace llvm;
 using namespace yazyk;

@@ -18,13 +18,13 @@
 #include "MockExpression.hpp"
 #include "MockType.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/Identifier.hpp"
-#include "yazyk/Interface.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/MethodCall.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/Identifier.hpp"
+#include "wisey/Interface.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/MethodCall.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

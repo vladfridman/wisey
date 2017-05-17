@@ -15,9 +15,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/Interface.hpp"
-#include "yazyk/MethodSignature.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/Interface.hpp"
+#include "wisey/MethodSignature.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -6,7 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/Log.hpp"
+#include "wisey/Log.hpp"
 
 using namespace std;
 using namespace yazyk;

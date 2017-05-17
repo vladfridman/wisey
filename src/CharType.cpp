@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Value.h>
 
-#include "yazyk/Cast.hpp"
-#include "yazyk/CharType.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/Cast.hpp"
+#include "wisey/CharType.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

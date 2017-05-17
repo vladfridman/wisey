@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/BooleanConstant.hpp"
-#include "yazyk/BooleanConstants.hpp"
+#include "wisey/BooleanConstant.hpp"
+#include "wisey/BooleanConstants.hpp"
 
 using namespace yazyk;
 

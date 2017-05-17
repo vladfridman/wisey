@@ -13,7 +13,7 @@
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/CompoundStatement.hpp"
+#include "wisey/CompoundStatement.hpp"
 
 using namespace llvm;
 using namespace yazyk;

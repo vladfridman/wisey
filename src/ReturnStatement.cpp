@@ -6,11 +6,11 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/AutoCast.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/ReturnStatement.hpp"
+#include "wisey/AutoCast.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/ReturnStatement.hpp"
 
 #include <llvm/IR/Instructions.h>
 

@@ -17,12 +17,12 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/Identifier.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/ModelTypeSpecifier.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/PrimitiveTypeSpecifier.hpp"
-#include "yazyk/VariableDeclaration.hpp"
+#include "wisey/Identifier.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/AutoCast.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/MethodCall.hpp"
+#include "wisey/AutoCast.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/MethodCall.hpp"
 
 using namespace std;
 using namespace llvm;

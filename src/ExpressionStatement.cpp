@@ -6,7 +6,7 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/ExpressionStatement.hpp"
+#include "wisey/ExpressionStatement.hpp"
 
 using namespace llvm;
 using namespace yazyk;

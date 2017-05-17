@@ -17,10 +17,10 @@
 
 #include "MockStatement.hpp"
 #include "MockType.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/LocalHeapVariable.hpp"
-#include "yazyk/LocalStackVariable.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/LocalStackVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

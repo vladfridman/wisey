@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/ProgramFile.hpp"
+#include "wisey/ProgramFile.hpp"
 
 using namespace llvm;
 using namespace std;

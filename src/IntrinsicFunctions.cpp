@@ -8,7 +8,7 @@
 
 #include <llvm/IR/TypeBuilder.h>
 
-#include "yazyk/IntrinsicFunctions.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
 
 using namespace llvm;
 using namespace yazyk;

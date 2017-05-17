@@ -6,8 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/IfElseStatement.hpp"
-#include "yazyk/IRWriter.hpp"
+#include "wisey/IfElseStatement.hpp"
+#include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace yazyk;

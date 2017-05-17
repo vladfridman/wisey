@@ -8,12 +8,12 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Cast.hpp"
-#include "yazyk/Environment.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/Model.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
+#include "wisey/Cast.hpp"
+#include "wisey/Environment.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/Model.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;

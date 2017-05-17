@@ -6,11 +6,11 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/InterfaceDefinition.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/PrimitiveTypeSpecifier.hpp"
-#include "yazyk/ProgramPrefix.hpp"
-#include "yazyk/MethodSignatureDeclaration.hpp"
+#include "wisey/InterfaceDefinition.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

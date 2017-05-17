@@ -10,8 +10,8 @@
 
 #include <gtest/gtest.h>
 
-#include "yazyk/MethodSignature.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/MethodSignature.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

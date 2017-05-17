@@ -8,12 +8,12 @@
 
 #include <llvm/IR/InstrTypes.h>
 
-#include "yazyk/AdditiveMultiplicativeExpression.hpp"
-#include "yazyk/AutoCast.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/AdditiveMultiplicativeExpression.hpp"
+#include "wisey/AutoCast.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

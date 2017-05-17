@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IVariable.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IVariable.hpp"
 
 /**
  * Defines a mock object for IVariable

@@ -8,10 +8,10 @@
 
 #include <sstream>
 
-#include "yazyk/AutoCast.hpp"
-#include "yazyk/CastExpression.hpp"
-#include "yazyk/LocalHeapVariable.hpp"
-#include "yazyk/Log.hpp"
+#include "wisey/AutoCast.hpp"
+#include "wisey/CastExpression.hpp"
+#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/Log.hpp"
 
 using namespace std;
 using namespace llvm;

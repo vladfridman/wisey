@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/CompoundStatement.hpp"
+#include "wisey/CompoundStatement.hpp"
 
 using namespace llvm;
 using namespace yazyk;

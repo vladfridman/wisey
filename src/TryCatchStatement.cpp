@@ -10,10 +10,10 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/TypeBuilder.h>
 
-#include "yazyk/IntrinsicFunctions.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/LocalStackVariable.hpp"
-#include "yazyk/TryCatchStatement.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalStackVariable.hpp"
+#include "wisey/TryCatchStatement.hpp"
 
 using namespace llvm;
 using namespace std;

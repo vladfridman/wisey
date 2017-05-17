@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/BindAction.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/BindAction.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/RelationalExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/RelationalExpression.hpp"
 
 using namespace llvm;
 using namespace std;

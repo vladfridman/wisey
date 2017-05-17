@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/AutoCast.hpp"
-#include "yazyk/IExpression.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/LocalStackVariable.hpp"
+#include "wisey/AutoCast.hpp"
+#include "wisey/IExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalStackVariable.hpp"
 
 using namespace std;
 using namespace llvm;

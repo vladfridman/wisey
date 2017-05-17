@@ -6,10 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/Cast.hpp"
-#include "yazyk/IntType.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/Cast.hpp"
+#include "wisey/IntType.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

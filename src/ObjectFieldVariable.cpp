@@ -9,12 +9,12 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/AutoCast.hpp"
-#include "yazyk/IExpression.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/ObjectFieldVariable.hpp"
+#include "wisey/AutoCast.hpp"
+#include "wisey/IExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/ObjectFieldVariable.hpp"
 
 using namespace std;
 using namespace llvm;

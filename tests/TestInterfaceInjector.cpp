@@ -17,9 +17,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
-#include "yazyk/InterfaceInjector.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/InterfaceInjector.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

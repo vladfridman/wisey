@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace yazyk;
 

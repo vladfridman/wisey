@@ -1,0 +1,47 @@
+//
+//  Assignment.hpp
+//  Yazyk
+//
+//  Created by Vladimir Fridman on 12/20/16.
+//  Copyright © 2016 Vladimir Fridman. All rights reserved.
+//
+
+#ifndef Assignment_h
+#define Assignment_h
+
+#include "wisey/Identifier.hpp"
+#include "wisey/IExpression.hpp"
+#include "wisey/IHasType.hpp"
+
+namespace yazyk {
+  
+/**
+ * Represents an assignment expression
+ */
+class Assignment : public IExpression {
+  Identifier& mIdentifier;
+  IExpression& mExpression;
+  
+public:
+
+  Assignment(Identifier& identifier, IExpression& expression)
+    : mIdentifier(identifier), mExpression(expression) { }
+
+  ~Assignment() { }
+  
+  llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  IType* getType(IRGenerationContext& context) const override;
+  
+  void releaseOwnership(IRGenerationContext& context) const override;
+  
+private:
+  
+  llvm::Value* generateIRForHeapVariable(IRGenerationContext& context) const;
+  
+  llvm::Value* generateIRForStackVariable(IRGenerationContext& context) const;
+};
+  
+}
+
+#endif /* Assignment_h */

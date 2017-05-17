@@ -15,8 +15,8 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/StringConstant.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/StringConstant.hpp"
 
 using namespace llvm;
 using namespace std;

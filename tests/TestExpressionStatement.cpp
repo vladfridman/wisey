@@ -17,8 +17,8 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/ExpressionStatement.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/ExpressionStatement.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
 using namespace std;

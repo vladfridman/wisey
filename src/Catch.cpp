@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/Catch.hpp"
-#include "yazyk/Environment.hpp"
-#include "yazyk/IntrinsicFunctions.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/LocalHeapVariable.hpp"
+#include "wisey/Catch.hpp"
+#include "wisey/Environment.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalHeapVariable.hpp"
 
 using namespace llvm;
 using namespace std;

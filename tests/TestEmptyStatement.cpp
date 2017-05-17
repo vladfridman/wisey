@@ -12,8 +12,8 @@
 #include <gmock/gmock.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/EmptyStatement.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/EmptyStatement.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 using namespace yazyk;
 

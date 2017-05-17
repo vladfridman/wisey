@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/MethodSignature.hpp"
-#include "yazyk/MethodSignatureDeclaration.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/MethodSignature.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

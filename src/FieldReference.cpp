@@ -9,8 +9,8 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/FieldReference.hpp"
-#include "yazyk/Log.hpp"
+#include "wisey/FieldReference.hpp"
+#include "wisey/Log.hpp"
 
 using namespace std;
 using namespace llvm;

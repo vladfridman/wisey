@@ -16,10 +16,10 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
-#include "yazyk/Assignment.hpp"
-#include "yazyk/Identifier.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/Assignment.hpp"
+#include "wisey/Identifier.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

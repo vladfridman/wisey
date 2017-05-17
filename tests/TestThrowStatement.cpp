@@ -16,8 +16,8 @@
 #include "MockExpression.hpp"
 #include "MockType.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/Block.hpp"
-#include "yazyk/ThrowStatement.hpp"
+#include "wisey/Block.hpp"
+#include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;

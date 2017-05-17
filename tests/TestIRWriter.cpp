@@ -12,7 +12,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/IRWriter.hpp"
+#include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;

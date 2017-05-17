@@ -8,9 +8,9 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/LongConstant.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/LongConstant.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace yazyk;

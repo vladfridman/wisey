@@ -6,8 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/Block.hpp"
-#include "yazyk/Scope.hpp"
+#include "wisey/Block.hpp"
+#include "wisey/Scope.hpp"
 
 using namespace llvm;
 using namespace yazyk;

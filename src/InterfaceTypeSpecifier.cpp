@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/InterfaceTypeSpecifier.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

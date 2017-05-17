@@ -14,8 +14,8 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/BooleanType.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/BooleanType.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

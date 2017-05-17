@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/CaseStatement.hpp"
-#include "yazyk/Log.hpp"
+#include "wisey/CaseStatement.hpp"
+#include "wisey/Log.hpp"
 
 using namespace llvm;
 using namespace yazyk;

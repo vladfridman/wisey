@@ -6,14 +6,14 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/CompoundStatement.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/LocalStackVariable.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/Method.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/MethodCall.hpp"
-#include "yazyk/Model.hpp"
+#include "wisey/CompoundStatement.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalStackVariable.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/Method.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/MethodCall.hpp"
+#include "wisey/Model.hpp"
 
 using namespace llvm;
 using namespace std;

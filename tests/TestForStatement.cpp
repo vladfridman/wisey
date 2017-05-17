@@ -20,8 +20,8 @@
 #include "MockExpression.hpp"
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/ForStatement.hpp"
-#include "yazyk/IRGenerationContext.hpp"
+#include "wisey/ForStatement.hpp"
+#include "wisey/IRGenerationContext.hpp"
 
 using ::testing::_;
 using ::testing::NiceMock;

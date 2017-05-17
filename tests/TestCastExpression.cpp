@@ -18,9 +18,9 @@
 #include "MockExpression.hpp"
 #include "MockTypeSpecifier.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/CastExpression.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
+#include "wisey/CastExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;

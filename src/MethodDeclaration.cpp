@@ -8,10 +8,10 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/MethodDeclaration.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/VariableDeclaration.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/MethodDeclaration.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

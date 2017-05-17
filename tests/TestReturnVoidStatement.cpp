@@ -14,8 +14,8 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/ReturnVoidStatement.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/ReturnVoidStatement.hpp"
 
 using namespace llvm;
 using namespace std;

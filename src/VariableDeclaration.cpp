@@ -9,13 +9,13 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "yazyk/Assignment.hpp"
-#include "yazyk/Identifier.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/LocalHeapVariable.hpp"
-#include "yazyk/LocalStackVariable.hpp"
-#include "yazyk/VariableDeclaration.hpp"
+#include "wisey/Assignment.hpp"
+#include "wisey/Identifier.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/LocalStackVariable.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

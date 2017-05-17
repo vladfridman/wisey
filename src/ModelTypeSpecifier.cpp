@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/ModelTypeSpecifier.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;

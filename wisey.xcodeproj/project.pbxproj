@@ -366,69 +366,133 @@
 
 /* Begin PBXFileReference section */
 		F501B4931E161D140010783D /* TestBreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBreakStatement.cpp; path = tests/TestBreakStatement.cpp; sourceTree = "<group>"; };
-		F50427981E4B4102001CB148 /* FieldReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldReference.hpp; path = include/yazyk/FieldReference.hpp; sourceTree = "<group>"; };
 		F50427991E4B4275001CB148 /* FieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldReference.cpp; path = src/FieldReference.cpp; sourceTree = "<group>"; };
 		F504279C1E4B5845001CB148 /* TestFieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldReference.cpp; path = tests/TestFieldReference.cpp; sourceTree = "<group>"; };
-		F504279E1E4B8615001CB148 /* AccessLevel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AccessLevel.hpp; path = include/yazyk/AccessLevel.hpp; sourceTree = "<group>"; };
-		F50427A21E4CBDF4001CB148 /* Method.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Method.hpp; path = include/yazyk/Method.hpp; sourceTree = "<group>"; };
-		F50427A41E4CC27F001CB148 /* MethodArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodArgument.hpp; path = include/yazyk/MethodArgument.hpp; sourceTree = "<group>"; };
-		F50427A51E4D05DB001CB148 /* IVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IVariable.hpp; path = include/yazyk/IVariable.hpp; sourceTree = "<group>"; };
-		F50427A61E4D0846001CB148 /* LocalStackVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalStackVariable.hpp; path = include/yazyk/LocalStackVariable.hpp; sourceTree = "<group>"; };
 		F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LocalStackVariable.cpp; path = src/LocalStackVariable.cpp; sourceTree = "<group>"; };
-		F50427AA1E4D26B5001CB148 /* LocalHeapVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalHeapVariable.hpp; path = include/yazyk/LocalHeapVariable.hpp; sourceTree = "<group>"; };
 		F50427AB1E4D2747001CB148 /* LocalHeapVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LocalHeapVariable.cpp; path = src/LocalHeapVariable.cpp; sourceTree = "<group>"; };
 		F50427AE1E4DD329001CB148 /* TestLocalStackVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalStackVariable.cpp; path = tests/TestLocalStackVariable.cpp; sourceTree = "<group>"; };
 		F50427B01E4DD621001CB148 /* TestLocalHeapVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalHeapVariable.cpp; path = tests/TestLocalHeapVariable.cpp; sourceTree = "<group>"; };
-		F50427B21E4E3B5C001CB148 /* ObjectFieldVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ObjectFieldVariable.hpp; path = include/yazyk/ObjectFieldVariable.hpp; sourceTree = "<group>"; };
 		F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectFieldVariable.cpp; path = src/ObjectFieldVariable.cpp; sourceTree = "<group>"; };
-		F507D2631E43539C00495E2D /* Model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Model.hpp; path = include/yazyk/Model.hpp; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
-		F507D2671E43783000495E2D /* Field.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Field.hpp; path = include/yazyk/Field.hpp; sourceTree = "<group>"; };
-		F507D2681E44C27D00495E2D /* IType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IType.hpp; path = include/yazyk/IType.hpp; sourceTree = "<group>"; };
-		F507D2691E44C3A400495E2D /* CharType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CharType.hpp; path = include/yazyk/CharType.hpp; sourceTree = "<group>"; };
-		F507D26A1E45FBBA00495E2D /* IHasType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IHasType.hpp; path = include/yazyk/IHasType.hpp; sourceTree = "<group>"; };
-		F507D26B1E45FDF000495E2D /* PrimitiveTypes.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrimitiveTypes.hpp; path = include/yazyk/PrimitiveTypes.hpp; sourceTree = "<group>"; };
 		F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypes.cpp; path = src/PrimitiveTypes.cpp; sourceTree = "<group>"; };
-		F507D26F1E46088D00495E2D /* IntType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IntType.hpp; path = include/yazyk/IntType.hpp; sourceTree = "<group>"; };
-		F507D2701E4608C200495E2D /* LongType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LongType.hpp; path = include/yazyk/LongType.hpp; sourceTree = "<group>"; };
-		F507D2711E4609D800495E2D /* FloatType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FloatType.hpp; path = include/yazyk/FloatType.hpp; sourceTree = "<group>"; };
-		F507D2721E460A2B00495E2D /* DoubleType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DoubleType.hpp; path = include/yazyk/DoubleType.hpp; sourceTree = "<group>"; };
-		F507D2731E46109200495E2D /* VoidType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VoidType.hpp; path = include/yazyk/VoidType.hpp; sourceTree = "<group>"; };
-		F507D2741E474AB700495E2D /* BooleanType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanType.hpp; path = include/yazyk/BooleanType.hpp; sourceTree = "<group>"; };
-		F507D2751E474DFE00495E2D /* BooleanConstants.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanConstants.hpp; path = include/yazyk/BooleanConstants.hpp; sourceTree = "<group>"; };
 		F507D2761E474E7C00495E2D /* BooleanConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanConstants.cpp; path = src/BooleanConstants.cpp; sourceTree = "<group>"; };
-		F508E0631E72C761005D6115 /* IMethodDescriptor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethodDescriptor.hpp; path = include/yazyk/IMethodDescriptor.hpp; sourceTree = "<group>"; };
-		F508E0641E72C9C8005D6115 /* MethodSignature.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodSignature.hpp; path = include/yazyk/MethodSignature.hpp; sourceTree = "<group>"; };
+		F5089C491ECD01D9004A1223 /* AccessLevel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AccessLevel.hpp; path = include/wisey/AccessLevel.hpp; sourceTree = "<group>"; };
+		F5089C4A1ECD01D9004A1223 /* AdditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AdditiveMultiplicativeExpression.hpp; path = include/wisey/AdditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
+		F5089C4B1ECD01D9004A1223 /* Assignment.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Assignment.hpp; path = include/wisey/Assignment.hpp; sourceTree = "<group>"; };
+		F5089C4C1ECD01D9004A1223 /* AutoCast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AutoCast.hpp; path = include/wisey/AutoCast.hpp; sourceTree = "<group>"; };
+		F5089C4D1ECD01D9004A1223 /* BindAction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BindAction.hpp; path = include/wisey/BindAction.hpp; sourceTree = "<group>"; };
+		F5089C4E1ECD01D9004A1223 /* Block.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Block.hpp; path = include/wisey/Block.hpp; sourceTree = "<group>"; };
+		F5089C4F1ECD01D9004A1223 /* BooleanConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BooleanConstant.hpp; path = include/wisey/BooleanConstant.hpp; sourceTree = "<group>"; };
+		F5089C501ECD01D9004A1223 /* BooleanConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BooleanConstants.hpp; path = include/wisey/BooleanConstants.hpp; sourceTree = "<group>"; };
+		F5089C511ECD01D9004A1223 /* BooleanNotExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BooleanNotExpression.hpp; path = include/wisey/BooleanNotExpression.hpp; sourceTree = "<group>"; };
+		F5089C521ECD01D9004A1223 /* BooleanType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BooleanType.hpp; path = include/wisey/BooleanType.hpp; sourceTree = "<group>"; };
+		F5089C531ECD01D9004A1223 /* BreakStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BreakStatement.hpp; path = include/wisey/BreakStatement.hpp; sourceTree = "<group>"; };
+		F5089C541ECD01D9004A1223 /* CaseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CaseStatement.hpp; path = include/wisey/CaseStatement.hpp; sourceTree = "<group>"; };
+		F5089C551ECD01D9004A1223 /* Cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Cast.hpp; path = include/wisey/Cast.hpp; sourceTree = "<group>"; };
+		F5089C561ECD01D9004A1223 /* CastExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CastExpression.hpp; path = include/wisey/CastExpression.hpp; sourceTree = "<group>"; };
+		F5089C571ECD01D9004A1223 /* Catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Catch.hpp; path = include/wisey/Catch.hpp; sourceTree = "<group>"; };
+		F5089C581ECD01D9004A1223 /* CharConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CharConstant.hpp; path = include/wisey/CharConstant.hpp; sourceTree = "<group>"; };
+		F5089C591ECD01D9004A1223 /* CharType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CharType.hpp; path = include/wisey/CharType.hpp; sourceTree = "<group>"; };
+		F5089C5A1ECD01D9004A1223 /* CompoundStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CompoundStatement.hpp; path = include/wisey/CompoundStatement.hpp; sourceTree = "<group>"; };
+		F5089C5B1ECD01D9004A1223 /* ConditionalExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ConditionalExpression.hpp; path = include/wisey/ConditionalExpression.hpp; sourceTree = "<group>"; };
+		F5089C5C1ECD01D9004A1223 /* ContinueStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ContinueStatement.hpp; path = include/wisey/ContinueStatement.hpp; sourceTree = "<group>"; };
+		F5089C5D1ECD01D9004A1223 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Controller.hpp; path = include/wisey/Controller.hpp; sourceTree = "<group>"; };
+		F5089C5E1ECD01D9004A1223 /* ControllerDefinition.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ControllerDefinition.hpp; path = include/wisey/ControllerDefinition.hpp; sourceTree = "<group>"; };
+		F5089C5F1ECD01D9004A1223 /* ControllerFieldDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ControllerFieldDeclaration.hpp; path = include/wisey/ControllerFieldDeclaration.hpp; sourceTree = "<group>"; };
+		F5089C601ECD01D9004A1223 /* ControllerTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ControllerTypeSpecifier.hpp; path = include/wisey/ControllerTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5089C611ECD01D9004A1223 /* DefaultCaseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DefaultCaseStatement.hpp; path = include/wisey/DefaultCaseStatement.hpp; sourceTree = "<group>"; };
+		F5089C621ECD01D9004A1223 /* DoStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DoStatement.hpp; path = include/wisey/DoStatement.hpp; sourceTree = "<group>"; };
+		F5089C631ECD01D9004A1223 /* DoubleConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DoubleConstant.hpp; path = include/wisey/DoubleConstant.hpp; sourceTree = "<group>"; };
+		F5089C641ECD01D9004A1223 /* DoubleType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DoubleType.hpp; path = include/wisey/DoubleType.hpp; sourceTree = "<group>"; };
+		F5089C651ECD01D9004A1223 /* EmptyExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EmptyExpression.hpp; path = include/wisey/EmptyExpression.hpp; sourceTree = "<group>"; };
+		F5089C661ECD01D9004A1223 /* EmptyStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EmptyStatement.hpp; path = include/wisey/EmptyStatement.hpp; sourceTree = "<group>"; };
+		F5089C671ECD01D9004A1223 /* Environment.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Environment.hpp; path = include/wisey/Environment.hpp; sourceTree = "<group>"; };
+		F5089C681ECD01D9004A1223 /* ExpressionStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ExpressionStatement.hpp; path = include/wisey/ExpressionStatement.hpp; sourceTree = "<group>"; };
+		F5089C691ECD01D9004A1223 /* Field.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Field.hpp; path = include/wisey/Field.hpp; sourceTree = "<group>"; };
+		F5089C6A1ECD01D9004A1223 /* FieldReference.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FieldReference.hpp; path = include/wisey/FieldReference.hpp; sourceTree = "<group>"; };
+		F5089C6B1ECD01D9004A1223 /* FloatConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FloatConstant.hpp; path = include/wisey/FloatConstant.hpp; sourceTree = "<group>"; };
+		F5089C6C1ECD01D9004A1223 /* FloatType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FloatType.hpp; path = include/wisey/FloatType.hpp; sourceTree = "<group>"; };
+		F5089C6D1ECD01D9004A1223 /* ForStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ForStatement.hpp; path = include/wisey/ForStatement.hpp; sourceTree = "<group>"; };
+		F5089C6E1ECD01D9004A1223 /* Identifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Identifier.hpp; path = include/wisey/Identifier.hpp; sourceTree = "<group>"; };
+		F5089C6F1ECD01D9004A1223 /* IExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IExpression.hpp; path = include/wisey/IExpression.hpp; sourceTree = "<group>"; };
+		F5089C701ECD01D9004A1223 /* IfElseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IfElseStatement.hpp; path = include/wisey/IfElseStatement.hpp; sourceTree = "<group>"; };
+		F5089C711ECD01D9004A1223 /* IfStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IfStatement.hpp; path = include/wisey/IfStatement.hpp; sourceTree = "<group>"; };
+		F5089C721ECD01D9004A1223 /* IHasType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IHasType.hpp; path = include/wisey/IHasType.hpp; sourceTree = "<group>"; };
+		F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IMethodDescriptor.hpp; path = include/wisey/IMethodDescriptor.hpp; sourceTree = "<group>"; };
+		F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IncrementExpression.hpp; path = include/wisey/IncrementExpression.hpp; sourceTree = "<group>"; };
+		F5089C751ECD01D9004A1223 /* INode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = INode.hpp; path = include/wisey/INode.hpp; sourceTree = "<group>"; };
+		F5089C761ECD01D9004A1223 /* IntConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IntConstant.hpp; path = include/wisey/IntConstant.hpp; sourceTree = "<group>"; };
+		F5089C771ECD01D9004A1223 /* Interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Interface.hpp; path = include/wisey/Interface.hpp; sourceTree = "<group>"; };
+		F5089C781ECD01D9004A1223 /* InterfaceDefinition.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = InterfaceDefinition.hpp; path = include/wisey/InterfaceDefinition.hpp; sourceTree = "<group>"; };
+		F5089C791ECD01D9004A1223 /* InterfaceInjector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = InterfaceInjector.hpp; path = include/wisey/InterfaceInjector.hpp; sourceTree = "<group>"; };
+		F5089C7A1ECD01D9004A1223 /* InterfaceTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = InterfaceTypeSpecifier.hpp; path = include/wisey/InterfaceTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5089C7B1ECD01D9004A1223 /* IntrinsicFunctions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IntrinsicFunctions.hpp; path = include/wisey/IntrinsicFunctions.hpp; sourceTree = "<group>"; };
+		F5089C7C1ECD01D9004A1223 /* IntType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IntType.hpp; path = include/wisey/IntType.hpp; sourceTree = "<group>"; };
+		F5089C7D1ECD01D9004A1223 /* IObjectWithFieldsType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithFieldsType.hpp; path = include/wisey/IObjectWithFieldsType.hpp; sourceTree = "<group>"; };
+		F5089C7E1ECD01D9004A1223 /* IObjectWithMethodsType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithMethodsType.hpp; path = include/wisey/IObjectWithMethodsType.hpp; sourceTree = "<group>"; };
+		F5089C7F1ECD01D9004A1223 /* IRGenerationContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IRGenerationContext.hpp; path = include/wisey/IRGenerationContext.hpp; sourceTree = "<group>"; };
+		F5089C801ECD01D9004A1223 /* IRWriter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IRWriter.hpp; path = include/wisey/IRWriter.hpp; sourceTree = "<group>"; };
+		F5089C811ECD01D9004A1223 /* IStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IStatement.hpp; path = include/wisey/IStatement.hpp; sourceTree = "<group>"; };
+		F5089C821ECD01D9004A1223 /* IType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IType.hpp; path = include/wisey/IType.hpp; sourceTree = "<group>"; };
+		F5089C831ECD01D9004A1223 /* ITypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ITypeSpecifier.hpp; path = include/wisey/ITypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5089C841ECD01D9004A1223 /* IVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IVariable.hpp; path = include/wisey/IVariable.hpp; sourceTree = "<group>"; };
+		F5089C851ECD01D9004A1223 /* LocalHeapVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LocalHeapVariable.hpp; path = include/wisey/LocalHeapVariable.hpp; sourceTree = "<group>"; };
+		F5089C861ECD01D9004A1223 /* LocalStackVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LocalStackVariable.hpp; path = include/wisey/LocalStackVariable.hpp; sourceTree = "<group>"; };
+		F5089C871ECD01D9004A1223 /* Log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Log.hpp; path = include/wisey/Log.hpp; sourceTree = "<group>"; };
+		F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogicalAndExpression.hpp; path = include/wisey/LogicalAndExpression.hpp; sourceTree = "<group>"; };
+		F5089C891ECD01D9004A1223 /* LogicalOrExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogicalOrExpression.hpp; path = include/wisey/LogicalOrExpression.hpp; sourceTree = "<group>"; };
+		F5089C8A1ECD01D9004A1223 /* LongConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LongConstant.hpp; path = include/wisey/LongConstant.hpp; sourceTree = "<group>"; };
+		F5089C8B1ECD01D9004A1223 /* LongType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LongType.hpp; path = include/wisey/LongType.hpp; sourceTree = "<group>"; };
+		F5089C8C1ECD01D9004A1223 /* Method.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Method.hpp; path = include/wisey/Method.hpp; sourceTree = "<group>"; };
+		F5089C8D1ECD01D9004A1223 /* MethodArgument.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodArgument.hpp; path = include/wisey/MethodArgument.hpp; sourceTree = "<group>"; };
+		F5089C8E1ECD01D9004A1223 /* MethodCall.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodCall.hpp; path = include/wisey/MethodCall.hpp; sourceTree = "<group>"; };
+		F5089C8F1ECD01D9004A1223 /* MethodDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodDeclaration.hpp; path = include/wisey/MethodDeclaration.hpp; sourceTree = "<group>"; };
+		F5089C901ECD01D9004A1223 /* MethodSignature.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodSignature.hpp; path = include/wisey/MethodSignature.hpp; sourceTree = "<group>"; };
+		F5089C911ECD01D9004A1223 /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/wisey/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
+		F5089C921ECD01D9004A1223 /* Model.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Model.hpp; path = include/wisey/Model.hpp; sourceTree = "<group>"; };
+		F5089C931ECD01D9004A1223 /* ModelBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelBuilder.hpp; path = include/wisey/ModelBuilder.hpp; sourceTree = "<group>"; };
+		F5089C941ECD01D9004A1223 /* ModelBuilderArgument.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelBuilderArgument.hpp; path = include/wisey/ModelBuilderArgument.hpp; sourceTree = "<group>"; };
+		F5089C951ECD01D9004A1223 /* ModelDefinition.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelDefinition.hpp; path = include/wisey/ModelDefinition.hpp; sourceTree = "<group>"; };
+		F5089C961ECD01D9004A1223 /* ModelFieldDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelFieldDeclaration.hpp; path = include/wisey/ModelFieldDeclaration.hpp; sourceTree = "<group>"; };
+		F5089C971ECD01D9004A1223 /* ModelTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelTypeSpecifier.hpp; path = include/wisey/ModelTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5089C981ECD01D9004A1223 /* NegateExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NegateExpression.hpp; path = include/wisey/NegateExpression.hpp; sourceTree = "<group>"; };
+		F5089C991ECD01D9004A1223 /* ObjectFieldVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ObjectFieldVariable.hpp; path = include/wisey/ObjectFieldVariable.hpp; sourceTree = "<group>"; };
+		F5089C9A1ECD01D9004A1223 /* PrimitiveTypes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PrimitiveTypes.hpp; path = include/wisey/PrimitiveTypes.hpp; sourceTree = "<group>"; };
+		F5089C9B1ECD01D9004A1223 /* PrimitiveTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PrimitiveTypeSpecifier.hpp; path = include/wisey/PrimitiveTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5089C9C1ECD01D9004A1223 /* ProgramFile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ProgramFile.hpp; path = include/wisey/ProgramFile.hpp; sourceTree = "<group>"; };
+		F5089C9D1ECD01D9004A1223 /* ProgramPrefix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ProgramPrefix.hpp; path = include/wisey/ProgramPrefix.hpp; sourceTree = "<group>"; };
+		F5089C9E1ECD01D9004A1223 /* ProgramSuffix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ProgramSuffix.hpp; path = include/wisey/ProgramSuffix.hpp; sourceTree = "<group>"; };
+		F5089C9F1ECD01D9004A1223 /* RelationalExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RelationalExpression.hpp; path = include/wisey/RelationalExpression.hpp; sourceTree = "<group>"; };
+		F5089CA01ECD01D9004A1223 /* RelationalOperation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RelationalOperation.hpp; path = include/wisey/RelationalOperation.hpp; sourceTree = "<group>"; };
+		F5089CA11ECD01D9004A1223 /* ReturnStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ReturnStatement.hpp; path = include/wisey/ReturnStatement.hpp; sourceTree = "<group>"; };
+		F5089CA21ECD01D9004A1223 /* ReturnVoidStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ReturnVoidStatement.hpp; path = include/wisey/ReturnVoidStatement.hpp; sourceTree = "<group>"; };
+		F5089CA31ECD01D9004A1223 /* Scope.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Scope.hpp; path = include/wisey/Scope.hpp; sourceTree = "<group>"; };
+		F5089CA41ECD01D9004A1223 /* Scopes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Scopes.hpp; path = include/wisey/Scopes.hpp; sourceTree = "<group>"; };
+		F5089CA51ECD01D9004A1223 /* StringConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StringConstant.hpp; path = include/wisey/StringConstant.hpp; sourceTree = "<group>"; };
+		F5089CA61ECD01D9004A1223 /* SwitchStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SwitchStatement.hpp; path = include/wisey/SwitchStatement.hpp; sourceTree = "<group>"; };
+		F5089CA71ECD01D9004A1223 /* ThrowStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ThrowStatement.hpp; path = include/wisey/ThrowStatement.hpp; sourceTree = "<group>"; };
+		F5089CA81ECD01D9004A1223 /* TryCatchStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TryCatchStatement.hpp; path = include/wisey/TryCatchStatement.hpp; sourceTree = "<group>"; };
+		F5089CA91ECD01D9004A1223 /* TypeComparisionExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TypeComparisionExpression.hpp; path = include/wisey/TypeComparisionExpression.hpp; sourceTree = "<group>"; };
+		F5089CAA1ECD01D9004A1223 /* VariableDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VariableDeclaration.hpp; path = include/wisey/VariableDeclaration.hpp; sourceTree = "<group>"; };
+		F5089CAB1ECD01D9004A1223 /* VoidType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = VoidType.hpp; path = include/wisey/VoidType.hpp; sourceTree = "<group>"; };
+		F5089CAC1ECD01D9004A1223 /* WhileStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = WhileStatement.hpp; path = include/wisey/WhileStatement.hpp; sourceTree = "<group>"; };
 		F508E0651E72CB0E005D6115 /* MethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignature.cpp; path = src/MethodSignature.cpp; sourceTree = "<group>"; };
 		F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodDescriptor.cpp; path = src/IMethodDescriptor.cpp; sourceTree = "<group>"; };
 		F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIMethodDescriptor.cpp; path = tests/TestIMethodDescriptor.cpp; sourceTree = "<group>"; };
-		F508E06D1E7306B1005D6115 /* Environment.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Environment.hpp; path = include/yazyk/Environment.hpp; sourceTree = "<group>"; };
 		F508E06E1E73076E005D6115 /* Environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environment.cpp; path = src/Environment.cpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompoundStatement.cpp; path = tests/TestCompoundStatement.cpp; sourceTree = "<group>"; };
-		F50FA2A21E269E4400435EEA /* CaseStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CaseStatement.hpp; path = include/yazyk/CaseStatement.hpp; sourceTree = "<group>"; };
-		F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SwitchStatement.hpp; path = include/yazyk/SwitchStatement.hpp; sourceTree = "<group>"; };
 		F50FA2A51E269E5700435EEA /* CaseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CaseStatement.cpp; path = src/CaseStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SwitchStatement.cpp; path = src/SwitchStatement.cpp; sourceTree = "<group>"; };
 		F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestSwitchStatement.cpp; path = tests/TestSwitchStatement.cpp; sourceTree = "<group>"; };
 		F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCaseStatement.cpp; path = tests/TestCaseStatement.cpp; sourceTree = "<group>"; };
-		F50FA2B11E27DCA500435EEA /* DefaultCaseStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DefaultCaseStatement.hpp; path = include/yazyk/DefaultCaseStatement.hpp; sourceTree = "<group>"; };
 		F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DefaultCaseStatement.cpp; path = src/DefaultCaseStatement.cpp; sourceTree = "<group>"; };
-		F50FA2B51E28BA0500435EEA /* DoStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = DoStatement.hpp; path = include/yazyk/DoStatement.hpp; sourceTree = "<group>"; };
 		F50FA2B61E28BA5600435EEA /* DoStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DoStatement.cpp; path = src/DoStatement.cpp; sourceTree = "<group>"; };
 		F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestDoStatement.cpp; path = tests/TestDoStatement.cpp; sourceTree = "<group>"; };
-		F50FA2CC1E2D045000435EEA /* ITypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ITypeSpecifier.hpp; path = include/yazyk/ITypeSpecifier.hpp; sourceTree = "<group>"; };
-		F50FA2CD1E2D0AC600435EEA /* ModelDefinition.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelDefinition.hpp; path = include/yazyk/ModelDefinition.hpp; sourceTree = "<group>"; };
-		F50FA2CE1E2D0AC600435EEA /* ModelFieldDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelFieldDeclaration.hpp; path = include/yazyk/ModelFieldDeclaration.hpp; sourceTree = "<group>"; };
-		F50FA2CF1E2D0AC600435EEA /* ModelTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelTypeSpecifier.hpp; path = include/yazyk/ModelTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F50FA2D01E2D0AD600435EEA /* ModelDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelDefinition.cpp; path = src/ModelDefinition.cpp; sourceTree = "<group>"; };
 		F50FA2D11E2D0AD600435EEA /* ModelFieldDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelFieldDeclaration.cpp; path = src/ModelFieldDeclaration.cpp; sourceTree = "<group>"; };
 		F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelTypeSpecifier.cpp; path = src/ModelTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F50FA2D61E2D12E000435EEA /* TestModelDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelDefinition.cpp; path = tests/TestModelDefinition.cpp; sourceTree = "<group>"; };
-		F50FA2DD1E2E3AF600435EEA /* DoubleConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DoubleConstant.hpp; path = include/yazyk/DoubleConstant.hpp; sourceTree = "<group>"; };
-		F50FA2DE1E2E3AF600435EEA /* FloatConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FloatConstant.hpp; path = include/yazyk/FloatConstant.hpp; sourceTree = "<group>"; };
-		F50FA2DF1E2E3AF600435EEA /* IntConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IntConstant.hpp; path = include/yazyk/IntConstant.hpp; sourceTree = "<group>"; };
-		F50FA2E01E2E3AF600435EEA /* LongConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LongConstant.hpp; path = include/yazyk/LongConstant.hpp; sourceTree = "<group>"; };
 		F50FA2E11E2E3B0900435EEA /* DoubleConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DoubleConstant.cpp; path = src/DoubleConstant.cpp; sourceTree = "<group>"; };
 		F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FloatConstant.cpp; path = src/FloatConstant.cpp; sourceTree = "<group>"; };
 		F50FA2E31E2E3B0900435EEA /* IntConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IntConstant.cpp; path = src/IntConstant.cpp; sourceTree = "<group>"; };
@@ -438,83 +502,56 @@
 		F50FA2EF1E2E3B2A00435EEA /* TestIntConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIntConstant.cpp; path = tests/TestIntConstant.cpp; sourceTree = "<group>"; };
 		F50FA2F01E2E3B2A00435EEA /* TestLongConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLongConstant.cpp; path = tests/TestLongConstant.cpp; sourceTree = "<group>"; };
 		F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelTypeSpecifier.cpp; path = tests/TestModelTypeSpecifier.cpp; sourceTree = "<group>"; };
-		F50FA2FD1E32399600435EEA /* Scopes.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Scopes.hpp; path = include/yazyk/Scopes.hpp; sourceTree = "<group>"; };
 		F50FA2FE1E323AAD00435EEA /* Scopes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scopes.cpp; path = src/Scopes.cpp; sourceTree = "<group>"; };
 		F50FA3011E3240D800435EEA /* TestScopes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestScopes.cpp; path = tests/TestScopes.cpp; sourceTree = "<group>"; };
-		F50FA3031E325DEA00435EEA /* BooleanConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanConstant.hpp; path = include/yazyk/BooleanConstant.hpp; sourceTree = "<group>"; };
 		F50FA3041E325E5400435EEA /* BooleanConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanConstant.cpp; path = src/BooleanConstant.cpp; sourceTree = "<group>"; };
 		F50FA3071E32640B00435EEA /* TestBooleanConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanConstant.cpp; path = tests/TestBooleanConstant.cpp; sourceTree = "<group>"; };
-		F515811E1E894FE6009CE419 /* ControllerFieldDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerFieldDeclaration.hpp; path = include/yazyk/ControllerFieldDeclaration.hpp; sourceTree = "<group>"; };
-		F515811F1E8960EE009CE419 /* ControllerDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerDefinition.hpp; path = include/yazyk/ControllerDefinition.hpp; sourceTree = "<group>"; };
 		F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerDefinition.cpp; path = src/ControllerDefinition.cpp; sourceTree = "<group>"; };
 		F51581231E89B02F009CE419 /* ControllerFieldDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerFieldDeclaration.cpp; path = src/ControllerFieldDeclaration.cpp; sourceTree = "<group>"; };
-		F51581261E89B966009CE419 /* ControllerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerTypeSpecifier.hpp; path = include/yazyk/ControllerTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifier.cpp; path = src/ControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerDefinition.cpp; path = tests/TestControllerDefinition.cpp; sourceTree = "<group>"; };
-		F515812C1E8A7FB7009CE419 /* IObjectWithFieldsType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithFieldsType.hpp; path = include/yazyk/IObjectWithFieldsType.hpp; sourceTree = "<group>"; };
-		F515812D1E8AA85A009CE419 /* Controller.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Controller.hpp; path = include/yazyk/Controller.hpp; sourceTree = "<group>"; };
 		F515812E1E8AAB12009CE419 /* Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Controller.cpp; path = src/Controller.cpp; sourceTree = "<group>"; };
 		F51581311E8AB1A9009CE419 /* TestController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestController.cpp; path = tests/TestController.cpp; sourceTree = "<group>"; };
 		F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerTypeSpecifier.cpp; path = tests/TestControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
-		F51764C91ECCE891000AFBA7 /* ProgramFile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ProgramFile.hpp; path = include/yazyk/ProgramFile.hpp; sourceTree = "<group>"; };
 		F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramFile.cpp; path = src/ProgramFile.cpp; sourceTree = "<group>"; };
 		F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestProgramFile.cpp; path = tests/TestProgramFile.cpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
-		F517970B1E633FB7009B16AA /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/yazyk/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
-		F517970C1E660064009B16AA /* InterfaceDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceDefinition.hpp; path = include/yazyk/InterfaceDefinition.hpp; sourceTree = "<group>"; };
 		F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceDefinition.cpp; path = src/InterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignatureDeclaration.cpp; path = src/MethodSignatureDeclaration.cpp; sourceTree = "<group>"; };
 		F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceDefinition.cpp; path = tests/TestInterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F518B5E71EB2240C00577EEB /* TestCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCatch.cpp; path = tests/TestCatch.cpp; sourceTree = "<group>"; };
 		F51BA8FD1EA689440038C98B /* MockObjectWithMethodsType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectWithMethodsType.hpp; path = tests/include/MockObjectWithMethodsType.hpp; sourceTree = "<group>"; };
-		F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CastExpression.hpp; path = include/yazyk/CastExpression.hpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
-		F52F2C951EA94F070081DE38 /* Catch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Catch.hpp; path = include/yazyk/Catch.hpp; sourceTree = "<group>"; };
-		F52F2C971EA957B50081DE38 /* TryCatchStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TryCatchStatement.hpp; path = include/yazyk/TryCatchStatement.hpp; sourceTree = "<group>"; };
 		F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTryCatch.cpp; path = tests/TestTryCatch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
 		F530B45E1DFA031A00477384 /* TestsRun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestsRun.cpp; path = tests/TestsRun.cpp; sourceTree = "<group>"; };
-		F531B6371E07A4AD008304F3 /* INode.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = INode.hpp; path = include/yazyk/INode.hpp; sourceTree = "<group>"; };
 		F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrimitiveTypeSpecifier.cpp; path = tests/TestPrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
-		F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExpressionStatement.hpp; path = include/yazyk/ExpressionStatement.hpp; sourceTree = "<group>"; };
 		F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionStatement.cpp; path = src/ExpressionStatement.cpp; sourceTree = "<group>"; };
 		F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestExpressionStatement.cpp; path = tests/TestExpressionStatement.cpp; sourceTree = "<group>"; };
-		F531B6401E0A162D008304F3 /* Block.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Block.hpp; path = include/yazyk/Block.hpp; sourceTree = "<group>"; };
 		F531B6411E0A16D7008304F3 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Block.cpp; path = src/Block.cpp; sourceTree = "<group>"; };
 		F531B6441E0A4A7D008304F3 /* TestBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBlock.cpp; path = tests/TestBlock.cpp; sourceTree = "<group>"; };
-		F531B6461E0A4F0D008304F3 /* Assignment.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Assignment.hpp; path = include/yazyk/Assignment.hpp; sourceTree = "<group>"; };
 		F531B6471E0A4F76008304F3 /* Assignment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Assignment.cpp; path = src/Assignment.cpp; sourceTree = "<group>"; };
 		F531B64A1E0A5329008304F3 /* TestAssignment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAssignment.cpp; path = tests/TestAssignment.cpp; sourceTree = "<group>"; };
-		F531B6521E0DDCE7008304F3 /* StringConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StringConstant.hpp; path = include/yazyk/StringConstant.hpp; sourceTree = "<group>"; };
 		F531B6531E0DDD96008304F3 /* StringConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringConstant.cpp; path = src/StringConstant.cpp; sourceTree = "<group>"; };
 		F531B6561E0DE040008304F3 /* TestStringConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStringConstant.cpp; path = tests/TestStringConstant.cpp; sourceTree = "<group>"; };
-		F531B6581E0DE4ED008304F3 /* CharConstant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CharConstant.hpp; path = include/yazyk/CharConstant.hpp; sourceTree = "<group>"; };
 		F531B6591E0DE52F008304F3 /* CharConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharConstant.cpp; path = src/CharConstant.cpp; sourceTree = "<group>"; };
 		F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCharConstant.cpp; path = tests/TestCharConstant.cpp; sourceTree = "<group>"; };
-		F531B6771E0E19F1008304F3 /* IStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IStatement.hpp; path = include/yazyk/IStatement.hpp; sourceTree = "<group>"; };
-		F531B6781E0E1A61008304F3 /* IExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IExpression.hpp; path = include/yazyk/IExpression.hpp; sourceTree = "<group>"; };
-		F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = RelationalOperation.hpp; path = include/yazyk/RelationalOperation.hpp; sourceTree = "<group>"; };
 		F53400E21DFBF1D10002BF7E /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = lib/libgmock.a; sourceTree = "<group>"; };
 		F53400E31DFBF1D10002BF7E /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = lib/libgtest.a; sourceTree = "<group>"; };
-		F53400EC1DFC20E70002BF7E /* AdditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AdditiveMultiplicativeExpression.hpp; path = include/yazyk/AdditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
 		F53400ED1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AdditiveMultiplicativeExpression.cpp; path = src/AdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
 		F53400F11DFC6BA60002BF7E /* test_addition.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_addition.yz; path = tests/samples/test_addition.yz; sourceTree = "<group>"; };
 		F53400F21DFC6BA60002BF7E /* test_division.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_division.yz; path = tests/samples/test_division.yz; sourceTree = "<group>"; };
 		F53400F31DFC6BA60002BF7E /* test_multiplication.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_multiplication.yz; path = tests/samples/test_multiplication.yz; sourceTree = "<group>"; };
 		F53400F41DFC6BA60002BF7E /* test_subtraction.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_subtraction.yz; path = tests/samples/test_subtraction.yz; sourceTree = "<group>"; };
-		F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RelationalExpression.hpp; path = include/yazyk/RelationalExpression.hpp; sourceTree = "<group>"; };
 		F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RelationalExpression.cpp; path = src/RelationalExpression.cpp; sourceTree = "<group>"; };
 		F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestRelationalExpression.cpp; path = tests/TestRelationalExpression.cpp; sourceTree = "<group>"; };
 		F53401041DFEDA3C0002BF7E /* TestFileSampleRunner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TestFileSampleRunner.hpp; path = tests/include/TestFileSampleRunner.hpp; sourceTree = "<group>"; };
 		F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFileSampleRunner.cpp; path = tests/TestFileSampleRunner.cpp; sourceTree = "<group>"; };
-		F53401071DFF08660002BF7E /* ConditionalExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ConditionalExpression.hpp; path = include/yazyk/ConditionalExpression.hpp; sourceTree = "<group>"; };
 		F53401081DFF09230002BF7E /* ConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConditionalExpression.cpp; path = src/ConditionalExpression.cpp; sourceTree = "<group>"; };
 		F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConditionalExpression.cpp; path = tests/TestConditionalExpression.cpp; sourceTree = "<group>"; };
-		F534010F1DFF31550002BF7E /* MethodDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodDeclaration.hpp; path = include/yazyk/MethodDeclaration.hpp; sourceTree = "<group>"; };
 		F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodDeclaration.cpp; path = src/MethodDeclaration.cpp; sourceTree = "<group>"; };
 		F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodDeclaration.cpp; path = tests/TestMethodDeclaration.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
-		F534FFD81DFBD2750002BF7E /* Log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Log.hpp; path = include/yazyk/Log.hpp; sourceTree = "<group>"; };
 		F5404F231E109CBD00A31543 /* test_break_out_of_for_loop.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_break_out_of_for_loop.yz; path = tests/samples/test_break_out_of_for_loop.yz; sourceTree = "<group>"; };
 		F5404F241E109CBD00A31543 /* test_conditional_with_false.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_conditional_with_false.yz; path = tests/samples/test_conditional_with_false.yz; sourceTree = "<group>"; };
 		F5404F251E109CBD00A31543 /* test_conditional_with_true.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_conditional_with_true.yz; path = tests/samples/test_conditional_with_true.yz; sourceTree = "<group>"; };
@@ -579,99 +616,69 @@
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
 		F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = /usr/local/lib/libLLVMGlobalISel.a; sourceTree = "<absolute>"; };
 		F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifier.cpp; path = tests/TestIdentifier.cpp; sourceTree = "<group>"; };
-		F5601F381EB399EE00C9E2D8 /* IRWriter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IRWriter.hpp; path = include/yazyk/IRWriter.hpp; sourceTree = "<group>"; };
 		F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRWriter.cpp; path = src/IRWriter.cpp; sourceTree = "<group>"; };
 		F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRWriter.cpp; path = tests/TestIRWriter.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
 		F569E9F71DF9CE6600BBB20E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
-		F56AD49A1E9F4DAC0020868C /* ThrowStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowStatement.hpp; path = include/yazyk/ThrowStatement.hpp; sourceTree = "<group>"; };
 		F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowStatement.cpp; path = src/ThrowStatement.cpp; sourceTree = "<group>"; };
 		F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowStatement.cpp; path = tests/TestThrowStatement.cpp; sourceTree = "<group>"; };
 		F56AD4A01E9F66C40020868C /* IObjectWithMethodsType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectWithMethodsType.cpp; path = src/IObjectWithMethodsType.cpp; sourceTree = "<group>"; };
 		F56AD4A31E9F6D5B0020868C /* TestIObjectWithMethodsType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIObjectWithMethodsType.cpp; path = tests/TestIObjectWithMethodsType.cpp; sourceTree = "<group>"; };
 		F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectFieldVariable.cpp; path = tests/TestObjectFieldVariable.cpp; sourceTree = "<group>"; };
-		F57085FA1E51E15B007D627E /* MethodCall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MethodCall.hpp; path = include/yazyk/MethodCall.hpp; sourceTree = "<group>"; };
 		F57085FB1E51E2ED007D627E /* MethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodCall.cpp; path = src/MethodCall.cpp; sourceTree = "<group>"; };
 		F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodCall.cpp; path = tests/TestMethodCall.cpp; sourceTree = "<group>"; };
-		F57086001E531726007D627E /* AutoCast.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AutoCast.hpp; path = include/yazyk/AutoCast.hpp; sourceTree = "<group>"; };
 		F57086011E5317E8007D627E /* AutoCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AutoCast.cpp; path = src/AutoCast.cpp; sourceTree = "<group>"; };
 		F57086041E533667007D627E /* TestAutoCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAutoCast.cpp; path = tests/TestAutoCast.cpp; sourceTree = "<group>"; };
 		F57411411E015961009809FF /* ReturnStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ReturnStatement.cpp; path = src/ReturnStatement.cpp; sourceTree = "<group>"; };
-		F57411441E0159AE009809FF /* ReturnStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ReturnStatement.hpp; path = include/yazyk/ReturnStatement.hpp; sourceTree = "<group>"; };
 		F57411451E015DBC009809FF /* TestReturnStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestReturnStatement.cpp; path = tests/TestReturnStatement.cpp; sourceTree = "<group>"; };
-		F57411471E019450009809FF /* ReturnVoidStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ReturnVoidStatement.hpp; path = include/yazyk/ReturnVoidStatement.hpp; sourceTree = "<group>"; };
 		F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ReturnVoidStatement.cpp; path = src/ReturnVoidStatement.cpp; sourceTree = "<group>"; };
 		F574114B1E019597009809FF /* TestReturnVoidStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestReturnVoidStatement.cpp; path = tests/TestReturnVoidStatement.cpp; sourceTree = "<group>"; };
-		F574114D1E019975009809FF /* LogicalAndExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogicalAndExpression.hpp; path = include/yazyk/LogicalAndExpression.hpp; sourceTree = "<group>"; };
 		F57411511E019A46009809FF /* LogicalAndExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LogicalAndExpression.cpp; path = src/LogicalAndExpression.cpp; sourceTree = "<group>"; };
 		F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLogicalAndExpression.cpp; path = tests/TestLogicalAndExpression.cpp; sourceTree = "<group>"; };
-		F57411571E01A022009809FF /* LogicalOrExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogicalOrExpression.hpp; path = include/yazyk/LogicalOrExpression.hpp; sourceTree = "<group>"; };
 		F57411581E01A09B009809FF /* LogicalOrExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LogicalOrExpression.cpp; path = src/LogicalOrExpression.cpp; sourceTree = "<group>"; };
 		F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLogicalOrExpression.cpp; path = tests/TestLogicalOrExpression.cpp; sourceTree = "<group>"; };
-		F574115D1E01A52C009809FF /* IRGenerationContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IRGenerationContext.hpp; path = include/yazyk/IRGenerationContext.hpp; sourceTree = "<group>"; };
-		F574115E1E01A983009809FF /* Scope.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Scope.hpp; path = include/yazyk/Scope.hpp; sourceTree = "<group>"; };
 		F574115F1E01AC98009809FF /* IRGenerationContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRGenerationContext.cpp; path = src/IRGenerationContext.cpp; sourceTree = "<group>"; };
 		F57411621E01BBFC009809FF /* Scope.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scope.cpp; path = src/Scope.cpp; sourceTree = "<group>"; };
 		F57411651E01BF18009809FF /* TestScope.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestScope.cpp; path = tests/TestScope.cpp; sourceTree = "<group>"; };
 		F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRGenerationContext.cpp; path = tests/TestIRGenerationContext.cpp; sourceTree = "<group>"; };
-		F57411691E0422AF009809FF /* IncrementExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IncrementExpression.hpp; path = include/yazyk/IncrementExpression.hpp; sourceTree = "<group>"; };
 		F574116A1E042390009809FF /* IncrementExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IncrementExpression.cpp; path = src/IncrementExpression.cpp; sourceTree = "<group>"; };
 		F574116F1E042607009809FF /* TestIncrementExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIncrementExpression.cpp; path = tests/TestIncrementExpression.cpp; sourceTree = "<group>"; };
-		F57411711E043E80009809FF /* Identifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Identifier.hpp; path = include/yazyk/Identifier.hpp; sourceTree = "<group>"; };
 		F57411721E043EE4009809FF /* Identifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Identifier.cpp; path = src/Identifier.cpp; sourceTree = "<group>"; };
 		F57780A41EC673EC0049542D /* EmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmptyStatement.cpp; path = src/EmptyStatement.cpp; sourceTree = "<group>"; };
-		F57780A71EC775D40049542D /* ProgramPrefix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ProgramPrefix.hpp; path = include/yazyk/ProgramPrefix.hpp; sourceTree = "<group>"; };
 		F57780A81EC7778A0049542D /* ProgramPrefix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramPrefix.cpp; path = src/ProgramPrefix.cpp; sourceTree = "<group>"; };
-		F57780AB1EC7CB610049542D /* BindAction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BindAction.hpp; path = include/yazyk/BindAction.hpp; sourceTree = "<group>"; };
 		F57780AC1EC7CC7B0049542D /* BindAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BindAction.cpp; path = src/BindAction.cpp; sourceTree = "<group>"; };
-		F57780AF1EC7E0020049542D /* InterfaceInjector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceInjector.hpp; path = include/yazyk/InterfaceInjector.hpp; sourceTree = "<group>"; };
 		F57780B01EC7E07A0049542D /* InterfaceInjector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceInjector.cpp; path = src/InterfaceInjector.cpp; sourceTree = "<group>"; };
 		F57780B31ECA384B0049542D /* TestBindAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBindAction.cpp; path = tests/TestBindAction.cpp; sourceTree = "<group>"; };
 		F57780B51ECA6B460049542D /* TestInterfaceInjector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceInjector.cpp; path = tests/TestInterfaceInjector.cpp; sourceTree = "<group>"; };
-		F57780B71ECA81260049542D /* ProgramSuffix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ProgramSuffix.hpp; path = include/yazyk/ProgramSuffix.hpp; sourceTree = "<group>"; };
 		F57780B81ECA81750049542D /* ProgramSuffix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramSuffix.cpp; path = src/ProgramSuffix.cpp; sourceTree = "<group>"; };
-		F57E2E261E82D69900FE1DB9 /* BooleanNotExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BooleanNotExpression.hpp; path = include/yazyk/BooleanNotExpression.hpp; sourceTree = "<group>"; };
 		F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanNotExpression.cpp; path = src/BooleanNotExpression.cpp; sourceTree = "<group>"; };
 		F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanNotExpression.cpp; path = tests/TestBooleanNotExpression.cpp; sourceTree = "<group>"; };
-		F58B32831E1635270001CC15 /* ContinueStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ContinueStatement.hpp; path = include/yazyk/ContinueStatement.hpp; sourceTree = "<group>"; };
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
-		F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmptyStatement.hpp; path = include/yazyk/EmptyStatement.hpp; sourceTree = "<group>"; };
 		F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyStatement.cpp; path = tests/TestEmptyStatement.cpp; sourceTree = "<group>"; };
-		F59D82091E0F147000057FB5 /* WhileStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = WhileStatement.hpp; path = include/yazyk/WhileStatement.hpp; sourceTree = "<group>"; };
 		F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WhileStatement.cpp; path = src/WhileStatement.cpp; sourceTree = "<group>"; };
 		F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWhileStatement.cpp; path = tests/TestWhileStatement.cpp; sourceTree = "<group>"; };
-		F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ForStatement.hpp; path = include/yazyk/ForStatement.hpp; sourceTree = "<group>"; };
 		F59D82101E0F311B00057FB5 /* ForStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ForStatement.cpp; path = src/ForStatement.cpp; sourceTree = "<group>"; };
 		F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestForStatement.cpp; path = tests/TestForStatement.cpp; sourceTree = "<group>"; };
-		F59D82151E0F40E800057FB5 /* EmptyExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmptyExpression.hpp; path = include/yazyk/EmptyExpression.hpp; sourceTree = "<group>"; };
 		F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyExpression.cpp; path = tests/TestEmptyExpression.cpp; sourceTree = "<group>"; };
 		F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmptyExpression.cpp; path = src/EmptyExpression.cpp; sourceTree = "<group>"; };
-		F59D821B1E0F651000057FB5 /* IfElseStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IfElseStatement.hpp; path = include/yazyk/IfElseStatement.hpp; sourceTree = "<group>"; };
 		F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IfElseStatement.cpp; path = src/IfElseStatement.cpp; sourceTree = "<group>"; };
 		F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIfElseStatement.cpp; path = tests/TestIfElseStatement.cpp; sourceTree = "<group>"; };
-		F59D82211E0F6D3400057FB5 /* IfStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IfStatement.hpp; path = include/yazyk/IfStatement.hpp; sourceTree = "<group>"; };
 		F59D82221E0F6DAE00057FB5 /* IfStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IfStatement.cpp; path = src/IfStatement.cpp; sourceTree = "<group>"; };
 		F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIfStatement.cpp; path = tests/TestIfStatement.cpp; sourceTree = "<group>"; };
-		F59D82271E10878F00057FB5 /* BreakStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = BreakStatement.hpp; path = include/yazyk/BreakStatement.hpp; sourceTree = "<group>"; };
 		F59D82281E1089E700057FB5 /* BreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BreakStatement.cpp; path = src/BreakStatement.cpp; sourceTree = "<group>"; };
-		F5ADB60E1E5D9FFD00FFC941 /* Cast.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Cast.hpp; path = include/yazyk/Cast.hpp; sourceTree = "<group>"; };
 		F5ADB60F1E5DA08200FFC941 /* Cast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cast.cpp; path = src/Cast.cpp; sourceTree = "<group>"; };
 		F5ADB6121E5DA13600FFC941 /* TestCast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCast.cpp; path = tests/TestCast.cpp; sourceTree = "<group>"; };
-		F5ADB6181E5F566200FFC941 /* NegateExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NegateExpression.hpp; path = include/yazyk/NegateExpression.hpp; sourceTree = "<group>"; };
 		F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NegateExpression.cpp; path = src/NegateExpression.cpp; sourceTree = "<group>"; };
 		F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNegateExpression.cpp; path = tests/TestNegateExpression.cpp; sourceTree = "<group>"; };
-		F5ADB61F1E66F84C00FFC941 /* Interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Interface.hpp; path = include/yazyk/Interface.hpp; sourceTree = "<group>"; };
 		F5ADB6201E66F9B400FFC941 /* Interface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Interface.cpp; path = src/Interface.cpp; sourceTree = "<group>"; };
 		F5ADB6231E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodSignatureDeclaration.cpp; path = tests/TestMethodSignatureDeclaration.cpp; sourceTree = "<group>"; };
 		F5ADB6251E67075400FFC941 /* TestInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterface.cpp; path = tests/TestInterface.cpp; sourceTree = "<group>"; };
 		F5ADB6271E69831A00FFC941 /* Method.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Method.cpp; path = src/Method.cpp; sourceTree = "<group>"; };
 		F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethod.cpp; path = tests/TestMethod.cpp; sourceTree = "<group>"; };
-		F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompoundStatement.hpp; path = include/yazyk/CompoundStatement.hpp; sourceTree = "<group>"; };
 		F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodSignature.cpp; path = tests/TestMethodSignature.cpp; sourceTree = "<group>"; };
-		F5B9B1511E7A9CA500456CB4 /* TypeComparisionExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TypeComparisionExpression.hpp; path = include/yazyk/TypeComparisionExpression.hpp; sourceTree = "<group>"; };
 		F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TypeComparisionExpression.cpp; path = src/TypeComparisionExpression.cpp; sourceTree = "<group>"; };
 		F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTypeComparisionExpression.cpp; path = tests/TestTypeComparisionExpression.cpp; sourceTree = "<group>"; };
 		F5C6FD641E48AB3B0054209D /* CharType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharType.cpp; path = src/CharType.cpp; sourceTree = "<group>"; };
@@ -689,28 +696,21 @@
 		F5C6FD841E48B7A00054209D /* LongType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LongType.cpp; path = src/LongType.cpp; sourceTree = "<group>"; };
 		F5C6FD871E48B7DE0054209D /* TestLongType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLongType.cpp; path = tests/TestLongType.cpp; sourceTree = "<group>"; };
 		F5C6FD891E48D08F0054209D /* TestModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModel.cpp; path = tests/TestModel.cpp; sourceTree = "<group>"; };
-		F5CB180A1EB0C125007E2E43 /* IntrinsicFunctions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IntrinsicFunctions.hpp; path = include/yazyk/IntrinsicFunctions.hpp; sourceTree = "<group>"; };
 		F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IntrinsicFunctions.cpp; path = src/IntrinsicFunctions.cpp; sourceTree = "<group>"; };
 		F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIntrinsicFunctions.cpp; path = tests/TestIntrinsicFunctions.cpp; sourceTree = "<group>"; };
 		F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TryCatchStatement.cpp; path = src/TryCatchStatement.cpp; sourceTree = "<group>"; };
 		F5CB18121EB0D96A007E2E43 /* Catch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Catch.cpp; path = src/Catch.cpp; sourceTree = "<group>"; };
-		F5E209261E07796300E1A147 /* VariableDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = VariableDeclaration.hpp; path = include/yazyk/VariableDeclaration.hpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestVariableDeclaration.cpp; path = tests/TestVariableDeclaration.cpp; sourceTree = "<group>"; };
-		F5E2092E1E078B7500E1A147 /* PrimitiveTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrimitiveTypeSpecifier.hpp; path = include/yazyk/PrimitiveTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypeSpecifier.cpp; path = src/PrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5E48B8E1E870E150087CC70 /* MockExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockExpression.hpp; path = tests/include/MockExpression.hpp; sourceTree = "<group>"; };
 		F5E48B8F1E8710DB0087CC70 /* MockVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockVariable.hpp; path = tests/include/MockVariable.hpp; sourceTree = "<group>"; };
 		F5E48B901E87122E0087CC70 /* MockStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockStatement.hpp; path = tests/include/MockStatement.hpp; sourceTree = "<group>"; };
 		F5E48B911E8713630087CC70 /* MockTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockTypeSpecifier.hpp; path = tests/include/MockTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5E48B921E8713F00087CC70 /* MockType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockType.hpp; path = tests/include/MockType.hpp; sourceTree = "<group>"; };
-		F5EEDD9E1E6EF43A00215278 /* InterfaceTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceTypeSpecifier.hpp; path = include/yazyk/InterfaceTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceTypeSpecifier.cpp; path = src/InterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceTypeSpecifier.cpp; path = tests/TestInterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
-		F5EEDDA41E718C7800215278 /* IObjectWithMethodsType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithMethodsType.hpp; path = include/yazyk/IObjectWithMethodsType.hpp; sourceTree = "<group>"; };
-		F5F396D21E3495BD00F34296 /* ModelBuilder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelBuilder.hpp; path = include/yazyk/ModelBuilder.hpp; sourceTree = "<group>"; };
 		F5F396D61E34BBDD00F34296 /* ModelBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelBuilder.cpp; path = src/ModelBuilder.cpp; sourceTree = "<group>"; };
-		F5F396D91E34BD0400F34296 /* ModelBuilderArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelBuilderArgument.hpp; path = include/yazyk/ModelBuilderArgument.hpp; sourceTree = "<group>"; };
 		F5F396DA1E34BFE000F34296 /* ModelBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelBuilderArgument.cpp; path = src/ModelBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DD1E3F898900F34296 /* TestModelBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelBuilderArgument.cpp; path = tests/TestModelBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelBuilder.cpp; path = tests/TestModelBuilder.cpp; sourceTree = "<group>"; };
@@ -1123,106 +1123,106 @@
 		F569E9F91DF9CE6B00BBB20E /* include */ = {
 			isa = PBXGroup;
 			children = (
-				F504279E1E4B8615001CB148 /* AccessLevel.hpp */,
-				F53400EC1DFC20E70002BF7E /* AdditiveMultiplicativeExpression.hpp */,
-				F531B6461E0A4F0D008304F3 /* Assignment.hpp */,
-				F57086001E531726007D627E /* AutoCast.hpp */,
-				F57780AB1EC7CB610049542D /* BindAction.hpp */,
-				F531B6401E0A162D008304F3 /* Block.hpp */,
-				F50FA3031E325DEA00435EEA /* BooleanConstant.hpp */,
-				F507D2751E474DFE00495E2D /* BooleanConstants.hpp */,
-				F57E2E261E82D69900FE1DB9 /* BooleanNotExpression.hpp */,
-				F507D2741E474AB700495E2D /* BooleanType.hpp */,
-				F59D82271E10878F00057FB5 /* BreakStatement.hpp */,
-				F50FA2A21E269E4400435EEA /* CaseStatement.hpp */,
-				F5ADB60E1E5D9FFD00FFC941 /* Cast.hpp */,
-				F5296ABE1E564A3F00FB1E1D /* CastExpression.hpp */,
-				F52F2C951EA94F070081DE38 /* Catch.hpp */,
-				F531B6581E0DE4ED008304F3 /* CharConstant.hpp */,
-				F507D2691E44C3A400495E2D /* CharType.hpp */,
-				F5B5E5BC1E19F9EE00611039 /* CompoundStatement.hpp */,
-				F53401071DFF08660002BF7E /* ConditionalExpression.hpp */,
-				F58B32831E1635270001CC15 /* ContinueStatement.hpp */,
-				F515812D1E8AA85A009CE419 /* Controller.hpp */,
-				F515811F1E8960EE009CE419 /* ControllerDefinition.hpp */,
-				F515811E1E894FE6009CE419 /* ControllerFieldDeclaration.hpp */,
-				F51581261E89B966009CE419 /* ControllerTypeSpecifier.hpp */,
-				F50FA2B11E27DCA500435EEA /* DefaultCaseStatement.hpp */,
-				F50FA2B51E28BA0500435EEA /* DoStatement.hpp */,
-				F50FA2DD1E2E3AF600435EEA /* DoubleConstant.hpp */,
-				F507D2721E460A2B00495E2D /* DoubleType.hpp */,
-				F59D82151E0F40E800057FB5 /* EmptyExpression.hpp */,
-				F59D82061E0F0E4800057FB5 /* EmptyStatement.hpp */,
-				F508E06D1E7306B1005D6115 /* Environment.hpp */,
-				F531B63A1E089DC6008304F3 /* ExpressionStatement.hpp */,
-				F507D2671E43783000495E2D /* Field.hpp */,
-				F50427981E4B4102001CB148 /* FieldReference.hpp */,
-				F50FA2DE1E2E3AF600435EEA /* FloatConstant.hpp */,
-				F507D2711E4609D800495E2D /* FloatType.hpp */,
-				F59D820F1E0F2F8F00057FB5 /* ForStatement.hpp */,
-				F57411711E043E80009809FF /* Identifier.hpp */,
-				F531B6781E0E1A61008304F3 /* IExpression.hpp */,
-				F59D821B1E0F651000057FB5 /* IfElseStatement.hpp */,
-				F59D82211E0F6D3400057FB5 /* IfStatement.hpp */,
-				F507D26A1E45FBBA00495E2D /* IHasType.hpp */,
-				F508E0631E72C761005D6115 /* IMethodDescriptor.hpp */,
-				F57411691E0422AF009809FF /* IncrementExpression.hpp */,
-				F531B6371E07A4AD008304F3 /* INode.hpp */,
-				F50FA2DF1E2E3AF600435EEA /* IntConstant.hpp */,
-				F5ADB61F1E66F84C00FFC941 /* Interface.hpp */,
-				F517970C1E660064009B16AA /* InterfaceDefinition.hpp */,
-				F57780AF1EC7E0020049542D /* InterfaceInjector.hpp */,
-				F5EEDD9E1E6EF43A00215278 /* InterfaceTypeSpecifier.hpp */,
-				F5CB180A1EB0C125007E2E43 /* IntrinsicFunctions.hpp */,
-				F507D26F1E46088D00495E2D /* IntType.hpp */,
-				F515812C1E8A7FB7009CE419 /* IObjectWithFieldsType.hpp */,
-				F5EEDDA41E718C7800215278 /* IObjectWithMethodsType.hpp */,
-				F574115D1E01A52C009809FF /* IRGenerationContext.hpp */,
-				F5601F381EB399EE00C9E2D8 /* IRWriter.hpp */,
-				F531B6771E0E19F1008304F3 /* IStatement.hpp */,
-				F507D2681E44C27D00495E2D /* IType.hpp */,
-				F50FA2CC1E2D045000435EEA /* ITypeSpecifier.hpp */,
-				F50427A51E4D05DB001CB148 /* IVariable.hpp */,
-				F50427AA1E4D26B5001CB148 /* LocalHeapVariable.hpp */,
-				F50427A61E4D0846001CB148 /* LocalStackVariable.hpp */,
-				F534FFD81DFBD2750002BF7E /* Log.hpp */,
-				F574114D1E019975009809FF /* LogicalAndExpression.hpp */,
-				F57411571E01A022009809FF /* LogicalOrExpression.hpp */,
-				F50FA2E01E2E3AF600435EEA /* LongConstant.hpp */,
-				F507D2701E4608C200495E2D /* LongType.hpp */,
-				F50427A21E4CBDF4001CB148 /* Method.hpp */,
-				F50427A41E4CC27F001CB148 /* MethodArgument.hpp */,
-				F57085FA1E51E15B007D627E /* MethodCall.hpp */,
-				F534010F1DFF31550002BF7E /* MethodDeclaration.hpp */,
-				F508E0641E72C9C8005D6115 /* MethodSignature.hpp */,
-				F517970B1E633FB7009B16AA /* MethodSignatureDeclaration.hpp */,
-				F507D2631E43539C00495E2D /* Model.hpp */,
-				F5F396D21E3495BD00F34296 /* ModelBuilder.hpp */,
-				F5F396D91E34BD0400F34296 /* ModelBuilderArgument.hpp */,
-				F50FA2CD1E2D0AC600435EEA /* ModelDefinition.hpp */,
-				F50FA2CE1E2D0AC600435EEA /* ModelFieldDeclaration.hpp */,
-				F50FA2CF1E2D0AC600435EEA /* ModelTypeSpecifier.hpp */,
-				F5ADB6181E5F566200FFC941 /* NegateExpression.hpp */,
-				F50427B21E4E3B5C001CB148 /* ObjectFieldVariable.hpp */,
-				F507D26B1E45FDF000495E2D /* PrimitiveTypes.hpp */,
-				F5E2092E1E078B7500E1A147 /* PrimitiveTypeSpecifier.hpp */,
-				F51764C91ECCE891000AFBA7 /* ProgramFile.hpp */,
-				F57780A71EC775D40049542D /* ProgramPrefix.hpp */,
-				F57780B71ECA81260049542D /* ProgramSuffix.hpp */,
-				F53400F61DFC75ED0002BF7E /* RelationalExpression.hpp */,
-				F531B6791E0E1B7A008304F3 /* RelationalOperation.hpp */,
-				F57411441E0159AE009809FF /* ReturnStatement.hpp */,
-				F57411471E019450009809FF /* ReturnVoidStatement.hpp */,
-				F574115E1E01A983009809FF /* Scope.hpp */,
-				F50FA2FD1E32399600435EEA /* Scopes.hpp */,
-				F531B6521E0DDCE7008304F3 /* StringConstant.hpp */,
-				F50FA2A41E269E4400435EEA /* SwitchStatement.hpp */,
-				F56AD49A1E9F4DAC0020868C /* ThrowStatement.hpp */,
-				F52F2C971EA957B50081DE38 /* TryCatchStatement.hpp */,
-				F5B9B1511E7A9CA500456CB4 /* TypeComparisionExpression.hpp */,
-				F5E209261E07796300E1A147 /* VariableDeclaration.hpp */,
-				F507D2731E46109200495E2D /* VoidType.hpp */,
-				F59D82091E0F147000057FB5 /* WhileStatement.hpp */,
+				F5089C491ECD01D9004A1223 /* AccessLevel.hpp */,
+				F5089C4A1ECD01D9004A1223 /* AdditiveMultiplicativeExpression.hpp */,
+				F5089C4B1ECD01D9004A1223 /* Assignment.hpp */,
+				F5089C4C1ECD01D9004A1223 /* AutoCast.hpp */,
+				F5089C4D1ECD01D9004A1223 /* BindAction.hpp */,
+				F5089C4E1ECD01D9004A1223 /* Block.hpp */,
+				F5089C4F1ECD01D9004A1223 /* BooleanConstant.hpp */,
+				F5089C501ECD01D9004A1223 /* BooleanConstants.hpp */,
+				F5089C511ECD01D9004A1223 /* BooleanNotExpression.hpp */,
+				F5089C521ECD01D9004A1223 /* BooleanType.hpp */,
+				F5089C531ECD01D9004A1223 /* BreakStatement.hpp */,
+				F5089C541ECD01D9004A1223 /* CaseStatement.hpp */,
+				F5089C551ECD01D9004A1223 /* Cast.hpp */,
+				F5089C561ECD01D9004A1223 /* CastExpression.hpp */,
+				F5089C571ECD01D9004A1223 /* Catch.hpp */,
+				F5089C581ECD01D9004A1223 /* CharConstant.hpp */,
+				F5089C591ECD01D9004A1223 /* CharType.hpp */,
+				F5089C5A1ECD01D9004A1223 /* CompoundStatement.hpp */,
+				F5089C5B1ECD01D9004A1223 /* ConditionalExpression.hpp */,
+				F5089C5C1ECD01D9004A1223 /* ContinueStatement.hpp */,
+				F5089C5D1ECD01D9004A1223 /* Controller.hpp */,
+				F5089C5E1ECD01D9004A1223 /* ControllerDefinition.hpp */,
+				F5089C5F1ECD01D9004A1223 /* ControllerFieldDeclaration.hpp */,
+				F5089C601ECD01D9004A1223 /* ControllerTypeSpecifier.hpp */,
+				F5089C611ECD01D9004A1223 /* DefaultCaseStatement.hpp */,
+				F5089C621ECD01D9004A1223 /* DoStatement.hpp */,
+				F5089C631ECD01D9004A1223 /* DoubleConstant.hpp */,
+				F5089C641ECD01D9004A1223 /* DoubleType.hpp */,
+				F5089C651ECD01D9004A1223 /* EmptyExpression.hpp */,
+				F5089C661ECD01D9004A1223 /* EmptyStatement.hpp */,
+				F5089C671ECD01D9004A1223 /* Environment.hpp */,
+				F5089C681ECD01D9004A1223 /* ExpressionStatement.hpp */,
+				F5089C691ECD01D9004A1223 /* Field.hpp */,
+				F5089C6A1ECD01D9004A1223 /* FieldReference.hpp */,
+				F5089C6B1ECD01D9004A1223 /* FloatConstant.hpp */,
+				F5089C6C1ECD01D9004A1223 /* FloatType.hpp */,
+				F5089C6D1ECD01D9004A1223 /* ForStatement.hpp */,
+				F5089C6E1ECD01D9004A1223 /* Identifier.hpp */,
+				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
+				F5089C701ECD01D9004A1223 /* IfElseStatement.hpp */,
+				F5089C711ECD01D9004A1223 /* IfStatement.hpp */,
+				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
+				F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */,
+				F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */,
+				F5089C751ECD01D9004A1223 /* INode.hpp */,
+				F5089C761ECD01D9004A1223 /* IntConstant.hpp */,
+				F5089C771ECD01D9004A1223 /* Interface.hpp */,
+				F5089C781ECD01D9004A1223 /* InterfaceDefinition.hpp */,
+				F5089C791ECD01D9004A1223 /* InterfaceInjector.hpp */,
+				F5089C7A1ECD01D9004A1223 /* InterfaceTypeSpecifier.hpp */,
+				F5089C7B1ECD01D9004A1223 /* IntrinsicFunctions.hpp */,
+				F5089C7C1ECD01D9004A1223 /* IntType.hpp */,
+				F5089C7D1ECD01D9004A1223 /* IObjectWithFieldsType.hpp */,
+				F5089C7E1ECD01D9004A1223 /* IObjectWithMethodsType.hpp */,
+				F5089C7F1ECD01D9004A1223 /* IRGenerationContext.hpp */,
+				F5089C801ECD01D9004A1223 /* IRWriter.hpp */,
+				F5089C811ECD01D9004A1223 /* IStatement.hpp */,
+				F5089C821ECD01D9004A1223 /* IType.hpp */,
+				F5089C831ECD01D9004A1223 /* ITypeSpecifier.hpp */,
+				F5089C841ECD01D9004A1223 /* IVariable.hpp */,
+				F5089C851ECD01D9004A1223 /* LocalHeapVariable.hpp */,
+				F5089C861ECD01D9004A1223 /* LocalStackVariable.hpp */,
+				F5089C871ECD01D9004A1223 /* Log.hpp */,
+				F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */,
+				F5089C891ECD01D9004A1223 /* LogicalOrExpression.hpp */,
+				F5089C8A1ECD01D9004A1223 /* LongConstant.hpp */,
+				F5089C8B1ECD01D9004A1223 /* LongType.hpp */,
+				F5089C8C1ECD01D9004A1223 /* Method.hpp */,
+				F5089C8D1ECD01D9004A1223 /* MethodArgument.hpp */,
+				F5089C8E1ECD01D9004A1223 /* MethodCall.hpp */,
+				F5089C8F1ECD01D9004A1223 /* MethodDeclaration.hpp */,
+				F5089C901ECD01D9004A1223 /* MethodSignature.hpp */,
+				F5089C911ECD01D9004A1223 /* MethodSignatureDeclaration.hpp */,
+				F5089C921ECD01D9004A1223 /* Model.hpp */,
+				F5089C931ECD01D9004A1223 /* ModelBuilder.hpp */,
+				F5089C941ECD01D9004A1223 /* ModelBuilderArgument.hpp */,
+				F5089C951ECD01D9004A1223 /* ModelDefinition.hpp */,
+				F5089C961ECD01D9004A1223 /* ModelFieldDeclaration.hpp */,
+				F5089C971ECD01D9004A1223 /* ModelTypeSpecifier.hpp */,
+				F5089C981ECD01D9004A1223 /* NegateExpression.hpp */,
+				F5089C991ECD01D9004A1223 /* ObjectFieldVariable.hpp */,
+				F5089C9A1ECD01D9004A1223 /* PrimitiveTypes.hpp */,
+				F5089C9B1ECD01D9004A1223 /* PrimitiveTypeSpecifier.hpp */,
+				F5089C9C1ECD01D9004A1223 /* ProgramFile.hpp */,
+				F5089C9D1ECD01D9004A1223 /* ProgramPrefix.hpp */,
+				F5089C9E1ECD01D9004A1223 /* ProgramSuffix.hpp */,
+				F5089C9F1ECD01D9004A1223 /* RelationalExpression.hpp */,
+				F5089CA01ECD01D9004A1223 /* RelationalOperation.hpp */,
+				F5089CA11ECD01D9004A1223 /* ReturnStatement.hpp */,
+				F5089CA21ECD01D9004A1223 /* ReturnVoidStatement.hpp */,
+				F5089CA31ECD01D9004A1223 /* Scope.hpp */,
+				F5089CA41ECD01D9004A1223 /* Scopes.hpp */,
+				F5089CA51ECD01D9004A1223 /* StringConstant.hpp */,
+				F5089CA61ECD01D9004A1223 /* SwitchStatement.hpp */,
+				F5089CA71ECD01D9004A1223 /* ThrowStatement.hpp */,
+				F5089CA81ECD01D9004A1223 /* TryCatchStatement.hpp */,
+				F5089CA91ECD01D9004A1223 /* TypeComparisionExpression.hpp */,
+				F5089CAA1ECD01D9004A1223 /* VariableDeclaration.hpp */,
+				F5089CAB1ECD01D9004A1223 /* VoidType.hpp */,
+				F5089CAC1ECD01D9004A1223 /* WhileStatement.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";

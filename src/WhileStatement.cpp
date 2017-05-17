@@ -6,8 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/IRWriter.hpp"
-#include "yazyk/WhileStatement.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/WhileStatement.hpp"
 
 using namespace llvm;
 using namespace yazyk;

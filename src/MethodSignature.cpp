@@ -6,9 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/MethodSignature.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/MethodSignature.hpp"
 
 using namespace llvm;
 using namespace std;

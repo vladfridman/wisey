@@ -8,10 +8,10 @@
 
 #include <set>
 
-#include "yazyk/EmptyStatement.hpp"
-#include "yazyk/IObjectWithMethodsType.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/Scopes.hpp"
+#include "wisey/EmptyStatement.hpp"
+#include "wisey/IObjectWithMethodsType.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/Scopes.hpp"
 
 using namespace llvm;
 using namespace std;

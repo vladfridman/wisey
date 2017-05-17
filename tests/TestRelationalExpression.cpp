@@ -18,9 +18,9 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/RelationalExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/RelationalExpression.hpp"
 
 using ::testing::_;
 using ::testing::Mock;

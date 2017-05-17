@@ -6,8 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/Log.hpp"
-#include "yazyk/PrimitiveTypeSpecifier.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace yazyk;

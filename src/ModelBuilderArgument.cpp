@@ -6,10 +6,10 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "yazyk/IExpression.hpp"
-#include "yazyk/Log.hpp"
-#include "yazyk/Model.hpp"
-#include "yazyk/ModelBuilderArgument.hpp"
+#include "wisey/IExpression.hpp"
+#include "wisey/Log.hpp"
+#include "wisey/Model.hpp"
+#include "wisey/ModelBuilderArgument.hpp"
 
 using namespace llvm;
 using namespace std;

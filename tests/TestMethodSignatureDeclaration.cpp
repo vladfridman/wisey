@@ -13,14 +13,14 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "yazyk/AccessLevel.hpp"
-#include "yazyk/IRGenerationContext.hpp"
-#include "yazyk/MethodArgument.hpp"
-#include "yazyk/MethodSignature.hpp"
-#include "yazyk/MethodSignatureDeclaration.hpp"
-#include "yazyk/PrimitiveTypes.hpp"
-#include "yazyk/PrimitiveTypeSpecifier.hpp"
-#include "yazyk/VariableDeclaration.hpp"
+#include "wisey/AccessLevel.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/MethodSignature.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -12,8 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "yazyk/IMethodDescriptor.hpp"
-#include "yazyk/IObjectWithMethodsType.hpp"
+#include "wisey/IMethodDescriptor.hpp"
+#include "wisey/IObjectWithMethodsType.hpp"
 
 /**
  * Defines a mock object for IObjectWithMethodsType
