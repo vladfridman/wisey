@@ -17,7 +17,7 @@
 namespace wisey {
   
 /**
- * Represents block scope inside yazyk program.
+ * Represents block scope inside wisey program.
  *
  * Each scope has local variables associated with it
  */

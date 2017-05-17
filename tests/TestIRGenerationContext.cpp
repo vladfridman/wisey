@@ -257,8 +257,8 @@ TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
   
   mContext.printAssembly(mStringStream);
   string expected = string() +
-    "; ModuleID = 'yazyk'\n" +
-    "source_filename = \"yazyk\"\n" +
+    "; ModuleID = 'wisey'\n" +
+    "source_filename = \"wisey\"\n" +
     "\n" +
     "define internal i32 @main() {\n" +
     "entry:\n" +

@@ -15,7 +15,7 @@
 namespace wisey {
 
 /**
- * Interface representing a yazyk language expression
+ * Interface representing a wisey language expression
  */
 class IExpression : public INode, public IHasType {
 

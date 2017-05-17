@@ -13,7 +13,7 @@
 #include "gmock/gmock.h"
 
 /**
- * Runs a sample yazyk file through compiler and checks whether the expected result matched 
+ * Runs a sample wisey file through compiler and checks whether the expected result matched 
  * the actual one.
  */
 class TestFileSampleRunner : public testing::Test {
@@ -23,7 +23,7 @@ public:
   ~TestFileSampleRunner();
   
   /**
-   * Call this to run a sample yazyk file through the compiler and check the output of a compiled
+   * Call this to run a sample wisey file through the compiler and check the output of a compiled
    * program against the expected one.
    */
   void runFile(std::string fileName, std::string expectedResult);
@@ -34,14 +34,14 @@ public:
   void compileAndRunFile(std::string fileName, int expectedResult);
 
   /**
-   * Call this to run a sample yazyk file that is expected to fail at IR generation
+   * Call this to run a sample wisey file that is expected to fail at IR generation
    */
   void expectFailIRGeneration(std::string fileName,
                               int expectedErrorCode,
                               std::string expectedErrorMessage);
 
   /**
-   * Call this to run a sample yazyk file that is expected to pass IR generation but
+   * Call this to run a sample wisey file that is expected to pass IR generation but
    * that will die during run with a given error message
    */
   void expectDeathDuringRun(std::string fileName,

@@ -12,7 +12,7 @@
 namespace wisey {
   
 /**
- * Contains information abut the environment on which the Yazyk code will be run
+ * Contains information abut the environment on which the wisey code will be run
  */
 class Environment {
 

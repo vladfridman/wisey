@@ -16,7 +16,7 @@ namespace wisey {
 class IRGenerationContext;
 
 /**
- * Interface representing a node in AST of yazyk parser.
+ * Interface representing a node in AST of wisey parser.
  */
 class INode {
   

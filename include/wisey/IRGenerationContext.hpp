@@ -42,7 +42,7 @@ class IRGenerationContext {
 public:
   
   IRGenerationContext() : mMainFunction(NULL), mBasicBlock(NULL) {
-    mOwner = llvm::make_unique<llvm::Module>("yazyk", mLLVMContext);
+    mOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
     mModule = mOwner.get();
   }
   

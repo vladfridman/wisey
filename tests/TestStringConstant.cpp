@@ -46,7 +46,7 @@ TEST_F(StringConstantTest, stringConstantTest) {
   *mStringStream << *mContext.getModule();
   *mStringStream << *irValue;
   std::string expected = std::string() +
-    "; ModuleID = 'yazyk'\nsource_filename = \"yazyk\"\n\n" +
+    "; ModuleID = 'wisey'\nsource_filename = \"wisey\"\n\n" +
     "@.str = internal constant [5 x i8] c\"test\\00\"\n" +
     "i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str, i32 0, i32 0)";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -59,7 +59,7 @@ TEST_F(StringConstantTest, stringConstantEscapeNewlineTest) {
   
   *mStringStream << *mContext.getModule();
   std::string expected = std::string() +
-    "; ModuleID = 'yazyk'\nsource_filename = \"yazyk\"\n\n" +
+    "; ModuleID = 'wisey'\nsource_filename = \"wisey\"\n\n" +
     "@.str = internal constant [10 x i8] c\"test\\0Atest\\00\"\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

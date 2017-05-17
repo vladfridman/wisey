@@ -16,7 +16,7 @@
 namespace wisey {
 
 /**
- * Represents a yazyk primitive type
+ * Represents a wisey primitive type
  */
 class PrimitiveTypeSpecifier : public ITypeSpecifier {
   IType* mType;

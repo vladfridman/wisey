@@ -29,7 +29,7 @@ typedef enum TypeKindEnum {
 } TypeKind;
 
 /**
- * Interface representing expression type in Yazyk language
+ * Interface representing expression type in wisey language
  */
 class IType {
   

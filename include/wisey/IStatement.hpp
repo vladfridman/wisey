@@ -14,7 +14,7 @@
 namespace wisey {
 
 /**
- * Interface representing a yazyk language statement
+ * Interface representing a wisey language statement
  */
 class IStatement : public INode {
 };

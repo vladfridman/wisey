@@ -15,7 +15,7 @@
 namespace wisey {
 
 /**
- * Represents an identifier in a yazyk program.
+ * Represents an identifier in a wisey program.
  *
  * Loads value of the variable named 'name' into an LLVM variable named llvmVariableName
  */

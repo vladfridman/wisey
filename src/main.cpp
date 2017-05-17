@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
   Log::setLogLevel(DEBUGLEVEL);
 
   if (argc <= 1) {
-    Log::e("Syntax: yazyk <filename.yz> -o <bitcode_file>");
+    Log::e("Syntax: wisey <filename.yz> -o <bitcode_file>");
     exit(1);
   }
   
