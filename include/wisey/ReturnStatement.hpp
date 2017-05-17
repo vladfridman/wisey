@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a return statement that returns an expression
@@ -27,6 +27,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ReturnStatement_h */

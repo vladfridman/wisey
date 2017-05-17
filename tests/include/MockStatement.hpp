@@ -18,9 +18,9 @@
 /**
  * Defines a mock object for IStatement
  */
-class MockStatement : public yazyk::IStatement {
+class MockStatement : public wisey::IStatement {
 public:
-  MOCK_CONST_METHOD1(generateIR, llvm::Value* (yazyk::IRGenerationContext&));
+  MOCK_CONST_METHOD1(generateIR, llvm::Value* (wisey::IRGenerationContext&));
 };
 
 #endif /* MockStatement_h */

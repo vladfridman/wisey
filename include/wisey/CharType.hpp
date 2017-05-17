@@ -15,7 +15,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents char expression type
@@ -43,6 +43,6 @@ public:
                       IType* toType) const override;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* CharType_h */

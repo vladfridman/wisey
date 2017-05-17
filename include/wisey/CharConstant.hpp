@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IHasType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a constant character
@@ -33,6 +33,6 @@ public:
   void releaseOwnership(IRGenerationContext& context) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* CharConstant_h */

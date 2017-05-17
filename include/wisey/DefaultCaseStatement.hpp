@@ -15,7 +15,7 @@
 #include "wisey/IStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a default CASE in a SWITCH statement
@@ -33,6 +33,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* DefaultCaseStatement_h */

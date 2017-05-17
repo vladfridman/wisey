@@ -16,7 +16,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
   IType* identifierType = mIdentifier.getType(context);

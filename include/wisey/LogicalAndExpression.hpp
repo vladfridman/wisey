@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IHasType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a logical AND expression such as 'a && b'
@@ -35,6 +35,6 @@ public:
   void releaseOwnership(IRGenerationContext& context) const override;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* LogicalAndExpression_h */

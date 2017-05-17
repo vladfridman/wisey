@@ -12,7 +12,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* Cast::widenIntCast(IRGenerationContext& context,
                           Value* fromValue,

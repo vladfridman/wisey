@@ -13,7 +13,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/Method.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a method call for an object that could be a model or an interface or a controller
@@ -79,6 +79,6 @@ private:
                                   IMethodDescriptor* methodDescriptor) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* MethodCall_h */

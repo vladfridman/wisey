@@ -11,7 +11,7 @@
 #include "wisey/Log.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* ContinueStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* continueToBlock = context.getScopes().getContinueToBlock();

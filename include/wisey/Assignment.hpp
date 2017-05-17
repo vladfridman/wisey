@@ -13,7 +13,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IHasType.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents an assignment expression

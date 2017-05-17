@@ -16,7 +16,7 @@
 #include "wisey/IStatement.hpp"
 #include "wisey/MethodDeclaration.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents CONTROLLER definition which is analogous to a class in C++ with dependency injection
@@ -100,6 +100,6 @@ private:
                           std::vector<std::vector<llvm::Constant*>> interfaceVTables) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ControllerDefinition_h */

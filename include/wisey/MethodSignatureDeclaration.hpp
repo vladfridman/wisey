@@ -15,7 +15,7 @@
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a method signature declaration contained within an interface
@@ -46,6 +46,6 @@ public:
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* MethodSignatureDeclaration_h */

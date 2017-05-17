@@ -13,7 +13,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* FloatConstant::generateIR(IRGenerationContext& context) const {
   return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), mValue);

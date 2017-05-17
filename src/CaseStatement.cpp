@@ -10,7 +10,7 @@
 #include "wisey/Log.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* CaseStatement::generateIR(IRGenerationContext& context) const {
   return mBlock.generateIR(context);

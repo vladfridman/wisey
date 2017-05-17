@@ -10,7 +10,7 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 IType* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
   return mType;

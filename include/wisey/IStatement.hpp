@@ -11,7 +11,7 @@
 
 #include "wisey/INode.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Interface representing a yazyk language statement
@@ -24,6 +24,6 @@ class IStatement : public INode {
  */
 typedef std::vector<IStatement*> StatementList;
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IStatement_h */

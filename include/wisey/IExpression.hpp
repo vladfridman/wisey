@@ -12,7 +12,7 @@
 #include "wisey/IHasType.hpp"
 #include "wisey/INode.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Interface representing a yazyk language expression
@@ -32,7 +32,7 @@ public:
  */
 typedef std::vector<IExpression*> ExpressionList;
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 
 #endif /* IExpression_h */

@@ -17,7 +17,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) const {
   IType* leftType = mLeftExpression.getType(context);

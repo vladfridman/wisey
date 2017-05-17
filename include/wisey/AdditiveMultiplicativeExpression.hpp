@@ -11,7 +11,7 @@
 
 #include "wisey/IExpression.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents simple binary expression such as addition or division
@@ -40,6 +40,6 @@ private:
   void checkTypes(IType* leftType, IType* rightType) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* AdditiveMultiplicativeExpression_hpp */

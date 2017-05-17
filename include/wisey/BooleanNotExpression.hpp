@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a boolean NOT operation
@@ -34,6 +34,6 @@ public:
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* BooleanNotExpression_h */

@@ -9,7 +9,7 @@
 #include "wisey/DefaultCaseStatement.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* DefaultCaseStatement::generateIR(IRGenerationContext& context) const {
   return mBlock.generateIR(context);

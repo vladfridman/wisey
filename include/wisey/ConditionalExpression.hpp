@@ -11,7 +11,7 @@
 
 #include "wisey/IExpression.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a condition expression such as a == b ? 1 : 2
@@ -41,6 +41,6 @@ private:
   void checkTypes(IRGenerationContext& context) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ConditionalExpression_h */

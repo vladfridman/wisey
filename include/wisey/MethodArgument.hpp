@@ -11,7 +11,7 @@
 
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Contains information about a method argument including its type and name
@@ -31,6 +31,6 @@ public:
   std::string getName() { return mName; }
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* MethodArgument_h */

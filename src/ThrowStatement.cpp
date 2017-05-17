@@ -17,7 +17,7 @@
 
 using namespace std;
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);

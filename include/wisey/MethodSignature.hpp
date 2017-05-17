@@ -12,7 +12,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IMethodDescriptor.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 class MethodSignature : public IMethodDescriptor {
   
@@ -59,6 +59,6 @@ public:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* MethodSignature_h */

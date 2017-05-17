@@ -13,7 +13,7 @@
 
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a bind action binding a controller to an interface
@@ -33,6 +33,6 @@ public:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* BindAction_h */

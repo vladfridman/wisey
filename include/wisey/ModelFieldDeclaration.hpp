@@ -14,7 +14,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a field in MODEL definition
@@ -36,6 +36,6 @@ public:
   std::string getName();
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ModelFieldDeclaration_h */

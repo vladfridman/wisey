@@ -12,7 +12,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationContext& context,
                                                                    unsigned long index) const {

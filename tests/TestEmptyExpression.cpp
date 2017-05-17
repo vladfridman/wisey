@@ -14,7 +14,7 @@
 #include "wisey/EmptyExpression.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
-using namespace yazyk;
+using namespace wisey;
 
 TEST(EmptyExpressionTest, simpleEmptyExpressionTest) {
   IRGenerationContext context;

@@ -9,7 +9,7 @@
 #include "wisey/EmptyStatement.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 const EmptyStatement EmptyStatement::EMPTY_STATEMENT = EmptyStatement();
 

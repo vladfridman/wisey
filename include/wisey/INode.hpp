@@ -11,7 +11,7 @@
 
 #include <llvm/IR/Value.h>
 
-namespace yazyk {
+namespace wisey {
 
 class IRGenerationContext;
 

@@ -11,7 +11,7 @@
 
 #include "wisey/ITypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents CONTROLLER type specifier
@@ -30,6 +30,6 @@ public:
   IType* getType(IRGenerationContext& context) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ControllerTypeSpecifier_h */

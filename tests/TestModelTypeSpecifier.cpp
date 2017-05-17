@@ -16,7 +16,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 TEST(ModelTypeSpecifierTest, creationTest) {
   IRGenerationContext context;

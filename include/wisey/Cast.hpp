@@ -15,7 +15,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Methods for cast operations
@@ -73,6 +73,6 @@ public:
   
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Cast_h */

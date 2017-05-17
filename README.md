@@ -1,4 +1,4 @@
-## Yazyk Language Compiler ##
+## Wisey Language Compiler ##
 
 ### Prerequisites ###
 
@@ -22,11 +22,11 @@ To compile type:
 
     make
 
-This generates a binary for the compiler bin/yazyk
+This generates a binary for the compiler bin/wisey
 
-To compile a yazyk sample file type:
+To compile a wisey sample test file type:
 
-    bin/yazyk samples/input.yz
+    bin/wisey tests/samples/test_addition.yz
 
 ### Unit Tests ###
 

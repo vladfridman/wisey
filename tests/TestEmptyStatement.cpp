@@ -15,7 +15,7 @@
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
-using namespace yazyk;
+using namespace wisey;
 
 TEST(TestEmptyStatement, simpleEmptyStatementTest) {
   IRGenerationContext context;

@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IHasType.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a constant boolean
@@ -34,6 +34,6 @@ public:
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* BooleanConstant_h */

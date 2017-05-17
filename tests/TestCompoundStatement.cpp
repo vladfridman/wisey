@@ -16,7 +16,7 @@
 #include "wisey/CompoundStatement.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 using ::testing::_;
 using ::testing::NiceMock;

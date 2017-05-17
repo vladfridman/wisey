@@ -18,11 +18,11 @@
 /**
  * Defines a mock object for IExpression
  */
-class MockExpression : public yazyk::IExpression {
+class MockExpression : public wisey::IExpression {
 public:
-  MOCK_CONST_METHOD1(generateIR, llvm::Value* (yazyk::IRGenerationContext&));
-  MOCK_CONST_METHOD1(getType, yazyk::IType* (yazyk::IRGenerationContext&));
-  MOCK_CONST_METHOD1(releaseOwnership, void (yazyk::IRGenerationContext&));
+  MOCK_CONST_METHOD1(generateIR, llvm::Value* (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD1(getType, wisey::IType* (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD1(releaseOwnership, void (wisey::IRGenerationContext&));
 };
 
 #endif /* MockExpression_h */

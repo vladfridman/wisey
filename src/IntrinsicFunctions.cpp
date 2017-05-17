@@ -11,7 +11,7 @@
 #include "wisey/IntrinsicFunctions.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Function* IntrinsicFunctions::getThrowFunction(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();

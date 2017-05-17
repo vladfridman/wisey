@@ -18,7 +18,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 extern int yyparse();
 extern FILE* yyin;

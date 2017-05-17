@@ -12,7 +12,7 @@
 #include "wisey/Block.hpp"
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents one Wisey progarm file
@@ -32,6 +32,6 @@ public:
   
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ProgramBlock_h */

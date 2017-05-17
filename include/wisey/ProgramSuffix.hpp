@@ -10,7 +10,7 @@
 
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Things that need to be run after the parsed program code
@@ -23,5 +23,5 @@ public:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 

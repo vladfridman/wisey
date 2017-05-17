@@ -17,7 +17,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();

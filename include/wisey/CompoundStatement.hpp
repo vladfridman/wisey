@@ -13,7 +13,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Wraps a block in a statement
@@ -31,6 +31,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* CompoundStatement_h */

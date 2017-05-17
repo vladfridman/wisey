@@ -62,7 +62,7 @@
   #include "wisey/WhileStatement.hpp"
   
   using namespace std;
-  using namespace yazyk;
+  using namespace wisey;
   
   ProgramFile *programFile;
   
@@ -82,37 +82,37 @@
  * Data types used for parsing
  */
 %union {
-  yazyk::INode *node;
-  yazyk::IExpression* expression;
-  yazyk::IStatement* statement;
-  yazyk::Block* block;
-  yazyk::CompoundStatement* compound_statement;
-  yazyk::CaseStatement* case_statement;
-  yazyk::DefaultCaseStatement* default_case_statement;
-  yazyk::SwitchCases* switch_cases;
-  yazyk::ITypeSpecifier* type;
-  yazyk::Identifier* identifier;
-  yazyk::VariableDeclaration* variable_declaration;
-  yazyk::ModelBuilderArgument* model_builder_argument;
-  yazyk::ModelBuilderArgumentList *model_builder_argument_list;
-  yazyk::ModelFieldDeclaration* model_field;
-  yazyk::ModelTypeSpecifier* model_type_specifier;
-  yazyk::ControllerTypeSpecifier* controller_type_specifier;
-  yazyk::InterfaceTypeSpecifier* interface_type_specifier;
-  yazyk::ControllerFieldDeclaration* controller_field;
-  yazyk::AccessLevel access_specifier;
-  yazyk::MethodDeclaration* method_declaration;
-  yazyk::MethodSignatureDeclaration* method_signature;
-  yazyk::Catch* catch_clause;
-  yazyk::ProgramFile* program_file;
-  std::vector<yazyk::Catch*>* catch_vector;
-  std::vector<yazyk::VariableDeclaration*>* variable_vector;
-  std::vector<yazyk::IExpression*>* expression_vector;
-  std::vector<yazyk::ModelFieldDeclaration*>* model_field_vector;
-  std::vector<yazyk::MethodDeclaration*>* method_declaration_vector;
-  std::vector<yazyk::MethodSignatureDeclaration*>* method_signature_vector;
-  std::vector<yazyk::ControllerFieldDeclaration*>* controller_field_vector;
-  std::vector<yazyk::ITypeSpecifier*>* type_list;
+  wisey::INode *node;
+  wisey::IExpression* expression;
+  wisey::IStatement* statement;
+  wisey::Block* block;
+  wisey::CompoundStatement* compound_statement;
+  wisey::CaseStatement* case_statement;
+  wisey::DefaultCaseStatement* default_case_statement;
+  wisey::SwitchCases* switch_cases;
+  wisey::ITypeSpecifier* type;
+  wisey::Identifier* identifier;
+  wisey::VariableDeclaration* variable_declaration;
+  wisey::ModelBuilderArgument* model_builder_argument;
+  wisey::ModelBuilderArgumentList *model_builder_argument_list;
+  wisey::ModelFieldDeclaration* model_field;
+  wisey::ModelTypeSpecifier* model_type_specifier;
+  wisey::ControllerTypeSpecifier* controller_type_specifier;
+  wisey::InterfaceTypeSpecifier* interface_type_specifier;
+  wisey::ControllerFieldDeclaration* controller_field;
+  wisey::AccessLevel access_specifier;
+  wisey::MethodDeclaration* method_declaration;
+  wisey::MethodSignatureDeclaration* method_signature;
+  wisey::Catch* catch_clause;
+  wisey::ProgramFile* program_file;
+  std::vector<wisey::Catch*>* catch_vector;
+  std::vector<wisey::VariableDeclaration*>* variable_vector;
+  std::vector<wisey::IExpression*>* expression_vector;
+  std::vector<wisey::ModelFieldDeclaration*>* model_field_vector;
+  std::vector<wisey::MethodDeclaration*>* method_declaration_vector;
+  std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
+  std::vector<wisey::ControllerFieldDeclaration*>* controller_field_vector;
+  std::vector<wisey::ITypeSpecifier*>* type_list;
   std::vector<std::string>* identifier_list;
   std::string* string;
   int token;

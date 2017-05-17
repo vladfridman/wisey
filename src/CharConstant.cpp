@@ -13,7 +13,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* CharConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt16Ty(context.getLLVMContext()), mValue);

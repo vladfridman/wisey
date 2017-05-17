@@ -20,7 +20,7 @@
 #include "wisey/Model.hpp"
 #include "wisey/Scopes.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents context for Intermidate Representation code generation
@@ -150,6 +150,6 @@ public:
   void optimizeIR();
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IRGenerationContext_h */

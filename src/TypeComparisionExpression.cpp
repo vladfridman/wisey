@@ -15,7 +15,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);

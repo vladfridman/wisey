@@ -15,7 +15,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a CASE statement inside a SWITCH statement
@@ -57,6 +57,6 @@ public:
   }
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* CaseStatement_hpp */

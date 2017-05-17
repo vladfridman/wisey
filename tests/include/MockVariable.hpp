@@ -18,15 +18,15 @@
 /**
  * Defines a mock object for IVariable
  */
-class MockVariable : public yazyk::IVariable {
+class MockVariable : public wisey::IVariable {
 public:
   MOCK_CONST_METHOD0(getName, std::string ());
-  MOCK_CONST_METHOD0(getType, yazyk::IType* ());
+  MOCK_CONST_METHOD0(getType, wisey::IType* ());
   MOCK_CONST_METHOD0(getValue, llvm::Value* ());
-  MOCK_CONST_METHOD2(generateIdentifierIR, llvm::Value* (yazyk::IRGenerationContext&, std::string));
-  MOCK_METHOD2(generateAssignmentIR, llvm::Value* (yazyk::IRGenerationContext&,
-                                                   yazyk::IExpression&));
-  MOCK_CONST_METHOD1(free, void (yazyk::IRGenerationContext&));
+  MOCK_CONST_METHOD2(generateIdentifierIR, llvm::Value* (wisey::IRGenerationContext&, std::string));
+  MOCK_METHOD2(generateAssignmentIR, llvm::Value* (wisey::IRGenerationContext&,
+                                                   wisey::IExpression&));
+  MOCK_CONST_METHOD1(free, void (wisey::IRGenerationContext&));
 };
 
 #endif /* MockVariable_h */

@@ -13,7 +13,7 @@
 
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a continue statement used inside loops

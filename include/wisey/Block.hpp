@@ -14,7 +14,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a block of statements
@@ -32,6 +32,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Block_h */

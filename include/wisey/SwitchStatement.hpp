@@ -16,7 +16,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Data structure to hold information about cases inside a SWITCH statement
@@ -63,6 +63,6 @@ private:
                              llvm::BasicBlock* switchEpilog) const;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* SwitchStatement_h */

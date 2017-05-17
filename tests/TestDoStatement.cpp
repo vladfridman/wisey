@@ -30,7 +30,7 @@ using ::testing::Test;
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 struct DoStatementTest : Test {
   IRGenerationContext mContext;

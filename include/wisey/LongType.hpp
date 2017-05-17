@@ -11,7 +11,7 @@
 
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents long integer expression type
@@ -39,6 +39,6 @@ public:
                       IType* toType) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* LongType_h */

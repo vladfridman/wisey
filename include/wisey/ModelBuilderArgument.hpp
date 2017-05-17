@@ -9,7 +9,7 @@
 #ifndef ModelBuilderArgument_h
 #define ModelBuilderArgument_h
 
-namespace yazyk {
+namespace wisey {
 
 class IExpression;
 class Model;
@@ -61,6 +61,6 @@ private:
  */
 typedef std::vector<ModelBuilderArgument*> ModelBuilderArgumentList;
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ModelBuilderArgument_h */

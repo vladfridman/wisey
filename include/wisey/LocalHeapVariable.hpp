@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IVariable.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a local variable allocated on the heap
@@ -46,6 +46,6 @@ public:
   void free(IRGenerationContext& context) const override;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* LocalHeapVariable_h */

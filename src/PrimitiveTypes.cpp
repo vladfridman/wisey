@@ -8,7 +8,7 @@
 
 #include "wisey/PrimitiveTypes.hpp"
 
-using namespace yazyk;
+using namespace wisey;
 
 BooleanType* PrimitiveTypes::BOOLEAN_TYPE = new BooleanType();
 

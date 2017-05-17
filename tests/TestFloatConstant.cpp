@@ -21,7 +21,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 TEST(FloatConstantTest, floatConstantTest) {
   string stringBuffer;

@@ -16,7 +16,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* LogicalAndExpression::generateIR(IRGenerationContext& context) const {
   Value* leftValue = mLeftExpression.generateIR(context);

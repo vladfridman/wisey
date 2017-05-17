@@ -19,7 +19,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   Value* value = mTypeSpecifier.getType(context)->getTypeKind() == PRIMITIVE_TYPE

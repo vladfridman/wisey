@@ -15,7 +15,7 @@
 #include <llvm/IR/Instructions.h>
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   IType* returnType = context.getScopes().getReturnType();

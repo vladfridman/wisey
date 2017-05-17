@@ -11,7 +11,7 @@
 
 #include "wisey/IVariable.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a local variable allocated on the stack
@@ -44,6 +44,6 @@ public:
   void free(IRGenerationContext& context) const override;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* LocalStackVariable_h */

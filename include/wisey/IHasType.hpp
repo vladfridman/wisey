@@ -11,7 +11,7 @@
 
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 class IRGenerationContext;
 
@@ -27,10 +27,10 @@ public:
   /**
    * Returns type
    */
-  virtual yazyk::IType* getType(IRGenerationContext& context) const = 0;
+  virtual IType* getType(IRGenerationContext& context) const = 0;
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IHasType_h */

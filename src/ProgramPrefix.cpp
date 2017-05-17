@@ -14,7 +14,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   PrimitiveTypeSpecifier intTypeSpecifier(PrimitiveTypes::INT_TYPE);

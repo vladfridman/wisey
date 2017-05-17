@@ -14,7 +14,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IMethodDescriptor.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 class CompoundStatement;
 class Model;
@@ -91,6 +91,6 @@ private:
   void checkForUnhandledExceptions(IRGenerationContext& context) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Method_h */

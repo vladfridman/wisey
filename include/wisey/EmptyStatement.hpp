@@ -11,7 +11,7 @@
 
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents an empty statement that does not do anything
@@ -30,6 +30,6 @@ public:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* EmptyStatement_h */

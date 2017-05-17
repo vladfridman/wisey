@@ -11,7 +11,7 @@
 
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a return that does not return any expression
@@ -27,6 +27,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ReturnVoidStatement_h */

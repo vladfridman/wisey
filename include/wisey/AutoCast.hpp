@@ -15,7 +15,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Methods for automatic casting of expressions
@@ -34,6 +34,6 @@ public:
   
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* AutoCast_h */

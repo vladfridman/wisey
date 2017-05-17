@@ -11,7 +11,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Value* BindAction::generateIR(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerId);

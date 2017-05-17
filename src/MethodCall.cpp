@@ -16,7 +16,7 @@
 
 using namespace std;
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
   IObjectWithMethodsType* objectWithMethodsType = getObjectWithMethods(context);

@@ -14,7 +14,7 @@
 
 using namespace std;
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* FieldReference::generateIR(IRGenerationContext& context) const {
   checkAndFindField(context);

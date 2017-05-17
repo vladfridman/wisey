@@ -11,7 +11,7 @@
 #include "wisey/Log.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* BreakStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* breackToBlock = context.getScopes().getBreakToBlock();

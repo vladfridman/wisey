@@ -16,7 +16,7 @@
 #include "wisey/IVariable.hpp"
 #include "wisey/Scope.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Methods for operating scopes and everything that relates to scopes
@@ -125,6 +125,6 @@ private:
   void reportUnhandledExceptions(std::map<std::string, IType*> exceptions);
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Scopes_h */

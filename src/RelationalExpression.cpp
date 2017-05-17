@@ -16,7 +16,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
   ICmpInst::Predicate predicate;

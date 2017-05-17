@@ -14,7 +14,7 @@
 #include "wisey/IStatement.hpp"
 #include "wisey/IVariable.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents block scope inside yazyk program.
@@ -147,6 +147,6 @@ public:
 
 };
 
-} // namespace yazyk
+} // namespace wisey
 
 #endif /* Scope_h */

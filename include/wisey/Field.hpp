@@ -14,7 +14,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents one field in a model
@@ -41,6 +41,6 @@ public:
   ExpressionList getArguments() const { return mArguments; }
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Field_h */

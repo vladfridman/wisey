@@ -11,7 +11,7 @@
 
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 class IMethodDescriptor;
   
@@ -39,6 +39,6 @@ public:
                                               IRGenerationContext& context);
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IObjectWithMethodsType_h */

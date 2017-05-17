@@ -13,7 +13,7 @@
 #include "wisey/IType.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a yazyk primitive type
@@ -30,6 +30,6 @@ public:
   IType* getType(IRGenerationContext& context) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* PrimitiveTypeSpecifier_h */

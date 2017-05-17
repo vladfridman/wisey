@@ -9,7 +9,7 @@
 #ifndef Environment_h
 #define Environment_h
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Contains information abut the environment on which the Yazyk code will be run
@@ -34,6 +34,6 @@ public:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Environment_h */

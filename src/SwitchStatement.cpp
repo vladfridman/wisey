@@ -11,7 +11,7 @@
 #include "wisey/SwitchStatement.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
   Function* function = context.getBasicBlock()->getParent();

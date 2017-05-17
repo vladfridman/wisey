@@ -10,7 +10,7 @@
 #include "wisey/WhileStatement.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   

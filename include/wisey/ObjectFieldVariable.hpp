@@ -13,7 +13,7 @@
 #include "wisey/IVariable.hpp"
 #include "wisey/Model.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a local variable allocated on the stack
@@ -50,6 +50,6 @@ private:
   Field* checkAndFindField(IRGenerationContext& context) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ObjectFieldVariable_h */

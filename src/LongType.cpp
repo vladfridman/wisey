@@ -13,7 +13,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 string LongType::getName() const {
   return "long";

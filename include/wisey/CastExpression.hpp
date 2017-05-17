@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a cast operation
@@ -36,6 +36,6 @@ public:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* CastExpression_h */

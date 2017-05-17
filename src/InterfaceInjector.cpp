@@ -14,7 +14,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   

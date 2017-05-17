@@ -11,7 +11,7 @@
 
 #include "wisey/BooleanConstant.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Constains static references to boolean constants
@@ -26,6 +26,6 @@ public:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* BooleanConstants_h */

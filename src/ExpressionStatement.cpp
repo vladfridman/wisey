@@ -9,7 +9,7 @@
 #include "wisey/ExpressionStatement.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* ExpressionStatement::generateIR(IRGenerationContext& context) const {
   return expression.generateIR(context);

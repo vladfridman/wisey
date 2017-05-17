@@ -16,7 +16,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Model* Catch::getType(IRGenerationContext& context) const {
   IType* argumentType = mTypeSpecifier.getType(context);

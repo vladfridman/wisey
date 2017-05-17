@@ -9,7 +9,7 @@
 #ifndef RelationalOperation_h
 #define RelationalOperation_h
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Types of relational operations
@@ -23,6 +23,6 @@ typedef enum RelationalOperationEnum {
   RELATIONAL_OPERATION_NE,
 } RelationalOperation;
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* RelationalOperation_h */

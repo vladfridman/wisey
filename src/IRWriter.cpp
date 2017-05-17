@@ -10,7 +10,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 ReturnInst* IRWriter::createReturnInst(IRGenerationContext& context, Value* returnValue) {
   BasicBlock* currentBlock = context.getBasicBlock();

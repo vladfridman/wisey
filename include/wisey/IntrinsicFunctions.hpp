@@ -13,7 +13,7 @@
 
 #include "wisey/IRGenerationContext.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * A collection of static methods responsible for creation intrinsic functions declarations
@@ -70,6 +70,6 @@ public:
   static llvm::Function* getPrintfFunction(IRGenerationContext& context);
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IntrinsicFunctions_h */

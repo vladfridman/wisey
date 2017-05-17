@@ -15,7 +15,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned long index) const {
   vector<MethodArgument*> arguments;

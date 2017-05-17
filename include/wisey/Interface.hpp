@@ -17,7 +17,7 @@
 #include "wisey/IObjectWithMethodsType.hpp"
 #include "wisey/MethodSignature.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 class MethodSignature;
 class Model;
@@ -147,6 +147,6 @@ private:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Interface_hpp */

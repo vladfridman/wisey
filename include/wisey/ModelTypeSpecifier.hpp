@@ -15,7 +15,7 @@
 #include "wisey/IType.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents MODEL type specifier
@@ -34,6 +34,6 @@ public:
   IType* getType(IRGenerationContext& context) const override;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ModelTypeSpecifier_h */

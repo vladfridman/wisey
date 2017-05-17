@@ -8,7 +8,7 @@
 
 #include "wisey/Environment.hpp"
 
-using namespace yazyk;
+using namespace wisey;
 
 unsigned short Environment::getAddressSizeInBytes() {
   return 8;

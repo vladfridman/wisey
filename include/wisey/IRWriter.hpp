@@ -13,7 +13,7 @@
 
 #include "wisey/IRGenerationContext.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Class resposible for adding LLVM Intermediate Representation code.
@@ -197,6 +197,6 @@ public:
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IRWriter_h */

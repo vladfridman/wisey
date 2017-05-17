@@ -14,7 +14,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
-using namespace yazyk;
+using namespace wisey;
 
 TEST(ContinueStatementTest, noScopesTest) {
   IRGenerationContext context;

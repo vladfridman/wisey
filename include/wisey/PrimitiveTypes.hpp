@@ -17,7 +17,7 @@
 #include "wisey/LongType.hpp"
 #include "wisey/VoidType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Has constants that stand for primitive types
@@ -36,6 +36,6 @@ public:
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* PrimitiveTypes_h */

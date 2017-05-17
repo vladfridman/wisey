@@ -9,7 +9,7 @@
 #ifndef AccessLevel_h
 #define AccessLevel_h
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents public and private access levels to model methods
@@ -19,6 +19,6 @@ typedef enum AccessLevelEnum {
   PUBLIC_ACCESS,
 } AccessLevel;
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* AccessLevel_h */

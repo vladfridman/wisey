@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IVariable.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents an identifier in a yazyk program.
@@ -45,6 +45,6 @@ private:
   IVariable* checkGetVariable(IRGenerationContext& context) const;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Identifier_h */

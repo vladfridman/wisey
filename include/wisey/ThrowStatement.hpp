@@ -15,7 +15,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a throw statement that throws result of the given expression
@@ -33,7 +33,7 @@ public:
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 
 #endif /* ThrowStatement_h */

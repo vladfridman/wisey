@@ -11,7 +11,7 @@
 
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 class Field;
   
@@ -29,6 +29,6 @@ public:
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IObjectWithFieldsType_h */

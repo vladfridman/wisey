@@ -13,7 +13,7 @@
 #include "wisey/Identifier.hpp"
 #include "wisey/IHasType.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents an increment or decrement expresssion such as i++ or i--
@@ -57,6 +57,6 @@ public:
   }
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IncrementExpression_h */

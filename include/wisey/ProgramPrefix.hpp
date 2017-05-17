@@ -13,7 +13,7 @@
 
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Things that need to be run before the parsed program code
@@ -26,6 +26,6 @@ public:
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ProgramPrefix_h */

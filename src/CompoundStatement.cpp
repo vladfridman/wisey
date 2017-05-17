@@ -9,7 +9,7 @@
 #include "wisey/CompoundStatement.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* CompoundStatement::generateIR(IRGenerationContext& context) const {
   Scopes& scopes = context.getScopes();

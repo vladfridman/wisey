@@ -12,7 +12,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 const string& Identifier::getName() const {
   return mName;

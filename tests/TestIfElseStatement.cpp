@@ -33,7 +33,7 @@ using ::testing::Test;
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 struct IfElseStatementTest : Test {
   IRGenerationContext mContext;

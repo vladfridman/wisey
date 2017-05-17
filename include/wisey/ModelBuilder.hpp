@@ -13,7 +13,7 @@
 #include "wisey/ModelBuilderArgument.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents builder used to initialize models
@@ -48,6 +48,6 @@ private:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ModelBuilder_h */

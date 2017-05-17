@@ -12,7 +12,7 @@
 
 using namespace std;
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* method2) {
   vector<MethodArgument*> thisArguments = method1->getArguments();

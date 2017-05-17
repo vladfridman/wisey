@@ -16,7 +16,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a try/catch statement
@@ -56,6 +56,6 @@ private:
 
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* TryCatchStatement_h */

@@ -14,7 +14,7 @@
 #include <llvm/IR/Type.h>
 #include <llvm/IR/Value.h>
 
-namespace yazyk {
+namespace wisey {
 
 class IRGenerationContext;
   
@@ -70,6 +70,6 @@ public:
                               IType* toType) const = 0;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IType_h */

@@ -16,7 +16,7 @@
 
 using namespace std;
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 string LocalStackVariable::getName() const {
   return mName;

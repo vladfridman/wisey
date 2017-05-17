@@ -18,9 +18,9 @@
 /**
  * Defines a mock object for ITypeSpecifier
  */
-class MockTypeSpecifier : public yazyk::ITypeSpecifier {
+class MockTypeSpecifier : public wisey::ITypeSpecifier {
 public:
-  MOCK_CONST_METHOD1(getType, yazyk::IType* (yazyk::IRGenerationContext&));
+  MOCK_CONST_METHOD1(getType, wisey::IType* (wisey::IRGenerationContext&));
 };
 
 #endif /* MockTypeSpecifier_h */

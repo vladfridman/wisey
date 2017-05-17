@@ -10,7 +10,7 @@
 #include "wisey/IRWriter.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
   

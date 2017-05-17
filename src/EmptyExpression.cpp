@@ -13,7 +13,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 const EmptyExpression EmptyExpression::EMPTY_EXPRESSION = EmptyExpression();
 

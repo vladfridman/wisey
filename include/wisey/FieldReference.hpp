@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/Model.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents an identifier that refers to model's field
@@ -40,6 +40,6 @@ private:
    Field* checkAndFindField(IRGenerationContext& context) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* FieldReference_h */

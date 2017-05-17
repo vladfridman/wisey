@@ -13,7 +13,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 bool ModelBuilderArgument::checkArgument(const Model* model) {
   if (mFieldSpecifier.substr(0, 4).compare("with")) {

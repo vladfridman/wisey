@@ -18,7 +18,7 @@
 
 using namespace std;
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 string LocalHeapVariable::getName() const {
   return mName;

@@ -14,7 +14,7 @@
 
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents void expression type
@@ -42,6 +42,6 @@ public:
                       IType* toType) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* VoidType_h */

@@ -15,7 +15,7 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 TEST(PrimitiveTypeSpecifierTest, creationTest) {
   IRGenerationContext context;

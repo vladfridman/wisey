@@ -12,7 +12,7 @@
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a variable declaration
@@ -51,6 +51,6 @@ private:
  */
 typedef std::vector<VariableDeclaration*> VariableList;
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* VariableDeclaration_h */

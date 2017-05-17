@@ -13,7 +13,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents an instanceof expression for type comparision
@@ -41,6 +41,6 @@ private:
   llvm::Value* checkInterfaceImplemented(IRGenerationContext& context) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* TypeComparisionExpression_h */

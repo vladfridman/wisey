@@ -13,7 +13,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents injector used to initialize and instantiate controllers bound to interfaces
@@ -40,6 +40,6 @@ private:
   std::string getVariableName() const;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* InterfaceInjector_h */

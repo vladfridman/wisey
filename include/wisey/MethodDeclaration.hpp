@@ -18,7 +18,7 @@
 #include "wisey/Model.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a model's method declaration.
@@ -60,6 +60,6 @@ public:
   
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* MethodDeclaration_h */

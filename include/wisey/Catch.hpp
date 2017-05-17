@@ -12,7 +12,7 @@
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Represents a single catch in a try/catch statement
@@ -42,6 +42,6 @@ public:
                   llvm::BasicBlock* catchBlock) const;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Catch_h */

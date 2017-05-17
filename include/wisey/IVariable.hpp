@@ -14,7 +14,7 @@
 
 #include "wisey/IType.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 class IRGenerationContext;
 class IExpression;
@@ -65,6 +65,6 @@ public:
   virtual void free(IRGenerationContext& context) const = 0;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IVariable_h */

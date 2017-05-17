@@ -11,7 +11,7 @@
 #include "wisey/Log.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* Assignment::generateIR(IRGenerationContext& context) const {
   IVariable* variable = context.getScopes().getVariable(mIdentifier.getName());

@@ -18,16 +18,16 @@
 /**
  * Defines a mock object for IType
  */
-class MockType : public yazyk::IType {
+class MockType : public wisey::IType {
 public:
   MOCK_CONST_METHOD0(getName, std::string ());
   MOCK_CONST_METHOD1(getLLVMType, llvm::Type* (llvm::LLVMContext&));
-  MOCK_CONST_METHOD0(getTypeKind, yazyk::TypeKind ());
-  MOCK_CONST_METHOD1(canCastTo, bool (yazyk::IType*));
-  MOCK_CONST_METHOD1(canAutoCastTo, bool (yazyk::IType*));
-  MOCK_CONST_METHOD3(castTo, llvm::Value* (yazyk::IRGenerationContext&,
+  MOCK_CONST_METHOD0(getTypeKind, wisey::TypeKind ());
+  MOCK_CONST_METHOD1(canCastTo, bool (wisey::IType*));
+  MOCK_CONST_METHOD1(canAutoCastTo, bool (wisey::IType*));
+  MOCK_CONST_METHOD3(castTo, llvm::Value* (wisey::IRGenerationContext&,
                                            llvm::Value*,
-                                           yazyk::IType*));
+                                           wisey::IType*));
 };
 
 #endif /* MockType_h */

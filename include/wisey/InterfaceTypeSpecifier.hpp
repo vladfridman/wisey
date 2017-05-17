@@ -14,7 +14,7 @@
 #include "wisey/IType.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents Interface type specifier
@@ -33,6 +33,6 @@ public:
   IType* getType(IRGenerationContext& context) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* InterfaceTypeSpecifier_h */

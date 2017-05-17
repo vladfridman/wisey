@@ -11,7 +11,7 @@
 
 #include "wisey/IExpression.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a constant string
@@ -34,6 +34,6 @@ private:
   std::string unescape(const std::string& input);
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* StringConstant_h */

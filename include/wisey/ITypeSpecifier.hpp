@@ -12,13 +12,13 @@
 #include "wisey/IHasType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Interfaces representing a type that could either be a primitive type, a model or a controller
  */
 class ITypeSpecifier : public IHasType { };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ITypeSpecifier_h */

@@ -15,7 +15,7 @@
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelFieldDeclaration.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents MODEL definition which is analogous to an immutable class in C++
@@ -86,6 +86,6 @@ private:
   llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context, Model* model) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ModelDefinition_h */

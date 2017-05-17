@@ -17,7 +17,7 @@
 #include "wisey/IObjectWithMethodsType.hpp"
 #include "wisey/Method.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 /**
  * Contains information about a Controller including its fields and methods
@@ -117,6 +117,6 @@ private:
   
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Controller_h */

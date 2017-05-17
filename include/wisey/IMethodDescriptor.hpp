@@ -16,7 +16,7 @@
 
 #include "wisey/AccessLevel.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 class IObjectWithMethodsType;
 class IRGenerationContext;
@@ -78,6 +78,6 @@ public:
                                                  IObjectWithMethodsType* object);
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IMethodDescriptor_h */

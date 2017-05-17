@@ -10,7 +10,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 const string ModelTypeSpecifier::getName() const {
   return mName;

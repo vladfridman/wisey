@@ -13,7 +13,7 @@
 
 using namespace std;
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Constant* IObjectWithMethodsType::getObjectNamePointer(const IObjectWithMethodsType *object,
                                                        IRGenerationContext& context) {

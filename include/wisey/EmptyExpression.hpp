@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IHasType.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents an empty expression that does not do anything
@@ -34,6 +34,6 @@ public:
   void releaseOwnership(IRGenerationContext& context) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* EmptyExpression_h */

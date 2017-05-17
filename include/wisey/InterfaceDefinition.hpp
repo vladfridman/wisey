@@ -15,7 +15,7 @@
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelFieldDeclaration.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents an INTERFACE definition which is analogous to a pure virtual class in C++
@@ -75,6 +75,6 @@ private:
                              llvm::BasicBlock* returnNotFound) const;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* InterfaceDefinition_h */

@@ -13,7 +13,7 @@
 #include "wisey/IHasType.hpp"
 #include "wisey/RelationalOperation.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents a relational expression such as a >= b
@@ -39,6 +39,6 @@ public:
   void releaseOwnership(IRGenerationContext& context) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* RelationalExpression_h */

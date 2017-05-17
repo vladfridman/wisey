@@ -16,7 +16,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* NegateExpression::generateIR(IRGenerationContext& context) const {
   IType* type = getType(context);

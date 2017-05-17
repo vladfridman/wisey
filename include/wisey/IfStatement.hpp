@@ -15,7 +15,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Represents an if / else statement
@@ -35,6 +35,6 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* IfStatement_h */

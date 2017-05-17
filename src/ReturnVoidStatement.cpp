@@ -13,7 +13,7 @@
 #include <llvm/IR/Instructions.h>
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
   return IRWriter::createReturnInst(context, NULL);

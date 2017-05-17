@@ -9,7 +9,7 @@
 #include "wisey/BooleanConstant.hpp"
 #include "wisey/BooleanConstants.hpp"
 
-using namespace yazyk;
+using namespace wisey;
 
 BooleanConstant* BooleanConstants::BOOLEAN_TRUE = new BooleanConstant(true);
 

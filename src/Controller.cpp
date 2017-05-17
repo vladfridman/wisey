@@ -19,7 +19,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 Controller::~Controller() {
   mReceivedFields.clear();

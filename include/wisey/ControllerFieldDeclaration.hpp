@@ -12,7 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
-namespace yazyk {
+namespace wisey {
   
 /**
  * Lists possible controller field qualifiers
@@ -55,6 +55,6 @@ public:
   ExpressionList getArguments() const;
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* ControllerFieldDeclaration_h */

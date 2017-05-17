@@ -19,7 +19,7 @@
 #include "wisey/Method.hpp"
 #include "wisey/ModelBuilderArgument.hpp"
 
-namespace yazyk {
+namespace wisey {
 
 class Interface;
   
@@ -141,6 +141,6 @@ private:
                         llvm::Instruction* malloc) const;
 };
 
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Model_h */

@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-namespace yazyk {
+namespace wisey {
 
 typedef enum LogLevelEnum { ERRORLEVEL, INFOLEVEL, DEBUGLEVEL } LogLevel;
 
@@ -48,6 +48,6 @@ public:
   static void d(std::string message);
 };
   
-} /* namespace yazyk */
+} /* namespace wisey */
 
 #endif /* Log_h */

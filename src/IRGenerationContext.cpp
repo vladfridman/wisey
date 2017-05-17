@@ -18,7 +18,7 @@
 
 using namespace llvm;
 using namespace std;
-using namespace yazyk;
+using namespace wisey;
 
 GenericValue IRGenerationContext::runCode() {
   ExecutionEngine *executionEngine = EngineBuilder(move(mOwner)).create();

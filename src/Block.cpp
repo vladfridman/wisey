@@ -10,7 +10,7 @@
 #include "wisey/Scope.hpp"
 
 using namespace llvm;
-using namespace yazyk;
+using namespace wisey;
 
 Value* Block::generateIR(IRGenerationContext& context) const {
   StatementList::const_iterator it;
