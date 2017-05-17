@@ -1281,7 +1281,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F54625881DE5E43A00074D66 /* Build configuration list for PBXProject "wisey" */;
+			buildConfigurationList = F54625881DE5E43A00074D66 /* Build configuration list for PBXProject "Wisey" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1870,7 +1870,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F54625881DE5E43A00074D66 /* Build configuration list for PBXProject "wisey" */ = {
+		F54625881DE5E43A00074D66 /* Build configuration list for PBXProject "Wisey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F54625921DE5E43A00074D66 /* Debug */,
