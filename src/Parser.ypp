@@ -501,7 +501,7 @@ catch_block
 
 catch_clause
   : TCATCH '(' exception_type_specifier TIDENTIFIER ')' compound_statement
-    { $$ = new Catch(*$3, *$4, *$6); delete $4; }
+    { $$ = new Catch($3, *$4, *$6); delete $4; }
   ;
 
 finally_clause
@@ -533,10 +533,8 @@ method_definition
   ;
 
 exception_type_specifier_list
-  : exception_type_specifier
-  { $$ = new std::vector<ITypeSpecifier*>(); $$->push_back($1); }
-  | exception_type_specifier_list ',' exception_type_specifier
-    { $1->push_back($3); }
+  : exception_type_specifier { $$ = new std::vector<ITypeSpecifier*>(); $$->push_back($1); }
+  | exception_type_specifier_list ',' exception_type_specifier { $1->push_back($3); }
   ;
 
 method_argument_declaration

@@ -18,8 +18,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+Catch::~Catch() {
+  delete mTypeSpecifier;
+}
+
 Model* Catch::getType(IRGenerationContext& context) const {
-  IType* argumentType = mTypeSpecifier.getType(context);
+  IType* argumentType = mTypeSpecifier->getType(context);
   assert(argumentType->getTypeKind() == MODEL_TYPE);
   
   return dynamic_cast<Model*>(argumentType);

@@ -18,16 +18,16 @@ namespace wisey {
  * Represents a single catch in a try/catch statement
  */
 class Catch {
-  ITypeSpecifier& mTypeSpecifier;
+  ITypeSpecifier* mTypeSpecifier;
   std::string mIdentifier;
   IStatement& mStatement;
   
 public:
   
-  Catch(ITypeSpecifier& typeSpecifier, std::string identifier, IStatement& statement)
+  Catch(ITypeSpecifier* typeSpecifier, std::string identifier, IStatement& statement)
   : mTypeSpecifier(typeSpecifier), mIdentifier(identifier), mStatement(statement) { }
   
-  ~Catch() { }
+  ~Catch();
   
   /**
    * Returns the object type corresponding to the exception in this catch clause
