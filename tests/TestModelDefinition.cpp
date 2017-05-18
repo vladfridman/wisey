@@ -71,8 +71,8 @@ struct ModelDefinitionTest : public Test {
 TEST_F(ModelDefinitionTest, simpleDefinitionTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  ModelFieldDeclaration* field1 = new ModelFieldDeclaration(*longType, "field1");
-  ModelFieldDeclaration* field2 = new ModelFieldDeclaration(*floatType, "field2");
+  ModelFieldDeclaration* field1 = new ModelFieldDeclaration(longType, "field1");
+  ModelFieldDeclaration* field2 = new ModelFieldDeclaration(floatType, "field2");
   mFields.push_back(field1);
   mFields.push_back(field2);
   

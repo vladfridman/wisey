@@ -21,17 +21,17 @@ namespace wisey {
  */
 class ModelFieldDeclaration {
 
-  ITypeSpecifier& mTypeSpecifier;
+  ITypeSpecifier* mTypeSpecifier;
   const std::string mName;
 
 public:
   
-  ModelFieldDeclaration(ITypeSpecifier& typeSpecifier, const std::string& name)
+  ModelFieldDeclaration(ITypeSpecifier* typeSpecifier, const std::string& name)
     : mTypeSpecifier(typeSpecifier), mName(name) { }
   
-  ~ModelFieldDeclaration() { }
+  ~ModelFieldDeclaration();
   
-  ITypeSpecifier& getTypeSpecifier();
+  ITypeSpecifier* getTypeSpecifier();
   
   std::string getName();
 };

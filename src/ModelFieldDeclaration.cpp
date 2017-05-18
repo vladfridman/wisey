@@ -12,7 +12,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ITypeSpecifier& ModelFieldDeclaration::getTypeSpecifier() {
+ModelFieldDeclaration::~ModelFieldDeclaration() {
+  delete mTypeSpecifier;
+}
+
+ITypeSpecifier* ModelFieldDeclaration::getTypeSpecifier() {
   return mTypeSpecifier;
 }
 

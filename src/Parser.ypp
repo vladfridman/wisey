@@ -386,7 +386,7 @@ model_field_declaration_list
   ;
 
 model_field_declaration
-  : type_specifier TFIELDIDENTIFIER ';' { $$ = new ModelFieldDeclaration(*$1, *$2); delete $2; }
+  : type_specifier TFIELDIDENTIFIER ';' { $$ = new ModelFieldDeclaration($1, *$2); delete $2; }
   ;
 
 method_definition_list_optional
