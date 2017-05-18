@@ -17,9 +17,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+TypeComparisionExpression::~TypeComparisionExpression() {
+  delete mTypeSpecifier;
+}
+
 Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
-  IType* type = mTypeSpecifier.getType(context);
+  IType* type = mTypeSpecifier->getType(context);
   LLVMContext& llvmContext = context.getLLVMContext();
   ConstantInt* valueTrue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
   ConstantInt* valueFalse = ConstantInt::get(Type::getInt1Ty(llvmContext), 0);
@@ -50,7 +54,7 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
   IType* expressionType = mExpression.getType(context);
   Interface* interface = dynamic_cast<Interface*>(expressionType);
   IObjectWithMethodsType* objectWithMethodsType =
-    dynamic_cast<IObjectWithMethodsType*>(mTypeSpecifier.getType(context));
+    dynamic_cast<IObjectWithMethodsType*>(mTypeSpecifier->getType(context));
   
   Value* interfaceIndex =
     interface->callInstanceOf(context, expressionValue, objectWithMethodsType);

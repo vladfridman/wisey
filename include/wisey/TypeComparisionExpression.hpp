@@ -20,15 +20,15 @@ namespace wisey {
  */
 class TypeComparisionExpression : public IExpression {
   IExpression& mExpression;
-  ITypeSpecifier& mTypeSpecifier;
+  ITypeSpecifier* mTypeSpecifier;
   
 public:
   
-  TypeComparisionExpression(IExpression& expression, ITypeSpecifier& typeSpecifier) :
+  TypeComparisionExpression(IExpression& expression, ITypeSpecifier* typeSpecifier) :
   mExpression(expression), mTypeSpecifier(typeSpecifier) { }
   
   
-  ~TypeComparisionExpression() { }
+  ~TypeComparisionExpression();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
