@@ -38,7 +38,7 @@ public:
   mThrownExceptions(thrownExceptions),
   mIndex(index) { }
   
-  ~MethodSignature() { mArguments.clear(); }
+  ~MethodSignature();
   
   /**
    * Creates a copy of the object with a different index

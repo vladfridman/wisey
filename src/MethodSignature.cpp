@@ -14,6 +14,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+MethodSignature::~MethodSignature() {
+  for (MethodArgument* argument : mArguments) {
+    delete argument;
+  }
+  mArguments.clear();
+}
+
 string MethodSignature::getName() const {
   return mName;
 }
