@@ -32,8 +32,9 @@ TEST(InterfaceDefinitionTest, simpleDefinitionTest) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  PrimitiveTypeSpecifier intTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  PrimitiveTypeSpecifier floatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* floatTypeSpecifier =
+    new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   Identifier intArgumentIdentifier("intargument");
   VariableDeclaration intArgument(intTypeSpecifier, intArgumentIdentifier);
   VariableList methodArguments;

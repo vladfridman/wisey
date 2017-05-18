@@ -38,12 +38,12 @@ struct InterfaceInjectorTest : Test {
   NiceMock<MockExpression> mFieldValue1;
   NiceMock<MockExpression> mFieldValue2;
   NiceMock<MockExpression> mFieldValue3;
-  InterfaceTypeSpecifier mInterfaceTypeSpecifier;
+  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
   BasicBlock *mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  InterfaceInjectorTest() : mInterfaceTypeSpecifier(InterfaceTypeSpecifier("IMyInterface")) {
+  InterfaceInjectorTest() : mInterfaceTypeSpecifier(new InterfaceTypeSpecifier("IMyInterface")) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));

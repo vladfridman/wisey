@@ -257,14 +257,14 @@ method_signature
   : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
       {
         std::vector<ITypeSpecifier*> thrownExceptions;
-        $$ = new MethodSignatureDeclaration(*$1, *$2, *$4, thrownExceptions);
+        $$ = new MethodSignatureDeclaration($1, *$2, *$4, thrownExceptions);
         delete $2;
         delete $4;
       }
   | type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
     TTHROWS exception_type_specifier_list ';'
       {
-        $$ = new MethodSignatureDeclaration(*$1, *$2, *$4, *$7);
+        $$ = new MethodSignatureDeclaration($1, *$2, *$4, *$7);
         delete $2;
         delete $4;
         delete $7;
@@ -509,8 +509,8 @@ finally_clause
   ;
 
 variable_declaration
-  : type_specifier identifier ';' { $$ = new VariableDeclaration(*$1, *$2); }
-  | type_specifier identifier '=' expression ';' { $$ = new VariableDeclaration(*$1, *$2, $4); }
+  : type_specifier identifier ';' { $$ = new VariableDeclaration($1, *$2); }
+  | type_specifier identifier '=' expression ';' { $$ = new VariableDeclaration($1, *$2, $4); }
   ;
 
 method_definition
@@ -540,7 +540,7 @@ exception_type_specifier_list
   ;
 
 method_argument_declaration
-  : type_specifier identifier { $$ = new VariableDeclaration(*$1, *$2); }
+  : type_specifier identifier { $$ = new VariableDeclaration($1, *$2); }
   ;
 
 method_declaration_arguments

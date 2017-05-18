@@ -29,8 +29,8 @@ using ::testing::Test;
 
 struct MethodDeclarationTest : Test {
   IRGenerationContext mContext;
-  PrimitiveTypeSpecifier mFloatTypeSpecifier;
-  PrimitiveTypeSpecifier mIntTypeSpecifier;
+  PrimitiveTypeSpecifier* mFloatTypeSpecifier;
+  PrimitiveTypeSpecifier* mIntTypeSpecifier;
   Identifier mIntArgumentIdentifier;
   Identifier mFloatArgumentIdentifier;
   VariableDeclaration mIntArgument;
@@ -40,8 +40,8 @@ struct MethodDeclarationTest : Test {
   CompoundStatement mCompoundStatement;
   
   MethodDeclarationTest() :
-    mFloatTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
-    mIntTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
+    mFloatTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
+    mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
     mIntArgumentIdentifier(Identifier("intargument")),
     mFloatArgumentIdentifier(Identifier("floatargument")),
     mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
@@ -55,7 +55,7 @@ TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(&mFloatArgument);
   vector<ITypeSpecifier*> thrownExceptions;
   MethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                      mFloatTypeSpecifier,
+                                      *mFloatTypeSpecifier,
                                       "foo",
                                       mArguments,
                                       thrownExceptions,

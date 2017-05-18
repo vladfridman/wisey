@@ -21,8 +21,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+VariableDeclaration::~VariableDeclaration() {
+  delete mTypeSpecifier;
+}
+
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
-  Value* value = mTypeSpecifier.getType(context)->getTypeKind() == PRIMITIVE_TYPE
+  Value* value = mTypeSpecifier->getType(context)->getTypeKind() == PRIMITIVE_TYPE
     ? allocateOnStack(context)
     : allocateOnHeap(context);
   
@@ -35,7 +39,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 }
 
 Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
-  IType* type = mTypeSpecifier.getType(context);
+  IType* type = mTypeSpecifier->getType(context);
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId.getName());
   
@@ -48,7 +52,7 @@ Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const 
 Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
 
   string variableName = mId.getName();
-  IType* type = mTypeSpecifier.getType(context);
+  IType* type = mTypeSpecifier->getType(context);
   
   LocalHeapVariable* uninitializedHeapVariable = new LocalHeapVariable(variableName, type, NULL);
   context.getScopes().setVariable(uninitializedHeapVariable);
@@ -56,7 +60,7 @@ Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
   return NULL;
 }
 
-const ITypeSpecifier& VariableDeclaration::getTypeSpecifier() const {
+const ITypeSpecifier* VariableDeclaration::getTypeSpecifier() const {
   return mTypeSpecifier;
 }
 

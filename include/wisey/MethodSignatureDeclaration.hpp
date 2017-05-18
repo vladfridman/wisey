@@ -21,14 +21,14 @@ namespace wisey {
  * Represents a method signature declaration contained within an interface
  */
 class MethodSignatureDeclaration {
-  const ITypeSpecifier& mReturnTypeSpecifier;
+  const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
   std::vector<ITypeSpecifier*> mThrownExceptions;
   
 public:
   
-  MethodSignatureDeclaration(const ITypeSpecifier& returnTypeSpecifier,
+  MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                              std::string methodName,
                              const VariableList& arguments,
                              std::vector<ITypeSpecifier*> thrownExceptions) :
@@ -37,7 +37,7 @@ public:
   mArguments(arguments),
   mThrownExceptions(thrownExceptions) { }
   
-  ~MethodSignatureDeclaration() { };
+  ~MethodSignatureDeclaration();
   
   /**
    * Returns object representing the method for storage in an Interface object

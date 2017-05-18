@@ -20,14 +20,14 @@ namespace wisey {
  */
 class InterfaceInjector : public IExpression {
     
-  InterfaceTypeSpecifier& mInterfaceTypeSpecifier;
+  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
   
 public:
   
-  InterfaceInjector(InterfaceTypeSpecifier& interfaceTypeSpecifier) :
+  InterfaceInjector(InterfaceTypeSpecifier* interfaceTypeSpecifier) :
   mInterfaceTypeSpecifier(interfaceTypeSpecifier) { }
   
-  ~InterfaceInjector() { }
+  ~InterfaceInjector();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

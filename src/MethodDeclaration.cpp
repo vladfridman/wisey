@@ -23,7 +23,7 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
   for (VariableList::const_iterator iterator = mArguments.begin();
        iterator != mArguments.end();
        iterator++) {
-    IType* type = (**iterator).getTypeSpecifier().getType(context);
+    IType* type = (**iterator).getTypeSpecifier()->getType(context);
     string name = (**iterator).getId().getName();
     MethodArgument* methodArgument = new MethodArgument(type, name);
     arguments.push_back(methodArgument);

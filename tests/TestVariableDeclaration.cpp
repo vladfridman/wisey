@@ -61,7 +61,7 @@ struct VariableDeclarationTest : public Test {
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   Identifier identifier("foo", "bar");
-  PrimitiveTypeSpecifier typeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* typeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableDeclaration declaration(typeSpecifier, identifier);
 
   declaration.generateIR(mContext);
@@ -74,7 +74,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   Identifier identifier("foo", "bar");
-  PrimitiveTypeSpecifier typeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* typeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   NiceMock<MockExpression> mExpression;
   Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
@@ -98,7 +98,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
 
 TEST_F(VariableDeclarationTest, heapVariableDeclarationWithoutAssignmentTest) {
   Identifier identifier("foo", "bar");
-  ModelTypeSpecifier typeSpecifier("MModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("MModel");
   
   string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);

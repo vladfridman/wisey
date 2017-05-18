@@ -30,8 +30,8 @@ using ::testing::Test;
 
 struct MethodSignatureDeclarationTest : Test {
   IRGenerationContext mContext;
-  PrimitiveTypeSpecifier mFloatTypeSpecifier;
-  PrimitiveTypeSpecifier mIntTypeSpecifier;
+  PrimitiveTypeSpecifier* mFloatTypeSpecifier;
+  PrimitiveTypeSpecifier* mIntTypeSpecifier;
   Identifier mIntArgumentIdentifier;
   Identifier mFloatArgumentIdentifier;
   VariableDeclaration mIntArgument;
@@ -40,8 +40,8 @@ struct MethodSignatureDeclarationTest : Test {
   Interface* mInterface;
   
   MethodSignatureDeclarationTest() :
-  mFloatTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
-  mIntTypeSpecifier(PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
+  mFloatTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
+  mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
   mIntArgumentIdentifier(Identifier("intargument")),
   mFloatArgumentIdentifier(Identifier("floatargument")),
   mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
@@ -70,7 +70,9 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(&mIntArgument);
   mArguments.push_back(&mFloatArgument);
   vector<ITypeSpecifier*> thrownExceptions;
-  MethodSignatureDeclaration methodSignatureDeclaration(mFloatTypeSpecifier,
+  PrimitiveTypeSpecifier* floatTypeSpecifier =
+    new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier,
                                                         "foo",
                                                         mArguments,
                                                         thrownExceptions);

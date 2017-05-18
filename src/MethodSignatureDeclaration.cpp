@@ -14,6 +14,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+MethodSignatureDeclaration::~MethodSignatureDeclaration() {
+  delete mReturnTypeSpecifier;
+}
+
 MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationContext& context,
                                                                    unsigned long index) const {
   vector<MethodArgument*> arguments;
@@ -21,13 +25,13 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   for (VariableList::const_iterator iterator = mArguments.begin();
        iterator != mArguments.end();
        iterator++) {
-    IType* type = (**iterator).getTypeSpecifier().getType(context);
+    IType* type = (**iterator).getTypeSpecifier()->getType(context);
     string name = (**iterator).getId().getName();
     MethodArgument* methodArgument = new MethodArgument(type, name);
     arguments.push_back(methodArgument);
   }
   
-  IType* returnType = mReturnTypeSpecifier.getType(context);
+  IType* returnType = mReturnTypeSpecifier->getType(context);
   
   vector<IType*> exceptions;
   for (ITypeSpecifier* typeSpecifier : mThrownExceptions) {

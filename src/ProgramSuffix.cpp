@@ -33,9 +33,10 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   context.getScopes().pushScope();
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
   
-  InterfaceTypeSpecifier programInterfaceSpecifier("IProgram");
+  InterfaceTypeSpecifier* programInterfaceSpecifier = new InterfaceTypeSpecifier("IProgram");
   InterfaceInjector interfaceInjector(programInterfaceSpecifier);
   Identifier programIdentifier("program", "program");
+  programInterfaceSpecifier = new InterfaceTypeSpecifier("IProgram");
   VariableDeclaration programVariableDeclaration(programInterfaceSpecifier,
                                                  programIdentifier,
                                                  &interfaceInjector);

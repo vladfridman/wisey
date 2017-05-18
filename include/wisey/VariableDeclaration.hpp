@@ -18,22 +18,22 @@ namespace wisey {
  * Represents a variable declaration
  */
 class VariableDeclaration : public IStatement {
-  const ITypeSpecifier& mTypeSpecifier;
+  const ITypeSpecifier* mTypeSpecifier;
   Identifier& mId;
   IExpression *mAssignmentExpression;
 
 public:
-  VariableDeclaration(const ITypeSpecifier& typeSpecifier, Identifier& id) :
+  VariableDeclaration(const ITypeSpecifier* typeSpecifier, Identifier& id) :
     mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(NULL) { }
 
-  VariableDeclaration(const ITypeSpecifier& typeSpecifier,
+  VariableDeclaration(const ITypeSpecifier* typeSpecifier,
                       Identifier& id,
                       IExpression *assignmentExpression) :
     mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(assignmentExpression) { }
 
-  ~VariableDeclaration() { }
+  ~VariableDeclaration();
   
-  const ITypeSpecifier& getTypeSpecifier() const;
+  const ITypeSpecifier* getTypeSpecifier() const;
   
   const Identifier& getId() const;
   

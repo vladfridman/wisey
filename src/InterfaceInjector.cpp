@@ -16,9 +16,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+InterfaceInjector::~InterfaceInjector() {
+  delete mInterfaceTypeSpecifier;
+}
+
 Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   
-  Interface* interface = context.getInterface(mInterfaceTypeSpecifier.getName());
+  Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName());
   Controller* controller = context.getBoundController(interface);
   ExpressionList arguments;
   Instruction* malloc = controller->inject(context, arguments);
@@ -30,7 +34,7 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
 }
 
 IType* InterfaceInjector::getType(IRGenerationContext& context) const {
-  Interface* interface = context.getInterface(mInterfaceTypeSpecifier.getName());
+  Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName());
   Controller* controller = context.getBoundController(interface);
   return controller;
 }

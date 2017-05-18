@@ -55,7 +55,7 @@ struct ControllerDefinitionTest : public Test {
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     Identifier* intArgumentIdentifier = new Identifier("intargument");
     VariableDeclaration* intArgument =
-    new VariableDeclaration(*intTypeSpecifier, *intArgumentIdentifier);
+    new VariableDeclaration(intTypeSpecifier, *intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ITypeSpecifier*> thrownExceptions;
