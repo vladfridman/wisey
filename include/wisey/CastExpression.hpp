@@ -18,15 +18,15 @@ namespace wisey {
  * Represents a cast operation
  */
 class CastExpression : public IExpression {
-  ITypeSpecifier& mTypeSpecifier;
+  ITypeSpecifier* mTypeSpecifier;
   IExpression& mExpression;
   
 public:
   
-  CastExpression(ITypeSpecifier& typeSpecifier, IExpression& expression)
+  CastExpression(ITypeSpecifier* typeSpecifier, IExpression& expression)
   : mTypeSpecifier(typeSpecifier), mExpression(expression) { }
   
-  ~CastExpression() { }
+  ~CastExpression();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

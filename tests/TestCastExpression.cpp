@@ -39,7 +39,7 @@ struct CastExpressionTest : public Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   NiceMock<MockExpression> mExpression;
-  NiceMock<MockTypeSpecifier> mTypeSpecifier;
+  NiceMock<MockTypeSpecifier>* mTypeSpecifier = new NiceMock<MockTypeSpecifier>();
   Interface* mCarInterface;
   
 public:
@@ -80,7 +80,7 @@ TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   Value* expressionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(expressionValue));
   ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
-  ON_CALL(mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
 
   CastExpression castExpression(mTypeSpecifier, mExpression);
   
@@ -92,7 +92,7 @@ TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
 }
 
 TEST_F(CastExpressionTest, releaseOwnershipTest) {
-  ON_CALL(mTypeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
+  ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
   CastExpression castExpression(mTypeSpecifier, mExpression);
   
   EXPECT_CALL(mExpression, releaseOwnership(_)).Times(1);
@@ -102,8 +102,8 @@ TEST_F(CastExpressionTest, releaseOwnershipTest) {
 
 TEST_F(CastExpressionTest, releaseOwnershipDeathTest) {
   Mock::AllowLeak(&mExpression);
-  Mock::AllowLeak(&mTypeSpecifier);
-  ON_CALL(mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  Mock::AllowLeak(mTypeSpecifier);
+  ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   CastExpression castExpression(mTypeSpecifier, mExpression);
   
   EXPECT_EXIT(castExpression.releaseOwnership(mContext),
