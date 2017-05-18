@@ -518,14 +518,14 @@ method_definition
       compound_statement
     {
       std::vector<ITypeSpecifier*> exceptions;
-      $$ = new MethodDeclaration($1, *$2, *$3, *$5, exceptions, *$7);
+      $$ = new MethodDeclaration($1, $2, *$3, *$5, exceptions, *$7);
       delete $3;
       delete $5;
     }
   | access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
     TTHROWS exception_type_specifier_list compound_statement
     {
-      $$ = new MethodDeclaration($1, *$2, *$3, *$5, *$8, *$9);
+      $$ = new MethodDeclaration($1, $2, *$3, *$5, *$8, *$9);
       delete $3;
       delete $5;
       delete $8;

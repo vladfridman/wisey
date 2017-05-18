@@ -17,6 +17,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+MethodDeclaration::~MethodDeclaration() {
+  delete mReturnTypeSpecifier;
+}
+
 Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned long index) const {
   vector<MethodArgument*> arguments;
   
@@ -29,7 +33,7 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
     arguments.push_back(methodArgument);
   }
   
-  IType* returnType = mReturnTypeSpecifier.getType(context);
+  IType* returnType = mReturnTypeSpecifier->getType(context);
   
   vector<IType*> thrownExceptions;
   for (ITypeSpecifier* exceptionTypeSpecifier : mExceptions) {

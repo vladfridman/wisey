@@ -27,7 +27,7 @@ namespace wisey {
  */
 class MethodDeclaration {
   const AccessLevel mAccessLevel;
-  const ITypeSpecifier& mReturnTypeSpecifier;
+  const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
   std::vector<ITypeSpecifier*> mExceptions;
@@ -36,7 +36,7 @@ class MethodDeclaration {
 public:
   
   MethodDeclaration(const AccessLevel AccessLevel,
-                    const ITypeSpecifier& returnTypeSpecifier,
+                    const ITypeSpecifier* returnTypeSpecifier,
                     std::string methodName,
                     const VariableList& arguments,
                     std::vector<ITypeSpecifier*> exceptions,
@@ -47,6 +47,8 @@ public:
   mArguments(arguments),
   mExceptions(exceptions),
   mCompoundStatement(compoundStatement) { }
+  
+  ~MethodDeclaration();
   
   /**
    * Returns object representing the method that will be saved in a Model object

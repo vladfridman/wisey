@@ -59,7 +59,7 @@ struct ModelDefinitionTest : public Test {
     methodArguments.push_back(intArgument);
     vector<ITypeSpecifier*> thrownExceptions;
     mMethodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                               *floatTypeSpecifier,
+                                               floatTypeSpecifier,
                                                "foo",
                                                methodArguments,
                                                thrownExceptions,

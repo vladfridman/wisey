@@ -55,7 +55,7 @@ TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(&mFloatArgument);
   vector<ITypeSpecifier*> thrownExceptions;
   MethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                      *mFloatTypeSpecifier,
+                                      new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE),
                                       "foo",
                                       mArguments,
                                       thrownExceptions,
