@@ -681,9 +681,9 @@ assignment
 
 model_builder
   : TBUILDER '(' model_type_specifier ')' model_builder_argument_list '.' TBUILD '(' ')'
-    { $$ = new ModelBuilder(*$3, $5); }
+    { $$ = new ModelBuilder($3, $5); }
   | TBUILDER '(' model_type_specifier ')' '.' TBUILD '(' ')'
-    { $$ = new ModelBuilder(*$3, new ModelBuilderArgumentList()); }
+    { $$ = new ModelBuilder($3, new ModelBuilderArgumentList()); }
   ;
 
 model_builder_argument_list

@@ -36,12 +36,12 @@ struct ModelBuilderTest : Test {
   Model* mModel;
   NiceMock<MockExpression> mField1Expression;
   NiceMock<MockExpression> mField2Expression;
-  ModelTypeSpecifier mModelTypeSpecifier;
+  ModelTypeSpecifier* mModelTypeSpecifier;
   BasicBlock *mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  ModelBuilderTest() : mModelTypeSpecifier(ModelTypeSpecifier("MShape")) {
+  ModelBuilderTest() : mModelTypeSpecifier(new ModelTypeSpecifier("MShape")) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));

@@ -19,9 +19,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ModelBuilder::~ModelBuilder() {
+  delete mModelTypeSpecifier;
+}
+
 Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   
-  Model* model = context.getModel(mModelTypeSpecifier.getName());
+  Model* model = context.getModel(mModelTypeSpecifier->getName());
   Instruction* malloc = model->build(context, mModelBuilderArgumentList);
   
   LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(), model, malloc);
@@ -42,5 +46,5 @@ string ModelBuilder::getVariableName() const {
 }
 
 IType* ModelBuilder::getType(IRGenerationContext& context) const {
-  return mModelTypeSpecifier.getType(context);
+  return mModelTypeSpecifier->getType(context);
 }

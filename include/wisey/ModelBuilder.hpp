@@ -24,17 +24,17 @@ namespace wisey {
  */
 class ModelBuilder : public IExpression {
   
-  ModelTypeSpecifier& mModelTypeSpecifier;
+  ModelTypeSpecifier* mModelTypeSpecifier;
   ModelBuilderArgumentList* mModelBuilderArgumentList;
   
 public:
   
-  ModelBuilder(ModelTypeSpecifier& modelTypeSpecifier,
+  ModelBuilder(ModelTypeSpecifier* modelTypeSpecifier,
                ModelBuilderArgumentList* modelBuilderArgumentList)
   : mModelTypeSpecifier(modelTypeSpecifier),
   mModelBuilderArgumentList(modelBuilderArgumentList) { }
   
-  ~ModelBuilder() { }
+  ~ModelBuilder();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
