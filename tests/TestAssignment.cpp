@@ -33,6 +33,7 @@ using ::testing::Test;
 
 struct AssignmentTest : public Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   NiceMock<MockExpression> mExpression;
   Value* mExpressionValue;
   BasicBlock* mBlock;
@@ -40,20 +41,22 @@ struct AssignmentTest : public Test {
 
 public:
   
-  AssignmentTest() {
-    mBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
+  AssignmentTest() : mLLVMContext(mContext.getLLVMContext()) {
+    mBlock = BasicBlock::Create(mLLVMContext, "entry");
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
-    mExpressionValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
+    mExpressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(mExpressionValue));
     ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
 
     vector<Type*> carInterfaceTypes;
-    StructType* carInterfaceStructType = StructType::create(mContext.getLLVMContext(), "ICar");
+    string interfaceFullName = "systems.vos.wisey.compiler.tests.ICar";
+    StructType* carInterfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<MethodSignature*> carInterfaceMethods;
     vector<Interface*> carParentInterfaces;
     mCarInterface = new Interface("ICar",
+                                  interfaceFullName,
                                   carInterfaceStructType,
                                   carParentInterfaces,
                                   carInterfaceMethods);

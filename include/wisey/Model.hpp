@@ -28,6 +28,7 @@ class Interface;
  */
 class Model : public IObjectWithFieldsType, public IObjectWithMethodsType {
   std::string mName;
+  std::string mFullName;
   llvm::StructType* mStructType;
   std::map<std::string, Field*> mFields;
   std::vector<Method*> mMethods;
@@ -38,6 +39,7 @@ class Model : public IObjectWithFieldsType, public IObjectWithMethodsType {
 public:
   
   Model(std::string name,
+        std::string fullName,
         llvm::StructType* structType,
         std::map<std::string, Field*> fields,
         std::vector<Method*> methods,
@@ -103,6 +105,8 @@ public:
   std::string getObjectNameGlobalVariableName() const override;
   
   std::string getName() const override;
+  
+  std::string getFullName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
   

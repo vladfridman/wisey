@@ -9,7 +9,7 @@
 #ifndef IObjectWithFieldsType_h
 #define IObjectWithFieldsType_h
 
-#include "wisey/IType.hpp"
+#include "wisey/IObjectType.hpp"
 
 namespace wisey {
 
@@ -18,7 +18,7 @@ class Field;
 /**
  * Represents an IType of an object with fields such as a Model or a Controller
  */
-class IObjectWithFieldsType : public virtual IType {
+class IObjectWithFieldsType : public virtual IObjectType {
     
 public:
   

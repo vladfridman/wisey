@@ -38,14 +38,15 @@ struct ModelBuilderArgumentTest : Test {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
-    StructType *structType = StructType::create(llvmContext, "MModel");
+    string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
+    StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     map<string, Field*> fields;
     ExpressionList fieldArguments;
     fields["mFieldA"] = new Field(PrimitiveTypes::INT_TYPE, "mFieldA", 0, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model("MModel", structType, fields, methods, interfaces);
+    mModel = new Model("MModel", modelFullName, structType, fields, methods, interfaces);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));

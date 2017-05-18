@@ -22,6 +22,7 @@ using namespace wisey;
 TEST(InterfaceTypeSpecifierTest, creationTest) {
   IRGenerationContext context;
   vector<Type*> types;
+  string interfaceFullName = "systems.vos.wisey.compiler.tests.IShape";
   StructType* structType = StructType::create(context.getLLVMContext(), "IShape");
   structType->setBody(types);
   vector<MethodArgument*> methodArguments;
@@ -35,7 +36,11 @@ TEST(InterfaceTypeSpecifierTest, creationTest) {
                                                          0);
   methodSignatures.push_back(methodSignature);
   vector<Interface*> parentInterfaces;
-  Interface* interface = new Interface("IShape", structType, parentInterfaces, methodSignatures);
+  Interface* interface = new Interface("IShape",
+                                       interfaceFullName,
+                                       structType,
+                                       parentInterfaces,
+                                       methodSignatures);
   context.addInterface(interface);
   
   InterfaceTypeSpecifier interfaceTypeSpecifier("IShape");

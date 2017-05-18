@@ -27,21 +27,25 @@ struct BindActionTest : public Test {
   BindAction* mBindAction;
   
   BindActionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    StructType* interfaceStructType = StructType::create(mLLVMContext, "IMyInterface");
+    string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
+    StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<Interface*> interfaceParentInterfaces;
     vector<MethodSignature*> interfaceMethodSignatures;
     mInterface = new Interface("IMyInterface",
+                               interfaceFullName,
                                interfaceStructType,
                                interfaceParentInterfaces,
                                interfaceMethodSignatures);
     
-    StructType* controllerStructType = StructType::create(mLLVMContext, "CMyController");
+    string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
+    StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
     vector<Field*> controllerReceivedFields;
     vector<Field*> controllerInjectedFields;
     vector<Field*> controllerStateFields;
     vector<Method*> controllerMethods;
     vector<Interface*> controllerInterfaces;
     mController = new Controller("CMyController",
+                                 controllerFullName,
                                  controllerStructType,
                                  controllerReceivedFields,
                                  controllerInjectedFields,

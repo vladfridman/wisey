@@ -552,6 +552,7 @@
 		F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodDeclaration.cpp; path = src/MethodDeclaration.cpp; sourceTree = "<group>"; };
 		F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodDeclaration.cpp; path = tests/TestMethodDeclaration.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
+		F53B8EB81ECDC08700F45564 /* IObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectType.hpp; path = include/wisey/IObjectType.hpp; sourceTree = "<group>"; };
 		F5404F231E109CBD00A31543 /* test_break_out_of_for_loop.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_break_out_of_for_loop.yz; path = tests/samples/test_break_out_of_for_loop.yz; sourceTree = "<group>"; };
 		F5404F241E109CBD00A31543 /* test_conditional_with_false.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_conditional_with_false.yz; path = tests/samples/test_conditional_with_false.yz; sourceTree = "<group>"; };
 		F5404F251E109CBD00A31543 /* test_conditional_with_true.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_conditional_with_true.yz; path = tests/samples/test_conditional_with_true.yz; sourceTree = "<group>"; };
@@ -1175,6 +1176,7 @@
 				F5089C7A1ECD01D9004A1223 /* InterfaceTypeSpecifier.hpp */,
 				F5089C7B1ECD01D9004A1223 /* IntrinsicFunctions.hpp */,
 				F5089C7C1ECD01D9004A1223 /* IntType.hpp */,
+				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F5089C7D1ECD01D9004A1223 /* IObjectWithFieldsType.hpp */,
 				F5089C7E1ECD01D9004A1223 /* IObjectWithMethodsType.hpp */,
 				F5089C7F1ECD01D9004A1223 /* IRGenerationContext.hpp */,

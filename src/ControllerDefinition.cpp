@@ -26,7 +26,8 @@ ControllerDefinition::~ControllerDefinition() {
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  StructType *structType = StructType::create(llvmContext, "controller." + mName);
+  string fullName = context.getPackage() + "." + mName;
+  StructType *structType = StructType::create(llvmContext, fullName);
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
@@ -43,6 +44,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
                                                          injectedFields.size());
   vector<Method*> methods = createMethods(context);
   Controller* controller = new Controller(mName,
+                                          fullName,
                                           structType,
                                           receivedFields,
                                           injectedFields,

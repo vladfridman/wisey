@@ -48,7 +48,8 @@ struct InterfaceInjectorTest : Test {
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
-    StructType *controllerStructType = StructType::create(llvmContext, "CMultiplier");
+    string controllerFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
+    StructType *controllerStructType = StructType::create(llvmContext, controllerFullName);
     controllerStructType->setBody(types);
     vector<Field*> controllerReceivedFields;
     vector<Field*> controllerInjectedFields;
@@ -61,6 +62,7 @@ struct InterfaceInjectorTest : Test {
     vector<Method*> controllerMethods;
     vector<Interface*> controllerInterfaces;
     mController = new Controller("CMultiplier",
+                                 controllerFullName,
                                  controllerStructType,
                                  controllerReceivedFields,
                                  controllerInjectedFields,
@@ -69,10 +71,12 @@ struct InterfaceInjectorTest : Test {
                                  controllerInterfaces);
     mContext.addController(mController);
 
-    StructType* interfaceStructType = StructType::create(llvmContext, "IMyInterface");
+    string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
+    StructType* interfaceStructType = StructType::create(llvmContext, interfaceFullName);
     vector<Interface*> interfaceParentInterfaces;
     vector<MethodSignature*> interfaceMethodSignatures;
     mInterface = new Interface("IMyInterface",
+                               interfaceFullName,
                                interfaceStructType,
                                interfaceParentInterfaces,
                                interfaceMethodSignatures);

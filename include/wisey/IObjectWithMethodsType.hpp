@@ -9,7 +9,7 @@
 #ifndef IObjectWithMethodsType_h
 #define IObjectWithMethodsType_h
 
-#include "wisey/IType.hpp"
+#include "wisey/IObjectType.hpp"
 
 namespace wisey {
   
@@ -18,7 +18,7 @@ class IMethodDescriptor;
 /**
  * Represents an object that has methods such as a Model or an Interface
  */
-class IObjectWithMethodsType : public virtual IType {
+class IObjectWithMethodsType : public virtual IObjectType {
   
 public:
   

@@ -56,11 +56,13 @@ public:
     mContext.getScopes().pushScope();
     
     vector<Type*> carInterfaceTypes;
-    StructType* carInterfaceStructType = StructType::create(mContext.getLLVMContext(), "ICar");
+    string carFullName = "systems.vos.wisey.compiler.tests.ICar";
+    StructType* carInterfaceStructType = StructType::create(mContext.getLLVMContext(), carFullName);
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<MethodSignature*> carInterfaceMethods;
     vector<Interface*> carParentInterfaces;
     mCarInterface = new Interface("ICar",
+                                  carFullName,
                                   carInterfaceStructType,
                                   carParentInterfaces,
                                   carInterfaceMethods);

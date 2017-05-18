@@ -48,7 +48,8 @@ struct ObjectFieldVariableTest : Test {
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
-    StructType* structType = StructType::create(llvmContext, "Object");
+    string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
+    StructType* structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     map<string, Field*> fields;
     ExpressionList fieldArguments;
@@ -56,7 +57,7 @@ struct ObjectFieldVariableTest : Test {
     fields["bar"] = new Field(PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model("Object", structType, fields, methods, interfaces);
+    mModel = new Model("MObject", modelFullName, structType, fields, methods, interfaces);
  
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -98,9 +99,11 @@ TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateIdentifierIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
     "\nentry:" +
-    "\n  %this.param = alloca %Object*"
-    "\n  %this = load %Object*, %Object** %this.param"
-    "\n  %0 = getelementptr %Object, %Object* %this, i32 0, i32 0"
+    "\n  %this.param = alloca %systems.vos.wisey.compiler.tests.MObject*"
+    "\n  %this = load %systems.vos.wisey.compiler.tests.MObject*, "
+    "%systems.vos.wisey.compiler.tests.MObject** %this.param"
+    "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+    "%systems.vos.wisey.compiler.tests.MObject* %this, i32 0, i32 0"
     "\n  %1 = load i32, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -118,9 +121,11 @@ TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateAssignmentIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
     "\nentry:" +
-    "\n  %this.param = alloca %Object*"
-    "\n  %this = load %Object*, %Object** %this.param"
-    "\n  %0 = getelementptr %Object, %Object* %this, i32 0, i32 0"
+    "\n  %this.param = alloca %systems.vos.wisey.compiler.tests.MObject*"
+    "\n  %this = load %systems.vos.wisey.compiler.tests.MObject*, "
+    "%systems.vos.wisey.compiler.tests.MObject** %this.param"
+    "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+    "%systems.vos.wisey.compiler.tests.MObject* %this, i32 0, i32 0"
     "\n  store i32 5, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -138,10 +143,12 @@ TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateAssignmentWithCastIRT
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-    "\n  %this.param = alloca %Object*"
+    "\n  %this.param = alloca %systems.vos.wisey.compiler.tests.MObject*"
     "\n  %conv = zext i1 true to i32"
-    "\n  %this = load %Object*, %Object** %this.param"
-    "\n  %0 = getelementptr %Object, %Object* %this, i32 0, i32 0"
+    "\n  %this = load %systems.vos.wisey.compiler.tests.MObject*, "
+    "%systems.vos.wisey.compiler.tests.MObject** %this.param"
+    "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+    "%systems.vos.wisey.compiler.tests.MObject* %this, i32 0, i32 0"
     "\n  store i32 %conv, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

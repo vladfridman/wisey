@@ -34,21 +34,21 @@ using namespace wisey;
 
 struct AdditiveMultiplicativeExpressionTest : Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   NiceMock<MockExpression> mLeftExpression;
   NiceMock<MockExpression> mRightExpression;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
-  AdditiveMultiplicativeExpressionTest() {
-    LLVMContext &llvmContext = mContext.getLLVMContext();
-    Value * leftValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-    Value * rightValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
+  AdditiveMultiplicativeExpressionTest() : mLLVMContext(mContext.getLLVMContext()) {
+    Value * leftValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+    Value * rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
     ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
     ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    mBasicBlock = BasicBlock::Create(llvmContext, "test");
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "test");
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -84,7 +84,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
 
-  Value* rightValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.5);
+  Value* rightValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 5.5);
   ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
   ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
@@ -99,11 +99,12 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);
   
-  StructType* structType = StructType::create(mContext.getLLVMContext(), "Shape");
+  string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
+  StructType* structType = StructType::create(mLLVMContext, modelFullName);
   vector<Interface*> interfaces;
   map<string, Field*> fields;
   vector<Method*> methods;
-  Model* model = new Model("Shape", structType, fields, methods, interfaces);
+  Model* model = new Model("MShape", modelFullName, structType, fields, methods, interfaces);
 
   ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(model));

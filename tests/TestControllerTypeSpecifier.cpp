@@ -25,6 +25,7 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
   vector<Type*> types;
   types.push_back(Type::getInt32Ty(llvmContext));
   types.push_back(Type::getInt32Ty(llvmContext));
+  string controllerFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
   StructType* structType = StructType::create(llvmContext, "CMultiplier");
   structType->setBody(types);
   vector<Field*> receivedFields;
@@ -46,6 +47,7 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
   methods.push_back(multiplyMethod);
   vector<Interface*> interfaces;
   Controller* controller = new Controller("CMultiplier",
+                                          controllerFullName,
                                           structType,
                                           receivedFields,
                                           injectedFields,

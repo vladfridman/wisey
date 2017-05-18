@@ -40,17 +40,20 @@ struct InterfaceTest : public Test {
   
   InterfaceTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> objectTypes;
-    StructType* objectStructType = StructType::create(mLLVMContext, "IObject");
+    string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
+    StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(objectTypes);
     vector<MethodSignature*> objectMethodSignatures;
     vector<Interface*> objectParentInterfaces;
     mObjectInterface = new Interface("IObject",
+                                     objectFullName,
                                      objectStructType,
                                      objectParentInterfaces,
                                      objectMethodSignatures);
 
     vector<Type*> shapeTypes;
-    mShapeStructType = StructType::create(mLLVMContext, "IShape");
+    string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
+    mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mShapeStructType->setBody(shapeTypes);
     vector<MethodArgument*> shapeMethodArguments;
     vector<IType*> thrownExceptions;
@@ -65,6 +68,7 @@ struct InterfaceTest : public Test {
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterface);
     mShapeInterface = new Interface("IShape",
+                                    shapeFullName,
                                     mShapeStructType,
                                     shapeParentInterfaces,
                                     shapeMethodSignatures);
@@ -118,11 +122,13 @@ TEST_F(InterfaceTest, findMethodTest) {
 }
 
 TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {
-  EXPECT_STREQ(mShapeInterface->getObjectNameGlobalVariableName().c_str(), "interface.IShape.name");
+  EXPECT_STREQ(mShapeInterface->getObjectNameGlobalVariableName().c_str(),
+               "systems.vos.wisey.compiler.tests.IShape.name");
 }
 
 TEST_F(InterfaceTest, getInstanceOfFunctionNameTest) {
-  EXPECT_STREQ(mShapeInterface->getInstanceOfFunctionName().c_str(), "interface.IShape.instanceof");
+  EXPECT_STREQ(mShapeInterface->getInstanceOfFunctionName().c_str(),
+               "systems.vos.wisey.compiler.tests.IShape.instanceof");
 }
 
 TEST_F(InterfaceTest, getParentInterfacesTest) {
@@ -164,15 +170,18 @@ TEST_F(InterfaceTest, callInstanceOfTest) {
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %instanceof = call i1 @interface.IObject.instanceof(%IObject* null, "
-  "i8* getelementptr inbounds ([7 x i8], [7 x i8]* @interface.IShape.name, i32 0, i32 0))\n";
+  "\n  %instanceof = call i1 @systems.vos.wisey.compiler.tests.IObject.instanceof("
+  "%systems.vos.wisey.compiler.tests.IObject* null, "
+  "i8* getelementptr inbounds ([7 x i8], [7 x i8]* @systems.vos.wisey.compiler.tests.IShape.name, "
+  "i32 0, i32 0))\n";
   
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }
 
 TEST_F(InterfaceTest, getCastFunctionNameTest) {
   EXPECT_STREQ(mObjectInterface->getCastFunctionName(mShapeInterface).c_str(),
-               "cast.IObject.to.IShape");
+               "cast.systems.vos.wisey.compiler.tests.IObject."
+               "to.systems.vos.wisey.compiler.tests.IShape");
 }
 
 TEST_F(InterfaceTest, canCastToTest) {

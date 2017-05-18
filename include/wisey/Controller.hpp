@@ -24,6 +24,7 @@ namespace wisey {
  */
 class Controller : public IObjectWithFieldsType, public IObjectWithMethodsType {
   std::string mName;
+  std::string mFullName;
   llvm::StructType* mStructType;
   std::vector<Field*> mReceivedFields;
   std::vector<Field*> mInjectedFields;
@@ -37,6 +38,7 @@ class Controller : public IObjectWithFieldsType, public IObjectWithMethodsType {
 public:
   
   Controller(std::string name,
+             std::string fullName,
              llvm::StructType* structType,
              std::vector<Field*> receivedFields,
              std::vector<Field*> injectedFields,
@@ -78,6 +80,8 @@ public:
   std::string getObjectNameGlobalVariableName() const override;
   
   std::string getName() const override;
+  
+  std::string getFullName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
   

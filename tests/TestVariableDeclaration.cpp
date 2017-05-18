@@ -98,9 +98,10 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
 
 TEST_F(VariableDeclarationTest, heapVariableDeclarationWithoutAssignmentTest) {
   Identifier identifier("foo", "bar");
-  ModelTypeSpecifier typeSpecifier("model");
+  ModelTypeSpecifier typeSpecifier("MModel");
   
-  StructType* structType = StructType::create(mLLVMContext, "test");
+  string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
+  StructType* structType = StructType::create(mLLVMContext, modelFullName);
   vector<Type*> types;
   types.push_back(Type::getInt32Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -111,7 +112,7 @@ TEST_F(VariableDeclarationTest, heapVariableDeclarationWithoutAssignmentTest) {
   fields["fieldB"] = new Field(PrimitiveTypes::INT_TYPE, "fieldB", 0, fieldArguments);
   vector<Method*> methods;
   vector<Interface*> interfaces;
-  Model* model = new Model("model", structType, fields, methods, interfaces);
+  Model* model = new Model("MModel", modelFullName, structType, fields, methods, interfaces);
 
   mContext.addModel(model);
   VariableDeclaration declaration(typeSpecifier, identifier);

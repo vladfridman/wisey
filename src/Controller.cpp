@@ -29,6 +29,7 @@ Controller::~Controller() {
 }
 
 Controller::Controller(string name,
+                       string fullName,
                        StructType* structType,
                        vector<Field*> receivedFields,
                        vector<Field*> injectedFields,
@@ -36,6 +37,7 @@ Controller::Controller(string name,
                        vector<Method*> methods,
                        vector<Interface*> interfaces) {
   mName = name;
+  mFullName = fullName;
   mStructType = structType;
   mReceivedFields = receivedFields;
   mInjectedFields = injectedFields;
@@ -90,11 +92,11 @@ vector<Interface*> Controller::getFlattenedInterfaceHierarchy() const {
 }
 
 string Controller::getTypeTableName() const {
-  return "controller." + getName() + ".typetable";
+  return mFullName + ".typetable";
 }
 
 string Controller::getVTableName() const {
-  return "controller." + getName() + ".vtable";
+  return mFullName + ".vtable";
 }
 
 Instruction* Controller::createMalloc(IRGenerationContext& context) const {
@@ -158,11 +160,15 @@ Method* Controller::findMethod(std::string methodName) const {
 }
 
 string Controller::getObjectNameGlobalVariableName() const {
-  return "controller." + getName() + ".name";
+  return mFullName + ".name";
 }
 
 string Controller::getName() const {
   return mName;
+}
+
+string Controller::getFullName() const {
+  return mFullName;
 }
 
 llvm::Type* Controller::getLLVMType(LLVMContext& llvmContext) const {

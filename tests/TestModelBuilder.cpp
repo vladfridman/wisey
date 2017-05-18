@@ -46,7 +46,8 @@ struct ModelBuilderTest : Test {
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
-    StructType *structType = StructType::create(llvmContext, "MShape");
+    string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
+    StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     map<string, Field*> fields;
     ExpressionList fieldArguments;
@@ -54,7 +55,7 @@ struct ModelBuilderTest : Test {
     fields["mHeight"] = new Field(PrimitiveTypes::INT_TYPE, "mHeight", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model("MShape", structType, fields, methods, interfaces);
+    mModel = new Model("MShape", modelFullName, structType, fields, methods, interfaces);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(mField1Expression, generateIR(_)).WillByDefault(Return(fieldValue1));

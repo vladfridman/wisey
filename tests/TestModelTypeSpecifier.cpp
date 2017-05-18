@@ -25,7 +25,8 @@ TEST(ModelTypeSpecifierTest, creationTest) {
   vector<Type*> types;
   types.push_back(Type::getInt32Ty(llvmContext));
   types.push_back(Type::getInt32Ty(llvmContext));
-  StructType* structType = StructType::create(llvmContext, "MSquare");
+  string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
+  StructType* structType = StructType::create(llvmContext, modelFullName);
   structType->setBody(types);
   map<string, Field*> fields;
   ExpressionList fieldArguments;
@@ -43,7 +44,7 @@ TEST(ModelTypeSpecifierTest, creationTest) {
                                  0);
   methods.push_back(fooMethod);
   vector<Interface*> interfaces;
-  Model* model = new Model("MSquare", structType, fields, methods, interfaces);
+  Model* model = new Model("MSquare", modelFullName, structType, fields, methods, interfaces);
   context.addModel(model);
 
   ModelTypeSpecifier modelTypeSpecifier("MSquare");

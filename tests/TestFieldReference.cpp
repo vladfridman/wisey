@@ -37,6 +37,7 @@ struct FieldReferenceTest : public Test {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
+    string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
     StructType* structType = StructType::create(llvmContext, "MShape");
     structType->setBody(types);
     map<string, Field*> fields;
@@ -45,7 +46,7 @@ struct FieldReferenceTest : public Test {
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    Model* model = new Model("MShape", structType, fields, methods, interfaces);
+    Model* model = new Model("MShape", modelFullName, structType, fields, methods, interfaces);
     
     ON_CALL(mExpression, getType(_)).WillByDefault(Return(model));
   }

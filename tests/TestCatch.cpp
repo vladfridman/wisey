@@ -39,7 +39,8 @@ public:
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
-    StructType* structType = StructType::create(mLLVMContext, "MSquare");
+    string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
+    StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
     map<string, Field*> fields;
     ExpressionList fieldArguments;
@@ -57,7 +58,7 @@ public:
                                    0);
     methods.push_back(fooMethod);
     vector<Interface*> interfaces;
-    mModel = new Model("MSquare", structType, fields, methods, interfaces);
+    mModel = new Model("MSquare", modelFullName, structType, fields, methods, interfaces);
     mContext.addModel(mModel);
 
     ModelTypeSpecifier typeSpecifier("MSquare");

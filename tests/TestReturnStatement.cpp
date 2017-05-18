@@ -53,7 +53,8 @@ public:
     LLVMContext& llvmContext = mContext.getLLVMContext();
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
-    StructType* structType = StructType::create(llvmContext, "Shape");
+    string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
+    StructType* structType = StructType::create(llvmContext, "MShape");
     structType->setBody(types);
     map<string, Field*> fields;
     ExpressionList fieldArguments;
@@ -61,7 +62,7 @@ public:
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model("Shape", structType, fields, methods, interfaces);
+    mModel = new Model("MShape", modelFullName, structType, fields, methods, interfaces);
   }
 
   ~ReturnStatementTest() {

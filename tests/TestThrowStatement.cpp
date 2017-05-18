@@ -40,24 +40,26 @@ struct ThrowStatementTest : public Test {
   BasicBlock* mBlock;
   
   ThrowStatementTest() : mLLVMContext(mContext.getLLVMContext()) {
-    StructType* circleStructType = StructType::create(mLLVMContext, "MCircle");
+    string circleFullName = "systems.vos.wisey.compiler.tests.MCircle";
+    StructType* circleStructType = StructType::create(mLLVMContext, circleFullName);
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
     vector<Method*> circleMethods;
     map<string, Field*> circleFields;
     vector<Interface*> circleInterfaces;
     mCircleModel = new Model("MCircle",
+                             circleFullName,
                              circleStructType,
                              circleFields,
                              circleMethods,
                              circleInterfaces);
-    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, "model.MCircle.name");
+    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, circleFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
-                       "model.MCircle.name");
+                       circleFullName + ".name");
     mCircleModel->createRTTI(mContext);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

@@ -55,10 +55,12 @@ public:
   MethodCallTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
-    mStructType = StructType::create(mLLVMContext, "MSquare");
+    string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
+    mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
     map<string, Field*> fields;
     ExpressionList fieldArguments;
@@ -88,7 +90,7 @@ public:
                                    1);
     methods.push_back(barMethod);
     vector<Interface*> interfaces;
-    mModel = new Model("MSquare", mStructType, fields, methods, interfaces);
+    mModel = new Model("MSquare", modelFullName, mStructType, fields, methods, interfaces);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* mainFunction = Function::Create(functionType,
@@ -117,18 +119,25 @@ public:
 TEST_F(MethodCallTest, translateObjectMethodToLLVMFunctionNameTest) {
   string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(mModel, "foo");
   
-  EXPECT_STREQ(functionName.c_str(), "object.MSquare.foo");
+  EXPECT_STREQ(functionName.c_str(), "systems.vos.wisey.compiler.tests.MSquare.foo");
 }
 
 TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
-  StructType* structType = StructType::create(mLLVMContext, "IShape");
+  string interfaceFullName = "systems.vos.wisey.compiler.tests.IShape";
+  StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<MethodSignature*> interfaceMethods;
   vector<Interface*> methodInterface;
-  Interface* interface = new Interface("IShape", structType, methodInterface, interfaceMethods);
+  Interface* interface = new Interface("IShape",
+                                       interfaceFullName,
+                                       structType,
+                                       methodInterface,
+                                       interfaceMethods);
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");
   
-  EXPECT_STREQ(functionName.c_str(), "object.MSquare.interface.IShape.foo");
+  EXPECT_STREQ(functionName.c_str(),
+               "systems.vos.wisey.compiler.tests.MSquare.interface."
+               "systems.vos.wisey.compiler.tests.IShape.foo");
 }
 
 TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
@@ -183,7 +192,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
-                   "model.Square.foo",
+                   "systems.vos.wisey.compiler.tests.MSquare.foo",
                    mContext.getModule());
 
   NiceMock<MockExpression> argumentExpression;
@@ -209,7 +218,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
-                   "object.MSquare.foo",
+                   "systems.vos.wisey.compiler.tests.MSquare.foo",
                    mContext.getModule());
   
   NiceMock<MockExpression> argumentExpression;
@@ -222,7 +231,8 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   Value* irValue = methodCall.generateIR(mContext);
 
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = call i32 @object.MSquare.foo(%MSquare* %0, float 0x4014CCCCC0000000)",
+  EXPECT_STREQ("  %call = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
+               "%systems.vos.wisey.compiler.tests.MSquare* %0, float 0x4014CCCCC0000000)",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
@@ -237,7 +247,7 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
                                                  false);
   Function::Create(functionType,
                    GlobalValue::InternalLinkage,
-                   "object.MSquare.bar",
+                   "systems.vos.wisey.compiler.tests.MSquare.bar",
                    mContext.getModule());
   
   NiceMock<MockExpression> argumentExpression;
@@ -252,8 +262,8 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   Value* irValue = methodCall.generateIR(mContext);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = invoke i32 @object.MSquare.bar("
-               "%MSquare* %0, float 0x4014CCCCC0000000)\n"
+  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
+               "%systems.vos.wisey.compiler.tests.MSquare* %0, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);

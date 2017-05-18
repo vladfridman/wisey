@@ -58,7 +58,8 @@ public:
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
-    StructType* structType = StructType::create(mLLVMContext, "Object");
+    string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
+    StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
     map<string, Field*> fields;
     ExpressionList fieldArguments;
@@ -66,7 +67,7 @@ public:
     fields["bar"] = new Field(PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model("Object", structType, fields, methods, interfaces);
+    mModel = new Model("MObject", modelFullName, structType, fields, methods, interfaces);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -97,7 +98,8 @@ TEST_F(MethodTest, defineFunctionTest) {
   Function* function = method.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
-  string expected = "\ndeclare internal float @object.Object.foo(%Object*, i32)\n";
+  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo("
+    "%systems.vos.wisey.compiler.tests.MObject*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -119,10 +121,12 @@ TEST_F(MethodTest, generateIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal float @object.Object.foo(%Object* %this, i32 %intargument) {"
+  "\ndefine internal float @systems.vos.wisey.compiler.tests.MObject.foo("
+  "%systems.vos.wisey.compiler.tests.MObject* %this, i32 %intargument) {"
   "\nentry:"
-  "\n  %this.param = alloca %Object*"
-  "\n  store %Object* %this, %Object** %this.param"
+  "\n  %this.param = alloca %systems.vos.wisey.compiler.tests.MObject*"
+  "\n  store %systems.vos.wisey.compiler.tests.MObject* %this, "
+  "%systems.vos.wisey.compiler.tests.MObject** %this.param"
   "\n  %intargument.param = alloca i32"
   "\n  store i32 %intargument, i32* %intargument.param"
   "\n  ret void"

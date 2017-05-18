@@ -30,10 +30,12 @@ Interface::~Interface() {
 }
 
 Interface::Interface(string name,
+                     string fullName,
                      StructType* structType,
                      vector<Interface*> parentInterfaces,
                      vector<MethodSignature*> methodSignatures) {
   mName = name;
+  mFullName = fullName;
   mStructType = structType;
   mParentInterfaces = parentInterfaces;
   mMethodSignatures = methodSignatures;
@@ -92,11 +94,11 @@ bool Interface::doesExtendInterface(Interface* interface) const {
 }
 
 string Interface::getObjectNameGlobalVariableName() const {
-  return "interface." + mName + ".name";
+  return mFullName + ".name";
 }
 
 string Interface::getInstanceOfFunctionName() const {
-  return "interface." + mName + ".instanceof";
+  return mFullName + ".instanceof";
 }
 
 MethodSignature* Interface::findMethod(std::string methodName) const {
@@ -294,6 +296,10 @@ string Interface::getName() const {
   return mName;
 }
 
+string Interface::getFullName() const {
+  return mFullName;
+}
+
 llvm::Type* Interface::getLLVMType(LLVMContext& llvmContext) const {
   return mStructType->getPointerTo();
 }
@@ -325,7 +331,7 @@ bool Interface::canAutoCastTo(IType* toType) const {
 }
 
 string Interface::getCastFunctionName(IObjectWithMethodsType* toType) const {
-  return "cast." + getName() + ".to." + toType->getName();
+  return "cast." + getFullName() + ".to." + toType->getFullName();
 }
 
 Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {

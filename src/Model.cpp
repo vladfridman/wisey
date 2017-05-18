@@ -25,11 +25,13 @@ Model::~Model() {
 }
 
 Model::Model(string name,
+             string fullName,
              StructType* structType,
              map<string, Field*> fields,
              vector<Method*> methods,
              vector<Interface*> interfaces) {
   mName = name;
+  mFullName = fullName;
   mStructType = structType;
   mFields = fields;
   mMethods = methods;
@@ -84,15 +86,15 @@ Method* Model::findMethod(std::string methodName) const {
 }
 
 string Model::getVTableName() const {
-  return "model." + getName() + ".vtable";
+  return getFullName() + ".vtable";
 }
 
 string Model::getObjectNameGlobalVariableName() const {
-  return "model." + getName() + ".name";
+  return getFullName() + ".name";
 }
 
 string Model::getTypeTableName() const {
-  return "model." + getName() + ".typetable";
+  return getFullName() + ".typetable";
 }
 
 vector<Interface*> Model::getInterfaces() const {
@@ -126,6 +128,10 @@ void Model::addInterfaceAndItsParents(vector<Interface*>& result, Interface* int
 
 string Model::getName() const {
   return mName;
+}
+
+string Model::getFullName() const {
+  return mFullName;
 }
 
 llvm::Type* Model::getLLVMType(LLVMContext& llvmContext) const {
@@ -337,5 +343,5 @@ void Model::initializeVTable(IRGenerationContext& context,
 }
 
 string Model::getRTTIVariableName() const {
-  return "model." + getName() + ".rtti";
+  return getFullName() + ".rtti";
 }

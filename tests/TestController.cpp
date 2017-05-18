@@ -49,7 +49,9 @@ struct ControllerTest : public Test {
   
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> calculatorInterfaceTypes;
-    StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext, "ICalculator");
+    string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
+    StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
+                                                                    calculatorFullName);
     calculatorIinterfaceStructType->setBody(calculatorInterfaceTypes);
     vector<MethodArgument*> calculatorInterfaceMethodArguments;
     vector<MethodSignature*> calculatorInterfaceMethods;
@@ -63,25 +65,29 @@ struct ControllerTest : public Test {
     calculatorInterfaceMethods.push_back(calculateSignature);
     vector<Interface*> calculatorParentInterfaces;
     mCalculatorInterface = new Interface("ICalculator",
+                                         calculatorFullName,
                                          calculatorIinterfaceStructType,
                                          calculatorParentInterfaces,
                                          calculatorInterfaceMethods);
     
     vector<Type*> scienceCalculatorInterfaceTypes;
+    string scienceCalculatorFullName = "systems.vos.wisey.compiler.tests.IScienceCalculator";
     StructType* scienceCalculatorIinterfaceStructType =
-      StructType::create(mLLVMContext, "IScienceCalculator");
+      StructType::create(mLLVMContext, scienceCalculatorFullName);
     scienceCalculatorIinterfaceStructType->setBody(scienceCalculatorInterfaceTypes);
     vector<MethodSignature*> scienceCalculatorInterfaceMethods;
     scienceCalculatorInterfaceMethods.push_back(calculateSignature);
     vector<Interface*> scienceCalculatorParentInterfaces;
     scienceCalculatorParentInterfaces.push_back(mCalculatorInterface);
     mScienceCalculatorInterface = new Interface("IScienceCalculator",
-                                    scienceCalculatorIinterfaceStructType,
-                                    scienceCalculatorParentInterfaces,
-                                    scienceCalculatorInterfaceMethods);
+                                                scienceCalculatorFullName,
+                                                scienceCalculatorIinterfaceStructType,
+                                                scienceCalculatorParentInterfaces,
+                                                scienceCalculatorInterfaceMethods);
 
     vector<Type*> objectInterfaceTypes;
-    StructType* objectInterfaceStructType = StructType::create(mLLVMContext, "IObject");
+    string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
+    StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
@@ -95,6 +101,7 @@ struct ControllerTest : public Test {
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<Interface*> objectParentInterfaces;
     mObjectInterface = new Interface("IObject",
+                                     objectFullName,
                                      objectInterfaceStructType,
                                      objectParentInterfaces,
                                      objectInterfaceMethods);
@@ -103,6 +110,7 @@ struct ControllerTest : public Test {
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
+    string multiplierFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     mStructType = StructType::create(mLLVMContext, "CMultiplier");
     mStructType->setBody(types);
     vector<Field*> receivedFields;
@@ -138,6 +146,7 @@ struct ControllerTest : public Test {
     interfaces.push_back(mObjectInterface);
     
     mMultiplierController = new Controller("CMultiplier",
+                                           multiplierFullName,
                                            mStructType,
                                            receivedFields,
                                            injectedFields,
@@ -148,6 +157,7 @@ struct ControllerTest : public Test {
     vector<Type*> additorTypes;
     additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
     additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType *additorStructType = StructType::create(mLLVMContext, "CAdditor");
     additorStructType->setBody(additorTypes);
     vector<Field*> additorReceivedFields;
@@ -161,6 +171,7 @@ struct ControllerTest : public Test {
     vector<Method*> additorMethods;
     vector<Interface*> additorInterfaces;
     mAdditorController = new Controller("CAdditor",
+                                        additorFullName,
                                         additorStructType,
                                         additorReceivedFields,
                                         additorInjectedFields,
@@ -172,7 +183,8 @@ struct ControllerTest : public Test {
     vector<Type*> doublerTypes;
     doublerTypes.push_back(Type::getInt32Ty(mLLVMContext));
     doublerTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    StructType *doublerStructType = StructType::create(mLLVMContext, "CDoubler");
+    string doublerFullName = "systems.vos.wisey.compiler.tests.CDoubler";
+    StructType* doublerStructType = StructType::create(mLLVMContext, doublerFullName);
     doublerStructType->setBody(doublerTypes);
     vector<Field*> doublerReceivedFields;
     vector<Field*> doublerInjectedFields;
@@ -181,6 +193,7 @@ struct ControllerTest : public Test {
     vector<Method*> doublerMethods;
     vector<Interface*> doublerInterfaces;
     mDoublerController = new Controller("CAdditor",
+                                        doublerFullName,
                                         doublerStructType,
                                         doublerReceivedFields,
                                         doublerInjectedFields,
@@ -190,13 +203,15 @@ struct ControllerTest : public Test {
     mContext.addController(mDoublerController);
 
     vector<Type*> vehicleInterfaceTypes;
-    StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, "IVehicle");
+    string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
+    StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vehicleInterfaceStructType->setBody(vehicleInterfaceTypes);
     vector<MethodArgument*> vehicleInterfaceMethodArguments;
     vector<MethodSignature*> vehicleInterfaceMethods;
     vector<IType*> vehicleThrownExceptions;
     vector<Interface*> vehicleParentInterfaces;
     mVehicleInterface = new Interface("IVehicle",
+                                      vehicleFullName,
                                       vehicleInterfaceStructType,
                                       vehicleParentInterfaces,
                                       vehicleInterfaceMethods);
@@ -221,7 +236,8 @@ struct ControllerTest : public Test {
 
 TEST_F(ControllerTest, modelInstantiationTest) {
   EXPECT_STREQ(mMultiplierController->getName().c_str(), "CMultiplier");
-  EXPECT_STREQ(mMultiplierController->getVTableName().c_str(), "controller.CMultiplier.vtable");
+  EXPECT_STREQ(mMultiplierController->getVTableName().c_str(),
+               "systems.vos.wisey.compiler.tests.CMultiplier.vtable");
   EXPECT_EQ(mMultiplierController->getTypeKind(), CONTROLLER_TYPE);
   EXPECT_EQ(mMultiplierController->getLLVMType(mLLVMContext), mStructType->getPointerTo());
   EXPECT_EQ(mMultiplierController->getInterfaces().size(), 2u);
@@ -245,12 +261,12 @@ TEST_F(ControllerTest, methodIndexesTest) {
 
 TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ(mMultiplierController->getObjectNameGlobalVariableName().c_str(),
-               "controller.CMultiplier.name");
+               "systems.vos.wisey.compiler.tests.CMultiplier.name");
 }
 
 TEST_F(ControllerTest, getTypeTableNameTest) {
   ASSERT_STREQ(mMultiplierController->getTypeTableName().c_str(),
-               "controller.CMultiplier.typetable");
+               "systems.vos.wisey.compiler.tests.CMultiplier.typetable");
 }
 
 TEST_F(ControllerTest, canCastToTest) {
@@ -278,7 +294,8 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %CMultiplier* null to %IScienceCalculator*");
+               "  %0 = bitcast %CMultiplier* null to "
+               "%systems.vos.wisey.compiler.tests.IScienceCalculator*");
   mStringBuffer.clear();
 }
 
@@ -300,7 +317,8 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %2 = bitcast i8* %1 to %ICalculator*");
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*");
   mStringBuffer.clear();
 }
 

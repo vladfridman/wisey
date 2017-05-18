@@ -53,10 +53,12 @@ struct ModelTest : public Test {
   raw_string_ostream* mStringStream;
   
   ModelTest() : mLLVMContext(mContext.getLLVMContext()) {
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
-    mStructType = StructType::create(mLLVMContext, "MSquare");
+    string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
+    mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
     map<string, Field*> fields;
     ExpressionList fieldArguments;
@@ -85,7 +87,8 @@ struct ModelTest : public Test {
     methods.push_back(barMethod);
     
     vector<Type*> subShapeInterfaceTypes;
-    StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, "ISubShape");
+    string subShapeFullName = "systems.vos.wisey.compiler.tests.ISubShape";
+    StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, subShapeFullName);
     subShapeIinterfaceStructType->setBody(subShapeInterfaceTypes);
     vector<MethodArgument*> subShapeInterfaceMethodArguments;
     vector<MethodSignature*> subShapeInterfaceMethods;
@@ -99,12 +102,14 @@ struct ModelTest : public Test {
     subShapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> subShapeParentInterfaces;
     mSubShapeInterface = new Interface("ISubShape",
+                                       subShapeFullName,
                                        subShapeIinterfaceStructType,
                                        subShapeParentInterfaces,
                                        subShapeInterfaceMethods);
     
     vector<Type*> shapeInterfaceTypes;
-    StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, "IShape");
+    string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
+    StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
@@ -119,12 +124,14 @@ struct ModelTest : public Test {
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mSubShapeInterface);
     mShapeInterface = new Interface("IShape",
+                                    shapeFullName,
                                     shapeIinterfaceStructType,
                                     shapeParentInterfaces,
                                     shapeInterfaceMethods);
    
     vector<Type*> objectInterfaceTypes;
-    StructType* objectInterfaceStructType = StructType::create(mLLVMContext, "IObject");
+    string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
+    StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
@@ -138,16 +145,19 @@ struct ModelTest : public Test {
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<Interface*> objectParentInterfaces;
     mObjectInterface = new Interface("IObject",
+                                     objectFullName,
                                      objectInterfaceStructType,
                                      objectParentInterfaces,
                                      objectInterfaceMethods);
     
     vector<Type*> carInterfaceTypes;
-    StructType* carInterfaceStructType = StructType::create(mLLVMContext, "ICar");
+    string carFullName = "systems.vos.wisey.compiler.tests.ICar";
+    StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<MethodSignature*> carInterfaceMethods;
     vector<Interface*> carParentInterfaces;
     mCarInterface = new Interface("ICar",
+                                  carFullName,
                                   carInterfaceStructType,
                                   carParentInterfaces,
                                   carInterfaceMethods);
@@ -155,31 +165,34 @@ struct ModelTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel = new Model("MSquare", mStructType, fields, methods, interfaces);
+    mModel = new Model("MSquare", modelFullName, mStructType, fields, methods, interfaces);
 
-    StructType* circleStructType = StructType::create(mLLVMContext, "MCircle");
+    string cirlceFullName = "systems.vos.wisey.compiler.tests.MCircle";
+    StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
     vector<Method*> circleMethods;
     map<string, Field*> circleFields;
     vector<Interface*> circleInterfaces;
     mCircleModel = new Model("MCircle",
+                             cirlceFullName,
                              circleStructType,
                              circleFields,
                              circleMethods,
                              circleInterfaces);
-    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, "model.MCircle.name");
+    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, cirlceFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
-                       "model.MCircle.name");
+                       cirlceFullName + ".name");
 
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    StructType *starStructType = StructType::create(mLLVMContext, "MStar");
+    string starFullName = "systems.vos.wisey.compiler.tests.MStar";
+    StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     map<string, Field*> starFields;
     starFields["mBrightness"] =
@@ -187,7 +200,12 @@ struct ModelTest : public Test {
     starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
     vector<Method*> starMethods;
     vector<Interface*> starInterfaces;
-    mStarModel = new Model("MStar", starStructType, starFields, starMethods, starInterfaces);
+    mStarModel = new Model("MStar",
+                           starFullName,
+                           starStructType,
+                           starFields,
+                           starMethods,
+                           starInterfaces);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
@@ -220,7 +238,7 @@ struct ModelTest : public Test {
 
 TEST_F(ModelTest, modelInstantiationTest) {
   EXPECT_STREQ(mModel->getName().c_str(), "MSquare");
-  EXPECT_STREQ(mModel->getVTableName().c_str(), "model.MSquare.vtable");
+  EXPECT_STREQ(mModel->getVTableName().c_str(), "systems.vos.wisey.compiler.tests.MSquare.vtable");
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
   EXPECT_EQ(mModel->getInterfaces().size(), 2u);
@@ -236,7 +254,7 @@ TEST_F(ModelTest, getSizeTest) {
 
 TEST_F(ModelTest, createRTTITest) {
   GlobalVariable* rtti = mContext.getModule()->
-  getGlobalVariable(mCircleModel->getRTTIVariableName());
+    getGlobalVariable(mCircleModel->getRTTIVariableName());
   ASSERT_EQ(rtti, nullptr);
   
   mCircleModel->createRTTI(mContext);
@@ -294,7 +312,9 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
 
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = bitcast %MSquare* null to %IShape*");
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null "
+               "to %systems.vos.wisey.compiler.tests.IShape*");
   mStringBuffer.clear();
 }
 
@@ -306,7 +326,8 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
   
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = bitcast %MSquare* null to i8*");
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*");
   mStringBuffer.clear();
 
   iterator++;
@@ -316,20 +337,24 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
   
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %2 = bitcast i8* %1 to %ISubShape*");
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ISubShape*");
   mStringBuffer.clear();
 }
 
 TEST_F(ModelTest, getObjectNameGlobalVariableNameTest) {
-  ASSERT_STREQ(mModel->getObjectNameGlobalVariableName().c_str(), "model.MSquare.name");
+  ASSERT_STREQ(mModel->getObjectNameGlobalVariableName().c_str(),
+               "systems.vos.wisey.compiler.tests.MSquare.name");
 }
 
 TEST_F(ModelTest, getTypeTableNameTest) {
-  ASSERT_STREQ(mModel->getTypeTableName().c_str(), "model.MSquare.typetable");
+  ASSERT_STREQ(mModel->getTypeTableName().c_str(),
+               "systems.vos.wisey.compiler.tests.MSquare.typetable");
 }
 
 TEST_F(ModelTest, getRTTIVariableNameTest) {
-  ASSERT_STREQ(mModel->getRTTIVariableName().c_str(), "model.MSquare.rtti");
+  ASSERT_STREQ(mModel->getRTTIVariableName().c_str(),
+               "systems.vos.wisey.compiler.tests.MSquare.rtti");
 }
 
 TEST_F(ModelTest, castToDeathTest) {
@@ -385,13 +410,16 @@ TEST_F(ModelTest, buildTest) {
   
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %buildervar = bitcast i8* %malloccall to %MStar*");
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %buildervar = bitcast i8* %malloccall to "
+               "%systems.vos.wisey.compiler.tests.MStar*");
   mStringBuffer.clear();
   
   iterator++;
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = getelementptr %MStar, %MStar* %buildervar, i32 0, i32 0");
+               "  %0 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
+               "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 0");
   mStringBuffer.clear();
   
   iterator++;
@@ -402,7 +430,8 @@ TEST_F(ModelTest, buildTest) {
   iterator++;
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %1 = getelementptr %MStar, %MStar* %buildervar, i32 0, i32 1");
+               "  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
+               "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 1");
   mStringBuffer.clear();
   
   iterator++;

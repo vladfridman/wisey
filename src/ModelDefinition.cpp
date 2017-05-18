@@ -26,13 +26,14 @@ ModelDefinition::~ModelDefinition() {
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  StructType *structType = StructType::create(llvmContext, "model." + mName);
+  string fullName = context.getPackage() + "." + mName;
+  StructType *structType = StructType::create(llvmContext, fullName);
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
   map<string, Field*> fields = createFields(context, interfaces.size());
   vector<Method*> methods = createMethods(context);
-  Model* model = new Model(mName, structType, fields, methods, interfaces);
+  Model* model = new Model(mName, fullName, structType, fields, methods, interfaces);
 
   context.getScopes().pushScope();
 

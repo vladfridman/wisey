@@ -50,11 +50,16 @@ struct MethodSignatureDeclarationTest : Test {
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
-    StructType* structType = StructType::create(llvmContext, "Interface");
+    string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
+    StructType* structType = StructType::create(llvmContext, interfaceFullName);
     structType->setBody(types);
     vector<MethodSignature*> methodSignatures;
     vector<Interface*> parentInterfaces;
-    mInterface = new Interface("Interface", structType, parentInterfaces, methodSignatures);
+    mInterface = new Interface("IInterface",
+                               interfaceFullName,
+                               structType,
+                               parentInterfaces,
+                               methodSignatures);
   }
   
   ~MethodSignatureDeclarationTest() {

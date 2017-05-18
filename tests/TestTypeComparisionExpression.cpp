@@ -68,7 +68,8 @@ struct TestTypeComparisionExpressionTest : public Test {
     vector<Type*> squareTypes;
     squareTypes.push_back(Type::getInt32Ty(mLLVMContext));
     squareTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    StructType* squareStructType = StructType::create(mLLVMContext, "MSquare");
+    string squareFullName = "systems.vos.wisey.compiler.tests.MSquare";
+    StructType* squareStructType = StructType::create(mLLVMContext, squareFullName);
     squareStructType->setBody(squareTypes);
     map<string, Field*> squareFields;
     ExpressionList fieldArguments;
@@ -95,7 +96,8 @@ struct TestTypeComparisionExpressionTest : public Test {
     squareMethods.push_back(barMethod);
     
     vector<Type*> subShapeInterfaceTypes;
-    StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, "ISubShape");
+    string subShapeFullName = "systems.vos.wisey.compiler.tests.ISubShape";
+    StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, subShapeFullName);
     subShapeIinterfaceStructType->setBody(subShapeInterfaceTypes);
     vector<MethodArgument*> subShapeInterfaceMethodArguments;
     vector<MethodSignature*> subShapeInterfaceMethods;
@@ -109,12 +111,14 @@ struct TestTypeComparisionExpressionTest : public Test {
     subShapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> subShapeParentInterfaces;
     mSubShapeInterface = new Interface("ISubShape",
+                                       subShapeFullName,
                                        subShapeIinterfaceStructType,
                                        subShapeParentInterfaces,
                                        subShapeInterfaceMethods);
     
     vector<Type*> shapeInterfaceTypes;
-    StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, "IShape");
+    string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
+    StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
@@ -129,12 +133,14 @@ struct TestTypeComparisionExpressionTest : public Test {
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mSubShapeInterface);
     mShapeInterface = new Interface("IShape",
+                                    shapeFullName,
                                     shapeIinterfaceStructType,
                                     shapeParentInterfaces,
                                     shapeInterfaceMethods);
     
     vector<Type*> objectInterfaceTypes;
-    StructType* objectInterfaceStructType = StructType::create(mLLVMContext, "IObject");
+    string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
+    StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
@@ -148,16 +154,19 @@ struct TestTypeComparisionExpressionTest : public Test {
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<Interface*> objectParentInterfaces;
     mObjectInterface = new Interface("IObject",
+                                     objectFullName,
                                      objectInterfaceStructType,
                                      objectParentInterfaces,
                                      objectInterfaceMethods);
     
     vector<Type*> carInterfaceTypes;
-    StructType* carInterfaceStructType = StructType::create(mLLVMContext, "ICar");
+    string carFullName = "systems.vos.wisey.compiler.tests.ICar";
+    StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<MethodSignature*> carInterfaceMethods;
     vector<Interface*> carParentInterfaces;
     mCarInterface = new Interface("ICar",
+                                  carFullName,
                                   carInterfaceStructType,
                                   carParentInterfaces,
                                   carInterfaceMethods);
@@ -166,11 +175,13 @@ struct TestTypeComparisionExpressionTest : public Test {
     sqaureInterfaces.push_back(mShapeInterface);
     sqaureInterfaces.push_back(mObjectInterface);
     mSquareModel = new Model("MSquare",
+                             squareFullName,
                              squareStructType,
                              squareFields,
                              squareMethods,
                              sqaureInterfaces);
     
+    string circleFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, "MCircle");
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
@@ -178,6 +189,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     map<string, Field*> circleFields;
     vector<Interface*> circleInterfaces;
     mCircleModel = new Model("MCircle",
+                             circleFullName,
                              circleStructType,
                              circleFields,
                              circleMethods,

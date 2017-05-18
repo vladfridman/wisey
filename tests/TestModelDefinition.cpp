@@ -45,6 +45,7 @@ struct ModelDefinitionTest : public Test {
   NiceMock<MockStatement> mMockStatement;
  
   ModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
     mBlock.getStatements().push_back(&mMockStatement);
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock);
     PrimitiveTypeSpecifier* intTypeSpecifier =
@@ -92,7 +93,8 @@ TEST_F(ModelDefinitionTest, simpleDefinitionTest) {
 }
 
 TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
-  StructType *structType = StructType::create(mLLVMContext, "interface.myinterface");
+  string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
+  StructType *structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<Type*> types;
   Type* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), true);
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
@@ -110,7 +112,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                          0);
   interfaceMethodSignatures.push_back(methodSignature);
   vector<Interface*> parentInterfaces;
-  Interface *interface = new Interface("myinterface",
+  Interface *interface = new Interface("IMyInterface",
+                                       interfaceFullName,
                                        structType,
                                        parentInterfaces,
                                        interfaceMethodSignatures);
@@ -124,14 +127,15 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 
   mContext.addInterface(interface);
   vector<string> interfaces;
-  interfaces.push_back("myinterface");
+  interfaces.push_back("IMyInterface");
   
-  ModelDefinition modelDefinition("mymodel", mFields, mMethodDeclarations, interfaces);
+  ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
   modelDefinition.generateIR(mContext);
   
-  GlobalVariable* vTablePointer = mContext.getModule()->getGlobalVariable("model.mymodel.vtable");
+  GlobalVariable* vTablePointer = mContext.getModule()->
+  getGlobalVariable("systems.vos.wisey.compiler.tests.MModel.vtable");
   
-  EXPECT_NE(vTablePointer, nullptr);
+  ASSERT_NE(vTablePointer, nullptr);
   ASSERT_TRUE(vTablePointer->getType()->getPointerElementType()->isStructTy());
   EXPECT_EQ(vTablePointer->getType()->getPointerElementType()->getStructNumElements(), 1u);
   Constant* vTableInitializer = vTablePointer->getInitializer();
@@ -139,7 +143,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   EXPECT_EQ(vTableInitializer->getType()->getStructNumElements(), 1u);
 
   GlobalVariable* vModelTypesPointer =
-    mContext.getModule()->getGlobalVariable("model.mymodel.typetable");
+    mContext.getModule()->getGlobalVariable("systems.vos.wisey.compiler.tests.MModel.typetable");
   EXPECT_NE(vModelTypesPointer, nullptr);
   ASSERT_TRUE(vModelTypesPointer->getType()->getPointerElementType()->isArrayTy());
   EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 3u);
@@ -147,13 +151,13 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 
 TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   vector<string> interfaces;
-  interfaces.push_back("myinterface");
+  interfaces.push_back("IMyInterface");
   
-  ModelDefinition modelDefinition("mymodel", mFields, mMethodDeclarations, interfaces);
+  ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
   
   EXPECT_EXIT(modelDefinition.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Interface myinterface is not defined");
+              "Error: Interface IMyInterface is not defined");
 }
 
 TEST_F(TestFileSampleRunner, modelDefinitionRunTest) {
