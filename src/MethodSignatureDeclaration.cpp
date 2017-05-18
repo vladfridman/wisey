@@ -15,6 +15,10 @@ using namespace std;
 using namespace wisey;
 
 MethodSignatureDeclaration::~MethodSignatureDeclaration() {
+  for (ITypeSpecifier* typeSpecifier : mThrownExceptions) {
+    delete typeSpecifier;
+  }
+  mThrownExceptions.clear();
   delete mReturnTypeSpecifier;
 }
 
