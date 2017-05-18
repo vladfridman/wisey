@@ -74,9 +74,9 @@ TEST_F(ControllerDefinitionTest, simpleDefinitionTest) {
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   ExpressionList arguments;
   ControllerFieldDeclaration* field1 =
-    new ControllerFieldDeclaration(RECEIVED_FIELD, *longType, "field1", arguments);
+    new ControllerFieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
   ControllerFieldDeclaration* field2 =
-    new ControllerFieldDeclaration(RECEIVED_FIELD, *floatType, "field2", arguments);
+    new ControllerFieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
   mReceivedFields.push_back(field1);
   mReceivedFields.push_back(field2);
   

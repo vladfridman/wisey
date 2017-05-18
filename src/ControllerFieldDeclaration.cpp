@@ -12,11 +12,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ControllerFieldDeclaration::~ControllerFieldDeclaration() {
+  delete mTypeSpecifier;
+}
+
 FieldQualifier ControllerFieldDeclaration::getFieldQualifier() const {
   return mFieldQualifier;
 }
 
-ITypeSpecifier& ControllerFieldDeclaration::getTypeSpecifier() const {
+ITypeSpecifier* ControllerFieldDeclaration::getTypeSpecifier() const {
   return mTypeSpecifier;
 }
 

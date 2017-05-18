@@ -302,7 +302,7 @@ controller_received_field_declaration
   : TRECEIVE type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new ControllerFieldDeclaration(RECEIVED_FIELD, *$2, *$3, arguments);
+      $$ = new ControllerFieldDeclaration(RECEIVED_FIELD, $2, *$3, arguments);
       delete $3;
     }
   ;
@@ -323,12 +323,12 @@ controller_injected_field_declaration
   : TINJECT type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new ControllerFieldDeclaration(INJECTED_FIELD, *$2, *$3, arguments);
+      $$ = new ControllerFieldDeclaration(INJECTED_FIELD, $2, *$3, arguments);
       delete $3;
     }
   | TINJECT type_specifier TFIELDIDENTIFIER '(' call_arguments ')' ';'
     {
-      $$ = new ControllerFieldDeclaration(INJECTED_FIELD, *$2, *$3, *$5);
+      $$ = new ControllerFieldDeclaration(INJECTED_FIELD, $2, *$3, *$5);
       delete $3;
     }
 
@@ -350,7 +350,7 @@ controller_state_field_declaration
   : TSTATE type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new ControllerFieldDeclaration(STATE_FIELD, *$2, *$3, arguments);
+      $$ = new ControllerFieldDeclaration(STATE_FIELD, $2, *$3, arguments);
       delete $3;
     }
   ;

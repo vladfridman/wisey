@@ -29,14 +29,14 @@ typedef enum FieldQualifierEnum {
 class ControllerFieldDeclaration {
   
   FieldQualifier mFieldQualifier;
-  ITypeSpecifier& mTypeSpecifier;
+  ITypeSpecifier* mTypeSpecifier;
   std::string mName;
   ExpressionList mArguments;
   
 public:
   
   ControllerFieldDeclaration(FieldQualifier fieldQualifier,
-                             ITypeSpecifier& typeSpecifier,
+                             ITypeSpecifier* typeSpecifier,
                              std::string name,
                              ExpressionList arguments) :
   mFieldQualifier(fieldQualifier),
@@ -44,11 +44,11 @@ public:
   mName(name),
   mArguments(arguments) { }
   
-  ~ControllerFieldDeclaration() { }
+  ~ControllerFieldDeclaration();
   
   FieldQualifier getFieldQualifier() const;
   
-  ITypeSpecifier& getTypeSpecifier() const;
+  ITypeSpecifier* getTypeSpecifier() const;
   
   std::string getName() const;
   
