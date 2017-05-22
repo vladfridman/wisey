@@ -263,6 +263,7 @@
 		F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
+		F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestMain.cpp */; };
 		F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */; };
 		F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
@@ -658,6 +659,7 @@
 		F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanNotExpression.cpp; path = tests/TestBooleanNotExpression.cpp; sourceTree = "<group>"; };
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
+		F592C9951ED323F7007FB2D0 /* TestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMain.cpp; path = tests/TestMain.cpp; sourceTree = "<group>"; };
 		F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyStatement.cpp; path = tests/TestEmptyStatement.cpp; sourceTree = "<group>"; };
 		F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WhileStatement.cpp; path = src/WhileStatement.cpp; sourceTree = "<group>"; };
 		F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWhileStatement.cpp; path = tests/TestWhileStatement.cpp; sourceTree = "<group>"; };
@@ -866,6 +868,7 @@
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
 				F50FA2F01E2E3B2A00435EEA /* TestLongConstant.cpp */,
 				F5C6FD871E48B7DE0054209D /* TestLongType.cpp */,
+				F592C9951ED323F7007FB2D0 /* TestMain.cpp */,
 				F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */,
 				F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */,
 				F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */,
@@ -1332,6 +1335,7 @@
 				F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */,
 				F5ADB6261E67075400FFC941 /* TestInterface.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
+				F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */,
 				F50427A91E4D226C001CB148 /* LocalStackVariable.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */,

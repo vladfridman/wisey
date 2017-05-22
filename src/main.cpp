@@ -26,18 +26,48 @@ extern int yyparse();
 extern ProgramFile* programFile;
 extern FILE* yyin;
 
-char* getBitcodeOutputFile(int argc, char **argv) {
-  if (argc < 4 || strcmp(argv[2], "-o")) {
-    Log::e("Specify output file using option -o");
-    exit(1);
+struct Arguments {
+  char* outputFile;
+  vector<char*> sourceFiles;
+  
+  Arguments() : outputFile(NULL) {
   }
   
-  if (fopen(argv[3], "w") == NULL) {
-    Log::e(string("Could not open file ") + argv[3] + " for writing");
-    exit(1);
+  ~Arguments() { }
+};
+
+void printSyntaxAndExit() {
+  Log::e("Syntax: wisey -o <bitcode_file> <filename1.yz> <filename2.yz>");
+  exit(1);
+}
+
+Arguments parseArguments(int argc, char **argv) {
+  Arguments arguments;
+  if (argc <= 1) {
+    printSyntaxAndExit();
+  }
+
+  for (int i = 1; i < argc; i++) {
+    if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
+      printSyntaxAndExit();
+    }
+    if (!strcmp(argv[i], "-o") && i == argc - 1) {
+      Log::e("You need to specify the output file name after \"-o\"");
+      exit(1);
+    }
+    if (!strcmp(argv[i], "-o")) {
+      i++;
+      arguments.outputFile = argv[i];
+      continue;
+    }
+    if (strcmp(argv[i] + strlen(argv[i]) - 3, ".yz")) {
+      Log::e("Unknown argument " + string(argv[i]));
+      exit(1);
+    }
+    arguments.sourceFiles.push_back(argv[i]);
   }
   
-  return argv[3];
+  return arguments;
 }
 
 /**
@@ -46,26 +76,19 @@ char* getBitcodeOutputFile(int argc, char **argv) {
 int main(int argc, char **argv) {
   Log::setLogLevel(DEBUGLEVEL);
 
-  if (argc <= 1) {
-    Log::e("Syntax: wisey <filename.yz> -o <bitcode_file>");
-    exit(1);
-  }
-  
-  char* bitcodeFileName = NULL;
-  if (argc > 2) {
-    bitcodeFileName = getBitcodeOutputFile(argc, argv);
-  }
+  Arguments arguments = parseArguments(argc, argv);
   
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
 
-  if (!bitcodeFileName) {
-    Log::i("opening " + string(argv[1]));
+  char* sourceFile = arguments.sourceFiles.front();
+  if (!arguments.outputFile) {
+    Log::i("opening " + string(sourceFile));
   }
 
-  yyin = fopen(argv[1], "r");
+  yyin = fopen(sourceFile, "r");
   if (yyin == NULL) {
-    Log::e(string("File ") + argv[1] + " not found!");
+    Log::e(string("File ") + sourceFile + " not found!");
     exit(1);
   }
   
@@ -81,7 +104,7 @@ int main(int argc, char **argv) {
   
   verifyModule(*context.getModule());
 
-  if (bitcodeFileName == NULL) {
+  if (arguments.outputFile == NULL) {
     context.printAssembly(outs());
     context.runCode();
     fclose(yyin);
@@ -89,7 +112,7 @@ int main(int argc, char **argv) {
   }
 
   std::error_code errorStream;
-  raw_fd_ostream OS(bitcodeFileName, errorStream, sys::fs::OpenFlags::F_None);
+  raw_fd_ostream OS(arguments.outputFile, errorStream, sys::fs::OpenFlags::F_None);
   llvm::WriteBitcodeToFile(context.getModule(), OS);
   fclose(yyin);
   
