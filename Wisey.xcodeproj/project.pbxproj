@@ -660,6 +660,7 @@
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
 		F592C9951ED323F7007FB2D0 /* TestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMain.cpp; path = tests/TestMain.cpp; sourceTree = "<group>"; };
+		F592C9971ED35112007FB2D0 /* IObjectTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectTypeSpecifier.hpp; path = include/wisey/IObjectTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyStatement.cpp; path = tests/TestEmptyStatement.cpp; sourceTree = "<group>"; };
 		F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WhileStatement.cpp; path = src/WhileStatement.cpp; sourceTree = "<group>"; };
 		F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWhileStatement.cpp; path = tests/TestWhileStatement.cpp; sourceTree = "<group>"; };
@@ -1180,6 +1181,7 @@
 				F5089C7B1ECD01D9004A1223 /* IntrinsicFunctions.hpp */,
 				F5089C7C1ECD01D9004A1223 /* IntType.hpp */,
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
+				F592C9971ED35112007FB2D0 /* IObjectTypeSpecifier.hpp */,
 				F5089C7D1ECD01D9004A1223 /* IObjectWithFieldsType.hpp */,
 				F5089C7E1ECD01D9004A1223 /* IObjectWithMethodsType.hpp */,
 				F5089C7F1ECD01D9004A1223 /* IRGenerationContext.hpp */,

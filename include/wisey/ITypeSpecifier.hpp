@@ -15,7 +15,7 @@
 namespace wisey {
 
 /**
- * Interfaces representing a type that could either be a primitive type, a model or a controller
+ * Represents a type specifier that could either be a primitive or an object type
  */
 class ITypeSpecifier : public IHasType { };
 

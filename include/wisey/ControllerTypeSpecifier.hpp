@@ -9,14 +9,14 @@
 #ifndef ControllerTypeSpecifier_h
 #define ControllerTypeSpecifier_h
 
-#include "wisey/ITypeSpecifier.hpp"
+#include "wisey/IObjectTypeSpecifier.hpp"
 
 namespace wisey {
   
 /**
  * Represents CONTROLLER type specifier
  */
-class ControllerTypeSpecifier : public ITypeSpecifier {
+class ControllerTypeSpecifier : public IObjectTypeSpecifier {
   const std::string mName;
   
 public:
@@ -25,7 +25,7 @@ public:
   
   ~ControllerTypeSpecifier() { }
   
-  const std::string getName() const;
+  const std::string getName() const override;
   
   IType* getType(IRGenerationContext& context) const override;
 };
