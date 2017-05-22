@@ -72,3 +72,11 @@ TEST_F(TestMain, runTest) {
   string lastLine = result.substr(result.find("Info: Result"));
   EXPECT_STREQ(lastLine.c_str(), "Info: Result: 7\n");
 }
+
+TEST_F(TestMain, runMultipleFilesTest) {
+  string result = exec("bin/wisey tests/samples/test_multifile/Adder.yz "
+                       "tests/samples/test_multifile/Runner.yz");
+  
+  string lastLine = result.substr(result.find("Info: Result"));
+  EXPECT_STREQ(lastLine.c_str(), "Info: Result: 5\n");
+}

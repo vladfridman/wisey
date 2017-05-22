@@ -81,25 +81,29 @@ int main(int argc, char **argv) {
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
 
-  char* sourceFile = arguments.sourceFiles.front();
-  if (!arguments.outputFile) {
-    Log::i("opening " + string(sourceFile));
-  }
-
-  yyin = fopen(sourceFile, "r");
-  if (yyin == NULL) {
-    Log::e(string("File ") + sourceFile + " not found!");
-    exit(1);
-  }
-  
-  yyparse();
-  
   IRGenerationContext context;
   ProgramPrefix programPrefix;
   ProgramSuffix programSuffix;
   
   programPrefix.generateIR(context);
-  programFile->generateIR(context);
+
+  for (char* sourceFile : arguments.sourceFiles) {
+    if (!arguments.outputFile) {
+      Log::i("opening " + string(sourceFile));
+    }
+    
+    yyin = fopen(sourceFile, "r");
+    if (yyin == NULL) {
+      Log::e(string("File ") + sourceFile + " not found!");
+      exit(1);
+    }
+
+    yyparse();
+    fclose(yyin);
+
+    programFile->generateIR(context);
+  }
+  
   programSuffix.generateIR(context);
   
   verifyModule(*context.getModule());
@@ -107,14 +111,12 @@ int main(int argc, char **argv) {
   if (arguments.outputFile == NULL) {
     context.printAssembly(outs());
     context.runCode();
-    fclose(yyin);
     return 0;
   }
 
   std::error_code errorStream;
   raw_fd_ostream OS(arguments.outputFile, errorStream, sys::fs::OpenFlags::F_None);
   llvm::WriteBitcodeToFile(context.getModule(), OS);
-  fclose(yyin);
   
   return 0;
 }

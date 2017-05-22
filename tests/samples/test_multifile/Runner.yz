@@ -1,0 +1,11 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CProgram implements IProgram {
+  inject CAdder mAdder;
+
+  public int run() {
+    return mAdder.add(3, 2);
+  }
+}
+
+bind(CProgram).to(IProgram);
