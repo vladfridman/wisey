@@ -59,7 +59,7 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
 void IRGenerationContext::addModel(Model* model) {
   string name = model->getName();
   if (mModels.count(name)) {
-    Log::e("Redefinition of MODEL " + name);
+    Log::e("Redefinition of model " + name);
     exit(1);
   }
   
@@ -68,7 +68,7 @@ void IRGenerationContext::addModel(Model* model) {
 
 Model* IRGenerationContext::getModel(string name) {
   if (!mModels.count(name)) {
-    Log::e("MODEL " + name + " is not defined");
+    Log::e("Model " + name + " is not defined");
     exit(1);
   }
 
@@ -78,7 +78,7 @@ Model* IRGenerationContext::getModel(string name) {
 void IRGenerationContext::addController(Controller* controller) {
   string name = controller->getName();
   if (mControllers.count(name)) {
-    Log::e("Redefinition of Controller " + name);
+    Log::e("Redefinition of controller " + name);
     exit(1);
   }
   
@@ -97,7 +97,7 @@ Controller* IRGenerationContext::getController(string name) {
 void IRGenerationContext::addInterface(Interface* interface) {
   string name = interface->getName();
   if (mInterfaces.count(name)) {
-    Log::e("Redefinition of Interface " + name);
+    Log::e("Redefinition of interface " + name);
     exit(1);
   }
   

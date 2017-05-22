@@ -119,13 +119,13 @@ TEST_F(IRGenerationContextTest, modelTypeRedefinedDeathTest) {
   
   EXPECT_EXIT(mContext.addModel(mModel),
               ::testing::ExitedWithCode(1),
-              "Redefinition of MODEL MMyModel");
+              "Redefinition of model MMyModel");
 }
 
 TEST_F(IRGenerationContextTest, modelTypeDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getModel("MMyModel"),
               ::testing::ExitedWithCode(1),
-              "MODEL MMyModel is not defined");
+              "Model MMyModel is not defined");
 }
 
 TEST_F(IRGenerationContextTest, controllerTypeRegistryTest) {
@@ -140,7 +140,7 @@ TEST_F(IRGenerationContextTest, controllerTypeRedefinedDeathTest) {
   
   EXPECT_EXIT(mContext.addController(mController),
               ::testing::ExitedWithCode(1),
-              "Redefinition of Controller CMyController");
+              "Redefinition of controller CMyController");
 }
 
 TEST_F(IRGenerationContextTest, controllerTypeDoesNotExistDeathTest) {
@@ -182,7 +182,7 @@ TEST_F(IRGenerationContextTest, interfaceTypeRedefinedDeathTest) {
   
   EXPECT_EXIT(mContext.addInterface(interface),
               ::testing::ExitedWithCode(1),
-              "Redefinition of Interface IMyInterface");
+              "Redefinition of interface IMyInterface");
 }
 
 TEST_F(IRGenerationContextTest, interfaceTypeDoesNotExistDeathTest) {
