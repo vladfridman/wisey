@@ -28,7 +28,7 @@ GenericValue IRGenerationContext::runCode() {
     delete executionEngine;
     exit(1);
   }
-  Log::i("Running program:");
+  Log::i("Running program");
   GenericValue result = executionEngine->runFunction(mMainFunction, noargs);
   Log::i("Result: " + result.IntVal.toString(10, true));
   delete executionEngine;

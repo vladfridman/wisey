@@ -28,9 +28,10 @@ extern FILE* yyin;
 
 struct Arguments {
   char* outputFile;
+  bool printAssembly;
   vector<char*> sourceFiles;
   
-  Arguments() : outputFile(NULL) {
+  Arguments() : outputFile(NULL), printAssembly(false) {
   }
   
   ~Arguments() { }
@@ -50,6 +51,10 @@ Arguments parseArguments(int argc, char **argv) {
   for (int i = 1; i < argc; i++) {
     if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
       printSyntaxAndExit();
+    }
+    if (!strcmp(argv[i], "--emit-llvm")) {
+      arguments.printAssembly = true;
+      continue;
     }
     if (!strcmp(argv[i], "-o") && i == argc - 1) {
       Log::e("You need to specify the output file name after \"-o\"");
@@ -89,7 +94,7 @@ int main(int argc, char **argv) {
 
   for (char* sourceFile : arguments.sourceFiles) {
     if (!arguments.outputFile) {
-      Log::i("opening " + string(sourceFile));
+      Log::i("Opening " + string(sourceFile));
     }
     
     yyin = fopen(sourceFile, "r");
@@ -108,8 +113,11 @@ int main(int argc, char **argv) {
   
   verifyModule(*context.getModule());
 
-  if (arguments.outputFile == NULL) {
+  if (arguments.printAssembly) {
     context.printAssembly(outs());
+  }
+  
+  if (arguments.outputFile == NULL) {
     context.runCode();
     return 0;
   }

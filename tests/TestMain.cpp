@@ -42,7 +42,7 @@ TEST_F(TestMain, noArgumentsTest) {
 
 TEST_F(TestMain, missingFileTest) {
   EXPECT_STREQ(exec("bin/wisey tests/samples/missingFile.yz 2>&1").c_str(),
-               "Info: opening tests/samples/missingFile.yz\n"
+               "Info: Opening tests/samples/missingFile.yz\n"
                "Error: File tests/samples/missingFile.yz not found!\n");
 }
 
@@ -79,4 +79,12 @@ TEST_F(TestMain, runMultipleFilesTest) {
   
   string lastLine = result.substr(result.find("Info: Result"));
   EXPECT_STREQ(lastLine.c_str(), "Info: Result: 5\n");
+}
+
+TEST_F(TestMain, emitLLVMTest) {
+  string resultWithoutEmitLLVM = exec("bin/wisey tests/samples/test_addition.yz");
+  EXPECT_EQ(resultWithoutEmitLLVM.find("define i32 @main()"), string::npos);
+
+  string resultWithEmitLLVM = exec("bin/wisey --emit-llvm tests/samples/test_addition.yz");
+  EXPECT_NE(resultWithEmitLLVM.find("define i32 @main()"), string::npos);
 }
