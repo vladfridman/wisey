@@ -22,7 +22,7 @@ InterfaceInjector::~InterfaceInjector() {
 
 Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   
-  Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName());
+  Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getType(context)->getName());
   Controller* controller = context.getBoundController(interface);
   ExpressionList arguments;
   Instruction* malloc = controller->inject(context, arguments);
@@ -34,7 +34,7 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
 }
 
 IType* InterfaceInjector::getType(IRGenerationContext& context) const {
-  Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName());
+  Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getType(context)->getName());
   Controller* controller = context.getBoundController(interface);
   return controller;
 }

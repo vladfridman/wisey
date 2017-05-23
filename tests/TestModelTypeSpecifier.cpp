@@ -49,6 +49,5 @@ TEST(ModelTypeSpecifierTest, creationTest) {
 
   ModelTypeSpecifier modelTypeSpecifier("MSquare");
   
-  EXPECT_EQ(modelTypeSpecifier.getName(), "MSquare");
   EXPECT_EQ(modelTypeSpecifier.getType(context), model);
 }

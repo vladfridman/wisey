@@ -58,6 +58,5 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
   
   ControllerTypeSpecifier controllerTypeSpecifier("CMultiplier");
   
-  EXPECT_EQ(controllerTypeSpecifier.getName(), "CMultiplier");
   EXPECT_EQ(controllerTypeSpecifier.getType(context), controller);
 }

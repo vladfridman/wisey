@@ -12,10 +12,6 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-const string InterfaceTypeSpecifier::getName() const {
-  return mName;
-}
-
 IType* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getInterface(mName);
 }

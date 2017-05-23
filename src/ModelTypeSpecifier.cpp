@@ -12,10 +12,6 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-const string ModelTypeSpecifier::getName() const {
-  return mName;
-}
-
 IType* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getModel(mName);
 }

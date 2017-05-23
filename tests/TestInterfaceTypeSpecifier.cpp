@@ -45,6 +45,5 @@ TEST(InterfaceTypeSpecifierTest, creationTest) {
   
   InterfaceTypeSpecifier interfaceTypeSpecifier("IShape");
   
-  EXPECT_EQ(interfaceTypeSpecifier.getName(), "IShape");
   EXPECT_EQ(interfaceTypeSpecifier.getType(context), interface);
 }

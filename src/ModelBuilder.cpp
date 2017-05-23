@@ -25,7 +25,7 @@ ModelBuilder::~ModelBuilder() {
 
 Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   
-  Model* model = context.getModel(mModelTypeSpecifier->getName());
+  Model* model = context.getModel(mModelTypeSpecifier->getType(context)->getName());
   Instruction* malloc = model->build(context, mModelBuilderArgumentList);
   
   LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(), model, malloc);

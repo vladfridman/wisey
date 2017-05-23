@@ -10,14 +10,14 @@
 #ifndef InterfaceTypeSpecifier_h
 #define InterfaceTypeSpecifier_h
 
-#include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
   
 /**
  * Represents Interface type specifier
  */
-class InterfaceTypeSpecifier : public IObjectTypeSpecifier {
+class InterfaceTypeSpecifier : public ITypeSpecifier {
   const std::string mName;
   
 public:
@@ -25,8 +25,6 @@ public:
   InterfaceTypeSpecifier(std::string name) : mName(name) { }
   
   ~InterfaceTypeSpecifier() { }
-  
-  const std::string getName() const override;
   
   IType* getType(IRGenerationContext& context) const override;
 };

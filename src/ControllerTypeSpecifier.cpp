@@ -12,10 +12,6 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-const string ControllerTypeSpecifier::getName() const {
-  return mName;
-}
-
 IType* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getController(mName);
 }
