@@ -61,7 +61,8 @@ public:
     mModel = new Model("MSquare", modelFullName, structType, fields, methods, interfaces);
     mContext.addModel(mModel);
 
-    ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("MSquare");
+    vector<string> package;
+    ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MSquare");
     mCatch = new Catch(typeSpecifier, "mycatch", mMockStatement);
   }
 

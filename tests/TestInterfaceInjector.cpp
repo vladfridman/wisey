@@ -43,8 +43,11 @@ struct InterfaceInjectorTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  InterfaceInjectorTest() : mInterfaceTypeSpecifier(new InterfaceTypeSpecifier("IMyInterface")) {
+  InterfaceInjectorTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
+
+    vector<string> package;
+    mInterfaceTypeSpecifier = new InterfaceTypeSpecifier(package, "IMyInterface");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));

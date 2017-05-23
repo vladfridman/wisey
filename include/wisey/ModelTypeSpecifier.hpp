@@ -19,11 +19,13 @@ namespace wisey {
  * Represents MODEL type specifier
  */
 class ModelTypeSpecifier : public ITypeSpecifier {
+  const std::vector<std::string> mPackage;
   const std::string mName;
 
 public:
   
-  ModelTypeSpecifier(std::string name) : mName(name) { }
+  ModelTypeSpecifier(std::vector<std::string> package, std::string name)
+  : mPackage(package), mName(name) { }
   
   ~ModelTypeSpecifier() { }
 

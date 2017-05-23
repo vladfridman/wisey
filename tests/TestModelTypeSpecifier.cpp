@@ -47,7 +47,8 @@ TEST(ModelTypeSpecifierTest, creationTest) {
   Model* model = new Model("MSquare", modelFullName, structType, fields, methods, interfaces);
   context.addModel(model);
 
-  ModelTypeSpecifier modelTypeSpecifier("MSquare");
+  vector<string> package;
+  ModelTypeSpecifier modelTypeSpecifier(package, "MSquare");
   
   EXPECT_EQ(modelTypeSpecifier.getType(context), model);
 }

@@ -1,7 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
 controller CProgram implements IProgram {
-  inject CAdder mAdder;
+  inject systems.vos.wisey.compiler.tests.CAdder mAdder;
 
   public int run() {
     return mAdder.add(3, 2);

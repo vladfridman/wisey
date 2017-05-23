@@ -18,11 +18,13 @@ namespace wisey {
  * Represents Interface type specifier
  */
 class InterfaceTypeSpecifier : public ITypeSpecifier {
+  const std::vector<std::string> mPackage;
   const std::string mName;
   
 public:
   
-  InterfaceTypeSpecifier(std::string name) : mName(name) { }
+  InterfaceTypeSpecifier(std::vector<std::string> package, std::string name)
+  : mPackage(package), mName(name) { }
   
   ~InterfaceTypeSpecifier() { }
   

@@ -17,11 +17,13 @@ namespace wisey {
  * Represents CONTROLLER type specifier
  */
 class ControllerTypeSpecifier : public ITypeSpecifier {
+  const std::vector<std::string> mPackage;
   const std::string mName;
   
 public:
   
-  ControllerTypeSpecifier(std::string name) : mName(name) { }
+  ControllerTypeSpecifier(std::vector<std::string> package, std::string name)
+  : mPackage(package), mName(name) { }
   
   ~ControllerTypeSpecifier() { }
   

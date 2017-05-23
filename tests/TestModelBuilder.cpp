@@ -41,8 +41,11 @@ struct ModelBuilderTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  ModelBuilderTest() : mModelTypeSpecifier(new ModelTypeSpecifier("MShape")) {
+  ModelBuilderTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
+    
+    vector<string> package;
+    mModelTypeSpecifier = new ModelTypeSpecifier(package, "MShape");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));

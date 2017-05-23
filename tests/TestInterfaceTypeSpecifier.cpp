@@ -43,7 +43,8 @@ TEST(InterfaceTypeSpecifierTest, creationTest) {
                                        methodSignatures);
   context.addInterface(interface);
   
-  InterfaceTypeSpecifier interfaceTypeSpecifier("IShape");
+  vector<string> package;
+  InterfaceTypeSpecifier interfaceTypeSpecifier(package, "IShape");
   
   EXPECT_EQ(interfaceTypeSpecifier.getType(context), interface);
 }

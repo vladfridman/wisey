@@ -56,7 +56,8 @@ TEST(ControllerTypeSpecifierTest, creationTest) {
                                           interfaces);
   context.addController(controller);
   
-  ControllerTypeSpecifier controllerTypeSpecifier("CMultiplier");
+  vector<string> package;
+  ControllerTypeSpecifier controllerTypeSpecifier(package, "CMultiplier");
   
   EXPECT_EQ(controllerTypeSpecifier.getType(context), controller);
 }
