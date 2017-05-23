@@ -7,6 +7,7 @@
 //
 
 #include "wisey/InterfaceDefinition.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -23,7 +24,7 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   
   MethodSignatureDeclaration runMethod(intTypeSpecifier, "run", variableList, thrownExceptions);
   
-  vector<string> parentInterfaces;
+  vector<InterfaceTypeSpecifier*> parentInterfaces;
   vector<MethodSignatureDeclaration *> methodSignatureDeclarations;
   methodSignatureDeclarations.push_back(&runMethod);
   InterfaceDefinition programInterface("IProgram", parentInterfaces, methodSignatureDeclarations);

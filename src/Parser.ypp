@@ -113,6 +113,7 @@
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
   std::vector<wisey::ControllerFieldDeclaration*>* controller_field_vector;
   std::vector<wisey::ITypeSpecifier*>* type_list;
+  std::vector<wisey::InterfaceTypeSpecifier*>* interface_list;
   std::vector<std::string>* identifier_list;
   std::string* string;
   int token;
@@ -180,10 +181,11 @@
 %type <method_signature_vector> method_signature_list method_signature_list_optional
 %type <method_declaration> method_definition
 %type <method_signature> method_signature
-%type <identifier_list> interface_list identifier_chain
+%type <identifier_list> identifier_chain
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
 %type <type_list> exception_type_specifier_list
+%type <interface_list> interface_list
 
 %left '+' '-'
 %left '*' '/'
@@ -234,13 +236,13 @@ bind_action
 interface_definition
   : TINTERFACE TINTERFACEIDENTIFIER '{' method_signature_list_optional '}'
     {
-      std::vector<std::string> interfaceList;
+      std::vector<InterfaceTypeSpecifier*> interfaceList;
       $$ = new InterfaceDefinition(*$2, interfaceList, *$4);
       delete $2;
     }
   | TINTERFACE TINTERFACEIDENTIFIER TEXTENDS interface_list
       '{' method_signature_list_optional '}'
-    { $$ = new InterfaceDefinition(*$2, *$4, *$6); delete $2; }
+    { $$ = new InterfaceDefinition(*$2, *$4, *$6); delete $2; delete $4; }
   ;
 
 method_signature_list_optional
@@ -276,14 +278,14 @@ controller_definition
       '{' controller_received_fields_optional controller_injected_fields_optional
       controller_state_fields_optional method_definition_list_optional '}'
     {
-      std::vector<std::string>* interfaces = new std::vector<std::string>;
-      $$ = new ControllerDefinition(*$2, *$4, *$5, *$6, *$7, *interfaces);
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      $$ = new ControllerDefinition(*$2, *$4, *$5, *$6, *$7, interfaces);
       delete $2;
     }
   | TCONTROLLER TCONTROLLERIDENTIFIER TIMPLEMENTS interface_list
     '{' controller_received_fields_optional controller_injected_fields_optional
       controller_state_fields_optional method_definition_list_optional '}'
-    { $$ = new ControllerDefinition(*$2, *$6, *$7, *$8, *$9, *$4); delete $2; }
+    { $$ = new ControllerDefinition(*$2, *$6, *$7, *$8, *$9, *$4); delete $2; delete $4; }
   ;
 
 controller_received_fields_optional
@@ -359,18 +361,19 @@ model_definition
   : TMODEL TMODELIDENTIFIER '{' model_field_declaration_list_optional
       method_definition_list_optional '}'
     {
-      std::vector<std::string>* interfaces = new std::vector<std::string>;
-      $$ = new ModelDefinition(*$2, *$4, *$5, *interfaces);
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      $$ = new ModelDefinition(*$2, *$4, *$5, interfaces);
       delete $2;
     }
   | TMODEL TMODELIDENTIFIER TIMPLEMENTS interface_list
       '{' model_field_declaration_list_optional method_definition_list_optional '}'
-    { $$ = new ModelDefinition(*$2, *$6, *$7, *$4); delete $2; }
+    { $$ = new ModelDefinition(*$2, *$6, *$7, *$4); delete $2; delete $4; }
   ;
 
 interface_list
-  : TINTERFACEIDENTIFIER { $$ = new std::vector<std::string>; $$->push_back(*$1); delete $1; }
-  | interface_list ',' TINTERFACEIDENTIFIER { $$ = $1; $$->push_back(*$3); delete $3; }
+  : interface_type_specifier 
+    { $$ = new std::vector<wisey::InterfaceTypeSpecifier*>; $$->push_back($1); }
+  | interface_list ',' interface_type_specifier { $$ = $1; $$->push_back($3); }
   ;
 
 model_field_declaration_list_optional

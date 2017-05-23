@@ -70,8 +70,8 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
 vector<Interface*> ControllerDefinition::processInterfaces(IRGenerationContext& context,
                                                            vector<Type*>& types) const {
   vector<Interface*> interfaces;
-  for (string interfaceName : mInterfaces) {
-    Interface* interface = context.getInterface(interfaceName);
+  for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
+    Interface* interface = dynamic_cast<Interface*>(interfaceSpecifier->getType(context));
     types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
     interfaces.push_back(interface);
   }

@@ -11,6 +11,7 @@
 
 #include "wisey/Block.hpp"
 #include "wisey/Identifier.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelFieldDeclaration.hpp"
@@ -22,16 +23,16 @@ namespace wisey {
  */
 class InterfaceDefinition : public IStatement {
   const std::string mName;
-  std::vector<std::string> mParentInterfaceNames;
+  std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;
   
 public:
   
   InterfaceDefinition(std::string name,
-                      std::vector<std::string> parentInterfaceNames,
+                      std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                       std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations) :
   mName(name),
-  mParentInterfaceNames(parentInterfaceNames),
+  mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
   mMethodSignatureDeclarations(methodSignatureDeclarations) { }
   
   ~InterfaceDefinition() { };

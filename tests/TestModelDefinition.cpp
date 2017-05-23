@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/Interface.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -76,7 +77,7 @@ TEST_F(ModelDefinitionTest, simpleDefinitionTest) {
   mFields.push_back(field1);
   mFields.push_back(field2);
   
-  vector<string> interfaces;
+  vector<InterfaceTypeSpecifier*> interfaces;
   ModelDefinition modelDefinition("mymodel", mFields, mMethodDeclarations, interfaces);
 
   EXPECT_CALL(mMockStatement, generateIR(_));
@@ -126,8 +127,9 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      interface->getObjectNameGlobalVariableName());
 
   mContext.addInterface(interface);
-  vector<string> interfaces;
-  interfaces.push_back("IMyInterface");
+  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<string> package;
+  interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
   modelDefinition.generateIR(mContext);
@@ -150,8 +152,9 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 }
 
 TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
-  vector<string> interfaces;
-  interfaces.push_back("IMyInterface");
+  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<string> package;
+  interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
   

@@ -15,6 +15,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/InterfaceDefinition.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -46,7 +47,7 @@ TEST(InterfaceDefinitionTest, simpleDefinitionTest) {
                                                         thrownExceptions);
   vector<MethodSignatureDeclaration *> methods;
   methods.push_back(&methodSignatureDeclaration);
-  vector<string> parentInterfaces;
+  vector<InterfaceTypeSpecifier*> parentInterfaces;
   
   InterfaceDefinition interfaceDefinition("myinterface", parentInterfaces, methods);
   

@@ -11,6 +11,7 @@
 
 #include "wisey/Block.hpp"
 #include "wisey/Identifier.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelFieldDeclaration.hpp"
@@ -24,18 +25,18 @@ class ModelDefinition : public IStatement {
   const std::string mName;
   std::vector<ModelFieldDeclaration*> mFieldDeclarations;
   std::vector<MethodDeclaration*> mMethodDeclarations;
-  std::vector<std::string> mInterfaces;
+  std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ModelDefinition(std::string name,
                   std::vector<ModelFieldDeclaration*> fieldDeclarations,
                   std::vector<MethodDeclaration *> methodDeclarations,
-                  std::vector<std::string> interfaces) :
+                  std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mName(name),
   mFieldDeclarations(fieldDeclarations),
   mMethodDeclarations(methodDeclarations),
-  mInterfaces(interfaces) { }
+  mInterfaceSpecifiers(interfaceSpecifiers) { }
   
   ~ModelDefinition();
   

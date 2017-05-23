@@ -19,6 +19,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/Interface.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -80,7 +81,7 @@ TEST_F(ControllerDefinitionTest, simpleDefinitionTest) {
   mReceivedFields.push_back(field1);
   mReceivedFields.push_back(field2);
   
-  vector<string> interfaces;
+  vector<InterfaceTypeSpecifier*> interfaces;
   ControllerDefinition controllerDefinition("CMyController",
                                             mReceivedFields,
                                             mInjectedFields,

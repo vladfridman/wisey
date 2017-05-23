@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "wisey/ControllerFieldDeclaration.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/MethodDeclaration.hpp"
 
@@ -27,7 +28,7 @@ class ControllerDefinition : public IStatement {
   std::vector<ControllerFieldDeclaration*> mInjectedFieldDeclarations;
   std::vector<ControllerFieldDeclaration*> mStateFieldDeclarations;
   std::vector<MethodDeclaration*> mMethodDeclarations;
-  std::vector<std::string> mInterfaces;
+  std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
@@ -36,13 +37,13 @@ public:
                        std::vector<ControllerFieldDeclaration*> injectedFieldDeclarations,
                        std::vector<ControllerFieldDeclaration*> stateFieldDeclarations,
                        std::vector<MethodDeclaration*> methodDeclarations,
-                       std::vector<std::string> interfaces) :
+                       std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mName(name),
   mReceivedFieldDeclarations(receivedFieldDeclarations),
   mInjectedFieldDeclarations(injectedFieldDeclarations),
   mStateFieldDeclarations(stateFieldDeclarations),
   mMethodDeclarations(methodDeclarations),
-  mInterfaces(interfaces) { }
+  mInterfaceSpecifiers(interfaceSpecifiers) { }
   
   ~ControllerDefinition();
   
