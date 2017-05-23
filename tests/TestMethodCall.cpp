@@ -314,3 +314,9 @@ TEST_F(TestFileSampleRunner, methodExceptionNotHandledDeathTest) {
                          "nor throws it");
 }
 
+TEST_F(TestFileSampleRunner, methodIdentifierChainDeathTest) {
+  expectFailParse("tests/samples/test_identifier_chain.yz",
+                  1,
+                  "Error: Incorrect method call format");
+}
+

@@ -34,6 +34,7 @@
   #include "wisey/InterfaceTypeSpecifier.hpp"
   #include "wisey/IObjectWithMethodsType.hpp"
   #include "wisey/ITypeSpecifier.hpp"
+  #include "wisey/Log.hpp"
   #include "wisey/LogicalAndExpression.hpp"
   #include "wisey/LogicalOrExpression.hpp"
   #include "wisey/LongConstant.hpp"
@@ -141,7 +142,7 @@
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression model_builder method_call
 %type <expression> cast_expression primary_expression assignment unary_expression
-%type <expression> type_comparision_expression
+%type <expression> type_comparision_expression increment_expression
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
 %type <block> block_item_list global_unit_list
@@ -179,7 +180,7 @@
 %type <method_signature_vector> method_signature_list method_signature_list_optional
 %type <method_declaration> method_definition
 %type <method_signature> method_signature
-%type <identifier_list> interface_list
+%type <identifier_list> interface_list identifier_chain
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
 %type <type_list> exception_type_specifier_list
@@ -583,7 +584,7 @@ method_call
   ;
 
 primary_expression
-  : identifier { $<identifier>$ = $1; }
+  : TFIELDIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
   | constant
   | string_literal { $$ = new StringConstant(*$1); delete $1; }
   | model_builder
@@ -591,16 +592,38 @@ primary_expression
   | '(' expression ')' { $$ = $2; }
   ;
 
+identifier_chain
+  : TIDENTIFIER { $$ = new std::vector<std::string>; $$->push_back(*$1); delete $1; }
+  | identifier_chain '.' TIDENTIFIER { $$ = $1; $$->push_back(*$3); delete $3; }
+  ;
+
 postfix_expression
   : primary_expression
   | postfix_expression '.' TIDENTIFIER '(' call_arguments ')'
     { $$ = new MethodCall(*$1, *$3, *$5); delete $3; delete $5; }
-  | postfix_expression TINCOP { $$ = IncrementExpression::newIncrementByOne(*$<identifier>1); }
-  | postfix_expression TDECOP { $$ = IncrementExpression::newDecrementByOne(*$<identifier>1); }
+  | identifier_chain '.' TIDENTIFIER '(' call_arguments ')'
+    { 
+      if ($1->size() > 1) {
+        Log::e("Incorrect method call format");
+        exit(1);
+      }
+      Identifier* identifier = new Identifier($1->front());
+      $$ = new MethodCall(*identifier, *$3, *$5); 
+      delete $1;
+      delete $3; 
+      delete $5; 
+    }
+  ;
+
+increment_expression
+  : postfix_expression
+  | TIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
+  | increment_expression TINCOP { $$ = IncrementExpression::newIncrementByOne(*$<identifier>1); }
+  | increment_expression TDECOP { $$ = IncrementExpression::newDecrementByOne(*$<identifier>1); }
   ;
 
 unary_expression
-  : postfix_expression
+  : increment_expression
   | '-' cast_expression { $$ = new NegateExpression(*$2); }
   | '!' cast_expression { $$ = new BooleanNotExpression(*$2); }
   ;

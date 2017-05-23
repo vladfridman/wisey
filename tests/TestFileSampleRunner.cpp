@@ -61,6 +61,18 @@ void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
   ASSERT_STREQ(expectedResult.c_str(), resultString.c_str());
 }
 
+void TestFileSampleRunner::expectFailParse(string fileName,
+                                           int expectedErrorCode,
+                                           string expectedErrorMessage) {
+  IRGenerationContext context;
+  ProgramPrefix programPrefix;
+  ProgramSuffix programSuffix;
+  
+  EXPECT_EXIT(parseFile(fileName),
+              ::testing::ExitedWithCode(expectedErrorCode),
+              expectedErrorMessage);
+}
+
 void TestFileSampleRunner::expectFailIRGeneration(string fileName,
                                                   int expectedErrorCode,
                                                   string expectedErrorMessage) {

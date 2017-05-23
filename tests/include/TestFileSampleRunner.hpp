@@ -32,6 +32,13 @@ public:
    * Compile and run given file and compare the result
    */
   void compileAndRunFile(std::string fileName, int expectedResult);
+  
+  /**
+   * Call this to run a sample wisey file that is expected to fail at parsing step
+   */
+  void expectFailParse(std::string fileName,
+                       int expectedErrorCode,
+                       std::string expectedErrorMessage);
 
   /**
    * Call this to run a sample wisey file that is expected to fail at IR generation

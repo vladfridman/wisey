@@ -1,0 +1,13 @@
+package systems.vos.wisey.compiler.tests;
+
+model MSystem {
+}
+
+controller CProgram implements IProgram {
+  public int run() {
+    MSystem system = builder(MSystem).build();
+    system.vos.wisey();
+  }
+}
+
+bind(CProgram).to(IProgram);
