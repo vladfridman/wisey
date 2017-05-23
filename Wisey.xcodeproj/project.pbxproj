@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4931E161D140010783D /* TestBreakStatement.cpp */; };
-		F504279A1E4B4275001CB148 /* FieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* FieldReference.cpp */; };
-		F504279B1E4B4275001CB148 /* FieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427991E4B4275001CB148 /* FieldReference.cpp */; };
-		F504279D1E4B5845001CB148 /* TestFieldReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F504279C1E4B5845001CB148 /* TestFieldReference.cpp */; };
 		F50427A81E4D226C001CB148 /* LocalStackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */; };
 		F50427A91E4D226C001CB148 /* LocalStackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */; };
 		F50427AC1E4D2747001CB148 /* LocalHeapVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427AB1E4D2747001CB148 /* LocalHeapVariable.cpp */; };
@@ -367,8 +364,6 @@
 
 /* Begin PBXFileReference section */
 		F501B4931E161D140010783D /* TestBreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBreakStatement.cpp; path = tests/TestBreakStatement.cpp; sourceTree = "<group>"; };
-		F50427991E4B4275001CB148 /* FieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldReference.cpp; path = src/FieldReference.cpp; sourceTree = "<group>"; };
-		F504279C1E4B5845001CB148 /* TestFieldReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldReference.cpp; path = tests/TestFieldReference.cpp; sourceTree = "<group>"; };
 		F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LocalStackVariable.cpp; path = src/LocalStackVariable.cpp; sourceTree = "<group>"; };
 		F50427AB1E4D2747001CB148 /* LocalHeapVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LocalHeapVariable.cpp; path = src/LocalHeapVariable.cpp; sourceTree = "<group>"; };
 		F50427AE1E4DD329001CB148 /* TestLocalStackVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalStackVariable.cpp; path = tests/TestLocalStackVariable.cpp; sourceTree = "<group>"; };
@@ -410,7 +405,6 @@
 		F5089C671ECD01D9004A1223 /* Environment.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Environment.hpp; path = include/wisey/Environment.hpp; sourceTree = "<group>"; };
 		F5089C681ECD01D9004A1223 /* ExpressionStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ExpressionStatement.hpp; path = include/wisey/ExpressionStatement.hpp; sourceTree = "<group>"; };
 		F5089C691ECD01D9004A1223 /* Field.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Field.hpp; path = include/wisey/Field.hpp; sourceTree = "<group>"; };
-		F5089C6A1ECD01D9004A1223 /* FieldReference.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FieldReference.hpp; path = include/wisey/FieldReference.hpp; sourceTree = "<group>"; };
 		F5089C6B1ECD01D9004A1223 /* FloatConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FloatConstant.hpp; path = include/wisey/FloatConstant.hpp; sourceTree = "<group>"; };
 		F5089C6C1ECD01D9004A1223 /* FloatType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FloatType.hpp; path = include/wisey/FloatType.hpp; sourceTree = "<group>"; };
 		F5089C6D1ECD01D9004A1223 /* ForStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ForStatement.hpp; path = include/wisey/ForStatement.hpp; sourceTree = "<group>"; };
@@ -842,7 +836,6 @@
 				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
 				F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */,
 				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
-				F504279C1E4B5845001CB148 /* TestFieldReference.cpp */,
 				F53401051DFEDB620002BF7E /* TestFileSampleRunner.cpp */,
 				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
 				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
@@ -1017,7 +1010,6 @@
 				F57780A41EC673EC0049542D /* EmptyStatement.cpp */,
 				F508E06E1E73076E005D6115 /* Environment.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
-				F50427991E4B4275001CB148 /* FieldReference.cpp */,
 				F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */,
 				F5C6FD7A1E48B64C0054209D /* FloatType.cpp */,
 				F59D82101E0F311B00057FB5 /* ForStatement.cpp */,
@@ -1160,7 +1152,6 @@
 				F5089C671ECD01D9004A1223 /* Environment.hpp */,
 				F5089C681ECD01D9004A1223 /* ExpressionStatement.hpp */,
 				F5089C691ECD01D9004A1223 /* Field.hpp */,
-				F5089C6A1ECD01D9004A1223 /* FieldReference.hpp */,
 				F5089C6B1ECD01D9004A1223 /* FloatConstant.hpp */,
 				F5089C6C1ECD01D9004A1223 /* FloatType.hpp */,
 				F5089C6D1ECD01D9004A1223 /* ForStatement.hpp */,
@@ -1330,7 +1321,6 @@
 				F59D82261E0F6E8800057FB5 /* TestIfStatement.cpp in Sources */,
 				F50FA2AE1E27AFA500435EEA /* TestCaseStatement.cpp in Sources */,
 				F5ADB61D1E5F587300FFC941 /* TestNegateExpression.cpp in Sources */,
-				F504279B1E4B4275001CB148 /* FieldReference.cpp in Sources */,
 				F50FA2F61E2E3B3200435EEA /* TestFloatConstant.cpp in Sources */,
 				F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */,
 				F5ADB6261E67075400FFC941 /* TestInterface.cpp in Sources */,
@@ -1394,7 +1384,6 @@
 				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
 				F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
-				F504279D1E4B5845001CB148 /* TestFieldReference.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
 				F51581251E89B02F009CE419 /* ControllerFieldDeclaration.cpp in Sources */,
@@ -1568,7 +1557,6 @@
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F50FA2D41E2D0AD600435EEA /* ModelFieldDeclaration.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
-				F504279A1E4B4275001CB148 /* FieldReference.cpp in Sources */,
 				F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F5EEDDA01E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
 				F50FA2E51E2E3B0900435EEA /* DoubleConstant.cpp in Sources */,
