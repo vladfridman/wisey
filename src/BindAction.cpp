@@ -13,9 +13,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+BindAction::~BindAction() {
+  delete mContreollerTypeSpecifier;
+  delete mInterfaceTypeSpecifier;
+}
+
 Value* BindAction::generateIR(IRGenerationContext& context) const {
-  Controller* controller = context.getController(mControllerId);
-  Interface* interface = context.getInterface(mInterfaceId);
+  Controller* controller = dynamic_cast<Controller*>(mContreollerTypeSpecifier->getType(context));
+  Interface* interface = dynamic_cast<Interface*>(mInterfaceTypeSpecifier->getType(context));
   context.bindInterfaceToController(interface, controller);
   
   return NULL;

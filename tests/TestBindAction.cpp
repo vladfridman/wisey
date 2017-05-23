@@ -11,6 +11,8 @@
 #include <gtest/gtest.h>
 
 #include "wisey/BindAction.hpp"
+#include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace llvm;
@@ -53,7 +55,12 @@ struct BindActionTest : public Test {
                                  controllerMethods,
                                  controllerInterfaces);
     
-    mBindAction = new BindAction("CMyController", "IMyInterface");
+    vector<string> package;
+    ControllerTypeSpecifier* controllerTypeSpecifier =
+      new ControllerTypeSpecifier(package, "CMyController");
+    InterfaceTypeSpecifier* interfaceTypeSpecifier =
+      new InterfaceTypeSpecifier(package, "IMyInterface");
+    mBindAction = new BindAction(controllerTypeSpecifier, interfaceTypeSpecifier);
 }
   
   ~BindActionTest() { }

@@ -11,6 +11,8 @@
 
 #include <string>
 
+#include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
@@ -19,15 +21,17 @@ namespace wisey {
  * Represents a bind action binding a controller to an interface
  */
 class BindAction : public IStatement {
-  std::string mControllerId;
-  std::string mInterfaceId;
+  ControllerTypeSpecifier* mContreollerTypeSpecifier;
+  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
   
 public:
   
-  BindAction(std::string controllerId, std::string interfaceId)
-  : mControllerId(controllerId), mInterfaceId(interfaceId) { }
+  BindAction(ControllerTypeSpecifier* controllerTypeSpecifier,
+             InterfaceTypeSpecifier* interfaceTypeSpecifier)
+  : mContreollerTypeSpecifier(controllerTypeSpecifier),
+  mInterfaceTypeSpecifier(interfaceTypeSpecifier) { }
   
-  ~BindAction() { }
+  ~BindAction();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

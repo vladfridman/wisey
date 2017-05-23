@@ -229,8 +229,8 @@ global_unit
   ;
 
 bind_action
-  : TBIND '(' TCONTROLLERIDENTIFIER ')' '.' TTO '(' TINTERFACEIDENTIFIER ')' ';'
-    { $$ = new BindAction(*$3, *$8); delete $3; delete $8; }
+  : TBIND '(' controller_type_specifier ')' '.' TTO '(' interface_type_specifier ')' ';'
+    { $$ = new BindAction($3, $8); }
   ;
 
 interface_definition
