@@ -62,7 +62,7 @@ public:
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model("MShape", modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
   }
 
   ~ReturnStatementTest() {

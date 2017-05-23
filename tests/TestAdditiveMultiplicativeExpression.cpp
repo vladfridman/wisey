@@ -104,7 +104,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   vector<Interface*> interfaces;
   map<string, Field*> fields;
   vector<Method*> methods;
-  Model* model = new Model("MShape", modelFullName, structType, fields, methods, interfaces);
+  Model* model = new Model(modelFullName, structType, fields, methods, interfaces);
 
   ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(model));

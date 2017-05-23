@@ -67,7 +67,7 @@ public:
     fields["bar"] = new Field(PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model("MObject", modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -139,7 +139,7 @@ TEST_F(MethodTest, generateIRTest) {
 TEST_F(TestFileSampleRunner, methodMissesThrowsQualifierDeathTest) {
   expectFailIRGeneration("tests/samples/test_missing_throws.yz",
                          1,
-                         "Error: Method doThrow neither handles the exception MException "
-                         "nor throws it");
+                         "Error: Method doThrow neither handles the exception "
+                         "systems.vos.wisey.compiler.tests.MException nor throws it");
 }
 

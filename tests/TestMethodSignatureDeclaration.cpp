@@ -55,11 +55,7 @@ struct MethodSignatureDeclarationTest : Test {
     structType->setBody(types);
     vector<MethodSignature*> methodSignatures;
     vector<Interface*> parentInterfaces;
-    mInterface = new Interface("IInterface",
-                               interfaceFullName,
-                               structType,
-                               parentInterfaces,
-                               methodSignatures);
+    mInterface = new Interface(interfaceFullName, structType, parentInterfaces, methodSignatures);
   }
   
   ~MethodSignatureDeclarationTest() {

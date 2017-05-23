@@ -58,7 +58,7 @@ public:
                                    0);
     methods.push_back(fooMethod);
     vector<Interface*> interfaces;
-    mModel = new Model("MSquare", modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
     mContext.addModel(mModel);
 
     vector<string> package;

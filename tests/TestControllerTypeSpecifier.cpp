@@ -50,8 +50,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
                                         0);
     methods.push_back(multiplyMethod);
     vector<Interface*> interfaces;
-    mController = new Controller("CMultiplier",
-                                 controllerFullName,
+    mController = new Controller(controllerFullName,
                                  structType,
                                  receivedFields,
                                  injectedFields,

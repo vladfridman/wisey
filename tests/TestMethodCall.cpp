@@ -90,7 +90,7 @@ public:
                                    1);
     methods.push_back(barMethod);
     vector<Interface*> interfaces;
-    mModel = new Model("MSquare", modelFullName, mStructType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, mStructType, fields, methods, interfaces);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* mainFunction = Function::Create(functionType,
@@ -127,8 +127,7 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<MethodSignature*> interfaceMethods;
   vector<Interface*> methodInterface;
-  Interface* interface = new Interface("IShape",
-                                       interfaceFullName,
+  Interface* interface = new Interface(interfaceFullName,
                                        structType,
                                        methodInterface,
                                        interfaceMethods);
@@ -146,7 +145,8 @@ TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Method 'lorem' is not found in object 'MSquare'");
+              "Error: Method 'lorem' is not found in object "
+              "'systems.vos.wisey.compiler.tests.MSquare'");
 }
 
 TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
@@ -165,8 +165,8 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Number of arguments for method call 'foo' of the object type 'MSquare' "
-              "is not correct");
+              "Error: Number of arguments for method call 'foo' of the object type "
+              "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
 }
 
 TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
@@ -179,7 +179,8 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: LLVM function implementing object 'MSquare' method 'bar' was not found");
+              "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
+              "method 'bar' was not found");
 }
 
 TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
@@ -205,7 +206,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Call argument types do not match for a call to method 'foo' "
-              "of the object type 'MSquare");
+              "of the object type 'systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(MethodCallTest, modelMethodCallTest) {
@@ -304,14 +305,15 @@ TEST_F(TestFileSampleRunner, methodCallToPrivateMethodViaPublicMethodRunTest) {
 TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
   expectFailIRGeneration("tests/samples/test_private_method_call.yz",
                          1,
-                         "Error: Method 'getDouble\\(\\)' of object 'CService' is private");
+                         "Error: Method 'getDouble\\(\\)' of object "
+                         "'systems.vos.wisey.compiler.tests.CService' is private");
 }
 
 TEST_F(TestFileSampleRunner, methodExceptionNotHandledDeathTest) {
   expectFailIRGeneration("tests/samples/test_method_exception_not_handled.yz",
                          1,
-                         "Error: Method doSomething neither handles the exception MException "
-                         "nor throws it");
+                         "Error: Method doSomething neither handles the exception "
+                         "systems.vos.wisey.compiler.tests.MException nor throws it");
 }
 
 TEST_F(TestFileSampleRunner, methodIdentifierChainDeathTest) {

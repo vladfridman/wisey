@@ -70,7 +70,8 @@ TEST(InterfaceDefinitionTest, simpleInterfaceDefinitionTest) {
   EXPECT_EQ(functionType->getReturnType(), Type::getInt32Ty(llvmContext));
   EXPECT_TRUE(functionType->isVarArg());
   
-  EXPECT_STREQ(interface->getName().c_str(), "IMyInterface");
+  EXPECT_STREQ(interface->getName().c_str(), "systems.vos.wisey.compiler.tests.IMyInterface");
+  EXPECT_STREQ(interface->getShortName().c_str(), "IMyInterface");
 }
 
 TEST_F(TestFileSampleRunner, interfaceDefinitionRunTest) {

@@ -46,11 +46,7 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = context.getPackage() + "." + mName;
   StructType *structType = StructType::create(llvmContext, fullName);
   structType->setBody(types);
-  Interface* interface = new Interface(mName,
-                                       fullName,
-                                       structType,
-                                       parentInterfaces,
-                                       methodSignatures);
+  Interface* interface = new Interface(fullName, structType, parentInterfaces, methodSignatures);
   context.addInterface(interface);
   
   defineInterfaceTypeName(context, interface);

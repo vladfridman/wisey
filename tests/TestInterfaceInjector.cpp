@@ -64,8 +64,7 @@ struct InterfaceInjectorTest : Test {
     controllerStateFields.push_back(fieldRight);
     vector<Method*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    mController = new Controller("CMultiplier",
-                                 controllerFullName,
+    mController = new Controller(controllerFullName,
                                  controllerStructType,
                                  controllerReceivedFields,
                                  controllerInjectedFields,
@@ -78,8 +77,7 @@ struct InterfaceInjectorTest : Test {
     StructType* interfaceStructType = StructType::create(llvmContext, interfaceFullName);
     vector<Interface*> interfaceParentInterfaces;
     vector<MethodSignature*> interfaceMethodSignatures;
-    mInterface = new Interface("IMyInterface",
-                               interfaceFullName,
+    mInterface = new Interface(interfaceFullName,
                                interfaceStructType,
                                interfaceParentInterfaces,
                                interfaceMethodSignatures);

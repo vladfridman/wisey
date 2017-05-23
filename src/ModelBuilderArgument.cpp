@@ -23,8 +23,8 @@ bool ModelBuilderArgument::checkArgument(const Model* model) {
   
   string fieldName = deriveFieldName();
   if (model->findField(fieldName) == NULL) {
-    Log::e("Model builder could not find field '" + fieldName + "' in MODEL '" +
-           model->getName() + "'");
+    Log::e("Model builder could not find field " + fieldName + " in model " +
+           model->getName());
     return false;
   }
   

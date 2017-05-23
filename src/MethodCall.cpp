@@ -183,7 +183,7 @@ string MethodCall::translateObjectMethodToLLVMFunctionName(IObjectWithMethodsTyp
   if (object == NULL) {
     return methodName;
   }
-  return object->getFullName() + "." + methodName;
+  return object->getName() + "." + methodName;
 }
 
 string MethodCall::translateInterfaceMethodToLLVMFunctionName(IObjectWithMethodsType* object,
@@ -192,5 +192,5 @@ string MethodCall::translateInterfaceMethodToLLVMFunctionName(IObjectWithMethods
   if (object == NULL) {
     return methodName;
   }
-  return object->getFullName() + ".interface." + interface->getFullName() + "." + methodName;
+  return object->getName() + ".interface." + interface->getName() + "." + methodName;
 }

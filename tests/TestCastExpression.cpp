@@ -61,8 +61,7 @@ public:
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<MethodSignature*> carInterfaceMethods;
     vector<Interface*> carParentInterfaces;
-    mCarInterface = new Interface("ICar",
-                                  carFullName,
+    mCarInterface = new Interface(carFullName,
                                   carInterfaceStructType,
                                   carParentInterfaces,
                                   carInterfaceMethods);

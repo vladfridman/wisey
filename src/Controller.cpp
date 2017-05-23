@@ -29,7 +29,6 @@ Controller::~Controller() {
 }
 
 Controller::Controller(string name,
-                       string fullName,
                        StructType* structType,
                        vector<Field*> receivedFields,
                        vector<Field*> injectedFields,
@@ -37,7 +36,6 @@ Controller::Controller(string name,
                        vector<Method*> methods,
                        vector<Interface*> interfaces) {
   mName = name;
-  mFullName = fullName;
   mStructType = structType;
   mReceivedFields = receivedFields;
   mInjectedFields = injectedFields;
@@ -76,10 +74,10 @@ void Controller::checkArguments(ExpressionList received) const {
     return;
   }
   if (received.size() < mReceivedFields.size()) {
-    Log::e("Not all received fields of controller '" + mName + "' are initialized.");
+    Log::e("Not all received fields of controller " + mName + " are initialized.");
     exit(1);
   }
-  Log::e("Too many arguments provided when injecting controller '" + mName + "'");
+  Log::e("Too many arguments provided when injecting controller " + mName);
   exit(1);
 }
 
@@ -92,11 +90,11 @@ vector<Interface*> Controller::getFlattenedInterfaceHierarchy() const {
 }
 
 string Controller::getTypeTableName() const {
-  return mFullName + ".typetable";
+  return mName + ".typetable";
 }
 
 string Controller::getVTableName() const {
-  return mFullName + ".vtable";
+  return mName + ".vtable";
 }
 
 Instruction* Controller::createMalloc(IRGenerationContext& context) const {
@@ -160,15 +158,15 @@ Method* Controller::findMethod(std::string methodName) const {
 }
 
 string Controller::getObjectNameGlobalVariableName() const {
-  return mFullName + ".name";
+  return mName + ".name";
 }
 
 string Controller::getName() const {
   return mName;
 }
 
-string Controller::getFullName() const {
-  return mFullName;
+string Controller::getShortName() const {
+  return mName.substr(mName.find_last_of('.') + 1);
 }
 
 llvm::Type* Controller::getLLVMType(LLVMContext& llvmContext) const {

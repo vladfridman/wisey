@@ -33,7 +33,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   vector<Interface*> interfaces = processInterfaces(context, types);
   map<string, Field*> fields = createFields(context, interfaces.size());
   vector<Method*> methods = createMethods(context);
-  Model* model = new Model(mName, fullName, structType, fields, methods, interfaces);
+  Model* model = new Model(fullName, structType, fields, methods, interfaces);
 
   context.getScopes().pushScope();
 

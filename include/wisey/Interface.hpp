@@ -27,7 +27,6 @@ class Model;
  */
 class Interface : public IObjectWithMethodsType {
   std::string mName;
-  std::string mFullName;
   llvm::StructType* mStructType;
   std::vector<Interface*> mParentInterfaces;
   std::vector<MethodSignature*> mMethodSignatures;
@@ -41,7 +40,6 @@ class Interface : public IObjectWithMethodsType {
 public:
   
   Interface(std::string name,
-            std::string fullName,
             llvm::StructType* structType,
             std::vector<Interface*> parentInterfaces,
             std::vector<MethodSignature*> methodSignatures);
@@ -96,7 +94,7 @@ public:
   
   std::string getName() const override;
   
-  std::string getFullName() const override;
+  std::string getShortName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
   

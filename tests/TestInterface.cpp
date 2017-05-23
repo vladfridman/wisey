@@ -45,8 +45,7 @@ struct InterfaceTest : public Test {
     objectStructType->setBody(objectTypes);
     vector<MethodSignature*> objectMethodSignatures;
     vector<Interface*> objectParentInterfaces;
-    mObjectInterface = new Interface("IObject",
-                                     objectFullName,
+    mObjectInterface = new Interface(objectFullName,
                                      objectStructType,
                                      objectParentInterfaces,
                                      objectMethodSignatures);
@@ -67,8 +66,7 @@ struct InterfaceTest : public Test {
     shapeMethodSignatures.push_back(mMethodSignature);
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterface);
-    mShapeInterface = new Interface("IShape",
-                                    shapeFullName,
+    mShapeInterface = new Interface(shapeFullName,
                                     mShapeStructType,
                                     shapeParentInterfaces,
                                     shapeMethodSignatures);
@@ -111,7 +109,8 @@ struct InterfaceTest : public Test {
 };
 
 TEST_F(InterfaceTest, interfaceInstantiationTest) {
-  EXPECT_STREQ(mShapeInterface->getName().c_str(), "IShape");
+  EXPECT_STREQ(mShapeInterface->getName().c_str(), "systems.vos.wisey.compiler.tests.IShape");
+  EXPECT_STREQ(mShapeInterface->getShortName().c_str(), "IShape");
   EXPECT_EQ(mShapeInterface->getTypeKind(), INTERFACE_TYPE);
   EXPECT_EQ(mShapeInterface->getLLVMType(mLLVMContext), mShapeStructType->getPointerTo());
 }
@@ -172,7 +171,7 @@ TEST_F(InterfaceTest, callInstanceOfTest) {
   "\nentry:"
   "\n  %instanceof = call i1 @systems.vos.wisey.compiler.tests.IObject.instanceof("
   "%systems.vos.wisey.compiler.tests.IObject* null, "
-  "i8* getelementptr inbounds ([7 x i8], [7 x i8]* @systems.vos.wisey.compiler.tests.IShape.name, "
+  "i8* getelementptr inbounds ([40 x i8], [40 x i8]* @systems.vos.wisey.compiler.tests.IShape.name, "
   "i32 0, i32 0))\n";
   
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
@@ -199,32 +198,39 @@ TEST_F(InterfaceTest, canAutoCastToTest) {
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_not_implmented.yz",
                          1,
-                         "Error: Method 'getArea' of interface 'IShape' is not "
-                         "implemented by object 'MSquare'");
+                         "Error: Method getArea "
+                         "of interface systems.vos.wisey.compiler.tests.IShape is not "
+                         "implemented by object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodDifferentReturnTypeDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_return_type_doesnot_match.yz",
                          1,
-                         "Error: Method 'getArea' of interface 'IShape' has different "
-                         "return type when implmeneted by object 'MSquare'");
+                         "Error: Method getArea "
+                         "of interface systems.vos.wisey.compiler.tests.IShape has different "
+                         "return type when implmeneted by "
+                         "object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_arguments_dont_match.yz",
                          1,
-                         "Error: Method 'getArea' of interface 'IShape' has different "
-                         "argument types when implmeneted by object 'MSquare'");
+                         "Error: Method getArea "
+                         "of interface systems.vos.wisey.compiler.tests.IShape has different "
+                         "argument types when implmeneted by "
+                         "object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, interfaceExceptionsDoNotReconcileDeathTest) {
   expectFailIRGeneration("tests/samples/test_interface_method_exceptions_dont_reconcile.yz",
                          1,
-                         "Error: Method 'getArea' of object 'MSquare' throws an unexpected "
-                         "exception of type 'MException'\n"
-                         "Error: Exceptions thrown by method 'getArea' of interface 'IShape' "
+                         "Error: Method getArea of "
+                         "object systems.vos.wisey.compiler.tests.MSquare throws an unexpected "
+                         "exception of type systems.vos.wisey.compiler.tests.MException\n"
+                         "Error: Exceptions thrown by method getArea "
+                         "of interface systems.vos.wisey.compiler.tests.IShape "
                          "do not reconcile with exceptions thrown by its implementation "
-                         "in object 'MSquare'");
+                         "in object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, modelImplmenetingInterfaceDefinitionRunTest) {

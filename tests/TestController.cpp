@@ -64,8 +64,7 @@ struct ControllerTest : public Test {
                                                               0);
     calculatorInterfaceMethods.push_back(calculateSignature);
     vector<Interface*> calculatorParentInterfaces;
-    mCalculatorInterface = new Interface("ICalculator",
-                                         calculatorFullName,
+    mCalculatorInterface = new Interface(calculatorFullName,
                                          calculatorIinterfaceStructType,
                                          calculatorParentInterfaces,
                                          calculatorInterfaceMethods);
@@ -79,8 +78,7 @@ struct ControllerTest : public Test {
     scienceCalculatorInterfaceMethods.push_back(calculateSignature);
     vector<Interface*> scienceCalculatorParentInterfaces;
     scienceCalculatorParentInterfaces.push_back(mCalculatorInterface);
-    mScienceCalculatorInterface = new Interface("IScienceCalculator",
-                                                scienceCalculatorFullName,
+    mScienceCalculatorInterface = new Interface(scienceCalculatorFullName,
                                                 scienceCalculatorIinterfaceStructType,
                                                 scienceCalculatorParentInterfaces,
                                                 scienceCalculatorInterfaceMethods);
@@ -100,8 +98,7 @@ struct ControllerTest : public Test {
                                                               0);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<Interface*> objectParentInterfaces;
-    mObjectInterface = new Interface("IObject",
-                                     objectFullName,
+    mObjectInterface = new Interface(objectFullName,
                                      objectInterfaceStructType,
                                      objectParentInterfaces,
                                      objectInterfaceMethods);
@@ -145,8 +142,7 @@ struct ControllerTest : public Test {
     interfaces.push_back(mScienceCalculatorInterface);
     interfaces.push_back(mObjectInterface);
     
-    mMultiplierController = new Controller("CMultiplier",
-                                           multiplierFullName,
+    mMultiplierController = new Controller(multiplierFullName,
                                            mStructType,
                                            receivedFields,
                                            injectedFields,
@@ -170,8 +166,7 @@ struct ControllerTest : public Test {
                                               fieldArguments));
     vector<Method*> additorMethods;
     vector<Interface*> additorInterfaces;
-    mAdditorController = new Controller("CAdditor",
-                                        additorFullName,
+    mAdditorController = new Controller(additorFullName,
                                         additorStructType,
                                         additorReceivedFields,
                                         additorInjectedFields,
@@ -192,8 +187,7 @@ struct ControllerTest : public Test {
     doublerInjectedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments));
     vector<Method*> doublerMethods;
     vector<Interface*> doublerInterfaces;
-    mDoublerController = new Controller("CAdditor",
-                                        doublerFullName,
+    mDoublerController = new Controller(doublerFullName,
                                         doublerStructType,
                                         doublerReceivedFields,
                                         doublerInjectedFields,
@@ -210,8 +204,7 @@ struct ControllerTest : public Test {
     vector<MethodSignature*> vehicleInterfaceMethods;
     vector<IType*> vehicleThrownExceptions;
     vector<Interface*> vehicleParentInterfaces;
-    mVehicleInterface = new Interface("IVehicle",
-                                      vehicleFullName,
+    mVehicleInterface = new Interface(vehicleFullName,
                                       vehicleInterfaceStructType,
                                       vehicleParentInterfaces,
                                       vehicleInterfaceMethods);
@@ -234,8 +227,11 @@ struct ControllerTest : public Test {
   }
 };
 
-TEST_F(ControllerTest, modelInstantiationTest) {
-  EXPECT_STREQ(mMultiplierController->getName().c_str(), "CMultiplier");
+TEST_F(ControllerTest, controllerInstantiationTest) {
+  EXPECT_STREQ(mMultiplierController->getName().c_str(),
+               "systems.vos.wisey.compiler.tests.CMultiplier");
+  EXPECT_STREQ(mMultiplierController->getShortName().c_str(),
+               "CMultiplier");
   EXPECT_STREQ(mMultiplierController->getVTableName().c_str(),
                "systems.vos.wisey.compiler.tests.CMultiplier.vtable");
   EXPECT_EQ(mMultiplierController->getTypeKind(), CONTROLLER_TYPE);
@@ -400,7 +396,8 @@ TEST_F(ControllerTest, testInjectTooFewArgumentsDeathTest) {
   
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
-              "Error: Not all received fields of controller 'CAdditor' are initialized.");
+              "Error: Not all received fields of controller "
+              "systems.vos.wisey.compiler.tests.CAdditor are initialized.");
 }
 
 TEST_F(ControllerTest, testInjectTooManyArgumentsDeathTest) {
@@ -417,5 +414,6 @@ TEST_F(ControllerTest, testInjectTooManyArgumentsDeathTest) {
   
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
-              "Error: Too many arguments provided when injecting controller 'CAdditor'");
+              "Error: Too many arguments provided when injecting controller "
+              "systems.vos.wisey.compiler.tests.CAdditor");
 }

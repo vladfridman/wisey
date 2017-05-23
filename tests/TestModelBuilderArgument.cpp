@@ -46,7 +46,7 @@ struct ModelBuilderArgumentTest : Test {
     fields["mFieldA"] = new Field(PrimitiveTypes::INT_TYPE, "mFieldA", 0, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model("MModel", modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));
@@ -85,7 +85,8 @@ TEST_F(ModelBuilderArgumentTest, misspelledModelBuilderArgumentTest) {
   cerr.rdbuf(errorBuffer.rdbuf());
   
   EXPECT_FALSE(argument.checkArgument(mModel));
-  EXPECT_STREQ("Error: Model builder could not find field 'mFielda' in MODEL 'MModel'\n",
+  EXPECT_STREQ("Error: Model builder could not find field mFielda in "
+               "model systems.vos.wisey.compiler.tests.MModel\n",
                errorBuffer.str().c_str());
   
   cerr.rdbuf(streamBuffer);

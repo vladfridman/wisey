@@ -62,7 +62,7 @@ public:
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model("MShape", modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
   }
 };
 
@@ -126,8 +126,10 @@ TEST_F(TestFileSampleRunner, usingUninitializedHeapVariableRunDeathTest) {
                          "Error: Variable 'color' is used before it has been initialized.");
 }
 
-TEST_F(TestFileSampleRunner, IncompatableHeapVariableTypesInAssignmentRunDeathTest) {
+TEST_F(TestFileSampleRunner, incompatableHeapVariableTypesInAssignmentRunDeathTest) {
   expectFailIRGeneration("tests/samples/test_incompatible_heap_variable_types_in_assignment.yz",
                          1,
-                         "Error: Incopatible types: can not cast from type 'MShape' to 'MColor'");
+                         "Error: Incopatible types: can not cast from type "
+                         "'systems.vos.wisey.compiler.tests.MShape' to "
+                         "'systems.vos.wisey.compiler.tests.MColor'");
 }

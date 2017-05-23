@@ -38,8 +38,7 @@ struct IRGenerationContextTest : public Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<Interface*> interfaceParentInterfaces;
     vector<MethodSignature*> interfaceMethodSignatures;
-    mInterface = new Interface("IMyInterface",
-                               interfaceFullName,
+    mInterface = new Interface(interfaceFullName,
                                interfaceStructType,
                                interfaceParentInterfaces,
                                interfaceMethodSignatures);
@@ -51,8 +50,7 @@ struct IRGenerationContextTest : public Test {
     vector<Field*> controllerStateFields;
     vector<Method*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    mController = new Controller("CMyController",
-                                 controllerFullName,
+    mController = new Controller(controllerFullName,
                                  controllerStructType,
                                  controllerReceivedFields,
                                  controllerInjectedFields,
@@ -65,8 +63,7 @@ struct IRGenerationContextTest : public Test {
     map<string, Field*> modelFields;
     vector<Method*> modelMethods;
     vector<Interface*> modelInterfaces;
-    mModel = new Model("MMyModel",
-                       modelFullName,
+    mModel = new Model(modelFullName,
                        modelStructType,
                        modelFields,
                        modelMethods,
@@ -156,8 +153,7 @@ TEST_F(IRGenerationContextTest, interfaceTypeRegistryTest) {
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<MethodSignature*> methodSignatures;
   vector<Interface*> parentInterfaces;
-  Interface* interface = new Interface("IMyInterface",
-                                       interfaceFullName,
+  Interface* interface = new Interface(interfaceFullName,
                                        structType,
                                        parentInterfaces,
                                        methodSignatures);
@@ -174,8 +170,7 @@ TEST_F(IRGenerationContextTest, interfaceTypeRedefinedDeathTest) {
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<MethodSignature*> methodSignatures;
   vector<Interface*> parentInterfaces;
-  Interface* interface = new Interface("IMyInterface",
-                                       interfaceFullName,
+  Interface* interface = new Interface(interfaceFullName,
                                        structType,
                                        parentInterfaces,
                                        methodSignatures);
@@ -198,7 +193,8 @@ TEST_F(IRGenerationContextTest, getBoundControllerDeathTest) {
   
   EXPECT_EXIT(mContext.getBoundController(mInterface),
               ::testing::ExitedWithCode(1),
-              "Error: No controller is bound to interface IMyInterface");
+              "Error: No controller is bound to "
+              "interface systems.vos.wisey.compiler.tests.IMyInterface");
 }
 
 TEST_F(IRGenerationContextTest, bindInterfaceToControllerTest) {
@@ -218,8 +214,9 @@ TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
 
   EXPECT_EXIT(mContext.bindInterfaceToController(mInterface, mController),
               ::testing::ExitedWithCode(1),
-              "Error: Interface IMyInterface is already bound to CMyController "
-              "and can not be bound to CMyController");
+              "Error: Interface systems.vos.wisey.compiler.tests.IMyInterface "
+              "is already bound to systems.vos.wisey.compiler.tests.CMyController "
+              "and can not be bound to systems.vos.wisey.compiler.tests.CMyController");
 }
 
 TEST_F(IRGenerationContextTest, setPackageDeathTest) {

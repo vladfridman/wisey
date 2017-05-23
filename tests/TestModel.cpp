@@ -101,8 +101,7 @@ struct ModelTest : public Test {
                                                               0);
     subShapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> subShapeParentInterfaces;
-    mSubShapeInterface = new Interface("ISubShape",
-                                       subShapeFullName,
+    mSubShapeInterface = new Interface(subShapeFullName,
                                        subShapeIinterfaceStructType,
                                        subShapeParentInterfaces,
                                        subShapeInterfaceMethods);
@@ -123,8 +122,7 @@ struct ModelTest : public Test {
     shapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mSubShapeInterface);
-    mShapeInterface = new Interface("IShape",
-                                    shapeFullName,
+    mShapeInterface = new Interface(shapeFullName,
                                     shapeIinterfaceStructType,
                                     shapeParentInterfaces,
                                     shapeInterfaceMethods);
@@ -144,8 +142,7 @@ struct ModelTest : public Test {
                                                               0);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<Interface*> objectParentInterfaces;
-    mObjectInterface = new Interface("IObject",
-                                     objectFullName,
+    mObjectInterface = new Interface(objectFullName,
                                      objectInterfaceStructType,
                                      objectParentInterfaces,
                                      objectInterfaceMethods);
@@ -156,8 +153,7 @@ struct ModelTest : public Test {
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<MethodSignature*> carInterfaceMethods;
     vector<Interface*> carParentInterfaces;
-    mCarInterface = new Interface("ICar",
-                                  carFullName,
+    mCarInterface = new Interface(carFullName,
                                   carInterfaceStructType,
                                   carParentInterfaces,
                                   carInterfaceMethods);
@@ -165,7 +161,7 @@ struct ModelTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel = new Model("MSquare", modelFullName, mStructType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, mStructType, fields, methods, interfaces);
 
     string cirlceFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
@@ -174,8 +170,7 @@ struct ModelTest : public Test {
     vector<Method*> circleMethods;
     map<string, Field*> circleFields;
     vector<Interface*> circleInterfaces;
-    mCircleModel = new Model("MCircle",
-                             cirlceFullName,
+    mCircleModel = new Model(cirlceFullName,
                              circleStructType,
                              circleFields,
                              circleMethods,
@@ -200,8 +195,7 @@ struct ModelTest : public Test {
     starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
     vector<Method*> starMethods;
     vector<Interface*> starInterfaces;
-    mStarModel = new Model("MStar",
-                           starFullName,
+    mStarModel = new Model(starFullName,
                            starStructType,
                            starFields,
                            starMethods,
@@ -237,7 +231,8 @@ struct ModelTest : public Test {
 };
 
 TEST_F(ModelTest, modelInstantiationTest) {
-  EXPECT_STREQ(mModel->getName().c_str(), "MSquare");
+  EXPECT_STREQ(mModel->getName().c_str(), "systems.vos.wisey.compiler.tests.MSquare");
+  EXPECT_STREQ(mModel->getShortName().c_str(), "MSquare");
   EXPECT_STREQ(mModel->getVTableName().c_str(), "systems.vos.wisey.compiler.tests.MSquare.vtable");
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
@@ -365,7 +360,8 @@ TEST_F(ModelTest, castToDeathTest) {
 
   EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'MSquare' to 'int'");
+              "Error: Incopatible types: can not cast from "
+              "type 'systems.vos.wisey.compiler.tests.MSquare' to 'int'");
 }
 
 TEST_F(ModelTest, getFlattenedInterfaceHierarchyTest) {
@@ -455,7 +451,8 @@ TEST_F(ModelTest, buildInvalidModelBuilderArgumentsDeathTest) {
   
   const char *expected =
   "Error: Model builder argument should start with 'with'. e.g. .withField\\(value\\)."
-  "\nError: Some arguments for the model 'MStar' builder are not well formed";
+  "\nError: Some arguments for the model systems.vos.wisey.compiler.tests.MStar "
+  "builder are not well formed";
   
   EXPECT_EXIT(mStarModel->build(mContext, argumentList),
               ::testing::ExitedWithCode(1),
@@ -475,7 +472,7 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   argumentList->push_back(argument1);
   argumentList->push_back(argument2);
   
-  const char *expected = "Error: Model builder argument value for field 'mWeight' "
+  const char *expected = "Error: Model builder argument value for field mWeight "
     "does not match its type";
   
   EXPECT_EXIT(mStarModel->build(mContext, argumentList),
@@ -494,8 +491,8 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   argumentList->push_back(argument1);
   
   const char *expected =
-  "Error: Field 'mWeight' is not initialized"
-  "\nError: Some fields of the model 'MStar' are not initialized.";
+  "Error: Field mWeight is not initialized"
+  "\nError: Some fields of the model systems.vos.wisey.compiler.tests.MStar are not initialized.";
   
   EXPECT_EXIT(mStarModel->build(mContext, argumentList),
               ::testing::ExitedWithCode(1),

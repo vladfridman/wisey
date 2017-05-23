@@ -104,7 +104,8 @@ TEST_F(ControllerDefinitionTest, simpleControllerDefinitionTest) {
   EXPECT_TRUE(structType->getNumElements() == 2);
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
-  EXPECT_STREQ(controller->getName().c_str(), "CMyController");
+  EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
+  EXPECT_STREQ(controller->getName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
 }
 
 TEST_F(TestFileSampleRunner, controllerDefinitionSyntaxRunTest) {

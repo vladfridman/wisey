@@ -43,8 +43,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
                                                          interfaces.size() + receivedFields.size() +
                                                          injectedFields.size());
   vector<Method*> methods = createMethods(context);
-  Controller* controller = new Controller(mName,
-                                          fullName,
+  Controller* controller = new Controller(fullName,
                                           structType,
                                           receivedFields,
                                           injectedFields,

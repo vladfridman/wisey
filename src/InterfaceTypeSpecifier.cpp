@@ -15,7 +15,7 @@ using namespace wisey;
 IType* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
   if (!mPackage.size()) {
     IObjectType* object = context.getImport(mName);
-    return context.getInterface(object->getFullName());
+    return context.getInterface(object->getName());
   }
   
   string fullName = "";

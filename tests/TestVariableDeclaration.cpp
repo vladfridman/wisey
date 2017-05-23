@@ -113,7 +113,7 @@ TEST_F(VariableDeclarationTest, heapVariableDeclarationWithoutAssignmentTest) {
   fields["fieldB"] = new Field(PrimitiveTypes::INT_TYPE, "fieldB", 0, fieldArguments);
   vector<Method*> methods;
   vector<Interface*> interfaces;
-  Model* model = new Model("MModel", modelFullName, structType, fields, methods, interfaces);
+  Model* model = new Model(modelFullName, structType, fields, methods, interfaces);
 
   mContext.addModel(model);
   VariableDeclaration declaration(typeSpecifier, identifier);

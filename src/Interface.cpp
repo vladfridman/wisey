@@ -30,12 +30,10 @@ Interface::~Interface() {
 }
 
 Interface::Interface(string name,
-                     string fullName,
                      StructType* structType,
                      vector<Interface*> parentInterfaces,
                      vector<MethodSignature*> methodSignatures) {
   mName = name;
-  mFullName = fullName;
   mStructType = structType;
   mParentInterfaces = parentInterfaces;
   mMethodSignatures = methodSignatures;
@@ -61,8 +59,8 @@ unsigned long Interface::includeInterfaceMethods(Interface* parentInterface,
   for (MethodSignature* methodSignature : inheritedMethods) {
     MethodSignature* existingMethod = findMethod(methodSignature->getName());
     if (existingMethod && !IMethodDescriptor::compare(existingMethod, methodSignature)) {
-      Log::e("Interface '" + mName + "' overrides method '" + existingMethod->getName()
-             + "' of parent interface with a wrong signature.");
+      Log::e("Interface " + mName + " overrides method " + existingMethod->getName()
+             + " of parent interface with a wrong signature.");
       exit(1);
     }
     if (existingMethod) {
@@ -94,11 +92,11 @@ bool Interface::doesExtendInterface(Interface* interface) const {
 }
 
 string Interface::getObjectNameGlobalVariableName() const {
-  return mFullName + ".name";
+  return mName + ".name";
 }
 
 string Interface::getInstanceOfFunctionName() const {
-  return mFullName + ".instanceof";
+  return mName + ".instanceof";
 }
 
 MethodSignature* Interface::findMethod(std::string methodName) const {
@@ -147,31 +145,29 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
   IMethodDescriptor* objectMethodDescriptor =
     object->findMethod(interfaceMethodSignature->getName());
   if (objectMethodDescriptor == NULL) {
-    Log::e("Method '" + interfaceMethodSignature->getName() + "' of interface '" + mName +
-           "' is not implemented by object '" + object->getName() + "'");
+    Log::e("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
+           " is not implemented by object " + object->getName());
     exit(1);
   }
   
   if (objectMethodDescriptor->getReturnType() != interfaceMethodSignature->getReturnType()) {
-    Log::e("Method '" + interfaceMethodSignature->getName() + "' of interface '" + mName +
-           "' has different return type when implmeneted by object '"
-           + object->getName() + "'");
+    Log::e("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
+           " has different return type when implmeneted by object " + object->getName());
     exit(1);
   }
   
   if (doesMethodHaveUnexpectedExceptions(interfaceMethodSignature,
                                          objectMethodDescriptor,
                                          object->getName())) {
-    Log::e("Exceptions thrown by method '" +  interfaceMethodSignature->getName() +
-           "' of interface '" + mName + "' do not reconcile with exceptions thrown by its " +
-           "implementation in object '" + object->getName() + "'");
+    Log::e("Exceptions thrown by method " +  interfaceMethodSignature->getName() +
+           " of interface " + mName + " do not reconcile with exceptions thrown by its " +
+           "implementation in object " + object->getName());
     exit(1);
   }
   
   if (!IMethodDescriptor::compare(objectMethodDescriptor, interfaceMethodSignature)) {
-    Log::e("Method '" + interfaceMethodSignature->getName() + "' of interface '" + mName +
-           "' has different argument types when implmeneted by object '"
-           + object->getName() + "'");
+    Log::e("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
+           " has different argument types when implmeneted by object " + object->getName());
     exit(1);
   }
 
@@ -219,8 +215,8 @@ bool Interface::doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMet
   bool result = false;
   for (IType* objectException : objectMethodDescriptor->getThrownExceptions()) {
     if (!interfaceExceptionsMap.count(objectException->getName())) {
-      Log::e("Method '" + objectMethodDescriptor->getName() + "' of object '" + objectName +
-             "' throws an unexpected exception of type '" + objectException->getName() + "'");
+      Log::e("Method " + objectMethodDescriptor->getName() + " of object " + objectName +
+             " throws an unexpected exception of type " + objectException->getName());
       result = true;
     }
   }
@@ -296,8 +292,8 @@ string Interface::getName() const {
   return mName;
 }
 
-string Interface::getFullName() const {
-  return mFullName;
+string Interface::getShortName() const {
+  return mName.substr(mName.find_last_of('.') + 1);
 }
 
 llvm::Type* Interface::getLLVMType(LLVMContext& llvmContext) const {
@@ -331,7 +327,7 @@ bool Interface::canAutoCastTo(IType* toType) const {
 }
 
 string Interface::getCastFunctionName(IObjectWithMethodsType* toType) const {
-  return "cast." + getFullName() + ".to." + toType->getFullName();
+  return "cast." + getName() + ".to." + toType->getName();
 }
 
 Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {

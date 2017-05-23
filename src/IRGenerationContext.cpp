@@ -57,14 +57,14 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
 }
 
 void IRGenerationContext::addModel(Model* model) {
-  string name = model->getFullName();
+  string name = model->getName();
   if (mModels.count(name)) {
     Log::e("Redefinition of model " + name);
     exit(1);
   }
   
   mModels[name] = model;
-  mImports[model->getName()] = model;
+  mImports[model->getShortName()] = model;
 }
 
 Model* IRGenerationContext::getModel(string name) {
@@ -77,14 +77,14 @@ Model* IRGenerationContext::getModel(string name) {
 }
 
 void IRGenerationContext::addController(Controller* controller) {
-  string name = controller->getFullName();
+  string name = controller->getName();
   if (mControllers.count(name)) {
     Log::e("Redefinition of controller " + name);
     exit(1);
   }
   
   mControllers[name] = controller;
-  mImports[controller->getName()] = controller;
+  mImports[controller->getShortName()] = controller;
 }
 
 Controller* IRGenerationContext::getController(string name) {
@@ -97,14 +97,14 @@ Controller* IRGenerationContext::getController(string name) {
 }
 
 void IRGenerationContext::addInterface(Interface* interface) {
-  string name = interface->getFullName();
+  string name = interface->getName();
   if (mInterfaces.count(name)) {
     Log::e("Redefinition of interface " + name);
     exit(1);
   }
   
   mInterfaces[name] = interface;
-  mImports[interface->getName()] = interface;
+  mImports[interface->getShortName()] = interface;
 }
 
 Interface* IRGenerationContext::getInterface(string name) {
@@ -149,7 +149,7 @@ string IRGenerationContext::getPackage() {
 }
 
 void IRGenerationContext::addImport(IObjectType* object) {
-  mImports[object->getName()] = object;
+  mImports[object->getShortName()] = object;
 }
 
 IObjectType* IRGenerationContext::getImport(string objectName) {

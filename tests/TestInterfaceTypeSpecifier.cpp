@@ -40,11 +40,7 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
                                                            0);
     methodSignatures.push_back(methodSignature);
     vector<Interface*> parentInterfaces;
-    mInterface = new Interface("IShape",
-                               interfaceFullName,
-                               structType,
-                               parentInterfaces,
-                               methodSignatures);
+    mInterface = new Interface(interfaceFullName, structType, parentInterfaces, methodSignatures);
    
     mContext.addInterface(mInterface);
 

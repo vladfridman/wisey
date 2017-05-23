@@ -110,8 +110,7 @@ struct TestTypeComparisionExpressionTest : public Test {
                                                               0);
     subShapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> subShapeParentInterfaces;
-    mSubShapeInterface = new Interface("ISubShape",
-                                       subShapeFullName,
+    mSubShapeInterface = new Interface(subShapeFullName,
                                        subShapeIinterfaceStructType,
                                        subShapeParentInterfaces,
                                        subShapeInterfaceMethods);
@@ -132,8 +131,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     shapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mSubShapeInterface);
-    mShapeInterface = new Interface("IShape",
-                                    shapeFullName,
+    mShapeInterface = new Interface(shapeFullName,
                                     shapeIinterfaceStructType,
                                     shapeParentInterfaces,
                                     shapeInterfaceMethods);
@@ -153,8 +151,7 @@ struct TestTypeComparisionExpressionTest : public Test {
                                                               0);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<Interface*> objectParentInterfaces;
-    mObjectInterface = new Interface("IObject",
-                                     objectFullName,
+    mObjectInterface = new Interface(objectFullName,
                                      objectInterfaceStructType,
                                      objectParentInterfaces,
                                      objectInterfaceMethods);
@@ -165,8 +162,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<MethodSignature*> carInterfaceMethods;
     vector<Interface*> carParentInterfaces;
-    mCarInterface = new Interface("ICar",
-                                  carFullName,
+    mCarInterface = new Interface(carFullName,
                                   carInterfaceStructType,
                                   carParentInterfaces,
                                   carInterfaceMethods);
@@ -174,8 +170,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     vector<Interface*> sqaureInterfaces;
     sqaureInterfaces.push_back(mShapeInterface);
     sqaureInterfaces.push_back(mObjectInterface);
-    mSquareModel = new Model("MSquare",
-                             squareFullName,
+    mSquareModel = new Model(squareFullName,
                              squareStructType,
                              squareFields,
                              squareMethods,
@@ -188,8 +183,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     vector<Method*> circleMethods;
     map<string, Field*> circleFields;
     vector<Interface*> circleInterfaces;
-    mCircleModel = new Model("MCircle",
-                             circleFullName,
+    mCircleModel = new Model(circleFullName,
                              circleStructType,
                              circleFields,
                              circleMethods,

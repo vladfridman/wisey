@@ -33,8 +33,7 @@ struct BindActionTest : public Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<Interface*> interfaceParentInterfaces;
     vector<MethodSignature*> interfaceMethodSignatures;
-    mInterface = new Interface("IMyInterface",
-                               interfaceFullName,
+    mInterface = new Interface(interfaceFullName,
                                interfaceStructType,
                                interfaceParentInterfaces,
                                interfaceMethodSignatures);
@@ -46,8 +45,7 @@ struct BindActionTest : public Test {
     vector<Field*> controllerStateFields;
     vector<Method*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    mController = new Controller("CMyController",
-                                 controllerFullName,
+    mController = new Controller(controllerFullName,
                                  controllerStructType,
                                  controllerReceivedFields,
                                  controllerInjectedFields,

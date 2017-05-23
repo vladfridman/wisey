@@ -25,13 +25,11 @@ Model::~Model() {
 }
 
 Model::Model(string name,
-             string fullName,
              StructType* structType,
              map<string, Field*> fields,
              vector<Method*> methods,
              vector<Interface*> interfaces) {
   mName = name;
-  mFullName = fullName;
   mStructType = structType;
   mFields = fields;
   mMethods = methods;
@@ -86,15 +84,15 @@ Method* Model::findMethod(std::string methodName) const {
 }
 
 string Model::getVTableName() const {
-  return getFullName() + ".vtable";
+  return getName() + ".vtable";
 }
 
 string Model::getObjectNameGlobalVariableName() const {
-  return getFullName() + ".name";
+  return getName() + ".name";
 }
 
 string Model::getTypeTableName() const {
-  return getFullName() + ".typetable";
+  return getName() + ".typetable";
 }
 
 vector<Interface*> Model::getInterfaces() const {
@@ -130,8 +128,8 @@ string Model::getName() const {
   return mName;
 }
 
-string Model::getFullName() const {
-  return mFullName;
+string Model::getShortName() const {
+  return mName.substr(mName.find_last_of('.') + 1);
 }
 
 llvm::Type* Model::getLLVMType(LLVMContext& llvmContext) const {
@@ -251,7 +249,7 @@ void Model::checkArgumentsAreWellFormed(ModelBuilderArgumentList* modelBuilderAr
   }
   
   if (!areArgumentsWellFormed) {
-    Log::e("Some arguments for the model '" + mName + "' builder are not well formed");
+    Log::e("Some arguments for the model " + mName + " builder are not well formed");
     exit(1);
   }
 }
@@ -268,9 +266,9 @@ void Model::checkAllFieldsAreSet(ModelBuilderArgumentList* modelBuilderArgumentL
   }
   
   for (string missingField : missingFields) {
-    Log::e("Field '" + missingField + "' is not initialized");
+    Log::e("Field " + missingField + " is not initialized");
   }
-  Log::e("Some fields of the model '" + mName + "' are not initialized.");
+  Log::e("Some fields of the model " + mName + " are not initialized.");
   exit(1);
 }
 
@@ -299,8 +297,8 @@ void Model::initializeFields(IRGenerationContext& context,
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     if (field->getType() != argumentType) {
-      Log::e("Model builder argument value for field '" + argumentName +
-             "' does not match its type");
+      Log::e("Model builder argument value for field " + argumentName +
+             " does not match its type");
       exit(1);
     }
     IRWriter::newStoreInst(context, argumentValue, fieldPointer);
@@ -343,5 +341,5 @@ void Model::initializeVTable(IRGenerationContext& context,
 }
 
 string Model::getRTTIVariableName() const {
-  return getFullName() + ".rtti";
+  return getName() + ".rtti";
 }

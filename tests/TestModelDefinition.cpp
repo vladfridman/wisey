@@ -90,7 +90,8 @@ TEST_F(ModelDefinitionTest, simpleModelDefinitionTest) {
   EXPECT_TRUE(structType->getNumElements() == 2);
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
-  EXPECT_STREQ(model->getName().c_str(), "MMyModel");
+  EXPECT_STREQ(model->getName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
+  EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
 }
 
 TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
@@ -113,8 +114,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                          0);
   interfaceMethodSignatures.push_back(methodSignature);
   vector<Interface*> parentInterfaces;
-  Interface *interface = new Interface("IMyInterface",
-                                       interfaceFullName,
+  Interface *interface = new Interface(interfaceFullName,
                                        structType,
                                        parentInterfaces,
                                        interfaceMethodSignatures);

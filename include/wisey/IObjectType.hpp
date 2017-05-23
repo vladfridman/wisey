@@ -21,10 +21,9 @@ class IObjectType : public IType {
 public:
   
   /**
-   * Returns full name of the object starting with the package name.
+   * Returns short name of the object without the package name.
    */
-  virtual std::string getFullName() const = 0;
-  
+  virtual std::string getShortName() const = 0;
 };
   
 } /* namespace wisey */

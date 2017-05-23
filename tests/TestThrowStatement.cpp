@@ -47,8 +47,7 @@ struct ThrowStatementTest : public Test {
     vector<Method*> circleMethods;
     map<string, Field*> circleFields;
     vector<Interface*> circleInterfaces;
-    mCircleModel = new Model("MCircle",
-                             circleFullName,
+    mCircleModel = new Model(circleFullName,
                              circleStructType,
                              circleFields,
                              circleMethods,
