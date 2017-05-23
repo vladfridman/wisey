@@ -13,6 +13,17 @@ using namespace std;
 using namespace wisey;
 
 IType* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
-  return context.getController(mName);
+  if (!mPackage.size()) {
+    IObjectType* object = context.getImport(mName);
+    return context.getController(object->getFullName());
+  }
+  
+  string fullName = "";
+  for (string part : mPackage) {
+    fullName.append(part + ".");
+  }
+  fullName.append(mName);
+
+  return context.getController(fullName);
 }
 

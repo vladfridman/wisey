@@ -106,6 +106,7 @@ int main(int argc, char **argv) {
     yyparse();
     fclose(yyin);
 
+    context.clearAndAddDefaultImports();
     programFile->generateIR(context);
   }
   

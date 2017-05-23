@@ -13,5 +13,16 @@ using namespace std;
 using namespace wisey;
 
 IType* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
-  return context.getInterface(mName);
+  if (!mPackage.size()) {
+    IObjectType* object = context.getImport(mName);
+    return context.getInterface(object->getFullName());
+  }
+  
+  string fullName = "";
+  for (string part : mPackage) {
+    fullName.append(part + ".");
+  }
+  fullName.append(mName);
+
+  return context.getInterface(fullName);
 }

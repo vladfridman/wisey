@@ -18,6 +18,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -109,7 +110,7 @@ TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
 TEST_F(IRGenerationContextTest, modelTypeRegistryTest) {
   mContext.addModel(mModel);
   
-  Model* resultModel = mContext.getModel("MMyModel");
+  Model* resultModel = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
   
   EXPECT_EQ(resultModel, mModel);
 }
@@ -119,7 +120,7 @@ TEST_F(IRGenerationContextTest, modelTypeRedefinedDeathTest) {
   
   EXPECT_EXIT(mContext.addModel(mModel),
               ::testing::ExitedWithCode(1),
-              "Redefinition of model MMyModel");
+              "Redefinition of model systems.vos.wisey.compiler.tests.MMyModel");
 }
 
 TEST_F(IRGenerationContextTest, modelTypeDoesNotExistDeathTest) {
@@ -130,7 +131,8 @@ TEST_F(IRGenerationContextTest, modelTypeDoesNotExistDeathTest) {
 
 TEST_F(IRGenerationContextTest, controllerTypeRegistryTest) {
   mContext.addController(mController);
-  Controller* resultController = mContext.getController("CMyController");
+  Controller* resultController =
+    mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
   
   EXPECT_EQ(resultController, mController);
 }
@@ -140,7 +142,7 @@ TEST_F(IRGenerationContextTest, controllerTypeRedefinedDeathTest) {
   
   EXPECT_EXIT(mContext.addController(mController),
               ::testing::ExitedWithCode(1),
-              "Redefinition of controller CMyController");
+              "Redefinition of controller systems.vos.wisey.compiler.tests.CMyController");
 }
 
 TEST_F(IRGenerationContextTest, controllerTypeDoesNotExistDeathTest) {
@@ -160,12 +162,11 @@ TEST_F(IRGenerationContextTest, interfaceTypeRegistryTest) {
                                        parentInterfaces,
                                        methodSignatures);
   mContext.addInterface(interface);
-  Interface* resultInterface = mContext.getInterface("IMyInterface");
+  Interface* resultInterface =
+    mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
   
   ASSERT_NE(resultInterface, nullptr);
-  EXPECT_EQ(mContext.getInterface("IMyInterface")->getLLVMType(mLLVMContext)->
-            getPointerElementType(),
-            structType);
+  EXPECT_EQ(resultInterface->getLLVMType(mLLVMContext)->getPointerElementType(), structType);
 }
 
 TEST_F(IRGenerationContextTest, interfaceTypeRedefinedDeathTest) {
@@ -182,7 +183,7 @@ TEST_F(IRGenerationContextTest, interfaceTypeRedefinedDeathTest) {
   
   EXPECT_EXIT(mContext.addInterface(interface),
               ::testing::ExitedWithCode(1),
-              "Redefinition of interface IMyInterface");
+              "Redefinition of interface systems.vos.wisey.compiler.tests.IMyInterface");
 }
 
 TEST_F(IRGenerationContextTest, interfaceTypeDoesNotExistDeathTest) {
@@ -232,6 +233,31 @@ TEST_F(IRGenerationContextTest, setPackageTest) {
   mContext.setPackage(package);
   
   EXPECT_EQ(mContext.getPackage(), package);
+}
+
+TEST_F(IRGenerationContextTest, addImportTest) {
+  mContext.addImport(mController);
+  
+  ASSERT_EQ(mContext.getImport("CMyController"), mController);
+}
+
+TEST_F(IRGenerationContextTest, getImportDeathTest) {
+  EXPECT_EXIT(mContext.getImport("CMyController"),
+              ::testing::ExitedWithCode(1),
+              "Error: Could not find definition for CMyController");
+}
+
+TEST_F(IRGenerationContextTest, clearAndAddDefaultImportsDeathTest) {
+  ProgramPrefix programPrefix;
+  
+  programPrefix.generateIR(mContext);
+  mContext.addImport(mController);
+  mContext.clearAndAddDefaultImports();
+  
+  EXPECT_NE(mContext.getImport("IProgram"), nullptr);
+  EXPECT_EXIT(mContext.getImport("CMyController"),
+              ::testing::ExitedWithCode(1),
+              "Error: Could not find definition for CMyController");
 }
 
 struct IRGenerationContextRunTest : public ::testing::Test {

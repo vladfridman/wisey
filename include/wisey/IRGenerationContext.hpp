@@ -36,6 +36,7 @@ class IRGenerationContext {
   std::map<std::string, Interface*> mInterfaces;
   std::map<std::string, IType*> mGlobalFunctions;
   std::map<Interface*, Controller*> mBindings;
+  std::map<std::string, IObjectType*> mImports;
   std::string mPackage;
   Scopes mScopes;
 
@@ -127,6 +128,21 @@ public:
    * Get the current package name
    */
   std::string getPackage();
+  
+  /**
+   * Add an import that adds an alias from object's short name to the object
+   */
+  void addImport(IObjectType* object);
+  
+  /**
+   * Returns an imported object given its short name
+   */
+  IObjectType* getImport(std::string objectName);
+  
+  /**
+   * Clears the imports map and adds default imports
+   */
+  void clearAndAddDefaultImports();
   
   /**
    * Return Scopes controller

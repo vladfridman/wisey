@@ -1,4 +1,4 @@
-package systems.vos.wisey.compiler.tests;
+package systems.vos.wisey.compiler.tests.other;
 
 controller CAdder {
   public int add(int a, int b) {

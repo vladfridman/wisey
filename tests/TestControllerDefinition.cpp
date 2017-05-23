@@ -48,6 +48,7 @@ struct ControllerDefinitionTest : public Test {
   NiceMock<MockStatement> mMockStatement;
   
   ControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
     mBlock.getStatements().push_back(&mMockStatement);
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock);
     PrimitiveTypeSpecifier* intTypeSpecifier =
@@ -70,7 +71,7 @@ struct ControllerDefinitionTest : public Test {
   }
 };
 
-TEST_F(ControllerDefinitionTest, simpleDefinitionTest) {
+TEST_F(ControllerDefinitionTest, simpleControllerDefinitionTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   ExpressionList arguments;
@@ -93,9 +94,9 @@ TEST_F(ControllerDefinitionTest, simpleDefinitionTest) {
 
   controllerDefinition.generateIR(mContext);
   
-  ASSERT_NE(mContext.getController("CMyController"), nullptr);
+  ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
 
-  Controller* controller = mContext.getController("CMyController");
+  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
   StructType* structType =
     (StructType*) controller->getLLVMType(mLLVMContext)->getPointerElementType();
   

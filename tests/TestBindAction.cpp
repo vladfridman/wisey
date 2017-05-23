@@ -71,7 +71,7 @@ TEST_F(BindActionTest, bindInterfaceToControllerMissingControllerDeathTest) {
   
   EXPECT_EXIT(mBindAction->generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Controller CMyController is not defined");
+              "Error: Could not find definition for CMyController");
 }
 
 TEST_F(BindActionTest, bindControllerToInterfaceMissingInterfaceDeathTest) {
@@ -79,7 +79,7 @@ TEST_F(BindActionTest, bindControllerToInterfaceMissingInterfaceDeathTest) {
   
   EXPECT_EXIT(mBindAction->generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Interface IMyInterface is not defined");
+              "Error: Could not find definition for IMyInterface");
 }
 
 TEST_F(BindActionTest, generateIRTest) {

@@ -29,9 +29,10 @@ using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
 
-TEST(InterfaceDefinitionTest, simpleDefinitionTest) {
+TEST(InterfaceDefinitionTest, simpleInterfaceDefinitionTest) {
   IRGenerationContext context;
   LLVMContext& llvmContext = context.getLLVMContext();
+  context.setPackage("systems.vos.wisey.compiler.tests");
   
   PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   PrimitiveTypeSpecifier* floatTypeSpecifier =
@@ -49,10 +50,10 @@ TEST(InterfaceDefinitionTest, simpleDefinitionTest) {
   methods.push_back(&methodSignatureDeclaration);
   vector<InterfaceTypeSpecifier*> parentInterfaces;
   
-  InterfaceDefinition interfaceDefinition("myinterface", parentInterfaces, methods);
+  InterfaceDefinition interfaceDefinition("IMyInterface", parentInterfaces, methods);
   
   interfaceDefinition.generateIR(context);
-  Interface* interface = context.getInterface("myinterface");
+  Interface* interface = context.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
   Type* pointerType = interface->getLLVMType(llvmContext);
   
   ASSERT_NE(pointerType, nullptr);
@@ -69,7 +70,7 @@ TEST(InterfaceDefinitionTest, simpleDefinitionTest) {
   EXPECT_EQ(functionType->getReturnType(), Type::getInt32Ty(llvmContext));
   EXPECT_TRUE(functionType->isVarArg());
   
-  EXPECT_STREQ(interface->getName().c_str(), "myinterface");
+  EXPECT_STREQ(interface->getName().c_str(), "IMyInterface");
 }
 
 TEST_F(TestFileSampleRunner, interfaceDefinitionRunTest) {

@@ -28,6 +28,7 @@
   #include "wisey/Identifier.hpp"
   #include "wisey/IfElseStatement.hpp"
   #include "wisey/IfStatement.hpp"
+  #include "wisey/ImportStatement.hpp"
   #include "wisey/IncrementExpression.hpp"
   #include "wisey/IntConstant.hpp"
   #include "wisey/InterfaceDefinition.hpp"
@@ -131,7 +132,7 @@
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
 %token <token> TINTERFACE TIMPLEMENTS TEXTENDS TINSTANCEOF
 %token <token> TCONTROLLER TINJECT TRECEIVE TSTATE
-%token <token> TTHROW TTHROWS TTRY TCATCH TFINALLY TBIND TTO TPACKAGE
+%token <token> TTHROW TTHROWS TTRY TCATCH TFINALLY TBIND TTO TPACKAGE TIMPORT
 
 /**
  * Parsing tree node types
@@ -153,7 +154,7 @@
 %type <statement> global_unit declaration expression_statement iteration_statement
 %type <statement> selection_statement model_definition interface_definition
 %type <statement> controller_definition throw_statement try_catch_statement finally_clause
-%type <statement> bind_action
+%type <statement> bind_action import_statement
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
@@ -226,6 +227,13 @@ global_unit
   | interface_definition
   | controller_definition
   | bind_action
+  | import_statement
+  ;
+
+import_statement
+  : TIMPORT interface_type_specifier ';' { $$ = new ImportStatement($2); }
+  | TIMPORT model_type_specifier ';' { $$ = new ImportStatement($2); }
+  | TIMPORT controller_type_specifier ';' { $$ = new ImportStatement($2); }
   ;
 
 bind_action

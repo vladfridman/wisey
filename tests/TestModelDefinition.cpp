@@ -69,7 +69,7 @@ struct ModelDefinitionTest : public Test {
   }
 };
 
-TEST_F(ModelDefinitionTest, simpleDefinitionTest) {
+TEST_F(ModelDefinitionTest, simpleModelDefinitionTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   ModelFieldDeclaration* field1 = new ModelFieldDeclaration(longType, "field1");
@@ -78,19 +78,19 @@ TEST_F(ModelDefinitionTest, simpleDefinitionTest) {
   mFields.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
-  ModelDefinition modelDefinition("mymodel", mFields, mMethodDeclarations, interfaces);
+  ModelDefinition modelDefinition("MMyModel", mFields, mMethodDeclarations, interfaces);
 
   EXPECT_CALL(mMockStatement, generateIR(_));
   
   modelDefinition.generateIR(mContext);
-  Model* model = mContext.getModel("mymodel");
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
   StructType* structType = (StructType*) model->getLLVMType(mLLVMContext)->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
   EXPECT_TRUE(structType->getNumElements() == 2);
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
-  EXPECT_STREQ(model->getName().c_str(), "mymodel");
+  EXPECT_STREQ(model->getName().c_str(), "MMyModel");
 }
 
 TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
@@ -154,13 +154,18 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
+  package.push_back("systems");
+  package.push_back("vos");
+  package.push_back("wisey");
+  package.push_back("compiler");
+  package.push_back("tests");
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
   
   EXPECT_EXIT(modelDefinition.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Interface IMyInterface is not defined");
+              "Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
 }
 
 TEST_F(TestFileSampleRunner, modelDefinitionRunTest) {

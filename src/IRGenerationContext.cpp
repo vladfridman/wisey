@@ -57,13 +57,14 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
 }
 
 void IRGenerationContext::addModel(Model* model) {
-  string name = model->getName();
+  string name = model->getFullName();
   if (mModels.count(name)) {
     Log::e("Redefinition of model " + name);
     exit(1);
   }
   
   mModels[name] = model;
+  mImports[model->getName()] = model;
 }
 
 Model* IRGenerationContext::getModel(string name) {
@@ -72,17 +73,18 @@ Model* IRGenerationContext::getModel(string name) {
     exit(1);
   }
 
-  return mModels.at(name);
+  return mModels[name];
 }
 
 void IRGenerationContext::addController(Controller* controller) {
-  string name = controller->getName();
+  string name = controller->getFullName();
   if (mControllers.count(name)) {
     Log::e("Redefinition of controller " + name);
     exit(1);
   }
   
   mControllers[name] = controller;
+  mImports[controller->getName()] = controller;
 }
 
 Controller* IRGenerationContext::getController(string name) {
@@ -91,17 +93,18 @@ Controller* IRGenerationContext::getController(string name) {
     exit(1);
   }
   
-  return mControllers.at(name);
+  return mControllers[name];
 }
 
 void IRGenerationContext::addInterface(Interface* interface) {
-  string name = interface->getName();
+  string name = interface->getFullName();
   if (mInterfaces.count(name)) {
     Log::e("Redefinition of interface " + name);
     exit(1);
   }
   
   mInterfaces[name] = interface;
+  mImports[interface->getName()] = interface;
 }
 
 Interface* IRGenerationContext::getInterface(string name) {
@@ -110,7 +113,7 @@ Interface* IRGenerationContext::getInterface(string name) {
     exit(1);
   }
   
-  return mInterfaces.at(name);
+  return mInterfaces[name];
 }
 
 void IRGenerationContext::bindInterfaceToController(Interface* interface, Controller* controller) {
@@ -143,6 +146,23 @@ void IRGenerationContext::setPackage(string package) {
 
 string IRGenerationContext::getPackage() {
   return mPackage;
+}
+
+void IRGenerationContext::addImport(IObjectType* object) {
+  mImports[object->getName()] = object;
+}
+
+IObjectType* IRGenerationContext::getImport(string objectName) {
+  if (!mImports.count(objectName)) {
+    Log::e("Could not find definition for " + objectName);
+    exit(1);
+  }
+  return mImports[objectName];
+}
+
+void IRGenerationContext::clearAndAddDefaultImports() {
+  mImports.clear();
+  addImport(getInterface("wisey.lang.IProgram"));
 }
 
 Scopes& IRGenerationContext::getScopes() {
