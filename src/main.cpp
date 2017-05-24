@@ -6,142 +6,34 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#include <llvm/Bitcode/BitcodeWriter.h>
-#include <llvm/IR/Verifier.h>
-#include <llvm/Support/FileSystem.h>
-#include <llvm/Support/TargetSelect.h>
-#include <llvm-c/Target.h>
-
-#include "wisey/IRGenerationContext.hpp"
+#include "wisey/Compiler.hpp"
+#include "wisey/CompilerArguments.hpp"
+#include "wisey/CompilerArgumentParser.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ProgramFile.hpp"
-#include "wisey/ProgramPrefix.hpp"
-#include "wisey/ProgramSuffix.hpp"
 
-using namespace llvm;
-using namespace std;
 using namespace wisey;
-
-extern int yyparse();
-extern ProgramFile* programFile;
-extern FILE* yyin;
-
-struct Arguments {
-  char* outputFile;
-  bool printAssembly;
-  vector<char*> sourceFiles;
-  
-  Arguments() : outputFile(NULL), printAssembly(false) {
-  }
-  
-  ~Arguments() { }
-};
-
-void printSyntaxAndExit() {
-  Log::e("Syntax: wisey -o <bitcode_file> <filename1.yz> <filename2.yz>");
-  exit(1);
-}
-
-Arguments parseArguments(int argc, char **argv) {
-  Arguments arguments;
-  if (argc <= 1) {
-    printSyntaxAndExit();
-  }
-
-  for (int i = 1; i < argc; i++) {
-    if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
-      printSyntaxAndExit();
-    }
-    if (!strcmp(argv[i], "--emit-llvm")) {
-      arguments.printAssembly = true;
-      continue;
-    }
-    if (!strcmp(argv[i], "-o") && i == argc - 1) {
-      Log::e("You need to specify the output file name after \"-o\"");
-      exit(1);
-    }
-    if (!strcmp(argv[i], "-o")) {
-      i++;
-      arguments.outputFile = argv[i];
-      continue;
-    }
-    if (strcmp(argv[i] + strlen(argv[i]) - 3, ".yz")) {
-      Log::e("Unknown argument " + string(argv[i]));
-      exit(1);
-    }
-    arguments.sourceFiles.push_back(argv[i]);
-  }
-  
-  return arguments;
-}
-
-vector<ProgramFile*> parseFiles(vector<char*> sourceFiles, bool printInfo) {
-  vector<ProgramFile*> results;
-  
-  for (char* sourceFile : sourceFiles) {
-    if (printInfo) {
-      Log::i("Parsing file " + string(sourceFile));
-    }
-    
-    yyin = fopen(sourceFile, "r");
-    if (yyin == NULL) {
-      Log::e(string("File ") + sourceFile + " not found!");
-      exit(1);
-    }
-    yyparse();
-    fclose(yyin);
-    
-    results.push_back(programFile);
-  }
-  
-  return results;
-}
-
-void generateIR(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
-  ProgramPrefix programPrefix;
-  ProgramSuffix programSuffix;
-  
-  programPrefix.generateIR(context);
-  
-  for (ProgramFile* programFile : programFiles) {
-    context.clearAndAddDefaultImports();
-    programFile->generateIR(context);
-  }
-  
-  programSuffix.generateIR(context);
-}
 
 /**
  * Main for running the compiler
  */
 int main(int argc, char **argv) {
   Log::setLogLevel(DEBUGLEVEL);
-
-  Arguments arguments = parseArguments(argc, argv);
-  vector<ProgramFile*> programFiles;
   
-  InitializeNativeTarget();
-  LLVMInitializeNativeAsmPrinter();
-  
-  programFiles = parseFiles(arguments.sourceFiles, !arguments.outputFile);
+  CompilerArgumentParser compilerArgumentParser;
+  CompilerArguments compilerArguents = compilerArgumentParser.parse(argc, argv);
 
-  IRGenerationContext context;
-  generateIR(programFiles, context);
-  
-  verifyModule(*context.getModule());
+  Compiler compiler;
+  compiler.compile(compilerArguents.getSourceFiles(), !compilerArguents.getOutputFile());
 
-  if (arguments.printAssembly) {
-    context.printAssembly(outs());
+  if (compilerArguents.shouldPrintAssembly()) {
+    compiler.printAssembly();
   }
   
-  if (arguments.outputFile == NULL) {
-    context.runCode();
-    return 0;
+  if (compilerArguents.getOutputFile()) {
+    compiler.saveBitcode(compilerArguents.getOutputFile());
+  } else {
+    compiler.run();
   }
-
-  std::error_code errorStream;
-  raw_fd_ostream OS(arguments.outputFile, errorStream, sys::fs::OpenFlags::F_None);
-  llvm::WriteBitcodeToFile(context.getModule(), OS);
   
   return 0;
 }

@@ -341,6 +341,12 @@
 		F5F396DC1E34BFE000F34296 /* ModelBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* ModelBuilderArgument.cpp */; };
 		F5F396DE1E3F898900F34296 /* TestModelBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DD1E3F898900F34296 /* TestModelBuilderArgument.cpp */; };
 		F5F396E01E3F8C5700F34296 /* TestModelBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */; };
+		F5FCAE331ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
+		F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
+		F5FCAE381ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */; };
+		F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */; };
+		F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */; };
+		F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -715,6 +721,13 @@
 		F5F396DA1E34BFE000F34296 /* ModelBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelBuilderArgument.cpp; path = src/ModelBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DD1E3F898900F34296 /* TestModelBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelBuilderArgument.cpp; path = tests/TestModelBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelBuilder.cpp; path = tests/TestModelBuilder.cpp; sourceTree = "<group>"; };
+		F5FCAE2F1ED5BC3C00C69899 /* Compiler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Compiler.hpp; path = include/wisey/Compiler.hpp; sourceTree = "<group>"; };
+		F5FCAE311ED5C31D00C69899 /* CompilerArguments.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompilerArguments.hpp; path = include/wisey/CompilerArguments.hpp; sourceTree = "<group>"; };
+		F5FCAE321ED5C38B00C69899 /* Compiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Compiler.cpp; path = src/Compiler.cpp; sourceTree = "<group>"; };
+		F5FCAE351ED5C56600C69899 /* CompilerArgumentParser.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompilerArgumentParser.hpp; path = include/wisey/CompilerArgumentParser.hpp; sourceTree = "<group>"; };
+		F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompilerArgumentParser.cpp; path = src/CompilerArgumentParser.cpp; sourceTree = "<group>"; };
+		F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompilerArgumentParser.cpp; path = tests/TestCompilerArgumentParser.cpp; sourceTree = "<group>"; };
+		F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompiler.cpp; path = tests/TestCompiler.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -828,6 +841,8 @@
 				F518B5E71EB2240C00577EEB /* TestCatch.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
 				F5C6FD671E48B16F0054209D /* TestCharType.cpp */,
+				F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */,
+				F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */,
 				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
 				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
@@ -999,6 +1014,8 @@
 				F5CB18121EB0D96A007E2E43 /* Catch.cpp */,
 				F531B6591E0DE52F008304F3 /* CharConstant.cpp */,
 				F5C6FD641E48AB3B0054209D /* CharType.cpp */,
+				F5FCAE321ED5C38B00C69899 /* Compiler.cpp */,
+				F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */,
 				F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */,
 				F53401081DFF09230002BF7E /* ConditionalExpression.cpp */,
 				F58B32841E1635850001CC15 /* ContinueStatement.cpp */,
@@ -1141,6 +1158,9 @@
 				F5089C571ECD01D9004A1223 /* Catch.hpp */,
 				F5089C581ECD01D9004A1223 /* CharConstant.hpp */,
 				F5089C591ECD01D9004A1223 /* CharType.hpp */,
+				F5FCAE2F1ED5BC3C00C69899 /* Compiler.hpp */,
+				F5FCAE351ED5C56600C69899 /* CompilerArgumentParser.hpp */,
+				F5FCAE311ED5C31D00C69899 /* CompilerArguments.hpp */,
 				F5089C5A1ECD01D9004A1223 /* CompoundStatement.hpp */,
 				F5089C5B1ECD01D9004A1223 /* ConditionalExpression.hpp */,
 				F5089C5C1ECD01D9004A1223 /* ContinueStatement.hpp */,
@@ -1372,6 +1392,7 @@
 				F50FA2D91E2D324600435EEA /* SwitchStatement.cpp in Sources */,
 				F5F396DC1E34BFE000F34296 /* ModelBuilderArgument.cpp in Sources */,
 				F50427B51E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */,
+				F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */,
 				F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
 				F5B9B1581E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp in Sources */,
@@ -1418,6 +1439,7 @@
 				F5C6FD7E1E48B6810054209D /* TestFloatType.cpp in Sources */,
 				F5C6FD701E48B40F0054209D /* BooleanType.cpp in Sources */,
 				F57085FF1E51F8C9007D627E /* TestMethodCall.cpp in Sources */,
+				F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */,
 				F56AD4A41E9F6D5B0020868C /* TestIObjectWithMethodsType.cpp in Sources */,
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
@@ -1437,6 +1459,7 @@
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
+				F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
 				F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */,
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
@@ -1474,6 +1497,7 @@
 				F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* StringConstant.cpp in Sources */,
+				F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */,
 				F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */,
 				F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F531B6391E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp in Sources */,
@@ -1488,6 +1512,7 @@
 				F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
+				F5FCAE331ED5C38B00C69899 /* Compiler.cpp in Sources */,
 				F50427AC1E4D2747001CB148 /* LocalHeapVariable.cpp in Sources */,
 				F50FA2B71E28BA5600435EEA /* DoStatement.cpp in Sources */,
 				F57086021E5317E8007D627E /* AutoCast.cpp in Sources */,
@@ -1557,6 +1582,7 @@
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F56AD4A11E9F66C40020868C /* IObjectWithMethodsType.cpp in Sources */,
+				F5FCAE381ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */,
 				F5ADB61B1E5F568400FFC941 /* NegateExpression.cpp in Sources */,
