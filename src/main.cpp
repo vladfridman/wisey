@@ -75,26 +75,12 @@ Arguments parseArguments(int argc, char **argv) {
   return arguments;
 }
 
-/**
- * Main for running the compiler
- */
-int main(int argc, char **argv) {
-  Log::setLogLevel(DEBUGLEVEL);
-
-  Arguments arguments = parseArguments(argc, argv);
+vector<ProgramFile*> parseFiles(vector<char*> sourceFiles, bool printInfo) {
+  vector<ProgramFile*> results;
   
-  InitializeNativeTarget();
-  LLVMInitializeNativeAsmPrinter();
-
-  IRGenerationContext context;
-  ProgramPrefix programPrefix;
-  ProgramSuffix programSuffix;
-  
-  programPrefix.generateIR(context);
-
-  for (char* sourceFile : arguments.sourceFiles) {
-    if (!arguments.outputFile) {
-      Log::i("Opening " + string(sourceFile));
+  for (char* sourceFile : sourceFiles) {
+    if (printInfo) {
+      Log::i("Parsing file " + string(sourceFile));
     }
     
     yyin = fopen(sourceFile, "r");
@@ -102,15 +88,45 @@ int main(int argc, char **argv) {
       Log::e(string("File ") + sourceFile + " not found!");
       exit(1);
     }
-
     yyparse();
     fclose(yyin);
+    
+    results.push_back(programFile);
+  }
+  
+  return results;
+}
 
+void generateIR(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
+  ProgramPrefix programPrefix;
+  ProgramSuffix programSuffix;
+  
+  programPrefix.generateIR(context);
+  
+  for (ProgramFile* programFile : programFiles) {
     context.clearAndAddDefaultImports();
     programFile->generateIR(context);
   }
   
   programSuffix.generateIR(context);
+}
+
+/**
+ * Main for running the compiler
+ */
+int main(int argc, char **argv) {
+  Log::setLogLevel(DEBUGLEVEL);
+
+  Arguments arguments = parseArguments(argc, argv);
+  vector<ProgramFile*> programFiles;
+  
+  InitializeNativeTarget();
+  LLVMInitializeNativeAsmPrinter();
+  
+  programFiles = parseFiles(arguments.sourceFiles, !arguments.outputFile);
+
+  IRGenerationContext context;
+  generateIR(programFiles, context);
   
   verifyModule(*context.getModule());
 

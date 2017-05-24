@@ -42,7 +42,7 @@ TEST_F(TestMain, noArgumentsTest) {
 
 TEST_F(TestMain, missingFileTest) {
   EXPECT_STREQ(exec("bin/wisey tests/samples/missingFile.yz 2>&1").c_str(),
-               "Info: Opening tests/samples/missingFile.yz\n"
+               "Info: Parsing file tests/samples/missingFile.yz\n"
                "Error: File tests/samples/missingFile.yz not found!\n");
 }
 
