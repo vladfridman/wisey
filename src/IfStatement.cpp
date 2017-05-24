@@ -12,6 +12,9 @@
 using namespace llvm;
 using namespace wisey;
 
+void IfStatement::prototype(IRGenerationContext& context) const {
+}
+
 Value* IfStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();

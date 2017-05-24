@@ -12,6 +12,12 @@
 using namespace llvm;
 using namespace wisey;
 
+void Block::prototype(IRGenerationContext& context) const {
+  for (IStatement* statement : mStatements) {
+    statement->prototype(context);
+  }
+}
+
 Value* Block::generateIR(IRGenerationContext& context) const {
   for (IStatement* statement : mStatements) {
     statement->generateIR(context);

@@ -17,6 +17,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+void ProgramPrefix::prototype(IRGenerationContext& context) const {
+}
+
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage("wisey.lang");
   PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);

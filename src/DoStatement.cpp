@@ -12,6 +12,9 @@
 using namespace llvm;
 using namespace wisey;
 
+void DoStatement::prototype(IRGenerationContext& context) const {
+}
+
 Value* DoStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();

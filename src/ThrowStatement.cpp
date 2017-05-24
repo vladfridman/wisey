@@ -19,6 +19,9 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+void ThrowStatement::prototype(IRGenerationContext& context) const {
+}
+
 Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   if (expressionType->getTypeKind() != MODEL_TYPE) {

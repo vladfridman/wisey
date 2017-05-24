@@ -11,6 +11,9 @@
 using namespace llvm;
 using namespace wisey;
 
+void ExpressionStatement::prototype(IRGenerationContext& context) const {
+}
+
 Value* ExpressionStatement::generateIR(IRGenerationContext& context) const {
   return expression.generateIR(context);
 }

@@ -24,6 +24,9 @@ ControllerDefinition::~ControllerDefinition() {
   mMethodDeclarations.clear();
 }
 
+void ControllerDefinition::prototype(IRGenerationContext& context) const {
+}
+
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   string fullName = context.getPackage() + "." + mName;

@@ -24,6 +24,9 @@ ModelDefinition::~ModelDefinition() {
   mMethodDeclarations.clear();
 }
 
+void ModelDefinition::prototype(IRGenerationContext& context) const {
+}
+
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   string fullName = context.getPackage() + "." + mName;

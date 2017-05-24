@@ -13,6 +13,9 @@
 using namespace llvm;
 using namespace wisey;
 
+void BreakStatement::prototype(IRGenerationContext& context) const {
+}
+
 Value* BreakStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* breackToBlock = context.getScopes().getBreakToBlock();
   

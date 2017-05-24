@@ -16,6 +16,9 @@ ProgramFile::~ProgramFile() {
   delete mBlock;
 }
 
+void ProgramFile::prototype(IRGenerationContext& context) const {
+}
+
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {
   context.setPackage(mPackage);
   

@@ -12,6 +12,9 @@
 using namespace llvm;
 using namespace wisey;
 
+void WhileStatement::prototype(IRGenerationContext& context) const {
+}
+
 Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();

@@ -17,6 +17,9 @@
 using namespace llvm;
 using namespace wisey;
 
+void ReturnStatement::prototype(IRGenerationContext& context) const {
+}
+
 Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   IType* returnType = context.getScopes().getReturnType();
   if (returnType == NULL) {

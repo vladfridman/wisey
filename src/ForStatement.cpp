@@ -12,6 +12,9 @@
 using namespace llvm;
 using namespace wisey;
 
+void ForStatement::prototype(IRGenerationContext& context) const {
+}
+
 Value* ForStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();

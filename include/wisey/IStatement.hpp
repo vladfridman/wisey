@@ -17,6 +17,13 @@ namespace wisey {
  * Interface representing a wisey language statement
  */
 class IStatement : public INode {
+
+public:
+
+  /**
+   * Generate prototypes of controllers, models and interfaces and their methods
+   */
+  virtual void prototype(IRGenerationContext& context) const = 0;
 };
 
 /**
