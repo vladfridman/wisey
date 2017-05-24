@@ -17,6 +17,7 @@ ProgramFile::~ProgramFile() {
 }
 
 void ProgramFile::prototype(IRGenerationContext& context) const {
+  mBlock->prototype(context);
 }
 
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {
