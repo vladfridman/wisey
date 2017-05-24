@@ -13,11 +13,8 @@ using namespace llvm;
 using namespace wisey;
 
 Value* Block::generateIR(IRGenerationContext& context) const {
-  StatementList::const_iterator it;
-  Value *last = NULL;
-  for (it = mStatements.begin(); it != mStatements.end(); it++) {
-    IStatement *statement = *it;
-    last = statement->generateIR(context);
+  for (IStatement* statement : mStatements) {
+    statement->generateIR(context);
   }
   return NULL;
 }
