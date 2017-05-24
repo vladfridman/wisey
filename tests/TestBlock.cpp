@@ -26,16 +26,31 @@ using namespace wisey;
 using ::testing::_;
 using ::testing::NiceMock;
 
-TEST(BlockTest, simpleTest) {
-  NiceMock<MockStatement> mockStatement1;
-  NiceMock<MockStatement> mockStatement2;
-  IRGenerationContext context;
-  Block block;
-  block.getStatements().push_back(&mockStatement1);
-  block.getStatements().push_back(&mockStatement2);
+struct BlockTest : public ::testing::Test {
+  IRGenerationContext mContext;
+  NiceMock<MockStatement> mMockStatement1;
+  NiceMock<MockStatement> mMockStatement2;
+  Block mBlock;
+
+  BlockTest() { }
+};
+
+TEST_F(BlockTest, prototypeTest) {
+  mBlock.getStatements().push_back(&mMockStatement1);
+  mBlock.getStatements().push_back(&mMockStatement2);
   
-  EXPECT_CALL(mockStatement1, generateIR(_));
-  EXPECT_CALL(mockStatement2, generateIR(_));
+  EXPECT_CALL(mMockStatement1, prototype(_));
+  EXPECT_CALL(mMockStatement2, prototype(_));
   
-  block.generateIR(context);
+  mBlock.prototype(mContext);
+}
+
+TEST_F(BlockTest, generateIRTest) {
+  mBlock.getStatements().push_back(&mMockStatement1);
+  mBlock.getStatements().push_back(&mMockStatement2);
+  
+  EXPECT_CALL(mMockStatement1, generateIR(_));
+  EXPECT_CALL(mMockStatement2, generateIR(_));
+  
+  mBlock.generateIR(mContext);
 }
