@@ -39,10 +39,10 @@ TEST_F(BlockTest, prototypeTest) {
   mBlock.getStatements().push_back(&mMockStatement1);
   mBlock.getStatements().push_back(&mMockStatement2);
   
-  EXPECT_CALL(mMockStatement1, prototype(_));
-  EXPECT_CALL(mMockStatement2, prototype(_));
+  EXPECT_CALL(mMockStatement1, prototypeObjects(_));
+  EXPECT_CALL(mMockStatement2, prototypeObjects(_));
   
-  mBlock.prototype(mContext);
+  mBlock.prototypeObjects(mContext);
 }
 
 TEST_F(BlockTest, generateIRTest) {

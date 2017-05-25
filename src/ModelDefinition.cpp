@@ -24,7 +24,7 @@ ModelDefinition::~ModelDefinition() {
   mMethodDeclarations.clear();
 }
 
-void ModelDefinition::prototype(IRGenerationContext& context) const {
+void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {

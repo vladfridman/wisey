@@ -19,7 +19,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-void ProgramSuffix::prototype(IRGenerationContext& context) const {
+void ProgramSuffix::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {

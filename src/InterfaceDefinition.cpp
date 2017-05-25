@@ -17,7 +17,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-void InterfaceDefinition::prototype(IRGenerationContext& context) const {
+void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {

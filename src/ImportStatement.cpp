@@ -17,7 +17,7 @@ ImportStatement::~ImportStatement() {
   delete mTypeSpecifier;
 }
 
-void ImportStatement::prototype(IRGenerationContext& context) const {
+void ImportStatement::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* ImportStatement::generateIR(IRGenerationContext& context) const {

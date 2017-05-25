@@ -13,7 +13,7 @@
 using namespace llvm;
 using namespace wisey;
 
-void BreakStatement::prototype(IRGenerationContext& context) const {
+void BreakStatement::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* BreakStatement::generateIR(IRGenerationContext& context) const {

@@ -45,9 +45,9 @@ struct ProgramFileTest : public Test {
 
 TEST_F(ProgramFileTest, prototypeTest) {
   mBlock->getStatements().push_back(&mStatement);
-  EXPECT_CALL(mStatement, prototype(_)).Times(1);
+  EXPECT_CALL(mStatement, prototypeObjects(_)).Times(1);
   
-  mProgramFile->prototype(mContext);
+  mProgramFile->prototypeObjects(mContext);
 }
 
 TEST_F(ProgramFileTest, generateIRTest) {

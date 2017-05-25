@@ -19,7 +19,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-void TryCatchStatement::prototype(IRGenerationContext& context) const {
+void TryCatchStatement::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {

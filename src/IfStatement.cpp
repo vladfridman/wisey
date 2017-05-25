@@ -12,7 +12,7 @@
 using namespace llvm;
 using namespace wisey;
 
-void IfStatement::prototype(IRGenerationContext& context) const {
+void IfStatement::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* IfStatement::generateIR(IRGenerationContext& context) const {

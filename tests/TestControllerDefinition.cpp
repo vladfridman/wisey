@@ -91,10 +91,10 @@ struct ControllerDefinitionTest : public Test {
   }
 };
 
-TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeTest) {
+TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
   EXPECT_CALL(mMockStatement, generateIR(_)).Times(0);
 
-  mControllerDefinition->prototype(mContext);
+  mControllerDefinition->prototypeObjects(mContext);
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
 
@@ -108,7 +108,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeTest) {
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   EXPECT_CALL(mMockStatement, generateIR(_));
   
-  mControllerDefinition->prototype(mContext);
+  mControllerDefinition->prototypeObjects(mContext);
   mControllerDefinition->generateIR(mContext);
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);

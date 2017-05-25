@@ -24,7 +24,7 @@ ControllerDefinition::~ControllerDefinition() {
   mMethodDeclarations.clear();
 }
 
-void ControllerDefinition::prototype(IRGenerationContext& context) const {
+void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
   string fullName = context.getPackage() + "." + mName;
   vector<Field*> fields;
   vector<Method*> methods;

@@ -19,7 +19,7 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-void ThrowStatement::prototype(IRGenerationContext& context) const {
+void ThrowStatement::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* ThrowStatement::generateIR(IRGenerationContext& context) const {

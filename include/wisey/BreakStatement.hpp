@@ -25,7 +25,7 @@ public:
   
   ~BreakStatement() { }
   
-  void prototype(IRGenerationContext& context) const override;
+  void prototypeObjects(IRGenerationContext& context) const override;
 
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

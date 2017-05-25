@@ -13,7 +13,7 @@
 using namespace llvm;
 using namespace wisey;
 
-void ContinueStatement::prototype(IRGenerationContext& context) const {
+void ContinueStatement::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* ContinueStatement::generateIR(IRGenerationContext& context) const {

@@ -16,10 +16,10 @@ ProgramFile::~ProgramFile() {
   delete mBlock;
 }
 
-void ProgramFile::prototype(IRGenerationContext& context) const {
+void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
   context.setPackage(mPackage);
 
-  mBlock->prototype(context);
+  mBlock->prototypeObjects(context);
 }
 
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {

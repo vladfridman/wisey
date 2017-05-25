@@ -18,7 +18,7 @@ BindAction::~BindAction() {
   delete mInterfaceTypeSpecifier;
 }
 
-void BindAction::prototype(IRGenerationContext& context) const {
+void BindAction::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* BindAction::generateIR(IRGenerationContext& context) const {

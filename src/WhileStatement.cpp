@@ -12,7 +12,7 @@
 using namespace llvm;
 using namespace wisey;
 
-void WhileStatement::prototype(IRGenerationContext& context) const {
+void WhileStatement::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* WhileStatement::generateIR(IRGenerationContext& context) const {

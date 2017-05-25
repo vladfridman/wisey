@@ -21,9 +21,9 @@ class IStatement : public INode {
 public:
 
   /**
-   * Generate prototypes of controllers, models and interfaces and their methods
+   * Generate prototypes of controllers, models and interfaces without any methods or fields
    */
-  virtual void prototype(IRGenerationContext& context) const = 0;
+  virtual void prototypeObjects(IRGenerationContext& context) const = 0;
 };
 
 /**

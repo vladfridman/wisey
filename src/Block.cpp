@@ -12,9 +12,9 @@
 using namespace llvm;
 using namespace wisey;
 
-void Block::prototype(IRGenerationContext& context) const {
+void Block::prototypeObjects(IRGenerationContext& context) const {
   for (IStatement* statement : mStatements) {
-    statement->prototype(context);
+    statement->prototypeObjects(context);
   }
 }
 

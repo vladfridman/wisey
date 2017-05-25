@@ -17,7 +17,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-void ProgramPrefix::prototype(IRGenerationContext& context) const {
+void ProgramPrefix::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {

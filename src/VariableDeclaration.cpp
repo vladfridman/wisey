@@ -25,7 +25,7 @@ VariableDeclaration::~VariableDeclaration() {
   delete mTypeSpecifier;
 }
 
-void VariableDeclaration::prototype(IRGenerationContext& context) const {
+void VariableDeclaration::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {

@@ -15,7 +15,7 @@
 using namespace llvm;
 using namespace wisey;
 
-void ReturnVoidStatement::prototype(IRGenerationContext& context) const {
+void ReturnVoidStatement::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) const {

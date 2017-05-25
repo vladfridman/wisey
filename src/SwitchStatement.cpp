@@ -13,7 +13,7 @@
 using namespace llvm;
 using namespace wisey;
 
-void SwitchStatement::prototype(IRGenerationContext& context) const {
+void SwitchStatement::prototypeObjects(IRGenerationContext& context) const {
 }
 
 Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
