@@ -39,18 +39,20 @@ using ::testing::Test;
 struct ControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  MethodDeclaration *mMethodDeclaration;
-  vector<ControllerFieldDeclaration*> mReceivedFields;
-  vector<ControllerFieldDeclaration*> mInjectedFields;
-  vector<ControllerFieldDeclaration*> mStateFields;
-  vector<MethodDeclaration*> mMethodDeclarations;
-  Block mBlock;
   NiceMock<MockStatement> mMockStatement;
+  ControllerDefinition* mControllerDefinition;
   
   ControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
+    MethodDeclaration *methodDeclaration;
+    vector<ControllerFieldDeclaration*> receivedFields;
+    vector<ControllerFieldDeclaration*> injectedFields;
+    vector<ControllerFieldDeclaration*> stateFields;
+    vector<MethodDeclaration*> methodDeclarations;
+    Block block;
+
     mContext.setPackage("systems.vos.wisey.compiler.tests");
-    mBlock.getStatements().push_back(&mMockStatement);
-    CompoundStatement* compoundStatement = new CompoundStatement(mBlock);
+    block.getStatements().push_back(&mMockStatement);
+    CompoundStatement* compoundStatement = new CompoundStatement(block);
     PrimitiveTypeSpecifier* intTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
@@ -61,44 +63,59 @@ struct ControllerDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ITypeSpecifier*> thrownExceptions;
-    mMethodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                               floatTypeSpecifier,
-                                               "foo",
-                                               methodArguments,
-                                               thrownExceptions,
-                                               *compoundStatement);
-    mMethodDeclarations.push_back(mMethodDeclaration);
+    methodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                                              floatTypeSpecifier,
+                                              "foo",
+                                              methodArguments,
+                                              thrownExceptions,
+                                              *compoundStatement);
+    methodDeclarations.push_back(methodDeclaration);
+
+    PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+    PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+    ExpressionList arguments;
+    ControllerFieldDeclaration* field1 =
+    new ControllerFieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
+    ControllerFieldDeclaration* field2 =
+    new ControllerFieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
+    receivedFields.push_back(field1);
+    receivedFields.push_back(field2);
+    
+    vector<InterfaceTypeSpecifier*> interfaces;
+    mControllerDefinition = new ControllerDefinition("CMyController",
+                                                     receivedFields,
+                                                     injectedFields,
+                                                     stateFields,
+                                                     methodDeclarations,
+                                                     interfaces);
   }
 };
 
-TEST_F(ControllerDefinitionTest, simpleControllerDefinitionTest) {
-  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
-  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  ExpressionList arguments;
-  ControllerFieldDeclaration* field1 =
-    new ControllerFieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
-  ControllerFieldDeclaration* field2 =
-    new ControllerFieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
-  mReceivedFields.push_back(field1);
-  mReceivedFields.push_back(field2);
-  
-  vector<InterfaceTypeSpecifier*> interfaces;
-  ControllerDefinition controllerDefinition("CMyController",
-                                            mReceivedFields,
-                                            mInjectedFields,
-                                            mStateFields,
-                                            mMethodDeclarations,
-                                            interfaces);
-  
-  EXPECT_CALL(mMockStatement, generateIR(_));
+TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeTest) {
+  EXPECT_CALL(mMockStatement, generateIR(_)).Times(0);
 
-  controllerDefinition.generateIR(mContext);
+  mControllerDefinition->prototype(mContext);
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
 
   Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+  
+  EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
+  EXPECT_STREQ(controller->getName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
+  EXPECT_EQ(controller->findMethod("foo"), nullptr);
+}
+
+TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
+  EXPECT_CALL(mMockStatement, generateIR(_));
+  
+  mControllerDefinition->prototype(mContext);
+  mControllerDefinition->generateIR(mContext);
+  
+  ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
+  
+  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
   StructType* structType =
-    (StructType*) controller->getLLVMType(mLLVMContext)->getPointerElementType();
+  (StructType*) controller->getLLVMType(mLLVMContext)->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
   EXPECT_TRUE(structType->getNumElements() == 2);
@@ -106,6 +123,7 @@ TEST_F(ControllerDefinitionTest, simpleControllerDefinitionTest) {
   EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
   EXPECT_STREQ(controller->getName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
+  EXPECT_NE(controller->findMethod("foo"), nullptr);
 }
 
 TEST_F(TestFileSampleRunner, controllerDefinitionSyntaxRunTest) {

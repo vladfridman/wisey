@@ -53,6 +53,8 @@ private:
   
   std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourceFiles, bool printInfo);
   
+  void buildPrototypes(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
+
   void generateIR(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
 
 };

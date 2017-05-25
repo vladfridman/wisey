@@ -25,6 +25,13 @@ ControllerDefinition::~ControllerDefinition() {
 }
 
 void ControllerDefinition::prototype(IRGenerationContext& context) const {
+  string fullName = context.getPackage() + "." + mName;
+  vector<Field*> fields;
+  vector<Method*> methods;
+  vector<Interface*> interfaces;
+  Controller* controller =
+    new Controller(fullName, NULL, fields, fields, fields, methods, interfaces);
+  context.addController(controller);
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
@@ -63,7 +70,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, controller);
   processInterfaceMethods(context, controller, interfaces, methodFunctionMap, typeListGlobal);
   
-  context.addController(controller);
+  context.replaceController(controller);
   context.getScopes().popScope(context);
   
   return NULL;

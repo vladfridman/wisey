@@ -17,6 +17,8 @@ ProgramFile::~ProgramFile() {
 }
 
 void ProgramFile::prototype(IRGenerationContext& context) const {
+  context.setPackage(mPackage);
+
   mBlock->prototype(context);
 }
 

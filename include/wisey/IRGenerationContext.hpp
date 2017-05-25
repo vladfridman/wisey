@@ -92,8 +92,13 @@ public:
   /**
    * Add a Controller type
    */
-  void addController(Controller* model);
-  
+  void addController(Controller* controller);
+
+  /**
+   * Replace a controller with a new one
+   */
+  void replaceController(Controller* controller);
+
   /**
    * Look up a Controller type
    */

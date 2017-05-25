@@ -33,6 +33,7 @@ void Compiler::compile(std::vector<string> sourceFiles, bool printInfo) {
   
   programFiles = parseFiles(sourceFiles, printInfo);
   
+  buildPrototypes(programFiles, mContext);
   generateIR(programFiles, mContext);
   
   verifyModule(*mContext.getModule());
@@ -103,6 +104,12 @@ void Compiler::generateIR(vector<ProgramFile*> programFiles, IRGenerationContext
   }
   
   programSuffix.generateIR(context);
+}
+
+void Compiler::buildPrototypes(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
+  for (ProgramFile* programFile : programFiles) {
+     programFile->prototype(context);
+  }
 }
 
 
