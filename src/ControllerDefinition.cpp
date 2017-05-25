@@ -25,18 +25,17 @@ ControllerDefinition::~ControllerDefinition() {
 }
 
 void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = context.getPackage() + "." + mName;
   vector<Field*> fields;
   vector<Method*> methods;
   vector<Interface*> interfaces;
   Controller* controller =
-    new Controller(fullName, NULL, fields, fields, fields, methods, interfaces);
+    new Controller(getFullName(context), NULL, fields, fields, fields, methods, interfaces);
   context.addController(controller);
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  string fullName = context.getPackage() + "." + mName;
+  string fullName = getFullName(context);
   StructType *structType = StructType::create(llvmContext, fullName);
   
   vector<Type*> types;
@@ -311,3 +310,6 @@ void ControllerDefinition::createVTableGlobal(IRGenerationContext& context,
                      controller->getVTableName());
 }
 
+string ControllerDefinition::getFullName(IRGenerationContext& context) const {
+  return context.getPackage() + "." + mName;
+}

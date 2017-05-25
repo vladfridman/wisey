@@ -101,6 +101,8 @@ private:
   void createVTableGlobal(IRGenerationContext& context,
                           Controller* controller,
                           std::vector<std::vector<llvm::Constant*>> interfaceVTables) const;
+  
+  std::string getFullName(IRGenerationContext& context) const;
 };
 
 } /* namespace wisey */
