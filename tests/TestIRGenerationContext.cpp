@@ -218,9 +218,9 @@ TEST_F(IRGenerationContextTest, replaceInterfaceTest) {
 }
 
 TEST_F(IRGenerationContextTest, replaceInterfaceNotDefinedDeathTest) {
-  EXPECT_EXIT(mContext.replaceController(mAnotherController),
+  EXPECT_EXIT(mContext.replaceInterface(mAnotherInterface),
               ::testing::ExitedWithCode(1),
-              "Error: Can not replace controller systems.vos.wisey.compiler.tests.CMyController "
+              "Error: Can not replace interface systems.vos.wisey.compiler.tests.IMyInterface "
               "because it is not defined");
 }
 
