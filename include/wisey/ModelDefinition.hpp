@@ -87,6 +87,9 @@ private:
   void defineTypeName(IRGenerationContext& context, Model* model) const;
   
   llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context, Model* model) const;
+
+  std::string getFullName(IRGenerationContext& context) const;
+
 };
 
 } /* namespace wisey */

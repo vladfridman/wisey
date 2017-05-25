@@ -69,7 +69,27 @@ struct ModelDefinitionTest : public Test {
   }
 };
 
-TEST_F(ModelDefinitionTest, simpleModelDefinitionTest) {
+TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
+  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  ModelFieldDeclaration* field1 = new ModelFieldDeclaration(longType, "field1");
+  ModelFieldDeclaration* field2 = new ModelFieldDeclaration(floatType, "field2");
+  mFields.push_back(field1);
+  mFields.push_back(field2);
+  
+  vector<InterfaceTypeSpecifier*> interfaces;
+  ModelDefinition modelDefinition("MMyModel", mFields, mMethodDeclarations, interfaces);
+  
+  modelDefinition.prototypeObjects(mContext);
+
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+  
+  EXPECT_STREQ(model->getName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
+  EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
+  EXPECT_EQ(model->findMethod("foo"), nullptr);
+}
+
+TEST_F(ModelDefinitionTest, generateIRTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   ModelFieldDeclaration* field1 = new ModelFieldDeclaration(longType, "field1");
@@ -82,6 +102,7 @@ TEST_F(ModelDefinitionTest, simpleModelDefinitionTest) {
 
   EXPECT_CALL(mMockStatement, generateIR(_));
   
+  modelDefinition.prototypeObjects(mContext);
   modelDefinition.generateIR(mContext);
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
   StructType* structType = (StructType*) model->getLLVMType(mLLVMContext)->getPointerElementType();
@@ -92,6 +113,7 @@ TEST_F(ModelDefinitionTest, simpleModelDefinitionTest) {
   EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(model->getName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
   EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
+  EXPECT_NE(model->findMethod("foo"), nullptr);
 }
 
 TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
@@ -132,6 +154,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
+  modelDefinition.prototypeObjects(mContext);
   modelDefinition.generateIR(mContext);
   
   GlobalVariable* vTablePointer = mContext.getModule()->
@@ -162,6 +185,7 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
+  modelDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(modelDefinition.generateIR(mContext),
               ::testing::ExitedWithCode(1),

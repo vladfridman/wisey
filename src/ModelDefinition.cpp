@@ -25,11 +25,17 @@ ModelDefinition::~ModelDefinition() {
 }
 
 void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
+  map<string, Field*> fields;
+  vector<Method*> methods;
+  vector<Interface*> interfaces;
+  
+  Model* model = new Model(getFullName(context), NULL, fields, methods, interfaces);
+  context.addModel(model);
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  string fullName = context.getPackage() + "." + mName;
+  string fullName = getFullName(context);
   StructType *structType = StructType::create(llvmContext, fullName);
   
   vector<Type*> types;
@@ -47,7 +53,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, model);
   processInterfaceMethods(context, model, interfaces, methodFunctionMap, typeListGlobal);
 
-  context.addModel(model);
+  context.replaceModel(model);
   context.getScopes().popScope(context);
 
   model->createRTTI(context);
@@ -262,4 +268,8 @@ GlobalVariable* ModelDefinition::createTypeListGlobal(IRGenerationContext& conte
                             GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                             constantArray,
                             model->getTypeTableName());
+}
+
+string ModelDefinition::getFullName(IRGenerationContext& context) const {
+  return context.getPackage() + "." + mName;
 }

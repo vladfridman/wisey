@@ -34,6 +34,7 @@ struct IRGenerationContextTest : public Test {
   Controller* mController;
   Controller* mAnotherController;
   Model* mModel;
+  Model* mAnotherModel;
   
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
@@ -81,6 +82,11 @@ struct IRGenerationContextTest : public Test {
                        modelFields,
                        modelMethods,
                        modelInterfaces);
+    mAnotherModel = new Model(modelFullName,
+                              modelStructType,
+                              modelFields,
+                              modelMethods,
+                              modelInterfaces);
 
   }
   
@@ -117,7 +123,7 @@ TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
               "Function main is not defined. Exiting.");
 }
 
-TEST_F(IRGenerationContextTest, modelTypeRegistryTest) {
+TEST_F(IRGenerationContextTest, addModelTest) {
   mContext.addModel(mModel);
   
   Model* resultModel = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
@@ -125,7 +131,7 @@ TEST_F(IRGenerationContextTest, modelTypeRegistryTest) {
   EXPECT_EQ(resultModel, mModel);
 }
 
-TEST_F(IRGenerationContextTest, modelTypeRedefinedDeathTest) {
+TEST_F(IRGenerationContextTest, addModelAlreadyDefinedDeathTest) {
   mContext.addModel(mModel);
   
   EXPECT_EXIT(mContext.addModel(mModel),
@@ -133,10 +139,25 @@ TEST_F(IRGenerationContextTest, modelTypeRedefinedDeathTest) {
               "Redefinition of model systems.vos.wisey.compiler.tests.MMyModel");
 }
 
-TEST_F(IRGenerationContextTest, modelTypeDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getModel("MMyModel"),
+TEST_F(IRGenerationContextTest, replaceModelTest) {
+  mContext.addModel(mModel);
+  mContext.replaceModel(mAnotherModel);
+  
+  EXPECT_EQ(mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel"),
+            mAnotherModel);
+}
+
+TEST_F(IRGenerationContextTest, replaceModelNotDefinedDeathTest) {
+  EXPECT_EXIT(mContext.replaceModel(mAnotherModel),
               ::testing::ExitedWithCode(1),
-              "Model MMyModel is not defined");
+              "Error: Can not replace model systems.vos.wisey.compiler.tests.MMyModel "
+              "because it is not defined");
+}
+
+TEST_F(IRGenerationContextTest, getModelDoesNotExistDeathTest) {
+  EXPECT_EXIT(mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel"),
+              ::testing::ExitedWithCode(1),
+              "Model systems.vos.wisey.compiler.tests.MMyModel is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addControllerTest) {
