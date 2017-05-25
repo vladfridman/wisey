@@ -12,9 +12,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ProgramFile.hpp"
-#include "wisey/ProgramPrefix.hpp"
-#include "wisey/ProgramSuffix.hpp"
+#include "wisey/Compiler.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -35,71 +33,32 @@ TestFileSampleRunner::~TestFileSampleRunner() {
   fclose(yyin);
 }
 
-void TestFileSampleRunner::parseFile(string fileName) {
-  yyin = fopen(fileName.c_str(), "r");
-  if (yyin == NULL) {
-    Log::e("Sample test " + fileName + " not found!\n");
-    FAIL();
-    return;
-  }
-  yyparse();
-}
-
 void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
-  IRGenerationContext context;
-  ProgramPrefix programPrefix;
-  ProgramSuffix programSuffix;
-
-  parseFile(fileName);
-  programPrefix.generateIR(context);
-  programFile->generateIR(context);
-  programSuffix.generateIR(context);
-
-  GenericValue result = context.runCode();
+  mSourceFiles.push_back(fileName);
+  
+  mCompiler.compile(mSourceFiles, false);
+  GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
 
   ASSERT_STREQ(expectedResult.c_str(), resultString.c_str());
 }
 
-void TestFileSampleRunner::expectFailParse(string fileName,
-                                           int expectedErrorCode,
-                                           string expectedErrorMessage) {
-  IRGenerationContext context;
-  ProgramPrefix programPrefix;
-  ProgramSuffix programSuffix;
+void TestFileSampleRunner::expectFailCompile(string fileName,
+                                             int expectedErrorCode,
+                                             string expectedErrorMessage) {
+  mSourceFiles.push_back(fileName);
   
-  EXPECT_EXIT(parseFile(fileName),
-              ::testing::ExitedWithCode(expectedErrorCode),
-              expectedErrorMessage);
-}
-
-void TestFileSampleRunner::expectFailIRGeneration(string fileName,
-                                                  int expectedErrorCode,
-                                                  string expectedErrorMessage) {
-  IRGenerationContext context;
-  ProgramPrefix programPrefix;
-  ProgramSuffix programSuffix;
-
-  parseFile(fileName);
-  programPrefix.generateIR(context);
-  
-  EXPECT_EXIT(programFile->generateIR(context),
+  EXPECT_EXIT(mCompiler.compile(mSourceFiles, false),
               ::testing::ExitedWithCode(expectedErrorCode),
               expectedErrorMessage);
 }
 
 void TestFileSampleRunner::expectDeathDuringRun(string fileName,
                                                 string expectedErrorMessage) {
-  IRGenerationContext context;
-  ProgramPrefix programPrefix;
-  ProgramSuffix programSuffix;
-
-  parseFile(fileName);
-  programPrefix.generateIR(context);
-  programFile->generateIR(context);
-  programSuffix.generateIR(context);
+  mSourceFiles.push_back(fileName);
+  mCompiler.compile(mSourceFiles, false);
   
-  ASSERT_DEATH(context.runCode(), expectedErrorMessage);
+  ASSERT_DEATH(mCompiler.run(), expectedErrorMessage);
 }
 
 void TestFileSampleRunner::compileAndRunFile(string fileName, int expectedResult) {

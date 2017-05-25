@@ -137,9 +137,9 @@ TEST_F(MethodTest, generateIRTest) {
 }
 
 TEST_F(TestFileSampleRunner, methodMissesThrowsQualifierDeathTest) {
-  expectFailIRGeneration("tests/samples/test_missing_throws.yz",
-                         1,
-                         "Error: Method doThrow neither handles the exception "
-                         "systems.vos.wisey.compiler.tests.MException nor throws it");
+  expectFailCompile("tests/samples/test_missing_throws.yz",
+                    1,
+                    "Error: Method doThrow neither handles the exception "
+                    "systems.vos.wisey.compiler.tests.MException nor throws it");
 }
 

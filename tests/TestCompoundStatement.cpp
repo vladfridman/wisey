@@ -37,7 +37,7 @@ TEST(TestCompoundStatement, simpleCompoundStatementTest) {
 }
 
 TEST_F(TestFileSampleRunner, compoundStatementOutOfScopeVariableRunDeathTest) {
-  expectFailIRGeneration("tests/samples/test_compound_statement_fail.yz",
-                         1,
-                         "Error: Undeclared variable 'j'");
+  expectFailCompile("tests/samples/test_compound_statement_fail.yz",
+                    1,
+                    "Error: Undeclared variable 'j'");
 }

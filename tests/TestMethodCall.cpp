@@ -303,22 +303,22 @@ TEST_F(TestFileSampleRunner, methodCallToPrivateMethodViaPublicMethodRunTest) {
 }
 
 TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
-  expectFailIRGeneration("tests/samples/test_private_method_call.yz",
-                         1,
-                         "Error: Method 'getDouble\\(\\)' of object "
-                         "'systems.vos.wisey.compiler.tests.CService' is private");
+  expectFailCompile("tests/samples/test_private_method_call.yz",
+                    1,
+                    "Error: Method 'getDouble\\(\\)' of object "
+                    "'systems.vos.wisey.compiler.tests.CService' is private");
 }
 
 TEST_F(TestFileSampleRunner, methodExceptionNotHandledDeathTest) {
-  expectFailIRGeneration("tests/samples/test_method_exception_not_handled.yz",
-                         1,
-                         "Error: Method doSomething neither handles the exception "
-                         "systems.vos.wisey.compiler.tests.MException nor throws it");
+  expectFailCompile("tests/samples/test_method_exception_not_handled.yz",
+                    1,
+                    "Error: Method doSomething neither handles the exception "
+                    "systems.vos.wisey.compiler.tests.MException nor throws it");
 }
 
 TEST_F(TestFileSampleRunner, methodIdentifierChainDeathTest) {
-  expectFailParse("tests/samples/test_identifier_chain.yz",
-                  1,
-                  "Error: Incorrect method call format");
+  expectFailCompile("tests/samples/test_identifier_chain.yz",
+                    1,
+                    "Error: Incorrect method call format");
 }
 

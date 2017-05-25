@@ -9,6 +9,7 @@
 //
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include <llvm/IR/Constants.h>
 

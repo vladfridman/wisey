@@ -121,15 +121,15 @@ TEST_F(TestFileSampleRunner, interfaceVariableAssignmentRunTest) {
 }
 
 TEST_F(TestFileSampleRunner, usingUninitializedHeapVariableRunDeathTest) {
-  expectFailIRGeneration("tests/samples/test_heap_variable_not_initialized.yz",
-                         1,
-                         "Error: Variable 'color' is used before it has been initialized.");
+  expectFailCompile("tests/samples/test_heap_variable_not_initialized.yz",
+                    1,
+                    "Error: Variable 'color' is used before it has been initialized.");
 }
 
 TEST_F(TestFileSampleRunner, incompatableHeapVariableTypesInAssignmentRunDeathTest) {
-  expectFailIRGeneration("tests/samples/test_incompatible_heap_variable_types_in_assignment.yz",
-                         1,
-                         "Error: Incopatible types: can not cast from type "
-                         "'systems.vos.wisey.compiler.tests.MShape' to "
-                         "'systems.vos.wisey.compiler.tests.MColor'");
+  expectFailCompile("tests/samples/test_incompatible_heap_variable_types_in_assignment.yz",
+                    1,
+                    "Error: Incopatible types: can not cast from type "
+                    "'systems.vos.wisey.compiler.tests.MShape' to "
+                    "'systems.vos.wisey.compiler.tests.MColor'");
 }

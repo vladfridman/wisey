@@ -9,14 +9,18 @@
 #ifndef TestFileSampleRunner_h
 #define TestFileSampleRunner_h
 
-#include "gtest/gtest.h"
-#include "gmock/gmock.h"
+#include <gtest/gtest.h>
+
+#include "wisey/Compiler.hpp"
 
 /**
  * Runs a sample wisey file through compiler and checks whether the expected result matched 
  * the actual one.
  */
-class TestFileSampleRunner : public testing::Test {
+class TestFileSampleRunner : public ::testing::Test {
+  wisey::Compiler mCompiler;
+  std::vector<std::string> mSourceFiles;
+  
 public:
   TestFileSampleRunner();
   
@@ -34,19 +38,12 @@ public:
   void compileAndRunFile(std::string fileName, int expectedResult);
   
   /**
-   * Call this to run a sample wisey file that is expected to fail at parsing step
+   * Call this to run a sample wisey file that is expected to fail at compilation
    */
-  void expectFailParse(std::string fileName,
-                       int expectedErrorCode,
-                       std::string expectedErrorMessage);
-
-  /**
-   * Call this to run a sample wisey file that is expected to fail at IR generation
-   */
-  void expectFailIRGeneration(std::string fileName,
-                              int expectedErrorCode,
-                              std::string expectedErrorMessage);
-
+  void expectFailCompile(std::string fileName,
+                         int expectedErrorCode,
+                         std::string expectedErrorMessage);
+  
   /**
    * Call this to run a sample wisey file that is expected to pass IR generation but
    * that will die during run with a given error message
@@ -56,8 +53,6 @@ public:
   
 
 private:
-  
-  void parseFile(std::string fileName);
   
   std::string exec(const char* cmd);
 };

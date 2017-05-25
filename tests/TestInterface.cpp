@@ -196,41 +196,41 @@ TEST_F(InterfaceTest, canAutoCastToTest) {
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
-  expectFailIRGeneration("tests/samples/test_interface_method_not_implmented.yz",
-                         1,
-                         "Error: Method getArea "
-                         "of interface systems.vos.wisey.compiler.tests.IShape is not "
-                         "implemented by object systems.vos.wisey.compiler.tests.MSquare");
+  expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
+                    1,
+                    "Error: Method getArea "
+                    "of interface systems.vos.wisey.compiler.tests.IShape is not "
+                    "implemented by object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodDifferentReturnTypeDeathTest) {
-  expectFailIRGeneration("tests/samples/test_interface_method_return_type_doesnot_match.yz",
-                         1,
-                         "Error: Method getArea "
-                         "of interface systems.vos.wisey.compiler.tests.IShape has different "
-                         "return type when implmeneted by "
-                         "object systems.vos.wisey.compiler.tests.MSquare");
+  expectFailCompile("tests/samples/test_interface_method_return_type_doesnot_match.yz",
+                    1,
+                    "Error: Method getArea "
+                    "of interface systems.vos.wisey.compiler.tests.IShape has different "
+                    "return type when implmeneted by "
+                    "object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodDifferentArgumentTypesDeathTest) {
-  expectFailIRGeneration("tests/samples/test_interface_method_arguments_dont_match.yz",
-                         1,
-                         "Error: Method getArea "
-                         "of interface systems.vos.wisey.compiler.tests.IShape has different "
-                         "argument types when implmeneted by "
-                         "object systems.vos.wisey.compiler.tests.MSquare");
+  expectFailCompile("tests/samples/test_interface_method_arguments_dont_match.yz",
+                    1,
+                    "Error: Method getArea "
+                    "of interface systems.vos.wisey.compiler.tests.IShape has different "
+                    "argument types when implmeneted by "
+                    "object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, interfaceExceptionsDoNotReconcileDeathTest) {
-  expectFailIRGeneration("tests/samples/test_interface_method_exceptions_dont_reconcile.yz",
-                         1,
-                         "Error: Method getArea of "
-                         "object systems.vos.wisey.compiler.tests.MSquare throws an unexpected "
-                         "exception of type systems.vos.wisey.compiler.tests.MException\n"
-                         "Error: Exceptions thrown by method getArea "
-                         "of interface systems.vos.wisey.compiler.tests.IShape "
-                         "do not reconcile with exceptions thrown by its implementation "
-                         "in object systems.vos.wisey.compiler.tests.MSquare");
+  expectFailCompile("tests/samples/test_interface_method_exceptions_dont_reconcile.yz",
+                    1,
+                    "Error: Method getArea of "
+                    "object systems.vos.wisey.compiler.tests.MSquare throws an unexpected "
+                    "exception of type systems.vos.wisey.compiler.tests.MException\n"
+                    "Error: Exceptions thrown by method getArea "
+                    "of interface systems.vos.wisey.compiler.tests.IShape "
+                    "do not reconcile with exceptions thrown by its implementation "
+                    "in object systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, modelImplmenetingInterfaceDefinitionRunTest) {

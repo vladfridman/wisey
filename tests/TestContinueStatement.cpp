@@ -35,7 +35,7 @@ TEST_F(TestFileSampleRunner, continueWhileLoopRunTest) {
 }
 
 TEST_F(TestFileSampleRunner, continueInIfStatementRunDeathTest) {
-  expectFailIRGeneration("tests/samples/test_continue_in_if_statement.yz",
-                         1,
-                         "Error: continue statement not inside a loop");
+  expectFailCompile("tests/samples/test_continue_in_if_statement.yz",
+                    1,
+                    "Error: continue statement not inside a loop");
 }
