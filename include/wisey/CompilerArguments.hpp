@@ -9,6 +9,7 @@
 #ifndef CompilerArguments_h
 #define CompilerArguments_h
 
+#include <string>
 #include <vector>
 
 namespace wisey {
@@ -17,27 +18,27 @@ namespace wisey {
  * Represents parsed command line arguments passed to the Wisey compiler
  */
 class CompilerArguments {
-  char* mOutputFile;
+  std::string mOutputFile;
   bool mShouldPrintAssembly;
-  std::vector<const char*> mSourceFiles;
+  std::vector<std::string> mSourceFiles;
   
 public:
   
-  CompilerArguments() : mOutputFile(NULL), mShouldPrintAssembly(false) { }
+  CompilerArguments() : mOutputFile(""), mShouldPrintAssembly(false) { }
   
   ~CompilerArguments() { }
   
-  char* getOutputFile() { return mOutputFile; }
+  std::string getOutputFile() { return mOutputFile; }
   
-  void setOutputFile(char* outputFile) { mOutputFile = outputFile; }
+  void setOutputFile(std::string outputFile) { mOutputFile = outputFile; }
   
   bool shouldPrintAssembly() { return mShouldPrintAssembly; }
   
   void setShouldPrintAssembly(bool value) { mShouldPrintAssembly = value; }
   
-  std::vector<const char*> getSourceFiles() { return mSourceFiles; }
+  std::vector<std::string> getSourceFiles() { return mSourceFiles; }
   
-  void addSourceFile(const char* sourceFile) { mSourceFiles.push_back(sourceFile); }
+  void addSourceFile(std::string sourceFile) { mSourceFiles.push_back(sourceFile); }
   
 };
   

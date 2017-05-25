@@ -20,7 +20,7 @@ using namespace wisey;
 
 struct CompilerTest : public ::testing::Test {
   CompilerArguments mArguments;
-  vector<const char*> mSourceFiles;
+  vector<string> mSourceFiles;
   Compiler mCompiler;
  
   CompilerTest() {

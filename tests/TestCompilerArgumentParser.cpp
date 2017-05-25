@@ -58,8 +58,8 @@ TEST_F(CompilerArgumentParserTest, normalRunTest) {
   
   CompilerArguments arguments = mParser.parse(2, (char**) argv);
   EXPECT_EQ(arguments.getSourceFiles().size(), 1u);
-  EXPECT_STREQ(arguments.getSourceFiles().front(), "tests/samples/test_addition.yz");
-  EXPECT_EQ(arguments.getOutputFile(), nullptr);
+  EXPECT_STREQ(arguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
+  EXPECT_STREQ(arguments.getOutputFile().c_str(), "");
   EXPECT_FALSE(arguments.shouldPrintAssembly());
 }
 
@@ -68,8 +68,8 @@ TEST_F(CompilerArgumentParserTest, outputToFileTest) {
   
   CompilerArguments arguments = mParser.parse(4, (char**) argv);
   EXPECT_EQ(arguments.getSourceFiles().size(), 1u);
-  EXPECT_STREQ(arguments.getSourceFiles().front(), "tests/samples/test_addition.yz");
-  EXPECT_STREQ(arguments.getOutputFile(), "build/test.bc");
+  EXPECT_STREQ(arguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
+  EXPECT_STREQ(arguments.getOutputFile().c_str(), "build/test.bc");
   EXPECT_FALSE(arguments.shouldPrintAssembly());
 }
 
@@ -79,8 +79,8 @@ TEST_F(CompilerArgumentParserTest, printAssemblyTest) {
   
   CompilerArguments arguments = mParser.parse(3, (char**) argv);
   EXPECT_EQ(arguments.getSourceFiles().size(), 1u);
-  EXPECT_STREQ(arguments.getSourceFiles().front(), "tests/samples/test_addition.yz");
-  EXPECT_EQ(arguments.getOutputFile(), nullptr);
+  EXPECT_STREQ(arguments.getSourceFiles().front().c_str(), "tests/samples/test_addition.yz");
+  EXPECT_STREQ(arguments.getOutputFile().c_str(), "");
   EXPECT_TRUE(arguments.shouldPrintAssembly());
 }
 

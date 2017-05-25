@@ -23,13 +23,13 @@ int main(int argc, char **argv) {
   CompilerArguments compilerArguents = compilerArgumentParser.parse(argc, argv);
 
   Compiler compiler;
-  compiler.compile(compilerArguents.getSourceFiles(), !compilerArguents.getOutputFile());
+  compiler.compile(compilerArguents.getSourceFiles(), !compilerArguents.getOutputFile().size());
 
   if (compilerArguents.shouldPrintAssembly()) {
     compiler.printAssembly();
   }
   
-  if (compilerArguents.getOutputFile()) {
+  if (compilerArguents.getOutputFile().size()) {
     compiler.saveBitcode(compilerArguents.getOutputFile());
   } else {
     compiler.run();

@@ -32,7 +32,7 @@ public:
   /**
    * Compile Wisey code passed through constructor arguments
    */
-  void compile(std::vector<const char*> sourceFiles, bool printInfo);
+  void compile(std::vector<std::string> sourceFiles, bool printInfo);
   
   /**
    * Print LLVM assembly
@@ -47,11 +47,11 @@ public:
   /**
    * Save bitcode into output file
    */
-  void saveBitcode(const char* outputFile);
+  void saveBitcode(std::string outputFile);
   
 private:
   
-  std::vector<ProgramFile*> parseFiles(std::vector<const char*> sourceFiles, bool printInfo);
+  std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourceFiles, bool printInfo);
   
   void generateIR(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
 

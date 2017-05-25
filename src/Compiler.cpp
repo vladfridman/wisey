@@ -25,7 +25,7 @@ extern int yyparse();
 extern ProgramFile* programFile;
 extern FILE* yyin;
 
-void Compiler::compile(std::vector<const char*> sourceFiles, bool printInfo) {
+void Compiler::compile(std::vector<string> sourceFiles, bool printInfo) {
   vector<ProgramFile*> programFiles;
   
   InitializeNativeTarget();
@@ -58,7 +58,7 @@ GenericValue Compiler::run() {
   return mContext.runCode();
 }
 
-void Compiler::saveBitcode(const char* outputFile) {
+void Compiler::saveBitcode(string outputFile) {
   if (!mHasCompiled) {
     Log::e("Need to compile before saving bitcode");
     exit(1);
@@ -69,15 +69,15 @@ void Compiler::saveBitcode(const char* outputFile) {
   llvm::WriteBitcodeToFile(mContext.getModule(), OS);
 }
 
-vector<ProgramFile*> Compiler::parseFiles(vector<const char*> sourceFiles, bool printInfo) {
+vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles, bool printInfo) {
   vector<ProgramFile*> results;
   
-  for (const char* sourceFile : sourceFiles) {
+  for (string sourceFile : sourceFiles) {
     if (printInfo) {
       Log::i("Parsing file " + string(sourceFile));
     }
     
-    yyin = fopen(sourceFile, "r");
+    yyin = fopen(sourceFile.c_str(), "r");
     if (yyin == NULL) {
       Log::e(string("File ") + sourceFile + " not found!");
       exit(1);
