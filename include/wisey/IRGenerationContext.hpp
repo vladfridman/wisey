@@ -95,7 +95,7 @@ public:
   void addController(Controller* controller);
 
   /**
-   * Replace a controller with a new one
+   * Replace a controller with a new one of the same name
    */
   void replaceController(Controller* controller);
 
@@ -109,6 +109,11 @@ public:
    */
   void addInterface(Interface* interface);
   
+  /**
+   * Replace an interface with a new one of the same name
+   */
+  void replaceInterface(Interface* interface);
+
   /**
    * Look up an Interface type
    */

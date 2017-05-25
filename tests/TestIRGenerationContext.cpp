@@ -30,6 +30,7 @@ struct IRGenerationContextTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Interface* mInterface;
+  Interface* mAnotherInterface;
   Controller* mController;
   Controller* mAnotherController;
   Model* mModel;
@@ -43,6 +44,10 @@ struct IRGenerationContextTest : public Test {
                                interfaceStructType,
                                interfaceParentInterfaces,
                                interfaceMethodSignatures);
+    mAnotherInterface = new Interface(interfaceFullName,
+                                      interfaceStructType,
+                                      interfaceParentInterfaces,
+                                      interfaceMethodSignatures);
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
@@ -171,7 +176,7 @@ TEST_F(IRGenerationContextTest, getControllerDoesNotExistDeathTest) {
               "Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
 }
 
-TEST_F(IRGenerationContextTest, interfaceTypeRegistryTest) {
+TEST_F(IRGenerationContextTest, addInterfaceTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<MethodSignature*> methodSignatures;
@@ -188,7 +193,7 @@ TEST_F(IRGenerationContextTest, interfaceTypeRegistryTest) {
   EXPECT_EQ(resultInterface->getLLVMType(mLLVMContext)->getPointerElementType(), structType);
 }
 
-TEST_F(IRGenerationContextTest, interfaceTypeRedefinedDeathTest) {
+TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<MethodSignature*> methodSignatures;
@@ -204,10 +209,25 @@ TEST_F(IRGenerationContextTest, interfaceTypeRedefinedDeathTest) {
               "Redefinition of interface systems.vos.wisey.compiler.tests.IMyInterface");
 }
 
-TEST_F(IRGenerationContextTest, interfaceTypeDoesNotExistDeathTest) {
-  EXPECT_EXIT(mContext.getInterface("myinterface"),
+TEST_F(IRGenerationContextTest, replaceInterfaceTest) {
+  mContext.addInterface(mInterface);
+  mContext.replaceInterface(mAnotherInterface);
+  
+  EXPECT_EQ(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"),
+            mAnotherInterface);
+}
+
+TEST_F(IRGenerationContextTest, replaceInterfaceNotDefinedDeathTest) {
+  EXPECT_EXIT(mContext.replaceController(mAnotherController),
               ::testing::ExitedWithCode(1),
-              "Interface myinterface is not defined");
+              "Error: Can not replace controller systems.vos.wisey.compiler.tests.CMyController "
+              "because it is not defined");
+}
+
+TEST_F(IRGenerationContextTest, getInterfaceDoesNotExistDeathTest) {
+  EXPECT_EXIT(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"),
+              ::testing::ExitedWithCode(1),
+              "Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
 }
 
 TEST_F(IRGenerationContextTest, getBoundControllerDeathTest) {

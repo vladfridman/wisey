@@ -18,6 +18,11 @@ using namespace std;
 using namespace wisey;
 
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
+  vector<Interface*> parentInterfaces;
+  vector<MethodSignature*> methodSignatures;
+  Interface* interface =
+    new Interface(getFullName(context), NULL, parentInterfaces, methodSignatures);
+  context.addInterface(interface);
 }
 
 Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
@@ -46,11 +51,11 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
     parentInterfaces.push_back(parentInterface);
   }
   
-  string fullName = context.getPackage() + "." + mName;
+  string fullName = getFullName(context);
   StructType *structType = StructType::create(llvmContext, fullName);
   structType->setBody(types);
   Interface* interface = new Interface(fullName, structType, parentInterfaces, methodSignatures);
-  context.addInterface(interface);
+  context.replaceInterface(interface);
   
   defineInterfaceTypeName(context, interface);
   defineInstanceOf(context, interface);
@@ -246,4 +251,8 @@ void InterfaceDefinition::composeReturnNotFound(IRGenerationContext& context,
   
   context.setBasicBlock(returnNotFound);
   IRWriter::createReturnInst(context, negativeOne);
+}
+
+string InterfaceDefinition::getFullName(IRGenerationContext& context) const {
+  return context.getPackage() + "." + mName;
 }

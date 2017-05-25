@@ -76,6 +76,9 @@ private:
   
   void composeReturnNotFound(IRGenerationContext& context,
                              llvm::BasicBlock* returnNotFound) const;
+
+  std::string getFullName(IRGenerationContext& context) const;
+
 };
   
 } /* namespace wisey */

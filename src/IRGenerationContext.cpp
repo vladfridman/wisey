@@ -121,6 +121,20 @@ void IRGenerationContext::addInterface(Interface* interface) {
   mImports[interface->getShortName()] = interface;
 }
 
+void IRGenerationContext::replaceInterface(Interface* interface) {
+  string name = interface->getName();
+  if (!mInterfaces.count(name)) {
+    Log::e("Can not replace interface " + name + " because it is not defined");
+    exit(1);
+  }
+  
+  Interface* oldInterface = mInterfaces[name];
+  mInterfaces[name] = interface;
+  mImports[interface->getShortName()] = interface;
+  
+  delete oldInterface;
+}
+
 Interface* IRGenerationContext::getInterface(string name) {
   if (!mInterfaces.count(name)) {
     Log::e("Interface " + name + " is not defined");
