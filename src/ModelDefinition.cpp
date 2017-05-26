@@ -25,18 +25,21 @@ ModelDefinition::~ModelDefinition() {
 }
 
 void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
   map<string, Field*> fields;
   vector<Method*> methods;
   vector<Interface*> interfaces;
+  string fullName = getFullName(context);
+  StructType* structType = StructType::create(llvmContext, fullName);
   
-  Model* model = new Model(getFullName(context), NULL, fields, methods, interfaces);
+  Model* model = new Model(fullName, structType, fields, methods, interfaces);
   context.addModel(model);
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   string fullName = getFullName(context);
-  StructType *structType = StructType::create(llvmContext, fullName);
+  StructType* structType = StructType::create(llvmContext, fullName);
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);

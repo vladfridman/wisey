@@ -18,10 +18,13 @@ using namespace std;
 using namespace wisey;
 
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
   vector<Interface*> parentInterfaces;
   vector<MethodSignature*> methodSignatures;
+  string fullName = getFullName(context);
+  StructType* structType = StructType::create(llvmContext, fullName);
   Interface* interface =
-    new Interface(getFullName(context), NULL, parentInterfaces, methodSignatures);
+    new Interface(fullName, structType, parentInterfaces, methodSignatures);
   context.addInterface(interface);
 }
 
@@ -52,7 +55,7 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   }
   
   string fullName = getFullName(context);
-  StructType *structType = StructType::create(llvmContext, fullName);
+  StructType* structType = StructType::create(llvmContext, fullName);
   structType->setBody(types);
   Interface* interface = new Interface(fullName, structType, parentInterfaces, methodSignatures);
   context.replaceInterface(interface);

@@ -25,18 +25,21 @@ ControllerDefinition::~ControllerDefinition() {
 }
 
 void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
   vector<Field*> fields;
   vector<Method*> methods;
   vector<Interface*> interfaces;
+  string fullName = getFullName(context);
+  StructType* structType = StructType::create(llvmContext, fullName);
   Controller* controller =
-    new Controller(getFullName(context), NULL, fields, fields, fields, methods, interfaces);
+    new Controller(fullName, structType, fields, fields, fields, methods, interfaces);
   context.addController(controller);
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   string fullName = getFullName(context);
-  StructType *structType = StructType::create(llvmContext, fullName);
+  StructType* structType = StructType::create(llvmContext, fullName);
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
