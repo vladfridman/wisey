@@ -103,7 +103,6 @@ struct ControllerTest : public Test {
                                      objectParentInterfaces,
                                      objectInterfaceMethods);
 
-    
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -142,13 +141,10 @@ struct ControllerTest : public Test {
     interfaces.push_back(mScienceCalculatorInterface);
     interfaces.push_back(mObjectInterface);
     
-    mMultiplierController = new Controller(multiplierFullName,
-                                           mStructType,
-                                           receivedFields,
-                                           injectedFields,
-                                           stateFields,
-                                           methods,
-                                           interfaces);
+    mMultiplierController = new Controller(multiplierFullName, mStructType);
+    mMultiplierController->setFields(receivedFields, injectedFields, stateFields);
+    mMultiplierController->setMethods(methods);
+    mMultiplierController->setInterfaces(interfaces);
     
     vector<Type*> additorTypes;
     additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -164,15 +160,8 @@ struct ControllerTest : public Test {
                                               "right",
                                               1,
                                               fieldArguments));
-    vector<Method*> additorMethods;
-    vector<Interface*> additorInterfaces;
-    mAdditorController = new Controller(additorFullName,
-                                        additorStructType,
-                                        additorReceivedFields,
-                                        additorInjectedFields,
-                                        additorStateFields,
-                                        additorMethods,
-                                        additorInterfaces);
+    mAdditorController = new Controller(additorFullName, additorStructType);
+    mAdditorController->setFields(additorReceivedFields, additorInjectedFields, additorStateFields);
     mContext.addController(mMultiplierController);
 
     vector<Type*> doublerTypes;
@@ -185,15 +174,10 @@ struct ControllerTest : public Test {
     vector<Field*> doublerInjectedFields;
     vector<Field*> doublerStateFields;
     doublerInjectedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments));
-    vector<Method*> doublerMethods;
-    vector<Interface*> doublerInterfaces;
-    mDoublerController = new Controller(doublerFullName,
-                                        doublerStructType,
-                                        doublerReceivedFields,
-                                        doublerInjectedFields,
-                                        doublerStateFields,
-                                        doublerMethods,
-                                        doublerInterfaces);
+    mDoublerController = new Controller(doublerFullName, doublerStructType);
+    mDoublerController->setFields(doublerReceivedFields,
+                                  doublerInjectedFields,
+                                  doublerStateFields);
     mContext.addController(mDoublerController);
 
     vector<Type*> vehicleInterfaceTypes;

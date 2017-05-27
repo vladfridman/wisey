@@ -101,20 +101,6 @@ void IRGenerationContext::addController(Controller* controller) {
   mImports[controller->getShortName()] = controller;
 }
 
-void IRGenerationContext::replaceController(Controller* controller) {
-  string name = controller->getName();
-  if (!mControllers.count(name)) {
-    Log::e("Can not replace controller " + name + " because it is not defined");
-    exit(1);
-  }
-  
-  Controller* oldController = mControllers[name];
-  mControllers[name] = controller;
-  mImports[controller->getShortName()] = controller;
-
-  delete oldController;
-}
-
 Controller* IRGenerationContext::getController(string name) {
   if (!mControllers.count(name)) {
     Log::e("Controller " + name + " is not defined");

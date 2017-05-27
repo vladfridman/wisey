@@ -32,7 +32,6 @@ struct IRGenerationContextTest : public Test {
   Interface* mInterface;
   Interface* mAnotherInterface;
   Controller* mController;
-  Controller* mAnotherController;
   Model* mModel;
   Model* mAnotherModel;
   
@@ -57,20 +56,12 @@ struct IRGenerationContextTest : public Test {
     vector<Field*> controllerStateFields;
     vector<Method*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    mController = new Controller(controllerFullName,
-                                 controllerStructType,
-                                 controllerReceivedFields,
-                                 controllerInjectedFields,
-                                 controllerStateFields,
-                                 controllerMethods,
-                                 controllerInterfaces);
-    mAnotherController = new Controller(controllerFullName,
-                                        controllerStructType,
-                                        controllerReceivedFields,
-                                        controllerInjectedFields,
-                                        controllerStateFields,
-                                        controllerMethods,
-                                        controllerInterfaces);
+    mController = new Controller(controllerFullName, controllerStructType);
+    mController->setFields(controllerReceivedFields,
+                           controllerInjectedFields,
+                           controllerStateFields);
+    mController->setMethods(controllerMethods);
+    mController->setInterfaces(controllerInterfaces);
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, "MMyModel");
@@ -174,21 +165,6 @@ TEST_F(IRGenerationContextTest, addControllerAlreadyDefinedDeathTest) {
   EXPECT_EXIT(mContext.addController(mController),
               ::testing::ExitedWithCode(1),
               "Redefinition of controller systems.vos.wisey.compiler.tests.CMyController");
-}
-
-TEST_F(IRGenerationContextTest, replaceControllerTest) {
-  mContext.addController(mController);
-  mContext.replaceController(mAnotherController);
-  
-  EXPECT_EQ(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"),
-            mAnotherController);
-}
-
-TEST_F(IRGenerationContextTest, replaceControllerNotDefinedDeathTest) {
-  EXPECT_EXIT(mContext.replaceController(mAnotherController),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not replace controller systems.vos.wisey.compiler.tests.CMyController "
-              "because it is not defined");
 }
 
 TEST_F(IRGenerationContextTest, getControllerDoesNotExistDeathTest) {

@@ -62,15 +62,10 @@ struct InterfaceInjectorTest : Test {
     Field* fieldRight = new Field(PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments);
     controllerStateFields.push_back(fieldLeft);
     controllerStateFields.push_back(fieldRight);
-    vector<Method*> controllerMethods;
-    vector<Interface*> controllerInterfaces;
-    mController = new Controller(controllerFullName,
-                                 controllerStructType,
-                                 controllerReceivedFields,
-                                 controllerInjectedFields,
-                                 controllerStateFields,
-                                 controllerMethods,
-                                 controllerInterfaces);
+    mController = new Controller(controllerFullName, controllerStructType);
+    mController->setFields(controllerReceivedFields,
+                           controllerInjectedFields,
+                           controllerStateFields);
     mContext.addController(mController);
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";

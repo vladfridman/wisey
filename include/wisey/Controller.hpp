@@ -36,13 +36,8 @@ class Controller : public IObjectWithFieldsType, public IObjectWithMethodsType {
   
 public:
   
-  Controller(std::string name,
-             llvm::StructType* structType,
-             std::vector<Field*> receivedFields,
-             std::vector<Field*> injectedFields,
-             std::vector<Field*> stateFields,
-             std::vector<Method*> methods,
-             std::vector<Interface*> interfaces);
+  Controller(std::string name, llvm::StructType* structType)
+  : mName(name), mStructType(structType) { }
   
   ~Controller();
 
@@ -71,6 +66,28 @@ public:
    */
   llvm::Instruction* inject(IRGenerationContext& context, ExpressionList expressionList) const;
 
+  /**
+   * Set received, injected and state fields to the given lists of fields
+   */
+  void setFields(std::vector<Field*> receivedFields,
+                 std::vector<Field*> injectedFields,
+                 std::vector<Field*> stateFields);
+  
+  /**
+   * Set interfaces for this controller
+   */
+  void setInterfaces(std::vector<Interface*> interfaces);
+  
+  /**
+   * Set methods for this controller
+   */
+  void setMethods(std::vector<Method*> methods);
+  
+  /**
+   * Set the struct field types for the struct that represents this controller
+   */
+  void setStructBodyTypes(std::vector<llvm::Type*> types);
+  
   Field* findField(std::string fieldName) const override;
   
   Method* findMethod(std::string methodName) const override;
@@ -98,8 +115,6 @@ private:
   int getInterfaceIndex(Interface* interface) const;
 
   void checkArguments(ExpressionList received) const;
-  
-  std::vector<Interface*> createFlattenedInterfaceHierarchy() const;
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
 

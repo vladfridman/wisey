@@ -45,13 +45,12 @@ struct BindActionTest : public Test {
     vector<Field*> controllerStateFields;
     vector<Method*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    mController = new Controller(controllerFullName,
-                                 controllerStructType,
-                                 controllerReceivedFields,
-                                 controllerInjectedFields,
-                                 controllerStateFields,
-                                 controllerMethods,
-                                 controllerInterfaces);
+    mController = new Controller(controllerFullName, controllerStructType);
+    mController->setFields(controllerReceivedFields,
+                           controllerInjectedFields,
+                           controllerStateFields);
+    mController->setMethods(controllerMethods);
+    mController->setInterfaces(controllerInterfaces);
     
     vector<string> package;
     ControllerTypeSpecifier* controllerTypeSpecifier =

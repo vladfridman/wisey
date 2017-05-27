@@ -49,14 +49,9 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
                                         NULL,
                                         0);
     methods.push_back(multiplyMethod);
-    vector<Interface*> interfaces;
-    mController = new Controller(controllerFullName,
-                                 structType,
-                                 receivedFields,
-                                 injectedFields,
-                                 stateFields,
-                                 methods,
-                                 interfaces);
+    mController = new Controller(controllerFullName, structType);
+    mController->setFields(receivedFields, injectedFields, stateFields);
+    mController->setMethods(methods);
     mContext.addController(mController);
 
     mPackage.push_back("systems");

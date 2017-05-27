@@ -25,21 +25,15 @@ ControllerDefinition::~ControllerDefinition() {
 }
 
 void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Field*> fields;
-  vector<Method*> methods;
-  vector<Interface*> interfaces;
   string fullName = getFullName(context);
-  StructType* structType = StructType::create(llvmContext, fullName);
-  Controller* controller =
-    new Controller(fullName, structType, fields, fields, fields, methods, interfaces);
+  StructType* structType = StructType::create(context.getLLVMContext(), fullName);
+  Controller* controller = new Controller(fullName, structType);
   context.addController(controller);
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
   string fullName = getFullName(context);
-  StructType* structType = StructType::create(llvmContext, fullName);
+  Controller* controller = context.getController(fullName);
   
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
@@ -55,24 +49,22 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
                                                          interfaces.size() + receivedFields.size() +
                                                          injectedFields.size());
   vector<Method*> methods = createMethods(context);
-  Controller* controller = new Controller(fullName,
-                                          structType,
-                                          receivedFields,
-                                          injectedFields,
-                                          stateFields,
-                                          methods,
-                                          interfaces);
+
+  controller->setFields(receivedFields, injectedFields, stateFields);
+  controller->setInterfaces(interfaces);
+  controller->setMethods(methods);
   
   context.getScopes().pushScope();
 
   createFieldVariables(context, controller, types);
-  structType->setBody(types);
+  controller->setStructBodyTypes(types);
+
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, controller);
   defineTypeName(context, controller);
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, controller);
   processInterfaceMethods(context, controller, interfaces, methodFunctionMap, typeListGlobal);
   
-  context.replaceController(controller);
+  context.addImport(controller);
   context.getScopes().popScope(context);
   
   return NULL;
