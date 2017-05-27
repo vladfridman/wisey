@@ -40,7 +40,29 @@ public:
   : mName(name), mStructType(structType) { }
   
   ~Controller();
+  
+  /**
+   * Set received, injected and state fields to the given lists of fields
+   */
+  void setFields(std::vector<Field*> receivedFields,
+                 std::vector<Field*> injectedFields,
+                 std::vector<Field*> stateFields);
 
+  /**
+   * Set interfaces for this controller
+   */
+  void setInterfaces(std::vector<Interface*> interfaces);
+  
+  /**
+   * Set methods for this controller
+   */
+  void setMethods(std::vector<Method*> methods);
+  
+  /**
+   * Set the struct field types for the struct that represents this controller
+   */
+  void setStructBodyTypes(std::vector<llvm::Type*> types);
+  
   /**
    * Returns interfaces that this model implements
    */
@@ -65,28 +87,6 @@ public:
    * Inject an instance of this controller into LLVM code
    */
   llvm::Instruction* inject(IRGenerationContext& context, ExpressionList expressionList) const;
-
-  /**
-   * Set received, injected and state fields to the given lists of fields
-   */
-  void setFields(std::vector<Field*> receivedFields,
-                 std::vector<Field*> injectedFields,
-                 std::vector<Field*> stateFields);
-  
-  /**
-   * Set interfaces for this controller
-   */
-  void setInterfaces(std::vector<Interface*> interfaces);
-  
-  /**
-   * Set methods for this controller
-   */
-  void setMethods(std::vector<Method*> methods);
-  
-  /**
-   * Set the struct field types for the struct that represents this controller
-   */
-  void setStructBodyTypes(std::vector<llvm::Type*> types);
   
   Field* findField(std::string fieldName) const override;
   

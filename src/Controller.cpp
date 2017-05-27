@@ -28,6 +28,43 @@ Controller::~Controller() {
   mMethods.clear();
 }
 
+void Controller::setFields(vector<Field*> receivedFields,
+                           vector<Field*> injectedFields,
+                           vector<Field*> stateFields) {
+  mReceivedFields = receivedFields;
+  mInjectedFields = injectedFields;
+  mStateFields = stateFields;
+  
+  for (Field* field : receivedFields) {
+    mFields[field->getName()] = field;
+  }
+  for (Field* field : injectedFields) {
+    mFields[field->getName()] = field;
+  }
+  for (Field* field : stateFields) {
+    mFields[field->getName()] = field;
+  }
+}
+
+void Controller::setInterfaces(vector<Interface *> interfaces) {
+  mInterfaces = interfaces;
+  
+  for (Interface* interface : mInterfaces) {
+    addInterfaceAndItsParents(mFlattenedInterfaceHierarchy, interface);
+  }
+}
+
+void Controller::setMethods(vector<Method *> methods) {
+  mMethods = methods;
+  for (Method* method : methods) {
+    mNameToMethodMap[method->getName()] = method;
+  }
+}
+
+void Controller::setStructBodyTypes(vector<Type*> types) {
+  mStructType->setBody(types);
+}
+
 Instruction* Controller::inject(IRGenerationContext& context, ExpressionList received) const {
   checkArguments(received);
   Instruction* malloc = createMalloc(context);
@@ -111,49 +148,12 @@ void Controller::initializeVTable(IRGenerationContext& context, Instruction* mal
   }
 }
 
-void Controller::setFields(vector<Field*> receivedFields,
-                           vector<Field*> injectedFields,
-                           vector<Field*> stateFields) {
-  mReceivedFields = receivedFields;
-  mInjectedFields = injectedFields;
-  mStateFields = stateFields;
-
-  for (Field* field : receivedFields) {
-    mFields[field->getName()] = field;
-  }
-  for (Field* field : injectedFields) {
-    mFields[field->getName()] = field;
-  }
-  for (Field* field : stateFields) {
-    mFields[field->getName()] = field;
-  }
-}
-
-void Controller::setInterfaces(vector<Interface *> interfaces) {
-  mInterfaces = interfaces;
-  
-  for (Interface* interface : mInterfaces) {
-    addInterfaceAndItsParents(mFlattenedInterfaceHierarchy, interface);
-  }
-}
-
-void Controller::setMethods(vector<Method *> methods) {
-  mMethods = methods;
-  for (Method* method : methods) {
-    mNameToMethodMap[method->getName()] = method;
-  }
-}
-
 Field* Controller::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
   }
   
   return mFields.at(fieldName);
-}
-
-void Controller::setStructBodyTypes(vector<Type*> types) {
-  mStructType->setBody(types);
 }
 
 Method* Controller::findMethod(std::string methodName) const {
