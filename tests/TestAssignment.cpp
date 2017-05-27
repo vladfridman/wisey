@@ -53,12 +53,7 @@ public:
     string interfaceFullName = "systems.vos.wisey.compiler.tests.ICar";
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     carInterfaceStructType->setBody(carInterfaceTypes);
-    vector<MethodSignature*> carInterfaceMethods;
-    vector<Interface*> carParentInterfaces;
-    mCarInterface = new Interface(interfaceFullName,
-                                  carInterfaceStructType,
-                                  carParentInterfaces,
-                                  carInterfaceMethods);
+    mCarInterface = new Interface(interfaceFullName, carInterfaceStructType);
   }
   
   ~AssignmentTest() {

@@ -135,11 +135,9 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                          methodThrownExceptions,
                                                          0);
   interfaceMethodSignatures.push_back(methodSignature);
+  Interface *interface = new Interface(interfaceFullName, structType);
   vector<Interface*> parentInterfaces;
-  Interface *interface = new Interface(interfaceFullName,
-                                       structType,
-                                       parentInterfaces,
-                                       interfaceMethodSignatures);
+  interface->setParentInterfacesAndMethodSignatures(parentInterfaces, interfaceMethodSignatures);
   Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());
   new GlobalVariable(*mContext.getModule(),
                      stringConstant->getType(),

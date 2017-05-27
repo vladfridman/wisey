@@ -30,7 +30,6 @@ struct IRGenerationContextTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Interface* mInterface;
-  Interface* mAnotherInterface;
   Controller* mController;
   Model* mModel;
   Model* mAnotherModel;
@@ -38,16 +37,7 @@ struct IRGenerationContextTest : public Test {
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
-    vector<Interface*> interfaceParentInterfaces;
-    vector<MethodSignature*> interfaceMethodSignatures;
-    mInterface = new Interface(interfaceFullName,
-                               interfaceStructType,
-                               interfaceParentInterfaces,
-                               interfaceMethodSignatures);
-    mAnotherInterface = new Interface(interfaceFullName,
-                                      interfaceStructType,
-                                      interfaceParentInterfaces,
-                                      interfaceMethodSignatures);
+    mInterface = new Interface(interfaceFullName, interfaceStructType);
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
@@ -176,12 +166,7 @@ TEST_F(IRGenerationContextTest, getControllerDoesNotExistDeathTest) {
 TEST_F(IRGenerationContextTest, addInterfaceTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
-  vector<MethodSignature*> methodSignatures;
-  vector<Interface*> parentInterfaces;
-  Interface* interface = new Interface(interfaceFullName,
-                                       structType,
-                                       parentInterfaces,
-                                       methodSignatures);
+  Interface* interface = new Interface(interfaceFullName, structType);
   mContext.addInterface(interface);
   Interface* resultInterface =
     mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
@@ -193,32 +178,12 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
 TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
-  vector<MethodSignature*> methodSignatures;
-  vector<Interface*> parentInterfaces;
-  Interface* interface = new Interface(interfaceFullName,
-                                       structType,
-                                       parentInterfaces,
-                                       methodSignatures);
+  Interface* interface = new Interface(interfaceFullName, structType);
   mContext.addInterface(interface);
   
   EXPECT_EXIT(mContext.addInterface(interface),
               ::testing::ExitedWithCode(1),
               "Redefinition of interface systems.vos.wisey.compiler.tests.IMyInterface");
-}
-
-TEST_F(IRGenerationContextTest, replaceInterfaceTest) {
-  mContext.addInterface(mInterface);
-  mContext.replaceInterface(mAnotherInterface);
-  
-  EXPECT_EQ(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"),
-            mAnotherInterface);
-}
-
-TEST_F(IRGenerationContextTest, replaceInterfaceNotDefinedDeathTest) {
-  EXPECT_EXIT(mContext.replaceInterface(mAnotherInterface),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not replace interface systems.vos.wisey.compiler.tests.IMyInterface "
-              "because it is not defined");
 }
 
 TEST_F(IRGenerationContextTest, getInterfaceDoesNotExistDeathTest) {

@@ -100,11 +100,6 @@ public:
   void addController(Controller* controller);
 
   /**
-   * Replace a controller with a new one of the same name
-   */
-  void replaceController(Controller* controller);
-
-  /**
    * Look up a Controller type
    */
   Controller* getController(std::string name);
@@ -113,11 +108,6 @@ public:
    * Add an Interface type
    */
   void addInterface(Interface* interface);
-  
-  /**
-   * Replace an interface with a new one of the same name
-   */
-  void replaceInterface(Interface* interface);
 
   /**
    * Look up an Interface type

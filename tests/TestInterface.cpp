@@ -43,12 +43,7 @@ struct InterfaceTest : public Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(objectTypes);
-    vector<MethodSignature*> objectMethodSignatures;
-    vector<Interface*> objectParentInterfaces;
-    mObjectInterface = new Interface(objectFullName,
-                                     objectStructType,
-                                     objectParentInterfaces,
-                                     objectMethodSignatures);
+    mObjectInterface = new Interface(objectFullName, objectStructType);
 
     vector<Type*> shapeTypes;
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -66,10 +61,9 @@ struct InterfaceTest : public Test {
     shapeMethodSignatures.push_back(mMethodSignature);
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterface);
-    mShapeInterface = new Interface(shapeFullName,
-                                    mShapeStructType,
-                                    shapeParentInterfaces,
-                                    shapeMethodSignatures);
+    mShapeInterface = new Interface(shapeFullName, mShapeStructType);
+    mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
+                                                            shapeMethodSignatures);
 
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                             mShapeInterface->getName());

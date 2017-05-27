@@ -59,12 +59,7 @@ public:
     string carFullName = "systems.vos.wisey.compiler.tests.ICar";
     StructType* carInterfaceStructType = StructType::create(mContext.getLLVMContext(), carFullName);
     carInterfaceStructType->setBody(carInterfaceTypes);
-    vector<MethodSignature*> carInterfaceMethods;
-    vector<Interface*> carParentInterfaces;
-    mCarInterface = new Interface(carFullName,
-                                  carInterfaceStructType,
-                                  carParentInterfaces,
-                                  carInterfaceMethods);
+    mCarInterface = new Interface(carFullName, carInterfaceStructType);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

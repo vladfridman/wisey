@@ -64,10 +64,9 @@ struct ControllerTest : public Test {
                                                               0);
     calculatorInterfaceMethods.push_back(calculateSignature);
     vector<Interface*> calculatorParentInterfaces;
-    mCalculatorInterface = new Interface(calculatorFullName,
-                                         calculatorIinterfaceStructType,
-                                         calculatorParentInterfaces,
-                                         calculatorInterfaceMethods);
+    mCalculatorInterface = new Interface(calculatorFullName, calculatorIinterfaceStructType);
+    mCalculatorInterface->setParentInterfacesAndMethodSignatures(calculatorParentInterfaces,
+                                                                 calculatorInterfaceMethods);
     
     vector<Type*> scienceCalculatorInterfaceTypes;
     string scienceCalculatorFullName = "systems.vos.wisey.compiler.tests.IScienceCalculator";
@@ -79,9 +78,10 @@ struct ControllerTest : public Test {
     vector<Interface*> scienceCalculatorParentInterfaces;
     scienceCalculatorParentInterfaces.push_back(mCalculatorInterface);
     mScienceCalculatorInterface = new Interface(scienceCalculatorFullName,
-                                                scienceCalculatorIinterfaceStructType,
-                                                scienceCalculatorParentInterfaces,
-                                                scienceCalculatorInterfaceMethods);
+                                                scienceCalculatorIinterfaceStructType);
+    mScienceCalculatorInterface->
+    setParentInterfacesAndMethodSignatures(scienceCalculatorParentInterfaces,
+                                           scienceCalculatorInterfaceMethods);
 
     vector<Type*> objectInterfaceTypes;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
@@ -97,11 +97,10 @@ struct ControllerTest : public Test {
                                                               objectThrownExceptions,
                                                               0);
     objectInterfaceMethods.push_back(methodBarSignature);
+    mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
     vector<Interface*> objectParentInterfaces;
-    mObjectInterface = new Interface(objectFullName,
-                                     objectInterfaceStructType,
-                                     objectParentInterfaces,
-                                     objectInterfaceMethods);
+    mObjectInterface->setParentInterfacesAndMethodSignatures(objectParentInterfaces,
+                                                             objectInterfaceMethods);
 
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -184,14 +183,7 @@ struct ControllerTest : public Test {
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vehicleInterfaceStructType->setBody(vehicleInterfaceTypes);
-    vector<MethodArgument*> vehicleInterfaceMethodArguments;
-    vector<MethodSignature*> vehicleInterfaceMethods;
-    vector<IType*> vehicleThrownExceptions;
-    vector<Interface*> vehicleParentInterfaces;
-    mVehicleInterface = new Interface(vehicleFullName,
-                                      vehicleInterfaceStructType,
-                                      vehicleParentInterfaces,
-                                      vehicleInterfaceMethods);
+    mVehicleInterface = new Interface(vehicleFullName, vehicleInterfaceStructType);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     Function* function = Function::Create(functionType,

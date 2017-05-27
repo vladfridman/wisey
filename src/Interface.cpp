@@ -29,28 +29,22 @@ Interface::~Interface() {
   mNameToMethodSignatureMap.clear();
 }
 
-Interface::Interface(string name,
-                     StructType* structType,
-                     vector<Interface*> parentInterfaces,
-                     vector<MethodSignature*> methodSignatures) {
-  mName = name;
-  mStructType = structType;
+void Interface::setParentInterfacesAndMethodSignatures(vector<Interface *> parentInterfaces,
+                                                       vector<MethodSignature *> methodSignatures) {
   mParentInterfaces = parentInterfaces;
   mMethodSignatures = methodSignatures;
-  
-  prepare();
-}
-
-void Interface::prepare() {
   for (MethodSignature* methodSignature : mMethodSignatures) {
     mNameToMethodSignatureMap[methodSignature->getName()] = methodSignature;
     mAllMethodSignatures.push_back(methodSignature);
   }
-
   unsigned long methodIndex = mMethodSignatures.size();
   for (Interface* parentInterface : mParentInterfaces) {
     methodIndex = includeInterfaceMethods(parentInterface, methodIndex);
   }
+}
+
+void Interface::setStructBodyTypes(vector<Type*> types) {
+  mStructType->setBody(types);
 }
 
 unsigned long Interface::includeInterfaceMethods(Interface* parentInterface,

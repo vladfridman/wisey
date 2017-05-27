@@ -109,11 +109,10 @@ struct TestTypeComparisionExpressionTest : public Test {
                                                               subShapeThrownExceptions,
                                                               0);
     subShapeInterfaceMethods.push_back(methodFooSignature);
+    mSubShapeInterface = new Interface(subShapeFullName, subShapeIinterfaceStructType);
     vector<Interface*> subShapeParentInterfaces;
-    mSubShapeInterface = new Interface(subShapeFullName,
-                                       subShapeIinterfaceStructType,
-                                       subShapeParentInterfaces,
-                                       subShapeInterfaceMethods);
+    mSubShapeInterface->setParentInterfacesAndMethodSignatures(subShapeParentInterfaces,
+                                                               subShapeInterfaceMethods);
     
     vector<Type*> shapeInterfaceTypes;
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -131,10 +130,9 @@ struct TestTypeComparisionExpressionTest : public Test {
     shapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mSubShapeInterface);
-    mShapeInterface = new Interface(shapeFullName,
-                                    shapeIinterfaceStructType,
-                                    shapeParentInterfaces,
-                                    shapeInterfaceMethods);
+    mShapeInterface = new Interface(shapeFullName, shapeIinterfaceStructType);
+    mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
+                                                            shapeInterfaceMethods);
     
     vector<Type*> objectInterfaceTypes;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
@@ -150,22 +148,16 @@ struct TestTypeComparisionExpressionTest : public Test {
                                                               objectThrownExceptions,
                                                               0);
     objectInterfaceMethods.push_back(methodBarSignature);
+    mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
     vector<Interface*> objectParentInterfaces;
-    mObjectInterface = new Interface(objectFullName,
-                                     objectInterfaceStructType,
-                                     objectParentInterfaces,
-                                     objectInterfaceMethods);
+    mObjectInterface->setParentInterfacesAndMethodSignatures(objectParentInterfaces,
+                                                             objectInterfaceMethods);
     
     vector<Type*> carInterfaceTypes;
     string carFullName = "systems.vos.wisey.compiler.tests.ICar";
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
     carInterfaceStructType->setBody(carInterfaceTypes);
-    vector<MethodSignature*> carInterfaceMethods;
-    vector<Interface*> carParentInterfaces;
-    mCarInterface = new Interface(carFullName,
-                                  carInterfaceStructType,
-                                  carParentInterfaces,
-                                  carInterfaceMethods);
+    mCarInterface = new Interface(carFullName, carInterfaceStructType);
     
     vector<Interface*> sqaureInterfaces;
     sqaureInterfaces.push_back(mShapeInterface);

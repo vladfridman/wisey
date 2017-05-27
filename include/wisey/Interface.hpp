@@ -39,13 +39,22 @@ class Interface : public IObjectWithMethodsType {
   
 public:
   
-  Interface(std::string name,
-            llvm::StructType* structType,
-            std::vector<Interface*> parentInterfaces,
-            std::vector<MethodSignature*> methodSignatures);
+  Interface(std::string name, llvm::StructType* structType)
+  : mName(name), mStructType(structType) { }
   
   ~Interface();
   
+  /**
+   * Set parent interfaces and method signatures for this interface
+   */
+  void setParentInterfacesAndMethodSignatures(std::vector<Interface*> parentInterfaces,
+                                              std::vector<MethodSignature*> methodSignatures);
+
+  /**
+   * Set body types of the struct that represents this interface
+   */
+  void setStructBodyTypes(std::vector<llvm::Type*> types);
+
   /**
    * Generate functions that map interface methods to model methods
    */
@@ -109,8 +118,6 @@ public:
                       IType* toType) const override;
   
 private:
-  
-  void prepare();
   
   unsigned long includeInterfaceMethods(Interface* parentInterface,
                                         unsigned long methodIndex);
