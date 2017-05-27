@@ -153,20 +153,16 @@ struct ModelTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel = new Model(modelFullName, mStructType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, mStructType);
+    mModel->setFields(fields);
+    mModel->setMethods(methods);
+    mModel->setInterfaces(interfaces);
 
     string cirlceFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    vector<Method*> circleMethods;
-    map<string, Field*> circleFields;
-    vector<Interface*> circleInterfaces;
-    mCircleModel = new Model(cirlceFullName,
-                             circleStructType,
-                             circleFields,
-                             circleMethods,
-                             circleInterfaces);
+    mCircleModel = new Model(cirlceFullName, circleStructType);
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, cirlceFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
@@ -185,13 +181,8 @@ struct ModelTest : public Test {
     starFields["mBrightness"] =
       new Field(PrimitiveTypes::INT_TYPE, "mBrightness", 0, fieldArguments);
     starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
-    vector<Method*> starMethods;
-    vector<Interface*> starInterfaces;
-    mStarModel = new Model(starFullName,
-                           starStructType,
-                           starFields,
-                           starMethods,
-                           starInterfaces);
+    mStarModel = new Model(starFullName, starStructType);
+    mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));

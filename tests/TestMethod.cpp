@@ -65,9 +65,8 @@ public:
     ExpressionList fieldArguments;
     fields["foo"] = new Field(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
     fields["bar"] = new Field(PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
-    vector<Method*> methods;
-    vector<Interface*> interfaces;
-    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType);
+    mModel->setFields(fields);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

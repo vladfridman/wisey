@@ -37,14 +37,30 @@ class Model : public IObjectWithFieldsType, public IObjectWithMethodsType {
   
 public:
   
-  Model(std::string name,
-        llvm::StructType* structType,
-        std::map<std::string, Field*> fields,
-        std::vector<Method*> methods,
-        std::vector<Interface*> interfaces);
+  Model(std::string name, llvm::StructType* structType) : mName(name), mStructType(structType) { }
   
   ~Model();
   
+  /**
+   * Set fields to the given map of fields
+   */
+  void setFields(std::map<std::string, Field*> fields);
+  
+  /**
+   * Set interfaces for this model
+   */
+  void setInterfaces(std::vector<Interface*> interfaces);
+  
+  /**
+   * Set methods for this model
+   */
+  void setMethods(std::vector<Method*> methods);
+
+  /**
+   * Set body types of the struct that represents this model
+   */
+  void setStructBodyTypes(std::vector<llvm::Type*> types);
+
   /**
    * Gets a set of field names and returns the ones that are missing
    */
@@ -121,8 +137,6 @@ public:
 private:
   
   int getInterfaceIndex(Interface* interface) const;
-  
-  std::vector<Interface*> createFlattenedInterfaceHierarchy() const;
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   

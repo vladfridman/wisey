@@ -47,8 +47,9 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
                                    NULL,
                                    0);
     methods.push_back(fooMethod);
-    vector<Interface*> interfaces;
-    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType);
+    mModel->setFields(fields);
+    mModel->setMethods(methods);
     mContext.addModel(mModel);
 
     mPackage.push_back("systems");

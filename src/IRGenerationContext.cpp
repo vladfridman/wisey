@@ -67,20 +67,6 @@ void IRGenerationContext::addModel(Model* model) {
   mImports[model->getShortName()] = model;
 }
 
-void IRGenerationContext::replaceModel(Model* model) {
-  string name = model->getName();
-  if (!mModels.count(name)) {
-    Log::e("Can not replace model " + name + " because it is not defined");
-    exit(1);
-  }
-  
-  Model* oldModel = mModels[name];
-  mModels[name] = model;
-  mImports[model->getShortName()] = model;
-  
-  delete oldModel;
-}
-
 Model* IRGenerationContext::getModel(string name) {
   if (!mModels.count(name)) {
     Log::e("Model " + name + " is not defined");

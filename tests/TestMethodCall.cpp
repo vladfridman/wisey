@@ -89,8 +89,9 @@ public:
                                    NULL,
                                    1);
     methods.push_back(barMethod);
-    vector<Interface*> interfaces;
-    mModel = new Model(modelFullName, mStructType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, mStructType);
+    mModel->setFields(fields);
+    mModel->setMethods(methods);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* mainFunction = Function::Create(functionType,

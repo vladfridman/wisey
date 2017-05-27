@@ -24,21 +24,26 @@ Model::~Model() {
   mMethods.clear();
 }
 
-Model::Model(string name,
-             StructType* structType,
-             map<string, Field*> fields,
-             vector<Method*> methods,
-             vector<Interface*> interfaces) {
-  mName = name;
-  mStructType = structType;
+void Model::setFields(map<string, Field *> fields) {
   mFields = fields;
-  mMethods = methods;
+}
+
+void Model::setInterfaces(vector<Interface*> interfaces) {
   mInterfaces = interfaces;
-  
+  for (Interface* interface : mInterfaces) {
+    addInterfaceAndItsParents(mFlattenedInterfaceHierarchy, interface);
+  }
+}
+
+void Model::setMethods(vector<Method*> methods) {
+  mMethods = methods;
   for (Method* method : methods) {
     mNameToMethodMap[method->getName()] = method;
   }
-  mFlattenedInterfaceHierarchy = createFlattenedInterfaceHierarchy();
+}
+
+void Model::setStructBodyTypes(vector<Type *> types) {
+  mStructType->setBody(types);
 }
 
 Value* Model::getSize(IRGenerationContext& context) const {
@@ -106,14 +111,6 @@ vector<Interface*> Model::getFlattenedInterfaceHierarchy() const {
 bool Model::doesImplmentInterface(Interface* interface) const {
   // TODO: optimize this
   return getInterfaceIndex(interface) >= 0;
-}
-
-vector<Interface*> Model::createFlattenedInterfaceHierarchy() const {
-  vector<Interface*> result;
-  for (Interface* interface : mInterfaces) {
-    addInterfaceAndItsParents(result, interface);
-  }
-  return result;
 }
 
 void Model::addInterfaceAndItsParents(vector<Interface*>& result, Interface* interface) const {

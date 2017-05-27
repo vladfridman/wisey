@@ -42,8 +42,8 @@ struct AdditiveMultiplicativeExpressionTest : Test {
   raw_string_ostream* mStringStream;
 
   AdditiveMultiplicativeExpressionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    Value * leftValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-    Value * rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+    Value* leftValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+    Value* rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
     ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
@@ -101,10 +101,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   
   string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
-  vector<Interface*> interfaces;
-  map<string, Field*> fields;
-  vector<Method*> methods;
-  Model* model = new Model(modelFullName, structType, fields, methods, interfaces);
+  Model* model = new Model(modelFullName, structType);
 
   ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(model));

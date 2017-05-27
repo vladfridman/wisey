@@ -85,11 +85,6 @@ public:
   void addModel(Model* model);
   
   /**
-   * Replace an model with a new one of the same name
-   */
-  void replaceModel(Model* model);
-  
-  /**
    * Look up a MODEL type
    */
   Model* getModel(std::string name);

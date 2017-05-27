@@ -57,8 +57,9 @@ public:
                                    NULL,
                                    0);
     methods.push_back(fooMethod);
-    vector<Interface*> interfaces;
-    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType);
+    mModel->setMethods(methods);
+    mModel->setFields(fields);
     mContext.addModel(mModel);
 
     vector<string> package;

@@ -44,14 +44,7 @@ struct ThrowStatementTest : public Test {
     StructType* circleStructType = StructType::create(mLLVMContext, circleFullName);
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    vector<Method*> circleMethods;
-    map<string, Field*> circleFields;
-    vector<Interface*> circleInterfaces;
-    mCircleModel = new Model(circleFullName,
-                             circleStructType,
-                             circleFields,
-                             circleMethods,
-                             circleInterfaces);
+    mCircleModel = new Model(circleFullName, circleStructType);
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, circleFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),

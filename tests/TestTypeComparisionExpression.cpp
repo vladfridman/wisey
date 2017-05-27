@@ -162,24 +162,16 @@ struct TestTypeComparisionExpressionTest : public Test {
     vector<Interface*> sqaureInterfaces;
     sqaureInterfaces.push_back(mShapeInterface);
     sqaureInterfaces.push_back(mObjectInterface);
-    mSquareModel = new Model(squareFullName,
-                             squareStructType,
-                             squareFields,
-                             squareMethods,
-                             sqaureInterfaces);
+    mSquareModel = new Model(squareFullName, squareStructType);
+    mSquareModel->setFields(squareFields);
+    mSquareModel->setMethods(squareMethods);
+    mSquareModel->setInterfaces(sqaureInterfaces);
     
     string circleFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, "MCircle");
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    vector<Method*> circleMethods;
-    map<string, Field*> circleFields;
-    vector<Interface*> circleInterfaces;
-    mCircleModel = new Model(circleFullName,
-                             circleStructType,
-                             circleFields,
-                             circleMethods,
-                             circleInterfaces);
+    mCircleModel = new Model(circleFullName, circleStructType);
   }
   
   ~TestTypeComparisionExpressionTest() {

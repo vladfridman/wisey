@@ -32,7 +32,6 @@ struct IRGenerationContextTest : public Test {
   Interface* mInterface;
   Controller* mController;
   Model* mModel;
-  Model* mAnotherModel;
   
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
@@ -55,20 +54,7 @@ struct IRGenerationContextTest : public Test {
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, "MMyModel");
-    map<string, Field*> modelFields;
-    vector<Method*> modelMethods;
-    vector<Interface*> modelInterfaces;
-    mModel = new Model(modelFullName,
-                       modelStructType,
-                       modelFields,
-                       modelMethods,
-                       modelInterfaces);
-    mAnotherModel = new Model(modelFullName,
-                              modelStructType,
-                              modelFields,
-                              modelMethods,
-                              modelInterfaces);
-
+    mModel = new Model(modelFullName, modelStructType);
   }
   
   ~IRGenerationContextTest() { }
@@ -118,21 +104,6 @@ TEST_F(IRGenerationContextTest, addModelAlreadyDefinedDeathTest) {
   EXPECT_EXIT(mContext.addModel(mModel),
               ::testing::ExitedWithCode(1),
               "Redefinition of model systems.vos.wisey.compiler.tests.MMyModel");
-}
-
-TEST_F(IRGenerationContextTest, replaceModelTest) {
-  mContext.addModel(mModel);
-  mContext.replaceModel(mAnotherModel);
-  
-  EXPECT_EQ(mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel"),
-            mAnotherModel);
-}
-
-TEST_F(IRGenerationContextTest, replaceModelNotDefinedDeathTest) {
-  EXPECT_EXIT(mContext.replaceModel(mAnotherModel),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not replace model systems.vos.wisey.compiler.tests.MMyModel "
-              "because it is not defined");
 }
 
 TEST_F(IRGenerationContextTest, getModelDoesNotExistDeathTest) {

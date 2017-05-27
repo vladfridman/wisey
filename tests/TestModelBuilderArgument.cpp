@@ -46,7 +46,8 @@ struct ModelBuilderArgumentTest : Test {
     fields["mFieldA"] = new Field(PrimitiveTypes::INT_TYPE, "mFieldA", 0, fieldArguments);
     vector<Method*> methods;
     vector<Interface*> interfaces;
-    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType);
+    mModel->setFields(fields);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));

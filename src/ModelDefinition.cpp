@@ -25,38 +25,33 @@ ModelDefinition::~ModelDefinition() {
 }
 
 void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  map<string, Field*> fields;
-  vector<Method*> methods;
-  vector<Interface*> interfaces;
   string fullName = getFullName(context);
-  StructType* structType = StructType::create(llvmContext, fullName);
+  StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = new Model(fullName, structType, fields, methods, interfaces);
+  Model* model = new Model(fullName, structType);
   context.addModel(model);
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  string fullName = getFullName(context);
-  StructType* structType = StructType::create(llvmContext, fullName);
-  
   vector<Type*> types;
   vector<Interface*> interfaces = processInterfaces(context, types);
   map<string, Field*> fields = createFields(context, interfaces.size());
   vector<Method*> methods = createMethods(context);
-  Model* model = new Model(fullName, structType, fields, methods, interfaces);
+  Model* model = context.getModel(getFullName(context));
+  model->setFields(fields);
+  model->setMethods(methods);
+  model->setInterfaces(interfaces);
 
   context.getScopes().pushScope();
 
   createFieldVariables(context, model, types);
-  structType->setBody(types);
+  model->setStructBodyTypes(types);
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, model);
   defineTypeName(context, model);
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, model);
   processInterfaceMethods(context, model, interfaces, methodFunctionMap, typeListGlobal);
 
-  context.replaceModel(model);
+  context.addImport(model);
   context.getScopes().popScope(context);
 
   model->createRTTI(context);

@@ -60,9 +60,8 @@ public:
     ExpressionList fieldArguments;
     fields["width"] = new Field(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
-    vector<Method*> methods;
-    vector<Interface*> interfaces;
-    mModel = new Model(modelFullName, structType, fields, methods, interfaces);
+    mModel = new Model(modelFullName, structType);
+    mModel->setFields(fields);
   }
 };
 
