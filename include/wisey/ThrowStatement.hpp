@@ -28,8 +28,6 @@ public:
   ThrowStatement(IExpression& conditionExpression) : mExpression(conditionExpression) { }
   
   ~ThrowStatement() { }
-  
-  void prototypeObjects(IRGenerationContext& context) const override;
 
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 

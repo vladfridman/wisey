@@ -12,7 +12,7 @@
 #include "wisey/Block.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/IStatement.hpp"
+#include "wisey/IObjectDefinitionStatement.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelFieldDeclaration.hpp"
 
@@ -21,7 +21,7 @@ namespace wisey {
 /**
  * Represents MODEL definition which is analogous to an immutable class in C++
  */
-class ModelDefinition : public IStatement {
+class ModelDefinition : public IObjectDefinitionStatement {
   const std::string mName;
   std::vector<ModelFieldDeclaration*> mFieldDeclarations;
   std::vector<MethodDeclaration*> mMethodDeclarations;

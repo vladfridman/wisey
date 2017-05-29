@@ -14,7 +14,7 @@
 
 #include "wisey/ControllerFieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/IStatement.hpp"
+#include "wisey/IObjectDefinitionStatement.hpp"
 #include "wisey/MethodDeclaration.hpp"
 
 namespace wisey {
@@ -22,7 +22,7 @@ namespace wisey {
 /**
  * Represents CONTROLLER definition which is analogous to a class in C++ with dependency injection
  */
-class ControllerDefinition : public IStatement {
+class ControllerDefinition : public IObjectDefinitionStatement {
   std::string mName;
   std::vector<ControllerFieldDeclaration*> mReceivedFieldDeclarations;
   std::vector<ControllerFieldDeclaration*> mInjectedFieldDeclarations;

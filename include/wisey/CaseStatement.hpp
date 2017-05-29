@@ -40,8 +40,6 @@ public:
   
   bool isFallThrough() const;
   
-  void prototypeObjects(IRGenerationContext& context) const override;
-  
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 
   /**

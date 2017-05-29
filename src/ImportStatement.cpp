@@ -17,9 +17,6 @@ ImportStatement::~ImportStatement() {
   delete mTypeSpecifier;
 }
 
-void ImportStatement::prototypeObjects(IRGenerationContext& context) const {
-}
-
 Value* ImportStatement::generateIR(IRGenerationContext& context) const {
   context.addImport((IObjectType*) mTypeSpecifier->getType(context));
 

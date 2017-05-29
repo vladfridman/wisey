@@ -11,9 +11,6 @@
 using namespace llvm;
 using namespace wisey;
 
-void CompoundStatement::prototypeObjects(IRGenerationContext& context) const {
-}
-
 Value* CompoundStatement::generateIR(IRGenerationContext& context) const {
   Scopes& scopes = context.getScopes();
   

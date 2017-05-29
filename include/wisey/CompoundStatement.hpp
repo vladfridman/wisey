@@ -28,8 +28,6 @@ public:
   
   ~CompoundStatement() { }
   
-  void prototypeObjects(IRGenerationContext& context) const override;
-  
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
 

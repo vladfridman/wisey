@@ -13,9 +13,6 @@
 using namespace llvm;
 using namespace wisey;
 
-void SwitchStatement::prototypeObjects(IRGenerationContext& context) const {
-}
-
 Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
   Function* function = context.getBasicBlock()->getParent();
   LLVMContext& llvmContext = context.getLLVMContext();

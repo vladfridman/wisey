@@ -33,6 +33,7 @@
   #include "wisey/IntConstant.hpp"
   #include "wisey/InterfaceDefinition.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
+  #include "wisey/IObjectDefinitionStatement.hpp"
   #include "wisey/IObjectWithMethodsType.hpp"
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/Log.hpp"
@@ -50,6 +51,7 @@
   #include "wisey/NegateExpression.hpp"
   #include "wisey/PrimitiveTypes.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
+  #include "wisey/ProgramBlock.hpp"
   #include "wisey/ProgramFile.hpp"
   #include "wisey/RelationalExpression.hpp"
   #include "wisey/ReturnStatement.hpp"
@@ -86,7 +88,9 @@
   wisey::INode *node;
   wisey::IExpression* expression;
   wisey::IStatement* statement;
+  wisey::IObjectDefinitionStatement* object_definition_statement;
   wisey::Block* block;
+  wisey::ProgramBlock* program_block;
   wisey::CompoundStatement* compound_statement;
   wisey::CaseStatement* case_statement;
   wisey::DefaultCaseStatement* default_case_statement;
@@ -147,14 +151,17 @@
 %type <expression> type_comparision_expression increment_expression
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
-%type <block> block_item_list global_unit_list
+%type <block> block_item_list 
+%type <program_block> global_unit_list
 %type <program_file> program
 %type <statement> statement variable_declaration
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> global_unit declaration expression_statement iteration_statement
-%type <statement> selection_statement model_definition interface_definition
-%type <statement> controller_definition throw_statement try_catch_statement finally_clause
+%type <statement> selection_statement
+%type <statement> throw_statement try_catch_statement finally_clause
 %type <statement> bind_action import_statement
+%type <object_definition_statement> controller_definition interface_definition model_definition
+%type <object_definition_statement> object_definition
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
@@ -218,16 +225,30 @@ package_name
   ;
 
 global_unit_list
-  : global_unit { $$ = new Block(); $$->getStatements().push_back($<statement>1); }
-  | global_unit_list global_unit { $1->getStatements().push_back($<statement>2); }
+  : object_definition
+    {
+      $$ = new ProgramBlock();
+      $$->getStatements().push_back($1);
+      $$->getObjectDefinitions().push_back($1);
+    }
+  | global_unit { $$ = new ProgramBlock(); $$->getStatements().push_back($1); }
+  | global_unit_list object_definition
+    {
+      $1->getStatements().push_back($2);
+      $1->getObjectDefinitions().push_back($2);
+    }
+  | global_unit_list global_unit { $1->getStatements().push_back($2); }
   ;
 
 global_unit
+  : bind_action
+  | import_statement
+  ;
+
+object_definition
   : model_definition
   | interface_definition
   | controller_definition
-  | bind_action
-  | import_statement
   ;
 
 import_statement

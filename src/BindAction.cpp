@@ -18,9 +18,6 @@ BindAction::~BindAction() {
   delete mInterfaceTypeSpecifier;
 }
 
-void BindAction::prototypeObjects(IRGenerationContext& context) const {
-}
-
 Value* BindAction::generateIR(IRGenerationContext& context) const {
   Controller* controller = dynamic_cast<Controller*>(mContreollerTypeSpecifier->getType(context));
   Interface* interface = dynamic_cast<Interface*>(mInterfaceTypeSpecifier->getType(context));

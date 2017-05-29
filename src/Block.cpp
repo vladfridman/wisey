@@ -12,12 +12,6 @@
 using namespace llvm;
 using namespace wisey;
 
-void Block::prototypeObjects(IRGenerationContext& context) const {
-  for (IStatement* statement : mStatements) {
-    statement->prototypeObjects(context);
-  }
-}
-
 Value* Block::generateIR(IRGenerationContext& context) const {
   for (IStatement* statement : mStatements) {
     statement->generateIR(context);

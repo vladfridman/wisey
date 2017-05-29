@@ -30,9 +30,7 @@ public:
     : mStatement(statement), mConditionExpression(conditionExpression) { }
   
   ~DoStatement() { }
-  
-  void prototypeObjects(IRGenerationContext& context) const override;
-  
+    
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
   

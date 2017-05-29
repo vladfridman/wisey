@@ -13,6 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "MockObjectDefinitionStatement.hpp"
 #include "MockStatement.hpp"
 #include "wisey/ProgramFile.hpp"
 
@@ -28,14 +29,15 @@ using ::testing::Test;
 struct ProgramFileTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockStatement> mStatement;
+  NiceMock<MockObjectDefinitionStatement> mObjectDefinitionStatement;
   string mPackage;
-  Block* mBlock;
+  ProgramBlock* mProgramBlock;
   ProgramFile* mProgramFile;
   
   ProgramFileTest() {
     mPackage = "systems.vos.wisey.compiler.tests";
-    mBlock = new Block();
-    mProgramFile = new ProgramFile(mPackage, mBlock);
+    mProgramBlock = new ProgramBlock();
+    mProgramFile = new ProgramFile(mPackage, mProgramBlock);
   }
   
   ~ProgramFileTest() {
@@ -44,14 +46,14 @@ struct ProgramFileTest : public Test {
 };
 
 TEST_F(ProgramFileTest, prototypeTest) {
-  mBlock->getStatements().push_back(&mStatement);
-  EXPECT_CALL(mStatement, prototypeObjects(_)).Times(1);
+  mProgramBlock->getObjectDefinitions().push_back(&mObjectDefinitionStatement);
+  EXPECT_CALL(mObjectDefinitionStatement, prototypeObjects(_)).Times(1);
   
   mProgramFile->prototypeObjects(mContext);
 }
 
 TEST_F(ProgramFileTest, generateIRTest) {
-  mBlock->getStatements().push_back(&mStatement);
+  mProgramBlock->getStatements().push_back(&mStatement);
   EXPECT_CALL(mStatement, generateIR(_)).Times(1);
   
   mProgramFile->generateIR(mContext);

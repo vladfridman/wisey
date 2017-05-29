@@ -12,7 +12,7 @@
 #include "wisey/Block.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/IStatement.hpp"
+#include "wisey/IObjectDefinitionStatement.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelFieldDeclaration.hpp"
 
@@ -21,7 +21,7 @@ namespace wisey {
 /**
  * Represents an INTERFACE definition which is analogous to a pure virtual class in C++
  */
-class InterfaceDefinition : public IStatement {
+class InterfaceDefinition : public IObjectDefinitionStatement {
   const std::string mName;
   std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;

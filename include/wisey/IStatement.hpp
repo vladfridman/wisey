@@ -18,12 +18,6 @@ namespace wisey {
  */
 class IStatement : public INode {
 
-public:
-
-  /**
-   * Generate prototypes of controllers, models and interfaces without any methods or fields
-   */
-  virtual void prototypeObjects(IRGenerationContext& context) const = 0;
 };
 
 /**

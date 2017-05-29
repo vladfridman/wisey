@@ -6,29 +6,33 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ProgramBlock_h
-#define ProgramBlock_h
+#ifndef ProgramFile_h
+#define ProgramFile_h
 
-#include "wisey/Block.hpp"
 #include "wisey/IStatement.hpp"
+#include "wisey/ProgramBlock.hpp"
 
 namespace wisey {
-  
+
 /**
  * Represents one Wisey progarm file
  */
 class ProgramFile : public IStatement {
 
   std::string mPackage;
-  Block* mBlock;
+  ProgramBlock* mProgramBlock;
   
 public:
   
-  ProgramFile(std::string package, Block* block) : mPackage(package), mBlock(block) { }
+  ProgramFile(std::string package, ProgramBlock* programBlock)
+  : mPackage(package), mProgramBlock(programBlock) { }
   
   ~ProgramFile();
   
-  void prototypeObjects(IRGenerationContext& context) const override;
+  /**
+   * Generate object prototypes from controller, model and interface definitions
+   */  
+  void prototypeObjects(IRGenerationContext& context) const;
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
@@ -36,4 +40,4 @@ public:
 
 } /* namespace wisey */
 
-#endif /* ProgramBlock_h */
+#endif /* ProgramFile_h */

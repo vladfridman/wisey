@@ -11,9 +11,6 @@
 using namespace llvm;
 using namespace wisey;
 
-void DefaultCaseStatement::prototypeObjects(IRGenerationContext& context) const {
-}
-
 Value* DefaultCaseStatement::generateIR(IRGenerationContext& context) const {
   return mBlock.generateIR(context);
 }

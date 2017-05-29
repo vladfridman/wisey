@@ -24,8 +24,6 @@ public:
   ReturnStatement(IExpression& expression) : mExpression(expression) { }
   ~ReturnStatement() { }
   
-  void prototypeObjects(IRGenerationContext& context) const override;
-
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
 

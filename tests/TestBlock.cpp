@@ -35,16 +35,6 @@ struct BlockTest : public ::testing::Test {
   BlockTest() { }
 };
 
-TEST_F(BlockTest, prototypeTest) {
-  mBlock.getStatements().push_back(&mMockStatement1);
-  mBlock.getStatements().push_back(&mMockStatement2);
-  
-  EXPECT_CALL(mMockStatement1, prototypeObjects(_));
-  EXPECT_CALL(mMockStatement2, prototypeObjects(_));
-  
-  mBlock.prototypeObjects(mContext);
-}
-
 TEST_F(BlockTest, generateIRTest) {
   mBlock.getStatements().push_back(&mMockStatement1);
   mBlock.getStatements().push_back(&mMockStatement2);

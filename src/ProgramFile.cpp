@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/ProgramFile.hpp"
 
 using namespace llvm;
@@ -13,17 +14,17 @@ using namespace std;
 using namespace wisey;
 
 ProgramFile::~ProgramFile() {
-  delete mBlock;
+  delete mProgramBlock;
 }
 
 void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
   context.setPackage(mPackage);
 
-  mBlock->prototypeObjects(context);
+  mProgramBlock->prototypeObjects(context);
 }
 
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {
   context.setPackage(mPackage);
   
-  return mBlock->generateIR(context);
+  return mProgramBlock->generateIR(context);
 }

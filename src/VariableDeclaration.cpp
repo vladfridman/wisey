@@ -25,9 +25,6 @@ VariableDeclaration::~VariableDeclaration() {
   delete mTypeSpecifier;
 }
 
-void VariableDeclaration::prototypeObjects(IRGenerationContext& context) const {
-}
-
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   Value* value = mTypeSpecifier->getType(context)->getTypeKind() == PRIMITIVE_TYPE
     ? allocateOnStack(context)

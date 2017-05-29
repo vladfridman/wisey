@@ -19,9 +19,6 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-void ProgramSuffix::prototypeObjects(IRGenerationContext& context) const {
-}
-
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   

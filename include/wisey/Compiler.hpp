@@ -12,9 +12,12 @@
 #include <llvm/ExecutionEngine/GenericValue.h>
 
 #include "wisey/CompilerArguments.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/ProgramFile.hpp"
 
 namespace wisey {
+  
+class IRGenerationContext;
   
 /**
  * Represents Wisey language compiler
