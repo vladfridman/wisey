@@ -54,12 +54,11 @@ void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
                                           vector<vector<Constant*>>& vTables) {
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, object);
 
-  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   vector<Constant*> vTablePortion;
   
-  Constant* bitCast = ConstantExpr::getBitCast(typeListGlobal, pointerType);
-  vTablePortion.push_back(ConstantExpr::getNullValue(pointerType));
-  vTablePortion.push_back(bitCast);
+  vTablePortion.push_back(ConstantExpr::getNullValue(int8Pointer));
+  vTablePortion.push_back(ConstantExpr::getBitCast(typeListGlobal, int8Pointer));
   
   vTables.push_back(vTablePortion);
 }
@@ -68,7 +67,7 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
                                          IConcreteObjectType* object,
                                          vector<vector<Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   unsigned long vTableSize = object->getFlattenedInterfaceHierarchy().size();
   
   for (unsigned long i = 1; i < vTableSize; i++) {
@@ -76,8 +75,8 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
     
     long unthunkBy = -Environment::getAddressSizeInBytes() * i;
     ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
-    vTablePortion.push_back(ConstantExpr::getIntToPtr(unthunk, pointerType));
-    vTablePortion.push_back(ConstantExpr::getNullValue(pointerType));
+    vTablePortion.push_back(ConstantExpr::getIntToPtr(unthunk, int8Pointer));
+    vTablePortion.push_back(ConstantExpr::getNullValue(int8Pointer));
     
     vTables.push_back(vTablePortion);
   }
@@ -115,13 +114,13 @@ void IConcreteObjectType::createVTableGlobal(IRGenerationContext& context,
                                              IConcreteObjectType* object,
                                              vector<vector<Constant*>> interfaceVTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
   vector<Constant*> vTableArray;
   vector<Type*> vTableTypes;
   for (vector<Constant*> vTablePortionVector : interfaceVTables) {
     ArrayRef<Constant*> arrayRef(vTablePortionVector);
-    ArrayType* arrayType = ArrayType::get(pointerType, vTablePortionVector.size());
+    ArrayType* arrayType = ArrayType::get(int8Pointer, vTablePortionVector.size());
     Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
     
     vTableArray.push_back(constantArray);
@@ -143,7 +142,7 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
                                                           IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Interface*> interfaces = object->getFlattenedInterfaceHierarchy();
-  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
   Constant* controllerNamePointer = IObjectType::getObjectNamePointer(object, context);
   
@@ -154,9 +153,9 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
     Constant* interfaceNamePointer = IObjectType::getObjectNamePointer(interface, context);
     typeNames.push_back(interfaceNamePointer);
   }
-  typeNames.push_back(ConstantExpr::getNullValue(pointerType));
+  typeNames.push_back(ConstantExpr::getNullValue(int8Pointer));
   ArrayRef<Constant*> arrayRef(typeNames);
-  ArrayType* arrayType = ArrayType::get(pointerType, typeNames.size());
+  ArrayType* arrayType = ArrayType::get(int8Pointer, typeNames.size());
   Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
   
   return new GlobalVariable(*context.getModule(),
