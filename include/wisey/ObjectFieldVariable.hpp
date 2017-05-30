@@ -9,7 +9,7 @@
 #ifndef ObjectFieldVariable_h
 #define ObjectFieldVariable_h
 
-#include "wisey/IObjectWithFieldsType.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IVariable.hpp"
 #include "wisey/Model.hpp"
 
@@ -22,11 +22,11 @@ class ObjectFieldVariable : public IVariable {
   
   std::string mName;
   llvm::Value* mValue;
-  IObjectWithFieldsType* mObject;
+  IConcreteObjectType* mObject;
   
 public:
   
-  ObjectFieldVariable(std::string name, llvm::Value* value, IObjectWithFieldsType* object)
+  ObjectFieldVariable(std::string name, llvm::Value* value, IConcreteObjectType* object)
     : mName(name), mValue(value), mObject(object) { }
   
   ~ObjectFieldVariable() {}

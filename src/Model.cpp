@@ -92,10 +92,6 @@ string Model::getVTableName() const {
   return getName() + ".vtable";
 }
 
-unsigned long Model::getVTableSize() const {
-  return mFlattenedInterfaceHierarchy.size();
-}
-
 string Model::getObjectNameGlobalVariableName() const {
   return getName() + ".name";
 }

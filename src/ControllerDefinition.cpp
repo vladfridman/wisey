@@ -62,7 +62,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, controller);
   defineTypeName(context, controller);
   
-  IObjectWithVTable::generateVTable(context, controller, methodFunctionMap);
+  IConcreteObjectType::generateVTable(context, controller, methodFunctionMap);
   
   context.addImport(controller);
   context.getScopes().popScope(context);

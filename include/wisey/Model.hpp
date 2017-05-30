@@ -14,8 +14,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/Field.hpp"
-#include "wisey/IObjectWithVTable.hpp"
-#include "wisey/IObjectWithFieldsType.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/ModelBuilderArgument.hpp"
 
@@ -26,7 +25,7 @@ class Interface;
 /**
  * Contains information about a MODEL including the llvm::StructType and field information
  */
-class Model : public IObjectWithFieldsType, public IObjectWithVTable {
+class Model : public IConcreteObjectType {
   std::string mName;
   llvm::StructType* mStructType;
   std::map<std::string, Field*> mFields;
@@ -116,8 +115,6 @@ public:
   
   std::string getVTableName() const override;
   
-  unsigned long getVTableSize() const override;
- 
   std::vector<Interface*> getInterfaces() const override;
   
   std::vector<Interface*> getFlattenedInterfaceHierarchy() const override;

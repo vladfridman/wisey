@@ -13,7 +13,7 @@
 #include <vector>
 
 #include "wisey/ControllerFieldDeclaration.hpp"
-#include "wisey/IObjectWithVTable.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectDefinitionStatement.hpp"
 #include "wisey/MethodDeclaration.hpp"

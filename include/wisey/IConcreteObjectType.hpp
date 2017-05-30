@@ -1,17 +1,18 @@
 //
-//  IObjectWithVTable.hpp
+//  IConcreteObjectType.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 5/30/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef IObjectWithVTable_h
-#define IObjectWithVTable_h
+#ifndef IConcreteObjectType_h
+#define IConcreteObjectType_h
 
 #include <llvm/IR/Instructions.h>
 
-#include "IObjectType.hpp"
+#include "wisey/Field.hpp"
+#include "wisey/IObjectType.hpp"
 
 namespace wisey {
   
@@ -20,22 +21,22 @@ class Interface;
 /**
  * Interface representing a object that has a vTable: controller or a model
  */
-class IObjectWithVTable : public virtual IObjectType {
+class IConcreteObjectType : public IObjectType {
     
 public:
   
-  virtual ~IObjectWithVTable() { }
+  virtual ~IConcreteObjectType() { }
+
+  /**
+   * Looks for a field with a given name in the object
+   */
+  virtual Field* findField(std::string fieldName) const = 0;
 
   /**
    * Returns the name of the vTable global varaible
    */
   virtual std::string getVTableName() const = 0;
   
-  /**
-   * Returns the vTabla size
-   */
-  virtual unsigned long getVTableSize() const = 0;
- 
   /**
    * Returns interfaces that this object implements
    */
@@ -55,35 +56,35 @@ public:
    * Generate vTable global variable for the given object
    */
   static void generateVTable(IRGenerationContext& context,
-                             IObjectWithVTable* object,
+                             IConcreteObjectType* object,
                              std::map<std::string, llvm::Function*>& methodFunctionMap);
   
 private:
   
   static void addTypeListInfo(IRGenerationContext& context,
-                              IObjectWithVTable* object,
+                              IConcreteObjectType* object,
                               std::vector<std::vector<llvm::Constant*>>& vTables);
   
   static void addUnthunkInfo(IRGenerationContext& context,
-                             IObjectWithVTable* object,
+                             IConcreteObjectType* object,
                              std::vector<std::vector<llvm::Constant*>>& vTables);
   
   static void generateInterfaceMapFunctions(IRGenerationContext& context,
-                                            IObjectWithVTable* object,
+                                            IConcreteObjectType* object,
                                             std::vector<std::vector<llvm::Constant*>>& vTables,
                                             std::map<std::string, llvm::Function*>&
                                             methodFunctionMap);
   
   static void createVTableGlobal(IRGenerationContext& context,
-                                 IObjectWithVTable* object,
+                                 IConcreteObjectType* object,
                                  std::vector<std::vector<llvm::Constant*>> interfaceVTables);
   
   static llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context,
-                                                    IObjectWithVTable* object);
+                                                    IConcreteObjectType* object);
 
   
 };
   
 } /* namespace wisey */
 
-#endif /* IObjectWithVTable_h */
+#endif /* IConcreteObjectType_h */

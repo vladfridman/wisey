@@ -13,7 +13,7 @@
 #include "wisey/Identifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectDefinitionStatement.hpp"
-#include "wisey/IObjectWithVTable.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelFieldDeclaration.hpp"
 

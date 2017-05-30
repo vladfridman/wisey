@@ -1,5 +1,5 @@
 //
-//  IObjectWithVTable.cpp
+//  IConcreteObjectType.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 5/30/17.
@@ -11,16 +11,16 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/Environment.hpp"
-#include "wisey/IObjectWithVTable.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-void IObjectWithVTable::generateVTable(IRGenerationContext& context,
-                                       IObjectWithVTable* object,
-                                       map<string, Function*>& methodFunctionMap) {
+void IConcreteObjectType::generateVTable(IRGenerationContext& context,
+                                         IConcreteObjectType* object,
+                                         map<string, Function*>& methodFunctionMap) {
   vector<vector<Constant*>> vTables;
 
   addTypeListInfo(context, object, vTables);
@@ -29,8 +29,8 @@ void IObjectWithVTable::generateVTable(IRGenerationContext& context,
   createVTableGlobal(context, object, vTables);
 }
 
-void IObjectWithVTable::addTypeListInfo(IRGenerationContext& context,
-                                        IObjectWithVTable* object,
+void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
+                                        IConcreteObjectType* object,
                                         vector<vector<Constant*>>& vTables) {
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, object);
 
@@ -44,12 +44,12 @@ void IObjectWithVTable::addTypeListInfo(IRGenerationContext& context,
   vTables.push_back(vTablePortion);
 }
 
-void IObjectWithVTable::addUnthunkInfo(IRGenerationContext& context,
-                                       IObjectWithVTable* object,
-                                       vector<vector<Constant*>>& vTables) {
+void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
+                                         IConcreteObjectType* object,
+                                         vector<vector<Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  unsigned long vTableSize = object->getVTableSize();
+  unsigned long vTableSize = object->getFlattenedInterfaceHierarchy().size();
   
   for (unsigned long i = 1; i < vTableSize; i++) {
     vector<Constant*> vTablePortion;
@@ -63,11 +63,11 @@ void IObjectWithVTable::addUnthunkInfo(IRGenerationContext& context,
   }
 }
 
-void IObjectWithVTable::generateInterfaceMapFunctions(IRGenerationContext& context,
-                                                      IObjectWithVTable* object,
-                                                      vector<vector<Constant*>>& vTables,
-                                                      map<string, Function*>&
-                                                      methodFunctionMap) {
+void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& context,
+                                                        IConcreteObjectType* object,
+                                                        vector<vector<Constant*>>& vTables,
+                                                        map<string, Function*>&
+                                                        methodFunctionMap) {
   
   vector<list<Constant*>> interfaceMapFunctions;
   for (Interface* interface : object->getInterfaces()) {
@@ -92,9 +92,9 @@ void IObjectWithVTable::generateInterfaceMapFunctions(IRGenerationContext& conte
   }
 }
 
-void IObjectWithVTable::createVTableGlobal(IRGenerationContext& context,
-                                           IObjectWithVTable* object,
-                                           vector<vector<Constant*>> interfaceVTables) {
+void IConcreteObjectType::createVTableGlobal(IRGenerationContext& context,
+                                             IConcreteObjectType* object,
+                                             vector<vector<Constant*>> interfaceVTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   
@@ -120,8 +120,8 @@ void IObjectWithVTable::createVTableGlobal(IRGenerationContext& context,
                      object->getVTableName());
 }
 
-GlobalVariable* IObjectWithVTable::createTypeListGlobal(IRGenerationContext& context,
-                                                        IObjectWithVTable* object) {
+GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& context,
+                                                          IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Interface*> interfaces = object->getFlattenedInterfaceHierarchy();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();

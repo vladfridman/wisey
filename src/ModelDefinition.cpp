@@ -49,7 +49,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, model);
   defineTypeName(context, model);
   
-  IObjectWithVTable::generateVTable(context, model, methodFunctionMap);
+  IConcreteObjectType::generateVTable(context, model, methodFunctionMap);
   
   context.addImport(model);
   context.getScopes().popScope(context);

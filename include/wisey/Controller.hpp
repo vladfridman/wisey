@@ -11,10 +11,9 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IExpression.hpp"
-#include "wisey/IObjectWithVTable.hpp"
 #include "wisey/Interface.hpp"
-#include "wisey/IObjectWithFieldsType.hpp"
 #include "wisey/Method.hpp"
 
 namespace wisey {
@@ -22,7 +21,7 @@ namespace wisey {
 /**
  * Contains information about a Controller including its fields and methods
  */
-class Controller : public IObjectWithFieldsType, public IObjectWithVTable {
+class Controller : public IConcreteObjectType {
   std::string mName;
   llvm::StructType* mStructType;
   std::vector<Field*> mReceivedFields;
@@ -91,8 +90,6 @@ public:
                       IType* toType) const override;
 
   std::string getVTableName() const override;
-  
-  unsigned long getVTableSize() const override;
   
   std::vector<Interface*> getInterfaces() const override;
   
