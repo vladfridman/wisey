@@ -74,7 +74,7 @@ vector<Interface*> ControllerDefinition::processInterfaces(IRGenerationContext& 
                                                            vector<Type*>& types) const {
   vector<Interface*> interfaces;
   for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
-    Interface* interface = dynamic_cast<Interface*>(interfaceSpecifier->getType(context));
+    Interface* interface = (Interface*) interfaceSpecifier->getType(context);
     types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
     interfaces.push_back(interface);
   }
@@ -91,7 +91,7 @@ vector<Field*> ControllerDefinition::fieldDeclarationsToFields(IRGenerationConte
     
     if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
         fieldType->getTypeKind() == INTERFACE_TYPE) {
-      Interface* interface = dynamic_cast<Interface*>(fieldType);
+      Interface* interface = (Interface*) fieldType;
       fieldType = context.getBoundController(interface);
     }
     
@@ -134,7 +134,7 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
 
     if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
         fieldType->getTypeKind() == INTERFACE_TYPE) {
-      Interface* interface = dynamic_cast<Interface*>(fieldType);
+      Interface* interface = (Interface*) fieldType;
       fieldType = context.getBoundController(interface);
     }
     

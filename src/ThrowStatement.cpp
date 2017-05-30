@@ -30,7 +30,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* basicBlock = context.getBasicBlock();
   context.getScopes().getScope()->addException(expressionType);
 
-  Model* model = dynamic_cast<Model*>(expressionType);
+  Model* model = (Model*) expressionType;
   GlobalVariable* rtti = context.getModule()->getGlobalVariable(model->getRTTIVariableName());
 
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();

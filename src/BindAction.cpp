@@ -19,8 +19,8 @@ BindAction::~BindAction() {
 }
 
 Value* BindAction::generateIR(IRGenerationContext& context) const {
-  Controller* controller = dynamic_cast<Controller*>(mContreollerTypeSpecifier->getType(context));
-  Interface* interface = dynamic_cast<Interface*>(mInterfaceTypeSpecifier->getType(context));
+  Controller* controller = (Controller*) mContreollerTypeSpecifier->getType(context);
+  Interface* interface = (Interface*) mInterfaceTypeSpecifier->getType(context);
   context.bindInterfaceToController(interface, controller);
   
   return NULL;

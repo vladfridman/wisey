@@ -312,8 +312,7 @@ bool Interface::canAutoCastTo(IType* toType) const {
     return false;
   }
   
-  if (toType->getTypeKind() == INTERFACE_TYPE &&
-      doesExtendInterface(dynamic_cast<Interface*>(toType))) {
+  if (toType->getTypeKind() == INTERFACE_TYPE && doesExtendInterface((Interface*) toType)) {
     return true;
   }
   

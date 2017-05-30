@@ -141,8 +141,7 @@ bool Model::canCastTo(IType* toType) const {
   if (toType == this) {
     return true;
   }
-  if (toType->getTypeKind() == INTERFACE_TYPE &&
-      getInterfaceIndex(dynamic_cast<Interface*>(toType)) >= 0) {
+  if (toType->getTypeKind() == INTERFACE_TYPE && getInterfaceIndex((Interface*) toType) >= 0) {
     return true;
   }
   return false;
@@ -161,7 +160,7 @@ Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toTy
     return NULL;
   }
   LLVMContext& llvmContext = context.getLLVMContext();
-  Interface* interface = dynamic_cast<Interface*>(toType);
+  Interface* interface = (Interface*) toType;
   int interfaceIndex = getInterfaceIndex(interface);
   if (interfaceIndex == 0) {
     return IRWriter::newBitCastInst(context, fromValue, interface->getLLVMType(llvmContext));

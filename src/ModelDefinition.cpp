@@ -125,7 +125,7 @@ std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& 
                                                            vector<Type*>& types) const {
   vector<Interface*> interfaces;
   for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
-    Interface* interface = dynamic_cast<Interface*>(interfaceSpecifier->getType(context));
+    Interface* interface = (Interface*) interfaceSpecifier->getType(context);
     types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
     interfaces.push_back(interface);
   }

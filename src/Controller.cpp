@@ -188,8 +188,7 @@ bool Controller::canCastTo(IType* toType) const {
   if (toType == this) {
     return true;
   }
-  if (toType->getTypeKind() == INTERFACE_TYPE &&
-      getInterfaceIndex(dynamic_cast<Interface*>(toType)) >= 0) {
+  if (toType->getTypeKind() == INTERFACE_TYPE && getInterfaceIndex((Interface*) toType) >= 0) {
     return true;
   }
   return false;
@@ -208,7 +207,7 @@ Value* Controller::castTo(IRGenerationContext& context, Value* fromValue, IType*
     return NULL;
   }
   LLVMContext& llvmContext = context.getLLVMContext();
-  Interface* interface = dynamic_cast<Interface*>(toType);
+  Interface* interface = (Interface*) toType;
   int interfaceIndex = getInterfaceIndex(interface);
   if (interfaceIndex == 0) {
     return IRWriter::newBitCastInst(context, fromValue, interface->getLLVMType(llvmContext));
@@ -277,7 +276,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
       Log::e("Attempt to inject a variable that is not a Controller or an Interface");
       exit(1);
     }
-    Controller* controller = dynamic_cast<Controller*>(fieldType);
+    Controller* controller = (Controller*) fieldType;
     Value* fieldValue = controller->inject(context, field->getArguments());
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);

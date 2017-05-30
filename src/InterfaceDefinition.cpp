@@ -43,8 +43,7 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   
   vector<Interface*> parentInterfaces;
   for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
-    Interface* parentInterface =
-      dynamic_cast<Interface*>(parentInterfaceSpecifier->getType(context));
+    Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
     types.push_back(parentInterface->getLLVMType(context.getLLVMContext())
                     ->getPointerElementType());
     parentInterfaces.push_back(parentInterface);

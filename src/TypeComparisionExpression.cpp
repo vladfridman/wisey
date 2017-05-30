@@ -38,12 +38,11 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const
     return valueFalse;
   }
   if (expressionType->getTypeKind() == MODEL_TYPE && type->getTypeKind() == INTERFACE_TYPE) {
-    Model* model = dynamic_cast<Model*>(expressionType);
-    return model->doesImplmentInterface(dynamic_cast<Interface*>(type)) ? valueTrue : valueFalse;
+    Model* model = (Model*) expressionType;
+    return model->doesImplmentInterface((Interface*) type) ? valueTrue : valueFalse;
   }
-  Interface* interface = dynamic_cast<Interface*>(expressionType);
-  if (type->getTypeKind() == INTERFACE_TYPE &&
-      interface->doesExtendInterface(dynamic_cast<Interface*>(type))) {
+  Interface* interface = (Interface*) expressionType;
+  if (type->getTypeKind() == INTERFACE_TYPE && interface->doesExtendInterface((Interface*) type)) {
     return valueTrue;
   }
   return checkInterfaceImplemented(context);
@@ -52,7 +51,7 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const
 Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext& context) const {
   Value* expressionValue = mExpression.generateIR(context);
   IType* expressionType = mExpression.getType(context);
-  Interface* interface = dynamic_cast<Interface*>(expressionType);
+  Interface* interface = (Interface*) expressionType;
   IObjectType* objectWithMethodsType = (IObjectType*) mTypeSpecifier->getType(context);
   
   Value* interfaceIndex =
