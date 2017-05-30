@@ -629,6 +629,7 @@
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
 		F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = /usr/local/lib/libLLVMGlobalISel.a; sourceTree = "<absolute>"; };
 		F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifier.cpp; path = tests/TestIdentifier.cpp; sourceTree = "<group>"; };
+		F556E6521EDDC80000CCC3D7 /* IObjectWithVTable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithVTable.hpp; path = include/wisey/IObjectWithVTable.hpp; sourceTree = "<group>"; };
 		F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRWriter.cpp; path = src/IRWriter.cpp; sourceTree = "<group>"; };
 		F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRWriter.cpp; path = tests/TestIRWriter.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
@@ -1209,6 +1210,7 @@
 				F50EF29B1EDB4599002E68A8 /* IObjectDefinitionStatement.hpp */,
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F5089C7D1ECD01D9004A1223 /* IObjectWithFieldsType.hpp */,
+				F556E6521EDDC80000CCC3D7 /* IObjectWithVTable.hpp */,
 				F5089C7F1ECD01D9004A1223 /* IRGenerationContext.hpp */,
 				F5089C801ECD01D9004A1223 /* IRWriter.hpp */,
 				F5089C811ECD01D9004A1223 /* IStatement.hpp */,

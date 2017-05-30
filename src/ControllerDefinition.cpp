@@ -226,11 +226,11 @@ void ControllerDefinition::addTypeListInfo(IRGenerationContext& context,
 }
 
 void ControllerDefinition::addUnthunkInfo(IRGenerationContext& context,
-                                          Controller* controller,
+                                          IObjectWithVTable* object,
                                           vector<vector<Constant*>>& vTables) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  unsigned long vTableSize = controller->getFlattenedInterfaceHierarchy().size();
+  unsigned long vTableSize = object->getVTableSize();
   
   for (unsigned long i = 1; i < vTableSize; i++) {
     vector<Constant*> vTablePortion;
@@ -245,7 +245,7 @@ void ControllerDefinition::addUnthunkInfo(IRGenerationContext& context,
 }
 
 void ControllerDefinition::generateInterfaceMapFunctions(IRGenerationContext& context,
-                                                         Controller* controller,
+                                                         IObjectWithVTable* object,
                                                          vector<vector<Constant*>>& vTables,
                                                          vector<Interface*> interfaces,
                                                          map<string, Function*>&
@@ -255,7 +255,7 @@ void ControllerDefinition::generateInterfaceMapFunctions(IRGenerationContext& co
   for (Interface* interface : interfaces) {
     vector<list<Constant*>> vSubTable =
     interface->generateMapFunctionsIR(context,
-                                      controller,
+                                      object,
                                       methodFunctionMap,
                                       interfaceMapFunctions.size());
     for (list<Constant*> vTablePortion : vSubTable) {
@@ -275,7 +275,7 @@ void ControllerDefinition::generateInterfaceMapFunctions(IRGenerationContext& co
 }
 
 void ControllerDefinition::createVTableGlobal(IRGenerationContext& context,
-                                              Controller* controller,
+                                              IObjectWithVTable* object,
                                               vector<vector<Constant*>> interfaceVTables) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -299,7 +299,7 @@ void ControllerDefinition::createVTableGlobal(IRGenerationContext& context,
                      true,
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      vTableGlobalConstantStruct,
-                     controller->getVTableName());
+                     object->getVTableName());
 }
 
 string ControllerDefinition::getFullName(IRGenerationContext& context) const {

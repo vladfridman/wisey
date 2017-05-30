@@ -104,6 +104,10 @@ string Controller::getVTableName() const {
   return mName + ".vtable";
 }
 
+unsigned long Controller::getVTableSize() const {
+  return mFlattenedInterfaceHierarchy.size();
+}
+
 Instruction* Controller::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   

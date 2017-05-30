@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/Field.hpp"
+#include "wisey/IObjectWithVTable.hpp"
 #include "wisey/IObjectWithFieldsType.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/ModelBuilderArgument.hpp"
@@ -25,7 +26,7 @@ class Interface;
 /**
  * Contains information about a MODEL including the llvm::StructType and field information
  */
-class Model : public IObjectWithFieldsType {
+class Model : public IObjectWithFieldsType, public IObjectWithVTable {
   std::string mName;
   llvm::StructType* mStructType;
   std::map<std::string, Field*> mFields;
@@ -65,11 +66,6 @@ public:
    */
   std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
   
-  /**
-   * Returns the name of the vTable global varaible
-   */
-  std::string getVTableName() const;
-
   /**
    * Returns the name of the global varaible containing types that this model implements
    */
@@ -133,6 +129,10 @@ public:
                       llvm::Value* fromValue,
                       IType* toType) const override;
   
+  std::string getVTableName() const override;
+  
+  unsigned long getVTableSize() const override;
+ 
 private:
   
   int getInterfaceIndex(Interface* interface) const;

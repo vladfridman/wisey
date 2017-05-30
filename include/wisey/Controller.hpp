@@ -12,6 +12,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IExpression.hpp"
+#include "wisey/IObjectWithVTable.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/IObjectWithFieldsType.hpp"
 #include "wisey/Method.hpp"
@@ -21,7 +22,7 @@ namespace wisey {
 /**
  * Contains information about a Controller including its fields and methods
  */
-class Controller : public IObjectWithFieldsType {
+class Controller : public IObjectWithFieldsType, public IObjectWithVTable {
   std::string mName;
   llvm::StructType* mStructType;
   std::vector<Field*> mReceivedFields;
@@ -78,11 +79,6 @@ public:
   std::string getTypeTableName() const;
 
   /**
-   * Returns the name of the vTable global varaible
-   */
-  std::string getVTableName() const;
-  
-  /**
    * Inject an instance of this controller into LLVM code
    */
   llvm::Instruction* inject(IRGenerationContext& context, ExpressionList expressionList) const;
@@ -109,6 +105,10 @@ public:
                       llvm::Value* fromValue,
                       IType* toType) const override;
 
+  std::string getVTableName() const override;
+  
+  unsigned long getVTableSize() const override;
+  
 private:
 
   int getInterfaceIndex(Interface* interface) const;

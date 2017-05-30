@@ -13,6 +13,7 @@
 #include "wisey/Identifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectDefinitionStatement.hpp"
+#include "wisey/IObjectWithVTable.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelFieldDeclaration.hpp"
 
@@ -66,17 +67,17 @@ private:
                        llvm::GlobalVariable* typeListGlobal) const;
   
   void addUnthunkInfo(IRGenerationContext& context,
-                      Model* model,
+                      IObjectWithVTable* object,
                       std::vector<std::vector<llvm::Constant*>>& vTables) const;
   
   void generateInterfaceMapFunctions(IRGenerationContext& context,
-                                     Model* model,
+                                     IObjectWithVTable* object,
                                      std::vector<std::vector<llvm::Constant*>>& vTables,
                                      std::vector<Interface*> interfaces,
                                      std::map<std::string, llvm::Function*>& methodFunctionMap) const;
 
   void createVTableGlobal(IRGenerationContext& context,
-                          Model* model,
+                          IObjectWithVTable* object,
                           std::vector<std::vector<llvm::Constant*>> interfaceVTables) const;
   
   void defineTypeName(IRGenerationContext& context, Model* model) const;

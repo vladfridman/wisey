@@ -150,13 +150,12 @@ void ModelDefinition::addTypeListInfo(IRGenerationContext& context,
   vTables.push_back(vTablePortion);
 }
 
-
 void ModelDefinition::addUnthunkInfo(IRGenerationContext& context,
-                                     Model* model,
+                                     IObjectWithVTable* object,
                                      vector<vector<Constant*>>& vTables) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  unsigned long vTableSize = model->getFlattenedInterfaceHierarchy().size();
+  unsigned long vTableSize = object->getVTableSize();
   
   for (unsigned long i = 1; i < vTableSize; i++) {
     vector<Constant*> vTablePortion;
@@ -171,7 +170,7 @@ void ModelDefinition::addUnthunkInfo(IRGenerationContext& context,
 }
 
 void ModelDefinition::generateInterfaceMapFunctions(IRGenerationContext& context,
-                                                    Model* model,
+                                                    IObjectWithVTable* object,
                                                     vector<vector<Constant*>>& vTables,
                                                     vector<Interface*> interfaces,
                                                     map<string, Function*>&
@@ -181,7 +180,7 @@ void ModelDefinition::generateInterfaceMapFunctions(IRGenerationContext& context
   for (Interface* interface : interfaces) {
     vector<list<Constant*>> vSubTable =
     interface->generateMapFunctionsIR(context,
-                                      model,
+                                      object,
                                       methodFunctionMap,
                                       interfaceMapFunctions.size());
     for (list<Constant*> vTablePortion : vSubTable) {
@@ -201,7 +200,7 @@ void ModelDefinition::generateInterfaceMapFunctions(IRGenerationContext& context
 }
 
 void ModelDefinition::createVTableGlobal(IRGenerationContext& context,
-                                         Model* model,
+                                         IObjectWithVTable* object,
                                          vector<vector<Constant*>> interfaceVTables) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -225,7 +224,7 @@ void ModelDefinition::createVTableGlobal(IRGenerationContext& context,
                      true,
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      vTableGlobalConstantStruct,
-                     model->getVTableName());
+                     object->getVTableName());
 }
 
 void ModelDefinition::defineTypeName(IRGenerationContext& context, Model* model) const {
