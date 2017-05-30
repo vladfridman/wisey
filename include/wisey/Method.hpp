@@ -54,14 +54,14 @@ public:
    * Defines LLVM function for this method
    */
   llvm::Function* defineFunction(IRGenerationContext& context,
-                                 IObjectWithMethodsType* objectType) const;
+                                 IObjectType* objectType) const;
   
   /**
    * Generate IR for this method in a given model or a controller object
    */
   void generateIR(IRGenerationContext& context,
                   llvm::Function* function,
-                  IObjectWithMethodsType* objectType) const;
+                  IObjectType* objectType) const;
 
   std::string getName() const override;
   
@@ -79,7 +79,7 @@ private:
   
   void createArguments(IRGenerationContext& context,
                        llvm::Function* function,
-                       IObjectWithMethodsType* objectType) const;
+                       IObjectType* objectType) const;
   
   void maybeAddImpliedVoidReturn(IRGenerationContext& context) const;
   

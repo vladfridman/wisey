@@ -13,8 +13,8 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "MockObjectWithMethodsType.hpp"
-#include "wisey/IObjectWithMethodsType.hpp"
+#include "MockObjectType.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace std;
@@ -27,7 +27,7 @@ using ::testing::Return;
 using ::testing::Test;
 
 struct IObjectTypeTest : public Test {
-  NiceMock<MockObjectWithMethodsType> mMockObject;
+  NiceMock<MockObjectType> mMockObject;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   string mStringBuffer;

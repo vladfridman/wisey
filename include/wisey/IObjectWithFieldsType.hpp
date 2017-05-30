@@ -18,7 +18,7 @@ class Field;
 /**
  * Represents an IType of an object with fields such as a Model or a Controller
  */
-class IObjectWithFieldsType : public virtual IObjectType {
+class IObjectWithFieldsType : public IObjectType {
     
 public:
   

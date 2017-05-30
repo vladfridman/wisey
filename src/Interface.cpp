@@ -102,7 +102,7 @@ MethodSignature* Interface::findMethod(std::string methodName) const {
 }
 
 vector<list<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& context,
-                                                          IObjectWithMethodsType* object,
+                                                          IObjectType* object,
                                                           map<string, Function*>& methodFunctionMap,
                                                           unsigned long interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -132,7 +132,7 @@ vector<list<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& c
 }
 
 Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
-                                                  IObjectWithMethodsType* object,
+                                                  IObjectType* object,
                                                   llvm::Function* modelFunction,
                                                   unsigned long interfaceIndex,
                                                   MethodSignature* interfaceMethodSignature) const {
@@ -219,7 +219,7 @@ bool Interface::doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMet
 }
 
 void Interface::generateMapFunctionBody(IRGenerationContext& context,
-                                        IObjectWithMethodsType* object,
+                                        IObjectType* object,
                                         Function* modelFunction,
                                         Function* mapFunction,
                                         unsigned long interfaceIndex,
@@ -320,12 +320,12 @@ bool Interface::canAutoCastTo(IType* toType) const {
   return false;
 }
 
-string Interface::getCastFunctionName(IObjectWithMethodsType* toType) const {
+string Interface::getCastFunctionName(IObjectType* toType) const {
   return "cast." + getName() + ".to." + toType->getName();
 }
 
 Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
-  IObjectWithMethodsType* toObjectWithMethodsType = dynamic_cast<IObjectWithMethodsType*>(toType);
+  IObjectType* toObjectWithMethodsType = (IObjectType*) (toType);
   Function* castFunction =
     context.getModule()->getFunction(getCastFunctionName(toObjectWithMethodsType));
   
@@ -341,7 +341,7 @@ Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* 
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         Value* fromValue,
-                                        IObjectWithMethodsType* toType) const {
+                                        IObjectType* toType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Type = Type::getInt8Ty(llvmContext);
   
@@ -369,7 +369,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   BasicBlock* lastBasicBlock = context.getBasicBlock();
 
   context.setBasicBlock(entryBlock);
-  Value* instanceof = callInstanceOf(context, thisArgument, (IObjectWithMethodsType*) toType);
+  Value* instanceof = callInstanceOf(context, thisArgument, (IObjectType*) toType);
   Value* originalObject = getOriginalObject(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
@@ -433,7 +433,7 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
 
 CallInst* Interface::callInstanceOf(IRGenerationContext& context,
                                     Value* interfaceObject,
-                                    IObjectWithMethodsType* callableObjectType) const {
+                                    IObjectType* callableObjectType) const {
   Function* function = context.getModule()->getFunction(getInstanceOfFunctionName());
   
   Constant* namePointer = IObjectType::getObjectNamePointer(callableObjectType, context);

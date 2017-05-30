@@ -10,6 +10,7 @@
 #define IObjectType_h
 
 #include "wisey/IType.hpp"
+#include "wisey/IMethodDescriptor.hpp"
 
 namespace wisey {
   
@@ -24,6 +25,11 @@ public:
    * Returns short name of the object without the package name.
    */
   virtual std::string getShortName() const = 0;
+
+  /**
+   * Finds a method with a given name.
+   */
+  virtual IMethodDescriptor* findMethod(std::string methodName) const = 0;
   
   /**
    * Returns name of the global variable containing name of this Callable Object in string format

@@ -18,7 +18,7 @@
 
 namespace wisey {
   
-class IObjectWithMethodsType;
+class IObjectType;
 class IRGenerationContext;
 class IType;
 class MethodArgument;
@@ -75,7 +75,7 @@ public:
    */
   static llvm::FunctionType* getLLVMFunctionType(IMethodDescriptor* method,
                                                  IRGenerationContext& context,
-                                                 IObjectWithMethodsType* object);
+                                                 IObjectType* object);
 };
   
 } /* namespace wisey */

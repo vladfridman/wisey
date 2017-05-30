@@ -9,7 +9,7 @@
 #ifndef MethodCall_h
 #define MethodCall_h
 
-#include "wisey/IObjectWithMethodsType.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/Method.hpp"
 
@@ -41,35 +41,35 @@ public:
   /**
    * Translate model method name into its LLVM implemenation function name
    */
-  static std::string translateObjectMethodToLLVMFunctionName(IObjectWithMethodsType* object,
+  static std::string translateObjectMethodToLLVMFunctionName(IObjectType* object,
                                                              std::string methodName);
 
   /**
    * Translate model method name into its LLVM implemenation function name
    */
-  static std::string translateInterfaceMethodToLLVMFunctionName(IObjectWithMethodsType* object,
+  static std::string translateInterfaceMethodToLLVMFunctionName(IObjectType* object,
                                                                 const Interface* interface,
                                                                 std::string methodName);
 
 private:
 
   bool checkAccess(IRGenerationContext& context,
-                   IObjectWithMethodsType* object,
+                   IObjectType* object,
                    IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateModelMethodCallIR(IRGenerationContext& context,
-                                         IObjectWithMethodsType* object,
+                                         IObjectType* object,
                                          IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
                                              Interface* interface,
                                              IMethodDescriptor* methodDescriptor) const;
   
-  IObjectWithMethodsType* getObjectWithMethods(IRGenerationContext& context) const;
+  IObjectType* getObjectWithMethods(IRGenerationContext& context) const;
   
   IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
   
-  void checkArgumentType(IObjectWithMethodsType* objectWithMethods,
+  void checkArgumentType(IObjectType* objectWithMethods,
                          IMethodDescriptor* methodDescriptor,
                          IRGenerationContext& context) const;
 

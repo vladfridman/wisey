@@ -9,7 +9,6 @@
 #include <set>
 
 #include "wisey/EmptyStatement.hpp"
-#include "wisey/IObjectWithMethodsType.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Scopes.hpp"
 

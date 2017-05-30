@@ -44,7 +44,7 @@ vector<IType*> Method::getThrownExceptions() const {
 }
 
 Function* Method::defineFunction(IRGenerationContext& context,
-                                 IObjectWithMethodsType* objectType) const {
+                                 IObjectType* objectType) const {
   FunctionType *ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
                                                                context,
                                                                objectType);
@@ -58,7 +58,7 @@ Function* Method::defineFunction(IRGenerationContext& context,
 
 void Method::generateIR(IRGenerationContext& context,
                         Function* function,
-                        IObjectWithMethodsType* objectType) const {
+                        IObjectType* objectType) const {
   Scopes& scopes = context.getScopes();
   
   BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
@@ -77,7 +77,7 @@ void Method::generateIR(IRGenerationContext& context,
 
 void Method::createArguments(IRGenerationContext& context,
                              Function* function,
-                             IObjectWithMethodsType* objectType) const {
+                             IObjectType* objectType) const {
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName("this");

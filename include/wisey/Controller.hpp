@@ -14,7 +14,6 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/IObjectWithFieldsType.hpp"
-#include "wisey/IObjectWithMethodsType.hpp"
 #include "wisey/Method.hpp"
 
 namespace wisey {
@@ -22,7 +21,7 @@ namespace wisey {
 /**
  * Contains information about a Controller including its fields and methods
  */
-class Controller : public IObjectWithFieldsType, public IObjectWithMethodsType {
+class Controller : public IObjectWithFieldsType {
   std::string mName;
   llvm::StructType* mStructType;
   std::vector<Field*> mReceivedFields;

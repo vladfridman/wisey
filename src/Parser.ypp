@@ -34,7 +34,6 @@
   #include "wisey/InterfaceDefinition.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
   #include "wisey/IObjectDefinitionStatement.hpp"
-  #include "wisey/IObjectWithMethodsType.hpp"
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/Log.hpp"
   #include "wisey/LogicalAndExpression.hpp"

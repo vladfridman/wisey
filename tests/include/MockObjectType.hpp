@@ -1,24 +1,24 @@
 //
-//  MockObjectWithMethodsType.hpp
+//  MockObjectType.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 4/18/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef MockObjectWithMethodsType_h
-#define MockObjectWithMethodsType_h
+#ifndef MockObjectType_h
+#define MockObjectType_h
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
 #include "wisey/IMethodDescriptor.hpp"
-#include "wisey/IObjectWithMethodsType.hpp"
+#include "wisey/IObjectType.hpp"
 
 /**
- * Defines a mock object for IObjectWithMethodsType
+ * Defines a mock object for IObjectType
  */
-class MockObjectWithMethodsType : public wisey::IObjectWithMethodsType {
+class MockObjectType : public wisey::IObjectType {
 public:
   MOCK_CONST_METHOD1(findMethod, wisey::IMethodDescriptor* (std::string));
   MOCK_CONST_METHOD0(getObjectNameGlobalVariableName, std::string ());
@@ -33,4 +33,4 @@ public:
                                            wisey::IType*));
 };
 
-#endif /* MockObjectWithMethodsType_h */
+#endif /* MockObjectType_h */

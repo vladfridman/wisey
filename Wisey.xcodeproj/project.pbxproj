@@ -435,7 +435,6 @@
 		F5089C7B1ECD01D9004A1223 /* IntrinsicFunctions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IntrinsicFunctions.hpp; path = include/wisey/IntrinsicFunctions.hpp; sourceTree = "<group>"; };
 		F5089C7C1ECD01D9004A1223 /* IntType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IntType.hpp; path = include/wisey/IntType.hpp; sourceTree = "<group>"; };
 		F5089C7D1ECD01D9004A1223 /* IObjectWithFieldsType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithFieldsType.hpp; path = include/wisey/IObjectWithFieldsType.hpp; sourceTree = "<group>"; };
-		F5089C7E1ECD01D9004A1223 /* IObjectWithMethodsType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithMethodsType.hpp; path = include/wisey/IObjectWithMethodsType.hpp; sourceTree = "<group>"; };
 		F5089C7F1ECD01D9004A1223 /* IRGenerationContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IRGenerationContext.hpp; path = include/wisey/IRGenerationContext.hpp; sourceTree = "<group>"; };
 		F5089C801ECD01D9004A1223 /* IRWriter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IRWriter.hpp; path = include/wisey/IRWriter.hpp; sourceTree = "<group>"; };
 		F5089C811ECD01D9004A1223 /* IStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IStatement.hpp; path = include/wisey/IStatement.hpp; sourceTree = "<group>"; };
@@ -531,7 +530,7 @@
 		F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignatureDeclaration.cpp; path = src/MethodSignatureDeclaration.cpp; sourceTree = "<group>"; };
 		F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceDefinition.cpp; path = tests/TestInterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F518B5E71EB2240C00577EEB /* TestCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCatch.cpp; path = tests/TestCatch.cpp; sourceTree = "<group>"; };
-		F51BA8FD1EA689440038C98B /* MockObjectWithMethodsType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectWithMethodsType.hpp; path = tests/include/MockObjectWithMethodsType.hpp; sourceTree = "<group>"; };
+		F51BA8FD1EA689440038C98B /* MockObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectType.hpp; path = tests/include/MockObjectType.hpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
 		F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTryCatch.cpp; path = tests/TestTryCatch.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -963,7 +962,7 @@
 			children = (
 				F5E48B8E1E870E150087CC70 /* MockExpression.hpp */,
 				F50EF2A01EDC7A97002E68A8 /* MockObjectDefinitionStatement.hpp */,
-				F51BA8FD1EA689440038C98B /* MockObjectWithMethodsType.hpp */,
+				F51BA8FD1EA689440038C98B /* MockObjectType.hpp */,
 				F5E48B901E87122E0087CC70 /* MockStatement.hpp */,
 				F5E48B921E8713F00087CC70 /* MockType.hpp */,
 				F5E48B911E8713630087CC70 /* MockTypeSpecifier.hpp */,
@@ -1210,7 +1209,6 @@
 				F50EF29B1EDB4599002E68A8 /* IObjectDefinitionStatement.hpp */,
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F5089C7D1ECD01D9004A1223 /* IObjectWithFieldsType.hpp */,
-				F5089C7E1ECD01D9004A1223 /* IObjectWithMethodsType.hpp */,
 				F5089C7F1ECD01D9004A1223 /* IRGenerationContext.hpp */,
 				F5089C801ECD01D9004A1223 /* IRWriter.hpp */,
 				F5089C811ECD01D9004A1223 /* IStatement.hpp */,

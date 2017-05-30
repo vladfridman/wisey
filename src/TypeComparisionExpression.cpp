@@ -53,8 +53,7 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
   Value* expressionValue = mExpression.generateIR(context);
   IType* expressionType = mExpression.getType(context);
   Interface* interface = dynamic_cast<Interface*>(expressionType);
-  IObjectWithMethodsType* objectWithMethodsType =
-    dynamic_cast<IObjectWithMethodsType*>(mTypeSpecifier->getType(context));
+  IObjectType* objectWithMethodsType = (IObjectType*) mTypeSpecifier->getType(context);
   
   Value* interfaceIndex =
     interface->callInstanceOf(context, expressionValue, objectWithMethodsType);

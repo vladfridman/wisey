@@ -15,7 +15,6 @@
 
 #include "wisey/Field.hpp"
 #include "wisey/IObjectWithFieldsType.hpp"
-#include "wisey/IObjectWithMethodsType.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/ModelBuilderArgument.hpp"
 
@@ -26,7 +25,7 @@ class Interface;
 /**
  * Contains information about a MODEL including the llvm::StructType and field information
  */
-class Model : public IObjectWithFieldsType, public IObjectWithMethodsType {
+class Model : public IObjectWithFieldsType {
   std::string mName;
   llvm::StructType* mStructType;
   std::map<std::string, Field*> mFields;

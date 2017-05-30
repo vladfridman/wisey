@@ -14,7 +14,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IObjectWithMethodsType.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/MethodSignature.hpp"
 
 namespace wisey {
@@ -25,7 +25,7 @@ class Model;
 /**
  * Contains information about an Interface including the llvm::StructType and method information
  */
-class Interface : public IObjectWithMethodsType {
+class Interface : public IObjectType {
   std::string mName;
   llvm::StructType* mStructType;
   std::vector<Interface*> mParentInterfaces;
@@ -59,7 +59,7 @@ public:
    * Generate functions that map interface methods to model methods
    */
   std::vector<std::list<llvm::Constant*>> generateMapFunctionsIR(IRGenerationContext& context,
-                                                                 IObjectWithMethodsType* object,
+                                                                 IObjectType* object,
                                                                  std::map<std::string,
                                                                  llvm::Function*>&
                                                                  methodFunctionMap,
@@ -83,14 +83,14 @@ public:
   /**
    * Return function name that casts this interface into a given ICallableObject type
    */
-  std::string getCastFunctionName(IObjectWithMethodsType* toType) const;
+  std::string getCastFunctionName(IObjectType* toType) const;
   
   /**
    * Call instanceof function and check whether interfaceObject is of type callableObjectType
    */
   llvm::CallInst* callInstanceOf(IRGenerationContext& context,
                                  llvm::Value* interfaceObject,
-                                 IObjectWithMethodsType* object) const;
+                                 IObjectType* object) const;
   
   /**
    * Given a value of type interface get the pointer back to the original object that implements it
@@ -128,13 +128,13 @@ private:
   std::vector<MethodSignature*> getAllMethodSignatures() const;
 
   llvm::Function* generateMapFunctionForMethod(IRGenerationContext& context,
-                                               IObjectWithMethodsType* object,
+                                               IObjectType* object,
                                                llvm::Function* modelFunction,
                                                unsigned long interfaceIndex,
                                                MethodSignature* methodSignature) const;
 
   void generateMapFunctionBody(IRGenerationContext& context,
-                               IObjectWithMethodsType* object,
+                               IObjectType* object,
                                llvm::Function* modelFunction,
                                llvm::Function* mapFunction,
                                unsigned long interfaceIndex,
@@ -148,7 +148,7 @@ private:
   
   llvm::Function* defineCastFunction(IRGenerationContext& context,
                                      llvm::Value* fromValue,
-                                     IObjectWithMethodsType* toType) const;
+                                     IObjectType* toType) const;
   
   bool doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
                                           IMethodDescriptor* objectMethodDescriptor,

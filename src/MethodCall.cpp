@@ -19,7 +19,7 @@ using namespace llvm;
 using namespace wisey;
 
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
-  IObjectWithMethodsType* objectWithMethodsType = getObjectWithMethods(context);
+  IObjectType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   if (!checkAccess(context, objectWithMethodsType, methodDescriptor)) {
     Log::e("Method '" + mMethodName + "()' of object '" + objectWithMethodsType->getName() +
@@ -31,7 +31,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   if (objectWithMethodsType->getTypeKind() == MODEL_TYPE ||
       objectWithMethodsType->getTypeKind() == CONTROLLER_TYPE) {
     return generateModelMethodCallIR(context,
-                                     (IObjectWithMethodsType*) objectWithMethodsType,
+                                     (IObjectType*) objectWithMethodsType,
                                      methodDescriptor);
   }
   if (objectWithMethodsType->getTypeKind() == INTERFACE_TYPE) {
@@ -45,7 +45,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
 }
 
 bool MethodCall::checkAccess(IRGenerationContext& context,
-                             IObjectWithMethodsType* object,
+                             IObjectType* object,
                              IMethodDescriptor* methodDescriptor) const {
   
   if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
@@ -79,7 +79,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
 }
 
 Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
-                                             IObjectWithMethodsType* object,
+                                             IObjectType* object,
                                              IMethodDescriptor* methodDescriptor) const {
   string llvmFunctionName = translateObjectMethodToLLVMFunctionName(object, mMethodName);
   
@@ -129,18 +129,18 @@ void MethodCall::releaseOwnership(IRGenerationContext& context) const {
   // TODO implement this if needed
 }
 
-IObjectWithMethodsType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
+IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
   IType* expressionType = mExpression.getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
     exit(1);
   }
   
-  return dynamic_cast<IObjectWithMethodsType*>(expressionType);
+  return (IObjectType*) expressionType;
 }
 
 IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {
-  IObjectWithMethodsType* objectWithMethods = getObjectWithMethods(context);
+  IObjectType* objectWithMethods = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = objectWithMethods->findMethod(mMethodName);
   if (methodDescriptor == NULL) {
     Log::e("Method '" + mMethodName + "' is not found in object '" +
@@ -151,7 +151,7 @@ IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context)
   return methodDescriptor;
 }
 
-void MethodCall::checkArgumentType(IObjectWithMethodsType* objectWithMethods,
+void MethodCall::checkArgumentType(IObjectType* objectWithMethods,
                                    IMethodDescriptor* methodDescriptor,
                                    IRGenerationContext& context) const {
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
@@ -178,7 +178,7 @@ void MethodCall::checkArgumentType(IObjectWithMethodsType* objectWithMethods,
   }
 }
 
-string MethodCall::translateObjectMethodToLLVMFunctionName(IObjectWithMethodsType* object,
+string MethodCall::translateObjectMethodToLLVMFunctionName(IObjectType* object,
                                                            string methodName) {
   if (object == NULL) {
     return methodName;
@@ -186,7 +186,7 @@ string MethodCall::translateObjectMethodToLLVMFunctionName(IObjectWithMethodsTyp
   return object->getName() + "." + methodName;
 }
 
-string MethodCall::translateInterfaceMethodToLLVMFunctionName(IObjectWithMethodsType* object,
+string MethodCall::translateInterfaceMethodToLLVMFunctionName(IObjectType* object,
                                                               const Interface* interface,
                                                               string methodName) {
   if (object == NULL) {
