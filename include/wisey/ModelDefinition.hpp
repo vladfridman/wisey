@@ -62,27 +62,7 @@ private:
   std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                             std::vector<llvm::Type*>& types) const;
 
-  void addTypeListInfo(IRGenerationContext& context,
-                       std::vector<std::vector<llvm::Constant*>>& vTables,
-                       llvm::GlobalVariable* typeListGlobal) const;
-  
-  void addUnthunkInfo(IRGenerationContext& context,
-                      IObjectWithVTable* object,
-                      std::vector<std::vector<llvm::Constant*>>& vTables) const;
-  
-  void generateInterfaceMapFunctions(IRGenerationContext& context,
-                                     IObjectWithVTable* object,
-                                     std::vector<std::vector<llvm::Constant*>>& vTables,
-                                     std::vector<Interface*> interfaces,
-                                     std::map<std::string, llvm::Function*>& methodFunctionMap) const;
-
-  void createVTableGlobal(IRGenerationContext& context,
-                          IObjectWithVTable* object,
-                          std::vector<std::vector<llvm::Constant*>> interfaceVTables) const;
-  
   void defineTypeName(IRGenerationContext& context, Model* model) const;
-  
-  llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context, Model* model) const;
 
   std::string getFullName(IRGenerationContext& context) const;
 

@@ -48,13 +48,8 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   model->setStructBodyTypes(types);
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, model);
   defineTypeName(context, model);
-  GlobalVariable* typeListGlobal = createTypeListGlobal(context, model);
   
-  vector<vector<Constant*>> vTables;
-  addTypeListInfo(context, vTables, typeListGlobal);
-  addUnthunkInfo(context, model, vTables);
-  generateInterfaceMapFunctions(context, model, vTables, interfaces, methodFunctionMap);
-  createVTableGlobal(context, model, vTables);
+  IObjectWithVTable::generateVTable(context, model, methodFunctionMap);
   
   context.addImport(model);
   context.getScopes().popScope(context);
@@ -137,96 +132,6 @@ std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& 
   return interfaces;
 }
 
-void ModelDefinition::addTypeListInfo(IRGenerationContext& context,
-                                      vector<vector<Constant*>>& vTables,
-                                      GlobalVariable* typeListGlobal) const {
-  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  vector<Constant*> vTablePortion;
-  
-  Constant* bitCast = ConstantExpr::getBitCast(typeListGlobal, pointerType);
-  vTablePortion.push_back(ConstantExpr::getNullValue(pointerType));
-  vTablePortion.push_back(bitCast);
-
-  vTables.push_back(vTablePortion);
-}
-
-void ModelDefinition::addUnthunkInfo(IRGenerationContext& context,
-                                     IObjectWithVTable* object,
-                                     vector<vector<Constant*>>& vTables) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  unsigned long vTableSize = object->getVTableSize();
-  
-  for (unsigned long i = 1; i < vTableSize; i++) {
-    vector<Constant*> vTablePortion;
-    
-    long unthunkBy = -Environment::getAddressSizeInBytes() * i;
-    ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
-    vTablePortion.push_back(ConstantExpr::getIntToPtr(unthunk, pointerType));
-    vTablePortion.push_back(ConstantExpr::getNullValue(pointerType));
-    
-    vTables.push_back(vTablePortion);
-  }
-}
-
-void ModelDefinition::generateInterfaceMapFunctions(IRGenerationContext& context,
-                                                    IObjectWithVTable* object,
-                                                    vector<vector<Constant*>>& vTables,
-                                                    vector<Interface*> interfaces,
-                                                    map<string, Function*>&
-                                                    methodFunctionMap) const {
-  
-  vector<list<Constant*>> interfaceMapFunctions;
-  for (Interface* interface : interfaces) {
-    vector<list<Constant*>> vSubTable =
-    interface->generateMapFunctionsIR(context,
-                                      object,
-                                      methodFunctionMap,
-                                      interfaceMapFunctions.size());
-    for (list<Constant*> vTablePortion : vSubTable) {
-      interfaceMapFunctions.push_back(vTablePortion);
-    }
-  }
-  
-  assert(interfaceMapFunctions.size() == 0 || interfaceMapFunctions.size() == vTables.size());
-  
-  int vTablesIndex = 0;
-  for (list<Constant*> interfaceMapFunctionsPortion : interfaceMapFunctions) {
-    for (Constant* constant : interfaceMapFunctionsPortion) {
-      vTables.at(vTablesIndex).push_back(constant);
-    }
-    vTablesIndex++;
-  }
-}
-
-void ModelDefinition::createVTableGlobal(IRGenerationContext& context,
-                                         IObjectWithVTable* object,
-                                         vector<vector<Constant*>> interfaceVTables) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  
-  vector<Constant*> vTableArray;
-  vector<Type*> vTableTypes;
-  for (vector<Constant*> vTablePortionVector : interfaceVTables) {
-    ArrayRef<Constant*> arrayRef(vTablePortionVector);
-    ArrayType* arrayType = ArrayType::get(pointerType, vTablePortionVector.size());
-    Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
-    
-    vTableArray.push_back(constantArray);
-    vTableTypes.push_back(arrayType);
-  }
-  
-  StructType* vTableGlobalType = StructType::get(llvmContext, vTableTypes);
-  Constant* vTableGlobalConstantStruct = ConstantStruct::get(vTableGlobalType, vTableArray);
-  
-  new GlobalVariable(*context.getModule(),
-                     vTableGlobalType,
-                     true,
-                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                     vTableGlobalConstantStruct,
-                     object->getVTableName());
-}
-
 void ModelDefinition::defineTypeName(IRGenerationContext& context, Model* model) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Constant* stringConstant = ConstantDataArray::getString(llvmContext, model->getName());
@@ -236,34 +141,6 @@ void ModelDefinition::defineTypeName(IRGenerationContext& context, Model* model)
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      stringConstant,
                      model->getObjectNameGlobalVariableName());
-}
-
-GlobalVariable* ModelDefinition::createTypeListGlobal(IRGenerationContext& context,
-                                                      Model* model) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Interface*> interfaces = model->getFlattenedInterfaceHierarchy();
-  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-
-  Constant* modelNamePointer = IObjectType::getObjectNamePointer(model, context);
-  
-  vector<Constant*> typeNames;
-  typeNames.push_back(modelNamePointer);
-  
-  for (Interface* interface : interfaces) {
-    Constant* interfaceNamePointer = IObjectType::getObjectNamePointer(interface, context);
-    typeNames.push_back(interfaceNamePointer);
-  }
-  typeNames.push_back(ConstantExpr::getNullValue(pointerType));
-  ArrayRef<Constant*> arrayRef(typeNames);
-  ArrayType* arrayType = ArrayType::get(pointerType, typeNames.size());
-  Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
- 
-  return new GlobalVariable(*context.getModule(),
-                            arrayType,
-                            true,
-                            GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                            constantArray,
-                            model->getTypeTableName());
 }
 
 string ModelDefinition::getFullName(IRGenerationContext& context) const {

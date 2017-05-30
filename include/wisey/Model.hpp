@@ -67,24 +67,9 @@ public:
   std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
   
   /**
-   * Returns the name of the global varaible containing types that this model implements
-   */
-  std::string getTypeTableName() const;
-
-  /**
    * Returns the name of the global variable containing RTTI type representing this model
    */
   std::string getRTTIVariableName() const;
-
-  /**
-   * Returns interfaces that this model implements
-   */
-  std::vector<Interface*> getInterfaces() const;
-  
-  /**
-   * Returns a list of all interfaces this model implements including inherited interfaces
-   */
-  std::vector<Interface*> getFlattenedInterfaceHierarchy() const;
   
   /**
    * Tells whether this model implements a given interface
@@ -133,6 +118,12 @@ public:
   
   unsigned long getVTableSize() const override;
  
+  std::vector<Interface*> getInterfaces() const override;
+  
+  std::vector<Interface*> getFlattenedInterfaceHierarchy() const override;
+  
+  std::string getTypeTableName() const override;
+  
 private:
   
   int getInterfaceIndex(Interface* interface) const;

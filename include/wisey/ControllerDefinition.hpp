@@ -78,28 +78,6 @@ private:
 
   void defineTypeName(IRGenerationContext& context, Controller* controller) const;
 
-  llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context,
-                                             Controller* controller) const;
-
-  void addTypeListInfo(IRGenerationContext& context,
-                       std::vector<std::vector<llvm::Constant*>>& vTables,
-                       llvm::GlobalVariable* typeListGlobal) const;
-  
-  void addUnthunkInfo(IRGenerationContext& context,
-                      IObjectWithVTable* object,
-                      std::vector<std::vector<llvm::Constant*>>& vTables) const;
-  
-  void generateInterfaceMapFunctions(IRGenerationContext& context,
-                                     IObjectWithVTable* object,
-                                     std::vector<std::vector<llvm::Constant*>>& vTables,
-                                     std::vector<Interface*> interfaces,
-                                     std::map<std::string, llvm::Function*>&
-                                     methodFunctionMap) const;
-  
-  void createVTableGlobal(IRGenerationContext& context,
-                          IObjectWithVTable* object,
-                          std::vector<std::vector<llvm::Constant*>> interfaceVTables) const;
-  
   std::string getFullName(IRGenerationContext& context) const;
 };
 

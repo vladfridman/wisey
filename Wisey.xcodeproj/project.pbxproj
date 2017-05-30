@@ -204,6 +204,8 @@
 		F55496F71E06280900DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
 		F55496F81E06281D00DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
 		F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */; };
+		F556E6541EDDD2F900CCC3D7 /* IObjectWithVTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IObjectWithVTable.cpp */; };
+		F556E6551EDDD2F900CCC3D7 /* IObjectWithVTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IObjectWithVTable.cpp */; };
 		F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
 		F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
 		F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */; };
@@ -630,6 +632,7 @@
 		F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = /usr/local/lib/libLLVMGlobalISel.a; sourceTree = "<absolute>"; };
 		F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifier.cpp; path = tests/TestIdentifier.cpp; sourceTree = "<group>"; };
 		F556E6521EDDC80000CCC3D7 /* IObjectWithVTable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectWithVTable.hpp; path = include/wisey/IObjectWithVTable.hpp; sourceTree = "<group>"; };
+		F556E6531EDDD2F900CCC3D7 /* IObjectWithVTable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectWithVTable.cpp; path = src/IObjectWithVTable.cpp; sourceTree = "<group>"; };
 		F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRWriter.cpp; path = src/IRWriter.cpp; sourceTree = "<group>"; };
 		F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRWriter.cpp; path = tests/TestIRWriter.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
@@ -1058,6 +1061,7 @@
 				F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */,
 				F5C6FD7F1E48B6E80054209D /* IntType.cpp */,
 				F56AD4A01E9F66C40020868C /* IObjectType.cpp */,
+				F556E6531EDDD2F900CCC3D7 /* IObjectWithVTable.cpp */,
 				F574115F1E01AC98009809FF /* IRGenerationContext.cpp */,
 				F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */,
 				F50427AB1E4D2747001CB148 /* LocalHeapVariable.cpp */,
@@ -1481,6 +1485,7 @@
 				F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F57085F61E511BAC007D627E /* TestObjectFieldVariable.cpp in Sources */,
 				F5C6FD6D1E48B37D0054209D /* TestVoidType.cpp in Sources */,
+				F556E6551EDDD2F900CCC3D7 /* IObjectWithVTable.cpp in Sources */,
 				F50FA2D81E2D324100435EEA /* CaseStatement.cpp in Sources */,
 				F531B64B1E0A5329008304F3 /* TestAssignment.cpp in Sources */,
 				F5C6FD811E48B6E80054209D /* IntType.cpp in Sources */,
@@ -1565,6 +1570,7 @@
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
+				F556E6541EDDD2F900CCC3D7 /* IObjectWithVTable.cpp in Sources */,
 				F57780AD1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,

@@ -62,21 +62,6 @@ public:
    * Set the struct field types for the struct that represents this controller
    */
   void setStructBodyTypes(std::vector<llvm::Type*> types);
-  
-  /**
-   * Returns interfaces that this model implements
-   */
-  std::vector<Interface*> getInterfaces() const;
-
-  /**
-   * Returns a list of all interfaces this model implements including inherited interfaces
-   */
-  std::vector<Interface*> getFlattenedInterfaceHierarchy() const;
-  
-  /**
-   * Returns the name of the global varaible containing types that this model implements
-   */
-  std::string getTypeTableName() const;
 
   /**
    * Inject an instance of this controller into LLVM code
@@ -109,6 +94,12 @@ public:
   
   unsigned long getVTableSize() const override;
   
+  std::vector<Interface*> getInterfaces() const override;
+  
+  std::vector<Interface*> getFlattenedInterfaceHierarchy() const override;
+  
+  std::string getTypeTableName() const override;
+ 
 private:
 
   int getInterfaceIndex(Interface* interface) const;
