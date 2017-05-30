@@ -80,24 +80,21 @@ private:
   llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context,
                                              Controller* controller) const;
 
-  void processInterfaceMethods(IRGenerationContext& context,
-                               Controller* controller,
-                               std::vector<Interface*> interfaces,
-                               std::map<std::string, llvm::Function*>& methodFunctionMap,
-                               llvm::GlobalVariable* typeListGlobal) const;
-
-  std::vector<std::list<llvm::Constant*>>
-  generateInterfaceMapFunctions(IRGenerationContext& context,
-                                Controller* controller,
-                                std::vector<Interface*> interfaces,
-                                std::map<std::string, llvm::Function*>& methodFunctionMap) const;
-
-  std::vector<std::vector<llvm::Constant*>>
-  addUnthunkAndTypeTableInfo(IRGenerationContext& context,
-                             Controller* controller,
-                             llvm::GlobalVariable* typeListGlobal,
-                             std::vector<std::list<llvm::Constant*>> interfaceMapFunctions) const;
-
+  void addTypeListInfo(IRGenerationContext& context,
+                       std::vector<std::vector<llvm::Constant*>>& vTables,
+                       llvm::GlobalVariable* typeListGlobal) const;
+  
+  void addUnthunkInfo(IRGenerationContext& context,
+                      Controller* controller,
+                      std::vector<std::vector<llvm::Constant*>>& vTables) const;
+  
+  void generateInterfaceMapFunctions(IRGenerationContext& context,
+                                     Controller* controller,
+                                     std::vector<std::vector<llvm::Constant*>>& vTables,
+                                     std::vector<Interface*> interfaces,
+                                     std::map<std::string, llvm::Function*>&
+                                     methodFunctionMap) const;
+  
   void createVTableGlobal(IRGenerationContext& context,
                           Controller* controller,
                           std::vector<std::vector<llvm::Constant*>> interfaceVTables) const;

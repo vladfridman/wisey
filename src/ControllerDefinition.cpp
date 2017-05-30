@@ -62,7 +62,12 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, controller);
   defineTypeName(context, controller);
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, controller);
-  processInterfaceMethods(context, controller, interfaces, methodFunctionMap, typeListGlobal);
+  
+  vector<vector<Constant*>> vTables;
+  addTypeListInfo(context, vTables, typeListGlobal);
+  addUnthunkInfo(context, controller, vTables);
+  generateInterfaceMapFunctions(context, controller, vTables, interfaces, methodFunctionMap);
+  createVTableGlobal(context, controller, vTables);
   
   context.addImport(controller);
   context.getScopes().popScope(context);
@@ -209,26 +214,44 @@ GlobalVariable* ControllerDefinition::createTypeListGlobal(IRGenerationContext& 
                             controller->getTypeTableName());
 }
 
-void ControllerDefinition::processInterfaceMethods(IRGenerationContext& context,
-                                                   Controller* controller,
-                                                   vector<Interface*> interfaces,
-                                                   map<string, Function*>& methodFunctionMap,
-                                                   GlobalVariable* typeListGlobal) const {
-  
-  vector<list<Constant*>> interfaceMapFunctions =
-  generateInterfaceMapFunctions(context, controller, interfaces, methodFunctionMap);
-  
-  vector<vector<Constant*>> interfaceVTables =
-  addUnthunkAndTypeTableInfo(context, controller, typeListGlobal, interfaceMapFunctions);
-  
-  createVTableGlobal(context, controller, interfaceVTables);
+void ControllerDefinition::addTypeListInfo(IRGenerationContext& context,
+                                           vector<vector<Constant*>>& vTables,
+                                           GlobalVariable* typeListGlobal) const {
+  Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  vector<Constant*> vTablePortion;
+
+  Constant* bitCast = ConstantExpr::getBitCast(typeListGlobal, pointerType);
+  vTablePortion.push_back(ConstantExpr::getNullValue(pointerType));
+  vTablePortion.push_back(bitCast);
+
+  vTables.push_back(vTablePortion);
 }
 
-vector<list<Constant*>> ControllerDefinition::
-generateInterfaceMapFunctions(IRGenerationContext& context,
-                              Controller* controller,
-                              vector<Interface*> interfaces,
-                              map<string, Function*>& methodFunctionMap) const {
+void ControllerDefinition::addUnthunkInfo(IRGenerationContext& context,
+                                          Controller* controller,
+                                          vector<vector<Constant*>>& vTables) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  unsigned long vTableSize = controller->getFlattenedInterfaceHierarchy().size();
+  
+  for (unsigned long i = 1; i < vTableSize; i++) {
+    vector<Constant*> vTablePortion;
+
+    long unthunkBy = -Environment::getAddressSizeInBytes() * i;
+    ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
+    vTablePortion.push_back(ConstantExpr::getIntToPtr(unthunk, pointerType));
+    vTablePortion.push_back(ConstantExpr::getNullValue(pointerType));
+
+    vTables.push_back(vTablePortion);
+  }
+}
+
+void ControllerDefinition::generateInterfaceMapFunctions(IRGenerationContext& context,
+                                                         Controller* controller,
+                                                         vector<vector<Constant*>>& vTables,
+                                                         vector<Interface*> interfaces,
+                                                         map<string, Function*>&
+                                                         methodFunctionMap) const {
   
   vector<list<Constant*>> interfaceMapFunctions;
   for (Interface* interface : interfaces) {
@@ -242,39 +265,15 @@ generateInterfaceMapFunctions(IRGenerationContext& context,
     }
   }
   
-  return interfaceMapFunctions;
-}
-
-vector<vector<Constant*>> ControllerDefinition::
-addUnthunkAndTypeTableInfo(IRGenerationContext& context,
-                           Controller* controller,
-                           GlobalVariable* typeListGlobal,
-                           vector<list<Constant*>> interfaceMapFunctions) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  assert(interfaceMapFunctions.size() == 0 || interfaceMapFunctions.size() == vTables.size());
   
-  vector<vector<Constant*>> interfaceVTables;
-  for (list<Constant*> vTablePortion : interfaceMapFunctions) {
-    if (interfaceVTables.size() == 0) {
-      Constant* bitCast = ConstantExpr::getBitCast(typeListGlobal, pointerType);
-      vTablePortion.push_front(bitCast);
-      vTablePortion.push_front(ConstantExpr::getNullValue(pointerType));
-    } else {
-      vTablePortion.push_front(ConstantExpr::getNullValue(pointerType));
-      long unthunkBy = -Environment::getAddressSizeInBytes() * ((long) interfaceVTables.size());
-      ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
-      vTablePortion.push_front(ConstantExpr::getIntToPtr(unthunk, pointerType));
+  int vTablesIndex = 0;
+  for (list<Constant*> interfaceMapFunctionsPortion : interfaceMapFunctions) {
+    for (Constant* constant : interfaceMapFunctionsPortion) {
+      vTables.at(vTablesIndex).push_back(constant);
     }
-    
-    vector<Constant*> vTablePortionVector {
-      std::make_move_iterator(std::begin(vTablePortion)),
-      std::make_move_iterator(std::end(vTablePortion))
-    };
-    
-    interfaceVTables.push_back(vTablePortionVector);
+    vTablesIndex++;
   }
-  
-  return interfaceVTables;
 }
 
 void ControllerDefinition::createVTableGlobal(IRGenerationContext& context,
