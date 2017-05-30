@@ -94,6 +94,8 @@ public:
   Field* findField(std::string fieldName) const override;
   
   Method* findMethod(std::string methodName) const override;
+  
+  std::vector<Method*> getMethods() const override;
 
   std::string getObjectNameGlobalVariableName() const override;
   

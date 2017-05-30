@@ -19,19 +19,39 @@ using namespace llvm;
 using namespace wisey;
 
 void IConcreteObjectType::generateVTable(IRGenerationContext& context,
-                                         IConcreteObjectType* object,
-                                         map<string, Function*>& methodFunctionMap) {
+                                         IConcreteObjectType* object) {
+
   vector<vector<Constant*>> vTables;
 
   addTypeListInfo(context, object, vTables);
   addUnthunkInfo(context, object, vTables);
-  generateInterfaceMapFunctions(context, object, vTables, methodFunctionMap);
+  generateInterfaceMapFunctions(context, object, vTables);
   createVTableGlobal(context, object, vTables);
 }
 
+map<string, Function*> IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
+                                                              IConcreteObjectType* object) {
+  map<string, Function*> methodFunctionMap;
+  vector<tuple<Method*, Function*>> methodsWithFunctions;
+  
+  for (Method* method : object->getMethods()) {
+    Function* function = method->defineFunction(context, object);
+    methodFunctionMap[method->getName()] = function;
+    methodsWithFunctions.push_back(make_tuple(method, function));
+  }
+  
+  for (tuple<Method*, Function*> methodAndFunction : methodsWithFunctions) {
+    Method* method = get<0>(methodAndFunction);
+    Function* function = get<1>(methodAndFunction);
+    method->generateIR(context, function, object);
+  }
+  
+  return methodFunctionMap;
+}
+
 void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
-                                        IConcreteObjectType* object,
-                                        vector<vector<Constant*>>& vTables) {
+                                          IConcreteObjectType* object,
+                                          vector<vector<Constant*>>& vTables) {
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, object);
 
   Type* pointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
@@ -65,9 +85,8 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
 
 void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& context,
                                                         IConcreteObjectType* object,
-                                                        vector<vector<Constant*>>& vTables,
-                                                        map<string, Function*>&
-                                                        methodFunctionMap) {
+                                                        vector<vector<Constant*>>& vTables) {
+  map<string, Function*> methodFunctionMap = generateMethodsIR(context, object);
   
   vector<list<Constant*>> interfaceMapFunctions;
   for (Interface* interface : object->getInterfaces()) {

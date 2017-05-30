@@ -46,10 +46,9 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
 
   createFieldVariables(context, model, types);
   model->setStructBodyTypes(types);
-  map<string, Function*> methodFunctionMap = generateMethodsIR(context, model);
   defineTypeName(context, model);
   
-  IConcreteObjectType::generateVTable(context, model, methodFunctionMap);
+  IConcreteObjectType::generateVTable(context, model);
   
   context.addImport(model);
   context.getScopes().popScope(context);
@@ -98,27 +97,6 @@ vector<Method*> ModelDefinition::createMethods(IRGenerationContext& context) con
     methods.push_back(method);
   }
   return methods;
-}
-
-map<string, Function*> ModelDefinition::generateMethodsIR(IRGenerationContext& context,
-                                                          Model* model) const {
-  map<string, Function*> methodFunctionMap;
-  vector<tuple<Method*, Function*>> methodsWithFunctions;
-  
-  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    Method* method = model->findMethod(methodDeclaration->getMethodName());
-    Function* function = method->defineFunction(context, model);
-    methodFunctionMap[method->getName()] = function;
-    methodsWithFunctions.push_back(make_tuple(method, function));
-  }
-  
-  for (tuple<Method*, Function*> methodAndFunction : methodsWithFunctions) {
-    Method* method = get<0>(methodAndFunction);
-    Function* function = get<1>(methodAndFunction);
-    method->generateIR(context, function, model);
-  }
-  
-  return methodFunctionMap;
 }
 
 std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& context,

@@ -88,6 +88,10 @@ Method* Model::findMethod(std::string methodName) const {
   return mNameToMethodMap.at(methodName);
 }
 
+vector<Method*> Model::getMethods() const {
+  return mMethods;
+}
+
 string Model::getVTableName() const {
   return getName() + ".vtable";
 }

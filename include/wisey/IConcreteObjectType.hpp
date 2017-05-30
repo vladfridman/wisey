@@ -13,6 +13,7 @@
 
 #include "wisey/Field.hpp"
 #include "wisey/IObjectType.hpp"
+#include "wisey/Method.hpp"
 
 namespace wisey {
   
@@ -51,16 +52,28 @@ public:
    * Returns the name of the global varaible containing types that this model implements
    */
   virtual std::string getTypeTableName() const = 0;
+  
+  /**
+   * Finds a method with a given name.
+   */
+  virtual Method* findMethod(std::string methodName) const = 0;
+  
+  /**
+   * Get list of all methods
+   */
+  virtual std::vector<Method*> getMethods() const = 0;
 
   /**
    * Generate vTable global variable for the given object
    */
-  static void generateVTable(IRGenerationContext& context,
-                             IConcreteObjectType* object,
-                             std::map<std::string, llvm::Function*>& methodFunctionMap);
+  static void generateVTable(IRGenerationContext& context, IConcreteObjectType* object);
   
 private:
   
+  static std::map<std::string, llvm::Function*> generateMethodsIR(IRGenerationContext& context,
+                                                                  IConcreteObjectType* object);
+  
+
   static void addTypeListInfo(IRGenerationContext& context,
                               IConcreteObjectType* object,
                               std::vector<std::vector<llvm::Constant*>>& vTables);
@@ -71,9 +84,7 @@ private:
   
   static void generateInterfaceMapFunctions(IRGenerationContext& context,
                                             IConcreteObjectType* object,
-                                            std::vector<std::vector<llvm::Constant*>>& vTables,
-                                            std::map<std::string, llvm::Function*>&
-                                            methodFunctionMap);
+                                            std::vector<std::vector<llvm::Constant*>>& vTables);
   
   static void createVTableGlobal(IRGenerationContext& context,
                                  IConcreteObjectType* object,

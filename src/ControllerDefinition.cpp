@@ -59,10 +59,9 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   createFieldVariables(context, controller, types);
   controller->setStructBodyTypes(types);
 
-  map<string, Function*> methodFunctionMap = generateMethodsIR(context, controller);
   defineTypeName(context, controller);
   
-  IConcreteObjectType::generateVTable(context, controller, methodFunctionMap);
+  IConcreteObjectType::generateVTable(context, controller);
   
   context.addImport(controller);
   context.getScopes().popScope(context);
@@ -144,27 +143,6 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
                                                                  controller);
     context.getScopes().setVariable(fieldVariable);
   }
-}
-
-map<string, Function*> ControllerDefinition::generateMethodsIR(IRGenerationContext& context,
-                                                               Controller* controller) const {
-  map<string, Function*> methodFunctionMap;
-  vector<tuple<Method*, Function*>> methodsWithFunctions;
-  
-  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    Method* method = controller->findMethod(methodDeclaration->getMethodName());
-    Function* function = method->defineFunction(context, controller);
-    methodFunctionMap[method->getName()] = function;
-    methodsWithFunctions.push_back(make_tuple(method, function));
-  }
-  
-  for (tuple<Method*, Function*> methodAndFunction : methodsWithFunctions) {
-    Method* method = get<0>(methodAndFunction);
-    Function* function = get<1>(methodAndFunction);
-    method->generateIR(context, function, controller);
-  }
-  
-  return methodFunctionMap;
 }
 
 void ControllerDefinition::defineTypeName(IRGenerationContext& context,

@@ -73,9 +73,6 @@ private:
                                            Controller* controller,
                                            std::vector<llvm::Type*>& types) const;
 
-  std::map<std::string, llvm::Function*> generateMethodsIR(IRGenerationContext& context,
-                                                           Controller* controller) const;
-
   void defineTypeName(IRGenerationContext& context, Controller* controller) const;
 
   std::string getFullName(IRGenerationContext& context) const;

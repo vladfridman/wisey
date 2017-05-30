@@ -55,10 +55,7 @@ private:
                             std::vector<llvm::Type*>& types) const;
   
   std::vector<Method*> createMethods(IRGenerationContext& context) const;
-  
-  std::map<std::string, llvm::Function*> generateMethodsIR(IRGenerationContext& context,
-                                                           Model* model) const;
-  
+    
   std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                             std::vector<llvm::Type*>& types) const;
 

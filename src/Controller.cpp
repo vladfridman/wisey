@@ -164,6 +164,10 @@ Method* Controller::findMethod(std::string methodName) const {
   return mNameToMethodMap.at(methodName);
 }
 
+vector<Method*> Controller::getMethods() const {
+  return mMethods;
+}
+
 string Controller::getObjectNameGlobalVariableName() const {
   return mName + ".name";
 }
