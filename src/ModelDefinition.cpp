@@ -245,14 +245,13 @@ GlobalVariable* ModelDefinition::createTypeListGlobal(IRGenerationContext& conte
   vector<Interface*> interfaces = model->getFlattenedInterfaceHierarchy();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
 
-  Constant* modelNamePointer = IObjectWithMethodsType::getObjectNamePointer(model, context);
+  Constant* modelNamePointer = IObjectType::getObjectNamePointer(model, context);
   
   vector<Constant*> typeNames;
   typeNames.push_back(modelNamePointer);
   
   for (Interface* interface : interfaces) {
-    Constant* interfaceNamePointer =
-      IObjectWithMethodsType::getObjectNamePointer(interface, context);
+    Constant* interfaceNamePointer = IObjectType::getObjectNamePointer(interface, context);
     typeNames.push_back(interfaceNamePointer);
   }
   typeNames.push_back(ConstantExpr::getNullValue(pointerType));

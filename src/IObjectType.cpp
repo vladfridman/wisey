@@ -1,5 +1,5 @@
 //
-//  IObjectWithMethodsType.cpp
+//  IObjectType.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 4/13/17.
@@ -8,15 +8,15 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/IObjectWithMethodsType.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-Constant* IObjectWithMethodsType::getObjectNamePointer(const IObjectWithMethodsType *object,
-                                                       IRGenerationContext& context) {
+Constant* IObjectType::getObjectNamePointer(const IObjectType *object,
+                                            IRGenerationContext& context) {
   GlobalVariable* nameGlobal =
     context.getModule()->getGlobalVariable(object->getObjectNameGlobalVariableName());
   ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);

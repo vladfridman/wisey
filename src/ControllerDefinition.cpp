@@ -190,15 +190,13 @@ GlobalVariable* ControllerDefinition::createTypeListGlobal(IRGenerationContext& 
   vector<Interface*> interfaces = controller->getFlattenedInterfaceHierarchy();
   Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   
-  Constant* controllerNamePointer =
-    IObjectWithMethodsType::getObjectNamePointer(controller, context);
+  Constant* controllerNamePointer = IObjectType::getObjectNamePointer(controller, context);
   
   vector<Constant*> typeNames;
   typeNames.push_back(controllerNamePointer);
   
   for (Interface* interface : interfaces) {
-    Constant* interfaceNamePointer =
-      IObjectWithMethodsType::getObjectNamePointer(interface, context);
+    Constant* interfaceNamePointer = IObjectType::getObjectNamePointer(interface, context);
     typeNames.push_back(interfaceNamePointer);
   }
   typeNames.push_back(ConstantExpr::getNullValue(pointerType));

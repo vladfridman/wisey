@@ -436,7 +436,7 @@ CallInst* Interface::callInstanceOf(IRGenerationContext& context,
                                     IObjectWithMethodsType* callableObjectType) const {
   Function* function = context.getModule()->getFunction(getInstanceOfFunctionName());
   
-  Constant* namePointer = IObjectWithMethodsType::getObjectNamePointer(callableObjectType, context);
+  Constant* namePointer = IObjectType::getObjectNamePointer(callableObjectType, context);
 
   vector<Value*> arguments;
   arguments.push_back(interfaceObject);

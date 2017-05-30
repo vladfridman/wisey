@@ -201,8 +201,7 @@ void Model::createRTTI(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
  
-  Constant* modelNamePointer =
-    IObjectWithMethodsType::getObjectNamePointer(this, context);
+  Constant* modelNamePointer = IObjectType::getObjectNamePointer(this, context);
 
   Constant* cxxabiv117ClassType =
     context.getModule()->getOrInsertGlobal("_ZTVN10__cxxabiv117__class_type_infoE",

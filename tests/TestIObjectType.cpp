@@ -1,11 +1,11 @@
 //
-//  TestIObjectWithMethodsType.cpp
+//  TestIObjectType.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 4/13/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link IObjectWithMethodsType}
+//  Tests {@link IObjectType}
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
@@ -26,14 +26,14 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct IObjectWithMethodsTypeTest : public Test {
+struct IObjectTypeTest : public Test {
   NiceMock<MockObjectWithMethodsType> mMockObject;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  IObjectWithMethodsTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+  IObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     ON_CALL(mMockObject, getObjectNameGlobalVariableName()).WillByDefault(Return("test"));
     
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, "test");
@@ -48,8 +48,8 @@ struct IObjectWithMethodsTypeTest : public Test {
   }
 };
 
-TEST_F(IObjectWithMethodsTypeTest, getObjectNamePointerTest) {
-  Constant* constant = IObjectWithMethodsType::getObjectNamePointer(&mMockObject, mContext);
+TEST_F(IObjectTypeTest, getObjectNamePointerTest) {
+  Constant* constant = IObjectType::getObjectNamePointer(&mMockObject, mContext);
   
   *mStringStream << *constant;
   string expected = "i8* getelementptr inbounds ([5 x i8], [5 x i8]* @test, i32 0, i32 0)";
