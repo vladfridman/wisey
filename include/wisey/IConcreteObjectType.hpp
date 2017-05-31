@@ -74,6 +74,26 @@ public:
   static void generateNameGlobal(IRGenerationContext& context, IConcreteObjectType* object);
   
   /**
+   * Casts this concrete object to a given type
+   */
+  static llvm::Value* castTo(IRGenerationContext& context,
+                             IConcreteObjectType* object,
+                             llvm::Value* fromValue,
+                             IType* toType);
+
+  /**
+   * Returns the interface index in the list of flattened interface hierarchy
+   */
+  static unsigned long getInterfaceIndex(IConcreteObjectType* object, Interface* interface);
+  
+  /**
+   * Initialize vTable of a newly created concrete object
+   */
+  static void initializeVTable(IRGenerationContext& context,
+                               IConcreteObjectType* object,
+                               llvm::Instruction* malloc);
+  
+  /**
    * Generate vTable global variable for the given object
    */
   static void generateVTable(IRGenerationContext& context, IConcreteObjectType* object);
@@ -103,7 +123,6 @@ private:
   static llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context,
                                                     IConcreteObjectType* object);
 
-  
 };
   
 } /* namespace wisey */

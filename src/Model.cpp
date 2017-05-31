@@ -118,7 +118,7 @@ vector<Interface*> Model::getFlattenedInterfaceHierarchy() const {
 
 bool Model::doesImplmentInterface(Interface* interface) const {
   // TODO: optimize this
-  return getInterfaceIndex(interface) > 0;
+  return getInterfaceIndex((IConcreteObjectType*) this, interface) > 0;
 }
 
 void Model::addInterfaceAndItsParents(vector<Interface*>& result, Interface* interface) const {
@@ -149,7 +149,8 @@ bool Model::canCastTo(IType* toType) const {
   if (toType == this) {
     return true;
   }
-  if (toType->getTypeKind() == INTERFACE_TYPE && getInterfaceIndex((Interface*) toType) > 0) {
+  if (toType->getTypeKind() == INTERFACE_TYPE &&
+      getInterfaceIndex((IConcreteObjectType*) this, (Interface*) toType) > 0) {
     return true;
   }
   return false;
@@ -160,35 +161,7 @@ bool Model::canAutoCastTo(IType* toType) const {
 }
 
 Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
-  if (toType == this) {
-    return fromValue;
-  }
-  if (!canCastTo(toType)) {
-    Cast::exitIncopatibleTypes(this, toType);
-    return NULL;
-  }
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Interface* interface = (Interface*) toType;
-  int interfaceIndex = getInterfaceIndex(interface);
-  
-  Type* int8Type = Type::getInt8Ty(llvmContext);
-  BitCastInst* bitcast = IRWriter::newBitCastInst(context, fromValue, int8Type->getPointerTo());
-  Value* index[1];
-  unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
-  Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
-  return IRWriter::newBitCastInst(context, thunk, interface->getLLVMType(llvmContext));
-}
-
-int Model::getInterfaceIndex(Interface* interface) const {
-  int index = 1;
-  for (Interface* implementedInterface : mFlattenedInterfaceHierarchy) {
-    if (implementedInterface == interface) {
-      return index;
-    }
-    index++;
-  }
-  return 0;
+  return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
 Instruction* Model::build(IRGenerationContext& context,
@@ -196,7 +169,7 @@ Instruction* Model::build(IRGenerationContext& context,
   checkArguments(modelBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
   initializeFields(context, modelBuilderArgumentList, malloc);
-  initializeVTable(context, malloc);
+  initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   return malloc;
 }
@@ -302,39 +275,6 @@ void Model::initializeFields(IRGenerationContext& context,
       exit(1);
     }
     IRWriter::newStoreInst(context, argumentValue, fieldPointer);
-  }
-}
-
-void Model::initializeVTable(IRGenerationContext& context, Instruction* malloc) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  GlobalVariable* vTableGlobal = context.getModule()->getGlobalVariable(getVTableName());
-  
-  Type* genericPointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
-  Type* vTableType = functionType->getPointerTo()->getPointerTo();
-  
-  vector<Interface*> interfaces = getFlattenedInterfaceHierarchy();
-  for (unsigned int vTableIndex = 0; vTableIndex < getVTableSize(); vTableIndex++) {
-    Value* vTableStart;
-    if (vTableIndex == 0) {
-      vTableStart = malloc;
-    } else {
-      Value* vTableStartCalculation = IRWriter::newBitCastInst(context, malloc, genericPointerType);
-      Value* index[1];
-      unsigned int thunkBy = vTableIndex * Environment::getAddressSizeInBytes();
-      index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
-      vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
-    }
-    
-    Value* vTablePointer =
-    IRWriter::newBitCastInst(context, vTableStart, vTableType->getPointerTo());
-    Value* index[3];
-    index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), vTableIndex);
-    index[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, index);
-    BitCastInst* bitcast = IRWriter::newBitCastInst(context, initializerStart, vTableType);
-    IRWriter::newStoreInst(context, bitcast, vTablePointer);
   }
 }
 

@@ -127,8 +127,6 @@ public:
   
 private:
   
-  int getInterfaceIndex(Interface* interface) const;
-  
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   
   void checkArguments(ModelBuilderArgumentList* modelBuilderArgumentList) const;
@@ -142,8 +140,6 @@ private:
   void initializeFields(IRGenerationContext& context,
                         ModelBuilderArgumentList* modelBuilderArgumentList,
                         llvm::Instruction* malloc) const;
-
-  void initializeVTable(IRGenerationContext& context, llvm::Instruction* malloc) const;
 };
 
 } /* namespace wisey */

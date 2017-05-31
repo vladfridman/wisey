@@ -103,15 +103,11 @@ public:
  
 private:
 
-  int getInterfaceIndex(Interface* interface) const;
-
   void checkArguments(ExpressionList received) const;
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
 
   llvm::Instruction* createMalloc(IRGenerationContext& context) const;
-  
-  void initializeVTable(IRGenerationContext& context, llvm::Instruction* malloc) const;
   
   void initializeReceivedFields(IRGenerationContext& context,
                                 ExpressionList& controllerInjectorArguments,
