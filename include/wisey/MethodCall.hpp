@@ -57,14 +57,6 @@ private:
                    IObjectType* object,
                    IMethodDescriptor* methodDescriptor) const;
   
-  llvm::Value* generateModelMethodCallIR(IRGenerationContext& context,
-                                         IObjectType* object,
-                                         IMethodDescriptor* methodDescriptor) const;
-  
-  llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
-                                             Interface* interface,
-                                             IMethodDescriptor* methodDescriptor) const;
-  
   IObjectType* getObjectWithMethods(IRGenerationContext& context) const;
   
   IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
