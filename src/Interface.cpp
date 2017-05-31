@@ -106,14 +106,17 @@ vector<list<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& c
                                                           map<string, Function*>& methodFunctionMap,
                                                           unsigned long interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* pointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   list<Constant*> vTableArrayProtion;
   for (MethodSignature* methodSignature : mAllMethodSignatures) {
-    Function* modelFunction = methodFunctionMap.count(methodSignature->getName())
+    Function* concreteObjectFunction = methodFunctionMap.count(methodSignature->getName())
       ? methodFunctionMap.at(methodSignature->getName()) : NULL;
-    Function* function =
-      generateMapFunctionForMethod(context, object, modelFunction, interfaceIndex, methodSignature);
-    Constant* bitCast = ConstantExpr::getBitCast(function, pointerType);
+    Function* function = generateMapFunctionForMethod(context,
+                                                      object,
+                                                      concreteObjectFunction,
+                                                      interfaceIndex,
+                                                      methodSignature);
+    Constant* bitCast = ConstantExpr::getBitCast(function, int8Pointer);
     vTableArrayProtion.push_back(bitCast);
   }
   vector<list<Constant*>> vSubTable;
@@ -133,7 +136,7 @@ vector<list<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& c
 
 Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                                                   IObjectType* object,
-                                                  llvm::Function* modelFunction,
+                                                  llvm::Function* concreteObjectFunction,
                                                   unsigned long interfaceIndex,
                                                   MethodSignature* interfaceMethodSignature) const {
   IMethodDescriptor* objectMethodDescriptor =
@@ -165,15 +168,11 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
 
-  if (interfaceIndex == 0) {
-    return modelFunction;
-  }
-  
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(object,
                                                            this,
                                                            interfaceMethodSignature->getName());
-  Function* function = Function::Create(modelFunction->getFunctionType(),
+  Function* function = Function::Create(concreteObjectFunction->getFunctionType(),
                                         GlobalValue::InternalLinkage,
                                         functionName,
                                         context.getModule());
@@ -190,7 +189,7 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
   
   generateMapFunctionBody(context,
                           object,
-                          modelFunction,
+                          concreteObjectFunction,
                           function,
                           interfaceIndex,
                           interfaceMethodSignature);
@@ -220,7 +219,7 @@ bool Interface::doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMet
 
 void Interface::generateMapFunctionBody(IRGenerationContext& context,
                                         IObjectType* object,
-                                        Function* modelFunction,
+                                        Function* concreteObjectFunction,
                                         Function* mapFunction,
                                         unsigned long interfaceIndex,
                                         MethodSignature* methodSignature) const {
@@ -249,22 +248,24 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                             -interfaceIndex * Environment::getAddressSizeInBytes());
-  Value* modelThis = IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
-  Value* castedModelThis = IRWriter::newBitCastInst(context,
-                                                    modelThis,
-                                                    interfaceThisLoaded->getType());
+  Value* concreteOjbectThis =
+    IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
+  Value* castedObjectThis = IRWriter::newBitCastInst(context,
+                                                     concreteOjbectThis,
+                                                     interfaceThisLoaded->getType());
   vector<Value*> callArguments;
-  callArguments.push_back(castedModelThis);
+  callArguments.push_back(castedObjectThis);
   for (Value* argumentPointer : argumentPointers) {
     Value* loadedCallArgument = IRWriter::newLoadInst(context, argumentPointer, "");
     callArguments.push_back(loadedCallArgument);
   }
   
-  if (modelFunction->getReturnType()->isVoidTy()) {
-    IRWriter::createCallInst(context, modelFunction, callArguments, "");
+  if (concreteObjectFunction->getReturnType()->isVoidTy()) {
+    IRWriter::createCallInst(context, concreteObjectFunction, callArguments, "");
     IRWriter::createReturnInst(context, NULL);
   } else {
-    Value* result = IRWriter::createCallInst(context, modelFunction, callArguments, "call");
+    Value* result =
+      IRWriter::createCallInst(context, concreteObjectFunction, callArguments, "call");
     IRWriter::createReturnInst(context, result);
   }
 }

@@ -68,7 +68,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
-                            methodDescriptor->getIndex() + VTABLE_METHODS_OFFSET);
+                              methodDescriptor->getIndex() + VTABLE_METHODS_OFFSET);
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   LoadInst* function = IRWriter::newLoadInst(context, virtualFunction, "");
   

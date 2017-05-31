@@ -37,6 +37,11 @@ public:
    * Returns the name of the vTable global varaible
    */
   virtual std::string getVTableName() const = 0;
+
+  /**
+   * Returns the size of the VTable array for this object
+   */
+  virtual unsigned long getVTableSize() const = 0;
   
   /**
    * Returns interfaces that this object implements
@@ -63,6 +68,11 @@ public:
    */
   virtual std::vector<Method*> getMethods() const = 0;
 
+  /**
+   * Generate global variable with the name of the given object
+   */
+  static void generateNameGlobal(IRGenerationContext& context, IConcreteObjectType* object);
+  
   /**
    * Generate vTable global variable for the given object
    */

@@ -117,6 +117,8 @@ public:
   
   std::string getVTableName() const override;
   
+  unsigned long getVTableSize() const override;
+  
   std::vector<Interface*> getInterfaces() const override;
   
   std::vector<Interface*> getFlattenedInterfaceHierarchy() const override;
@@ -141,9 +143,7 @@ private:
                         ModelBuilderArgumentList* modelBuilderArgumentList,
                         llvm::Instruction* malloc) const;
 
-  void initializeVTable(IRGenerationContext& context,
-                        ModelBuilderArgumentList* modelBuilderArgumentList,
-                        llvm::Instruction* malloc) const;
+  void initializeVTable(IRGenerationContext& context, llvm::Instruction* malloc) const;
 };
 
 } /* namespace wisey */

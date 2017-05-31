@@ -36,17 +36,25 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   Controller* controller = context.getController(fullName);
   
   vector<Type*> types;
+  Type* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), true);
+  Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
+  types.push_back(arrayOfFunctionsPointerType);
+
   vector<Interface*> interfaces = processInterfaces(context, types);
+  
+  // In object struct fields start after vTable for the object and vTables of all othe interfaces
+  unsigned long offset = interfaces.size() + 1u;
   vector<Field*> receivedFields = fieldDeclarationsToFields(context,
                                                             mReceivedFieldDeclarations,
-                                                            interfaces.size());
+                                                            offset);
   vector<Field*> injectedFields = fieldDeclarationsToFields(context,
                                                             mInjectedFieldDeclarations,
-                                                            interfaces.size() +
+                                                            offset +
                                                             receivedFields.size());
   vector<Field*> stateFields = fieldDeclarationsToFields(context,
                                                          mStateFieldDeclarations,
-                                                         interfaces.size() + receivedFields.size() +
+                                                         offset +
+                                                         receivedFields.size() +
                                                          injectedFields.size());
   vector<Method*> methods = createMethods(context);
 
@@ -59,8 +67,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   createFieldVariables(context, controller, types);
   controller->setStructBodyTypes(types);
 
-  defineTypeName(context, controller);
-  
+  IConcreteObjectType::generateNameGlobal(context, controller);
   IConcreteObjectType::generateVTable(context, controller);
   
   context.addImport(controller);
@@ -143,18 +150,6 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
                                                                  controller);
     context.getScopes().setVariable(fieldVariable);
   }
-}
-
-void ControllerDefinition::defineTypeName(IRGenerationContext& context,
-                                          Controller* controller) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Constant* stringConstant = ConstantDataArray::getString(llvmContext, controller->getName());
-  new GlobalVariable(*context.getModule(),
-                     stringConstant->getType(),
-                     true,
-                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                     stringConstant,
-                     controller->getObjectNameGlobalVariableName());
 }
 
 string ControllerDefinition::getFullName(IRGenerationContext& context) const {

@@ -74,6 +74,9 @@ struct InterfaceInjectorTest : Test {
     mContext.addInterface(mInterface);
     mContext.bindInterfaceToController(mInterface, mController);
    
+    IConcreteObjectType::generateNameGlobal(mContext, mController);
+    IConcreteObjectType::generateVTable(mContext, mController);
+    
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,

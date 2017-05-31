@@ -92,6 +92,8 @@ public:
                       IType* toType) const override;
 
   std::string getVTableName() const override;
+
+  unsigned long getVTableSize() const override;
   
   std::vector<Interface*> getInterfaces() const override;
   

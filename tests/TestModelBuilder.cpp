@@ -65,6 +65,9 @@ struct ModelBuilderTest : Test {
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
     ON_CALL(mField2Expression, generateIR(_)).WillByDefault(Return(fieldValue2));
     ON_CALL(mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    
+    IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::generateVTable(mContext, mModel);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,

@@ -104,6 +104,10 @@ string Controller::getVTableName() const {
   return mName + ".vtable";
 }
 
+unsigned long Controller::getVTableSize() const {
+  return mFlattenedInterfaceHierarchy.size() + 1;
+}
+
 Instruction* Controller::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
@@ -123,14 +127,14 @@ void Controller::initializeVTable(IRGenerationContext& context, Instruction* mal
   Type* vTableType = functionType->getPointerTo()->getPointerTo();
   
   vector<Interface*> interfaces = getFlattenedInterfaceHierarchy();
-  for (unsigned int interfaceIndex = 0; interfaceIndex < interfaces.size(); interfaceIndex++) {
+  for (unsigned int vTableIndex = 0; vTableIndex < getVTableSize(); vTableIndex++) {
     Value* vTableStart;
-    if (interfaceIndex == 0) {
+    if (vTableIndex == 0) {
       vTableStart = malloc;
     } else {
       Value* vTableStartCalculation = IRWriter::newBitCastInst(context, malloc, genericPointerType);
       Value* index[1];
-      unsigned int thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
+      unsigned int thunkBy = vTableIndex * Environment::getAddressSizeInBytes();
       index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
       vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
     }
@@ -140,7 +144,7 @@ void Controller::initializeVTable(IRGenerationContext& context, Instruction* mal
                                                     vTableType->getPointerTo());
     Value* index[3];
     index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), interfaceIndex);
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), vTableIndex);
     index[2] = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
     Value* initializerStart = IRWriter::createGetElementPtrInst(context, vTableGlobal, index);
     BitCastInst* bitcast = IRWriter::newBitCastInst(context, initializerStart, vTableType);
@@ -192,7 +196,7 @@ bool Controller::canCastTo(IType* toType) const {
   if (toType == this) {
     return true;
   }
-  if (toType->getTypeKind() == INTERFACE_TYPE && getInterfaceIndex((Interface*) toType) >= 0) {
+  if (toType->getTypeKind() == INTERFACE_TYPE && getInterfaceIndex((Interface*) toType) > 0) {
     return true;
   }
   return false;
@@ -213,9 +217,6 @@ Value* Controller::castTo(IRGenerationContext& context, Value* fromValue, IType*
   LLVMContext& llvmContext = context.getLLVMContext();
   Interface* interface = (Interface*) toType;
   int interfaceIndex = getInterfaceIndex(interface);
-  if (interfaceIndex == 0) {
-    return IRWriter::newBitCastInst(context, fromValue, interface->getLLVMType(llvmContext));
-  }
   
   Type* int8Type = Type::getInt8Ty(llvmContext);
   BitCastInst* bitcast = IRWriter::newBitCastInst(context, fromValue, int8Type->getPointerTo());
@@ -227,14 +228,14 @@ Value* Controller::castTo(IRGenerationContext& context, Value* fromValue, IType*
 }
 
 int Controller::getInterfaceIndex(Interface* interface) const {
-  int index = 0;
+  int index = 1;
   for (Interface* implementedInterface : mFlattenedInterfaceHierarchy) {
     if (implementedInterface == interface) {
       return index;
     }
     index++;
   }
-  return -1;
+  return 0;
 }
 
 void Controller::addInterfaceAndItsParents(vector<Interface*>& result, Interface* interface) const {

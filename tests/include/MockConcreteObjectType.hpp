@@ -1,0 +1,44 @@
+//
+//  MockConcreteObjectType.hpp
+//  Wisey
+//
+//  Created by Vladimir Fridman on 5/31/17.
+//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//
+
+#ifndef MockConcreteObjectType_h
+#define MockConcreteObjectType_h
+
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+#include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IRGenerationContext.hpp"
+
+/**
+ * Defines a mock object for IExpression
+ */
+class MockConcreteObjectType : public wisey::IConcreteObjectType {
+public:
+  MOCK_CONST_METHOD1(findField, wisey::Field* (std::string));
+  MOCK_CONST_METHOD0(getVTableName, std::string ());
+  MOCK_CONST_METHOD0(getVTableSize, unsigned long ());
+  MOCK_CONST_METHOD0(getInterfaces, std::vector<wisey::Interface*> ());
+  MOCK_CONST_METHOD0(getFlattenedInterfaceHierarchy, std::vector<wisey::Interface*> ());
+  MOCK_CONST_METHOD0(getTypeTableName, std::string ());
+  MOCK_CONST_METHOD1(findMethod, wisey::Method* (std::string));
+  MOCK_CONST_METHOD0(getMethods, std::vector<wisey::Method*> ());
+
+  MOCK_CONST_METHOD0(getObjectNameGlobalVariableName, std::string ());
+  MOCK_CONST_METHOD0(getName, std::string ());
+  MOCK_CONST_METHOD0(getShortName, std::string ());
+  MOCK_CONST_METHOD1(getLLVMType, llvm::Type* (llvm::LLVMContext&));
+  MOCK_CONST_METHOD0(getTypeKind, wisey::TypeKind ());
+  MOCK_CONST_METHOD1(canCastTo, bool (wisey::IType*));
+  MOCK_CONST_METHOD1(canAutoCastTo, bool (wisey::IType*));
+  MOCK_CONST_METHOD3(castTo, llvm::Value* (wisey::IRGenerationContext&,
+                                           llvm::Value*,
+                                           wisey::IType*));
+};
+
+#endif /* MockConcreteObjectType_h */

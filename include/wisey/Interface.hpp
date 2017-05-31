@@ -129,13 +129,13 @@ private:
 
   llvm::Function* generateMapFunctionForMethod(IRGenerationContext& context,
                                                IObjectType* object,
-                                               llvm::Function* modelFunction,
+                                               llvm::Function* concreteObjectFunction,
                                                unsigned long interfaceIndex,
                                                MethodSignature* methodSignature) const;
 
   void generateMapFunctionBody(IRGenerationContext& context,
                                IObjectType* object,
-                               llvm::Function* modelFunction,
+                               llvm::Function* concreteObjectFunction,
                                llvm::Function* mapFunction,
                                unsigned long interfaceIndex,
                                MethodSignature* methodSignature) const;

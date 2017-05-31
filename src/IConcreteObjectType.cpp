@@ -18,6 +18,18 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
+                                             IConcreteObjectType* object) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Constant* stringConstant = ConstantDataArray::getString(llvmContext, object->getName());
+  new GlobalVariable(*context.getModule(),
+                     stringConstant->getType(),
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     stringConstant,
+                     object->getObjectNameGlobalVariableName());
+}
+
 void IConcreteObjectType::generateVTable(IRGenerationContext& context,
                                          IConcreteObjectType* object) {
 
@@ -68,7 +80,7 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
                                          vector<vector<Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  unsigned long vTableSize = object->getFlattenedInterfaceHierarchy().size();
+  unsigned long vTableSize = object->getFlattenedInterfaceHierarchy().size() + 1;
   
   for (unsigned long i = 1; i < vTableSize; i++) {
     vector<Constant*> vTablePortion;
@@ -85,9 +97,19 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
 void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& context,
                                                         IConcreteObjectType* object,
                                                         vector<vector<Constant*>>& vTables) {
+  Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   map<string, Function*> methodFunctionMap = generateMethodsIR(context, object);
   
   vector<list<Constant*>> interfaceMapFunctions;
+  
+  list<Constant*> concreteObjectMethods;
+  for (Method* method : object->getMethods()) {
+    Function* concreteObjectFunction = methodFunctionMap.at(method->getName());
+    Constant* bitCast = ConstantExpr::getBitCast(concreteObjectFunction, int8Pointer);
+    concreteObjectMethods.push_back(bitCast);
+  }
+  interfaceMapFunctions.push_back(concreteObjectMethods);
+  
   for (Interface* interface : object->getInterfaces()) {
     vector<list<Constant*>> vSubTable =
     interface->generateMapFunctionsIR(context,
@@ -99,7 +121,7 @@ void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& con
     }
   }
   
-  assert(interfaceMapFunctions.size() == 0 || interfaceMapFunctions.size() == vTables.size());
+  assert(interfaceMapFunctions.size() == vTables.size());
   
   int vTablesIndex = 0;
   for (list<Constant*> interfaceMapFunctionsPortion : interfaceMapFunctions) {

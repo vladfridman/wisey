@@ -193,6 +193,9 @@ struct ModelTest : public Test {
     Value* field3Value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
     ON_CALL(mField3Expression, generateIR(_)).WillByDefault(Return(field3Value));
     ON_CALL(mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+    
+    IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+    IConcreteObjectType::generateVTable(mContext, mStarModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -220,6 +223,7 @@ TEST_F(ModelTest, modelInstantiationTest) {
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
   EXPECT_EQ(mModel->getInterfaces().size(), 2u);
+  EXPECT_EQ(mModel->getVTableSize(), 4u);
 }
 
 TEST_F(ModelTest, getSizeTest) {
@@ -286,13 +290,23 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
   mModel->castTo(mContext, pointer, mShapeInterface);
-  ASSERT_EQ(mBasicBlock->size(), 1u);
+  ASSERT_EQ(mBasicBlock->size(), 3u);
 
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null "
-               "to %systems.vos.wisey.compiler.tests.IShape*");
+               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IShape*");
   mStringBuffer.clear();
 }
 
@@ -310,7 +324,7 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
 
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 16");
   mStringBuffer.clear();
   
   iterator++;
@@ -377,45 +391,27 @@ TEST_F(ModelTest, buildTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
   
-  ASSERT_EQ(6ul, mBasicBlock->size());
+  ASSERT_EQ(10ul, mBasicBlock->size());
   
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
+  *mStringStream << *mBasicBlock;
   string expected = string() +
-  "  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint" +
-  " (i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))";
+  "\nentry:" +
+  "\n  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
+  "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))"
+  "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MStar*"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
+    "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 0"
+  "\n  store i32 3, i32* %0"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
+    "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 1"
+  "\n  store i32 5, i32* %1"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MStar* %buildervar to i32 (...)***"
+  "\n  %3 = getelementptr { [2 x i8*] }, { [2 x i8*] }* "
+    "@systems.vos.wisey.compiler.tests.MStar.vtable, i32 0, i32 0, i32 0"
+  "\n  %4 = bitcast i8** %3 to i32 (...)**"
+  "\n  store i32 (...)** %4, i32 (...)*** %2\n";
+  
   EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %buildervar = bitcast i8* %malloccall to "
-               "%systems.vos.wisey.compiler.tests.MStar*");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
-               "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 0");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 3, i32* %0");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
-               "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 1");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %1");
   mStringBuffer.clear();
 }
 

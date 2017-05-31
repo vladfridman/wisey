@@ -149,7 +149,7 @@ struct ControllerTest : public Test {
     additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
     additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
-    StructType *additorStructType = StructType::create(mLLVMContext, "CAdditor");
+    StructType *additorStructType = StructType::create(mLLVMContext, additorFullName);
     additorStructType->setBody(additorTypes);
     vector<Field*> additorReceivedFields;
     vector<Field*> additorInjectedFields;
@@ -185,6 +185,9 @@ struct ControllerTest : public Test {
     vehicleInterfaceStructType->setBody(vehicleInterfaceTypes);
     mVehicleInterface = new Interface(vehicleFullName, vehicleInterfaceStructType);
     
+    IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
+    IConcreteObjectType::generateVTable(mContext, mAdditorController);
+    
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -213,6 +216,7 @@ TEST_F(ControllerTest, controllerInstantiationTest) {
   EXPECT_EQ(mMultiplierController->getTypeKind(), CONTROLLER_TYPE);
   EXPECT_EQ(mMultiplierController->getLLVMType(mLLVMContext), mStructType->getPointerTo());
   EXPECT_EQ(mMultiplierController->getInterfaces().size(), 2u);
+  EXPECT_EQ(mMultiplierController->getVTableSize(), 4u);
 }
 
 TEST_F(ControllerTest, findFeildTest) {
@@ -261,13 +265,22 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mLLVMContext));
   mMultiplierController->castTo(mContext, pointer, mScienceCalculatorInterface);
-  ASSERT_EQ(mBasicBlock->size(), 1u);
+  ASSERT_EQ(mBasicBlock->size(), 3u);
   
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = bitcast %CMultiplier* null to i8*");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
+  mStringBuffer.clear();
+  
+  iterator++;
+  *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %CMultiplier* null to "
-               "%systems.vos.wisey.compiler.tests.IScienceCalculator*");
+               "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IScienceCalculator*");
   mStringBuffer.clear();
 }
 
@@ -284,7 +297,7 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 16");
   mStringBuffer.clear();
   
   iterator++;
@@ -321,16 +334,23 @@ TEST_F(ControllerTest, injectTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
   
-  EXPECT_EQ(6ul, mBasicBlock->size());
+  EXPECT_EQ(10ul, mBasicBlock->size());
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
   "\n  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
   "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))"
-  "\n  %injectvar = bitcast i8* %malloccall to %CAdditor*"
-  "\n  %0 = getelementptr %CAdditor, %CAdditor* %injectvar, i32 0, i32 0\n  store i32 3, i32* %0"
-  "\n  %1 = getelementptr %CAdditor, %CAdditor* %injectvar, i32 0, i32 1\n  store i32 5, i32* %1\n";
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor*"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, "
+    "%systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 0\n  store i32 3, i32* %0"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, "
+    "%systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 1\n  store i32 5, i32* %1"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.CAdditor* %injectvar to i32 (...)***"
+  "\n  %3 = getelementptr { [2 x i8*] }, { [2 x i8*] }* "
+    "@systems.vos.wisey.compiler.tests.CAdditor.vtable, i32 0, i32 0, i32 0"
+  "\n  %4 = bitcast i8** %3 to i32 (...)**"
+  "\n  store i32 (...)** %4, i32 (...)*** %2\n";
 
   EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
   mStringBuffer.clear();

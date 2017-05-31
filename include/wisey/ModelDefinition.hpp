@@ -59,8 +59,6 @@ private:
   std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                             std::vector<llvm::Type*>& types) const;
 
-  void defineTypeName(IRGenerationContext& context, Model* model) const;
-
   std::string getFullName(IRGenerationContext& context) const;
 
 };

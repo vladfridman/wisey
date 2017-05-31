@@ -228,17 +228,10 @@ void InterfaceDefinition::composeInstanceOfWhileBodyBlock(IRGenerationContext& c
 void InterfaceDefinition::composeReturnFound(IRGenerationContext& context,
                                              BasicBlock* returnFound,
                                              Value* iterator) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
   context.setBasicBlock(returnFound);
   LoadInst* iteratorLoaded = IRWriter::newLoadInst(context, iterator, "");
-  ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* decrement = IRWriter::createBinaryOperator(context,
-                                                    Instruction::Sub,
-                                                    iteratorLoaded,
-                                                    one,
-                                                    "dec");
-  IRWriter::createReturnInst(context, decrement);
+
+  IRWriter::createReturnInst(context, iteratorLoaded);
 }
 
 void InterfaceDefinition::composeReturnNotFound(IRGenerationContext& context,

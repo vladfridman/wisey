@@ -73,8 +73,6 @@ private:
                                            Controller* controller,
                                            std::vector<llvm::Type*>& types) const;
 
-  void defineTypeName(IRGenerationContext& context, Controller* controller) const;
-
   std::string getFullName(IRGenerationContext& context) const;
 };
 

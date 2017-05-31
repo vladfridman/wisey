@@ -34,6 +34,10 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   vector<Type*> types;
+  Type* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), true);
+  Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
+  types.push_back(arrayOfFunctionsPointerType);
+
   vector<Interface*> interfaces = processInterfaces(context, types);
   map<string, Field*> fields = createFields(context, interfaces.size());
   vector<Method*> methods = createMethods(context);
@@ -46,8 +50,8 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
 
   createFieldVariables(context, model, types);
   model->setStructBodyTypes(types);
-  defineTypeName(context, model);
   
+  IConcreteObjectType::generateNameGlobal(context, model);
   IConcreteObjectType::generateVTable(context, model);
   
   context.addImport(model);
@@ -67,7 +71,7 @@ map<string, Field*> ModelDefinition::createFields(IRGenerationContext& context,
     
     Field* field = new Field(fieldType,
                              fieldDeclaration->getName(),
-                             numberOfInterfaces + fields.size(),
+                             numberOfInterfaces + 1 + fields.size(),
                              arguments);
     fields[fieldDeclaration->getName()] = field;
   }
@@ -108,17 +112,6 @@ std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& 
     interfaces.push_back(interface);
   }
   return interfaces;
-}
-
-void ModelDefinition::defineTypeName(IRGenerationContext& context, Model* model) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Constant* stringConstant = ConstantDataArray::getString(llvmContext, model->getName());
-  new GlobalVariable(*context.getModule(),
-                     stringConstant->getType(),
-                     true,
-                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
-                     stringConstant,
-                     model->getObjectNameGlobalVariableName());
 }
 
 string ModelDefinition::getFullName(IRGenerationContext& context) const {
