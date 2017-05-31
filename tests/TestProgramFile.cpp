@@ -14,7 +14,6 @@
 #include <llvm/IR/Constants.h>
 
 #include "MockGlobalStatement.hpp"
-#include "MockStatement.hpp"
 #include "wisey/ProgramFile.hpp"
 
 using namespace llvm;
@@ -28,7 +27,6 @@ using ::testing::Test;
 
 struct ProgramFileTest : public Test {
   IRGenerationContext mContext;
-  NiceMock<MockStatement> mStatement;
   NiceMock<MockGlobalStatement> mMockGlobalStatement;
   string mPackage;
   ProgramBlock* mProgramBlock;
@@ -60,8 +58,8 @@ TEST_F(ProgramFileTest, prototypeMethodsTest) {
 }
 
 TEST_F(ProgramFileTest, generateIRTest) {
-  mProgramBlock->getStatements().push_back(&mStatement);
-  EXPECT_CALL(mStatement, generateIR(_)).Times(1);
+  mProgramBlock->getGlobalStatements().push_back(&mMockGlobalStatement);
+  EXPECT_CALL(mMockGlobalStatement, generateIR(_)).Times(1);
   
   mProgramFile->generateIR(mContext);
 }

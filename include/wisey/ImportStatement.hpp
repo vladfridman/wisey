@@ -11,7 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IStatement.hpp"
+#include "wisey/IGlobalStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
@@ -19,7 +19,7 @@ namespace wisey {
 /**
  * Reprensets an import statement
  */
-class ImportStatement : public IStatement {
+class ImportStatement : public IGlobalStatement {
 
   ITypeSpecifier* mTypeSpecifier;
   
@@ -28,6 +28,10 @@ public:
   ImportStatement(ITypeSpecifier* typeSpecifier) : mTypeSpecifier(typeSpecifier) { }
   
   ~ImportStatement();
+  
+  void prototypeObjects(IRGenerationContext& context) const override;
+  
+  void prototypeMethods(IRGenerationContext& context) const override;
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 

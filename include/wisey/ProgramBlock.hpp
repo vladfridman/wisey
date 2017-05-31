@@ -20,15 +20,12 @@ namespace wisey {
  * Represents a top level block of statements
  */
 class ProgramBlock {
-  StatementList mStatements;
   GlobalStatementList mGlobalStatementList;
   
 public:
   ProgramBlock() { }
   
   ~ProgramBlock() { }
-  
-  StatementList& getStatements();
   
   GlobalStatementList& getGlobalStatements();
   

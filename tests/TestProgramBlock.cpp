@@ -15,7 +15,6 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "MockStatement.hpp"
 #include "MockGlobalStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ProgramBlock.hpp"
@@ -29,8 +28,6 @@ using ::testing::NiceMock;
 
 struct ProgramBlockTest : public ::testing::Test {
   IRGenerationContext mContext;
-  NiceMock<MockStatement> mMockStatement1;
-  NiceMock<MockStatement> mMockStatement2;
   NiceMock<MockGlobalStatement> mMockGlobalStatement1;
   NiceMock<MockGlobalStatement> mMockGlobalStatement2;
   ProgramBlock mProgramBlock;
@@ -59,11 +56,11 @@ TEST_F(ProgramBlockTest, prototypeMethodsTest) {
 }
 
 TEST_F(ProgramBlockTest, generateIRTest) {
-  mProgramBlock.getStatements().push_back(&mMockStatement1);
-  mProgramBlock.getStatements().push_back(&mMockStatement2);
+  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement1);
+  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement2);
   
-  EXPECT_CALL(mMockStatement1, generateIR(_));
-  EXPECT_CALL(mMockStatement2, generateIR(_));
+  EXPECT_CALL(mMockGlobalStatement1, generateIR(_));
+  EXPECT_CALL(mMockGlobalStatement2, generateIR(_));
   
   mProgramBlock.generateIR(mContext);
 }

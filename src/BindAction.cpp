@@ -18,10 +18,15 @@ BindAction::~BindAction() {
   delete mInterfaceTypeSpecifier;
 }
 
-Value* BindAction::generateIR(IRGenerationContext& context) const {
+void BindAction::prototypeObjects(IRGenerationContext& context) const {
+}
+
+void BindAction::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = (Controller*) mContreollerTypeSpecifier->getType(context);
   Interface* interface = (Interface*) mInterfaceTypeSpecifier->getType(context);
   context.bindInterfaceToController(interface, controller);
-  
+}
+
+Value* BindAction::generateIR(IRGenerationContext& context) const {
   return NULL;
 }

@@ -12,15 +12,15 @@
 #include <string>
 
 #include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/IStatement.hpp"
 
 namespace wisey {
   
 /**
  * Represents a bind action binding a controller to an interface
  */
-class BindAction : public IStatement {
+class BindAction : public IGlobalStatement {
   ControllerTypeSpecifier* mContreollerTypeSpecifier;
   InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
   
@@ -32,7 +32,11 @@ public:
   mInterfaceTypeSpecifier(interfaceTypeSpecifier) { }
   
   ~BindAction();
- 
+
+  void prototypeObjects(IRGenerationContext& context) const override;
+
+  void prototypeMethods(IRGenerationContext& context) const override;
+
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
 };

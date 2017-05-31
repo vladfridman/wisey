@@ -61,7 +61,7 @@ struct BindActionTest : public Test {
 TEST_F(BindActionTest, bindInterfaceToControllerMissingControllerDeathTest) {
   mContext.addInterface(mInterface);
   
-  EXPECT_EXIT(mBindAction->generateIR(mContext),
+  EXPECT_EXIT(mBindAction->prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Could not find definition for CMyController");
 }
@@ -69,7 +69,7 @@ TEST_F(BindActionTest, bindInterfaceToControllerMissingControllerDeathTest) {
 TEST_F(BindActionTest, bindControllerToInterfaceMissingInterfaceDeathTest) {
   mContext.addController(mController);
   
-  EXPECT_EXIT(mBindAction->generateIR(mContext),
+  EXPECT_EXIT(mBindAction->prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Could not find definition for IMyInterface");
 }
@@ -78,7 +78,7 @@ TEST_F(BindActionTest, generateIRTest) {
   mContext.addController(mController);
   mContext.addInterface(mInterface);
 
-  mBindAction->generateIR(mContext);
+  mBindAction->prototypeMethods(mContext);
   
   EXPECT_EQ(mContext.getBoundController(mInterface), mController);
 }

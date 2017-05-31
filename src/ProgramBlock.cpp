@@ -25,14 +25,10 @@ void ProgramBlock::prototypeMethods(IRGenerationContext& context) const {
 }
 
 Value* ProgramBlock::generateIR(IRGenerationContext& context) const {
-  for (IStatement* statement : mStatements) {
+  for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->generateIR(context);
   }
   return NULL;
-}
-
-StatementList& ProgramBlock::getStatements() {
-  return mStatements;
 }
 
 GlobalStatementList& ProgramBlock::getGlobalStatements() {

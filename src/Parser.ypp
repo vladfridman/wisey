@@ -151,16 +151,15 @@
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
 %type <block> block_item_list 
-%type <program_block> global_unit_list
+%type <program_block> global_statement_list
 %type <program_file> program
 %type <statement> statement variable_declaration
 %type <statement> method_argument_declaration jump_statement block_item
-%type <statement> global_unit declaration expression_statement iteration_statement
+%type <statement> declaration expression_statement iteration_statement
 %type <statement> selection_statement
 %type <statement> throw_statement try_catch_statement finally_clause
-%type <statement> bind_action import_statement
 %type <global_statement> controller_definition interface_definition model_definition
-%type <global_statement> object_definition
+%type <global_statement> bind_action import_statement global_statement
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
@@ -210,7 +209,7 @@
 %%
 
 program
-  : package global_unit_list { programFile = new ProgramFile(*$1, $2); delete $1; }
+  : package global_statement_list { programFile = new ProgramFile(*$1, $2); delete $1; }
   ;
 
 package
@@ -223,31 +222,17 @@ package_name
     { $$ = $1; $$->append(std::string(".")); $$->append(*$3); delete $3; }
   ;
 
-global_unit_list
-  : object_definition
-    {
-      $$ = new ProgramBlock();
-      $$->getStatements().push_back($1);
-      $$->getGlobalStatements().push_back($1);
-    }
-  | global_unit { $$ = new ProgramBlock(); $$->getStatements().push_back($1); }
-  | global_unit_list object_definition
-    {
-      $1->getStatements().push_back($2);
-      $1->getGlobalStatements().push_back($2);
-    }
-  | global_unit_list global_unit { $1->getStatements().push_back($2); }
+global_statement_list
+  : global_statement { $$ = new ProgramBlock(); $$->getGlobalStatements().push_back($1); }
+  | global_statement_list global_statement { $1->getGlobalStatements().push_back($2); }
   ;
 
-global_unit
-  : bind_action
-  | import_statement
-  ;
-
-object_definition
+global_statement
   : model_definition
   | interface_definition
   | controller_definition
+  | bind_action
+  | import_statement
   ;
 
 import_statement
