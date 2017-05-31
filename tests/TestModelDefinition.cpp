@@ -89,6 +89,25 @@ TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
   EXPECT_EQ(model->findMethod("foo"), nullptr);
 }
 
+TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
+  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  ModelFieldDeclaration* field1 = new ModelFieldDeclaration(longType, "field1");
+  ModelFieldDeclaration* field2 = new ModelFieldDeclaration(floatType, "field2");
+  mFields.push_back(field1);
+  mFields.push_back(field2);
+  
+  vector<InterfaceTypeSpecifier*> interfaces;
+  ModelDefinition modelDefinition("MMyModel", mFields, mMethodDeclarations, interfaces);
+  
+  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeMethods(mContext);
+
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+
+  EXPECT_NE(model->findMethod("foo"), nullptr);
+}
+
 TEST_F(ModelDefinitionTest, generateIRTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
@@ -103,6 +122,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   EXPECT_CALL(mMockStatement, generateIR(_));
   
   modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
   StructType* structType = (StructType*) model->getLLVMType(mLLVMContext)->getPointerElementType();
@@ -157,6 +177,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   
   ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
   modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
   
   GlobalVariable* vTablePointer = mContext.getModule()->
@@ -189,7 +210,7 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
   modelDefinition.prototypeObjects(mContext);
   
-  EXPECT_EXIT(modelDefinition.generateIR(mContext),
+  EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
 }

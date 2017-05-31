@@ -27,6 +27,8 @@ extern FILE* yyin;
 
 void Compiler::compile(std::vector<string> sourceFiles, bool printInfo) {
   vector<ProgramFile*> programFiles;
+  ProgramPrefix programPrefix;
+  ProgramSuffix programSuffix;
   
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
@@ -34,10 +36,13 @@ void Compiler::compile(std::vector<string> sourceFiles, bool printInfo) {
   programFiles = parseFiles(sourceFiles, printInfo);
   
   prototypeObjects(programFiles, mContext);
+  programPrefix.generateIR(mContext);
+  prototypeMethods(programFiles, mContext);
   generateIR(programFiles, mContext);
+  programSuffix.generateIR(mContext);
   
   verifyModule(*mContext.getModule());
-
+  
   mHasCompiled = true;
 }
 
@@ -93,22 +98,21 @@ vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles, bool print
 }
 
 void Compiler::generateIR(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
-  ProgramPrefix programPrefix;
-  ProgramSuffix programSuffix;
-  
-  programPrefix.generateIR(context);
-  
   for (ProgramFile* programFile : programFiles) {
     context.clearAndAddDefaultImports();
     programFile->generateIR(context);
   }
-  
-  programSuffix.generateIR(context);
+}
+
+void Compiler::prototypeMethods(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
+  for (ProgramFile* programFile : programFiles) {
+    programFile->prototypeMethods(context);
+  }
 }
 
 void Compiler::prototypeObjects(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
   for (ProgramFile* programFile : programFiles) {
-     programFile->prototypeObjects(context);
+    programFile->prototypeObjects(context);
   }
 }
 

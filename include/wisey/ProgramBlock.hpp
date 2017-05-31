@@ -32,8 +32,19 @@ public:
   
   ObjectDefinitionStatementList& getObjectDefinitions();
   
+  /**
+   * Generate object prototypes from controller, model and interface definitions
+   */
   void prototypeObjects(IRGenerationContext& context) const;
   
+  /**
+   * Generate method information for prototyped objects
+   */
+  void prototypeMethods(IRGenerationContext& context) const;
+  
+  /**
+   * Generate LLVM intermediate representation code for this program block
+   */
   llvm::Value* generateIR(IRGenerationContext& context) const;
 };
 

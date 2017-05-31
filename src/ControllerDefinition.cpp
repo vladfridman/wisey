@@ -31,6 +31,16 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
   context.addController(controller);
 }
 
+void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
+  Controller* controller = context.getController(getFullName(context));
+
+  vector<Interface*> interfaces = processInterfaces(context);
+  vector<Method*> methods = createMethods(context);
+
+  controller->setInterfaces(interfaces);
+  controller->setMethods(methods);
+}
+
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   string fullName = getFullName(context);
   Controller* controller = context.getController(fullName);
@@ -40,10 +50,12 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
   types.push_back(arrayOfFunctionsPointerType);
 
-  vector<Interface*> interfaces = processInterfaces(context, types);
+  for (Interface* interface : controller->getInterfaces()) {
+    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
+  }
   
   // In object struct fields start after vTable for the object and vTables of all othe interfaces
-  unsigned long offset = interfaces.size() + 1u;
+  unsigned long offset = controller->getInterfaces().size() + 1u;
   vector<Field*> receivedFields = fieldDeclarationsToFields(context,
                                                             mReceivedFieldDeclarations,
                                                             offset);
@@ -56,11 +68,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
                                                          offset +
                                                          receivedFields.size() +
                                                          injectedFields.size());
-  vector<Method*> methods = createMethods(context);
-
   controller->setFields(receivedFields, injectedFields, stateFields);
-  controller->setInterfaces(interfaces);
-  controller->setMethods(methods);
   
   context.getScopes().pushScope();
 
@@ -76,12 +84,10 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-vector<Interface*> ControllerDefinition::processInterfaces(IRGenerationContext& context,
-                                                           vector<Type*>& types) const {
+vector<Interface*> ControllerDefinition::processInterfaces(IRGenerationContext& context) const {
   vector<Interface*> interfaces;
   for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
     Interface* interface = (Interface*) interfaceSpecifier->getType(context);
-    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
     interfaces.push_back(interface);
   }
   return interfaces;

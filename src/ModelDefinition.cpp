@@ -32,20 +32,28 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
   context.addModel(model);
 }
 
+void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
+  Model* model = context.getModel(getFullName(context));
+  vector<Interface*> interfaces = processInterfaces(context);
+  vector<Method*> methods = createMethods(context);
+  model->setMethods(methods);
+  model->setInterfaces(interfaces);
+}
+
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   vector<Type*> types;
   Type* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), true);
   Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
   types.push_back(arrayOfFunctionsPointerType);
-
-  vector<Interface*> interfaces = processInterfaces(context, types);
-  map<string, Field*> fields = createFields(context, interfaces.size());
-  vector<Method*> methods = createMethods(context);
+  
   Model* model = context.getModel(getFullName(context));
+  map<string, Field*> fields = createFields(context, model->getInterfaces().size());
   model->setFields(fields);
-  model->setMethods(methods);
-  model->setInterfaces(interfaces);
 
+  for (Interface* interface : model->getInterfaces()) {
+    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
+  }
+  
   context.getScopes().pushScope();
 
   createFieldVariables(context, model, types);
@@ -103,12 +111,10 @@ vector<Method*> ModelDefinition::createMethods(IRGenerationContext& context) con
   return methods;
 }
 
-std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& context,
-                                                           vector<Type*>& types) const {
+std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& context) const {
   vector<Interface*> interfaces;
   for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
     Interface* interface = (Interface*) interfaceSpecifier->getType(context);
-    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
     interfaces.push_back(interface);
   }
   return interfaces;

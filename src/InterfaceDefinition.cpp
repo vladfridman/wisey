@@ -24,34 +24,41 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   context.addInterface(interface);
 }
 
-Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
+void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
+  Interface* interface = context.getInterface(getFullName(context));
+
   vector<MethodSignature*> methodSignatures;
   unsigned int methodIndex = 0;
   for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
     MethodSignature* methodSignature =
-      methodSignatureDeclaration->createMethodSignature(context, methodIndex);
+    methodSignatureDeclaration->createMethodSignature(context, methodIndex);
     methodSignatures.push_back(methodSignature);
     methodIndex++;
   }
+  
+  vector<Interface*> parentInterfaces;
+  for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
+    Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
+    parentInterfaces.push_back(parentInterface);
+  }
+
+  interface->setParentInterfacesAndMethodSignatures(parentInterfaces, methodSignatures);
+}
+
+Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Interface* interface = context.getInterface(getFullName(context));
   
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
   vector<Type*> types;
   types.push_back(vtableType);
   
-  vector<Interface*> parentInterfaces;
-  for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
-    Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
-    types.push_back(parentInterface->getLLVMType(context.getLLVMContext())
-                    ->getPointerElementType());
-    parentInterfaces.push_back(parentInterface);
+  for (Interface* parentInterface : interface->getParentInterfaces()) {
+    types.push_back(parentInterface->getLLVMType(llvmContext)->getPointerElementType());
   }
   
-  Interface* interface = context.getInterface(getFullName(context));
   interface->setStructBodyTypes(types);
-  interface->setParentInterfacesAndMethodSignatures(parentInterfaces, methodSignatures);
   context.addImport(interface);
   
   defineInterfaceTypeName(context, interface);

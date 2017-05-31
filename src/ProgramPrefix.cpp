@@ -31,6 +31,7 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   InterfaceDefinition programInterface("IProgram", parentInterfaces, methodSignatureDeclarations);
   
   programInterface.prototypeObjects(context);
+  programInterface.prototypeMethods(context);
   programInterface.generateIR(context);
   
   return NULL;

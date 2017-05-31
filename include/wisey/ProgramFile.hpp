@@ -34,6 +34,11 @@ public:
    */  
   void prototypeObjects(IRGenerationContext& context) const;
   
+  /**
+   * Generate method information for prototyped objects
+   */
+  void prototypeMethods(IRGenerationContext& context) const;
+
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
 };

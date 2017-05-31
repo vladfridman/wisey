@@ -45,11 +45,18 @@ struct ProgramFileTest : public Test {
   }
 };
 
-TEST_F(ProgramFileTest, prototypeTest) {
+TEST_F(ProgramFileTest, prototypeObjectTest) {
   mProgramBlock->getObjectDefinitions().push_back(&mObjectDefinitionStatement);
   EXPECT_CALL(mObjectDefinitionStatement, prototypeObjects(_)).Times(1);
   
   mProgramFile->prototypeObjects(mContext);
+}
+
+TEST_F(ProgramFileTest, prototypeMethodsTest) {
+  mProgramBlock->getObjectDefinitions().push_back(&mObjectDefinitionStatement);
+  EXPECT_CALL(mObjectDefinitionStatement, prototypeMethods(_)).Times(1);
+  
+  mProgramFile->prototypeMethods(mContext);
 }
 
 TEST_F(ProgramFileTest, generateIRTest) {

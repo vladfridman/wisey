@@ -58,11 +58,11 @@ struct InterfaceDefinitionTest : public Test {
   }
 };
 
-TEST_F(InterfaceDefinitionTest, prototypeObjectsIRTest) {
+TEST_F(InterfaceDefinitionTest, prototypeObjectsTest) {
   mInterfaceDefinition->prototypeObjects(mContext);
-
+  
   ASSERT_NE(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"), nullptr);
-
+  
   Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
   
   EXPECT_STREQ(interface->getName().c_str(), "systems.vos.wisey.compiler.tests.IMyInterface");
@@ -70,8 +70,18 @@ TEST_F(InterfaceDefinitionTest, prototypeObjectsIRTest) {
   EXPECT_EQ(interface->findMethod("foo"), nullptr);
 }
 
+TEST_F(InterfaceDefinitionTest, prototypeMethodsTest) {
+  mInterfaceDefinition->prototypeObjects(mContext);
+  mInterfaceDefinition->prototypeMethods(mContext);
+  
+  Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
+  
+  EXPECT_NE(interface->findMethod("foo"), nullptr);
+}
+
 TEST_F(InterfaceDefinitionTest, generateIRTest) {
   mInterfaceDefinition->prototypeObjects(mContext);
+  mInterfaceDefinition->prototypeMethods(mContext);
   mInterfaceDefinition->generateIR(mContext);
 
   ASSERT_NE(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"), nullptr);

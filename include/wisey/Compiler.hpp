@@ -57,9 +57,10 @@ private:
   std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourceFiles, bool printInfo);
   
   void prototypeObjects(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
-
+  
+  void prototypeMethods(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
+  
   void generateIR(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
-
 };
   
 } /* namespace wisey */

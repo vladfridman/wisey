@@ -39,6 +39,8 @@ public:
   
   void prototypeObjects(IRGenerationContext& context) const override;
   
+  void prototypeMethods(IRGenerationContext& context) const override;
+  
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
 private:

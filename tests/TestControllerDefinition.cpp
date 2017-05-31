@@ -105,10 +105,21 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
   EXPECT_EQ(controller->findMethod("foo"), nullptr);
 }
 
+TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
+  EXPECT_CALL(mMockStatement, generateIR(_)).Times(0);
+  
+  mControllerDefinition->prototypeObjects(mContext);
+  mControllerDefinition->prototypeMethods(mContext);
+  
+  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+  EXPECT_NE(controller->findMethod("foo"), nullptr);
+}
+
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   EXPECT_CALL(mMockStatement, generateIR(_));
   
   mControllerDefinition->prototypeObjects(mContext);
+  mControllerDefinition->prototypeMethods(mContext);
   mControllerDefinition->generateIR(mContext);
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);

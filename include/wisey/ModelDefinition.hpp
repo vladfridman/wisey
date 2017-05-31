@@ -43,6 +43,8 @@ public:
   
   void prototypeObjects(IRGenerationContext& context) const override;
   
+  void prototypeMethods(IRGenerationContext& context) const override;
+  
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
 private:
@@ -56,8 +58,7 @@ private:
   
   std::vector<Method*> createMethods(IRGenerationContext& context) const;
     
-  std::vector<Interface*> processInterfaces(IRGenerationContext& context,
-                                            std::vector<llvm::Type*>& types) const;
+  std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
 
   std::string getFullName(IRGenerationContext& context) const;
 

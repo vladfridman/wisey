@@ -23,6 +23,12 @@ void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
   mProgramBlock->prototypeObjects(context);
 }
 
+void ProgramFile::prototypeMethods(IRGenerationContext& context) const {
+  context.setPackage(mPackage);
+  
+  mProgramBlock->prototypeMethods(context);
+}
+
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {
   context.setPackage(mPackage);
   

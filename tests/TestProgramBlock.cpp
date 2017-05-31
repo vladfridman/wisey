@@ -38,7 +38,7 @@ struct ProgramBlockTest : public ::testing::Test {
   ProgramBlockTest() { }
 };
 
-TEST_F(ProgramBlockTest, prototypeTest) {
+TEST_F(ProgramBlockTest, prototypeObjectsTest) {
   mProgramBlock.getObjectDefinitions().push_back(&mMockObjectDefinitionStatement1);
   mProgramBlock.getObjectDefinitions().push_back(&mMockObjectDefinitionStatement2);
   
@@ -46,6 +46,16 @@ TEST_F(ProgramBlockTest, prototypeTest) {
   EXPECT_CALL(mMockObjectDefinitionStatement2, prototypeObjects(_));
   
   mProgramBlock.prototypeObjects(mContext);
+}
+
+TEST_F(ProgramBlockTest, prototypeMethodsTest) {
+  mProgramBlock.getObjectDefinitions().push_back(&mMockObjectDefinitionStatement1);
+  mProgramBlock.getObjectDefinitions().push_back(&mMockObjectDefinitionStatement2);
+  
+  EXPECT_CALL(mMockObjectDefinitionStatement1, prototypeMethods(_));
+  EXPECT_CALL(mMockObjectDefinitionStatement2, prototypeMethods(_));
+  
+  mProgramBlock.prototypeMethods(mContext);
 }
 
 TEST_F(ProgramBlockTest, generateIRTest) {

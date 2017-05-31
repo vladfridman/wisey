@@ -25,6 +25,11 @@ public:
    */
   virtual void prototypeObjects(IRGenerationContext& context) const = 0;
   
+  /**
+   * Generate method prototypes for all object prototypes that were created using prototypeObjects()
+   */
+  virtual void prototypeMethods(IRGenerationContext& context) const = 0;
+
 };
 
 /**

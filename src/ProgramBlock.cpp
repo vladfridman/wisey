@@ -18,6 +18,12 @@ void ProgramBlock::prototypeObjects(IRGenerationContext& context) const {
   }
 }
 
+void ProgramBlock::prototypeMethods(IRGenerationContext& context) const {
+  for (IObjectDefinitionStatement* statement : mObjectDefinitions) {
+    statement->prototypeMethods(context);
+  }
+}
+
 Value* ProgramBlock::generateIR(IRGenerationContext& context) const {
   for (IStatement* statement : mStatements) {
     statement->generateIR(context);
