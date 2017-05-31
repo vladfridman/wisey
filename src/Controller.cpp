@@ -126,6 +126,10 @@ Field* Controller::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
+map<string, Field*> Controller::getFields() const {
+  return mFields;
+}
+
 Method* Controller::findMethod(std::string methodName) const {
   if (!mNameToMethodMap.count(methodName)) {
     return NULL;

@@ -69,6 +69,8 @@ public:
   
   Field* findField(std::string fieldName) const override;
   
+  std::map<std::string, Field*> getFields() const override;
+  
   Method* findMethod(std::string methodName) const override;
   
   std::vector<Method*> getMethods() const override;

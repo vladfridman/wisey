@@ -65,6 +65,10 @@ Field* Model::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
+map<string, Field*> Model::getFields() const {
+  return mFields;
+}
+
 vector<string> Model::getMissingFields(set<string> givenFields) const {
   vector<string> missingFields;
   

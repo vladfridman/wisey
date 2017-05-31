@@ -217,6 +217,7 @@ TEST_F(ControllerTest, controllerInstantiationTest) {
   EXPECT_EQ(mMultiplierController->getLLVMType(mLLVMContext), mStructType->getPointerTo());
   EXPECT_EQ(mMultiplierController->getInterfaces().size(), 2u);
   EXPECT_EQ(mMultiplierController->getVTableSize(), 4u);
+  EXPECT_EQ(mMultiplierController->getFields().size(), 2u);
 }
 
 TEST_F(ControllerTest, findFeildTest) {

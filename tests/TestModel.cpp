@@ -224,6 +224,7 @@ TEST_F(ModelTest, modelInstantiationTest) {
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
   EXPECT_EQ(mModel->getInterfaces().size(), 2u);
   EXPECT_EQ(mModel->getVTableSize(), 4u);
+  EXPECT_EQ(mModel->getFields().size(), 2u);
 }
 
 TEST_F(ModelTest, getSizeTest) {
