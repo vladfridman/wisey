@@ -487,10 +487,10 @@
 		F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodDescriptor.cpp; path = src/IMethodDescriptor.cpp; sourceTree = "<group>"; };
 		F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIMethodDescriptor.cpp; path = tests/TestIMethodDescriptor.cpp; sourceTree = "<group>"; };
 		F508E06E1E73076E005D6115 /* Environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environment.cpp; path = src/Environment.cpp; sourceTree = "<group>"; };
-		F50EF29B1EDB4599002E68A8 /* IObjectDefinitionStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectDefinitionStatement.hpp; path = include/wisey/IObjectDefinitionStatement.hpp; sourceTree = "<group>"; };
+		F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IGlobalStatement.hpp; path = include/wisey/IGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50EF29C1EDB4F70002E68A8 /* ProgramBlock.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ProgramBlock.hpp; path = include/wisey/ProgramBlock.hpp; sourceTree = "<group>"; };
 		F50EF29D1EDB503B002E68A8 /* ProgramBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramBlock.cpp; path = src/ProgramBlock.cpp; sourceTree = "<group>"; };
-		F50EF2A01EDC7A97002E68A8 /* MockObjectDefinitionStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectDefinitionStatement.hpp; path = tests/include/MockObjectDefinitionStatement.hpp; sourceTree = "<group>"; };
+		F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockGlobalStatement.hpp; path = tests/include/MockGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50EF2A11EDC817B002E68A8 /* TestProgramBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestProgramBlock.cpp; path = tests/TestProgramBlock.cpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
 		F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompoundStatement.cpp; path = tests/TestCompoundStatement.cpp; sourceTree = "<group>"; };
@@ -969,7 +969,7 @@
 			children = (
 				F5E48B8E1E870E150087CC70 /* MockExpression.hpp */,
 				F556E65B1EDEE45B00CCC3D7 /* MockConcreteObjectType.hpp */,
-				F50EF2A01EDC7A97002E68A8 /* MockObjectDefinitionStatement.hpp */,
+				F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */,
 				F51BA8FD1EA689440038C98B /* MockObjectType.hpp */,
 				F5E48B901E87122E0087CC70 /* MockStatement.hpp */,
 				F5E48B921E8713F00087CC70 /* MockType.hpp */,
@@ -1215,7 +1215,7 @@
 				F5089C7A1ECD01D9004A1223 /* InterfaceTypeSpecifier.hpp */,
 				F5089C7B1ECD01D9004A1223 /* IntrinsicFunctions.hpp */,
 				F5089C7C1ECD01D9004A1223 /* IntType.hpp */,
-				F50EF29B1EDB4599002E68A8 /* IObjectDefinitionStatement.hpp */,
+				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
 				F5089C7F1ECD01D9004A1223 /* IRGenerationContext.hpp */,

@@ -13,7 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "MockObjectDefinitionStatement.hpp"
+#include "MockGlobalStatement.hpp"
 #include "MockStatement.hpp"
 #include "wisey/ProgramFile.hpp"
 
@@ -29,7 +29,7 @@ using ::testing::Test;
 struct ProgramFileTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockStatement> mStatement;
-  NiceMock<MockObjectDefinitionStatement> mObjectDefinitionStatement;
+  NiceMock<MockGlobalStatement> mMockGlobalStatement;
   string mPackage;
   ProgramBlock* mProgramBlock;
   ProgramFile* mProgramFile;
@@ -46,15 +46,15 @@ struct ProgramFileTest : public Test {
 };
 
 TEST_F(ProgramFileTest, prototypeObjectTest) {
-  mProgramBlock->getObjectDefinitions().push_back(&mObjectDefinitionStatement);
-  EXPECT_CALL(mObjectDefinitionStatement, prototypeObjects(_)).Times(1);
+  mProgramBlock->getGlobalStatements().push_back(&mMockGlobalStatement);
+  EXPECT_CALL(mMockGlobalStatement, prototypeObjects(_)).Times(1);
   
   mProgramFile->prototypeObjects(mContext);
 }
 
 TEST_F(ProgramFileTest, prototypeMethodsTest) {
-  mProgramBlock->getObjectDefinitions().push_back(&mObjectDefinitionStatement);
-  EXPECT_CALL(mObjectDefinitionStatement, prototypeMethods(_)).Times(1);
+  mProgramBlock->getGlobalStatements().push_back(&mMockGlobalStatement);
+  EXPECT_CALL(mMockGlobalStatement, prototypeMethods(_)).Times(1);
   
   mProgramFile->prototypeMethods(mContext);
 }

@@ -1,28 +1,28 @@
 //
-//  MockObjectDefinitionStatement.hpp
+//  MockGlobalStatement.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 5/29/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef MockObjectDefinitionStatement_h
-#define MockObjectDefinitionStatement_h
+#ifndef MockGlobalStatement_h
+#define MockGlobalStatement_h
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "wisey/IGlobalStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/IObjectDefinitionStatement.hpp"
 
 /**
- * Defines a mock object for IObjectDefinitionStatement
+ * Defines a mock object for IGlobalStatement
  */
-class MockObjectDefinitionStatement : public wisey::IObjectDefinitionStatement {
+class MockGlobalStatement : public wisey::IGlobalStatement {
 public:
   MOCK_CONST_METHOD1(prototypeObjects, void (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(prototypeMethods, void (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(generateIR, llvm::Value* (wisey::IRGenerationContext&));
 };
 
-#endif /* MockObjectDefinitionStatement_h */
+#endif /* MockGlobalStatement_h */

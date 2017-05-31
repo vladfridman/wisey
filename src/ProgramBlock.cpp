@@ -13,13 +13,13 @@ using namespace llvm;
 using namespace wisey;
 
 void ProgramBlock::prototypeObjects(IRGenerationContext& context) const {
-  for (IObjectDefinitionStatement* statement : mObjectDefinitions) {
+  for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->prototypeObjects(context);
   }
 }
 
 void ProgramBlock::prototypeMethods(IRGenerationContext& context) const {
-  for (IObjectDefinitionStatement* statement : mObjectDefinitions) {
+  for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->prototypeMethods(context);
   }
 }
@@ -35,6 +35,6 @@ StatementList& ProgramBlock::getStatements() {
   return mStatements;
 }
 
-ObjectDefinitionStatementList& ProgramBlock::getObjectDefinitions() {
-  return mObjectDefinitions;
+GlobalStatementList& ProgramBlock::getGlobalStatements() {
+  return mGlobalStatementList;
 }

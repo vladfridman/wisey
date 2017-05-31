@@ -11,7 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IObjectDefinitionStatement.hpp"
+#include "wisey/IGlobalStatement.hpp"
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
@@ -21,7 +21,7 @@ namespace wisey {
  */
 class ProgramBlock {
   StatementList mStatements;
-  ObjectDefinitionStatementList mObjectDefinitions;
+  GlobalStatementList mGlobalStatementList;
   
 public:
   ProgramBlock() { }
@@ -30,7 +30,7 @@ public:
   
   StatementList& getStatements();
   
-  ObjectDefinitionStatementList& getObjectDefinitions();
+  GlobalStatementList& getGlobalStatements();
   
   /**
    * Generate object prototypes from controller, model and interface definitions

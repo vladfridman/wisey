@@ -28,12 +28,12 @@
   #include "wisey/Identifier.hpp"
   #include "wisey/IfElseStatement.hpp"
   #include "wisey/IfStatement.hpp"
+  #include "wisey/IGlobalStatement.hpp"
   #include "wisey/ImportStatement.hpp"
   #include "wisey/IncrementExpression.hpp"
   #include "wisey/IntConstant.hpp"
   #include "wisey/InterfaceDefinition.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
-  #include "wisey/IObjectDefinitionStatement.hpp"
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/Log.hpp"
   #include "wisey/LogicalAndExpression.hpp"
@@ -87,7 +87,7 @@
   wisey::INode *node;
   wisey::IExpression* expression;
   wisey::IStatement* statement;
-  wisey::IObjectDefinitionStatement* object_definition_statement;
+  wisey::IGlobalStatement* global_statement;
   wisey::Block* block;
   wisey::ProgramBlock* program_block;
   wisey::CompoundStatement* compound_statement;
@@ -159,8 +159,8 @@
 %type <statement> selection_statement
 %type <statement> throw_statement try_catch_statement finally_clause
 %type <statement> bind_action import_statement
-%type <object_definition_statement> controller_definition interface_definition model_definition
-%type <object_definition_statement> object_definition
+%type <global_statement> controller_definition interface_definition model_definition
+%type <global_statement> object_definition
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
@@ -228,13 +228,13 @@ global_unit_list
     {
       $$ = new ProgramBlock();
       $$->getStatements().push_back($1);
-      $$->getObjectDefinitions().push_back($1);
+      $$->getGlobalStatements().push_back($1);
     }
   | global_unit { $$ = new ProgramBlock(); $$->getStatements().push_back($1); }
   | global_unit_list object_definition
     {
       $1->getStatements().push_back($2);
-      $1->getObjectDefinitions().push_back($2);
+      $1->getGlobalStatements().push_back($2);
     }
   | global_unit_list global_unit { $1->getStatements().push_back($2); }
   ;

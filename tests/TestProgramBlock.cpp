@@ -15,8 +15,8 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "MockObjectDefinitionStatement.hpp"
 #include "MockStatement.hpp"
+#include "MockGlobalStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ProgramBlock.hpp"
 
@@ -31,29 +31,29 @@ struct ProgramBlockTest : public ::testing::Test {
   IRGenerationContext mContext;
   NiceMock<MockStatement> mMockStatement1;
   NiceMock<MockStatement> mMockStatement2;
-  NiceMock<MockObjectDefinitionStatement> mMockObjectDefinitionStatement1;
-  NiceMock<MockObjectDefinitionStatement> mMockObjectDefinitionStatement2;
+  NiceMock<MockGlobalStatement> mMockGlobalStatement1;
+  NiceMock<MockGlobalStatement> mMockGlobalStatement2;
   ProgramBlock mProgramBlock;
   
   ProgramBlockTest() { }
 };
 
 TEST_F(ProgramBlockTest, prototypeObjectsTest) {
-  mProgramBlock.getObjectDefinitions().push_back(&mMockObjectDefinitionStatement1);
-  mProgramBlock.getObjectDefinitions().push_back(&mMockObjectDefinitionStatement2);
+  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement1);
+  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement2);
   
-  EXPECT_CALL(mMockObjectDefinitionStatement1, prototypeObjects(_));
-  EXPECT_CALL(mMockObjectDefinitionStatement2, prototypeObjects(_));
+  EXPECT_CALL(mMockGlobalStatement1, prototypeObjects(_));
+  EXPECT_CALL(mMockGlobalStatement2, prototypeObjects(_));
   
   mProgramBlock.prototypeObjects(mContext);
 }
 
 TEST_F(ProgramBlockTest, prototypeMethodsTest) {
-  mProgramBlock.getObjectDefinitions().push_back(&mMockObjectDefinitionStatement1);
-  mProgramBlock.getObjectDefinitions().push_back(&mMockObjectDefinitionStatement2);
+  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement1);
+  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement2);
   
-  EXPECT_CALL(mMockObjectDefinitionStatement1, prototypeMethods(_));
-  EXPECT_CALL(mMockObjectDefinitionStatement2, prototypeMethods(_));
+  EXPECT_CALL(mMockGlobalStatement1, prototypeMethods(_));
+  EXPECT_CALL(mMockGlobalStatement2, prototypeMethods(_));
   
   mProgramBlock.prototypeMethods(mContext);
 }
