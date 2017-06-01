@@ -17,6 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -98,7 +99,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(VariableDeclarationTest, heapVariableDeclarationWithoutAssignmentTest) {
+TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   Identifier identifier("foo", "bar");
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MModel");
@@ -125,10 +126,39 @@ TEST_F(VariableDeclarationTest, heapVariableDeclarationWithoutAssignmentTest) {
   ASSERT_EQ(0ul, mBlock->size());
 }
 
+TEST_F(VariableDeclarationTest, controllerVariableDeclarationWithoutAssignmentDeathTest) {
+  Identifier identifier("foo", "bar");
+  vector<string> package;
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CController");
+  
+  string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
+  StructType* structType = StructType::create(mLLVMContext, controllerFullName);
+  vector<Type*> types;
+  types.push_back(Type::getInt32Ty(mLLVMContext));
+  types.push_back(Type::getInt32Ty(mLLVMContext));
+  structType->setBody(types);
+  Controller* controller = new Controller(controllerFullName, structType);
+  
+  mContext.addController(controller);
+  VariableDeclaration declaration(typeSpecifier, identifier);
+  
+  EXPECT_EXIT(declaration.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not have local controller type variables, "
+              "controllers can only be injected.");
+}
+
 TEST_F(TestFileSampleRunner, variableDeclarationRunTest) {
   runFile("tests/samples/test_variable_declaration.yz", "5");
 }
 
 TEST_F(TestFileSampleRunner, variableDeclarationAssignToZeroRunTest) {
   runFile("tests/samples/test_variable_declaration_assign_to_zero.yz", "0");
+}
+
+TEST_F(TestFileSampleRunner, variableOfControllerTypeRunDeathTest) {
+  expectFailCompile("tests/samples/test_variable_controller_type.yz",
+                    1,
+                    "Error: Can not have local controller type variables, "
+                    "controllers can only be injected.");
 }

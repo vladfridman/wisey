@@ -20,6 +20,11 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
+  if (variable->getType()->getTypeKind() == CONTROLLER_TYPE) {
+    Log::e("Can not assign to controllers");
+    exit(1);
+  }
+  
   Value* result = variable->generateAssignmentIR(context, mExpression);
   
   if (getType(context)->getTypeKind() != PRIMITIVE_TYPE) {

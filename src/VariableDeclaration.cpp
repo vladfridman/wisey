@@ -15,6 +15,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalHeapVariable.hpp"
 #include "wisey/LocalStackVariable.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -26,7 +27,12 @@ VariableDeclaration::~VariableDeclaration() {
 }
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
-  Value* value = mTypeSpecifier->getType(context)->getTypeKind() == PRIMITIVE_TYPE
+  TypeKind typeKind = mTypeSpecifier->getType(context)->getTypeKind();
+  if (typeKind == CONTROLLER_TYPE) {
+    Log::e("Can not have local controller type variables, controllers can only be injected.");
+    exit(1);
+  }
+  Value* value = typeKind == PRIMITIVE_TYPE
     ? allocateOnStack(context)
     : allocateOnHeap(context);
   

@@ -16,6 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
+#include "TestFileSampleRunner.hpp"
 #include "wisey/Assignment.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -37,7 +38,8 @@ struct AssignmentTest : public Test {
   NiceMock<MockExpression> mExpression;
   Value* mExpressionValue;
   BasicBlock* mBlock;
-  Interface* mCarInterface;
+  Interface* mInterface;
+  Controller* mController;
 
 public:
   
@@ -49,11 +51,9 @@ public:
     ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(mExpressionValue));
     ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
 
-    vector<Type*> carInterfaceTypes;
-    string interfaceFullName = "systems.vos.wisey.compiler.tests.ICar";
-    StructType* carInterfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
-    carInterfaceStructType->setBody(carInterfaceTypes);
-    mCarInterface = new Interface(interfaceFullName, carInterfaceStructType);
+    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface", NULL);
+    
+    mController = new Controller("systems.vos.wisey.compiler.tests.CController", NULL);
   }
   
   ~AssignmentTest() {
@@ -85,7 +85,7 @@ TEST_F(AssignmentTest, assignmentExpressionTypeTest) {
 TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(mCarInterface));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface));
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier identifier("foo", "bar");
@@ -117,7 +117,7 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
 TEST_F(AssignmentTest, releaseOwnershipTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(mCarInterface));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface));
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier identifier("foo", "bar");
@@ -126,4 +126,27 @@ TEST_F(AssignmentTest, releaseOwnershipTest) {
   assignment.releaseOwnership(mContext);
   
   EXPECT_EQ(mContext.getScopes().getVariable("foo"), nullptr);
+}
+
+TEST_F(AssignmentTest, generateIRWithControllerTypeDeathTest) {
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(mController));
+  mContext.getScopes().setVariable(&mockVariable);
+  
+  Identifier identifier("foo", "bar");
+  Assignment assignment(identifier, mExpression);
+
+  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(&mockVariable);
+  
+  EXPECT_EXIT(assignment.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not assign to controllers");
+}
+
+TEST_F(TestFileSampleRunner, assignToControllerRunDeathTest) {
+  expectFailCompile("tests/samples/test_assign_to_controller.yz",
+                    1,
+                    "Error: Can not assign to controllers");
 }

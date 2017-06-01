@@ -1,0 +1,14 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CAdder {
+  public int get() { return 1; }
+}
+
+controller CProgram implements IProgram {
+  public int run() {
+    CAdder adder;
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);
