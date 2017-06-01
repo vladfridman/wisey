@@ -18,10 +18,26 @@ using namespace std;
 using namespace wisey;
 
 ControllerDefinition::~ControllerDefinition() {
+  for (ControllerFieldDeclaration* fieldDeclaration : mReceivedFieldDeclarations) {
+    delete fieldDeclaration;
+  }
   mReceivedFieldDeclarations.clear();
+  for (ControllerFieldDeclaration* fieldDeclaration : mInjectedFieldDeclarations) {
+    delete fieldDeclaration;
+  }
   mInjectedFieldDeclarations.clear();
+  for (ControllerFieldDeclaration* fieldDeclaration : mStateFieldDeclarations) {
+    delete fieldDeclaration;
+  }
   mStateFieldDeclarations.clear();
+  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+    delete methodDeclaration;
+  }
   mMethodDeclarations.clear();
+  for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
+    delete interfaceTypeSpecifier;
+  }
+  mInterfaceSpecifiers.clear();
 }
 
 void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
