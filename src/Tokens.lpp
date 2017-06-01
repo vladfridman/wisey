@@ -20,9 +20,14 @@
   #include "wisey/SwitchStatement.hpp"
   #include "wisey/VariableDeclaration.hpp"
   #include "y.tab.h"
+  
+  extern "C" int yywrap() { return 1; }
+  extern void yyerror(const char* error_msg);
+ 
   #define SAVE_TOKEN yylval.string = new std::string(yytext, yyleng)
   #define TOKEN(t) (yylval.token = t)
-  extern "C" int yywrap() { return 1; }
+  
+  static void comment(void);
 %}
 
 D   [0-9]
@@ -39,6 +44,8 @@ WS  [ \t\v\n\f]
 %%
 
 [ \t\n]                       ;
+"/*"                          { comment(); }
+"//".*                        { }
 "boolean"                     return TOKEN(TTYPEBOOLEAN);
 "char"                        return TOKEN(TTYPECHAR);
 "int"                         return TOKEN(TTYPEINT);
@@ -123,4 +130,22 @@ m[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TFIELDIDENTIFIER;
 .                             printf("Unknown token!n"); yyterminate();
 
 %%
+
+static void comment(void) {
+  int c;
+
+  while ((c = yyinput()) != 0) {
+    if (c == '*') {
+      while ((c = yyinput()) == '*') {
+      }
+      if (c == '/') {
+        return;
+      }
+      if (c == 0) {
+        break;
+      }
+    }
+  }
+  yyerror("unterminated comment");
+}
 

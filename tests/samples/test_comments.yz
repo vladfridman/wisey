@@ -1,0 +1,14 @@
+package systems.vos.wisey.compiler.tests;
+
+/**
+ * Test dash star style comments
+ */
+controller CProgram implements IProgram {
+
+  public int run() {
+    // test two dash comments
+    return 5;
+  }
+}
+
+bind(CProgram).to(IProgram);

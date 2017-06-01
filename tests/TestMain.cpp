@@ -73,6 +73,20 @@ TEST_F(TestMain, runTest) {
   EXPECT_STREQ(lastLine.c_str(), "Info: Result: 7\n");
 }
 
+TEST_F(TestMain, commentsTest) {
+  string result = exec("bin/wisey tests/samples/test_comments.yz");
+  
+  string lastLine = result.substr(result.find("Info: Result"));
+  EXPECT_STREQ(lastLine.c_str(), "Info: Result: 5\n");
+}
+
+TEST_F(TestMain, unterminatedCommentTest) {
+  string result = exec("bin/wisey tests/samples/test_unterminated_comment.yz");
+  
+  string lastLine = result.substr(result.find("Line 2:"));
+  EXPECT_STREQ(lastLine.c_str(), "Line 2: unterminated comment\n");
+}
+
 TEST_F(TestMain, runMultipleFilesTest) {
   string result = exec("bin/wisey tests/samples/test_multifile_controller_controller/Adder.yz "
                        "tests/samples/test_multifile_controller_controller/Runner.yz");
