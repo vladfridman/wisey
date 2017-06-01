@@ -166,12 +166,12 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
 }
 
 TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
-  NiceMock<MockExpression> argumentExpression;
-  ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
-  mArgumentList.push_back(&argumentExpression);
+  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "bar", mArgumentList);
   Mock::AllowLeak(&mExpression);
-  Mock::AllowLeak(&argumentExpression);
+  Mock::AllowLeak(argumentExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -192,12 +192,12 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
                    "systems.vos.wisey.compiler.tests.MSquare.foo",
                    mContext.getModule());
 
-  NiceMock<MockExpression> argumentExpression;
-  ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
-  mArgumentList.push_back(&argumentExpression);
+  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "foo", mArgumentList);
   Mock::AllowLeak(&mExpression);
-  Mock::AllowLeak(&argumentExpression);
+  Mock::AllowLeak(argumentExpression);
 
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -218,11 +218,11 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
                    "systems.vos.wisey.compiler.tests.MSquare.foo",
                    mContext.getModule());
   
-  NiceMock<MockExpression> argumentExpression;
+  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
-  ON_CALL(argumentExpression, generateIR(_)).WillByDefault(Return(value));
-  ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
-  mArgumentList.push_back(&argumentExpression);
+  ON_CALL(*argumentExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "foo", mArgumentList);
   
   Value* irValue = methodCall.generateIR(mContext);
@@ -247,11 +247,11 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
                    "systems.vos.wisey.compiler.tests.MSquare.bar",
                    mContext.getModule());
   
-  NiceMock<MockExpression> argumentExpression;
+  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
-  ON_CALL(argumentExpression, generateIR(_)).WillByDefault(Return(value));
-  ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
-  mArgumentList.push_back(&argumentExpression);
+  ON_CALL(*argumentExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "bar", mArgumentList);
   mContext.getScopes().setLandingPadBlock(BasicBlock::Create(mLLVMContext, "eh.landing.pad"));
   mContext.getScopes().setExceptionContinueBlock(BasicBlock::Create(mLLVMContext, "eh.continue"));

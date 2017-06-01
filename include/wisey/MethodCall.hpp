@@ -27,10 +27,10 @@ class MethodCall : public IExpression {
   
 public:
   
-  MethodCall(IExpression& expression, std::string methodName, ExpressionList& arguments)
+  MethodCall(IExpression& expression, std::string methodName, ExpressionList arguments)
   : mExpression(expression), mMethodName(methodName), mArguments(arguments) { }
   
-  ~MethodCall() { };
+  ~MethodCall();
 
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

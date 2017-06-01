@@ -18,6 +18,13 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+MethodCall::~MethodCall() {
+  for (IExpression* expression : mArguments) {
+    delete expression;
+  }
+  mArguments.clear();
+}
+
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
   IObjectType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
