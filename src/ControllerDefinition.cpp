@@ -99,7 +99,6 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
     method->generateIR(context, controller);
   }
   
-  context.addImport(controller);
   context.getScopes().popScope(context);
   
   return NULL;

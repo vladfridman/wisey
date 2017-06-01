@@ -38,5 +38,7 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   programInterface.prototypeMethods(context);
   programInterface.generateIR(context);
   
+  context.addImport(context.getInterface("IProgram"));
+  
   return NULL;
 }

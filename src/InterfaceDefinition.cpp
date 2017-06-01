@@ -72,9 +72,6 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
 }
 
 Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
-  Interface* interface = context.getInterface(getFullName(context));
-  context.addImport(interface);
-  
   return NULL;
 }
 
