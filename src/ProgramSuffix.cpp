@@ -37,10 +37,10 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   InterfaceTypeSpecifier* programInterfaceSpecifier =
     new InterfaceTypeSpecifier(package, "IProgram");
   InterfaceInjector interfaceInjector(programInterfaceSpecifier);
-  Identifier programIdentifier("program", "program");
+  Identifier* programIdentifier = new Identifier("program", "program");
   programInterfaceSpecifier = new InterfaceTypeSpecifier(package, "IProgram");
   VariableDeclaration programVariableDeclaration(programInterfaceSpecifier,
-                                                 programIdentifier,
+                                                 *programIdentifier,
                                                  &interfaceInjector);
   programVariableDeclaration.generateIR(context);
   

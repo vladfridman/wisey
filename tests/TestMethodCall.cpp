@@ -39,7 +39,7 @@ using ::testing::Test;
 struct MethodCallTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NiceMock<MockExpression> mExpression;
+  NiceMock<MockExpression>* mExpression;
   NiceMock<MockType> mExceptionType;
   ExpressionList mArgumentList;
   Type* mIntType;
@@ -54,6 +54,7 @@ public:
   
   MethodCallTest() :
   mLLVMContext(mContext.getLLVMContext()),
+  mExpression(new NiceMock<MockExpression>()),
   mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
@@ -108,8 +109,8 @@ public:
     
     Value* nullPointer = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
     Value* bitcast = IRWriter::newBitCastInst(mContext, nullPointer, mStructType->getPointerTo());
-    ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(bitcast));
-    ON_CALL(mExpression, getType(_)).WillByDefault(Return(mModel));
+    ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(bitcast));
+    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mModel));
   }
   
   ~MethodCallTest() {
@@ -121,6 +122,7 @@ TEST_F(MethodCallTest, translateObjectMethodToLLVMFunctionNameTest) {
   string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(mModel, "foo");
   
   EXPECT_STREQ(functionName.c_str(), "systems.vos.wisey.compiler.tests.MSquare.foo");
+  delete mExpression;
 }
 
 TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
@@ -133,11 +135,12 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
   EXPECT_STREQ(functionName.c_str(),
                "systems.vos.wisey.compiler.tests.MSquare.interface."
                "systems.vos.wisey.compiler.tests.IShape.foo");
+  delete mExpression;
 }
 
 TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
   MethodCall methodCall(mExpression, "lorem", mArgumentList);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -146,9 +149,9 @@ TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
 }
 
 TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
-  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   MethodCall methodCall(mExpression, "foo", mArgumentList);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -157,7 +160,7 @@ TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
 
 TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   MethodCall methodCall(mExpression, "foo", mArgumentList);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -170,7 +173,7 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "bar", mArgumentList);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
@@ -196,7 +199,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "foo", mArgumentList);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
 
   EXPECT_EXIT(methodCall.generateIR(mContext),

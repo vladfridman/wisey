@@ -30,6 +30,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -264,9 +265,12 @@ TEST_F(TestTypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest)
 }
 
 TEST_F(TestTypeComparisionExpressionTest, releaseOwnershipDeathTest) {
-  NiceMock<MockExpression> expression;
+  NiceMock<MockExpression>* expression = new NiceMock<MockExpression>();
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
-  TypeComparisionExpression typeComparision(expression, typeSpecifier);
+  TypeComparisionExpression typeComparision(*expression, typeSpecifier);
+  
+  Mock::AllowLeak(expression);
+  Mock::AllowLeak(typeSpecifier);
   
   EXPECT_EXIT(typeComparision.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),

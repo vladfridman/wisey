@@ -23,6 +23,7 @@ MethodCall::~MethodCall() {
     delete expression;
   }
   mArguments.clear();
+  delete mExpression;
 }
 
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
@@ -66,7 +67,7 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
-  Value* expressionValue = mExpression.generateIR(context);
+  Value* expressionValue = mExpression->generateIR(context);
   FunctionType* functionType =
     IMethodDescriptor::getLLVMFunctionType(methodDescriptor, context, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
@@ -105,7 +106,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Type* returnType,
                                       IMethodDescriptor* methodDescriptor) const {
   vector<Value*> arguments;
-  arguments.push_back(mExpression.generateIR(context));
+  arguments.push_back(mExpression->generateIR(context));
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {
@@ -137,7 +138,7 @@ void MethodCall::releaseOwnership(IRGenerationContext& context) const {
 }
 
 IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
-  IType* expressionType = mExpression.getType(context);
+  IType* expressionType = mExpression->getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
     exit(1);

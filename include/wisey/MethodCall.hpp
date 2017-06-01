@@ -21,13 +21,13 @@ namespace wisey {
 class MethodCall : public IExpression {
   const unsigned int VTABLE_METHODS_OFFSET = 2;
   
-  IExpression& mExpression;
+  IExpression* mExpression;
   std::string mMethodName;
   ExpressionList mArguments;
   
 public:
   
-  MethodCall(IExpression& expression, std::string methodName, ExpressionList arguments)
+  MethodCall(IExpression* expression, std::string methodName, ExpressionList arguments)
   : mExpression(expression), mMethodName(methodName), mArguments(arguments) { }
   
   ~MethodCall();
