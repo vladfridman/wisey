@@ -42,9 +42,9 @@ struct InterfaceDefinitionTest : public Test {
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
       new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-    Identifier intArgumentIdentifier("intargument");
+    Identifier* intArgumentIdentifier = new Identifier("intargument");
     VariableDeclaration* intArgument = new VariableDeclaration(intTypeSpecifier,
-                                                               intArgumentIdentifier);
+                                                               *intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ITypeSpecifier*> thrownExceptions;
@@ -55,6 +55,10 @@ struct InterfaceDefinitionTest : public Test {
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     
     mInterfaceDefinition = new InterfaceDefinition("IMyInterface", parentInterfaces, methods);
+  }
+  
+  ~InterfaceDefinitionTest() {
+    delete mInterfaceDefinition;
   }
 };
 

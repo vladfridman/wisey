@@ -1,0 +1,14 @@
+package systems.vos.wisey.compiler.tests.multifile.interdependent;
+
+import systems.vos.wisey.compiler.tests.multifile.interdependent.MAdder;
+
+controller CProgram implements IProgram {
+  state MAdder mAdder;
+
+  public int run() {
+    mAdder = builder(MAdder).build();
+    return mAdder.add(3, 4);
+  }
+}
+
+bind(CProgram).to(IProgram);

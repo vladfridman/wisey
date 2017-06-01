@@ -39,17 +39,12 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
 
   controller->setInterfaces(interfaces);
   controller->setMethods(methods);
-}
 
-Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
-  string fullName = getFullName(context);
-  Controller* controller = context.getController(fullName);
-  
   vector<Type*> types;
   Type* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), true);
   Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
   types.push_back(arrayOfFunctionsPointerType);
-
+  
   for (Interface* interface : controller->getInterfaces()) {
     types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
   }
@@ -69,15 +64,20 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
                                                          receivedFields.size() +
                                                          injectedFields.size());
   controller->setFields(receivedFields, injectedFields, stateFields);
-  
-  context.getScopes().pushScope();
 
   createFieldVariables(context, controller, types);
   controller->setStructBodyTypes(types);
-  
-  IConcreteObjectType::declareFieldVariables(context, controller);
+
   IConcreteObjectType::generateNameGlobal(context, controller);
   IConcreteObjectType::generateVTable(context, controller);
+}
+
+Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
+  Controller* controller = context.getController(getFullName(context));
+  
+  context.getScopes().pushScope();
+ 
+  IConcreteObjectType::declareFieldVariables(context, controller);
   
   for (Method* method : controller->getMethods()) {
     method->generateIR(context, controller);

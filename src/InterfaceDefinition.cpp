@@ -25,6 +25,7 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
 }
 
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
   Interface* interface = context.getInterface(getFullName(context));
 
   vector<MethodSignature*> methodSignatures;
@@ -43,12 +44,7 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   }
 
   interface->setParentInterfacesAndMethodSignatures(parentInterfaces, methodSignatures);
-}
 
-Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Interface* interface = context.getInterface(getFullName(context));
-  
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
   vector<Type*> types;
@@ -59,10 +55,14 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   }
   
   interface->setStructBodyTypes(types);
-  context.addImport(interface);
   
   defineInterfaceTypeName(context, interface);
   defineInstanceOf(context, interface);
+}
+
+Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
+  Interface* interface = context.getInterface(getFullName(context));
+  context.addImport(interface);
   
   return NULL;
 }

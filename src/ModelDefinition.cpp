@@ -38,31 +38,33 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   vector<Method*> methods = createMethods(context);
   model->setMethods(methods);
   model->setInterfaces(interfaces);
-}
 
-Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   vector<Type*> types;
   Type* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), true);
   Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
   types.push_back(arrayOfFunctionsPointerType);
   
-  Model* model = context.getModel(getFullName(context));
   map<string, Field*> fields = createFields(context, model->getInterfaces().size());
   model->setFields(fields);
-
+  
   for (Interface* interface : model->getInterfaces()) {
     types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
   }
   
-  context.getScopes().pushScope();
-
   createFieldVariables(context, model, types);
   model->setStructBodyTypes(types);
   
-  IConcreteObjectType::declareFieldVariables(context, model);
   IConcreteObjectType::generateNameGlobal(context, model);
   IConcreteObjectType::generateVTable(context, model);
+}
+
+Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
+  Model* model = context.getModel(getFullName(context));
+ 
+  context.getScopes().pushScope();
   
+  IConcreteObjectType::declareFieldVariables(context, model);
+
   for (Method* method : model->getMethods()) {
     method->generateIR(context, model);
   }
