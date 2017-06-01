@@ -30,9 +30,9 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   context.getScopes().getScope()->addExceptions(methodDescriptor->getThrownExceptions());
   if (objectWithMethodsType->getTypeKind() == MODEL_TYPE ||
       objectWithMethodsType->getTypeKind() == CONTROLLER_TYPE) {
-    return generateModelMethodCallIR(context,
-                                     (IObjectType*) objectWithMethodsType,
-                                     methodDescriptor);
+    return generateObjectMethodCallIR(context,
+                                      (IObjectType*) objectWithMethodsType,
+                                      methodDescriptor);
   }
   if (objectWithMethodsType->getTypeKind() == INTERFACE_TYPE) {
     return generateInterfaceMethodCallIR(context,
@@ -78,9 +78,9 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                             methodDescriptor);
 }
 
-Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
-                                             IObjectType* object,
-                                             IMethodDescriptor* methodDescriptor) const {
+Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
+                                              IObjectType* object,
+                                              IMethodDescriptor* methodDescriptor) const {
   string llvmFunctionName = translateObjectMethodToLLVMFunctionName(object, mMethodName);
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());

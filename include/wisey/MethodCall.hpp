@@ -39,13 +39,13 @@ public:
   void releaseOwnership(IRGenerationContext& context) const override;
   
   /**
-   * Translate model method name into its LLVM implemenation function name
+   * Translate object method name into its LLVM implemenation function name
    */
   static std::string translateObjectMethodToLLVMFunctionName(IObjectType* object,
                                                              std::string methodName);
 
   /**
-   * Translate model method name into its LLVM implemenation function name
+   * Translate interface method name into its LLVM implemenation function name
    */
   static std::string translateInterfaceMethodToLLVMFunctionName(IObjectType* object,
                                                                 const Interface* interface,
@@ -57,9 +57,9 @@ private:
                    IObjectType* object,
                    IMethodDescriptor* methodDescriptor) const;
   
-  llvm::Value* generateModelMethodCallIR(IRGenerationContext& context,
-                                         IObjectType* object,
-                                         IMethodDescriptor* methodDescriptor) const;
+  llvm::Value* generateObjectMethodCallIR(IRGenerationContext& context,
+                                          IObjectType* object,
+                                          IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
                                              Interface* interface,
