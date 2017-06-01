@@ -20,8 +20,18 @@ using namespace std;
 using namespace wisey;
 
 ModelDefinition::~ModelDefinition() {
+  for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
+    delete fieldDeclaration;
+  }
   mFieldDeclarations.clear();
+  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+    delete methodDeclaration;
+  }
   mMethodDeclarations.clear();
+  for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
+    delete interfaceTypeSpecifier;
+  }
+  mInterfaceSpecifiers.clear();
 }
 
 void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
