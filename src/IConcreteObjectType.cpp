@@ -57,7 +57,8 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   return IRWriter::newBitCastInst(context, thunk, interface->getLLVMType(llvmContext));
 }
 
-unsigned long IConcreteObjectType::getInterfaceIndex(IConcreteObjectType* object, Interface* interface) {
+unsigned long IConcreteObjectType::getInterfaceIndex(IConcreteObjectType* object,
+                                                     Interface* interface) {
   int index = 1;
   for (Interface* implementedInterface : object->getFlattenedInterfaceHierarchy()) {
     if (implementedInterface == interface) {
@@ -114,8 +115,8 @@ void IConcreteObjectType::generateVTable(IRGenerationContext& context,
   createVTableGlobal(context, object, vTables);
 }
 
-map<string, Function*> IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
-                                                              IConcreteObjectType* object) {
+map<string, Function*> IConcreteObjectType::generateMethodFunctions(IRGenerationContext& context,
+                                                                    IConcreteObjectType* object) {
   map<string, Function*> methodFunctionMap;
   vector<tuple<Method*, Function*>> methodsWithFunctions;
   
@@ -123,12 +124,6 @@ map<string, Function*> IConcreteObjectType::generateMethodsIR(IRGenerationContex
     Function* function = method->defineFunction(context, object);
     methodFunctionMap[method->getName()] = function;
     methodsWithFunctions.push_back(make_tuple(method, function));
-  }
-  
-  for (tuple<Method*, Function*> methodAndFunction : methodsWithFunctions) {
-    Method* method = get<0>(methodAndFunction);
-    Function* function = get<1>(methodAndFunction);
-    method->generateIR(context, function, object);
   }
   
   return methodFunctionMap;
@@ -171,7 +166,7 @@ void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& con
                                                         IConcreteObjectType* object,
                                                         vector<vector<Constant*>>& vTables) {
   Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  map<string, Function*> methodFunctionMap = generateMethodsIR(context, object);
+  map<string, Function*> methodFunctionMap = generateMethodFunctions(context, object);
   
   vector<list<Constant*>> interfaceMapFunctions;
   

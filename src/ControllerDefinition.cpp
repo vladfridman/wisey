@@ -79,6 +79,10 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::generateNameGlobal(context, controller);
   IConcreteObjectType::generateVTable(context, controller);
   
+  for (Method* method : controller->getMethods()) {
+    method->generateIR(context, controller);
+  }
+  
   context.addImport(controller);
   context.getScopes().popScope(context);
   

@@ -30,6 +30,7 @@ class Method : public IMethodDescriptor {
   std::vector<IType*> mThrownExceptions;
   CompoundStatement* mCompoundStatement;
   unsigned long mIndex;
+  llvm::Function* mFunction;
   
 public:
   
@@ -46,22 +47,20 @@ public:
   mArguments(arguments),
   mThrownExceptions(thrownExceptions),
   mCompoundStatement(compoundStatement),
-  mIndex(index) { }
+  mIndex(index),
+  mFunction(NULL) { }
   
   ~Method() { mArguments.clear(); }
   
   /**
    * Defines LLVM function for this method
    */
-  llvm::Function* defineFunction(IRGenerationContext& context,
-                                 IObjectType* objectType) const;
+  llvm::Function* defineFunction(IRGenerationContext& context, IObjectType* objectType);
   
   /**
    * Generate IR for this method in a given model or a controller object
    */
-  void generateIR(IRGenerationContext& context,
-                  llvm::Function* function,
-                  IObjectType* objectType) const;
+  void generateIR(IRGenerationContext& context, IObjectType* objectType) const;
 
   std::string getName() const override;
   

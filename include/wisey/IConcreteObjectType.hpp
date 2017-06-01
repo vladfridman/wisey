@@ -110,9 +110,8 @@ public:
   
 private:
   
-  static std::map<std::string, llvm::Function*> generateMethodsIR(IRGenerationContext& context,
-                                                                  IConcreteObjectType* object);
-  
+  static std::map<std::string, llvm::Function*>
+  generateMethodFunctions(IRGenerationContext& context, IConcreteObjectType* object);  
 
   static void addTypeListInfo(IRGenerationContext& context,
                               IConcreteObjectType* object,

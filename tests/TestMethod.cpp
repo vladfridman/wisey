@@ -116,7 +116,7 @@ TEST_F(MethodTest, generateIRTest) {
                 &mCompoundStatement,
                 0);
   Function* function = method.defineFunction(mContext, mModel);
-  method.generateIR(mContext, function, mModel);
+  method.generateIR(mContext, mModel);
   
   *mStringStream << *function;
   string expected =

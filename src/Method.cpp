@@ -43,30 +43,31 @@ vector<IType*> Method::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-Function* Method::defineFunction(IRGenerationContext& context,
-                                 IObjectType* objectType) const {
+Function* Method::defineFunction(IRGenerationContext& context, IObjectType* objectType) {
   FunctionType *ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
                                                                context,
                                                                objectType);
   string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
-  return Function::Create(ftype,
-                          GlobalValue::InternalLinkage,
-                          functionName,
-                          context.getModule());
+  mFunction = Function::Create(ftype,
+                               GlobalValue::InternalLinkage,
+                               functionName,
+                               context.getModule());
+  
+  return mFunction;
 }
 
-void Method::generateIR(IRGenerationContext& context,
-                        Function* function,
-                        IObjectType* objectType) const {
+void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) const {
+  assert(mFunction != NULL);
+  
   Scopes& scopes = context.getScopes();
   
-  BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", function, 0);
+  BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", mFunction, 0);
   context.setBasicBlock(bblock);
   
   context.getScopes().pushScope();
   context.getScopes().setReturnType(mReturnType);
-  createArguments(context, function, objectType);
+  createArguments(context, mFunction, objectType);
   mCompoundStatement->generateIR(context);
   
   checkForUnhandledExceptions(context);
