@@ -97,6 +97,14 @@ TEST_F(TestMain, runMultipleFilesControllerAndModelsTest) {
   EXPECT_STREQ(lastLine.c_str(), "Info: Result: 7\n");
 }
 
+TEST_F(TestMain, runMultipleFilesInterdependentModelsTest) {
+  string result = exec("bin/wisey tests/samples/test_multifile_model_model/CProgram.yz "
+                       "tests/samples/test_multifile_model_model/MAdder.yz");
+  
+  string lastLine = result.substr(result.find("Info: Result"));
+  EXPECT_STREQ(lastLine.c_str(), "Info: Result: 6\n");
+}
+
 TEST_F(TestMain, emitLLVMTest) {
   string resultWithoutEmitLLVM = exec("bin/wisey tests/samples/test_addition.yz");
   EXPECT_EQ(resultWithoutEmitLLVM.find("define i32 @main()"), string::npos);

@@ -1,0 +1,25 @@
+package systems.vos.wisey.compiler.tests.multifile;
+
+import systems.vos.wisey.compiler.tests.multifile.MAdder;
+
+model MDoer {
+  public int doSomething() {
+    MAdder adder = builder(MAdder).build();
+    return adder.add(1, 2);
+  }
+
+  public int get(int a) {
+    return a * 2;
+  }
+}
+
+controller CProgram implements IProgram {
+  state MDoer mDoer;
+
+  public int run() {
+    mDoer = builder(MDoer).build();
+    return mDoer.doSomething();
+  }
+}
+
+bind(CProgram).to(IProgram);
