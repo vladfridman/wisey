@@ -59,6 +59,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   createFieldVariables(context, model, types);
   model->setStructBodyTypes(types);
   
+  IConcreteObjectType::declareFieldVariables(context, model);
   IConcreteObjectType::generateNameGlobal(context, model);
   IConcreteObjectType::generateVTable(context, model);
   
@@ -95,10 +96,6 @@ void ModelDefinition::createFieldVariables(IRGenerationContext& context,
     IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
     types.push_back(fieldType->getLLVMType(llvmContext));
-    ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(fieldDeclaration->getName(),
-                                                                 NULL,
-                                                                 model);
-    context.getScopes().setVariable(fieldVariable);
   }
 }
 

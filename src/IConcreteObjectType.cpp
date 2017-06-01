@@ -15,6 +15,7 @@
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/ObjectFieldVariable.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -258,4 +259,16 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
                             GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                             constantArray,
                             object->getTypeTableName());
+}
+
+void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
+                                                IConcreteObjectType* object) {
+  map<string, Field*> fields = object->getFields();
+  for (map<string, Field*>::const_iterator iterator = fields.begin();
+       iterator != fields.end();
+       iterator++) {
+    Field* field = iterator->second;
+    ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(field->getName(), NULL, object);
+    context.getScopes().setVariable(fieldVariable);
+  }
 }

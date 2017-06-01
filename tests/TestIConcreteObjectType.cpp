@@ -14,6 +14,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -27,10 +28,12 @@ using ::testing::Test;
 
 struct IConcreteObjectTypeTest : public Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   NiceMock<MockConcreteObjectType> mMockObject;
   Interface* mInterface3;
+  Model* mStarModel;
   
-  IConcreteObjectTypeTest() {
+  IConcreteObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     mContext.getScopes().pushScope();
     ON_CALL(mMockObject, getName()).WillByDefault(Return("Object"));
     ON_CALL(mMockObject, getObjectNameGlobalVariableName()).WillByDefault(Return("Object.name"));
@@ -45,7 +48,22 @@ struct IConcreteObjectTypeTest : public Test {
     interfaces.push_back(mInterface3);
     interfaces.push_back(interface4);
     ON_CALL(mMockObject, getFlattenedInterfaceHierarchy()).WillByDefault(Return(interfaces));
-  }
+
+    ExpressionList fieldArguments;
+    vector<Type*> starTypes;
+    starTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    starTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    string starFullName = "systems.vos.wisey.compiler.tests.MStar";
+    StructType *starStructType = StructType::create(mLLVMContext, starFullName);
+    starStructType->setBody(starTypes);
+    map<string, Field*> starFields;
+    starFields["mBrightness"] =
+    new Field(PrimitiveTypes::INT_TYPE, "mBrightness", 0, fieldArguments);
+    starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
+    mStarModel = new Model(starFullName, starStructType);
+    mStarModel->setFields(starFields);
+    mContext.addModel(mStarModel);
+}
   
   ~IConcreteObjectTypeTest() { }
 };
@@ -62,3 +80,10 @@ TEST_F(IConcreteObjectTypeTest, getInterfaceIndexTest) {
   ASSERT_EQ(IConcreteObjectType::getInterfaceIndex(&mMockObject, mInterface3), 3u);
 }
 
+TEST_F(IConcreteObjectTypeTest, declareFieldVariablesTest) {
+  EXPECT_EQ(mContext.getScopes().getVariable("mBrightness"), nullptr);
+
+  IConcreteObjectType::declareFieldVariables(mContext, mStarModel);
+
+  EXPECT_NE(mContext.getScopes().getVariable("mBrightness"), nullptr);
+}

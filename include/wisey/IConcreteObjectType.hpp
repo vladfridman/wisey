@@ -103,6 +103,11 @@ public:
    */
   static void generateVTable(IRGenerationContext& context, IConcreteObjectType* object);
   
+  /**
+   * Declare all fields as variables in the current scope
+   */
+  static void declareFieldVariables(IRGenerationContext& context, IConcreteObjectType* object);
+  
 private:
   
   static std::map<std::string, llvm::Function*> generateMethodsIR(IRGenerationContext& context,

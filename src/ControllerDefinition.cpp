@@ -74,7 +74,8 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
 
   createFieldVariables(context, controller, types);
   controller->setStructBodyTypes(types);
-
+  
+  IConcreteObjectType::declareFieldVariables(context, controller);
   IConcreteObjectType::generateNameGlobal(context, controller);
   IConcreteObjectType::generateVTable(context, controller);
   
@@ -151,10 +152,6 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
     }
     
     types.push_back(fieldType->getLLVMType(llvmContext));
-    ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(fieldDeclaration->getName(),
-                                                                 NULL,
-                                                                 controller);
-    context.getScopes().setVariable(fieldVariable);
   }
 }
 
