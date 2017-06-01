@@ -19,18 +19,49 @@ using namespace llvm;
 using namespace wisey;
 
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
-  IObjectType* object = getObjectWithMethods(context);
+  IObjectType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
-  if (!checkAccess(context, object, methodDescriptor)) {
-    Log::e("Method '" + mMethodName + "()' of object '" + object->getName() + "' is private");
+  if (!checkAccess(context, objectWithMethodsType, methodDescriptor)) {
+    Log::e("Method '" + mMethodName + "()' of object '" + objectWithMethodsType->getName() +
+           "' is private");
     exit(1);
   }
-  checkArgumentType(object, methodDescriptor, context);
+  checkArgumentType(objectWithMethodsType, methodDescriptor, context);
   context.getScopes().getScope()->addExceptions(methodDescriptor->getThrownExceptions());
+  if (objectWithMethodsType->getTypeKind() == MODEL_TYPE ||
+      objectWithMethodsType->getTypeKind() == CONTROLLER_TYPE) {
+    return generateModelMethodCallIR(context,
+                                     (IObjectType*) objectWithMethodsType,
+                                     methodDescriptor);
+  }
+  if (objectWithMethodsType->getTypeKind() == INTERFACE_TYPE) {
+    return generateInterfaceMethodCallIR(context,
+                                         (Interface*) objectWithMethodsType,
+                                         methodDescriptor);
+  }
+  Log::e("Method '" + mMethodName + "()' call on an unknown object type '" +
+         objectWithMethodsType->getName() + "'");
+  exit(1);
+}
 
+bool MethodCall::checkAccess(IRGenerationContext& context,
+                             IObjectType* object,
+                             IMethodDescriptor* methodDescriptor) const {
+  
+  if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
+    return true;
+  }
+  IVariable* thisVariable = context.getScopes().getVariable("this");
+  
+  return thisVariable != NULL && thisVariable->getType() == object;
+}
+
+Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
+                                                 Interface* interface,
+                                                 IMethodDescriptor* methodDescriptor) const {
   Value* expressionValue = mExpression.generateIR(context);
   FunctionType* functionType =
-  IMethodDescriptor::getLLVMFunctionType(methodDescriptor, context, object);
+    IMethodDescriptor::getLLVMFunctionType(methodDescriptor, context, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, expressionValue, pointerToVTablePointer);
@@ -47,16 +78,19 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
                             methodDescriptor);
 }
 
-bool MethodCall::checkAccess(IRGenerationContext& context,
-                             IObjectType* object,
-                             IMethodDescriptor* methodDescriptor) const {
+Value* MethodCall::generateModelMethodCallIR(IRGenerationContext& context,
+                                             IObjectType* object,
+                                             IMethodDescriptor* methodDescriptor) const {
+  string llvmFunctionName = translateObjectMethodToLLVMFunctionName(object, mMethodName);
   
-  if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
-    return true;
+  Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
+  if (function == NULL) {
+    Log::e("LLVM function implementing object '" + object->getName() + "' method '" +
+           mMethodName + "' was not found");
+    exit(1);
   }
-  IVariable* thisVariable = context.getScopes().getVariable("this");
-  
-  return thisVariable != NULL && thisVariable->getType() == object;
+
+  return createFunctionCall(context, function, function->getReturnType(), methodDescriptor);
 }
 
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,

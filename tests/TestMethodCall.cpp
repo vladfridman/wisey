@@ -165,6 +165,20 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
               "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
 }
 
+TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
+  NiceMock<MockExpression> argumentExpression;
+  ON_CALL(argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  mArgumentList.push_back(&argumentExpression);
+  MethodCall methodCall(mExpression, "bar", mArgumentList);
+  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(&argumentExpression);
+  
+  EXPECT_EXIT(methodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
+              "method 'bar' was not found");
+}
+
 TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
@@ -211,23 +225,12 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   mArgumentList.push_back(&argumentExpression);
   MethodCall methodCall(mExpression, "foo", mArgumentList);
   
-  methodCall.generateIR(mContext);
+  Value* irValue = methodCall.generateIR(mContext);
 
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:\n"
-  "  %0 = bitcast i32* null to %systems.vos.wisey.compiler.tests.MSquare*\n"
-  "  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* %0 to "
-  "i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)***\n"
-  "  %vtable = load i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)**, "
-  "i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)*** %1\n"
-  "  %2 = getelementptr i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)*, "
-  "i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)** %vtable, i64 2\n"
-  "  %3 = load i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)*, "
-  "i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)** %2\n"
-  "  %call = call i32 %3(%systems.vos.wisey.compiler.tests.MSquare* %0, "
-  "float 0x4014CCCCC0000000)\n";
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  *mStringStream << *irValue;
+  EXPECT_STREQ("  %call = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
+               "%systems.vos.wisey.compiler.tests.MSquare* %0, float 0x4014CCCCC0000000)",
+               mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
@@ -253,24 +256,13 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   mContext.getScopes().setLandingPadBlock(BasicBlock::Create(mLLVMContext, "eh.landing.pad"));
   mContext.getScopes().setExceptionContinueBlock(BasicBlock::Create(mLLVMContext, "eh.continue"));
 
-  methodCall.generateIR(mContext);
+  Value* irValue = methodCall.generateIR(mContext);
   
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:\n"
-  "  %0 = bitcast i32* null to %systems.vos.wisey.compiler.tests.MSquare*\n"
-  "  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* %0 to "
-  "i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)***\n"
-  "  %vtable = load i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)**, "
-  "i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)*** %1\n"
-  "  %2 = getelementptr i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)*, "
-  "i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)** %vtable, i64 3\n"
-  "  %3 = load i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)*, "
-  "i32 (%systems.vos.wisey.compiler.tests.MSquare*, float)** %2\n"
-  "  %call = invoke i32 %3(%systems.vos.wisey.compiler.tests.MSquare* %0, "
-  "float 0x4014CCCCC0000000)\n"
-  "          to label %invoke.continue unwind label %eh.landing.pad\n";
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  *mStringStream << *irValue;
+  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
+               "%systems.vos.wisey.compiler.tests.MSquare* %0, float 0x4014CCCCC0000000)\n"
+               "          to label %invoke.continue unwind label %eh.landing.pad",
+               mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
