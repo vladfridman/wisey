@@ -1,6 +1,4 @@
-package systems.vos.wisey.compiler.tests.multifile.interdependent;
-
-import systems.vos.wisey.compiler.tests.multifile.interdependent.MAdder;
+package systems.vos.wisey.compiler.tests.multifile;
 
 controller CProgram implements IProgram {
   state MAdder mAdder;

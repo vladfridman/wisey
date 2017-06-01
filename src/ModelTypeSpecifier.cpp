@@ -13,11 +13,6 @@ using namespace std;
 using namespace wisey;
 
 IType* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
-  if (!mPackage.size()) {
-    IObjectType* object = context.getImport(mName);
-    return context.getModel(object->getName());
-  }
-  
   string fullName = "";
   for (string part : mPackage) {
     fullName.append(part + ".");

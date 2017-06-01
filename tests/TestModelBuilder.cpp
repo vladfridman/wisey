@@ -43,6 +43,7 @@ struct ModelBuilderTest : Test {
   
   ModelBuilderTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
     
     vector<string> package;
     mModelTypeSpecifier = new ModelTypeSpecifier(package, "MShape");

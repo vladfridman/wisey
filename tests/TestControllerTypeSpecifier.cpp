@@ -25,6 +25,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
   
   ControllerTypeSpecifierTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
     
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -75,13 +76,13 @@ TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierCreateWithPackageTest
   EXPECT_EQ(controllerTypeSpecifier.getType(mContext), mController);
 }
 
-TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierNoImportDeathTest) {
+TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierSamePackageDeathTest) {
   vector<string> package;
   ControllerTypeSpecifier controllerTypeSpecifier(package, "CAdder");
   
   EXPECT_EXIT(controllerTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Could not find definition for CAdder");
+              "Error: Controller systems.vos.wisey.compiler.tests.CAdder is not defined");
 }
 
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierNotDefinedDeathTest) {

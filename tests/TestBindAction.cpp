@@ -29,6 +29,7 @@ struct BindActionTest : public Test {
   BindAction* mBindAction;
   
   BindActionTest() : mLLVMContext(mContext.getLLVMContext()) {
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     mInterface = new Interface(interfaceFullName, interfaceStructType);
@@ -63,7 +64,7 @@ TEST_F(BindActionTest, bindInterfaceToControllerMissingControllerDeathTest) {
   
   EXPECT_EXIT(mBindAction->prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Could not find definition for CMyController");
+              "Controller systems.vos.wisey.compiler.tests.CMyController is not defined");
 }
 
 TEST_F(BindActionTest, bindControllerToInterfaceMissingInterfaceDeathTest) {
@@ -71,7 +72,7 @@ TEST_F(BindActionTest, bindControllerToInterfaceMissingInterfaceDeathTest) {
   
   EXPECT_EXIT(mBindAction->prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Could not find definition for IMyInterface");
+              "Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
 }
 
 TEST_F(BindActionTest, generateIRTest) {

@@ -25,6 +25,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
 
   ModelTypeSpecifierTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
     
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -73,13 +74,13 @@ TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierCreateWithPackageTest) {
   EXPECT_EQ(modelTypeSpecifier.getType(mContext), mModel);
 }
 
-TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierNoImportDeathTest) {
+TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierSamePackageDeathTest) {
   vector<string> package;
   ModelTypeSpecifier modelTypeSpecifier(package, "MCircle");
   
   EXPECT_EXIT(modelTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Could not find definition for MCircle");
+              "Error: Model systems.vos.wisey.compiler.tests.MCircle is not defined");
 }
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierNotDefinedDeathTest) {

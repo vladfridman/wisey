@@ -1,7 +1,5 @@
 package systems.vos.wisey.compiler.tests.multifile;
 
-import systems.vos.wisey.compiler.tests.multifile.MDoer;
-
 model MAdder {
   public int add(int a, int b) {
     MDoer doer = builder(MDoer).build();

@@ -8,6 +8,7 @@
 
 #include "wisey/InterfaceDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/ImportStatement.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"

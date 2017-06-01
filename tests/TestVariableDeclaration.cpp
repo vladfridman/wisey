@@ -42,6 +42,8 @@ struct VariableDeclarationTest : public Test {
   Function* mFunction;
   
   VariableDeclarationTest() {
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,
                                  GlobalValue::InternalLinkage,

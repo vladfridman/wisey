@@ -1,4 +1,4 @@
-package systems.vos.wisey.compiler.tests.multifile.interdependent;
+package systems.vos.wisey.compiler.tests.multifile;
 
 model MAdder {
   public int add(int a, int b) { return a + b; }

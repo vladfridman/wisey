@@ -45,6 +45,7 @@ struct InterfaceInjectorTest : Test {
   
   InterfaceInjectorTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
 
     vector<string> package;
     mInterfaceTypeSpecifier = new InterfaceTypeSpecifier(package, "IMyInterface");

@@ -25,6 +25,8 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
   vector<string> mPackage;
 
   InterfaceTypeSpecifierTest() {
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    
     vector<Type*> types;
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* structType = StructType::create(mContext.getLLVMContext(), "IShape");
@@ -66,13 +68,13 @@ TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateWithPackageTest) 
   EXPECT_EQ(interfaceTypeSpecifier.getType(mContext), mInterface);
 }
 
-TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierNoImportDeathTest) {
+TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierSamePackageDeathTest) {
   vector<string> package;
   InterfaceTypeSpecifier interfaceTypeSpecifier(package, "IObject");
   
   EXPECT_EXIT(interfaceTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Could not find definition for IObject");
+              "Error: Interface systems.vos.wisey.compiler.tests.IObject is not defined");
 }
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierNotDefinedDeathTest) {

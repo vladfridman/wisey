@@ -64,16 +64,21 @@ void IRGenerationContext::addModel(Model* model) {
   }
   
   mModels[name] = model;
-  mImports[model->getShortName()] = model;
 }
 
 Model* IRGenerationContext::getModel(string name) {
-  if (!mModels.count(name)) {
-    Log::e("Model " + name + " is not defined");
+  bool isFullName = name.find('.') != string::npos;
+  if (!isFullName && mImports.count(name)) {
+    return (Model*) getImport(name);
+  }
+  
+  string fullName = isFullName ? name : mPackage + "." + name;
+  if (!mModels.count(fullName)) {
+    Log::e("Model " + fullName + " is not defined");
     exit(1);
   }
-
-  return mModels[name];
+  
+  return mModels.at(fullName);
 }
 
 void IRGenerationContext::addController(Controller* controller) {
@@ -84,16 +89,21 @@ void IRGenerationContext::addController(Controller* controller) {
   }
   
   mControllers[name] = controller;
-  mImports[controller->getShortName()] = controller;
 }
 
 Controller* IRGenerationContext::getController(string name) {
-  if (!mControllers.count(name)) {
-    Log::e("Controller " + name + " is not defined");
+  bool isFullName = name.find('.') != string::npos;
+  if (!isFullName && mImports.count(name)) {
+    return (Controller*) getImport(name);
+  }
+  
+  string fullName = isFullName ? name : mPackage + "." + name;
+  if (!mControllers.count(fullName)) {
+    Log::e("Controller " + fullName + " is not defined");
     exit(1);
   }
   
-  return mControllers[name];
+  return mControllers.at(fullName);
 }
 
 void IRGenerationContext::addInterface(Interface* interface) {
@@ -104,16 +114,21 @@ void IRGenerationContext::addInterface(Interface* interface) {
   }
   
   mInterfaces[name] = interface;
-  mImports[interface->getShortName()] = interface;
 }
 
 Interface* IRGenerationContext::getInterface(string name) {
-  if (!mInterfaces.count(name)) {
-    Log::e("Interface " + name + " is not defined");
+  bool isFullName = name.find('.') != string::npos;
+  if (!isFullName && mImports.count(name)) {
+    return (Interface*) getImport(name);
+  }
+  
+  string fullName = isFullName ? name : mPackage + "." + name;
+  if (!mInterfaces.count(fullName)) {
+    Log::e("Interface " + fullName + " is not defined");
     exit(1);
   }
   
-  return mInterfaces[name];
+  return mInterfaces.at(fullName);
 }
 
 void IRGenerationContext::bindInterfaceToController(Interface* interface, Controller* controller) {
@@ -154,7 +169,7 @@ void IRGenerationContext::addImport(IObjectType* object) {
 
 IObjectType* IRGenerationContext::getImport(string objectName) {
   if (!mImports.count(objectName)) {
-    Log::e("Could not find definition for " + objectName);
+    Log::e("Could not find definition for " + objectName + ". Perhaps it was not imported");
     exit(1);
   }
   return mImports[objectName];
