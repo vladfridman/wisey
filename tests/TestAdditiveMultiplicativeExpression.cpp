@@ -35,19 +35,22 @@ using namespace wisey;
 struct AdditiveMultiplicativeExpressionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NiceMock<MockExpression> mLeftExpression;
-  NiceMock<MockExpression> mRightExpression;
+  NiceMock<MockExpression>* mLeftExpression;
+  NiceMock<MockExpression>* mRightExpression;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
-  AdditiveMultiplicativeExpressionTest() : mLLVMContext(mContext.getLLVMContext()) {
+  AdditiveMultiplicativeExpressionTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mLeftExpression(new NiceMock<MockExpression>()),
+  mRightExpression(new NiceMock<MockExpression>()) {
     Value* leftValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     Value* rightValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-    ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
-    ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
-    ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
+    ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
+    ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     mBasicBlock = BasicBlock::Create(mLLVMContext, "test");
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
@@ -81,12 +84,12 @@ TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
+  Mock::AllowLeak(mLeftExpression);
+  Mock::AllowLeak(mRightExpression);
 
   Value* rightValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 5.5);
-  ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
-  ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
 
@@ -96,15 +99,15 @@ TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
+  Mock::AllowLeak(mLeftExpression);
+  Mock::AllowLeak(mRightExpression);
   
   string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = new Model(modelFullName, structType);
 
-  ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(model));
-  ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(model));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(model));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(model));
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   
@@ -114,11 +117,11 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
+  Mock::AllowLeak(mLeftExpression);
+  Mock::AllowLeak(mRightExpression);
   
-  ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
-  ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   
@@ -128,11 +131,11 @@ TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
+  Mock::AllowLeak(mLeftExpression);
+  Mock::AllowLeak(mRightExpression);
   
-  ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
-  ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   
@@ -142,11 +145,11 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeath
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
+  Mock::AllowLeak(mLeftExpression);
+  Mock::AllowLeak(mRightExpression);
   
-  ON_CALL(mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
-  ON_CALL(mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   
@@ -156,8 +159,8 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTes
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
+  Mock::AllowLeak(mLeftExpression);
+  Mock::AllowLeak(mRightExpression);
 
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   

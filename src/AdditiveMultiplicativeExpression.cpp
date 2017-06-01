@@ -19,9 +19,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+AdditiveMultiplicativeExpression::~AdditiveMultiplicativeExpression() {
+  delete mLeftExpression;
+  delete mRightExpression;
+}
+
 Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) const {
-  IType* leftType = mLeftExpression.getType(context);
-  IType* rightType = mRightExpression.getType(context);
+  IType* leftType = mLeftExpression->getType(context);
+  IType* rightType = mRightExpression->getType(context);
   checkTypes(leftType, rightType);
 
   Instruction::BinaryOps instruction;
@@ -38,8 +43,8 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
     default: return NULL;
   }
   
-  Value* leftValue = mLeftExpression.generateIR(context);
-  Value* rightValue = mRightExpression.generateIR(context);
+  Value* leftValue = mLeftExpression->generateIR(context);
+  Value* rightValue = mRightExpression->generateIR(context);
   
   if (leftType->canAutoCastTo(rightType)) {
     leftValue = AutoCast::maybeCast(context, leftType, leftValue, rightType);
@@ -51,8 +56,8 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
 }
 
 IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) const {
-  IType* leftType = mLeftExpression.getType(context);
-  IType* rightType = mRightExpression.getType(context);
+  IType* leftType = mLeftExpression->getType(context);
+  IType* rightType = mRightExpression->getType(context);
   checkTypes(leftType, rightType);
 
   if (leftType->canAutoCastTo(rightType)) {

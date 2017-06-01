@@ -20,7 +20,7 @@ namespace wisey {
 class VariableDeclaration : public IStatement {
   const ITypeSpecifier* mTypeSpecifier;
   Identifier& mId;
-  IExpression *mAssignmentExpression;
+  IExpression* mAssignmentExpression;
 
 public:
   VariableDeclaration(const ITypeSpecifier* typeSpecifier, Identifier& id) :

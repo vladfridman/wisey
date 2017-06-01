@@ -17,17 +17,17 @@ namespace wisey {
  * Represents simple binary expression such as addition or division
  */
 class AdditiveMultiplicativeExpression : public IExpression {
-  IExpression& mLeftExpression;
-  IExpression& mRightExpression;
+  IExpression* mLeftExpression;
+  IExpression* mRightExpression;
   int mOperation;
   
 public:
-  AdditiveMultiplicativeExpression(IExpression& leftExpression,
+  AdditiveMultiplicativeExpression(IExpression* leftExpression,
                                    int operation,
-                                   IExpression& rightExpression) :
+                                   IExpression* rightExpression) :
     mLeftExpression(leftExpression), mRightExpression(rightExpression), mOperation(operation) { }
   
-  ~AdditiveMultiplicativeExpression() { }
+  ~AdditiveMultiplicativeExpression();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 
