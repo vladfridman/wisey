@@ -23,11 +23,14 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   VariableList variableList;
   vector<ITypeSpecifier*> thrownExceptions;
   
-  MethodSignatureDeclaration runMethod(intTypeSpecifier, "run", variableList, thrownExceptions);
+  MethodSignatureDeclaration* runMethod = new MethodSignatureDeclaration(intTypeSpecifier,
+                                                                         "run",
+                                                                         variableList,
+                                                                         thrownExceptions);
   
   vector<InterfaceTypeSpecifier*> parentInterfaces;
   vector<MethodSignatureDeclaration *> methodSignatureDeclarations;
-  methodSignatureDeclarations.push_back(&runMethod);
+  methodSignatureDeclarations.push_back(runMethod);
   InterfaceDefinition programInterface("IProgram", parentInterfaces, methodSignatureDeclarations);
   
   programInterface.prototypeObjects(context);

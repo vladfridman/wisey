@@ -35,7 +35,7 @@ public:
   mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
   mMethodSignatureDeclarations(methodSignatureDeclarations) { }
   
-  ~InterfaceDefinition() { };
+  ~InterfaceDefinition();
   
   void prototypeObjects(IRGenerationContext& context) const override;
   

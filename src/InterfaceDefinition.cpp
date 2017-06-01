@@ -17,6 +17,17 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+InterfaceDefinition::~InterfaceDefinition() {
+  for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mParentInterfaceSpecifiers) {
+    delete interfaceTypeSpecifier;
+  }
+  mParentInterfaceSpecifiers.clear();
+  for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
+    delete methodSignatureDeclaration;
+  }
+  mMethodSignatureDeclarations.clear();
+}
+
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   string fullName = getFullName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
