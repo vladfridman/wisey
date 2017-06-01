@@ -13,24 +13,24 @@ using namespace llvm;
 using namespace wisey;
 
 void ProgramBlock::prototypeObjects(IRGenerationContext& context) const {
-  for (IGlobalStatement* statement : mGlobalStatementList) {
+  for (IGlobalStatement* statement : mGlobalStatements) {
     statement->prototypeObjects(context);
   }
 }
 
 void ProgramBlock::prototypeMethods(IRGenerationContext& context) const {
-  for (IGlobalStatement* statement : mGlobalStatementList) {
+  for (IGlobalStatement* statement : mGlobalStatements) {
     statement->prototypeMethods(context);
   }
 }
 
 Value* ProgramBlock::generateIR(IRGenerationContext& context) const {
-  for (IGlobalStatement* statement : mGlobalStatementList) {
+  for (IGlobalStatement* statement : mGlobalStatements) {
     statement->generateIR(context);
   }
   return NULL;
 }
 
 GlobalStatementList& ProgramBlock::getGlobalStatements() {
-  return mGlobalStatementList;
+  return mGlobalStatements;
 }

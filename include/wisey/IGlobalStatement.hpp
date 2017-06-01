@@ -14,7 +14,7 @@
 namespace wisey {
   
 /**
- * RRepresents a global statement such as controller definition or bind action statement
+ * Represents a global statement such as controller definition or bind action statement
  */
 class IGlobalStatement : public IStatement {
 
@@ -33,7 +33,7 @@ public:
 };
 
 /**
- * Represents a list of object definition statements
+ * Represents a list of global statements
  */
 typedef std::vector<IGlobalStatement*> GlobalStatementList;
 

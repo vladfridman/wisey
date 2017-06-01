@@ -20,7 +20,7 @@ namespace wisey {
  * Represents a top level block of statements
  */
 class ProgramBlock {
-  GlobalStatementList mGlobalStatementList;
+  GlobalStatementList mGlobalStatements;
   
 public:
   ProgramBlock() { }
