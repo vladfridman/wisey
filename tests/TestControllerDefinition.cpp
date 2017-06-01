@@ -128,14 +128,10 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   StructType* structType =
   (StructType*) controller->getLLVMType(mLLVMContext)->getPointerElementType();
 
-  Type* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), true);
-  Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
-
   ASSERT_NE(structType, nullptr);
-  EXPECT_EQ(structType->getNumElements(), 3u);
-  EXPECT_EQ(structType->getElementType(0), arrayOfFunctionsPointerType);
-  EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
-  EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
+  EXPECT_EQ(structType->getNumElements(), 2u);
+  EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
   EXPECT_STREQ(controller->getName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
   EXPECT_NE(controller->findMethod("foo"), nullptr);

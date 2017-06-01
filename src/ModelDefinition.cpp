@@ -49,14 +49,10 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   model->setMethods(methods);
   model->setInterfaces(interfaces);
 
-  vector<Type*> types;
-  Type* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), true);
-  Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
-  types.push_back(arrayOfFunctionsPointerType);
-  
   map<string, Field*> fields = createFields(context, model->getInterfaces().size());
   model->setFields(fields);
   
+  vector<Type*> types;
   for (Interface* interface : model->getInterfaces()) {
     types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
   }
@@ -95,7 +91,7 @@ map<string, Field*> ModelDefinition::createFields(IRGenerationContext& context,
     
     Field* field = new Field(fieldType,
                              fieldDeclaration->getName(),
-                             numberOfInterfaces + 1 + fields.size(),
+                             numberOfInterfaces + fields.size(),
                              arguments);
     fields[fieldDeclaration->getName()] = field;
   }

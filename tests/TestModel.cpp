@@ -223,7 +223,7 @@ TEST_F(ModelTest, modelInstantiationTest) {
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
   EXPECT_EQ(mModel->getInterfaces().size(), 2u);
-  EXPECT_EQ(mModel->getVTableSize(), 4u);
+  EXPECT_EQ(mModel->getVTableSize(), 3u);
   EXPECT_EQ(mModel->getFields().size(), 2u);
 }
 
@@ -291,23 +291,13 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
   mModel->castTo(mContext, pointer, mShapeInterface);
-  ASSERT_EQ(mBasicBlock->size(), 3u);
+  ASSERT_EQ(mBasicBlock->size(), 1u);
 
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IShape*");
+               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null "
+               "to %systems.vos.wisey.compiler.tests.IShape*");
   mStringBuffer.clear();
 }
 
@@ -325,7 +315,7 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
 
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 16");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
   mStringBuffer.clear();
   
   iterator++;
@@ -392,7 +382,7 @@ TEST_F(ModelTest, buildTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
   
-  ASSERT_EQ(10ul, mBasicBlock->size());
+  ASSERT_EQ(6ul, mBasicBlock->size());
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -405,12 +395,7 @@ TEST_F(ModelTest, buildTest) {
   "\n  store i32 3, i32* %0"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
     "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 1"
-  "\n  store i32 5, i32* %1"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MStar* %buildervar to i32 (...)***"
-  "\n  %3 = getelementptr { [2 x i8*] }, { [2 x i8*] }* "
-    "@systems.vos.wisey.compiler.tests.MStar.vtable, i32 0, i32 0, i32 0"
-  "\n  %4 = bitcast i8** %3 to i32 (...)**"
-  "\n  store i32 (...)** %4, i32 (...)*** %2\n";
+  "\n  store i32 5, i32* %1\n";
   
   EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
   mStringBuffer.clear();

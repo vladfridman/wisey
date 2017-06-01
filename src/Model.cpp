@@ -101,7 +101,7 @@ string Model::getVTableName() const {
 }
 
 unsigned long Model::getVTableSize() const {
-  return mFlattenedInterfaceHierarchy.size() + 1;
+  return mFlattenedInterfaceHierarchy.size();
 }
 
 string Model::getObjectNameGlobalVariableName() const {
@@ -122,7 +122,7 @@ vector<Interface*> Model::getFlattenedInterfaceHierarchy() const {
 
 bool Model::doesImplmentInterface(Interface* interface) const {
   // TODO: optimize this
-  return getInterfaceIndex((IConcreteObjectType*) this, interface) > 0;
+  return getInterfaceIndex((IConcreteObjectType*) this, interface) >= 0;
 }
 
 void Model::addInterfaceAndItsParents(vector<Interface*>& result, Interface* interface) const {
@@ -154,7 +154,7 @@ bool Model::canCastTo(IType* toType) const {
     return true;
   }
   if (toType->getTypeKind() == INTERFACE_TYPE &&
-      getInterfaceIndex((IConcreteObjectType*) this, (Interface*) toType) > 0) {
+      getInterfaceIndex((IConcreteObjectType*) this, (Interface*) toType) >= 0) {
     return true;
   }
   return false;

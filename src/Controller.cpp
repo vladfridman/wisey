@@ -105,7 +105,7 @@ string Controller::getVTableName() const {
 }
 
 unsigned long Controller::getVTableSize() const {
-  return mFlattenedInterfaceHierarchy.size() + 1;
+  return mFlattenedInterfaceHierarchy.size();
 }
 
 Instruction* Controller::createMalloc(IRGenerationContext& context) const {
@@ -167,7 +167,7 @@ bool Controller::canCastTo(IType* toType) const {
     return true;
   }
   if (toType->getTypeKind() == INTERFACE_TYPE &&
-      getInterfaceIndex((IConcreteObjectType*) this, (Interface*) toType) > 0) {
+      getInterfaceIndex((IConcreteObjectType*) this, (Interface*) toType) >= 0) {
     return true;
   }
   return false;

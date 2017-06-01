@@ -57,16 +57,12 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
   controller->setMethods(methods);
 
   vector<Type*> types;
-  Type* functionType = FunctionType::get(Type::getInt32Ty(context.getLLVMContext()), true);
-  Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
-  types.push_back(arrayOfFunctionsPointerType);
-  
   for (Interface* interface : controller->getInterfaces()) {
     types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
   }
   
-  // In object struct fields start after vTable for the object and vTables of all othe interfaces
-  unsigned long offset = controller->getInterfaces().size() + 1u;
+  // In object struct fields start after vTables for all its interfaces
+  unsigned long offset = controller->getInterfaces().size();
   vector<Field*> receivedFields = fieldDeclarationsToFields(context,
                                                             mReceivedFieldDeclarations,
                                                             offset);

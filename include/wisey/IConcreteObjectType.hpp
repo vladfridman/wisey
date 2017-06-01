@@ -89,7 +89,7 @@ public:
   /**
    * Returns the interface index in the list of flattened interface hierarchy
    */
-  static unsigned long getInterfaceIndex(IConcreteObjectType* object, Interface* interface);
+  static int getInterfaceIndex(IConcreteObjectType* object, Interface* interface);
   
   /**
    * Initialize vTable of a newly created concrete object

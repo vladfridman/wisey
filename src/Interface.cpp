@@ -167,6 +167,10 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
            " has different argument types when implmeneted by object " + object->getName());
     exit(1);
   }
+  
+  if (interfaceIndex == 0) {
+    return concreteObjectFunction;
+  }
 
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(object,
@@ -247,7 +251,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Value* castedInterfaceThis = IRWriter::newBitCastInst(context, interfaceThisLoaded, pointerType);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                            -interfaceIndex * Environment::getAddressSizeInBytes());
+                              -interfaceIndex * Environment::getAddressSizeInBytes());
   Value* concreteOjbectThis =
     IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
   Value* castedObjectThis = IRWriter::newBitCastInst(context,

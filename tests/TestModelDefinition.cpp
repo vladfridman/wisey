@@ -127,14 +127,10 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
   StructType* structType = (StructType*) model->getLLVMType(mLLVMContext)->getPointerElementType();
   
-  Type* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), true);
-  Type* arrayOfFunctionsPointerType = functionType->getPointerTo()->getPointerTo();
-
   ASSERT_NE(structType, nullptr);
-  EXPECT_TRUE(structType->getNumElements() == 3);
-  EXPECT_EQ(structType->getElementType(0), arrayOfFunctionsPointerType);
-  EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
-  EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
+  EXPECT_TRUE(structType->getNumElements() == 2);
+  EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(model->getName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
   EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
   EXPECT_NE(model->findMethod("foo"), nullptr);
@@ -185,10 +181,10 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   
   ASSERT_NE(vTablePointer, nullptr);
   ASSERT_TRUE(vTablePointer->getType()->getPointerElementType()->isStructTy());
-  EXPECT_EQ(vTablePointer->getType()->getPointerElementType()->getStructNumElements(), 2u);
+  EXPECT_EQ(vTablePointer->getType()->getPointerElementType()->getStructNumElements(), 1u);
   Constant* vTableInitializer = vTablePointer->getInitializer();
   ASSERT_TRUE(vTableInitializer->getType()->isStructTy());
-  EXPECT_EQ(vTableInitializer->getType()->getStructNumElements(), 2u);
+  EXPECT_EQ(vTableInitializer->getType()->getStructNumElements(), 1u);
 
   GlobalVariable* vModelTypesPointer =
     mContext.getModule()->getGlobalVariable("systems.vos.wisey.compiler.tests.MModel.typetable");

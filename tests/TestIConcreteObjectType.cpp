@@ -77,7 +77,7 @@ TEST_F(IConcreteObjectTypeTest, generateNameGlobalTest) {
 }
 
 TEST_F(IConcreteObjectTypeTest, getInterfaceIndexTest) {
-  ASSERT_EQ(IConcreteObjectType::getInterfaceIndex(&mMockObject, mInterface3), 3u);
+  ASSERT_EQ(IConcreteObjectType::getInterfaceIndex(&mMockObject, mInterface3), 2);
 }
 
 TEST_F(IConcreteObjectTypeTest, declareFieldVariablesTest) {

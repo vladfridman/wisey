@@ -46,7 +46,10 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   }
   LLVMContext& llvmContext = context.getLLVMContext();
   Interface* interface = (Interface*) toType;
-  unsigned long interfaceIndex = getInterfaceIndex(object, interface);
+  int interfaceIndex = getInterfaceIndex(object, interface);
+  if (interfaceIndex == 0) {
+    return IRWriter::newBitCastInst(context, fromValue, interface->getLLVMType(llvmContext));
+  }
   
   Type* int8Type = Type::getInt8Ty(llvmContext);
   BitCastInst* bitcast = IRWriter::newBitCastInst(context, fromValue, int8Type->getPointerTo());
@@ -57,16 +60,16 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   return IRWriter::newBitCastInst(context, thunk, interface->getLLVMType(llvmContext));
 }
 
-unsigned long IConcreteObjectType::getInterfaceIndex(IConcreteObjectType* object,
+int IConcreteObjectType::getInterfaceIndex(IConcreteObjectType* object,
                                                      Interface* interface) {
-  int index = 1;
+  int index = 0;
   for (Interface* implementedInterface : object->getFlattenedInterfaceHierarchy()) {
     if (implementedInterface == interface) {
       return index;
     }
     index++;
   }
-  return 0;
+  return -1;
 }
 
 void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
@@ -148,7 +151,7 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
                                          vector<vector<Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  unsigned long vTableSize = object->getFlattenedInterfaceHierarchy().size() + 1;
+  unsigned long vTableSize = object->getVTableSize();
   
   for (unsigned long i = 1; i < vTableSize; i++) {
     vector<Constant*> vTablePortion;
@@ -165,18 +168,9 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
 void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& context,
                                                         IConcreteObjectType* object,
                                                         vector<vector<Constant*>>& vTables) {
-  Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   map<string, Function*> methodFunctionMap = generateMethodFunctions(context, object);
   
   vector<list<Constant*>> interfaceMapFunctions;
-  
-  list<Constant*> concreteObjectMethods;
-  for (Method* method : object->getMethods()) {
-    Function* concreteObjectFunction = methodFunctionMap.at(method->getName());
-    Constant* bitCast = ConstantExpr::getBitCast(concreteObjectFunction, int8Pointer);
-    concreteObjectMethods.push_back(bitCast);
-  }
-  interfaceMapFunctions.push_back(concreteObjectMethods);
   
   for (Interface* interface : object->getInterfaces()) {
     vector<list<Constant*>> vSubTable =
@@ -189,7 +183,7 @@ void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& con
     }
   }
   
-  assert(interfaceMapFunctions.size() == vTables.size());
+  assert(interfaceMapFunctions.size() == 0 || interfaceMapFunctions.size() == vTables.size());
   
   int vTablesIndex = 0;
   for (list<Constant*> interfaceMapFunctionsPortion : interfaceMapFunctions) {
