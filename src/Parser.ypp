@@ -646,7 +646,7 @@ unary_expression
 
 cast_expression
   : unary_expression
-  | '(' type_specifier ')' cast_expression { $$ = new CastExpression($2, *$4); }
+  | '(' type_specifier ')' cast_expression { $$ = new CastExpression($2, $4); }
   ;
 
 multiplicative_expression

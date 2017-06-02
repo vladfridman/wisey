@@ -19,11 +19,11 @@ namespace wisey {
  */
 class CastExpression : public IExpression {
   ITypeSpecifier* mTypeSpecifier;
-  IExpression& mExpression;
+  IExpression* mExpression;
   
 public:
   
-  CastExpression(ITypeSpecifier* typeSpecifier, IExpression& expression)
+  CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression)
   : mTypeSpecifier(typeSpecifier), mExpression(expression) { }
   
   ~CastExpression();

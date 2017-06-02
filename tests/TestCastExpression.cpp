@@ -38,13 +38,16 @@ struct CastExpressionTest : public Test {
   BasicBlock* mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  NiceMock<MockExpression> mExpression;
-  NiceMock<MockTypeSpecifier>* mTypeSpecifier = new NiceMock<MockTypeSpecifier>();
+  NiceMock<MockExpression>* mExpression;
+  NiceMock<MockTypeSpecifier>* mTypeSpecifier;
   Interface* mCarInterface;
   
 public:
   
-  CastExpressionTest() : mLLVMContext(mContext.getLLVMContext()) {
+  CastExpressionTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mExpression(new NiceMock<MockExpression>()),
+  mTypeSpecifier(new NiceMock<MockTypeSpecifier>()) {
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
     Function* function = Function::Create(functionType,
@@ -72,8 +75,8 @@ public:
 TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
-  ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(expressionValue));
-  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(expressionValue));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
 
   CastExpression castExpression(mTypeSpecifier, mExpression);
@@ -89,13 +92,13 @@ TEST_F(CastExpressionTest, releaseOwnershipTest) {
   ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
   CastExpression castExpression(mTypeSpecifier, mExpression);
   
-  EXPECT_CALL(mExpression, releaseOwnership(_)).Times(1);
+  EXPECT_CALL(*mExpression, releaseOwnership(_)).Times(1);
   
   castExpression.releaseOwnership(mContext);
 }
 
 TEST_F(CastExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   Mock::AllowLeak(mTypeSpecifier);
   ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   CastExpression castExpression(mTypeSpecifier, mExpression);

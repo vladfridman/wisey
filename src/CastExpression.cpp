@@ -19,11 +19,12 @@ using namespace wisey;
 
 CastExpression::~CastExpression() {
   delete mTypeSpecifier;
+  delete mExpression;
 }
 
 Value* CastExpression::generateIR(IRGenerationContext& context) const {
-  IType* fromType = mExpression.getType(context);
-  Value* fromValue = mExpression.generateIR(context);
+  IType* fromType = mExpression->getType(context);
+  Value* fromValue = mExpression->generateIR(context);
   IType* toType = mTypeSpecifier->getType(context);
   
   return fromType->castTo(context, fromValue, toType);
@@ -40,5 +41,5 @@ void CastExpression::releaseOwnership(IRGenerationContext& context) const {
     exit(1);
   }
   
-  mExpression.releaseOwnership(context);
+  mExpression->releaseOwnership(context);
 }
