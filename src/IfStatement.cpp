@@ -18,7 +18,6 @@ IfStatement::~IfStatement() {
 }
 
 Value* IfStatement::generateIR(IRGenerationContext& context) const {
-  
   Function* function = context.getBasicBlock()->getParent();
   
   BasicBlock* ifThen = BasicBlock::Create(context.getLLVMContext(), "if.then", function);

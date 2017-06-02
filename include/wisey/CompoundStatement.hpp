@@ -20,13 +20,13 @@ namespace wisey {
  */
 class CompoundStatement : public IStatement {
   
-  Block mBlock;
+  Block* mBlock;
   
 public:
   
-  CompoundStatement(Block& block) : mBlock(block) { }
+  CompoundStatement(Block* block) : mBlock(block) { }
   
-  ~CompoundStatement() { }
+  ~CompoundStatement();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

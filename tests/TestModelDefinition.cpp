@@ -42,12 +42,15 @@ struct ModelDefinitionTest : public Test {
   MethodDeclaration *mMethodDeclaration;
   vector<ModelFieldDeclaration *> mFields;
   vector<MethodDeclaration *> mMethodDeclarations;
-  Block mBlock;
-  NiceMock<MockStatement> mMockStatement;
+  Block* mBlock;
+  NiceMock<MockStatement>* mMockStatement;
  
-  ModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ModelDefinitionTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mBlock(new Block()),
+  mMockStatement(new NiceMock<MockStatement>()) {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
-    mBlock.getStatements().push_back(&mMockStatement);
+    mBlock->getStatements().push_back(mMockStatement);
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock);
     PrimitiveTypeSpecifier* intTypeSpecifier =
       new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
@@ -66,6 +69,10 @@ struct ModelDefinitionTest : public Test {
                                                thrownExceptions,
                                                *compoundStatement);
     mMethodDeclarations.push_back(mMethodDeclaration);
+  }
+  
+  ~ModelDefinitionTest() {
+    delete mMockStatement;
   }
 };
 
@@ -119,7 +126,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   vector<InterfaceTypeSpecifier*> interfaces;
   ModelDefinition modelDefinition("MMyModel", mFields, mMethodDeclarations, interfaces);
 
-  EXPECT_CALL(mMockStatement, generateIR(_));
+  EXPECT_CALL(*mMockStatement, generateIR(_));
   
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);
@@ -155,7 +162,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                          methodThrownExceptions,
                                                          0);
   interfaceMethodSignatures.push_back(methodSignature);
-  Interface *interface = new Interface(interfaceFullName, structType);
+  Interface* interface = new Interface(interfaceFullName, structType);
   vector<Interface*> parentInterfaces;
   interface->setParentInterfacesAndMethodSignatures(parentInterfaces, interfaceMethodSignatures);
   Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());

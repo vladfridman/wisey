@@ -416,8 +416,8 @@ method_definition_list
   ;
 
 compound_statement
-  : '{' '}' { Block* block = new Block(); $$ = new CompoundStatement(*block); }
-  | '{'  block_item_list '}' { $$ = new CompoundStatement(*$2); }
+  : '{' '}' { Block* block = new Block(); $$ = new CompoundStatement(block); }
+  | '{'  block_item_list '}' { $$ = new CompoundStatement($2); }
   ;
 
 block_item_list

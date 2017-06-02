@@ -36,17 +36,18 @@ struct MethodDeclarationTest : Test {
   VariableDeclaration mIntArgument;
   VariableDeclaration mFloatArgument;
   VariableList mArguments;
-  Block mBlock;
-  CompoundStatement mCompoundStatement;
+  Block* mBlock;
+  CompoundStatement* mCompoundStatement;
   
   MethodDeclarationTest() :
-    mFloatTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
-    mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
-    mIntArgumentIdentifier(new Identifier("intargument")),
-    mFloatArgumentIdentifier(new Identifier("floatargument")),
-    mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
-    mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
-    mCompoundStatement(CompoundStatement(mBlock)) {
+  mFloatTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
+  mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
+  mIntArgumentIdentifier(new Identifier("intargument")),
+  mFloatArgumentIdentifier(new Identifier("floatargument")),
+  mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
+  mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
+  mBlock(new Block()),
+  mCompoundStatement(new CompoundStatement(mBlock)) {
   }
 };
 
@@ -59,7 +60,7 @@ TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
                                       "foo",
                                       mArguments,
                                       thrownExceptions,
-                                      mCompoundStatement);
+                                      *mCompoundStatement);
   Method* method = methodDeclaration.createMethod(mContext, 0);
   vector<MethodArgument*> arguments = method->getArguments();
   

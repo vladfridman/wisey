@@ -48,10 +48,10 @@ struct ControllerDefinitionTest : public Test {
     vector<ControllerFieldDeclaration*> injectedFields;
     vector<ControllerFieldDeclaration*> stateFields;
     vector<MethodDeclaration*> methodDeclarations;
-    Block block;
+    Block* block = new Block();
 
     mContext.setPackage("systems.vos.wisey.compiler.tests");
-    block.getStatements().push_back(&mMockStatement);
+    block->getStatements().push_back(&mMockStatement);
     CompoundStatement* compoundStatement = new CompoundStatement(block);
     PrimitiveTypeSpecifier* intTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);

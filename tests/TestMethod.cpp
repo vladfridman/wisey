@@ -30,7 +30,7 @@ struct MethodTest : public Test {
   LLVMContext& mLLVMContext;
   Method* mMethod;
   Model* mModel;
-  Block mBlock;
+  Block* mBlock;
   CompoundStatement mCompoundStatement;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -39,6 +39,7 @@ public:
   
   MethodTest() :
   mLLVMContext(mContext.getLLVMContext()),
+  mBlock(new Block()),
   mCompoundStatement(CompoundStatement(mBlock)) {
 
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");

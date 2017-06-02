@@ -37,8 +37,8 @@ using namespace wisey;
 
 struct IfElseStatementTest : Test {
   IRGenerationContext mContext;
-  Block mThenBlock;
-  Block mElseBlock;
+  Block* mThenBlock;
+  Block* mElseBlock;
   NiceMock<MockExpression>* mCondition;
   NiceMock<MockStatement>* mThenStatement;
   NiceMock<MockStatement>* mElseStatement;
@@ -50,6 +50,8 @@ struct IfElseStatementTest : Test {
   Function* mFunction;
   
   IfElseStatementTest() :
+  mThenBlock(new Block()),
+  mElseBlock(new Block()),
   mCondition(new NiceMock<MockExpression>()),
   mThenStatement(new NiceMock<MockStatement>()),
   mElseStatement(new NiceMock<MockStatement>()),
@@ -61,10 +63,10 @@ struct IfElseStatementTest : Test {
     ON_CALL(*mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
     Value* thenStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
     ON_CALL(*mThenStatement, generateIR(_)).WillByDefault(Return(thenStatementValue));
-    mThenBlock.getStatements().push_back(mThenStatement);
+    mThenBlock->getStatements().push_back(mThenStatement);
     Value* elseStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
     ON_CALL(*mElseStatement, generateIR(_)).WillByDefault(Return(elseStatementValue));
-    mElseBlock.getStatements().push_back(mElseStatement);
+    mElseBlock->getStatements().push_back(mElseStatement);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(llvmContext), false);

@@ -20,20 +20,35 @@ using namespace wisey;
 
 using ::testing::_;
 using ::testing::NiceMock;
+using ::testing::Test;
 
-TEST(TestCompoundStatement, simpleCompoundStatementTest) {
-  NiceMock<MockStatement> mockStatement1;
-  NiceMock<MockStatement> mockStatement2;
-  IRGenerationContext context;
-  Block block;
-  block.getStatements().push_back(&mockStatement1);
-  block.getStatements().push_back(&mockStatement2);
-  CompoundStatement compoundStatement(block);
+struct TestCompoundStatement : public Test {
+  IRGenerationContext mContext;
+  NiceMock<MockStatement>* mStatement1;
+  NiceMock<MockStatement>* mStatement2;
+  Block* mBlock;
+
+  TestCompoundStatement() :
+  mStatement1(new NiceMock<MockStatement>()),
+  mStatement2(new NiceMock<MockStatement>()),
+  mBlock(new Block()) {
+  }
   
-  EXPECT_CALL(mockStatement1, generateIR(_));
-  EXPECT_CALL(mockStatement2, generateIR(_));
+  ~TestCompoundStatement() {
+    delete mStatement1;
+    delete mStatement2;
+  }
+};
+
+TEST_F(TestCompoundStatement, generateIRTest) {
+  mBlock->getStatements().push_back(mStatement1);
+  mBlock->getStatements().push_back(mStatement2);
+  CompoundStatement compoundStatement(mBlock);
   
-  compoundStatement.generateIR(context);
+  EXPECT_CALL(*mStatement1, generateIR(_));
+  EXPECT_CALL(*mStatement2, generateIR(_));
+  
+  compoundStatement.generateIR(mContext);
 }
 
 TEST_F(TestFileSampleRunner, compoundStatementOutOfScopeVariableRunDeathTest) {

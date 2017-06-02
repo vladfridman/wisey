@@ -39,7 +39,7 @@ struct IfStatementTest : Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression>* mCondition;
   NiceMock<MockStatement>* mThenStatement;
-  Block mThenBlock;
+  Block* mThenBlock;
   CompoundStatement* mThenCompoundStatement;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -48,6 +48,7 @@ struct IfStatementTest : Test {
   IfStatementTest() :
   mCondition(new NiceMock<MockExpression>()),
   mThenStatement(new NiceMock<MockStatement>()),
+  mThenBlock(new Block()),
   mThenCompoundStatement(new CompoundStatement(mThenBlock)) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
@@ -55,7 +56,7 @@ struct IfStatementTest : Test {
     ON_CALL(*mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
     Value* thenStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
     ON_CALL(*mThenStatement, generateIR(_)).WillByDefault(Return(thenStatementValue));
-    mThenBlock.getStatements().push_back(mThenStatement);
+    mThenBlock->getStatements().push_back(mThenStatement);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(llvmContext), false);
