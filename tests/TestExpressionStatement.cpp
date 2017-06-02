@@ -26,12 +26,19 @@ using namespace wisey;
 
 using ::testing::_;
 using ::testing::NiceMock;
+using ::testing::Test;
 
-TEST(ExpressionStatementTest, creatingTest) {
-  IRGenerationContext context;
-  NiceMock<MockExpression> expression;
-  ExpressionStatement expressionStatement(expression);
-  EXPECT_CALL(expression, generateIR(_));
+struct ExpressionStatementTest : public Test {
+  IRGenerationContext mContext;
+  NiceMock<MockExpression>* mExpression;
   
-  expressionStatement.generateIR(context);
+  ExpressionStatementTest() : mExpression(new NiceMock<MockExpression>()) {
+  }
+};
+
+TEST_F(ExpressionStatementTest, generateIRTest) {
+  ExpressionStatement expressionStatement(mExpression);
+  EXPECT_CALL(*mExpression, generateIR(_));
+  
+  expressionStatement.generateIR(mContext);
 }

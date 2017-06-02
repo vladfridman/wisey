@@ -11,6 +11,10 @@
 using namespace llvm;
 using namespace wisey;
 
+ExpressionStatement::~ExpressionStatement() {
+  delete mExpression;
+}
+
 Value* ExpressionStatement::generateIR(IRGenerationContext& context) const {
-  return expression.generateIR(context);
+  return mExpression->generateIR(context);
 }

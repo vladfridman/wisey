@@ -467,7 +467,7 @@ default_case_statement
 
 expression_statement
   : ';' { $$ = new EmptyStatement(); }
-  | expression ';' { $$ = new ExpressionStatement(*$1); }
+  | expression ';' { $$ = new ExpressionStatement($1); }
   ;
 
 selection_statement

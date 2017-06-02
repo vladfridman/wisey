@@ -18,12 +18,13 @@ namespace wisey {
  * Represents a statement
  */
 class ExpressionStatement : public IStatement {
-  IExpression& expression;
+  IExpression* mExpression;
   
 public:
-  ExpressionStatement(IExpression& expression) : expression(expression) { }
 
-  ~ExpressionStatement() { }
+  ExpressionStatement(IExpression* expression) : mExpression(expression) { }
+
+  ~ExpressionStatement();
 
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
