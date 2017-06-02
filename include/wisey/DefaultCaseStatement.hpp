@@ -22,13 +22,13 @@ namespace wisey {
  */
 class DefaultCaseStatement : public IStatement {
   
-  Block& mBlock;
+  Block* mBlock;
   
 public:
   
-  DefaultCaseStatement(Block& block) : mBlock(block) { }
+  DefaultCaseStatement(Block* block) : mBlock(block) { }
   
-  ~DefaultCaseStatement() { }
+  ~DefaultCaseStatement();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

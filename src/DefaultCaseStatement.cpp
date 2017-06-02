@@ -11,7 +11,11 @@
 using namespace llvm;
 using namespace wisey;
 
+DefaultCaseStatement::~DefaultCaseStatement() {
+  delete mBlock;
+}
+
 Value* DefaultCaseStatement::generateIR(IRGenerationContext& context) const {
-  return mBlock.generateIR(context);
+  return mBlock->generateIR(context);
 }
 

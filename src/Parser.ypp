@@ -462,7 +462,7 @@ case_statement
   ;
 
 default_case_statement
-  : TDEFAULT ':' block_item_list { $$ = new DefaultCaseStatement(*$3); }
+  : TDEFAULT ':' block_item_list { $$ = new DefaultCaseStatement($3); }
   ;
 
 expression_statement
