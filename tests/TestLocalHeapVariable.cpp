@@ -76,7 +76,7 @@ TEST_F(LocalHeapVariableTest, heapVariableAssignmentTest) {
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(bitCastInst));
   
-  localHeapVariable.generateAssignmentIR(mContext, expression);
+  localHeapVariable.generateAssignmentIR(mContext, &expression);
 
   EXPECT_EQ(localHeapVariable.getValue(), bitCastInst);
   EXPECT_TRUE(BitCastInst::classof(localHeapVariable.getValue()));

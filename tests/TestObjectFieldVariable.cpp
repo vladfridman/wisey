@@ -115,7 +115,7 @@ TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateAssignmentIRTest) {
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
-  mObjectFieldVariable->generateAssignmentIR(mContext, assignToExpression);
+  mObjectFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -137,7 +137,7 @@ TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateAssignmentWithCastIRT
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
-  mObjectFieldVariable->generateAssignmentIR(mContext, assignToExpression);
+  mObjectFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

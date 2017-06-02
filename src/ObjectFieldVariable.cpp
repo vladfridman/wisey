@@ -50,9 +50,9 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
 }
 
 Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                 IExpression& assignToExpression) {
+                                                 IExpression* assignToExpression) {
   Field* field = checkAndFindField(context);
-  IType* assignToType = assignToExpression.getType(context);
+  IType* assignToType = assignToExpression->getType(context);
   IType* toType = field->getType();
   if (!assignToType->canAutoCastTo(toType)) {
     Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getName() +
@@ -61,7 +61,7 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   }
   Value* assignToValue = AutoCast::maybeCast(context,
                                              assignToType,
-                                             assignToExpression.generateIR(context),
+                                             assignToExpression->generateIR(context),
                                              toType);
   
   

@@ -42,9 +42,9 @@ Value* LocalHeapVariable::generateIdentifierIR(IRGenerationContext& context,
 }
 
 Value* LocalHeapVariable::generateAssignmentIR(IRGenerationContext& context,
-                                               IExpression& assignToExpression) {
-  Value* assignToValue = assignToExpression.generateIR(context);
-  IType* assignToType = assignToExpression.getType(context);
+                                               IExpression* assignToExpression) {
+  Value* assignToValue = assignToExpression->generateIR(context);
+  IType* assignToType = assignToExpression->getType(context);
   mValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   
   return mValue;

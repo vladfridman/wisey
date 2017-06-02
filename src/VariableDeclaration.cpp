@@ -55,7 +55,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  variable->generateAssignmentIR(context, *mAssignmentExpression);
+  variable->generateAssignmentIR(context, mAssignmentExpression);
   
   if (mId->getType(context)->getTypeKind() != PRIMITIVE_TYPE) {
     mAssignmentExpression->releaseOwnership(context);

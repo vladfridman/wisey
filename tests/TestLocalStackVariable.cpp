@@ -64,7 +64,7 @@ TEST_F(LocalStackVariableTest, generateAssignmentIRTest) {
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
   
-  localStackVariable.generateAssignmentIR(mContext, expression);
+  localStackVariable.generateAssignmentIR(mContext, &expression);
   
   ASSERT_EQ(2ul, mBlock->size());
   BasicBlock::iterator iterator = mBlock->begin();
@@ -86,7 +86,7 @@ TEST_F(LocalStackVariableTest, generateAssignmentIRWithCastTest) {
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
   
-  localStackVariable.generateAssignmentIR(mContext, expression);
+  localStackVariable.generateAssignmentIR(mContext, &expression);
   
   ASSERT_EQ(3ul, mBlock->size());
   BasicBlock::iterator iterator = mBlock->begin();

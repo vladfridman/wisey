@@ -30,7 +30,7 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  Value* result = variable->generateAssignmentIR(context, *mExpression);
+  Value* result = variable->generateAssignmentIR(context, mExpression);
   
   if (getType(context)->getTypeKind() != PRIMITIVE_TYPE) {
     mExpression->releaseOwnership(context);

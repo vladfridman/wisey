@@ -36,9 +36,9 @@ Value* LocalStackVariable::generateIdentifierIR(IRGenerationContext& context,
 }
 
 Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                IExpression& assignToExpression) {
-  Value* assignToValue = assignToExpression.generateIR(context);
-  IType* assignToType = assignToExpression.getType(context);
+                                                IExpression* assignToExpression) {
+  Value* assignToValue = assignToExpression->generateIR(context);
+  IType* assignToType = assignToExpression->getType(context);
   Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   return IRWriter::newStoreInst(context, castAssignToValue, mValue);
 }
