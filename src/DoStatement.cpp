@@ -12,8 +12,12 @@
 using namespace llvm;
 using namespace wisey;
 
+DoStatement::~DoStatement() {
+  delete mStatement;
+  delete mConditionExpression;
+}
+
 Value* DoStatement::generateIR(IRGenerationContext& context) const {
-  
   Function* function = context.getBasicBlock()->getParent();
   Scopes& scopes = context.getScopes();
   
@@ -26,11 +30,11 @@ Value* DoStatement::generateIR(IRGenerationContext& context) const {
   context.setBasicBlock(doBody);
   scopes.setBreakToBlock(doEnd);
   scopes.setContinueToBlock(doBody);
-  mStatement.generateIR(context);
+  mStatement->generateIR(context);
   IRWriter::createBranch(context, doCond);
   
   context.setBasicBlock(doCond);
-  Value* conditionValue = mConditionExpression.generateIR(context);
+  Value* conditionValue = mConditionExpression->generateIR(context);
   IRWriter::createConditionalBranch(context, doBody, doEnd, conditionValue);
   
   scopes.setBreakToBlock(NULL);

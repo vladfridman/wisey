@@ -34,16 +34,18 @@ using namespace wisey;
 
 struct DoStatementTest : Test {
   IRGenerationContext mContext;
-  NiceMock<MockExpression> mConditionExpression;
-  NiceMock<MockStatement> mStatement;
+  NiceMock<MockExpression>* mConditionExpression;
+  NiceMock<MockStatement>* mStatement;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
   
-  DoStatementTest() {
+  DoStatementTest() :
+  mConditionExpression(new NiceMock<MockExpression>()),
+  mStatement(new NiceMock<MockStatement>()) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* statementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-    ON_CALL(mStatement, generateIR(_)).WillByDefault(Return(statementValue));
+    ON_CALL(*mStatement, generateIR(_)).WillByDefault(Return(statementValue));
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -61,7 +63,7 @@ struct DoStatementTest : Test {
 
 TEST_F(DoStatementTest, doStatementSimpleTest) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
-  ON_CALL(mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
+  ON_CALL(*mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
   
   DoStatement doStatement(mStatement, mConditionExpression);
   doStatement.generateIR(mContext);
