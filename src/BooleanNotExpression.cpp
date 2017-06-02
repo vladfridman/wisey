@@ -18,15 +18,19 @@
 using namespace llvm;
 using namespace wisey;
 
+BooleanNotExpression::~BooleanNotExpression() {
+  delete mExpression;
+}
+
 Value* BooleanNotExpression::generateIR(IRGenerationContext& context) const {
-  IType* expressionType = mExpression.getType(context);
+  IType* expressionType = mExpression->getType(context);
   if (expressionType != PrimitiveTypes::BOOLEAN_TYPE) {
     Log::e("Boolean NOT operator '!' can only be applied to boolean types");
     exit(1);
   }
   
   Value* one = ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), 1);
-  Value* expressionValue = mExpression.generateIR(context);
+  Value* expressionValue = mExpression->generateIR(context);
   return IRWriter::createBinaryOperator(context, Instruction::Xor, expressionValue, one, "lnot");
 }
 

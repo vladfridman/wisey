@@ -18,13 +18,13 @@ namespace wisey {
  * Represents a boolean NOT operation
  */
 class BooleanNotExpression : public IExpression {
-  IExpression& mExpression;
+  IExpression* mExpression;
   
 public:
   
-  BooleanNotExpression(IExpression& expression) : mExpression(expression) { }
+  BooleanNotExpression(IExpression* expression) : mExpression(expression) { }
   
-  ~BooleanNotExpression() { }
+  ~BooleanNotExpression();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

@@ -37,9 +37,9 @@ struct BooleanNotExpressionTest : Test {
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  NiceMock<MockExpression> mExpression;
+  NiceMock<MockExpression>* mExpression;
   
-  BooleanNotExpressionTest() {
+  BooleanNotExpressionTest() : mExpression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     
     FunctionType* functionType =
@@ -61,8 +61,8 @@ struct BooleanNotExpressionTest : Test {
 
 TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
   Value* one = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
-  ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(one));
-  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(one));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   BooleanNotExpression booleanNotExpression(mExpression);
   
   Value* result = booleanNotExpression.generateIR(mContext);
@@ -73,9 +73,9 @@ TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
 }
 
 TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
-  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   BooleanNotExpression booleanNotExpression(mExpression);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(booleanNotExpression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -84,7 +84,7 @@ TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
 
 TEST_F(BooleanNotExpressionTest, releaseOwnershipDeathTest) {
   BooleanNotExpression booleanNotExpression(mExpression);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(booleanNotExpression.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
