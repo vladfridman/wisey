@@ -12,6 +12,13 @@
 using namespace llvm;
 using namespace wisey;
 
+ForStatement::~ForStatement() {
+  delete mStartStatement;
+  delete mConditionStatement;
+  delete mIncrementExpression;
+  delete mBodyStatement;
+}
+
 Value* ForStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();
@@ -24,23 +31,23 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   
   scopes.pushScope();
   
-  mStartStatement.generateIR(context);
+  mStartStatement->generateIR(context);
   IRWriter::createBranch(context, forCond);
   
   context.setBasicBlock(forCond);
-  Value* conditionValue = mConditionStatement.generateIR(context);
+  Value* conditionValue = mConditionStatement->generateIR(context);
   IRWriter::createConditionalBranch(context, forBody, forEnd, conditionValue);
   
   scopes.setBreakToBlock(forEnd);
   scopes.setContinueToBlock(forInc);
   context.setBasicBlock(forBody);
-  mBodyStatement.generateIR(context);
+  mBodyStatement->generateIR(context);
   scopes.setBreakToBlock(NULL);
   scopes.setContinueToBlock(NULL);
 
   IRWriter::createBranch(context, forInc);
   context.setBasicBlock(forInc);
-  mIncrementExpression.generateIR(context);
+  mIncrementExpression->generateIR(context);
 
   IRWriter::createBranch(context, forCond);
   context.setBasicBlock(forEnd);

@@ -34,24 +34,28 @@ using namespace wisey;
 
 struct ForStatementTest : Test {
   IRGenerationContext mContext;
-  NiceMock<MockStatement> mStartStatement;
-  NiceMock<MockStatement> mConditionStatement;
-  NiceMock<MockExpression> mIncrementExpression;
-  NiceMock<MockStatement> mBodyStatement;
+  NiceMock<MockStatement>* mStartStatement;
+  NiceMock<MockStatement>* mConditionStatement;
+  NiceMock<MockExpression>* mIncrementExpression;
+  NiceMock<MockStatement>* mBodyStatement;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
   
-  ForStatementTest() {
+  ForStatementTest() :
+  mStartStatement(new NiceMock<MockStatement>()),
+  mConditionStatement(new NiceMock<MockStatement>()),
+  mIncrementExpression(new NiceMock<MockExpression>()),
+  mBodyStatement(new NiceMock<MockStatement>()) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* startStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-    ON_CALL(mStartStatement, generateIR(_)).WillByDefault(Return(startStatementValue));
+    ON_CALL(*mStartStatement, generateIR(_)).WillByDefault(Return(startStatementValue));
     Value* conditionStatementValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
-    ON_CALL(mConditionStatement, generateIR(_)).WillByDefault(Return(conditionStatementValue));
+    ON_CALL(*mConditionStatement, generateIR(_)).WillByDefault(Return(conditionStatementValue));
     Value* incrementExpressionValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
-    ON_CALL(mIncrementExpression, generateIR(_)).WillByDefault(Return(incrementExpressionValue));
+    ON_CALL(*mIncrementExpression, generateIR(_)).WillByDefault(Return(incrementExpressionValue));
     Value* bodyStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-    ON_CALL(mBodyStatement, generateIR(_)).WillByDefault(Return(bodyStatementValue));
+    ON_CALL(*mBodyStatement, generateIR(_)).WillByDefault(Return(bodyStatementValue));
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(llvmContext), false);

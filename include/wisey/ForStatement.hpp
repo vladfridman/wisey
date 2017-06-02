@@ -22,10 +22,10 @@ namespace wisey {
  * Represents a for loop statement
  */
 class ForStatement : public IStatement {
-  IStatement& mStartStatement;
-  IStatement& mConditionStatement;
-  const IExpression& mIncrementExpression;
-  IStatement& mBodyStatement;
+  IStatement* mStartStatement;
+  IStatement* mConditionStatement;
+  IExpression* mIncrementExpression;
+  IStatement* mBodyStatement;
   
 public:
   
@@ -33,27 +33,27 @@ public:
    * For loop statement with start statement, condition, increment expression and body
    * for (int i = 0; i < 10; i ++) { }
    */
-  ForStatement(IStatement& startStatement,
-               IStatement& conditionStatement,
-               const IExpression& incrementExpression,
-               IStatement& bodyStatement) :
+  ForStatement(IStatement* startStatement,
+               IStatement* conditionStatement,
+               IExpression* incrementExpression,
+               IStatement* bodyStatement) :
     mStartStatement(startStatement),
     mConditionStatement(conditionStatement),
     mIncrementExpression(incrementExpression),
     mBodyStatement(bodyStatement) { }
   
-  ~ForStatement() { }
+  ~ForStatement();
   
   /**
    * For loop statement without the increment part
    * for (int i = 0; i < 10;) { i ++ }
    */
-  static ForStatement* newWithNoIncrement(IStatement& startStatement,
-                                          IStatement& conditionStatement,
-                                          IStatement& bodyStatement) {
+  static ForStatement* newWithNoIncrement(IStatement* startStatement,
+                                          IStatement* conditionStatement,
+                                          IStatement* bodyStatement) {
     return new ForStatement(startStatement,
                             conditionStatement,
-                            EmptyExpression::EMPTY_EXPRESSION,
+                            new EmptyExpression(),
                             bodyStatement);
   }
   
