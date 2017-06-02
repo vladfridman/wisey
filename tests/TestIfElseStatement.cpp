@@ -37,29 +37,34 @@ using namespace wisey;
 
 struct IfElseStatementTest : Test {
   IRGenerationContext mContext;
-  NiceMock<MockExpression> mCondition;
-  NiceMock<MockStatement> mThenStatement;
-  NiceMock<MockStatement> mElseStatement;
   Block mThenBlock;
   Block mElseBlock;
-  CompoundStatement mThenCompoundStatement;
-  CompoundStatement mElseCompoundStatement;
+  NiceMock<MockExpression>* mCondition;
+  NiceMock<MockStatement>* mThenStatement;
+  NiceMock<MockStatement>* mElseStatement;
+  CompoundStatement* mThenCompoundStatement;
+  CompoundStatement* mElseCompoundStatement;
   
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
   
-  IfElseStatementTest() : mThenCompoundStatement(mThenBlock), mElseCompoundStatement(mElseBlock) {
+  IfElseStatementTest() :
+  mCondition(new NiceMock<MockExpression>()),
+  mThenStatement(new NiceMock<MockStatement>()),
+  mElseStatement(new NiceMock<MockStatement>()),
+  mThenCompoundStatement(new CompoundStatement(mThenBlock)),
+  mElseCompoundStatement(new CompoundStatement(mElseBlock)) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
-    ON_CALL(mCondition, generateIR(_)).WillByDefault(Return(conditionValue));
-    ON_CALL(mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+    ON_CALL(*mCondition, generateIR(_)).WillByDefault(Return(conditionValue));
+    ON_CALL(*mCondition, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
     Value* thenStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
-    ON_CALL(mThenStatement, generateIR(_)).WillByDefault(Return(thenStatementValue));
-    mThenBlock.getStatements().push_back(&mThenStatement);
+    ON_CALL(*mThenStatement, generateIR(_)).WillByDefault(Return(thenStatementValue));
+    mThenBlock.getStatements().push_back(mThenStatement);
     Value* elseStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-    ON_CALL(mElseStatement, generateIR(_)).WillByDefault(Return(elseStatementValue));
-    mElseBlock.getStatements().push_back(&mElseStatement);
+    ON_CALL(*mElseStatement, generateIR(_)).WillByDefault(Return(elseStatementValue));
+    mElseBlock.getStatements().push_back(mElseStatement);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -72,6 +77,8 @@ struct IfElseStatementTest : Test {
   ~IfElseStatementTest() {
     delete mFunction;
     delete mStringStream;
+    delete mThenStatement;
+    delete mElseStatement;
   }
 };
 

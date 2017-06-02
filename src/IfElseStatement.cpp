@@ -12,6 +12,11 @@
 using namespace llvm;
 using namespace wisey;
 
+IfElseStatement::~IfElseStatement() {
+  delete mCondition;
+  delete mThenStatement;
+  delete mElseStatement;
+}
 Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();
@@ -20,15 +25,15 @@ Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* ifElse = BasicBlock::Create(context.getLLVMContext(), "if.else", function);
   BasicBlock* ifEnd = BasicBlock::Create(context.getLLVMContext(), "if.end", function);
 
-  Value* conditionValue = mCondition.generateIR(context);
+  Value* conditionValue = mCondition->generateIR(context);
   IRWriter::createConditionalBranch(context, ifThen, ifElse, conditionValue);
   
   context.setBasicBlock(ifThen);
-  mThenStatement.generateIR(context);
+  mThenStatement->generateIR(context);
   IRWriter::createBranch(context, ifEnd);
   
   context.setBasicBlock(ifElse);
-  mElseStatement.generateIR(context);
+  mElseStatement->generateIR(context);
   IRWriter::createBranch(context, ifEnd);
   
   context.setBasicBlock(ifEnd);
