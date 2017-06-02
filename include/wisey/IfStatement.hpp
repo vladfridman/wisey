@@ -22,15 +22,15 @@ namespace wisey {
  * if (expression) { statement }
  */
 class IfStatement : public IStatement {
-  IExpression& mCondition;
-  CompoundStatement& mThenStatement;
+  IExpression* mCondition;
+  CompoundStatement* mThenStatement;
   
 public:
   
-  IfStatement(IExpression& condition, CompoundStatement& thenStatement) :
+  IfStatement(IExpression* condition, CompoundStatement* thenStatement) :
     mCondition(condition), mThenStatement(thenStatement) { }
   
-  ~IfStatement() { }
+  ~IfStatement();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
