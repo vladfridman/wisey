@@ -456,9 +456,9 @@ case_statement_list
 
 case_statement
   : TCASE expression ':' block_item_list
-    { $$ = CaseStatement::newCaseStatement(*$2, *$4); }
+    { $$ = CaseStatement::newCaseStatement($2, $4); }
   | TCASE expression ':' block_item_list TFALLTHROUGH ';'
-    { $$ = CaseStatement::newCaseStatementWithFallThrough(*$2, *$4); }
+    { $$ = CaseStatement::newCaseStatementWithFallThrough($2, $4); }
   ;
 
 default_case_statement

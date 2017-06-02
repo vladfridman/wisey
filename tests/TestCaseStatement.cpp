@@ -26,6 +26,7 @@
 #include "wisey/IRGenerationContext.hpp"
 
 using ::testing::_;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -34,54 +35,65 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-TEST(CaseStatementTest, statementsGetGeneratedTest) {
-  IRGenerationContext context;
-  NiceMock<MockStatement> statement;
-  NiceMock<MockExpression> expression;
-  Block statementBlock;
-  statementBlock.getStatements().push_back(&statement);
-  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
+struct CaseStatementTest : public Test {
+  IRGenerationContext mContext;
+  Block* mStatementBlock;
+  NiceMock<MockExpression>* mExpression;
   
-  EXPECT_CALL(statement, generateIR(_));
+  CaseStatementTest() : mStatementBlock(new Block()), mExpression(new NiceMock<MockExpression>()) {
+  }
+};
+
+TEST_F(CaseStatementTest, statementsGetGeneratedTest) {
+  NiceMock<MockStatement>* statement = new NiceMock<MockStatement>();
+  mStatementBlock->getStatements().push_back(statement);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(mExpression, mStatementBlock);
   
-  caseStatement->generateIR(context);
+  EXPECT_CALL(*statement, generateIR(_));
+  
+  caseStatement->generateIR(mContext);
+  delete caseStatement;
+  delete statement;
+}
+
+TEST_F(CaseStatementTest, constantIntExpressionWorksTest) {
+  IntConstant* expression = new IntConstant(5l);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, mStatementBlock);
+  
+  Value* expected = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
+  
+  EXPECT_EQ(caseStatement->getExpressionValue(mContext), expected);
   delete caseStatement;
 }
 
-TEST(CaseStatementTest, constantIntExpressionWorksTest) {
-  IRGenerationContext context;
-  Block statementBlock;
-  IntConstant expression(5l);
-  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
+TEST_F(CaseStatementTest, nonIntExpressionDeathTest) {
+  FloatConstant* expression = new FloatConstant(5.2f);
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, mStatementBlock);
   
-  Value* expected = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 5);
+  Mock::AllowLeak(expression);
+  Mock::AllowLeak(mStatementBlock);
   
-  EXPECT_EQ(caseStatement->getExpressionValue(context), expected);
-  delete caseStatement;
-}
-
-TEST(CaseStatementTest, nonIntExpressionDeathTest) {
-  IRGenerationContext context;
-  Block statementBlock;
-  FloatConstant expression(5.2f);
-  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
-  
-  EXPECT_EXIT(caseStatement->getExpressionValue(context),
+  EXPECT_EXIT(caseStatement->getExpressionValue(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Case expression should be an integer constant");
-}
-
-TEST(CaseStatementTest, statementsIsMarkedFallThroughTest) {
-  IRGenerationContext context;
-  NiceMock<MockExpression> expression;
-  Block statementBlock;
-  CaseStatement* caseStatement = CaseStatement::newCaseStatement(expression, statementBlock);
-  CaseStatement* caseStatementWithFallThrough =
-    CaseStatement::newCaseStatementWithFallThrough(expression, statementBlock);
-  
-  EXPECT_EQ(false, caseStatement->isFallThrough());
-  EXPECT_EQ(true, caseStatementWithFallThrough->isFallThrough());
   
   delete caseStatement;
+}
+
+TEST_F(CaseStatementTest, statementsIsNotMarkedFallThroughTest) {
+  CaseStatement* caseStatement = CaseStatement::newCaseStatement(mExpression, mStatementBlock);
+  
+  EXPECT_EQ(false, caseStatement->isFallThrough());
+  
+  delete caseStatement;
+}
+
+
+TEST_F(CaseStatementTest, statementsIsMarkedFallThroughTest) {
+  CaseStatement* caseStatementWithFallThrough =
+    CaseStatement::newCaseStatementWithFallThrough(mExpression, mStatementBlock);
+  
+  EXPECT_EQ(true, caseStatementWithFallThrough->isFallThrough());
+  
   delete caseStatementWithFallThrough;
 }
