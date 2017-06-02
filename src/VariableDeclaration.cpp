@@ -23,7 +23,11 @@ using namespace std;
 using namespace wisey;
 
 VariableDeclaration::~VariableDeclaration() {
+  delete mId;
   delete mTypeSpecifier;
+  if (mAssignmentExpression != NULL) {
+    delete mAssignmentExpression;
+  }
 }
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
@@ -36,9 +40,25 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     ? allocateOnStack(context)
     : allocateOnHeap(context);
   
-  if (mAssignmentExpression != NULL) {
-    Assignment assignment(mId, *mAssignmentExpression);
-    assignment.generateIR(context);
+  if (mAssignmentExpression == NULL) {
+    return value;
+  }
+  
+  IVariable* variable = context.getScopes().getVariable(mId->getName());
+  if (variable == NULL) {
+    Log::e("undeclared variable " + mId->getName());
+    exit(1);
+  }
+  
+  if (variable->getType()->getTypeKind() == CONTROLLER_TYPE) {
+    Log::e("Can not assign to controllers");
+    exit(1);
+  }
+  
+  variable->generateAssignmentIR(context, *mAssignmentExpression);
+  
+  if (mId->getType(context)->getTypeKind() != PRIMITIVE_TYPE) {
+    mAssignmentExpression->releaseOwnership(context);
   }
   
   return value;
@@ -47,9 +67,9 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
   IType* type = mTypeSpecifier->getType(context);
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
-  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId.getName());
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId->getName());
   
-  LocalStackVariable* variable = new LocalStackVariable(mId.getName(), type, alloc);
+  LocalStackVariable* variable = new LocalStackVariable(mId->getName(), type, alloc);
   context.getScopes().setVariable(variable);
 
   return alloc;
@@ -57,7 +77,7 @@ Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const 
 
 Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
 
-  string variableName = mId.getName();
+  string variableName = mId->getName();
   IType* type = mTypeSpecifier->getType(context);
   
   LocalHeapVariable* uninitializedHeapVariable = new LocalHeapVariable(variableName, type, NULL);
@@ -70,6 +90,6 @@ const ITypeSpecifier* VariableDeclaration::getTypeSpecifier() const {
   return mTypeSpecifier;
 }
 
-const Identifier& VariableDeclaration::getId() const {
+const Identifier* VariableDeclaration::getId() const {
   return mId;
 }

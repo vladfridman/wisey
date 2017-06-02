@@ -35,7 +35,7 @@ using ::testing::Test;
 struct AssignmentTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NiceMock<MockExpression> mExpression;
+  NiceMock<MockExpression>* mExpression;
   Value* mExpressionValue;
   BasicBlock* mBlock;
   Interface* mInterface;
@@ -43,13 +43,15 @@ struct AssignmentTest : public Test {
 
 public:
   
-  AssignmentTest() : mLLVMContext(mContext.getLLVMContext()) {
+  AssignmentTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mExpression(new NiceMock<MockExpression>()) {
     mBlock = BasicBlock::Create(mLLVMContext, "entry");
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     mExpressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-    ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(mExpressionValue));
-    ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(mExpressionValue));
+    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
 
     mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface", NULL);
     
@@ -62,9 +64,9 @@ public:
 };
 
 TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
-  Identifier identifier("foo", "bar");
+  Identifier* identifier = new Identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
 
   EXPECT_EXIT(assignment.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -74,7 +76,7 @@ TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
 TEST_F(AssignmentTest, assignmentExpressionTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  Identifier identifier("foo", "bar");
+  Identifier* identifier = new Identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
   mContext.getScopes().setVariable(&mockVariable);
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
@@ -88,12 +90,12 @@ TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface));
   mContext.getScopes().setVariable(&mockVariable);
   
-  Identifier identifier("foo", "bar");
+  Identifier* identifier = new Identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_, _)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(1);
-  EXPECT_CALL(mExpression, releaseOwnership(_)).Times(1);
+  EXPECT_CALL(*mExpression, releaseOwnership(_)).Times(1);
   
   assignment.generateIR(mContext);
 }
@@ -104,12 +106,12 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   
-  Identifier identifier("foo", "bar");
+  Identifier* identifier = new Identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_, _)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(1);
-  EXPECT_CALL(mExpression, releaseOwnership(_)).Times(0);
+  EXPECT_CALL(*mExpression, releaseOwnership(_)).Times(0);
   
   assignment.generateIR(mContext);
 }
@@ -120,7 +122,7 @@ TEST_F(AssignmentTest, releaseOwnershipTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface));
   mContext.getScopes().setVariable(&mockVariable);
   
-  Identifier identifier("foo", "bar");
+  Identifier* identifier = new Identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
   
   assignment.releaseOwnership(mContext);
@@ -134,10 +136,10 @@ TEST_F(AssignmentTest, generateIRWithControllerTypeDeathTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(mController));
   mContext.getScopes().setVariable(&mockVariable);
   
-  Identifier identifier("foo", "bar");
+  Identifier* identifier = new Identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
 
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   Mock::AllowLeak(&mockVariable);
   
   EXPECT_EXIT(assignment.generateIR(mContext),

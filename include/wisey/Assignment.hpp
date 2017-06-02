@@ -19,15 +19,15 @@ namespace wisey {
  * Represents an assignment expression
  */
 class Assignment : public IExpression {
-  Identifier& mIdentifier;
-  IExpression& mExpression;
+  Identifier* mIdentifier;
+  IExpression* mExpression;
   
 public:
 
-  Assignment(Identifier& identifier, IExpression& expression)
+  Assignment(Identifier* identifier, IExpression* expression)
     : mIdentifier(identifier), mExpression(expression) { }
 
-  ~Assignment() { }
+  ~Assignment();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

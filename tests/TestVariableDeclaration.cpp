@@ -36,13 +36,16 @@ using ::testing::Test;
 
 struct VariableDeclarationTest : public Test {
   IRGenerationContext mContext;
-  LLVMContext& mLLVMContext = mContext.getLLVMContext();
+  LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
+  Identifier* mIdentifier;
   
-  VariableDeclarationTest() {
+  VariableDeclarationTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mIdentifier(new Identifier("foo", "bar")) {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
@@ -63,9 +66,8 @@ struct VariableDeclarationTest : public Test {
 };
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
-  Identifier identifier("foo", "bar");
   PrimitiveTypeSpecifier* typeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  VariableDeclaration declaration(typeSpecifier, identifier);
+  VariableDeclaration declaration(typeSpecifier, mIdentifier);
 
   declaration.generateIR(mContext);
   
@@ -76,13 +78,12 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
 }
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
-  Identifier identifier("foo", "bar");
   PrimitiveTypeSpecifier* typeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  NiceMock<MockExpression> mExpression;
+  NiceMock<MockExpression>* expression = new NiceMock<MockExpression>();
   Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
-  ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
-  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  VariableDeclaration declaration(typeSpecifier, identifier, &mExpression);
+  ON_CALL(*expression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(*expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  VariableDeclaration declaration(typeSpecifier, mIdentifier, expression);
   
   declaration.generateIR(mContext);
   
@@ -100,7 +101,6 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
 }
 
 TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
-  Identifier identifier("foo", "bar");
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MModel");
   
@@ -118,7 +118,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   model->setFields(fields);
 
   mContext.addModel(model);
-  VariableDeclaration declaration(typeSpecifier, identifier);
+  VariableDeclaration declaration(typeSpecifier, mIdentifier);
   
   declaration.generateIR(mContext);
   
@@ -127,7 +127,6 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
 }
 
 TEST_F(VariableDeclarationTest, controllerVariableDeclarationWithoutAssignmentDeathTest) {
-  Identifier identifier("foo", "bar");
   vector<string> package;
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CController");
   
@@ -140,7 +139,7 @@ TEST_F(VariableDeclarationTest, controllerVariableDeclarationWithoutAssignmentDe
   Controller* controller = new Controller(controllerFullName, structType);
   
   mContext.addController(controller);
-  VariableDeclaration declaration(typeSpecifier, identifier);
+  VariableDeclaration declaration(typeSpecifier, mIdentifier);
   
   EXPECT_EXIT(declaration.generateIR(mContext),
               ::testing::ExitedWithCode(1),

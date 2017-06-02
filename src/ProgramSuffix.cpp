@@ -36,15 +36,16 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   vector<string> package;
   InterfaceTypeSpecifier* programInterfaceSpecifier =
     new InterfaceTypeSpecifier(package, "IProgram");
-  InterfaceInjector interfaceInjector(programInterfaceSpecifier);
+  InterfaceInjector* interfaceInjector = new InterfaceInjector(programInterfaceSpecifier);
   Identifier* programIdentifier = new Identifier("program", "program");
   programInterfaceSpecifier = new InterfaceTypeSpecifier(package, "IProgram");
   VariableDeclaration programVariableDeclaration(programInterfaceSpecifier,
-                                                 *programIdentifier,
-                                                 &interfaceInjector);
+                                                 programIdentifier,
+                                                 interfaceInjector);
   programVariableDeclaration.generateIR(context);
   
   ExpressionList runMethodArguments;
+  programIdentifier = new Identifier("program", "program");
   MethodCall runMethodCall(programIdentifier, "run", runMethodArguments);
   ReturnStatement returnStatement(runMethodCall);
   returnStatement.generateIR(context);

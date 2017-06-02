@@ -13,10 +13,15 @@
 using namespace llvm;
 using namespace wisey;
 
+Assignment::~Assignment() {
+  delete mIdentifier;
+  delete mExpression;
+}
+
 Value* Assignment::generateIR(IRGenerationContext& context) const {
-  IVariable* variable = context.getScopes().getVariable(mIdentifier.getName());
+  IVariable* variable = context.getScopes().getVariable(mIdentifier->getName());
   if (variable == NULL) {
-    Log::e("undeclared variable " + mIdentifier.getName());
+    Log::e("undeclared variable " + mIdentifier->getName());
     exit(1);
   }
   
@@ -25,19 +30,19 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  Value* result = variable->generateAssignmentIR(context, mExpression);
+  Value* result = variable->generateAssignmentIR(context, *mExpression);
   
   if (getType(context)->getTypeKind() != PRIMITIVE_TYPE) {
-    mExpression.releaseOwnership(context);
+    mExpression->releaseOwnership(context);
   }
   
   return result;
 }
 
 IType* Assignment::getType(IRGenerationContext& context) const {
-  return mIdentifier.getType(context);
+  return mIdentifier->getType(context);
 }
 
 void Assignment::releaseOwnership(IRGenerationContext& context) const {
-  mIdentifier.releaseOwnership(context);
+  mIdentifier->releaseOwnership(context);
 }

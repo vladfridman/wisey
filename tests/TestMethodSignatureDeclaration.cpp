@@ -32,8 +32,8 @@ struct MethodSignatureDeclarationTest : Test {
   IRGenerationContext mContext;
   PrimitiveTypeSpecifier* mFloatTypeSpecifier;
   PrimitiveTypeSpecifier* mIntTypeSpecifier;
-  Identifier mIntArgumentIdentifier;
-  Identifier mFloatArgumentIdentifier;
+  Identifier* mIntArgumentIdentifier;
+  Identifier* mFloatArgumentIdentifier;
   VariableDeclaration mIntArgument;
   VariableDeclaration mFloatArgument;
   VariableList mArguments;
@@ -42,8 +42,8 @@ struct MethodSignatureDeclarationTest : Test {
   MethodSignatureDeclarationTest() :
   mFloatTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
   mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
-  mIntArgumentIdentifier(Identifier("intargument")),
-  mFloatArgumentIdentifier(Identifier("floatargument")),
+  mIntArgumentIdentifier(new Identifier("intargument")),
+  mFloatArgumentIdentifier(new Identifier("floatargument")),
   mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
   mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)) {
     LLVMContext& llvmContext = mContext.getLLVMContext();

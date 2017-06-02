@@ -525,8 +525,8 @@ finally_clause
   ;
 
 variable_declaration
-  : type_specifier identifier ';' { $$ = new VariableDeclaration($1, *$2); }
-  | type_specifier identifier '=' expression ';' { $$ = new VariableDeclaration($1, *$2, $4); }
+  : type_specifier identifier ';' { $$ = new VariableDeclaration($1, $2); }
+  | type_specifier identifier '=' expression ';' { $$ = new VariableDeclaration($1, $2, $4); }
   ;
 
 method_definition
@@ -554,7 +554,7 @@ exception_type_specifier_list
   ;
 
 method_argument_declaration
-  : type_specifier identifier { $$ = new VariableDeclaration($1, *$2); }
+  : type_specifier identifier { $$ = new VariableDeclaration($1, $2); }
   ;
 
 method_declaration_arguments
@@ -713,7 +713,7 @@ expression
   ;
 
 assignment
-  : identifier '=' expression { $$ = new Assignment(*$<identifier>1, *$3); }
+  : identifier '=' expression { $$ = new Assignment($<identifier>1, $3); }
   ;
 
 model_builder

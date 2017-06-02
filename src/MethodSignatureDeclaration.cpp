@@ -30,7 +30,7 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
        iterator != mArguments.end();
        iterator++) {
     IType* type = (**iterator).getTypeSpecifier()->getType(context);
-    string name = (**iterator).getId().getName();
+    string name = (**iterator).getId()->getName();
     MethodArgument* methodArgument = new MethodArgument(type, name);
     arguments.push_back(methodArgument);
   }
