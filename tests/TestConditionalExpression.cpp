@@ -35,22 +35,25 @@ using namespace wisey;
 
 struct ConditionalExpressionTest : Test {
   IRGenerationContext mContext;
-  NiceMock<MockExpression> mConditionExpression;
-  NiceMock<MockExpression> mIfTrueExpression;
-  NiceMock<MockExpression> mIfFalseExpression;
+  NiceMock<MockExpression>* mConditionExpression;
+  NiceMock<MockExpression>* mIfTrueExpression;
+  NiceMock<MockExpression>* mIfFalseExpression;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
   
-  ConditionalExpressionTest() {
+  ConditionalExpressionTest() :
+  mConditionExpression(new NiceMock<MockExpression>()),
+  mIfTrueExpression(new NiceMock<MockExpression>()),
+  mIfFalseExpression(new NiceMock<MockExpression>()) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* ifTrueValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
     Value* ifFalseValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
-    ON_CALL(mIfTrueExpression, generateIR(_)).WillByDefault(Return(ifTrueValue));
-    ON_CALL(mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(mIfFalseExpression, generateIR(_)).WillByDefault(Return(ifFalseValue));
-    ON_CALL(mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+    ON_CALL(*mIfTrueExpression, generateIR(_)).WillByDefault(Return(ifTrueValue));
+    ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mIfFalseExpression, generateIR(_)).WillByDefault(Return(ifFalseValue));
+    ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -68,7 +71,7 @@ struct ConditionalExpressionTest : Test {
 
 TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithFalse) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 0);
-  ON_CALL(mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
+  ON_CALL(*mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
 
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   expression.generateIR(mContext);
@@ -105,7 +108,7 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithFalse) {
 
 TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithTrue) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
-  ON_CALL(mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
+  ON_CALL(*mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
  
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   expression.generateIR(mContext);
@@ -141,13 +144,13 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithTrue) {
 }
 
 TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
-  Mock::AllowLeak(&mConditionExpression);
-  Mock::AllowLeak(&mIfTrueExpression);
-  Mock::AllowLeak(&mIfFalseExpression);
+  Mock::AllowLeak(mConditionExpression);
+  Mock::AllowLeak(mIfTrueExpression);
+  Mock::AllowLeak(mIfFalseExpression);
   
   Value* trueValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.5);
-  ON_CALL(mIfTrueExpression, generateIR(_)).WillByDefault(Return(trueValue));
-  ON_CALL(mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mIfTrueExpression, generateIR(_)).WillByDefault(Return(trueValue));
+  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   
@@ -157,12 +160,12 @@ TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
 }
 
 TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {
-  Mock::AllowLeak(&mConditionExpression);
-  Mock::AllowLeak(&mIfTrueExpression);
-  Mock::AllowLeak(&mIfFalseExpression);
+  Mock::AllowLeak(mConditionExpression);
+  Mock::AllowLeak(mIfTrueExpression);
+  Mock::AllowLeak(mIfFalseExpression);
   
-  ON_CALL(mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
-  ON_CALL(mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   
@@ -172,11 +175,11 @@ TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {
 }
 
 TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
-  Mock::AllowLeak(&mConditionExpression);
-  Mock::AllowLeak(&mIfTrueExpression);
-  Mock::AllowLeak(&mIfFalseExpression);
+  Mock::AllowLeak(mConditionExpression);
+  Mock::AllowLeak(mIfTrueExpression);
+  Mock::AllowLeak(mIfFalseExpression);
   
-  ON_CALL(mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   
@@ -186,9 +189,9 @@ TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
 }
 
 TEST_F(ConditionalExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(&mConditionExpression);
-  Mock::AllowLeak(&mIfTrueExpression);
-  Mock::AllowLeak(&mIfFalseExpression);
+  Mock::AllowLeak(mConditionExpression);
+  Mock::AllowLeak(mIfTrueExpression);
+  Mock::AllowLeak(mIfFalseExpression);
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   

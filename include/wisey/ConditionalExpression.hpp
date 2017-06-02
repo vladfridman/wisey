@@ -18,17 +18,19 @@ namespace wisey {
  */
 class ConditionalExpression : public IExpression {
   
-  IExpression& mConditionExpression;
-  IExpression& mConditionTrueExpression;
-  IExpression& mConditionFalseExpression;
+  IExpression* mConditionExpression;
+  IExpression* mConditionTrueExpression;
+  IExpression* mConditionFalseExpression;
   
 public:
-  ConditionalExpression(IExpression& conditionExpression,
-                        IExpression& conditionTrueExpression,
-                        IExpression& conditionFalseExpression)
+  ConditionalExpression(IExpression* conditionExpression,
+                        IExpression* conditionTrueExpression,
+                        IExpression* conditionFalseExpression)
   : mConditionExpression(conditionExpression),
     mConditionTrueExpression(conditionTrueExpression),
     mConditionFalseExpression(conditionFalseExpression) {  }
+  
+  ~ConditionalExpression();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 

@@ -18,10 +18,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ConditionalExpression::~ConditionalExpression() {
+  delete mConditionExpression;
+  delete mConditionTrueExpression;
+  delete mConditionFalseExpression;
+}
+
 Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   checkTypes(context);
   
-  Value* conditionValue = mConditionExpression.generateIR(context);
+  Value* conditionValue = mConditionExpression->generateIR(context);
   
   Function* function = context.getBasicBlock()->getParent();
   
@@ -31,13 +37,13 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   IRWriter::createConditionalBranch(context, blockCondTrue, blockCondFalse, conditionValue);
   
   context.setBasicBlock(blockCondTrue);
-  Value* condTrueValue = mConditionTrueExpression.generateIR(context);
+  Value* condTrueValue = mConditionTrueExpression->generateIR(context);
   Type* condTrueResultType = condTrueValue->getType();
   BasicBlock* lastBlock = context.getBasicBlock();
   IRWriter::createBranch(context, blockCondEnd);
 
   context.setBasicBlock(blockCondFalse);
-  Value* condFalseValue = mConditionFalseExpression.generateIR(context);
+  Value* condFalseValue = mConditionFalseExpression->generateIR(context);
   Type* condFalseResultType = condTrueValue->getType();
   lastBlock = context.getBasicBlock();
   IRWriter::createBranch(context, blockCondEnd);
@@ -59,7 +65,7 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
 }
 
 IType* ConditionalExpression::getType(IRGenerationContext& context) const {
-  return mConditionTrueExpression.getType(context);
+  return mConditionTrueExpression->getType(context);
 }
 
 void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const {
@@ -69,10 +75,10 @@ void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const
 
 // TODO: implement a more sensible type checking/casting
 void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
-  IType* trueExpressionType = mConditionTrueExpression.getType(context);
-  IType* falseExpressionType = mConditionFalseExpression.getType(context);
+  IType* trueExpressionType = mConditionTrueExpression->getType(context);
+  IType* falseExpressionType = mConditionFalseExpression->getType(context);
   
-  if (mConditionExpression.getType(context) != PrimitiveTypes::BOOLEAN_TYPE) {
+  if (mConditionExpression->getType(context) != PrimitiveTypes::BOOLEAN_TYPE) {
     Log::e("Condition in a conditional expression is not of type BOOLEAN");
     exit(1);
   }
