@@ -48,7 +48,4 @@ TEST_F(DefaultCaseStatementTest, generateIRTest) {
   EXPECT_CALL(*mMockStatement2, generateIR(_));
   
   defaultCaseStatement.generateIR(mContext);
-  
-  delete mMockStatement1;
-  delete mMockStatement2;
 }

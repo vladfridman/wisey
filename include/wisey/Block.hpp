@@ -25,7 +25,7 @@ class Block : public IStatement {
 public:
   Block() { }
 
-  ~Block() { }
+  ~Block();
   
   StatementList& getStatements();
   

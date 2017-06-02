@@ -53,7 +53,6 @@ TEST_F(CaseStatementTest, statementsGetGeneratedTest) {
   
   caseStatement->generateIR(mContext);
   delete caseStatement;
-  delete statement;
 }
 
 TEST_F(CaseStatementTest, constantIntExpressionWorksTest) {

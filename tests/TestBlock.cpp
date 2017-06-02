@@ -28,19 +28,22 @@ using ::testing::NiceMock;
 
 struct BlockTest : public ::testing::Test {
   IRGenerationContext mContext;
-  NiceMock<MockStatement> mMockStatement1;
-  NiceMock<MockStatement> mMockStatement2;
+  NiceMock<MockStatement>* mMockStatement1;
+  NiceMock<MockStatement>* mMockStatement2;
   Block mBlock;
 
-  BlockTest() { }
+  BlockTest() :
+  mMockStatement1(new NiceMock<MockStatement>()),
+  mMockStatement2(new NiceMock<MockStatement>()) {
+  }
 };
 
 TEST_F(BlockTest, generateIRTest) {
-  mBlock.getStatements().push_back(&mMockStatement1);
-  mBlock.getStatements().push_back(&mMockStatement2);
+  mBlock.getStatements().push_back(mMockStatement1);
+  mBlock.getStatements().push_back(mMockStatement2);
   
-  EXPECT_CALL(mMockStatement1, generateIR(_));
-  EXPECT_CALL(mMockStatement2, generateIR(_));
+  EXPECT_CALL(*mMockStatement1, generateIR(_));
+  EXPECT_CALL(*mMockStatement2, generateIR(_));
   
   mBlock.generateIR(mContext);
 }

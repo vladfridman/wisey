@@ -69,11 +69,10 @@ struct IfStatementTest : Test {
   ~IfStatementTest() {
     delete mFunction;
     delete mStringStream;
-    delete mThenStatement;
   }
 };
 
-TEST_F(IfStatementTest, ifStatementSimpleTest) {
+TEST_F(IfStatementTest, generateIRTest) {
   IfStatement ifStatement(mCondition, mThenCompoundStatement);
   ifStatement.generateIR(mContext);
   

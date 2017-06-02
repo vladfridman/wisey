@@ -33,11 +33,6 @@ struct TestCompoundStatement : public Test {
   mStatement2(new NiceMock<MockStatement>()),
   mBlock(new Block()) {
   }
-  
-  ~TestCompoundStatement() {
-    delete mStatement1;
-    delete mStatement2;
-  }
 };
 
 TEST_F(TestCompoundStatement, generateIRTest) {
