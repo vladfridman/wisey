@@ -18,15 +18,15 @@ namespace wisey {
  * Represents a logical AND expression such as 'a && b'
  */
 class LogicalAndExpression : public IExpression {
-  IExpression& mLeftExpression;
-  IExpression& mRightExpression;
+  IExpression* mLeftExpression;
+  IExpression* mRightExpression;
   
 public:
-  LogicalAndExpression(IExpression& leftExpression, IExpression& rightExpression) :
+  LogicalAndExpression(IExpression* leftExpression, IExpression* rightExpression) :
     mLeftExpression(leftExpression),
     mRightExpression(rightExpression) { }
   
-  ~LogicalAndExpression() { }
+  ~LogicalAndExpression();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
