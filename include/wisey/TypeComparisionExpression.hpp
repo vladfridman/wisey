@@ -19,12 +19,12 @@ namespace wisey {
  * Represents an instanceof expression for type comparision
  */
 class TypeComparisionExpression : public IExpression {
-  IExpression& mExpression;
+  IExpression* mExpression;
   ITypeSpecifier* mTypeSpecifier;
   
 public:
   
-  TypeComparisionExpression(IExpression& expression, ITypeSpecifier* typeSpecifier) :
+  TypeComparisionExpression(IExpression* expression, ITypeSpecifier* typeSpecifier) :
   mExpression(expression), mTypeSpecifier(typeSpecifier) { }
   
   
