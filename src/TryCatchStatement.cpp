@@ -19,6 +19,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+TryCatchStatement::~TryCatchStatement() {
+  delete mTryBlock;
+  for (Catch* catchClause : mCatchList) {
+    delete catchClause;
+  }
+  mCatchList.clear();
+  delete mFinally;
+}
+
 Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getBasicBlock()->getParent();
@@ -31,7 +40,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   context.getScopes().setExceptionContinueBlock(continueBlock);
   context.getScopes().setExceptionFinally(mFinally);
 
-  mTryBlock.generateIR(context);
+  mTryBlock->generateIR(context);
   
   context.getScopes().getExceptionFinally()->generateIR(context);
 

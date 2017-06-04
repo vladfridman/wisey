@@ -22,16 +22,16 @@ namespace wisey {
  * Represents a try/catch statement
  */
 class TryCatchStatement : public IStatement {
-  IStatement& mTryBlock;
+  IStatement* mTryBlock;
   std::vector<Catch*> mCatchList;
   const IStatement* mFinally;
   
 public:
   
-  TryCatchStatement(IStatement& tryBlock, std::vector<Catch*> catchList, const IStatement* finallyClause)
+  TryCatchStatement(IStatement* tryBlock, std::vector<Catch*> catchList, const IStatement* finallyClause)
   : mTryBlock(tryBlock), mCatchList(catchList), mFinally(finallyClause) { }
   
-  ~TryCatchStatement() { }
+  ~TryCatchStatement();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

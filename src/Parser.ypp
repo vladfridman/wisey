@@ -503,11 +503,11 @@ throw_statement
   ;
 
 try_catch_statement
-  : TTRY compound_statement catch_block { $$ = new TryCatchStatement(*$2, *$3, NULL); delete $3; }
+  : TTRY compound_statement catch_block { $$ = new TryCatchStatement($2, *$3, NULL); delete $3; }
   | TTRY compound_statement finally_clause
-    { std::vector<Catch *> catchBlock; $$ = new TryCatchStatement(*$2, catchBlock, $3); }
+    { std::vector<Catch *> catchBlock; $$ = new TryCatchStatement($2, catchBlock, $3); }
   | TTRY compound_statement catch_block finally_clause
-    { $$ = new TryCatchStatement(*$2, *$3, $4); delete $3; }
+    { $$ = new TryCatchStatement($2, *$3, $4); delete $3; }
   ;
 
 catch_block
