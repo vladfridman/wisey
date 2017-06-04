@@ -730,7 +730,7 @@ model_builder_argument_list
 
 model_builder_argument
   : '.' TIDENTIFIER '(' expression ')'
-    { $$ = new ModelBuilderArgument(*$2, *$4); delete $2; }
+    { $$ = new ModelBuilderArgument(*$2, $4); delete $2; }
   ;
 
 call_arguments

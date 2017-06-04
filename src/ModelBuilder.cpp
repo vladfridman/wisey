@@ -21,11 +21,16 @@ using namespace wisey;
 
 ModelBuilder::~ModelBuilder() {
   delete mModelTypeSpecifier;
+  for (ModelBuilderArgument* argument : *mModelBuilderArgumentList) {
+    delete argument;
+  }
+  mModelBuilderArgumentList->clear();
+  delete mModelBuilderArgumentList;
 }
 
 Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   Model* model = (Model*) mModelTypeSpecifier->getType(context);
-  Instruction* malloc = model->build(context, mModelBuilderArgumentList);
+  Instruction* malloc = model->build(context, *mModelBuilderArgumentList);
   
   LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(), model, malloc);
   context.getScopes().setVariable(heapVariable);

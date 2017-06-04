@@ -15,6 +15,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ModelBuilderArgument::~ModelBuilderArgument() {
+  delete mFieldExpression;
+}
+
 bool ModelBuilderArgument::checkArgument(const Model* model) {
   if (mFieldSpecifier.substr(0, 4).compare("with")) {
     Log::e("Model builder argument should start with 'with'. e.g. .withField(value).");
@@ -36,9 +40,9 @@ string ModelBuilderArgument::deriveFieldName() const {
 }
 
 Value* ModelBuilderArgument::getValue(IRGenerationContext& context) const {
-  return mFieldExpression.generateIR(context);
+  return mFieldExpression->generateIR(context);
 }
 
 IType* ModelBuilderArgument::getType(IRGenerationContext& context) const {
-  return mFieldExpression.getType(context);
+  return mFieldExpression->getType(context);
 }

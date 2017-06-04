@@ -45,14 +45,18 @@ struct ModelTest : public Test {
   StructType* mStructType;
   Field* mWidthField;
   Field* mHeightField;
-  NiceMock<MockExpression> mField1Expression;
-  NiceMock<MockExpression> mField2Expression;
-  NiceMock<MockExpression> mField3Expression;
+  NiceMock<MockExpression>* mField1Expression;
+  NiceMock<MockExpression>* mField2Expression;
+  NiceMock<MockExpression>* mField3Expression;
   BasicBlock *mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  ModelTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ModelTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mField1Expression(new NiceMock<MockExpression>()),
+  mField2Expression(new NiceMock<MockExpression>()),
+  mField3Expression(new NiceMock<MockExpression>()) {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -185,14 +189,14 @@ struct ModelTest : public Test {
     mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-    ON_CALL(mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
-    ON_CALL(mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
+    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-    ON_CALL(mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
-    ON_CALL(mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
+    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     Value* field3Value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
-    ON_CALL(mField3Expression, generateIR(_)).WillByDefault(Return(field3Value));
-    ON_CALL(mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+    ON_CALL(*mField3Expression, generateIR(_)).WillByDefault(Return(field3Value));
+    ON_CALL(*mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
     
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateVTable(mContext, mStarModel);
@@ -213,6 +217,9 @@ struct ModelTest : public Test {
   
   ~ModelTest() {
     delete mStringStream;
+    delete mField1Expression;
+    delete mField2Expression;
+    delete mField3Expression;
   }
 };
 
@@ -341,9 +348,9 @@ TEST_F(ModelTest, getRTTIVariableNameTest) {
 }
 
 TEST_F(ModelTest, castToDeathTest) {
-  Mock::AllowLeak(&mField1Expression);
-  Mock::AllowLeak(&mField2Expression);
-  Mock::AllowLeak(&mField3Expression);
+  Mock::AllowLeak(mField1Expression);
+  Mock::AllowLeak(mField2Expression);
+  Mock::AllowLeak(mField3Expression);
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
   EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
@@ -373,9 +380,9 @@ TEST_F(ModelTest, buildTest) {
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withWeight");
   ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField2Expression);
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
-  argumentList->push_back(argument1);
-  argumentList->push_back(argument2);
+  ModelBuilderArgumentList argumentList;
+  argumentList.push_back(argument1);
+  argumentList.push_back(argument2);
   
   Value* result = mStarModel->build(mContext, argumentList);
   
@@ -402,17 +409,17 @@ TEST_F(ModelTest, buildTest) {
 }
 
 TEST_F(ModelTest, buildInvalidModelBuilderArgumentsDeathTest) {
-  Mock::AllowLeak(&mField1Expression);
-  Mock::AllowLeak(&mField2Expression);
-  Mock::AllowLeak(&mField3Expression);
+  Mock::AllowLeak(mField1Expression);
+  Mock::AllowLeak(mField2Expression);
+  Mock::AllowLeak(mField3Expression);
   
   string argumentSpecifier1("width");
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withWeight");
   ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField2Expression);
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
-  argumentList->push_back(argument1);
-  argumentList->push_back(argument2);
+  ModelBuilderArgumentList argumentList;
+  argumentList.push_back(argument1);
+  argumentList.push_back(argument2);
   
   const char *expected =
   "Error: Model builder argument should start with 'with'. e.g. .withField\\(value\\)."
@@ -425,17 +432,17 @@ TEST_F(ModelTest, buildInvalidModelBuilderArgumentsDeathTest) {
 }
 
 TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
-  Mock::AllowLeak(&mField1Expression);
-  Mock::AllowLeak(&mField2Expression);
-  Mock::AllowLeak(&mField3Expression);
+  Mock::AllowLeak(mField1Expression);
+  Mock::AllowLeak(mField2Expression);
+  Mock::AllowLeak(mField3Expression);
   
   string argumentSpecifier1("withBrightness");
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withWeight");
   ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField3Expression);
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
-  argumentList->push_back(argument1);
-  argumentList->push_back(argument2);
+  ModelBuilderArgumentList argumentList;
+  argumentList.push_back(argument1);
+  argumentList.push_back(argument2);
   
   const char *expected = "Error: Model builder argument value for field mWeight "
     "does not match its type";
@@ -446,14 +453,14 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
 }
 
 TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
-  Mock::AllowLeak(&mField1Expression);
-  Mock::AllowLeak(&mField2Expression);
-  Mock::AllowLeak(&mField3Expression);
+  Mock::AllowLeak(mField1Expression);
+  Mock::AllowLeak(mField2Expression);
+  Mock::AllowLeak(mField3Expression);
   
   string argumentSpecifier1("withBrightness");
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
-  argumentList->push_back(argument1);
+  ModelBuilderArgumentList argumentList;
+  argumentList.push_back(argument1);
   
   const char *expected =
   "Error: Field mWeight is not initialized"

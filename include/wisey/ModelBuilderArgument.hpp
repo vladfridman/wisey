@@ -26,14 +26,14 @@ class Model;
 class ModelBuilderArgument {
   
   std::string mFieldSpecifier;
-  IExpression& mFieldExpression;
+  IExpression* mFieldExpression;
   
 public:
   
-  ModelBuilderArgument(std::string fieldSpecifier, IExpression& fieldExpression)
+  ModelBuilderArgument(std::string fieldSpecifier, IExpression* fieldExpression)
     : mFieldSpecifier(fieldSpecifier), mFieldExpression(fieldExpression) { }
   
-  ~ModelBuilderArgument() { }
+  ~ModelBuilderArgument();
   
   bool checkArgument(const Model* model);
   

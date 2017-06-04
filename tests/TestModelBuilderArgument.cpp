@@ -30,11 +30,11 @@ using namespace wisey;
 
 struct ModelBuilderArgumentTest : Test {
   IRGenerationContext mContext;
-  NiceMock<MockExpression> mFieldExpression;
+  NiceMock<MockExpression>* mFieldExpression;
   Model* mModel;
   Value* mValue;
   
-  ModelBuilderArgumentTest() {
+  ModelBuilderArgumentTest() : mFieldExpression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -50,8 +50,8 @@ struct ModelBuilderArgumentTest : Test {
     mModel->setFields(fields);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
-    ON_CALL(mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));
-    ON_CALL(mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+    ON_CALL(*mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));
+    ON_CALL(*mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   }
 };
 

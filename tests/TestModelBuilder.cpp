@@ -34,14 +34,16 @@ using ::testing::Test;
 struct ModelBuilderTest : Test {
   IRGenerationContext mContext;
   Model* mModel;
-  NiceMock<MockExpression> mField1Expression;
-  NiceMock<MockExpression> mField2Expression;
+  NiceMock<MockExpression>* mField1Expression;
+  NiceMock<MockExpression>* mField2Expression;
   ModelTypeSpecifier* mModelTypeSpecifier;
   BasicBlock *mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  ModelBuilderTest() {
+  ModelBuilderTest() :
+  mField1Expression(new NiceMock<MockExpression>()),
+  mField2Expression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     
@@ -61,11 +63,11 @@ struct ModelBuilderTest : Test {
     mModel->setFields(fields);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-    ON_CALL(mField1Expression, generateIR(_)).WillByDefault(Return(fieldValue1));
-    ON_CALL(mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(fieldValue1));
+    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
-    ON_CALL(mField2Expression, generateIR(_)).WillByDefault(Return(fieldValue2));
-    ON_CALL(mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(fieldValue2));
+    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateVTable(mContext, mModel);
@@ -116,4 +118,7 @@ TEST_F(ModelBuilderTest, testGetType) {
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
 
   EXPECT_EQ(modelBuilder.getType(mContext), mModel);
+  
+  delete mField1Expression;
+  delete mField2Expression;
 }

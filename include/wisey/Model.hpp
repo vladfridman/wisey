@@ -79,7 +79,7 @@ public:
    * Builds an instance of this model and initializes all fields
    */
   llvm::Instruction* build(IRGenerationContext& context,
-                           ModelBuilderArgumentList* modelBuilderArgumentList) const;
+                           const ModelBuilderArgumentList& modelBuilderArgumentList) const;
   
   /**
    * Creates a global variable with type description for this model in RTTI format
@@ -131,16 +131,16 @@ private:
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   
-  void checkArguments(ModelBuilderArgumentList* modelBuilderArgumentList) const;
+  void checkArguments(const ModelBuilderArgumentList& modelBuilderArgumentList) const;
   
-  void checkArgumentsAreWellFormed(ModelBuilderArgumentList* modelBuilderArgumentList) const;
+  void checkArgumentsAreWellFormed(const ModelBuilderArgumentList& modelBuilderArgumentList) const;
   
-  void checkAllFieldsAreSet(ModelBuilderArgumentList* modelBuilderArgumentList) const;
+  void checkAllFieldsAreSet(const ModelBuilderArgumentList& modelBuilderArgumentList) const;
   
   llvm::Instruction* createMalloc(IRGenerationContext& context) const;
 
   void initializeFields(IRGenerationContext& context,
-                        ModelBuilderArgumentList* modelBuilderArgumentList,
+                        const ModelBuilderArgumentList& modelBuilderArgumentList,
                         llvm::Instruction* malloc) const;
 };
 
