@@ -36,16 +36,17 @@ using ::testing::Test;
 
 struct ReturnStatementTest : public Test {
   IRGenerationContext mContext;
-  NiceMock<MockExpression> mExpression;
+  NiceMock<MockExpression>* mExpression;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
 public:
-  ReturnStatementTest() {
+  
+  ReturnStatementTest() : mExpression(new NiceMock<MockExpression>()) {
     Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-    ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
+    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(value));
 
     mStringStream = new raw_string_ostream(mStringBuffer);
     
@@ -74,7 +75,7 @@ TEST_F(ReturnStatementTest, parentFunctionIsNullDeathTest) {
   mContext.getScopes().pushScope();
   ReturnStatement returnStatement(mExpression);
 
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   EXPECT_EXIT(returnStatement.generateIR(mContext),
               ExitedWithCode(1),
               "No corresponding method found for RETURN");
@@ -91,7 +92,7 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
   ReturnStatement returnStatement(mExpression);
   
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   EXPECT_EXIT(returnStatement.generateIR(mContext),
               ExitedWithCode(1),
               "Error: Incopatible types: can not cast from type 'int' to 'void'");

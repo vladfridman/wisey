@@ -495,7 +495,7 @@ jump_statement
   : TCONTINUE ';' { $$ = new ContinueStatement(); }
   | TBREAK ';' { $$ = new BreakStatement(); }
   | TRETURN ';' { $$ =  new ReturnVoidStatement(); }
-  | TRETURN expression ';' { $$ = new ReturnStatement(*$2); }
+  | TRETURN expression ';' { $$ = new ReturnStatement($2); }
   ;
 
 throw_statement

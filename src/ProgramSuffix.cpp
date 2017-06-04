@@ -46,7 +46,7 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   
   ExpressionList runMethodArguments;
   programIdentifier = new Identifier("program", "program");
-  MethodCall runMethodCall(programIdentifier, "run", runMethodArguments);
+  MethodCall* runMethodCall = new MethodCall(programIdentifier, "run", runMethodArguments);
   ReturnStatement returnStatement(runMethodCall);
   returnStatement.generateIR(context);
   

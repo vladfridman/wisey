@@ -17,6 +17,10 @@
 using namespace llvm;
 using namespace wisey;
 
+ReturnStatement::~ReturnStatement() {
+  delete mExpression;
+}
+
 Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   IType* returnType = context.getScopes().getReturnType();
   if (returnType == NULL) {
@@ -25,8 +29,8 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   }
   
   Value* returnValue = AutoCast::maybeCast(context,
-                                           mExpression.getType(context),
-                                           mExpression.generateIR(context),
+                                           mExpression->getType(context),
+                                           mExpression->generateIR(context),
                                            returnType);
   context.getScopes().getScope()->maybeFreeOwnedMemory(context);
   

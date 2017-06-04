@@ -18,11 +18,14 @@ namespace wisey {
  * Represents a return statement that returns an expression
  */
 class ReturnStatement : public IStatement {
+
 public:
-  IExpression& mExpression;
   
-  ReturnStatement(IExpression& expression) : mExpression(expression) { }
-  ~ReturnStatement() { }
+  IExpression* mExpression;
+  
+  ReturnStatement(IExpression* expression) : mExpression(expression) { }
+
+  ~ReturnStatement();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
