@@ -34,12 +34,14 @@ extern Block* programBlock;
 struct ThrowStatementTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NiceMock<MockExpression> mMockExpression;
+  NiceMock<MockExpression>* mMockExpression;
   NiceMock<MockType> mMockType;
   Model* mCircleModel;
   BasicBlock* mBlock;
   
-  ThrowStatementTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ThrowStatementTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mMockExpression(new NiceMock<MockExpression>()) {
     string circleFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, circleFullName);
     vector<Type*> circleTypes;
@@ -70,7 +72,7 @@ TEST_F(ThrowStatementTest, wrongExpressionTypeDeathTest) {
   Mock::AllowLeak(&mMockExpression);
   
   ON_CALL(mMockType, getTypeKind()).WillByDefault(Return(CONTROLLER_TYPE));
-  ON_CALL(mMockExpression, getType(_)).WillByDefault(Return(&mMockType));
+  ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(&mMockType));
   ThrowStatement throwStatement(mMockExpression);
   
   EXPECT_EXIT(throwStatement.generateIR(mContext),
@@ -81,8 +83,8 @@ TEST_F(ThrowStatementTest, wrongExpressionTypeDeathTest) {
 TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   Constant* exceptionObject =
     ConstantPointerNull::get((PointerType*) mCircleModel->getLLVMType(mLLVMContext));
-  ON_CALL(mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
-  ON_CALL(mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
+  ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
+  ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression);
   
   Value* result = throwStatement.generateIR(mContext);

@@ -19,8 +19,12 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+ThrowStatement::~ThrowStatement() {
+  delete mExpression;
+}
+
 Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
-  IType* expressionType = mExpression.getType(context);
+  IType* expressionType = mExpression->getType(context);
   if (expressionType->getTypeKind() != MODEL_TYPE) {
     Log::e("Thrown object can only be a model");
     exit(1);
@@ -34,7 +38,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   GlobalVariable* rtti = context.getModule()->getGlobalVariable(model->getRTTIVariableName());
 
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* expressionValue = mExpression.generateIR(context);
+  Value* expressionValue = mExpression->generateIR(context);
   BitCastInst* expressionValueBitcast =
   IRWriter::newBitCastInst(context, expressionValue, int8PointerType);
   BitCastInst* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);

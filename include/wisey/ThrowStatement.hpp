@@ -21,13 +21,13 @@ namespace wisey {
  * Represents a throw statement that throws result of the given expression
  */
 class ThrowStatement : public IStatement {
-  IExpression& mExpression;
+  IExpression* mExpression;
   
 public:
   
-  ThrowStatement(IExpression& conditionExpression) : mExpression(conditionExpression) { }
+  ThrowStatement(IExpression* conditionExpression) : mExpression(conditionExpression) { }
   
-  ~ThrowStatement() { }
+  ~ThrowStatement();
 
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 
