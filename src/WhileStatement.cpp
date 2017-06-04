@@ -12,6 +12,11 @@
 using namespace llvm;
 using namespace wisey;
 
+WhileStatement::~WhileStatement() {
+  delete mConditionExpression;
+  delete mStatement;
+}
+
 Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();
@@ -23,13 +28,13 @@ Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   
   IRWriter::createBranch(context, whileCond);
   context.setBasicBlock(whileCond);
-  Value* conditionValue = mConditionExpression.generateIR(context);
+  Value* conditionValue = mConditionExpression->generateIR(context);
   IRWriter::createConditionalBranch(context, whileBody, whileEnd, conditionValue);
   
   context.setBasicBlock(whileBody);
   scopes.setBreakToBlock(whileEnd);
   scopes.setContinueToBlock(whileCond);
-  mStatement.generateIR(context);
+  mStatement->generateIR(context);
   scopes.setBreakToBlock(NULL);
   scopes.setContinueToBlock(NULL);
 

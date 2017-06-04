@@ -21,15 +21,15 @@ namespace wisey {
  * Represents a while loop statement
  */
 class WhileStatement : public IStatement {
-  IExpression& mConditionExpression;
-  IStatement& mStatement;
+  IExpression* mConditionExpression;
+  IStatement* mStatement;
   
 public:
   
-  WhileStatement(IExpression& conditionExpression, IStatement& statement)
+  WhileStatement(IExpression* conditionExpression, IStatement* statement)
     : mConditionExpression(conditionExpression), mStatement(statement) { }
   
-  ~WhileStatement() { }
+  ~WhileStatement();
 
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };
