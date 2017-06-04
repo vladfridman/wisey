@@ -29,13 +29,15 @@ using ::testing::Test;
 struct CatchTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NiceMock<MockStatement> mMockStatement;
+  NiceMock<MockStatement>* mMockStatement;
   Model* mModel;
   Catch* mCatch;
   
 public:
   
-  CatchTest() : mLLVMContext(mContext.getLLVMContext()) {
+  CatchTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mMockStatement(new NiceMock<MockStatement>()) {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));

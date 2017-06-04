@@ -20,6 +20,7 @@ using namespace wisey;
 
 Catch::~Catch() {
   delete mTypeSpecifier;
+  delete mStatement;
 }
 
 Model* Catch::getType(IRGenerationContext& context) const {
@@ -68,7 +69,7 @@ void Catch::generateIR(IRGenerationContext& context,
   
   IVariable* exceptionVariable = new LocalHeapVariable(mIdentifier, exceptionType, malloc);
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);
-  mStatement.generateIR(context);
+  mStatement->generateIR(context);
   context.getScopes().popScope(context);
   
   context.getScopes().getExceptionFinally()->generateIR(context);

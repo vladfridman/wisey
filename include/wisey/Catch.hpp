@@ -20,11 +20,11 @@ namespace wisey {
 class Catch {
   ITypeSpecifier* mTypeSpecifier;
   std::string mIdentifier;
-  IStatement& mStatement;
+  IStatement* mStatement;
   
 public:
   
-  Catch(ITypeSpecifier* typeSpecifier, std::string identifier, IStatement& statement)
+  Catch(ITypeSpecifier* typeSpecifier, std::string identifier, IStatement* statement)
   : mTypeSpecifier(typeSpecifier), mIdentifier(identifier), mStatement(statement) { }
   
   ~Catch();

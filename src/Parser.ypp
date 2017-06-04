@@ -517,7 +517,7 @@ catch_block
 
 catch_clause
   : TCATCH '(' exception_type_specifier TIDENTIFIER ')' compound_statement
-    { $$ = new Catch($3, *$4, *$6); delete $4; }
+    { $$ = new Catch($3, *$4, $6); delete $4; }
   ;
 
 finally_clause
