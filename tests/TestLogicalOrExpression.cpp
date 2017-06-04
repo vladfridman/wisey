@@ -33,15 +33,17 @@ using ::testing::Test;
 
 struct LogicalOrExpressionTest : Test {
   IRGenerationContext mContext;
-  NiceMock<MockExpression> mLeftExpression;
-  NiceMock<MockExpression> mRightExpression;
+  NiceMock<MockExpression>* mLeftExpression;
+  NiceMock<MockExpression>* mRightExpression;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
   Value* mFalseValue;
   Value* mTrueValue;
   
-  LogicalOrExpressionTest() {
+  LogicalOrExpressionTest() :
+  mLeftExpression(new NiceMock<MockExpression>()),
+  mRightExpression(new NiceMock<MockExpression>()) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     mFalseValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 0);
     mTrueValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
@@ -61,8 +63,8 @@ struct LogicalOrExpressionTest : Test {
 };
 
 TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
-  ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(mTrueValue));
-  ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
+  ON_CALL(*mLeftExpression, generateIR(_)).WillByDefault(Return(mTrueValue));
+  ON_CALL(*mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
   
   LogicalOrExpression expression(mLeftExpression, mRightExpression);
   expression.generateIR(mContext);
@@ -92,8 +94,8 @@ TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
 }
 
 TEST_F(LogicalOrExpressionTest, logicalAndFalseValueTest) {
-  ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
-  ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
+  ON_CALL(*mLeftExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
+  ON_CALL(*mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
   
   LogicalOrExpression expression(mLeftExpression, mRightExpression);
   expression.generateIR(mContext);

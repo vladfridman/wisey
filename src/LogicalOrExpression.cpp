@@ -18,8 +18,13 @@
 using namespace llvm;
 using namespace wisey;
 
+LogicalOrExpression::~LogicalOrExpression() {
+  delete mLeftExpression;
+  delete mRightExpression;
+}
+
 Value* LogicalOrExpression::generateIR(IRGenerationContext& context) const {
-  Value* leftValue = mLeftExpression.generateIR(context);
+  Value* leftValue = mLeftExpression->generateIR(context);
   BasicBlock* entryBlock = context.getBasicBlock();
   
   Function* function = context.getBasicBlock()->getParent();
@@ -29,7 +34,7 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context) const {
   IRWriter::createConditionalBranch(context, basicBlockEnd, basicBlockRight, leftValue);
   
   context.setBasicBlock(basicBlockRight);
-  Value* rightValue = mRightExpression.generateIR(context);
+  Value* rightValue = mRightExpression->generateIR(context);
   BasicBlock* lastRightBlock = context.getBasicBlock();
   IRWriter::createBranch(context, basicBlockEnd);
   
