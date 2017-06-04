@@ -18,13 +18,13 @@ namespace wisey {
  * Represents negate operation
  */
 class NegateExpression : public IExpression {
-  IExpression& mExpression;
+  IExpression* mExpression;
   
 public:
   
-  NegateExpression(IExpression& expression) : mExpression(expression) { }
+  NegateExpression(IExpression* expression) : mExpression(expression) { }
   
-  ~NegateExpression() { }
+  ~NegateExpression();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

@@ -18,6 +18,10 @@
 using namespace llvm;
 using namespace wisey;
 
+NegateExpression::~NegateExpression() {
+  delete mExpression;
+}
+
 Value* NegateExpression::generateIR(IRGenerationContext& context) const {
   IType* type = getType(context);
   if (type->getTypeKind() != PRIMITIVE_TYPE || type == PrimitiveTypes::VOID_TYPE) {
@@ -30,7 +34,7 @@ Value* NegateExpression::generateIR(IRGenerationContext& context) const {
     return IRWriter::createBinaryOperator(context,
                                           Instruction::FSub,
                                           zero,
-                                          mExpression.generateIR(context),
+                                          mExpression->generateIR(context),
                                           "fsub");
   }
   
@@ -38,12 +42,12 @@ Value* NegateExpression::generateIR(IRGenerationContext& context) const {
   return IRWriter::createBinaryOperator(context,
                                         Instruction::Sub,
                                         zero,
-                                        mExpression.generateIR(context),
+                                        mExpression->generateIR(context),
                                         "sub");
 }
 
 IType* NegateExpression::getType(IRGenerationContext& context) const {
-  return mExpression.getType(context);
+  return mExpression->getType(context);
 }
 
 void NegateExpression::releaseOwnership(IRGenerationContext& context) const {

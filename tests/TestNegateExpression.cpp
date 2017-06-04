@@ -37,9 +37,9 @@ struct NegateExpressionTest : Test {
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  NiceMock<MockExpression> mExpression;
+  NiceMock<MockExpression>* mExpression;
   
-  NegateExpressionTest() {
+  NegateExpressionTest() : mExpression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     
     FunctionType* functionType =
@@ -61,8 +61,8 @@ struct NegateExpressionTest : Test {
 
 TEST_F(NegateExpressionTest, negateIntExpressionTest) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-  ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
-  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   NegateExpression negateExpression(mExpression);
   
   Value* result = negateExpression.generateIR(mContext);
@@ -74,8 +74,8 @@ TEST_F(NegateExpressionTest, negateIntExpressionTest) {
 
 TEST_F(NegateExpressionTest, negateFloatExpressionTest) {
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.5);
-  ON_CALL(mExpression, generateIR(_)).WillByDefault(Return(value));
-  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   NegateExpression negateExpression(mExpression);
   
   Value* result = negateExpression.generateIR(mContext);
@@ -86,9 +86,9 @@ TEST_F(NegateExpressionTest, negateFloatExpressionTest) {
 }
 
 TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {
-  ON_CALL(mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   NegateExpression negateExpression(mExpression);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
 
   EXPECT_EXIT(negateExpression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -97,7 +97,7 @@ TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {
 
 TEST_F(NegateExpressionTest, releaseOwnershipDeathTest) {
   NegateExpression negateExpression(mExpression);
-  Mock::AllowLeak(&mExpression);
+  Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(negateExpression.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),

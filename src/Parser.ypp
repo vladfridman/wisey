@@ -640,7 +640,7 @@ increment_expression
 
 unary_expression
   : increment_expression
-  | '-' cast_expression { $$ = new NegateExpression(*$2); }
+  | '-' cast_expression { $$ = new NegateExpression($2); }
   | '!' cast_expression { $$ = new BooleanNotExpression($2); }
   ;
 
