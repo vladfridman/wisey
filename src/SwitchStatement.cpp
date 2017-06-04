@@ -13,20 +13,30 @@
 using namespace llvm;
 using namespace wisey;
 
+SwitchStatement::~SwitchStatement() {
+  delete mCondition;
+  for (CaseStatement* caseStatement : mSwitchCases->caseStatements) {
+    delete caseStatement;
+  }
+  mSwitchCases->caseStatements.clear();
+  delete mSwitchCases->defaultStatement;
+  delete mSwitchCases;
+}
+
 Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
   Function* function = context.getBasicBlock()->getParent();
   LLVMContext& llvmContext = context.getLLVMContext();
   
   BasicBlock* switchEpilog = BasicBlock::Create(llvmContext, "sw.epilog", function);
   context.getScopes().setBreakToBlock(switchEpilog);
-  BasicBlock* switchDefault = mSwitchCases.defaultStatement != NULL
+  BasicBlock* switchDefault = mSwitchCases->defaultStatement != NULL
     ? BasicBlock::Create(llvmContext, "sw.default", function) : NULL;
   
-  Value* conditionValue = mCondition.generateIR(context);
+  Value* conditionValue = mCondition->generateIR(context);
   SwitchInst* switchInstruction =
     SwitchInst::Create(conditionValue,
                        switchDefault != NULL ? switchDefault : switchEpilog,
-                       (unsigned int) mSwitchCases.caseStatements.size(),
+                       (unsigned int) mSwitchCases->caseStatements.size(),
                        context.getBasicBlock());
   
   generateCasesIR(context, switchDefault, switchEpilog, switchInstruction);
@@ -43,19 +53,19 @@ void SwitchStatement::generateCasesIR(IRGenerationContext& context,
                                       BasicBlock* switchEpilog,
                                       SwitchInst* switchInstruction) const {
   Function* function = context.getBasicBlock()->getParent();
-  BasicBlock* nextCaseBlock = mSwitchCases.caseStatements.size() > 0
+  BasicBlock* nextCaseBlock = mSwitchCases->caseStatements.size() > 0
     ? BasicBlock::Create(context.getLLVMContext(), "sw.bb", function) : NULL;
   BasicBlock* currentCaseBlock = NULL;
   BasicBlock* finalCaseBlock = switchDefault != NULL ? switchDefault : switchEpilog;
   
   std::vector<CaseStatement*>::const_iterator iterator;
-  for (iterator = mSwitchCases.caseStatements.begin();
-       iterator != mSwitchCases.caseStatements.end();
+  for (iterator = mSwitchCases->caseStatements.begin();
+       iterator != mSwitchCases->caseStatements.end();
        iterator++) {
     CaseStatement* caseStatement = *iterator;
     
     currentCaseBlock = nextCaseBlock;
-    nextCaseBlock = iterator + 1 != mSwitchCases.caseStatements.end()
+    nextCaseBlock = iterator + 1 != mSwitchCases->caseStatements.end()
       ? BasicBlock::Create(context.getLLVMContext(), "sw.bb", function) : finalCaseBlock;
     
     context.setBasicBlock(currentCaseBlock);
@@ -75,6 +85,6 @@ void SwitchStatement::generateDefaultCaseIR(IRGenerationContext& context,
   }
   
   context.setBasicBlock(switchDefault);
-  mSwitchCases.defaultStatement->generateIR(context);
+  mSwitchCases->defaultStatement->generateIR(context);
   IRWriter::createBranch(context, switchEpilog);
 }

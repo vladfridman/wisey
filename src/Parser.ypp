@@ -475,7 +475,7 @@ selection_statement
     { $$ = new IfElseStatement ($3, $5, $7); }
   | TIF '(' expression ')' compound_statement { $$ = new IfStatement($3, $5); }
   | TSWITCH '(' expression ')' '{' case_statement_list_with_default '}'
-    { $$ = new SwitchStatement(*$3, *$6); }
+    { $$ = new SwitchStatement($3, $6); }
   ;
 
 iteration_statement

@@ -33,15 +33,15 @@ struct SwitchCases {
  * switch (expression) statement;
  */
 class SwitchStatement : public IStatement {
-  IExpression& mCondition;
-  SwitchCases mSwitchCases;
+  IExpression* mCondition;
+  SwitchCases* mSwitchCases;
   
 public:
   
-  SwitchStatement(IExpression& condition, SwitchCases switchCases)
+  SwitchStatement(IExpression* condition, SwitchCases* switchCases)
     : mCondition(condition), mSwitchCases(switchCases) { }
   
-  ~SwitchStatement() { }
+  ~SwitchStatement();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
