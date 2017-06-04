@@ -19,18 +19,18 @@ namespace wisey {
  * Represents a relational expression such as a >= b
  */
 class RelationalExpression : public IExpression {
-  IExpression& mLeftExpression;
-  IExpression& mRightExpression;
+  IExpression* mLeftExpression;
+  IExpression* mRightExpression;
   RelationalOperation mOperation;
   
 public:
 
-  RelationalExpression(IExpression& leftExpression,
+  RelationalExpression(IExpression* leftExpression,
                        RelationalOperation operation,
-                       IExpression& rightExpression) :
+                       IExpression* rightExpression) :
     mLeftExpression(leftExpression), mRightExpression(rightExpression), mOperation(operation) { }
 
-  ~RelationalExpression() { }
+  ~RelationalExpression();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

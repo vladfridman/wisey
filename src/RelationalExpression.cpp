@@ -18,6 +18,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+RelationalExpression::~RelationalExpression() {
+  delete mLeftExpression;
+  delete mRightExpression;
+}
+
 Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
   ICmpInst::Predicate predicate;
   switch (mOperation) {
@@ -29,8 +34,8 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
     case RELATIONAL_OPERATION_NE : predicate = ICmpInst::ICMP_NE; break;
   }
   
-  Value * leftValue = mLeftExpression.generateIR(context);
-  Value * rightValue = mRightExpression.generateIR(context);
+  Value * leftValue = mLeftExpression->generateIR(context);
+  Value * rightValue = mRightExpression->generateIR(context);
   
   return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
 }

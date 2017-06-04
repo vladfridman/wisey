@@ -34,17 +34,19 @@ using namespace wisey;
 
 struct RelationalExpressionTest : Test {
   IRGenerationContext mContext;
-  NiceMock<MockExpression> mLeftExpression;
-  NiceMock<MockExpression> mRightExpression;
+  NiceMock<MockExpression>* mLeftExpression;
+  NiceMock<MockExpression>* mRightExpression;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  RelationalExpressionTest() {
+  RelationalExpressionTest() :
+  mLeftExpression(new NiceMock<MockExpression>()),
+  mRightExpression(new NiceMock<MockExpression>()) {
     Value* leftValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     Value* rightValue = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
-    ON_CALL(mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
-    ON_CALL(mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
+    ON_CALL(*mLeftExpression, generateIR(_)).WillByDefault(Return(leftValue));
+    ON_CALL(*mRightExpression, generateIR(_)).WillByDefault(Return(rightValue));
     mBasicBlock = BasicBlock::Create(mContext.getLLVMContext(), "test");
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
@@ -80,8 +82,8 @@ TEST_F(RelationalExpressionTest, greaterThanOrEqualTest) {
 }
 
 TEST_F(RelationalExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
+  Mock::AllowLeak(mLeftExpression);
+  Mock::AllowLeak(mRightExpression);
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
 
   EXPECT_EXIT(expression.releaseOwnership(mContext),

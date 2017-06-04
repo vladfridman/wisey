@@ -668,13 +668,13 @@ additive_expression
 relational_expression
   : additive_expression
   | relational_expression '<' additive_expression
-    { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_LT, *$3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LT, $3); }
   | relational_expression '>' additive_expression
-    { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_GT, *$3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GT, $3); }
   | relational_expression TCLE additive_expression
-    { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_LE, *$3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LE, $3); }
   | relational_expression TCGE additive_expression
-    { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_GE, *$3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GE, $3); }
   ;
 
 type_comparision_expression
@@ -686,9 +686,9 @@ type_comparision_expression
 equality_expression
   : type_comparision_expression
   | equality_expression TCEQ relational_expression
-    { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_EQ, *$3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_EQ, $3); }
   | equality_expression TCNE relational_expression
-    { $$ = new RelationalExpression(*$1, RELATIONAL_OPERATION_NE, *$3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_NE, $3); }
   ;
 
 logical_and_expression
