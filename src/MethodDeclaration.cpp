@@ -19,6 +19,15 @@ using namespace wisey;
 
 MethodDeclaration::~MethodDeclaration() {
   delete mReturnTypeSpecifier;
+  for (VariableDeclaration* argument : mArguments) {
+    delete argument;
+  }
+  mArguments.clear();
+  for (ITypeSpecifier* exception : mExceptions) {
+    delete exception;
+  }
+  mExceptions.clear();
+  delete mCompoundStatement;
 }
 
 Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned long index) const {
@@ -45,7 +54,7 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
                     returnType,
                     arguments,
                     thrownExceptions,
-                    &mCompoundStatement,
+                    mCompoundStatement,
                     index);
 }
 

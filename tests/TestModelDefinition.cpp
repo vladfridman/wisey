@@ -40,8 +40,8 @@ struct ModelDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   MethodDeclaration *mMethodDeclaration;
-  vector<ModelFieldDeclaration *> mFields;
-  vector<MethodDeclaration *> mMethodDeclarations;
+  vector<ModelFieldDeclaration*> mFields;
+  vector<MethodDeclaration*> mMethodDeclarations;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
  
@@ -67,12 +67,11 @@ struct ModelDefinitionTest : public Test {
                                                "foo",
                                                methodArguments,
                                                thrownExceptions,
-                                               *compoundStatement);
+                                               compoundStatement);
     mMethodDeclarations.push_back(mMethodDeclaration);
   }
   
   ~ModelDefinitionTest() {
-    delete mMockStatement;
   }
 };
 

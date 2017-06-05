@@ -33,8 +33,8 @@ struct MethodDeclarationTest : Test {
   PrimitiveTypeSpecifier* mIntTypeSpecifier;
   Identifier* mIntArgumentIdentifier;
   Identifier* mFloatArgumentIdentifier;
-  VariableDeclaration mIntArgument;
-  VariableDeclaration mFloatArgument;
+  VariableDeclaration* mIntArgument;
+  VariableDeclaration* mFloatArgument;
   VariableList mArguments;
   Block* mBlock;
   CompoundStatement* mCompoundStatement;
@@ -44,23 +44,23 @@ struct MethodDeclarationTest : Test {
   mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
   mIntArgumentIdentifier(new Identifier("intargument")),
   mFloatArgumentIdentifier(new Identifier("floatargument")),
-  mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
-  mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
+  mIntArgument(new VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
+  mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
   mBlock(new Block()),
   mCompoundStatement(new CompoundStatement(mBlock)) {
   }
 };
 
 TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
-  mArguments.push_back(&mIntArgument);
-  mArguments.push_back(&mFloatArgument);
+  mArguments.push_back(mIntArgument);
+  mArguments.push_back(mFloatArgument);
   vector<ITypeSpecifier*> thrownExceptions;
   MethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                       new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE),
                                       "foo",
                                       mArguments,
                                       thrownExceptions,
-                                      *mCompoundStatement);
+                                      mCompoundStatement);
   Method* method = methodDeclaration.createMethod(mContext, 0);
   vector<MethodArgument*> arguments = method->getArguments();
   

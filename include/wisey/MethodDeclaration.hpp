@@ -31,16 +31,16 @@ class MethodDeclaration {
   std::string mMethodName;
   VariableList mArguments;
   std::vector<ITypeSpecifier*> mExceptions;
-  CompoundStatement& mCompoundStatement;
+  CompoundStatement* mCompoundStatement;
   
 public:
   
   MethodDeclaration(const AccessLevel AccessLevel,
                     const ITypeSpecifier* returnTypeSpecifier,
                     std::string methodName,
-                    const VariableList& arguments,
+                    VariableList arguments,
                     std::vector<ITypeSpecifier*> exceptions,
-                    CompoundStatement& compoundStatement) :
+                    CompoundStatement* compoundStatement) :
   mAccessLevel(AccessLevel),
   mReturnTypeSpecifier(returnTypeSpecifier),
   mMethodName(methodName),

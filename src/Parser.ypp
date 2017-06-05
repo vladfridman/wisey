@@ -294,11 +294,23 @@ controller_definition
       std::vector<InterfaceTypeSpecifier*> interfaces;
       $$ = new ControllerDefinition(*$2, *$4, *$5, *$6, *$7, interfaces);
       delete $2;
+      delete $4;
+      delete $5;
+      delete $6;
+      delete $7;
     }
   | TCONTROLLER TCONTROLLERIDENTIFIER TIMPLEMENTS interface_list
     '{' controller_received_fields_optional controller_injected_fields_optional
       controller_state_fields_optional method_definition_list_optional '}'
-    { $$ = new ControllerDefinition(*$2, *$6, *$7, *$8, *$9, *$4); delete $2; delete $4; }
+    {
+      $$ = new ControllerDefinition(*$2, *$6, *$7, *$8, *$9, *$4);
+      delete $2;
+      delete $6;
+      delete $7;
+      delete $8;
+      delete $9;
+      delete $4;
+    }
   ;
 
 controller_received_fields_optional
@@ -378,10 +390,18 @@ model_definition
       std::vector<InterfaceTypeSpecifier*> interfaces;
       $$ = new ModelDefinition(*$2, *$4, *$5, interfaces);
       delete $2;
+      delete $4;
+      delete $5;
     }
   | TMODEL TMODELIDENTIFIER TIMPLEMENTS interface_list
       '{' model_field_declaration_list_optional method_definition_list_optional '}'
-    { $$ = new ModelDefinition(*$2, *$6, *$7, *$4); delete $2; delete $4; }
+    {
+      $$ = new ModelDefinition(*$2, *$6, *$7, *$4);
+      delete $2;
+      delete $6;
+      delete $7;
+      delete $4;
+    }
   ;
 
 interface_list
@@ -407,12 +427,12 @@ model_field_declaration
   ;
 
 method_definition_list_optional
-  : /* blank */ { $$ = new std::vector<MethodDeclaration *>(); }
+  : /* blank */ { $$ = new std::vector<MethodDeclaration*>(); }
   | method_definition_list
   ;
 
 method_definition_list
-  : method_definition { $$ = new std::vector<MethodDeclaration *>(); $$->push_back($1); }
+  : method_definition { $$ = new std::vector<MethodDeclaration*>(); $$->push_back($1); }
   | method_definition_list method_definition { $1->push_back($2); }
   ;
 
@@ -535,14 +555,14 @@ method_definition
       compound_statement
     {
       std::vector<ITypeSpecifier*> exceptions;
-      $$ = new MethodDeclaration($1, $2, *$3, *$5, exceptions, *$7);
+      $$ = new MethodDeclaration($1, $2, *$3, *$5, exceptions, $7);
       delete $3;
       delete $5;
     }
   | access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
     TTHROWS exception_type_specifier_list compound_statement
     {
-      $$ = new MethodDeclaration($1, $2, *$3, *$5, *$8, *$9);
+      $$ = new MethodDeclaration($1, $2, *$3, *$5, *$8, $9);
       delete $3;
       delete $5;
       delete $8;

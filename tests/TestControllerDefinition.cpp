@@ -39,19 +39,21 @@ using ::testing::Test;
 struct ControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NiceMock<MockStatement> mMockStatement;
-  ControllerDefinition* mControllerDefinition;
+  NiceMock<MockStatement>* mMockStatement;
+  vector<ControllerFieldDeclaration*> mReceivedFields;
+  vector<ControllerFieldDeclaration*> mInjectedFields;
+  vector<ControllerFieldDeclaration*> mStateFields;
+  vector<MethodDeclaration*> mMethodDeclarations;
+  vector<InterfaceTypeSpecifier*> mInterfaces;
   
-  ControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ControllerDefinitionTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mMockStatement(new NiceMock<MockStatement>()) {
     MethodDeclaration *methodDeclaration;
-    vector<ControllerFieldDeclaration*> receivedFields;
-    vector<ControllerFieldDeclaration*> injectedFields;
-    vector<ControllerFieldDeclaration*> stateFields;
-    vector<MethodDeclaration*> methodDeclarations;
     Block* block = new Block();
 
     mContext.setPackage("systems.vos.wisey.compiler.tests");
-    block->getStatements().push_back(&mMockStatement);
+    block->getStatements().push_back(mMockStatement);
     CompoundStatement* compoundStatement = new CompoundStatement(block);
     PrimitiveTypeSpecifier* intTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
@@ -68,8 +70,8 @@ struct ControllerDefinitionTest : public Test {
                                               "foo",
                                               methodArguments,
                                               thrownExceptions,
-                                              *compoundStatement);
-    methodDeclarations.push_back(methodDeclaration);
+                                              compoundStatement);
+    mMethodDeclarations.push_back(methodDeclaration);
 
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
@@ -78,23 +80,25 @@ struct ControllerDefinitionTest : public Test {
     new ControllerFieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
     ControllerFieldDeclaration* field2 =
     new ControllerFieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
-    receivedFields.push_back(field1);
-    receivedFields.push_back(field2);
-    
-    vector<InterfaceTypeSpecifier*> interfaces;
-    mControllerDefinition = new ControllerDefinition("CMyController",
-                                                     receivedFields,
-                                                     injectedFields,
-                                                     stateFields,
-                                                     methodDeclarations,
-                                                     interfaces);
+    mReceivedFields.push_back(field1);
+    mReceivedFields.push_back(field2);
+  }
+  
+  ~ControllerDefinitionTest() {
   }
 };
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
-  EXPECT_CALL(mMockStatement, generateIR(_)).Times(0);
+  ControllerDefinition controllerDefinition("CMyController",
+                                            mReceivedFields,
+                                            mInjectedFields,
+                                            mStateFields,
+                                            mMethodDeclarations,
+                                            mInterfaces);
 
-  mControllerDefinition->prototypeObjects(mContext);
+  EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
+
+  controllerDefinition.prototypeObjects(mContext);
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
 
@@ -106,21 +110,35 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
-  EXPECT_CALL(mMockStatement, generateIR(_)).Times(0);
+  ControllerDefinition controllerDefinition("CMyController",
+                                            mReceivedFields,
+                                            mInjectedFields,
+                                            mStateFields,
+                                            mMethodDeclarations,
+                                            mInterfaces);
+
+  EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
   
-  mControllerDefinition->prototypeObjects(mContext);
-  mControllerDefinition->prototypeMethods(mContext);
+  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeMethods(mContext);
   
   Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
   EXPECT_NE(controller->findMethod("foo"), nullptr);
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
-  EXPECT_CALL(mMockStatement, generateIR(_));
+  ControllerDefinition controllerDefinition("CMyController",
+                                            mReceivedFields,
+                                            mInjectedFields,
+                                            mStateFields,
+                                            mMethodDeclarations,
+                                            mInterfaces);
+
+  EXPECT_CALL(*mMockStatement, generateIR(_));
   
-  mControllerDefinition->prototypeObjects(mContext);
-  mControllerDefinition->prototypeMethods(mContext);
-  mControllerDefinition->generateIR(mContext);
+  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeMethods(mContext);
+  controllerDefinition.generateIR(mContext);
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
   
