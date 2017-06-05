@@ -30,7 +30,7 @@ public:
   
   Compiler() : mHasCompiled(false) { }
   
-  ~Compiler() { }
+  ~Compiler();
   
   /**
    * Compile Wisey code passed through constructor arguments
@@ -61,6 +61,8 @@ private:
   void prototypeMethods(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
   
   void generateIR(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
+  
+  void deleteProgramFiles(std::vector<ProgramFile*> programFiles);
 };
   
 } /* namespace wisey */

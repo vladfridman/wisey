@@ -4,7 +4,7 @@
   #include "wisey/Assignment.hpp"
   #include "wisey/BindAction.hpp"
   #include "wisey/Block.hpp"
-  #include "wisey/BooleanConstants.hpp"
+  #include "wisey/BooleanConstant.hpp"
   #include "wisey/BooleanNotExpression.hpp"
   #include "wisey/BreakStatement.hpp"
   #include "wisey/Catch.hpp"
@@ -602,8 +602,8 @@ constant
   | TLONG { $$ = new LongConstant(atoll($1->c_str())); delete $1; }
   | TFLOAT { $$ = new FloatConstant(atof($1->c_str())); delete $1; }
   | TDOUBLE { $$ = new DoubleConstant(strtod($1->c_str(), NULL)); delete $1; }
-  | TTRUE { $$ = BooleanConstants::BOOLEAN_TRUE; }
-  | TFALSE { $$ = BooleanConstants::BOOLEAN_FALSE; }
+  | TTRUE { $$ = new BooleanConstant(true); }
+  | TFALSE { $$ = new BooleanConstant(false); }
   ;
     
 string_literal

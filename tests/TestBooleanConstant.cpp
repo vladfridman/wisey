@@ -17,7 +17,6 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "wisey/BooleanConstant.hpp"
-#include "wisey/BooleanConstants.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -42,14 +41,16 @@ struct BooleanConstantTest : public Test {
 };
 
 TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
-  Value* irValue = BooleanConstants::BOOLEAN_TRUE->generateIR(mContext);
+  BooleanConstant booleanTrue(true);
+  Value* irValue = booleanTrue.generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 true", mStringStream->str().c_str());
 }
 
 TEST_F(BooleanConstantTest, booleanFalseConstantTest) {
-  Value* irValue = BooleanConstants::BOOLEAN_FALSE->generateIR(mContext);
+  BooleanConstant booleanFalse(false);
+  Value* irValue = booleanFalse.generateIR(mContext);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 false", mStringStream->str().c_str());

@@ -20,8 +20,6 @@
 		F507D2661E43551900495E2D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2641E43551900495E2D /* Model.cpp */; };
 		F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
 		F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */; };
-		F507D2781E474E7C00495E2D /* BooleanConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2761E474E7C00495E2D /* BooleanConstants.cpp */; };
-		F507D2791E474E7C00495E2D /* BooleanConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F507D2761E474E7C00495E2D /* BooleanConstants.cpp */; };
 		F508E0661E72CB0E005D6115 /* MethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E0651E72CB0E005D6115 /* MethodSignature.cpp */; };
 		F508E0671E72CB0E005D6115 /* MethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E0651E72CB0E005D6115 /* MethodSignature.cpp */; };
 		F508E0691E72D954005D6115 /* IMethodDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */; };
@@ -383,7 +381,6 @@
 		F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectFieldVariable.cpp; path = src/ObjectFieldVariable.cpp; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
 		F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypes.cpp; path = src/PrimitiveTypes.cpp; sourceTree = "<group>"; };
-		F507D2761E474E7C00495E2D /* BooleanConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanConstants.cpp; path = src/BooleanConstants.cpp; sourceTree = "<group>"; };
 		F5089C491ECD01D9004A1223 /* AccessLevel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AccessLevel.hpp; path = include/wisey/AccessLevel.hpp; sourceTree = "<group>"; };
 		F5089C4A1ECD01D9004A1223 /* AdditiveMultiplicativeExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AdditiveMultiplicativeExpression.hpp; path = include/wisey/AdditiveMultiplicativeExpression.hpp; sourceTree = "<group>"; };
 		F5089C4B1ECD01D9004A1223 /* Assignment.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Assignment.hpp; path = include/wisey/Assignment.hpp; sourceTree = "<group>"; };
@@ -391,7 +388,6 @@
 		F5089C4D1ECD01D9004A1223 /* BindAction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BindAction.hpp; path = include/wisey/BindAction.hpp; sourceTree = "<group>"; };
 		F5089C4E1ECD01D9004A1223 /* Block.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Block.hpp; path = include/wisey/Block.hpp; sourceTree = "<group>"; };
 		F5089C4F1ECD01D9004A1223 /* BooleanConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BooleanConstant.hpp; path = include/wisey/BooleanConstant.hpp; sourceTree = "<group>"; };
-		F5089C501ECD01D9004A1223 /* BooleanConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BooleanConstants.hpp; path = include/wisey/BooleanConstants.hpp; sourceTree = "<group>"; };
 		F5089C511ECD01D9004A1223 /* BooleanNotExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BooleanNotExpression.hpp; path = include/wisey/BooleanNotExpression.hpp; sourceTree = "<group>"; };
 		F5089C521ECD01D9004A1223 /* BooleanType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BooleanType.hpp; path = include/wisey/BooleanType.hpp; sourceTree = "<group>"; };
 		F5089C531ECD01D9004A1223 /* BreakStatement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BreakStatement.hpp; path = include/wisey/BreakStatement.hpp; sourceTree = "<group>"; };
@@ -1017,7 +1013,6 @@
 				F57780AC1EC7CC7B0049542D /* BindAction.cpp */,
 				F531B6411E0A16D7008304F3 /* Block.cpp */,
 				F50FA3041E325E5400435EEA /* BooleanConstant.cpp */,
-				F507D2761E474E7C00495E2D /* BooleanConstants.cpp */,
 				F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */,
 				F5C6FD6E1E48B40F0054209D /* BooleanType.cpp */,
 				F59D82281E1089E700057FB5 /* BreakStatement.cpp */,
@@ -1162,7 +1157,6 @@
 				F5089C4D1ECD01D9004A1223 /* BindAction.hpp */,
 				F5089C4E1ECD01D9004A1223 /* Block.hpp */,
 				F5089C4F1ECD01D9004A1223 /* BooleanConstant.hpp */,
-				F5089C501ECD01D9004A1223 /* BooleanConstants.hpp */,
 				F5089C511ECD01D9004A1223 /* BooleanNotExpression.hpp */,
 				F5089C521ECD01D9004A1223 /* BooleanType.hpp */,
 				F5089C531ECD01D9004A1223 /* BreakStatement.hpp */,
@@ -1444,7 +1438,6 @@
 				F50FA2E91E2E3B0F00435EEA /* DoubleConstant.cpp in Sources */,
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */,
-				F507D2791E474E7C00495E2D /* BooleanConstants.cpp in Sources */,
 				F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F5C6FD7C1E48B64C0054209D /* FloatType.cpp in Sources */,
@@ -1552,7 +1545,6 @@
 				F57780A51EC673EC0049542D /* EmptyStatement.cpp in Sources */,
 				F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
-				F507D2781E474E7C00495E2D /* BooleanConstants.cpp in Sources */,
 				F531B6541E0DDD96008304F3 /* StringConstant.cpp in Sources */,
 				F5C6FD761E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */,

@@ -25,6 +25,10 @@ extern int yyparse();
 extern ProgramFile* programFile;
 extern FILE* yyin;
 
+Compiler::~Compiler() {
+  
+}
+
 void Compiler::compile(std::vector<string> sourceFiles, bool printInfo) {
   vector<ProgramFile*> programFiles;
   ProgramPrefix programPrefix;
@@ -44,6 +48,8 @@ void Compiler::compile(std::vector<string> sourceFiles, bool printInfo) {
   verifyModule(*mContext.getModule());
   
   mHasCompiled = true;
+  
+  deleteProgramFiles(programFiles);
 }
 
 void Compiler::printAssembly() {
@@ -97,10 +103,9 @@ vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles, bool print
   return results;
 }
 
-void Compiler::generateIR(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
+void Compiler::prototypeObjects(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
   for (ProgramFile* programFile : programFiles) {
-    context.clearAndAddDefaultImports();
-    programFile->generateIR(context);
+    programFile->prototypeObjects(context);
   }
 }
 
@@ -110,10 +115,15 @@ void Compiler::prototypeMethods(vector<ProgramFile*> programFiles, IRGenerationC
   }
 }
 
-void Compiler::prototypeObjects(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
+void Compiler::generateIR(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
   for (ProgramFile* programFile : programFiles) {
-    programFile->prototypeObjects(context);
+    context.clearAndAddDefaultImports();
+    programFile->generateIR(context);
   }
 }
 
-
+void Compiler::deleteProgramFiles(vector<ProgramFile*> programFiles) {
+  for (ProgramFile* programFile : programFiles) {
+    delete programFile;
+  }
+}
