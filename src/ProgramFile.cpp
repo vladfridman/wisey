@@ -14,23 +14,35 @@ using namespace std;
 using namespace wisey;
 
 ProgramFile::~ProgramFile() {
-  delete mProgramBlock;
+  for (IGlobalStatement* statement : mGlobalStatementList) {
+    delete statement;
+  }
+  mGlobalStatementList.clear();
 }
 
 void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
   context.setPackage(mPackage);
 
-  mProgramBlock->prototypeObjects(context);
+  for (IGlobalStatement* statement : mGlobalStatementList) {
+    statement->prototypeObjects(context);
+  }
 }
 
 void ProgramFile::prototypeMethods(IRGenerationContext& context) const {
   context.setPackage(mPackage);
   
-  mProgramBlock->prototypeMethods(context);
+  for (IGlobalStatement* statement : mGlobalStatementList) {
+    statement->prototypeMethods(context);
+  }
 }
 
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {
   context.setPackage(mPackage);
   
-  return mProgramBlock->generateIR(context);
+  
+  for (IGlobalStatement* statement : mGlobalStatementList) {
+    statement->generateIR(context);
+  }
+  
+  return NULL;
 }

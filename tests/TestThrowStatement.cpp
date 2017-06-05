@@ -29,8 +29,6 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-extern Block* programBlock;
-
 struct ThrowStatementTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;

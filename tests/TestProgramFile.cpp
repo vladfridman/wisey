@@ -29,33 +29,34 @@ struct ProgramFileTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockGlobalStatement>* mMockGlobalStatement;
   string mPackage;
-  ProgramBlock* mProgramBlock;
+  GlobalStatementList mGlobalStatementList;
   
-  ProgramFileTest() : mMockGlobalStatement(new NiceMock<MockGlobalStatement>()) {
-    mPackage = "systems.vos.wisey.compiler.tests";
-    mProgramBlock = new ProgramBlock();
+  ProgramFileTest() :
+  mMockGlobalStatement(new NiceMock<MockGlobalStatement>()),
+  mPackage("systems.vos.wisey.compiler.tests") {
+    mGlobalStatementList.push_back(mMockGlobalStatement);
   }
 };
 
 TEST_F(ProgramFileTest, prototypeObjectTest) {
-  ProgramFile programFile(mPackage, mProgramBlock);
-  mProgramBlock->getGlobalStatements().push_back(mMockGlobalStatement);
+  ProgramFile programFile(mPackage, mGlobalStatementList);
+
   EXPECT_CALL(*mMockGlobalStatement, prototypeObjects(_)).Times(1);
   
   programFile.prototypeObjects(mContext);
 }
 
 TEST_F(ProgramFileTest, prototypeMethodsTest) {
-  ProgramFile programFile(mPackage, mProgramBlock);
-  mProgramBlock->getGlobalStatements().push_back(mMockGlobalStatement);
+  ProgramFile programFile(mPackage, mGlobalStatementList);
+
   EXPECT_CALL(*mMockGlobalStatement, prototypeMethods(_)).Times(1);
   
   programFile.prototypeMethods(mContext);
 }
 
 TEST_F(ProgramFileTest, generateIRTest) {
-  ProgramFile programFile(mPackage, mProgramBlock);
-  mProgramBlock->getGlobalStatements().push_back(mMockGlobalStatement);
+  ProgramFile programFile(mPackage, mGlobalStatementList);
+
   EXPECT_CALL(*mMockGlobalStatement, generateIR(_)).Times(1);
   
   programFile.generateIR(mContext);

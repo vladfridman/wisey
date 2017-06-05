@@ -1,5 +1,5 @@
 //
-//  ProgramBlock.hpp
+//  ProgramFile.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 5/17/17.
@@ -9,8 +9,8 @@
 #ifndef ProgramFile_h
 #define ProgramFile_h
 
+#include "wisey/IGlobalStatement.hpp"
 #include "wisey/IStatement.hpp"
-#include "wisey/ProgramBlock.hpp"
 
 namespace wisey {
 
@@ -20,12 +20,12 @@ namespace wisey {
 class ProgramFile : public IStatement {
 
   std::string mPackage;
-  ProgramBlock* mProgramBlock;
+  GlobalStatementList mGlobalStatementList;
   
 public:
   
-  ProgramFile(std::string package, ProgramBlock* programBlock)
-  : mPackage(package), mProgramBlock(programBlock) { }
+  ProgramFile(std::string package, GlobalStatementList globalStatementList)
+  : mPackage(package), mGlobalStatementList(globalStatementList) { }
   
   ~ProgramFile();
   

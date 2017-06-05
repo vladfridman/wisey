@@ -15,7 +15,6 @@
   #include "wisey/ModelFieldDeclaration.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
-  #include "wisey/ProgramBlock.hpp"
   #include "wisey/ProgramFile.hpp"
   #include "wisey/SwitchStatement.hpp"
   #include "wisey/VariableDeclaration.hpp"
