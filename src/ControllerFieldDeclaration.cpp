@@ -14,6 +14,10 @@ using namespace wisey;
 
 ControllerFieldDeclaration::~ControllerFieldDeclaration() {
   delete mTypeSpecifier;
+  for (IExpression* expression : mArguments) {
+    delete expression;
+  }
+  mArguments.clear();
 }
 
 FieldQualifier ControllerFieldDeclaration::getFieldQualifier() const {

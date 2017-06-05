@@ -345,6 +345,7 @@ controller_injected_field_declaration
     {
       $$ = new ControllerFieldDeclaration(INJECTED_FIELD, $2, *$3, *$5);
       delete $3;
+      delete $5;
     }
 
   ;
