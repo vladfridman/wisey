@@ -25,7 +25,7 @@ class ProgramBlock {
 public:
   ProgramBlock() { }
   
-  ~ProgramBlock() { }
+  ~ProgramBlock();
   
   GlobalStatementList& getGlobalStatements();
   

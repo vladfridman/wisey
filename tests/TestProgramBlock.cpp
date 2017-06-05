@@ -28,39 +28,41 @@ using ::testing::NiceMock;
 
 struct ProgramBlockTest : public ::testing::Test {
   IRGenerationContext mContext;
-  NiceMock<MockGlobalStatement> mMockGlobalStatement1;
-  NiceMock<MockGlobalStatement> mMockGlobalStatement2;
+  NiceMock<MockGlobalStatement>* mMockGlobalStatement1;
+  NiceMock<MockGlobalStatement>* mMockGlobalStatement2;
   ProgramBlock mProgramBlock;
   
-  ProgramBlockTest() { }
+  ProgramBlockTest() :
+  mMockGlobalStatement1(new NiceMock<MockGlobalStatement>()),
+  mMockGlobalStatement2(new NiceMock<MockGlobalStatement>()) { }
 };
 
 TEST_F(ProgramBlockTest, prototypeObjectsTest) {
-  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement1);
-  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement2);
+  mProgramBlock.getGlobalStatements().push_back(mMockGlobalStatement1);
+  mProgramBlock.getGlobalStatements().push_back(mMockGlobalStatement2);
   
-  EXPECT_CALL(mMockGlobalStatement1, prototypeObjects(_));
-  EXPECT_CALL(mMockGlobalStatement2, prototypeObjects(_));
+  EXPECT_CALL(*mMockGlobalStatement1, prototypeObjects(_));
+  EXPECT_CALL(*mMockGlobalStatement2, prototypeObjects(_));
   
   mProgramBlock.prototypeObjects(mContext);
 }
 
 TEST_F(ProgramBlockTest, prototypeMethodsTest) {
-  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement1);
-  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement2);
+  mProgramBlock.getGlobalStatements().push_back(mMockGlobalStatement1);
+  mProgramBlock.getGlobalStatements().push_back(mMockGlobalStatement2);
   
-  EXPECT_CALL(mMockGlobalStatement1, prototypeMethods(_));
-  EXPECT_CALL(mMockGlobalStatement2, prototypeMethods(_));
+  EXPECT_CALL(*mMockGlobalStatement1, prototypeMethods(_));
+  EXPECT_CALL(*mMockGlobalStatement2, prototypeMethods(_));
   
   mProgramBlock.prototypeMethods(mContext);
 }
 
 TEST_F(ProgramBlockTest, generateIRTest) {
-  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement1);
-  mProgramBlock.getGlobalStatements().push_back(&mMockGlobalStatement2);
+  mProgramBlock.getGlobalStatements().push_back(mMockGlobalStatement1);
+  mProgramBlock.getGlobalStatements().push_back(mMockGlobalStatement2);
   
-  EXPECT_CALL(mMockGlobalStatement1, generateIR(_));
-  EXPECT_CALL(mMockGlobalStatement2, generateIR(_));
+  EXPECT_CALL(*mMockGlobalStatement1, generateIR(_));
+  EXPECT_CALL(*mMockGlobalStatement2, generateIR(_));
   
   mProgramBlock.generateIR(mContext);
 }
