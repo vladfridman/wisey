@@ -17,6 +17,12 @@ using namespace std;
 using namespace wisey;
 
 Scope::~Scope() {
+  for (map<string, IVariable*>::const_iterator iterator = mLocals.begin();
+       iterator != mLocals.end();
+       iterator++) {
+    delete(iterator->second);
+  }
+  mLocals.clear();
   if (mExceptionFinally) {
     delete mExceptionFinally;
   }
@@ -109,8 +115,6 @@ void Scope::maybeFreeOwnedMemory(IRGenerationContext& context) {
     string name = iterator->first;
     IVariable* variable = iterator->second;
     variable->free(context);
-    
-    delete variable;
   }
   
   mHasOwnedMemoryBeenFreed = true;
