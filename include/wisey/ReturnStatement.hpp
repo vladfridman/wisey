@@ -19,9 +19,9 @@ namespace wisey {
  */
 class ReturnStatement : public IStatement {
 
-public:
-  
   IExpression* mExpression;
+  
+public:
   
   ReturnStatement(IExpression* expression) : mExpression(expression) { }
 
