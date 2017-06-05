@@ -22,10 +22,26 @@ using namespace std;
 using namespace wisey;
 
 Controller::~Controller() {
+  for (Field* field : mReceivedFields) {
+    delete field;
+  }
   mReceivedFields.clear();
+  for (Field* field : mInjectedFields) {
+    delete field;
+  }
   mInjectedFields.clear();
+  for (Field* field : mStateFields) {
+    delete field;
+  }
   mStateFields.clear();
+  for (Method* method : mMethods) {
+    delete method;
+  }
   mMethods.clear();
+  mFields.clear();
+  mNameToMethodMap.clear();
+  mInterfaces.clear();
+  mFlattenedInterfaceHierarchy.clear();
 }
 
 void Controller::setFields(vector<Field*> receivedFields,

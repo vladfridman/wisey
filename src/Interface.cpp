@@ -26,6 +26,11 @@ using namespace wisey;
 
 Interface::~Interface() {
   mParentInterfaces.clear();
+  for (MethodSignature* methodSignature : mMethodSignatures) {
+    delete methodSignature;
+  }
+  mMethodSignatures.clear();
+  mAllMethodSignatures.clear();
   mNameToMethodSignatureMap.clear();
 }
 

@@ -34,7 +34,6 @@ class IRGenerationContext {
   std::map<std::string, Model*> mModels;
   std::map<std::string, Controller*> mControllers;
   std::map<std::string, Interface*> mInterfaces;
-  std::map<std::string, IType*> mGlobalFunctions;
   std::map<Interface*, Controller*> mBindings;
   std::map<std::string, IObjectType*> mImports;
   std::string mPackage;

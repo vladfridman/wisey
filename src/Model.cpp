@@ -20,8 +20,20 @@ using namespace std;
 using namespace wisey;
 
 Model::~Model() {
+  for(map<std::string, Field*>::iterator iterator = mFields.begin();
+      iterator != mFields.end();
+      iterator++) {
+    Field* field = iterator->second;
+    delete field;
+  }
   mFields.clear();
+  for (Method* method : mMethods) {
+    delete method;
+  }
   mMethods.clear();
+  mNameToMethodMap.clear();
+  mInterfaces.clear();
+  mFlattenedInterfaceHierarchy.clear();
 }
 
 void Model::setFields(map<string, Field *> fields) {

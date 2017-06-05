@@ -20,6 +20,29 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+IRGenerationContext::~IRGenerationContext() {
+  for(map<string, Model*>::iterator iterator = mModels.begin();
+      iterator != mModels.end();
+      iterator++) {
+    Model* model = iterator->second;
+    delete model;
+  }
+  for(map<string, Controller*>::iterator iterator = mControllers.begin();
+      iterator != mControllers.end();
+      iterator++) {
+    Controller* controller = iterator->second;
+    delete controller;
+  }
+  for(map<string, Interface*>::iterator iterator = mInterfaces.begin();
+      iterator != mInterfaces.end();
+      iterator++) {
+    Interface* interface = iterator->second;
+    delete interface;
+  }
+  mBindings.clear();
+  mImports.clear();
+}
+
 GenericValue IRGenerationContext::runCode() {
   ExecutionEngine *executionEngine = EngineBuilder(move(mOwner)).create();
   vector<GenericValue> noargs;
@@ -203,13 +226,4 @@ void IRGenerationContext::optimizeIR() {
   passManager.add(createDeadInstEliminationPass());
   
   passManager.run(*mModule);
-}
-
-IRGenerationContext::~IRGenerationContext() {
-  for(map<string, Model*>::iterator iterator = mModels.begin();
-      iterator != mModels.end();
-      iterator++) {
-    Model* model = iterator->second;
-    delete model;
-  }
 }
