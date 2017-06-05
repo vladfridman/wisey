@@ -30,15 +30,15 @@ public:
   Field(IType* type, std::string name, unsigned long index, ExpressionList arguments) :
   mType(type), mName(name), mIndex(index), mArguments(arguments) { }
   
-  ~Field() { }
+  ~Field();
   
-  IType* getType() const { return mType; }
+  IType* getType() const;
 
-  std::string getName() const { return mName; }
+  std::string getName() const;
   
-  unsigned long getIndex() const { return mIndex; }
+  unsigned long getIndex() const;
   
-  ExpressionList getArguments() const { return mArguments; }
+  ExpressionList getArguments() const;
 };
   
 } /* namespace wisey */
