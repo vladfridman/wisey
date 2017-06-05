@@ -765,7 +765,7 @@ model_type_specifier
       delete $1; 
     }
   | identifier_chain '.' TMODELIDENTIFIER 
-    { $$ = new ModelTypeSpecifier(*$1, *$3); delete $3; }
+    { $$ = new ModelTypeSpecifier(*$1, *$3); delete $1; delete $3; }
   ;
 
 controller_type_specifier
@@ -776,7 +776,7 @@ controller_type_specifier
       delete $1; 
     }
   | identifier_chain '.' TCONTROLLERIDENTIFIER 
-      { $$ = new ControllerTypeSpecifier(*$1, *$3); delete $3; }
+      { $$ = new ControllerTypeSpecifier(*$1, *$3); delete $1; delete $3; }
   ;
 
 interface_type_specifier
@@ -787,7 +787,7 @@ interface_type_specifier
       delete $1; 
     }
   | identifier_chain '.' TINTERFACEIDENTIFIER 
-      { $$ = new InterfaceTypeSpecifier(*$1, *$3); delete $3; }
+      { $$ = new InterfaceTypeSpecifier(*$1, *$3); delete $1; delete $3; }
   ;
 
 exception_type_specifier
