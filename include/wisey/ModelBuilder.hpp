@@ -25,12 +25,12 @@ namespace wisey {
 class ModelBuilder : public IExpression {
   
   ModelTypeSpecifier* mModelTypeSpecifier;
-  ModelBuilderArgumentList* mModelBuilderArgumentList;
+  ModelBuilderArgumentList mModelBuilderArgumentList;
   
 public:
   
   ModelBuilder(ModelTypeSpecifier* modelTypeSpecifier,
-               ModelBuilderArgumentList* modelBuilderArgumentList)
+               ModelBuilderArgumentList modelBuilderArgumentList)
   : mModelTypeSpecifier(modelTypeSpecifier),
   mModelBuilderArgumentList(modelBuilderArgumentList) { }
   

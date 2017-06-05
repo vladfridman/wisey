@@ -95,9 +95,9 @@ TEST_F(ModelBuilderTest, releaseOwnershipTest) {
   ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withHeight");
   ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField2Expression);
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
-  argumentList->push_back(argument1);
-  argumentList->push_back(argument2);
+  ModelBuilderArgumentList argumentList;
+  argumentList.push_back(argument1);
+  argumentList.push_back(argument2);
   
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
   modelBuilder.generateIR(mContext);
@@ -113,7 +113,7 @@ TEST_F(ModelBuilderTest, releaseOwnershipTest) {
 }
 
 TEST_F(ModelBuilderTest, testGetType) {
-  ModelBuilderArgumentList* argumentList = new ModelBuilderArgumentList();
+  ModelBuilderArgumentList argumentList;
   
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
 
