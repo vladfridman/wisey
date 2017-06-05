@@ -18,17 +18,21 @@
 using namespace llvm;
 using namespace wisey;
 
+IncrementExpression::~IncrementExpression() {
+  delete mIdentifier;
+}
+
 Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
-  IType* identifierType = mIdentifier.getType(context);
+  IType* identifierType = mIdentifier->getType(context);
   if (identifierType != PrimitiveTypes::INT_TYPE &&
       identifierType != PrimitiveTypes::CHAR_TYPE &&
       identifierType != PrimitiveTypes::LONG_TYPE) {
-    Log::e("Identifier " + mIdentifier.getName() +
+    Log::e("Identifier " + mIdentifier->getName() +
            " is of a type that is incopatible with increment/decrement operation");
     exit(1);
   }
   
-  Value* originalValue = mIdentifier.generateIR(context);
+  Value* originalValue = mIdentifier->generateIR(context);
   Value* increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
                                       mIncrementBy,
                                       true);
@@ -41,12 +45,12 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
 
   IRWriter::newStoreInst(context,
                          incrementResult,
-                         context.getScopes().getVariable(mIdentifier.getName())->getValue());
+                         context.getScopes().getVariable(mIdentifier->getName())->getValue());
   return mIsPrefix ? incrementResult : originalValue;
 }
 
 IType* IncrementExpression::getType(IRGenerationContext& context) const {
-  return mIdentifier.getType(context);
+  return mIdentifier->getType(context);
 }
 
 void IncrementExpression::releaseOwnership(IRGenerationContext& context) const {

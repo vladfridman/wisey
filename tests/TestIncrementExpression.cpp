@@ -33,13 +33,13 @@ struct IncrementExpressionTest : public Test {
   LLVMContext& mLLVMContext = mContext.getLLVMContext();
   BasicBlock* mBlock = BasicBlock::Create(mLLVMContext, "entry");
   string mName = "foo";
-  Identifier mIdentifier;
+  Identifier* mIdentifier;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
 public:
   
-  IncrementExpressionTest() : mIdentifier(mName, "bar") {
+  IncrementExpressionTest() : mIdentifier(new Identifier(mName, "bar")) {
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), mName);

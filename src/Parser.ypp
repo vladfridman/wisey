@@ -655,8 +655,8 @@ postfix_expression
 increment_expression
   : postfix_expression
   | TIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
-  | increment_expression TINCOP { $$ = IncrementExpression::newIncrementByOne(*$<identifier>1); }
-  | increment_expression TDECOP { $$ = IncrementExpression::newDecrementByOne(*$<identifier>1); }
+  | increment_expression TINCOP { $$ = IncrementExpression::newIncrementByOne($<identifier>1); }
+  | increment_expression TDECOP { $$ = IncrementExpression::newDecrementByOne($<identifier>1); }
   ;
 
 unary_expression
