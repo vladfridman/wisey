@@ -252,10 +252,11 @@ interface_definition
       std::vector<InterfaceTypeSpecifier*> interfaceList;
       $$ = new InterfaceDefinition(*$2, interfaceList, *$4);
       delete $2;
+      delete $4;
     }
   | TINTERFACE TINTERFACEIDENTIFIER TEXTENDS interface_list
       '{' method_signature_list_optional '}'
-    { $$ = new InterfaceDefinition(*$2, *$4, *$6); delete $2; delete $4; }
+    { $$ = new InterfaceDefinition(*$2, *$4, *$6); delete $2; delete $4; delete $6; }
   ;
 
 method_signature_list_optional

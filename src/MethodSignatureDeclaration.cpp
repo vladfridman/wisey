@@ -15,11 +15,15 @@ using namespace std;
 using namespace wisey;
 
 MethodSignatureDeclaration::~MethodSignatureDeclaration() {
-  for (ITypeSpecifier* typeSpecifier : mThrownExceptions) {
-    delete typeSpecifier;
+  delete mReturnTypeSpecifier;
+  for (VariableDeclaration* argument : mArguments) {
+    delete argument;
+  }
+  mArguments.clear();
+  for (ITypeSpecifier* exception : mThrownExceptions) {
+    delete exception;
   }
   mThrownExceptions.clear();
-  delete mReturnTypeSpecifier;
 }
 
 MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationContext& context,

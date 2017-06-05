@@ -34,8 +34,8 @@ struct MethodSignatureDeclarationTest : Test {
   PrimitiveTypeSpecifier* mIntTypeSpecifier;
   Identifier* mIntArgumentIdentifier;
   Identifier* mFloatArgumentIdentifier;
-  VariableDeclaration mIntArgument;
-  VariableDeclaration mFloatArgument;
+  VariableDeclaration* mIntArgument;
+  VariableDeclaration* mFloatArgument;
   VariableList mArguments;
   Interface* mInterface;
   
@@ -44,8 +44,8 @@ struct MethodSignatureDeclarationTest : Test {
   mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
   mIntArgumentIdentifier(new Identifier("intargument")),
   mFloatArgumentIdentifier(new Identifier("floatargument")),
-  mIntArgument(VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
-  mFloatArgument(VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)) {
+  mIntArgument(new VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
+  mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -61,8 +61,8 @@ struct MethodSignatureDeclarationTest : Test {
 };
 
 TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
-  mArguments.push_back(&mIntArgument);
-  mArguments.push_back(&mFloatArgument);
+  mArguments.push_back(mIntArgument);
+  mArguments.push_back(mFloatArgument);
   vector<ITypeSpecifier*> thrownExceptions;
   PrimitiveTypeSpecifier* floatTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
