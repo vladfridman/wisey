@@ -50,7 +50,7 @@ public:
   mIndex(index),
   mFunction(NULL) { }
   
-  ~Method() { mArguments.clear(); }
+  ~Method();
   
   /**
    * Defines LLVM function for this method

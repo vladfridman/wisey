@@ -19,6 +19,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+Method::~Method() {
+  for (MethodArgument* argument : mArguments) {
+    delete argument;
+  }
+  mArguments.clear();
+  // mCompoundStatement is deleted with MethodDeclaration
+}
+
 string Method::getName() const {
   return mName;
 }
