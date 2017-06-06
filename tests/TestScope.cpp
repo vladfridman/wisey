@@ -71,12 +71,12 @@ TEST_F(ScopeTest, clearNonExistantVariableDeathTest) {
               "Error: Variable 'foo' is not set in this scope.");
 }
 
-TEST_F(ScopeTest, maybeFreeOwnedMemoryHeapVariableTest) {
+TEST_F(ScopeTest, freeOwnedMemoryTest) {
   mScope.setVariable("foo", mMockVariable);
   
   EXPECT_CALL(*mMockVariable, free(_));
   
-  mScope.maybeFreeOwnedMemory(mContext);
+  mScope.freeOwnedMemory(mContext);
 }
 
 TEST_F(ScopeTest, addExceptionTest) {

@@ -97,7 +97,7 @@ IType* Scope::getReturnType() {
   return mReturnType;
 }
 
-void Scope::maybeFreeOwnedMemory(IRGenerationContext& context) {
+void Scope::freeOwnedMemory(IRGenerationContext& context) {
   if (mHasOwnedMemoryBeenFreed) {
     return;
   }

@@ -16,5 +16,7 @@ using namespace llvm;
 using namespace wisey;
 
 Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
+  context.getScopes().freeOwnedMemory(context);
+
   return IRWriter::createReturnInst(context, NULL);
 }

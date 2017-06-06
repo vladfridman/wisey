@@ -36,6 +36,7 @@ using ::testing::Test;
 
 struct ReturnStatementTest : public Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   NiceMock<MockExpression>* mExpression;
   Model* mModel;
   string mStringBuffer;
@@ -43,19 +44,20 @@ struct ReturnStatementTest : public Test {
 
 public:
   
-  ReturnStatementTest() : mExpression(new NiceMock<MockExpression>()) {
-    Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
+  ReturnStatementTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mExpression(new NiceMock<MockExpression>()) {
+    Value * value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(value));
 
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     vector<Type*> types;
-    LLVMContext& llvmContext = mContext.getLLVMContext();
-    types.push_back(Type::getInt32Ty(llvmContext));
-    types.push_back(Type::getInt32Ty(llvmContext));
+    types.push_back(Type::getInt32Ty(mLLVMContext));
+    types.push_back(Type::getInt32Ty(mLLVMContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
-    StructType* structType = StructType::create(llvmContext, "MShape");
+    StructType* structType = StructType::create(mLLVMContext, "MShape");
     structType->setBody(types);
     map<string, Field*> fields;
     ExpressionList fieldArguments;
@@ -71,7 +73,7 @@ public:
 };
 
 TEST_F(ReturnStatementTest, parentFunctionIsNullDeathTest) {
-  mContext.setBasicBlock(BasicBlock::Create(mContext.getLLVMContext(), "entry"));
+  mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry"));
   mContext.getScopes().pushScope();
   ReturnStatement returnStatement(mExpression);
 
@@ -82,12 +84,10 @@ TEST_F(ReturnStatementTest, parentFunctionIsNullDeathTest) {
 }
 
 TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
-  LLVMContext &llvmContext = mContext.getLLVMContext();
-
-  FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
+  FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
 
-  mContext.setBasicBlock(BasicBlock::Create(llvmContext, "entry", function));
+  mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry", function));
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
   ReturnStatement returnStatement(mExpression);
@@ -99,10 +99,9 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
 }
 
 TEST_F(ReturnStatementTest, parentFunctionIntTest) {
-  LLVMContext &llvmContext = mContext.getLLVMContext();
-  FunctionType* functionType = FunctionType::get(Type::getInt64Ty(llvmContext), false);
+  FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
-  BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
+  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
@@ -122,35 +121,41 @@ TEST_F(ReturnStatementTest, parentFunctionIntTest) {
 }
 
 TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
-  LLVMContext &llvmContext = mContext.getLLVMContext();
-  FunctionType* functionType = FunctionType::get(Type::getInt64Ty(llvmContext), false);
+  FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,
                                         "test",
                                         mContext.getModule());
-  BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
+  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
 
-  Type* structType = Type::getInt8Ty(llvmContext);
+  Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
-  Instruction* malloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  LocalHeapVariable* foo = new LocalHeapVariable("foo", mModel, fooMalloc);
+  mContext.getScopes().setVariable(foo);
 
-  LocalHeapVariable* variable = new LocalHeapVariable("foo", mModel, malloc);
-  mContext.getScopes().setVariable(variable);
-  
+  mContext.getScopes().pushScope();
+  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  LocalHeapVariable* bar = new LocalHeapVariable("bar", mModel, barMalloc);
+  mContext.getScopes().setVariable(bar);
+
   ReturnStatement returnStatement(mExpression);
   
   returnStatement.generateIR(mContext);
   
-  ASSERT_EQ(4ul, basicBlock->size());
+  ASSERT_EQ(6ul, basicBlock->size());
   *mStringStream << *basicBlock;
   string expected =
     "\nentry:"
     "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
       "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+    "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
+      "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
     "\n  %conv = zext i32 3 to i64"
+    "\n  tail call void @free(i8* %malloccall1)"
     "\n  tail call void @free(i8* %malloccall)"
     "\n  ret i64 %conv\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());

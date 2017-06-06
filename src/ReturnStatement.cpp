@@ -32,7 +32,7 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                            mExpression->getType(context),
                                            mExpression->generateIR(context),
                                            returnType);
-  context.getScopes().getScope()->maybeFreeOwnedMemory(context);
+  context.getScopes().freeOwnedMemory(context);
   
   return IRWriter::createReturnInst(context, returnValue);
 }

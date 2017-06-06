@@ -123,7 +123,7 @@ public:
   /**
    * Free memory owned by this scope
    */
-  void maybeFreeOwnedMemory(IRGenerationContext& context);
+  void freeOwnedMemory(IRGenerationContext& context);
 
   /**
    * Add an exception type that maybe thrown in this scope

@@ -59,6 +59,13 @@ public:
    * Returns current Scope
    */
   Scope* getScope();
+  
+  /**
+   * Free memory owned by variables in all scopes in the scope stack.
+   *
+   * This is typically called before a return or a throw
+   */
+  void freeOwnedMemory(IRGenerationContext& context);
 
   /**
    * Set block to break to out of a loop or a switch statement

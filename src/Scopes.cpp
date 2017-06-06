@@ -61,7 +61,7 @@ void Scopes::pushScope() {
 
 void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
-  top->maybeFreeOwnedMemory(context);
+  top->freeOwnedMemory(context);
   map<string, IType*> exceptions = top->getExceptions();
   mScopes.pop_front();
   delete top;
@@ -88,6 +88,12 @@ Scope* Scopes::getScope() {
     exit(1);
   }
   return mScopes.front();
+}
+
+void Scopes::freeOwnedMemory(IRGenerationContext& context) {
+  for (Scope* scope : mScopes) {
+    scope->freeOwnedMemory(context);
+  }
 }
 
 void Scopes::setBreakToBlock(BasicBlock* block) {

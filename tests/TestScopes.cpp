@@ -17,6 +17,7 @@
 
 #include "MockStatement.hpp"
 #include "MockType.hpp"
+#include "MockVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LocalHeapVariable.hpp"
 #include "wisey/LocalStackVariable.hpp"
@@ -207,3 +208,22 @@ TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Exception MExceptions is not handled");
 }
+
+TEST_F(ScopesTest, freeOwnedMemoryTest) {
+  NiceMock<MockVariable> foo;
+  NiceMock<MockVariable> bar;
+
+  ON_CALL(foo, getName()).WillByDefault(Return("foo"));
+  ON_CALL(bar, getName()).WillByDefault(Return("bar"));
+  
+  mScopes.pushScope();
+  mScopes.setVariable(&foo);
+  mScopes.pushScope();
+  mScopes.setVariable(&bar);
+  
+  EXPECT_CALL(foo, free(_));
+  EXPECT_CALL(bar, free(_));
+  
+  mScopes.freeOwnedMemory(mContext);
+}
+
