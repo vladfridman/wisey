@@ -32,198 +32,178 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-TEST(ScopesTest, scopesTest) {
-  Scopes scopes;
-  IRGenerationContext context;
-  LLVMContext& llvmContext = context.getLLVMContext();
+struct ScopesTest : public Test {
+  IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
+  Scopes mScopes;
   
-  scopes.pushScope();
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-  Value* barValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
+  ScopesTest() : mLLVMContext(mContext.getLLVMContext()) {
+
+  }
+};
+
+TEST_F(ScopesTest, scopesTest) {
+  mScopes.pushScope();
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  Value* barValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   LocalStackVariable* fooVariable =
-    new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   LocalStackVariable* barVariable =
-    new LocalStackVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
-  scopes.setVariable(fooVariable);
-  scopes.pushScope();
-  scopes.setVariable(barVariable);
+  new LocalStackVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
+  mScopes.setVariable(fooVariable);
+  mScopes.pushScope();
+  mScopes.setVariable(barVariable);
   
-  EXPECT_EQ(scopes.getVariable("bar")->getValue(), barValue);
-  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
+  EXPECT_EQ(mScopes.getVariable("bar")->getValue(), barValue);
+  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
   
-  scopes.popScope(context);
-  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
-  EXPECT_EQ(scopes.getVariable("bar"), nullptr);
+  mScopes.popScope(mContext);
+  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
+  EXPECT_EQ(mScopes.getVariable("bar"), nullptr);
   
   barVariable = new LocalStackVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
-  scopes.setVariable(barVariable);
-  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
-  EXPECT_EQ(scopes.getVariable("bar")->getValue(), barValue);
+  mScopes.setVariable(barVariable);
+  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
+  EXPECT_EQ(mScopes.getVariable("bar")->getValue(), barValue);
   
-  scopes.popScope(context);
-  EXPECT_EQ(scopes.getVariable("foo"), nullptr);
-  EXPECT_EQ(scopes.getVariable("bar"), nullptr);
+  mScopes.popScope(mContext);
+  EXPECT_EQ(mScopes.getVariable("foo"), nullptr);
+  EXPECT_EQ(mScopes.getVariable("bar"), nullptr);
 }
 
-TEST(ScopesTest, scopesCorrectlyOrderedTest) {
-  Scopes scopes;
-  IRGenerationContext context;
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  scopes.pushScope();
-  Value* outerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
-  Value* innerValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
+TEST_F(ScopesTest, scopesCorrectlyOrderedTest) {
+  mScopes.pushScope();
+  Value* outerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  Value* innerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
   LocalStackVariable* outerVariable =
-    new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
+  new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
   LocalStackVariable* innerVariable =
-    new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, innerValue);
-
-  scopes.setVariable(outerVariable);
-  scopes.pushScope();
-  scopes.setVariable(innerVariable);
+  new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, innerValue);
   
-  EXPECT_EQ(scopes.getVariable("foo")->getValue(), innerValue);
+  mScopes.setVariable(outerVariable);
+  mScopes.pushScope();
+  mScopes.setVariable(innerVariable);
   
-  scopes.popScope(context);
+  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), innerValue);
   
-  EXPECT_EQ(scopes.getVariable("foo")->getValue(), outerValue);
+  mScopes.popScope(mContext);
+  
+  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), outerValue);
 }
 
-TEST(ScopesTest, returnTypeTest) {
-  Scopes scopes;
-  LLVMContext llvmContext;
-
-  scopes.pushScope();
-  scopes.setReturnType(PrimitiveTypes::DOUBLE_TYPE);
-  scopes.pushScope();
-  scopes.pushScope();
+TEST_F(ScopesTest, returnTypeTest) {
+  mScopes.pushScope();
+  mScopes.setReturnType(PrimitiveTypes::DOUBLE_TYPE);
+  mScopes.pushScope();
+  mScopes.pushScope();
   
-  IType* returnType = scopes.getReturnType();
+  IType* returnType = mScopes.getReturnType();
   EXPECT_EQ(returnType, PrimitiveTypes::DOUBLE_TYPE);
 }
 
-TEST(ScopesTest, getScopeDeathTest) {
-  Scopes scopes;
-
-  EXPECT_EXIT(scopes.getScope(),
+TEST_F(ScopesTest, getScopeDeathTest) {
+  EXPECT_EXIT(mScopes.getScope(),
               ::testing::ExitedWithCode(1),
               "Error: Can not get scope. Scope list is empty.");
 }
 
-TEST(ScopesTest, getScopeTest) {
-  Scopes scopes;
-  
-  scopes.pushScope();
-  Scope* scope = scopes.getScope();
+TEST_F(ScopesTest, getScopeTest) {
+  mScopes.pushScope();
+  Scope* scope = mScopes.getScope();
   
   EXPECT_NE(scope, nullptr);
 }
 
-TEST(ScopesTest, clearVariableTest) {
-  Scopes scopes;
-  LLVMContext llvmContext;
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
+TEST_F(ScopesTest, clearVariableTest) {
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   
-  scopes.pushScope();
+  mScopes.pushScope();
   LocalStackVariable* fooVariable =
-    new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
-  scopes.setVariable(fooVariable);
+  new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  mScopes.setVariable(fooVariable);
   
-  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
+  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
   
-  scopes.clearVariable("foo");
+  mScopes.clearVariable("foo");
   
-  EXPECT_EQ(scopes.getVariable("foo"), nullptr);
+  EXPECT_EQ(mScopes.getVariable("foo"), nullptr);
 }
 
-TEST(ScopesTest, clearVariableDeathTest) {
-  Scopes scopes;
-  
-  EXPECT_EXIT(scopes.clearVariable("foo"),
+TEST_F(ScopesTest, clearVariableDeathTest) {
+  EXPECT_EXIT(mScopes.clearVariable("foo"),
               ::testing::ExitedWithCode(1),
               "Error: Could not clear variable 'foo': the Scopes stack is empty");
   
-  scopes.pushScope();
+  mScopes.pushScope();
   
-  EXPECT_EXIT(scopes.clearVariable("foo"),
+  EXPECT_EXIT(mScopes.clearVariable("foo"),
               ::testing::ExitedWithCode(1),
               "Error: Could not clear variable 'foo': it was not found");
 }
 
-TEST(ScopesTest, setHeapVariableTest) {
-  Scopes scopes;
-  LLVMContext llvmContext;
-  scopes.pushScope();
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
+TEST_F(ScopesTest, setHeapVariableTest) {
+  mScopes.pushScope();
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   LocalHeapVariable* heapVariable =
     new LocalHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
-  scopes.setVariable(heapVariable);
+  mScopes.setVariable(heapVariable);
   
-  ASSERT_NE(scopes.getVariable("foo"), nullptr);
-  EXPECT_EQ(scopes.getVariable("foo")->getValue(), fooValue);
+  ASSERT_NE(mScopes.getVariable("foo"), nullptr);
+  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
 }
 
-TEST(ScopesTest, setUnitializedHeapVariableTest) {
-  Scopes scopes;
-  scopes.pushScope();
+TEST_F(ScopesTest, setUnitializedHeapVariableTest) {
+  mScopes.pushScope();
   
   LocalHeapVariable* unitializedHeapVariable =
     new LocalHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
-  scopes.setVariable(unitializedHeapVariable);
+  mScopes.setVariable(unitializedHeapVariable);
   
-  ASSERT_NE(scopes.getVariable("foo"), nullptr);
-  EXPECT_EQ(scopes.getVariable("foo")->getValue(), nullptr);
+  ASSERT_NE(mScopes.getVariable("foo"), nullptr);
+  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), nullptr);
 }
 
-TEST(ScopesTest, setLandingPadBlockTest) {
-  LLVMContext context;
-  Scopes scopes;
-  scopes.pushScope();
-  BasicBlock* basicBlock = BasicBlock::Create(context);
-
-  scopes.setLandingPadBlock(basicBlock);
-  scopes.pushScope();
+TEST_F(ScopesTest, setLandingPadBlockTest) {
+  mScopes.pushScope();
+  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
   
-  ASSERT_EQ(scopes.getLandingPadBlock(), basicBlock);
+  mScopes.setLandingPadBlock(basicBlock);
+  mScopes.pushScope();
+  
+  ASSERT_EQ(mScopes.getLandingPadBlock(), basicBlock);
 }
 
-TEST(ScopesTest, setExceptionContinueBlockTest) {
-  LLVMContext context;
-  Scopes scopes;
-  scopes.pushScope();
-  BasicBlock* basicBlock = BasicBlock::Create(context);
-
-  scopes.setExceptionContinueBlock(basicBlock);
-  scopes.pushScope();
+TEST_F(ScopesTest, setExceptionContinueBlockTest) {
+  mScopes.pushScope();
+  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
   
-  ASSERT_EQ(scopes.getExceptionContinueBlock(), basicBlock);
+  mScopes.setExceptionContinueBlock(basicBlock);
+  mScopes.pushScope();
+  
+  ASSERT_EQ(mScopes.getExceptionContinueBlock(), basicBlock);
 }
 
-TEST(ScopesTest, setExceptionFinallyTest) {
-  LLVMContext context;
-  Scopes scopes;
-  scopes.pushScope();
+TEST_F(ScopesTest, setExceptionFinallyTest) {
+  mScopes.pushScope();
   NiceMock<MockStatement>* mockStatement = new NiceMock<MockStatement>();
   
-  scopes.setExceptionFinally(mockStatement);
-  scopes.pushScope();
+  mScopes.setExceptionFinally(mockStatement);
+  mScopes.pushScope();
   
-  ASSERT_EQ(scopes.getExceptionFinally(), mockStatement);
+  ASSERT_EQ(mScopes.getExceptionFinally(), mockStatement);
 }
 
-TEST(ScopesTest, reportUnhandledExceptionsDeathTest) {
-  IRGenerationContext context;
-  Scopes scopes;
-  scopes.pushScope();
-
+TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
+  mScopes.pushScope();
+  
   NiceMock<MockType> mockExceptionType;
   Mock::AllowLeak(&mockExceptionType);
   ON_CALL(mockExceptionType, getName()).WillByDefault(Return("MExceptions"));
-  scopes.getScope()->addException(&mockExceptionType);
+  mScopes.getScope()->addException(&mockExceptionType);
   
-  EXPECT_EXIT(scopes.popScope(context),
+  EXPECT_EXIT(mScopes.popScope(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Exception MExceptions is not handled");
 }
