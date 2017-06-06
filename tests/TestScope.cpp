@@ -40,8 +40,7 @@ struct ScopeTest : public Test {
 
 public:
 
-  ScopeTest() : mScope(Scope()) {
-    mMockVariable = new NiceMock<MockVariable>();
+  ScopeTest() : mMockVariable(new NiceMock<MockVariable>()) {
     ON_CALL(mMockType, getName()).WillByDefault(Return("MExceptionA"));
   }
 };
