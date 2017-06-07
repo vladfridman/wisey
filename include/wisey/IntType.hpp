@@ -30,13 +30,13 @@ public:
   
   TypeKind getTypeKind() const override;
   
-  bool canCastTo(IType* toType) const override;
+  bool canCastTo(const IType* toType) const override;
   
-  bool canAutoCastTo(IType* toType) const override;
+  bool canAutoCastTo(const IType* toType) const override;
   
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
-                      IType* toType) const override;
+                      const IType* toType) const override;
 };
   
 } /* namespace wisey */

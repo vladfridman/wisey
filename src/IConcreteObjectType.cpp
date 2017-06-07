@@ -36,7 +36,7 @@ void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
 Value* IConcreteObjectType::castTo(IRGenerationContext& context,
                                    IConcreteObjectType* object,
                                    Value* fromValue,
-                                   IType* toType) {
+                                   const IType* toType) {
   if (toType == object) {
     return fromValue;
   }

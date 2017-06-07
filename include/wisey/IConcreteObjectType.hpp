@@ -84,7 +84,7 @@ public:
   static llvm::Value* castTo(IRGenerationContext& context,
                              IConcreteObjectType* object,
                              llvm::Value* fromValue,
-                             IType* toType);
+                             const IType* toType);
 
   /**
    * Returns the interface index in the list of flattened interface hierarchy

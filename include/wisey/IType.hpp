@@ -55,19 +55,19 @@ public:
   /**
    * Indicates whether this type can be cast to another type
    */
-  virtual bool canCastTo(IType* toType) const = 0;
+  virtual bool canCastTo(const IType* toType) const = 0;
 
   /**
    * Indicates whether this type can be auto cast to another type
    */
-  virtual bool canAutoCastTo(IType* toType) const = 0;
+  virtual bool canAutoCastTo(const IType* toType) const = 0;
   
   /**
    * Casts given value to a given type
    */
   virtual llvm::Value* castTo(IRGenerationContext& context,
                               llvm::Value* fromValue,
-                              IType* toType) const = 0;
+                              const IType* toType) const = 0;
 };
 
 } /* namespace wisey */

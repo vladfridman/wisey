@@ -178,7 +178,7 @@ TypeKind Controller::getTypeKind() const {
   return CONTROLLER_TYPE;
 }
 
-bool Controller::canCastTo(IType* toType) const {
+bool Controller::canCastTo(const IType* toType) const {
   if (toType == this) {
     return true;
   }
@@ -189,11 +189,13 @@ bool Controller::canCastTo(IType* toType) const {
   return false;
 }
 
-bool Controller::canAutoCastTo(IType* toType) const {
+bool Controller::canAutoCastTo(const IType* toType) const {
   return canCastTo(toType);
 }
 
-Value* Controller::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
+Value* Controller::castTo(IRGenerationContext& context,
+                          Value* fromValue,
+                          const IType* toType) const {
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 

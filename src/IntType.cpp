@@ -27,7 +27,7 @@ TypeKind IntType::getTypeKind() const {
   return PRIMITIVE_TYPE;
 }
 
-bool IntType::canCastTo(IType* toType) const {
+bool IntType::canCastTo(const IType* toType) const {
   if (toType->getTypeKind() != PRIMITIVE_TYPE) {
     return false;
   }
@@ -35,7 +35,7 @@ bool IntType::canCastTo(IType* toType) const {
   return toType != PrimitiveTypes::VOID_TYPE;
 }
 
-bool IntType::canAutoCastTo(IType* toType) const {
+bool IntType::canAutoCastTo(const IType* toType) const {
   if (toType->getTypeKind() != PRIMITIVE_TYPE) {
     return false;
   }
@@ -45,7 +45,9 @@ bool IntType::canAutoCastTo(IType* toType) const {
     toType == PrimitiveTypes::DOUBLE_TYPE;
 }
 
-Value* IntType::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
+Value* IntType::castTo(IRGenerationContext& context,
+                       Value* fromValue,
+                       const IType* toType) const {
   if (toType == PrimitiveTypes::BOOLEAN_TYPE || toType == PrimitiveTypes::CHAR_TYPE) {
     return Cast::truncIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::INT_TYPE) {

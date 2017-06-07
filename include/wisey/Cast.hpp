@@ -34,42 +34,42 @@ public:
    */
   static llvm::Value* widenIntCast(IRGenerationContext& context,
                                    llvm::Value* fromValue,
-                                   IType* toType);
+                                   const IType* toType);
   
   /**
    * Truncate cast a given int type value to a given type
    */
   static llvm::Value* truncIntCast(IRGenerationContext& context,
                                    llvm::Value* fromValue,
-                                   IType* toType);
+                                   const IType* toType);
   
   /**
    * Cast a given int value to a float or double type
    */
   static llvm::Value* intToFloatCast(IRGenerationContext& context,
                                      llvm::Value* fromValue,
-                                     IType* toType);
+                                     const IType* toType);
   
   /**
    * Cast a given float or double value to one of int types
    */
   static llvm::Value* floatToIntCast(IRGenerationContext& context,
                                      llvm::Value* fromValue,
-                                     IType* toType);
+                                     const IType* toType);
   
   /**
    * Truncate cast a given float type value to a given float type
    */
   static llvm::Value* truncFloatCast(IRGenerationContext& context,
                                      llvm::Value* fromValue,
-                                     IType* toType);
+                                     const IType* toType);
   
   /**
    * Cast float to double by widening the float
    */
   static llvm::Value* widenFloatCast(IRGenerationContext& context,
                                      llvm::Value* fromValue,
-                                     IType* toType);
+                                     const IType* toType);
   
 };
 

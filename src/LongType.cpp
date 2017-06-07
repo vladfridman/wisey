@@ -27,7 +27,7 @@ TypeKind LongType::getTypeKind() const {
   return PRIMITIVE_TYPE;
 }
 
-bool LongType::canCastTo(IType* toType) const {
+bool LongType::canCastTo(const IType* toType) const {
   if (toType->getTypeKind() != PRIMITIVE_TYPE) {
     return false;
   }
@@ -35,7 +35,7 @@ bool LongType::canCastTo(IType* toType) const {
   return toType != PrimitiveTypes::VOID_TYPE;
 }
 
-bool LongType::canAutoCastTo(IType* toType) const {
+bool LongType::canAutoCastTo(const IType* toType) const {
   if (toType->getTypeKind() != PRIMITIVE_TYPE) {
     return false;
   }
@@ -43,7 +43,9 @@ bool LongType::canAutoCastTo(IType* toType) const {
   return toType == PrimitiveTypes::LONG_TYPE;
 }
 
-Value* LongType::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
+Value* LongType::castTo(IRGenerationContext& context,
+                        Value* fromValue,
+                        const IType* toType) const {
   if (toType == PrimitiveTypes::BOOLEAN_TYPE ||
       toType == PrimitiveTypes::CHAR_TYPE ||
       toType == PrimitiveTypes::INT_TYPE) {

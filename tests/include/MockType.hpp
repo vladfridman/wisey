@@ -23,11 +23,11 @@ public:
   MOCK_CONST_METHOD0(getName, std::string ());
   MOCK_CONST_METHOD1(getLLVMType, llvm::Type* (llvm::LLVMContext&));
   MOCK_CONST_METHOD0(getTypeKind, wisey::TypeKind ());
-  MOCK_CONST_METHOD1(canCastTo, bool (wisey::IType*));
-  MOCK_CONST_METHOD1(canAutoCastTo, bool (wisey::IType*));
+  MOCK_CONST_METHOD1(canCastTo, bool (const wisey::IType*));
+  MOCK_CONST_METHOD1(canAutoCastTo, bool (const wisey::IType*));
   MOCK_CONST_METHOD3(castTo, llvm::Value* (wisey::IRGenerationContext&,
                                            llvm::Value*,
-                                           wisey::IType*));
+                                           const wisey::IType*));
 };
 
 #endif /* MockType_h */

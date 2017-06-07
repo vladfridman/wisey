@@ -161,7 +161,7 @@ TypeKind Model::getTypeKind() const {
   return MODEL_TYPE;
 }
 
-bool Model::canCastTo(IType* toType) const {
+bool Model::canCastTo(const IType* toType) const {
   if (toType == this) {
     return true;
   }
@@ -172,11 +172,13 @@ bool Model::canCastTo(IType* toType) const {
   return false;
 }
 
-bool Model::canAutoCastTo(IType* toType) const {
+bool Model::canAutoCastTo(const IType* toType) const {
   return canCastTo(toType);
 }
 
-Value* Model::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
+Value* Model::castTo(IRGenerationContext& context,
+                     Value* fromValue,
+                     const IType* toType) const {
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 

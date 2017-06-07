@@ -308,7 +308,7 @@ TypeKind Interface::getTypeKind() const {
   return INTERFACE_TYPE;
 }
 
-bool Interface::canCastTo(IType* toType) const {
+bool Interface::canCastTo(const IType* toType) const {
   if (toType->getTypeKind() == PRIMITIVE_TYPE) {
     return false;
   }
@@ -317,7 +317,7 @@ bool Interface::canCastTo(IType* toType) const {
   return true;
 }
 
-bool Interface::canAutoCastTo(IType* toType) const {
+bool Interface::canAutoCastTo(const IType* toType) const {
   if (toType->getTypeKind() == PRIMITIVE_TYPE) {
     return false;
   }
@@ -333,7 +333,9 @@ string Interface::getCastFunctionName(IObjectType* toType) const {
   return "cast." + getName() + ".to." + toType->getName();
 }
 
-Value* Interface::castTo(IRGenerationContext& context, Value* fromValue, IType* toType) const {
+Value* Interface::castTo(IRGenerationContext& context,
+                         Value* fromValue,
+                         const IType* toType) const {
   IObjectType* toObjectWithMethodsType = (IObjectType*) (toType);
   Function* castFunction =
     context.getModule()->getFunction(getCastFunctionName(toObjectWithMethodsType));
