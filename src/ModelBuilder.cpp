@@ -48,6 +48,6 @@ string ModelBuilder::getVariableName() const {
   return stream.str();
 }
 
-IType* ModelBuilder::getType(IRGenerationContext& context) const {
+const IType* ModelBuilder::getType(IRGenerationContext& context) const {
   return mModelTypeSpecifier->getType(context);
 }

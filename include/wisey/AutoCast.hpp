@@ -28,9 +28,9 @@ public:
    * Try to cast expression's value to a given type
    */
   static llvm::Value* maybeCast(IRGenerationContext& context,
-                                IType* fromType,
+                                const IType* fromType,
                                 llvm::Value* fromValue,
-                                IType* toType);
+                                const IType* toType);
   
 };
 

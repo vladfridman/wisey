@@ -19,7 +19,7 @@ Value* IntConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), mValue, true);
 }
 
-IType* IntConstant::getType(IRGenerationContext& context) const {
+const IType* IntConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::INT_TYPE;
 }
 

@@ -33,15 +33,15 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   for (VariableList::const_iterator iterator = mArguments.begin();
        iterator != mArguments.end();
        iterator++) {
-    IType* type = (**iterator).getTypeSpecifier()->getType(context);
+    const IType* type = (**iterator).getTypeSpecifier()->getType(context);
     string name = (**iterator).getId()->getName();
     MethodArgument* methodArgument = new MethodArgument(type, name);
     arguments.push_back(methodArgument);
   }
   
-  IType* returnType = mReturnTypeSpecifier->getType(context);
+  const IType* returnType = mReturnTypeSpecifier->getType(context);
   
-  vector<IType*> exceptions;
+  vector<const IType*> exceptions;
   for (ITypeSpecifier* typeSpecifier : mThrownExceptions) {
     exceptions.push_back(typeSpecifier->getType(context));
   }

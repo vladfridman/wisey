@@ -33,7 +33,7 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     structType->setBody(types);
     vector<MethodArgument*> methodArguments;
     vector<MethodSignature*> methodSignatures;
-    vector<IType*> methodExceptions;
+    vector<const IType*> methodExceptions;
     MethodSignature* methodSignature = new MethodSignature("foo",
                                                            AccessLevel::PUBLIC_ACCESS,
                                                            PrimitiveTypes::INT_TYPE,

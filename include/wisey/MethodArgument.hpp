@@ -17,16 +17,16 @@ namespace wisey {
  * Contains information about a method argument including its type and name
  */
 class MethodArgument {
-  IType* mType;
+  const IType* mType;
   std::string mName;
   
 public:
   
-  MethodArgument(IType* type, std::string name) : mType(type), mName(name) { }
+  MethodArgument(const IType* type, std::string name) : mType(type), mName(name) { }
   
   ~MethodArgument() { }
   
-  IType* getType() { return mType; }
+  const IType* getType() { return mType; }
   
   std::string getName() { return mName; }
 };

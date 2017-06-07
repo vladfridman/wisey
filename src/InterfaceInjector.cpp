@@ -33,7 +33,7 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   return malloc;
 }
 
-IType* InterfaceInjector::getType(IRGenerationContext& context) const {
+const IType* InterfaceInjector::getType(IRGenerationContext& context) const {
   Interface* interface = (Interface*) mInterfaceTypeSpecifier->getType(context);
   Controller* controller = context.getBoundController(interface);
   return controller;

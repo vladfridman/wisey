@@ -47,7 +47,7 @@ public:
   /**
    * Returns method's return type
    */
-  virtual IType* getReturnType() const = 0;
+  virtual const IType* getReturnType() const = 0;
   
   /**
    * Returns an array of method arguments
@@ -62,7 +62,7 @@ public:
   /**
    * Returns a list of exceptions this method throws
    */
-  virtual std::vector<IType*> getThrownExceptions() const = 0;
+  virtual std::vector<const IType*> getThrownExceptions() const = 0;
   
   /**
    * Returns two if two method descriptors are the same in terms of their name, return type

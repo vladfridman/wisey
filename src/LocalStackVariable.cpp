@@ -22,7 +22,7 @@ string LocalStackVariable::getName() const {
   return mName;
 }
 
-IType* LocalStackVariable::getType() const {
+const IType* LocalStackVariable::getType() const {
   return mType;
 }
 
@@ -38,7 +38,7 @@ Value* LocalStackVariable::generateIdentifierIR(IRGenerationContext& context,
 Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
-  IType* assignToType = assignToExpression->getType(context);
+  const IType* assignToType = assignToExpression->getType(context);
   Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   return IRWriter::newStoreInst(context, castAssignToValue, mValue);
 }

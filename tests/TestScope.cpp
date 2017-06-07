@@ -97,7 +97,7 @@ TEST_F(ScopeTest, addExceptionsTest) {
 
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   
-  vector<IType*> exceptions;
+  vector<const IType*> exceptions;
   exceptions.push_back(&mMockType);
   exceptions.push_back(&mockType);
   

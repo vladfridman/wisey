@@ -22,18 +22,18 @@ class ObjectFieldVariable : public IVariable {
   
   std::string mName;
   llvm::Value* mValue;
-  IConcreteObjectType* mObject;
+  const IConcreteObjectType* mObject;
   
 public:
   
-  ObjectFieldVariable(std::string name, llvm::Value* value, IConcreteObjectType* object)
+  ObjectFieldVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object)
     : mName(name), mValue(value), mObject(object) { }
   
   ~ObjectFieldVariable() {}
   
   std::string getName() const override;
   
-  IType* getType() const override;
+  const IType* getType() const override;
   
   llvm::Value* getValue() const override;
   

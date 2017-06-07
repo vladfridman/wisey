@@ -24,7 +24,7 @@ string ObjectFieldVariable::getName() const {
   return mName;
 }
 
-IType* ObjectFieldVariable::getType() const {
+const IType* ObjectFieldVariable::getType() const {
   return mObject->findField(mName)->getType();
 }
 
@@ -52,8 +52,8 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
 Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                                  IExpression* assignToExpression) {
   Field* field = checkAndFindField(context);
-  IType* assignToType = assignToExpression->getType(context);
-  IType* toType = field->getType();
+  const IType* assignToType = assignToExpression->getType(context);
+  const IType* toType = field->getType();
   if (!assignToType->canAutoCastTo(toType)) {
     Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getName() +
            "' because of incompatable types");

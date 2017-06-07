@@ -143,7 +143,7 @@ private:
   llvm::Value* storeArgumentValue(IRGenerationContext& context,
                                   llvm::BasicBlock* basicBlock,
                                   std::string variableName,
-                                  IType* variableType,
+                                  const IType* variableType,
                                   llvm::Value* variableValue) const;
   
   llvm::Function* defineCastFunction(IRGenerationContext& context,

@@ -111,9 +111,9 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {
     Value* callArgumentValue = callArgument->generateIR(context);
-    IType* callArgumentType = callArgument->getType(context);
+    const IType* callArgumentType = callArgument->getType(context);
     MethodArgument* methodArgument = *methodArgumentIterator;
-    IType* methodArgumentType = methodArgument->getType();
+    const IType* methodArgumentType = methodArgument->getType();
     Value* callArgumentValueCasted = AutoCast::maybeCast(context,
                                                          callArgumentType,
                                                          callArgumentValue,
@@ -129,7 +129,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   return IRWriter::createInvokeInst(context, function, arguments, resultName);
 }
 
-IType* MethodCall::getType(IRGenerationContext& context) const {
+const IType* MethodCall::getType(IRGenerationContext& context) const {
   return getMethodDescriptor(context)->getReturnType();
 }
 
@@ -138,7 +138,7 @@ void MethodCall::releaseOwnership(IRGenerationContext& context) const {
 }
 
 IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
-  IType* expressionType = mExpression->getType(context);
+  const IType* expressionType = mExpression->getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
     exit(1);
@@ -172,8 +172,8 @@ void MethodCall::checkArgumentType(IObjectType* objectWithMethods,
   }
   
   for (MethodArgument* methodArgument : methodArguments) {
-    IType* methodArgumentType = methodArgument->getType();
-    IType* callArgumentType = (*callArgumentsIterator)->getType(context);
+    const IType* methodArgumentType = methodArgument->getType();
+    const IType* callArgumentType = (*callArgumentsIterator)->getType(context);
     
     if (!callArgumentType->canAutoCastTo(methodArgumentType)) {
       Log::e("Call argument types do not match for a call to method '" +

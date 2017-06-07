@@ -57,7 +57,7 @@ string StringConstant::unescape(const string& input) {
   return result;
 }
 
-IType* StringConstant::getType(IRGenerationContext& context) const {
+const IType* StringConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::VOID_TYPE;
 }
 

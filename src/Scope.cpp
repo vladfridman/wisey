@@ -89,11 +89,11 @@ const IStatement* Scope::getExceptionFinally() {
   return mExceptionFinally;
 }
 
-void Scope::setReturnType(IType* type) {
+void Scope::setReturnType(const IType* type) {
   mReturnType = type;
 }
 
-IType* Scope::getReturnType() {
+const IType* Scope::getReturnType() {
   return mReturnType;
 }
 
@@ -120,23 +120,23 @@ void Scope::freeOwnedMemory(IRGenerationContext& context) {
   mHasOwnedMemoryBeenFreed = true;
 }
 
-void Scope::addException(IType* exception) {
+void Scope::addException(const IType* exception) {
   if (mExceptions.count(exception->getName())) {
     return;
   }
   mExceptions[exception->getName()] = exception;
 }
 
-void Scope::addExceptions(vector<IType*> exceptions) {
-  for (IType* exception : exceptions) {
+void Scope::addExceptions(vector<const IType*> exceptions) {
+  for (const IType* exception : exceptions) {
     addException(exception);
   }
 }
 
-void Scope::removeException(IType* exception) {
+void Scope::removeException(const IType* exception) {
   mExceptions.erase(exception->getName());
 }
 
-map<string, IType*> Scope::getExceptions() {
+map<string, const IType*> Scope::getExceptions() {
   return mExceptions;
 }

@@ -217,7 +217,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
   unsigned int fieldIndex = 0;
   for (IExpression* argument : controllerInjectorArguments) {
     Value* fieldValue = argument->generateIR(context);
-    IType* fieldType = argument->getType(context);
+    const IType* fieldType = argument->getType(context);
     Field* field = mReceivedFields[fieldIndex];
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
@@ -237,7 +237,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
   Value *index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (Field* field : mInjectedFields) {
-    IType* fieldType = field->getType();
+    const IType* fieldType = field->getType();
     if (fieldType->getTypeKind() != CONTROLLER_TYPE) {
       Log::e("Attempt to inject a variable that is not a Controller or an Interface");
       exit(1);
@@ -256,7 +256,7 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
   Value *index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (Field* field : mStateFields) {
-    IType* fieldType = field->getType();
+    const IType* fieldType = field->getType();
     Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);
     
     Value* fieldValue;

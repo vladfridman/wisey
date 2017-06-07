@@ -27,7 +27,7 @@ public:
   /**
    * Returns type
    */
-  virtual IType* getType(IRGenerationContext& context) const = 0;
+  virtual const IType* getType(IRGenerationContext& context) const = 0;
 
 };
   

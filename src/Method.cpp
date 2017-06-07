@@ -35,7 +35,7 @@ AccessLevel Method::getAccessLevel() const {
   return mAccessLevel;
 }
 
-IType* Method::getReturnType() const {
+const IType* Method::getReturnType() const {
   return mReturnType;
 }
 
@@ -47,7 +47,7 @@ unsigned long Method::getIndex() const {
   return mIndex;
 }
 
-vector<IType*> Method::getThrownExceptions() const {
+vector<const IType*> Method::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
@@ -111,7 +111,7 @@ void Method::createArguments(IRGenerationContext& context,
 
 void Method::storeArgumentValue(IRGenerationContext& context,
                                 std::string variableName,
-                                IType* variableType,
+                                const IType* variableType,
                                 llvm::Value* variableValue) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* llvmType = variableType->getLLVMType(llvmContext);
@@ -131,18 +131,18 @@ void Method::maybeAddImpliedVoidReturn(IRGenerationContext& context) const {
 
 void Method::checkForUnhandledExceptions(IRGenerationContext& context) const {
   Scope* scope = context.getScopes().getScope();
-  map<string, IType*> exceptions = scope->getExceptions();
+  map<string, const IType*> exceptions = scope->getExceptions();
   if (exceptions.size() == 0) {
     return;
   }
   
-  for (IType* thrownException : mThrownExceptions) {
+  for (const IType* thrownException : mThrownExceptions) {
     scope->removeException(thrownException);
   }
   
   exceptions = scope->getExceptions();
   bool hasUnhangledExceptions = false;
-  for (map<string, IType*>::const_iterator iterator = exceptions.begin();
+  for (map<string, const IType*>::const_iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
     Log::e("Method " + getName() + " neither handles the exception " + iterator->first +

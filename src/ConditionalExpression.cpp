@@ -64,7 +64,7 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   return phiNode;
 }
 
-IType* ConditionalExpression::getType(IRGenerationContext& context) const {
+const IType* ConditionalExpression::getType(IRGenerationContext& context) const {
   return mConditionTrueExpression->getType(context);
 }
 
@@ -75,8 +75,8 @@ void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const
 
 // TODO: implement a more sensible type checking/casting
 void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
-  IType* trueExpressionType = mConditionTrueExpression->getType(context);
-  IType* falseExpressionType = mConditionFalseExpression->getType(context);
+  const IType* trueExpressionType = mConditionTrueExpression->getType(context);
+  const IType* falseExpressionType = mConditionFalseExpression->getType(context);
   
   if (mConditionExpression->getType(context) != PrimitiveTypes::BOOLEAN_TYPE) {
     Log::e("Condition in a conditional expression is not of type BOOLEAN");

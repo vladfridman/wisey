@@ -71,7 +71,7 @@ struct ModelTest : public Test {
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
-    vector<IType*> thrownExceptions;
+    vector<const IType*> thrownExceptions;
     mMethod = new Method("foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
@@ -96,7 +96,7 @@ struct ModelTest : public Test {
     subShapeIinterfaceStructType->setBody(subShapeInterfaceTypes);
     vector<MethodArgument*> subShapeInterfaceMethodArguments;
     vector<MethodSignature*> subShapeInterfaceMethods;
-    vector<IType*> subShapeInterfaceThrownExceptions;
+    vector<const IType*> subShapeInterfaceThrownExceptions;
     MethodSignature* methodFooSignature = new MethodSignature("foo",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
@@ -115,7 +115,7 @@ struct ModelTest : public Test {
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
-    vector<IType*> shapeInterfaceThrownExceptions;
+    vector<const IType*> shapeInterfaceThrownExceptions;
     methodFooSignature = new MethodSignature("foo",
                                              AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
@@ -135,7 +135,7 @@ struct ModelTest : public Test {
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
-    vector<IType*> objectInterfaceThrownExceptions;
+    vector<const IType*> objectInterfaceThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("bar",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,

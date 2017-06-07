@@ -19,7 +19,7 @@ Value* CharConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt16Ty(context.getLLVMContext()), mValue);
 }
 
-IType* CharConstant::getType(IRGenerationContext& context) const {
+const IType* CharConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::CHAR_TYPE;
 }
 

@@ -51,7 +51,7 @@ Value* LogicalOrExpression::generateIR(IRGenerationContext& context) const {
   return phiNode;
 }
 
-IType* LogicalOrExpression::getType(IRGenerationContext& context) const {
+const IType* LogicalOrExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
 }
 

@@ -152,7 +152,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   structType->setBody(types);
   vector<MethodSignature*> interfaceMethodSignatures;
   vector<MethodArgument*> methodArguments;
-  vector<IType*> methodThrownExceptions;
+  vector<const IType*> methodThrownExceptions;
   methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
   MethodSignature* methodSignature = new MethodSignature("foo",
                                                          AccessLevel::PUBLIC_ACCESS,

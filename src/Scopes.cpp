@@ -62,7 +62,7 @@ void Scopes::pushScope() {
 void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
   top->freeOwnedMemory(context);
-  map<string, IType*> exceptions = top->getExceptions();
+  map<string, const IType*> exceptions = top->getExceptions();
   mScopes.pop_front();
   delete top;
   
@@ -75,7 +75,7 @@ void Scopes::popScope(IRGenerationContext& context) {
   }
   
   top = mScopes.front();
-  for (map<string, IType*>::iterator iterator = exceptions.begin();
+  for (map<string, const IType*>::iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
     top->addException(iterator->second);
@@ -191,17 +191,17 @@ const IStatement* Scopes::getExceptionFinally() {
   return &EmptyStatement::EMPTY_STATEMENT;
 }
 
-void Scopes::setReturnType(IType* type) {
+void Scopes::setReturnType(const IType* type) {
   getScope()->setReturnType(type);
 }
 
-IType* Scopes::getReturnType() {
+const IType* Scopes::getReturnType() {
   if (mScopes.size() == 0) {
     return NULL;
   }
   
   for (Scope* scope : mScopes) {
-    IType* returnType = scope->getReturnType();
+    const IType* returnType = scope->getReturnType();
     if (returnType != NULL) {
       return returnType;
     }
@@ -210,8 +210,8 @@ IType* Scopes::getReturnType() {
   return NULL;
 }
 
-void Scopes::reportUnhandledExceptions(map<string, IType*> exceptions) {
-  for (map<string, IType*>::iterator iterator = exceptions.begin();
+void Scopes::reportUnhandledExceptions(map<string, const IType*> exceptions) {
+  for (map<string, const IType*>::iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
     Log::e("Exception " + iterator->first + " is not handled");

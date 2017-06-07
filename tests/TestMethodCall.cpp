@@ -70,7 +70,7 @@ public:
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
-    vector<IType*> fooThrownExceptions;
+    vector<const IType*> fooThrownExceptions;
     mMethod = new Method("foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
@@ -80,7 +80,7 @@ public:
                          0);
     vector<Method*> methods;
     methods.push_back(mMethod);
-    vector<IType*> barThrownExceptions;
+    vector<const IType*> barThrownExceptions;
     barThrownExceptions.push_back(&mExceptionType);
     Method* barMethod = new Method("bar",
                                    AccessLevel::PUBLIC_ACCESS,

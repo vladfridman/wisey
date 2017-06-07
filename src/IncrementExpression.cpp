@@ -23,7 +23,7 @@ IncrementExpression::~IncrementExpression() {
 }
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
-  IType* identifierType = mIdentifier->getType(context);
+  const IType* identifierType = mIdentifier->getType(context);
   if (identifierType != PrimitiveTypes::INT_TYPE &&
       identifierType != PrimitiveTypes::CHAR_TYPE &&
       identifierType != PrimitiveTypes::LONG_TYPE) {
@@ -49,7 +49,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
   return mIsPrefix ? incrementResult : originalValue;
 }
 
-IType* IncrementExpression::getType(IRGenerationContext& context) const {
+const IType* IncrementExpression::getType(IRGenerationContext& context) const {
   return mIdentifier->getType(context);
 }
 

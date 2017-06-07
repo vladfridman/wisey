@@ -19,7 +19,7 @@ Value* DoubleConstant::generateIR(IRGenerationContext& context) const {
   return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), mValue);
 }
 
-IType* DoubleConstant::getType(IRGenerationContext& context) const {
+const IType* DoubleConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::DOUBLE_TYPE;
 }
 

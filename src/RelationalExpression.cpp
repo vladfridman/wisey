@@ -40,7 +40,7 @@ Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
   return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
 }
 
-IType* RelationalExpression::getType(IRGenerationContext& context) const {
+const IType* RelationalExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
 }
 

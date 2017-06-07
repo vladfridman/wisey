@@ -20,12 +20,12 @@ namespace wisey {
 class LocalHeapVariable : public IVariable {
   
   std::string mName;
-  IType* mType;
+  const IType* mType;
   llvm::Value* mValue;
   
 public:
   
-  LocalHeapVariable(std::string name, IType* type, llvm::Value* value)
+  LocalHeapVariable(std::string name, const IType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value) { }
   
   ~LocalHeapVariable() {
@@ -33,7 +33,7 @@ public:
   
   std::string getName() const override;
   
-  IType* getType() const override;
+  const IType* getType() const override;
   
   llvm::Value* getValue() const override;
   

@@ -284,7 +284,7 @@ void Model::initializeFields(IRGenerationContext& context,
   for (ModelBuilderArgument* argument : modelBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);
-    IType* argumentType = argument->getType(context);
+    const IType* argumentType = argument->getType(context);
     Field* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);

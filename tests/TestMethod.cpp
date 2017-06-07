@@ -47,7 +47,7 @@ public:
     std::vector<MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
-    vector<IType*> thrownExceptions;
+    vector<const IType*> thrownExceptions;
     mMethod = new Method("mymethod",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
@@ -87,7 +87,7 @@ TEST_F(MethodTest, defineFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
-  vector<IType*> thrownExceptions;
+  vector<const IType*> thrownExceptions;
   Method method("foo",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
@@ -108,7 +108,7 @@ TEST_F(MethodTest, generateIRTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
-  vector<IType*> thrownExceptions;
+  vector<const IType*> thrownExceptions;
   Method method("foo",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,

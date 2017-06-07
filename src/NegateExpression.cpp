@@ -23,7 +23,7 @@ NegateExpression::~NegateExpression() {
 }
 
 Value* NegateExpression::generateIR(IRGenerationContext& context) const {
-  IType* type = getType(context);
+  const IType* type = getType(context);
   if (type->getTypeKind() != PRIMITIVE_TYPE || type == PrimitiveTypes::VOID_TYPE) {
     Log::e("Can not apply negate operation to type '" + type->getName() + "'");
     exit(1);
@@ -46,7 +46,7 @@ Value* NegateExpression::generateIR(IRGenerationContext& context) const {
                                         "sub");
 }
 
-IType* NegateExpression::getType(IRGenerationContext& context) const {
+const IType* NegateExpression::getType(IRGenerationContext& context) const {
   return mExpression->getType(context);
 }
 

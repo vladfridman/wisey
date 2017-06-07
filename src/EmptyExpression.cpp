@@ -21,7 +21,7 @@ Value* EmptyExpression::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-IType* EmptyExpression::getType(IRGenerationContext& context) const {
+const IType* EmptyExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::VOID_TYPE;
 }
 

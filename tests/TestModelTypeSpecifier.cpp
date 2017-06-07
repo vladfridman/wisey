@@ -39,7 +39,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<MethodArgument*> methodArguments;
     vector<Method*> methods;
-    vector<IType*> thrownExceptions;
+    vector<const IType*> thrownExceptions;
     Method* fooMethod = new Method("foo",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,

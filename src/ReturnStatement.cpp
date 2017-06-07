@@ -22,7 +22,7 @@ ReturnStatement::~ReturnStatement() {
 }
 
 Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
-  IType* returnType = context.getScopes().getReturnType();
+  const IType* returnType = context.getScopes().getReturnType();
   if (returnType == NULL) {
     Log::e("No corresponding method found for RETURN");
     exit(1);

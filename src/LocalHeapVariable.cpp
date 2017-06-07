@@ -24,7 +24,7 @@ string LocalHeapVariable::getName() const {
   return mName;
 }
 
-IType* LocalHeapVariable::getType() const {
+const IType* LocalHeapVariable::getType() const {
   return mType;
 }
 
@@ -44,7 +44,7 @@ Value* LocalHeapVariable::generateIdentifierIR(IRGenerationContext& context,
 Value* LocalHeapVariable::generateAssignmentIR(IRGenerationContext& context,
                                                IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
-  IType* assignToType = assignToExpression->getType(context);
+  const IType* assignToType = assignToExpression->getType(context);
   mValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   
   return mValue;

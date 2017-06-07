@@ -115,7 +115,7 @@ vector<Field*> ControllerDefinition::fieldDeclarationsToFields(IRGenerationConte
                                                                unsigned long startIndex) const {
   vector<Field*> fields;
   for (ControllerFieldDeclaration* fieldDeclaration : declarations) {
-    IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
+    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
     if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
         fieldType->getTypeKind() == INTERFACE_TYPE) {
@@ -158,7 +158,7 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
   LLVMContext& llvmContext = context.getLLVMContext();
   
   for (ControllerFieldDeclaration* fieldDeclaration : declarations) {
-    IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
+    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
 
     if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
         fieldType->getTypeKind() == INTERFACE_TYPE) {

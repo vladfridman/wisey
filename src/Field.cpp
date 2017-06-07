@@ -16,7 +16,7 @@ Field::~Field() {
   mArguments.clear();
 }
 
-IType* Field::getType() const {
+const IType* Field::getType() const {
   return mType;
 }
 

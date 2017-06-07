@@ -87,7 +87,7 @@ map<string, Field*> ModelDefinition::createFields(IRGenerationContext& context,
   map<string, Field*> fields;
   ExpressionList arguments;
   for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
+    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
     Field* field = new Field(fieldType,
                              fieldDeclaration->getName(),
@@ -104,7 +104,7 @@ void ModelDefinition::createFieldVariables(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   
   for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
+    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
     types.push_back(fieldType->getLLVMType(llvmContext));
   }

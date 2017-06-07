@@ -38,7 +38,7 @@ public:
     std::vector<MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
-    vector<IType*> thrownExceptions;
+    vector<const IType*> thrownExceptions;
     mMethod = new Method("mymethod",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
@@ -68,7 +68,7 @@ TEST_F(IMethodDescriptorTest, compareTest) {
   vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
-  vector<IType*> thrownExceptions;
+  vector<const IType*> thrownExceptions;
   Method method("mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
@@ -86,7 +86,7 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
   vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
-  vector<IType*> thrownExceptions;
+  vector<const IType*> thrownExceptions;
   Method method("differentname",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
@@ -102,7 +102,7 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
   MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble2");
   vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
-  vector<IType*> thrownExceptions;
+  vector<const IType*> thrownExceptions;
   Method method("mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
@@ -120,7 +120,7 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
   vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
-  vector<IType*> thrownExceptions;
+  vector<const IType*> thrownExceptions;
   Method method("mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
@@ -135,7 +135,7 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
 TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   vector<MethodArgument*> arguments;
-  vector<IType*> thrownExceptions;
+  vector<const IType*> thrownExceptions;
   arguments.push_back(intArgument);
   MethodSignature method("foo",
                          AccessLevel::PUBLIC_ACCESS,

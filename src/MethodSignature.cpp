@@ -29,7 +29,7 @@ AccessLevel MethodSignature::getAccessLevel() const {
   return mAccessLevel;
 }
 
-IType* MethodSignature::getReturnType() const {
+const IType* MethodSignature::getReturnType() const {
   return mReturnType;
 }
 
@@ -41,7 +41,7 @@ unsigned long MethodSignature::getIndex() const {
   return mIndex;
 }
 
-vector<IType*> MethodSignature::getThrownExceptions() const {
+vector<const IType*> MethodSignature::getThrownExceptions() const {
   return mThrownExceptions;
 }
 

@@ -19,19 +19,19 @@ namespace wisey {
 class LocalStackVariable : public IVariable {
 
   std::string mName;
-  IType* mType;
+  const IType* mType;
   llvm::Value* mValue;
   
 public:
 
-  LocalStackVariable(std::string name, IType* type, llvm::Value* value)
+  LocalStackVariable(std::string name, const IType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value) { }
   
   ~LocalStackVariable() {}
   
   std::string getName() const override;
   
-  IType* getType() const override;
+  const IType* getType() const override;
   
   llvm::Value* getValue() const override;
   

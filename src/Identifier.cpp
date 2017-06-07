@@ -22,7 +22,7 @@ Value* Identifier::generateIR(IRGenerationContext& context) const {
   return checkGetVariable(context)->generateIdentifierIR(context, mLLVMVariableName);
 }
 
-IType* Identifier::getType(IRGenerationContext& context) const {
+const IType* Identifier::getType(IRGenerationContext& context) const {
   return checkGetVariable(context)->getType();
 }
 

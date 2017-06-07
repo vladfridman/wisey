@@ -25,8 +25,8 @@ AdditiveMultiplicativeExpression::~AdditiveMultiplicativeExpression() {
 }
 
 Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) const {
-  IType* leftType = mLeftExpression->getType(context);
-  IType* rightType = mRightExpression->getType(context);
+  const IType* leftType = mLeftExpression->getType(context);
+  const IType* rightType = mRightExpression->getType(context);
   checkTypes(leftType, rightType);
 
   Instruction::BinaryOps instruction;
@@ -55,9 +55,9 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   return IRWriter::createBinaryOperator(context, instruction, leftValue, rightValue, name);
 }
 
-IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) const {
-  IType* leftType = mLeftExpression->getType(context);
-  IType* rightType = mRightExpression->getType(context);
+const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& context) const {
+  const IType* leftType = mLeftExpression->getType(context);
+  const IType* rightType = mRightExpression->getType(context);
   checkTypes(leftType, rightType);
 
   if (leftType->canAutoCastTo(rightType)) {
@@ -73,7 +73,8 @@ void AdditiveMultiplicativeExpression::releaseOwnership(IRGenerationContext& con
 }
 
 // TODO: implement a more sensible type checking/casting
-void AdditiveMultiplicativeExpression::checkTypes(IType* leftType, IType* rightType) const {
+void AdditiveMultiplicativeExpression::checkTypes(const IType* leftType,
+                                                  const IType* rightType) const {
   if (leftType == PrimitiveTypes::VOID_TYPE || rightType == PrimitiveTypes::VOID_TYPE) {
     Log::e("Can not use expressions of type VOID in a '" + string(1, mOperation) + "' operation");
     exit(1);

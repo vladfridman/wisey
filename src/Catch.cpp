@@ -24,7 +24,7 @@ Catch::~Catch() {
 }
 
 Model* Catch::getType(IRGenerationContext& context) const {
-  IType* argumentType = mTypeSpecifier->getType(context);
+  const IType* argumentType = mTypeSpecifier->getType(context);
   assert(argumentType->getTypeKind() == MODEL_TYPE);
   
   return (Model*) argumentType;

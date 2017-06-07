@@ -24,7 +24,7 @@ ThrowStatement::~ThrowStatement() {
 }
 
 Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
-  IType* expressionType = mExpression->getType(context);
+  const IType* expressionType = mExpression->getType(context);
   if (expressionType->getTypeKind() != MODEL_TYPE) {
     Log::e("Thrown object can only be a model");
     exit(1);

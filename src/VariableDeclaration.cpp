@@ -65,7 +65,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 }
 
 Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
-  IType* type = mTypeSpecifier->getType(context);
+  const IType* type = mTypeSpecifier->getType(context);
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId->getName());
   
@@ -78,7 +78,7 @@ Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const 
 Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
 
   string variableName = mId->getName();
-  IType* type = mTypeSpecifier->getType(context);
+  const IType* type = mTypeSpecifier->getType(context);
   
   LocalHeapVariable* uninitializedHeapVariable = new LocalHeapVariable(variableName, type, NULL);
   context.getScopes().setVariable(uninitializedHeapVariable);

@@ -90,12 +90,12 @@ public:
   /**
    * Set current method's return type
    */
-  void setReturnType(IType* type);
+  void setReturnType(const IType* type);
 
   /**
    * Get current method's return type
    */
-  IType* getReturnType();
+  const IType* getReturnType();
 
   /**
    * Sets the landing pad basic block for exception handling
@@ -129,7 +129,7 @@ public:
 
 private:
 
-  void reportUnhandledExceptions(std::map<std::string, IType*> exceptions);
+  void reportUnhandledExceptions(std::map<std::string, const IType*> exceptions);
 };
   
 } /* namespace wisey */

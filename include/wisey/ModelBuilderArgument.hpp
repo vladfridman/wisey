@@ -50,7 +50,7 @@ public:
   /**
    * Tells argument type
    */
-  IType* getType(IRGenerationContext& context) const;
+  const IType* getType(IRGenerationContext& context) const;
   
 private:
   

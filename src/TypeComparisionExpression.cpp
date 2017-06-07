@@ -23,8 +23,8 @@ TypeComparisionExpression::~TypeComparisionExpression() {
 }
 
 Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const {
-  IType* expressionType = mExpression->getType(context);
-  IType* type = mTypeSpecifier->getType(context);
+  const IType* expressionType = mExpression->getType(context);
+  const IType* type = mTypeSpecifier->getType(context);
   LLVMContext& llvmContext = context.getLLVMContext();
   ConstantInt* valueTrue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
   ConstantInt* valueFalse = ConstantInt::get(Type::getInt1Ty(llvmContext), 0);
@@ -51,7 +51,7 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const
 
 Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext& context) const {
   Value* expressionValue = mExpression->generateIR(context);
-  IType* expressionType = mExpression->getType(context);
+  const IType* expressionType = mExpression->getType(context);
   Interface* interface = (Interface*) expressionType;
   IObjectType* objectWithMethodsType = (IObjectType*) mTypeSpecifier->getType(context);
   
@@ -62,7 +62,7 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
   return IRWriter::newICmpInst(context, ICmpInst::ICMP_SGE, interfaceIndex, zero, "instanceof");
 }
 
-IType* TypeComparisionExpression::getType(IRGenerationContext& context) const {
+const IType* TypeComparisionExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
 }
 

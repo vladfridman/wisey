@@ -209,13 +209,13 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
 bool Interface::doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
                                                    IMethodDescriptor* objectMethodDescriptor,
                                                    string objectName) const {
-  map<string, IType*> interfaceExceptionsMap;
-  for (IType* interfaceException : interfaceMethodSignature->getThrownExceptions()) {
+  map<string, const IType*> interfaceExceptionsMap;
+  for (const IType* interfaceException : interfaceMethodSignature->getThrownExceptions()) {
     interfaceExceptionsMap[interfaceException->getName()] = interfaceException;
   }
 
   bool result = false;
-  for (IType* objectException : objectMethodDescriptor->getThrownExceptions()) {
+  for (const IType* objectException : objectMethodDescriptor->getThrownExceptions()) {
     if (!interfaceExceptionsMap.count(objectException->getName())) {
       Log::e("Method " + objectMethodDescriptor->getName() + " of object " + objectName +
              " throws an unexpected exception of type " + objectException->getName());
@@ -282,7 +282,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
 llvm::Value* Interface::storeArgumentValue(IRGenerationContext& context,
                                            BasicBlock* basicBlock,
                                            string variableName,
-                                           IType* variableType,
+                                           const IType* variableType,
                                            Value* variableValue) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* llvmType = variableType->getLLVMType(llvmContext);

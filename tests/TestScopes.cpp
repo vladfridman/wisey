@@ -100,7 +100,7 @@ TEST_F(ScopesTest, returnTypeTest) {
   mScopes.pushScope();
   mScopes.pushScope();
   
-  IType* returnType = mScopes.getReturnType();
+  const IType* returnType = mScopes.getReturnType();
   EXPECT_EQ(returnType, PrimitiveTypes::DOUBLE_TYPE);
 }
 

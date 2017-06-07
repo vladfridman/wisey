@@ -29,8 +29,8 @@ class Scope {
   llvm::BasicBlock* mExceptionContinueBlock;
   const IStatement* mExceptionFinally;
   bool mHasOwnedMemoryBeenFreed;
-  IType* mReturnType;
-  std::map<std::string, IType*> mExceptions;
+  const IType* mReturnType;
+  std::map<std::string, const IType*> mExceptions;
 
 public:
 
@@ -113,12 +113,12 @@ public:
   /**
    * Set current method's return type
    */
-  void setReturnType(IType* type);
+  void setReturnType(const IType* type);
 
   /**
    * Get current method's return type
    */
-  IType* getReturnType();
+  const IType* getReturnType();
 
   /**
    * Free memory owned by this scope
@@ -128,22 +128,22 @@ public:
   /**
    * Add an exception type that maybe thrown in this scope
    */
-  void addException(IType* exception);
+  void addException(const IType* exception);
 
   /**
    * Add several exception types that may thrown in this scope
    */
-  void addExceptions(std::vector<IType*> exceptions);
+  void addExceptions(std::vector<const IType*> exceptions);
 
   /**
    * Remove an exception type from the list of exceptions that maybe thrown
    */
-  void removeException(IType* exception);
+  void removeException(const IType* exception);
 
   /**
    * Get exceptions that could be thrown in this scope
    */
-  std::map<std::string, IType*> getExceptions();
+  std::map<std::string, const IType*> getExceptions();
 
 };
 

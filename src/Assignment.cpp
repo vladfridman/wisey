@@ -39,7 +39,7 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
   return result;
 }
 
-IType* Assignment::getType(IRGenerationContext& context) const {
+const IType* Assignment::getType(IRGenerationContext& context) const {
   return mIdentifier->getType(context);
 }
 

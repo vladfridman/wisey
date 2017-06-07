@@ -43,6 +43,6 @@ Value* ModelBuilderArgument::getValue(IRGenerationContext& context) const {
   return mFieldExpression->generateIR(context);
 }
 
-IType* ModelBuilderArgument::getType(IRGenerationContext& context) const {
+const IType* ModelBuilderArgument::getType(IRGenerationContext& context) const {
   return mFieldExpression->getType(context);
 }

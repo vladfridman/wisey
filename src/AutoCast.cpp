@@ -15,9 +15,9 @@ using namespace llvm;
 using namespace wisey;
 
 Value* AutoCast::maybeCast(IRGenerationContext& context,
-                           IType* fromType,
+                           const IType* fromType,
                            Value* fromValue,
-                           IType* toType) {
+                           const IType* toType) {
   if (fromType == toType) {
     return fromValue;
   }

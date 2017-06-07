@@ -40,7 +40,7 @@ public:
   /**
    * Returns variable's type
    */
-  virtual IType* getType() const = 0;
+  virtual const IType* getType() const = 0;
 
   /**
    * Returns variable's value

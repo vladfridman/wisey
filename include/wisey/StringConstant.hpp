@@ -26,7 +26,7 @@ public:
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
-  IType* getType(IRGenerationContext& context) const override;
+  const IType* getType(IRGenerationContext& context) const override;
   
   void releaseOwnership(IRGenerationContext& context) const override;
   

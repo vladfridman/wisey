@@ -44,7 +44,7 @@ FunctionType* IMethodDescriptor::getLLVMFunctionType(IMethodDescriptor* method,
   vector<Type*> argumentTypes;
   argumentTypes.push_back(object->getLLVMType(llvmContext));
   for (MethodArgument* methodArgument : method->getArguments()) {
-    IType* type = methodArgument->getType();
+    const IType* type = methodArgument->getType();
     argumentTypes.push_back(type->getLLVMType(llvmContext));
   }
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);

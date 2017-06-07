@@ -25,9 +25,9 @@ class Model;
 class Method : public IMethodDescriptor {
   std::string mName;
   AccessLevel mAccessLevel;
-  IType* mReturnType;
+  const IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
-  std::vector<IType*> mThrownExceptions;
+  std::vector<const IType*> mThrownExceptions;
   CompoundStatement* mCompoundStatement;
   unsigned long mIndex;
   llvm::Function* mFunction;
@@ -36,9 +36,9 @@ public:
   
   Method(std::string name,
          AccessLevel accessLevel,
-         IType* returnType,
+         const IType* returnType,
          std::vector<MethodArgument*> arguments,
-         std::vector<IType*> thrownExceptions,
+         std::vector<const IType*> thrownExceptions,
          CompoundStatement* compoundStatement,
          unsigned long index) :
   mName(name),
@@ -66,13 +66,13 @@ public:
   
   AccessLevel getAccessLevel() const override;
   
-  IType* getReturnType() const override;
+  const IType* getReturnType() const override;
   
   std::vector<MethodArgument*> getArguments() const override;
   
   unsigned long getIndex() const override;
   
-  std::vector<IType*> getThrownExceptions() const override;
+  std::vector<const IType*> getThrownExceptions() const override;
   
 private:
   
@@ -84,7 +84,7 @@ private:
   
   void storeArgumentValue(IRGenerationContext& context,
                           std::string variableName,
-                          IType* variableType,
+                          const IType* variableType,
                           llvm::Value* variableValue) const;
   
   void checkForUnhandledExceptions(IRGenerationContext& context) const;
