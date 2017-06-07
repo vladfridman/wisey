@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <sstream>
+
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Cast.hpp"
@@ -15,6 +17,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalHeapVariable.hpp"
 #include "wisey/Log.hpp"
 
 using namespace llvm;
@@ -88,7 +91,7 @@ Instruction* Controller::inject(IRGenerationContext& context, ExpressionList rec
   initializeInjectedFields(context, malloc);
   initializeStateFields(context, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
-  
+
   return malloc;
 }
 
@@ -247,6 +250,12 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
+    
+    ostringstream stream;
+    stream << "__tmp" << (long) fieldValue;
+    string variableName = stream.str();
+    LocalHeapVariable* heapVariable = new LocalHeapVariable(variableName, controller, fieldValue);
+    context.getScopes().setVariable(heapVariable);
   }
 }
 

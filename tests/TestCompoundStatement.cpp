@@ -29,9 +29,9 @@ struct TestCompoundStatement : public Test {
   Block* mBlock;
 
   TestCompoundStatement() :
-  mStatement1(new NiceMock<MockStatement>()),
-  mStatement2(new NiceMock<MockStatement>()),
-  mBlock(new Block()) {
+    mStatement1(new NiceMock<MockStatement>()),
+    mStatement2(new NiceMock<MockStatement>()),
+    mBlock(new Block()) {
   }
 };
 

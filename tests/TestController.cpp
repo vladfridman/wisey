@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "TestFileSampleRunner.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -45,6 +46,7 @@ struct ControllerTest : public Test {
   LLVMContext& mLLVMContext;
   BasicBlock *mBasicBlock;
   string mStringBuffer;
+  Function* mFunction;
   raw_string_ostream* mStringStream;
   
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
@@ -189,12 +191,12 @@ struct ControllerTest : public Test {
     IConcreteObjectType::generateVTable(mContext, mAdditorController);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "test",
-                                          mContext.getModule());
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
     
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
@@ -343,7 +345,7 @@ TEST_F(ControllerTest, injectTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ControllerTest, testInjectWrongTypeOfArgumentDeathTest) {
+TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
   ExpressionList injectionArguments;
   NiceMock<MockExpression> injectArgument1;
   NiceMock<MockExpression> injectArgument2;
@@ -371,7 +373,7 @@ TEST_F(ControllerTest, testInjectNonInjectableTypeDeathTest) {
               "Error: Attempt to inject a variable that is not a Controller or an Interface");
 }
 
-TEST_F(ControllerTest, testInjectTooFewArgumentsDeathTest) {
+TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
   ExpressionList injectionArguments;
   NiceMock<MockExpression> injectArgument1;
   Mock::AllowLeak(&injectArgument1);
@@ -383,7 +385,7 @@ TEST_F(ControllerTest, testInjectTooFewArgumentsDeathTest) {
               "systems.vos.wisey.compiler.tests.CAdditor are initialized.");
 }
 
-TEST_F(ControllerTest, testInjectTooManyArgumentsDeathTest) {
+TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
   ExpressionList injectionArguments;
   NiceMock<MockExpression> injectArgument1;
   NiceMock<MockExpression> injectArgument2;
@@ -399,4 +401,70 @@ TEST_F(ControllerTest, testInjectTooManyArgumentsDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Too many arguments provided when injecting controller "
               "systems.vos.wisey.compiler.tests.CAdditor");
+}
+
+TEST_F(ControllerTest, injectFieldTest) {
+  ExpressionList fieldArguments;
+
+  vector<Type*> childTypes;
+  string childFullName = "systems.vos.wisey.compiler.tests.CChild";
+  StructType* childStructType = StructType::create(mLLVMContext, childFullName);
+  childStructType->setBody(childTypes);
+  vector<Field*> childReceivedFields;
+  vector<Field*> childInjectedFields;
+  vector<Field*> childStateFields;
+  Controller* childController = new Controller(childFullName, childStructType);
+  childController->setFields(childReceivedFields, childInjectedFields, childStateFields);
+  mContext.addController(childController);
+
+  vector<Type*> parentTypes;
+  parentTypes.push_back(childController->getLLVMType(mLLVMContext));
+  string parentFullName = "systems.vos.wisey.compiler.tests.CParent";
+  StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
+  parentStructType->setBody(parentTypes);
+  vector<Field*> parentReceivedFields;
+  vector<Field*> parentInjectedFields;
+  vector<Field*> parentStateFields;
+  parentInjectedFields.push_back(new Field(childController, "mChild", 0, fieldArguments));
+  Controller* parentController = new Controller(parentFullName, parentStructType);
+  parentController->setFields(parentReceivedFields, parentInjectedFields, parentStateFields);
+  mContext.addController(parentController);
+
+  ExpressionList injectionArguments;
+  Value* result = parentController->inject(mContext, injectionArguments);
+  
+  EXPECT_NE(result, nullptr);
+  EXPECT_TRUE(BitCastInst::classof(result));
+  
+  EXPECT_EQ(6ul, mBasicBlock->size());
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i64))"
+  "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CParent*"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 0)"
+  "\n  %injectvar2 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.CChild*"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* %injectvar, i32 0, i32 0"
+  "\n  store %systems.vos.wisey.compiler.tests.CChild* %injectvar2, %systems.vos.wisey.compiler.tests.CChild** %0\n";
+  
+  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  mStringBuffer.clear();
+  
+  BasicBlock* block = BasicBlock::Create(mLLVMContext, "freememory", mFunction);
+  mContext.setBasicBlock(block);
+  
+  mContext.getScopes().popScope(mContext);
+
+  *mStringStream << *block;
+  expected = "\nfreememory:                                       ; No predecessors!"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CChild* %injectvar2 to i8*"
+  "\n  tail call void @free(i8* %1)\n";
+  
+  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(TestFileSampleRunner, controllerInjectionChainRunTest) {
+  runFile("tests/samples/test_controller_injection_chain.yz", "2");
 }

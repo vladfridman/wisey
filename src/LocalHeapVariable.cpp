@@ -55,11 +55,8 @@ void LocalHeapVariable::free(IRGenerationContext& context) const {
     return;
   }
   
-  if (mType->getTypeKind() == MODEL_TYPE) {
-    IRWriter::createFree(context, mValue);
-    return;
-  }
-
-  Value* thisPointer = Interface::getOriginalObject(context, mValue);
+  Value* thisPointer =
+  mType->getTypeKind() == INTERFACE_TYPE ? Interface::getOriginalObject(context, mValue) : mValue;
+  
   IRWriter::createFree(context, thisPointer);
 }
