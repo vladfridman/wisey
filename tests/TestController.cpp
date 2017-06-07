@@ -441,12 +441,15 @@ TEST_F(ControllerTest, injectFieldTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (i1** getelementptr (i1*, i1** null, i32 1) to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
+    "(i1** getelementptr (i1*, i1** null, i32 1) to i64))"
   "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CParent*"
   "\n  %malloccall1 = tail call i8* @malloc(i64 0)"
   "\n  %injectvar2 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.CChild*"
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CParent, %systems.vos.wisey.compiler.tests.CParent* %injectvar, i32 0, i32 0"
-  "\n  store %systems.vos.wisey.compiler.tests.CChild* %injectvar2, %systems.vos.wisey.compiler.tests.CChild** %0\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CParent, "
+    "%systems.vos.wisey.compiler.tests.CParent* %injectvar, i32 0, i32 0"
+  "\n  store %systems.vos.wisey.compiler.tests.CChild* "
+    "%injectvar2, %systems.vos.wisey.compiler.tests.CChild** %0\n";
   
   EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
   mStringBuffer.clear();
