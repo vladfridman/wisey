@@ -21,3 +21,7 @@ IType* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
 
   return context.getInterface(fullName);
 }
+
+bool InterfaceTypeSpecifier::isOwner() const {
+  return false;
+}

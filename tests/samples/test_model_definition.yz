@@ -8,7 +8,7 @@ model MShape {
   int mWidth;
   long mHeight;
   float mDepth;
-  MColor mColor;
+  MColor* mColor;
 }
 
 controller CProgram implements IProgram {

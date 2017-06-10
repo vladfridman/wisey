@@ -7,7 +7,7 @@ model MShape {
 controller CProgram implements IProgram {
 
   public int run() {
-    MShape shape = builder(MShape).withValue(3).build();
+    MShape* shape = builder(MShape).withValue(3).build();
 
     return shape.mValue;
   }

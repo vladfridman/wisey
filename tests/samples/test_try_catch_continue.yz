@@ -16,7 +16,7 @@ controller CThrower {
 }
 
 controller CCatcher {
-  inject CThrower mThrower;
+  inject CThrower* mThrower;
 
   public int doTryCatch() {
     try {
@@ -30,7 +30,7 @@ controller CCatcher {
 }
 
 controller CProgram implements IProgram {
-  inject CCatcher mCatcher;
+  inject CCatcher* mCatcher;
 
   public int run() {
     return mCatcher.doTryCatch();

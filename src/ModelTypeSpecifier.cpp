@@ -21,3 +21,7 @@ IType* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
 
   return context.getModel(fullName);
 }
+
+bool ModelTypeSpecifier::isOwner() const {
+  return false;
+}

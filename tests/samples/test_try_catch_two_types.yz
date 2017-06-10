@@ -23,7 +23,7 @@ controller CThrower {
 }
 
 controller CCatcher {
-  inject CThrower mThrower;
+  inject CThrower* mThrower;
 
   public int doTryCatch() {
     try {

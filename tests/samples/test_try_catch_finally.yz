@@ -10,13 +10,13 @@ model MException {
 
 controller CThrower {
   public int doThrow() throws MException {
-    MException exception = builder(MException).withValue(255).build();
+    MException* exception = builder(MException).withValue(255).build();
     throw exception;
   }
 }
 
 controller CCatcher {
-  inject CThrower mThrower;
+  inject CThrower* mThrower;
 
   public int doTryCatch() {
     int value = 1;
@@ -32,7 +32,7 @@ controller CCatcher {
 }
 
 controller CProgram implements IProgram {
-  inject CCatcher mCatcher;
+  inject CCatcher* mCatcher;
 
   public int run() {
     return mCatcher.doTryCatch();

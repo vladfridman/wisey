@@ -2,7 +2,7 @@ package systems.vos.wisey.compiler.tests.multifile;
 
 model MDoer {
   public int doSomething() {
-    MAdder adder = builder(MAdder).build();
+    MAdder* adder = builder(MAdder).build();
     return adder.add(1, 2);
   }
 
@@ -12,7 +12,7 @@ model MDoer {
 }
 
 controller CProgram implements IProgram {
-  state MDoer mDoer;
+  state MDoer* mDoer;
 
   public int run() {
     mDoer = builder(MDoer).build();

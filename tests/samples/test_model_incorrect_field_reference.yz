@@ -7,7 +7,7 @@ model MColor {
 controller CProgram implements IProgram {
 
   public int run() {
-    MColor color = builder(MColor).withIntensity(2).build();
+    MColor* color = builder(MColor).withIntensity(2).build();
 
     return color.mWidth;
   }

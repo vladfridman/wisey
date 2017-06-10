@@ -11,14 +11,14 @@
 
 #include <string>
 
-#include "wisey/ITypeSpecifier.hpp"
+#include "wisey/IObjectTypeSpecifier.hpp"
 
 namespace wisey {
 
 /**
- * Represents MODEL type specifier
+ * Represents model type specifier
  */
-class ModelTypeSpecifier : public ITypeSpecifier {
+class ModelTypeSpecifier : public IObjectTypeSpecifier {
   const std::vector<std::string> mPackage;
   const std::string mName;
 
@@ -30,6 +30,9 @@ public:
   ~ModelTypeSpecifier() { }
 
   IType* getType(IRGenerationContext& context) const override;
+  
+  bool isOwner() const override;
+  
 };
 
 } /* namespace wisey */

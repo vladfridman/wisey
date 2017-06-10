@@ -13,7 +13,7 @@ model MShape {
   int mWidth;
   long mHeight;
   float mDepth;
-  MColor mColor;
+  MColor* mColor;
 
   public MColor getColor() {
     return mColor;

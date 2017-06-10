@@ -1,7 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
 controller CProgram implements IProgram {
-  inject CCatcher mCatcher;
+  inject CCatcher* mCatcher;
 
   public int run() {
     return (int) true;

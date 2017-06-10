@@ -12,7 +12,7 @@ controller CFibonacciCalculator {
 
   receive int mIndex;
 
-  state MIntNumber mResult;
+  state MIntNumber* mResult;
   state boolean mIsComputed;
 
   public MIntNumber calculate() {

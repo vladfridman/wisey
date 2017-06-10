@@ -34,6 +34,7 @@
   #include "wisey/IntConstant.hpp"
   #include "wisey/InterfaceDefinition.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
+  #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/Log.hpp"
   #include "wisey/LogicalAndExpression.hpp"
@@ -48,6 +49,7 @@
   #include "wisey/ModelFieldDeclaration.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
   #include "wisey/NegateExpression.hpp"
+  #include "wisey/OwnerTypeSpecifier.hpp"
   #include "wisey/PrimitiveTypes.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
   #include "wisey/ProgramFile.hpp"
@@ -93,7 +95,8 @@
   wisey::CaseStatement* case_statement;
   wisey::DefaultCaseStatement* default_case_statement;
   wisey::SwitchCases* switch_cases;
-  wisey::ITypeSpecifier* type;
+  wisey::ITypeSpecifier* type_specifier;
+  wisey::IObjectTypeSpecifier* object_type_specifier;
   wisey::Identifier* identifier;
   wisey::VariableDeclaration* variable_declaration;
   wisey::ModelBuilderArgument* model_builder_argument;
@@ -115,7 +118,7 @@
   std::vector<wisey::MethodDeclaration*>* method_declaration_vector;
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
   std::vector<wisey::ControllerFieldDeclaration*>* controller_field_vector;
-  std::vector<wisey::ITypeSpecifier*>* type_list;
+  std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
   std::vector<wisey::InterfaceTypeSpecifier*>* interface_list;
   std::vector<std::string>* identifier_list;
   std::string* string;
@@ -174,13 +177,13 @@
 %type <controller_field> controller_received_field_declaration
 %type <controller_field> controller_injected_field_declaration
 %type <controller_field> controller_state_field_declaration
-%type <type> type_specifier primitive_type_specifier
+%type <type_specifier> type_specifier primitive_type_specifier exception_type_specifier
+%type <object_type_specifier> object_type_specifier
 %type <model_builder_argument_list> model_builder_argument_list
 %type <model_builder_argument> model_builder_argument
 %type <model_type_specifier> model_type_specifier
 %type <controller_type_specifier> controller_type_specifier
 %type <interface_type_specifier> interface_type_specifier
-%type <type> exception_type_specifier
 %type <access_specifier> access_specifier
 %type <method_declaration_vector> method_definition_list method_definition_list_optional
 %type <method_signature_vector> method_signature_list method_signature_list_optional
@@ -189,7 +192,7 @@
 %type <identifier_list> identifier_chain
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
-%type <type_list> exception_type_specifier_list
+%type <type_specifier_list> exception_type_specifier_list
 %type <interface_list> interface_list
 
 %left '+' '-'
@@ -762,9 +765,14 @@ call_arguments
 
 type_specifier
   : primitive_type_specifier
-  | model_type_specifier { $$ = (ITypeSpecifier*) $1; }
-  | controller_type_specifier { $$ = (ITypeSpecifier*) $1; }
-  | interface_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | object_type_specifier '*' { $$ = new OwnerTypeSpecifier($1); }
+  | object_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  ;
+
+object_type_specifier
+  : model_type_specifier { $$ = $1; }
+  | controller_type_specifier { $$ = $1; }
+  | interface_type_specifier { $$ = $1; }
   ;
 
 primitive_type_specifier
@@ -778,7 +786,7 @@ primitive_type_specifier
   ;
 
 model_type_specifier
-  : TMODELIDENTIFIER 
+  : TMODELIDENTIFIER
     { 
       std::vector<std::string> package;
       $$ = new ModelTypeSpecifier(package, *$1); 

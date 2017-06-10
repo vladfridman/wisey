@@ -6,7 +6,7 @@ controller CAdder {
 
 controller CProgram implements IProgram {
   public int run() {
-    CAdder adder;
+    CAdder* adder;
     return 1;
   }
 }

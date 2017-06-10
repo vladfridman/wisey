@@ -21,7 +21,7 @@ model MFibonacciCalculator {
 controller CProgram implements IProgram {
 
   public int run() {
-    MFibonacciCalculator calculator = 
+    MFibonacciCalculator* calculator = 
       builder(MFibonacciCalculator).withIndex(8).build();
     return calculator.calculate();
   }

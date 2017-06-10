@@ -5,7 +5,7 @@ model MSystem {
 
 controller CProgram implements IProgram {
   public int run() {
-    MSystem system = builder(MSystem).build();
+    MSystem* system = builder(MSystem).build();
     system.vos.wisey();
   }
 }

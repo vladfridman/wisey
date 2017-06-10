@@ -12,7 +12,7 @@ controller CThrower {
 }
 
 controller CCatcher {
-  inject CThrower mThrower;
+  inject CThrower* mThrower;
 
   public int doSomething() {
     return mThrower.doThrow();
@@ -20,7 +20,7 @@ controller CCatcher {
 }
 
 controller CProgram implements IProgram {
-  inject CCatcher mCatcher;
+  inject CCatcher* mCatcher;
   
   public int run() {
     return mCatcher.doSomething();

@@ -22,3 +22,6 @@ IType* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getController(fullName);
 }
 
+bool ControllerTypeSpecifier::isOwner() const {
+  return false;
+}

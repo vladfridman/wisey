@@ -1,7 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
 controller CTopController {
-  inject CMiddleController mMiddleController;
+  inject CMiddleController* mMiddleController;
 
   public int get() {
     return mMiddleController.get();
@@ -9,7 +9,7 @@ controller CTopController {
 }
 
 controller CMiddleController {
-  inject CBottomController mBottomController;
+  inject CBottomController* mBottomController;
 
   public int get() {
     return mBottomController.get();
@@ -24,7 +24,7 @@ controller CBottomController {
 }
 
 controller CProgram implements IProgram {
-  inject CTopController mTopController;
+  inject CTopController* mTopController;
 
   public int run() {
     return mTopController.get();

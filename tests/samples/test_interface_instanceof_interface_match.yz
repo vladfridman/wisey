@@ -34,7 +34,7 @@ model MFridge implements IDevice {
 controller CProgram implements IProgram {
 
   public int run() {
-    MFridge fridge = builder(MFridge).withSize(5).build();
+    MFridge* fridge = builder(MFridge).withSize(5).build();
     IObject object = fridge;
   
     return object instanceof IDevice;

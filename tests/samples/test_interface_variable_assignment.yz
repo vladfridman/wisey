@@ -39,7 +39,7 @@ model MSquare implements IShape, IObject, IClickable {
 controller CProgram implements IProgram {
 
   public int run() {
-    MSquare square = builder(MSquare).withWidth(5).build();
+    MSquare* square = builder(MSquare).withWidth(5).build();
 
     IShape shape = square;
     return shape.getArea();

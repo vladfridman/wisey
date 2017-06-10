@@ -20,7 +20,7 @@ controller CFibonacciCalculator {
 }
 
 controller CProgram implements IProgram {
-  inject CFibonacciCalculator mFibonacciCalculator(6);
+  inject CFibonacciCalculator* mFibonacciCalculator(6);
 
   public int run() {
     return mFibonacciCalculator.calculate();

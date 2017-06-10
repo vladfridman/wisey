@@ -9,7 +9,7 @@ model MModel {
 controller CProgram implements IProgram {
 
   public int run() {
-    MModel myModel = builder(MModel).build();
+    MModel* myModel = builder(MModel).build();
     return myModel.foo(1, 2, 3);
   }
 }
