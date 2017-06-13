@@ -99,7 +99,7 @@ TEST_F(LocalHeapVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
 
 TEST_F(LocalHeapVariableTest, freeTest) {
   Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  LocalHeapVariable localHeapVariable("foo", mModel, fooValue);
+  LocalHeapVariable localHeapVariable("foo", mModel->getOwner(), fooValue);
 
   EXPECT_EQ(mBlock->size(), 0u);
 
@@ -129,6 +129,6 @@ TEST_F(TestFileSampleRunner, incompatableHeapVariableTypesInAssignmentRunDeathTe
   expectFailCompile("tests/samples/test_incompatible_heap_variable_types_in_assignment.yz",
                     1,
                     "Error: Incopatible types: can not cast from type "
-                    "'systems.vos.wisey.compiler.tests.MShape' to "
-                    "'systems.vos.wisey.compiler.tests.MColor'");
+                    "'systems.vos.wisey.compiler.tests.MShape\\*' to "
+                    "'systems.vos.wisey.compiler.tests.MColor\\*'");
 }

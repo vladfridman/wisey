@@ -11,6 +11,7 @@
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/Interface.hpp"
+#include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalHeapVariable.hpp"
@@ -23,6 +24,12 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
+
+Interface::Interface(std::string name, llvm::StructType* structType) {
+  mName = name;
+  mStructType = structType;
+  mInterfaceOwner = new InterfaceOwner(this);
+}
 
 Interface::~Interface() {
   mParentInterfaces.clear();
@@ -454,4 +461,8 @@ CallInst* Interface::callInstanceOf(IRGenerationContext& context,
   arguments.push_back(namePointer);
   
   return IRWriter::createCallInst(context, function, arguments, "instanceof");
+}
+
+IObjectOwnerType* Interface::getOwner() const {
+  return mInterfaceOwner;
 }

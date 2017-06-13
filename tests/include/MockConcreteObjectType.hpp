@@ -31,6 +31,7 @@ public:
   MOCK_CONST_METHOD0(getMethods, std::vector<wisey::Method*> ());
 
   MOCK_CONST_METHOD0(getObjectNameGlobalVariableName, std::string ());
+  MOCK_CONST_METHOD0(getOwner, wisey::IObjectOwnerType* ());
   MOCK_CONST_METHOD0(getName, std::string ());
   MOCK_CONST_METHOD0(getShortName, std::string ());
   MOCK_CONST_METHOD1(getLLVMType, llvm::Type* (llvm::LLVMContext&));

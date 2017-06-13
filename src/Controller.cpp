@@ -12,6 +12,7 @@
 
 #include "wisey/Cast.hpp"
 #include "wisey/Controller.hpp"
+#include "wisey/ControllerOwner.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/Field.hpp"
 #include "wisey/IExpression.hpp"
@@ -23,6 +24,12 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
+
+Controller::Controller(std::string name, llvm::StructType* structType) {
+  mName = name;
+  mStructType = structType;
+  mControllerOwner = new ControllerOwner(this);
+}
 
 Controller::~Controller() {
   for (Field* field : mReceivedFields) {
@@ -241,11 +248,15 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (Field* field : mInjectedFields) {
     const IType* fieldType = field->getType();
-    if (fieldType->getTypeKind() != CONTROLLER_TYPE) {
+    if (fieldType->getTypeKind() == CONTROLLER_TYPE) {
+      Log::e("Injected fields must have owner type denoted by '*'");
+      exit(1);
+    }
+    if (fieldType->getTypeKind() != CONTROLLER_OWNER_TYPE) {
       Log::e("Attempt to inject a variable that is not a Controller or an Interface");
       exit(1);
     }
-    Controller* controller = (Controller*) fieldType;
+    Controller* controller = (Controller*) ((IObjectOwnerType*) fieldType)->getObject();
     Value* fieldValue = controller->inject(context, field->getArguments());
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
@@ -254,7 +265,9 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     ostringstream stream;
     stream << "__tmp" << (long) fieldValue;
     string variableName = stream.str();
-    LocalHeapVariable* heapVariable = new LocalHeapVariable(variableName, controller, fieldValue);
+    LocalHeapVariable* heapVariable = new LocalHeapVariable(variableName,
+                                                            controller->getOwner(),
+                                                            fieldValue);
     context.getScopes().setVariable(heapVariable);
   }
 }
@@ -284,4 +297,8 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
+}
+
+IObjectOwnerType* Controller::getOwner() const {
+  return mControllerOwner;
 }

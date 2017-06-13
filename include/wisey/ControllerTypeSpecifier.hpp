@@ -27,9 +27,8 @@ public:
   
   ~ControllerTypeSpecifier() { }
   
-  IType* getType(IRGenerationContext& context) const override;
-  
-  bool isOwner() const override;
+  Controller* getType(IRGenerationContext& context) const override;
+
 };
   
 } /* namespace wisey */

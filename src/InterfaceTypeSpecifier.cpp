@@ -12,7 +12,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-IType* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
+Interface* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
   string fullName = "";
   for (string part : mPackage) {
     fullName.append(part + ".");
@@ -20,8 +20,4 @@ IType* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
   fullName.append(mName);
 
   return context.getInterface(fullName);
-}
-
-bool InterfaceTypeSpecifier::isOwner() const {
-  return false;
 }

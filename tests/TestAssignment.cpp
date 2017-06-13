@@ -87,7 +87,7 @@ TEST_F(AssignmentTest, assignmentExpressionTypeTest) {
 TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier* identifier = new Identifier("foo", "bar");

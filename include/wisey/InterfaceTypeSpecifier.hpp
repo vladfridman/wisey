@@ -28,9 +28,7 @@ public:
   
   ~InterfaceTypeSpecifier() { }
   
-  IType* getType(IRGenerationContext& context) const override;
-
-  bool isOwner() const override;
+  Interface* getType(IRGenerationContext& context) const override;
   
 };
   

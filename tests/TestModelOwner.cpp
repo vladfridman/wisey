@@ -1,11 +1,11 @@
 //
-//  TestModel.cpp
+//  TestModelOwner.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 2/6/17.
+//  Created by Vladimir Fridman on 6/13/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link Model}
+//  Tests {@link ModelOwner}
 //
 
 #include <gtest/gtest.h>
@@ -17,7 +17,7 @@
 #include "MockExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/MethodSignature.hpp"
-#include "wisey/Model.hpp"
+#include "wisey/ModelOwner.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -31,7 +31,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct ModelTest : public Test {
+struct ModelOwnerTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Model* mModel;
@@ -52,7 +52,7 @@ struct ModelTest : public Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  ModelTest() :
+  ModelOwnerTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()),
@@ -126,9 +126,9 @@ struct ModelTest : public Test {
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mSubShapeInterface);
     mShapeInterface = new Interface(shapeFullName, shapeIinterfaceStructType);
-     mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
+    mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
                                                             shapeInterfaceMethods);
-   
+    
     vector<Type*> objectInterfaceTypes;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
@@ -161,7 +161,7 @@ struct ModelTest : public Test {
     mModel->setFields(fields);
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
-
+    
     string cirlceFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
     vector<Type*> circleTypes;
@@ -174,7 +174,7 @@ struct ModelTest : public Test {
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
                        cirlceFullName + ".name");
-
+    
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -183,7 +183,7 @@ struct ModelTest : public Test {
     starStructType->setBody(starTypes);
     map<string, Field*> starFields;
     starFields["mBrightness"] =
-      new Field(PrimitiveTypes::INT_TYPE, "mBrightness", 0, fieldArguments);
+    new Field(PrimitiveTypes::INT_TYPE, "mBrightness", 0, fieldArguments);
     starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
     mStarModel = new Model(starFullName, starStructType);
     mStarModel->setFields(starFields);
@@ -200,7 +200,7 @@ struct ModelTest : public Test {
     
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateVTable(mContext, mStarModel);
-
+    
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -213,9 +213,9 @@ struct ModelTest : public Test {
     mContext.setMainFunction(function);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
-}
+  }
   
-  ~ModelTest() {
+  ~ModelOwnerTest() {
     delete mStringStream;
     delete mField1Expression;
     delete mField2Expression;
@@ -223,85 +223,56 @@ struct ModelTest : public Test {
   }
 };
 
-TEST_F(ModelTest, modelInstantiationTest) {
-  EXPECT_STREQ(mModel->getName().c_str(), "systems.vos.wisey.compiler.tests.MSquare");
-  EXPECT_STREQ(mModel->getShortName().c_str(), "MSquare");
-  EXPECT_STREQ(mModel->getVTableName().c_str(), "systems.vos.wisey.compiler.tests.MSquare.vtable");
-  EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
-  EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
-  EXPECT_EQ(mModel->getInterfaces().size(), 2u);
-  EXPECT_EQ(mModel->getVTableSize(), 3u);
-  EXPECT_EQ(mModel->getFields().size(), 2u);
-  ASSERT_NE(mModel->getOwner(), nullptr);
+TEST_F(ModelOwnerTest, getObjectTest) {
   EXPECT_EQ(mModel->getOwner()->getObject(), mModel);
 }
 
-TEST_F(ModelTest, getSizeTest) {
-  Value* value = mModel->getSize(mContext);
-  IRWriter::createReturnInst(mContext, value);
-  GenericValue result = mContext.runCode();
+TEST_F(ModelOwnerTest, getNameTest) {
+  EXPECT_STREQ(mModel->getOwner()->getName().c_str(),
+               "systems.vos.wisey.compiler.tests.MSquare*");
+}
+
+TEST_F(ModelOwnerTest, getLLVMTypeTest) {
+  EXPECT_EQ(mModel->getOwner()->getLLVMType(mLLVMContext),
+            mModel->getLLVMType(mLLVMContext));
+}
+
+TEST_F(ModelOwnerTest, getTypeKindTest) {
+  EXPECT_EQ(mModel->getOwner()->getTypeKind(), MODEL_OWNER_TYPE);
+}
+
+TEST_F(ModelOwnerTest, canCastToTest) {
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mCircleModel->getOwner()));
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mCarInterface->getOwner()));
+  EXPECT_TRUE(mModel->getOwner()->canCastTo(mModel->getOwner()));
+  EXPECT_TRUE(mModel->getOwner()->canCastTo(mShapeInterface->getOwner()));
+
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mCircleModel));
+  EXPECT_FALSE(mModel->getOwner()->canCastTo(mCarInterface));
+  EXPECT_TRUE(mModel->getOwner()->canCastTo(mModel));
+  EXPECT_TRUE(mModel->getOwner()->canCastTo(mShapeInterface));
+}
+
+TEST_F(ModelOwnerTest, canAutoCastToTest) {
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(PrimitiveTypes::INT_TYPE));
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mCircleModel->getOwner()));
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mCarInterface->getOwner()));
+  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mModel->getOwner()));
+  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mShapeInterface->getOwner()));
   
-  EXPECT_EQ(result.IntVal, 8);
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mCircleModel));
+  EXPECT_FALSE(mModel->getOwner()->canAutoCastTo(mCarInterface));
+  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mModel));
+  EXPECT_TRUE(mModel->getOwner()->canAutoCastTo(mShapeInterface));
 }
 
-TEST_F(ModelTest, createRTTITest) {
-  GlobalVariable* rtti = mContext.getModule()->
-    getGlobalVariable(mCircleModel->getRTTIVariableName());
-  ASSERT_EQ(rtti, nullptr);
-  
-  mCircleModel->createRTTI(mContext);
-  rtti = mContext.getModule()->getGlobalVariable(mCircleModel->getRTTIVariableName());
-  ASSERT_NE(rtti, nullptr);
-}
-
-TEST_F(ModelTest, findFeildTest) {
-  EXPECT_EQ(mModel->findField("width"), mWidthField);
-  EXPECT_EQ(mModel->findField("height"), mHeightField);
-  EXPECT_EQ(mModel->findField("depth"), nullptr);
-}
-
-TEST_F(ModelTest, findMethodTest) {
-  EXPECT_EQ(mModel->findMethod("foo"), mMethod);
-  EXPECT_EQ(mModel->findMethod("get"), nullptr);
-}
-
-TEST_F(ModelTest, methodIndexesTest) {
-  EXPECT_EQ(mModel->findMethod("foo")->getIndex(), 0u);
-  EXPECT_EQ(mModel->findMethod("bar")->getIndex(), 1u);
-}
-
-TEST_F(ModelTest, getMissingFieldsTest) {
-  set<string> givenFields;
-  givenFields.insert("width");
-  
-  vector<string> missingFields = mModel->getMissingFields(givenFields);
-  
-  ASSERT_EQ(missingFields.size(), 1u);
-  EXPECT_EQ(missingFields.at(0), "height");
-}
-
-TEST_F(ModelTest, canCastToTest) {
-  EXPECT_FALSE(mModel->canCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mModel->canCastTo(mCircleModel));
-  EXPECT_FALSE(mModel->canCastTo(mCarInterface));
-  EXPECT_TRUE(mModel->canCastTo(mModel));
-  EXPECT_TRUE(mModel->canCastTo(mShapeInterface));
-}
-
-TEST_F(ModelTest, canAutoCastToTest) {
-  EXPECT_FALSE(mModel->canAutoCastTo(PrimitiveTypes::INT_TYPE));
-  EXPECT_FALSE(mModel->canAutoCastTo(mCircleModel));
-  EXPECT_FALSE(mModel->canAutoCastTo(mCarInterface));
-  EXPECT_TRUE(mModel->canAutoCastTo(mModel));
-  EXPECT_TRUE(mModel->canAutoCastTo(mShapeInterface));
-}
-
-TEST_F(ModelTest, castToFirstInterfaceTest) {
+TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-    ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
-  mModel->castTo(mContext, pointer, mShapeInterface);
+  ConstantPointerNull::get((PointerType*) mModel->getOwner()->getLLVMType(mLLVMContext));
+  mModel->getOwner()->castTo(mContext, pointer, mShapeInterface->getOwner());
   ASSERT_EQ(mBasicBlock->size(), 1u);
-
+  
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
@@ -310,10 +281,10 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelTest, castToSecondInterfaceTest) {
+TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-    ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
-  mModel->castTo(mContext, pointer, mSubShapeInterface);
+  ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
+  mModel->getOwner()->castTo(mContext, pointer, mSubShapeInterface->getOwner());
   ASSERT_EQ(mBasicBlock->size(), 3u);
   
   BasicBlock::iterator iterator = mBasicBlock->begin();
@@ -321,7 +292,7 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
   EXPECT_STREQ(mStringStream->str().c_str(),
                "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*");
   mStringBuffer.clear();
-
+  
   iterator++;
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
@@ -332,143 +303,4 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
   EXPECT_STREQ(mStringStream->str().c_str(),
                "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ISubShape*");
   mStringBuffer.clear();
-}
-
-TEST_F(ModelTest, getObjectNameGlobalVariableNameTest) {
-  ASSERT_STREQ(mModel->getObjectNameGlobalVariableName().c_str(),
-               "systems.vos.wisey.compiler.tests.MSquare.name");
-}
-
-TEST_F(ModelTest, getTypeTableNameTest) {
-  ASSERT_STREQ(mModel->getTypeTableName().c_str(),
-               "systems.vos.wisey.compiler.tests.MSquare.typetable");
-}
-
-TEST_F(ModelTest, getRTTIVariableNameTest) {
-  ASSERT_STREQ(mModel->getRTTIVariableName().c_str(),
-               "systems.vos.wisey.compiler.tests.MSquare.rtti");
-}
-
-TEST_F(ModelTest, castToDeathTest) {
-  Mock::AllowLeak(mField1Expression);
-  Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mField3Expression);
-  Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-
-  EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
-              ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from "
-              "type 'systems.vos.wisey.compiler.tests.MSquare' to 'int'");
-}
-
-TEST_F(ModelTest, getFlattenedInterfaceHierarchyTest) {
-  vector<Interface*> allInterfaces = mModel->getFlattenedInterfaceHierarchy();
-  
-  EXPECT_EQ(allInterfaces.size(), 3u);
-  EXPECT_EQ(allInterfaces.at(0), mShapeInterface);
-  EXPECT_EQ(allInterfaces.at(1), mSubShapeInterface);
-  EXPECT_EQ(allInterfaces.at(2), mObjectInterface);
-}
-
-TEST_F(ModelTest, doesImplmentInterfaceTest) {
-  EXPECT_TRUE(mModel->doesImplmentInterface(mSubShapeInterface));
-  EXPECT_TRUE(mModel->doesImplmentInterface(mShapeInterface));
-  EXPECT_TRUE(mModel->doesImplmentInterface(mObjectInterface));
-  EXPECT_FALSE(mModel->doesImplmentInterface(mCarInterface));
-}
-
-TEST_F(ModelTest, buildTest) {
-  string argumentSpecifier1("withBrightness");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
-  string argumentSpecifier2("withWeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField2Expression);
-  ModelBuilderArgumentList argumentList;
-  argumentList.push_back(argument1);
-  argumentList.push_back(argument2);
-  
-  Value* result = mStarModel->build(mContext, argumentList);
-  
-  EXPECT_NE(result, nullptr);
-  EXPECT_TRUE(BitCastInst::classof(result));
-  
-  ASSERT_EQ(6ul, mBasicBlock->size());
-  
-  *mStringStream << *mBasicBlock;
-  string expected = string() +
-  "\nentry:" +
-  "\n  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
-  "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))"
-  "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MStar*"
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
-    "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 0"
-  "\n  store i32 3, i32* %0"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
-    "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 1"
-  "\n  store i32 5, i32* %1\n";
-  
-  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
-  mStringBuffer.clear();
-}
-
-TEST_F(ModelTest, buildInvalidModelBuilderArgumentsDeathTest) {
-  Mock::AllowLeak(mField1Expression);
-  Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mField3Expression);
-  
-  string argumentSpecifier1("width");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
-  string argumentSpecifier2("withWeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField2Expression);
-  ModelBuilderArgumentList argumentList;
-  argumentList.push_back(argument1);
-  argumentList.push_back(argument2);
-  
-  const char *expected =
-  "Error: Model builder argument should start with 'with'. e.g. .withField\\(value\\)."
-  "\nError: Some arguments for the model systems.vos.wisey.compiler.tests.MStar "
-  "builder are not well formed";
-  
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList),
-              ::testing::ExitedWithCode(1),
-              expected);
-}
-
-TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
-  Mock::AllowLeak(mField1Expression);
-  Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mField3Expression);
-  
-  string argumentSpecifier1("withBrightness");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
-  string argumentSpecifier2("withWeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField3Expression);
-  ModelBuilderArgumentList argumentList;
-  argumentList.push_back(argument1);
-  argumentList.push_back(argument2);
-  
-  const char *expected = "Error: Model builder argument value for field mWeight "
-    "does not match its type";
-  
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList),
-              ::testing::ExitedWithCode(1),
-              expected);
-}
-
-TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
-  Mock::AllowLeak(mField1Expression);
-  Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mField3Expression);
-  
-  string argumentSpecifier1("withBrightness");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
-  ModelBuilderArgumentList argumentList;
-  argumentList.push_back(argument1);
-  
-  const char *expected =
-  "Error: Field mWeight is not initialized"
-  "\nError: Some fields of the model systems.vos.wisey.compiler.tests.MStar are not initialized.";
-  
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList),
-              ::testing::ExitedWithCode(1),
-              expected);
 }

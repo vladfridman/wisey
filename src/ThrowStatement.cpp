@@ -25,16 +25,19 @@ ThrowStatement::~ThrowStatement() {
 
 Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
-  if (expressionType->getTypeKind() != MODEL_TYPE) {
+  TypeKind typeKind = expressionType->getTypeKind();
+  if (typeKind != MODEL_TYPE && typeKind != MODEL_OWNER_TYPE) {
     Log::e("Thrown object can only be a model");
     exit(1);
   }
+  Model* model = typeKind == MODEL_OWNER_TYPE
+  ? (Model*) ((IObjectOwnerType*) expressionType)->getObject()
+  : (Model*) expressionType;
 
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock* basicBlock = context.getBasicBlock();
-  context.getScopes().getScope()->addException(expressionType);
+  context.getScopes().getScope()->addException(model);
 
-  Model* model = (Model*) expressionType;
   GlobalVariable* rtti = context.getModule()->getGlobalVariable(model->getRTTIVariableName());
 
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();

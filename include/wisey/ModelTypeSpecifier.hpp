@@ -29,9 +29,7 @@ public:
   
   ~ModelTypeSpecifier() { }
 
-  IType* getType(IRGenerationContext& context) const override;
-  
-  bool isOwner() const override;
+  Model* getType(IRGenerationContext& context) const override;
   
 };
 

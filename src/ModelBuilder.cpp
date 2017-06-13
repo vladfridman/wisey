@@ -31,7 +31,9 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   Model* model = (Model*) mModelTypeSpecifier->getType(context);
   Instruction* malloc = model->build(context, mModelBuilderArgumentList);
   
-  LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(), model, malloc);
+  LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(),
+                                                          model->getOwner(),
+                                                          malloc);
   context.getScopes().setVariable(heapVariable);
   
   return malloc;
@@ -49,5 +51,5 @@ string ModelBuilder::getVariableName() const {
 }
 
 const IType* ModelBuilder::getType(IRGenerationContext& context) const {
-  return mModelTypeSpecifier->getType(context);
+  return mModelTypeSpecifier->getType(context)->getOwner();
 }

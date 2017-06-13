@@ -16,8 +16,7 @@
  */
 class MockObjectTypeSpecifier : public wisey::IObjectTypeSpecifier {
 public:
-  MOCK_CONST_METHOD1(getType, wisey::IType* (wisey::IRGenerationContext&));
-  MOCK_CONST_METHOD0(isOwner, bool ());
+  MOCK_CONST_METHOD1(getType, wisey::IObjectType* (wisey::IRGenerationContext&));
 };
 
 #endif /* MockObjectTypeSpecifier_h */

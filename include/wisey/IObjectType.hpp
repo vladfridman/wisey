@@ -11,6 +11,7 @@
 
 #include "wisey/IType.hpp"
 #include "wisey/IMethodDescriptor.hpp"
+#include "wisey/IObjectOwnerType.hpp"
 
 namespace wisey {
   
@@ -35,6 +36,11 @@ public:
    * Returns name of the global variable containing name of this Callable Object in string format
    */
   virtual std::string getObjectNameGlobalVariableName() const = 0;
+  
+  /**
+   * Returns the owner type for this object
+   */
+  virtual IObjectOwnerType* getOwner() const = 0;
   
   /**
    * Returns an i8* constant pointer to the name of the collable object

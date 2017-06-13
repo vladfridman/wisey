@@ -72,8 +72,47 @@ TEST_F(ReturnVoidStatementTest, returnVoidTest) {
   ASSERT_STREQ(mStringStream->str().c_str(), "  ret void");
 }
 
-
 TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
+  FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
+  Function* function = Function::Create(functionType,
+                                        GlobalValue::InternalLinkage,
+                                        "test",
+                                        mContext.getModule());
+  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+  mContext.setBasicBlock(basicBlock);
+  mContext.getScopes().pushScope();
+  mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
+  
+  Type* structType = Type::getInt8Ty(mLLVMContext);
+  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  LocalHeapVariable* foo = new LocalHeapVariable("foo", mModel->getOwner(), fooMalloc);
+  mContext.getScopes().setVariable(foo);
+  
+  mContext.getScopes().pushScope();
+  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  LocalHeapVariable* bar = new LocalHeapVariable("bar", mModel->getOwner(), barMalloc);
+  mContext.getScopes().setVariable(bar);
+  
+  ReturnVoidStatement returnStatement;
+  
+  returnStatement.generateIR(mContext);
+  
+  ASSERT_EQ(5ul, basicBlock->size());
+  *mStringStream << *basicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
+    "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
+    "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+  "\n  tail call void @free(i8* %malloccall1)"
+  "\n  tail call void @free(i8* %malloccall)"
+  "\n  ret void\n";
+  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+}
+
+TEST_F(ReturnVoidStatementTest, heapVariablesAreNotClearedTest) {
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,
@@ -99,16 +138,14 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   
   returnStatement.generateIR(mContext);
   
-  ASSERT_EQ(5ul, basicBlock->size());
+  ASSERT_EQ(3ul, basicBlock->size());
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
-    "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
-    "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  tail call void @free(i8* %malloccall1)"
-  "\n  tail call void @free(i8* %malloccall)"
+  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
   "\n  ret void\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }

@@ -11,8 +11,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "MockObjectOwnerType.hpp"
 #include "MockObjectTypeSpecifier.hpp"
-#include "MockType.hpp"
+#include "MockObjectType.hpp"
 #include "wisey/OwnerTypeSpecifier.hpp"
 
 using namespace llvm;
@@ -33,11 +34,12 @@ struct OwnerTypeSpecifierTest : public Test {
 };
 
 TEST_F(OwnerTypeSpecifierTest, getTypeTest) {
-  NiceMock<MockType> mMockType;
-  ON_CALL(*mObjectTypeSpecifier, getType(_)).WillByDefault(Return(&mMockType));
+  NiceMock<MockObjectType> mockObjectType;
+  NiceMock<MockObjectOwnerType> mockOwnerObjectType;
+  ON_CALL(mockObjectType, getOwner()).WillByDefault(Return(&mockOwnerObjectType));
+  ON_CALL(*mObjectTypeSpecifier, getType(_)).WillByDefault(Return(&mockObjectType));
   
   OwnerTypeSpecifier ownerTypeSpecifier(mObjectTypeSpecifier);
   
-  EXPECT_EQ(ownerTypeSpecifier.getType(mContext), &mMockType);
-  EXPECT_EQ(ownerTypeSpecifier.isOwner(), true);
+  EXPECT_EQ(ownerTypeSpecifier.getType(mContext), &mockOwnerObjectType);
 }

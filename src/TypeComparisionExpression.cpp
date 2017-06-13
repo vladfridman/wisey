@@ -29,6 +29,13 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const
   ConstantInt* valueTrue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
   ConstantInt* valueFalse = ConstantInt::get(Type::getInt1Ty(llvmContext), 0);
   
+  TypeKind expressionTypeKind = expressionType->getTypeKind();
+  if (expressionTypeKind == MODEL_OWNER_TYPE ||
+      expressionTypeKind == INTERFACE_OWNER_TYPE ||
+      expressionTypeKind == CONTROLLER_OWNER_TYPE) {
+    expressionType = ((IObjectOwnerType*) expressionType)->getObject();
+  }
+  
   if (type == expressionType) {
     return valueTrue;
   }

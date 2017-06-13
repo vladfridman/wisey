@@ -67,7 +67,9 @@ void Catch::generateIR(IRGenerationContext& context,
   vector<Value*> endCatchArguments;
   IRWriter::createCallInst(context, endCatchFunction, endCatchArguments, "");
   
-  IVariable* exceptionVariable = new LocalHeapVariable(mIdentifier, exceptionType, malloc);
+  IVariable* exceptionVariable = new LocalHeapVariable(mIdentifier,
+                                                       exceptionType->getOwner(),
+                                                       malloc);
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);
   mStatement->generateIR(context);
   context.getScopes().popScope(context);

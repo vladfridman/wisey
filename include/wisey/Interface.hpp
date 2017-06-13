@@ -19,6 +19,7 @@
 
 namespace wisey {
 
+class InterfaceOwner;
 class MethodSignature;
 class Model;
   
@@ -27,6 +28,7 @@ class Model;
  */
 class Interface : public IObjectType {
   std::string mName;
+  InterfaceOwner* mInterfaceOwner;
   llvm::StructType* mStructType;
   std::vector<Interface*> mParentInterfaces;
   std::vector<MethodSignature*> mMethodSignatures;
@@ -39,8 +41,7 @@ class Interface : public IObjectType {
   
 public:
   
-  Interface(std::string name, llvm::StructType* structType)
-  : mName(name), mStructType(structType) { }
+  Interface(std::string name, llvm::StructType* structType);
   
   ~Interface();
   
@@ -117,6 +118,8 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType) const override;
   
+  IObjectOwnerType* getOwner() const override;
+
 private:
   
   unsigned long includeInterfaceMethods(Interface* parentInterface,

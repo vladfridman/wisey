@@ -8,17 +8,13 @@
 
 #include "wisey/OwnerTypeSpecifier.hpp"
 
+using namespace std;
 using namespace wisey;
 
 OwnerTypeSpecifier::~OwnerTypeSpecifier() {
   delete mObjectTypeSpecifier;
 }
 
-const IType* OwnerTypeSpecifier::getType(IRGenerationContext& context) const {
-  return mObjectTypeSpecifier->getType(context);
+const IObjectOwnerType* OwnerTypeSpecifier::getType(IRGenerationContext& context) const {
+  return mObjectTypeSpecifier->getType(context)->getOwner();
 }
-
-bool OwnerTypeSpecifier::isOwner() const {
-  return true;
-}
-

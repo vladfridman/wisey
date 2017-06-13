@@ -12,7 +12,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-IType* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
+Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
   string fullName = "";
   for (string part : mPackage) {
     fullName.append(part + ".");
@@ -20,8 +20,4 @@ IType* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
   fullName.append(mName);
 
   return context.getController(fullName);
-}
-
-bool ControllerTypeSpecifier::isOwner() const {
-  return false;
 }

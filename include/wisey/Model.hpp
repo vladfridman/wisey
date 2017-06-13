@@ -21,12 +21,14 @@
 namespace wisey {
 
 class Interface;
+class ModelOwner;
   
 /**
  * Contains information about a MODEL including the llvm::StructType and field information
  */
 class Model : public IConcreteObjectType {
   std::string mName;
+  ModelOwner* mModelOwner;
   llvm::StructType* mStructType;
   std::map<std::string, Field*> mFields;
   std::vector<Method*> mMethods;
@@ -36,7 +38,7 @@ class Model : public IConcreteObjectType {
   
 public:
   
-  Model(std::string name, llvm::StructType* structType) : mName(name), mStructType(structType) { }
+  Model(std::string name, llvm::StructType* structType);
   
   ~Model();
   
@@ -127,6 +129,8 @@ public:
   
   std::string getTypeTableName() const override;
   
+  IObjectOwnerType* getOwner() const override;
+
 private:
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;

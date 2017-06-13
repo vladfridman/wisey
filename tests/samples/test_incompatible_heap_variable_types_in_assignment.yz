@@ -12,7 +12,7 @@ model MShape {
 controller CProgram implements IProgram {
 
   public int run() {
-    MColor color = builder(MShape).withWidth(1).withHeight(2).build();
+    MColor* color = builder(MShape).withWidth(1).withHeight(2).build();
     return 0;
   }
 } 

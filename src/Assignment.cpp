@@ -25,14 +25,17 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  if (variable->getType()->getTypeKind() == CONTROLLER_TYPE) {
+  TypeKind assignToTypeKind = getType(context)->getTypeKind();
+  if (assignToTypeKind == CONTROLLER_TYPE || assignToTypeKind == CONTROLLER_OWNER_TYPE) {
     Log::e("Can not assign to controllers");
     exit(1);
   }
   
   Value* result = variable->generateAssignmentIR(context, mExpression);
   
-  if (getType(context)->getTypeKind() != PRIMITIVE_TYPE) {
+  if (assignToTypeKind == CONTROLLER_OWNER_TYPE ||
+      assignToTypeKind == INTERFACE_OWNER_TYPE ||
+      assignToTypeKind == MODEL_OWNER_TYPE) {
     mExpression->releaseOwnership(context);
   }
   

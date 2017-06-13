@@ -12,12 +12,19 @@
 #include "wisey/Environment.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/ModelOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
+
+Model::Model(string name, StructType* structType) {
+  mName = name;
+  mStructType = structType;
+  mModelOwner = new ModelOwner(this);
+}
 
 Model::~Model() {
   for(map<std::string, Field*>::iterator iterator = mFields.begin();
@@ -299,4 +306,8 @@ void Model::initializeFields(IRGenerationContext& context,
 
 string Model::getRTTIVariableName() const {
   return getName() + ".rtti";
+}
+
+IObjectOwnerType* Model::getOwner() const {
+  return mModelOwner;
 }

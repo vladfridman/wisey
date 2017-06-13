@@ -1,30 +1,28 @@
 //
-//  MockObjectType.hpp
+//  MockObjectOwnerType.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 4/18/17.
+//  Created by Vladimir Fridman on 6/12/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef MockObjectType_h
-#define MockObjectType_h
+#ifndef MockObjectOwnerType_h
+#define MockObjectOwnerType_h
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
 #include "wisey/IMethodDescriptor.hpp"
-#include "wisey/IObjectType.hpp"
+#include "wisey/IObjectOwnerType.hpp"
 
 /**
- * Defines a mock object for IObjectType
+ * Defines a mock object for IOwnerObjectType
  */
-class MockObjectType : public wisey::IObjectType {
+class MockObjectOwnerType : public wisey::IObjectOwnerType {
 public:
+  MOCK_CONST_METHOD0(getObject, wisey::IObjectType* ());
   MOCK_CONST_METHOD1(findMethod, wisey::IMethodDescriptor* (std::string));
-  MOCK_CONST_METHOD0(getObjectNameGlobalVariableName, std::string ());
-  MOCK_CONST_METHOD0(getOwner, wisey::IObjectOwnerType* ());
   MOCK_CONST_METHOD0(getName, std::string ());
-  MOCK_CONST_METHOD0(getShortName, std::string ());
   MOCK_CONST_METHOD1(getLLVMType, llvm::Type* (llvm::LLVMContext&));
   MOCK_CONST_METHOD0(getTypeKind, wisey::TypeKind ());
   MOCK_CONST_METHOD1(canCastTo, bool (const wisey::IType*));
@@ -34,4 +32,5 @@ public:
                                            const wisey::IType*));
 };
 
-#endif /* MockObjectType_h */
+
+#endif /* MockObjectOwnerType_h */

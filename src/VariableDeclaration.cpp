@@ -32,7 +32,7 @@ VariableDeclaration::~VariableDeclaration() {
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   TypeKind typeKind = mTypeSpecifier->getType(context)->getTypeKind();
-  if (typeKind == CONTROLLER_TYPE) {
+  if (typeKind == CONTROLLER_TYPE || typeKind == CONTROLLER_OWNER_TYPE) {
     Log::e("Can not have local controller type variables, controllers can only be injected.");
     exit(1);
   }
@@ -50,14 +50,17 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  if (variable->getType()->getTypeKind() == CONTROLLER_TYPE) {
+  TypeKind assignToTypeKind = variable->getType()->getTypeKind();
+  if (assignToTypeKind == CONTROLLER_TYPE || assignToTypeKind == CONTROLLER_OWNER_TYPE) {
     Log::e("Can not assign to controllers");
     exit(1);
   }
   
   variable->generateAssignmentIR(context, mAssignmentExpression);
   
-  if (mId->getType(context)->getTypeKind() != PRIMITIVE_TYPE) {
+  if (assignToTypeKind == CONTROLLER_OWNER_TYPE ||
+      assignToTypeKind == INTERFACE_OWNER_TYPE ||
+      assignToTypeKind == MODEL_OWNER_TYPE) {
     mAssignmentExpression->releaseOwnership(context);
   }
   

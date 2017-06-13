@@ -38,7 +38,7 @@ controller CCatcher {
 }
 
 controller CProgram implements IProgram {
-  inject CCatcher mCatcher;
+  inject CCatcher* mCatcher;
 
   public int run() {
     return mCatcher.doTryCatch();

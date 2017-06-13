@@ -118,9 +118,9 @@ vector<Field*> ControllerDefinition::fieldDeclarationsToFields(IRGenerationConte
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
     if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
-        fieldType->getTypeKind() == INTERFACE_TYPE) {
-      Interface* interface = (Interface*) fieldType;
-      fieldType = context.getBoundController(interface);
+        fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
+      Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
+      fieldType = context.getBoundController(interface)->getOwner();
     }
     
     Field* field = new Field(fieldType,
@@ -161,8 +161,8 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
 
     if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
-        fieldType->getTypeKind() == INTERFACE_TYPE) {
-      Interface* interface = (Interface*) fieldType;
+        fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
+      Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
       fieldType = context.getBoundController(interface);
     }
     

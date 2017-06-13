@@ -108,7 +108,7 @@ struct ControllerTest : public Test {
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string multiplierFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
-    mStructType = StructType::create(mLLVMContext, "CMultiplier");
+    mStructType = StructType::create(mLLVMContext, multiplierFullName);
     mStructType->setBody(types);
     vector<Field*> receivedFields;
     vector<Field*> injectedFields;
@@ -220,6 +220,8 @@ TEST_F(ControllerTest, controllerInstantiationTest) {
   EXPECT_EQ(mMultiplierController->getInterfaces().size(), 2u);
   EXPECT_EQ(mMultiplierController->getVTableSize(), 3u);
   EXPECT_EQ(mMultiplierController->getFields().size(), 2u);
+  ASSERT_NE(mMultiplierController->getOwner(), nullptr);
+  EXPECT_EQ(mMultiplierController->getOwner()->getObject(), mMultiplierController);
 }
 
 TEST_F(ControllerTest, findFeildTest) {
@@ -273,7 +275,7 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(),
-              "  %0 = bitcast %CMultiplier* null to "
+              "  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to "
                "%systems.vos.wisey.compiler.tests.IScienceCalculator*");
   mStringBuffer.clear();
 }
@@ -286,7 +288,8 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   
   BasicBlock::iterator iterator = mBasicBlock->begin();
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = bitcast %CMultiplier* null to i8*");
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*");
   mStringBuffer.clear();
   
   iterator++;
@@ -425,7 +428,10 @@ TEST_F(ControllerTest, injectFieldTest) {
   vector<Field*> parentReceivedFields;
   vector<Field*> parentInjectedFields;
   vector<Field*> parentStateFields;
-  parentInjectedFields.push_back(new Field(childController, "mChild", 0, fieldArguments));
+  parentInjectedFields.push_back(new Field(childController->getOwner(),
+                                           "mChild",
+                                           0,
+                                           fieldArguments));
   Controller* parentController = new Controller(parentFullName, parentStructType);
   parentController->setFields(parentReceivedFields, parentInjectedFields, parentStateFields);
   mContext.addController(parentController);
@@ -470,4 +476,10 @@ TEST_F(ControllerTest, injectFieldTest) {
 
 TEST_F(TestFileSampleRunner, controllerInjectionChainRunTest) {
   runFile("tests/samples/test_controller_injection_chain.yz", "2");
+}
+
+TEST_F(TestFileSampleRunner, injectNonOwnerRunDeathTest) {
+  expectFailCompile("tests/samples/test_inject_non_owner_run_death_test.yz",
+                    1,
+                    "Error: Injected fields must have owner type denoted by '\\*'");
 }

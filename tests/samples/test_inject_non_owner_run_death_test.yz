@@ -1,0 +1,14 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CService {
+}
+
+controller CProgram implements IProgram {
+  inject CService mService;
+
+  public int run() {
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);

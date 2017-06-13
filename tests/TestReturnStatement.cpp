@@ -134,12 +134,12 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* foo = new LocalHeapVariable("foo", mModel, fooMalloc);
+  LocalHeapVariable* foo = new LocalHeapVariable("foo", mModel->getOwner(), fooMalloc);
   mContext.getScopes().setVariable(foo);
 
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* bar = new LocalHeapVariable("bar", mModel, barMalloc);
+  LocalHeapVariable* bar = new LocalHeapVariable("bar", mModel->getOwner(), barMalloc);
   mContext.getScopes().setVariable(bar);
 
   ReturnStatement returnStatement(mExpression);
@@ -158,6 +158,45 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
     "\n  tail call void @free(i8* %malloccall1)"
     "\n  tail call void @free(i8* %malloccall)"
     "\n  ret i64 %conv\n";
+  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+}
+
+TEST_F(ReturnStatementTest, heapVariablesAreNotClearedTest) {
+  FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
+  Function* function = Function::Create(functionType,
+                                        GlobalValue::InternalLinkage,
+                                        "test",
+                                        mContext.getModule());
+  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+  mContext.setBasicBlock(basicBlock);
+  mContext.getScopes().pushScope();
+  mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
+  
+  Type* structType = Type::getInt8Ty(mLLVMContext);
+  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  LocalHeapVariable* foo = new LocalHeapVariable("foo", mModel, fooMalloc);
+  mContext.getScopes().setVariable(foo);
+  
+  mContext.getScopes().pushScope();
+  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  LocalHeapVariable* bar = new LocalHeapVariable("bar", mModel, barMalloc);
+  mContext.getScopes().setVariable(bar);
+  
+  ReturnStatement returnStatement(mExpression);
+  
+  returnStatement.generateIR(mContext);
+  
+  ASSERT_EQ(4ul, basicBlock->size());
+  *mStringStream << *basicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
+  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
+  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+  "\n  %conv = zext i32 3 to i64"
+  "\n  ret i64 %conv\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }
 

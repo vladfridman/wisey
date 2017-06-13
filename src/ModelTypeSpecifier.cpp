@@ -12,7 +12,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-IType* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
+Model* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
   string fullName = "";
   for (string part : mPackage) {
     fullName.append(part + ".");
@@ -20,8 +20,4 @@ IType* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
   fullName.append(mName);
 
   return context.getModel(fullName);
-}
-
-bool ModelTypeSpecifier::isOwner() const {
-  return false;
 }

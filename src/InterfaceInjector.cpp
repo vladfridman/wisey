@@ -27,7 +27,9 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   ExpressionList arguments;
   Instruction* malloc = controller->inject(context, arguments);
   
-  LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(), controller, malloc);
+  LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(),
+                                                          controller->getOwner(),
+                                                          malloc);
   context.getScopes().setVariable(heapVariable);
   
   return malloc;

@@ -16,7 +16,8 @@ namespace wisey {
 /**
  * Represents an object owner type specifier that is denoted by '*' in the wisey language
  */
-class OwnerTypeSpecifier : public IObjectTypeSpecifier {
+class OwnerTypeSpecifier : public ITypeSpecifier {
+  
   const IObjectTypeSpecifier* mObjectTypeSpecifier;
   
 public:
@@ -26,9 +27,7 @@ public:
   
   ~OwnerTypeSpecifier();
   
-  const IType* getType(IRGenerationContext& context) const override;
-  
-  bool isOwner() const override;
+  const IObjectOwnerType* getType(IRGenerationContext& context) const override;
   
 };
   

@@ -18,11 +18,14 @@
 
 namespace wisey {
 
+class ControllerOwner;
+  
 /**
  * Contains information about a Controller including its fields and methods
  */
 class Controller : public IConcreteObjectType {
   std::string mName;
+  ControllerOwner* mControllerOwner;
   llvm::StructType* mStructType;
   std::vector<Field*> mReceivedFields;
   std::vector<Field*> mInjectedFields;
@@ -35,8 +38,7 @@ class Controller : public IConcreteObjectType {
   
 public:
   
-  Controller(std::string name, llvm::StructType* structType)
-  : mName(name), mStructType(structType) { }
+  Controller(std::string name, llvm::StructType* structType);
   
   ~Controller();
   
@@ -102,6 +104,8 @@ public:
   std::vector<Interface*> getFlattenedInterfaceHierarchy() const override;
   
   std::string getTypeTableName() const override;
+  
+  IObjectOwnerType* getOwner() const override;
  
 private:
 

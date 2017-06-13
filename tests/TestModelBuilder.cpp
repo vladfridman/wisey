@@ -117,7 +117,7 @@ TEST_F(ModelBuilderTest, testGetType) {
   
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
 
-  EXPECT_EQ(modelBuilder.getType(mContext), mModel);
+  EXPECT_EQ(modelBuilder.getType(mContext), mModel->getOwner());
   
   delete mField1Expression;
   delete mField2Expression;

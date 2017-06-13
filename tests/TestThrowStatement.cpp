@@ -120,12 +120,12 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* foo = new LocalHeapVariable("foo", mCircleModel, fooMalloc);
+  LocalHeapVariable* foo = new LocalHeapVariable("foo", mCircleModel->getOwner(), fooMalloc);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* bar = new LocalHeapVariable("bar", mCircleModel, barMalloc);
+  LocalHeapVariable* bar = new LocalHeapVariable("bar", mCircleModel->getOwner(), barMalloc);
   mContext.getScopes().setVariable(bar);
   
   Constant* exceptionObject =
@@ -155,6 +155,48 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %4, i8* %0, i64 %3, i32 4, i1 false)"
   "\n  tail call void @free(i8* %malloccall1)"
   "\n  tail call void @free(i8* %malloccall)"
+  "\n  call void @__cxa_throw(i8* %4, i8* %1, i8* null)"
+  "\n  unreachable\n";
+  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+}
+
+TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
+  Type* structType = Type::getInt8Ty(mLLVMContext);
+  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  LocalHeapVariable* foo = new LocalHeapVariable("foo", mCircleModel, fooMalloc);
+  mContext.getScopes().setVariable(foo);
+  
+  mContext.getScopes().pushScope();
+  Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
+  LocalHeapVariable* bar = new LocalHeapVariable("bar", mCircleModel, barMalloc);
+  mContext.getScopes().setVariable(bar);
+  
+  Constant* exceptionObject =
+  ConstantPointerNull::get((PointerType*) mCircleModel->getLLVMType(mLLVMContext));
+  ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
+  ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
+  ThrowStatement throwStatement(mMockExpression);
+  
+  Value* result = throwStatement.generateIR(mContext);
+  EXPECT_NE(result, nullptr);
+  EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
+  
+  ASSERT_EQ(10ul, mBlock->size());
+  *mStringStream << *mBlock;
+  string expected =
+  "\nentry:"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
+  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
+  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
+  "\n  %1 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
+  "%systems.vos.wisey.compiler.tests.MCircle* null, i32 1"
+  "\n  %3 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %2 to i64"
+  "\n  %4 = call i8* @__cxa_allocate_exception(i64 %3)"
+  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %4, i8* %0, i64 %3, i32 4, i1 false)"
   "\n  call void @__cxa_throw(i8* %4, i8* %1, i8* null)"
   "\n  unreachable\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());

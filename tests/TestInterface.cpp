@@ -107,6 +107,8 @@ TEST_F(InterfaceTest, interfaceInstantiationTest) {
   EXPECT_STREQ(mShapeInterface->getShortName().c_str(), "IShape");
   EXPECT_EQ(mShapeInterface->getTypeKind(), INTERFACE_TYPE);
   EXPECT_EQ(mShapeInterface->getLLVMType(mLLVMContext), mShapeStructType->getPointerTo());
+  ASSERT_NE(mShapeInterface->getOwner(), nullptr);
+  EXPECT_EQ(mShapeInterface->getOwner()->getObject(), mShapeInterface);
 }
 
 TEST_F(InterfaceTest, findMethodTest) {
