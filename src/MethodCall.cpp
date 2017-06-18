@@ -139,15 +139,12 @@ void MethodCall::releaseOwnership(IRGenerationContext& context) const {
 
 IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
-  TypeKind typeKind = expressionType->getTypeKind();
-  if (typeKind == PRIMITIVE_TYPE) {
+  if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
     exit(1);
   }
   
-  if (typeKind == CONTROLLER_OWNER_TYPE ||
-      typeKind == MODEL_OWNER_TYPE ||
-      typeKind == INTERFACE_OWNER_TYPE) {
+  if (IType::isOwnerType(expressionType)) {
     return ((IObjectOwnerType*) expressionType)->getObject();
   }
   

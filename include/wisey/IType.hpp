@@ -71,6 +71,11 @@ public:
   virtual llvm::Value* castTo(IRGenerationContext& context,
                               llvm::Value* fromValue,
                               const IType* toType) const = 0;
+  
+  /**
+   * Tells whether the given type is an owner type
+   */
+  static bool isOwnerType(const IType* type);
 };
 
 } /* namespace wisey */

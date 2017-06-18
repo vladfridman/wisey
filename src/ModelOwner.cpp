@@ -33,10 +33,7 @@ bool ModelOwner::canCastTo(const IType* toType) const {
     return true;
   }
   
-  TypeKind typeKind = toType->getTypeKind();
-  if (typeKind == INTERFACE_OWNER_TYPE ||
-      typeKind == CONTROLLER_OWNER_TYPE ||
-      typeKind == MODEL_OWNER_TYPE) {
+  if (IType::isOwnerType(toType)) {
     return mModel->canCastTo(((IObjectOwnerType*) toType)->getObject());
   }
   
@@ -54,10 +51,7 @@ Value* ModelOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
   
-  TypeKind typeKind = toType->getTypeKind();
-  if (typeKind == INTERFACE_OWNER_TYPE ||
-      typeKind == CONTROLLER_OWNER_TYPE ||
-      typeKind == MODEL_OWNER_TYPE) {
+  if (IType::isOwnerType(toType)) {
     return mModel->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
   }
   

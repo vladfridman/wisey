@@ -33,10 +33,7 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                            mExpression->generateIR(context),
                                            returnType);
   
-  TypeKind returnTypeKind = returnType->getTypeKind();
-  if (returnTypeKind == MODEL_OWNER_TYPE ||
-      returnTypeKind == INTERFACE_OWNER_TYPE ||
-      returnTypeKind == CONTROLLER_OWNER_TYPE) {
+  if (IType::isOwnerType(returnType)) {
     mExpression->releaseOwnership(context);
   }
   
