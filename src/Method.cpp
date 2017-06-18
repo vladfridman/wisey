@@ -8,6 +8,7 @@
 
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalHeapVariable.hpp"
 #include "wisey/LocalStackVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Method.hpp"
@@ -113,6 +114,12 @@ void Method::storeArgumentValue(IRGenerationContext& context,
                                 std::string variableName,
                                 const IType* variableType,
                                 llvm::Value* variableValue) const {
+  if (variableType->getTypeKind() != PRIMITIVE_TYPE) {
+    IVariable* variable = new LocalHeapVariable(variableName, variableType, variableValue);
+    context.getScopes().setVariable(variable);
+    return;
+  }
+  
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* llvmType = variableType->getLLVMType(llvmContext);
   string newName = variableName + ".param";

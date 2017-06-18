@@ -37,14 +37,14 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
   IVariable* thisVariable = context.getScopes().getVariable("this");
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  Value* loadedValue = IRWriter::newLoadInst(context, thisVariable->getValue(), "this");
-  
   Field* field = checkAndFindField(context);
   Value* index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
   
-  GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, loadedValue, index);
+  GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context,
+                                                                      thisVariable->getValue(),
+                                                                      index);
   
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
@@ -70,8 +70,9 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
   IVariable* thisVariable = context.getScopes().getVariable("this");
-  Value* loadedValue = IRWriter::newLoadInst(context, thisVariable->getValue(), "this");
-  GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, loadedValue, index);
+  GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context,
+                                                                      thisVariable->getValue(),
+                                                                      index);
   
   return IRWriter::newStoreInst(context, assignToValue, fieldPointer);
 }
