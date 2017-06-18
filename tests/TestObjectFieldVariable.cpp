@@ -68,7 +68,7 @@ struct ObjectFieldVariableTest : Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Value* thisPointer = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(llvmContext));
+    Value* thisPointer = ConstantPointerNull::get(mModel->getLLVMType(llvmContext));
     IVariable* thisVariable = new LocalHeapVariable("this", mModel, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
    

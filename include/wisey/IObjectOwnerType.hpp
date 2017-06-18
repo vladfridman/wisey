@@ -27,6 +27,11 @@ public:
    */
   virtual IObjectType* getObject() const = 0;
   
+  /**
+   * Override method from IType because ObjectOwner llvm type is always a PointerType
+   */
+  virtual llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override = 0;
+
 };
 
 } /* namespace wisey */

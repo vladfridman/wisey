@@ -268,7 +268,7 @@ TEST_F(ControllerTest, canAutoCastToTest) {
 
 TEST_F(ControllerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
   mMultiplierController->castTo(mContext, pointer, mScienceCalculatorInterface);
   ASSERT_EQ(mBasicBlock->size(), 1u);
   
@@ -282,7 +282,7 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
 
 TEST_F(ControllerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
   mMultiplierController->castTo(mContext, pointer, mCalculatorInterface);
   ASSERT_EQ(mBasicBlock->size(), 3u);
   

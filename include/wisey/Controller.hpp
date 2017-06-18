@@ -83,7 +83,7 @@ public:
   
   std::string getShortName() const override;
   
-  llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
+  llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
   
   TypeKind getTypeKind() const override;
   

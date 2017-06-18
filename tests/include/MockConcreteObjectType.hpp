@@ -34,7 +34,7 @@ public:
   MOCK_CONST_METHOD0(getOwner, wisey::IObjectOwnerType* ());
   MOCK_CONST_METHOD0(getName, std::string ());
   MOCK_CONST_METHOD0(getShortName, std::string ());
-  MOCK_CONST_METHOD1(getLLVMType, llvm::Type* (llvm::LLVMContext&));
+  MOCK_CONST_METHOD1(getLLVMType, llvm::PointerType* (llvm::LLVMContext&));
   MOCK_CONST_METHOD0(getTypeKind, wisey::TypeKind ());
   MOCK_CONST_METHOD1(canCastTo, bool (const wisey::IType*));
   MOCK_CONST_METHOD1(canAutoCastTo, bool (const wisey::IType*));

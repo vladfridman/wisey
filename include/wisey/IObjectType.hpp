@@ -43,6 +43,11 @@ public:
   virtual IObjectOwnerType* getOwner() const = 0;
   
   /**
+   * Override method from IType because ObjectOwner llvm type is always a PointerType
+   */
+  virtual llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override = 0;
+
+  /**
    * Returns an i8* constant pointer to the name of the collable object
    */
   static llvm::Constant* getObjectNamePointer(const IObjectType* object,

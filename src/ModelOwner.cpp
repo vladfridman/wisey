@@ -20,7 +20,7 @@ string ModelOwner::getName() const {
   return mModel->getName() + '*';
 }
 
-Type* ModelOwner::getLLVMType(LLVMContext& llvmContext) const {
+PointerType* ModelOwner::getLLVMType(LLVMContext& llvmContext) const {
   return mModel->getLLVMType(llvmContext);
 }
 

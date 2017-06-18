@@ -160,7 +160,7 @@ string Model::getShortName() const {
   return mName.substr(mName.find_last_of('.') + 1);
 }
 
-llvm::Type* Model::getLLVMType(LLVMContext& llvmContext) const {
+llvm::PointerType* Model::getLLVMType(LLVMContext& llvmContext) const {
   return mStructType->getPointerTo();
 }
 

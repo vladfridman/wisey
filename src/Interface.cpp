@@ -307,7 +307,7 @@ string Interface::getShortName() const {
   return mName.substr(mName.find_last_of('.') + 1);
 }
 
-llvm::Type* Interface::getLLVMType(LLVMContext& llvmContext) const {
+llvm::PointerType* Interface::getLLVMType(LLVMContext& llvmContext) const {
   return mStructType->getPointerTo();
 }
 
@@ -366,7 +366,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(llvmContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = toType->getLLVMType(llvmContext);
+  PointerType* llvmReturnType = toType->getLLVMType(llvmContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,
@@ -387,7 +387,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   BasicBlock* lastBasicBlock = context.getBasicBlock();
 
   context.setBasicBlock(entryBlock);
-  Value* instanceof = callInstanceOf(context, thisArgument, (IObjectType*) toType);
+  Value* instanceof = callInstanceOf(context, thisArgument, toType);
   Value* originalObject = getOriginalObject(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
@@ -397,7 +397,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   
   context.setBasicBlock(lessThanZero);
   // TODO: throw a cast exception here once exceptions are implemented
-  Value* nullPointer = ConstantPointerNull::get((PointerType*) toType->getLLVMType(llvmContext));
+  Value* nullPointer = ConstantPointerNull::get(toType->getLLVMType(llvmContext));
   IRWriter::createReturnInst(context, nullPointer);
 
   context.setBasicBlock(notLessThanZero);

@@ -20,7 +20,7 @@ string InterfaceOwner::getName() const {
   return mInterface->getName() + '*';
 }
 
-Type* InterfaceOwner::getLLVMType(LLVMContext& llvmContext) const {
+PointerType* InterfaceOwner::getLLVMType(LLVMContext& llvmContext) const {
   return mInterface->getLLVMType(llvmContext);
 }
 

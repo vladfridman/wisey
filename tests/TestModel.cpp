@@ -298,7 +298,7 @@ TEST_F(ModelTest, canAutoCastToTest) {
 
 TEST_F(ModelTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-    ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
   mModel->castTo(mContext, pointer, mShapeInterface);
   ASSERT_EQ(mBasicBlock->size(), 1u);
 
@@ -312,7 +312,7 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
 
 TEST_F(ModelTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-    ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
   mModel->castTo(mContext, pointer, mSubShapeInterface);
   ASSERT_EQ(mBasicBlock->size(), 3u);
   

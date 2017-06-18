@@ -20,7 +20,7 @@ string ControllerOwner::getName() const {
   return mController->getName() + '*';
 }
 
-Type* ControllerOwner::getLLVMType(LLVMContext& llvmContext) const {
+PointerType* ControllerOwner::getLLVMType(LLVMContext& llvmContext) const {
   return mController->getLLVMType(llvmContext);
 }
 

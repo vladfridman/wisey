@@ -180,7 +180,7 @@ string Controller::getShortName() const {
   return mName.substr(mName.find_last_of('.') + 1);
 }
 
-llvm::Type* Controller::getLLVMType(LLVMContext& llvmContext) const {
+llvm::PointerType* Controller::getLLVMType(LLVMContext& llvmContext) const {
   return mStructType->getPointerTo();
 }
 

@@ -158,7 +158,7 @@ TEST_F(InterfaceTest, getOriginalObjectTest) {
 
 TEST_F(InterfaceTest, callInstanceOfTest) {
   Value* nullPointerValue =
-    ConstantPointerNull::get((PointerType*) mObjectInterface->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mObjectInterface->getLLVMType(mLLVMContext));
   mObjectInterface->callInstanceOf(mContext, nullPointerValue, mShapeInterface);
   
   ASSERT_EQ(1ul, mBlock->size());

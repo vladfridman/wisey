@@ -269,7 +269,7 @@ TEST_F(ModelOwnerTest, canAutoCastToTest) {
 
 TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get((PointerType*) mModel->getOwner()->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mLLVMContext));
   mModel->getOwner()->castTo(mContext, pointer, mShapeInterface->getOwner());
   ASSERT_EQ(mBasicBlock->size(), 1u);
   
@@ -283,7 +283,7 @@ TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {
 
 TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
   mModel->getOwner()->castTo(mContext, pointer, mSubShapeInterface->getOwner());
   ASSERT_EQ(mBasicBlock->size(), 3u);
   

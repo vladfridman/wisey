@@ -91,7 +91,7 @@ TEST_F(ThrowStatementTest, wrongExpressionTypeDeathTest) {
 
 TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   Constant* exceptionObject =
-    ConstantPointerNull::get((PointerType*) mCircleModel->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression);
@@ -129,7 +129,7 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   mContext.getScopes().setVariable(bar);
   
   Constant* exceptionObject =
-    ConstantPointerNull::get((PointerType*) mCircleModel->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression);
@@ -173,7 +173,7 @@ TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
   mContext.getScopes().setVariable(bar);
   
   Constant* exceptionObject =
-  ConstantPointerNull::get((PointerType*) mCircleModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression);

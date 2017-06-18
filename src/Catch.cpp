@@ -43,8 +43,8 @@ void Catch::generateIR(IRGenerationContext& context,
   context.setBasicBlock(catchBlock);
   
   Model* exceptionType = getType(context);
-  Type* exceptionLLVMType = exceptionType->getLLVMType(llvmContext);
-  Type* exceptionStructLLVMType = ((PointerType*) exceptionLLVMType)->getPointerElementType();
+  PointerType* exceptionLLVMType = exceptionType->getLLVMType(llvmContext);
+  Type* exceptionStructLLVMType = exceptionLLVMType->getPointerElementType();
   vector<Value*> arguments;
   arguments.push_back(wrappedException);
   CallInst* exceptionPointer = IRWriter::createCallInst(context, beginCatchFunction, arguments, "");

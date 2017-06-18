@@ -30,7 +30,7 @@ public:
   
   std::string getName() const override;
   
-  llvm::Type* getLLVMType(llvm::LLVMContext& llvmContext) const override;
+  llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override;
   
   TypeKind getTypeKind() const override;
   
