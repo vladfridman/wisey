@@ -350,7 +350,7 @@
 		F5CB18151EB0F1BA007E2E43 /* TryCatchStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */; };
 		F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D401EF6A43C002ABB85 /* IType.cpp */; };
 		F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D401EF6A43C002ABB85 /* IType.cpp */; };
-		F5CE2D441EF6A4CB002ABB85 /* TestType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D431EF6A4CB002ABB85 /* TestType.cpp */; };
+		F5CE2D441EF6A4CB002ABB85 /* TestIType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -758,7 +758,7 @@
 		F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TryCatchStatement.cpp; path = src/TryCatchStatement.cpp; sourceTree = "<group>"; };
 		F5CB18121EB0D96A007E2E43 /* Catch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Catch.cpp; path = src/Catch.cpp; sourceTree = "<group>"; };
 		F5CE2D401EF6A43C002ABB85 /* IType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IType.cpp; path = src/IType.cpp; sourceTree = "<group>"; };
-		F5CE2D431EF6A4CB002ABB85 /* TestType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestType.cpp; path = tests/TestType.cpp; sourceTree = "<group>"; };
+		F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIType.cpp; path = tests/TestIType.cpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestVariableDeclaration.cpp; path = tests/TestVariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypeSpecifier.cpp; path = src/PrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -935,6 +935,7 @@
 				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
 				F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */,
+				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
 				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
@@ -968,7 +969,6 @@
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
 				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
 				F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */,
-				F5CE2D431EF6A4CB002ABB85 /* TestType.cpp */,
 				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
@@ -1600,7 +1600,7 @@
 				F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */,
 				F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F531B6391E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp in Sources */,
-				F5CE2D441EF6A4CB002ABB85 /* TestType.cpp in Sources */,
+				F5CE2D441EF6A4CB002ABB85 /* TestIType.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

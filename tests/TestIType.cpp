@@ -1,11 +1,11 @@
 //
-//  TestType.cpp
+//  TestIType.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 6/18/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests try/catch statement
+//  Tests {@link IType}
 //
 
 #include <gtest/gtest.h>
@@ -20,13 +20,13 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct TypeTest : public Test {
+struct ITypeTest : public Test {
   
-  TypeTest() {
-  }
+  ITypeTest() { }
+  
 };
 
-TEST_F(TypeTest, isOwnerTypeTest) {
+TEST_F(ITypeTest, isOwnerTypeTest) {
   NiceMock<MockType> mockType;
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(PRIMITIVE_TYPE));
   EXPECT_FALSE(IType::isOwnerType(&mockType));
