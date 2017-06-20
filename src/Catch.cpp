@@ -12,7 +12,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/HeapVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -67,7 +67,7 @@ void Catch::generateIR(IRGenerationContext& context,
   vector<Value*> endCatchArguments;
   IRWriter::createCallInst(context, endCatchFunction, endCatchArguments, "");
   
-  IVariable* exceptionVariable = new LocalHeapVariable(mIdentifier,
+  IVariable* exceptionVariable = new HeapVariable(mIdentifier,
                                                        exceptionType->getOwner(),
                                                        malloc);
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);

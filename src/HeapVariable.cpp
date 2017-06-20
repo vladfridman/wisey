@@ -1,5 +1,5 @@
 //
-//  LocalHeapVariable.cpp
+//  HeapVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
@@ -12,7 +12,7 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Scopes.hpp"
 
@@ -20,19 +20,19 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-string LocalHeapVariable::getName() const {
+string HeapVariable::getName() const {
   return mName;
 }
 
-const IType* LocalHeapVariable::getType() const {
+const IType* HeapVariable::getType() const {
   return mType;
 }
 
-Value* LocalHeapVariable::getValue() const {
+Value* HeapVariable::getValue() const {
   return mValue;
 }
 
-Value* LocalHeapVariable::generateIdentifierIR(IRGenerationContext& context,
+Value* HeapVariable::generateIdentifierIR(IRGenerationContext& context,
                                                 std::string llvmVariableName) const {
   if (mValue == NULL) {
     Log::e("Variable '" + mName + "' is used before it has been initialized.");
@@ -41,7 +41,7 @@ Value* LocalHeapVariable::generateIdentifierIR(IRGenerationContext& context,
   return mValue;
 }
 
-Value* LocalHeapVariable::generateAssignmentIR(IRGenerationContext& context,
+Value* HeapVariable::generateAssignmentIR(IRGenerationContext& context,
                                                IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
@@ -50,7 +50,7 @@ Value* LocalHeapVariable::generateAssignmentIR(IRGenerationContext& context,
   return mValue;
 }
 
-void LocalHeapVariable::free(IRGenerationContext& context) const {
+void HeapVariable::free(IRGenerationContext& context) const {
   if (mValue == NULL) {
     return;
   }
@@ -69,6 +69,6 @@ void LocalHeapVariable::free(IRGenerationContext& context) const {
   IRWriter::createFree(context, thisPointer);
 }
 
-bool LocalHeapVariable::existsInOuterScope() const {
+bool HeapVariable::existsInOuterScope() const {
   return false;
 }

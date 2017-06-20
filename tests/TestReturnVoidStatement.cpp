@@ -16,7 +16,7 @@
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReturnVoidStatement.hpp"
 
@@ -86,12 +86,12 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* foo = new LocalHeapVariable("foo", mModel->getOwner(), fooMalloc);
+  HeapVariable* foo = new HeapVariable("foo", mModel->getOwner(), fooMalloc);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* bar = new LocalHeapVariable("bar", mModel->getOwner(), barMalloc);
+  HeapVariable* bar = new HeapVariable("bar", mModel->getOwner(), barMalloc);
   mContext.getScopes().setVariable(bar);
   
   ReturnVoidStatement returnStatement;
@@ -126,12 +126,12 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreNotClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* foo = new LocalHeapVariable("foo", mModel, fooMalloc);
+  HeapVariable* foo = new HeapVariable("foo", mModel, fooMalloc);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* bar = new LocalHeapVariable("bar", mModel, barMalloc);
+  HeapVariable* bar = new HeapVariable("bar", mModel, barMalloc);
   mContext.getScopes().setVariable(bar);
   
   ReturnVoidStatement returnStatement;

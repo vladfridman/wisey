@@ -13,7 +13,7 @@
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/LocalStackVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -82,7 +82,7 @@ Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
   string variableName = mId->getName();
   const IType* type = mTypeSpecifier->getType(context);
   
-  LocalHeapVariable* uninitializedHeapVariable = new LocalHeapVariable(variableName, type, NULL);
+  HeapVariable* uninitializedHeapVariable = new HeapVariable(variableName, type, NULL);
   context.getScopes().setVariable(uninitializedHeapVariable);
 
   return NULL;

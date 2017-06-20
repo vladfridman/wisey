@@ -19,7 +19,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Block.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
@@ -120,12 +120,12 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* foo = new LocalHeapVariable("foo", mCircleModel->getOwner(), fooMalloc);
+  HeapVariable* foo = new HeapVariable("foo", mCircleModel->getOwner(), fooMalloc);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* bar = new LocalHeapVariable("bar", mCircleModel->getOwner(), barMalloc);
+  HeapVariable* bar = new HeapVariable("bar", mCircleModel->getOwner(), barMalloc);
   mContext.getScopes().setVariable(bar);
   
   Constant* exceptionObject =
@@ -164,12 +164,12 @@ TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* foo = new LocalHeapVariable("foo", mCircleModel, fooMalloc);
+  HeapVariable* foo = new HeapVariable("foo", mCircleModel, fooMalloc);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  LocalHeapVariable* bar = new LocalHeapVariable("bar", mCircleModel, barMalloc);
+  HeapVariable* bar = new HeapVariable("bar", mCircleModel, barMalloc);
   mContext.getScopes().setVariable(bar);
   
   Constant* exceptionObject =

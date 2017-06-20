@@ -10,7 +10,7 @@
 
 #include "wisey/Environment.hpp"
 #include "wisey/InterfaceInjector.hpp"
-#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/HeapVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -27,7 +27,7 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   ExpressionList arguments;
   Instruction* malloc = controller->inject(context, arguments);
   
-  LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(),
+  HeapVariable* heapVariable = new HeapVariable(getVariableName(),
                                                           controller->getOwner(),
                                                           malloc);
   context.getScopes().setVariable(heapVariable);

@@ -1,13 +1,13 @@
 //
-//  LocalHeapVariable.hpp
+//  HeapVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LocalHeapVariable_h
-#define LocalHeapVariable_h
+#ifndef HeapVariable_h
+#define HeapVariable_h
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IVariable.hpp"
@@ -17,7 +17,7 @@ namespace wisey {
 /**
  * Represents a local variable allocated on the heap
  */
-class LocalHeapVariable : public IVariable {
+class HeapVariable : public IVariable {
   
   std::string mName;
   const IType* mType;
@@ -25,10 +25,10 @@ class LocalHeapVariable : public IVariable {
   
 public:
   
-  LocalHeapVariable(std::string name, const IType* type, llvm::Value* value)
+  HeapVariable(std::string name, const IType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value) { }
   
-  ~LocalHeapVariable() {
+  ~HeapVariable() {
   }
   
   std::string getName() const override;
@@ -51,4 +51,4 @@ public:
 
 } /* namespace wisey */
 
-#endif /* LocalHeapVariable_h */
+#endif /* HeapVariable_h */

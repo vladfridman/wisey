@@ -10,7 +10,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Environment.hpp"
-#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelBuilder.hpp"
@@ -31,7 +31,7 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   Model* model = (Model*) mModelTypeSpecifier->getType(context);
   Instruction* malloc = model->build(context, mModelBuilderArgumentList);
   
-  LocalHeapVariable* heapVariable = new LocalHeapVariable(getVariableName(),
+  HeapVariable* heapVariable = new HeapVariable(getVariableName(),
                                                           model->getOwner(),
                                                           malloc);
   context.getScopes().setVariable(heapVariable);

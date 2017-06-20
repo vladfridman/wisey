@@ -1,11 +1,11 @@
 //
-//  TestLocalHeapVariable.cpp
+//  TestHeapVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link LocalHeapVariable}
+//  Tests {@link HeapVariable}
 //
 
 #include <gtest/gtest.h>
@@ -18,7 +18,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -31,7 +31,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct LocalHeapVariableTest : public Test {
+struct HeapVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -39,7 +39,7 @@ struct LocalHeapVariableTest : public Test {
   
 public:
   
-  LocalHeapVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  HeapVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -65,13 +65,13 @@ public:
   }
 };
 
-TEST_F(LocalHeapVariableTest, heapVariableAssignmentTest) {
+TEST_F(HeapVariableTest, heapVariableAssignmentTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalHeapVariable* uninitializedHeapVariable =
-    new LocalHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  HeapVariable* uninitializedHeapVariable =
+    new HeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   BitCastInst* bitCastInst = IRWriter::newBitCastInst(mContext, fooValue, fooValue->getType());
-  LocalHeapVariable localHeapVariable("bar", PrimitiveTypes::INT_TYPE, bitCastInst);
+  HeapVariable localHeapVariable("bar", PrimitiveTypes::INT_TYPE, bitCastInst);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(bitCastInst));
@@ -82,31 +82,31 @@ TEST_F(LocalHeapVariableTest, heapVariableAssignmentTest) {
   EXPECT_TRUE(BitCastInst::classof(localHeapVariable.getValue()));
 }
 
-TEST_F(LocalHeapVariableTest, heapVariableIdentifierTest) {
+TEST_F(HeapVariableTest, heapVariableIdentifierTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalHeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  HeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
  
   EXPECT_EQ(localHeapVariable.generateIdentifierIR(mContext, "bar"), fooValue);
 }
 
-TEST_F(LocalHeapVariableTest, existsInOuterScopeTest) {
+TEST_F(HeapVariableTest, existsInOuterScopeTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalHeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  HeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
 
   EXPECT_FALSE(localHeapVariable.existsInOuterScope());
 }
 
-TEST_F(LocalHeapVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
-  LocalHeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+TEST_F(HeapVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
+  HeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   
   EXPECT_EXIT(localHeapVariable.generateIdentifierIR(mContext, "bar"),
               ::testing::ExitedWithCode(1),
               "Variable 'foo' is used before it has been initialized.");
 }
 
-TEST_F(LocalHeapVariableTest, freeTest) {
+TEST_F(HeapVariableTest, freeTest) {
   Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  LocalHeapVariable localHeapVariable("foo", mModel->getOwner(), fooValue);
+  HeapVariable localHeapVariable("foo", mModel->getOwner(), fooValue);
 
   EXPECT_EQ(mBlock->size(), 0u);
 

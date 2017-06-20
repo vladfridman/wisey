@@ -18,7 +18,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalHeapVariable.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/Log.hpp"
 
 using namespace llvm;
@@ -265,7 +265,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     ostringstream stream;
     stream << "__tmp" << (long) fieldValue;
     string variableName = stream.str();
-    LocalHeapVariable* heapVariable = new LocalHeapVariable(variableName,
+    HeapVariable* heapVariable = new HeapVariable(variableName,
                                                             controller->getOwner(),
                                                             fieldValue);
     context.getScopes().setVariable(heapVariable);

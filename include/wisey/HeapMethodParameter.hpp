@@ -14,7 +14,7 @@ namespace wisey {
 /**
  * Represents a heap variable that is a method parameter.
  *
- * This is the same as LocalHeapVariable only returns true on existsInOuterScope()
+ * This is the same as HeapVariable only returns true on existsInOuterScope()
  */
 class HeapMethodParameter : public IVariable {
   
