@@ -1,5 +1,5 @@
 //
-//  LocalStackVariable.cpp
+//  StackVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
@@ -12,30 +12,30 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalStackVariable.hpp"
+#include "wisey/StackVariable.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-string LocalStackVariable::getName() const {
+string StackVariable::getName() const {
   return mName;
 }
 
-const IType* LocalStackVariable::getType() const {
+const IType* StackVariable::getType() const {
   return mType;
 }
 
-Value* LocalStackVariable::getValue() const {
+Value* StackVariable::getValue() const {
   return mValue;
 }
 
-Value* LocalStackVariable::generateIdentifierIR(IRGenerationContext& context,
+Value* StackVariable::generateIdentifierIR(IRGenerationContext& context,
                                                 std::string llvmVariableName) const {
   return IRWriter::newLoadInst(context, mValue, llvmVariableName);
 }
 
-Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,
+Value* StackVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
@@ -43,9 +43,9 @@ Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,
   return IRWriter::newStoreInst(context, castAssignToValue, mValue);
 }
 
-void LocalStackVariable::free(IRGenerationContext& context) const {
+void StackVariable::free(IRGenerationContext& context) const {
 }
 
-bool LocalStackVariable::existsInOuterScope() const {
+bool StackVariable::existsInOuterScope() const {
   return false;
 }

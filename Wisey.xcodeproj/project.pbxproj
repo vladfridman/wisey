@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		F501B4941E161D140010783D /* TestBreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F501B4931E161D140010783D /* TestBreakStatement.cpp */; };
-		F50427A81E4D226C001CB148 /* LocalStackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */; };
-		F50427A91E4D226C001CB148 /* LocalStackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */; };
+		F50427A81E4D226C001CB148 /* StackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427A71E4D226C001CB148 /* StackVariable.cpp */; };
+		F50427A91E4D226C001CB148 /* StackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427A71E4D226C001CB148 /* StackVariable.cpp */; };
 		F50427AC1E4D2747001CB148 /* HeapVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427AB1E4D2747001CB148 /* HeapVariable.cpp */; };
 		F50427AD1E4D2747001CB148 /* HeapVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427AB1E4D2747001CB148 /* HeapVariable.cpp */; };
-		F50427AF1E4DD329001CB148 /* TestLocalStackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427AE1E4DD329001CB148 /* TestLocalStackVariable.cpp */; };
+		F50427AF1E4DD329001CB148 /* TestStackVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427AE1E4DD329001CB148 /* TestStackVariable.cpp */; };
 		F50427B11E4DD621001CB148 /* TestHeapVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427B01E4DD621001CB148 /* TestHeapVariable.cpp */; };
 		F50427B41E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */; };
 		F50427B51E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */; };
@@ -395,9 +395,9 @@
 
 /* Begin PBXFileReference section */
 		F501B4931E161D140010783D /* TestBreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBreakStatement.cpp; path = tests/TestBreakStatement.cpp; sourceTree = "<group>"; };
-		F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LocalStackVariable.cpp; path = src/LocalStackVariable.cpp; sourceTree = "<group>"; };
+		F50427A71E4D226C001CB148 /* StackVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StackVariable.cpp; path = src/StackVariable.cpp; sourceTree = "<group>"; };
 		F50427AB1E4D2747001CB148 /* HeapVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HeapVariable.cpp; path = src/HeapVariable.cpp; sourceTree = "<group>"; };
-		F50427AE1E4DD329001CB148 /* TestLocalStackVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalStackVariable.cpp; path = tests/TestLocalStackVariable.cpp; sourceTree = "<group>"; };
+		F50427AE1E4DD329001CB148 /* TestStackVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStackVariable.cpp; path = tests/TestStackVariable.cpp; sourceTree = "<group>"; };
 		F50427B01E4DD621001CB148 /* TestHeapVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestHeapVariable.cpp; path = tests/TestHeapVariable.cpp; sourceTree = "<group>"; };
 		F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectFieldVariable.cpp; path = src/ObjectFieldVariable.cpp; sourceTree = "<group>"; };
 		F507D2641E43551900495E2D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Model.cpp; path = src/Model.cpp; sourceTree = "<group>"; };
@@ -459,7 +459,7 @@
 		F5089C831ECD01D9004A1223 /* ITypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ITypeSpecifier.hpp; path = include/wisey/ITypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5089C841ECD01D9004A1223 /* IVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IVariable.hpp; path = include/wisey/IVariable.hpp; sourceTree = "<group>"; };
 		F5089C851ECD01D9004A1223 /* HeapVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = HeapVariable.hpp; path = include/wisey/HeapVariable.hpp; sourceTree = "<group>"; };
-		F5089C861ECD01D9004A1223 /* LocalStackVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LocalStackVariable.hpp; path = include/wisey/LocalStackVariable.hpp; sourceTree = "<group>"; };
+		F5089C861ECD01D9004A1223 /* StackVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = StackVariable.hpp; path = include/wisey/StackVariable.hpp; sourceTree = "<group>"; };
 		F5089C871ECD01D9004A1223 /* Log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Log.hpp; path = include/wisey/Log.hpp; sourceTree = "<group>"; };
 		F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogicalAndExpression.hpp; path = include/wisey/LogicalAndExpression.hpp; sourceTree = "<group>"; };
 		F5089C891ECD01D9004A1223 /* LogicalOrExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogicalOrExpression.hpp; path = include/wisey/LogicalOrExpression.hpp; sourceTree = "<group>"; };
@@ -930,7 +930,6 @@
 				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
 				F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */,
-				F50427AE1E4DD329001CB148 /* TestLocalStackVariable.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
 				F574115B1E01A13B009809FF /* TestLogicalOrExpression.cpp */,
 				F50FA2F01E2E3B2A00435EEA /* TestLongConstant.cpp */,
@@ -958,6 +957,7 @@
 				F57411651E01BF18009809FF /* TestScope.cpp */,
 				F50FA3011E3240D800435EEA /* TestScopes.cpp */,
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
+				F50427AE1E4DD329001CB148 /* TestStackVariable.cpp */,
 				F531B6561E0DE040008304F3 /* TestStringConstant.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
 				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
@@ -1118,7 +1118,6 @@
 				F574115F1E01AC98009809FF /* IRGenerationContext.cpp */,
 				F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */,
 				F5CE2D401EF6A43C002ABB85 /* IType.cpp */,
-				F50427A71E4D226C001CB148 /* LocalStackVariable.cpp */,
 				F569E9EB1DF9CC9600BBB20E /* Log.cpp */,
 				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
 				F57411581E01A09B009809FF /* LogicalOrExpression.cpp */,
@@ -1151,6 +1150,7 @@
 				F57411481E0194E5009809FF /* ReturnVoidStatement.cpp */,
 				F57411621E01BBFC009809FF /* Scope.cpp */,
 				F50FA2FE1E323AAD00435EEA /* Scopes.cpp */,
+				F50427A71E4D226C001CB148 /* StackVariable.cpp */,
 				F531B6531E0DDD96008304F3 /* StringConstant.cpp */,
 				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
 				F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */,
@@ -1279,7 +1279,6 @@
 				F5089C821ECD01D9004A1223 /* IType.hpp */,
 				F5089C831ECD01D9004A1223 /* ITypeSpecifier.hpp */,
 				F5089C841ECD01D9004A1223 /* IVariable.hpp */,
-				F5089C861ECD01D9004A1223 /* LocalStackVariable.hpp */,
 				F5089C871ECD01D9004A1223 /* Log.hpp */,
 				F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */,
 				F5089C891ECD01D9004A1223 /* LogicalOrExpression.hpp */,
@@ -1312,6 +1311,7 @@
 				F5089CA21ECD01D9004A1223 /* ReturnVoidStatement.hpp */,
 				F5089CA31ECD01D9004A1223 /* Scope.hpp */,
 				F5089CA41ECD01D9004A1223 /* Scopes.hpp */,
+				F5089C861ECD01D9004A1223 /* StackVariable.hpp */,
 				F5089CA51ECD01D9004A1223 /* StringConstant.hpp */,
 				F5089CA61ECD01D9004A1223 /* SwitchStatement.hpp */,
 				F5089CA71ECD01D9004A1223 /* ThrowStatement.hpp */,
@@ -1429,7 +1429,7 @@
 				F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */,
 				F53A2C091EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
-				F50427A91E4D226C001CB148 /* LocalStackVariable.cpp in Sources */,
+				F50427A91E4D226C001CB148 /* StackVariable.cpp in Sources */,
 				F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */,
@@ -1570,7 +1570,7 @@
 				F5BD74641EE15BD00035E8FC /* TestDefaultCaseStatement.cpp in Sources */,
 				F508E0701E73076E005D6115 /* Environment.cpp in Sources */,
 				F5EEDDA11E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
-				F50427AF1E4DD329001CB148 /* TestLocalStackVariable.cpp in Sources */,
+				F50427AF1E4DD329001CB148 /* TestStackVariable.cpp in Sources */,
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */,
 				F57780B41ECA384B0049542D /* TestBindAction.cpp in Sources */,
@@ -1662,7 +1662,7 @@
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F531B65A1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
 				F57411631E01BBFC009809FF /* Scope.cpp in Sources */,
-				F50427A81E4D226C001CB148 /* LocalStackVariable.cpp in Sources */,
+				F50427A81E4D226C001CB148 /* StackVariable.cpp in Sources */,
 				F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */,
 				F5F396D71E34BBDD00F34296 /* ModelBuilder.cpp in Sources */,
 				F50FA2E81E2E3B0900435EEA /* LongConstant.cpp in Sources */,

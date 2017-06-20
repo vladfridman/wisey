@@ -1,13 +1,13 @@
 //
-//  LocalStackVariable.hpp
+//  StackVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/9/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LocalStackVariable_h
-#define LocalStackVariable_h
+#ifndef StackVariable_h
+#define StackVariable_h
 
 #include "wisey/IVariable.hpp"
 
@@ -16,7 +16,7 @@ namespace wisey {
 /**
  * Represents a local variable allocated on the stack
  */
-class LocalStackVariable : public IVariable {
+class StackVariable : public IVariable {
 
   std::string mName;
   const IType* mType;
@@ -24,10 +24,10 @@ class LocalStackVariable : public IVariable {
   
 public:
 
-  LocalStackVariable(std::string name, const IType* type, llvm::Value* value)
+  StackVariable(std::string name, const IType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value) { }
   
-  ~LocalStackVariable() {}
+  ~StackVariable() {}
   
   std::string getName() const override;
   
@@ -49,4 +49,4 @@ public:
 
 } /* namespace wisey */
 
-#endif /* LocalStackVariable_h */
+#endif /* StackVariable_h */

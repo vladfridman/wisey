@@ -19,7 +19,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/LocalStackVariable.hpp"
+#include "wisey/StackVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -51,7 +51,7 @@ TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
 }
 
 TEST_F(IdentifierTest, variableTypeTest) {
-  LocalStackVariable* variable = new LocalStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  StackVariable* variable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   mContext.getScopes().setVariable(variable);
   Identifier identifier("foo", "bar");
 

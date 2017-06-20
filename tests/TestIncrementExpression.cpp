@@ -19,7 +19,7 @@
 #include "wisey/IncrementExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalStackVariable.hpp"
+#include "wisey/StackVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -44,7 +44,7 @@ public:
     mContext.getScopes().pushScope();
     AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), mName);
     
-    LocalStackVariable* variable = new LocalStackVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
+    StackVariable* variable = new StackVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
     mContext.getScopes().setVariable(variable);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -117,7 +117,7 @@ TEST_F(IncrementExpressionTest, existsInOuterScopeTest) {
 
 TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
-  LocalStackVariable* variable = new LocalStackVariable(mName, PrimitiveTypes::FLOAT_TYPE, NULL);
+  StackVariable* variable = new StackVariable(mName, PrimitiveTypes::FLOAT_TYPE, NULL);
   mContext.getScopes().setVariable(variable);
   string expected = "Error: Identifier foo is of a type that is "
     "incopatible with increment/decrement operation";

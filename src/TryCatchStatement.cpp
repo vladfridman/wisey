@@ -12,7 +12,7 @@
 
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalStackVariable.hpp"
+#include "wisey/StackVariable.hpp"
 #include "wisey/TryCatchStatement.hpp"
 
 using namespace llvm;

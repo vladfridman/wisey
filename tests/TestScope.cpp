@@ -19,7 +19,7 @@
 #include "wisey/Scope.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/HeapVariable.hpp"
-#include "wisey/LocalStackVariable.hpp"
+#include "wisey/StackVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;

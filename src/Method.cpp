@@ -9,7 +9,7 @@
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/HeapMethodParameter.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalStackVariable.hpp"
+#include "wisey/StackVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -125,7 +125,7 @@ void Method::storeArgumentValue(IRGenerationContext& context,
   string newName = variableName + ".param";
   AllocaInst *alloc = IRWriter::newAllocaInst(context, llvmType, newName);
   IRWriter::newStoreInst(context, variableValue, alloc);
-  IVariable* variable = new LocalStackVariable(variableName, variableType, alloc);
+  IVariable* variable = new StackVariable(variableName, variableType, alloc);
   context.getScopes().setVariable(variable);
 }
 

@@ -14,7 +14,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/HeapVariable.hpp"
-#include "wisey/LocalStackVariable.hpp"
+#include "wisey/StackVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
@@ -71,7 +71,7 @@ Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const 
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId->getName());
   
-  LocalStackVariable* variable = new LocalStackVariable(mId->getName(), type, alloc);
+  StackVariable* variable = new StackVariable(mId->getName(), type, alloc);
   context.getScopes().setVariable(variable);
 
   return alloc;
