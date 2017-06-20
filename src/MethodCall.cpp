@@ -119,6 +119,9 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                                          callArgumentType,
                                                          callArgumentValue,
                                                          methodArgumentType);
+    if (IType::isOwnerType(methodArgument->getType())) {
+      callArgument->releaseOwnership(context);
+    }
     arguments.push_back(callArgumentValueCasted);
     methodArgumentIterator++;
   }

@@ -315,6 +315,10 @@ TEST_F(TestFileSampleRunner, returnOwnerAndAssignToReferenceRunTest) {
   runFile("tests/samples/test_return_owner_and_assign_to_reference.yz", "3");
 }
 
+TEST_F(TestFileSampleRunner, passOwnerAsParameterToMethodRunTest) {
+  runFile("tests/samples/test_pass_owner_as_parameter_to_method.yz", "3");
+}
+
 TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_method_call.yz",
                     1,
@@ -335,3 +339,8 @@ TEST_F(TestFileSampleRunner, methodIdentifierChainDeathTest) {
                     "Error: Incorrect method call format");
 }
 
+TEST_F(TestFileSampleRunner, passOwnerAsParameterToMethodAndThenUseItRunDeathTest) {
+  expectFailCompile("tests/samples/test_pass_owner_as_parameter_to_method_and_then_use_it.yz",
+                    1,
+                    "Error: Undeclared variable 'data'");
+}
