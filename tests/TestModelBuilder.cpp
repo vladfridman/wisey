@@ -106,9 +106,7 @@ struct ModelBuilderTest : Test {
 
 TEST_F(ModelBuilderTest, releaseOwnershipTest) {
   mModelBuilder->generateIR(mContext);
-  ostringstream stream;
-  stream << "__tmp" << (long) mModelBuilder;
-  string temporaryVariableName = stream.str();
+  string temporaryVariableName = IVariable::getTemporaryVariableName(mModelBuilder);
   
   EXPECT_NE(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
   

@@ -44,10 +44,6 @@ public:
   
   bool existsInOuterScope(IRGenerationContext& context) const override;
   
-private:
-  
-  std::string getVariableName() const;
-  
 };
   
 } /* namespace wisey */

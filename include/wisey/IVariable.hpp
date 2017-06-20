@@ -69,6 +69,11 @@ public:
    */
   virtual bool existsInOuterScope() const = 0;
 
+  /**
+   * Creates a name for naming temporary heap variables in the scope
+   */
+  static std::string getTemporaryVariableName(const void* object);
+
 };
   
 } /* namespace wisey */

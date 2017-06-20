@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <sstream>
-
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Cast.hpp"
@@ -262,12 +260,8 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
     
-    ostringstream stream;
-    stream << "__tmp" << (long) fieldValue;
-    string variableName = stream.str();
-    HeapVariable* heapVariable = new HeapVariable(variableName,
-                                                            controller->getOwner(),
-                                                            fieldValue);
+    string variableName = IVariable::getTemporaryVariableName(fieldValue);
+    HeapVariable* heapVariable = new HeapVariable(variableName, controller->getOwner(), fieldValue);
     context.getScopes().setVariable(heapVariable);
   }
 }

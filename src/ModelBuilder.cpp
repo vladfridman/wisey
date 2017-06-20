@@ -6,7 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <sstream>
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Environment.hpp"
@@ -31,23 +30,16 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   Model* model = (Model*) mModelTypeSpecifier->getType(context);
   Instruction* malloc = model->build(context, mModelBuilderArgumentList);
   
-  HeapVariable* heapVariable = new HeapVariable(getVariableName(),
-                                                          model->getOwner(),
-                                                          malloc);
+  HeapVariable* heapVariable = new HeapVariable(IVariable::getTemporaryVariableName(this),
+                                                model->getOwner(),
+                                                malloc);
   context.getScopes().setVariable(heapVariable);
   
   return malloc;
 }
 
 void ModelBuilder::releaseOwnership(IRGenerationContext& context) const {
-  context.getScopes().clearVariable(getVariableName());
-}
-
-string ModelBuilder::getVariableName() const {
-  ostringstream stream;
-  stream << "__tmp" << (long) this;
-
-  return stream.str();
+  context.getScopes().clearVariable(IVariable::getTemporaryVariableName(this));
 }
 
 const IType* ModelBuilder::getType(IRGenerationContext& context) const {
@@ -55,5 +47,6 @@ const IType* ModelBuilder::getType(IRGenerationContext& context) const {
 }
 
 bool ModelBuilder::existsInOuterScope(IRGenerationContext& context) const {
-  return context.getScopes().getVariable(getVariableName())->existsInOuterScope();
+  IVariable* variable = context.getScopes().getVariable(IVariable::getTemporaryVariableName(this));
+  return variable->existsInOuterScope();
 }

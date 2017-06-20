@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include <sstream>
-
 #include "wisey/Environment.hpp"
 #include "wisey/InterfaceInjector.hpp"
 #include "wisey/HeapVariable.hpp"
@@ -27,9 +25,9 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   ExpressionList arguments;
   Instruction* malloc = controller->inject(context, arguments);
   
-  HeapVariable* heapVariable = new HeapVariable(getVariableName(),
-                                                          controller->getOwner(),
-                                                          malloc);
+  HeapVariable* heapVariable = new HeapVariable(IVariable::getTemporaryVariableName(this),
+                                                controller->getOwner(),
+                                                malloc);
   context.getScopes().setVariable(heapVariable);
   
   return malloc;
@@ -42,16 +40,10 @@ const IType* InterfaceInjector::getType(IRGenerationContext& context) const {
 }
 
 void InterfaceInjector::releaseOwnership(IRGenerationContext& context) const {
-  context.getScopes().clearVariable(getVariableName());
-}
-
-string InterfaceInjector::getVariableName() const {
-  ostringstream stream;
-  stream << "__tmp" << (long) this;
-  
-  return stream.str();
+  context.getScopes().clearVariable(IVariable::getTemporaryVariableName(this));
 }
 
 bool InterfaceInjector::existsInOuterScope(IRGenerationContext& context) const {
-  return context.getScopes().getVariable(getVariableName())->existsInOuterScope();
+  string variableName = IVariable::getTemporaryVariableName(this);
+  return context.getScopes().getVariable(variableName)->existsInOuterScope();
 }

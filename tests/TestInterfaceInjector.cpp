@@ -100,9 +100,7 @@ TEST_F(InterfaceInjectorTest, releaseOwnershipTest) {
   InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
   interfaceInjector.generateIR(mContext);
   
-  ostringstream stream;
-  stream << "__tmp" << (long) &interfaceInjector;
-  string temporaryVariableName = stream.str();
+  string temporaryVariableName = IVariable::getTemporaryVariableName(&interfaceInjector);
   
   EXPECT_NE(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
   
