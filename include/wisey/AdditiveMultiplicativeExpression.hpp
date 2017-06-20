@@ -22,6 +22,7 @@ class AdditiveMultiplicativeExpression : public IExpression {
   int mOperation;
   
 public:
+
   AdditiveMultiplicativeExpression(IExpression* leftExpression,
                                    int operation,
                                    IExpression* rightExpression) :
@@ -34,6 +35,8 @@ public:
   const IType* getType(IRGenerationContext& context) const override;
   
   void releaseOwnership(IRGenerationContext& context) const override;
+  
+  bool existsInOuterScope(IRGenerationContext& context) const override;
   
 private:
   

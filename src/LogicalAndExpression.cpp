@@ -59,3 +59,7 @@ void LogicalAndExpression::releaseOwnership(IRGenerationContext& context) const 
   Log::e("Can not release ownership of a logical AND operation result, it is not a heap pointer");
   exit(1);
 }
+
+bool LogicalAndExpression::existsInOuterScope(IRGenerationContext& context) const {
+  return false;
+}

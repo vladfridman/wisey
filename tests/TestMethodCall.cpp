@@ -269,6 +269,16 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
+TEST_F(MethodCallTest, existsInOuterScopeTest) {
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  
+  ON_CALL(*mExpression, existsInOuterScope(_)).WillByDefault(Return(false));
+  EXPECT_FALSE(methodCall.existsInOuterScope(mContext));
+  
+  ON_CALL(*mExpression, existsInOuterScope(_)).WillByDefault(Return(true));
+  EXPECT_TRUE(methodCall.existsInOuterScope(mContext));
+}
+
 TEST_F(TestFileSampleRunner, modelMethodCallRunTest) {
   runFile("tests/samples/test_model_method_call.yz", "5");
 }

@@ -170,6 +170,9 @@
 		F53A2C121EEEC56700E76A9E /* TestControllerOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C111EEEC56700E76A9E /* TestControllerOwner.cpp */; };
 		F53A2C141EF018EE00E76A9E /* TestInterfaceOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C131EF018EE00E76A9E /* TestInterfaceOwner.cpp */; };
 		F53A2C161EF020B400E76A9E /* TestModelOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C151EF020B400E76A9E /* TestModelOwner.cpp */; };
+		F53A2C191EF85DF000E76A9E /* HeapMethodParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C181EF85DF000E76A9E /* HeapMethodParameter.cpp */; };
+		F53A2C1A1EF85DF000E76A9E /* HeapMethodParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C181EF85DF000E76A9E /* HeapMethodParameter.cpp */; };
+		F53A2C1C1EF92D8300E76A9E /* TestHeapMethodParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C1B1EF92D8300E76A9E /* TestHeapMethodParameter.cpp */; };
 		F53B8EBB1ECE101A00F45564 /* ImportStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */; };
 		F53B8EBC1ECE101A00F45564 /* ImportStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */; };
 		F54625BF1DE5EA1900074D66 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */; };
@@ -587,6 +590,9 @@
 		F53A2C111EEEC56700E76A9E /* TestControllerOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerOwner.cpp; path = tests/TestControllerOwner.cpp; sourceTree = "<group>"; };
 		F53A2C131EF018EE00E76A9E /* TestInterfaceOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceOwner.cpp; path = tests/TestInterfaceOwner.cpp; sourceTree = "<group>"; };
 		F53A2C151EF020B400E76A9E /* TestModelOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelOwner.cpp; path = tests/TestModelOwner.cpp; sourceTree = "<group>"; };
+		F53A2C171EF85D5B00E76A9E /* HeapMethodParameter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = HeapMethodParameter.hpp; path = include/wisey/HeapMethodParameter.hpp; sourceTree = "<group>"; };
+		F53A2C181EF85DF000E76A9E /* HeapMethodParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HeapMethodParameter.cpp; path = src/HeapMethodParameter.cpp; sourceTree = "<group>"; };
+		F53A2C1B1EF92D8300E76A9E /* TestHeapMethodParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestHeapMethodParameter.cpp; path = tests/TestHeapMethodParameter.cpp; sourceTree = "<group>"; };
 		F53B8EB81ECDC08700F45564 /* IObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectType.hpp; path = include/wisey/IObjectType.hpp; sourceTree = "<group>"; };
 		F53B8EB91ECE0E5800F45564 /* ImportStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ImportStatement.hpp; path = include/wisey/ImportStatement.hpp; sourceTree = "<group>"; };
 		F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImportStatement.cpp; path = src/ImportStatement.cpp; sourceTree = "<group>"; };
@@ -905,6 +911,7 @@
 				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
 				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
 				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
+				F53A2C1B1EF92D8300E76A9E /* TestHeapMethodParameter.cpp */,
 				F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
@@ -1090,6 +1097,7 @@
 				F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */,
 				F5C6FD7A1E48B64C0054209D /* FloatType.cpp */,
 				F59D82101E0F311B00057FB5 /* ForStatement.cpp */,
+				F53A2C181EF85DF000E76A9E /* HeapMethodParameter.cpp */,
 				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
 				F57411721E043EE4009809FF /* Identifier.cpp */,
 				F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */,
@@ -1241,6 +1249,7 @@
 				F5089C6B1ECD01D9004A1223 /* FloatConstant.hpp */,
 				F5089C6C1ECD01D9004A1223 /* FloatType.hpp */,
 				F5089C6D1ECD01D9004A1223 /* ForStatement.hpp */,
+				F53A2C171EF85D5B00E76A9E /* HeapMethodParameter.hpp */,
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
 				F5089C6E1ECD01D9004A1223 /* Identifier.hpp */,
 				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
@@ -1484,6 +1493,7 @@
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
+				F53A2C1A1EF85DF000E76A9E /* HeapMethodParameter.cpp in Sources */,
 				F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
@@ -1523,6 +1533,7 @@
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
+				F53A2C1C1EF92D8300E76A9E /* TestHeapMethodParameter.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
 				F51581291E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */,
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
@@ -1620,6 +1631,7 @@
 				F5C6FD761E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */,
 				F50FA2FF1E323AAD00435EEA /* Scopes.cpp in Sources */,
+				F53A2C191EF85DF000E76A9E /* HeapMethodParameter.cpp in Sources */,
 				F531B6481E0A4F76008304F3 /* Assignment.cpp in Sources */,
 				F5BD74661EE5B9A50035E8FC /* Field.cpp in Sources */,
 				F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */,

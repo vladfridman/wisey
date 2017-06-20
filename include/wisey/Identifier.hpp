@@ -40,6 +40,8 @@ public:
   
   void releaseOwnership(IRGenerationContext& context) const override;
   
+  bool existsInOuterScope(IRGenerationContext& context) const override;
+  
 private:
   
   IVariable* checkGetVariable(IRGenerationContext& context) const;

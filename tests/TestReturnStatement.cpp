@@ -211,3 +211,9 @@ TEST_F(TestFileSampleRunner, returnStatementCastRunTest) {
 TEST_F(TestFileSampleRunner, earlyReturnRunTest) {
   runFile("tests/samples/test_early_return.yz", "1");
 }
+
+TEST_F(TestFileSampleRunner, returnReferenceToFreedObjectRunDeathTest) {
+  expectFailCompile("tests/samples/test_return_reference_to_freed_object.yz",
+          1,
+          "Error: Returning a reference to a value that does not exist in caller's scope.");
+}

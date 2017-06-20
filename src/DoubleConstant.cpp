@@ -27,3 +27,7 @@ void DoubleConstant::releaseOwnership(IRGenerationContext& context) const {
   Log::e("Can not release ownership of a double constant, it is not a heap pointer");
   exit(1);
 }
+
+bool DoubleConstant::existsInOuterScope(IRGenerationContext& context) const {
+  return false;
+}

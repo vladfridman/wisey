@@ -53,3 +53,7 @@ string ModelBuilder::getVariableName() const {
 const IType* ModelBuilder::getType(IRGenerationContext& context) const {
   return mModelTypeSpecifier->getType(context)->getOwner();
 }
+
+bool ModelBuilder::existsInOuterScope(IRGenerationContext& context) const {
+  return context.getScopes().getVariable(getVariableName())->existsInOuterScope();
+}

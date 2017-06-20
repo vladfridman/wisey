@@ -63,8 +63,12 @@ void LocalHeapVariable::free(IRGenerationContext& context) const {
   }
   
   Value* thisPointer = mType->getTypeKind() == INTERFACE_OWNER_TYPE
-  ? Interface::getOriginalObject(context, mValue)
-  : mValue;
+    ? Interface::getOriginalObject(context, mValue)
+    : mValue;
   
   IRWriter::createFree(context, thisPointer);
+}
+
+bool LocalHeapVariable::existsInOuterScope() const {
+  return false;
 }

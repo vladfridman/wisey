@@ -206,3 +206,7 @@ string MethodCall::translateInterfaceMethodToLLVMFunctionName(IObjectType* objec
   }
   return object->getName() + ".interface." + interface->getName() + "." + methodName;
 }
+
+bool MethodCall::existsInOuterScope(IRGenerationContext& context) const {
+  return mExpression->existsInOuterScope(context);
+}

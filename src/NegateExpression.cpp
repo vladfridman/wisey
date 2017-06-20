@@ -54,3 +54,7 @@ void NegateExpression::releaseOwnership(IRGenerationContext& context) const {
   Log::e("Can not release ownership of a negate expression result, it is not a heap pointer");
   exit(1);
 }
+
+bool NegateExpression::existsInOuterScope(IRGenerationContext& context) const {
+  return false;
+}

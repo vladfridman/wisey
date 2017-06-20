@@ -142,6 +142,10 @@ TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateAssignmentWithCastIRT
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
+TEST_F(ObjectFieldVariableTest, existsInOuterScopeTest) {
+  EXPECT_TRUE(mObjectFieldVariable->existsInOuterScope());
+}
+
 TEST_F(TestFileSampleRunner, modelFieldSetRunTest) {
   runFile("tests/samples/test_model_field_set.yz", "7");
 }

@@ -34,6 +34,7 @@ using ::testing::Test;
 struct ModelBuilderTest : Test {
   IRGenerationContext mContext;
   Model* mModel;
+  ModelBuilder* mModelBuilder;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   ModelTypeSpecifier* mModelTypeSpecifier;
@@ -72,6 +73,17 @@ struct ModelBuilderTest : Test {
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateVTable(mContext, mModel);
 
+    string argumentSpecifier1("withWidth");
+    ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
+    string argumentSpecifier2("withHeight");
+    ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2,
+                                                               mField2Expression);
+    ModelBuilderArgumentList argumentList;
+    argumentList.push_back(argument1);
+    argumentList.push_back(argument2);
+    mModelBuilder = new ModelBuilder(mModelTypeSpecifier, argumentList);
+    
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -86,39 +98,34 @@ struct ModelBuilderTest : Test {
   }
   
   ~ModelBuilderTest() {
+    delete mField1Expression;
+    delete mField2Expression;
     delete mStringStream;
   }
 };
 
 TEST_F(ModelBuilderTest, releaseOwnershipTest) {
-  string argumentSpecifier1("withWidth");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
-  string argumentSpecifier2("withHeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField2Expression);
-  ModelBuilderArgumentList argumentList;
-  argumentList.push_back(argument1);
-  argumentList.push_back(argument2);
-  
-  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
-  modelBuilder.generateIR(mContext);
+  mModelBuilder->generateIR(mContext);
   ostringstream stream;
-  stream << "__tmp" << (long) &modelBuilder;
+  stream << "__tmp" << (long) mModelBuilder;
   string temporaryVariableName = stream.str();
   
   EXPECT_NE(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
   
-  modelBuilder.releaseOwnership(mContext);
+  mModelBuilder->releaseOwnership(mContext);
 
   EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
 }
 
 TEST_F(ModelBuilderTest, testGetType) {
   ModelBuilderArgumentList argumentList;
-  
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
 
   EXPECT_EQ(modelBuilder.getType(mContext), mModel->getOwner());
-  
-  delete mField1Expression;
-  delete mField2Expression;
+}
+
+TEST_F(ModelBuilderTest, existsInOuterScopeTest) {
+  mModelBuilder->generateIR(mContext);
+
+  EXPECT_FALSE(mModelBuilder->existsInOuterScope(mContext));
 }

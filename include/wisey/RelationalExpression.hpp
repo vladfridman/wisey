@@ -37,6 +37,9 @@ public:
   const IType* getType(IRGenerationContext& context) const override;
   
   void releaseOwnership(IRGenerationContext& context) const override;
+  
+  bool existsInOuterScope(IRGenerationContext& context) const override;
+
 };
   
 } /* namespace wisey */

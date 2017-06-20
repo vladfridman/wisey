@@ -1,33 +1,34 @@
 //
-//  LocalStackVariable.hpp
+//  HeapMethodParameter.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 2/9/17.
+//  Created by Vladimir Fridman on 6/19/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LocalStackVariable_h
-#define LocalStackVariable_h
-
-#include "wisey/IVariable.hpp"
+#ifndef HeapMethodParameter_h
+#define HeapMethodParameter_h
 
 namespace wisey {
-
+  
 /**
- * Represents a local variable allocated on the stack
+ * Represents a heap variable that is a method parameter.
+ *
+ * This is the same as LocalHeapVariable only returns true on existsInOuterScope()
  */
-class LocalStackVariable : public IVariable {
-
+class HeapMethodParameter : public IVariable {
+  
   std::string mName;
   const IType* mType;
   llvm::Value* mValue;
   
 public:
-
-  LocalStackVariable(std::string name, const IType* type, llvm::Value* value)
+  
+  HeapMethodParameter(std::string name, const IType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value) { }
   
-  ~LocalStackVariable() {}
+  ~HeapMethodParameter() {
+  }
   
   std::string getName() const override;
   
@@ -40,13 +41,13 @@ public:
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                     IExpression* assignToExpression) override;
-
+  
   void free(IRGenerationContext& context) const override;
   
   bool existsInOuterScope() const override;
-
+  
 };
-
+  
 } /* namespace wisey */
 
-#endif /* LocalStackVariable_h */
+#endif /* HeapMethodParameter_h */

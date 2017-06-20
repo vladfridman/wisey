@@ -260,6 +260,13 @@ TEST_F(TestTypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest)
   EXPECT_EQ(value, mTrueValue);
 }
 
+TEST_F(TestTypeComparisionExpressionTest, existsInOuterScopeTest) {
+  NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  
+  EXPECT_FALSE(typeComparision.existsInOuterScope(mContext));
+}
+
 TEST_F(TestTypeComparisionExpressionTest, releaseOwnershipDeathTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);

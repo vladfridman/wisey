@@ -29,3 +29,7 @@ void EmptyExpression::releaseOwnership(IRGenerationContext& context) const {
   Log::e("Can not release ownership of an empty epxression, it is not a heap pointer");
   exit(1);
 }
+
+bool EmptyExpression::existsInOuterScope(IRGenerationContext& context) const {
+  return false;
+}

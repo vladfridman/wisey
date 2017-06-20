@@ -143,6 +143,26 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithTrue) {
                "  %cond = phi i32 [ 3, %cond.true ], [ 5, %cond.false ]");
 }
 
+TEST_F(ConditionalExpressionTest, existsInOuterScopeTest) {
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+
+  ON_CALL(*mIfTrueExpression, existsInOuterScope(_)).WillByDefault(Return(true));
+  ON_CALL(*mIfFalseExpression, existsInOuterScope(_)).WillByDefault(Return(true));
+  EXPECT_TRUE(expression.existsInOuterScope(mContext));
+  
+  ON_CALL(*mIfTrueExpression, existsInOuterScope(_)).WillByDefault(Return(false));
+  ON_CALL(*mIfFalseExpression, existsInOuterScope(_)).WillByDefault(Return(true));
+  EXPECT_FALSE(expression.existsInOuterScope(mContext));
+  
+  ON_CALL(*mIfTrueExpression, existsInOuterScope(_)).WillByDefault(Return(true));
+  ON_CALL(*mIfFalseExpression, existsInOuterScope(_)).WillByDefault(Return(false));
+  EXPECT_FALSE(expression.existsInOuterScope(mContext));
+  
+  ON_CALL(*mIfTrueExpression, existsInOuterScope(_)).WillByDefault(Return(false));
+  ON_CALL(*mIfFalseExpression, existsInOuterScope(_)).WillByDefault(Return(false));
+  EXPECT_FALSE(expression.existsInOuterScope(mContext));
+}
+
 TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   Mock::AllowLeak(mConditionExpression);
   Mock::AllowLeak(mIfTrueExpression);

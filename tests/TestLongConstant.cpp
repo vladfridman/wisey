@@ -23,30 +23,33 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-TEST(LongConstantTest, longConstantTest) {
+struct LongConstantTest : public ::testing::Test {
+  IRGenerationContext mContext;
+  LongConstant mLongConstant;
+
+  LongConstantTest() : mLongConstant(5) { }
+};
+
+TEST_F(LongConstantTest, longConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
-  IRGenerationContext context;
-  LongConstant constantLong(5);
   
-  Value* irValue = constantLong.generateIR(context);
+  Value* irValue = mLongConstant.generateIR(mContext);
   
   *stringStream << *irValue;
   EXPECT_STREQ("i64 5", stringStream->str().c_str());
 }
 
-TEST(LongConstantTest, longConstantTypeTest) {
-  IRGenerationContext context;
-  LongConstant constantLong(5);
-
-  EXPECT_EQ(constantLong.getType(context), PrimitiveTypes::LONG_TYPE);
+TEST_F(LongConstantTest, longConstantTypeTest) {
+  EXPECT_EQ(mLongConstant.getType(mContext), PrimitiveTypes::LONG_TYPE);
 }
 
-TEST(LongConstantTest, releaseOwnershipDeathTest) {
-  IRGenerationContext context;
-  LongConstant constantLong(5);
-  
-  EXPECT_EXIT(constantLong.releaseOwnership(context),
+TEST_F(LongConstantTest, existsInOuterScopeTest) {
+  EXPECT_FALSE(mLongConstant.existsInOuterScope(mContext));
+}
+
+TEST_F(LongConstantTest, releaseOwnershipDeathTest) {
+  EXPECT_EXIT(mLongConstant.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of a long constant, it is not a heap pointer");
 }

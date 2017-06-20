@@ -57,3 +57,7 @@ void IncrementExpression::releaseOwnership(IRGenerationContext& context) const {
   Log::e("Can not release ownership of an increment operation result, it is not a heap pointer");
   exit(1);
 }
+
+bool IncrementExpression::existsInOuterScope(IRGenerationContext& context) const {
+  return false;
+}

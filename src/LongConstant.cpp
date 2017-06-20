@@ -27,3 +27,7 @@ void LongConstant::releaseOwnership(IRGenerationContext& context) const {
   Log::e("Can not release ownership of a long constant, it is not a heap pointer");
   exit(1);
 }
+
+bool LongConstant::existsInOuterScope(IRGenerationContext& context) const {
+  return false;
+}

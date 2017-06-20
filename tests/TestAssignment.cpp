@@ -147,6 +147,20 @@ TEST_F(AssignmentTest, generateIRWithControllerTypeDeathTest) {
               "Error: Can not assign to controllers");
 }
 
+TEST_F(AssignmentTest, existsInOuterScopeTest) {
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  Identifier* identifier = new Identifier("foo", "bar");
+  Assignment assignment(identifier, mExpression);
+  mContext.getScopes().setVariable(&mockVariable);
+
+  ON_CALL(mockVariable, existsInOuterScope()).WillByDefault(Return(true));
+  EXPECT_TRUE(assignment.existsInOuterScope(mContext));
+  
+  ON_CALL(mockVariable, existsInOuterScope()).WillByDefault(Return(false));
+  EXPECT_FALSE(assignment.existsInOuterScope(mContext));
+}
+
 TEST_F(TestFileSampleRunner, assignToControllerRunDeathTest) {
   expectFailCompile("tests/samples/test_assign_to_controller.yz",
                     1,

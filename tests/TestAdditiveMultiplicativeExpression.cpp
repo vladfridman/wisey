@@ -170,6 +170,12 @@ TEST_F(AdditiveMultiplicativeExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
+TEST_F(AdditiveMultiplicativeExpressionTest, existsInOuterScopeTest) {
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  
+  EXPECT_FALSE(expression.existsInOuterScope(mContext));
+}
+
 TEST_F(TestFileSampleRunner, additionRunTest) {
   runFile("tests/samples/test_addition.yz", "7");
 }

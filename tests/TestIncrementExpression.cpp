@@ -109,6 +109,12 @@ TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(IncrementExpressionTest, existsInOuterScopeTest) {
+  IncrementExpression* expression = IncrementExpression::newDecrementByOne(mIdentifier);
+
+  EXPECT_FALSE(expression->existsInOuterScope(mContext));
+}
+
 TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
   LocalStackVariable* variable = new LocalStackVariable(mName, PrimitiveTypes::FLOAT_TYPE, NULL);

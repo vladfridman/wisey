@@ -131,6 +131,12 @@ TEST_F(LogicalAndExpressionTest, getTypeTest) {
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
 }
 
+TEST_F(LogicalAndExpressionTest, existsInOuterScopeTest) {
+  LogicalAndExpression expression(mLeftExpression, mRightExpression);
+  
+  EXPECT_FALSE(expression.existsInOuterScope(mContext));
+}
+
 TEST_F(LogicalAndExpressionTest, releaseOwnershipDeathTest) {
   Mock::AllowLeak(&mLeftExpression);
   Mock::AllowLeak(&mRightExpression);

@@ -89,6 +89,13 @@ TEST_F(LocalHeapVariableTest, heapVariableIdentifierTest) {
   EXPECT_EQ(localHeapVariable.generateIdentifierIR(mContext, "bar"), fooValue);
 }
 
+TEST_F(LocalHeapVariableTest, existsInOuterScopeTest) {
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  LocalHeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+
+  EXPECT_FALSE(localHeapVariable.existsInOuterScope());
+}
+
 TEST_F(LocalHeapVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
   LocalHeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   

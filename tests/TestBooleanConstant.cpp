@@ -62,6 +62,14 @@ TEST_F(BooleanConstantTest, booleanConstantTypeTest) {
   EXPECT_EQ(booleanConstant.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
 }
 
+TEST_F(BooleanConstantTest, existsInOuterScopeTest) {
+  BooleanConstant booleanConstantTrue(true);
+  BooleanConstant booleanConstantFalse(false);
+  
+  EXPECT_FALSE(booleanConstantTrue.existsInOuterScope(mContext));
+  EXPECT_FALSE(booleanConstantFalse.existsInOuterScope(mContext));
+}
+
 TEST_F(BooleanConstantTest, releaseOwnershipDeathTest) {
   BooleanConstant booleanConstant(true);
   

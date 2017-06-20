@@ -27,3 +27,7 @@ void FloatConstant::releaseOwnership(IRGenerationContext& context) const {
   Log::e("Can not release ownership of a float constant, it is not a heap pointer");
   exit(1);
 }
+
+bool FloatConstant::existsInOuterScope(IRGenerationContext& context) const {
+  return false;
+}

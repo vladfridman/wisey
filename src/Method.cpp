@@ -7,8 +7,8 @@
 //
 
 #include "wisey/CompoundStatement.hpp"
+#include "wisey/HeapMethodParameter.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalHeapVariable.hpp"
 #include "wisey/LocalStackVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Method.hpp"
@@ -115,7 +115,7 @@ void Method::storeArgumentValue(IRGenerationContext& context,
                                 const IType* variableType,
                                 llvm::Value* variableValue) const {
   if (variableType->getTypeKind() != PRIMITIVE_TYPE) {
-    IVariable* variable = new LocalHeapVariable(variableName, variableType, variableValue);
+    IVariable* variable = new HeapMethodParameter(variableName, variableType, variableValue);
     context.getScopes().setVariable(variable);
     return;
   }

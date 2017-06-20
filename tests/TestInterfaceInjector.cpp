@@ -116,3 +116,10 @@ TEST_F(InterfaceInjectorTest, getTypeTest) {
   
   EXPECT_EQ(interfaceInjector.getType(mContext), mController);
 }
+
+TEST_F(InterfaceInjectorTest, existsInOuterScopeTest) {
+  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
+  interfaceInjector.generateIR(mContext);
+  
+  EXPECT_FALSE(interfaceInjector.existsInOuterScope(mContext));
+}

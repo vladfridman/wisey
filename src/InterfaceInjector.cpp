@@ -52,4 +52,6 @@ string InterfaceInjector::getVariableName() const {
   return stream.str();
 }
 
-
+bool InterfaceInjector::existsInOuterScope(IRGenerationContext& context) const {
+  return context.getScopes().getVariable(getVariableName())->existsInOuterScope();
+}

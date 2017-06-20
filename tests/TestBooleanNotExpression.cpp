@@ -72,6 +72,12 @@ TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(BooleanNotExpressionTest, existsInOuterScopeTest) {
+  BooleanNotExpression booleanNotExpression(mExpression);
+  
+  EXPECT_FALSE(booleanNotExpression.existsInOuterScope(mContext));
+}
+
 TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   BooleanNotExpression booleanNotExpression(mExpression);

@@ -48,3 +48,7 @@ void RelationalExpression::releaseOwnership(IRGenerationContext& context) const 
   Log::e("Can not release ownership of a relational expression result, it is not a heap pointer");
   exit(1);
 }
+
+bool RelationalExpression::existsInOuterScope(IRGenerationContext& context) const {
+  return false;
+}

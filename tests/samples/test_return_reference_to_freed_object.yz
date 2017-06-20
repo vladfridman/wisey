@@ -1,0 +1,26 @@
+package systems.vos.wisey.compiler.tests;
+
+model MData {
+  public int getResult() {
+    return 3;
+  }
+}
+
+controller CService {
+
+  public MData newData() {
+    MData* data = builder(MData).build();
+    return data;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService;
+
+  public int run() {
+    MData data = mService.newData();
+    return data.getResult();
+  }
+}
+
+bind(CProgram).to(IProgram);

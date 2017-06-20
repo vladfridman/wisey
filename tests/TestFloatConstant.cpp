@@ -23,30 +23,34 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-TEST(FloatConstantTest, floatConstantTest) {
+struct FloatConstantTest : public ::testing::Test {
+  IRGenerationContext mContext;
+  FloatConstant mFloatConstant;
+
+  FloatConstantTest() : mFloatConstant(3.5) { }
+};
+
+TEST_F(FloatConstantTest, floatConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
-  FloatConstant floatConstant(3.5);
   
-  Value* irValue = floatConstant.generateIR(context);
+  Value* irValue = mFloatConstant.generateIR(mContext);
   
   *stringStream << *irValue;
   EXPECT_STREQ("float 3.500000e+00", stringStream->str().c_str());
 }
 
-TEST(FloatConstantTest, floatConstantTypeTest) {
-  IRGenerationContext context;
-  FloatConstant floatConstant(3.5);
-
-  EXPECT_EQ(floatConstant.getType(context), PrimitiveTypes::FLOAT_TYPE);
+TEST_F(FloatConstantTest, floatConstantTypeTest) {
+  EXPECT_EQ(mFloatConstant.getType(mContext), PrimitiveTypes::FLOAT_TYPE);
 }
 
-TEST(FloatConstantTest, releaseOwnershipDeathTest) {
-  IRGenerationContext context;
-  FloatConstant floatConstant(3.5);
-  
-  EXPECT_EXIT(floatConstant.releaseOwnership(context),
+TEST_F(FloatConstantTest, existsInOuterScopeTest) {
+  EXPECT_FALSE(mFloatConstant.existsInOuterScope(mContext));
+}
+
+TEST_F(FloatConstantTest, releaseOwnershipDeathTest) {
+  EXPECT_EXIT(mFloatConstant.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of a float constant, it is not a heap pointer");
 }

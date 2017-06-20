@@ -38,6 +38,8 @@ public:
   
   void releaseOwnership(IRGenerationContext& context) const override;
   
+  bool existsInOuterScope(IRGenerationContext& context) const override;
+  
   /**
    * Translate object method name into its LLVM implemenation function name
    */

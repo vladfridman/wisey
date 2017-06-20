@@ -45,3 +45,7 @@ Value* LocalStackVariable::generateAssignmentIR(IRGenerationContext& context,
 
 void LocalStackVariable::free(IRGenerationContext& context) const {
 }
+
+bool LocalStackVariable::existsInOuterScope() const {
+  return false;
+}

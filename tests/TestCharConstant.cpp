@@ -24,32 +24,35 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-TEST(CharConstantTest, charConstantTest) {
+struct CharConstantTest : public ::testing::Test {
+  IRGenerationContext mContext;
+  CharConstant mCharConstant;
+
+  CharConstantTest() : mCharConstant('y') { }
+};
+
+TEST_F(CharConstantTest, charConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
-  IRGenerationContext context;
-  CharConstant charConstant('y');
   
-  Value* irValue = charConstant.generateIR(context);
+  Value* irValue = mCharConstant.generateIR(mContext);
 
   *stringStream << *irValue;
   EXPECT_STREQ("i16 121", stringStream->str().c_str());
 }
 
-TEST(CharConstantTest, charConstantTypeTest) {
-  IRGenerationContext context;
-  CharConstant charConstant('y');
-
-  EXPECT_EQ(charConstant.getType(context), PrimitiveTypes::CHAR_TYPE);
+TEST_F(CharConstantTest, charConstantTypeTest) {
+  EXPECT_EQ(mCharConstant.getType(mContext), PrimitiveTypes::CHAR_TYPE);
 }
 
-TEST(CharConstantTest, releaseOwnershipDeathTest) {
-  IRGenerationContext context;
-  CharConstant charConstant('y');
-  
-  EXPECT_EXIT(charConstant.releaseOwnership(context),
+TEST_F(CharConstantTest, releaseOwnershipDeathTest) {
+  EXPECT_EXIT(mCharConstant.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of a char constant, it is not a heap pointer");
+}
+
+TEST_F(CharConstantTest, existsInOuterScopeTest) {
+  EXPECT_FALSE(mCharConstant.existsInOuterScope(mContext));
 }
 
 TEST_F(TestFileSampleRunner, charVariableRunTest) {

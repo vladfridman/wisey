@@ -63,6 +63,12 @@ public:
    * Free any allocated space associated with this variable
    */
   virtual void free(IRGenerationContext& context) const = 0;
+  
+  /**
+   * Tells whether this variable exists in the scope outside the method where this variable is used
+   */
+  virtual bool existsInOuterScope() const = 0;
+
 };
   
 } /* namespace wisey */

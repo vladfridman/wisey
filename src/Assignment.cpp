@@ -48,3 +48,7 @@ const IType* Assignment::getType(IRGenerationContext& context) const {
 void Assignment::releaseOwnership(IRGenerationContext& context) const {
   mIdentifier->releaseOwnership(context);
 }
+
+bool Assignment::existsInOuterScope(IRGenerationContext& context) const {
+  return mIdentifier->existsInOuterScope(context);
+}

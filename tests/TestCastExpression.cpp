@@ -97,6 +97,16 @@ TEST_F(CastExpressionTest, releaseOwnershipTest) {
   castExpression.releaseOwnership(mContext);
 }
 
+TEST_F(CastExpressionTest, existsInOuterScopeTest) {
+  CastExpression castExpression(mTypeSpecifier, mExpression);
+  
+  ON_CALL(*mExpression, existsInOuterScope(_)).WillByDefault(Return(false));
+  EXPECT_FALSE(castExpression.existsInOuterScope(mContext));
+  
+  ON_CALL(*mExpression, existsInOuterScope(_)).WillByDefault(Return(true));
+  EXPECT_TRUE(castExpression.existsInOuterScope(mContext));
+}
+
 TEST_F(CastExpressionTest, releaseOwnershipDeathTest) {
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(mTypeSpecifier);

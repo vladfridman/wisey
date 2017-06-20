@@ -64,6 +64,12 @@ TEST_F(StringConstantTest, stringConstantEscapeNewlineTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
+TEST_F(StringConstantTest, existsInOuterScopeTest) {
+  StringConstant stringConstant("\"test\"");
+  
+  EXPECT_FALSE(stringConstant.existsInOuterScope(mContext));
+}
+
 TEST_F(StringConstantTest, releaseOwnershipDeathTest) {
   StringConstant stringConstant("\"test\ntest\"");
   

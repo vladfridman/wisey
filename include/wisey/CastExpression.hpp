@@ -34,6 +34,8 @@ public:
   
   void releaseOwnership(IRGenerationContext& context) const override;
   
+  bool existsInOuterScope(IRGenerationContext& context) const override;
+  
 };
   
 } /* namespace wisey */

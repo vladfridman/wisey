@@ -23,30 +23,35 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-TEST(IntConstantTest, intConstantTest) {
+struct IntConstantTest : public ::testing::Test {
+  IRGenerationContext mContext;
+  IntConstant mIntConstant;
+
+  IntConstantTest() : mIntConstant(5) { }
+};
+
+TEST_F(IntConstantTest, intConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
-  IntConstant intConstant(5);
   
-  Value* irValue = intConstant.generateIR(context);
+  Value* irValue = mIntConstant.generateIR(mContext);
   
   *stringStream << *irValue;
   EXPECT_STREQ("i32 5", stringStream->str().c_str());
 }
 
-TEST(IntConstantTest, intConstantTypeTest) {
-  IRGenerationContext context;
-  IntConstant intConstant(5);
+TEST_F(IntConstantTest, intConstantTypeTest) {
 
-  EXPECT_EQ(intConstant.getType(context), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(mIntConstant.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST(IntConstantTest, releaseOwnershipDeathTest) {
-  IRGenerationContext context;
-  IntConstant intConstant(5);
-  
-  EXPECT_EXIT(intConstant.releaseOwnership(context),
+TEST_F(IntConstantTest, existsInOuterScopeTest) {
+  EXPECT_FALSE(mIntConstant.existsInOuterScope(mContext));
+}
+
+TEST_F(IntConstantTest, releaseOwnershipDeathTest) {
+  EXPECT_EXIT(mIntConstant.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of an int constant, it is not a heap pointer");
 }

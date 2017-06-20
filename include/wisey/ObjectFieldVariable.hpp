@@ -45,6 +45,8 @@ public:
   
   void free(IRGenerationContext& context) const override;
   
+  bool existsInOuterScope() const override;
+
 private:
   
   Field* checkAndFindField(IRGenerationContext& context) const;

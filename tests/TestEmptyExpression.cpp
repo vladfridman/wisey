@@ -16,25 +16,27 @@
 
 using namespace wisey;
 
-TEST(EmptyExpressionTest, simpleEmptyExpressionTest) {
-  IRGenerationContext context;
-  EmptyExpression expression;
+struct EmptyExpressionTest : public ::testing::Test {
+  IRGenerationContext mContext;
+  EmptyExpression mEmptyExpression;
   
-  EXPECT_EQ(expression.generateIR(context), nullptr);
+  EmptyExpressionTest() { }
+};
+
+TEST_F(EmptyExpressionTest, simpleEmptyExpressionTest) {
+  EXPECT_EQ(mEmptyExpression.generateIR(mContext), nullptr);
 }
 
-TEST(EmptyExpressionTest, emptyExpressionTypeTest) {
-  IRGenerationContext context;
-  EmptyExpression expression;
- 
-  EXPECT_EQ(expression.getType(context), PrimitiveTypes::VOID_TYPE);
+TEST_F(EmptyExpressionTest, emptyExpressionTypeTest) {
+  EXPECT_EQ(mEmptyExpression.getType(mContext), PrimitiveTypes::VOID_TYPE);
 }
 
-TEST(EmptyExpressionTest, releaseOwnershipDeathTest) {
-  IRGenerationContext context;
-  EmptyExpression expression;
-  
-  EXPECT_EXIT(expression.releaseOwnership(context),
+TEST_F(EmptyExpressionTest, existsInOuterScopeTest) {
+  EXPECT_FALSE(mEmptyExpression.existsInOuterScope(mContext));
+}
+
+TEST_F(EmptyExpressionTest, releaseOwnershipDeathTest) {
+  EXPECT_EXIT(mEmptyExpression.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of an empty epxression, it is not a heap pointer");
 }

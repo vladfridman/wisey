@@ -91,3 +91,7 @@ Field* ObjectFieldVariable::checkAndFindField(IRGenerationContext& context) cons
   Log::e("Field '" + mName + "' is not found in object '" + mObject->getName() + "'");
   exit(1);
 }
+
+bool ObjectFieldVariable::existsInOuterScope() const {
+  return true;
+}

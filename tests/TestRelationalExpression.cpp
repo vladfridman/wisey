@@ -32,7 +32,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-struct RelationalExpressionTest : Test {
+struct RelationalExpressionTest : public Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression>* mLeftExpression;
   NiceMock<MockExpression>* mRightExpression;
@@ -79,6 +79,12 @@ TEST_F(RelationalExpressionTest, greaterThanOrEqualTest) {
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = icmp sge i32 3, 5");
+}
+
+TEST_F(RelationalExpressionTest, existsInOuterScopeTest) {
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
+
+  EXPECT_FALSE(expression.existsInOuterScope(mContext));
 }
 
 TEST_F(RelationalExpressionTest, releaseOwnershipDeathTest) {

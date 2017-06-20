@@ -132,6 +132,12 @@ TEST_F(LocalStackVariableTest, freeTest) {
   ASSERT_EQ(mBlock->size(), 0u);
 }
 
+TEST_F(LocalStackVariableTest, existsInOuterScopeTest) {
+  LocalStackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  
+  EXPECT_FALSE(localStackVariable.existsInOuterScope());
+}
+
 TEST_F(TestFileSampleRunner, assignmentWithAutocastRunTest) {
   runFile("tests/samples/test_assignment_with_autocast.yz", "1");
 }

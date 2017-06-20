@@ -9,6 +9,7 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ReturnStatement.hpp"
 
@@ -35,6 +36,10 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   
   if (IType::isOwnerType(returnType)) {
     mExpression->releaseOwnership(context);
+  } else if (returnType->getTypeKind() != PRIMITIVE_TYPE &&
+             !mExpression->existsInOuterScope(context)) {
+    Log::e("Returning a reference to a value that does not exist in caller's scope.");
+    exit(1);
   }
   
   context.getScopes().freeOwnedMemory(context);

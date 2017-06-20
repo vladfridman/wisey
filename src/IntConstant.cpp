@@ -27,3 +27,7 @@ void IntConstant::releaseOwnership(IRGenerationContext& context) const {
   Log::e("Can not release ownership of an int constant, it is not a heap pointer");
   exit(1);
 }
+
+bool IntConstant::existsInOuterScope(IRGenerationContext& context) const {
+  return false;
+}

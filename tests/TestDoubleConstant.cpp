@@ -23,30 +23,33 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-TEST(DoubleConstantTest, doubleConstantTest) {
+struct DoubleConstantTest : public ::testing::Test {
+  IRGenerationContext mContext;
+  DoubleConstant mDoubleConstant;
+  
+  DoubleConstantTest() : mDoubleConstant(5.7) { }
+};
+
+TEST_F(DoubleConstantTest, doubleConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
-  IRGenerationContext context;
-  DoubleConstant doubleConstant(5.7);
   
-  Value* irValue = doubleConstant.generateIR(context);
+  Value* irValue = mDoubleConstant.generateIR(mContext);
   
   *stringStream << *irValue;
   EXPECT_STREQ("double 5.700000e+00", stringStream->str().c_str());
 }
 
-TEST(DoubleConstantTest, doubleConstantTypeTest) {
-  IRGenerationContext context;
-  DoubleConstant doubleConstant(5.7);
-
-  EXPECT_EQ(doubleConstant.getType(context), PrimitiveTypes::DOUBLE_TYPE);
+TEST_F(DoubleConstantTest, doubleConstantTypeTest) {
+  EXPECT_EQ(mDoubleConstant.getType(mContext), PrimitiveTypes::DOUBLE_TYPE);
 }
 
-TEST(DoubleConstantTest, releaseOwnershipDeathTest) {
-  IRGenerationContext context;
-  DoubleConstant doubleConstant(5.7);
-  
-  EXPECT_EXIT(doubleConstant.releaseOwnership(context),
+TEST_F(DoubleConstantTest, existsInOuterScopeTest) {
+  EXPECT_FALSE(mDoubleConstant.existsInOuterScope(mContext));
+}
+
+TEST_F(DoubleConstantTest, releaseOwnershipDeathTest) {
+  EXPECT_EXIT(mDoubleConstant.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of a double constant, it is not a heap pointer");
 }

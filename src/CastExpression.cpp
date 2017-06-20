@@ -43,3 +43,7 @@ void CastExpression::releaseOwnership(IRGenerationContext& context) const {
   
   mExpression->releaseOwnership(context);
 }
+
+bool CastExpression::existsInOuterScope(IRGenerationContext& context) const {
+  return mExpression->existsInOuterScope(context);
+}
