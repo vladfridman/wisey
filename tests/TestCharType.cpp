@@ -84,7 +84,7 @@ TEST_F(CharTypeTest, castToTest) {
   
   EXPECT_EXIT(mCharType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'char' to 'void'");
+              "Error: Incompatible types: can not cast from type 'char' to 'void'");
   
   result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE);
   *mStringStream << *result;

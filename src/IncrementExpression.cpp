@@ -28,7 +28,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
       identifierType != PrimitiveTypes::CHAR_TYPE &&
       identifierType != PrimitiveTypes::LONG_TYPE) {
     Log::e("Identifier " + mIdentifier->getName() +
-           " is of a type that is incopatible with increment/decrement operation");
+           " is of a type that is incompatible with increment/decrement operation");
     exit(1);
   }
   

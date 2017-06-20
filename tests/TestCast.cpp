@@ -54,9 +54,9 @@ public:
 };
 
 TEST_F(CastTest, exitIncompatobleTypesTest) {
-  EXPECT_EXIT(Cast::exitIncopatibleTypes(PrimitiveTypes::CHAR_TYPE, PrimitiveTypes::INT_TYPE),
+  EXPECT_EXIT(Cast::exitIncompatibleTypes(PrimitiveTypes::CHAR_TYPE, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'char' to 'int'");
+              "Error: Incompatible types: can not cast from type 'char' to 'int'");
 }
 
 TEST_F(CastTest, widenIntCastTest) {

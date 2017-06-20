@@ -176,7 +176,7 @@ TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   
   EXPECT_EXIT(expression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types in conditional expression operation");
+              "Error: Incompatible types in conditional expression operation");
 }
 
 TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {

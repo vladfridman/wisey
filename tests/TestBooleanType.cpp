@@ -84,7 +84,7 @@ TEST_F(BooleanTypeTest, castToTest) {
   
   EXPECT_EXIT(mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'boolean' to 'void'");
+              "Error: Incompatible types: can not cast from type 'boolean' to 'void'");
   
   result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE);
   EXPECT_EQ(result, expressionValue);

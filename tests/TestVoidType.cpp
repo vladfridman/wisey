@@ -87,26 +87,26 @@ TEST_F(VoidTypeTest, castToTest) {
 
   EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'void' to 'boolean'");
+              "Error: Incompatible types: can not cast from type 'void' to 'boolean'");
   
   EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'void' to 'char'");
+              "Error: Incompatible types: can not cast from type 'void' to 'char'");
   
   EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'void' to 'int'");
+              "Error: Incompatible types: can not cast from type 'void' to 'int'");
   
   EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'void' to 'long'");
+              "Error: Incompatible types: can not cast from type 'void' to 'long'");
   
   EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'void' to 'float'");
+              "Error: Incompatible types: can not cast from type 'void' to 'float'");
   
   EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'void' to 'double'");
+              "Error: Incompatible types: can not cast from type 'void' to 'double'");
   
 }

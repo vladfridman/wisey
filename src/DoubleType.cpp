@@ -56,6 +56,6 @@ Value* DoubleType::castTo(IRGenerationContext& context,
   } else if (toType == PrimitiveTypes::DOUBLE_TYPE) {
     return fromValue;
   }
-  Cast::exitIncopatibleTypes(this, toType);
+  Cast::exitIncompatibleTypes(this, toType);
   return NULL;
 }

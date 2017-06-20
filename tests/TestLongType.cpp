@@ -84,7 +84,7 @@ TEST_F(LongTypeTest, castToTest) {
   
   EXPECT_EXIT(mLongType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'long' to 'void'");
+              "Error: Incompatible types: can not cast from type 'long' to 'void'");
   
   result = mLongType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE);
   *mStringStream << *result;

@@ -95,7 +95,7 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
   Mock::AllowLeak(mExpression);
   EXPECT_EXIT(returnStatement.generateIR(mContext),
               ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'int' to 'void'");
+              "Error: Incompatible types: can not cast from type 'int' to 'void'");
 }
 
 TEST_F(ReturnStatementTest, parentFunctionIntTest) {

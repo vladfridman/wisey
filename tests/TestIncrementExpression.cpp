@@ -120,7 +120,7 @@ TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   StackVariable* variable = new StackVariable(mName, PrimitiveTypes::FLOAT_TYPE, NULL);
   mContext.getScopes().setVariable(variable);
   string expected = "Error: Identifier foo is of a type that is "
-    "incopatible with increment/decrement operation";
+    "incompatible with increment/decrement operation";
   
   EXPECT_EXIT(expression->generateIR(mContext),
               ::testing::ExitedWithCode(1),

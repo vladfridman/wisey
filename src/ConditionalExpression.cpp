@@ -84,7 +84,7 @@ void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   }
   
   if (trueExpressionType != falseExpressionType) {
-    Log::e("Incopatible types in conditional expression operation");
+    Log::e("Incompatible types in conditional expression operation");
     exit(1);
   }
   

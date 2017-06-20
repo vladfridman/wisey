@@ -41,7 +41,7 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
     return fromValue;
   }
   if (!object->canCastTo(toType)) {
-    Cast::exitIncopatibleTypes(object, toType);
+    Cast::exitIncompatibleTypes(object, toType);
     return NULL;
   }
   LLVMContext& llvmContext = context.getLLVMContext();

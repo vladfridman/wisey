@@ -95,7 +95,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
 
   EXPECT_EXIT(expression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types in '\\+' operation");
+              "Error: Incompatible types in '\\+' operation");
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
@@ -141,7 +141,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeath
   
   EXPECT_EXIT(expression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types in '\\+' operation that require an explicit cast");
+              "Error: Incompatible types in '\\+' operation that require an explicit cast");
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTest) {
@@ -155,7 +155,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTes
   
   EXPECT_EXIT(expression.getType(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types in '\\+' operation that require an explicit cast");
+              "Error: Incompatible types in '\\+' operation that require an explicit cast");
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, releaseOwnershipDeathTest) {

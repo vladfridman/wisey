@@ -62,8 +62,8 @@ Value* Cast::floatToIntCast(IRGenerationContext& context,
   return IRWriter::newFPToSIInst(context, fromValue, toLLVMType);
 }
 
-void Cast::exitIncopatibleTypes(const IType* fromType, const IType* toType) {
-  Log::e("Incopatible types: can not cast from type '" + fromType->getName() +
+void Cast::exitIncompatibleTypes(const IType* fromType, const IType* toType) {
+  Log::e("Incompatible types: can not cast from type '" + fromType->getName() +
          "' to '" + toType->getName() + "'");
   exit(1);
 }

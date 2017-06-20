@@ -357,7 +357,7 @@ TEST_F(ModelTest, castToDeathTest) {
 
   EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from "
+              "Error: Incompatible types: can not cast from "
               "type 'systems.vos.wisey.compiler.tests.MSquare' to 'int'");
 }
 

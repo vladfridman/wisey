@@ -27,7 +27,7 @@ public:
   /**
    * Print an error message when types are incompatable
    */
-  static void exitIncopatibleTypes(const IType* fromType, const IType* toType);
+  static void exitIncompatibleTypes(const IType* fromType, const IType* toType);
   
   /**
    * Widen cast a given value to a given type

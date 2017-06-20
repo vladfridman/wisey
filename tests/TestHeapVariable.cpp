@@ -135,7 +135,7 @@ TEST_F(TestFileSampleRunner, usingUninitializedHeapVariableRunDeathTest) {
 TEST_F(TestFileSampleRunner, incompatableHeapVariableTypesInAssignmentRunDeathTest) {
   expectFailCompile("tests/samples/test_incompatible_heap_variable_types_in_assignment.yz",
                     1,
-                    "Error: Incopatible types: can not cast from type "
+                    "Error: Incompatible types: can not cast from type "
                     "'systems.vos.wisey.compiler.tests.MShape\\*' to "
                     "'systems.vos.wisey.compiler.tests.MColor\\*'");
 }

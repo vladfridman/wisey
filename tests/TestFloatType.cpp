@@ -84,7 +84,7 @@ TEST_F(FloatTypeTest, castToTest) {
   
   EXPECT_EXIT(mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
-              "Error: Incopatible types: can not cast from type 'float' to 'void'");
+              "Error: Incompatible types: can not cast from type 'float' to 'void'");
   
   result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE);
   *mStringStream << *result;

@@ -86,12 +86,12 @@ void AdditiveMultiplicativeExpression::checkTypes(const IType* leftType,
   }
 
   if (!leftType->canCastTo(rightType) && !rightType->canCastTo(leftType)) {
-    Log::e("Incopatible types in '" + string(1, mOperation) + "' operation");
+    Log::e("Incompatible types in '" + string(1, mOperation) + "' operation");
     exit(1);
   }
   
   if (!leftType->canAutoCastTo(rightType) && !rightType->canAutoCastTo(leftType)) {
-    Log::e("Incopatible types in '" + string(1, mOperation) +
+    Log::e("Incompatible types in '" + string(1, mOperation) +
            "' operation that require an explicit cast");
     exit(1);
   }
