@@ -311,6 +311,10 @@ TEST_F(TestFileSampleRunner, methodCallToPrivateMethodViaPublicMethodRunTest) {
   runFile("tests/samples/test_call_to_private_method_via_public_method.yz", "20");
 }
 
+TEST_F(TestFileSampleRunner, returnOwnerAndAssignToReferenceRunTest) {
+  runFile("tests/samples/test_return_owner_and_assign_to_reference.yz", "3");
+}
+
 TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_method_call.yz",
                     1,

@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -103,7 +104,7 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
 
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Function* function,
-                                      Type* returnType,
+                                      Type* returnLLVMType,
                                       IMethodDescriptor* methodDescriptor) const {
   vector<Value*> arguments;
   arguments.push_back(mExpression->generateIR(context));
@@ -121,12 +122,23 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     arguments.push_back(callArgumentValueCasted);
     methodArgumentIterator++;
   }
-  string resultName = returnType->isVoidTy() ? "" : "call";
+  string resultName = returnLLVMType->isVoidTy() ? "" : "call";
   
+  Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {
-    return IRWriter::createCallInst(context, function, arguments, resultName);
+    result = IRWriter::createCallInst(context, function, arguments, resultName);
+  } else {
+    result = IRWriter::createInvokeInst(context, function, arguments, resultName);
   }
-  return IRWriter::createInvokeInst(context, function, arguments, resultName);
+  
+  const IType* returnType = methodDescriptor->getReturnType();
+  if (returnType->getTypeKind() != PRIMITIVE_TYPE) {
+    string variableName = IVariable::getTemporaryVariableName(this);
+    HeapVariable* tempVariable = new HeapVariable(variableName, returnType, result);
+    context.getScopes().setVariable(tempVariable);
+  }
+  
+  return result;
 }
 
 const IType* MethodCall::getType(IRGenerationContext& context) const {
@@ -134,7 +146,12 @@ const IType* MethodCall::getType(IRGenerationContext& context) const {
 }
 
 void MethodCall::releaseOwnership(IRGenerationContext& context) const {
-  // TODO implement this if needed
+  if (getMethodDescriptor(context)->getReturnType()->getTypeKind() == PRIMITIVE_TYPE) {
+    return;
+  }
+  
+  string variableName = IVariable::getTemporaryVariableName(this);
+  context.getScopes().clearVariable(IVariable::getTemporaryVariableName(this));
 }
 
 IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {

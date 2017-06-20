@@ -77,7 +77,7 @@ private:
 
   llvm::Value* createFunctionCall(IRGenerationContext& context,
                                   llvm::Function* function,
-                                  llvm::Type* returnType,
+                                  llvm::Type* returnLLVMType,
                                   IMethodDescriptor* methodDescriptor) const;
 };
 
