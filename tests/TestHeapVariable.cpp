@@ -71,46 +71,46 @@ TEST_F(HeapVariableTest, heapVariableAssignmentTest) {
     new HeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   BitCastInst* bitCastInst = IRWriter::newBitCastInst(mContext, fooValue, fooValue->getType());
-  HeapVariable localHeapVariable("bar", PrimitiveTypes::INT_TYPE, bitCastInst);
+  HeapVariable heapVariable("bar", PrimitiveTypes::INT_TYPE, bitCastInst);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(bitCastInst));
   
-  localHeapVariable.generateAssignmentIR(mContext, &expression);
+  heapVariable.generateAssignmentIR(mContext, &expression);
 
-  EXPECT_EQ(localHeapVariable.getValue(), bitCastInst);
-  EXPECT_TRUE(BitCastInst::classof(localHeapVariable.getValue()));
+  EXPECT_EQ(heapVariable.getValue(), bitCastInst);
+  EXPECT_TRUE(BitCastInst::classof(heapVariable.getValue()));
 }
 
 TEST_F(HeapVariableTest, heapVariableIdentifierTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  HeapVariable heapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
  
-  EXPECT_EQ(localHeapVariable.generateIdentifierIR(mContext, "bar"), fooValue);
+  EXPECT_EQ(heapVariable.generateIdentifierIR(mContext, "bar"), fooValue);
 }
 
 TEST_F(HeapVariableTest, existsInOuterScopeTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  HeapVariable heapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
 
-  EXPECT_FALSE(localHeapVariable.existsInOuterScope());
+  EXPECT_FALSE(heapVariable.existsInOuterScope());
 }
 
 TEST_F(HeapVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
-  HeapVariable localHeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  HeapVariable heapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   
-  EXPECT_EXIT(localHeapVariable.generateIdentifierIR(mContext, "bar"),
+  EXPECT_EXIT(heapVariable.generateIdentifierIR(mContext, "bar"),
               ::testing::ExitedWithCode(1),
               "Variable 'foo' is used before it has been initialized.");
 }
 
 TEST_F(HeapVariableTest, freeTest) {
   Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-  HeapVariable localHeapVariable("foo", mModel->getOwner(), fooValue);
+  HeapVariable heapVariable("foo", mModel->getOwner(), fooValue);
 
   EXPECT_EQ(mBlock->size(), 0u);
 
-  localHeapVariable.free(mContext);
+  heapVariable.free(mContext);
   
   EXPECT_EQ(mBlock->size(), 2u);
   BasicBlock::iterator iterator = mBlock->begin();

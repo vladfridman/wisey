@@ -58,13 +58,13 @@ public:
 TEST_F(StackVariableTest, generateAssignmentIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
 
-  StackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
   Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
   
-  localStackVariable.generateAssignmentIR(mContext, &expression);
+  stackVariable.generateAssignmentIR(mContext, &expression);
   
   ASSERT_EQ(2ul, mBlock->size());
   BasicBlock::iterator iterator = mBlock->begin();
@@ -80,13 +80,13 @@ TEST_F(StackVariableTest, generateAssignmentIRTest) {
 
 TEST_F(StackVariableTest, generateAssignmentIRWithCastTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  StackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
   Value* assignValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
   
-  localStackVariable.generateAssignmentIR(mContext, &expression);
+  stackVariable.generateAssignmentIR(mContext, &expression);
   
   ASSERT_EQ(3ul, mBlock->size());
   BasicBlock::iterator iterator = mBlock->begin();
@@ -107,9 +107,9 @@ TEST_F(StackVariableTest, generateAssignmentIRWithCastTest) {
 
 TEST_F(StackVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  StackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
   
-  localStackVariable.generateIdentifierIR(mContext, "bar");
+  stackVariable.generateIdentifierIR(mContext, "bar");
 
   ASSERT_EQ(2ul, mBlock->size());
   
@@ -125,17 +125,17 @@ TEST_F(StackVariableTest, generateIdentifierIRTest) {
 }
 
 TEST_F(StackVariableTest, freeTest) {
-  StackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
 
-  localStackVariable.free(mContext);
+  stackVariable.free(mContext);
   
   ASSERT_EQ(mBlock->size(), 0u);
 }
 
 TEST_F(StackVariableTest, existsInOuterScopeTest) {
-  StackVariable localStackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   
-  EXPECT_FALSE(localStackVariable.existsInOuterScope());
+  EXPECT_FALSE(stackVariable.existsInOuterScope());
 }
 
 TEST_F(TestFileSampleRunner, assignmentWithAutocastRunTest) {
