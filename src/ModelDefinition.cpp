@@ -20,7 +20,7 @@ using namespace std;
 using namespace wisey;
 
 ModelDefinition::~ModelDefinition() {
-  for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     delete fieldDeclaration;
   }
   mFieldDeclarations.clear();
@@ -86,7 +86,7 @@ map<string, Field*> ModelDefinition::createFields(IRGenerationContext& context,
                                                   unsigned long numberOfInterfaces) const {
   map<string, Field*> fields;
   ExpressionList arguments;
-  for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
     Field* field = new Field(fieldType,
@@ -103,7 +103,7 @@ void ModelDefinition::createFieldVariables(IRGenerationContext& context,
                                            vector<Type*>& types) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  for (ModelFieldDeclaration* fieldDeclaration : mFieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
     types.push_back(fieldType->getLLVMType(llvmContext));

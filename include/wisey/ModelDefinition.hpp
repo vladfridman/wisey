@@ -10,12 +10,12 @@
 #define ModelDefinition_h
 
 #include "wisey/Block.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/MethodDeclaration.hpp"
-#include "wisey/ModelFieldDeclaration.hpp"
 
 namespace wisey {
   
@@ -24,14 +24,14 @@ namespace wisey {
  */
 class ModelDefinition : public IGlobalStatement {
   const std::string mName;
-  std::vector<ModelFieldDeclaration*> mFieldDeclarations;
+  std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<MethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ModelDefinition(std::string name,
-                  std::vector<ModelFieldDeclaration*> fieldDeclarations,
+                  std::vector<FieldDeclaration*> fieldDeclarations,
                   std::vector<MethodDeclaration *> methodDeclarations,
                   std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mName(name),

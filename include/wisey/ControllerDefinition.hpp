@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-#include "wisey/ControllerFieldDeclaration.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -25,18 +25,18 @@ namespace wisey {
  */
 class ControllerDefinition : public IGlobalStatement {
   std::string mName;
-  std::vector<ControllerFieldDeclaration*> mReceivedFieldDeclarations;
-  std::vector<ControllerFieldDeclaration*> mInjectedFieldDeclarations;
-  std::vector<ControllerFieldDeclaration*> mStateFieldDeclarations;
+  std::vector<FieldDeclaration*> mReceivedFieldDeclarations;
+  std::vector<FieldDeclaration*> mInjectedFieldDeclarations;
+  std::vector<FieldDeclaration*> mStateFieldDeclarations;
   std::vector<MethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ControllerDefinition(std::string name,
-                       std::vector<ControllerFieldDeclaration*> receivedFieldDeclarations,
-                       std::vector<ControllerFieldDeclaration*> injectedFieldDeclarations,
-                       std::vector<ControllerFieldDeclaration*> stateFieldDeclarations,
+                       std::vector<FieldDeclaration*> receivedFieldDeclarations,
+                       std::vector<FieldDeclaration*> injectedFieldDeclarations,
+                       std::vector<FieldDeclaration*> stateFieldDeclarations,
                        std::vector<MethodDeclaration*> methodDeclarations,
                        std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mName(name),
@@ -59,7 +59,7 @@ private:
   std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
 
   std::vector<Field*> fieldDeclarationsToFields(IRGenerationContext& context,
-                                                std::vector<ControllerFieldDeclaration*>
+                                                std::vector<FieldDeclaration*>
                                                   declarations,
                                                 unsigned long startIndex) const;
 
@@ -70,7 +70,7 @@ private:
                             std::vector<llvm::Type*>& types) const;
 
   void createFieldVariablesForDeclarations(IRGenerationContext& context,
-                                           std::vector<ControllerFieldDeclaration*> declarations,
+                                           std::vector<FieldDeclaration*> declarations,
                                            Controller* controller,
                                            std::vector<llvm::Type*>& types) const;
 

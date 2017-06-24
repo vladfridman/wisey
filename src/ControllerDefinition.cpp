@@ -18,15 +18,15 @@ using namespace std;
 using namespace wisey;
 
 ControllerDefinition::~ControllerDefinition() {
-  for (ControllerFieldDeclaration* fieldDeclaration : mReceivedFieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : mReceivedFieldDeclarations) {
     delete fieldDeclaration;
   }
   mReceivedFieldDeclarations.clear();
-  for (ControllerFieldDeclaration* fieldDeclaration : mInjectedFieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : mInjectedFieldDeclarations) {
     delete fieldDeclaration;
   }
   mInjectedFieldDeclarations.clear();
-  for (ControllerFieldDeclaration* fieldDeclaration : mStateFieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : mStateFieldDeclarations) {
     delete fieldDeclaration;
   }
   mStateFieldDeclarations.clear();
@@ -110,11 +110,11 @@ vector<Interface*> ControllerDefinition::processInterfaces(IRGenerationContext& 
 }
 
 vector<Field*> ControllerDefinition::fieldDeclarationsToFields(IRGenerationContext& context,
-                                                               vector<ControllerFieldDeclaration*>
+                                                               vector<FieldDeclaration*>
                                                                 declarations,
                                                                unsigned long startIndex) const {
   vector<Field*> fields;
-  for (ControllerFieldDeclaration* fieldDeclaration : declarations) {
+  for (FieldDeclaration* fieldDeclaration : declarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
     if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
@@ -151,13 +151,13 @@ void ControllerDefinition::createFieldVariables(IRGenerationContext& context,
 }
 
 void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationContext& context,
-                                                               vector<ControllerFieldDeclaration*>
+                                                               vector<FieldDeclaration*>
                                                                declarations,
                                                                Controller* controller,
                                                                vector<Type*>& types) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  for (ControllerFieldDeclaration* fieldDeclaration : declarations) {
+  for (FieldDeclaration* fieldDeclaration : declarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
 
     if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&

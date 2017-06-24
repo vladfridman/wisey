@@ -1,13 +1,13 @@
 //
-//  ControllerFieldDeclaration.hpp
+//  FieldDeclaration.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/27/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ControllerFieldDeclaration_h
-#define ControllerFieldDeclaration_h
+#ifndef FieldDeclaration_h
+#define FieldDeclaration_h
 
 #include "wisey/IExpression.hpp"
 #include "wisey/ITypeSpecifier.hpp"
@@ -18,6 +18,7 @@ namespace wisey {
  * Lists possible controller field qualifiers
  */
 typedef enum FieldQualifierEnum {
+  FIXED_FIELD,
   RECEIVED_FIELD,
   INJECTED_FIELD,
   STATE_FIELD,
@@ -26,7 +27,7 @@ typedef enum FieldQualifierEnum {
 /**
  * Represents a field in CONTROLLER definition
  */
-class ControllerFieldDeclaration {
+class FieldDeclaration {
   
   FieldQualifier mFieldQualifier;
   ITypeSpecifier* mTypeSpecifier;
@@ -35,7 +36,7 @@ class ControllerFieldDeclaration {
   
 public:
   
-  ControllerFieldDeclaration(FieldQualifier fieldQualifier,
+  FieldDeclaration(FieldQualifier fieldQualifier,
                              ITypeSpecifier* typeSpecifier,
                              std::string name,
                              ExpressionList arguments) :
@@ -44,7 +45,7 @@ public:
   mName(name),
   mArguments(arguments) { }
   
-  ~ControllerFieldDeclaration();
+  ~FieldDeclaration();
   
   FieldQualifier getFieldQualifier() const;
   
@@ -57,4 +58,4 @@ public:
   
 } /* namespace wisey */
 
-#endif /* ControllerFieldDeclaration_h */
+#endif /* FieldDeclaration_h */

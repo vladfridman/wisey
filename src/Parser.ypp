@@ -15,7 +15,6 @@
   #include "wisey/ConditionalExpression.hpp"
   #include "wisey/ContinueStatement.hpp"
   #include "wisey/ControllerDefinition.hpp"
-  #include "wisey/ControllerFieldDeclaration.hpp"
   #include "wisey/ControllerTypeSpecifier.hpp"
   #include "wisey/DefaultCaseStatement.hpp"
   #include "wisey/DoStatement.hpp"
@@ -23,6 +22,7 @@
   #include "wisey/EmptyExpression.hpp"
   #include "wisey/EmptyStatement.hpp"
   #include "wisey/ExpressionStatement.hpp"
+  #include "wisey/FieldDeclaration.hpp"
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"
   #include "wisey/Identifier.hpp"
@@ -46,7 +46,6 @@
   #include "wisey/ModelBuilder.hpp"
   #include "wisey/ModelBuilderArgument.hpp"
   #include "wisey/ModelDefinition.hpp"
-  #include "wisey/ModelFieldDeclaration.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
   #include "wisey/NegateExpression.hpp"
   #include "wisey/OwnerTypeSpecifier.hpp"
@@ -101,11 +100,10 @@
   wisey::VariableDeclaration* variable_declaration;
   wisey::ModelBuilderArgument* model_builder_argument;
   wisey::ModelBuilderArgumentList *model_builder_argument_list;
-  wisey::ModelFieldDeclaration* model_field;
   wisey::ModelTypeSpecifier* model_type_specifier;
   wisey::ControllerTypeSpecifier* controller_type_specifier;
   wisey::InterfaceTypeSpecifier* interface_type_specifier;
-  wisey::ControllerFieldDeclaration* controller_field;
+  wisey::FieldDeclaration* object_field;
   wisey::AccessLevel access_specifier;
   wisey::MethodDeclaration* method_declaration;
   wisey::MethodSignatureDeclaration* method_signature;
@@ -114,10 +112,9 @@
   std::vector<wisey::Catch*>* catch_vector;
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<wisey::IExpression*>* expression_vector;
-  std::vector<wisey::ModelFieldDeclaration*>* model_field_vector;
   std::vector<wisey::MethodDeclaration*>* method_declaration_vector;
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
-  std::vector<wisey::ControllerFieldDeclaration*>* controller_field_vector;
+  std::vector<wisey::FieldDeclaration*>* object_field_vector;
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
   std::vector<wisey::InterfaceTypeSpecifier*>* interface_list;
   std::vector<std::string>* identifier_list;
@@ -166,17 +163,17 @@
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
 %type <switch_cases> case_statement_list case_statement_list_with_default
-%type <model_field_vector> model_field_declaration_list model_field_declaration_list_optional
-%type <model_field> model_field_declaration
-%type <controller_field_vector> controller_received_fields_optional
-%type <controller_field_vector> controller_received_fields_list
-%type <controller_field_vector> controller_injected_fields_optional
-%type <controller_field_vector> controller_injected_fields_list
-%type <controller_field_vector> controller_state_fields_optional
-%type <controller_field_vector> controller_state_fields_list
-%type <controller_field> controller_received_field_declaration
-%type <controller_field> controller_injected_field_declaration
-%type <controller_field> controller_state_field_declaration
+%type <object_field_vector> model_field_declaration_list model_field_declaration_list_optional
+%type <object_field> model_field_declaration
+%type <object_field_vector> controller_received_fields_optional
+%type <object_field_vector> controller_received_fields_list
+%type <object_field_vector> controller_injected_fields_optional
+%type <object_field_vector> controller_injected_fields_list
+%type <object_field_vector> controller_state_fields_optional
+%type <object_field_vector> controller_state_fields_list
+%type <object_field> controller_received_field_declaration
+%type <object_field> controller_injected_field_declaration
+%type <object_field> controller_state_field_declaration
 %type <type_specifier> type_specifier primitive_type_specifier exception_type_specifier
 %type <object_type_specifier> object_type_specifier
 %type <model_builder_argument_list> model_builder_argument_list
@@ -317,13 +314,13 @@ controller_definition
   ;
 
 controller_received_fields_optional
-  : /* blank */ { $$ = new std::vector<ControllerFieldDeclaration*>(); }
+  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
   | controller_received_fields_list
   ;
 
 controller_received_fields_list
   : controller_received_field_declaration
-    { $$ = new std::vector<ControllerFieldDeclaration*>(); $$->push_back($1); }
+    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
   | controller_received_fields_list controller_received_field_declaration
     { $1->push_back($2); }
   ;
@@ -332,19 +329,19 @@ controller_received_field_declaration
   : TRECEIVE type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new ControllerFieldDeclaration(RECEIVED_FIELD, $2, *$3, arguments);
+      $$ = new FieldDeclaration(RECEIVED_FIELD, $2, *$3, arguments);
       delete $3;
     }
   ;
 
 controller_injected_fields_optional
-  : /* blank */ { $$ = new std::vector<ControllerFieldDeclaration*>(); }
+  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
   | controller_injected_fields_list
   ;
 
 controller_injected_fields_list
   : controller_injected_field_declaration
-    { $$ = new std::vector<ControllerFieldDeclaration*>(); $$->push_back($1); }
+    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
   | controller_injected_fields_list controller_injected_field_declaration
     { $1->push_back($2); }
   ;
@@ -353,12 +350,12 @@ controller_injected_field_declaration
   : TINJECT type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new ControllerFieldDeclaration(INJECTED_FIELD, $2, *$3, arguments);
+      $$ = new FieldDeclaration(INJECTED_FIELD, $2, *$3, arguments);
       delete $3;
     }
   | TINJECT type_specifier TFIELDIDENTIFIER '(' call_arguments ')' ';'
     {
-      $$ = new ControllerFieldDeclaration(INJECTED_FIELD, $2, *$3, *$5);
+      $$ = new FieldDeclaration(INJECTED_FIELD, $2, *$3, *$5);
       delete $3;
       delete $5;
     }
@@ -366,13 +363,13 @@ controller_injected_field_declaration
   ;
 
 controller_state_fields_optional
-  : /* blank */ { $$ = new std::vector<ControllerFieldDeclaration*>(); }
+  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
   | controller_state_fields_list
   ;
 
 controller_state_fields_list
   : controller_state_field_declaration
-    { $$ = new std::vector<ControllerFieldDeclaration*>(); $$->push_back($1); }
+    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
   | controller_state_fields_list controller_state_field_declaration
     { $1->push_back($2); }
   ;
@@ -381,7 +378,7 @@ controller_state_field_declaration
   : TSTATE type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new ControllerFieldDeclaration(STATE_FIELD, $2, *$3, arguments);
+      $$ = new FieldDeclaration(STATE_FIELD, $2, *$3, arguments);
       delete $3;
     }
   ;
@@ -414,19 +411,24 @@ interface_list
   ;
 
 model_field_declaration_list_optional
-  : /* blank */ { $$ = new std::vector<ModelFieldDeclaration*>(); }
+  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
   | model_field_declaration_list
   ;
 
 model_field_declaration_list
   : model_field_declaration
-    { $$ = new std::vector<ModelFieldDeclaration*>(); $$->push_back($1); }
+    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
   | model_field_declaration_list model_field_declaration
     { $1->push_back($2); }
   ;
 
 model_field_declaration
-  : type_specifier TFIELDIDENTIFIER ';' { $$ = new ModelFieldDeclaration($1, *$2); delete $2; }
+  : type_specifier TFIELDIDENTIFIER ';'
+    {
+      std::vector<IExpression*> arguments;
+      $$ = new FieldDeclaration(FIXED_FIELD, $1, *$2, arguments);
+      delete $2;
+    }
   ;
 
 method_definition_list_optional

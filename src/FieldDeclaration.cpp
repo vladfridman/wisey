@@ -1,18 +1,18 @@
 //
-//  ControllerFieldDeclaration.cpp
+//  FieldDeclaration.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 3/27/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ControllerFieldDeclaration.hpp"
+#include "wisey/FieldDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ControllerFieldDeclaration::~ControllerFieldDeclaration() {
+FieldDeclaration::~FieldDeclaration() {
   delete mTypeSpecifier;
   for (IExpression* expression : mArguments) {
     delete expression;
@@ -20,18 +20,18 @@ ControllerFieldDeclaration::~ControllerFieldDeclaration() {
   mArguments.clear();
 }
 
-FieldQualifier ControllerFieldDeclaration::getFieldQualifier() const {
+FieldQualifier FieldDeclaration::getFieldQualifier() const {
   return mFieldQualifier;
 }
 
-ITypeSpecifier* ControllerFieldDeclaration::getTypeSpecifier() const {
+ITypeSpecifier* FieldDeclaration::getTypeSpecifier() const {
   return mTypeSpecifier;
 }
 
-string ControllerFieldDeclaration::getName() const {
+string FieldDeclaration::getName() const {
   return mName;
 }
 
-ExpressionList ControllerFieldDeclaration::getArguments() const {
+ExpressionList FieldDeclaration::getArguments() const {
   return mArguments;
 }

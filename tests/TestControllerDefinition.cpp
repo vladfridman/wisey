@@ -40,9 +40,9 @@ struct ControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockStatement>* mMockStatement;
-  vector<ControllerFieldDeclaration*> mReceivedFields;
-  vector<ControllerFieldDeclaration*> mInjectedFields;
-  vector<ControllerFieldDeclaration*> mStateFields;
+  vector<FieldDeclaration*> mReceivedFields;
+  vector<FieldDeclaration*> mInjectedFields;
+  vector<FieldDeclaration*> mStateFields;
   vector<MethodDeclaration*> mMethodDeclarations;
   vector<InterfaceTypeSpecifier*> mInterfaces;
   
@@ -76,10 +76,10 @@ struct ControllerDefinitionTest : public Test {
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     ExpressionList arguments;
-    ControllerFieldDeclaration* field1 =
-    new ControllerFieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
-    ControllerFieldDeclaration* field2 =
-    new ControllerFieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
+    FieldDeclaration* field1 =
+    new FieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
+    FieldDeclaration* field2 =
+    new FieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
     mReceivedFields.push_back(field1);
     mReceivedFields.push_back(field2);
   }

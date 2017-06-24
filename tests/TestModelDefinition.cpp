@@ -40,7 +40,7 @@ struct ModelDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   MethodDeclaration *mMethodDeclaration;
-  vector<ModelFieldDeclaration*> mFields;
+  vector<FieldDeclaration*> mFields;
   vector<MethodDeclaration*> mMethodDeclarations;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
@@ -78,8 +78,9 @@ struct ModelDefinitionTest : public Test {
 TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  ModelFieldDeclaration* field1 = new ModelFieldDeclaration(longType, "field1");
-  ModelFieldDeclaration* field2 = new ModelFieldDeclaration(floatType, "field2");
+  vector<IExpression*> arguments;
+  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
+  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mFields.push_back(field1);
   mFields.push_back(field2);
   
@@ -98,8 +99,9 @@ TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
 TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  ModelFieldDeclaration* field1 = new ModelFieldDeclaration(longType, "field1");
-  ModelFieldDeclaration* field2 = new ModelFieldDeclaration(floatType, "field2");
+  vector<IExpression*> arguments;
+  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
+  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mFields.push_back(field1);
   mFields.push_back(field2);
   
@@ -117,8 +119,9 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
 TEST_F(ModelDefinitionTest, generateIRTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  ModelFieldDeclaration* field1 = new ModelFieldDeclaration(longType, "field1");
-  ModelFieldDeclaration* field2 = new ModelFieldDeclaration(floatType, "field2");
+  vector<IExpression*> arguments;
+  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
+  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mFields.push_back(field1);
   mFields.push_back(field2);
   

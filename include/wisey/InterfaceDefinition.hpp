@@ -14,7 +14,6 @@
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
-#include "wisey/ModelFieldDeclaration.hpp"
 
 namespace wisey {
   
