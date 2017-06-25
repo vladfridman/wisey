@@ -9,18 +9,15 @@
 #ifndef ModelDefinition_h
 #define ModelDefinition_h
 
-#include "wisey/Block.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/Identifier.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/MethodDeclaration.hpp"
 
 namespace wisey {
   
 /**
- * Represents MODEL definition which is analogous to an immutable class in C++
+ * Represents model definition which is analogous to an immutable class in C++
  */
 class ModelDefinition : public IGlobalStatement {
   const std::string mName;

@@ -18,6 +18,7 @@
 #include "wisey/Controller.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/Node.hpp"
 #include "wisey/Scopes.hpp"
 
 namespace wisey {
@@ -33,6 +34,7 @@ class IRGenerationContext {
   llvm::BasicBlock* mBasicBlock;
   std::map<std::string, Model*> mModels;
   std::map<std::string, Controller*> mControllers;
+  std::map<std::string, Node*> mNodes;
   std::map<std::string, Interface*> mInterfaces;
   std::map<Interface*, Controller*> mBindings;
   std::map<std::string, IObjectType*> mImports;
@@ -79,32 +81,42 @@ public:
   void setBasicBlock(llvm::BasicBlock* block);
 
   /**
-   * Add a MODEL type
+   * Add a model type
    */
   void addModel(Model* model);
   
   /**
-   * Look up a MODEL type
+   * Look up a model type
    */
   Model* getModel(std::string name);
 
   /**
-   * Add a Controller type
+   * Add a controller type
    */
   void addController(Controller* controller);
 
   /**
-   * Look up a Controller type
+   * Look up a controller type
    */
   Controller* getController(std::string name);
   
   /**
-   * Add an Interface type
+   * Add a node type
+   */
+  void addNode(Node* node);
+  
+  /**
+   * Look up a node type
+   */
+  Node* getNode(std::string name);
+  
+  /**
+   * Add an interface type
    */
   void addInterface(Interface* interface);
 
   /**
-   * Look up an Interface type
+   * Look up an interface type
    */
   Interface* getInterface(std::string name);
   

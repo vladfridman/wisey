@@ -32,6 +32,7 @@ struct IRGenerationContextTest : public Test {
   Interface* mInterface;
   Controller* mController;
   Model* mModel;
+  Node* mNode;
   
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
@@ -55,6 +56,10 @@ struct IRGenerationContextTest : public Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, "MMyModel");
     mModel = new Model(modelFullName, modelStructType);
+
+    string nodeFullName = "systems.vos.wisey.compiler.tests.NMyNode";
+    StructType* nodeStructType = StructType::create(mLLVMContext, "NMyNode");
+    mNode = new Node(nodeFullName, nodeStructType);
   }
   
   ~IRGenerationContextTest() { }
@@ -88,6 +93,28 @@ TEST_F(IRGenerationContextTest, runCodeFailsWhenMainIsNullDeathTest) {
   EXPECT_EXIT(mContext.runCode(),
               ::testing::ExitedWithCode(1),
               "Function main is not defined. Exiting.");
+}
+
+TEST_F(IRGenerationContextTest, addNodeTest) {
+  mContext.addNode(mNode);
+  
+  Node* resultNode = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
+  
+  EXPECT_EQ(resultNode, mNode);
+}
+
+TEST_F(IRGenerationContextTest, addNodeAlreadyDefinedDeathTest) {
+  mContext.addNode(mNode);
+  
+  EXPECT_EXIT(mContext.addNode(mNode),
+              ::testing::ExitedWithCode(1),
+              "Redefinition of node systems.vos.wisey.compiler.tests.NMyNode");
+}
+
+TEST_F(IRGenerationContextTest, getNodeDoesNotExistDeathTest) {
+  EXPECT_EXIT(mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode"),
+              ::testing::ExitedWithCode(1),
+              "Node systems.vos.wisey.compiler.tests.NMyNode is not defined");
 }
 
 TEST_F(IRGenerationContextTest, addModelTest) {

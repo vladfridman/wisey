@@ -24,7 +24,7 @@ class Interface;
 class ModelOwner;
   
 /**
- * Contains information about a MODEL including the llvm::StructType and field information
+ * Contains information about a model including the llvm::StructType and field information
  */
 class Model : public IConcreteObjectType {
   std::string mName;

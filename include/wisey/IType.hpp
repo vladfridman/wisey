@@ -29,6 +29,8 @@ typedef enum TypeKindEnum {
   MODEL_OWNER_TYPE,
   CONTROLLER_TYPE,
   CONTROLLER_OWNER_TYPE,
+  NODE_TYPE,
+  NODE_OWNER_TYPE,
 } TypeKind;
 
 /**

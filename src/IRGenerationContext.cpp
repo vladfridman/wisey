@@ -129,6 +129,31 @@ Controller* IRGenerationContext::getController(string name) {
   return mControllers.at(fullName);
 }
 
+void IRGenerationContext::addNode(Node* node) {
+  string name = node->getName();
+  if (mNodes.count(name)) {
+    Log::e("Redefinition of node " + name);
+    exit(1);
+  }
+  
+  mNodes[name] = node;
+}
+
+Node* IRGenerationContext::getNode(string name) {
+  bool isFullName = name.find('.') != string::npos;
+  if (!isFullName && mImports.count(name)) {
+    return (Node*) getImport(name);
+  }
+  
+  string fullName = isFullName ? name : mPackage + "." + name;
+  if (!mNodes.count(fullName)) {
+    Log::e("Node " + fullName + " is not defined");
+    exit(1);
+  }
+  
+  return mNodes.at(fullName);
+}
+
 void IRGenerationContext::addInterface(Interface* interface) {
   string name = interface->getName();
   if (mInterfaces.count(name)) {

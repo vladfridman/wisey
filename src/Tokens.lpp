@@ -13,6 +13,7 @@
   #include "wisey/MethodDeclaration.hpp"
   #include "wisey/MethodSignatureDeclaration.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
+  #include "wisey/NodeTypeSpecifier.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
   #include "wisey/ProgramFile.hpp"
   #include "wisey/SwitchStatement.hpp"
@@ -87,6 +88,7 @@ WS  [ \t\v\n\f]
 "to"                          return TOKEN(TTO);
 "package"                     return TOKEN(TPACKAGE);
 "import"                      return TOKEN(TIMPORT);
+"node"                        return TOKEN(TNODE);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);
@@ -115,6 +117,7 @@ WS  [ \t\v\n\f]
 M[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TMODELIDENTIFIER;
 I[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TINTERFACEIDENTIFIER;
 C[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TCONTROLLERIDENTIFIER;
+N[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TNODEIDENTIFIER;
 m[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TFIELDIDENTIFIER;
 [a-zA-Z_][a-zA-Z0-9_]*        SAVE_TOKEN; return TIDENTIFIER;
 {D}*"."{D}+{E}?{DS}           SAVE_TOKEN; return TDOUBLE;

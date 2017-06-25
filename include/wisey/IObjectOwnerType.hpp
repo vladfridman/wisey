@@ -9,6 +9,8 @@
 #ifndef IObjectOwnerType_h
 #define IObjectOwnerType_h
 
+#include <llvm/IR/DerivedTypes.h>
+
 #include "wisey/IType.hpp"
 
 namespace wisey {

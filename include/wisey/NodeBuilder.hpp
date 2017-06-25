@@ -1,40 +1,40 @@
 //
-//  ModelBuilder.hpp
+//  NodeBuilder.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 1/22/17.
+//  Created by Vladimir Fridman on 6/25/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ModelBuilder_h
-#define ModelBuilder_h
+#ifndef NodeBuilder_h
+#define NodeBuilder_h
 
 #include "wisey/BuilderArgument.hpp"
 #include "wisey/IExpression.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/NodeTypeSpecifier.hpp"
 
 namespace wisey {
-
-/**
- * Represents builder used to initialize models
- *
- * The model builder is of the form:
- *
- * ModelType* modelA = builder(ModelType).withField(1).builder();
- */
-class ModelBuilder : public IExpression {
   
-  ModelTypeSpecifier* mModelTypeSpecifier;
+/**
+ * Represents builder used to initialize nodes
+ *
+ * The nodes builder is of the form:
+ *
+ * NodeType* modelA = builder(NodeType).withField(1).builder();
+ */
+class NodeBuilder : public IExpression {
+    
+  NodeTypeSpecifier* mNodeTypeSpecifier;
   BuilderArgumentList mBuilderArgumentList;
   
 public:
   
-  ModelBuilder(ModelTypeSpecifier* modelTypeSpecifier,
-               BuilderArgumentList builderArgumentList)
-  : mModelTypeSpecifier(modelTypeSpecifier),
+  NodeBuilder(NodeTypeSpecifier* nodeTypeSpecifier,
+              BuilderArgumentList builderArgumentList) :
+  mNodeTypeSpecifier(nodeTypeSpecifier),
   mBuilderArgumentList(builderArgumentList) { }
   
-  ~ModelBuilder();
+  ~NodeBuilder();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
@@ -45,7 +45,7 @@ public:
   bool existsInOuterScope(IRGenerationContext& context) const override;
   
 };
-  
+
 } /* namespace wisey */
 
-#endif /* ModelBuilder_h */
+#endif /* NodeBuilder_h */
