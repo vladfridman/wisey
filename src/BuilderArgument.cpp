@@ -1,25 +1,26 @@
 //
-//  ModelBuilderArgument.cpp
+//  BuilderArgument.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/22/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/BuilderArgument.hpp"
 #include "wisey/IExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
-#include "wisey/ModelBuilderArgument.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelBuilderArgument::~ModelBuilderArgument() {
+BuilderArgument::~BuilderArgument() {
   delete mFieldExpression;
 }
 
-bool ModelBuilderArgument::checkArgument(const Model* model) {
+bool BuilderArgument::checkArgument(const Model* model) {
   if (mFieldSpecifier.substr(0, 4).compare("with")) {
     Log::e("Model builder argument should start with 'with'. e.g. .withField(value).");
     return false;
@@ -35,14 +36,14 @@ bool ModelBuilderArgument::checkArgument(const Model* model) {
   return true;
 }
 
-string ModelBuilderArgument::deriveFieldName() const {
+string BuilderArgument::deriveFieldName() const {
   return "m" + mFieldSpecifier.substr(4);
 }
 
-Value* ModelBuilderArgument::getValue(IRGenerationContext& context) const {
+Value* BuilderArgument::getValue(IRGenerationContext& context) const {
   return mFieldExpression->generateIR(context);
 }
 
-const IType* ModelBuilderArgument::getType(IRGenerationContext& context) const {
+const IType* BuilderArgument::getType(IRGenerationContext& context) const {
   return mFieldExpression->getType(context);
 }

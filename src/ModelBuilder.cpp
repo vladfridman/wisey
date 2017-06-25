@@ -20,15 +20,15 @@ using namespace wisey;
 
 ModelBuilder::~ModelBuilder() {
   delete mModelTypeSpecifier;
-  for (ModelBuilderArgument* argument : mModelBuilderArgumentList) {
+  for (BuilderArgument* argument : mBuilderArgumentList) {
     delete argument;
   }
-  mModelBuilderArgumentList.clear();
+  mBuilderArgumentList.clear();
 }
 
 Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   Model* model = (Model*) mModelTypeSpecifier->getType(context);
-  Instruction* malloc = model->build(context, mModelBuilderArgumentList);
+  Instruction* malloc = model->build(context, mBuilderArgumentList);
   
   HeapVariable* heapVariable = new HeapVariable(IVariable::getTemporaryVariableName(this),
                                                 model->getOwner(),

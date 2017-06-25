@@ -9,8 +9,8 @@
 #ifndef ModelBuilder_h
 #define ModelBuilder_h
 
+#include "wisey/BuilderArgument.hpp"
 #include "wisey/IExpression.hpp"
-#include "wisey/ModelBuilderArgument.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
 namespace wisey {
@@ -25,14 +25,14 @@ namespace wisey {
 class ModelBuilder : public IExpression {
   
   ModelTypeSpecifier* mModelTypeSpecifier;
-  ModelBuilderArgumentList mModelBuilderArgumentList;
+  BuilderArgumentList mBuilderArgumentList;
   
 public:
   
   ModelBuilder(ModelTypeSpecifier* modelTypeSpecifier,
-               ModelBuilderArgumentList modelBuilderArgumentList)
+               BuilderArgumentList builderArgumentList)
   : mModelTypeSpecifier(modelTypeSpecifier),
-  mModelBuilderArgumentList(modelBuilderArgumentList) { }
+  mBuilderArgumentList(builderArgumentList) { }
   
   ~ModelBuilder();
   

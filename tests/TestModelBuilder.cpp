@@ -74,12 +74,12 @@ struct ModelBuilderTest : Test {
     IConcreteObjectType::generateVTable(mContext, mModel);
 
     string argumentSpecifier1("withWidth");
-    ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1,
+    BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
     string argumentSpecifier2("withHeight");
-    ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2,
+    BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2,
                                                                mField2Expression);
-    ModelBuilderArgumentList argumentList;
+    BuilderArgumentList argumentList;
     argumentList.push_back(argument1);
     argumentList.push_back(argument2);
     mModelBuilder = new ModelBuilder(mModelTypeSpecifier, argumentList);
@@ -116,7 +116,7 @@ TEST_F(ModelBuilderTest, releaseOwnershipTest) {
 }
 
 TEST_F(ModelBuilderTest, testGetType) {
-  ModelBuilderArgumentList argumentList;
+  BuilderArgumentList argumentList;
   ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
 
   EXPECT_EQ(modelBuilder.getType(mContext), mModel->getOwner());

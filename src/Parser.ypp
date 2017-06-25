@@ -7,6 +7,7 @@
   #include "wisey/BooleanConstant.hpp"
   #include "wisey/BooleanNotExpression.hpp"
   #include "wisey/BreakStatement.hpp"
+  #include "wisey/BuilderArgument.hpp"
   #include "wisey/Catch.hpp"
   #include "wisey/CaseStatement.hpp"
   #include "wisey/CastExpression.hpp"
@@ -44,7 +45,6 @@
   #include "wisey/MethodDeclaration.hpp"
   #include "wisey/MethodSignatureDeclaration.hpp"
   #include "wisey/ModelBuilder.hpp"
-  #include "wisey/ModelBuilderArgument.hpp"
   #include "wisey/ModelDefinition.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
   #include "wisey/NegateExpression.hpp"
@@ -98,8 +98,8 @@
   wisey::IObjectTypeSpecifier* object_type_specifier;
   wisey::Identifier* identifier;
   wisey::VariableDeclaration* variable_declaration;
-  wisey::ModelBuilderArgument* model_builder_argument;
-  wisey::ModelBuilderArgumentList *model_builder_argument_list;
+  wisey::BuilderArgument* builder_argument;
+  wisey::BuilderArgumentList *builder_argument_list;
   wisey::ModelTypeSpecifier* model_type_specifier;
   wisey::ControllerTypeSpecifier* controller_type_specifier;
   wisey::InterfaceTypeSpecifier* interface_type_specifier;
@@ -176,8 +176,8 @@
 %type <object_field> controller_state_field_declaration
 %type <type_specifier> type_specifier primitive_type_specifier exception_type_specifier
 %type <object_type_specifier> object_type_specifier
-%type <model_builder_argument_list> model_builder_argument_list
-%type <model_builder_argument> model_builder_argument
+%type <builder_argument_list> builder_argument_list
+%type <builder_argument> builder_argument
 %type <model_type_specifier> model_type_specifier
 %type <controller_type_specifier> controller_type_specifier
 %type <interface_type_specifier> interface_type_specifier
@@ -743,20 +743,20 @@ assignment
   ;
 
 model_builder
-  : TBUILDER '(' model_type_specifier ')' model_builder_argument_list '.' TBUILD '(' ')'
+  : TBUILDER '(' model_type_specifier ')' builder_argument_list '.' TBUILD '(' ')'
     { $$ = new ModelBuilder($3, *$5); delete $5; }
   | TBUILDER '(' model_type_specifier ')' '.' TBUILD '(' ')'
-    { ModelBuilderArgumentList argumentList; $$ = new ModelBuilder($3, argumentList); }
+    { BuilderArgumentList argumentList; $$ = new ModelBuilder($3, argumentList); }
   ;
 
-model_builder_argument_list
-  : model_builder_argument { $$ = new ModelBuilderArgumentList(); $$->push_back($1); }
-  | model_builder_argument_list model_builder_argument { $1->push_back($2); }
+builder_argument_list
+  : builder_argument { $$ = new BuilderArgumentList(); $$->push_back($1); }
+  | builder_argument_list builder_argument { $1->push_back($2); }
   ;
 
-model_builder_argument
+builder_argument
   : '.' TIDENTIFIER '(' expression ')'
-    { $$ = new ModelBuilderArgument(*$2, $4); delete $2; }
+    { $$ = new BuilderArgument(*$2, $4); delete $2; }
   ;
 
 call_arguments

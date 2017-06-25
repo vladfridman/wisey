@@ -190,10 +190,10 @@ Value* Model::castTo(IRGenerationContext& context,
 }
 
 Instruction* Model::build(IRGenerationContext& context,
-                          const ModelBuilderArgumentList& modelBuilderArgumentList) const {
-  checkArguments(modelBuilderArgumentList);
+                          const BuilderArgumentList& builderArgumentList) const {
+  checkArguments(builderArgumentList);
   Instruction* malloc = createMalloc(context);
-  initializeFields(context, modelBuilderArgumentList, malloc);
+  initializeFields(context, builderArgumentList, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   return malloc;
@@ -234,16 +234,16 @@ void Model::createRTTI(IRGenerationContext& context) const {
                      getRTTIVariableName());
 }
 
-void Model::checkArguments(const ModelBuilderArgumentList& modelBuilderArgumentList) const {
-  checkArgumentsAreWellFormed(modelBuilderArgumentList);
-  checkAllFieldsAreSet(modelBuilderArgumentList);
+void Model::checkArguments(const BuilderArgumentList& builderArgumentList) const {
+  checkArgumentsAreWellFormed(builderArgumentList);
+  checkAllFieldsAreSet(builderArgumentList);
 }
 
-void Model::checkArgumentsAreWellFormed(const ModelBuilderArgumentList&
-                                        modelBuilderArgumentList) const {
+void Model::checkArgumentsAreWellFormed(const BuilderArgumentList&
+                                        builderArgumentList) const {
   bool areArgumentsWellFormed = true;
   
-  for (ModelBuilderArgument* argument : modelBuilderArgumentList) {
+  for (BuilderArgument* argument : builderArgumentList) {
     areArgumentsWellFormed &= argument->checkArgument(this);
   }
   
@@ -253,9 +253,9 @@ void Model::checkArgumentsAreWellFormed(const ModelBuilderArgumentList&
   }
 }
 
-void Model::checkAllFieldsAreSet(const ModelBuilderArgumentList& modelBuilderArgumentList) const {
+void Model::checkAllFieldsAreSet(const BuilderArgumentList& builderArgumentList) const {
   set<string> allFieldsThatAreSet;
-  for (ModelBuilderArgument* argument : modelBuilderArgumentList) {
+  for (BuilderArgument* argument : builderArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
   }
   
@@ -282,13 +282,13 @@ Instruction* Model::createMalloc(IRGenerationContext& context) const {
 }
 
 void Model::initializeFields(IRGenerationContext& context,
-                             const ModelBuilderArgumentList& modelBuilderArgumentList,
+                             const BuilderArgumentList& builderArgumentList,
                              Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (ModelBuilderArgument* argument : modelBuilderArgumentList) {
+  for (BuilderArgument* argument : builderArgumentList) {
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);
     const IType* argumentType = argument->getType(context);

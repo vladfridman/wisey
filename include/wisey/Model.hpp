@@ -13,10 +13,10 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/BuilderArgument.hpp"
 #include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/Method.hpp"
-#include "wisey/ModelBuilderArgument.hpp"
 
 namespace wisey {
 
@@ -81,7 +81,7 @@ public:
    * Builds an instance of this model and initializes all fields
    */
   llvm::Instruction* build(IRGenerationContext& context,
-                           const ModelBuilderArgumentList& modelBuilderArgumentList) const;
+                           const BuilderArgumentList& builderArgumentList) const;
   
   /**
    * Creates a global variable with type description for this model in RTTI format
@@ -135,16 +135,16 @@ private:
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   
-  void checkArguments(const ModelBuilderArgumentList& modelBuilderArgumentList) const;
+  void checkArguments(const BuilderArgumentList& builderArgumentList) const;
   
-  void checkArgumentsAreWellFormed(const ModelBuilderArgumentList& modelBuilderArgumentList) const;
+  void checkArgumentsAreWellFormed(const BuilderArgumentList& builderArgumentList) const;
   
-  void checkAllFieldsAreSet(const ModelBuilderArgumentList& modelBuilderArgumentList) const;
+  void checkAllFieldsAreSet(const BuilderArgumentList& builderArgumentList) const;
   
   llvm::Instruction* createMalloc(IRGenerationContext& context) const;
 
   void initializeFields(IRGenerationContext& context,
-                        const ModelBuilderArgumentList& modelBuilderArgumentList,
+                        const BuilderArgumentList& builderArgumentList,
                         llvm::Instruction* malloc) const;
 };
 

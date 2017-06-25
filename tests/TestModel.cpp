@@ -379,10 +379,10 @@ TEST_F(ModelTest, doesImplmentInterfaceTest) {
 
 TEST_F(ModelTest, buildTest) {
   string argumentSpecifier1("withBrightness");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withWeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField2Expression);
-  ModelBuilderArgumentList argumentList;
+  BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2, mField2Expression);
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
@@ -410,16 +410,16 @@ TEST_F(ModelTest, buildTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelTest, buildInvalidModelBuilderArgumentsDeathTest) {
+TEST_F(ModelTest, buildInvalidBuilderArgumentsDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mField3Expression);
   
   string argumentSpecifier1("width");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withWeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField2Expression);
-  ModelBuilderArgumentList argumentList;
+  BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2, mField2Expression);
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
@@ -439,10 +439,10 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   Mock::AllowLeak(mField3Expression);
   
   string argumentSpecifier1("withBrightness");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withWeight");
-  ModelBuilderArgument *argument2 = new ModelBuilderArgument(argumentSpecifier2, mField3Expression);
-  ModelBuilderArgumentList argumentList;
+  BuilderArgument *argument2 = new BuilderArgument(argumentSpecifier2, mField3Expression);
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
@@ -460,8 +460,8 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(mField3Expression);
   
   string argumentSpecifier1("withBrightness");
-  ModelBuilderArgument *argument1 = new ModelBuilderArgument(argumentSpecifier1, mField1Expression);
-  ModelBuilderArgumentList argumentList;
+  BuilderArgument *argument1 = new BuilderArgument(argumentSpecifier1, mField1Expression);
+  BuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   
   const char *expected =

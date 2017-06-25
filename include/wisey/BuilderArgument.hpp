@@ -1,17 +1,24 @@
 //
-//  ModelBuilderArgument.hpp
+//  BuilderArgument.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/22/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ModelBuilderArgument_h
-#define ModelBuilderArgument_h
+#ifndef BuilderArgument_h
+#define BuilderArgument_h
+
+#include <string>
+
+#include <llvm/IR/Instructions.h>
+
+#include "wisey/IType.hpp"
 
 namespace wisey {
 
 class IExpression;
+class IRGenerationContext;
 class Model;
   
 /**
@@ -23,17 +30,17 @@ class Model;
  *
  * withField(1) represents one model builder argument
  */
-class ModelBuilderArgument {
+class BuilderArgument {
   
   std::string mFieldSpecifier;
   IExpression* mFieldExpression;
   
 public:
   
-  ModelBuilderArgument(std::string fieldSpecifier, IExpression* fieldExpression)
+  BuilderArgument(std::string fieldSpecifier, IExpression* fieldExpression)
     : mFieldSpecifier(fieldSpecifier), mFieldExpression(fieldExpression) { }
   
-  ~ModelBuilderArgument();
+  ~BuilderArgument();
   
   bool checkArgument(const Model* model);
   
@@ -52,15 +59,13 @@ public:
    */
   const IType* getType(IRGenerationContext& context) const;
   
-private:
-  
 };
   
 /**
  * Represents a list of model builder arguments
  */
-typedef std::vector<ModelBuilderArgument*> ModelBuilderArgumentList;
+typedef std::vector<BuilderArgument*> BuilderArgumentList;
 
 } /* namespace wisey */
 
-#endif /* ModelBuilderArgument_h */
+#endif /* BuilderArgument_h */
