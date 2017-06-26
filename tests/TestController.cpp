@@ -208,18 +208,42 @@ struct ControllerTest : public Test {
   }
 };
 
-TEST_F(ControllerTest, controllerInstantiationTest) {
+TEST_F(ControllerTest, getNameTest) {
   EXPECT_STREQ(mMultiplierController->getName().c_str(),
                "systems.vos.wisey.compiler.tests.CMultiplier");
+}
+
+TEST_F(ControllerTest, ) {
   EXPECT_STREQ(mMultiplierController->getShortName().c_str(),
                "CMultiplier");
+}
+
+TEST_F(ControllerTest, getVTableNameTest) {
   EXPECT_STREQ(mMultiplierController->getVTableName().c_str(),
                "systems.vos.wisey.compiler.tests.CMultiplier.vtable");
+}
+
+TEST_F(ControllerTest, getTypeKindTest) {
   EXPECT_EQ(mMultiplierController->getTypeKind(), CONTROLLER_TYPE);
+}
+
+TEST_F(ControllerTest, getLLVMTypeTest) {
   EXPECT_EQ(mMultiplierController->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+}
+
+TEST_F(ControllerTest, getInterfacesTest) {
   EXPECT_EQ(mMultiplierController->getInterfaces().size(), 2u);
+}
+
+TEST_F(ControllerTest, getVTableSizeTest) {
   EXPECT_EQ(mMultiplierController->getVTableSize(), 3u);
+}
+
+TEST_F(ControllerTest, getFieldsTest) {
   EXPECT_EQ(mMultiplierController->getFields().size(), 2u);
+}
+
+TEST_F(ControllerTest, getOwnerTest) {
   ASSERT_NE(mMultiplierController->getOwner(), nullptr);
   EXPECT_EQ(mMultiplierController->getOwner()->getObject(), mMultiplierController);
 }
