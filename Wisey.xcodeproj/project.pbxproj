@@ -374,12 +374,12 @@
 		F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */; };
 		F5F2F3771EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */; };
 		F5F2F3781EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */; };
-		F5F396D71E34BBDD00F34296 /* ModelBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396D61E34BBDD00F34296 /* ModelBuilder.cpp */; };
-		F5F396D81E34BBDD00F34296 /* ModelBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396D61E34BBDD00F34296 /* ModelBuilder.cpp */; };
+		F5F396D71E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */; };
+		F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */; };
 		F5F396DB1E34BFE000F34296 /* BuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* BuilderArgument.cpp */; };
 		F5F396DC1E34BFE000F34296 /* BuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* BuilderArgument.cpp */; };
 		F5F396DE1E3F898900F34296 /* TestBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DD1E3F898900F34296 /* TestBuilderArgument.cpp */; };
-		F5F396E01E3F8C5700F34296 /* TestModelBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */; };
+		F5F396E01E3F8C5700F34296 /* TestObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */; };
 		F5FCAE331ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
 		F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
 		F5FCAE381ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */; };
@@ -488,7 +488,7 @@
 		F5089C901ECD01D9004A1223 /* MethodSignature.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodSignature.hpp; path = include/wisey/MethodSignature.hpp; sourceTree = "<group>"; };
 		F5089C911ECD01D9004A1223 /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/wisey/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
 		F5089C921ECD01D9004A1223 /* Model.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Model.hpp; path = include/wisey/Model.hpp; sourceTree = "<group>"; };
-		F5089C931ECD01D9004A1223 /* ModelBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelBuilder.hpp; path = include/wisey/ModelBuilder.hpp; sourceTree = "<group>"; };
+		F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ObjectBuilder.hpp; path = include/wisey/ObjectBuilder.hpp; sourceTree = "<group>"; };
 		F5089C941ECD01D9004A1223 /* BuilderArgument.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BuilderArgument.hpp; path = include/wisey/BuilderArgument.hpp; sourceTree = "<group>"; };
 		F5089C951ECD01D9004A1223 /* ModelDefinition.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelDefinition.hpp; path = include/wisey/ModelDefinition.hpp; sourceTree = "<group>"; };
 		F5089C971ECD01D9004A1223 /* ModelTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelTypeSpecifier.hpp; path = include/wisey/ModelTypeSpecifier.hpp; sourceTree = "<group>"; };
@@ -625,6 +625,7 @@
 		F53A2C3C1F00048C00E76A9E /* TestNodeOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeOwner.cpp; path = tests/TestNodeOwner.cpp; sourceTree = "<group>"; };
 		F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeTypeSpecifier.cpp; path = tests/TestNodeTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F53A2C401F01663A00E76A9E /* IBuildableConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBuildableConcreteObjectType.hpp; path = include/wisey/IBuildableConcreteObjectType.hpp; sourceTree = "<group>"; };
+		F53A2C421F016D7B00E76A9E /* IBuildableConcreteObjectTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBuildableConcreteObjectTypeSpecifier.hpp; path = include/wisey/IBuildableConcreteObjectTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F53B8EB81ECDC08700F45564 /* IObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectType.hpp; path = include/wisey/IObjectType.hpp; sourceTree = "<group>"; };
 		F53B8EB91ECE0E5800F45564 /* ImportStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ImportStatement.hpp; path = include/wisey/ImportStatement.hpp; sourceTree = "<group>"; };
 		F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImportStatement.cpp; path = src/ImportStatement.cpp; sourceTree = "<group>"; };
@@ -798,10 +799,10 @@
 		F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceTypeSpecifier.cpp; path = tests/TestInterfaceTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5F2F3751EEAFA110060CF42 /* OwnerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = OwnerTypeSpecifier.hpp; path = include/wisey/OwnerTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OwnerTypeSpecifier.cpp; path = src/OwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
-		F5F396D61E34BBDD00F34296 /* ModelBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModelBuilder.cpp; path = src/ModelBuilder.cpp; sourceTree = "<group>"; };
+		F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectBuilder.cpp; path = src/ObjectBuilder.cpp; sourceTree = "<group>"; };
 		F5F396DA1E34BFE000F34296 /* BuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BuilderArgument.cpp; path = src/BuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DD1E3F898900F34296 /* TestBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBuilderArgument.cpp; path = tests/TestBuilderArgument.cpp; sourceTree = "<group>"; };
-		F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelBuilder.cpp; path = tests/TestModelBuilder.cpp; sourceTree = "<group>"; };
+		F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectBuilder.cpp; path = tests/TestObjectBuilder.cpp; sourceTree = "<group>"; };
 		F5FCAE2F1ED5BC3C00C69899 /* Compiler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Compiler.hpp; path = include/wisey/Compiler.hpp; sourceTree = "<group>"; };
 		F5FCAE311ED5C31D00C69899 /* CompilerArguments.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompilerArguments.hpp; path = include/wisey/CompilerArguments.hpp; sourceTree = "<group>"; };
 		F5FCAE321ED5C38B00C69899 /* Compiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Compiler.cpp; path = src/Compiler.cpp; sourceTree = "<group>"; };
@@ -976,7 +977,6 @@
 				F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */,
 				F5ADB6231E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp */,
 				F5C6FD891E48D08F0054209D /* TestModel.cpp */,
-				F5F396DF1E3F8C5700F34296 /* TestModelBuilder.cpp */,
 				F50FA2D61E2D12E000435EEA /* TestModelDefinition.cpp */,
 				F53A2C151EF020B400E76A9E /* TestModelOwner.cpp */,
 				F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */,
@@ -985,6 +985,8 @@
 				F53A2C381EFFFE3000E76A9E /* TestNodeBuilder.cpp */,
 				F53A2C3A1F00029600E76A9E /* TestNodeDefinition.cpp */,
 				F53A2C3C1F00048C00E76A9E /* TestNodeOwner.cpp */,
+				F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */,
+				F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */,
 				F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
@@ -1004,7 +1006,6 @@
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
 				F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */,
-				F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -1170,7 +1171,6 @@
 				F508E0651E72CB0E005D6115 /* MethodSignature.cpp */,
 				F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */,
 				F507D2641E43551900495E2D /* Model.cpp */,
-				F5F396D61E34BBDD00F34296 /* ModelBuilder.cpp */,
 				F50FA2D01E2D0AD600435EEA /* ModelDefinition.cpp */,
 				F53A2C071EEC34E900E76A9E /* ModelOwner.cpp */,
 				F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */,
@@ -1180,6 +1180,7 @@
 				F53A2C231EFFD0BC00E76A9E /* NodeDefinition.cpp */,
 				F53A2C2F1EFFD91200E76A9E /* NodeOwner.cpp */,
 				F53A2C271EFFD42000E76A9E /* NodeTypeSpecifier.cpp */,
+				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
 				F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */,
 				F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */,
 				F569E9ED1DF9CC9600BBB20E /* Parser.ypp */,
@@ -1296,6 +1297,7 @@
 				F53A2C171EF85D5B00E76A9E /* HeapMethodParameter.hpp */,
 				F5089C851ECD01D9004A1223 /* HeapVariable.hpp */,
 				F53A2C401F01663A00E76A9E /* IBuildableConcreteObjectType.hpp */,
+				F53A2C421F016D7B00E76A9E /* IBuildableConcreteObjectTypeSpecifier.hpp */,
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
 				F5089C6E1ECD01D9004A1223 /* Identifier.hpp */,
 				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
@@ -1336,7 +1338,6 @@
 				F5089C901ECD01D9004A1223 /* MethodSignature.hpp */,
 				F5089C911ECD01D9004A1223 /* MethodSignatureDeclaration.hpp */,
 				F5089C921ECD01D9004A1223 /* Model.hpp */,
-				F5089C931ECD01D9004A1223 /* ModelBuilder.hpp */,
 				F5089C951ECD01D9004A1223 /* ModelDefinition.hpp */,
 				F53A2C061EEC343C00E76A9E /* ModelOwner.hpp */,
 				F5089C971ECD01D9004A1223 /* ModelTypeSpecifier.hpp */,
@@ -1346,6 +1347,7 @@
 				F53A2C221EFFCFFD00E76A9E /* NodeDefinition.hpp */,
 				F53A2C2E1EFFD86F00E76A9E /* NodeOwner.hpp */,
 				F53A2C261EFFD3D700E76A9E /* NodeTypeSpecifier.hpp */,
+				F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */,
 				F5089C991ECD01D9004A1223 /* ObjectFieldVariable.hpp */,
 				F5F2F3751EEAFA110060CF42 /* OwnerTypeSpecifier.hpp */,
 				F5089C9A1ECD01D9004A1223 /* PrimitiveTypes.hpp */,
@@ -1451,7 +1453,7 @@
 			files = (
 				F531B6491E0A4F76008304F3 /* Assignment.cpp in Sources */,
 				F5C6FD6B1E48B33A0054209D /* VoidType.cpp in Sources */,
-				F5F396E01E3F8C5700F34296 /* TestModelBuilder.cpp in Sources */,
+				F5F396E01E3F8C5700F34296 /* TestObjectBuilder.cpp in Sources */,
 				F5ADB6221E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F51764CC1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
 				F5C6FD831E48B7260054209D /* TestIntType.cpp in Sources */,
@@ -1636,7 +1638,7 @@
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F50FA3061E325E5400435EEA /* BooleanConstant.cpp in Sources */,
-				F5F396D81E34BBDD00F34296 /* ModelBuilder.cpp in Sources */,
+				F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
@@ -1727,7 +1729,7 @@
 				F57411631E01BBFC009809FF /* Scope.cpp in Sources */,
 				F50427A81E4D226C001CB148 /* StackVariable.cpp in Sources */,
 				F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */,
-				F5F396D71E34BBDD00F34296 /* ModelBuilder.cpp in Sources */,
+				F5F396D71E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,
 				F50FA2E81E2E3B0900435EEA /* LongConstant.cpp in Sources */,
 				F50FA2D51E2D0AD600435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */,

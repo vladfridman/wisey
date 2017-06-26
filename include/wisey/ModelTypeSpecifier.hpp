@@ -11,14 +11,14 @@
 
 #include <string>
 
-#include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/IBuildableConcreteObjectTypeSpecifier.hpp"
 
 namespace wisey {
 
 /**
  * Represents model type specifier
  */
-class ModelTypeSpecifier : public IObjectTypeSpecifier {
+class ModelTypeSpecifier : public IBuildableConcreteObjectTypeSpecifier {
   const std::vector<std::string> mPackage;
   const std::string mName;
 

@@ -1,11 +1,11 @@
 //
-//  TestModelBuilder.cpp
+//  TestObjectBuilder.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/30/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ModelBuilder}
+//  Tests {@link ObjectBuilder}
 //
 
 #include <sstream>
@@ -18,7 +18,8 @@
 
 #include "MockExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/ModelBuilder.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/ObjectBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -31,10 +32,10 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct ModelBuilderTest : Test {
+struct ObjectBuilderTest : Test {
   IRGenerationContext mContext;
   Model* mModel;
-  ModelBuilder* mModelBuilder;
+  ObjectBuilder* mObjectBuilder;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   ModelTypeSpecifier* mModelTypeSpecifier;
@@ -42,7 +43,7 @@ struct ModelBuilderTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  ModelBuilderTest() :
+  ObjectBuilderTest() :
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
@@ -82,7 +83,7 @@ struct ModelBuilderTest : Test {
     BuilderArgumentList argumentList;
     argumentList.push_back(argument1);
     argumentList.push_back(argument2);
-    mModelBuilder = new ModelBuilder(mModelTypeSpecifier, argumentList);
+    mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,
@@ -97,33 +98,33 @@ struct ModelBuilderTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~ModelBuilderTest() {
+  ~ObjectBuilderTest() {
     delete mField1Expression;
     delete mField2Expression;
     delete mStringStream;
   }
 };
 
-TEST_F(ModelBuilderTest, releaseOwnershipTest) {
-  mModelBuilder->generateIR(mContext);
-  string temporaryVariableName = IVariable::getTemporaryVariableName(mModelBuilder);
+TEST_F(ObjectBuilderTest, releaseOwnershipTest) {
+  mObjectBuilder->generateIR(mContext);
+  string temporaryVariableName = IVariable::getTemporaryVariableName(mObjectBuilder);
   
   EXPECT_NE(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
   
-  mModelBuilder->releaseOwnership(mContext);
+  mObjectBuilder->releaseOwnership(mContext);
 
   EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
 }
 
-TEST_F(ModelBuilderTest, testGetType) {
+TEST_F(ObjectBuilderTest, testGetType) {
   BuilderArgumentList argumentList;
-  ModelBuilder modelBuilder(mModelTypeSpecifier, argumentList);
+  ObjectBuilder objectBuilder(mModelTypeSpecifier, argumentList);
 
-  EXPECT_EQ(modelBuilder.getType(mContext), mModel->getOwner());
+  EXPECT_EQ(objectBuilder.getType(mContext), mModel->getOwner());
 }
 
-TEST_F(ModelBuilderTest, existsInOuterScopeTest) {
-  mModelBuilder->generateIR(mContext);
+TEST_F(ObjectBuilderTest, existsInOuterScopeTest) {
+  mObjectBuilder->generateIR(mContext);
 
-  EXPECT_FALSE(mModelBuilder->existsInOuterScope(mContext));
+  EXPECT_FALSE(mObjectBuilder->existsInOuterScope(mContext));
 }

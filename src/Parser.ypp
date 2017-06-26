@@ -44,13 +44,13 @@
   #include "wisey/MethodCall.hpp"
   #include "wisey/MethodDeclaration.hpp"
   #include "wisey/MethodSignatureDeclaration.hpp"
-  #include "wisey/ModelBuilder.hpp"
   #include "wisey/ModelDefinition.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
   #include "wisey/NegateExpression.hpp"
   #include "wisey/NodeBuilder.hpp"
   #include "wisey/NodeDefinition.hpp"
   #include "wisey/NodeTypeSpecifier.hpp"
+  #include "wisey/ObjectBuilder.hpp"
   #include "wisey/OwnerTypeSpecifier.hpp"
   #include "wisey/PrimitiveTypes.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -814,9 +814,9 @@ assignment
 
 model_builder
   : TBUILDER '(' model_type_specifier ')' builder_argument_list '.' TBUILD '(' ')'
-    { $$ = new ModelBuilder($3, *$5); delete $5; }
+    { $$ = new ObjectBuilder($3, *$5); delete $5; }
   | TBUILDER '(' model_type_specifier ')' '.' TBUILD '(' ')'
-    { BuilderArgumentList argumentList; $$ = new ModelBuilder($3, argumentList); }
+    { BuilderArgumentList argumentList; $$ = new ObjectBuilder($3, argumentList); }
   ;
 
 node_builder

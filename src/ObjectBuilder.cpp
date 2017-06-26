@@ -1,5 +1,5 @@
 //
-//  ModelBuilder.cpp
+//  ObjectBuilder.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/22/17.
@@ -12,22 +12,22 @@
 #include "wisey/HeapVariable.hpp"
 #include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ModelBuilder.hpp"
+#include "wisey/ObjectBuilder.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelBuilder::~ModelBuilder() {
-  delete mModelTypeSpecifier;
+ObjectBuilder::~ObjectBuilder() {
+  delete mTypeSpecifier;
   for (BuilderArgument* argument : mBuilderArgumentList) {
     delete argument;
   }
   mBuilderArgumentList.clear();
 }
 
-Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
-  IBuildableConcreteObjectType* object = mModelTypeSpecifier->getType(context);
+Value* ObjectBuilder::generateIR(IRGenerationContext& context) const {
+  const IBuildableConcreteObjectType* object = mTypeSpecifier->getType(context);
   Instruction* malloc = object->build(context, mBuilderArgumentList);
   
   HeapVariable* heapVariable = new HeapVariable(IVariable::getTemporaryVariableName(this),
@@ -38,15 +38,15 @@ Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
   return malloc;
 }
 
-void ModelBuilder::releaseOwnership(IRGenerationContext& context) const {
+void ObjectBuilder::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(IVariable::getTemporaryVariableName(this));
 }
 
-const IType* ModelBuilder::getType(IRGenerationContext& context) const {
-  return mModelTypeSpecifier->getType(context)->getOwner();
+const IType* ObjectBuilder::getType(IRGenerationContext& context) const {
+  return mTypeSpecifier->getType(context)->getOwner();
 }
 
-bool ModelBuilder::existsInOuterScope(IRGenerationContext& context) const {
+bool ObjectBuilder::existsInOuterScope(IRGenerationContext& context) const {
   IVariable* variable = context.getScopes().getVariable(IVariable::getTemporaryVariableName(this));
   return variable->existsInOuterScope();
 }
