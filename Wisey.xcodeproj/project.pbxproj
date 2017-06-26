@@ -182,10 +182,7 @@
 		F53A2C2D1EFFD5E800E76A9E /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C2B1EFFD5E800E76A9E /* Node.cpp */; };
 		F53A2C301EFFD91200E76A9E /* NodeOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C2F1EFFD91200E76A9E /* NodeOwner.cpp */; };
 		F53A2C311EFFD91200E76A9E /* NodeOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C2F1EFFD91200E76A9E /* NodeOwner.cpp */; };
-		F53A2C341EFFF87500E76A9E /* NodeBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C331EFFF87500E76A9E /* NodeBuilder.cpp */; };
-		F53A2C351EFFF87500E76A9E /* NodeBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C331EFFF87500E76A9E /* NodeBuilder.cpp */; };
 		F53A2C371EFFFCEE00E76A9E /* TestNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C361EFFFCEE00E76A9E /* TestNode.cpp */; };
-		F53A2C391EFFFE3000E76A9E /* TestNodeBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C381EFFFE3000E76A9E /* TestNodeBuilder.cpp */; };
 		F53A2C3B1F00029600E76A9E /* TestNodeDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C3A1F00029600E76A9E /* TestNodeDefinition.cpp */; };
 		F53A2C3D1F00048C00E76A9E /* TestNodeOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C3C1F00048C00E76A9E /* TestNodeOwner.cpp */; };
 		F53A2C3F1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */; };
@@ -617,10 +614,7 @@
 		F53A2C2B1EFFD5E800E76A9E /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Node.cpp; path = src/Node.cpp; sourceTree = "<group>"; };
 		F53A2C2E1EFFD86F00E76A9E /* NodeOwner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NodeOwner.hpp; path = include/wisey/NodeOwner.hpp; sourceTree = "<group>"; };
 		F53A2C2F1EFFD91200E76A9E /* NodeOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NodeOwner.cpp; path = src/NodeOwner.cpp; sourceTree = "<group>"; };
-		F53A2C321EFFF7EA00E76A9E /* NodeBuilder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NodeBuilder.hpp; path = include/wisey/NodeBuilder.hpp; sourceTree = "<group>"; };
-		F53A2C331EFFF87500E76A9E /* NodeBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NodeBuilder.cpp; path = src/NodeBuilder.cpp; sourceTree = "<group>"; };
 		F53A2C361EFFFCEE00E76A9E /* TestNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNode.cpp; path = tests/TestNode.cpp; sourceTree = "<group>"; };
-		F53A2C381EFFFE3000E76A9E /* TestNodeBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeBuilder.cpp; path = tests/TestNodeBuilder.cpp; sourceTree = "<group>"; };
 		F53A2C3A1F00029600E76A9E /* TestNodeDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeDefinition.cpp; path = tests/TestNodeDefinition.cpp; sourceTree = "<group>"; };
 		F53A2C3C1F00048C00E76A9E /* TestNodeOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeOwner.cpp; path = tests/TestNodeOwner.cpp; sourceTree = "<group>"; };
 		F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeTypeSpecifier.cpp; path = tests/TestNodeTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -982,7 +976,6 @@
 				F50FA2FB1E30051700435EEA /* TestModelTypeSpecifier.cpp */,
 				F5ADB61C1E5F587300FFC941 /* TestNegateExpression.cpp */,
 				F53A2C361EFFFCEE00E76A9E /* TestNode.cpp */,
-				F53A2C381EFFFE3000E76A9E /* TestNodeBuilder.cpp */,
 				F53A2C3A1F00029600E76A9E /* TestNodeDefinition.cpp */,
 				F53A2C3C1F00048C00E76A9E /* TestNodeOwner.cpp */,
 				F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */,
@@ -1176,7 +1169,6 @@
 				F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */,
 				F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */,
 				F53A2C2B1EFFD5E800E76A9E /* Node.cpp */,
-				F53A2C331EFFF87500E76A9E /* NodeBuilder.cpp */,
 				F53A2C231EFFD0BC00E76A9E /* NodeDefinition.cpp */,
 				F53A2C2F1EFFD91200E76A9E /* NodeOwner.cpp */,
 				F53A2C271EFFD42000E76A9E /* NodeTypeSpecifier.cpp */,
@@ -1343,7 +1335,6 @@
 				F5089C971ECD01D9004A1223 /* ModelTypeSpecifier.hpp */,
 				F5089C981ECD01D9004A1223 /* NegateExpression.hpp */,
 				F53A2C2A1EFFD4C700E76A9E /* Node.hpp */,
-				F53A2C321EFFF7EA00E76A9E /* NodeBuilder.hpp */,
 				F53A2C221EFFCFFD00E76A9E /* NodeDefinition.hpp */,
 				F53A2C2E1EFFD86F00E76A9E /* NodeOwner.hpp */,
 				F53A2C261EFFD3D700E76A9E /* NodeTypeSpecifier.hpp */,
@@ -1493,7 +1484,6 @@
 				F518B5E81EB2240C00577EEB /* TestCatch.cpp in Sources */,
 				F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */,
 				F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */,
-				F53A2C391EFFFE3000E76A9E /* TestNodeBuilder.cpp in Sources */,
 				F53A2C3D1F00048C00E76A9E /* TestNodeOwner.cpp in Sources */,
 				F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */,
 				F50427AD1E4D2747001CB148 /* HeapVariable.cpp in Sources */,
@@ -1518,7 +1508,6 @@
 				F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */,
 				F51581301E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
-				F53A2C351EFFF87500E76A9E /* NodeBuilder.cpp in Sources */,
 				F53A2C161EF020B400E76A9E /* TestModelOwner.cpp in Sources */,
 				F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */,
 				F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
@@ -1716,7 +1705,6 @@
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
 				F5CB18111EB0C615007E2E43 /* TryCatchStatement.cpp in Sources */,
 				F53B8EBB1ECE101A00F45564 /* ImportStatement.cpp in Sources */,
-				F53A2C341EFFF87500E76A9E /* NodeBuilder.cpp in Sources */,
 				F5CB18131EB0D96A007E2E43 /* Catch.cpp in Sources */,
 				F57780B11EC7E07A0049542D /* InterfaceInjector.cpp in Sources */,
 				F50FA2D31E2D0AD600435EEA /* ModelDefinition.cpp in Sources */,
