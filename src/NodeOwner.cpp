@@ -29,18 +29,31 @@ TypeKind NodeOwner::getTypeKind() const {
 }
 
 bool NodeOwner::canCastTo(const IType* toType) const {
-  // TODO: implement this
-  return false;
+  if (toType == this) {
+    return true;
+  }
+  
+  if (IType::isOwnerType(toType)) {
+    return mNode->canCastTo(((IObjectOwnerType*) toType)->getObject());
+  }
+  
+  return mNode->canCastTo(toType);
 }
 
 bool NodeOwner::canAutoCastTo(const IType* toType) const {
-  // TODO: implement this
-  return false;
+  return canCastTo(toType);
 }
 
 Value* NodeOwner::castTo(IRGenerationContext& context,
                          Value* fromValue,
                          const IType* toType) const {
-  // TODO: implement this
-  return NULL;
+  if (toType == this) {
+    return fromValue;
+  }
+  
+  if (IType::isOwnerType(toType)) {
+    return mNode->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+  }
+  
+  return mNode->castTo(context, fromValue, toType);
 }
