@@ -33,7 +33,7 @@ Value* HeapVariable::getValue() const {
 }
 
 Value* HeapVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                std::string llvmVariableName) const {
+                                          string llvmVariableName) const {
   if (mValue == NULL) {
     Log::e("Variable '" + mName + "' is used before it has been initialized.");
     exit(1);
@@ -42,7 +42,7 @@ Value* HeapVariable::generateIdentifierIR(IRGenerationContext& context,
 }
 
 Value* HeapVariable::generateAssignmentIR(IRGenerationContext& context,
-                                               IExpression* assignToExpression) {
+                                          IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
   mValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
@@ -55,10 +55,7 @@ void HeapVariable::free(IRGenerationContext& context) const {
     return;
   }
   
-  TypeKind typeKind = mType->getTypeKind();
-  if (typeKind != INTERFACE_OWNER_TYPE &&
-      typeKind != MODEL_OWNER_TYPE &&
-      typeKind != CONTROLLER_OWNER_TYPE) {
+  if (!IType::isOwnerType(mType)) {
     return;
   }
   

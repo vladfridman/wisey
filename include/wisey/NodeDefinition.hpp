@@ -48,6 +48,28 @@ public:
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
+private:
+  
+  std::string getFullName(IRGenerationContext& context) const;
+
+  std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
+  
+  std::vector<Method*> createMethods(IRGenerationContext& context) const;
+
+  std::vector<Field*> fieldDeclarationsToFields(IRGenerationContext& context,
+                                                std::vector<FieldDeclaration*>
+                                                declarations,
+                                                unsigned long startIndex) const;
+
+  void createFieldVariables(IRGenerationContext& context,
+                            Node* node,
+                            std::vector<llvm::Type*>& types) const;
+
+  void createFieldVariablesForDeclarations(IRGenerationContext& context,
+                                           std::vector<FieldDeclaration*> declarations,
+                                           Node* node,
+                                           std::vector<llvm::Type*>& types) const;
+
 };
   
 } /* namespace wisey */

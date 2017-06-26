@@ -40,6 +40,9 @@ TEST_F(ITypeTest, isOwnerTypeTest) {
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(CONTROLLER_TYPE));
   EXPECT_FALSE(IType::isOwnerType(&mockType));
   
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NODE_TYPE));
+  EXPECT_FALSE(IType::isOwnerType(&mockType));
+  
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(MODEL_OWNER_TYPE));
   EXPECT_TRUE(IType::isOwnerType(&mockType));
   
@@ -48,4 +51,37 @@ TEST_F(ITypeTest, isOwnerTypeTest) {
   
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(CONTROLLER_OWNER_TYPE));
   EXPECT_TRUE(IType::isOwnerType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NODE_OWNER_TYPE));
+  EXPECT_TRUE(IType::isOwnerType(&mockType));
+}
+
+TEST_F(ITypeTest, isConcreteObjectTypeTest) {
+  NiceMock<MockType> mockType;
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(PRIMITIVE_TYPE));
+  EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(MODEL_TYPE));
+  EXPECT_TRUE(IType::isConcreteObjectType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(INTERFACE_TYPE));
+  EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(CONTROLLER_TYPE));
+  EXPECT_TRUE(IType::isConcreteObjectType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NODE_TYPE));
+  EXPECT_TRUE(IType::isConcreteObjectType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(MODEL_OWNER_TYPE));
+  EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(INTERFACE_OWNER_TYPE));
+  EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(CONTROLLER_OWNER_TYPE));
+  EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NODE_OWNER_TYPE));
+  EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
 }

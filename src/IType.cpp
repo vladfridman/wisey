@@ -15,5 +15,12 @@ bool IType::isOwnerType(const IType* type) {
   
   return typeKind == MODEL_OWNER_TYPE ||
     typeKind == INTERFACE_OWNER_TYPE ||
-    typeKind == CONTROLLER_OWNER_TYPE;
+    typeKind == CONTROLLER_OWNER_TYPE ||
+    typeKind == NODE_OWNER_TYPE;
+}
+
+bool IType::isConcreteObjectType(const IType* type) {
+  TypeKind typeKind = type->getTypeKind();
+  
+  return typeKind == MODEL_TYPE || typeKind == CONTROLLER_TYPE || typeKind == NODE_TYPE;
 }

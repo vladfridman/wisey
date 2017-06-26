@@ -15,7 +15,7 @@
 
 #include "wisey/BuilderArgument.hpp"
 #include "wisey/Field.hpp"
-#include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/Method.hpp"
 
 namespace wisey {
@@ -26,7 +26,7 @@ class NodeOwner;
 /**
  * Contains information about a node including the llvm::StructType and field information
  */
-class Node : public IConcreteObjectType {
+class Node : public IBuildableConcreteObjectType {
   std::string mName;
   NodeOwner* mNodeOwner;
   llvm::StructType* mStructType;
@@ -69,12 +69,9 @@ public:
    */
   std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
 
-  /**
-   * Builds an instance of this node and initializes all fields
-   */
   llvm::Instruction* build(IRGenerationContext& context,
-                           const BuilderArgumentList& builderArgumentList) const;
-
+                           const BuilderArgumentList& builderArgumentList) const override;
+  
   Field* findField(std::string fieldName) const override;
   
   std::map<std::string, Field*> getFields() const override;

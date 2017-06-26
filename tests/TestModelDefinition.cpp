@@ -12,17 +12,10 @@
 #include <gmock/gmock.h>
 
 #include <llvm/IR/Constants.h>
-#include <llvm/Support/raw_ostream.h>
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "wisey/AccessLevel.hpp"
-#include "wisey/Interface.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
-#include "wisey/MethodDeclaration.hpp"
-#include "wisey/MethodSignature.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -52,8 +45,7 @@ struct ModelDefinitionTest : public Test {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     mBlock->getStatements().push_back(mMockStatement);
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock);
-    PrimitiveTypeSpecifier* intTypeSpecifier =
-      new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
       new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     Identifier* intArgumentIdentifier = new Identifier("intargument");
@@ -225,5 +217,5 @@ TEST_F(TestFileSampleRunner, modelDefinitionRunTest) {
 }
 
 TEST_F(TestFileSampleRunner, modelDefinitionWithMethodRunTest) {
-  runFile("tests/samples/test_model_method.yz", "0");
+  runFile("tests/samples/test_model_method.yz", "7");
 }

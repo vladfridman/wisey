@@ -31,10 +31,111 @@ NodeDefinition::~NodeDefinition() {
   mInterfaceSpecifiers.clear();
 }
 
-void NodeDefinition::prototypeObjects(IRGenerationContext& context) const { }
+void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
+  string fullName = getFullName(context);
+  StructType* structType = StructType::create(context.getLLVMContext(), fullName);
+  
+  Node* node = new Node(fullName, structType);
+  context.addNode(node);
+}
 
-void NodeDefinition::prototypeMethods(IRGenerationContext& context) const { }
+void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
+  Node* node = context.getNode(getFullName(context));
+  vector<Interface*> interfaces = processInterfaces(context);
+  vector<Method*> methods = createMethods(context);
+  node->setMethods(methods);
+  node->setInterfaces(interfaces);
+  
+  // In object struct fields start after vTables for all its interfaces
+  unsigned long offset = node->getInterfaces().size();
+  vector<Field*> fixedFields = fieldDeclarationsToFields(context, mFixedFieldDeclarations, offset);
+  vector<Field*> stateFields = fieldDeclarationsToFields(context,
+                                                         mStateFieldDeclarations,
+                                                         offset + fixedFields.size());
+  node->setFields(fixedFields, stateFields);
+  
+  vector<Type*> types;
+  for (Interface* interface : node->getInterfaces()) {
+    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
+  }
+  
+  createFieldVariables(context, node, types);
+  node->setStructBodyTypes(types);
+  
+  IConcreteObjectType::generateNameGlobal(context, node);
+  IConcreteObjectType::generateVTable(context, node);
+}
 
 Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
+  Node* node = context.getNode(getFullName(context));
+  
+  context.getScopes().pushScope();
+  
+  IConcreteObjectType::declareFieldVariables(context, node);
+  
+  for (Method* method : node->getMethods()) {
+    method->generateIR(context, node);
+  }
+  
+  context.getScopes().popScope(context);
+  
   return NULL;
+}
+
+string NodeDefinition::getFullName(IRGenerationContext& context) const {
+  return context.getPackage() + "." + mName;
+}
+
+vector<Interface*> NodeDefinition::processInterfaces(IRGenerationContext& context) const {
+  vector<Interface*> interfaces;
+  for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
+    Interface* interface = (Interface*) interfaceSpecifier->getType(context);
+    interfaces.push_back(interface);
+  }
+  return interfaces;
+}
+
+vector<Method*> NodeDefinition::createMethods(IRGenerationContext& context) const {
+  vector<Method*> methods;
+  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+    Method* method = methodDeclaration->createMethod(context, methods.size());
+    methods.push_back(method);
+  }
+  return methods;
+}
+
+vector<Field*> NodeDefinition::fieldDeclarationsToFields(IRGenerationContext& context,
+                                                         vector<FieldDeclaration*>
+                                                         declarations,
+                                                         unsigned long startIndex) const {
+  vector<Field*> fields;
+  for (FieldDeclaration* fieldDeclaration : declarations) {
+    Field* field = new Field(fieldDeclaration->getTypeSpecifier()->getType(context),
+                             fieldDeclaration->getName(),
+                             startIndex + fields.size(),
+                             fieldDeclaration->getArguments());
+    fields.push_back(field);
+  }
+  
+  return fields;
+}
+
+void NodeDefinition::createFieldVariables(IRGenerationContext& context,
+                                          Node* node,
+                                          vector<Type*>& types) const {
+  createFieldVariablesForDeclarations(context, mFixedFieldDeclarations, node, types);
+  createFieldVariablesForDeclarations(context, mStateFieldDeclarations, node, types);
+}
+
+void NodeDefinition::createFieldVariablesForDeclarations(IRGenerationContext& context,
+                                                         vector<FieldDeclaration*>
+                                                         declarations,
+                                                         Node* node,
+                                                         vector<Type*>& types) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  for (FieldDeclaration* fieldDeclaration : declarations) {
+    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
+    types.push_back(fieldType->getLLVMType(llvmContext));
+  }
 }

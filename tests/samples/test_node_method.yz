@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-model MColor {
+node NNode {
   int mValue;
 
   public int getValue() {
@@ -11,7 +11,7 @@ model MColor {
 controller CProgram implements IProgram {
 
   public int run() {
-    MColor* color = builder(MColor).withValue(7).build();
+    NNode* color = builder(NNode).withValue(5).build();
 
     return color.getValue();
   }

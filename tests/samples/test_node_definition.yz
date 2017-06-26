@@ -1,0 +1,28 @@
+package systems.vos.wisey.compiler.tests;
+
+node NSubNode {
+  double mColor;
+}
+
+node NNode {
+  int mWidth;
+  long mHeight;
+  float mDepth;
+  NSubNode* mColor;
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    NNode* rectangle = builder(NNode)
+      .withWidth(3)
+      .withHeight(5l)
+      .withDepth(2.0)
+      .withColor(builder(NSubNode).withColor(6.7d).build())
+      .build();
+
+    return 0;
+  }
+}
+
+bind(CProgram).to(IProgram);

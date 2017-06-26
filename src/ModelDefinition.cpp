@@ -119,7 +119,7 @@ vector<Method*> ModelDefinition::createMethods(IRGenerationContext& context) con
   return methods;
 }
 
-std::vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& context) const {
+vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& context) const {
   vector<Interface*> interfaces;
   for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
     Interface* interface = (Interface*) interfaceSpecifier->getType(context);
