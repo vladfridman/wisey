@@ -71,7 +71,7 @@ TEST_F(BuilderArgumentTest, invalidBuilderArgumentTest) {
   cerr.rdbuf(errorBuffer.rdbuf());
   
   EXPECT_FALSE(argument.checkArgument(mModel));
-  EXPECT_STREQ("Error: Model builder argument should start with 'with'. e.g. .withField(value).\n",
+  EXPECT_STREQ("Error: Object builder argument should start with 'with'. e.g. .withField(value).\n",
                errorBuffer.str().c_str());
 
   cerr.rdbuf(streamBuffer);
@@ -86,8 +86,8 @@ TEST_F(BuilderArgumentTest, misspelledBuilderArgumentTest) {
   cerr.rdbuf(errorBuffer.rdbuf());
   
   EXPECT_FALSE(argument.checkArgument(mModel));
-  EXPECT_STREQ("Error: Model builder could not find field mFielda in "
-               "model systems.vos.wisey.compiler.tests.MModel\n",
+  EXPECT_STREQ("Error: Object builder could not find field mFielda in "
+               "object systems.vos.wisey.compiler.tests.MModel\n",
                errorBuffer.str().c_str());
   
   cerr.rdbuf(streamBuffer);

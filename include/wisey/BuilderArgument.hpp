@@ -19,7 +19,7 @@ namespace wisey {
 
 class IExpression;
 class IRGenerationContext;
-class Model;
+class IConcreteObjectType;
   
 /**
  * Represents one argument in the model builder pattern.
@@ -42,7 +42,7 @@ public:
   
   ~BuilderArgument();
   
-  bool checkArgument(const Model* model);
+  bool checkArgument(const IConcreteObjectType* object);
   
   /**
    * Derives field name from builder argument by converting 'widthFieldA' to 'fieldA'

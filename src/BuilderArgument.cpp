@@ -7,10 +7,10 @@
 //
 
 #include "wisey/BuilderArgument.hpp"
+#include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/Model.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -20,16 +20,15 @@ BuilderArgument::~BuilderArgument() {
   delete mFieldExpression;
 }
 
-bool BuilderArgument::checkArgument(const Model* model) {
+bool BuilderArgument::checkArgument(const IConcreteObjectType* object) {
   if (mFieldSpecifier.substr(0, 4).compare("with")) {
-    Log::e("Model builder argument should start with 'with'. e.g. .withField(value).");
+    Log::e("Object builder argument should start with 'with'. e.g. .withField(value).");
     return false;
   }
   
   string fieldName = deriveFieldName();
-  if (model->findField(fieldName) == NULL) {
-    Log::e("Model builder could not find field " + fieldName + " in model " +
-           model->getName());
+  if (object->findField(fieldName) == NULL) {
+    Log::e("Object builder could not find field " + fieldName + " in object " + object->getName());
     return false;
   }
   

@@ -424,7 +424,7 @@ TEST_F(ModelTest, buildInvalidBuilderArgumentsDeathTest) {
   argumentList.push_back(argument2);
   
   const char *expected =
-  "Error: Model builder argument should start with 'with'. e.g. .withField\\(value\\)."
+  "Error: Object builder argument should start with 'with'. e.g. .withField\\(value\\)."
   "\nError: Some arguments for the model systems.vos.wisey.compiler.tests.MStar "
   "builder are not well formed";
   
@@ -446,12 +446,9 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  const char *expected = "Error: Model builder argument value for field mWeight "
-    "does not match its type";
-  
   EXPECT_EXIT(mStarModel->build(mContext, argumentList),
               ::testing::ExitedWithCode(1),
-              expected);
+              "Error: Model builder argument value for field mWeight does not match its type");
 }
 
 TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {

@@ -13,6 +13,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/BuilderArgument.hpp"
 #include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/Method.hpp"
@@ -43,6 +44,37 @@ public:
   
   ~Node();
   
+  /**
+   * Set fixed and state fields to the given lists of fields
+   */
+  void setFields(std::vector<Field*> fixedFields, std::vector<Field*> stateFields);
+
+  /**
+   * Set interfaces for this node
+   */
+  void setInterfaces(std::vector<Interface*> interfaces);
+  
+  /**
+   * Set methods for this controller
+   */
+  void setMethods(std::vector<Method*> methods);
+  
+  /**
+   * Set the struct field types for the struct that represents this controller
+   */
+  void setStructBodyTypes(std::vector<llvm::Type*> types);
+
+  /**
+   * Returns the difference beteween the set of fixed fields and the fields given as argument
+   */
+  std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
+
+  /**
+   * Builds an instance of this node and initializes all fields
+   */
+  llvm::Instruction* build(IRGenerationContext& context,
+                           const BuilderArgumentList& builderArgumentList) const;
+
   Field* findField(std::string fieldName) const override;
   
   std::map<std::string, Field*> getFields() const override;
@@ -81,6 +113,25 @@ public:
   
   IObjectOwnerType* getOwner() const override;
   
+private:
+  
+  void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
+  
+  void checkArguments(const BuilderArgumentList& builderArgumentList) const;
+
+  void checkArgumentsAreWellFormed(const BuilderArgumentList& builderArgumentList) const;
+
+  void checkAllFieldsAreSet(const BuilderArgumentList& builderArgumentList) const;
+
+  llvm::Instruction* createMalloc(IRGenerationContext& context) const;
+
+  void initializeFixedFields(IRGenerationContext& context,
+                             const BuilderArgumentList& builderArgumentList,
+                             llvm::Instruction* malloc) const;
+
+  void initializeStateFields(IRGenerationContext& context,
+                             llvm::Instruction* malloc) const;
+
 };
   
 } /* namespace wisey */
