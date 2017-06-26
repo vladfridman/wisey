@@ -223,15 +223,39 @@ struct ModelTest : public Test {
   }
 };
 
-TEST_F(ModelTest, modelInstantiationTest) {
+TEST_F(ModelTest, getNameTest) {
   EXPECT_STREQ(mModel->getName().c_str(), "systems.vos.wisey.compiler.tests.MSquare");
+}
+
+TEST_F(ModelTest, getShortNameTest) {
   EXPECT_STREQ(mModel->getShortName().c_str(), "MSquare");
+}
+
+TEST_F(ModelTest, getVTableNameTest) {
   EXPECT_STREQ(mModel->getVTableName().c_str(), "systems.vos.wisey.compiler.tests.MSquare.vtable");
+}
+
+TEST_F(ModelTest, getTypeKindTest) {
   EXPECT_EQ(mModel->getTypeKind(), MODEL_TYPE);
+}
+
+TEST_F(ModelTest, getLLVMTypeTest) {
   EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+}
+
+TEST_F(ModelTest, getInterfacesTest) {
   EXPECT_EQ(mModel->getInterfaces().size(), 2u);
+}
+
+TEST_F(ModelTest, getVTableSizeTest) {
   EXPECT_EQ(mModel->getVTableSize(), 3u);
+}
+
+TEST_F(ModelTest, getFieldsTest) {
   EXPECT_EQ(mModel->getFields().size(), 2u);
+}
+
+TEST_F(ModelTest, getOwnerTest) {
   ASSERT_NE(mModel->getOwner(), nullptr);
   EXPECT_EQ(mModel->getOwner()->getObject(), mModel);
 }
