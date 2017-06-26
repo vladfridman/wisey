@@ -15,7 +15,7 @@
 
 #include "wisey/BuilderArgument.hpp"
 #include "wisey/Field.hpp"
-#include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/Method.hpp"
 
 namespace wisey {
@@ -26,7 +26,7 @@ class ModelOwner;
 /**
  * Contains information about a model including the llvm::StructType and field information
  */
-class Model : public IConcreteObjectType {
+class Model : public IBuildableConcreteObjectType {
   std::string mName;
   ModelOwner* mModelOwner;
   llvm::StructType* mStructType;
@@ -78,12 +78,6 @@ public:
   bool doesImplmentInterface(Interface* interface) const;
   
   /**
-   * Builds an instance of this model and initializes all fields
-   */
-  llvm::Instruction* build(IRGenerationContext& context,
-                           const BuilderArgumentList& builderArgumentList) const;
-  
-  /**
    * Creates a global variable with type description for this model in RTTI format
    */
   void createRTTI(IRGenerationContext& context) const;
@@ -92,6 +86,9 @@ public:
    * Returns the size of this object in bytes
    */
   llvm::Value* getSize(IRGenerationContext& context) const;
+  
+  llvm::Instruction* build(IRGenerationContext& context,
+                           const BuilderArgumentList& builderArgumentList) const override;
   
   Field* findField(std::string fieldName) const override;
   

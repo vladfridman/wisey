@@ -10,8 +10,8 @@
 
 #include "wisey/Environment.hpp"
 #include "wisey/HeapVariable.hpp"
+#include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/Model.hpp"
 #include "wisey/ModelBuilder.hpp"
 
 using namespace llvm;
@@ -27,11 +27,11 @@ ModelBuilder::~ModelBuilder() {
 }
 
 Value* ModelBuilder::generateIR(IRGenerationContext& context) const {
-  Model* model = (Model*) mModelTypeSpecifier->getType(context);
-  Instruction* malloc = model->build(context, mBuilderArgumentList);
+  IBuildableConcreteObjectType* object = mModelTypeSpecifier->getType(context);
+  Instruction* malloc = object->build(context, mBuilderArgumentList);
   
   HeapVariable* heapVariable = new HeapVariable(IVariable::getTemporaryVariableName(this),
-                                                model->getOwner(),
+                                                object->getOwner(),
                                                 malloc);
   context.getScopes().setVariable(heapVariable);
   

@@ -16,11 +16,11 @@
 namespace wisey {
 
 /**
- * Represents builder used to initialize models
+ * Represents builder used to initialize buildable objects
  *
- * The model builder is of the form:
+ * The object builder is used as follows in the wisey language:
  *
- * ModelType* modelA = builder(ModelType).withField(1).builder();
+ * ModelType* modelA = builder(ModelType).withField(1).build();
  */
 class ModelBuilder : public IExpression {
   
