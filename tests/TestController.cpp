@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -280,6 +281,7 @@ TEST_F(ControllerTest, canCastToTest) {
   EXPECT_FALSE(mMultiplierController->canCastTo(mVehicleInterface));
   EXPECT_TRUE(mMultiplierController->canCastTo(mMultiplierController));
   EXPECT_TRUE(mMultiplierController->canCastTo(mCalculatorInterface));
+  EXPECT_FALSE(mMultiplierController->canCastTo(NullType::NULL_TYPE));
 }
 
 TEST_F(ControllerTest, canAutoCastToTest) {
@@ -288,6 +290,7 @@ TEST_F(ControllerTest, canAutoCastToTest) {
   EXPECT_FALSE(mMultiplierController->canAutoCastTo(mVehicleInterface));
   EXPECT_TRUE(mMultiplierController->canAutoCastTo(mMultiplierController));
   EXPECT_TRUE(mMultiplierController->canAutoCastTo(mCalculatorInterface));
+  EXPECT_FALSE(mMultiplierController->canAutoCastTo(NullType::NULL_TYPE));
 }
 
 TEST_F(ControllerTest, castToFirstInterfaceTest) {

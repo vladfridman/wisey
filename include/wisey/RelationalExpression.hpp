@@ -40,6 +40,16 @@ public:
   
   bool existsInOuterScope(IRGenerationContext& context) const override;
 
+private:
+  
+  llvm::Value* generateIRForObjects(IRGenerationContext& context) const;
+  
+  llvm::Value* generateIRForFloats(IRGenerationContext& context) const;
+  
+  llvm::Value* generateIRForInts(IRGenerationContext& context) const;
+
+  void reportIncompatableTypes(const IType* leftType, const IType* rightType) const;
+  
 };
   
 } /* namespace wisey */

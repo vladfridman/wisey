@@ -54,6 +54,9 @@ TEST_F(ITypeTest, isOwnerTypeTest) {
   
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NODE_OWNER_TYPE));
   EXPECT_TRUE(IType::isOwnerType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NULL_TYPE_KIND));
+  EXPECT_FALSE(IType::isOwnerType(&mockType));
 }
 
 TEST_F(ITypeTest, isConcreteObjectTypeTest) {
@@ -83,5 +86,8 @@ TEST_F(ITypeTest, isConcreteObjectTypeTest) {
   EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
   
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NODE_OWNER_TYPE));
+  EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NULL_TYPE_KIND));
   EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
 }

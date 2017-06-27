@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/MethodSignature.hpp"
+#include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -183,12 +184,14 @@ TEST_F(InterfaceTest, canCastToTest) {
   EXPECT_FALSE(mObjectInterface->canCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_TRUE(mObjectInterface->canCastTo(mShapeInterface));
   EXPECT_TRUE(mShapeInterface->canCastTo(mObjectInterface));
+  EXPECT_FALSE(mObjectInterface->canCastTo(NullType::NULL_TYPE));
 }
 
 TEST_F(InterfaceTest, canAutoCastToTest) {
   EXPECT_FALSE(mObjectInterface->canAutoCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_FALSE(mObjectInterface->canAutoCastTo(mShapeInterface));
   EXPECT_TRUE(mShapeInterface->canAutoCastTo(mObjectInterface));
+  EXPECT_FALSE(mObjectInterface->canAutoCastTo(NullType::NULL_TYPE));
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {

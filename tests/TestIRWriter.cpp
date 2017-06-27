@@ -446,6 +446,23 @@ TEST_F(IRWriterTest, newICmpInstTest) {
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
 
+TEST_F(IRWriterTest, newFCmpInstTest) {
+  Constant* value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 0.0);
+  FCmpInst* fCmpInst = IRWriter::newFCmpInst(mContext, FCmpInst::FCMP_UEQ, value, value, "cmp");
+  
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *fCmpInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  %cmp = fcmp ueq float 0.000000e+00, 0.000000e+00");
+  
+  IRWriter::createReturnInst(mContext, value);
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+  
+  IRWriter::newICmpInst(mContext, ICmpInst::ICMP_SGE, value, value, "cmp");
+  
+  EXPECT_EQ(mBasicBlock->size(), 2u);
+}
+
 TEST_F(IRWriterTest, createResumeInstTest) {
   Type* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
   vector<Type*> landingPadReturnTypes;

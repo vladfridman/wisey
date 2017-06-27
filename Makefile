@@ -37,10 +37,10 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wmissing-field-initializers \
 	-pedantic -Wno-long-long -Wcovered-switch-default -Wnon-virtual-dtor -Wno-deprecated-register \
 	-Wno-unneeded-internal-declaration -Wdelete-non-virtual-dtor -Werror=date-time \
-	-std=c++11 -g -fno-exceptions \
+	-std=c++11 -g -fno-exceptions -fno-rtti \
 	-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -c
 # Flags used for linking
-LDFLAGS = `llvm-config --ldflags` `llvm-config --libs engine` `llvm-config --system-libs` -L$(LIBDIR)
+LDFLAGS = `llvm-config --ldflags --system-libs --libs engine` -L$(LIBDIR)
 
 default: ${BINDIR}/wisey
 

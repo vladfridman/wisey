@@ -19,6 +19,7 @@
 #include "wisey/MethodSignature.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -310,6 +311,7 @@ TEST_F(ModelTest, canCastToTest) {
   EXPECT_FALSE(mModel->canCastTo(mCarInterface));
   EXPECT_TRUE(mModel->canCastTo(mModel));
   EXPECT_TRUE(mModel->canCastTo(mShapeInterface));
+  EXPECT_FALSE(mModel->canCastTo(NullType::NULL_TYPE));
 }
 
 TEST_F(ModelTest, canAutoCastToTest) {
@@ -318,6 +320,7 @@ TEST_F(ModelTest, canAutoCastToTest) {
   EXPECT_FALSE(mModel->canAutoCastTo(mCarInterface));
   EXPECT_TRUE(mModel->canAutoCastTo(mModel));
   EXPECT_TRUE(mModel->canAutoCastTo(mShapeInterface));
+  EXPECT_FALSE(mModel->canAutoCastTo(NullType::NULL_TYPE));
 }
 
 TEST_F(ModelTest, castToFirstInterfaceTest) {

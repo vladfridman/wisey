@@ -316,7 +316,8 @@ TypeKind Interface::getTypeKind() const {
 }
 
 bool Interface::canCastTo(const IType* toType) const {
-  if (toType->getTypeKind() == PRIMITIVE_TYPE) {
+  TypeKind typeKind = toType->getTypeKind();
+  if (typeKind == PRIMITIVE_TYPE || typeKind == NULL_TYPE_KIND) {
     return false;
   }
   
@@ -325,11 +326,12 @@ bool Interface::canCastTo(const IType* toType) const {
 }
 
 bool Interface::canAutoCastTo(const IType* toType) const {
-  if (toType->getTypeKind() == PRIMITIVE_TYPE) {
+  TypeKind typeKind = toType->getTypeKind();
+  if (typeKind == PRIMITIVE_TYPE || typeKind == NULL_TYPE_KIND) {
     return false;
   }
   
-  if (toType->getTypeKind() == INTERFACE_TYPE && doesExtendInterface((Interface*) toType)) {
+  if (typeKind == INTERFACE_TYPE && doesExtendInterface((Interface*) toType)) {
     return true;
   }
   

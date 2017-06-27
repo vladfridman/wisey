@@ -34,6 +34,11 @@ public:
   static LongType* LONG_TYPE;
   static VoidType* VOID_TYPE;
 
+  /**
+   * Tells whether the given type is one of float types such as float or double
+   */
+  static bool isFloatType(const IType* type);
+
 };
   
 } /* namespace wisey */

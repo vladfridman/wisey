@@ -23,3 +23,7 @@ IntType* PrimitiveTypes::INT_TYPE = new IntType();
 LongType* PrimitiveTypes::LONG_TYPE = new LongType();
 
 VoidType* PrimitiveTypes::VOID_TYPE = new VoidType();
+
+bool PrimitiveTypes::isFloatType(const IType* type) {
+  return type == FLOAT_TYPE || type == DOUBLE_TYPE;
+}

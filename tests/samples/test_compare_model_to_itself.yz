@@ -1,0 +1,13 @@
+package systems.vos.wisey.compiler.tests;
+
+model MData {}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MData* data = builder(MData).build();
+    return data == data;
+  }
+}
+
+bind(CProgram).to(IProgram);

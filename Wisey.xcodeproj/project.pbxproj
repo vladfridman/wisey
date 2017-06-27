@@ -192,6 +192,7 @@
 		F53A2C4A1F029BA500E76A9E /* NullExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C481F029BA500E76A9E /* NullExpression.cpp */; };
 		F53A2C4C1F029DC800E76A9E /* TestNullType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C4B1F029DC800E76A9E /* TestNullType.cpp */; };
 		F53A2C4E1F02A4EC00E76A9E /* TestNullExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */; };
+		F53A2C501F02D55A00E76A9E /* TestPrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */; };
 		F53B8EBB1ECE101A00F45564 /* ImportStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */; };
 		F53B8EBC1ECE101A00F45564 /* ImportStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */; };
 		F54625BF1DE5EA1900074D66 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */; };
@@ -632,6 +633,7 @@
 		F53A2C481F029BA500E76A9E /* NullExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NullExpression.cpp; path = src/NullExpression.cpp; sourceTree = "<group>"; };
 		F53A2C4B1F029DC800E76A9E /* TestNullType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNullType.cpp; path = tests/TestNullType.cpp; sourceTree = "<group>"; };
 		F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNullExpression.cpp; path = tests/TestNullExpression.cpp; sourceTree = "<group>"; };
+		F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrimitiveTypes.cpp; path = tests/TestPrimitiveTypes.cpp; sourceTree = "<group>"; };
 		F53B8EB81ECDC08700F45564 /* IObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectType.hpp; path = include/wisey/IObjectType.hpp; sourceTree = "<group>"; };
 		F53B8EB91ECE0E5800F45564 /* ImportStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ImportStatement.hpp; path = include/wisey/ImportStatement.hpp; sourceTree = "<group>"; };
 		F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImportStatement.cpp; path = src/ImportStatement.cpp; sourceTree = "<group>"; };
@@ -996,6 +998,7 @@
 				F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */,
 				F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */,
+				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
 				F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */,
 				F53400FA1DFD999B0002BF7E /* TestRelationalExpression.cpp */,
@@ -1561,6 +1564,7 @@
 				F53A2C4E1F02A4EC00E76A9E /* TestNullExpression.cpp in Sources */,
 				F53A2C1A1EF85DF000E76A9E /* HeapMethodParameter.cpp in Sources */,
 				F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
+				F53A2C501F02D55A00E76A9E /* TestPrimitiveTypes.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
 				F51581251E89B02F009CE419 /* FieldDeclaration.cpp in Sources */,
@@ -1786,6 +1790,10 @@
 		F530B45B1DFA02C900477384 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					include,
@@ -1848,6 +1856,10 @@
 		F530B45C1DFA02C900477384 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					include,
@@ -1991,9 +2003,11 @@
 		F54625951DE5E43A00074D66 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LEXFLAGS = "";
@@ -2028,9 +2042,11 @@
 		F54625961DE5E43A00074D66 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LEXFLAGS = "";

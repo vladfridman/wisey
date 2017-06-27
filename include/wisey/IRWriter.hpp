@@ -181,14 +181,22 @@ public:
                                       llvm::BasicBlock* condFalseBasicBlock);
 
   /**
-   * Add an ICmpInst that compares two values
+   * Add an FCmpInst that compares two float values
+   */
+  static llvm::FCmpInst* newFCmpInst(IRGenerationContext& context,
+                                     llvm::FCmpInst::Predicate predicate,
+                                     llvm::Value* leftValue,
+                                     llvm::Value* rightValue,
+                                     std::string variableName);
+  
+  /**
+   * Add an ICmpInst that compares two integer values
    */
   static llvm::ICmpInst* newICmpInst(IRGenerationContext& context,
                                      llvm::ICmpInst::Predicate predicate,
                                      llvm::Value* leftValue,
                                      llvm::Value* rightValue,
                                      std::string variableName);
-
   /**
    * Add an ResumeInst that resumes propagation of an exception
    */

@@ -19,6 +19,7 @@
 #include "wisey/MethodSignature.hpp"
 #include "wisey/Node.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
+#include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -303,6 +304,7 @@ TEST_F(NodeTest, canCastToTest) {
   EXPECT_FALSE(mComplicatedNode->canCastTo(mVehicleInterface));
   EXPECT_TRUE(mComplicatedNode->canCastTo(mComplicatedNode));
   EXPECT_TRUE(mComplicatedNode->canCastTo(mElementInterface));
+  EXPECT_FALSE(mComplicatedNode->canCastTo(NullType::NULL_TYPE));
 }
 
 TEST_F(NodeTest, canAutoCastToTest) {
@@ -311,6 +313,7 @@ TEST_F(NodeTest, canAutoCastToTest) {
   EXPECT_FALSE(mComplicatedNode->canAutoCastTo(mVehicleInterface));
   EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mComplicatedNode));
   EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mElementInterface));
+  EXPECT_FALSE(mComplicatedNode->canAutoCastTo(NullType::NULL_TYPE));
 }
 
 TEST_F(NodeTest, castToFirstInterfaceTest) {
