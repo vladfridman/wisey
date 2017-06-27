@@ -31,6 +31,7 @@ typedef enum TypeKindEnum {
   CONTROLLER_OWNER_TYPE,
   NODE_TYPE,
   NODE_OWNER_TYPE,
+  NULL_TYPE_KIND,
 } TypeKind;
 
 /**

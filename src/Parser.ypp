@@ -50,6 +50,7 @@
   #include "wisey/NegateExpression.hpp"
   #include "wisey/NodeDefinition.hpp"
   #include "wisey/NodeTypeSpecifier.hpp"
+  #include "wisey/NullExpression.hpp"
   #include "wisey/ObjectBuilder.hpp"
   #include "wisey/OwnerTypeSpecifier.hpp"
   #include "wisey/PrimitiveTypes.hpp"
@@ -139,7 +140,7 @@
 %token <token> TMODEL TBUILDER TBUILD TPUBLIC TPRIVATE
 %token <token> TINTERFACE TIMPLEMENTS TEXTENDS TINSTANCEOF
 %token <token> TCONTROLLER TINJECT TRECEIVE TSTATE
-%token <token> TTHROW TTHROWS TTRY TCATCH TFINALLY TBIND TTO TPACKAGE TIMPORT TNODE
+%token <token> TTHROW TTHROWS TTRY TCATCH TFINALLY TBIND TTO TPACKAGE TIMPORT TNODE TNULL
 
 /**
  * Parsing tree node types
@@ -703,6 +704,7 @@ primary_expression
   | object_builder
   | method_call
   | '(' expression ')' { $$ = $2; }
+  | TNULL { $$ = new NullExpression(); }
   ;
 
 identifier_chain

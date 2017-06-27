@@ -126,7 +126,7 @@ struct ModelTest : public Test {
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mSubShapeInterface);
     mShapeInterface = new Interface(shapeFullName, shapeIinterfaceStructType);
-     mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
+    mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
                                                             shapeInterfaceMethods);
    
     vector<Type*> objectInterfaceTypes;

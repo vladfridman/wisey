@@ -89,6 +89,7 @@ WS  [ \t\v\n\f]
 "package"                     return TOKEN(TPACKAGE);
 "import"                      return TOKEN(TIMPORT);
 "node"                        return TOKEN(TNODE);
+"null"                        return TOKEN(TNULL);
 "="                           return TOKEN('=');
 "=="                          return TOKEN(TCEQ);
 "!="                          return TOKEN(TCNE);
