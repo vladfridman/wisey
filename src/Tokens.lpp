@@ -1,7 +1,6 @@
 %{
   #include <string>
   #include "wisey/AccessLevel.hpp"
-  #include "wisey/BuilderArgument.hpp"
   #include "wisey/Catch.hpp"
   #include "wisey/CompoundStatement.hpp"
   #include "wisey/ControllerTypeSpecifier.hpp"
@@ -14,6 +13,7 @@
   #include "wisey/MethodSignatureDeclaration.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
   #include "wisey/NodeTypeSpecifier.hpp"
+  #include "wisey/ObjectBuilderArgument.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
   #include "wisey/ProgramFile.hpp"
   #include "wisey/SwitchStatement.hpp"

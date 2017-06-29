@@ -13,10 +13,10 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/BuilderArgument.hpp"
 #include "wisey/Field.hpp"
 #include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/Method.hpp"
+#include "wisey/ObjectBuilderArgument.hpp"
 
 namespace wisey {
   
@@ -70,7 +70,7 @@ public:
   std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
 
   llvm::Instruction* build(IRGenerationContext& context,
-                           const BuilderArgumentList& builderArgumentList) const override;
+                           const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const override;
   
   Field* findField(std::string fieldName) const override;
   
@@ -114,16 +114,16 @@ private:
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   
-  void checkArguments(const BuilderArgumentList& builderArgumentList) const;
+  void checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
 
-  void checkArgumentsAreWellFormed(const BuilderArgumentList& builderArgumentList) const;
+  void checkArgumentsAreWellFormed(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
 
-  void checkAllFieldsAreSet(const BuilderArgumentList& builderArgumentList) const;
+  void checkAllFieldsAreSet(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
 
   llvm::Instruction* createMalloc(IRGenerationContext& context) const;
 
   void initializeFixedFields(IRGenerationContext& context,
-                             const BuilderArgumentList& builderArgumentList,
+                             const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
                              llvm::Instruction* malloc) const;
 
   void initializeStateFields(IRGenerationContext& context,

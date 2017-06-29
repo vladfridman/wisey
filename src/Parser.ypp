@@ -7,7 +7,6 @@
   #include "wisey/BooleanConstant.hpp"
   #include "wisey/BooleanNotExpression.hpp"
   #include "wisey/BreakStatement.hpp"
-  #include "wisey/BuilderArgument.hpp"
   #include "wisey/Catch.hpp"
   #include "wisey/CaseStatement.hpp"
   #include "wisey/CastExpression.hpp"
@@ -52,6 +51,7 @@
   #include "wisey/NodeTypeSpecifier.hpp"
   #include "wisey/NullExpression.hpp"
   #include "wisey/ObjectBuilder.hpp"
+  #include "wisey/ObjectBuilderArgument.hpp"
   #include "wisey/OwnerTypeSpecifier.hpp"
   #include "wisey/PrimitiveTypes.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -103,8 +103,8 @@
   wisey::IObjectTypeSpecifier* object_type_specifier;
   wisey::Identifier* identifier;
   wisey::VariableDeclaration* variable_declaration;
-  wisey::BuilderArgument* builder_argument;
-  wisey::BuilderArgumentList *builder_argument_list;
+  wisey::ObjectBuilderArgument* object_builder_argument;
+  wisey::ObjectBuilderArgumentList *object_builder_argument_list;
   wisey::ModelTypeSpecifier* model_type_specifier;
   wisey::ControllerTypeSpecifier* controller_type_specifier;
   wisey::InterfaceTypeSpecifier* interface_type_specifier;
@@ -183,8 +183,8 @@
 %type <type_specifier> type_specifier primitive_type_specifier exception_type_specifier
 %type <buildable_concrete_object_type_specifier> buildable_concrete_object_type_specifier
 %type <object_type_specifier> object_type_specifier
-%type <builder_argument_list> builder_argument_list
-%type <builder_argument> builder_argument
+%type <object_builder_argument_list> object_builder_argument_list
+%type <object_builder_argument> object_builder_argument
 %type <model_type_specifier> model_type_specifier
 %type <controller_type_specifier> controller_type_specifier
 %type <interface_type_specifier> interface_type_specifier
@@ -816,21 +816,21 @@ assignment
   ;
 
 object_builder
-  : TBUILDER '(' buildable_concrete_object_type_specifier ')' builder_argument_list 
+  : TBUILDER '(' buildable_concrete_object_type_specifier ')' object_builder_argument_list
     '.' TBUILD '(' ')'
     { $$ = new ObjectBuilder($3, *$5); delete $5; }
   | TBUILDER '(' buildable_concrete_object_type_specifier ')' '.' TBUILD '(' ')'
-    { BuilderArgumentList argumentList; $$ = new ObjectBuilder($3, argumentList); }
+    { ObjectBuilderArgumentList argumentList; $$ = new ObjectBuilder($3, argumentList); }
   ;
 
-builder_argument_list
-  : builder_argument { $$ = new BuilderArgumentList(); $$->push_back($1); }
-  | builder_argument_list builder_argument { $1->push_back($2); }
+object_builder_argument_list
+  : object_builder_argument { $$ = new ObjectBuilderArgumentList(); $$->push_back($1); }
+  | object_builder_argument_list object_builder_argument { $1->push_back($2); }
   ;
 
-builder_argument
+object_builder_argument
   : '.' TIDENTIFIER '(' expression ')'
-    { $$ = new BuilderArgument(*$2, $4); delete $2; }
+    { $$ = new ObjectBuilderArgument(*$2, $4); delete $2; }
   ;
 
 call_arguments

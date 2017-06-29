@@ -9,8 +9,8 @@
 #ifndef IBuildableConcreteObjectType_h
 #define IBuildableConcreteObjectType_h
 
-#include "wisey/BuilderArgument.hpp"
 #include "wisey/IConcreteObjectType.hpp"
+#include "wisey/ObjectBuilderArgument.hpp"
 
 namespace wisey {
   
@@ -25,7 +25,7 @@ public:
    * Builds an instance of this object and initializes all fields
    */
   virtual llvm::Instruction* build(IRGenerationContext& context,
-                                   const BuilderArgumentList& builderArgumentList) const = 0;
+                                   const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const = 0;
 
 };
 

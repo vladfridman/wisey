@@ -1,13 +1,13 @@
 //
-//  BuilderArgument.hpp
+//  ObjectBuilderArgument.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/22/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef BuilderArgument_h
-#define BuilderArgument_h
+#ifndef ObjectBuilderArgument_h
+#define ObjectBuilderArgument_h
 
 #include <string>
 
@@ -30,17 +30,17 @@ class IConcreteObjectType;
  *
  * withField(1) represents one model builder argument
  */
-class BuilderArgument {
+class ObjectBuilderArgument {
   
   std::string mFieldSpecifier;
   IExpression* mFieldExpression;
   
 public:
   
-  BuilderArgument(std::string fieldSpecifier, IExpression* fieldExpression)
+  ObjectBuilderArgument(std::string fieldSpecifier, IExpression* fieldExpression)
     : mFieldSpecifier(fieldSpecifier), mFieldExpression(fieldExpression) { }
   
-  ~BuilderArgument();
+  ~ObjectBuilderArgument();
   
   bool checkArgument(const IConcreteObjectType* object);
   
@@ -69,8 +69,8 @@ public:
 /**
  * Represents a list of model builder arguments
  */
-typedef std::vector<BuilderArgument*> BuilderArgumentList;
+typedef std::vector<ObjectBuilderArgument*> ObjectBuilderArgumentList;
 
 } /* namespace wisey */
 
-#endif /* BuilderArgument_h */
+#endif /* ObjectBuilderArgument_h */

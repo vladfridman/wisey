@@ -1,26 +1,26 @@
 //
-//  BuilderArgument.cpp
+//  ObjectBuilderArgument.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 1/22/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/BuilderArgument.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/ObjectBuilderArgument.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-BuilderArgument::~BuilderArgument() {
+ObjectBuilderArgument::~ObjectBuilderArgument() {
   delete mFieldExpression;
 }
 
-bool BuilderArgument::checkArgument(const IConcreteObjectType* object) {
+bool ObjectBuilderArgument::checkArgument(const IConcreteObjectType* object) {
   if (mFieldSpecifier.substr(0, 4).compare("with")) {
     Log::e("Object builder argument should start with 'with'. e.g. .withField(value).");
     return false;
@@ -35,18 +35,18 @@ bool BuilderArgument::checkArgument(const IConcreteObjectType* object) {
   return true;
 }
 
-string BuilderArgument::deriveFieldName() const {
+string ObjectBuilderArgument::deriveFieldName() const {
   return "m" + mFieldSpecifier.substr(4);
 }
 
-Value* BuilderArgument::getValue(IRGenerationContext& context) const {
+Value* ObjectBuilderArgument::getValue(IRGenerationContext& context) const {
   return mFieldExpression->generateIR(context);
 }
 
-const IType* BuilderArgument::getType(IRGenerationContext& context) const {
+const IType* ObjectBuilderArgument::getType(IRGenerationContext& context) const {
   return mFieldExpression->getType(context);
 }
 
-void BuilderArgument::releaseOwnership(IRGenerationContext& context) const {
+void ObjectBuilderArgument::releaseOwnership(IRGenerationContext& context) const {
   mFieldExpression->releaseOwnership(context);
 }

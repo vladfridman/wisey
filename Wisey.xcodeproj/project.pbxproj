@@ -380,9 +380,9 @@
 		F5F2F3781EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */; };
 		F5F396D71E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */; };
 		F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */; };
-		F5F396DB1E34BFE000F34296 /* BuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* BuilderArgument.cpp */; };
-		F5F396DC1E34BFE000F34296 /* BuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* BuilderArgument.cpp */; };
-		F5F396DE1E3F898900F34296 /* TestBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DD1E3F898900F34296 /* TestBuilderArgument.cpp */; };
+		F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */; };
+		F5F396DC1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */; };
+		F5F396DE1E3F898900F34296 /* TestObjectBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */; };
 		F5F396E01E3F8C5700F34296 /* TestObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */; };
 		F5FCAE331ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
 		F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
@@ -493,7 +493,7 @@
 		F5089C911ECD01D9004A1223 /* MethodSignatureDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MethodSignatureDeclaration.hpp; path = include/wisey/MethodSignatureDeclaration.hpp; sourceTree = "<group>"; };
 		F5089C921ECD01D9004A1223 /* Model.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Model.hpp; path = include/wisey/Model.hpp; sourceTree = "<group>"; };
 		F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ObjectBuilder.hpp; path = include/wisey/ObjectBuilder.hpp; sourceTree = "<group>"; };
-		F5089C941ECD01D9004A1223 /* BuilderArgument.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BuilderArgument.hpp; path = include/wisey/BuilderArgument.hpp; sourceTree = "<group>"; };
+		F5089C941ECD01D9004A1223 /* ObjectBuilderArgument.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ObjectBuilderArgument.hpp; path = include/wisey/ObjectBuilderArgument.hpp; sourceTree = "<group>"; };
 		F5089C951ECD01D9004A1223 /* ModelDefinition.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelDefinition.hpp; path = include/wisey/ModelDefinition.hpp; sourceTree = "<group>"; };
 		F5089C971ECD01D9004A1223 /* ModelTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ModelTypeSpecifier.hpp; path = include/wisey/ModelTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5089C981ECD01D9004A1223 /* NegateExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NegateExpression.hpp; path = include/wisey/NegateExpression.hpp; sourceTree = "<group>"; };
@@ -808,8 +808,8 @@
 		F5F2F3751EEAFA110060CF42 /* OwnerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = OwnerTypeSpecifier.hpp; path = include/wisey/OwnerTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OwnerTypeSpecifier.cpp; path = src/OwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectBuilder.cpp; path = src/ObjectBuilder.cpp; sourceTree = "<group>"; };
-		F5F396DA1E34BFE000F34296 /* BuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BuilderArgument.cpp; path = src/BuilderArgument.cpp; sourceTree = "<group>"; };
-		F5F396DD1E3F898900F34296 /* TestBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBuilderArgument.cpp; path = tests/TestBuilderArgument.cpp; sourceTree = "<group>"; };
+		F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectBuilderArgument.cpp; path = src/ObjectBuilderArgument.cpp; sourceTree = "<group>"; };
+		F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectBuilderArgument.cpp; path = tests/TestObjectBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectBuilder.cpp; path = tests/TestObjectBuilder.cpp; sourceTree = "<group>"; };
 		F5FCAE2F1ED5BC3C00C69899 /* Compiler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Compiler.hpp; path = include/wisey/Compiler.hpp; sourceTree = "<group>"; };
 		F5FCAE311ED5C31D00C69899 /* CompilerArguments.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompilerArguments.hpp; path = include/wisey/CompilerArguments.hpp; sourceTree = "<group>"; };
@@ -925,7 +925,6 @@
 				F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */,
 				F5C6FD731E48B4920054209D /* TestBooleanType.cpp */,
 				F501B4931E161D140010783D /* TestBreakStatement.cpp */,
-				F5F396DD1E3F898900F34296 /* TestBuilderArgument.cpp */,
 				F50FA2AD1E27AFA500435EEA /* TestCaseStatement.cpp */,
 				F5ADB6121E5DA13600FFC941 /* TestCast.cpp */,
 				F51797091E5C95BC009B16AA /* TestCastExpression.cpp */,
@@ -996,6 +995,7 @@
 				F53A2C4D1F02A4EC00E76A9E /* TestNullExpression.cpp */,
 				F53A2C4B1F029DC800E76A9E /* TestNullType.cpp */,
 				F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */,
+				F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */,
 				F57085F51E511BAC007D627E /* TestObjectFieldVariable.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */,
 				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
@@ -1118,7 +1118,6 @@
 				F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */,
 				F5C6FD6E1E48B40F0054209D /* BooleanType.cpp */,
 				F59D82281E1089E700057FB5 /* BreakStatement.cpp */,
-				F5F396DA1E34BFE000F34296 /* BuilderArgument.cpp */,
 				F50FA2A51E269E5700435EEA /* CaseStatement.cpp */,
 				F5ADB60F1E5DA08200FFC941 /* Cast.cpp */,
 				F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */,
@@ -1192,6 +1191,7 @@
 				F53A2C481F029BA500E76A9E /* NullExpression.cpp */,
 				F53A2C441F0298E800E76A9E /* NullType.cpp */,
 				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
+				F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */,
 				F50427B31E4E3FA7001CB148 /* ObjectFieldVariable.cpp */,
 				F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */,
 				F569E9ED1DF9CC9600BBB20E /* Parser.ypp */,
@@ -1275,7 +1275,6 @@
 				F5089C511ECD01D9004A1223 /* BooleanNotExpression.hpp */,
 				F5089C521ECD01D9004A1223 /* BooleanType.hpp */,
 				F5089C531ECD01D9004A1223 /* BreakStatement.hpp */,
-				F5089C941ECD01D9004A1223 /* BuilderArgument.hpp */,
 				F5089C541ECD01D9004A1223 /* CaseStatement.hpp */,
 				F5089C551ECD01D9004A1223 /* Cast.hpp */,
 				F5089C561ECD01D9004A1223 /* CastExpression.hpp */,
@@ -1360,6 +1359,7 @@
 				F53A2C471F029AF700E76A9E /* NullExpression.hpp */,
 				F53A2C431F02987800E76A9E /* NullType.hpp */,
 				F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */,
+				F5089C941ECD01D9004A1223 /* ObjectBuilderArgument.hpp */,
 				F5089C991ECD01D9004A1223 /* ObjectFieldVariable.hpp */,
 				F5F2F3751EEAFA110060CF42 /* OwnerTypeSpecifier.hpp */,
 				F5089C9A1ECD01D9004A1223 /* PrimitiveTypes.hpp */,
@@ -1470,7 +1470,7 @@
 				F51764CC1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
 				F5C6FD831E48B7260054209D /* TestIntType.cpp in Sources */,
 				F5ADB6111E5DA08200FFC941 /* Cast.cpp in Sources */,
-				F5F396DE1E3F898900F34296 /* TestBuilderArgument.cpp in Sources */,
+				F5F396DE1E3F898900F34296 /* TestObjectBuilderArgument.cpp in Sources */,
 				F508E0671E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
 				F53A2C2D1EFFD5E800E76A9E /* Node.cpp in Sources */,
 				F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
@@ -1539,7 +1539,7 @@
 				F50FA2DC1E2D329900435EEA /* ModelTypeSpecifier.cpp in Sources */,
 				F50FA2B41E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F50FA2D91E2D324600435EEA /* SwitchStatement.cpp in Sources */,
-				F5F396DC1E34BFE000F34296 /* BuilderArgument.cpp in Sources */,
+				F5F396DC1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F50427B51E4E3FA7001CB148 /* ObjectFieldVariable.cpp in Sources */,
 				F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */,
 				F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
@@ -1716,7 +1716,7 @@
 				F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */,
 				F50FA2E71E2E3B0900435EEA /* IntConstant.cpp in Sources */,
 				F50FA2E61E2E3B0900435EEA /* FloatConstant.cpp in Sources */,
-				F5F396DB1E34BFE000F34296 /* BuilderArgument.cpp in Sources */,
+				F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,

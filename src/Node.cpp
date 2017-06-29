@@ -182,25 +182,25 @@ vector<string> Node::getMissingFields(set<string> givenFields) const {
 }
 
 Instruction* Node::build(IRGenerationContext& context,
-                        const BuilderArgumentList& builderArgumentList) const {
-  checkArguments(builderArgumentList);
+                        const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
+  checkArguments(ObjectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
-  initializeFixedFields(context, builderArgumentList, malloc);
+  initializeFixedFields(context, ObjectBuilderArgumentList, malloc);
   initializeStateFields(context, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   return malloc;
 }
 
-void Node::checkArguments(const BuilderArgumentList& builderArgumentList) const {
-  checkArgumentsAreWellFormed(builderArgumentList);
-  checkAllFieldsAreSet(builderArgumentList);
+void Node::checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
+  checkArgumentsAreWellFormed(ObjectBuilderArgumentList);
+  checkAllFieldsAreSet(ObjectBuilderArgumentList);
 }
 
-void Node::checkArgumentsAreWellFormed(const BuilderArgumentList& builderArgumentList) const {
+void Node::checkArgumentsAreWellFormed(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
   bool areArgumentsWellFormed = true;
   
-  for (BuilderArgument* argument : builderArgumentList) {
+  for (ObjectBuilderArgument* argument : ObjectBuilderArgumentList) {
     areArgumentsWellFormed &= argument->checkArgument(this);
   }
   
@@ -210,9 +210,9 @@ void Node::checkArgumentsAreWellFormed(const BuilderArgumentList& builderArgumen
   }
 }
 
-void Node::checkAllFieldsAreSet(const BuilderArgumentList& builderArgumentList) const {
+void Node::checkAllFieldsAreSet(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
   set<string> allFieldsThatAreSet;
-  for (BuilderArgument* argument : builderArgumentList) {
+  for (ObjectBuilderArgument* argument : ObjectBuilderArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
   }
   
@@ -239,13 +239,13 @@ Instruction* Node::createMalloc(IRGenerationContext& context) const {
 }
 
 void Node::initializeFixedFields(IRGenerationContext& context,
-                                 const BuilderArgumentList& builderArgumentList,
+                                 const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
                                  Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (BuilderArgument* argument : builderArgumentList) {
+  for (ObjectBuilderArgument* argument : ObjectBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);
     const IType* argumentType = argument->getType(context);

@@ -20,15 +20,15 @@ using namespace wisey;
 
 ObjectBuilder::~ObjectBuilder() {
   delete mTypeSpecifier;
-  for (BuilderArgument* argument : mBuilderArgumentList) {
+  for (ObjectBuilderArgument* argument : mObjectBuilderArgumentList) {
     delete argument;
   }
-  mBuilderArgumentList.clear();
+  mObjectBuilderArgumentList.clear();
 }
 
 Value* ObjectBuilder::generateIR(IRGenerationContext& context) const {
   const IBuildableConcreteObjectType* object = mTypeSpecifier->getType(context);
-  Instruction* malloc = object->build(context, mBuilderArgumentList);
+  Instruction* malloc = object->build(context, mObjectBuilderArgumentList);
   
   HeapVariable* heapVariable = new HeapVariable(IVariable::getTemporaryVariableName(this),
                                                 object->getOwner(),
