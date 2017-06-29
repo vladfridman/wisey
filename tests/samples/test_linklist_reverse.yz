@@ -1,0 +1,100 @@
+package systems.vos.wisey.compiler.tests;
+
+model MData {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+node NNode {
+  MData* mData;
+  state NNode* mNext;
+
+  public void setNext(NNode* next) {
+    mNext = next;
+  }
+
+  // TODO: move this down belowe takeNext()
+  public NNode getNext() {
+    return mNext;
+  }
+
+  public NNode* takeNext() {
+    return mNext;
+  }
+
+  public MData getData() {
+    return mData;
+  }
+}
+
+controller CLinkList {
+  state NNode* mHead;
+  state NNode mTail;
+
+  public NNode getHead() {
+    return mHead;
+  }
+
+  public NNode getTail() {
+    return mTail;
+  }
+
+  public void appendToHead(MData* data) {
+    // TODO: implement .withNext(mHead) and set mHead to null
+    NNode* newHead = builder(NNode).withData(data).build(); 
+    newHead.setNext(mHead);
+    mHead = newHead;
+    if (mTail == null) {
+      mTail = mHead;
+    }
+  }
+
+  public void appendToTail(MData* data) {
+    NNode* newNode = builder(NNode).withData(data).build();
+    if (mHead == null) {
+      mHead = newNode;
+      mTail = mHead;
+    } else {
+      mTail.setNext(newNode);
+      mTail = mTail.getNext();
+    }
+  }
+
+  public void reverse() {
+    mTail = mHead;
+    NNode* current = mHead.takeNext();
+    NNode* previous = mHead;
+    previous.setNext(null);
+
+    while (current != null) {
+      NNode* next = current.takeNext();
+      current.setNext(previous);
+      previous = current;
+      current = next;
+    }
+
+    mHead = previous;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CLinkList* mLinkList;
+
+  public int run() {
+    mLinkList.appendToHead(builder(MData).withValue(2).build());
+    mLinkList.appendToHead(builder(MData).withValue(1).build());
+    mLinkList.appendToTail(builder(MData).withValue(3).build());
+    mLinkList.appendToTail(builder(MData).withValue(4).build());
+
+    mLinkList.reverse();
+    
+    return mLinkList.getHead().getData().getValue() +
+      mLinkList.getHead().getNext().getNext().getNext().getData().getValue() +
+      mLinkList.getTail().getData().getValue();
+  }
+}
+
+bind(CProgram).to(IProgram);
