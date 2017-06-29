@@ -46,3 +46,7 @@ Value* BuilderArgument::getValue(IRGenerationContext& context) const {
 const IType* BuilderArgument::getType(IRGenerationContext& context) const {
   return mFieldExpression->getType(context);
 }
+
+void BuilderArgument::releaseOwnership(IRGenerationContext& context) const {
+  mFieldExpression->releaseOwnership(context);
+}

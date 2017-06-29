@@ -43,12 +43,6 @@ TEST_F(NullExpressionTest, getTypeTest) {
   ASSERT_EQ(mNullExpression.getType(mContext), NullType::NULL_TYPE);
 }
 
-TEST_F(NullExpressionTest, releaseOwnershipDeathTest) {
-  EXPECT_EXIT(mNullExpression.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a null expression");
-}
-
 TEST_F(NullExpressionTest, existsInOuterScopeTest) {
   ASSERT_FALSE(mNullExpression.existsInOuterScope(mContext));
 }

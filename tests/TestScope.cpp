@@ -35,46 +35,35 @@ using ::testing::Test;
 struct ScopeTest : public Test {
   IRGenerationContext mContext;
   Scope mScope;
-  NiceMock<MockVariable>* mMockVariable;
+  NiceMock<MockVariable>* mFooVariable;
+  NiceMock<MockVariable>* mBarVariable;
   NiceMock<MockType> mMockType;
 
 public:
 
-  ScopeTest() : mMockVariable(new NiceMock<MockVariable>()) {
+  ScopeTest() :
+  mFooVariable(new NiceMock<MockVariable>()),
+  mBarVariable(new NiceMock<MockVariable>()) {
     ON_CALL(mMockType, getName()).WillByDefault(Return("MExceptionA"));
   }
 };
 
 TEST_F(ScopeTest, localsTest) {
-  mScope.setVariable("foo", mMockVariable);
+  mScope.setVariable("foo", mFooVariable);
   
-  EXPECT_EQ(mScope.findVariable("foo"), mMockVariable);
+  EXPECT_EQ(mScope.findVariable("foo"), mFooVariable);
   EXPECT_EQ(mScope.findVariable("bar"), nullptr);
   
-  mScope.setVariable("bar", mMockVariable);
+  mScope.setVariable("bar", mBarVariable);
   
-  EXPECT_EQ(mScope.findVariable("foo"), mMockVariable);
-  EXPECT_EQ(mScope.findVariable("bar"), mMockVariable);
-  
-  mScope.clearVariable("foo");
-
-  EXPECT_EQ(mScope.findVariable("foo"), nullptr);
-  EXPECT_EQ(mScope.findVariable("bar"), mMockVariable);
-}
-
-TEST_F(ScopeTest, clearNonExistantVariableDeathTest) {
-  Mock::AllowLeak(mMockVariable);
-  Mock::AllowLeak(&mMockType);
-  
-  EXPECT_EXIT(mScope.clearVariable("foo"),
-              ::testing::ExitedWithCode(1),
-              "Error: Variable 'foo' is not set in this scope.");
+  EXPECT_EQ(mScope.findVariable("foo"), mFooVariable);
+  EXPECT_EQ(mScope.findVariable("bar"), mBarVariable);
 }
 
 TEST_F(ScopeTest, freeOwnedMemoryTest) {
-  mScope.setVariable("foo", mMockVariable);
+  mScope.setVariable("foo", mFooVariable);
   
-  EXPECT_CALL(*mMockVariable, free(_));
+  EXPECT_CALL(*mFooVariable, free(_));
   
   mScope.freeOwnedMemory(mContext);
 }
@@ -111,3 +100,13 @@ TEST_F(ScopeTest, addExceptionsTest) {
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
 }
 
+TEST_F(ScopeTest, eraseClearedVariablesTest) {
+  map<string, IVariable*> clearedVariables;
+  clearedVariables["foo"] = mFooVariable;
+  mScope.setVariable("foo", mFooVariable);
+
+  mScope.eraseClearedVariables(clearedVariables);
+  
+  EXPECT_EQ(clearedVariables.size(), 0u);
+  EXPECT_EQ(mScope.findVariable("foo"), nullptr);
+}

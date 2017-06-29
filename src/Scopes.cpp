@@ -17,6 +17,14 @@ using namespace std;
 using namespace wisey;
 
 IVariable* Scopes::getVariable(string name) {
+  if (mClearedVariables.count(name)) {
+    return NULL;
+  }
+  
+  return getVariableForAssignement(name);
+}
+
+IVariable* Scopes::getVariableForAssignement(string name) {
   if (mScopes.size() == 0) {
     return NULL;
   }
@@ -41,7 +49,7 @@ void Scopes::clearVariable(string name) {
   for (Scope* scope : mScopes) {
     IVariable* variable = scope->findVariable(name);
     if (variable != NULL) {
-      scope->clearVariable(name);
+      mClearedVariables[name] = variable;
       return;
     }
   }
@@ -55,13 +63,28 @@ void Scopes::setVariable(IVariable* variable) {
   getScope()->setVariable(variable->getName(), variable);
 }
 
+map<string, IVariable*> Scopes::getClearedVariables() {
+  return mClearedVariables;
+}
+
+void Scopes::setClearedVariables(map<string, IVariable*> clearedVariables) {
+  mClearedVariables = clearedVariables;
+}
+
+void Scopes::eraseFromClearedVariables(IVariable* variable) {
+  mClearedVariables.erase(variable->getName());
+}
+
 void Scopes::pushScope() {
   mScopes.push_front(new Scope());
 }
 
 void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
+
+  top->eraseClearedVariables(mClearedVariables);
   top->freeOwnedMemory(context);
+  
   map<string, const IType*> exceptions = top->getExceptions();
   mScopes.pop_front();
   delete top;
@@ -92,6 +115,7 @@ Scope* Scopes::getScope() {
 
 void Scopes::freeOwnedMemory(IRGenerationContext& context) {
   for (Scope* scope : mScopes) {
+    scope->eraseClearedVariables(mClearedVariables);
     scope->freeOwnedMemory(context);
   }
 }

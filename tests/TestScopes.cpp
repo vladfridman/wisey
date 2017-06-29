@@ -118,19 +118,84 @@ TEST_F(ScopesTest, getScopeTest) {
 }
 
 TEST_F(ScopesTest, clearVariableTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  
   mScopes.pushScope();
-  StackVariable* fooVariable =
-  new StackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  StackVariable* fooVariable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   mScopes.setVariable(fooVariable);
   
-  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
+  EXPECT_EQ(mScopes.getVariable("foo"), fooVariable);
   
   mScopes.clearVariable("foo");
   
   EXPECT_EQ(mScopes.getVariable("foo"), nullptr);
+  EXPECT_EQ(mScopes.getVariableForAssignement("foo"), fooVariable);
 }
+
+TEST_F(ScopesTest, getClearedVariablesTest) {
+  mScopes.pushScope();
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  StackVariable* fooVariable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, value);
+  StackVariable* barVariable = new StackVariable("bar", PrimitiveTypes::INT_TYPE, value);
+  mScopes.setVariable(fooVariable);
+  mScopes.setVariable(barVariable);
+
+  mScopes.clearVariable("foo");
+  
+  map<string, IVariable*> clearedVariables = mScopes.getClearedVariables();
+  EXPECT_EQ(clearedVariables.size(), 1u);
+  EXPECT_EQ(clearedVariables.count("foo"), 1u);
+  EXPECT_EQ(clearedVariables.at("foo"), fooVariable);
+
+  mScopes.clearVariable("bar");
+  clearedVariables = mScopes.getClearedVariables();
+  EXPECT_EQ(clearedVariables.size(), 2u);
+  EXPECT_EQ(clearedVariables.count("foo"), 1u);
+  EXPECT_EQ(clearedVariables.count("bar"), 1u);
+  EXPECT_EQ(clearedVariables.at("foo"), fooVariable);
+  EXPECT_EQ(clearedVariables.at("bar"), barVariable);
+}
+
+TEST_F(ScopesTest, setClearedVariablesTest) {
+  mScopes.pushScope();
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  StackVariable* fooVariable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, value);
+  StackVariable* barVariable = new StackVariable("bar", PrimitiveTypes::INT_TYPE, value);
+  mScopes.setVariable(fooVariable);
+  mScopes.setVariable(barVariable);
+  
+  map<string, IVariable*> clearedVariables;
+  clearedVariables["foo"] = fooVariable;
+  clearedVariables["bar"] = barVariable;
+  mScopes.setClearedVariables(clearedVariables);
+  clearedVariables.clear();
+  
+  clearedVariables = mScopes.getClearedVariables();
+  EXPECT_EQ(clearedVariables.size(), 2u);
+  EXPECT_EQ(clearedVariables.count("foo"), 1u);
+  EXPECT_EQ(clearedVariables.count("bar"), 1u);
+  EXPECT_EQ(clearedVariables.at("foo"), fooVariable);
+  EXPECT_EQ(clearedVariables.at("bar"), barVariable);
+}
+
+TEST_F(ScopesTest, eraseFromClearedVariablesTest) {
+  mScopes.pushScope();
+  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  StackVariable* fooVariable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, value);
+  StackVariable* barVariable = new StackVariable("bar", PrimitiveTypes::INT_TYPE, value);
+  mScopes.setVariable(fooVariable);
+  mScopes.setVariable(barVariable);
+  
+  mScopes.clearVariable("foo");
+  
+  map<string, IVariable*> clearedVariables = mScopes.getClearedVariables();
+  EXPECT_EQ(clearedVariables.size(), 1u);
+  EXPECT_EQ(clearedVariables.count("foo"), 1u);
+  EXPECT_EQ(clearedVariables.at("foo"), fooVariable);
+  
+  mScopes.eraseFromClearedVariables(fooVariable);
+  EXPECT_EQ(mScopes.getClearedVariables().size(), 0u);
+}
+
 
 TEST_F(ScopesTest, clearVariableDeathTest) {
   EXPECT_EXIT(mScopes.clearVariable("foo"),

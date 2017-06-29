@@ -17,12 +17,12 @@ using namespace std;
 using namespace wisey;
 
 Scope::~Scope() {
-  for (map<string, IVariable*>::const_iterator iterator = mLocals.begin();
-       iterator != mLocals.end();
+  for (map<string, IVariable*>::const_iterator iterator = mVariables.begin();
+       iterator != mVariables.end();
        iterator++) {
     delete(iterator->second);
   }
-  mLocals.clear();
+  mVariables.clear();
   if (mExceptionFinally) {
     delete mExceptionFinally;
   }
@@ -30,23 +30,31 @@ Scope::~Scope() {
 }
 
 IVariable* Scope::findVariable(string name) {
-  if (mLocals.count(name)) {
-    return mLocals.at(name);
+  if (!mVariables.count(name)) {
+    return NULL;
   }
-  
-  return NULL;
+
+  return mVariables.at(name);
 }
 
 void Scope::setVariable(string name, IVariable* variable) {
-  mLocals[name] = variable;
+  mVariables[name] = variable;
 }
 
-void Scope::clearVariable(string name) {
-  if (!mLocals.count(name)) {
-    Log::e("Variable '" + name + "' is not set in this scope.");
-    exit(1);
+void Scope::eraseClearedVariables(map<string, IVariable*>& clearedVariables) {
+  vector<string> variablesToErase;
+  for (map<string, IVariable*>::iterator iterator = mVariables.begin();
+       iterator != mVariables.end();
+       iterator++) {
+    string name = iterator->first;
+    if (clearedVariables.count(name)) {
+      variablesToErase.push_back(name);
+    }
   }
-  mLocals.erase(name);
+  for (string name : variablesToErase) {
+    clearedVariables.erase(name);
+    mVariables.erase(name);
+  }
 }
 
 void Scope::setBreakToBlock(BasicBlock* block) {
@@ -109,12 +117,10 @@ void Scope::freeOwnedMemory(IRGenerationContext& context) {
     return;
   }
   
-  for (map<string, IVariable*>::iterator iterator = mLocals.begin();
-       iterator != mLocals.end();
+  for (map<string, IVariable*>::iterator iterator = mVariables.begin();
+       iterator != mVariables.end();
        iterator++) {
-    string name = iterator->first;
-    IVariable* variable = iterator->second;
-    variable->free(context);
+    iterator->second->free(context);
   }
   
   mHasOwnedMemoryBeenFreed = true;

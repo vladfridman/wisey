@@ -22,7 +22,7 @@ namespace wisey {
  * Each scope has local variables associated with it
  */
 class Scope {
-  std::map<std::string, IVariable*> mLocals;
+  std::map<std::string, IVariable*> mVariables;
   llvm::BasicBlock* mBreakToBlock;
   llvm::BasicBlock* mContinueToBlock;
   llvm::BasicBlock* mLandingPadBlock;
@@ -56,9 +56,9 @@ public:
   void setVariable(std::string name, IVariable* variable);
 
   /**
-   * Clears a variable
+   * Erases variables that were cleared from list of variables and from clearedVariables list
    */
-  void clearVariable(std::string name);
+  void eraseClearedVariables(std::map<std::string, IVariable*>& clearedVariables);
 
   /**
    * Set block to break to out of a loop or a switch statement

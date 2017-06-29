@@ -70,7 +70,7 @@ TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
 
   EXPECT_EXIT(assignment.generateIR(mContext),
               ::testing::ExitedWithCode(1),
-              "undeclared variable foo");
+              "Error: Undeclared variable foo");
 }
 
 TEST_F(AssignmentTest, assignmentExpressionTypeTest) {

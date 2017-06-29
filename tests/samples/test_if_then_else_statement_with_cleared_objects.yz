@@ -1,0 +1,26 @@
+package systems.vos.wisey.compiler.tests;
+
+model MData {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MData* data = builder(MData).withValue(2).build();
+
+    if (data.getValue() < 5) {
+      MData* data2 = data;
+    } else {
+      MData* data3 = data;
+    }
+    
+    return 5;
+  }
+} 
+
+bind(CProgram).to(IProgram);

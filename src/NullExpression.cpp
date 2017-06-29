@@ -26,8 +26,6 @@ const IType* NullExpression::getType(IRGenerationContext& context) const {
 }
 
 void NullExpression::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a null expression");
-  exit(1);
 }
 
 bool NullExpression::existsInOuterScope(IRGenerationContext& context) const {

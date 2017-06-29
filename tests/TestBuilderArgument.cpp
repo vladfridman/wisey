@@ -106,3 +106,12 @@ TEST_F(BuilderArgumentTest, getTypeTest) {
   
   EXPECT_EQ(argument.getType(mContext), PrimitiveTypes::FLOAT_TYPE);
 }
+
+TEST_F(BuilderArgumentTest, releaseOwnershipTest) {
+  string argumentSpecifier("withFieldA");
+  BuilderArgument argument(argumentSpecifier, mFieldExpression);
+  
+  EXPECT_CALL(*mFieldExpression, releaseOwnership(_)).Times(1);
+  
+  argument.releaseOwnership(mContext);
+}

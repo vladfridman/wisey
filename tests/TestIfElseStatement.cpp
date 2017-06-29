@@ -116,3 +116,7 @@ TEST_F(IfElseStatementTest, generateIRTest) {
 TEST_F(TestFileSampleRunner, ifThenElseStatementRunTest) {
   runFile("tests/samples/test_if_then_else_statement.yz", "7");
 }
+
+TEST_F(TestFileSampleRunner, ifThenElseStatementWithClearedObjectsRunTest) {
+  runFile("tests/samples/test_if_then_else_statement_with_cleared_objects.yz", "5");
+}

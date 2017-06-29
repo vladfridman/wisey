@@ -19,11 +19,12 @@ Assignment::~Assignment() {
 }
 
 Value* Assignment::generateIR(IRGenerationContext& context) const {
-  IVariable* variable = context.getScopes().getVariable(mIdentifier->getName());
+  IVariable* variable = context.getScopes().getVariableForAssignement(mIdentifier->getName());
   if (variable == NULL) {
-    Log::e("undeclared variable " + mIdentifier->getName());
+    Log::e("Undeclared variable " + mIdentifier->getName());
     exit(1);
   }
+  context.getScopes().eraseFromClearedVariables(variable);
   
   const IType* assignToType = getType(context);
   TypeKind assignToTypeKind = assignToType->getTypeKind();

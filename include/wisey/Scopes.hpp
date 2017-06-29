@@ -23,6 +23,7 @@ namespace wisey {
  */
 class Scopes {
   std::list<Scope *> mScopes;
+  std::map<std::string, IVariable*> mClearedVariables;
 
 public:
   Scopes() {}
@@ -34,6 +35,11 @@ public:
    * the parent scopes.
    */
   IVariable* getVariable(std::string name);
+  
+  /**
+   * Same as getVariable() but also returns cleared variables
+   */
+  IVariable* getVariableForAssignement(std::string name);
 
   /**
    * Remove reference to a variable
@@ -45,6 +51,21 @@ public:
    */
   void setVariable(IVariable* variable);
 
+  /**
+   * Returns the map of cleared variables
+   */
+  std::map<std::string, IVariable*> getClearedVariables();
+  
+  /**
+   * Sets the map of cleared variables to the given one
+   */
+  void setClearedVariables(std::map<std::string, IVariable*> clearedVariables);
+  
+  /**
+   * Erase from cleared variables the given variable
+   */
+  void eraseFromClearedVariables(IVariable* variable);
+  
   /**
    * Pushes a new program scope on the stack of program scopes
    */

@@ -258,6 +258,9 @@ void Node::initializeFixedFields(IRGenerationContext& context,
       exit(1);
     }
     IRWriter::newStoreInst(context, argumentValue, fieldPointer);
+    if (IType::isOwnerType(field->getType())) {
+      argument->releaseOwnership(context);
+    }
   }
 }
 

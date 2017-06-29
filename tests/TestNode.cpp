@@ -15,6 +15,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "TestFileSampleRunner.hpp"
+
 #include "wisey/IRWriter.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/Node.hpp"
@@ -469,4 +471,8 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   EXPECT_EXIT(mSimpleNode->build(mContext, argumentList),
               ::testing::ExitedWithCode(1),
               expected);
+}
+
+TEST_F(TestFileSampleRunner, ifLinkListRunTest) {
+  runFile("tests/samples/test_linklist.yz", "9");
 }

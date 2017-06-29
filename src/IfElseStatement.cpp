@@ -10,6 +10,7 @@
 #include "wisey/IRWriter.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
 
 IfElseStatement::~IfElseStatement() {
@@ -28,12 +29,20 @@ Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createConditionalBranch(context, ifThen, ifElse, conditionValue);
   
   context.setBasicBlock(ifThen);
+  map<string, IVariable*> clearedVariablesBefore = context.getScopes().getClearedVariables();
   mThenStatement->generateIR(context);
+  map<string, IVariable*> clearedVariablesAfter = context.getScopes().getClearedVariables();
   IRWriter::createBranch(context, ifEnd);
   
   context.setBasicBlock(ifElse);
+  context.getScopes().setClearedVariables(clearedVariablesBefore);
   mElseStatement->generateIR(context);
   IRWriter::createBranch(context, ifEnd);
+  for (map<string, IVariable*>::iterator iterator = clearedVariablesAfter.begin();
+       iterator != clearedVariablesAfter.end();
+       iterator++) {
+    context.getScopes().clearVariable(iterator->first);
+  }
   
   context.setBasicBlock(ifEnd);
 
