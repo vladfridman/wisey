@@ -32,7 +32,7 @@ public:
   /**
    * Returns the object type corresponding to the exception in this catch clause
    */
-  Model* getType(IRGenerationContext& context) const;
+  ModelOwner* getType(IRGenerationContext& context) const;
   
   /**
    * Generate IR for this catch for a given exception and add it to the given basic block

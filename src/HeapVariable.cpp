@@ -38,6 +38,7 @@ Value* HeapVariable::generateIdentifierIR(IRGenerationContext& context,
     Log::e("Variable '" + mName + "' is used before it has been initialized.");
     exit(1);
   }
+  
   return mValue;
 }
 
@@ -59,9 +60,11 @@ void HeapVariable::free(IRGenerationContext& context) const {
     return;
   }
   
+  Value* objectPointer = IRWriter::newLoadInst(context, mValue, "variableObject");
+  
   Value* thisPointer = mType->getTypeKind() == INTERFACE_OWNER_TYPE
-    ? Interface::getOriginalObject(context, mValue)
-    : mValue;
+    ? Interface::getOriginalObject(context, objectPointer)
+    : objectPointer;
   
   IRWriter::createFree(context, thisPointer);
 }

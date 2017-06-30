@@ -76,5 +76,5 @@ public:
 };
 
 TEST_F(CatchTest, getTypeTest) {
-  EXPECT_EQ(mCatch->getType(mContext), mModel);
+  EXPECT_EQ(mCatch->getType(mContext), (ModelOwner*) mModel->getOwner());
 }

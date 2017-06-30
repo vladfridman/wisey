@@ -68,11 +68,16 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
   Value* expressionValue = mExpression->generateIR(context);
+  const IType* expressionType = mExpression->getType(context);
+  Value* object = IType::isOwnerType(expressionType)
+    ? IRWriter::newLoadInst(context, expressionValue, "interfaceObject")
+    : expressionValue;
+
   FunctionType* functionType =
     IMethodDescriptor::getLLVMFunctionType(methodDescriptor, context, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
-  IRWriter::newBitCastInst(context, expressionValue, pointerToVTablePointer);
+  IRWriter::newBitCastInst(context, object, pointerToVTablePointer);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
@@ -106,7 +111,12 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Type* returnLLVMType,
                                       IMethodDescriptor* methodDescriptor) const {
   vector<Value*> arguments;
-  arguments.push_back(mExpression->generateIR(context));
+  Value* expressionValue = mExpression->generateIR(context);
+  const IType* expressionType = mExpression->getType(context);
+  Value* object = IType::isOwnerType(expressionType)
+    ? IRWriter::newLoadInst(context, expressionValue, "object")
+    : expressionValue;
+  arguments.push_back(object);
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {
@@ -118,10 +128,13 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                                          callArgumentType,
                                                          callArgumentValue,
                                                          methodArgumentType);
-    if (IType::isOwnerType(methodArgument->getType())) {
+    if (!IType::isOwnerType(methodArgument->getType())) {
+      arguments.push_back(callArgumentValueCasted);
+    } else {
+      Value* callArgumentValueLoaded = IRWriter::newLoadInst(context, callArgumentValueCasted, "");
       callArgument->releaseOwnership(context);
+      arguments.push_back(callArgumentValueLoaded);
     }
-    arguments.push_back(callArgumentValueCasted);
     methodArgumentIterator++;
   }
   string resultName = returnLLVMType->isVoidTy() ? "" : "call";
@@ -134,13 +147,23 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   }
   
   const IType* returnType = methodDescriptor->getReturnType();
-  if (returnType->getTypeKind() != PRIMITIVE_TYPE) {
-    string variableName = IVariable::getTemporaryVariableName(this);
-    HeapVariable* tempVariable = new HeapVariable(variableName, returnType, result);
-    context.getScopes().setVariable(tempVariable);
+  if (returnType->getTypeKind() == PRIMITIVE_TYPE) {
+    return result;
   }
   
-  return result;
+  string variableName = IVariable::getTemporaryVariableName(this);
+
+  if (!IType::isOwnerType(returnType)) {
+    HeapVariable* tempVariable = new HeapVariable(variableName, returnType, result);
+    context.getScopes().setVariable(tempVariable);
+    return result;
+  }
+  
+  Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
+  IRWriter::newStoreInst(context, result, pointer);
+  HeapVariable* tempVariable = new HeapVariable(variableName, returnType, pointer);
+  context.getScopes().setVariable(tempVariable);
+  return pointer;
 }
 
 const IType* MethodCall::getType(IRGenerationContext& context) const {

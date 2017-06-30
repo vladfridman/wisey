@@ -300,10 +300,14 @@ void Model::initializeFields(IRGenerationContext& context,
              " does not match its type");
       exit(1);
     }
-    IRWriter::newStoreInst(context, argumentValue, fieldPointer);
-    if (IType::isOwnerType(field->getType())) {
-      argument->releaseOwnership(context);
+    if (!IType::isOwnerType(field->getType())) {
+      IRWriter::newStoreInst(context, argumentValue, fieldPointer);
+      continue;
     }
+    
+    Value* object = IRWriter::newLoadInst(context, argumentValue, "modelFieldObject");
+    IRWriter::newStoreInst(context, object, fieldPointer);
+    argument->releaseOwnership(context);
   }
 }
 

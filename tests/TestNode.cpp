@@ -377,9 +377,11 @@ TEST_F(NodeTest, getMissingFieldsTest) {
 
 TEST_F(NodeTest, buildTest) {
   string argumentSpecifier1("withLeft");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
   string argumentSpecifier2("withRight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2, mField2Expression);
+  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+                                                               mField2Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
@@ -416,9 +418,11 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   Mock::AllowLeak(mField2Expression);
   
   string argumentSpecifier1("left");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
   string argumentSpecifier2("withRight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2, mField2Expression);
+  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+                                                               mField2Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
@@ -442,9 +446,11 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
   ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
   string argumentSpecifier1("withLeft");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
   string argumentSpecifier2("withRight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2, mField2Expression);
+  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+                                                               mField2Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
@@ -459,7 +465,8 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(mField2Expression);
   
   string argumentSpecifier1("withRight");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   
@@ -473,6 +480,6 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
               expected);
 }
 
-TEST_F(TestFileSampleRunner, ifLinkListRunTest) {
+TEST_F(TestFileSampleRunner, linkListRunTest) {
   runFile("tests/samples/test_linklist.yz", "9");
 }

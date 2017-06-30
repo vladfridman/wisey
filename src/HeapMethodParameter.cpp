@@ -44,16 +44,15 @@ Value* HeapMethodParameter::generateAssignmentIR(IRGenerationContext& context,
 }
 
 void HeapMethodParameter::free(IRGenerationContext& context) const {
-  TypeKind typeKind = mType->getTypeKind();
-  if (typeKind != INTERFACE_OWNER_TYPE &&
-      typeKind != MODEL_OWNER_TYPE &&
-      typeKind != CONTROLLER_OWNER_TYPE) {
+  if (!IType::isOwnerType(mType)) {
     return;
   }
   
+  Value* objectPointer = IRWriter::newLoadInst(context, mValue, "parameterObject");
+  
   Value* thisPointer = mType->getTypeKind() == INTERFACE_OWNER_TYPE
-    ? Interface::getOriginalObject(context, mValue)
-    : mValue;
+  ? Interface::getOriginalObject(context, objectPointer)
+  : objectPointer;
   
   IRWriter::createFree(context, thisPointer);
 }

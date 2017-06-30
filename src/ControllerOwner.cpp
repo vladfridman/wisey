@@ -7,6 +7,7 @@
 //
 
 #include "wisey/ControllerOwner.hpp"
+#include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -50,10 +51,16 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
   if (toType == this) {
     return fromValue;
   }
+
+  Value* object = IRWriter::newLoadInst(context, fromValue, "controllerObject");
   
-  if (IType::isOwnerType(toType)) {
-    return mController->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+  if (!IType::isOwnerType(toType)) {
+    return mController->castTo(context, object, toType);
   }
   
-  return mController->castTo(context, fromValue, toType);
+  Value* cast = mController->castTo(context, object, ((IObjectOwnerType*) toType)->getObject());
+  Value* pointer = IRWriter::newAllocaInst(context, cast->getType(), "castedController");
+  IRWriter::newStoreInst(context, cast, pointer);
+  
+  return pointer;
 }

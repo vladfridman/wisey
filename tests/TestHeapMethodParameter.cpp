@@ -13,6 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
+#include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
 #include "wisey/HeapMethodParameter.hpp"
@@ -34,6 +35,8 @@ struct HeapMethodParameterTest : public Test {
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
   Model* mModel;
+  string mStringBuffer;
+  raw_string_ostream* mStringStream;
   
 public:
   
@@ -60,7 +63,9 @@ public:
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     mModel = new Model(modelFullName, structType);
     mModel->setFields(fields);
-  }
+
+    mStringStream = new raw_string_ostream(mStringBuffer);
+}
 };
 
 TEST_F(HeapMethodParameterTest, heapVariableAssignmentDeathTest) {
@@ -79,15 +84,23 @@ TEST_F(HeapMethodParameterTest, heapVariableIdentifierTest) {
 }
 
 TEST_F(HeapMethodParameterTest, freeTest) {
-  Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
+  Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext)->getPointerTo());
   HeapMethodParameter heapMethodParameter("foo", mModel->getOwner(), fooValue);
   
   EXPECT_EQ(mBlock->size(), 0u);
   
   heapMethodParameter.free(mContext);
   
-  EXPECT_EQ(mBlock->size(), 2u);
-  BasicBlock::iterator iterator = mBlock->begin();
-  EXPECT_TRUE(BitCastInst::classof(&(*iterator)));
-  EXPECT_TRUE(CallInst::classof(&(*++iterator)));
+  EXPECT_EQ(mBlock->size(), 3u);
+
+  *mStringStream << *mBlock;
+
+  string expected =
+  "\nentry:"
+  "\n  %parameterObject = load i32*, i32** null"
+  "\n  %0 = bitcast i32* %parameterObject to i8*"
+  "\n  tail call void @free(i8* %0)\n";
+
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }

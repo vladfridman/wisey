@@ -151,43 +151,48 @@ TEST_F(ControllerOwnerTest, castToItselfTest) {
 
 TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext)->getPointerTo());
   mMultiplierController->getOwner()->castTo(mContext,
                                             pointer,
                                             mScienceCalculatorInterface->getOwner());
-  ASSERT_EQ(mBasicBlock->size(), 1u);
+  EXPECT_EQ(mBasicBlock->size(), 4u);
   
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to "
-               "%systems.vos.wisey.compiler.tests.IScienceCalculator*");
+  *mStringStream << *mBasicBlock;
+  string expected =
+    "\nentry:"
+    "\n  %controllerObject = load %systems.vos.wisey.compiler.tests.CMultiplier*, "
+      "%systems.vos.wisey.compiler.tests.CMultiplier** null"
+    "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* %controllerObject to "
+      "%systems.vos.wisey.compiler.tests.IScienceCalculator*"
+    "\n  %castedController = alloca %systems.vos.wisey.compiler.tests.IScienceCalculator*"
+    "\n  store %systems.vos.wisey.compiler.tests.IScienceCalculator* %0, "
+      "%systems.vos.wisey.compiler.tests.IScienceCalculator** %castedController\n";
+
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
 TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext)->getPointerTo());
   mMultiplierController->getOwner()->castTo(mContext,
                                             pointer,
                                             mCalculatorInterface->getOwner());
-  ASSERT_EQ(mBasicBlock->size(), 3u);
+  EXPECT_EQ(mBasicBlock->size(), 6u);
   
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*");
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %controllerObject = load %systems.vos.wisey.compiler.tests.CMultiplier*, "
+  "%systems.vos.wisey.compiler.tests.CMultiplier** null"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* %controllerObject to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*"
+  "\n  %castedController = alloca %systems.vos.wisey.compiler.tests.ICalculator*"
+  "\n  store %systems.vos.wisey.compiler.tests.ICalculator* %2, "
+    "%systems.vos.wisey.compiler.tests.ICalculator** %castedController\n";
+
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 

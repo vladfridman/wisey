@@ -8,6 +8,7 @@
 
 #include "wisey/Environment.hpp"
 #include "wisey/InterfaceInjector.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/HeapVariable.hpp"
 
 using namespace llvm;
@@ -25,18 +26,22 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   ExpressionList arguments;
   Instruction* malloc = controller->inject(context, arguments);
   
+  Type* type = malloc->getType();
+  Value* pointer = IRWriter::newAllocaInst(context, type, "pointer");
+  IRWriter::newStoreInst(context, malloc, pointer);
+  
   HeapVariable* heapVariable = new HeapVariable(IVariable::getTemporaryVariableName(this),
                                                 controller->getOwner(),
-                                                malloc);
+                                                pointer);
   context.getScopes().setVariable(heapVariable);
   
-  return malloc;
+  return pointer;
 }
 
 const IType* InterfaceInjector::getType(IRGenerationContext& context) const {
   Interface* interface = (Interface*) mInterfaceTypeSpecifier->getType(context);
   Controller* controller = context.getBoundController(interface);
-  return controller;
+  return controller->getOwner();
 }
 
 void InterfaceInjector::releaseOwnership(IRGenerationContext& context) const {

@@ -86,28 +86,38 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  HeapVariable* foo = new HeapVariable("foo", mModel->getOwner(), fooMalloc);
+  Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
+  IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
+  HeapVariable* foo = new HeapVariable("foo", mModel->getOwner(), fooPointer);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  HeapVariable* bar = new HeapVariable("bar", mModel->getOwner(), barMalloc);
+  Value* barPointer = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "pointer");
+  IRWriter::newStoreInst(mContext, barMalloc, barPointer);
+  HeapVariable* bar = new HeapVariable("bar", mModel->getOwner(), barPointer);
   mContext.getScopes().setVariable(bar);
   
   ReturnVoidStatement returnStatement;
   
   returnStatement.generateIR(mContext);
   
-  ASSERT_EQ(5ul, basicBlock->size());
+  EXPECT_EQ(basicBlock->size(), 11u);
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
     "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+  "\n  %pointer = alloca i8*"
+  "\n  store i8* %malloccall, i8** %pointer"
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
     "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  tail call void @free(i8* %malloccall1)"
-  "\n  tail call void @free(i8* %malloccall)"
+  "\n  %pointer2 = alloca i8*"
+  "\n  store i8* %malloccall1, i8** %pointer2"
+  "\n  %variableObject = load i8*, i8** %pointer2"
+  "\n  tail call void @free(i8* %variableObject)"
+  "\n  %variableObject3 = load i8*, i8** %pointer"
+  "\n  tail call void @free(i8* %variableObject3)"
   "\n  ret void\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }

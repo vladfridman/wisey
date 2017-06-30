@@ -29,12 +29,14 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  Value* returnValue = AutoCast::maybeCast(context,
-                                           mExpression->getType(context),
-                                           mExpression->generateIR(context),
-                                           returnType);
+  Value* cast = AutoCast::maybeCast(context,
+                                    mExpression->getType(context),
+                                    mExpression->generateIR(context),
+                                    returnType);
+  Value* returnValue = cast;
   
   if (IType::isOwnerType(returnType)) {
+    returnValue = IRWriter::newLoadInst(context, cast, "returnObject");
     mExpression->releaseOwnership(context);
   } else if (returnType->getTypeKind() != PRIMITIVE_TYPE &&
              !mExpression->existsInOuterScope(context)) {

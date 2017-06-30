@@ -35,7 +35,7 @@ controller CProgram implements IProgram {
   public int run() {
     try {
       return mCatcher.doTryCatch();
-    } catch (MException exception) {
+    } catch (MException* exception) {
       return 5;
     }
 

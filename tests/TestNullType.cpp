@@ -78,11 +78,12 @@ TEST_F(NullTypeTest, castToTest) {
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = new Model(modelFullName, structType);
   
-  Value* expected = ConstantExpr::getNullValue(structType->getPointerTo());
-  ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, model), expected);
-  ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner()), expected);
+  ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, model),
+            (Value*) ConstantExpr::getNullValue(structType->getPointerTo()));
+  ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner()),
+            (Value*) ConstantExpr::getNullValue(structType->getPointerTo()->getPointerTo()));
 
-  expected = ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   NullType anotherNullType;
-  ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, &anotherNullType), expected);
+  ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, &anotherNullType),
+            (Value*) ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo()));
 }

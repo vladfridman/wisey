@@ -22,7 +22,7 @@ controller CCatcher {
     try {
       mThrower.doThrow();
       return 7;
-    } catch (MException exception) {
+    } catch (MException* exception) {
       return exception.getValue();
     }
     return 5;

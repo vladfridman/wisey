@@ -11,6 +11,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/HeapVariable.hpp"
 #include "wisey/IBuildableConcreteObjectType.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ObjectBuilder.hpp"
 
@@ -30,12 +31,15 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context) const {
   const IBuildableConcreteObjectType* object = mTypeSpecifier->getType(context);
   Instruction* malloc = object->build(context, mObjectBuilderArgumentList);
   
+  Value* alloc = IRWriter::newAllocaInst(context, malloc->getType(), "");
+  IRWriter::newStoreInst(context, malloc, alloc);
+
   HeapVariable* heapVariable = new HeapVariable(IVariable::getTemporaryVariableName(this),
                                                 object->getOwner(),
-                                                malloc);
+                                                alloc);
   context.getScopes().setVariable(heapVariable);
   
-  return malloc;
+  return alloc;
 }
 
 void ObjectBuilder::releaseOwnership(IRGenerationContext& context) const {

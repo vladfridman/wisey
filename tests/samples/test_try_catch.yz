@@ -21,7 +21,7 @@ controller CCatcher {
   public int doTryCatch() {
     try {
       mThrower.doThrow();
-    } catch (MException exception) {
+    } catch (MException* exception) {
       return exception.getValue();
     }
     return 5;

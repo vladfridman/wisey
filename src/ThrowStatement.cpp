@@ -42,8 +42,12 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
 
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* expressionValue = mExpression->generateIR(context);
+  Value* exceptionObject = IType::isOwnerType(expressionType)
+    ? IRWriter::newLoadInst(context, expressionValue, "exceptionObect")
+    : expressionValue;
+  
   BitCastInst* expressionValueBitcast =
-  IRWriter::newBitCastInst(context, expressionValue, int8PointerType);
+    IRWriter::newBitCastInst(context, exceptionObject, int8PointerType);
   BitCastInst* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
 
   Value* modelSize = model->getSize(context);

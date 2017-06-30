@@ -105,7 +105,6 @@ void ModelDefinition::createFieldVariables(IRGenerationContext& context,
   
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
-    
     types.push_back(fieldType->getLLVMType(llvmContext));
   }
 }

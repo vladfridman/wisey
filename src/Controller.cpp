@@ -261,7 +261,9 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
     
     string variableName = IVariable::getTemporaryVariableName(fieldValue);
-    HeapVariable* heapVariable = new HeapVariable(variableName, controller->getOwner(), fieldValue);
+    Value* alloc = IRWriter::newAllocaInst(context, fieldValue->getType(), "pointer");
+    IRWriter::newStoreInst(context, fieldValue, alloc);
+    HeapVariable* heapVariable = new HeapVariable(variableName, controller->getOwner(), alloc);
     context.getScopes().setVariable(heapVariable);
   }
 }

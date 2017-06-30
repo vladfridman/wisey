@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/IRWriter.hpp"
 #include "wisey/NodeOwner.hpp"
 
 using namespace llvm;
@@ -51,9 +52,15 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
   
-  if (IType::isOwnerType(toType)) {
-    return mNode->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+  Value* object = IRWriter::newLoadInst(context, fromValue, "nodeObject");
+  
+  if (!IType::isOwnerType(toType)) {
+    return mNode->castTo(context, object, toType);
   }
   
-  return mNode->castTo(context, fromValue, toType);
+  Value* cast = mNode->castTo(context, object, ((IObjectOwnerType*) toType)->getObject());
+  Value* pointer = IRWriter::newAllocaInst(context, cast->getType(), "castedNode");
+  IRWriter::newStoreInst(context, cast, pointer);
+  
+  return pointer;
 }

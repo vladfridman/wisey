@@ -114,18 +114,27 @@ void Method::storeArgumentValue(IRGenerationContext& context,
                                 std::string variableName,
                                 const IType* variableType,
                                 llvm::Value* variableValue) const {
-  if (variableType->getTypeKind() != PRIMITIVE_TYPE) {
-    IVariable* variable = new HeapMethodParameter(variableName, variableType, variableValue);
+  if (variableType->getTypeKind() == PRIMITIVE_TYPE) {
+    LLVMContext& llvmContext = context.getLLVMContext();
+    Type* llvmType = variableType->getLLVMType(llvmContext);
+    string newName = variableName + ".param";
+    AllocaInst *alloc = IRWriter::newAllocaInst(context, llvmType, newName);
+    IRWriter::newStoreInst(context, variableValue, alloc);
+    IVariable* variable = new StackVariable(variableName, variableType, alloc);
     context.getScopes().setVariable(variable);
     return;
   }
   
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* llvmType = variableType->getLLVMType(llvmContext);
-  string newName = variableName + ".param";
-  AllocaInst *alloc = IRWriter::newAllocaInst(context, llvmType, newName);
-  IRWriter::newStoreInst(context, variableValue, alloc);
-  IVariable* variable = new StackVariable(variableName, variableType, alloc);
+if (IType::isOwnerType(variableType)) {
+    Type* variableLLVMType = variableType->getLLVMType(context.getLLVMContext());
+    Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterObjectPointer");
+    IRWriter::newStoreInst(context, variableValue, alloc);
+    IVariable* variable = new HeapMethodParameter(variableName, variableType, alloc);
+    context.getScopes().setVariable(variable);
+    return;
+  }
+  
+  IVariable* variable = new HeapMethodParameter(variableName, variableType, variableValue);
   context.getScopes().setVariable(variable);
 }
 

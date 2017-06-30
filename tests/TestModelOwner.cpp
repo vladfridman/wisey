@@ -269,38 +269,43 @@ TEST_F(ModelOwnerTest, canAutoCastToTest) {
 
 TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mLLVMContext)->getPointerTo());
   mModel->getOwner()->castTo(mContext, pointer, mShapeInterface->getOwner());
-  ASSERT_EQ(mBasicBlock->size(), 1u);
+  EXPECT_EQ(mBasicBlock->size(), 4u);
   
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null "
-               "to %systems.vos.wisey.compiler.tests.IShape*");
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %modelObject = load %systems.vos.wisey.compiler.tests.MSquare*, "
+  "%systems.vos.wisey.compiler.tests.MSquare** null"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* %modelObject "
+    "to %systems.vos.wisey.compiler.tests.IShape*"
+  "\n  %castedObject = alloca %systems.vos.wisey.compiler.tests.IShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.IShape* %0, "
+  "%systems.vos.wisey.compiler.tests.IShape** %castedObject\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
 TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext)->getPointerTo());
   mModel->getOwner()->castTo(mContext, pointer, mSubShapeInterface->getOwner());
-  ASSERT_EQ(mBasicBlock->size(), 3u);
+  EXPECT_EQ(mBasicBlock->size(), 6u);
   
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*");
-  mStringBuffer.clear();
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %modelObject = load %systems.vos.wisey.compiler.tests.MSquare*, "
+  "%systems.vos.wisey.compiler.tests.MSquare** null"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* %modelObject to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ISubShape*"
+  "\n  %castedObject = alloca %systems.vos.wisey.compiler.tests.ISubShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.ISubShape* %2, "
+  "%systems.vos.wisey.compiler.tests.ISubShape** %castedObject\n";
   
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ISubShape*");
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }

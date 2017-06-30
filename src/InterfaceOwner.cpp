@@ -7,6 +7,7 @@
 //
 
 #include "wisey/InterfaceOwner.hpp"
+#include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -51,9 +52,15 @@ Value* InterfaceOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
   
-  if (IType::isOwnerType(toType)) {
-    return mInterface->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+  Value* object = IRWriter::newLoadInst(context, fromValue, "interfaceObject");
+  
+  if (!IType::isOwnerType(toType)) {
+    return mInterface->castTo(context, object, toType);
   }
   
-  return mInterface->castTo(context, fromValue, toType);
+  Value* cast = mInterface->castTo(context, object, ((IObjectOwnerType*) toType)->getObject());
+  Value* pointer = IRWriter::newAllocaInst(context, cast->getType(), "castedInterface");
+  IRWriter::newStoreInst(context, cast, pointer);
+  
+  return pointer;
 }

@@ -112,7 +112,7 @@ TEST_F(InterfaceInjectorTest, releaseOwnershipTest) {
 TEST_F(InterfaceInjectorTest, getTypeTest) {
   InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
   
-  EXPECT_EQ(interfaceInjector.getType(mContext), mController);
+  EXPECT_EQ(interfaceInjector.getType(mContext), mController->getOwner());
 }
 
 TEST_F(InterfaceInjectorTest, existsInOuterScopeTest) {

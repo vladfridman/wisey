@@ -10,9 +10,10 @@
 
 #include "wisey/Catch.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapVariable.hpp"
+#include "wisey/ModelOwner.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -23,11 +24,11 @@ Catch::~Catch() {
   delete mStatement;
 }
 
-Model* Catch::getType(IRGenerationContext& context) const {
+ModelOwner* Catch::getType(IRGenerationContext& context) const {
   const IType* argumentType = mTypeSpecifier->getType(context);
   assert(argumentType->getTypeKind() == MODEL_TYPE);
   
-  return (Model*) argumentType;
+  return (ModelOwner*) ((Model*) argumentType)->getOwner();
 }
 
 void Catch::generateIR(IRGenerationContext& context,
@@ -42,7 +43,7 @@ void Catch::generateIR(IRGenerationContext& context,
   context.getScopes().pushScope();
   context.setBasicBlock(catchBlock);
   
-  Model* exceptionType = getType(context);
+  IObjectOwnerType* exceptionType = getType(context);
   PointerType* exceptionLLVMType = exceptionType->getLLVMType(llvmContext);
   Type* exceptionStructLLVMType = exceptionLLVMType->getPointerElementType();
   vector<Value*> arguments;
@@ -67,9 +68,10 @@ void Catch::generateIR(IRGenerationContext& context,
   vector<Value*> endCatchArguments;
   IRWriter::createCallInst(context, endCatchFunction, endCatchArguments, "");
   
-  IVariable* exceptionVariable = new HeapVariable(mIdentifier,
-                                                       exceptionType->getOwner(),
-                                                       malloc);
+  Value* pointer = IRWriter::newAllocaInst(context, malloc->getType(), "exceptionPointer");
+  IRWriter::newStoreInst(context, malloc, pointer);
+  
+  IVariable* exceptionVariable = new HeapVariable(mIdentifier, exceptionType, pointer);
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);
   mStatement->generateIR(context);
   context.getScopes().popScope(context);
