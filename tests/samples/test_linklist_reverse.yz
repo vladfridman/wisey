@@ -88,12 +88,13 @@ controller CProgram implements IProgram {
     mLinkList.appendToHead(builder(MData).withValue(1).build());
     mLinkList.appendToTail(builder(MData).withValue(3).build());
     mLinkList.appendToTail(builder(MData).withValue(4).build());
+    // link list looks like this: 1, 2, 3, 4
 
     mLinkList.reverse();
-    
+    // link list looks like this: 4, 3, 2, 1
+
     return mLinkList.getHead().getData().getValue() +
-      mLinkList.getHead().getNext().getNext().getNext().getData().getValue() +
-      mLinkList.getTail().getData().getValue();
+      mLinkList.getHead().getNext().getData().getValue();
   }
 }
 

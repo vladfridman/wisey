@@ -74,6 +74,18 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context) 
   Value* leftValue = mLeftExpression->generateIR(context);
   Value* rightValue = mRightExpression->generateIR(context);
   
+  if (IType::isOwnerType(leftType)) {
+    IType* objectType = ((IObjectOwnerType*) leftType)->getObject();
+    leftValue = leftType->castTo(context, leftValue, objectType);
+    leftType = objectType;
+  }
+  
+  if (IType::isOwnerType(rightType)) {
+    IType* objectType = ((IObjectOwnerType*) rightType)->getObject();
+    rightValue = rightType->castTo(context, rightValue, objectType);
+    rightType = objectType;
+  }
+  
   if (leftType == rightType) {
     return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
   }

@@ -10,6 +10,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/NullType.hpp"
 
 using namespace llvm;
@@ -38,11 +39,15 @@ bool NullType::canAutoCastTo(const IType* toType) const {
 
 Value* NullType::castTo(IRGenerationContext& context, Value* fromValue, const IType* toType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* toLLVMType = IType::isOwnerType(toType)
-    ? toType->getLLVMType(llvmContext)->getPointerTo()
-    : toType->getLLVMType(llvmContext);
+  Type* toLLVMType = toType->getLLVMType(llvmContext);
+  Value* nullValue = ConstantExpr::getNullValue(toType->getLLVMType(llvmContext));
+  if (!IType::isOwnerType(toType)) {
+    return nullValue;
+  }
   
-  return ConstantExpr::getNullValue(toLLVMType);
+  Value* pointer = IRWriter::newAllocaInst(context, toLLVMType, "nullStore");
+  IRWriter::newStoreInst(context, nullValue, pointer);
+  return pointer;
 }
 
 NullType* NullType::NULL_TYPE = new NullType();

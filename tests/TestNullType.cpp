@@ -12,6 +12,7 @@
 
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
+#include <llvm/Support/raw_ostream.h>
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -27,9 +28,24 @@ struct NullTypeTest : public Test {
 
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
+  BasicBlock* mBasicBlock;
+  string mStringBuffer;
+  Function* mFunction;
+  raw_string_ostream* mStringStream;
   
-  NullTypeTest() : mLLVMContext(mContext.getLLVMContext()) { }
+  NullTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "test",
+                                 mContext.getModule());
 
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
+    mContext.setBasicBlock(mBasicBlock);
+    mContext.getScopes().pushScope();
+    
+    mStringStream = new raw_string_ostream(mStringBuffer);
+  }
 };
 
 TEST_F(NullTypeTest, getNameTest) {
@@ -78,10 +94,18 @@ TEST_F(NullTypeTest, castToTest) {
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = new Model(modelFullName, structType);
   
-  ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, model),
-            (Value*) ConstantExpr::getNullValue(structType->getPointerTo()));
-  ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner()),
-            (Value*) ConstantExpr::getNullValue(structType->getPointerTo()->getPointerTo()));
+  Value* nullForReference = NullType::NULL_TYPE->castTo(mContext, NULL, model);
+  EXPECT_EQ(nullForReference, (Value*) ConstantExpr::getNullValue(structType->getPointerTo()));
+  NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner());
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %nullStore = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, "
+  "%systems.vos.wisey.compiler.tests.MSquare** %nullStore\n";
+  
+  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  mStringBuffer.clear();
 
   NullType anotherNullType;
   ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, &anotherNullType),

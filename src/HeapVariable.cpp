@@ -46,7 +46,14 @@ Value* HeapVariable::generateAssignmentIR(IRGenerationContext& context,
                                           IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
-  mValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
+  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
+
+  if (IType::isOwnerType(mType)) {
+    Value* object = IRWriter::newLoadInst(context, newValue, "assignToObject");
+    IRWriter::newStoreInst(context, object, mValue);
+  } else {
+    mValue = newValue;
+  }
   
   return mValue;
 }

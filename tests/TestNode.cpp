@@ -483,3 +483,7 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
 TEST_F(TestFileSampleRunner, linkListRunTest) {
   runFile("tests/samples/test_linklist.yz", "9");
 }
+
+TEST_F(TestFileSampleRunner, linkListReverseRunTest) {
+  runFile("tests/samples/test_linklist_reverse.yz", "7");
+}

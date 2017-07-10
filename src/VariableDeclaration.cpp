@@ -81,8 +81,11 @@ Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
 
   string variableName = mId->getName();
   const IType* type = mTypeSpecifier->getType(context);
+  Value* value = IType::isOwnerType(type)
+  ? IRWriter::newAllocaInst(context, type->getLLVMType(context.getLLVMContext()), "heapObject")
+  : NULL;
   
-  HeapVariable* uninitializedHeapVariable = new HeapVariable(variableName, type, NULL);
+  HeapVariable* uninitializedHeapVariable = new HeapVariable(variableName, type, value);
   context.getScopes().setVariable(uninitializedHeapVariable);
 
   return NULL;
