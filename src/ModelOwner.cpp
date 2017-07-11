@@ -52,15 +52,9 @@ Value* ModelOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
 
-  Value* object = IRWriter::newLoadInst(context, fromValue, "modelObject");
-  
   if (!IType::isOwnerType(toType)) {
-    return mModel->castTo(context, object, toType);
+    return mModel->castTo(context, fromValue, toType);
   }
   
-  Value* cast = mModel->castTo(context, object, ((IObjectOwnerType*) toType)->getObject());
-  Value* pointer = IRWriter::newAllocaInst(context, cast->getType(), "castedObject");
-  IRWriter::newStoreInst(context, cast, pointer);
-
-  return pointer;
+  return mModel->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
 }

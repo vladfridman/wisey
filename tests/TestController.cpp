@@ -299,8 +299,7 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
   mMultiplierController->castTo(mContext, pointer, mScienceCalculatorInterface);
   ASSERT_EQ(mBasicBlock->size(), 1u);
   
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
+  *mStringStream << *mBasicBlock->begin();
   EXPECT_STREQ(mStringStream->str().c_str(),
               "  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to "
                "%systems.vos.wisey.compiler.tests.IScienceCalculator*");

@@ -33,10 +33,7 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                     mExpression->getType(context),
                                     mExpression->generateIR(context),
                                     returnType);
-  Value* returnValue = cast;
-  
   if (IType::isOwnerType(returnType)) {
-    returnValue = IRWriter::newLoadInst(context, cast, "returnObject");
     mExpression->releaseOwnership(context);
   } else if (returnType->getTypeKind() != PRIMITIVE_TYPE &&
              !mExpression->existsInOuterScope(context)) {
@@ -46,6 +43,6 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   
   context.getScopes().freeOwnedMemory(context);
   
-  return IRWriter::createReturnInst(context, returnValue);
+  return IRWriter::createReturnInst(context, cast);
 }
 

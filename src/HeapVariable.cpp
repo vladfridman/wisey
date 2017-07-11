@@ -38,8 +38,12 @@ Value* HeapVariable::generateIdentifierIR(IRGenerationContext& context,
     Log::e("Variable '" + mName + "' is used before it has been initialized.");
     exit(1);
   }
+
+  if (!IType::isOwnerType(mType)) {
+    return mValue;
+  }
   
-  return mValue;
+  return IRWriter::newLoadInst(context, mValue, "heapObjectIdentifier");
 }
 
 Value* HeapVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -49,8 +53,7 @@ Value* HeapVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
 
   if (IType::isOwnerType(mType)) {
-    Value* object = IRWriter::newLoadInst(context, newValue, "assignToObject");
-    IRWriter::newStoreInst(context, object, mValue);
+    IRWriter::newStoreInst(context, newValue, mValue);
   } else {
     mValue = newValue;
   }

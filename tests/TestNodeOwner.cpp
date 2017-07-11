@@ -276,44 +276,31 @@ TEST_F(NodeOwnerTest, canAutoCastToTest) {
 }
 
 TEST_F(NodeOwnerTest, castToFirstInterfaceTest) {
-  PointerType* type = mComplicatedNode->getOwner()->getLLVMType(mLLVMContext)->getPointerTo();
+  PointerType* type = mComplicatedNode->getOwner()->getLLVMType(mLLVMContext);
   ConstantPointerNull* pointer = ConstantPointerNull::get(type);
   mComplicatedNode->getOwner()->castTo(mContext, pointer, mComplicatedElementInterface->getOwner());
-  EXPECT_EQ(mBasicBlock->size(), 4u);
+  EXPECT_EQ(mBasicBlock->size(), 1u);
   
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %nodeObject = load %systems.vos.wisey.compiler.tests.NComplicatedNode*, "
-  "%systems.vos.wisey.compiler.tests.NComplicatedNode** null"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* %nodeObject "
-  "to %systems.vos.wisey.compiler.tests.IComplicatedElement*"
-  "\n  %castedNode = alloca %systems.vos.wisey.compiler.tests.IComplicatedElement*"
-  "\n  store %systems.vos.wisey.compiler.tests.IComplicatedElement* %0, "
-  "%systems.vos.wisey.compiler.tests.IComplicatedElement** %castedNode\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  *mStringStream << *mBasicBlock->begin();
+  EXPECT_STREQ(mStringStream->str().c_str(),
+               "  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to "
+               "%systems.vos.wisey.compiler.tests.IComplicatedElement*");
   mStringBuffer.clear();
 }
 
 
 TEST_F(NodeOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-    ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext)->getPointerTo());
+    ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
   mComplicatedNode->getOwner()->castTo(mContext, pointer, mElementInterface->getOwner());
-  EXPECT_EQ(mBasicBlock->size(), 6u);
+  EXPECT_EQ(mBasicBlock->size(), 3u);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %nodeObject = load %systems.vos.wisey.compiler.tests.NComplicatedNode*, "
-  "%systems.vos.wisey.compiler.tests.NComplicatedNode** null"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* %nodeObject to i8*"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
   "\n  %1 = getelementptr i8, i8* %0, i64 8"
-  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IElement*"
-  "\n  %castedNode = alloca %systems.vos.wisey.compiler.tests.IElement*"
-  "\n  store %systems.vos.wisey.compiler.tests.IElement* %2, "
-  "%systems.vos.wisey.compiler.tests.IElement** %castedNode\n";
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IElement*\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

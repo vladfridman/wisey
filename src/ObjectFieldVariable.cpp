@@ -45,10 +45,6 @@ Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
   GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context,
                                                                       thisVariable->getValue(),
                                                                       index);
-  if (IType::isOwnerType(field->getType())) {
-    return fieldPointer;
-  }
-  
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
@@ -67,8 +63,6 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                     assignToExpression->generateIR(context),
                                     toType);
   
-  Value* assignToValue = IType::isOwnerType(toType)
-    ? IRWriter::newLoadInst(context, cast, "") : cast;
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
@@ -78,7 +72,7 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                                                       thisVariable->getValue(),
                                                                       index);
   
-  return IRWriter::newStoreInst(context, assignToValue, fieldPointer);
+  return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
 
 void ObjectFieldVariable::free(IRGenerationContext& context) const {

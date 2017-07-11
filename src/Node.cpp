@@ -257,14 +257,10 @@ void Node::initializeFixedFields(IRGenerationContext& context,
              " does not match its type");
       exit(1);
     }
-    if (!IType::isOwnerType(field->getType())) {
-      IRWriter::newStoreInst(context, argumentValue, fieldPointer);
-      continue;
+    IRWriter::newStoreInst(context, argumentValue, fieldPointer);
+    if (IType::isOwnerType(field->getType())) {
+      argument->releaseOwnership(context);
     }
-    
-    Value* object = IRWriter::newLoadInst(context, argumentValue, "nodeBuilderArgumentObject");
-    IRWriter::newStoreInst(context, object, fieldPointer);
-    argument->releaseOwnership(context);
   }
 }
 

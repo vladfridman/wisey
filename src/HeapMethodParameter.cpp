@@ -34,7 +34,11 @@ Value* HeapMethodParameter::getValue() const {
 
 Value* HeapMethodParameter::generateIdentifierIR(IRGenerationContext& context,
                                                  string llvmVariableName) const {
-  return mValue;
+  if (!IType::isOwnerType(mType)) {
+    return mValue;
+  }
+  
+  return IRWriter::newLoadInst(context, mValue, "parameterObjectIdentifier");
 }
 
 Value* HeapMethodParameter::generateAssignmentIR(IRGenerationContext& context,

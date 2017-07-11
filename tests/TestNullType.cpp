@@ -96,18 +96,10 @@ TEST_F(NullTypeTest, castToTest) {
   
   Value* nullForReference = NullType::NULL_TYPE->castTo(mContext, NULL, model);
   EXPECT_EQ(nullForReference, (Value*) ConstantExpr::getNullValue(structType->getPointerTo()));
-  NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner());
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %nullStore = alloca %systems.vos.wisey.compiler.tests.MSquare*"
-  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, "
-  "%systems.vos.wisey.compiler.tests.MSquare** %nullStore\n";
+  EXPECT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner()),
+            (Value*) ConstantExpr::getNullValue(model->getLLVMType(mLLVMContext)));
   
-  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
-  mStringBuffer.clear();
-
   NullType anotherNullType;
-  ASSERT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, &anotherNullType),
-            (Value*) ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo()));
+  EXPECT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, &anotherNullType),
+          (Value*) ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo()));
 }

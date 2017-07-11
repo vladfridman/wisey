@@ -35,7 +35,7 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
                                                 pointer);
   context.getScopes().setVariable(heapVariable);
   
-  return pointer;
+  return malloc;
 }
 
 const IType* InterfaceInjector::getType(IRGenerationContext& context) const {
