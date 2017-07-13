@@ -41,7 +41,7 @@ unsigned long MethodSignature::getIndex() const {
   return mIndex;
 }
 
-vector<const IType*> MethodSignature::getThrownExceptions() const {
+vector<const Model*> MethodSignature::getThrownExceptions() const {
   return mThrownExceptions;
 }
 

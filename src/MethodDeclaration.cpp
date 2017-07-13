@@ -44,8 +44,8 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
   
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   
-  vector<const IType*> thrownExceptions;
-  for (ITypeSpecifier* exceptionTypeSpecifier : mExceptions) {
+  vector<const Model*> thrownExceptions;
+  for (ModelTypeSpecifier* exceptionTypeSpecifier : mExceptions) {
     thrownExceptions.push_back(exceptionTypeSpecifier->getType(context));
   }
   

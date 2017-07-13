@@ -14,7 +14,6 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "MockType.hpp"
 #include "MockVariable.hpp"
 #include "wisey/Scope.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -34,17 +33,20 @@ using ::testing::Test;
 
 struct ScopeTest : public Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   Scope mScope;
   NiceMock<MockVariable>* mFooVariable;
   NiceMock<MockVariable>* mBarVariable;
-  NiceMock<MockType> mMockType;
+  Model* mExceptionModel;
 
 public:
 
   ScopeTest() :
+  mLLVMContext(mContext.getLLVMContext()),
   mFooVariable(new NiceMock<MockVariable>()),
   mBarVariable(new NiceMock<MockVariable>()) {
-    ON_CALL(mMockType, getName()).WillByDefault(Return("MExceptionA"));
+    StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");
+    mExceptionModel = new Model("MExceptionA", exceptionModelStructType);
   }
 };
 
@@ -71,31 +73,31 @@ TEST_F(ScopeTest, freeOwnedMemoryTest) {
 TEST_F(ScopeTest, addExceptionTest) {
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   
-  mScope.addException(&mMockType);
+  mScope.addException(mExceptionModel);
   
   ASSERT_EQ(mScope.getExceptions().size(), 1u);
   
-  mScope.removeException(&mMockType);
+  mScope.removeException(mExceptionModel);
   
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
 }
 
 TEST_F(ScopeTest, addExceptionsTest) {
-  NiceMock<MockType> mockType;
-  ON_CALL(mockType, getName()).WillByDefault(Return("MExceptionB"));
+  StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionB");
+  Model* exceptionModel = new Model("MExceptionB", exceptionModelStructType);
 
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   
-  vector<const IType*> exceptions;
-  exceptions.push_back(&mMockType);
-  exceptions.push_back(&mockType);
+  vector<const Model*> exceptions;
+  exceptions.push_back(mExceptionModel);
+  exceptions.push_back(exceptionModel);
   
   mScope.addExceptions(exceptions);
   
   ASSERT_EQ(mScope.getExceptions().size(), 2u);
   
-  mScope.removeException(&mMockType);
-  mScope.removeException(&mockType);
+  mScope.removeException(mExceptionModel);
+  mScope.removeException(exceptionModel);
   
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
 }

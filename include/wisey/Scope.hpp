@@ -15,6 +15,8 @@
 #include "wisey/IVariable.hpp"
 
 namespace wisey {
+
+class Model;
   
 /**
  * Represents block scope inside wisey program.
@@ -30,7 +32,7 @@ class Scope {
   const IStatement* mExceptionFinally;
   bool mHasOwnedMemoryBeenFreed;
   const IType* mReturnType;
-  std::map<std::string, const IType*> mExceptions;
+  std::map<std::string, const Model*> mExceptions;
 
 public:
 
@@ -128,22 +130,22 @@ public:
   /**
    * Add an exception type that maybe thrown in this scope
    */
-  void addException(const IType* exception);
+  void addException(const Model* exception);
 
   /**
    * Add several exception types that may thrown in this scope
    */
-  void addExceptions(std::vector<const IType*> exceptions);
+  void addExceptions(std::vector<const Model*> exceptions);
 
   /**
    * Remove an exception type from the list of exceptions that maybe thrown
    */
-  void removeException(const IType* exception);
+  void removeException(const Model* exception);
 
   /**
    * Get exceptions that could be thrown in this scope
    */
-  std::map<std::string, const IType*> getExceptions();
+  std::map<std::string, const Model*> getExceptions();
 
 };
 

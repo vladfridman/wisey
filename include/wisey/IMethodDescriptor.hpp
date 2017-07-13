@@ -22,6 +22,7 @@ class IObjectType;
 class IRGenerationContext;
 class IType;
 class MethodArgument;
+class Model;
 
   /**
  * Represents an object that describes a method. 
@@ -62,7 +63,7 @@ public:
   /**
    * Returns a list of exceptions this method throws
    */
-  virtual std::vector<const IType*> getThrownExceptions() const = 0;
+  virtual std::vector<const Model*> getThrownExceptions() const = 0;
   
   /**
    * Returns two if two method descriptors are the same in terms of their name, return type

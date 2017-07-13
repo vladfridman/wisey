@@ -10,6 +10,7 @@
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/Model.hpp"
 #include "wisey/Scope.hpp"
 
 using namespace llvm;
@@ -126,23 +127,23 @@ void Scope::freeOwnedMemory(IRGenerationContext& context) {
   mHasOwnedMemoryBeenFreed = true;
 }
 
-void Scope::addException(const IType* exception) {
+void Scope::addException(const Model* exception) {
   if (mExceptions.count(exception->getName())) {
     return;
   }
   mExceptions[exception->getName()] = exception;
 }
 
-void Scope::addExceptions(vector<const IType*> exceptions) {
-  for (const IType* exception : exceptions) {
+void Scope::addExceptions(vector<const Model*> exceptions) {
+  for (const Model* exception : exceptions) {
     addException(exception);
   }
 }
 
-void Scope::removeException(const IType* exception) {
+void Scope::removeException(const Model* exception) {
   mExceptions.erase(exception->getName());
 }
 
-map<string, const IType*> Scope::getExceptions() {
+map<string, const Model*> Scope::getExceptions() {
   return mExceptions;
 }

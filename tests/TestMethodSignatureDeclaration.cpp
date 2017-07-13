@@ -63,7 +63,7 @@ struct MethodSignatureDeclarationTest : Test {
 TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
-  vector<ITypeSpecifier*> thrownExceptions;
+  vector<ModelTypeSpecifier*> thrownExceptions;
   PrimitiveTypeSpecifier* floatTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier,

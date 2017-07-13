@@ -16,6 +16,7 @@
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
@@ -30,7 +31,7 @@ class MethodDeclaration {
   const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
-  std::vector<ITypeSpecifier*> mExceptions;
+  std::vector<ModelTypeSpecifier*> mExceptions;
   CompoundStatement* mCompoundStatement;
   
 public:
@@ -39,7 +40,7 @@ public:
                     const ITypeSpecifier* returnTypeSpecifier,
                     std::string methodName,
                     VariableList arguments,
-                    std::vector<ITypeSpecifier*> exceptions,
+                    std::vector<ModelTypeSpecifier*> exceptions,
                     CompoundStatement* compoundStatement) :
   mAccessLevel(AccessLevel),
   mReturnTypeSpecifier(returnTypeSpecifier),

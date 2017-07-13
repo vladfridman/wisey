@@ -41,8 +41,8 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   
-  vector<const IType*> exceptions;
-  for (ITypeSpecifier* typeSpecifier : mThrownExceptions) {
+  vector<const Model*> exceptions;
+  for (ModelTypeSpecifier* typeSpecifier : mThrownExceptions) {
     exceptions.push_back(typeSpecifier->getType(context));
   }
   

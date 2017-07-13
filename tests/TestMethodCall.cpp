@@ -40,7 +40,6 @@ struct MethodCallTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockExpression>* mExpression;
-  NiceMock<MockType> mExceptionType;
   ExpressionList mArgumentList;
   Type* mIntType;
   BasicBlock* mBasicBlock;
@@ -70,7 +69,7 @@ public:
     MethodArgument* methodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
-    vector<const IType*> fooThrownExceptions;
+    vector<const Model*> fooThrownExceptions;
     mMethod = new Method("foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
@@ -80,8 +79,10 @@ public:
                          0);
     vector<Method*> methods;
     methods.push_back(mMethod);
-    vector<const IType*> barThrownExceptions;
-    barThrownExceptions.push_back(&mExceptionType);
+    vector<const Model*> barThrownExceptions;
+    StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
+    Model* exceptionModel = new Model("MException", exceptionModelStructType);
+    barThrownExceptions.push_back(exceptionModel);
     Method* barMethod = new Method("bar",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,

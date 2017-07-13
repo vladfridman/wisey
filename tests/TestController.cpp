@@ -58,7 +58,7 @@ struct ControllerTest : public Test {
     calculatorIinterfaceStructType->setBody(calculatorInterfaceTypes);
     vector<MethodArgument*> calculatorInterfaceMethodArguments;
     vector<MethodSignature*> calculatorInterfaceMethods;
-    vector<const IType*> calculatorThrownExceptions;
+    vector<const Model*> calculatorThrownExceptions;
     MethodSignature* calculateSignature = new MethodSignature("calculate",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
@@ -92,7 +92,7 @@ struct ControllerTest : public Test {
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
-    vector<const IType*> objectThrownExceptions;
+    vector<const Model*> objectThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("foo",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
@@ -120,7 +120,7 @@ struct ControllerTest : public Test {
     receivedFields.push_back(mLeftField);
     receivedFields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
-    vector<const IType*> thrownExceptions;
+    vector<const Model*> thrownExceptions;
     mMethod = new Method("calculate",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,

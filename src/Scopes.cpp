@@ -85,7 +85,7 @@ void Scopes::popScope(IRGenerationContext& context) {
   top->eraseClearedVariables(mClearedVariables);
   top->freeOwnedMemory(context);
   
-  map<string, const IType*> exceptions = top->getExceptions();
+  map<string, const Model*> exceptions = top->getExceptions();
   mScopes.pop_front();
   delete top;
   
@@ -98,7 +98,7 @@ void Scopes::popScope(IRGenerationContext& context) {
   }
   
   top = mScopes.front();
-  for (map<string, const IType*>::iterator iterator = exceptions.begin();
+  for (map<string, const Model*>::iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
     top->addException(iterator->second);
@@ -234,8 +234,8 @@ const IType* Scopes::getReturnType() {
   return NULL;
 }
 
-void Scopes::reportUnhandledExceptions(map<string, const IType*> exceptions) {
-  for (map<string, const IType*>::iterator iterator = exceptions.begin();
+void Scopes::reportUnhandledExceptions(map<string, const Model*> exceptions) {
+  for (map<string, const Model*>::iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
     Log::e("Exception " + iterator->first + " is not handled");

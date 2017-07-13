@@ -19,6 +19,7 @@
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 
@@ -47,7 +48,7 @@ struct InterfaceDefinitionTest : public Test {
                                                                intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ITypeSpecifier*> thrownExceptions;
+    vector<ModelTypeSpecifier*> thrownExceptions;
     MethodSignatureDeclaration* methodSignatureDeclaration =
       new MethodSignatureDeclaration(floatTypeSpecifier, "foo", methodArguments, thrownExceptions);
     vector<MethodSignatureDeclaration *> methods;

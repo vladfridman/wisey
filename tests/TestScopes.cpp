@@ -20,6 +20,7 @@
 #include "MockVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/HeapVariable.hpp"
+#include "wisey/Model.hpp"
 #include "wisey/StackVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -264,14 +265,14 @@ TEST_F(ScopesTest, setExceptionFinallyTest) {
 TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
   mScopes.pushScope();
   
-  NiceMock<MockType> mockExceptionType;
-  Mock::AllowLeak(&mockExceptionType);
-  ON_CALL(mockExceptionType, getName()).WillByDefault(Return("MExceptions"));
-  mScopes.getScope()->addException(&mockExceptionType);
+  StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
+  Model* exceptionModel = new Model("MException", exceptionModelStructType);
+
+  mScopes.getScope()->addException(exceptionModel);
   
   EXPECT_EXIT(mScopes.popScope(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Exception MExceptions is not handled");
+              "Error: Exception MException is not handled");
 }
 
 TEST_F(ScopesTest, freeOwnedMemoryTest) {

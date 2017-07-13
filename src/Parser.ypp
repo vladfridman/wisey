@@ -122,6 +122,7 @@
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
   std::vector<wisey::FieldDeclaration*>* object_field_vector;
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
+  std::vector<wisey::ModelTypeSpecifier*>* model_type_specifier_list;
   std::vector<wisey::InterfaceTypeSpecifier*>* interface_list;
   std::vector<std::string>* identifier_list;
   std::string* string;
@@ -180,12 +181,12 @@
 %type <object_field> controller_received_field_declaration
 %type <object_field> controller_injected_field_declaration
 %type <object_field> controller_state_field_declaration
-%type <type_specifier> type_specifier primitive_type_specifier exception_type_specifier
+%type <type_specifier> type_specifier primitive_type_specifier
 %type <buildable_concrete_object_type_specifier> buildable_concrete_object_type_specifier
 %type <object_type_specifier> object_type_specifier
 %type <object_builder_argument_list> object_builder_argument_list
 %type <object_builder_argument> object_builder_argument
-%type <model_type_specifier> model_type_specifier
+%type <model_type_specifier> model_type_specifier exception_type_specifier
 %type <controller_type_specifier> controller_type_specifier
 %type <interface_type_specifier> interface_type_specifier
 %type <node_type_specifier> node_type_specifier
@@ -197,7 +198,7 @@
 %type <identifier_list> identifier_chain
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
-%type <type_specifier_list> exception_type_specifier_list
+%type <model_type_specifier_list> exception_type_specifier_list
 %type <interface_list> interface_list
 
 %left '+' '-'
@@ -281,7 +282,7 @@ method_signature_list
 method_signature
   : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
       {
-        std::vector<ITypeSpecifier*> thrownExceptions;
+        std::vector<ModelTypeSpecifier*> thrownExceptions;
         $$ = new MethodSignatureDeclaration($1, *$2, *$4, thrownExceptions);
         delete $2;
         delete $4;
@@ -631,7 +632,7 @@ method_definition
   : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
       compound_statement
     {
-      std::vector<ITypeSpecifier*> exceptions;
+      std::vector<ModelTypeSpecifier*> exceptions;
       $$ = new MethodDeclaration($1, $2, *$3, *$5, exceptions, $7);
       delete $3;
       delete $5;
@@ -647,7 +648,7 @@ method_definition
   ;
 
 exception_type_specifier_list
-  : exception_type_specifier { $$ = new std::vector<ITypeSpecifier*>(); $$->push_back($1); }
+  : exception_type_specifier { $$ = new std::vector<ModelTypeSpecifier*>(); $$->push_back($1); }
   | exception_type_specifier_list ',' exception_type_specifier { $1->push_back($3); }
   ;
 
@@ -907,7 +908,7 @@ node_type_specifier
   ;
 
 exception_type_specifier
-  : model_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  : model_type_specifier { $$ = (ModelTypeSpecifier*) $1; }
   ;
 
 buildable_concrete_object_type_specifier

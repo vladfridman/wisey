@@ -72,7 +72,7 @@ struct ModelTest : public Test {
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
-    vector<const IType*> thrownExceptions;
+    vector<const Model*> thrownExceptions;
     mMethod = new Method("foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
@@ -97,7 +97,7 @@ struct ModelTest : public Test {
     subShapeIinterfaceStructType->setBody(subShapeInterfaceTypes);
     vector<MethodArgument*> subShapeInterfaceMethodArguments;
     vector<MethodSignature*> subShapeInterfaceMethods;
-    vector<const IType*> subShapeInterfaceThrownExceptions;
+    vector<const Model*> subShapeInterfaceThrownExceptions;
     MethodSignature* methodFooSignature = new MethodSignature("foo",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
@@ -116,7 +116,7 @@ struct ModelTest : public Test {
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
-    vector<const IType*> shapeInterfaceThrownExceptions;
+    vector<const Model*> shapeInterfaceThrownExceptions;
     methodFooSignature = new MethodSignature("foo",
                                              AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
@@ -136,7 +136,7 @@ struct ModelTest : public Test {
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
-    vector<const IType*> objectInterfaceThrownExceptions;
+    vector<const Model*> objectInterfaceThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("bar",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,

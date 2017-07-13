@@ -51,7 +51,7 @@ struct InterfaceTest : public Test {
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mShapeStructType->setBody(shapeTypes);
     vector<MethodArgument*> shapeMethodArguments;
-    vector<const IType*> thrownExceptions;
+    vector<const Model*> thrownExceptions;
     mMethodSignature = new MethodSignature("foo",
                                            AccessLevel::PUBLIC_ACCESS,
                                            PrimitiveTypes::INT_TYPE,

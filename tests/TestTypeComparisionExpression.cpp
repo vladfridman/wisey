@@ -81,7 +81,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     squareFields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<MethodArgument*> methodArguments;
     vector<Method*> squareMethods;
-    vector<const IType*> thrownExceptions;
+    vector<const Model*> thrownExceptions;
     Method* fooMethod = new Method("foo",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
@@ -105,7 +105,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     subShapeIinterfaceStructType->setBody(subShapeInterfaceTypes);
     vector<MethodArgument*> subShapeInterfaceMethodArguments;
     vector<MethodSignature*> subShapeInterfaceMethods;
-    vector<const IType*> subShapeThrownExceptions;
+    vector<const Model*> subShapeThrownExceptions;
     MethodSignature* methodFooSignature = new MethodSignature("foo",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
@@ -124,7 +124,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
     vector<MethodArgument*> shapeInterfaceMethodArguments;
     vector<MethodSignature*> shapeInterfaceMethods;
-    vector<const IType*> shapeThrownExceptions;
+    vector<const Model*> shapeThrownExceptions;
     methodFooSignature = new MethodSignature("foo",
                                              AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
@@ -144,7 +144,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
-    vector<const IType*> objectThrownExceptions;
+    vector<const Model*> objectThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("bar",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,

@@ -13,6 +13,7 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -22,7 +23,7 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage("wisey.lang");
   PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableList variableList;
-  vector<ITypeSpecifier*> thrownExceptions;
+  vector<ModelTypeSpecifier*> thrownExceptions;
   
   MethodSignatureDeclaration* runMethod = new MethodSignatureDeclaration(intTypeSpecifier,
                                                                          "run",

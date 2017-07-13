@@ -54,7 +54,7 @@ struct NodeDefinitionTest : public Test {
     new VariableDeclaration(intTypeSpecifier, intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ITypeSpecifier*> thrownExceptions;
+    vector<ModelTypeSpecifier*> thrownExceptions;
     mMethodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                floatTypeSpecifier,
                                                "foo",
@@ -160,7 +160,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   structType->setBody(types);
   vector<MethodSignature*> interfaceMethodSignatures;
   vector<MethodArgument*> methodArguments;
-  vector<const IType*> methodThrownExceptions;
+  vector<const Model*> methodThrownExceptions;
   methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
   MethodSignature* methodSignature = new MethodSignature("foo",
                                                          AccessLevel::PUBLIC_ACCESS,

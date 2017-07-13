@@ -54,7 +54,7 @@ struct MethodDeclarationTest : Test {
 TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
-  vector<ITypeSpecifier*> thrownExceptions;
+  vector<ModelTypeSpecifier*> thrownExceptions;
   MethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                       new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE),
                                       "foo",

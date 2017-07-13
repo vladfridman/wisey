@@ -64,7 +64,7 @@ struct ControllerDefinitionTest : public Test {
     new VariableDeclaration(intTypeSpecifier, intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ITypeSpecifier*> thrownExceptions;
+    vector<ModelTypeSpecifier*> thrownExceptions;
     methodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                               floatTypeSpecifier,
                                               "foo",

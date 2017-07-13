@@ -48,7 +48,7 @@ unsigned long Method::getIndex() const {
   return mIndex;
 }
 
-vector<const IType*> Method::getThrownExceptions() const {
+vector<const Model*> Method::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
@@ -125,7 +125,7 @@ void Method::storeArgumentValue(IRGenerationContext& context,
     return;
   }
   
-if (IType::isOwnerType(variableType)) {
+  if (IType::isOwnerType(variableType)) {
     Type* variableLLVMType = variableType->getLLVMType(context.getLLVMContext());
     Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterObjectPointer");
     IRWriter::newStoreInst(context, variableValue, alloc);
@@ -147,26 +147,26 @@ void Method::maybeAddImpliedVoidReturn(IRGenerationContext& context) const {
 
 void Method::checkForUnhandledExceptions(IRGenerationContext& context) const {
   Scope* scope = context.getScopes().getScope();
-  map<string, const IType*> exceptions = scope->getExceptions();
+  map<string, const Model*> exceptions = scope->getExceptions();
   if (exceptions.size() == 0) {
     return;
   }
   
-  for (const IType* thrownException : mThrownExceptions) {
+  for (const Model* thrownException : mThrownExceptions) {
     scope->removeException(thrownException);
   }
   
   exceptions = scope->getExceptions();
-  bool hasUnhangledExceptions = false;
-  for (map<string, const IType*>::const_iterator iterator = exceptions.begin();
+  bool hasUnhandledExceptions = false;
+  for (map<string, const Model*>::const_iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
     Log::e("Method " + getName() + " neither handles the exception " + iterator->first +
            " nor throws it");
-    hasUnhangledExceptions = true;
+    hasUnhandledExceptions = true;
   }
   
-  if (hasUnhangledExceptions) {
+  if (hasUnhandledExceptions) {
     exit(1);
   }
 }

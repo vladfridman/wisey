@@ -150,7 +150,7 @@ public:
 
 private:
 
-  void reportUnhandledExceptions(std::map<std::string, const IType*> exceptions);
+  void reportUnhandledExceptions(std::map<std::string, const Model*> exceptions);
 };
   
 } /* namespace wisey */

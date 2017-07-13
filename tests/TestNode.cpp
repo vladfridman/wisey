@@ -67,7 +67,7 @@ struct NodeTest : public Test {
     elementInterfaceStructType->setBody(elementInterfaceTypes);
     vector<MethodArgument*> elementInterfaceMethodArguments;
     vector<MethodSignature*> elementInterfaceMethods;
-    vector<const IType*> elementThrownExceptions;
+    vector<const Model*> elementThrownExceptions;
     MethodSignature* getElementSignature = new MethodSignature("getElement",
                                                                AccessLevel::PUBLIC_ACCESS,
                                                                PrimitiveTypes::INT_TYPE,
@@ -101,7 +101,7 @@ struct NodeTest : public Test {
     objectInterfaceStructType->setBody(objectInterfaceTypes);
     vector<MethodArgument*> objectInterfaceMethodArguments;
     vector<MethodSignature*> objectInterfaceMethods;
-    vector<const IType*> objectThrownExceptions;
+    vector<const Model*> objectThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("foo",
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
@@ -128,7 +128,7 @@ struct NodeTest : public Test {
     fixedFields.push_back(mLeftField);
     fixedFields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
-    vector<const IType*> thrownExceptions;
+    vector<const Model*> thrownExceptions;
     mMethod = new Method("getElement",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,

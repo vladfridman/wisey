@@ -24,7 +24,7 @@ struct MethodSignatureTest : Test {
   
   MethodSignatureTest() {
     vector<MethodArgument*> arguments;
-    vector<const IType*> thrownExceptions;
+    vector<const Model*> thrownExceptions;
     mMethodSignature = new MethodSignature("foo",
                                            AccessLevel::PUBLIC_ACCESS,
                                            PrimitiveTypes::LONG_TYPE,
