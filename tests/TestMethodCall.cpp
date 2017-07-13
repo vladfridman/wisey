@@ -18,6 +18,7 @@
 #include "MockExpression.hpp"
 #include "MockType.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/EmptyStatement.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -257,8 +258,12 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "bar", mArgumentList);
-  mContext.getScopes().setLandingPadBlock(BasicBlock::Create(mLLVMContext, "eh.landing.pad"));
-  mContext.getScopes().setExceptionContinueBlock(BasicBlock::Create(mLLVMContext, "eh.continue"));
+  BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext, "eh.landing.pad");
+  BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock,
+                                                continueBlock,
+                                                &EmptyStatement::EMPTY_STATEMENT);
+  mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 
   Value* irValue = methodCall.generateIR(mContext);
   

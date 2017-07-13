@@ -14,6 +14,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/ModelOwner.hpp"
 #include "wisey/StackVariable.hpp"
+#include "wisey/TryCatchInfo.hpp"
 #include "wisey/TryCatchStatement.hpp"
 
 using namespace llvm;
@@ -37,14 +38,13 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   }
   BasicBlock* landingPadBlock = BasicBlock::Create(llvmContext, "eh.landing.pad", function);
   BasicBlock* continueBlock = BasicBlock::Create(llvmContext, "eh.continue", function);
-  context.getScopes().setLandingPadBlock(landingPadBlock);
-  context.getScopes().setExceptionContinueBlock(continueBlock);
-  context.getScopes().setExceptionFinally(mFinally);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, continueBlock, mFinally);
+  context.getScopes().setTryCatchInfo(tryCatchInfo);
 
   bool doAllBlocksTerminate = true;
   mTryBlock->generateIR(context);
   doAllBlocksTerminate &= context.getBasicBlock()->getTerminator() != NULL;
-  context.getScopes().getExceptionFinally()->generateIR(context);
+  context.getScopes().getTryCatchInfo()->getFinallyStatement()->generateIR(context);
 
   IRWriter::createBranch(context, continueBlock);
 
@@ -59,9 +59,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   generateResumeAndFail(context, landingPadInst, exceptionTypeId, wrappedException);
   doAllBlocksTerminate &= generateCatches(context, wrappedException, catchesAndBlocks);
   
-  context.getScopes().setLandingPadBlock(NULL);
-  context.getScopes().setExceptionContinueBlock(NULL);
-  context.getScopes().setExceptionFinally(NULL);
+  context.getScopes().clearTryCatchInfo();
   context.setBasicBlock(continueBlock);
   
   if (doAllBlocksTerminate) {
@@ -130,12 +128,12 @@ void TryCatchStatement::generateResumeAndFail(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(wrappedException);
   context.setBasicBlock(unexpectedBlock);
-  context.getScopes().getExceptionFinally()->generateIR(context);
+  context.getScopes().getTryCatchInfo()->getFinallyStatement()->generateIR(context);
   IRWriter::createCallInst(context, unexpectedFunction, arguments, "");
   new UnreachableInst(llvmContext, unexpectedBlock);
   
   context.setBasicBlock(resumeBlock);
-  context.getScopes().getExceptionFinally()->generateIR(context);
+  context.getScopes().getTryCatchInfo()->getFinallyStatement()->generateIR(context);
   IRWriter::createResumeInst(context, landingPadInst);
 }
 

@@ -368,6 +368,8 @@
 		F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D401EF6A43C002ABB85 /* IType.cpp */; };
 		F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D401EF6A43C002ABB85 /* IType.cpp */; };
 		F5CE2D441EF6A4CB002ABB85 /* TestIType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */; };
+		F5CE2D4F1F180B89002ABB85 /* TryCatchInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */; };
+		F5CE2D501F180B89002ABB85 /* TryCatchInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */; };
 		F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */; };
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
@@ -795,6 +797,8 @@
 		F5CB18121EB0D96A007E2E43 /* Catch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Catch.cpp; path = src/Catch.cpp; sourceTree = "<group>"; };
 		F5CE2D401EF6A43C002ABB85 /* IType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IType.cpp; path = src/IType.cpp; sourceTree = "<group>"; };
 		F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIType.cpp; path = tests/TestIType.cpp; sourceTree = "<group>"; };
+		F5CE2D4D1F1809EE002ABB85 /* TryCatchInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TryCatchInfo.hpp; path = include/wisey/TryCatchInfo.hpp; sourceTree = "<group>"; };
+		F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TryCatchInfo.cpp; path = src/TryCatchInfo.cpp; sourceTree = "<group>"; };
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestVariableDeclaration.cpp; path = tests/TestVariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypeSpecifier.cpp; path = src/PrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -1210,6 +1214,7 @@
 				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
 				F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */,
 				F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */,
+				F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */,
 				F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */,
 				F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
@@ -1377,6 +1382,7 @@
 				F5089CA51ECD01D9004A1223 /* StringConstant.hpp */,
 				F5089CA61ECD01D9004A1223 /* SwitchStatement.hpp */,
 				F5089CA71ECD01D9004A1223 /* ThrowStatement.hpp */,
+				F5CE2D4D1F1809EE002ABB85 /* TryCatchInfo.hpp */,
 				F5089CA81ECD01D9004A1223 /* TryCatchStatement.hpp */,
 				F5089CA91ECD01D9004A1223 /* TypeComparisionExpression.hpp */,
 				F5089CAA1ECD01D9004A1223 /* VariableDeclaration.hpp */,
@@ -1632,6 +1638,7 @@
 				F50FA2D81E2D324100435EEA /* CaseStatement.cpp in Sources */,
 				F531B64B1E0A5329008304F3 /* TestAssignment.cpp in Sources */,
 				F5C6FD811E48B6E80054209D /* IntType.cpp in Sources */,
+				F5CE2D501F180B89002ABB85 /* TryCatchInfo.cpp in Sources */,
 				F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */,
 				F574114A1E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
 				F5ADB6241E6705CC00FFC941 /* TestMethodSignatureDeclaration.cpp in Sources */,
@@ -1685,6 +1692,7 @@
 				F53A2C301EFFD91200E76A9E /* NodeOwner.cpp in Sources */,
 				F57086021E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F517970E1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
+				F5CE2D4F1F180B89002ABB85 /* TryCatchInfo.cpp in Sources */,
 				F51797111E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */,

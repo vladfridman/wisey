@@ -232,34 +232,15 @@ TEST_F(ScopesTest, setUnitializedHeapVariableTest) {
   EXPECT_EQ(mScopes.getVariable("foo")->getValue(), nullptr);
 }
 
-TEST_F(ScopesTest, setLandingPadBlockTest) {
+TEST_F(ScopesTest, setTryCatchInfoTest) {
   mScopes.pushScope();
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, NULL);
   
-  mScopes.setLandingPadBlock(basicBlock);
+  mScopes.setTryCatchInfo(tryCatchInfo);
   mScopes.pushScope();
   
-  ASSERT_EQ(mScopes.getLandingPadBlock(), basicBlock);
-}
-
-TEST_F(ScopesTest, setExceptionContinueBlockTest) {
-  mScopes.pushScope();
-  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
-  
-  mScopes.setExceptionContinueBlock(basicBlock);
-  mScopes.pushScope();
-  
-  ASSERT_EQ(mScopes.getExceptionContinueBlock(), basicBlock);
-}
-
-TEST_F(ScopesTest, setExceptionFinallyTest) {
-  mScopes.pushScope();
-  NiceMock<MockStatement>* mockStatement = new NiceMock<MockStatement>();
-  
-  mScopes.setExceptionFinally(mockStatement);
-  mScopes.pushScope();
-  
-  ASSERT_EQ(mScopes.getExceptionFinally(), mockStatement);
+  ASSERT_EQ(mScopes.getTryCatchInfo(), tryCatchInfo);
 }
 
 TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {

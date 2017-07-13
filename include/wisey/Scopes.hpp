@@ -15,6 +15,7 @@
 #include "wisey/IStatement.hpp"
 #include "wisey/IVariable.hpp"
 #include "wisey/Scope.hpp"
+#include "wisey/TryCatchInfo.hpp"
 
 namespace wisey {
   
@@ -119,34 +120,19 @@ public:
   const IType* getReturnType();
 
   /**
-   * Sets the landing pad basic block for exception handling
+   * Sets information for exception handling
    */
-  void setLandingPadBlock(llvm::BasicBlock* basicBlock);
+  void setTryCatchInfo(TryCatchInfo* tryCatchInfo);
 
   /**
-   * Returns the landing pad basic block for exception handling if there is one set
+   * Returns the exception handling info
    */
-  llvm::BasicBlock* getLandingPadBlock();
-
-  /**
-   * Set the basic block for instructions after the try/catch
-   */
-  void setExceptionContinueBlock(llvm::BasicBlock* basicBlock);
-
-  /**
-   * Returns the basic block for instructions after the try/catch
-   */
-  llvm::BasicBlock* getExceptionContinueBlock();
-
-  /**
-   * Set the statement that should always by executed for a try/catch block
-   */
-  void setExceptionFinally(const IStatement* finallyStatement);
+  TryCatchInfo* getTryCatchInfo();
   
   /**
-   * Returns the statement that should always by executed for a try/catch block
+   * Clear information about exception handling
    */
-  const IStatement* getExceptionFinally();
+  void clearTryCatchInfo();
 
 private:
 

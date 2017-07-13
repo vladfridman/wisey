@@ -158,61 +158,27 @@ BasicBlock* Scopes::getContinueToBlock() {
   return NULL;
 }
 
-void Scopes::setLandingPadBlock(BasicBlock* basicBlock) {
-  getScope()->setLandingPadBlock(basicBlock);
+void Scopes::setTryCatchInfo(TryCatchInfo* tryCatchInfo) {
+  getScope()->setTryCatchInfo(tryCatchInfo);
 }
 
-BasicBlock* Scopes::getLandingPadBlock() {
+TryCatchInfo* Scopes::getTryCatchInfo() {
   if (mScopes.size() == 0) {
     return NULL;
   }
   
   for (Scope* scope : mScopes) {
-    BasicBlock* block= scope->getLandingPadBlock();
-    if (block != NULL) {
-      return block;
+    TryCatchInfo* info = scope->getTryCatchInfo();
+    if (info != NULL) {
+      return info;
     }
   }
   
   return NULL;
 }
 
-void Scopes::setExceptionContinueBlock(BasicBlock* basicBlock) {
-  getScope()->setExceptionContinueBlock(basicBlock);
-}
-
-BasicBlock* Scopes::getExceptionContinueBlock() {
-  if (mScopes.size() == 0) {
-    return NULL;
-  }
-  
-  for (Scope* scope : mScopes) {
-    BasicBlock* block= scope->getExceptionContinueBlock();
-    if (block != NULL) {
-      return block;
-    }
-  }
-  
-  return NULL;
-}
-
-void Scopes::setExceptionFinally(const IStatement* finallyStatement) {
-  getScope()->setExceptionFinally(finallyStatement);
-}
-
-const IStatement* Scopes::getExceptionFinally() {
-  if (mScopes.size() == 0) {
-    return &EmptyStatement::EMPTY_STATEMENT;
-  }
-  
-  for (Scope* scope : mScopes) {
-    const IStatement* finallyStatement = scope->getExceptionFinally();
-    if (finallyStatement != NULL) {
-      return finallyStatement;
-    }
-  }
-  
-  return &EmptyStatement::EMPTY_STATEMENT;
+void Scopes::clearTryCatchInfo() {
+  getScope()->clearTryCatchInfo();
 }
 
 void Scopes::setReturnType(const IType* type) {

@@ -24,8 +24,8 @@ Scope::~Scope() {
     delete(iterator->second);
   }
   mVariables.clear();
-  if (mExceptionFinally) {
-    delete mExceptionFinally;
+  if (mTryCatchInfo) {
+    delete mTryCatchInfo;
   }
   mExceptions.clear();
 }
@@ -74,28 +74,19 @@ BasicBlock* Scope::getContinueToBlock() {
   return mContinueToBlock;
 }
 
-void Scope::setLandingPadBlock(BasicBlock* block) {
-  mLandingPadBlock = block;
+void Scope::setTryCatchInfo(TryCatchInfo* tryCatchInfo) {
+  mTryCatchInfo = tryCatchInfo;
 }
 
-BasicBlock* Scope::getLandingPadBlock() {
-  return mLandingPadBlock;
+TryCatchInfo* Scope::getTryCatchInfo() {
+  return mTryCatchInfo;
 }
 
-void Scope::setExceptionContinueBlock(BasicBlock* block) {
-  mExceptionContinueBlock = block;
-}
-
-BasicBlock* Scope::getExceptionContinueBlock() {
-  return mExceptionContinueBlock;
-}
-
-void Scope::setExceptionFinally(const IStatement* finallyStatement) {
-  mExceptionFinally = finallyStatement;
-}
-
-const IStatement* Scope::getExceptionFinally() {
-  return mExceptionFinally;
+void Scope::clearTryCatchInfo() {
+  assert(mTryCatchInfo != NULL);
+  
+  delete mTryCatchInfo;
+  mTryCatchInfo = NULL;
 }
 
 void Scope::setReturnType(const IType* type) {

@@ -12,6 +12,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "wisey/EmptyStatement.hpp"
 #include "wisey/IRWriter.hpp"
 
 using namespace llvm;
@@ -134,7 +135,10 @@ TEST_F(IRWriterTest, createCallInstTest) {
 TEST_F(IRWriterTest, createInvokeInstTest) {
   vector<Value*> arguments;
   BasicBlock* landingpadBlock = BasicBlock::Create(mLLVMContext, "eh.lpad", mMainFunction);
-  mContext.getScopes().setLandingPadBlock(landingpadBlock);
+  BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue", mMainFunction);
+  TryCatchInfo tryCatchInfo(landingpadBlock, continueBlock, &EmptyStatement::EMPTY_STATEMENT);
+  
+  mContext.getScopes().setTryCatchInfo(&tryCatchInfo);
   InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
   
   EXPECT_EQ(mBasicBlock->size(), 1u);

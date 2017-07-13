@@ -13,6 +13,7 @@
 
 #include "wisey/IStatement.hpp"
 #include "wisey/IVariable.hpp"
+#include "wisey/TryCatchInfo.hpp"
 
 namespace wisey {
 
@@ -27,9 +28,7 @@ class Scope {
   std::map<std::string, IVariable*> mVariables;
   llvm::BasicBlock* mBreakToBlock;
   llvm::BasicBlock* mContinueToBlock;
-  llvm::BasicBlock* mLandingPadBlock;
-  llvm::BasicBlock* mExceptionContinueBlock;
-  const IStatement* mExceptionFinally;
+  TryCatchInfo* mTryCatchInfo;
   bool mHasOwnedMemoryBeenFreed;
   const IType* mReturnType;
   std::map<std::string, const Model*> mExceptions;
@@ -39,9 +38,7 @@ public:
   Scope() :
   mBreakToBlock(NULL),
   mContinueToBlock(NULL),
-  mLandingPadBlock(NULL),
-  mExceptionContinueBlock(NULL),
-  mExceptionFinally(NULL),
+  mTryCatchInfo(NULL),
   mHasOwnedMemoryBeenFreed(false),
   mReturnType(NULL) { }
   
@@ -83,35 +80,20 @@ public:
   llvm::BasicBlock* getContinueToBlock();
 
   /**
-   * Sets the landing pad basic block
+   * Sets information about exception handling
    */
-  void setLandingPadBlock(llvm::BasicBlock* landingPadBlock);
+  void setTryCatchInfo(TryCatchInfo* tryCatchInfo);
 
   /**
-   * Returns the landing pad basic block if there is one set
+   * Returns information about exception handling
    */
-  llvm::BasicBlock* getLandingPadBlock();
+  TryCatchInfo* getTryCatchInfo();
 
   /**
-   * Sets the exception continue block that is the block after the last catch
+   * Clear information about exception handling
    */
-  void setExceptionContinueBlock(llvm::BasicBlock* basicBlock);
-
-  /**
-   * Returns the exception continue block that is the block after the last catch
-   */
-  llvm::BasicBlock* getExceptionContinueBlock();
-
-  /**
-   * Set the statement that should always by executed for a try/catch block
-   */
-  void setExceptionFinally(const IStatement* finallyStatement);
+  void clearTryCatchInfo();
   
-  /**
-   * Returns the statement that should always by executed for a try/catch block
-   */
-  const IStatement* getExceptionFinally();
-
   /**
    * Set current method's return type
    */

@@ -7,6 +7,7 @@
 //
 
 #include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -19,7 +20,9 @@ ReturnInst* IRWriter::createReturnInst(IRGenerationContext& context, Value* retu
     return NULL;
   }
   
-  context.getScopes().getExceptionFinally()->generateIR(context);
+  if (context.getScopes().getTryCatchInfo()) {
+    context.getScopes().getTryCatchInfo()->getFinallyStatement()->generateIR(context);
+  }
   currentBlock = context.getBasicBlock();
   
   if (currentBlock->getTerminator()) {
@@ -92,9 +95,14 @@ InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
   BasicBlock* continueToBlock = BasicBlock::Create(context.getLLVMContext(),
                                                    "invoke.continue",
                                                    currentBlock->getParent());
+  if (!context.getScopes().getTryCatchInfo()) {
+    Log::e("Try is missing for a method call that throws an exception");
+    return NULL;
+  }
+  BasicBlock* landingPad = context.getScopes().getTryCatchInfo()->getLandingPadBlock();
   InvokeInst* invokeInst = InvokeInst::Create(function,
                                               continueToBlock,
-                                              context.getScopes().getLandingPadBlock(),
+                                              landingPad,
                                               arguments,
                                               resultName,
                                               currentBlock);
