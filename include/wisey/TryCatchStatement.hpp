@@ -50,7 +50,7 @@ private:
                              llvm::Value* exceptionTypeId,
                              llvm::Value* wrappedException) const;
   
-  void generateCatches(IRGenerationContext& context,
+  bool generateCatches(IRGenerationContext& context,
                        llvm::Value* wrappedException,
                        std::vector<std::tuple<Catch*, llvm::BasicBlock*>> catchesAndBlocks) const;
 

@@ -36,7 +36,9 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   checkArgumentType(objectWithMethodsType, methodDescriptor, context);
-  context.getScopes().getScope()->addExceptions(methodDescriptor->getThrownExceptions());
+  std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
+  context.getScopes().getScope()->addExceptions(thrownExceptions);
+  
   if (IType::isConcreteObjectType(objectWithMethodsType)) {
     return generateObjectMethodCallIR(context,
                                       (IObjectType*) objectWithMethodsType,

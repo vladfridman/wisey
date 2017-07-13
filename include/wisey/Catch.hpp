@@ -35,9 +35,10 @@ public:
   ModelOwner* getType(IRGenerationContext& context) const;
   
   /**
-   * Generate IR for this catch for a given exception and add it to the given basic block
+   * Generate IR for this catch for a given exception and add it to the given basic block.
+   * Returns true if the catch ends with a terminator
    */
-  void generateIR(IRGenerationContext& context,
+  bool generateIR(IRGenerationContext& context,
                   llvm::Value* wrappedException,
                   llvm::BasicBlock* catchBlock) const;
 };

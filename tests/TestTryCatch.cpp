@@ -37,3 +37,7 @@ TEST_F(TestFileSampleRunner, tryCatchFinallyTest) {
 TEST_F(TestFileSampleRunner, tryFinallyTest) {
   compileAndRunFile("tests/samples/test_try_finally.yz", 5);
 }
+
+TEST_F(TestFileSampleRunner, tryCatchRethrowTest) {
+  compileAndRunFile("tests/samples/test_try_catch_rethrow.yz", 127);
+}

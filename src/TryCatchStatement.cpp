@@ -41,8 +41,9 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   context.getScopes().setExceptionContinueBlock(continueBlock);
   context.getScopes().setExceptionFinally(mFinally);
 
+  bool doAllBlocksTerminate = true;
   mTryBlock->generateIR(context);
-  
+  doAllBlocksTerminate &= context.getBasicBlock()->getTerminator() != NULL;
   context.getScopes().getExceptionFinally()->generateIR(context);
 
   IRWriter::createBranch(context, continueBlock);
@@ -56,12 +57,16 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   vector<tuple<Catch*, BasicBlock*>>
   catchesAndBlocks = generateSelectCatchByExceptionType(context, landingPadBlock, exceptionTypeId);
   generateResumeAndFail(context, landingPadInst, exceptionTypeId, wrappedException);
-  generateCatches(context, wrappedException, catchesAndBlocks);
+  doAllBlocksTerminate &= generateCatches(context, wrappedException, catchesAndBlocks);
   
   context.getScopes().setLandingPadBlock(NULL);
   context.getScopes().setExceptionContinueBlock(NULL);
   context.getScopes().setExceptionFinally(NULL);
   context.setBasicBlock(continueBlock);
+  
+  if (doAllBlocksTerminate) {
+    new UnreachableInst(llvmContext, continueBlock);
+  }
   
   return NULL;
 }
@@ -172,13 +177,16 @@ TryCatchStatement::generateSelectCatchByExceptionType(IRGenerationContext& conte
   return catchesAndBlocks;
 }
 
-void TryCatchStatement::generateCatches(IRGenerationContext& context,
+bool TryCatchStatement::generateCatches(IRGenerationContext& context,
                                         Value* wrappedException,
                                         vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks) const {
+  bool doAllCatchesTerminate = true;
   for (tuple<Catch*, BasicBlock*> catchAndBlock : catchesAndBlocks) {
     Catch* catchClause = get<0>(catchAndBlock);
     BasicBlock* catchBlock = get<1>(catchAndBlock);
-    catchClause->generateIR(context, wrappedException, catchBlock);
+    doAllCatchesTerminate &= catchClause->generateIR(context, wrappedException, catchBlock);
   }
+  
+  return doAllCatchesTerminate;
 }
 

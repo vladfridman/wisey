@@ -31,7 +31,7 @@ ModelOwner* Catch::getType(IRGenerationContext& context) const {
   return (ModelOwner*) ((Model*) argumentType)->getOwner();
 }
 
-void Catch::generateIR(IRGenerationContext& context,
+bool Catch::generateIR(IRGenerationContext& context,
                        Value* wrappedException,
                        BasicBlock* catchBlock) const {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -77,6 +77,9 @@ void Catch::generateIR(IRGenerationContext& context,
   context.getScopes().popScope(context);
   
   context.getScopes().getExceptionFinally()->generateIR(context);
+  bool hasTerminator = context.getBasicBlock()->getTerminator() != NULL;
   
   IRWriter::createBranch(context, exceptionContinueBlock);
+  
+  return hasTerminator;
 }
