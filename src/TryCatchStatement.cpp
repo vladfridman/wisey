@@ -31,6 +31,8 @@ TryCatchStatement::~TryCatchStatement() {
 }
 
 Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
+  context.getScopes().pushScope();
+  
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getBasicBlock()->getParent();
   if (!function->hasPersonalityFn()) {
@@ -61,10 +63,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   Value* exceptionTypeId = get<2>(landingPadIR);
   
   vector<tuple<Catch*, BasicBlock*>>
-  catchesAndBlocks = generateSelectCatchByExceptionType(context,
-                                                        landingPadBlock,
-                                                        exceptionTypeId,
-                                                        allCatches);
+  catchesAndBlocks = generateSelectCatchByExceptionType(context, exceptionTypeId, allCatches);
   generateResumeAndFail(context, landingPadInst, exceptionTypeId, wrappedException);
   doAllBlocksTerminate &= generateCatches(context, wrappedException, catchesAndBlocks);
   
@@ -75,6 +74,8 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
     new UnreachableInst(llvmContext, continueBlock);
   }
   
+  context.getScopes().popScope(context);
+
   return NULL;
 }
 
@@ -151,7 +152,6 @@ void TryCatchStatement::generateResumeAndFail(IRGenerationContext& context,
 
 vector<tuple<Catch*, BasicBlock*>>
 TryCatchStatement::generateSelectCatchByExceptionType(IRGenerationContext& context,
-                                                      llvm::BasicBlock* landingPadBlock,
                                                       Value* exceptionTypeId,
                                                       vector<Catch*> allCatches) const {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -160,7 +160,7 @@ TryCatchStatement::generateSelectCatchByExceptionType(IRGenerationContext& conte
   Function* function = context.getBasicBlock()->getParent();
   
   vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks;
-  BasicBlock* currentBlock = landingPadBlock;
+  BasicBlock* currentBlock = context.getScopes().getTryCatchInfo()->getLandingPadBlock();
   
   for (Catch* catchClause : allCatches) {
     context.setBasicBlock(currentBlock);

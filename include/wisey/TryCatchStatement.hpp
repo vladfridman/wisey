@@ -39,7 +39,6 @@ private:
   
   std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
   generateSelectCatchByExceptionType(IRGenerationContext& context,
-                                     llvm::BasicBlock* landingPadBlock,
                                      llvm::Value* exceptionTypeId,
                                      std::vector<Catch*> allCatches) const;
 

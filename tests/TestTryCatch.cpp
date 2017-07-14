@@ -45,3 +45,10 @@ TEST_F(TestFileSampleRunner, tryCatchRethrowTest) {
 TEST_F(TestFileSampleRunner, tryCatchNestedTest) {
   compileAndRunFile("tests/samples/test_try_catch_nested.yz", 63);
 }
+
+TEST_F(TestFileSampleRunner, tryCatchNestedUnmatchedThrowTest) {
+  expectFailCompile("tests/samples/test_try_catch_nested_unmatched_throw.yz",
+                    1,
+                    "Error: Method doTryCatch neither handles the exception "
+                    "systems.vos.wisey.compiler.tests.MAnotherException nor throws it");
+}
