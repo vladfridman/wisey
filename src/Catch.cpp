@@ -20,15 +20,13 @@ using namespace std;
 using namespace wisey;
 
 Catch::~Catch() {
-  delete mTypeSpecifier;
+  delete mModelTypeSpecifier;
   delete mStatement;
 }
 
 ModelOwner* Catch::getType(IRGenerationContext& context) const {
-  const IType* argumentType = mTypeSpecifier->getType(context);
-  assert(argumentType->getTypeKind() == MODEL_TYPE);
-  
-  return (ModelOwner*) ((Model*) argumentType)->getOwner();
+  Model* model = mModelTypeSpecifier->getType(context);
+  return (ModelOwner*) model->getOwner();
 }
 
 bool Catch::generateIR(IRGenerationContext& context,

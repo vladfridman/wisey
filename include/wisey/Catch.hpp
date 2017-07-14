@@ -9,8 +9,8 @@
 #ifndef Catch_h
 #define Catch_h
 
-#include "wisey/ITypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 
 namespace wisey {
 
@@ -18,14 +18,14 @@ namespace wisey {
  * Represents a single catch in a try/catch statement
  */
 class Catch {
-  ITypeSpecifier* mTypeSpecifier;
+  ModelTypeSpecifier* mModelTypeSpecifier;
   std::string mIdentifier;
   IStatement* mStatement;
   
 public:
   
-  Catch(ITypeSpecifier* typeSpecifier, std::string identifier, IStatement* statement)
-  : mTypeSpecifier(typeSpecifier), mIdentifier(identifier), mStatement(statement) { }
+  Catch(ModelTypeSpecifier* modelTypeSpecifier, std::string identifier, IStatement* statement)
+  : mModelTypeSpecifier(modelTypeSpecifier), mIdentifier(identifier), mStatement(statement) { }
   
   ~Catch();
   
