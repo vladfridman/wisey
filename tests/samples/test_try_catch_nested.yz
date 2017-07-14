@@ -1,0 +1,50 @@
+package systems.vos.wisey.compiler.tests;
+
+model MException {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+model MAnotherException {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CThrower {
+  public int doThrow() throws MException {
+    MException* exception = builder(MException).withValue(63).build();
+    throw exception;
+  }
+}
+
+controller CCatcher {
+  inject CThrower* mThrower;
+
+  public int doTryCatch() {
+    try {
+      try {
+        return mThrower.doThrow();
+      } catch(MAnotherException* exception) {
+        return exception.getValue() + 1;
+      }
+    } catch (MException* exception) {
+      return exception.getValue();
+    }
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CCatcher* mCatcher;
+
+  public int run() {
+    return mCatcher.doTryCatch();
+  }
+}
+
+bind(CProgram).to(IProgram);

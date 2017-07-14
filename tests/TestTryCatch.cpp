@@ -41,3 +41,7 @@ TEST_F(TestFileSampleRunner, tryFinallyTest) {
 TEST_F(TestFileSampleRunner, tryCatchRethrowTest) {
   compileAndRunFile("tests/samples/test_try_catch_rethrow.yz", 127);
 }
+
+TEST_F(TestFileSampleRunner, tryCatchNestedTest) {
+  compileAndRunFile("tests/samples/test_try_catch_nested.yz", 63);
+}

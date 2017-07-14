@@ -260,9 +260,11 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   MethodCall methodCall(mExpression, "bar", mArgumentList);
   BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext, "eh.landing.pad");
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
+  vector<Catch*> catchList;
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock,
                                                 continueBlock,
-                                                &EmptyStatement::EMPTY_STATEMENT);
+                                                &EmptyStatement::EMPTY_STATEMENT,
+                                                catchList);
   mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 
   Value* irValue = methodCall.generateIR(mContext);

@@ -18,9 +18,12 @@
 #include "MockStatement.hpp"
 #include "MockType.hpp"
 #include "MockVariable.hpp"
+#include "wisey/Catch.hpp"
+#include "wisey/EmptyStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/HeapVariable.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/StackVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -235,12 +238,85 @@ TEST_F(ScopesTest, setUnitializedHeapVariableTest) {
 TEST_F(ScopesTest, setTryCatchInfoTest) {
   mScopes.pushScope();
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, NULL);
+  vector<Catch*> catchList;
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, NULL, catchList);
   
   mScopes.setTryCatchInfo(tryCatchInfo);
   mScopes.pushScope();
   
   ASSERT_EQ(mScopes.getTryCatchInfo(), tryCatchInfo);
+}
+
+TEST_F(ScopesTest, crearTryCatchInfoTest) {
+  mScopes.pushScope();
+  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
+  vector<Catch*> catchList;
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, NULL, catchList);
+  
+  mScopes.setTryCatchInfo(tryCatchInfo);
+  mScopes.pushScope();
+  mScopes.popScope(mContext);
+  mScopes.clearTryCatchInfo();
+  
+  ASSERT_EQ(mScopes.getTryCatchInfo(), nullptr);
+}
+
+TEST_F(ScopesTest, mergeNestedCatchListsTest) {
+  mContext.setPackage("systems.vos.wisey.compiler.tests");
+  EmptyStatement* emptyStatement = new EmptyStatement();
+  BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
+  vector<string> package;
+  mScopes.pushScope();
+
+  ModelTypeSpecifier* exception1TypeSpecifier = new ModelTypeSpecifier(package, "MException1");
+  StructType* exceptionModel1StructType = StructType::create(mLLVMContext, "MException1");
+  Model* exceptionModel1 = new Model("systems.vos.wisey.compiler.tests.MException1",
+                                     exceptionModel1StructType);
+  mContext.addModel(exceptionModel1);
+
+  ModelTypeSpecifier* exception2TypeSpecifier = new ModelTypeSpecifier(package, "MException2");
+  StructType* exceptionModel2StructType = StructType::create(mLLVMContext, "MException2");
+  Model* exceptionModel2 = new Model("systems.vos.wisey.compiler.tests.MException2",
+                                     exceptionModel2StructType);
+  mContext.addModel(exceptionModel2);
+
+  ModelTypeSpecifier* exception3TypeSpecifier = new ModelTypeSpecifier(package, "MException3");
+  StructType* exceptionModel3StructType = StructType::create(mLLVMContext, "MException3");
+  Model* exceptionModel3 = new Model("systems.vos.wisey.compiler.tests.MException3",
+                                     exceptionModel3StructType);
+  mContext.addModel(exceptionModel3);
+
+  Catch* catch1 = new Catch(exception1TypeSpecifier, "exception", emptyStatement);
+  Catch* catch2 = new Catch(exception2TypeSpecifier, "exception", emptyStatement);
+  Catch* catch3 = new Catch(exception2TypeSpecifier, "exception", emptyStatement);
+  Catch* catch4 = new Catch(exception3TypeSpecifier, "exception", emptyStatement);
+  
+  vector<Catch*> catchList1;
+  catchList1.push_back(catch1);
+  TryCatchInfo* tryCatchInfo1 = new TryCatchInfo(basicBlock, basicBlock, NULL, catchList1);
+
+  vector<Catch*> catchList2;
+  catchList2.push_back(catch2);
+  TryCatchInfo* tryCatchInfo2 = new TryCatchInfo(basicBlock, basicBlock, NULL, catchList2);
+
+  vector<Catch*> catchList3;
+  catchList3.push_back(catch3);
+  catchList3.push_back(catch4);
+  TryCatchInfo* tryCatchInfo3 = new TryCatchInfo(basicBlock, basicBlock, NULL, catchList3);
+  
+  mScopes.pushScope();
+  mScopes.setTryCatchInfo(tryCatchInfo1);
+  mScopes.pushScope();
+  mScopes.setTryCatchInfo(tryCatchInfo2);
+  mScopes.pushScope();
+  mScopes.setTryCatchInfo(tryCatchInfo3);
+  
+  vector<Catch*> mergedCatches = mScopes.mergeNestedCatchLists(mContext);
+  
+  EXPECT_EQ(mergedCatches.size(), 3u);
+  EXPECT_EQ(mergedCatches.at(0), catch3);
+  EXPECT_EQ(mergedCatches.at(1), catch4);
+  EXPECT_EQ(mergedCatches.at(2), catch1);
 }
 
 TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {

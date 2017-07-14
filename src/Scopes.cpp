@@ -8,8 +8,10 @@
 
 #include <set>
 
+#include "wisey/Catch.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/ModelOwner.hpp"
 #include "wisey/Scopes.hpp"
 
 using namespace llvm;
@@ -179,6 +181,27 @@ TryCatchInfo* Scopes::getTryCatchInfo() {
 
 void Scopes::clearTryCatchInfo() {
   getScope()->clearTryCatchInfo();
+}
+
+vector<Catch*> Scopes::mergeNestedCatchLists(IRGenerationContext& context) {
+  vector<Catch*> result;
+  set<string> processedCatches;
+  
+  for (Scope* scope : mScopes) {
+    TryCatchInfo* info = scope->getTryCatchInfo();
+    if (info == NULL) {
+      continue;
+    }
+    for (Catch* catchClause : info->getCatchList()) {
+      string typeName = catchClause->getType(context)->getName();
+      if (processedCatches.find(typeName) == processedCatches.end()) {
+        result.push_back(catchClause);
+        processedCatches.insert(typeName);
+      }
+    }
+  }
+  
+  return result;
 }
 
 void Scopes::setReturnType(const IType* type) {

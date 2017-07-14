@@ -40,10 +40,13 @@ private:
   std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
   generateSelectCatchByExceptionType(IRGenerationContext& context,
                                      llvm::BasicBlock* landingPadBlock,
-                                     llvm::Value* exceptionTypeId) const;
+                                     llvm::Value* exceptionTypeId,
+                                     std::vector<Catch*> allCatches) const;
 
   std::tuple<llvm::LandingPadInst*, llvm::Value*, llvm::Value*>
-  generateLandingPad(IRGenerationContext& context, llvm::BasicBlock* landingPadBlock) const;
+  generateLandingPad(IRGenerationContext& context,
+                     llvm::BasicBlock* landingPadBlock,
+                     std::vector<Catch*> allCatches) const;
   
   void generateResumeAndFail(IRGenerationContext& context,
                              llvm::LandingPadInst* landingPadInst,

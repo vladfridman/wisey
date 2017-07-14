@@ -15,6 +15,8 @@
 
 namespace wisey {
 
+class Catch;
+  
 /**
  * Information needed for IR generation of a try catch sequence
  */
@@ -22,15 +24,18 @@ class TryCatchInfo {
   llvm::BasicBlock* mLandingPadBlock;
   llvm::BasicBlock* mContinueBlock;
   const IStatement* mFinallyStatement;
+  std::vector<Catch*> mCatchList;
   
 public:
   
   TryCatchInfo(llvm::BasicBlock* landingPadBlock,
                llvm::BasicBlock* continueBlock,
-               const IStatement* finallyStatement) :
+               const IStatement* finallyStatement,
+               std::vector<Catch*> catchList) :
   mLandingPadBlock(landingPadBlock),
   mContinueBlock(continueBlock),
-  mFinallyStatement(finallyStatement) { }
+  mFinallyStatement(finallyStatement),
+  mCatchList(catchList) { }
   
   ~TryCatchInfo() {}
   
@@ -48,6 +53,11 @@ public:
    * Returns the statement that should always by executed for a try/catch block
    */
   const IStatement* getFinallyStatement();
+  
+  /**
+   * Returns the list of catch statements for this try/catch block
+   */
+  std::vector<Catch*> getCatchList();
   
 };
 

@@ -6,9 +6,11 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Catch.hpp"
 #include "wisey/TryCatchInfo.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
 
 BasicBlock* TryCatchInfo::getLandingPadBlock() {
@@ -21,4 +23,8 @@ BasicBlock* TryCatchInfo::getContinueBlock() {
 
 const IStatement* TryCatchInfo::getFinallyStatement() {
   return mFinallyStatement;
+}
+
+vector<Catch*> TryCatchInfo::getCatchList() {
+  return mCatchList;
 }

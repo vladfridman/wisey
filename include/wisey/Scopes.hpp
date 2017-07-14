@@ -133,6 +133,11 @@ public:
    * Clear information about exception handling
    */
   void clearTryCatchInfo();
+  
+  /**
+   * Merge catches from scopes above with catches in the current scope
+   */
+  std::vector<Catch*> mergeNestedCatchLists(IRGenerationContext& context);
 
 private:
 
