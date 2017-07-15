@@ -92,22 +92,22 @@ InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
     return NULL;
   }
   
-  BasicBlock* continueToBlock = BasicBlock::Create(context.getLLVMContext(),
-                                                   "invoke.continue",
-                                                   currentBlock->getParent());
+  BasicBlock* invokeContinueBlock = BasicBlock::Create(context.getLLVMContext(),
+                                                       "invoke.continue",
+                                                       currentBlock->getParent());
   if (!context.getScopes().getTryCatchInfo()) {
     Log::e("Try is missing for a method call that throws an exception");
     return NULL;
   }
   BasicBlock* landingPad = context.getScopes().getTryCatchInfo()->getLandingPadBlock();
   InvokeInst* invokeInst = InvokeInst::Create(function,
-                                              continueToBlock,
+                                              invokeContinueBlock,
                                               landingPad,
                                               arguments,
                                               resultName,
                                               currentBlock);
   
-  context.setBasicBlock(continueToBlock);
+  context.setBasicBlock(invokeContinueBlock);
   
   return invokeInst;
 }
@@ -348,4 +348,15 @@ ResumeInst* IRWriter::createResumeInst(IRGenerationContext& context,
   }
   
   return ResumeInst::Create(landingPadInst, currentBlock);
+}
+
+UnreachableInst* IRWriter::newUnreachableInst(IRGenerationContext& context) {
+
+  BasicBlock* currentBlock = context.getBasicBlock();
+  
+  if(currentBlock->getTerminator()) {
+    return NULL;
+  }
+  
+  return new UnreachableInst(context.getLLVMContext(), currentBlock);
 }

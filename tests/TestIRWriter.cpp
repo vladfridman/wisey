@@ -488,3 +488,11 @@ TEST_F(IRWriterTest, createResumeInstTest) {
   IRWriter::createResumeInst(mContext, landingPad);
   EXPECT_EQ(mBasicBlock->size(), 2u);
 }
+
+TEST_F(IRWriterTest, newUnreachableInstTest) {
+  UnreachableInst* unreachableInst = IRWriter::newUnreachableInst(mContext);
+
+  EXPECT_EQ(mBasicBlock->size(), 1u);
+  *mStringStream << *unreachableInst;
+  ASSERT_STREQ(mStringStream->str().c_str(), "  unreachable");
+}

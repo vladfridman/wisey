@@ -1,0 +1,31 @@
+package systems.vos.wisey.compiler.tests;
+
+model MException {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CCatcher {
+
+  public int doTryCatch() {
+    try {
+      MException* exception = builder(MException).withValue(31).build();
+      throw exception;
+    } catch (MException* exception) {
+      return exception.getValue();
+    }
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CCatcher* mCatcher;
+
+  public int run() {
+    return mCatcher.doTryCatch();
+  }
+}
+
+bind(CProgram).to(IProgram);

@@ -202,6 +202,11 @@ public:
    */
   static llvm::ResumeInst* createResumeInst(IRGenerationContext& context,
                                             llvm::LandingPadInst* landingPadInst);
+  
+ /**
+  * Add an UnreachableInst that terminates a basic block and should not be reachable
+  */
+  static llvm::UnreachableInst* newUnreachableInst(IRGenerationContext& context);
 
 };
   

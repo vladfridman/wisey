@@ -35,7 +35,6 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   : (Model*) expressionType;
 
   LLVMContext& llvmContext = context.getLLVMContext();
-  BasicBlock* basicBlock = context.getBasicBlock();
   context.getScopes().getScope()->addException(model);
 
   GlobalVariable* rtti = context.getModule()->getGlobalVariable(model->getRTTIVariableName());
@@ -74,9 +73,12 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   throwArguments.push_back(ConstantPointerNull::get(int8PointerType));
 
   Function* throwFunction = IntrinsicFunctions::getThrowFunction(context);
-  CallInst* callInst = IRWriter::createCallInst(context, throwFunction, throwArguments, "");
+  
+  Value* result = context.getScopes().getTryCatchInfo()
+    ? (Value*) IRWriter::createInvokeInst(context, throwFunction, throwArguments, "")
+    : (Value*) IRWriter::createCallInst(context, throwFunction, throwArguments, "");
 
-  new UnreachableInst(llvmContext, basicBlock);
+  IRWriter::newUnreachableInst(context);
 
-  return callInst;
+  return result;
 }

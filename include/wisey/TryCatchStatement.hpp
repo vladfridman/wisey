@@ -24,12 +24,14 @@ namespace wisey {
 class TryCatchStatement : public IStatement {
   IStatement* mTryBlock;
   std::vector<Catch*> mCatchList;
-  const IStatement* mFinally;
+  const IStatement* mFinallyStatement;
   
 public:
   
-  TryCatchStatement(IStatement* tryBlock, std::vector<Catch*> catchList, const IStatement* finallyClause)
-  : mTryBlock(tryBlock), mCatchList(catchList), mFinally(finallyClause) { }
+  TryCatchStatement(IStatement* tryBlock,
+                    std::vector<Catch*> catchList,
+                    const IStatement* finallyStatement)
+  : mTryBlock(tryBlock), mCatchList(catchList), mFinallyStatement(finallyStatement) { }
   
   ~TryCatchStatement();
   
@@ -40,7 +42,8 @@ private:
   std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
   generateSelectCatchByExceptionType(IRGenerationContext& context,
                                      llvm::Value* exceptionTypeId,
-                                     std::vector<Catch*> allCatches) const;
+                                     std::vector<Catch*> allCatches,
+                                     llvm::BasicBlock* landingPadBlock) const;
 
   std::tuple<llvm::LandingPadInst*, llvm::Value*, llvm::Value*>
   generateLandingPad(IRGenerationContext& context,
@@ -54,7 +57,8 @@ private:
   
   bool generateCatches(IRGenerationContext& context,
                        llvm::Value* wrappedException,
-                       std::vector<std::tuple<Catch*, llvm::BasicBlock*>> catchesAndBlocks) const;
+                       std::vector<std::tuple<Catch*, llvm::BasicBlock*>> catchesAndBlocks,
+                       llvm::BasicBlock* exceptionContinueBlock) const;
 
 };
   

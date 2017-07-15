@@ -40,7 +40,9 @@ public:
    */
   bool generateIR(IRGenerationContext& context,
                   llvm::Value* wrappedException,
-                  llvm::BasicBlock* catchBlock) const;
+                  llvm::BasicBlock* catchBlock,
+                  llvm::BasicBlock* exceptionContinueBlock,
+                  const IStatement* finallyStatement) const;
 };
   
 } /* namespace wisey */
