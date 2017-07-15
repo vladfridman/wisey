@@ -46,6 +46,10 @@ TEST_F(TestFileSampleRunner, tryCatchDirectThrowTest) {
   compileAndRunFile("tests/samples/test_try_catch_direct_throw.yz", 31);
 }
 
+TEST_F(TestFileSampleRunner, tryCatchThroughMiddlemanTest) {
+  compileAndRunFile("tests/samples/test_try_catch_through_middleman.yz", 63);
+}
+
 TEST_F(TestFileSampleRunner, tryCatchNestedUnmatchedThrowDeathTest) {
   expectFailCompile("tests/samples/test_try_catch_nested_unmatched_throw.yz",
                     1,

@@ -7,14 +7,16 @@
 //
 
 #include "wisey/CompoundStatement.hpp"
+#include "wisey/EmptyStatement.hpp"
 #include "wisey/HeapMethodParameter.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/StackVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/StackVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -71,15 +73,19 @@ void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) c
   
   Scopes& scopes = context.getScopes();
   
-  BasicBlock *bblock = BasicBlock::Create(context.getLLVMContext(), "entry", mFunction, 0);
-  context.setBasicBlock(bblock);
+  scopes.pushScope();
+  scopes.setReturnType(mReturnType);
+  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", mFunction, 0);
+  context.setBasicBlock(basicBlock);
   
-  context.getScopes().pushScope();
-  context.getScopes().setReturnType(mReturnType);
+  maybeGenerateCleanupTryCatchInfo(context);
+  
   createArguments(context, mFunction, objectType);
   mCompoundStatement->generateIR(context);
   
   checkForUnhandledExceptions(context);
+  maybeGenerateCleanupLandingPad(context);
+
   scopes.popScope(context);
   
   maybeAddImpliedVoidReturn(context);
@@ -169,4 +175,45 @@ void Method::checkForUnhandledExceptions(IRGenerationContext& context) const {
   if (hasUnhandledExceptions) {
     exit(1);
   }
+}
+
+void Method::maybeGenerateCleanupTryCatchInfo(IRGenerationContext& context) const {
+  if (!mThrownExceptions.size()) {
+    return;
+  }
+  
+  BasicBlock* landingPadBlock = BasicBlock::Create(context.getLLVMContext(),
+                                                   "cleanup.landing.pad",
+                                                   mFunction);
+  const IStatement* emptyStatement = new EmptyStatement();
+  vector<Catch*> catchList;
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emptyStatement, catchList);
+  context.getScopes().setTryCatchInfo(tryCatchInfo);
+}
+
+void Method::maybeGenerateCleanupLandingPad(IRGenerationContext& context) const {
+  if (!mThrownExceptions.size()) {
+    return;
+  }
+  
+  context.setBasicBlock(context.getScopes().getTryCatchInfo()->getLandingPadBlock());
+  
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Function* function = context.getBasicBlock()->getParent();
+  if (!function->hasPersonalityFn()) {
+    function->setPersonalityFn(IntrinsicFunctions::getPersonalityFunction(context));
+  }
+  
+  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  vector<Type*> landingPadReturnTypes;
+  landingPadReturnTypes.push_back(int8PointerType);
+  landingPadReturnTypes.push_back(Type::getInt32Ty(llvmContext));
+  StructType* landingPadReturnType = StructType::get(llvmContext, landingPadReturnTypes);
+  LandingPadInst* landingPad = LandingPadInst::Create(landingPadReturnType,
+                                                      0,
+                                                      "",
+                                                      context.getBasicBlock());
+
+  landingPad->setCleanup(true);
+  IRWriter::createResumeInst(context, landingPad);
 }

@@ -88,6 +88,10 @@ private:
                           llvm::Value* variableValue) const;
   
   void checkForUnhandledExceptions(IRGenerationContext& context) const;
+  
+  void maybeGenerateCleanupTryCatchInfo(IRGenerationContext& context) const;
+  
+  void maybeGenerateCleanupLandingPad(IRGenerationContext& context) const;
 };
 
 } /* namespace wisey */
