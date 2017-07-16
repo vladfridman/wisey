@@ -226,6 +226,7 @@ IObjectType* IRGenerationContext::getImport(string objectName) {
 void IRGenerationContext::clearAndAddDefaultImports() {
   mImports.clear();
   addImport(getInterface("wisey.lang.IProgram"));
+  addImport(getModel("wisey.lang.MNullPointerException"));
 }
 
 Scopes& IRGenerationContext::getScopes() {

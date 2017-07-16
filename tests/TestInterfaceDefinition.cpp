@@ -22,6 +22,7 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -38,6 +39,9 @@ struct InterfaceDefinitionTest : public Test {
   InterfaceDefinition* mInterfaceDefinition;
 
   InterfaceDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);

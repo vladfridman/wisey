@@ -137,6 +137,10 @@ TEST_F(TestFileSampleRunner, interfaceVariableAssignmentRunTest) {
   runFile("tests/samples/test_interface_variable_assignment.yz", "25");
 }
 
+TEST_F(TestFileSampleRunner, nullPointerExceptionRunTest) {
+  compileAndRunFile("tests/samples/test_heap_owner_variable_not_initialized.yz", 11);
+}
+
 TEST_F(TestFileSampleRunner, usingUninitializedHeapVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_heap_variable_not_initialized.yz",
                     1,

@@ -30,8 +30,10 @@ public:
   
   TryCatchStatement(IStatement* tryBlock,
                     std::vector<Catch*> catchList,
-                    const IStatement* finallyStatement)
-  : mTryBlock(tryBlock), mCatchList(catchList), mFinallyStatement(finallyStatement) { }
+                    const IStatement* finallyStatement) : 
+  mTryBlock(tryBlock), 
+  mCatchList(catchList), 
+  mFinallyStatement(finallyStatement) { }
   
   ~TryCatchStatement();
   

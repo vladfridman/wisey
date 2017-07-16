@@ -6,13 +6,19 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Block.hpp"
+#include "wisey/CompoundStatement.hpp"
+#include "wisey/EmptyStatement.hpp"
 #include "wisey/Identifier.hpp"
+#include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceInjector.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodCall.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramSuffix.hpp"
 #include "wisey/ReturnStatement.hpp"
+#include "wisey/TryCatchStatement.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -43,13 +49,32 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
                                                  programIdentifier,
                                                  interfaceInjector);
   programVariableDeclaration.generateIR(context);
-  
+
+  IntConstant* exceptionIntConstant = new IntConstant(11);
+  ReturnStatement* exceptionReturnStatement = new ReturnStatement(exceptionIntConstant);
+  vector<string> packageSpecifier;
+  ModelTypeSpecifier* npeTypeSpecifier = new ModelTypeSpecifier(packageSpecifier,
+                                                                "MNullPointerException");
+  Catch* catchClause = new Catch(npeTypeSpecifier, "exception", exceptionReturnStatement);
+  vector<Catch*> catchList;
+  catchList.push_back(catchClause);
+
   ExpressionList runMethodArguments;
   programIdentifier = new Identifier("program", "program");
   MethodCall* runMethodCall = new MethodCall(programIdentifier, "run", runMethodArguments);
-  ReturnStatement returnStatement(runMethodCall);
-  returnStatement.generateIR(context);
+  ReturnStatement* returnStatement = new ReturnStatement(runMethodCall);
+ 
+  Block* tryBlock = new Block();
+  tryBlock->getStatements().push_back(returnStatement);
+  CompoundStatement* tryCompoundStatement = new CompoundStatement(tryBlock);
+  EmptyStatement* emptyStatement = new EmptyStatement();
+  TryCatchStatement tryCatchStatement(tryCompoundStatement, catchList, emptyStatement);
+  tryCatchStatement.generateIR(context);
   
+  IntConstant* normalIntConstant = new IntConstant(-5);
+  ReturnStatement normalReturnStatement(normalIntConstant);
+  normalReturnStatement.generateIR(context);
+
   context.getScopes().popScope(context);
   context.setMainFunction(mainFunction);
   

@@ -19,6 +19,7 @@
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -48,6 +49,8 @@ struct MethodDeclarationTest : Test {
   mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
   mBlock(new Block()),
   mCompoundStatement(new CompoundStatement(mBlock)) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
   }
 };
 

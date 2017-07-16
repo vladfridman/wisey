@@ -26,6 +26,7 @@
 #include "wisey/MethodSignature.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -49,6 +50,9 @@ struct ControllerDefinitionTest : public Test {
   ControllerDefinitionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mMockStatement(new NiceMock<MockStatement>()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     MethodDeclaration *methodDeclaration;
     Block* block = new Block();
 

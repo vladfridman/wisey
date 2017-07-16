@@ -9,6 +9,8 @@
 #include "wisey/InterfaceDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/ImportStatement.hpp"
+#include "wisey/ModelDefinition.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -21,9 +23,27 @@ using namespace wisey;
 
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage("wisey.lang");
+
+  vector<FieldDeclaration*> npeFields;
+  vector<MethodDeclaration*> npeMethods;
+  vector<InterfaceTypeSpecifier*> npeParentInterfaces;
+  ModelDefinition npeModelDefinition("MNullPointerException",
+                                     npeFields,
+                                     npeMethods,
+                                     npeParentInterfaces);
+  npeModelDefinition.prototypeObjects(context);
+  npeModelDefinition.prototypeMethods(context);
+  npeModelDefinition.generateIR(context);
+  
+  context.addImport(context.getModel("MNullPointerException"));
+  
   PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableList variableList;
   vector<ModelTypeSpecifier*> thrownExceptions;
+  vector<string> packageSpecifier;
+  ModelTypeSpecifier* npeExceptionTypeSpecifier =
+    new ModelTypeSpecifier(packageSpecifier, "MNullPointerException");
+  thrownExceptions.push_back(npeExceptionTypeSpecifier);
   
   MethodSignatureDeclaration* runMethod = new MethodSignatureDeclaration(intTypeSpecifier,
                                                                          "run",

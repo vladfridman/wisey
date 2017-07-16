@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+model MColor {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MColor* color;
+
+    return color.getValue();
+  }
+} 
+
+bind(CProgram).to(IProgram);

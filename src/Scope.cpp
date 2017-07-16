@@ -97,7 +97,8 @@ const IType* Scope::getReturnType() {
   return mReturnType;
 }
 
-void Scope::freeOwnedMemory(IRGenerationContext& context) {
+void Scope::freeOwnedMemory(IRGenerationContext& context,
+                            map<string, IVariable*>& clearedVariables) {
   if (mHasOwnedMemoryBeenFreed) {
     return;
   }
@@ -112,7 +113,9 @@ void Scope::freeOwnedMemory(IRGenerationContext& context) {
   for (map<string, IVariable*>::iterator iterator = mVariables.begin();
        iterator != mVariables.end();
        iterator++) {
-    iterator->second->free(context);
+    if (!clearedVariables.count(iterator->first)) {
+      iterator->second->free(context);
+    }
   }
   
   mHasOwnedMemoryBeenFreed = true;

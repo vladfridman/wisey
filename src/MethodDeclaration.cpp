@@ -48,6 +48,7 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
   for (ModelTypeSpecifier* exceptionTypeSpecifier : mExceptions) {
     thrownExceptions.push_back(exceptionTypeSpecifier->getType(context));
   }
+  thrownExceptions.push_back(context.getModel("MNullPointerException"));
   
   return new Method(mMethodName,
                     mAccessLevel,

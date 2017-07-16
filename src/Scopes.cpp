@@ -85,7 +85,7 @@ void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
 
   top->eraseClearedVariables(mClearedVariables);
-  top->freeOwnedMemory(context);
+  top->freeOwnedMemory(context, mClearedVariables);
   
   map<string, const Model*> exceptions = top->getExceptions();
   mScopes.pop_front();
@@ -117,8 +117,7 @@ Scope* Scopes::getScope() {
 
 void Scopes::freeOwnedMemory(IRGenerationContext& context) {
   for (Scope* scope : mScopes) {
-    scope->eraseClearedVariables(mClearedVariables);
-    scope->freeOwnedMemory(context);
+    scope->freeOwnedMemory(context, mClearedVariables);
   }
 }
 

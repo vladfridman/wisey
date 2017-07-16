@@ -25,7 +25,7 @@ class ThrowStatement : public IStatement {
   
 public:
   
-  ThrowStatement(IExpression* conditionExpression) : mExpression(conditionExpression) { }
+  ThrowStatement(IExpression* expression) : mExpression(expression) { }
   
   ~ThrowStatement();
 

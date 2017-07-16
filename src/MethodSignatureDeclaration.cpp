@@ -45,6 +45,7 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   for (ModelTypeSpecifier* typeSpecifier : mThrownExceptions) {
     exceptions.push_back(typeSpecifier->getType(context));
   }
+  exceptions.push_back(context.getModel("MNullPointerException"));
   
   return new MethodSignature(mMethodName,
                              AccessLevel::PUBLIC_ACCESS,

@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/HeapVariable.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -108,8 +109,12 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Function* function,
                                       Type* returnLLVMType,
                                       IMethodDescriptor* methodDescriptor) const {
+  Value* expressionValue = mExpression->generateIR(context);
+  const IType* expressionType = mExpression->getType(context);
+  Composer::checkNullAndThrowNPE(context, expressionValue, expressionType);
+  
   vector<Value*> arguments;
-  arguments.push_back(mExpression->generateIR(context));
+  arguments.push_back(expressionValue);
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {

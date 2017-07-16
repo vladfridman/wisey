@@ -19,6 +19,7 @@
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -42,6 +43,9 @@ struct ModelDefinitionTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mBlock(new Block()),
   mMockStatement(new NiceMock<MockStatement>()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     mBlock->getStatements().push_back(mMockStatement);
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock);
@@ -148,6 +152,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<MethodSignature*> interfaceMethodSignatures;
   vector<MethodArgument*> methodArguments;
   vector<const Model*> methodThrownExceptions;
+  methodThrownExceptions.push_back(mContext.getModel("MNullPointerException"));
   methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
   MethodSignature* methodSignature = new MethodSignature("foo",
                                                          AccessLevel::PUBLIC_ACCESS,

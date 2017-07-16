@@ -83,12 +83,12 @@ void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) c
   createArguments(context, mFunction, objectType);
   mCompoundStatement->generateIR(context);
   
+  maybeAddImpliedVoidReturn(context);
+
   checkForUnhandledExceptions(context);
   maybeGenerateCleanupLandingPad(context);
 
   scopes.popScope(context);
-  
-  maybeAddImpliedVoidReturn(context);
 }
 
 void Method::createArguments(IRGenerationContext& context,

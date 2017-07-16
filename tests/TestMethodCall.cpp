@@ -26,6 +26,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -56,6 +57,9 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()),
   mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+    
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -272,7 +276,7 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
                "%systems.vos.wisey.compiler.tests.MSquare* %0, float 0x4014CCCCC0000000)\n"
-               "          to label %invoke.continue unwind label %eh.landing.pad",
+               "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
