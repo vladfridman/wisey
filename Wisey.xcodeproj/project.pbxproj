@@ -89,6 +89,8 @@
 		F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F52F2C991EA95C7B0081DE38 /* TestTryCatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */; };
+		F52FF1811F1B8729003F4D37 /* Composer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E6BD061F190B4700D59444 /* Composer.cpp */; };
+		F52FF1821F1B8731003F4D37 /* FakeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E6BD091F190B8500D59444 /* FakeExpression.cpp */; };
 		F530B4601DFA032100477384 /* TestsRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F530B45E1DFA031A00477384 /* TestsRun.cpp */; };
 		F531B6391E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */; };
 		F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */; };
@@ -1590,6 +1592,7 @@
 				F53A2C501F02D55A00E76A9E /* TestPrimitiveTypes.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
+				F52FF1811F1B8729003F4D37 /* Composer.cpp in Sources */,
 				F51581251E89B02F009CE419 /* FieldDeclaration.cpp in Sources */,
 				F556E65A1EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp in Sources */,
 				F53B8EBC1ECE101A00F45564 /* ImportStatement.cpp in Sources */,
@@ -1686,6 +1689,7 @@
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F5E6BD0C1F1B7B1600D59444 /* TestFakeExpression.cpp in Sources */,
 				F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
+				F52FF1821F1B8731003F4D37 /* FakeExpression.cpp in Sources */,
 				F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* StringConstant.cpp in Sources */,
 				F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */,
