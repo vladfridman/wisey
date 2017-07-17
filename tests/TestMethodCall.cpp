@@ -111,6 +111,11 @@ public:
     mContext.getScopes().pushScope();
     mContext.setMainFunction(mainFunction);
 
+    BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
+    vector<Catch*> catchList;
+    TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, NULL, catchList);
+    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     Value* nullPointer = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
