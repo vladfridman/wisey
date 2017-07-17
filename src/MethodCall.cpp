@@ -110,8 +110,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Type* returnLLVMType,
                                       IMethodDescriptor* methodDescriptor) const {
   Value* expressionValue = mExpression->generateIR(context);
-  const IType* expressionType = mExpression->getType(context);
-  Composer::checkNullAndThrowNPE(context, expressionValue, expressionType);
+  Composer::checkNullAndThrowNPE(context, expressionValue);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValue);

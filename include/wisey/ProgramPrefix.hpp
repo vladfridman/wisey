@@ -24,6 +24,14 @@ public:
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 
+private:
+  
+  void defineNPEModel(IRGenerationContext& context) const;
+
+  void defineNPEFunction(IRGenerationContext& context) const;
+  
+  void defindIProgramInterface(IRGenerationContext& context) const;
+  
 };
   
 } /* namespace wisey */

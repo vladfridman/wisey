@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/Composer.hpp"
+#include "wisey/EmptyStatement.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
@@ -51,7 +52,16 @@ public:
     mBlock = BasicBlock::Create(mLLVMContext, "entry", mMainFunction);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
-    
+
+    BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext,
+                                                     "cleanup.landing.pad",
+                                                     mMainFunction);
+    const IStatement* emptyStatement = new EmptyStatement();
+    vector<Catch*> catchList;
+    TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emptyStatement, catchList);
+    mContext.getScopes().pushScope();
+    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   
@@ -63,35 +73,19 @@ public:
 TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   Value* value = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
   
-  Composer::checkNullAndThrowNPE(mContext, value, mModel);
+  Composer::checkNullAndThrowNPE(mContext, value);
 
   *mStringStream << *mMainFunction;
   string expected =
   "\ndefine internal i32 @main() {"
   "\nentry:"
-  "\n  %cmp = icmp eq %systems.vos.wisey.compiler.tests.MMyModel* null, null"
-  "\n  br i1 %cmp, label %if.then, label %if.end"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MMyModel* null to i8*"
+  "\n  invoke void @__checkForNullAndThrow(i8* %0)"
+  "\n          to label %invoke.continue unwind label %cleanup.landing.pad"
   "\n"
-  "\nif.then:                                          ; preds = %entry"
-  "\n  %malloccall = tail call i8* @malloc(i64 0)"
-  "\n  %buildervar = bitcast i8* %malloccall to %wisey.lang.MNullPointerException*"
-  "\n  %0 = alloca %wisey.lang.MNullPointerException*"
-  "\n  store %wisey.lang.MNullPointerException* %buildervar, %wisey.lang.MNullPointerException** %0"
-  "\n  %1 = bitcast %wisey.lang.MNullPointerException* %buildervar to i8*"
-  "\n  %2 = bitcast { i8*, i8* }* @wisey.lang.MNullPointerException.rtti to i8*"
-  "\n  %3 = getelementptr %wisey.lang.MNullPointerException, "
-  "%wisey.lang.MNullPointerException* null, i32 1"
-  "\n  %4 = ptrtoint %wisey.lang.MNullPointerException* %3 to i64"
-  "\n  %5 = call i8* @__cxa_allocate_exception(i64 %4)"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %5, i8* %1, i64 %4, i32 4, i1 false)"
-  "\n  %variableObject = load %wisey.lang.MNullPointerException*, "
-  "%wisey.lang.MNullPointerException** %0"
-  "\n  %6 = bitcast %wisey.lang.MNullPointerException* %variableObject to i8*"
-  "\n  tail call void @free(i8* %6)"
-  "\n  call void @__cxa_throw(i8* %5, i8* %2, i8* null)"
-  "\n  unreachable"
+  "\ncleanup.landing.pad:                              ; preds = %entry"
   "\n"
-  "\nif.end:                                           ; preds = %entry"
+  "\ninvoke.continue:                                  ; preds = %entry"
   "\n}\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 

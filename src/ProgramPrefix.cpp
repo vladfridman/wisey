@@ -6,16 +6,25 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
+#include "wisey/FakeExpression.hpp"
+#include "wisey/IfStatement.hpp"
 #include "wisey/InterfaceDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/ImportStatement.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/Names.hpp"
+#include "wisey/NullExpression.hpp"
+#include "wisey/ObjectBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/RelationalExpression.hpp"
+#include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -24,6 +33,14 @@ using namespace wisey;
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage("wisey.lang");
 
+  defineNPEModel(context);
+  defineNPEFunction(context);
+  defindIProgramInterface(context);
+  
+  return NULL;
+}
+
+void ProgramPrefix::defineNPEModel(IRGenerationContext& context) const {
   vector<FieldDeclaration*> npeFields;
   vector<MethodDeclaration*> npeMethods;
   vector<InterfaceTypeSpecifier*> npeParentInterfaces;
@@ -36,13 +53,58 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   npeModelDefinition.generateIR(context);
   
   context.addImport(context.getModel("MNullPointerException"));
+}
+
+void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  vector<Type*> argumentTypes;
+  PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  argumentTypes.push_back(int8PointerType);
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(llvmContext);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+
+  Function* function = Function::Create(ftype,
+                                        GlobalValue::InternalLinkage,
+                                        Names::getNPECheckFunction(),
+                                        context.getModule());
   
+  Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument *llvmArgument = &*llvmArguments;
+  llvmArgument->setName("pointer");
+
+  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
+  context.setBasicBlock(basicBlock);
+
+  Value* null = ConstantPointerNull::get(int8PointerType);
+  Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, llvmArgument, null, "cmp");
+  FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
+
+  Block* thenBlock = new Block();
+  vector<string> package;
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package, "MNullPointerException");
+  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
+  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder);
+  thenBlock->getStatements().push_back(throwStatement);
+  CompoundStatement* thenStatement = new CompoundStatement(thenBlock);
+  IfStatement ifStatement(fakeExpression, thenStatement);
+  
+  context.getScopes().pushScope();
+  ifStatement.generateIR(context);
+  context.getScopes().getScope()->removeException(context.getModel("MNullPointerException"));
+  context.getScopes().popScope(context);
+  
+  IRWriter::createReturnInst(context, NULL);
+}
+
+void ProgramPrefix::defindIProgramInterface(IRGenerationContext& context) const {
   PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableList variableList;
   vector<ModelTypeSpecifier*> thrownExceptions;
   vector<string> packageSpecifier;
   ModelTypeSpecifier* npeExceptionTypeSpecifier =
-    new ModelTypeSpecifier(packageSpecifier, "MNullPointerException");
+  new ModelTypeSpecifier(packageSpecifier, "MNullPointerException");
   thrownExceptions.push_back(npeExceptionTypeSpecifier);
   
   MethodSignatureDeclaration* runMethod = new MethodSignatureDeclaration(intTypeSpecifier,
@@ -60,6 +122,4 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   programInterface.generateIR(context);
   
   context.addImport(context.getInterface("IProgram"));
-  
-  return NULL;
 }

@@ -7,35 +7,21 @@
 //
 
 #include "wisey/Composer.hpp"
-#include "wisey/FakeExpression.hpp"
-#include "wisey/IfStatement.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/NullExpression.hpp"
-#include "wisey/ObjectBuilder.hpp"
-#include "wisey/RelationalExpression.hpp"
-#include "wisey/ThrowStatement.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Names.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value, const IType* type) {
-  FakeExpression* fakeExpression = new FakeExpression(value, type);
-  NullExpression* nullExpression = new NullExpression();
-  RelationalExpression* relationalExpression = new RelationalExpression(fakeExpression,
-                                                                        RELATIONAL_OPERATION_EQ,
-                                                                        nullExpression);
-  Block* thenBlock = new Block();
+void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
   
-  vector<string> package;
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package, "MNullPointerException");
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
-  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder);
-  thenBlock->getStatements().push_back(throwStatement);
-  CompoundStatement* thenStatement = new CompoundStatement(thenBlock);
-  IfStatement ifStatement(relationalExpression, thenStatement);
-  
-  ifStatement.generateIR(context);
+  Function* function = context.getModule()->getFunction(Names::getNPECheckFunction());
+  vector<Value*> arguments;
+  arguments.push_back(bitcast);
+  IRWriter::createInvokeInst(context, function, arguments, "");
 }
 

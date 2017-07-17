@@ -24,9 +24,7 @@ public:
   /**
    * Check if a given expession is null and throw an NPE if it is
    */
-  static void checkNullAndThrowNPE(IRGenerationContext& context,
-                                   llvm::Value* expression,
-                                   const IType* type);
+  static void checkNullAndThrowNPE(IRGenerationContext& context, llvm::Value* expression);
 
 };
 
