@@ -1,0 +1,38 @@
+package systems.vos.wisey.compiler.tests;
+
+model MModel {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CService {
+  state MModel* mModel;
+  state MModel* mAnotherModel;
+
+  public void setModel() {
+    mModel = builder(MModel).withValue(7).build();    
+  }
+
+  public void setAnotherModel() {
+    mAnotherModel = mModel;
+  }
+
+  public int getValue() {
+    return mModel.getValue();
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService;
+
+  public int run() {
+    mService.setModel();
+    mService.setAnotherModel();
+    return mService.getValue();
+  }
+} 
+
+bind(CProgram).to(IProgram);

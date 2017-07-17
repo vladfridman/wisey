@@ -186,3 +186,7 @@ TEST_F(TestFileSampleRunner, objectFieldVariableSetToNullTest) {
 TEST_F(TestFileSampleRunner, objectFieldVariableSetToAnotherTest) {
   runFile("tests/samples/test_object_field_variable_set_to_another.yz", "7");
 }
+
+TEST_F(TestFileSampleRunner, objectFieldVariableNullComplicatedTest) {
+  runFile("tests/samples/test_object_field_variable_null_complicated.yz", "11");
+}
