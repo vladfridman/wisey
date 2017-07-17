@@ -34,3 +34,7 @@ string Names::getIProgramFullName() {
 string Names::getLangPackageName() {
   return "wisey.lang";
 }
+
+string Names::getFreeIfNotNullFunctionName() {
+  return "__freeIfNotNull";
+}

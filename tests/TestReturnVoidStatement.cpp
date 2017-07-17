@@ -18,6 +18,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/HeapVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnVoidStatement.hpp"
 
 using namespace llvm;
@@ -38,6 +39,9 @@ struct ReturnVoidStatementTest : public Test {
 
   ReturnVoidStatementTest() :
   mLLVMContext(mContext.getLLVMContext()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     vector<Type*> types;
@@ -115,9 +119,9 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   "\n  %pointer2 = alloca i8*"
   "\n  store i8* %malloccall1, i8** %pointer2"
   "\n  %variableObject = load i8*, i8** %pointer2"
-  "\n  tail call void @free(i8* %variableObject)"
+  "\n  call void @__freeIfNotNull(i8* %variableObject)"
   "\n  %variableObject3 = load i8*, i8** %pointer"
-  "\n  tail call void @free(i8* %variableObject3)"
+  "\n  call void @__freeIfNotNull(i8* %variableObject3)"
   "\n  ret void\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }

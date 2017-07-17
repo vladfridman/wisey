@@ -53,15 +53,6 @@ public:
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
 
-    BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext,
-                                                     "cleanup.landing.pad",
-                                                     mMainFunction);
-    const IStatement* emptyStatement = new EmptyStatement();
-    vector<Catch*> catchList;
-    TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emptyStatement, catchList);
-    mContext.getScopes().pushScope();
-    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
-
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   
@@ -71,6 +62,14 @@ public:
 };
 
 TEST_F(ComposerTest, checkNullAndThrowNPETest) {
+  BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext,
+                                                   "cleanup.landing.pad",
+                                                   mMainFunction);
+  const IStatement* emptyStatement = new EmptyStatement();
+  vector<Catch*> catchList;
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emptyStatement, catchList);
+  mContext.getScopes().setTryCatchInfo(tryCatchInfo);
+
   Value* value = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
   
   Composer::checkNullAndThrowNPE(mContext, value);
@@ -89,5 +88,22 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   "\n}\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 
+  mStringBuffer.clear();
+}
+
+TEST_F(ComposerTest, freeIfNotNullTest) {
+  Value* value = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  
+  Composer::freeIfNotNull(mContext, value);
+  
+  *mStringStream << *mMainFunction;
+  string expected =
+  "\ndefine internal i32 @main() {"
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MMyModel* null to i8*"
+  "\n  call void @__freeIfNotNull(i8* %0)"
+  "\n}\n";
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  
   mStringBuffer.clear();
 }

@@ -26,6 +26,8 @@ public:
 
 private:
   
+  void defineFreeIfNotNullFunction(IRGenerationContext& context) const;
+
   void defineNPEModel(IRGenerationContext& context) const;
 
   void defineNPEFunction(IRGenerationContext& context) const;

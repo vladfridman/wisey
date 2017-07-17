@@ -10,6 +10,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/HeapMethodParameter.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -58,7 +59,7 @@ void HeapMethodParameter::free(IRGenerationContext& context) const {
   ? Interface::getOriginalObject(context, objectPointer)
   : objectPointer;
   
-  IRWriter::createFree(context, thisPointer);
+  Composer::freeIfNotNull(context, thisPointer);
 }
 
 bool HeapMethodParameter::existsInOuterScope() const {

@@ -24,6 +24,7 @@
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/RelationalExpression.hpp"
+#include "wisey/ReturnVoidStatement.hpp"
 #include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
@@ -33,6 +34,7 @@ using namespace wisey;
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage(Names::getLangPackageName());
 
+  defineFreeIfNotNullFunction(context);
   defineNPEModel(context);
   defineNPEFunction(context);
   defindIProgramInterface(context);
@@ -96,6 +98,45 @@ void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
   context.getScopes().getScope()->removeException(context.getModel(Names::getNPEModelName()));
   context.getScopes().popScope(context);
   
+  IRWriter::createReturnInst(context, NULL);
+}
+
+void ProgramPrefix::defineFreeIfNotNullFunction(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  vector<Type*> argumentTypes;
+  PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  argumentTypes.push_back(int8PointerType);
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(llvmContext);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  
+  Function* function = Function::Create(ftype,
+                                        GlobalValue::InternalLinkage,
+                                        Names::getFreeIfNotNullFunctionName(),
+                                        context.getModule());
+  
+  Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument *llvmArgument = &*llvmArguments;
+  llvmArgument->setName("pointer");
+  
+  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
+  context.setBasicBlock(basicBlock);
+  
+  Value* null = ConstantPointerNull::get(int8PointerType);
+  Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, llvmArgument, null, "cmp");
+  FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
+  
+  Block* thenBlock = new Block();
+  ReturnVoidStatement* returnVoidStatement = new ReturnVoidStatement();
+  thenBlock->getStatements().push_back(returnVoidStatement);
+  CompoundStatement* thenStatement = new CompoundStatement(thenBlock);
+  IfStatement ifStatement(fakeExpression, thenStatement);
+  
+  context.getScopes().pushScope();
+  ifStatement.generateIR(context);
+  context.getScopes().popScope(context);
+  
+  IRWriter::createFree(context, llvmArgument);
   IRWriter::createReturnInst(context, NULL);
 }
 

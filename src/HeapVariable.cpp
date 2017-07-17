@@ -10,9 +10,10 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/Composer.hpp"
+#include "wisey/HeapVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Scopes.hpp"
 
@@ -62,10 +63,6 @@ Value* HeapVariable::generateAssignmentIR(IRGenerationContext& context,
 }
 
 void HeapVariable::free(IRGenerationContext& context) const {
-  if (mValue == NULL) {
-    return;
-  }
-  
   if (!IType::isOwnerType(mType)) {
     return;
   }
@@ -76,7 +73,7 @@ void HeapVariable::free(IRGenerationContext& context) const {
     ? Interface::getOriginalObject(context, objectPointer)
     : objectPointer;
   
-  IRWriter::createFree(context, thisPointer);
+  Composer::freeIfNotNull(context, thisPointer);
 }
 
 bool HeapVariable::existsInOuterScope() const {

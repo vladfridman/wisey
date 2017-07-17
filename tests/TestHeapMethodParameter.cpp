@@ -19,6 +19,7 @@
 #include "wisey/HeapMethodParameter.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -41,6 +42,9 @@ struct HeapMethodParameterTest : public Test {
 public:
   
   HeapMethodParameterTest() : mLLVMContext(mContext.getLLVMContext()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -99,7 +103,7 @@ TEST_F(HeapMethodParameterTest, freeTest) {
   "\nentry:"
   "\n  %parameterObject = load i32*, i32** null"
   "\n  %0 = bitcast i32* %parameterObject to i8*"
-  "\n  tail call void @free(i8* %0)\n";
+  "\n  call void @__freeIfNotNull(i8* %0)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

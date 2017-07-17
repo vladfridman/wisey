@@ -21,6 +21,7 @@
 #include "wisey/HeapVariable.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnStatement.hpp"
 
 using namespace llvm;
@@ -47,6 +48,9 @@ public:
   ReturnStatementTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     Value * value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(value));
@@ -164,9 +168,9 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
     "\n  store i8* %malloccall1, i8** %pointer2"
     "\n  %conv = zext i32 3 to i64"
     "\n  %variableObject = load i8*, i8** %pointer2"
-    "\n  tail call void @free(i8* %variableObject)"
+    "\n  call void @__freeIfNotNull(i8* %variableObject)"
     "\n  %variableObject3 = load i8*, i8** %pointer"
-    "\n  tail call void @free(i8* %variableObject3)"
+    "\n  call void @__freeIfNotNull(i8* %variableObject3)"
     "\n  ret i64 %conv\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

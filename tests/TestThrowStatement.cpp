@@ -20,6 +20,7 @@
 #include "wisey/Block.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/HeapVariable.hpp"
+#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
@@ -45,6 +46,9 @@ struct ThrowStatementTest : public Test {
   ThrowStatementTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression(new NiceMock<MockExpression>()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
 
     string circleFullName = "systems.vos.wisey.compiler.tests.MCircle";
@@ -162,9 +166,9 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   "\n  %4 = call i8* @__cxa_allocate_exception(i64 %3)"
   "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %4, i8* %0, i64 %3, i32 4, i1 false)"
   "\n  %variableObject = load i8*, i8** %pointer2"
-  "\n  tail call void @free(i8* %variableObject)"
+  "\n  call void @__freeIfNotNull(i8* %variableObject)"
   "\n  %variableObject3 = load i8*, i8** %pointer"
-  "\n  tail call void @free(i8* %variableObject3)"
+  "\n  call void @__freeIfNotNull(i8* %variableObject3)"
   "\n  call void @__cxa_throw(i8* %4, i8* %1, i8* null)"
   "\n  unreachable\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());

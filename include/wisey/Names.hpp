@@ -51,6 +51,11 @@ public:
    */
   static std::string getLangPackageName();
   
+  /**
+   * Global function name that frees memory pointed to by owner pointers
+   */
+  static std::string getFreeIfNotNullFunctionName();
+  
 };
 
 } /* namespace wisey */

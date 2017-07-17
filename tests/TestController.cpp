@@ -20,6 +20,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -51,6 +52,9 @@ struct ControllerTest : public Test {
   raw_string_ostream* mStringStream;
   
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     vector<Type*> calculatorInterfaceTypes;
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
@@ -499,7 +503,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   "\n  %variableObject = load %systems.vos.wisey.compiler.tests.CChild*, "
       "%systems.vos.wisey.compiler.tests.CChild** %pointer"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CChild* %variableObject to i8*"
-  "\n  tail call void @free(i8* %1)\n";
+  "\n  call void @__freeIfNotNull(i8* %1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
