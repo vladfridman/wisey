@@ -10,6 +10,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -54,6 +55,11 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                     assignToExpression->generateIR(context),
                                     toType);
   GetElementPtrInst* fieldPointer = getFieldPointer(context);
+  
+  if (IType::isOwnerType(getType())) {
+    Value* objectPointer = IRWriter::newLoadInst(context, fieldPointer, "fieldObjectToFree");
+    Composer::freeIfNotNull(context, objectPointer);
+  }
   
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }

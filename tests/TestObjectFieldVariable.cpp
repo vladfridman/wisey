@@ -111,19 +111,21 @@ TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateIdentifierIRTest) {
 TEST_F(ObjectFieldVariableTest, objectFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  Value* assignToValue = ConstantPointerNull::get(mSubModel->getLLVMType(mLLVMContext));
-  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mSubModel->getOwner()));
+  Value* assignToValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
-  mObjectFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
-  
+  Value* originalValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  ObjectFieldVariable* objectFieldVariable =
+  new ObjectFieldVariable("bar", originalValue, mModel);
+  objectFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
+
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-    "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  store %systems.vos.wisey.compiler.tests.MSubObject* null, "
-    "%systems.vos.wisey.compiler.tests.MSubObject** %0\n";
+    "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 1"
+  "\n  store i32 5, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -179,4 +181,8 @@ TEST_F(TestFileSampleRunner, modelFieldSetWithAutocastRunTest) {
 
 TEST_F(TestFileSampleRunner, objectFieldVariableSetToNullTest) {
   runFile("tests/samples/test_object_field_variable_set_to_null.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, objectFieldVariableSetToAnotherTest) {
+  runFile("tests/samples/test_object_field_variable_set_to_another.yz", "7");
 }
