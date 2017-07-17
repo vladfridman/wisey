@@ -11,6 +11,26 @@
 using namespace std;
 using namespace wisey;
 
-string Names::getNPECheckFunction() {
+string Names::getNPECheckFunctionName() {
   return "__checkForNullAndThrow";
+}
+
+string Names::getNPEModelName() {
+  return "MNullPointerException";
+}
+
+string Names::getNPEModelFullName() {
+  return getLangPackageName() + "." + getNPEModelName();
+}
+
+string Names::getIProgramName() {
+  return "IProgram";
+}
+
+string Names::getIProgramFullName() {
+  return getLangPackageName() + "." + getIProgramName();
+}
+
+string Names::getLangPackageName() {
+  return "wisey.lang";
 }

@@ -16,6 +16,7 @@
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/NodeDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -165,7 +166,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<MethodSignature*> interfaceMethodSignatures;
   vector<MethodArgument*> methodArguments;
   vector<const Model*> methodThrownExceptions;
-  methodThrownExceptions.push_back(mContext.getModel("MNullPointerException"));
+  methodThrownExceptions.push_back(mContext.getModel(Names::getNPEModelName()));
   methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
   MethodSignature* methodSignature = new MethodSignature("foo",
                                                          AccessLevel::PUBLIC_ACCESS,

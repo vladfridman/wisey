@@ -24,7 +24,32 @@ public:
    * Returns the name of the function that checks whether the given parameter is null
    * and throws an null pointer exception
    */
-  static std::string getNPECheckFunction();
+  static std::string getNPECheckFunctionName();
+  
+  /**
+   * Returns name of the model representing the null pointer exception
+   */
+  static std::string getNPEModelName();
+
+  /**
+   * Returns full name of the model representing the null pointer exception
+   */
+  static std::string getNPEModelFullName();
+  
+  /**
+   * Returns name of the IProgram interface that main function calls
+   */
+  static std::string getIProgramName();
+  
+  /**
+   * Returns full name of the IProgram interface that main function calls
+   */
+  static std::string getIProgramFullName();
+  
+  /**
+   * Returns name of the lang package
+   */
+  static std::string getLangPackageName();
   
 };
 

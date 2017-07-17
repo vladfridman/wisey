@@ -9,6 +9,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/Names.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -45,7 +46,7 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   for (ModelTypeSpecifier* typeSpecifier : mThrownExceptions) {
     exceptions.push_back(typeSpecifier->getType(context));
   }
-  exceptions.push_back(context.getModel("MNullPointerException"));
+  exceptions.push_back(context.getModel(Names::getNPEModelName()));
   
   return new MethodSignature(mMethodName,
                              AccessLevel::PUBLIC_ACCESS,

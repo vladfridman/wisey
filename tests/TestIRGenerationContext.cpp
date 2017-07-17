@@ -17,6 +17,7 @@
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -254,7 +255,7 @@ TEST_F(IRGenerationContextTest, clearAndAddDefaultImportsDeathTest) {
   mContext.addImport(mController);
   mContext.clearAndAddDefaultImports();
   
-  EXPECT_NE(mContext.getImport("IProgram"), nullptr);
+  EXPECT_NE(mContext.getImport(Names::getIProgramName()), nullptr);
   EXPECT_EXIT(mContext.getImport("CMyController"),
               ::testing::ExitedWithCode(1),
               "Error: Could not find definition for CMyController");

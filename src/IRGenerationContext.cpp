@@ -15,6 +15,7 @@
 
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/Names.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -225,8 +226,8 @@ IObjectType* IRGenerationContext::getImport(string objectName) {
 
 void IRGenerationContext::clearAndAddDefaultImports() {
   mImports.clear();
-  addImport(getInterface("wisey.lang.IProgram"));
-  addImport(getModel("wisey.lang.MNullPointerException"));
+  addImport(getInterface(Names::getIProgramFullName()));
+  addImport(getModel(Names::getNPEModelFullName()));
 }
 
 Scopes& IRGenerationContext::getScopes() {

@@ -10,6 +10,7 @@
 
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
@@ -48,7 +49,7 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
   for (ModelTypeSpecifier* exceptionTypeSpecifier : mExceptions) {
     thrownExceptions.push_back(exceptionTypeSpecifier->getType(context));
   }
-  thrownExceptions.push_back(context.getModel("MNullPointerException"));
+  thrownExceptions.push_back(context.getModel(Names::getNPEModelName()));
   
   return new Method(mMethodName,
                     mAccessLevel,

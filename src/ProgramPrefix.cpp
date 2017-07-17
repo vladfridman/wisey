@@ -31,7 +31,7 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
-  context.setPackage("wisey.lang");
+  context.setPackage(Names::getLangPackageName());
 
   defineNPEModel(context);
   defineNPEFunction(context);
@@ -44,7 +44,7 @@ void ProgramPrefix::defineNPEModel(IRGenerationContext& context) const {
   vector<FieldDeclaration*> npeFields;
   vector<MethodDeclaration*> npeMethods;
   vector<InterfaceTypeSpecifier*> npeParentInterfaces;
-  ModelDefinition npeModelDefinition("MNullPointerException",
+  ModelDefinition npeModelDefinition(Names::getNPEModelName(),
                                      npeFields,
                                      npeMethods,
                                      npeParentInterfaces);
@@ -52,7 +52,7 @@ void ProgramPrefix::defineNPEModel(IRGenerationContext& context) const {
   npeModelDefinition.prototypeMethods(context);
   npeModelDefinition.generateIR(context);
   
-  context.addImport(context.getModel("MNullPointerException"));
+  context.addImport(context.getModel(Names::getNPEModelName()));
 }
 
 void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
@@ -66,7 +66,7 @@ void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
 
   Function* function = Function::Create(ftype,
                                         GlobalValue::InternalLinkage,
-                                        Names::getNPECheckFunction(),
+                                        Names::getNPECheckFunctionName(),
                                         context.getModule());
   
   Function::arg_iterator llvmArguments = function->arg_begin();
@@ -82,7 +82,8 @@ void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
 
   Block* thenBlock = new Block();
   vector<string> package;
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package, "MNullPointerException");
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
+                                                                  Names::getNPEModelName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
   ThrowStatement* throwStatement = new ThrowStatement(objectBuilder);
@@ -92,7 +93,7 @@ void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
   
   context.getScopes().pushScope();
   ifStatement.generateIR(context);
-  context.getScopes().getScope()->removeException(context.getModel("MNullPointerException"));
+  context.getScopes().getScope()->removeException(context.getModel(Names::getNPEModelName()));
   context.getScopes().popScope(context);
   
   IRWriter::createReturnInst(context, NULL);
@@ -104,7 +105,7 @@ void ProgramPrefix::defindIProgramInterface(IRGenerationContext& context) const 
   vector<ModelTypeSpecifier*> thrownExceptions;
   vector<string> packageSpecifier;
   ModelTypeSpecifier* npeExceptionTypeSpecifier =
-  new ModelTypeSpecifier(packageSpecifier, "MNullPointerException");
+  new ModelTypeSpecifier(packageSpecifier, Names::getNPEModelName());
   thrownExceptions.push_back(npeExceptionTypeSpecifier);
   
   MethodSignatureDeclaration* runMethod = new MethodSignatureDeclaration(intTypeSpecifier,
@@ -115,11 +116,13 @@ void ProgramPrefix::defindIProgramInterface(IRGenerationContext& context) const 
   vector<InterfaceTypeSpecifier*> parentInterfaces;
   vector<MethodSignatureDeclaration *> methodSignatureDeclarations;
   methodSignatureDeclarations.push_back(runMethod);
-  InterfaceDefinition programInterface("IProgram", parentInterfaces, methodSignatureDeclarations);
+  InterfaceDefinition programInterface(Names::getIProgramName(),
+                                       parentInterfaces,
+                                       methodSignatureDeclarations);
   
   programInterface.prototypeObjects(context);
   programInterface.prototypeMethods(context);
   programInterface.generateIR(context);
   
-  context.addImport(context.getInterface("IProgram"));
+  context.addImport(context.getInterface(Names::getIProgramName()));
 }

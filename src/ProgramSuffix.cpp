@@ -15,6 +15,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramSuffix.hpp"
 #include "wisey/ReturnStatement.hpp"
@@ -41,10 +42,10 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   
   vector<string> package;
   InterfaceTypeSpecifier* programInterfaceSpecifier =
-    new InterfaceTypeSpecifier(package, "IProgram");
+    new InterfaceTypeSpecifier(package, Names::getIProgramName());
   InterfaceInjector* interfaceInjector = new InterfaceInjector(programInterfaceSpecifier);
   Identifier* programIdentifier = new Identifier("program", "program");
-  programInterfaceSpecifier = new InterfaceTypeSpecifier(package, "IProgram");
+  programInterfaceSpecifier = new InterfaceTypeSpecifier(package, Names::getIProgramName());
   VariableDeclaration programVariableDeclaration(programInterfaceSpecifier,
                                                  programIdentifier,
                                                  interfaceInjector);
@@ -54,7 +55,7 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   ReturnStatement* exceptionReturnStatement = new ReturnStatement(exceptionIntConstant);
   vector<string> packageSpecifier;
   ModelTypeSpecifier* npeTypeSpecifier = new ModelTypeSpecifier(packageSpecifier,
-                                                                "MNullPointerException");
+                                                                Names::getNPEModelName());
   Catch* catchClause = new Catch(npeTypeSpecifier, "exception", exceptionReturnStatement);
   vector<Catch*> catchList;
   catchList.push_back(catchClause);
