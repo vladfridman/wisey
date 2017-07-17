@@ -48,6 +48,16 @@ Value* HeapMethodParameter::generateAssignmentIR(IRGenerationContext& context,
   exit(1);
 }
 
+void HeapMethodParameter::setToNull(IRGenerationContext& context) const {
+  if (!IType::isOwnerType(mType)) {
+    return;
+  }
+  
+  PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
+  Value* null = ConstantPointerNull::get(type);
+  IRWriter::newStoreInst(context, null, mValue);
+}
+
 void HeapMethodParameter::free(IRGenerationContext& context) const {
   if (!IType::isOwnerType(mType)) {
     return;
@@ -56,10 +66,10 @@ void HeapMethodParameter::free(IRGenerationContext& context) const {
   Value* objectPointer = IRWriter::newLoadInst(context, mValue, "parameterObject");
   
   Value* thisPointer = mType->getTypeKind() == INTERFACE_OWNER_TYPE
-  ? Interface::getOriginalObject(context, objectPointer)
-  : objectPointer;
+    ? Interface::getOriginalObject(context, objectPointer)
+    : objectPointer;
   
-  Composer::freeIfNotNull(context, thisPointer);
+  IRWriter::createFree(context, thisPointer);
 }
 
 bool HeapMethodParameter::existsInOuterScope() const {

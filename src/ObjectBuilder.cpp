@@ -43,7 +43,8 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context) const {
 }
 
 void ObjectBuilder::releaseOwnership(IRGenerationContext& context) const {
-  context.getScopes().clearVariable(IVariable::getTemporaryVariableName(this));
+  string variableName = IVariable::getTemporaryVariableName(this);
+  context.getScopes().clearVariable(context, variableName);
 }
 
 const IType* ObjectBuilder::getType(IRGenerationContext& context) const {

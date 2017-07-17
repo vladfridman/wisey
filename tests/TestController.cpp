@@ -503,7 +503,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   "\n  %variableObject = load %systems.vos.wisey.compiler.tests.CChild*, "
       "%systems.vos.wisey.compiler.tests.CChild** %pointer"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CChild* %variableObject to i8*"
-  "\n  call void @__freeIfNotNull(i8* %1)\n";
+  "\n  tail call void @free(i8* %1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

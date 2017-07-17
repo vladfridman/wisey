@@ -129,7 +129,7 @@ TEST_F(ScopesTest, clearVariableTest) {
   
   EXPECT_EQ(mScopes.getVariable("foo"), fooVariable);
   
-  mScopes.clearVariable("foo");
+  mScopes.clearVariable(mContext, "foo");
   
   EXPECT_EQ(mScopes.getVariable("foo"), nullptr);
   EXPECT_EQ(mScopes.getVariableForAssignement("foo"), fooVariable);
@@ -143,14 +143,14 @@ TEST_F(ScopesTest, getClearedVariablesTest) {
   mScopes.setVariable(fooVariable);
   mScopes.setVariable(barVariable);
 
-  mScopes.clearVariable("foo");
+  mScopes.clearVariable(mContext, "foo");
   
   map<string, IVariable*> clearedVariables = mScopes.getClearedVariables();
   EXPECT_EQ(clearedVariables.size(), 1u);
   EXPECT_EQ(clearedVariables.count("foo"), 1u);
   EXPECT_EQ(clearedVariables.at("foo"), fooVariable);
 
-  mScopes.clearVariable("bar");
+  mScopes.clearVariable(mContext, "bar");
   clearedVariables = mScopes.getClearedVariables();
   EXPECT_EQ(clearedVariables.size(), 2u);
   EXPECT_EQ(clearedVariables.count("foo"), 1u);
@@ -189,7 +189,7 @@ TEST_F(ScopesTest, eraseFromClearedVariablesTest) {
   mScopes.setVariable(fooVariable);
   mScopes.setVariable(barVariable);
   
-  mScopes.clearVariable("foo");
+  mScopes.clearVariable(mContext, "foo");
   
   map<string, IVariable*> clearedVariables = mScopes.getClearedVariables();
   EXPECT_EQ(clearedVariables.size(), 1u);
@@ -202,13 +202,13 @@ TEST_F(ScopesTest, eraseFromClearedVariablesTest) {
 
 
 TEST_F(ScopesTest, clearVariableDeathTest) {
-  EXPECT_EXIT(mScopes.clearVariable("foo"),
+  EXPECT_EXIT(mScopes.clearVariable(mContext, "foo"),
               ::testing::ExitedWithCode(1),
               "Error: Could not clear variable 'foo': the Scopes stack is empty");
   
   mScopes.pushScope();
   
-  EXPECT_EXIT(mScopes.clearVariable("foo"),
+  EXPECT_EXIT(mScopes.clearVariable(mContext, "foo"),
               ::testing::ExitedWithCode(1),
               "Error: Could not clear variable 'foo': it was not found");
 }

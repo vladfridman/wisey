@@ -114,10 +114,9 @@ TEST_F(HeapVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
 }
 
 TEST_F(HeapVariableTest, freeTest) {
-  Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext)->getPointerTo());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   HeapVariable heapVariable("foo", mModel->getOwner(), fooValue);
-
-  EXPECT_EQ(mBlock->size(), 0u);
 
   heapVariable.free(mContext);
   
@@ -125,12 +124,34 @@ TEST_F(HeapVariableTest, freeTest) {
   
   string expected =
   "\nentry:"
-  "\n  %variableObject = load i32*, i32** null"
-  "\n  %0 = bitcast i32* %variableObject to i8*"
-  "\n  call void @__freeIfNotNull(i8* %0)\n";
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %variableObject = load %systems.vos.wisey.compiler.tests.MShape*, "
+    "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %variableObject to i8*"
+  "\n  tail call void @free(i8* %1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(HeapVariableTest, setToNullTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  HeapVariable heapVariable("foo", mModel->getOwner(), fooValue);
+  
+  heapVariable.setToNull(mContext);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
+    "%systems.vos.wisey.compiler.tests.MShape** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+  
 }
 
 TEST_F(TestFileSampleRunner, modelVariableAssignmentRunTest) {

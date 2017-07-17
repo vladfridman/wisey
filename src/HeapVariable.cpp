@@ -54,12 +54,24 @@ Value* HeapVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
 
   if (IType::isOwnerType(mType)) {
+    Value* objectPointer = IRWriter::newLoadInst(context, mValue, "objectToFree");
+    Composer::freeIfNotNull(context, objectPointer);
     IRWriter::newStoreInst(context, newValue, mValue);
   } else {
     mValue = newValue;
   }
   
   return mValue;
+}
+
+void HeapVariable::setToNull(IRGenerationContext& context) const {
+  if (!IType::isOwnerType(mType)) {
+    return;
+  }
+  
+  PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
+  Value* null = ConstantPointerNull::get(type);
+  IRWriter::newStoreInst(context, null, mValue);
 }
 
 void HeapVariable::free(IRGenerationContext& context) const {
@@ -73,7 +85,7 @@ void HeapVariable::free(IRGenerationContext& context) const {
     ? Interface::getOriginalObject(context, objectPointer)
     : objectPointer;
   
-  Composer::freeIfNotNull(context, thisPointer);
+  IRWriter::createFree(context, thisPointer);
 }
 
 bool HeapVariable::existsInOuterScope() const {

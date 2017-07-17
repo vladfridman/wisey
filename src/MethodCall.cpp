@@ -170,7 +170,7 @@ void MethodCall::releaseOwnership(IRGenerationContext& context) const {
   }
   
   string variableName = IVariable::getTemporaryVariableName(this);
-  context.getScopes().clearVariable(IVariable::getTemporaryVariableName(this));
+  context.getScopes().clearVariable(context, variableName);
 }
 
 IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {

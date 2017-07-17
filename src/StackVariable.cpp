@@ -12,6 +12,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/StackVariable.hpp"
 
 using namespace std;
@@ -41,6 +42,11 @@ Value* StackVariable::generateAssignmentIR(IRGenerationContext& context,
   const IType* assignToType = assignToExpression->getType(context);
   Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   return IRWriter::newStoreInst(context, castAssignToValue, mValue);
+}
+
+void StackVariable::setToNull(IRGenerationContext& context) const {
+  Log::e("Stack Variables should not be set to null");
+  exit(1);
 }
 
 void StackVariable::free(IRGenerationContext& context) const {

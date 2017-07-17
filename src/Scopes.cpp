@@ -41,7 +41,7 @@ IVariable* Scopes::getVariableForAssignement(string name) {
   return NULL;
 }
 
-void Scopes::clearVariable(string name) {
+void Scopes::clearVariable(IRGenerationContext& context, string name) {
   if (mScopes.size() == 0) {
     Log::e("Could not clear variable '" + name + "': the Scopes stack is empty");
     exit(1);
@@ -50,10 +50,14 @@ void Scopes::clearVariable(string name) {
   
   for (Scope* scope : mScopes) {
     IVariable* variable = scope->findVariable(name);
-    if (variable != NULL) {
-      mClearedVariables[name] = variable;
-      return;
+    if (variable == NULL) {
+      continue;
     }
+    mClearedVariables[name] = variable;
+    if (IType::isOwnerType(variable->getType())) {
+      variable->setToNull(context);
+    }
+    return;
   }
   
   Log::e("Could not clear variable '" + name + "': it was not found");

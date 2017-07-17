@@ -34,17 +34,8 @@ Value* ObjectFieldVariable::getValue() const {
 
 Value* ObjectFieldVariable::generateIdentifierIR(IRGenerationContext& context,
                                                  string llvmVariableName) const {
-  IVariable* thisVariable = context.getScopes().getVariable("this");
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Field* field = checkAndFindField(context);
-  Value* index[2];
-  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
-  
-  GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context,
-                                                                      thisVariable->getValue(),
-                                                                      index);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context);
+
   return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
@@ -62,17 +53,20 @@ Value* ObjectFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                     assignToType,
                                     assignToExpression->generateIR(context),
                                     toType);
-  
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Value* index[2];
-  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
-  IVariable* thisVariable = context.getScopes().getVariable("this");
-  GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context,
-                                                                      thisVariable->getValue(),
-                                                                      index);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context);
   
   return IRWriter::newStoreInst(context, cast, fieldPointer);
+}
+
+void ObjectFieldVariable::setToNull(IRGenerationContext& context) const {
+  if (!IType::isOwnerType(getType())) {
+    return;
+  }
+  
+  PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
+  Value* null = ConstantPointerNull::get(type);
+  GetElementPtrInst* fieldPointer = getFieldPointer(context);
+  IRWriter::newStoreInst(context, null, fieldPointer);
 }
 
 void ObjectFieldVariable::free(IRGenerationContext& context) const {
@@ -92,4 +86,16 @@ Field* ObjectFieldVariable::checkAndFindField(IRGenerationContext& context) cons
 
 bool ObjectFieldVariable::existsInOuterScope() const {
   return true;
+}
+
+GetElementPtrInst* ObjectFieldVariable::getFieldPointer(IRGenerationContext& context) const {
+  IVariable* thisVariable = context.getScopes().getVariable("this");
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Field* field = checkAndFindField(context);
+  Value* index[2];
+  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+  
+  return IRWriter::createGetElementPtrInst(context, thisVariable->getValue(), index);
 }

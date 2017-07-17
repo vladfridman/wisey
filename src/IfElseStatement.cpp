@@ -41,7 +41,7 @@ Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
   for (map<string, IVariable*>::iterator iterator = clearedVariablesAfter.begin();
        iterator != clearedVariablesAfter.end();
        iterator++) {
-    context.getScopes().clearVariable(iterator->first);
+    context.getScopes().clearVariable(context, iterator->first);
   }
   
   context.setBasicBlock(ifEnd);

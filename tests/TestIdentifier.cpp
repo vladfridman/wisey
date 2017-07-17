@@ -74,6 +74,7 @@ TEST_F(IdentifierTest, generateIdentifierIR) {
 TEST_F(IdentifierTest, releaseOwnership) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   Identifier identifier("foo", "bar");
   

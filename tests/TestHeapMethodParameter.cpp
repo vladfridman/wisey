@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/HeapMethodParameter.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -88,23 +89,41 @@ TEST_F(HeapMethodParameterTest, heapVariableIdentifierTest) {
 }
 
 TEST_F(HeapMethodParameterTest, freeTest) {
-  Value* fooValue = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext)->getPointerTo());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   HeapMethodParameter heapMethodParameter("foo", mModel->getOwner(), fooValue);
-  
-  EXPECT_EQ(mBlock->size(), 0u);
   
   heapMethodParameter.free(mContext);
   
-  EXPECT_EQ(mBlock->size(), 3u);
-
   *mStringStream << *mBlock;
 
   string expected =
   "\nentry:"
-  "\n  %parameterObject = load i32*, i32** null"
-  "\n  %0 = bitcast i32* %parameterObject to i8*"
-  "\n  call void @__freeIfNotNull(i8* %0)\n";
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %parameterObject = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %parameterObject to i8*"
+  "\n  tail call void @free(i8* %1)\n";
 
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(HeapMethodParameterTest, setToNullTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  HeapMethodParameter heapMethodParameter("foo", mModel->getOwner(), fooValue);
+  
+  heapMethodParameter.setToNull(mContext);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
+    "%systems.vos.wisey.compiler.tests.MShape** %0\n";
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }

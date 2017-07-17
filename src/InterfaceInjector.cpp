@@ -45,7 +45,7 @@ const IType* InterfaceInjector::getType(IRGenerationContext& context) const {
 }
 
 void InterfaceInjector::releaseOwnership(IRGenerationContext& context) const {
-  context.getScopes().clearVariable(IVariable::getTemporaryVariableName(this));
+  context.getScopes().clearVariable(context, IVariable::getTemporaryVariableName(this));
 }
 
 bool InterfaceInjector::existsInOuterScope(IRGenerationContext& context) const {

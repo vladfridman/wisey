@@ -37,7 +37,7 @@ IVariable* Identifier::checkGetVariable(IRGenerationContext& context) const {
 }
 
 void Identifier::releaseOwnership(IRGenerationContext& context) const {
-  context.getScopes().clearVariable(mName);
+  context.getScopes().clearVariable(context, mName);
 }
 
 bool Identifier::existsInOuterScope(IRGenerationContext& context) const {

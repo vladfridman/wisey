@@ -45,7 +45,7 @@ public:
   /**
    * Remove reference to a variable
    */
-  void clearVariable(std::string name);
+  void clearVariable(IRGenerationContext& context, std::string name);
 
   /**
    * Add a variable to the scope

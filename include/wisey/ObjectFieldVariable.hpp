@@ -46,10 +46,15 @@ public:
   void free(IRGenerationContext& context) const override;
   
   bool existsInOuterScope() const override;
+  
+  void setToNull(IRGenerationContext& context) const override;
 
 private:
   
   Field* checkAndFindField(IRGenerationContext& context) const;
+  
+  llvm::GetElementPtrInst* getFieldPointer(IRGenerationContext& context) const;
+  
 };
 
 } /* namespace wisey */

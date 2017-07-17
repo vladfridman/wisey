@@ -119,9 +119,9 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   "\n  %pointer2 = alloca i8*"
   "\n  store i8* %malloccall1, i8** %pointer2"
   "\n  %variableObject = load i8*, i8** %pointer2"
-  "\n  call void @__freeIfNotNull(i8* %variableObject)"
+  "\n  tail call void @free(i8* %variableObject)"
   "\n  %variableObject3 = load i8*, i8** %pointer"
-  "\n  call void @__freeIfNotNull(i8* %variableObject3)"
+  "\n  tail call void @free(i8* %variableObject3)"
   "\n  ret void\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }
