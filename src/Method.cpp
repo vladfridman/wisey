@@ -147,10 +147,12 @@ void Method::storeArgumentValue(IRGenerationContext& context,
 }
 
 void Method::maybeAddImpliedVoidReturn(IRGenerationContext& context) const {
-  if (!context.getBasicBlock()->getTerminator()) {
-    IRWriter::createReturnInst(context, NULL);
+  if (context.getBasicBlock()->getTerminator()) {
     return;
   }
+
+  context.getScopes().freeOwnedMemory(context);
+  IRWriter::createReturnInst(context, NULL);
 }
 
 void Method::checkForUnhandledExceptions(IRGenerationContext& context) const {
