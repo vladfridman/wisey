@@ -50,16 +50,16 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  const IType* assignToType = variable->getType();
-  TypeKind assignToTypeKind = assignToType->getTypeKind();
-  if (assignToTypeKind == CONTROLLER_TYPE || assignToTypeKind == CONTROLLER_OWNER_TYPE) {
+  const IType* declarationType = variable->getType();
+  TypeKind declarationTypeKind = declarationType->getTypeKind();
+  if (declarationTypeKind == CONTROLLER_TYPE || declarationTypeKind == CONTROLLER_OWNER_TYPE) {
     Log::e("Can not assign to controllers");
     exit(1);
   }
   
   variable->generateAssignmentIR(context, mAssignmentExpression);
   
-  if (IType::isOwnerType(assignToType)) {
+  if (IType::isOwnerType(declarationType)) {
     mAssignmentExpression->releaseOwnership(context);
   }
   

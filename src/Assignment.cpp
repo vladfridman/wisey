@@ -26,16 +26,16 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
   }
   context.getScopes().eraseFromClearedVariables(variable);
   
-  const IType* assignToType = getType(context);
-  TypeKind assignToTypeKind = assignToType->getTypeKind();
-  if (assignToTypeKind == CONTROLLER_TYPE || assignToTypeKind == CONTROLLER_OWNER_TYPE) {
+  const IType* identifierType = getType(context);
+  TypeKind identifierTypeKind = identifierType->getTypeKind();
+  if (identifierTypeKind == CONTROLLER_TYPE || identifierTypeKind == CONTROLLER_OWNER_TYPE) {
     Log::e("Can not assign to controllers");
     exit(1);
   }
   
   Value* result = variable->generateAssignmentIR(context, mExpression);
   
-  if (IType::isOwnerType(assignToType)) {
+  if (IType::isOwnerType(identifierType)) {
     mExpression->releaseOwnership(context);
   }
   
