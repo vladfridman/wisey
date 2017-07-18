@@ -42,18 +42,21 @@ void Scope::setVariable(string name, IVariable* variable) {
   mVariables[name] = variable;
 }
 
-void Scope::eraseClearedVariables(map<string, IVariable*>& clearedVariables) {
-  vector<string> variablesToErase;
+vector<string> Scope::getClearedVariables(map<string, IVariable *> allClearedVariables) {
+  vector<string> variables;
   for (map<string, IVariable*>::iterator iterator = mVariables.begin();
        iterator != mVariables.end();
        iterator++) {
     string name = iterator->first;
-    if (clearedVariables.count(name)) {
-      variablesToErase.push_back(name);
+    if (allClearedVariables.count(name)) {
+      variables.push_back(name);
     }
   }
-  for (string name : variablesToErase) {
-    clearedVariables.erase(name);
+  return variables;
+}
+
+void Scope::eraseClearedVariables(vector<string> clearedVariables) {
+  for (string name : clearedVariables) {
     mVariables.erase(name);
   }
 }

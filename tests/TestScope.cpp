@@ -103,13 +103,23 @@ TEST_F(ScopeTest, addExceptionsTest) {
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
 }
 
+TEST_F(ScopeTest, getClearedVariablesTest) {
+  mScope.setVariable("foo", mFooVariable);
+  mScope.setVariable("bar", mBarVariable);
+  map<string, IVariable*> allClearedVariables;
+  allClearedVariables["foo"] = mFooVariable;
+
+  vector<string> clearedVariables = mScope.getClearedVariables(allClearedVariables);
+  EXPECT_EQ(clearedVariables.size(), 1u);
+  EXPECT_STREQ(clearedVariables.at(0).c_str(), "foo");
+}
+
 TEST_F(ScopeTest, eraseClearedVariablesTest) {
-  map<string, IVariable*> clearedVariables;
-  clearedVariables["foo"] = mFooVariable;
+  vector<string> clearedVariables;
+  clearedVariables.push_back("foo");
   mScope.setVariable("foo", mFooVariable);
 
   mScope.eraseClearedVariables(clearedVariables);
   
-  EXPECT_EQ(clearedVariables.size(), 0u);
   EXPECT_EQ(mScope.findVariable("foo"), nullptr);
 }

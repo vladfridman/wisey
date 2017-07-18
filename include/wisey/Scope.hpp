@@ -55,9 +55,15 @@ public:
   void setVariable(std::string name, IVariable* variable);
 
   /**
+   * Get list of scope's cleared variables given the map of all cleared variables
+   */
+  std::vector<std::string> getClearedVariables(std::map<std::string, IVariable*>
+                                               allClearedVariables);
+
+  /**
    * Erases variables that were cleared from list of variables and from clearedVariables list
    */
-  void eraseClearedVariables(std::map<std::string, IVariable*>& clearedVariables);
+  void eraseClearedVariables(std::vector<std::string> clearedVariables);
 
   /**
    * Set block to break to out of a loop or a switch statement
