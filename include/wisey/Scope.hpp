@@ -61,11 +61,6 @@ public:
                                                allClearedVariables);
 
   /**
-   * Erases variables that were cleared from list of variables and from clearedVariables list
-   */
-  void eraseClearedVariables(std::vector<std::string> clearedVariables);
-
-  /**
    * Set block to break to out of a loop or a switch statement
    */
   void setBreakToBlock(llvm::BasicBlock* block);

@@ -88,12 +88,12 @@ void Scopes::pushScope() {
 void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
 
+  top->freeOwnedMemory(context, mClearedVariables);
+
   vector<string> clearedVariables = top->getClearedVariables(mClearedVariables);
-  top->eraseClearedVariables(clearedVariables);
   for (string variableName : clearedVariables) {
     mClearedVariables.erase(variableName);
   }
-  top->freeOwnedMemory(context, mClearedVariables);
   
   map<string, const Model*> exceptions = top->getExceptions();
   mScopes.pop_front();

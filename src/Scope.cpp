@@ -55,12 +55,6 @@ vector<string> Scope::getClearedVariables(map<string, IVariable *> allClearedVar
   return variables;
 }
 
-void Scope::eraseClearedVariables(vector<string> clearedVariables) {
-  for (string name : clearedVariables) {
-    mVariables.erase(name);
-  }
-}
-
 void Scope::setBreakToBlock(BasicBlock* block) {
   mBreakToBlock = block;
 }

@@ -113,13 +113,3 @@ TEST_F(ScopeTest, getClearedVariablesTest) {
   EXPECT_EQ(clearedVariables.size(), 1u);
   EXPECT_STREQ(clearedVariables.at(0).c_str(), "foo");
 }
-
-TEST_F(ScopeTest, eraseClearedVariablesTest) {
-  vector<string> clearedVariables;
-  clearedVariables.push_back("foo");
-  mScope.setVariable("foo", mFooVariable);
-
-  mScope.eraseClearedVariables(clearedVariables);
-  
-  EXPECT_EQ(mScope.findVariable("foo"), nullptr);
-}
