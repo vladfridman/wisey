@@ -48,6 +48,16 @@ void InterfaceInjector::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(context, IVariable::getTemporaryVariableName(this));
 }
 
+void InterfaceInjector::addReferenceToOwner(IRGenerationContext& context,
+                                            IVariable* reference) const {
+  string variableName = IVariable::getTemporaryVariableName(this);
+  IVariable* variable = context.getScopes().getVariable(variableName);
+  IVariable* owner = IType::isOwnerType(variable->getType())
+  ? variable : context.getScopes().getOwnerForReference(variable);
+  
+  context.getScopes().addReferenceToOwnerVariable(owner, reference);
+}
+
 bool InterfaceInjector::existsInOuterScope(IRGenerationContext& context) const {
   string variableName = IVariable::getTemporaryVariableName(this);
   return context.getScopes().getVariable(variableName)->existsInOuterScope();

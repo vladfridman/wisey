@@ -28,6 +28,11 @@ const IType* NullExpression::getType(IRGenerationContext& context) const {
 void NullExpression::releaseOwnership(IRGenerationContext& context) const {
 }
 
+void NullExpression::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
+  Log::e("Can not add a reference to a null expression");
+  exit(1);
+}
+
 bool NullExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

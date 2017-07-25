@@ -37,6 +37,8 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
   
   if (IType::isOwnerType(identifierType)) {
     mExpression->releaseOwnership(context);
+  } else if (IType::isReferenceType(identifierType)) {
+    mExpression->addReferenceToOwner(context, variable);
   }
   
   return result;
@@ -48,6 +50,10 @@ const IType* Assignment::getType(IRGenerationContext& context) const {
 
 void Assignment::releaseOwnership(IRGenerationContext& context) const {
   mIdentifier->releaseOwnership(context);
+}
+
+void Assignment::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
+  mIdentifier->addReferenceToOwner(context, reference);
 }
 
 bool Assignment::existsInOuterScope(IRGenerationContext& context) const {

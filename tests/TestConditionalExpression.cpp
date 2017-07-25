@@ -221,6 +221,18 @@ TEST_F(ConditionalExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
+TEST_F(ConditionalExpressionTest, addReferenceToOwnerDeathTest) {
+  Mock::AllowLeak(mConditionExpression);
+  Mock::AllowLeak(mIfTrueExpression);
+  Mock::AllowLeak(mIfFalseExpression);
+  
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+
+  EXPECT_EXIT(expression.addReferenceToOwner(mContext, NULL),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not add a reference to non owner type conditional expression");
+}
+
 TEST_F(TestFileSampleRunner, conditionalExpressionRunTrueConditionRunTest) {
   runFile("tests/samples/test_conditional_with_true.yz", "3");
 }

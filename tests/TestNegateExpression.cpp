@@ -107,7 +107,18 @@ TEST_F(NegateExpressionTest, releaseOwnershipDeathTest) {
   
   EXPECT_EXIT(negateExpression.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
-              "Can not release ownership of a negate expression result, it is not a heap pointer");
+              "Error: Can not release ownership of a negate expression result, "
+              "it is not a heap pointer");
+}
+
+TEST_F(NegateExpressionTest, addReferenceToOwnerDeathTest) {
+  NegateExpression negateExpression(mExpression);
+  Mock::AllowLeak(mExpression);
+
+  EXPECT_EXIT(negateExpression.releaseOwnership(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not release ownership of a negate expression result, "
+              "it is not a heap pointer");
 }
 
 TEST_F(TestFileSampleRunner, negateIntRunTest) {

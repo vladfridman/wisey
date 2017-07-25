@@ -40,6 +40,15 @@ void Identifier::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(context, mName);
 }
 
+void Identifier::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
+  IVariable* variable = checkGetVariable(context);
+  IVariable* owner = IType::isOwnerType(variable->getType())
+  ? variable : context.getScopes().getOwnerForReference(variable);
+  
+  context.getScopes().addReferenceToOwnerVariable(owner, reference);
+}
+
+
 bool Identifier::existsInOuterScope(IRGenerationContext& context) const {
   return checkGetVariable(context)->existsInOuterScope();
 }

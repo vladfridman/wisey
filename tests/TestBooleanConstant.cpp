@@ -78,6 +78,14 @@ TEST_F(BooleanConstantTest, releaseOwnershipDeathTest) {
               "Error: Can not release ownership of a boolean constant, it is not a heap pointer");
 }
 
+TEST_F(BooleanConstantTest, addReferenceToOwnerDeathTest) {
+  BooleanConstant booleanConstant(true);
+  
+  EXPECT_EXIT(booleanConstant.addReferenceToOwner(mContext, NULL),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not add a reference to non owner type boolean constant expression");
+}
+
 TEST_F(TestFileSampleRunner, booleanConstantRunTest) {
   runFile("tests/samples/test_boolean_constant.yz", "7");
 }

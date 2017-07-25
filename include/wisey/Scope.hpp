@@ -26,6 +26,8 @@ class Model;
  */
 class Scope {
   std::map<std::string, IVariable*> mVariables;
+  std::vector<IVariable*> mReferenceVariables;
+  std::vector<IVariable*> mOwnerVariables;
   llvm::BasicBlock* mBreakToBlock;
   llvm::BasicBlock* mContinueToBlock;
   TryCatchInfo* mTryCatchInfo;
@@ -60,6 +62,16 @@ public:
   std::vector<std::string> getClearedVariables(std::map<std::string, IVariable*>
                                                allClearedVariables);
 
+  /**
+   * Returns a list of reference variables from this scope
+   */
+  std::vector<IVariable*> getReferenceVariables();
+  
+  /**
+   * Returns a list of owner variables from this scope
+   */
+  std::vector<IVariable*> getOwnerVariables();
+  
   /**
    * Set block to break to out of a loop or a switch statement
    */

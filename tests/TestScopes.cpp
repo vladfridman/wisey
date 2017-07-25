@@ -18,6 +18,7 @@
 #include "MockStatement.hpp"
 #include "MockType.hpp"
 #include "MockVariable.hpp"
+#include "TestFileSampleRunner.hpp"
 #include "wisey/Catch.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -41,9 +42,10 @@ struct ScopesTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Scopes mScopes;
+  Interface* mInterface;
   
   ScopesTest() : mLLVMContext(mContext.getLLVMContext()) {
-
+    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface", NULL);
   }
 };
 
@@ -337,7 +339,9 @@ TEST_F(ScopesTest, freeOwnedMemoryTest) {
   NiceMock<MockVariable> bar;
 
   ON_CALL(foo, getName()).WillByDefault(Return("foo"));
+  ON_CALL(foo, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(bar, getName()).WillByDefault(Return("bar"));
+  ON_CALL(bar, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   
   mScopes.pushScope();
   mScopes.setVariable(&foo);
@@ -350,3 +354,35 @@ TEST_F(ScopesTest, freeOwnedMemoryTest) {
   mScopes.freeOwnedMemory(mContext);
 }
 
+TEST_F(ScopesTest, addReferenceToOwnerVariableTest) {
+  NiceMock<MockVariable> foo;
+  NiceMock<MockVariable> bar;
+  
+  ON_CALL(foo, getName()).WillByDefault(Return("foo"));
+  ON_CALL(foo, getType()).WillByDefault(Return(mInterface->getOwner()));
+  ON_CALL(bar, getName()).WillByDefault(Return("bar"));
+  ON_CALL(bar, getType()).WillByDefault(Return(mInterface));
+  
+  mScopes.addReferenceToOwnerVariable(&foo, &bar);
+  
+  EXPECT_EQ(mScopes.getOwnerForReference(&bar), &foo);
+}
+
+TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTest) {
+  expectFailCompile("tests/samples/test_reference_memory_deallocated_by_passing_owner.yz",
+                    1,
+                    "Error: Undeclared variable 'anotherRef'");
+}
+
+TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThenElseRunDeathTest) {
+  expectFailCompile("tests/samples/"
+                    "test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz",
+                    1,
+                    "Error: Undeclared variable 'data'");
+}
+
+TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerReuseReferenceRunTest) {
+  runFile("tests/samples/"
+          "test_reference_memory_deallocated_by_passing_owner_reuse_reference.yz",
+          "5");
+}

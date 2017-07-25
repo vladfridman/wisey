@@ -28,6 +28,11 @@ void FloatConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
+void FloatConstant::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
+  Log::e("Can not add a reference to non owner type float constant expression");
+  exit(1);
+}
+
 bool FloatConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

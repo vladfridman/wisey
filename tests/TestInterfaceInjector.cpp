@@ -17,6 +17,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockVariable.hpp"
 #include "wisey/InterfaceInjector.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -107,6 +108,23 @@ TEST_F(InterfaceInjectorTest, releaseOwnershipTest) {
   interfaceInjector.releaseOwnership(mContext);
   
   EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
+}
+
+TEST_F(InterfaceInjectorTest, addReferenceToOwnerDeathTest) {
+  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
+  interfaceInjector.generateIR(mContext);
+  
+  NiceMock<MockVariable> referenceVariable;
+  ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
+  ON_CALL(referenceVariable, getType()).WillByDefault(Return(mInterface));
+
+  string temporaryVariableName = IVariable::getTemporaryVariableName(&interfaceInjector);
+
+  interfaceInjector.addReferenceToOwner(mContext, &referenceVariable);
+  
+  IVariable* owner = mContext.getScopes().getOwnerForReference(&referenceVariable);
+  
+  EXPECT_EQ(owner, mContext.getScopes().getVariable(temporaryVariableName));
 }
 
 TEST_F(InterfaceInjectorTest, getTypeTest) {

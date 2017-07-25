@@ -77,3 +77,11 @@ TEST_F(StringConstantTest, releaseOwnershipDeathTest) {
               ::testing::ExitedWithCode(1),
               "Can not release ownership of a string constant, it is not a heap pointer");
 }
+
+TEST_F(StringConstantTest, addReferenceToOwnerDeathTest) {
+  StringConstant stringConstant("\"test\ntest\"");
+  
+  EXPECT_EXIT(stringConstant.addReferenceToOwner(mContext, NULL),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not add a reference to a string constant expression");
+}

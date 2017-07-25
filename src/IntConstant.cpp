@@ -28,6 +28,11 @@ void IntConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
+void IntConstant::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
+  Log::e("Can not add a reference to non owner type int constant expression");
+  exit(1);
+}
+
 bool IntConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

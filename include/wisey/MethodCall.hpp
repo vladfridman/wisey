@@ -40,6 +40,8 @@ public:
   
   bool existsInOuterScope(IRGenerationContext& context) const override;
   
+  void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const override;
+ 
   /**
    * Translate object method name into its LLVM implemenation function name
    */

@@ -98,6 +98,15 @@ TEST_F(BooleanNotExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
+TEST_F(BooleanNotExpressionTest, addReferenceToOwnerDeathTest) {
+  BooleanNotExpression booleanNotExpression(mExpression);
+  Mock::AllowLeak(mExpression);
+  
+  EXPECT_EXIT(booleanNotExpression.addReferenceToOwner(mContext, NULL),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not add a reference to non owner type boolean NOT expression");
+}
+
 TEST_F(TestFileSampleRunner, booleanNotRunTest) {
   runFile("tests/samples/test_boolean_not.yz", "1");
 }

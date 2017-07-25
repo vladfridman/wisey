@@ -17,6 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "MockTypeSpecifier.hpp"
+#include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/CastExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -117,6 +118,17 @@ TEST_F(CastExpressionTest, releaseOwnershipDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of a cast to primitive type, "
               "it is not a heap pointer");
+}
+
+TEST_F(CastExpressionTest, addReferenceToOwnerTest) {
+  NiceMock<MockVariable> referenceVariable;
+  ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
+  ON_CALL(referenceVariable, getType()).WillByDefault(Return(mCarInterface));
+  CastExpression castExpression(mTypeSpecifier, mExpression);
+  
+  EXPECT_CALL(*mExpression, addReferenceToOwner(_, &referenceVariable));
+  
+  castExpression.addReferenceToOwner(mContext, &referenceVariable);
 }
 
 TEST_F(TestFileSampleRunner, CastOrExpressionGrammarRunTest) {

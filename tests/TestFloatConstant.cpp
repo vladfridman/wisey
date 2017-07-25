@@ -54,3 +54,9 @@ TEST_F(FloatConstantTest, releaseOwnershipDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of a float constant, it is not a heap pointer");
 }
+
+TEST_F(FloatConstantTest, addReferenceToOwnerDeathTest) {
+  EXPECT_EXIT(mFloatConstant.addReferenceToOwner(mContext, NULL),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not add a reference to non owner type float constant expression");
+}

@@ -66,6 +66,11 @@ void StringConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
+void StringConstant::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
+  Log::e("Can not add a reference to a string constant expression");
+  exit(1);
+}
+
 bool StringConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

@@ -38,6 +38,8 @@ public:
   
   bool existsInOuterScope(IRGenerationContext& context) const override;
   
+  void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const override;
+  
 private:
   
   void checkTypes(const IType* leftType, const IType* rightType) const;

@@ -53,3 +53,9 @@ TEST_F(LongConstantTest, releaseOwnershipDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of a long constant, it is not a heap pointer");
 }
+
+TEST_F(LongConstantTest, addReferenceToOwnerDeathTest) {
+  EXPECT_EXIT(mLongConstant.addReferenceToOwner(mContext, NULL),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not add a reference to non owner type long constant expression");
+}

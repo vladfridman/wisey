@@ -54,6 +54,12 @@ void RelationalExpression::releaseOwnership(IRGenerationContext& context) const 
   exit(1);
 }
 
+void RelationalExpression::addReferenceToOwner(IRGenerationContext& context,
+                                               IVariable* reference) const {
+  Log::e("Can not add a reference to a relational expression");
+  exit(1);
+}
+
 bool RelationalExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

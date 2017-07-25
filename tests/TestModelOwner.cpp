@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "TestFileSampleRunner.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/ModelOwner.hpp"
@@ -295,4 +296,8 @@ TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(TestFileSampleRunner, ownerAssignToReferenceRunTest) {
+  runFile("tests/samples/test_owner_assign_to_reference.yz", "3");
 }

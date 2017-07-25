@@ -1,0 +1,36 @@
+package systems.vos.wisey.compiler.tests;
+
+model MData {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CService {
+  public void capture(MData* data) {
+
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService;
+
+  public int run() {
+    MData* data = builder(MData).withValue(5).build();
+    if (true) {
+      MData dataRef = data;
+      MData anotherRef = dataRef;
+      mService.capture(data);
+    } else {
+      MData dataRef = data;
+      MData anotherRef = dataRef;
+      mService.capture(data);
+    }
+    
+    return data.getValue();
+  }
+} 
+
+bind(CProgram).to(IProgram);

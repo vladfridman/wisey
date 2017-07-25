@@ -28,6 +28,11 @@ void LongConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
+void LongConstant::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
+  Log::e("Can not add a reference to non owner type long constant expression");
+  exit(1);
+}
+
 bool LongConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

@@ -60,6 +60,12 @@ void LogicalAndExpression::releaseOwnership(IRGenerationContext& context) const 
   exit(1);
 }
 
+void LogicalAndExpression::addReferenceToOwner(IRGenerationContext& context,
+                                               IVariable* reference) const {
+  Log::e("Can not add a reference to non owner type logical AND operation expression");
+  exit(1);
+}
+
 bool LogicalAndExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

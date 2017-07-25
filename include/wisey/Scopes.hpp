@@ -25,8 +25,11 @@ namespace wisey {
 class Scopes {
   std::list<Scope *> mScopes;
   std::map<std::string, IVariable*> mClearedVariables;
+  std::map<std::string, std::map<std::string, IVariable*>> mOwnerToReferencesMap;
+  std::map<std::string, IVariable*> mRererenceToOwnerMap;
 
 public:
+  
   Scopes() {}
 
   ~Scopes() {}
@@ -66,6 +69,16 @@ public:
    * Erase from cleared variables the given variable
    */
   void eraseFromClearedVariables(IVariable* variable);
+  
+  /**
+   * Add reference to owner type variables
+   */
+  void addReferenceToOwnerVariable(IVariable* ownerVariable, IVariable* referenceVariable);
+  
+  /**
+   * Returns an owner variable for the given reference variable
+   */
+  IVariable* getOwnerForReference(IVariable* reference);
   
   /**
    * Pushes a new program scope on the stack of program scopes
@@ -142,6 +155,9 @@ public:
 private:
 
   void reportUnhandledExceptions(std::map<std::string, const Model*> exceptions);
+  
+  void clearReferencesToOwnerTypeVariable(IVariable* variable);
+  
 };
   
 } /* namespace wisey */

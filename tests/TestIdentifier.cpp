@@ -34,8 +34,11 @@ using ::testing::Test;
 
 struct IdentifierTest : public Test {
   IRGenerationContext mContext;
+  Interface* mInterface;
 
   IdentifierTest() {
+    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface", NULL);
+
     mContext.getScopes().pushScope();
   }
   
@@ -61,6 +64,7 @@ TEST_F(IdentifierTest, variableTypeTest) {
 TEST_F(IdentifierTest, generateIdentifierIR) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier identifier("foo", "bar");
@@ -85,3 +89,20 @@ TEST_F(IdentifierTest, releaseOwnership) {
   EXPECT_EQ(mContext.getScopes().getVariable("foo"), nullptr);
 }
 
+TEST_F(IdentifierTest, addReferenceToOwnerTest) {
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
+  mContext.getScopes().setVariable(&mockVariable);
+  NiceMock<MockVariable> referenceVariable;
+  ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
+  ON_CALL(referenceVariable, getType()).WillByDefault(Return(mInterface));
+  mContext.getScopes().setVariable(&referenceVariable);
+  
+  Identifier* identifier = new Identifier("foo", "foo");
+  
+  identifier->addReferenceToOwner(mContext, &referenceVariable);
+  
+  IVariable* owner = mContext.getScopes().getOwnerForReference(&referenceVariable);
+  EXPECT_EQ(owner, &mockVariable);
+}

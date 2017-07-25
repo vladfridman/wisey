@@ -55,3 +55,9 @@ TEST_F(IntConstantTest, releaseOwnershipDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Can not release ownership of an int constant, it is not a heap pointer");
 }
+
+TEST_F(IntConstantTest, addReferenceToOwnerDeathTest) {
+  EXPECT_EXIT(mIntConstant.addReferenceToOwner(mContext, NULL),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not add a reference to non owner type int constant expression");
+}

@@ -79,7 +79,12 @@ public:
    * Tells whether the given type is an owner type
    */
   static bool isOwnerType(const IType* type);
-
+  
+  /**
+   * Tells whether the given type is a reference type
+   */
+  static bool isReferenceType(const IType* type);
+  
   /**
    * Tells whether the given type is a concrete object type such as model, node or controller
    */

@@ -17,6 +17,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/ObjectBuilder.hpp"
@@ -84,7 +85,7 @@ struct ObjectBuilderTest : Test {
     argumentList.push_back(argument1);
     argumentList.push_back(argument2);
     mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList);
-    
+
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -114,6 +115,21 @@ TEST_F(ObjectBuilderTest, releaseOwnershipTest) {
   mObjectBuilder->releaseOwnership(mContext);
 
   EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
+}
+
+TEST_F(ObjectBuilderTest, addReferenceToOwnerTest) {
+  mObjectBuilder->generateIR(mContext);
+  string temporaryVariableName = IVariable::getTemporaryVariableName(mObjectBuilder);
+
+  NiceMock<MockVariable> referenceVariable;
+  ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
+  ON_CALL(referenceVariable, getType()).WillByDefault(Return(mModel));
+  mContext.getScopes().setVariable(&referenceVariable);
+  
+  mObjectBuilder->addReferenceToOwner(mContext, &referenceVariable);
+  IVariable* owner = mContext.getScopes().getOwnerForReference(&referenceVariable);
+  
+  EXPECT_EQ(owner, mContext.getScopes().getVariable(temporaryVariableName));
 }
 
 TEST_F(ObjectBuilderTest, testGetType) {

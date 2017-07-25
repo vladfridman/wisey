@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+model MData {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MData data = builder(MData).withValue(3).build();
+
+    return data.getValue();
+  }
+} 
+
+bind(CProgram).to(IProgram);

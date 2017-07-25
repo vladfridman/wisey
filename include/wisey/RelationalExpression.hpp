@@ -38,6 +38,8 @@ public:
   
   void releaseOwnership(IRGenerationContext& context) const override;
   
+  void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const override;
+  
   bool existsInOuterScope(IRGenerationContext& context) const override;
 
 private:
@@ -49,7 +51,7 @@ private:
   llvm::Value* generateIRForInts(IRGenerationContext& context) const;
 
   void reportIncompatableTypes(const IType* leftType, const IType* rightType) const;
-  
+
 };
   
 } /* namespace wisey */

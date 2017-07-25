@@ -76,10 +76,10 @@ TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
 TEST_F(AssignmentTest, assignmentExpressionTypeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
   Identifier* identifier = new Identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
   mContext.getScopes().setVariable(&mockVariable);
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
 
   EXPECT_EQ(assignment.getType(mContext), PrimitiveTypes::DOUBLE_TYPE);
 }
@@ -130,6 +130,25 @@ TEST_F(AssignmentTest, releaseOwnershipTest) {
   EXPECT_EQ(mContext.getScopes().getVariable("foo"), nullptr);
 }
 
+TEST_F(AssignmentTest, addReferenceToOwnerTest) {
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
+  mContext.getScopes().setVariable(&mockVariable);
+  NiceMock<MockVariable> referenceVariable;
+  ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
+  ON_CALL(referenceVariable, getType()).WillByDefault(Return(mInterface));
+  mContext.getScopes().setVariable(&referenceVariable);
+  
+  Identifier* identifier = new Identifier("foo", "foo");
+  Assignment assignment(identifier, mExpression);
+  
+  assignment.addReferenceToOwner(mContext, &referenceVariable);
+  
+  IVariable* owner = mContext.getScopes().getOwnerForReference(&referenceVariable);
+  EXPECT_EQ(owner, &mockVariable);
+}
+
 TEST_F(AssignmentTest, generateIRWithControllerTypeDeathTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
@@ -150,6 +169,7 @@ TEST_F(AssignmentTest, generateIRWithControllerTypeDeathTest) {
 TEST_F(AssignmentTest, existsInOuterScopeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   Identifier* identifier = new Identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);
   mContext.getScopes().setVariable(&mockVariable);

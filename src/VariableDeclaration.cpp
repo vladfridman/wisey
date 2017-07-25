@@ -61,6 +61,8 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   
   if (IType::isOwnerType(declarationType)) {
     mAssignmentExpression->releaseOwnership(context);
+  } else if (IType::isReferenceType(declarationType)) {
+    mAssignmentExpression->addReferenceToOwner(context, variable);
   }
   
   return value;

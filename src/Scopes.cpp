@@ -53,10 +53,11 @@ void Scopes::clearVariable(IRGenerationContext& context, string name) {
     if (variable == NULL) {
       continue;
     }
-    mClearedVariables[name] = variable;
     if (IType::isOwnerType(variable->getType())) {
+      clearReferencesToOwnerTypeVariable(variable);
       variable->setToNull(context);
     }
+    mClearedVariables[name] = variable;
     return;
   }
   
@@ -90,9 +91,19 @@ void Scopes::popScope(IRGenerationContext& context) {
 
   top->freeOwnedMemory(context, mClearedVariables);
 
-  vector<string> clearedVariables = top->getClearedVariables(mClearedVariables);
-  for (string variableName : clearedVariables) {
+  for (string variableName : top->getClearedVariables(mClearedVariables)) {
     mClearedVariables.erase(variableName);
+  }
+  for (IVariable* variable : top->getOwnerVariables()) {
+    mOwnerToReferencesMap.erase(variable->getName());
+  }
+  for (IVariable* variable : top->getReferenceVariables()) {
+    if (!mRererenceToOwnerMap.count(variable->getName())) {
+      continue;
+    }
+    IVariable* owner = mRererenceToOwnerMap.at(variable->getName());
+    mOwnerToReferencesMap[owner->getName()].erase(variable->getName());
+    mRererenceToOwnerMap.erase(variable->getName());
   }
   
   map<string, const Model*> exceptions = top->getExceptions();
@@ -237,4 +248,31 @@ void Scopes::reportUnhandledExceptions(map<string, const Model*> exceptions) {
     Log::e("Exception " + iterator->first + " is not handled");
   }
   exit(1);
+}
+
+void Scopes::clearReferencesToOwnerTypeVariable(IVariable* ownerVariable) {
+  if (!mOwnerToReferencesMap.count(ownerVariable->getName())) {
+    return;
+  }
+
+  map<string, IVariable*> referencedVariables = mOwnerToReferencesMap.at(ownerVariable->getName());
+  for (map<string, IVariable*>::iterator iterator = referencedVariables.begin();
+       iterator != referencedVariables.end();
+       iterator++) {
+    IVariable* referenceVariable = iterator->second;
+    mClearedVariables[referenceVariable->getName()] = referenceVariable;
+  }
+}
+
+void Scopes::addReferenceToOwnerVariable(IVariable* ownerVariable, IVariable* referenceVariable) {
+  mOwnerToReferencesMap[ownerVariable->getName()][referenceVariable->getName()] = referenceVariable;
+  mRererenceToOwnerMap[referenceVariable->getName()] = ownerVariable;
+}
+
+IVariable* Scopes::getOwnerForReference(IVariable* reference) {
+  if (!mRererenceToOwnerMap.count(reference->getName())) {
+    Log::e("No owner found for reference variable " + reference->getName());
+  }
+
+  return mRererenceToOwnerMap[reference->getName()];
 }

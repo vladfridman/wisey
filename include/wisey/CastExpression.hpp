@@ -36,6 +36,8 @@ public:
   
   bool existsInOuterScope(IRGenerationContext& context) const override;
   
+  void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const override;
+ 
 };
   
 } /* namespace wisey */

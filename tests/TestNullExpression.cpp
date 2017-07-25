@@ -46,3 +46,9 @@ TEST_F(NullExpressionTest, getTypeTest) {
 TEST_F(NullExpressionTest, existsInOuterScopeTest) {
   ASSERT_FALSE(mNullExpression.existsInOuterScope(mContext));
 }
+
+TEST_F(NullExpressionTest, addReferenceToOwnerDeathTest) {
+  EXPECT_EXIT(mNullExpression.addReferenceToOwner(mContext, NULL),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not add a reference to a null expression");
+}
