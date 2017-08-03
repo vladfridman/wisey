@@ -295,6 +295,6 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
   }
 }
 
-IObjectOwnerType* Controller::getOwner() const {
+const IObjectOwnerType* Controller::getOwner() const {
   return mControllerOwner;
 }

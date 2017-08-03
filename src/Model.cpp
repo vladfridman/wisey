@@ -311,6 +311,6 @@ string Model::getRTTIVariableName() const {
   return getName() + ".rtti";
 }
 
-IObjectOwnerType* Model::getOwner() const {
+const IObjectOwnerType* Model::getOwner() const {
   return mModelOwner;
 }

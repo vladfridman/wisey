@@ -465,6 +465,6 @@ CallInst* Interface::callInstanceOf(IRGenerationContext& context,
   return IRWriter::createCallInst(context, function, arguments, "instanceof");
 }
 
-IObjectOwnerType* Interface::getOwner() const {
+const IObjectOwnerType* Interface::getOwner() const {
   return mInterfaceOwner;
 }

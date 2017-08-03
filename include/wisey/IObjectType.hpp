@@ -40,7 +40,7 @@ public:
   /**
    * Returns the owner type for this object
    */
-  virtual IObjectOwnerType* getOwner() const = 0;
+  virtual const IObjectOwnerType* getOwner() const = 0;
   
   /**
    * Override method from IType because ObjectOwner llvm type is always a PointerType

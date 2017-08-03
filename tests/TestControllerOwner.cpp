@@ -110,7 +110,7 @@ TEST_F(ControllerOwnerTest, getTypeKindTest) {
 }
 
 TEST_F(ControllerOwnerTest, canCastTest) {
-  IObjectOwnerType* controllerOwner = mMultiplierController->getOwner();
+  const IObjectOwnerType* controllerOwner = mMultiplierController->getOwner();
 
   EXPECT_FALSE(controllerOwner->canCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_FALSE(controllerOwner->canCastTo(mAdditorController));
@@ -125,7 +125,7 @@ TEST_F(ControllerOwnerTest, canCastTest) {
 }
 
 TEST_F(ControllerOwnerTest, canAutoCastTest) {
-  IObjectOwnerType* controllerOwner = mMultiplierController->getOwner();
+  const IObjectOwnerType* controllerOwner = mMultiplierController->getOwner();
   
   EXPECT_FALSE(controllerOwner->canAutoCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_FALSE(controllerOwner->canAutoCastTo(mAdditorController));

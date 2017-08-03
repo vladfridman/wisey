@@ -118,7 +118,7 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType) const override;
   
-  IObjectOwnerType* getOwner() const override;
+  const IObjectOwnerType* getOwner() const override;
 
 private:
   

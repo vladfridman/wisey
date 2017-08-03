@@ -165,7 +165,7 @@ string Node::getTypeTableName() const {
   return mName + ".typetable";
 }
 
-IObjectOwnerType* Node::getOwner() const {
+const IObjectOwnerType* Node::getOwner() const {
   return mNodeOwner;
 }
 
