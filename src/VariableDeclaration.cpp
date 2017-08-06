@@ -97,10 +97,7 @@ void VariableDeclaration::allocateOwnerOnHeap(IRGenerationContext& context) cons
 
 void VariableDeclaration::allocateReferenceOnHeap(IRGenerationContext& context) const {
   string variableName = mId->getName();
-  const IType* type = mTypeSpecifier->getType(context);
-  Type* llvmType = type->getLLVMType(context.getLLVMContext());
-  
-  assert(llvmType->isPointerTy());
+  const IConcreteObjectType* type = (IConcreteObjectType*) mTypeSpecifier->getType(context);
   
   IVariable* uninitializedVariable = new HeapReferenceVariable(variableName, type, NULL);
   context.getScopes().setVariable(uninitializedVariable);
