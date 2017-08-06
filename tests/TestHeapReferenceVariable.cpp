@@ -1,11 +1,11 @@
 //
-//  TestHeapVariable.cpp
+//  TestHeapReferenceVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link HeapVariable}
+//  Tests {@link HeapReferenceVariable}
 //
 
 #include <gtest/gtest.h>
@@ -19,7 +19,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapVariable.hpp"
+#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -33,7 +33,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct HeapVariableTest : public Test {
+struct HeapReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -43,7 +43,7 @@ struct HeapVariableTest : public Test {
  
 public:
   
-  HeapVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  HeapReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
@@ -74,84 +74,43 @@ public:
   }
 };
 
-TEST_F(HeapVariableTest, heapVariableAssignmentTest) {
+TEST_F(HeapReferenceVariableTest, heapVariableAssignmentTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapVariable* uninitializedHeapVariable =
-    new HeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  IVariable* uninitializedHeapVariable =
+    new HeapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   BitCastInst* bitCastInst = IRWriter::newBitCastInst(mContext, fooValue, fooValue->getType());
-  HeapVariable heapVariable("bar", PrimitiveTypes::INT_TYPE, bitCastInst);
+  HeapReferenceVariable heapReferenceVariable("bar", PrimitiveTypes::INT_TYPE, bitCastInst);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(bitCastInst));
   
-  heapVariable.generateAssignmentIR(mContext, &expression);
+  heapReferenceVariable.generateAssignmentIR(mContext, &expression);
 
-  EXPECT_EQ(heapVariable.getValue(), bitCastInst);
-  EXPECT_TRUE(BitCastInst::classof(heapVariable.getValue()));
+  EXPECT_EQ(heapReferenceVariable.getValue(), bitCastInst);
+  EXPECT_TRUE(BitCastInst::classof(heapReferenceVariable.getValue()));
 }
 
-TEST_F(HeapVariableTest, heapVariableIdentifierTest) {
+TEST_F(HeapReferenceVariableTest, heapVariableIdentifierTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapVariable heapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  HeapReferenceVariable heapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
  
-  EXPECT_EQ(heapVariable.generateIdentifierIR(mContext, "bar"), fooValue);
+  EXPECT_EQ(heapReferenceVariable.generateIdentifierIR(mContext, "bar"), fooValue);
 }
 
-TEST_F(HeapVariableTest, existsInOuterScopeTest) {
+TEST_F(HeapReferenceVariableTest, existsInOuterScopeTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapVariable heapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  HeapReferenceVariable heapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
 
-  EXPECT_FALSE(heapVariable.existsInOuterScope());
+  EXPECT_FALSE(heapReferenceVariable.existsInOuterScope());
 }
 
-TEST_F(HeapVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
-  HeapVariable heapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+TEST_F(HeapReferenceVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
+  HeapReferenceVariable heapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   
-  EXPECT_EXIT(heapVariable.generateIdentifierIR(mContext, "bar"),
+  EXPECT_EXIT(heapReferenceVariable.generateIdentifierIR(mContext, "bar"),
               ::testing::ExitedWithCode(1),
               "Variable 'foo' is used before it has been initialized.");
-}
-
-TEST_F(HeapVariableTest, freeTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
-  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapVariable heapVariable("foo", mModel->getOwner(), fooValue);
-
-  heapVariable.free(mContext);
-  
-  *mStringStream << *mBlock;
-  
-  string expected =
-  "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %variableObject = load %systems.vos.wisey.compiler.tests.MShape*, "
-    "%systems.vos.wisey.compiler.tests.MShape** %0"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %variableObject to i8*"
-  "\n  tail call void @free(i8* %1)\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  mStringBuffer.clear();
-}
-
-TEST_F(HeapVariableTest, setToNullTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
-  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapVariable heapVariable("foo", mModel->getOwner(), fooValue);
-  
-  heapVariable.setToNull(mContext);
-  
-  *mStringStream << *mBlock;
-  
-  string expected =
-  "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
-    "%systems.vos.wisey.compiler.tests.MShape** %0\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  mStringBuffer.clear();
-  
 }
 
 TEST_F(TestFileSampleRunner, modelVariableAssignmentRunTest) {
@@ -160,10 +119,6 @@ TEST_F(TestFileSampleRunner, modelVariableAssignmentRunTest) {
 
 TEST_F(TestFileSampleRunner, interfaceVariableAssignmentRunTest) {
   runFile("tests/samples/test_interface_variable_assignment.yz", "25");
-}
-
-TEST_F(TestFileSampleRunner, nullPointerExceptionRunTest) {
-  compileAndRunFile("tests/samples/test_heap_owner_variable_not_initialized.yz", 11);
 }
 
 TEST_F(TestFileSampleRunner, usingUninitializedHeapVariableRunDeathTest) {

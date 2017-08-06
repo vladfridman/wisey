@@ -18,7 +18,8 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapVariable.hpp"
+#include "wisey/HeapOwnerVariable.hpp"
+#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -140,14 +141,14 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
-  HeapVariable* foo = new HeapVariable("foo", mModel->getOwner(), fooPointer);
+  IVariable* foo = new HeapOwnerVariable("foo", mModel->getOwner(), fooPointer);
   mContext.getScopes().setVariable(foo);
 
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* barPointer = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, barMalloc, barPointer);
-  HeapVariable* bar = new HeapVariable("bar", mModel->getOwner(), barPointer);
+  IVariable* bar = new HeapOwnerVariable("bar", mModel->getOwner(), barPointer);
   mContext.getScopes().setVariable(bar);
 
   ReturnStatement returnStatement(mExpression);
@@ -189,12 +190,12 @@ TEST_F(ReturnStatementTest, heapVariablesAreNotClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  HeapVariable* foo = new HeapVariable("foo", mModel, fooMalloc);
+  IVariable* foo = new HeapReferenceVariable("foo", mModel, fooMalloc);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  HeapVariable* bar = new HeapVariable("bar", mModel, barMalloc);
+  IVariable* bar = new HeapReferenceVariable("bar", mModel, barMalloc);
   mContext.getScopes().setVariable(bar);
   
   ReturnStatement returnStatement(mExpression);

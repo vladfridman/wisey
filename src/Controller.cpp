@@ -16,7 +16,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapVariable.hpp"
+#include "wisey/HeapOwnerVariable.hpp"
 #include "wisey/Log.hpp"
 
 using namespace llvm;
@@ -263,7 +263,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     string variableName = IVariable::getTemporaryVariableName(fieldValue);
     Value* alloc = IRWriter::newAllocaInst(context, fieldValue->getType(), "pointer");
     IRWriter::newStoreInst(context, fieldValue, alloc);
-    HeapVariable* heapVariable = new HeapVariable(variableName, controller->getOwner(), alloc);
+    IVariable* heapVariable = new HeapOwnerVariable(variableName, controller->getOwner(), alloc);
     context.getScopes().setVariable(heapVariable);
   }
 }

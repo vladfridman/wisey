@@ -11,7 +11,6 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/Environment.hpp"
-#include "wisey/HeapVariable.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/ObjectFieldVariable.hpp"
 

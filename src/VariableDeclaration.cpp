@@ -13,7 +13,8 @@
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapVariable.hpp"
+#include "wisey/HeapOwnerVariable.hpp"
+#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/StackVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -93,7 +94,10 @@ Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
     IRWriter::newStoreInst(context, ConstantPointerNull::get((PointerType*) llvmType), value);
   }
   
-  HeapVariable* uninitializedHeapVariable = new HeapVariable(variableName, type, value);
+  IVariable* uninitializedHeapVariable = IType::isOwnerType(type)
+  ? (IVariable*) new HeapOwnerVariable(variableName, (IObjectOwnerType*) type, value)
+  : (IVariable*) new HeapReferenceVariable(variableName, type, value);
+  
   context.getScopes().setVariable(uninitializedHeapVariable);
 
   return NULL;

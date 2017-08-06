@@ -17,7 +17,6 @@
 #include "MockVariable.hpp"
 #include "wisey/Scope.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/HeapVariable.hpp"
 #include "wisey/StackVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 

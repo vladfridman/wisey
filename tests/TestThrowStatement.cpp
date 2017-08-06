@@ -19,7 +19,8 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Block.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapVariable.hpp"
+#include "wisey/HeapOwnerVariable.hpp"
+#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThrowStatement.hpp"
 
@@ -126,14 +127,14 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
-  HeapVariable* foo = new HeapVariable("foo", mCircleModel->getOwner(), fooPointer);
+  IVariable* foo = new HeapOwnerVariable("foo", mCircleModel->getOwner(), fooPointer);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* barPointer = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, barMalloc, barPointer);
-  HeapVariable* bar = new HeapVariable("bar", mCircleModel->getOwner(), barPointer);
+  IVariable* bar = new HeapOwnerVariable("bar", mCircleModel->getOwner(), barPointer);
   mContext.getScopes().setVariable(bar);
   
   Constant* exceptionObject =
@@ -178,12 +179,12 @@ TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  HeapVariable* foo = new HeapVariable("foo", mCircleModel, fooMalloc);
+  IVariable* foo = new HeapReferenceVariable("foo", mCircleModel, fooMalloc);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  HeapVariable* bar = new HeapVariable("bar", mCircleModel, barMalloc);
+  IVariable* bar = new HeapReferenceVariable("bar", mCircleModel, barMalloc);
   mContext.getScopes().setVariable(bar);
   
   Constant* exceptionObject =

@@ -19,7 +19,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/HeapVariable.hpp"
+#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/ObjectFieldVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -73,7 +73,7 @@ struct ObjectFieldVariableTest : Test {
     mContext.getScopes().pushScope();
     
     Value* thisPointer = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
-    IVariable* thisVariable = new HeapVariable("this", mModel, thisPointer);
+    IVariable* thisVariable = new HeapReferenceVariable("this", mModel, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
    
     mObjectFieldValue = ConstantPointerNull::get(mSubModel->getLLVMType(mLLVMContext));

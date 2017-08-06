@@ -10,7 +10,8 @@
 
 #include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
-#include "wisey/HeapVariable.hpp"
+#include "wisey/HeapOwnerVariable.hpp"
+#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -148,14 +149,16 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   string variableName = IVariable::getTemporaryVariableName(this);
 
   if (!IType::isOwnerType(returnType)) {
-    HeapVariable* tempVariable = new HeapVariable(variableName, returnType, result);
+    IVariable* tempVariable = new HeapReferenceVariable(variableName, returnType, result);
     context.getScopes().setVariable(tempVariable);
     return result;
   }
   
   Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
   IRWriter::newStoreInst(context, result, pointer);
-  HeapVariable* tempVariable = new HeapVariable(variableName, returnType, pointer);
+  IVariable* tempVariable = new HeapOwnerVariable(variableName,
+                                                  (IObjectOwnerType*) returnType,
+                                                  pointer);
   context.getScopes().setVariable(tempVariable);
   return result;
 }

@@ -21,12 +21,12 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Catch.hpp"
 #include "wisey/EmptyStatement.hpp"
+#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/HeapVariable.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
-#include "wisey/StackVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StackVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -218,8 +218,8 @@ TEST_F(ScopesTest, clearVariableDeathTest) {
 TEST_F(ScopesTest, setHeapVariableTest) {
   mScopes.pushScope();
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapVariable* heapVariable =
-    new HeapVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  IVariable* heapVariable =
+    new HeapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   mScopes.setVariable(heapVariable);
   
   ASSERT_NE(mScopes.getVariable("foo"), nullptr);
@@ -229,8 +229,8 @@ TEST_F(ScopesTest, setHeapVariableTest) {
 TEST_F(ScopesTest, setUnitializedHeapVariableTest) {
   mScopes.pushScope();
   
-  HeapVariable* unitializedHeapVariable =
-    new HeapVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  IVariable* unitializedHeapVariable =
+    new HeapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   mScopes.setVariable(unitializedHeapVariable);
   
   ASSERT_NE(mScopes.getVariable("foo"), nullptr);
