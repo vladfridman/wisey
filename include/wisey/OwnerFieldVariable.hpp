@@ -1,35 +1,34 @@
 //
-//  ObjectFieldVariable.hpp
+//  OwnerFieldVariable.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 2/10/17.
+//  Created by Vladimir Fridman on 8/6/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ObjectFieldVariable_h
-#define ObjectFieldVariable_h
+#ifndef OwnerFieldVariable_h
+#define OwnerFieldVariable_h
 
 #include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IVariable.hpp"
-#include "wisey/Model.hpp"
+#include "wisey/IFieldVariable.hpp"
 
 namespace wisey {
-
-/**
- * Represents a local variable allocated on the stack
- */
-class ObjectFieldVariable : public IVariable {
   
+/**
+ * Represents an object field that is of owner type
+ */
+class OwnerFieldVariable : public IFieldVariable {
+    
   std::string mName;
   llvm::Value* mValue;
   const IConcreteObjectType* mObject;
   
 public:
   
-  ObjectFieldVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object)
-    : mName(name), mValue(value), mObject(object) { }
+  OwnerFieldVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object)
+  : mName(name), mValue(value), mObject(object) { }
   
-  ~ObjectFieldVariable() {}
+  ~OwnerFieldVariable() {}
   
   std::string getName() const override;
   
@@ -48,15 +47,9 @@ public:
   bool existsInOuterScope() const override;
   
   void setToNull(IRGenerationContext& context) const override;
-
-private:
-  
-  Field* checkAndFindField(IRGenerationContext& context) const;
-  
-  llvm::GetElementPtrInst* getFieldPointer(IRGenerationContext& context) const;
   
 };
-
+  
 } /* namespace wisey */
 
-#endif /* ObjectFieldVariable_h */
+#endif /* OwnerFieldVariable_h */

@@ -12,10 +12,12 @@
 
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/ObjectFieldVariable.hpp"
+#include "wisey/OwnerFieldVariable.hpp"
+#include "wisey/ReferenceFieldVariable.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -257,7 +259,10 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
        iterator != fields.end();
        iterator++) {
     Field* field = iterator->second;
-    ObjectFieldVariable* fieldVariable = new ObjectFieldVariable(field->getName(), NULL, object);
+    const IType* type = field->getType();
+    IFieldVariable* fieldVariable = IType::isOwnerType(type)
+      ? (IFieldVariable*) new OwnerFieldVariable(field->getName(), NULL, object)
+      : (IFieldVariable*) new ReferenceFieldVariable(field->getName(), NULL, object);
     context.getScopes().setVariable(fieldVariable);
   }
 }

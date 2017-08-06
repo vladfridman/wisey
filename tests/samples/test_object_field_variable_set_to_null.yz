@@ -15,7 +15,7 @@ controller CProgram implements IProgram {
     mModel = builder(MModel).withValue(5).build();
     MModel* variable = mModel;
     
-    return variable.getValue();
+    return mModel.getValue();
   }
 } 
 

@@ -11,7 +11,6 @@
 #include "wisey/Controller.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/Environment.hpp"
-#include "wisey/ObjectFieldVariable.hpp"
 
 using namespace llvm;
 using namespace std;

@@ -12,7 +12,6 @@
 
 #include "wisey/Environment.hpp"
 #include "wisey/ModelDefinition.hpp"
-#include "wisey/ObjectFieldVariable.hpp"
 
 using namespace llvm;
 using namespace std;
