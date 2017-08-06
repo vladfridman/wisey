@@ -1,11 +1,11 @@
 //
-//  TestHeapReferenceMethodParameter.cpp
+//  TestHeapOwnerMethodParameter.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 6/20/17.
+//  Created by Vladimir Fridman on 8/6/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link HeapReferenceMethodParameter}
+//  Tests {@link HeapOwnerMethodParameter}
 //
 
 #include <gtest/gtest.h>
@@ -16,7 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "wisey/HeapReferenceMethodParameter.hpp"
+#include "wisey/HeapOwnerMethodParameter.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -32,7 +32,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct HeapReferenceMethodParameterTest : public Test {
+struct HeapOwnerMethodParameterTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -42,10 +42,10 @@ struct HeapReferenceMethodParameterTest : public Test {
   
 public:
   
-  HeapReferenceMethodParameterTest() : mLLVMContext(mContext.getLLVMContext()) {
+  HeapOwnerMethodParameterTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-
+    
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -68,22 +68,47 @@ public:
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     mModel = new Model(modelFullName, structType);
     mModel->setFields(fields);
-
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
-}
+  }
 };
 
-TEST_F(HeapReferenceMethodParameterTest, heapVariableAssignmentDeathTest) {
-  HeapReferenceMethodParameter heapMethodParameter("foo", PrimitiveTypes::INT_TYPE, NULL);
+TEST_F(HeapOwnerMethodParameterTest, freeTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  HeapOwnerMethodParameter heapMethodParameter("foo", mModel->getOwner(), fooValue);
   
-  EXPECT_EXIT(heapMethodParameter.generateAssignmentIR(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Assignment to method parameters is not allowed");
+  heapMethodParameter.free(mContext);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %parameterObject = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %parameterObject to i8*"
+  "\n  tail call void @free(i8* %1)\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }
 
-TEST_F(HeapReferenceMethodParameterTest, heapVariableIdentifierTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapReferenceMethodParameter heapMethodParameter("foo", PrimitiveTypes::INT_TYPE, fooValue);
+TEST_F(HeapOwnerMethodParameterTest, setToNullTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  HeapOwnerMethodParameter heapMethodParameter("foo", mModel->getOwner(), fooValue);
   
-  EXPECT_EQ(heapMethodParameter.generateIdentifierIR(mContext, "bar"), fooValue);
+  heapMethodParameter.setToNull(mContext);
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }

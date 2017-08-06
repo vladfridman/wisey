@@ -8,7 +8,8 @@
 
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
-#include "wisey/HeapMethodParameter.hpp"
+#include "wisey/HeapOwnerMethodParameter.hpp"
+#include "wisey/HeapReferenceMethodParameter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -137,12 +138,12 @@ void Method::storeArgumentValue(IRGenerationContext& context,
     Type* variableLLVMType = variableType->getLLVMType(context.getLLVMContext());
     Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterObjectPointer");
     IRWriter::newStoreInst(context, variableValue, alloc);
-    IVariable* variable = new HeapMethodParameter(variableName, variableType, alloc);
+    IVariable* variable = new HeapOwnerMethodParameter(variableName, variableType, alloc);
     context.getScopes().setVariable(variable);
     return;
   }
   
-  IVariable* variable = new HeapMethodParameter(variableName, variableType, variableValue);
+  IVariable* variable = new HeapReferenceMethodParameter(variableName, variableType, variableValue);
   context.getScopes().setVariable(variable);
 }
 
