@@ -37,12 +37,17 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     Log::e("Can not have local controller type variables, controllers can only be injected.");
     exit(1);
   }
-  Value* value = typeKind == PRIMITIVE_TYPE
-    ? allocateOnStack(context)
-    : allocateOnHeap(context);
+  
+  if (typeKind == PRIMITIVE_TYPE) {
+    allocateOnStack(context);
+  } else if (IType::isOwnerType(mTypeSpecifier->getType(context))) {
+    allocateOwnerOnHeap(context);
+  } else {
+    allocateReferenceOnHeap(context);
+  }
   
   if (mAssignmentExpression == NULL) {
-    return value;
+    return NULL;
   }
   
   IVariable* variable = context.getScopes().getVariable(mId->getName());
@@ -66,41 +71,39 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     mAssignmentExpression->addReferenceToOwner(context, variable);
   }
   
-  return value;
+  return NULL;
 }
 
-Value* VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
+void VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
   const IType* type = mTypeSpecifier->getType(context);
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId->getName());
   
   StackVariable* variable = new StackVariable(mId->getName(), type, alloc);
   context.getScopes().setVariable(variable);
-
-  return alloc;
 }
 
-Value* VariableDeclaration::allocateOnHeap(IRGenerationContext& context) const {
+void VariableDeclaration::allocateOwnerOnHeap(IRGenerationContext& context) const {
+  string variableName = mId->getName();
+  const IObjectOwnerType* type = (IObjectOwnerType*) mTypeSpecifier->getType(context);
+  PointerType* llvmType = type->getLLVMType(context.getLLVMContext());
   
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "heapObject");
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
+  
+  IVariable* uninitializedVariable = new HeapOwnerVariable(variableName, type, alloca);
+  context.getScopes().setVariable(uninitializedVariable);
+}
+
+void VariableDeclaration::allocateReferenceOnHeap(IRGenerationContext& context) const {
   string variableName = mId->getName();
   const IType* type = mTypeSpecifier->getType(context);
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
   
   assert(llvmType->isPointerTy());
   
-  Value* value = NULL;
-  if (IType::isOwnerType(type)) {
-    value = IRWriter::newAllocaInst(context, llvmType, "heapObject");
-    IRWriter::newStoreInst(context, ConstantPointerNull::get((PointerType*) llvmType), value);
-  }
-  
-  IVariable* uninitializedHeapVariable = IType::isOwnerType(type)
-  ? (IVariable*) new HeapOwnerVariable(variableName, (IObjectOwnerType*) type, value)
-  : (IVariable*) new HeapReferenceVariable(variableName, type, value);
-  
-  context.getScopes().setVariable(uninitializedHeapVariable);
-
-  return NULL;
+  IVariable* uninitializedVariable = new HeapReferenceVariable(variableName, type, NULL);
+  context.getScopes().setVariable(uninitializedVariable);
 }
 
 const ITypeSpecifier* VariableDeclaration::getTypeSpecifier() const {

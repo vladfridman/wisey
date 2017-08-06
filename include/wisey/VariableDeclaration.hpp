@@ -41,9 +41,11 @@ public:
   
 private:
   
-  llvm::Value* allocateOnStack(IRGenerationContext& context) const;
+  void allocateOnStack(IRGenerationContext& context) const;
   
-  llvm::Value* allocateOnHeap(IRGenerationContext& context) const;
+  void allocateOwnerOnHeap(IRGenerationContext& context) const;
+  
+  void allocateReferenceOnHeap(IRGenerationContext& context) const;
 };
 
 /**
