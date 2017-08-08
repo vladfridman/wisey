@@ -111,7 +111,7 @@ TEST_F(ReferenceFieldVariableTest, objectFieldVariableGenerateIdentifierIRTest) 
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
     "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MModel*, "
+  "\n  %referenceFieldIdentifier = load %systems.vos.wisey.compiler.tests.MModel*, "
     "%systems.vos.wisey.compiler.tests.MModel** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -125,7 +125,7 @@ TEST_F(ReferenceFieldVariableTest, objectFieldVariableGenerateAssignmentIRTest) 
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
   "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MModel*, "
+  "\n  %referenceFieldIdentifier = load %systems.vos.wisey.compiler.tests.MModel*, "
   "%systems.vos.wisey.compiler.tests.MModel** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

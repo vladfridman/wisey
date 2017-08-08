@@ -168,10 +168,10 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
     "\n  %pointer2 = alloca i8*"
     "\n  store i8* %malloccall1, i8** %pointer2"
     "\n  %conv = zext i32 3 to i64"
-    "\n  %variableObject = load i8*, i8** %pointer2"
-    "\n  tail call void @free(i8* %variableObject)"
-    "\n  %variableObject3 = load i8*, i8** %pointer"
-    "\n  tail call void @free(i8* %variableObject3)"
+    "\n  %ownerToFree = load i8*, i8** %pointer2"
+    "\n  tail call void @free(i8* %ownerToFree)"
+    "\n  %ownerToFree3 = load i8*, i8** %pointer"
+    "\n  tail call void @free(i8* %ownerToFree3)"
     "\n  ret i64 %conv\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

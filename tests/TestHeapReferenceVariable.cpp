@@ -75,42 +75,54 @@ public:
 };
 
 TEST_F(HeapReferenceVariableTest, heapVariableAssignmentTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  IVariable* uninitializedHeapVariable =
-    new HeapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
-  mContext.getScopes().setVariable(uninitializedHeapVariable);
-  BitCastInst* bitCastInst = IRWriter::newBitCastInst(mContext, fooValue, fooValue->getType());
-  HeapReferenceVariable heapReferenceVariable("bar", PrimitiveTypes::INT_TYPE, bitCastInst);
-  NiceMock<MockExpression> expression;
-  ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  ON_CALL(expression, generateIR(_)).WillByDefault(Return(bitCastInst));
+  Type* llvmType = mModel->getLLVMType(mLLVMContext);
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   
-  heapReferenceVariable.generateAssignmentIR(mContext, &expression);
+  IVariable* uninitializedHeapVariable = new HeapReferenceVariable("foo", mModel, fooValue);
+  mContext.getScopes().setVariable(uninitializedHeapVariable);
+  Value* barValue = ConstantPointerNull::get((PointerType*) llvmType);
+  HeapReferenceVariable heapReferenceVariable("bar", mModel, NULL);
+  NiceMock<MockExpression> expression;
+  ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
+  ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
+  
+  uninitializedHeapVariable->generateAssignmentIR(mContext, &expression);
 
-  EXPECT_EQ(heapReferenceVariable.getValue(), bitCastInst);
-  EXPECT_TRUE(BitCastInst::classof(heapReferenceVariable.getValue()));
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }
 
 TEST_F(HeapReferenceVariableTest, heapVariableIdentifierTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapReferenceVariable heapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
- 
-  EXPECT_EQ(heapReferenceVariable.generateIdentifierIR(mContext, "bar"), fooValue);
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  HeapReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
+  
+  heapReferenceVariable.generateIdentifierIR(mContext, "fooVal");
+  
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %referenceIdentifier = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }
 
 TEST_F(HeapReferenceVariableTest, existsInOuterScopeTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapReferenceVariable heapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  HeapReferenceVariable heapReferenceVariable("foo", mModel, NULL);
 
   EXPECT_FALSE(heapReferenceVariable.existsInOuterScope());
-}
-
-TEST_F(HeapReferenceVariableTest, uninitializedHeapVariableIdentifierDeathTest) {
-  HeapReferenceVariable heapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
-  
-  EXPECT_EXIT(heapReferenceVariable.generateIdentifierIR(mContext, "bar"),
-              ::testing::ExitedWithCode(1),
-              "Variable 'foo' is used before it has been initialized.");
 }
 
 TEST_F(TestFileSampleRunner, modelVariableAssignmentRunTest) {
@@ -122,9 +134,7 @@ TEST_F(TestFileSampleRunner, interfaceVariableAssignmentRunTest) {
 }
 
 TEST_F(TestFileSampleRunner, usingUninitializedHeapVariableRunDeathTest) {
-  expectFailCompile("tests/samples/test_heap_variable_not_initialized.yz",
-                    1,
-                    "Error: Variable 'color' is used before it has been initialized.");
+  compileAndRunFile("tests/samples/test_heap_variable_not_initialized.yz", 11);
 }
 
 TEST_F(TestFileSampleRunner, incompatableHeapVariableTypesInAssignmentRunDeathTest) {

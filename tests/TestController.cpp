@@ -500,9 +500,9 @@ TEST_F(ControllerTest, injectFieldTest) {
 
   *mStringStream << *block;
   expected = "\nfreememory:                                       ; No predecessors!"
-  "\n  %variableObject = load %systems.vos.wisey.compiler.tests.CChild*, "
+  "\n  %ownerToFree = load %systems.vos.wisey.compiler.tests.CChild*, "
       "%systems.vos.wisey.compiler.tests.CChild** %pointer"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CChild* %variableObject to i8*"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CChild* %ownerToFree to i8*"
   "\n  tail call void @free(i8* %1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

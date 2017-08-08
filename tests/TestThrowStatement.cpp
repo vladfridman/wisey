@@ -166,10 +166,10 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   "\n  %3 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %2 to i64"
   "\n  %4 = call i8* @__cxa_allocate_exception(i64 %3)"
   "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %4, i8* %0, i64 %3, i32 4, i1 false)"
-  "\n  %variableObject = load i8*, i8** %pointer2"
-  "\n  tail call void @free(i8* %variableObject)"
-  "\n  %variableObject3 = load i8*, i8** %pointer"
-  "\n  tail call void @free(i8* %variableObject3)"
+  "\n  %ownerToFree = load i8*, i8** %pointer2"
+  "\n  tail call void @free(i8* %ownerToFree)"
+  "\n  %ownerToFree3 = load i8*, i8** %pointer"
+  "\n  tail call void @free(i8* %ownerToFree3)"
   "\n  call void @__cxa_throw(i8* %4, i8* %1, i8* null)"
   "\n  unreachable\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());

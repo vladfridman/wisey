@@ -35,7 +35,7 @@ Value* HeapOwnerMethodParameter::getValue() const {
 
 Value* HeapOwnerMethodParameter::generateIdentifierIR(IRGenerationContext& context,
                                                       string llvmVariableName) const {
-  return IRWriter::newLoadInst(context, mValue, "parameterObjectIdentifier");
+  return IRWriter::newLoadInst(context, mValue, "ownerParameterIdentifier");
 }
 
 Value* HeapOwnerMethodParameter::generateAssignmentIR(IRGenerationContext& context,
@@ -51,7 +51,7 @@ void HeapOwnerMethodParameter::setToNull(IRGenerationContext& context) const {
 }
 
 void HeapOwnerMethodParameter::free(IRGenerationContext& context) const {
-  Value* objectPointer = IRWriter::newLoadInst(context, mValue, "parameterObject");
+  Value* objectPointer = IRWriter::newLoadInst(context, mValue, "ownerParameterToFree");
   
   Value* thisPointer = mType->getTypeKind() == INTERFACE_OWNER_TYPE
     ? Interface::getOriginalObject(context, objectPointer)

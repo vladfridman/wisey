@@ -82,7 +82,7 @@ TEST_F(HeapOwnerVariableTest, heapVariableAssignmentTest) {
     new HeapOwnerVariable("foo", mModel->getOwner(), fooValue);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   Value* barValue = ConstantPointerNull::get((PointerType*) llvmType);
-  HeapOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), barValue);
+  HeapOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), NULL);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel->getOwner()));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
@@ -94,9 +94,9 @@ TEST_F(HeapOwnerVariableTest, heapVariableAssignmentTest) {
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %objectToFree = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "\n  %ownerToFree = load %systems.vos.wisey.compiler.tests.MShape*, "
   "%systems.vos.wisey.compiler.tests.MShape** %0"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %objectToFree to i8*"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %ownerToFree to i8*"
   "\n  call void @__freeIfNotNull(i8* %1)"
   "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
   "%systems.vos.wisey.compiler.tests.MShape** %0\n";
@@ -117,7 +117,7 @@ TEST_F(HeapOwnerVariableTest, heapVariableIdentifierTest) {
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %heapObjectIdentifier = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "\n  %ownerIdentifier = load %systems.vos.wisey.compiler.tests.MShape*, "
   "%systems.vos.wisey.compiler.tests.MShape** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -143,9 +143,9 @@ TEST_F(HeapOwnerVariableTest, freeTest) {
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %variableObject = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "\n  %ownerToFree = load %systems.vos.wisey.compiler.tests.MShape*, "
   "%systems.vos.wisey.compiler.tests.MShape** %0"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %variableObject to i8*"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %ownerToFree to i8*"
   "\n  tail call void @free(i8* %1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

@@ -34,7 +34,7 @@ Value* ReferenceFieldVariable::generateIdentifierIR(IRGenerationContext& context
                                                  string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
 
-  return IRWriter::newLoadInst(context, fieldPointer, "");
+  return IRWriter::newLoadInst(context, fieldPointer, "referenceFieldIdentifier");
 }
 
 Value* ReferenceFieldVariable::generateAssignmentIR(IRGenerationContext& context,

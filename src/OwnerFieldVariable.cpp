@@ -37,7 +37,7 @@ Value* OwnerFieldVariable::generateIdentifierIR(IRGenerationContext& context,
                                                       string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
-  return IRWriter::newLoadInst(context, fieldPointer, "");
+  return IRWriter::newLoadInst(context, fieldPointer, "ownerFieldIdentifier");
 }
 
 Value* OwnerFieldVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -54,7 +54,7 @@ Value* OwnerFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
-  Value* objectPointer = IRWriter::newLoadInst(context, fieldPointer, "fieldObjectToFree");
+  Value* objectPointer = IRWriter::newLoadInst(context, fieldPointer, "ownerFieldToFree");
   Composer::freeIfNotNull(context, objectPointer);
   
   return IRWriter::newStoreInst(context, cast, fieldPointer);

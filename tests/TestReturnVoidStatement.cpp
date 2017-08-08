@@ -119,10 +119,10 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
     "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
   "\n  %pointer2 = alloca i8*"
   "\n  store i8* %malloccall1, i8** %pointer2"
-  "\n  %variableObject = load i8*, i8** %pointer2"
-  "\n  tail call void @free(i8* %variableObject)"
-  "\n  %variableObject3 = load i8*, i8** %pointer"
-  "\n  tail call void @free(i8* %variableObject3)"
+  "\n  %ownerToFree = load i8*, i8** %pointer2"
+  "\n  tail call void @free(i8* %ownerToFree)"
+  "\n  %ownerToFree3 = load i8*, i8** %pointer"
+  "\n  tail call void @free(i8* %ownerToFree3)"
   "\n  ret void\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }

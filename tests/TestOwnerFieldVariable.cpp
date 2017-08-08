@@ -115,7 +115,7 @@ TEST_F(OwnerFieldVariableTest, objectFieldVariableGenerateIdentifierIRTest) {
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
   "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MModel*, "
+  "\n  %ownerFieldIdentifier = load %systems.vos.wisey.compiler.tests.MModel*, "
   "%systems.vos.wisey.compiler.tests.MModel** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -136,9 +136,9 @@ TEST_F(OwnerFieldVariableTest, objectFieldVariableGenerateAssignmentIRTest) {
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
   "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  %fieldObjectToFree = load %systems.vos.wisey.compiler.tests.MModel*, "
+  "\n  %ownerFieldToFree = load %systems.vos.wisey.compiler.tests.MModel*, "
   "%systems.vos.wisey.compiler.tests.MModel** %0"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MModel* %fieldObjectToFree to i8*"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MModel* %ownerFieldToFree to i8*"
   "\n  call void @__freeIfNotNull(i8* %1)"
   "\n  store %systems.vos.wisey.compiler.tests.MModel* null, "
   "%systems.vos.wisey.compiler.tests.MModel** %0\n";
@@ -167,9 +167,9 @@ TEST_F(OwnerFieldVariableTest, objectFieldVariableGenerateAssignmentWithCastIRTe
   "to %systems.vos.wisey.compiler.tests.IInterface*"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
   "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 1"
-  "\n  %fieldObjectToFree = load %systems.vos.wisey.compiler.tests.IInterface*, "
+  "\n  %ownerFieldToFree = load %systems.vos.wisey.compiler.tests.IInterface*, "
   "%systems.vos.wisey.compiler.tests.IInterface** %1"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %fieldObjectToFree to i8*"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %ownerFieldToFree to i8*"
   "\n  call void @__freeIfNotNull(i8* %2)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %0, "
   "%systems.vos.wisey.compiler.tests.IInterface** %1\n";

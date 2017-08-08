@@ -123,7 +123,17 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   declaration.generateIR(mContext);
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
-  ASSERT_EQ(0ul, mBlock->size());
+
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %referenceDeclaration = alloca %systems.vos.wisey.compiler.tests.MModel*"
+  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, "
+  "%systems.vos.wisey.compiler.tests.MModel** %referenceDeclaration\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }
 
 TEST_F(VariableDeclarationTest, controllerVariableDeclarationWithoutAssignmentDeathTest) {

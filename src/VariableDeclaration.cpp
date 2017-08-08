@@ -88,7 +88,7 @@ void VariableDeclaration::allocateOwnerOnHeap(IRGenerationContext& context) cons
   const IObjectOwnerType* type = (IObjectOwnerType*) mTypeSpecifier->getType(context);
   PointerType* llvmType = type->getLLVMType(context.getLLVMContext());
   
-  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "heapObject");
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
   
   IVariable* uninitializedVariable = new HeapOwnerVariable(variableName, type, alloca);
@@ -98,8 +98,12 @@ void VariableDeclaration::allocateOwnerOnHeap(IRGenerationContext& context) cons
 void VariableDeclaration::allocateReferenceOnHeap(IRGenerationContext& context) const {
   string variableName = mId->getName();
   const IObjectType* type = (IObjectType*) mTypeSpecifier->getType(context);
-  
-  IVariable* uninitializedVariable = new HeapReferenceVariable(variableName, type, NULL);
+  PointerType* llvmType = type->getLLVMType(context.getLLVMContext());
+
+  Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
+
+  IVariable* uninitializedVariable = new HeapReferenceVariable(variableName, type, alloca);
   context.getScopes().setVariable(uninitializedVariable);
 }
 

@@ -34,22 +34,17 @@ Value* HeapReferenceVariable::getValue() const {
 }
 
 Value* HeapReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
-                                          string llvmVariableName) const {
-  if (mValue == NULL) {
-    Log::e("Variable '" + mName + "' is used before it has been initialized.");
-    exit(1);
-  }
-
-  return mValue;
+                                                   string llvmVariableName) const {
+  return IRWriter::newLoadInst(context, mValue, "referenceIdentifier");
 }
 
 Value* HeapReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
-                                          IExpression* assignToExpression) {
+                                                   IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
-
-  mValue = newValue;
+  
+  IRWriter::newStoreInst(context, newValue, mValue);
   
   return mValue;
 }
