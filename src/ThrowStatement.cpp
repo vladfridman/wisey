@@ -40,7 +40,8 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   GlobalVariable* rtti = context.getModule()->getGlobalVariable(model->getRTTIVariableName());
 
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* exceptionObject = mExpression->generateIR(context);
+  Value* exceptionObjectStore = mExpression->generateIR(context);
+  Value* exceptionObject = IRWriter::newLoadInst(context, exceptionObjectStore, "");
   
   BitCastInst* expressionValueBitcast =
     IRWriter::newBitCastInst(context, exceptionObject, int8PointerType);

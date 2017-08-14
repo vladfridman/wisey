@@ -88,20 +88,22 @@ TEST_F(PrimitiveFieldVariableTest, basicFieldsTest) {
   EXPECT_EQ(mPrimitiveFieldVariable->getValue(), mPrimitiveFieldValue);
 }
 
-TEST_F(PrimitiveFieldVariableTest, objectFieldVariableGenerateIdentifierIRTest) {
+TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateIdentifierIRTest) {
   mPrimitiveFieldVariable->generateIdentifierIR(mContext, "test");
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  %1 = load i32, i32* %0\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
+  "%systems.vos.wisey.compiler.tests.MObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0"
+  "\n  %2 = load i32, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(PrimitiveFieldVariableTest, objectFieldVariableGenerateAssignmentIRTest) {
+TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   Value* assignToValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
@@ -113,14 +115,16 @@ TEST_F(PrimitiveFieldVariableTest, objectFieldVariableGenerateAssignmentIRTest) 
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  store i32 3, i32* %0\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
+  "%systems.vos.wisey.compiler.tests.MObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0"
+  "\n  store i32 3, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(PrimitiveFieldVariableTest, objectFieldVariableGenerateAssignmentWithCastIRTest) {
+TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   Value* assignToValue = ConstantInt::get(PrimitiveTypes::CHAR_TYPE->getLLVMType(mLLVMContext), 3);
@@ -133,9 +137,11 @@ TEST_F(PrimitiveFieldVariableTest, objectFieldVariableGenerateAssignmentWithCast
   string expected = string() +
   "\nentry:" +
   "\n  %conv = zext i16 3 to i32"
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  store i32 %conv, i32* %0\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
+  "%systems.vos.wisey.compiler.tests.MObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0"
+  "\n  store i32 %conv, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

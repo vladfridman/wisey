@@ -81,7 +81,7 @@ TEST_F(HeapOwnerVariableTest, heapVariableAssignmentTest) {
   IVariable* uninitializedHeapVariable =
     new HeapOwnerVariable("foo", mModel->getOwner(), fooValue);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
-  Value* barValue = ConstantPointerNull::get((PointerType*) llvmType);
+  Value* barValue = ConstantPointerNull::get((PointerType*) llvmType->getPointerTo());
   HeapOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), NULL);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel->getOwner()));
@@ -98,7 +98,9 @@ TEST_F(HeapOwnerVariableTest, heapVariableAssignmentTest) {
   "%systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %ownerToFree to i8*"
   "\n  call void @__freeIfNotNull(i8* %1)"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "%systems.vos.wisey.compiler.tests.MShape** null"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* %2, "
   "%systems.vos.wisey.compiler.tests.MShape** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -110,18 +112,7 @@ TEST_F(HeapOwnerVariableTest, heapVariableIdentifierTest) {
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   HeapOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
 
-  heapOwnerVariable.generateIdentifierIR(mContext, "fooVal");
-
-  *mStringStream << *mBlock;
-  
-  string expected =
-  "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %ownerIdentifier = load %systems.vos.wisey.compiler.tests.MShape*, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  mStringBuffer.clear();
+  EXPECT_EQ(heapOwnerVariable.generateIdentifierIR(mContext, "fooVal"), fooValue);
 }
 
 TEST_F(HeapOwnerVariableTest, existsInOuterScopeTest) {

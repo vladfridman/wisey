@@ -171,7 +171,9 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
     mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
   
   ASSERT_NE(resultInterface, nullptr);
-  EXPECT_EQ(resultInterface->getLLVMType(mLLVMContext)->getPointerElementType(), structType);
+  EXPECT_EQ(resultInterface->getLLVMType(mLLVMContext)
+            ->getPointerElementType()->getPointerElementType(),
+            structType);
 }
 
 TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {

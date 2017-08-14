@@ -102,7 +102,7 @@ TEST_F(ControllerOwnerTest, getNameTest) {
 
 TEST_F(ControllerOwnerTest, getLLVMTypeTest) {
   EXPECT_EQ(mMultiplierController->getOwner()->getLLVMType(mLLVMContext),
-            mMultiplierController->getLLVMType(mLLVMContext));
+            mMultiplierController->getLLVMType(mLLVMContext)->getPointerElementType());
 }
 
 TEST_F(ControllerOwnerTest, getTypeKindTest) {
@@ -159,8 +159,8 @@ TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {
   
   *mStringStream << *mBasicBlock->begin();
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null "
-               "to %systems.vos.wisey.compiler.tests.IScienceCalculator*");
+               "  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier** null "
+               "to %systems.vos.wisey.compiler.tests.IScienceCalculator**");
   mStringBuffer.clear();
 }
 
@@ -170,14 +170,18 @@ TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
   mMultiplierController->getOwner()->castTo(mContext,
                                             pointer,
                                             mCalculatorInterface->getOwner());
-  EXPECT_EQ(mBasicBlock->size(), 3u);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
-  "\n  %1 = getelementptr i8, i8* %0, i64 8"
-  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.CMultiplier*, "
+  "%systems.vos.wisey.compiler.tests.CMultiplier** null"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* %0 to i8*"
+  "\n  %2 = getelementptr i8, i8* %1, i64 8"
+  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.ICalculator*"
+  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.ICalculator*"
+  "\n  store %systems.vos.wisey.compiler.tests.ICalculator* %4, "
+  "%systems.vos.wisey.compiler.tests.ICalculator** %3\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

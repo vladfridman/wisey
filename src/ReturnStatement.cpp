@@ -29,11 +29,12 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  Value* cast = AutoCast::maybeCast(context,
-                                    mExpression->getType(context),
-                                    mExpression->generateIR(context),
-                                    returnType);
+  Value* result = AutoCast::maybeCast(context,
+                                      mExpression->getType(context),
+                                      mExpression->generateIR(context),
+                                      returnType);
   if (IType::isOwnerType(returnType)) {
+    result = IRWriter::newLoadInst(context, result, "");
     mExpression->releaseOwnership(context);
   } else if (returnType->getTypeKind() != PRIMITIVE_TYPE &&
              !mExpression->existsInOuterScope(context)) {
@@ -43,6 +44,6 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   
   context.getScopes().freeOwnedMemory(context);
   
-  return IRWriter::createReturnInst(context, cast);
+  return IRWriter::createReturnInst(context, result);
 }
 

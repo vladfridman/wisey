@@ -71,7 +71,8 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
-  Value* expressionValue = mExpression->generateIR(context);
+  Value* expressionValueStore = mExpression->generateIR(context);
+  Value* expressionValue = IRWriter::newLoadInst(context, expressionValueStore, "");
 
   FunctionType* functionType =
     IMethodDescriptor::getLLVMFunctionType(methodDescriptor, context, interface);
@@ -111,10 +112,13 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Type* returnLLVMType,
                                       IMethodDescriptor* methodDescriptor) const {
   Value* expressionValue = mExpression->generateIR(context);
-  Composer::checkNullAndThrowNPE(context, expressionValue);
-  
+
+  Value* valueLoaded = IRWriter::newLoadInst(context, expressionValue, "");
+  Composer::checkNullAndThrowNPE(context, valueLoaded);
+
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
+  
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {
@@ -126,9 +130,12 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                                          callArgumentType,
                                                          callArgumentValue,
                                                          methodArgumentType);
-    arguments.push_back(callArgumentValueCasted);
     if (IType::isOwnerType(methodArgument->getType())) {
+      Value* loadedCasted = IRWriter::newLoadInst(context, callArgumentValueCasted, "");
+      arguments.push_back(loadedCasted);
       callArgument->releaseOwnership(context);
+    } else {
+      arguments.push_back(callArgumentValueCasted);
     }
     methodArgumentIterator++;
   }
@@ -160,7 +167,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                                   (IObjectOwnerType*) returnType,
                                                   pointer);
   context.getScopes().setVariable(tempVariable);
-  return result;
+  return pointer;
 }
 
 const IType* MethodCall::getType(IRGenerationContext& context) const {

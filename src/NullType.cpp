@@ -39,7 +39,15 @@ bool NullType::canAutoCastTo(const IType* toType) const {
 
 Value* NullType::castTo(IRGenerationContext& context, Value* fromValue, const IType* toType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  return ConstantExpr::getNullValue(toType->getLLVMType(llvmContext));
+  Type* llvmType = IType::isOwnerType(toType)
+  ? toType->getLLVMType(llvmContext)
+  : toType->getLLVMType(llvmContext)->getPointerElementType();
+  
+  Value* null = ConstantExpr::getNullValue(llvmType);
+  Value* nullStore = IRWriter::newAllocaInst(context, null->getType(), "");
+  IRWriter::newStoreInst(context, null, nullStore);
+  
+  return nullStore;
 }
 
 NullType* NullType::NULL_TYPE = new NullType();

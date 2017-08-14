@@ -86,18 +86,7 @@ TEST_F(HeapReferenceVariableTest, heapVariableAssignmentTest) {
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
   
-  uninitializedHeapVariable->generateAssignmentIR(mContext, &expression);
-
-  *mStringStream << *mBlock;
-  
-  string expected =
-  "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  mStringBuffer.clear();
+  EXPECT_EQ(uninitializedHeapVariable->generateAssignmentIR(mContext, &expression), barValue);
 }
 
 TEST_F(HeapReferenceVariableTest, heapVariableIdentifierTest) {
@@ -105,18 +94,7 @@ TEST_F(HeapReferenceVariableTest, heapVariableIdentifierTest) {
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   HeapReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
   
-  heapReferenceVariable.generateIdentifierIR(mContext, "fooVal");
-  
-  *mStringStream << *mBlock;
-  
-  string expected =
-  "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %referenceIdentifier = load %systems.vos.wisey.compiler.tests.MShape*, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  mStringBuffer.clear();
+  EXPECT_EQ(heapReferenceVariable.generateIdentifierIR(mContext, "fooVal"), fooValue);
 }
 
 TEST_F(HeapReferenceVariableTest, existsInOuterScopeTest) {

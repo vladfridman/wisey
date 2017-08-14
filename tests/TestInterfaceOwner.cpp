@@ -92,7 +92,7 @@ TEST_F(InterfaceOwnerTest, getNameTest) {
 
 TEST_F(InterfaceOwnerTest, getLLVMTypeTest) {
   EXPECT_EQ(mShapeInterface->getOwner()->getLLVMType(mLLVMContext),
-            mShapeInterface->getLLVMType(mLLVMContext));
+            mShapeInterface->getLLVMType(mLLVMContext)->getPointerElementType());
 }
 
 TEST_F(InterfaceOwnerTest, getTypeKindTest) {

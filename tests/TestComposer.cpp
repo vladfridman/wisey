@@ -70,7 +70,8 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emptyStatement, catchList);
   mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 
-  Value* value = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext)
+                                          ->getPointerElementType());
   
   Composer::checkNullAndThrowNPE(mContext, value);
 
@@ -92,7 +93,8 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
 }
 
 TEST_F(ComposerTest, freeIfNotNullTest) {
-  Value* value = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext)
+                                          ->getPointerElementType());
   
   Composer::freeIfNotNull(mContext, value);
   

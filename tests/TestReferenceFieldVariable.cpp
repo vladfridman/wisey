@@ -59,8 +59,8 @@ struct ReferenceFieldVariableTest : Test {
     mModel->setInterfaces(interfaces);
   
     vector<Type*> types;
-    types.push_back(mModel->getLLVMType(mLLVMContext));
-    types.push_back(mInterface->getLLVMType(mLLVMContext));
+    types.push_back(mModel->getLLVMType(mLLVMContext)->getPointerElementType());
+    types.push_back(mInterface->getLLVMType(mLLVMContext)->getPointerElementType());
     string objectFullName = "systems.vos.wisey.compiler.tests.MObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
@@ -103,35 +103,46 @@ TEST_F(ReferenceFieldVariableTest, basicFieldsTest) {
   EXPECT_EQ(mReferenceFieldVariable->getValue(), mReferenceFieldValue);
 }
 
-TEST_F(ReferenceFieldVariableTest, objectFieldVariableGenerateIdentifierIRTest) {
+TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateIdentifierIRTest) {
   mReferenceFieldVariable->generateIdentifierIR(mContext, "test");
 
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-    "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  %referenceFieldIdentifier = load %systems.vos.wisey.compiler.tests.MModel*, "
-    "%systems.vos.wisey.compiler.tests.MModel** %0\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
+  "%systems.vos.wisey.compiler.tests.MObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ReferenceFieldVariableTest, objectFieldVariableGenerateAssignmentIRTest) {
-  mReferenceFieldVariable->generateIdentifierIR(mContext, "test");
+TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentIRTest) {
+  NiceMock<MockExpression> assignToExpression;
+  
+  PointerType* llvmType = (PointerType*) mModel->getLLVMType(mLLVMContext);
+  Value* assignToValue = ConstantPointerNull::get(llvmType);
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mModel));
+  ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
+  
+  mReferenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0"
-  "\n  %referenceFieldIdentifier = load %systems.vos.wisey.compiler.tests.MModel*, "
-  "%systems.vos.wisey.compiler.tests.MModel** %0\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
+  "%systems.vos.wisey.compiler.tests.MObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.MModel*, "
+  "%systems.vos.wisey.compiler.tests.MModel** null"
+  "\n  store %systems.vos.wisey.compiler.tests.MModel* %2, "
+  "%systems.vos.wisey.compiler.tests.MModel** %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ReferenceFieldVariableTest, objectFieldVariableGenerateAssignmentWithCastIRTest) {
+TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   PointerType* llvmType = mModel->getLLVMType(mLLVMContext);
@@ -147,16 +158,28 @@ TEST_F(ReferenceFieldVariableTest, objectFieldVariableGenerateAssignmentWithCast
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MModel* null "
-  "to %systems.vos.wisey.compiler.tests.IInterface*"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 1"
-  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %0, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %1\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MModel** null "
+  "to %systems.vos.wisey.compiler.tests.IInterface**"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MObject*, "
+  "%systems.vos.wisey.compiler.tests.MObject** null"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+  "%systems.vos.wisey.compiler.tests.MObject* %1, i32 0, i32 1"
+  "\n  %3 = load %systems.vos.wisey.compiler.tests.IInterface*, "
+  "%systems.vos.wisey.compiler.tests.IInterface** %0"
+  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %3, "
+  "%systems.vos.wisey.compiler.tests.IInterface** %2\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(ReferenceFieldVariableTest, existsInOuterScopeTest) {
   EXPECT_TRUE(mReferenceFieldVariable->existsInOuterScope());
+}
+
+TEST_F(TestFileSampleRunner, compareTwoNullsRunTest) {
+  runFile("tests/samples/test_compare_two_nulls.yz", "1");
+}
+
+TEST_F(TestFileSampleRunner, compareToNullRunTest) {
+  runFile("tests/samples/test_compare_to_null.yz", "1");
 }

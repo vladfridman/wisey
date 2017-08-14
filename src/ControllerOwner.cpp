@@ -22,7 +22,7 @@ string ControllerOwner::getName() const {
 }
 
 PointerType* ControllerOwner::getLLVMType(LLVMContext& llvmContext) const {
-  return mController->getLLVMType(llvmContext);
+  return (PointerType*) mController->getLLVMType(llvmContext)->getPointerElementType();
 }
 
 TypeKind ControllerOwner::getTypeKind() const {
@@ -52,9 +52,9 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
 
-  if (!IType::isOwnerType(toType)) {
-    return mController->castTo(context, fromValue, toType);
+  if (IType::isOwnerType(toType)) {
+    return mController->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
   }
   
-  return mController->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+  return mController->castTo(context, fromValue, toType);
 }

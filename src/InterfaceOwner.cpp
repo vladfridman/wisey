@@ -22,7 +22,7 @@ string InterfaceOwner::getName() const {
 }
 
 PointerType* InterfaceOwner::getLLVMType(LLVMContext& llvmContext) const {
-  return mInterface->getLLVMType(llvmContext);
+  return (PointerType*) mInterface->getLLVMType(llvmContext)->getPointerElementType();
 }
 
 TypeKind InterfaceOwner::getTypeKind() const {
@@ -51,10 +51,10 @@ Value* InterfaceOwner::castTo(IRGenerationContext& context,
   if (toType == this) {
     return fromValue;
   }
-  
-  if (!IType::isOwnerType(toType)) {
-    return mInterface->castTo(context, fromValue, toType);
+
+  if (IType::isOwnerType(toType)) {
+    return mInterface->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
   }
   
-  return mInterface->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+  return mInterface->castTo(context, fromValue, toType);
 }

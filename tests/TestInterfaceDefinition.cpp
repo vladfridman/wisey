@@ -96,11 +96,11 @@ TEST_F(InterfaceDefinitionTest, generateIRTest) {
   ASSERT_NE(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"), nullptr);
 
   Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
-  Type* pointerType = interface->getLLVMType(mLLVMContext);
+  Type* type = interface->getLLVMType(mLLVMContext)->getPointerElementType();
   
-  ASSERT_NE(pointerType, nullptr);
-  EXPECT_TRUE(pointerType->isPointerTy());
-  StructType* structType = (StructType*) pointerType->getPointerElementType();
+  ASSERT_NE(type, nullptr);
+  EXPECT_TRUE(type->isPointerTy());
+  StructType* structType = (StructType*) type->getPointerElementType();
   EXPECT_TRUE(structType->getNumElements() == 1);
   Type* arrayOfFunctionsType = structType->getElementType(0);
   ASSERT_TRUE(arrayOfFunctionsType->isPointerTy());

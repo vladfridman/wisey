@@ -1,0 +1,10 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return null == null;
+  }
+} 
+
+bind(CProgram).to(IProgram);

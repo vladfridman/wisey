@@ -35,7 +35,7 @@ Value* HeapOwnerVariable::getValue() const {
 
 Value* HeapOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
                                                string llvmVariableName) const {
-  return IRWriter::newLoadInst(context, mValue, "ownerIdentifier");
+  return mValue;
 }
 
 Value* HeapOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -46,7 +46,9 @@ Value* HeapOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   
   Value* objectPointer = IRWriter::newLoadInst(context, mValue, "ownerToFree");
   Composer::freeIfNotNull(context, objectPointer);
-  IRWriter::newStoreInst(context, newValue, mValue);
+  
+  Value* newValueLoaded = IRWriter::newLoadInst(context, newValue, "");
+  IRWriter::newStoreInst(context, newValueLoaded, mValue);
   
   return mValue;
 }
@@ -61,7 +63,7 @@ void HeapOwnerVariable::free(IRGenerationContext& context) const {
   Value* objectPointer = IRWriter::newLoadInst(context, mValue, "ownerToFree");
   
   Value* thisPointer = mType->getTypeKind() == INTERFACE_OWNER_TYPE
-  ? Interface::getOriginalObject(context, objectPointer)
+  ? Interface::getOriginalObject(context, mValue)
   : objectPointer;
   
   IRWriter::createFree(context, thisPointer);

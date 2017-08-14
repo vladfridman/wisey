@@ -105,20 +105,21 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
 
-  ASSERT_EQ(8ul, mBlock->size());
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
-  "\n  %1 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MCircle*, "
+  "%systems.vos.wisey.compiler.tests.MCircle** null"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MCircle* %0 to i8*"
+  "\n  %2 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
     "%systems.vos.wisey.compiler.tests.MCircle* null, i32 1"
-  "\n  %3 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %2 to i64"
-  "\n  %4 = call i8* @__cxa_allocate_exception(i64 %3)"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %4, i8* %0, i64 %3, i32 4, i1 false)"
-  "\n  call void @__cxa_throw(i8* %4, i8* %1, i8* null)"
+  "\n  %4 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %3 to i64"
+  "\n  %5 = call i8* @__cxa_allocate_exception(i64 %4)"
+  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %5, i8* %1, i64 %4, i32 4, i1 false)"
+  "\n  call void @__cxa_throw(i8* %5, i8* %2, i8* null)"
   "\n  unreachable\n";
-  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
@@ -147,7 +148,6 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
   
-  EXPECT_EQ(mBlock->size(), 18u);
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
@@ -159,20 +159,23 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
     "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
   "\n  %pointer2 = alloca i8*"
   "\n  store i8* %malloccall1, i8** %pointer2"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
-  "\n  %1 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MCircle*, "
+    "%systems.vos.wisey.compiler.tests.MCircle** null"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MCircle* %0 to i8*"
+  "\n  %2 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
     "%systems.vos.wisey.compiler.tests.MCircle* null, i32 1"
-  "\n  %3 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %2 to i64"
-  "\n  %4 = call i8* @__cxa_allocate_exception(i64 %3)"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %4, i8* %0, i64 %3, i32 4, i1 false)"
+  "\n  %4 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %3 to i64"
+  "\n  %5 = call i8* @__cxa_allocate_exception(i64 %4)"
+  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %5, i8* %1, i64 %4, i32 4, i1 false)"
   "\n  %ownerToFree = load i8*, i8** %pointer2"
   "\n  tail call void @free(i8* %ownerToFree)"
   "\n  %ownerToFree3 = load i8*, i8** %pointer"
   "\n  tail call void @free(i8* %ownerToFree3)"
-  "\n  call void @__cxa_throw(i8* %4, i8* %1, i8* null)"
+  "\n  call void @__cxa_throw(i8* %5, i8* %2, i8* null)"
   "\n  unreachable\n";
-  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
@@ -197,7 +200,6 @@ TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
   
-  ASSERT_EQ(10ul, mBlock->size());
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
@@ -205,14 +207,17 @@ TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
   "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
   "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
   "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
-  "\n  %1 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MCircle*, "
+  "%systems.vos.wisey.compiler.tests.MCircle** null"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MCircle* %0 to i8*"
+  "\n  %2 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
   "%systems.vos.wisey.compiler.tests.MCircle* null, i32 1"
-  "\n  %3 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %2 to i64"
-  "\n  %4 = call i8* @__cxa_allocate_exception(i64 %3)"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %4, i8* %0, i64 %3, i32 4, i1 false)"
-  "\n  call void @__cxa_throw(i8* %4, i8* %1, i8* null)"
+  "\n  %4 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %3 to i64"
+  "\n  %5 = call i8* @__cxa_allocate_exception(i64 %4)"
+  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %5, i8* %1, i64 %4, i32 4, i1 false)"
+  "\n  call void @__cxa_throw(i8* %5, i8* %2, i8* null)"
   "\n  unreachable\n";
-  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

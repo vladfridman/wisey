@@ -34,6 +34,7 @@ using namespace wisey;
 
 struct RelationalExpressionTest : public Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   NiceMock<MockExpression>* mLeftExpression;
   NiceMock<MockExpression>* mRightExpression;
   BasicBlock* mBasicBlock;
@@ -43,6 +44,7 @@ struct RelationalExpressionTest : public Test {
   raw_string_ostream* mStringStream;
   
   RelationalExpressionTest() :
+  mLLVMContext(mContext.getLLVMContext()),
   mLeftExpression(new NiceMock<MockExpression>()),
   mRightExpression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
@@ -149,10 +151,16 @@ TEST_F(RelationalExpressionTest, incompatableObjectsCompareDeathTest) {
   Mock::AllowLeak(mLeftExpression);
   Mock::AllowLeak(mRightExpression);
   
+  Value* modelNull = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(mModel));
-  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mNode));
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression);
+  ON_CALL(*mLeftExpression, generateIR(_)).WillByDefault(Return(modelNull));
   
+  Value* nodeNull = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));
+  ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mNode));
+  ON_CALL(*mRightExpression, generateIR(_)).WillByDefault(Return(nodeNull));
+  
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression);
+
   EXPECT_EXIT(expression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Can not compare types systems.vos.wisey.compiler.tests.MSquare and "

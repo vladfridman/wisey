@@ -119,7 +119,7 @@ string Node::getShortName() const {
 }
 
 PointerType* Node::getLLVMType(LLVMContext& llvmcontext) const {
-  return mStructType->getPointerTo();
+  return mStructType->getPointerTo()->getPointerTo();
 }
 
 TypeKind Node::getTypeKind() const {
@@ -231,7 +231,7 @@ void Node::checkAllFieldsAreSet(const ObjectBuilderArgumentList& ObjectBuilderAr
 Instruction* Node::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
+  Type* structType = getLLVMType(llvmContext)->getPointerElementType()->getPointerElementType();
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "buildervar");
   
@@ -257,7 +257,12 @@ void Node::initializeFixedFields(IRGenerationContext& context,
              " does not match its type");
       exit(1);
     }
-    IRWriter::newStoreInst(context, argumentValue, fieldPointer);
+    if (argumentType->getTypeKind() == PRIMITIVE_TYPE) {
+      IRWriter::newStoreInst(context, argumentValue, fieldPointer);
+    } else {
+      Value* argumentValueLoaded = IRWriter::newLoadInst(context, argumentValue, "");
+      IRWriter::newStoreInst(context, argumentValueLoaded, fieldPointer);
+    }
     if (IType::isOwnerType(field->getType())) {
       argument->releaseOwnership(context);
     }
@@ -274,8 +279,11 @@ void Node::initializeStateFields(IRGenerationContext& context, Instruction* mall
     Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);
     
     Value* fieldValue;
-    if (fieldLLVMType->isPointerTy()) {
+    if (IType::isOwnerType(fieldType)) {
       fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(llvmContext));
+    } else if (IType::isReferenceType(fieldType)) {
+      fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(llvmContext)
+                                            ->getPointerElementType());
     } else if (fieldLLVMType->isFloatTy()) {
       fieldValue = ConstantFP::get(fieldLLVMType, 0.0);
     } else if (fieldLLVMType->isIntegerTy()) {

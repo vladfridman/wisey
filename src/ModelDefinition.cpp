@@ -52,7 +52,8 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   
   vector<Type*> types;
   for (Interface* interface : model->getInterfaces()) {
-    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
+    types.push_back(interface->getLLVMType(context.getLLVMContext())
+                    ->getPointerElementType()->getPointerElementType());
   }
   
   createFieldVariables(context, model, types);
@@ -103,7 +104,12 @@ void ModelDefinition::createFieldVariables(IRGenerationContext& context,
   
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
-    types.push_back(fieldType->getLLVMType(llvmContext));
+    Type* llvmType = fieldType->getLLVMType(llvmContext);
+    if (IType::isReferenceType(fieldType)) {
+      types.push_back(llvmType->getPointerElementType());
+    } else {
+      types.push_back(llvmType);
+    }
   }
 }
 

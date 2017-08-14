@@ -35,7 +35,7 @@ Value* HeapReferenceVariable::getValue() const {
 
 Value* HeapReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
                                                    string llvmVariableName) const {
-  return IRWriter::newLoadInst(context, mValue, "referenceIdentifier");
+  return mValue;
 }
 
 Value* HeapReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -44,7 +44,7 @@ Value* HeapReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   
-  IRWriter::newStoreInst(context, newValue, mValue);
+  mValue = newValue;
   
   return mValue;
 }

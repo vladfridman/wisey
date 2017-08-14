@@ -22,7 +22,7 @@ string ModelOwner::getName() const {
 }
 
 PointerType* ModelOwner::getLLVMType(LLVMContext& llvmContext) const {
-  return mModel->getLLVMType(llvmContext);
+  return (PointerType*) mModel->getLLVMType(llvmContext)->getPointerElementType();
 }
 
 TypeKind ModelOwner::getTypeKind() const {
@@ -52,9 +52,9 @@ Value* ModelOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
 
-  if (!IType::isOwnerType(toType)) {
-    return mModel->castTo(context, fromValue, toType);
+  if (IType::isOwnerType(toType)) {
+    return mModel->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
   }
-  
-  return mModel->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+
+  return mModel->castTo(context, fromValue, toType);
 }

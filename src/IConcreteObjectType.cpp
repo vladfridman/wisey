@@ -48,18 +48,24 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   }
   LLVMContext& llvmContext = context.getLLVMContext();
   Interface* interface = (Interface*) toType;
+  Type* llvmType = (PointerType*) interface->getLLVMType(llvmContext);
   int interfaceIndex = getInterfaceIndex(object, interface);
   if (interfaceIndex == 0) {
-    return IRWriter::newBitCastInst(context, fromValue, interface->getLLVMType(llvmContext));
+    return IRWriter::newBitCastInst(context, fromValue, llvmType);
   }
   
   Type* int8Type = Type::getInt8Ty(llvmContext);
-  BitCastInst* bitcast = IRWriter::newBitCastInst(context, fromValue, int8Type->getPointerTo());
+  Value* loadedValue = IRWriter::newLoadInst(context, fromValue, "");
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, loadedValue, int8Type->getPointerTo());
   Value* index[1];
   unsigned long thunkBy = interfaceIndex * Environment::getAddressSizeInBytes();
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
-  return IRWriter::newBitCastInst(context, thunk, interface->getLLVMType(llvmContext));
+  Value* store = IRWriter::newAllocaInst(context, llvmType->getPointerElementType(), "");
+  Value* result = IRWriter::newBitCastInst(context, thunk, llvmType->getPointerElementType());
+  IRWriter::newStoreInst(context, result, store);
+  
+  return store;
 }
 
 int IConcreteObjectType::getInterfaceIndex(IConcreteObjectType* object,

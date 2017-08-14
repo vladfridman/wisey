@@ -26,8 +26,7 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   ExpressionList arguments;
   Instruction* malloc = controller->inject(context, arguments);
   
-  Type* type = malloc->getType();
-  Value* pointer = IRWriter::newAllocaInst(context, type, "pointer");
+  Value* pointer = IRWriter::newAllocaInst(context, malloc->getType(), "pointer");
   IRWriter::newStoreInst(context, malloc, pointer);
   
   IVariable* heapVariable = new HeapOwnerVariable(IVariable::getTemporaryVariableName(this),
@@ -35,7 +34,7 @@ Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
                                                   pointer);
   context.getScopes().setVariable(heapVariable);
   
-  return malloc;
+  return pointer;
 }
 
 const IType* InterfaceInjector::getType(IRGenerationContext& context) const {

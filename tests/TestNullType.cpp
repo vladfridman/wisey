@@ -89,17 +89,41 @@ TEST_F(NullTypeTest, canAutoCastToTest) {
   ASSERT_FALSE(NullType::NULL_TYPE->canAutoCastTo(PrimitiveTypes::INT_TYPE));
 }
 
-TEST_F(NullTypeTest, castToTest) {
+TEST_F(NullTypeTest, castToModelTest) {
   string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = new Model(modelFullName, structType);
   
-  Value* nullForReference = NullType::NULL_TYPE->castTo(mContext, NULL, model);
-  EXPECT_EQ(nullForReference, (Value*) ConstantExpr::getNullValue(structType->getPointerTo()));
-  EXPECT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner()),
-            (Value*) ConstantExpr::getNullValue(model->getLLVMType(mLLVMContext)));
+  NullType::NULL_TYPE->castTo(mContext, NULL, model);
+
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, "
+  "%systems.vos.wisey.compiler.tests.MSquare** %0\n";
   
-  NullType anotherNullType;
-  EXPECT_EQ(NullType::NULL_TYPE->castTo(mContext, NULL, &anotherNullType),
-          (Value*) ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo()));
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(NullTypeTest, castToModelOwnerTest) {
+  string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
+  StructType* structType = StructType::create(mLLVMContext, modelFullName);
+  Model* model = new Model(modelFullName, structType);
+
+  NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner());
+
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MSquare*"
+  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, "
+  "%systems.vos.wisey.compiler.tests.MSquare** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(NullTypeTest, castToModelTwoNullsAreEqualRunTest) {
 }

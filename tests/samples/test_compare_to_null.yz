@@ -1,0 +1,15 @@
+package systems.vos.wisey.compiler.tests;
+
+model MData {
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MData* owner = null;
+
+    return owner == null;
+  }
+} 
+
+bind(CProgram).to(IProgram);

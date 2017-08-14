@@ -39,7 +39,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context) const {
                                                   alloc);
   context.getScopes().setVariable(heapVariable);
   
-  return malloc;
+  return alloc;
 }
 
 void ObjectBuilder::releaseOwnership(IRGenerationContext& context) const {

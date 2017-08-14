@@ -22,7 +22,7 @@ string NodeOwner::getName() const {
 }
 
 PointerType* NodeOwner::getLLVMType(LLVMContext& llvmContext) const {
-  return mNode->getLLVMType(llvmContext);
+  return (PointerType*) mNode->getLLVMType(llvmContext)->getPointerElementType();
 }
 
 TypeKind NodeOwner::getTypeKind() const {
@@ -52,9 +52,9 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
     return fromValue;
   }
   
-  if (!IType::isOwnerType(toType)) {
-    return mNode->castTo(context, fromValue, toType);
+  if (IType::isOwnerType(toType)) {
+    return mNode->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
   }
   
-  return mNode->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+  return mNode->castTo(context, fromValue, toType);
 }

@@ -39,7 +39,8 @@ GetElementPtrInst* IFieldVariable::getFieldPointer(IRGenerationContext& context,
   Value* index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+  Value* thisLoaded = IRWriter::newLoadInst(context, thisVariable->getValue(), "");
   
-  return IRWriter::createGetElementPtrInst(context, thisVariable->getValue(), index);
+  return IRWriter::createGetElementPtrInst(context, thisLoaded, index);
 }
 

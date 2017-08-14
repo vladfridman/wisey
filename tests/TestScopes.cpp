@@ -386,3 +386,7 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerReuseRefere
           "test_reference_memory_deallocated_by_passing_owner_reuse_reference.yz",
           "5");
 }
+
+TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullTest) {
+  compileAndRunFile("tests/samples/test_reference_memory_deallocated_by_setting_null.yz", 11);
+}

@@ -37,7 +37,11 @@ Value* OwnerFieldVariable::generateIdentifierIR(IRGenerationContext& context,
                                                       string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
-  return IRWriter::newLoadInst(context, fieldPointer, "ownerFieldIdentifier");
+  if (getType()->getTypeKind() == PRIMITIVE_TYPE) {
+    return IRWriter::newLoadInst(context, fieldPointer, "ownerFieldIdentifier");
+  }
+  
+  return fieldPointer;
 }
 
 Value* OwnerFieldVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -57,7 +61,8 @@ Value* OwnerFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* objectPointer = IRWriter::newLoadInst(context, fieldPointer, "ownerFieldToFree");
   Composer::freeIfNotNull(context, objectPointer);
   
-  return IRWriter::newStoreInst(context, cast, fieldPointer);
+  Value* loadedCast = IRWriter::newLoadInst(context, cast, "");
+  return IRWriter::newStoreInst(context, loadedCast, fieldPointer);
 }
 
 void OwnerFieldVariable::setToNull(IRGenerationContext& context) const {

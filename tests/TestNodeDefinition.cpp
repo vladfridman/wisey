@@ -144,7 +144,8 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   nodeDefinition.prototypeMethods(mContext);
   nodeDefinition.generateIR(mContext);
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
-  StructType* structType = (StructType*) node->getLLVMType(mLLVMContext)->getPointerElementType();
+  StructType* structType = (StructType*) node->getLLVMType(mLLVMContext)
+  ->getPointerElementType()->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
   EXPECT_TRUE(structType->getNumElements() == 2);

@@ -10,6 +10,7 @@
 
 #include "wisey/AutoCast.hpp"
 #include "wisey/CastExpression.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 
 using namespace std;

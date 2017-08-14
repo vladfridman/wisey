@@ -80,15 +80,21 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context) 
   Value* leftValue = mLeftExpression->generateIR(context);
   Value* rightValue = mRightExpression->generateIR(context);
   
-  if (IType::isOwnerType(leftType)) {
+  if (IType::isReferenceType(leftType)) {
+    leftValue = IRWriter::newLoadInst(context, leftValue, "");
+  } else if (IType::isOwnerType(leftType)) {
     IType* objectType = ((IObjectOwnerType*) leftType)->getObject();
     leftValue = leftType->castTo(context, leftValue, objectType);
+    leftValue = IRWriter::newLoadInst(context, leftValue, "");
     leftType = objectType;
   }
   
-  if (IType::isOwnerType(rightType)) {
+  if (IType::isReferenceType(rightType)) {
+    rightValue = IRWriter::newLoadInst(context, rightValue, "");
+  } else if (IType::isOwnerType(rightType)) {
     IType* objectType = ((IObjectOwnerType*) rightType)->getObject();
     rightValue = rightType->castTo(context, rightValue, objectType);
+    rightValue = IRWriter::newLoadInst(context, rightValue, "");
     rightType = objectType;
   }
   
@@ -98,12 +104,14 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context) 
   
   if (leftType->canAutoCastTo(rightType)) {
     Value* castedLeftValue = leftType->castTo(context, leftValue, rightType);
-    return IRWriter::newICmpInst(context, predicate, castedLeftValue, rightValue, "cmp");
+    Value* loadedCastedLeftValue = IRWriter::newLoadInst(context, castedLeftValue, "");
+    return IRWriter::newICmpInst(context, predicate, castedLeftValue, loadedCastedLeftValue, "cmp");
   }
   
   if (rightType->canAutoCastTo(leftType)) {
     Value* castedRightValue = rightType->castTo(context, rightValue, leftType);
-    return IRWriter::newICmpInst(context, predicate, leftValue, castedRightValue, "cmp");
+    Value* loadedCastedRightValue = IRWriter::newLoadInst(context, castedRightValue, "");
+    return IRWriter::newICmpInst(context, predicate, leftValue, loadedCastedRightValue, "cmp");
   }
   
   reportIncompatableTypes(leftType, rightType);

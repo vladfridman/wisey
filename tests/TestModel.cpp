@@ -241,7 +241,7 @@ TEST_F(ModelTest, getTypeKindTest) {
 }
 
 TEST_F(ModelTest, getLLVMTypeTest) {
-  EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+  EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo()->getPointerTo());
 }
 
 TEST_F(ModelTest, getInterfacesTest) {
@@ -331,8 +331,8 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
 
   *mStringStream << *mBasicBlock->begin();
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null "
-               "to %systems.vos.wisey.compiler.tests.IShape*");
+               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare** null "
+               "to %systems.vos.wisey.compiler.tests.IShape**");
   mStringBuffer.clear();
 }
 
@@ -340,23 +340,20 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
   mModel->castTo(mContext, pointer, mSubShapeInterface);
-  ASSERT_EQ(mBasicBlock->size(), 3u);
   
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*");
-  mStringBuffer.clear();
-
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
-  mStringBuffer.clear();
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MSquare*, "
+  "%systems.vos.wisey.compiler.tests.MSquare** null"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* %0 to i8*"
+  "\n  %2 = getelementptr i8, i8* %1, i64 8"
+  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.ISubShape*"
+  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.ISubShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.ISubShape* %4, "
+  "%systems.vos.wisey.compiler.tests.ISubShape** %3\n";
   
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ISubShape*");
+  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
   mStringBuffer.clear();
 }
 

@@ -78,14 +78,16 @@ TEST_F(IFieldVariableTest, checkAndFindFieldTest) {
   EXPECT_EQ(IFieldVariable::checkAndFindField(mContext, mObject, "foo"), mField);
 }
 
-TEST_F(IFieldVariableTest, getFieldPointer) {
+TEST_F(IFieldVariableTest, getFieldPointerTest) {
   IFieldVariable::getFieldPointer(mContext, mObject, "foo");
 
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* null, i32 0, i32 0\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
+  "%systems.vos.wisey.compiler.tests.MObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
+  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

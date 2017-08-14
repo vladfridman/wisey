@@ -243,7 +243,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   context.setBasicBlock(basicBlock);
   
   Function::arg_iterator arguments = mapFunction->arg_begin();
-  Value* interfaceThis = storeArgumentValue(context, basicBlock, "this", object, &*arguments);
+  Value* interfaceThis = &*arguments;
   arguments++;
   vector<Value*> argumentPointers;
   for (MethodArgument* methodArgument : methodSignature->getArguments()) {
@@ -268,8 +268,11 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Value* castedObjectThis = IRWriter::newBitCastInst(context,
                                                      concreteOjbectThis,
                                                      interfaceThisLoaded->getType());
+  Value* castedObjectThisStore = IRWriter::newAllocaInst(context, castedObjectThis->getType(), "");
+  IRWriter::newStoreInst(context, castedObjectThis, castedObjectThisStore);
+  
   vector<Value*> callArguments;
-  callArguments.push_back(castedObjectThis);
+  callArguments.push_back(castedObjectThisStore);
   for (Value* argumentPointer : argumentPointers) {
     Value* loadedCallArgument = IRWriter::newLoadInst(context, argumentPointer, "");
     callArguments.push_back(loadedCallArgument);
@@ -307,7 +310,7 @@ string Interface::getShortName() const {
 }
 
 llvm::PointerType* Interface::getLLVMType(LLVMContext& llvmContext) const {
-  return mStructType->getPointerTo();
+  return mStructType->getPointerTo()->getPointerTo();
 }
 
 TypeKind Interface::getTypeKind() const {
@@ -355,7 +358,11 @@ Value* Interface::castTo(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(fromValue);
   
-  return IRWriter::createCallInst(context, castFunction, arguments, "castTo");
+  Value* result = IRWriter::createCallInst(context, castFunction, arguments, "castTo");
+  Value* resultStore = IRWriter::newAllocaInst(context, result->getType(), "");
+  IRWriter::newStoreInst(context, result, resultStore);
+
+  return resultStore;
 }
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
@@ -367,7 +374,8 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(llvmContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  PointerType* llvmReturnType = toType->getLLVMType(llvmContext);
+  PointerType* llvmReturnType = (PointerType*) toType->getLLVMType(llvmContext)
+    ->getPointerElementType();
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,
@@ -398,7 +406,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   
   context.setBasicBlock(lessThanZero);
   // TODO: throw a cast exception here once exceptions are implemented
-  Value* nullPointer = ConstantPointerNull::get(toType->getLLVMType(llvmContext));
+  Value* nullPointer = ConstantPointerNull::get(llvmReturnType);
   IRWriter::createReturnInst(context, nullPointer);
 
   context.setBasicBlock(notLessThanZero);
@@ -416,11 +424,11 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   Value* index[1];
   index[0] = thunkBy;
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
-  Value* castValue = IRWriter::newBitCastInst(context, thunk, toType->getLLVMType(llvmContext));
+  Value* castValue = IRWriter::newBitCastInst(context, thunk, llvmReturnType);
   IRWriter::createReturnInst(context, castValue);
 
   context.setBasicBlock(zeroOrOne);
-  castValue = IRWriter::newBitCastInst(context, originalObject, toType->getLLVMType(llvmContext));
+  castValue = IRWriter::newBitCastInst(context, originalObject, llvmReturnType);
   IRWriter::createReturnInst(context, castValue);
   
   context.setBasicBlock(lastBasicBlock);
@@ -433,7 +441,8 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
 
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, value, pointerType);
+  Value* valueLoaded = IRWriter::newLoadInst(context, value, "");
+  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, valueLoaded, pointerType);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
@@ -445,7 +454,7 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
                                                Type::getInt64Ty(llvmContext),
                                                "unthunkby");
 
-  BitCastInst* bitcast = IRWriter::newBitCastInst(context, value, int8Type->getPointerTo());
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, valueLoaded, int8Type->getPointerTo());
   index[0] = unthunkBy;
   return IRWriter::createGetElementPtrInst(context, bitcast, index);
 }

@@ -147,11 +147,11 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
   
   Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
-  StructType* structType =
-  (StructType*) controller->getLLVMType(mLLVMContext)->getPointerElementType();
+  StructType* structType = (StructType*) controller->getLLVMType(mLLVMContext)
+  ->getPointerElementType()->getPointerElementType();
 
   ASSERT_NE(structType, nullptr);
-  EXPECT_EQ(structType->getNumElements(), 2u);
+  ASSERT_EQ(structType->getNumElements(), 2u);
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");

@@ -99,7 +99,7 @@ TEST_F(MethodTest, defineFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo("
-    "%systems.vos.wisey.compiler.tests.MObject*, i32)\n";
+    "%systems.vos.wisey.compiler.tests.MObject**, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -122,7 +122,7 @@ TEST_F(MethodTest, generateIRTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine internal float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject* %this, i32 %intargument) {"
+  "%systems.vos.wisey.compiler.tests.MObject** %this, i32 %intargument) {"
   "\nentry:"
   "\n  %intargument.param = alloca i32"
   "\n  store i32 %intargument, i32* %intargument.param"

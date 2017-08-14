@@ -57,7 +57,8 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
 
   vector<Type*> types;
   for (Interface* interface : controller->getInterfaces()) {
-    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
+    types.push_back(interface->getLLVMType(context.getLLVMContext())
+                    ->getPointerElementType()->getPointerElementType());
   }
   
   // In object struct fields start after vTables for all its interfaces
@@ -165,7 +166,12 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
       fieldType = context.getBoundController(interface);
     }
     
-    types.push_back(fieldType->getLLVMType(llvmContext));
+    Type* llvmType = fieldType->getLLVMType(llvmContext);
+    if (IType::isReferenceType(fieldType)) {
+      types.push_back(llvmType->getPointerElementType());
+    } else {
+      types.push_back(llvmType);
+    }
   }
 }
 

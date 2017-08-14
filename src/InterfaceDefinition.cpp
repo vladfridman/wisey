@@ -62,7 +62,8 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   types.push_back(vtableType);
   
   for (Interface* parentInterface : interface->getParentInterfaces()) {
-    types.push_back(parentInterface->getLLVMType(llvmContext)->getPointerElementType());
+    types.push_back(parentInterface->getLLVMType(llvmContext)
+                    ->getPointerElementType()->getPointerElementType());
   }
   
   interface->setStructBodyTypes(types);

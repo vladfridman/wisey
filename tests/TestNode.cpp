@@ -259,7 +259,8 @@ TEST_F(NodeTest, getTypeKindTest) {
 }
 
 TEST_F(NodeTest, getLLVMTypeTest) {
-  EXPECT_EQ(mComplicatedNode->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+  EXPECT_EQ(mComplicatedNode->getLLVMType(mLLVMContext),
+            mStructType->getPointerTo()->getPointerTo());
 }
 
 TEST_F(NodeTest, getInterfacesTest) {
@@ -326,8 +327,8 @@ TEST_F(NodeTest, castToFirstInterfaceTest) {
   
   *mStringStream << *mBasicBlock->begin();
   EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to "
-               "%systems.vos.wisey.compiler.tests.IComplicatedElement*");
+               "  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode** null to "
+               "%systems.vos.wisey.compiler.tests.IComplicatedElement**");
   mStringBuffer.clear();
 }
 
@@ -335,23 +336,20 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
   mComplicatedNode->castTo(mContext, pointer, mElementInterface);
-  ASSERT_EQ(mBasicBlock->size(), 3u);
   
-  BasicBlock::iterator iterator = mBasicBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*");
-  mStringBuffer.clear();
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.NComplicatedNode*, "
+  "%systems.vos.wisey.compiler.tests.NComplicatedNode** null"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* %0 to i8*"
+  "\n  %2 = getelementptr i8, i8* %1, i64 8"
+  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IElement*"
+  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IElement*"
+  "\n  store %systems.vos.wisey.compiler.tests.IElement* %4, "
+  "%systems.vos.wisey.compiler.tests.IElement** %3\n";
   
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %1 = getelementptr i8, i8* %0, i64 8");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IElement*");
+  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
   mStringBuffer.clear();
 }
 
