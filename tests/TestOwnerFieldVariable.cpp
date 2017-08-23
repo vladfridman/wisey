@@ -212,6 +212,10 @@ TEST_F(TestFileSampleRunner, objectFieldVariableSetToNullTest) {
                     "Error: Undeclared variable 'mModel'");
 }
 
+TEST_F(TestFileSampleRunner, stateOwnerFieldSetToNullTest) {
+  runFile("tests/samples/test_state_owner_field_set_to_null.yz", "1");
+}
+
 TEST_F(TestFileSampleRunner, objectFieldVariableSetToAnotherTest) {
   runFile("tests/samples/test_object_field_variable_set_to_another.yz", "7");
 }
