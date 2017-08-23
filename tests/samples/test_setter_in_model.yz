@@ -1,26 +1,26 @@
 package systems.vos.wisey.compiler.tests;
 
-model MColor {
+model MData {
   int mValue;
-
-  public void setValue(int a) {
-    mValue = a;
-  }
 
   public int getValue() {
     return mValue;
+  }
+
+  public void setValue(int val) {
+    mValue = val;
   }
 }
 
 controller CProgram implements IProgram {
 
   public int run() {
-    MColor* color = builder(MColor).withValue(5).build();
-    
-    color.setValue(7);
+    MData* data = builder(MData).withValue(2).build();
 
-    return color.getValue();
+    data.setValue(6);
+
+    return data.getValue();
   }
-}
+} 
 
 bind(CProgram).to(IProgram);

@@ -17,6 +17,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/OwnerFieldVariable.hpp"
+#include "wisey/PrimitiveFieldVariable.hpp"
 #include "wisey/ReferenceFieldVariable.hpp"
 
 using namespace std;
@@ -266,9 +267,15 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
        iterator++) {
     Field* field = iterator->second;
     const IType* type = field->getType();
-    IFieldVariable* fieldVariable = IType::isOwnerType(type)
-      ? (IFieldVariable*) new OwnerFieldVariable(field->getName(), NULL, object)
-      : (IFieldVariable*) new ReferenceFieldVariable(field->getName(), NULL, object);
+    IFieldVariable* fieldVariable = NULL;
+    if (IType::isOwnerType(type)) {
+      fieldVariable = new OwnerFieldVariable(field->getName(), NULL, object);
+    } else if (IType::isReferenceType(type)) {
+      fieldVariable = new ReferenceFieldVariable(field->getName(), NULL, object);
+    } else {
+      fieldVariable = new PrimitiveFieldVariable(field->getName(), NULL, object);
+    }
+
     context.getScopes().setVariable(fieldVariable);
   }
 }

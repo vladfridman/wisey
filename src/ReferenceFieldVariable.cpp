@@ -43,6 +43,11 @@ Value* ReferenceFieldVariable::generateIdentifierIR(IRGenerationContext& context
 
 Value* ReferenceFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                                           IExpression* assignToExpression) {
+  if (mObject->getTypeKind() == MODEL_TYPE) {
+    Log::e("Can not modify model's fields, models are immutable");
+    exit(1);
+  }
+
   Field* field = checkAndFindField(context, mObject, mName);
   const IType* expressionType = assignToExpression->getType(context);
   const IType* fieldType = field->getType();

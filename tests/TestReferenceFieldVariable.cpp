@@ -37,8 +37,8 @@ using ::testing::Test;
 struct ReferenceFieldVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Model* mObject;
-  Model* mModel;
+  Node* mObject;
+  Node* mNode;
   Interface* mInterface;
   BasicBlock* mBasicBlock;
   Value* mReferenceFieldValue;
@@ -53,23 +53,24 @@ struct ReferenceFieldVariableTest : Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);
 
-    string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
-    StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
-    mModel = new Model(modelFullName, modelStructType);
-    mModel->setInterfaces(interfaces);
+    string nodeFullName = "systems.vos.wisey.compiler.tests.NNode";
+    StructType* nodeStructType = StructType::create(mLLVMContext, nodeFullName);
+    mNode = new Node(nodeFullName, nodeStructType);
+    mNode->setInterfaces(interfaces);
   
     vector<Type*> types;
-    types.push_back(mModel->getLLVMType(mLLVMContext)->getPointerElementType());
+    types.push_back(mNode->getLLVMType(mLLVMContext)->getPointerElementType());
     types.push_back(mInterface->getLLVMType(mLLVMContext)->getPointerElementType());
-    string objectFullName = "systems.vos.wisey.compiler.tests.MObject";
+    string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    map<string, Field*> fields;
+    vector<Field*> stateFields;
+    vector<Field*> fixedFields;
     ExpressionList fieldArguments;
-    fields["foo"] = new Field(mModel, "foo", 0, fieldArguments);
-    fields["bar"] = new Field(mInterface, "bar", 1, fieldArguments);
-    mObject = new Model(objectFullName, objectStructType);
-    mObject->setFields(fields);
+    stateFields.push_back(new Field(mNode, "foo", 0, fieldArguments));
+    stateFields.push_back(new Field(mInterface, "bar", 1, fieldArguments));
+    mObject = new Node(objectFullName, objectStructType);
+    mObject->setFields(fixedFields, stateFields);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -85,7 +86,7 @@ struct ReferenceFieldVariableTest : Test {
     IVariable* thisVariable = new HeapReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
    
-    mReferenceFieldValue = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+    mReferenceFieldValue = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));
     mReferenceFieldVariable = new ReferenceFieldVariable("foo", mReferenceFieldValue, mObject);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -99,7 +100,7 @@ struct ReferenceFieldVariableTest : Test {
 
 TEST_F(ReferenceFieldVariableTest, basicFieldsTest) {
   EXPECT_STREQ(mReferenceFieldVariable->getName().c_str(), "foo");
-  EXPECT_EQ(mReferenceFieldVariable->getType(), mModel);
+  EXPECT_EQ(mReferenceFieldVariable->getType(), mNode);
   EXPECT_EQ(mReferenceFieldVariable->getValue(), mReferenceFieldValue);
 }
 
@@ -109,10 +110,10 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateIdentifierIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
-  "%systems.vos.wisey.compiler.tests.MObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
+  "%systems.vos.wisey.compiler.tests.NObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -120,9 +121,9 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateIdentifierIRTes
 TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = (PointerType*) mModel->getLLVMType(mLLVMContext);
+  PointerType* llvmType = (PointerType*) mNode->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
-  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mModel));
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
   mReferenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
@@ -130,14 +131,14 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
-  "%systems.vos.wisey.compiler.tests.MObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0"
-  "\n  %2 = load %systems.vos.wisey.compiler.tests.MModel*, "
-  "%systems.vos.wisey.compiler.tests.MModel** null"
-  "\n  store %systems.vos.wisey.compiler.tests.MModel* %2, "
-  "%systems.vos.wisey.compiler.tests.MModel** %1\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
+  "%systems.vos.wisey.compiler.tests.NObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.NNode*, "
+  "%systems.vos.wisey.compiler.tests.NNode** null"
+  "\n  store %systems.vos.wisey.compiler.tests.NNode* %2, "
+  "%systems.vos.wisey.compiler.tests.NNode** %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -145,9 +146,9 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentIRTes
 TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = mModel->getLLVMType(mLLVMContext);
+  PointerType* llvmType = mNode->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
-  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mModel));
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
   Value* referenceFieldValue = ConstantPointerNull::get(mInterface->getLLVMType(mLLVMContext));
@@ -158,12 +159,12 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentWithC
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MModel** null "
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode** null "
   "to %systems.vos.wisey.compiler.tests.IInterface**"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MObject*, "
-  "%systems.vos.wisey.compiler.tests.MObject** null"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* %1, i32 0, i32 1"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.NObject*, "
+  "%systems.vos.wisey.compiler.tests.NObject** null"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* %1, i32 0, i32 1"
   "\n  %3 = load %systems.vos.wisey.compiler.tests.IInterface*, "
   "%systems.vos.wisey.compiler.tests.IInterface** %0"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %3, "

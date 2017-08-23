@@ -226,3 +226,9 @@ TEST_F(TestFileSampleRunner, modelDefinitionRunTest) {
 TEST_F(TestFileSampleRunner, modelDefinitionWithMethodRunTest) {
   runFile("tests/samples/test_model_method.yz", "7");
 }
+
+TEST_F(TestFileSampleRunner, setterInModelDeathRunTest) {
+  expectFailCompile("tests/samples/test_setter_in_model.yz",
+                    1,
+                    "Error: Can not modify model's fields, models are immutable");
+}

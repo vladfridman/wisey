@@ -37,7 +37,7 @@ using ::testing::Test;
 struct PrimitiveFieldVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Model* mObject;
+  Node* mObject;
   BasicBlock* mBasicBlock;
   Value* mPrimitiveFieldValue;
   PrimitiveFieldVariable* mPrimitiveFieldVariable;
@@ -47,14 +47,15 @@ struct PrimitiveFieldVariableTest : Test {
   PrimitiveFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> types;
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mLLVMContext));
-    string objectFullName = "systems.vos.wisey.compiler.tests.MObject";
+    string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    map<string, Field*> fields;
+    vector<Field*> fixedFields;
+    vector<Field*> stateFields;
     ExpressionList fieldArguments;
-    fields["foo"] = new Field(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
-    mObject = new Model(objectFullName, objectStructType);
-    mObject->setFields(fields);
+    stateFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments));
+    mObject = new Node(objectFullName, objectStructType);
+    mObject->setFields(fixedFields, stateFields);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -94,10 +95,10 @@ TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateIdentifierIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
-  "%systems.vos.wisey.compiler.tests.MObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
+  "%systems.vos.wisey.compiler.tests.NObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0"
   "\n  %2 = load i32, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -115,10 +116,10 @@ TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
-  "%systems.vos.wisey.compiler.tests.MObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
+  "%systems.vos.wisey.compiler.tests.NObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0"
   "\n  store i32 3, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -137,10 +138,10 @@ TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentWithC
   string expected = string() +
   "\nentry:" +
   "\n  %conv = zext i16 3 to i32"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
-  "%systems.vos.wisey.compiler.tests.MObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
+  "%systems.vos.wisey.compiler.tests.NObject** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0"
   "\n  store i32 %conv, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -150,10 +151,10 @@ TEST_F(PrimitiveFieldVariableTest, existsInOuterScopeTest) {
   EXPECT_TRUE(mPrimitiveFieldVariable->existsInOuterScope());
 }
 
-TEST_F(TestFileSampleRunner, modelFieldSetRunTest) {
-  runFile("tests/samples/test_model_field_set.yz", "7");
+TEST_F(TestFileSampleRunner, objectFieldSetRunTest) {
+  runFile("tests/samples/test_object_field_set.yz", "7");
 }
 
 TEST_F(TestFileSampleRunner, modelFieldSetWithAutocastRunTest) {
-  runFile("tests/samples/test_model_field_set_with_autocast.yz", "1");
+  runFile("tests/samples/test_object_field_set_with_autocast.yz", "1");
 }

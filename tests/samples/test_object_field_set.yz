@@ -1,7 +1,11 @@
 package systems.vos.wisey.compiler.tests;
 
-model MColor {
-  boolean mValue;
+node NColor {
+  int mValue;
+
+  public void setValue(int a) {
+    mValue = a;
+  }
 
   public int getValue() {
     return mValue;
@@ -11,7 +15,9 @@ model MColor {
 controller CProgram implements IProgram {
 
   public int run() {
-    MColor* color = builder(MColor).withValue(true).build();
+    NColor* color = builder(NColor).withValue(5).build();
+    
+    color.setValue(7);
 
     return color.getValue();
   }

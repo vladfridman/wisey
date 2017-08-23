@@ -26,8 +26,8 @@ class ReferenceFieldVariable : public IFieldVariable {
 public:
   
   ReferenceFieldVariable(std::string name,
-                               llvm::Value* value,
-                               const IConcreteObjectType* object) :
+                         llvm::Value* value,
+                         const IConcreteObjectType* object) :
   mName(name),
   mValue(value),
   mObject(object) { }
