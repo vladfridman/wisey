@@ -374,6 +374,14 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTes
                     "Error: Undeclared variable 'anotherRef'");
 }
 
+TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullOutsideObjectRunDeathTest) {
+  expectFailCompile("tests/samples/test_reference_memory_deallocated_by_setting_null_outside_object.yz",
+                    1,
+                    "Error: Can not store a reference because its owner does not exist in "
+                    "the current scope");
+}
+
+
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThenElseRunDeathTest) {
   expectFailCompile("tests/samples/"
                     "test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz",

@@ -45,6 +45,11 @@ void Identifier::addReferenceToOwner(IRGenerationContext& context, IVariable* re
   IVariable* owner = IType::isOwnerType(variable->getType())
   ? variable : context.getScopes().getOwnerForReference(variable);
   
+  if (owner == NULL) {
+    Log::e("Can not store a reference because its owner does not exist in the current scope");
+    exit(1);
+  }
+
   context.getScopes().addReferenceToOwnerVariable(owner, reference);
 }
 

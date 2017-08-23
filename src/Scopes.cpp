@@ -270,9 +270,9 @@ void Scopes::addReferenceToOwnerVariable(IVariable* ownerVariable, IVariable* re
 }
 
 IVariable* Scopes::getOwnerForReference(IVariable* reference) {
-  if (!mRererenceToOwnerMap.count(reference->getName())) {
-    Log::e("No owner found for reference variable " + reference->getName());
+  if (mRererenceToOwnerMap.count(reference->getName())) {
+    return mRererenceToOwnerMap[reference->getName()];
   }
 
-  return mRererenceToOwnerMap[reference->getName()];
+  return NULL;
 }

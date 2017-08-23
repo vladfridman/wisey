@@ -1,0 +1,35 @@
+package systems.vos.wisey.compiler.tests;
+
+model MData {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CService {
+  state MData mData;
+
+  public void set(MData data) {
+    mData = data;
+  }
+
+  public int getValue() {
+    return mData.getValue();
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService;
+
+  public int run() {
+    MData* owner = builder(MData).withValue(1).build();
+    mService.set(owner);
+    owner = builder(MData).withValue(5).build();
+
+    return mService.getValue();
+  }
+} 
+
+bind(CProgram).to(IProgram);
