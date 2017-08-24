@@ -21,6 +21,42 @@ class Interface;
   
 /**
  * Interface representing a object that has a vTable: controller or a model
+ *
+ * vTable is an array of arrays of i8* pointers:
+ * [
+ *   [vTable portion for the concrete object],
+ *   [vTable portion for the first implemented interface],
+ *   [vTable portion for the second implemented interface],
+ *   ...
+ * ]
+ *
+ * vTable portion for the concrete object consists of
+ * [
+ *   i8* null,
+ *   i8* <pointer to type table array>,
+ *   i8* <pointer to first method>,
+ *   i8* <pointer to second method>,
+ *   ...
+ * ]
+ *
+ * vTable portion for an implemented interface consists of
+ * [
+ *   i8* <number of bytes needed to add to the interface object pointer to get the concrete object>
+ *   i8* null,
+ *   i8* <pointer to first interface method that maps to concrete object method>,
+ *   i8* <pointer to second interface method that maps to concrete object method>,
+ *   ...
+ * ]
+ *
+ * Typetable for the concrete object consists of array of pointers to type names:
+ * [
+ *   i8* <concrete object type name>,
+ *   i8* <first interface type name>,
+ *   i8* <second interface type name>,
+ *   ...,
+ *   i8* null
+ * ]
+ *
  */
 class IConcreteObjectType : public IObjectType {
     

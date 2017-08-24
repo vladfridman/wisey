@@ -282,13 +282,13 @@ Instruction* Model::createMalloc(IRGenerationContext& context) const {
 }
 
 void Model::initializeFields(IRGenerationContext& context,
-                             const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
+                             const ObjectBuilderArgumentList& objectBuilderArgumentList,
                              Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (ObjectBuilderArgument* argument : ObjectBuilderArgumentList) {
+  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);
     const IType* argumentType = argument->getType(context);
