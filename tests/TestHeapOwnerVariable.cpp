@@ -134,9 +134,9 @@ TEST_F(HeapOwnerVariableTest, freeTest) {
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %ownerToFree = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "\n  %modelOwnerToFree = load %systems.vos.wisey.compiler.tests.MShape*, "
   "%systems.vos.wisey.compiler.tests.MShape** %0"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %ownerToFree to i8*"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %modelOwnerToFree to i8*"
   "\n  tail call void @free(i8* %1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

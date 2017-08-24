@@ -58,3 +58,9 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
   
   return mController->castTo(context, fromValue, toType);
 }
+
+void ControllerOwner::free(IRGenerationContext &context, Value *value) const {
+  Value* thisPointer = IRWriter::newLoadInst(context, value, "controllerOwnerToFree");
+  
+  IRWriter::createFree(context, thisPointer);
+}

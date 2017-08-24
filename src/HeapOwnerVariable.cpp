@@ -60,13 +60,7 @@ void HeapOwnerVariable::setToNull(IRGenerationContext& context) const {
 }
 
 void HeapOwnerVariable::free(IRGenerationContext& context) const {
-  Value* objectPointer = IRWriter::newLoadInst(context, mValue, "ownerToFree");
-  
-  Value* thisPointer = mType->getTypeKind() == INTERFACE_OWNER_TYPE
-  ? Interface::getOriginalObject(context, mValue)
-  : objectPointer;
-  
-  IRWriter::createFree(context, thisPointer);
+  mType->free(context, mValue);
 }
 
 bool HeapOwnerVariable::existsInOuterScope() const {

@@ -58,3 +58,9 @@ Value* InterfaceOwner::castTo(IRGenerationContext& context,
   
   return mInterface->castTo(context, fromValue, toType);
 }
+
+void InterfaceOwner::free(IRGenerationContext &context, Value *value) const {
+  Value* thisPointer = Interface::getOriginalObject(context, value);
+  
+  IRWriter::createFree(context, thisPointer);
+}

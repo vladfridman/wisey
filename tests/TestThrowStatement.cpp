@@ -168,10 +168,10 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   "\n  %4 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %3 to i64"
   "\n  %5 = call i8* @__cxa_allocate_exception(i64 %4)"
   "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %5, i8* %1, i64 %4, i32 4, i1 false)"
-  "\n  %ownerToFree = load i8*, i8** %pointer2"
-  "\n  tail call void @free(i8* %ownerToFree)"
-  "\n  %ownerToFree3 = load i8*, i8** %pointer"
-  "\n  tail call void @free(i8* %ownerToFree3)"
+  "\n  %modelOwnerToFree = load i8*, i8** %pointer2"
+  "\n  tail call void @free(i8* %modelOwnerToFree)"
+  "\n  %modelOwnerToFree3 = load i8*, i8** %pointer"
+  "\n  tail call void @free(i8* %modelOwnerToFree3)"
   "\n  call void @__cxa_throw(i8* %5, i8* %2, i8* null)"
   "\n  unreachable\n";
   

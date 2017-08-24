@@ -33,6 +33,8 @@ public:
   
   llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override;
   
+  void free(IRGenerationContext& context, llvm::Value* value) const override;
+  
   TypeKind getTypeKind() const override;
   
   bool canCastTo(const IType* toType) const override;

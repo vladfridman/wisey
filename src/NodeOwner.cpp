@@ -58,3 +58,9 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
   
   return mNode->castTo(context, fromValue, toType);
 }
+
+void NodeOwner::free(IRGenerationContext &context, Value *value) const {
+  Value* thisPointer = IRWriter::newLoadInst(context, value, "nodeOwnerToFree");
+  
+  IRWriter::createFree(context, thisPointer);
+}
