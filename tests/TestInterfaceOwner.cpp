@@ -14,6 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "wisey/InstanceOf.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -53,22 +54,11 @@ struct InterfaceOwnerTest : public Test {
     mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
                                                             shapeMethodSignatures);
     
-    vector<Type*> argumentTypes;
-    argumentTypes.push_back(mObjectInterface->getLLVMType(mLLVMContext));
-    argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-    ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-    Type* llvmReturnType = PrimitiveTypes::BOOLEAN_TYPE->getLLVMType(mLLVMContext);
-    FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
-                                          mObjectInterface->getInstanceOfFunctionName(),
+                                          "main",
                                           mContext.getModule());
-    
-    functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    function = Function::Create(functionType,
-                                GlobalValue::InternalLinkage,
-                                "main",
-                                mContext.getModule());
     
     mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBlock);

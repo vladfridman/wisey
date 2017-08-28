@@ -301,6 +301,9 @@
 		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
 		F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestMain.cpp */; };
+		F59496FE1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
+		F59496FF1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
+		F59497011F546CED0002F14F /* TestIsntanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59497001F546CED0002F14F /* TestIsntanceOf.cpp */; };
 		F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */; };
 		F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
@@ -774,6 +777,9 @@
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
 		F592C9951ED323F7007FB2D0 /* TestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMain.cpp; path = tests/TestMain.cpp; sourceTree = "<group>"; };
+		F59496FC1F5467540002F14F /* InstanceOf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InstanceOf.hpp; path = include/wisey/InstanceOf.hpp; sourceTree = "<group>"; };
+		F59496FD1F5469900002F14F /* InstanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InstanceOf.cpp; path = src/InstanceOf.cpp; sourceTree = "<group>"; };
+		F59497001F546CED0002F14F /* TestIsntanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIsntanceOf.cpp; path = tests/TestIsntanceOf.cpp; sourceTree = "<group>"; };
 		F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyStatement.cpp; path = tests/TestEmptyStatement.cpp; sourceTree = "<group>"; };
 		F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WhileStatement.cpp; path = src/WhileStatement.cpp; sourceTree = "<group>"; };
 		F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWhileStatement.cpp; path = tests/TestWhileStatement.cpp; sourceTree = "<group>"; };
@@ -1026,6 +1032,7 @@
 				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
 				F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */,
+				F59497001F546CED0002F14F /* TestIsntanceOf.cpp */,
 				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
 				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
 				F57411541E019B32009809FF /* TestLogicalAndExpression.cpp */,
@@ -1217,6 +1224,7 @@
 				F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */,
 				F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */,
 				F574116A1E042390009809FF /* IncrementExpression.cpp */,
+				F59496FD1F5469900002F14F /* InstanceOf.cpp */,
 				F50FA2E31E2E3B0900435EEA /* IntConstant.cpp */,
 				F5ADB6201E66F9B400FFC941 /* Interface.cpp */,
 				F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */,
@@ -1390,6 +1398,7 @@
 				F53B8EB91ECE0E5800F45564 /* ImportStatement.hpp */,
 				F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */,
 				F5089C751ECD01D9004A1223 /* INode.hpp */,
+				F59496FC1F5467540002F14F /* InstanceOf.hpp */,
 				F5089C761ECD01D9004A1223 /* IntConstant.hpp */,
 				F5089C771ECD01D9004A1223 /* Interface.hpp */,
 				F5089C781ECD01D9004A1223 /* InterfaceDefinition.hpp */,
@@ -1607,6 +1616,7 @@
 				F508E06A1E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
 				F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
 				F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */,
+				F59496FF1F5469900002F14F /* InstanceOf.cpp in Sources */,
 				F51581301E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
 				F53A2C161EF020B400E76A9E /* TestModelOwner.cpp in Sources */,
@@ -1703,6 +1713,7 @@
 				F515812B1E89BFB6009CE419 /* TestControllerDefinition.cpp in Sources */,
 				F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
+				F59497011F546CED0002F14F /* TestIsntanceOf.cpp in Sources */,
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
@@ -1799,6 +1810,7 @@
 				F57780A51EC673EC0049542D /* EmptyStatement.cpp in Sources */,
 				F5E6BD071F190B4700D59444 /* Composer.cpp in Sources */,
 				F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
+				F59496FE1F5469900002F14F /* InstanceOf.cpp in Sources */,
 				F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F53A2C491F029BA500E76A9E /* NullExpression.cpp in Sources */,
 				F5A363411F33C1A8005880B3 /* HeapOwnerVariable.cpp in Sources */,

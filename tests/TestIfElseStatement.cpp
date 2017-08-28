@@ -68,8 +68,7 @@ struct IfElseStatementTest : Test {
     ON_CALL(*mElseStatement, generateIR(_)).WillByDefault(Return(elseStatementValue));
     mElseBlock->getStatements().push_back(mElseStatement);
     
-    FunctionType* functionType =
-    FunctionType::get(Type::getInt32Ty(llvmContext), false);
+    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), false);
     mFunction = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
     mContext.setBasicBlock(BasicBlock::Create(llvmContext, "entry", mFunction));
     mContext.getScopes().pushScope();

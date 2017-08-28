@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/InstanceOf.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -59,8 +60,10 @@ Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext&
   Interface* interface = (Interface*) expressionType;
   IObjectType* objectWithMethodsType = (IObjectType*) mTypeSpecifier->getType(context);
   
-  Value* interfaceIndex =
-    interface->callInstanceOf(context, expressionValue, objectWithMethodsType);
+  Value* interfaceIndex = InstanceOf::call(context,
+                                           interface,
+                                           expressionValue,
+                                           objectWithMethodsType);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
   
   return IRWriter::newICmpInst(context, ICmpInst::ICMP_SGE, interfaceIndex, zero, "instanceof");

@@ -10,6 +10,7 @@
 
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -98,10 +99,6 @@ bool Interface::doesExtendInterface(Interface* interface) const {
 
 string Interface::getObjectNameGlobalVariableName() const {
   return mName + ".name";
-}
-
-string Interface::getInstanceOfFunctionName() const {
-  return mName + ".instanceof";
 }
 
 MethodSignature* Interface::findMethod(std::string methodName) const {
@@ -396,7 +393,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   BasicBlock* lastBasicBlock = context.getBasicBlock();
 
   context.setBasicBlock(entryBlock);
-  Value* instanceof = callInstanceOf(context, thisArgument, toType);
+  Value* instanceof = InstanceOf::call(context, this, thisArgument, toType);
   Value* originalObject = getOriginalObject(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
@@ -457,20 +454,6 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
   BitCastInst* bitcast = IRWriter::newBitCastInst(context, valueLoaded, int8Type->getPointerTo());
   index[0] = unthunkBy;
   return IRWriter::createGetElementPtrInst(context, bitcast, index);
-}
-
-CallInst* Interface::callInstanceOf(IRGenerationContext& context,
-                                    Value* interfaceObject,
-                                    IObjectType* callableObjectType) const {
-  Function* function = context.getModule()->getFunction(getInstanceOfFunctionName());
-  
-  Constant* namePointer = IObjectType::getObjectNamePointer(callableObjectType, context);
-
-  vector<Value*> arguments;
-  arguments.push_back(interfaceObject);
-  arguments.push_back(namePointer);
-  
-  return IRWriter::createCallInst(context, function, arguments, "instanceof");
 }
 
 const IObjectOwnerType* Interface::getOwner() const {

@@ -77,21 +77,9 @@ public:
   bool doesExtendInterface(Interface* interface) const;
   
   /**
-   * Return function name that implements instanceof operation
-   */
-  std::string getInstanceOfFunctionName() const;
-  
-  /**
    * Return function name that casts this interface into a given ICallableObject type
    */
   std::string getCastFunctionName(IObjectType* toType) const;
-  
-  /**
-   * Call instanceof function and check whether interfaceObject is of type callableObjectType
-   */
-  llvm::CallInst* callInstanceOf(IRGenerationContext& context,
-                                 llvm::Value* interfaceObject,
-                                 IObjectType* object) const;
   
   /**
    * Given a value of type interface get the pointer back to the original object that implements it

@@ -46,38 +46,6 @@ private:
   
   void defineInterfaceTypeName(IRGenerationContext& context, Interface* interface) const;
   
-  void defineInstanceOf(IRGenerationContext& context, Interface* interface) const;
-  
-  llvm::Function* createInstanceOfFunction(IRGenerationContext& context,
-                                           Interface* interface) const;
-  
-  llvm::BitCastInst* composeInstanceOfEntryBlock(IRGenerationContext& context,
-                                                 llvm::BasicBlock* entryBlock,
-                                                 llvm::BasicBlock* whileCond,
-                                                 llvm::Function* function) const;
-
-  llvm::LoadInst* composeInstanceOfWhileConditionBlock(IRGenerationContext& context,
-                                                       llvm::BasicBlock* whileCond,
-                                                       llvm::BasicBlock* whileBody,
-                                                       llvm::BasicBlock* returnFalse,
-                                                       llvm::Value* iterator,
-                                                       llvm::Value* arrayOfStrings) const;
-  
-  void composeInstanceOfWhileBodyBlock(IRGenerationContext& context,
-                                       llvm::BasicBlock* whileBody,
-                                       llvm::BasicBlock* whileCond,
-                                       llvm::BasicBlock* returnTrue,
-                                       llvm::Value* iterator,
-                                       llvm::Value* stringPointer,
-                                       llvm::Function* function) const;
-  
-  void composeReturnFound(IRGenerationContext& context,
-                          llvm::BasicBlock* returnFound,
-                          llvm::Value* iterator) const;
-  
-  void composeReturnNotFound(IRGenerationContext& context,
-                             llvm::BasicBlock* returnNotFound) const;
-
   std::string getFullName(IRGenerationContext& context) const;
 
 };

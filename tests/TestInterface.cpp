@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/NullType.hpp"
@@ -75,22 +76,11 @@ struct InterfaceTest : public Test {
                        stringConstant,
                        mShapeInterface->getObjectNameGlobalVariableName());
 
-    vector<Type*> argumentTypes;
-    argumentTypes.push_back(mObjectInterface->getLLVMType(mLLVMContext));
-    argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-    ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-    Type* llvmReturnType = PrimitiveTypes::BOOLEAN_TYPE->getLLVMType(mLLVMContext);
-    FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
-                                          mObjectInterface->getInstanceOfFunctionName(),
+                                          "main",
                                           mContext.getModule());
-
-    functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    function = Function::Create(functionType,
-                                GlobalValue::InternalLinkage,
-                                "main",
-                                mContext.getModule());
     
     mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBlock);
@@ -123,11 +113,6 @@ TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {
                "systems.vos.wisey.compiler.tests.IShape.name");
 }
 
-TEST_F(InterfaceTest, getInstanceOfFunctionNameTest) {
-  EXPECT_STREQ(mShapeInterface->getInstanceOfFunctionName().c_str(),
-               "systems.vos.wisey.compiler.tests.IShape.instanceof");
-}
-
 TEST_F(InterfaceTest, getParentInterfacesTest) {
   EXPECT_EQ(mShapeInterface->getParentInterfaces().size(), 1u);
   EXPECT_EQ(mShapeInterface->getParentInterfaces().at(0), mObjectInterface);
@@ -157,23 +142,6 @@ TEST_F(InterfaceTest, getOriginalObjectTest) {
     "\n  %4 = getelementptr i8, i8* %3, i64 %unthunkby\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}
-
-TEST_F(InterfaceTest, callInstanceOfTest) {
-  Value* nullPointerValue =
-    ConstantPointerNull::get(mObjectInterface->getLLVMType(mLLVMContext));
-  mObjectInterface->callInstanceOf(mContext, nullPointerValue, mShapeInterface);
-  
-  ASSERT_EQ(1ul, mBlock->size());
-  *mStringStream << *mBlock;
-  string expected =
-  "\nentry:"
-  "\n  %instanceof = call i1 @systems.vos.wisey.compiler.tests.IObject.instanceof("
-  "%systems.vos.wisey.compiler.tests.IObject** null, "
-  "i8* getelementptr inbounds ([40 x i8], [40 x i8]* "
-  "@systems.vos.wisey.compiler.tests.IShape.name, i32 0, i32 0))\n";
-  
-  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }
 
 TEST_F(InterfaceTest, getCastFunctionNameTest) {
