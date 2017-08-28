@@ -470,8 +470,6 @@ TEST_F(ControllerTest, injectFieldTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
   
-  EXPECT_EQ(8ul, mBasicBlock->size());
-  
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
@@ -483,25 +481,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CParent, "
     "%systems.vos.wisey.compiler.tests.CParent* %injectvar, i32 0, i32 0"
   "\n  store %systems.vos.wisey.compiler.tests.CChild* "
-    "%injectvar2, %systems.vos.wisey.compiler.tests.CChild** %0"
-  "\n  %pointer = alloca %systems.vos.wisey.compiler.tests.CChild*"
-  "\n  store %systems.vos.wisey.compiler.tests.CChild* %injectvar2, "
-      "%systems.vos.wisey.compiler.tests.CChild** %pointer\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  mStringBuffer.clear();
-  
-  BasicBlock* block = BasicBlock::Create(mLLVMContext, "freememory", mFunction);
-  mContext.setBasicBlock(block);
-  
-  mContext.getScopes().popScope(mContext);
-
-  *mStringStream << *block;
-  expected = "\nfreememory:                                       ; No predecessors!"
-  "\n  %controllerOwnerToFree = load %systems.vos.wisey.compiler.tests.CChild*, "
-      "%systems.vos.wisey.compiler.tests.CChild** %pointer"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CChild* %controllerOwnerToFree to i8*"
-  "\n  tail call void @free(i8* %1)\n";
+    "%injectvar2, %systems.vos.wisey.compiler.tests.CChild** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

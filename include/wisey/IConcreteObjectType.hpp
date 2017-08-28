@@ -20,28 +20,33 @@ namespace wisey {
 class Interface;
   
 /**
- * Interface representing a object that has a vTable: controller or a model
+ * Interface representing a object that has a vTable: controller, node or a model
+ *
+ * Only objects implementing at least one interface have a vTable. Objects that do not implement
+ * any interfaces do not use a vTable, methods are called directly.
  *
  * vTable is an array of arrays of i8* pointers:
  * [
- *   [vTable portion for the concrete object],
- *   [vTable portion for the first implemented interface],
+ *   [vTable portion for the concrete object and first implemented interface],
  *   [vTable portion for the second implemented interface],
+ *   [vTable portion for the third implemented interface],
  *   ...
  * ]
  *
- * vTable portion for the concrete object consists of
+ * vTable portion for the concrete object  and first implemented interface consists of
  * [
  *   i8* null,
  *   i8* <pointer to type table array>,
- *   i8* <pointer to first method>,
- *   i8* <pointer to second method>,
+ *   i8* <pointer to destructor>,
+ *   i8* <pointer to first interface method that is a concrete object's method>,
+ *   i8* <pointer to second interface method that is a concrete object's method>,
  *   ...
  * ]
  *
  * vTable portion for an implemented interface consists of
  * [
  *   i8* <number of bytes needed to add to the interface object pointer to get the concrete object>
+ *   i8* null,
  *   i8* null,
  *   i8* <pointer to first interface method that maps to concrete object method>,
  *   i8* <pointer to second interface method that maps to concrete object method>,
@@ -144,6 +149,18 @@ public:
    */
   static void declareFieldVariables(IRGenerationContext& context, IConcreteObjectType* object);
   
+  /**
+   * Composes destructor function code
+   */
+  static void composeDestructorBody(IRGenerationContext& context, IConcreteObjectType* object);
+  
+  /**
+   * Compose a call to destroy a given concrete object
+   */
+  static void composeDestructorCall(IRGenerationContext& context,
+                                    IConcreteObjectType* objectOwnerType,
+                                    llvm::Value* object);
+
 private:
   
   static std::map<std::string, llvm::Function*>
@@ -167,7 +184,13 @@ private:
   
   static llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context,
                                                     IConcreteObjectType* object);
+  
+  static void addDestructorInfo(IRGenerationContext& context,
+                                IConcreteObjectType* objet,
+                                std::vector<std::vector<llvm::Constant*>>& vTables);
 
+  static std::string getObjectDestructorFunctionName(IConcreteObjectType* object);
+  
 };
   
 } /* namespace wisey */

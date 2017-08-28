@@ -46,15 +46,6 @@ public:
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
-    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "test",
-                                          mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
-    mContext.getScopes().pushScope();
-    
     vector<Type*> types;
     LLVMContext& llvmContext = mContext.getLLVMContext();
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -68,7 +59,20 @@ public:
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     mModel = new Model(modelFullName, structType);
     mModel->setFields(fields);
-    
+
+    IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::generateVTable(mContext, mModel);
+    IConcreteObjectType::composeDestructorBody(mContext, mModel);
+
+    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
+    Function* function = Function::Create(functionType,
+                                          GlobalValue::InternalLinkage,
+                                          "test",
+                                          mContext.getModule());
+    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBlock);
+    mContext.getScopes().pushScope();
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 };
@@ -85,10 +89,8 @@ TEST_F(HeapOwnerMethodParameterTest, freeTest) {
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %ownerParameterToFree = load %systems.vos.wisey.compiler.tests.MShape*, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %ownerParameterToFree to i8*"
-  "\n  tail call void @free(i8* %1)\n";
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape("
+    "%systems.vos.wisey.compiler.tests.MShape** %0)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

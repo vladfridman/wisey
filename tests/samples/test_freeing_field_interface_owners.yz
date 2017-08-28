@@ -1,0 +1,36 @@
+package systems.vos.wisey.compiler.tests;
+
+interface IHasSubModule {
+  IHasValue getSubModel();
+}
+
+interface IHasValue {
+  int getValue();
+}
+
+model MSubModel implements IHasValue {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+model MModel implements IHasSubModule {
+  IHasValue* mSubModel;
+
+  public IHasValue getSubModel() {
+    return mSubModel;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    IHasSubModule* myObject = builder(MModel).withSubModel((IHasValue*) builder(MSubModel).withValue(3).build()).build();
+    
+    return myObject.getSubModel().getValue();
+  }
+} 
+
+bind(CProgram).to(IProgram);

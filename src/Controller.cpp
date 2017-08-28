@@ -264,12 +264,6 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
-    
-    string variableName = IVariable::getTemporaryVariableName(fieldValue);
-    Value* alloc = IRWriter::newAllocaInst(context, fieldValue->getType(), "pointer");
-    IRWriter::newStoreInst(context, fieldValue, alloc);
-    IVariable* heapVariable = new HeapOwnerVariable(variableName, controller->getOwner(), alloc);
-    context.getScopes().setVariable(heapVariable);
   }
 }
 

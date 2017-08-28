@@ -57,7 +57,11 @@ struct ReturnVoidStatementTest : public Test {
     fields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     mModel = new Model(modelFullName, structType);
     mModel->setFields(fields);
-  }
+
+    IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::generateVTable(mContext, mModel);
+    IConcreteObjectType::composeDestructorBody(mContext, mModel);
+}
   
   ~ReturnVoidStatementTest() {
     delete mStringStream;
@@ -88,7 +92,8 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
   
-  Type* structType = Type::getInt8Ty(mLLVMContext);
+  Type* structType = mModel->getLLVMType(mLLVMContext)
+    ->getPointerElementType()->getPointerElementType();
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
@@ -111,18 +116,18 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
-    "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  %pointer = alloca i8*"
-  "\n  store i8* %malloccall, i8** %pointer"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
-    "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  %pointer2 = alloca i8*"
-  "\n  store i8* %malloccall1, i8** %pointer2"
-  "\n  %modelOwnerToFree = load i8*, i8** %pointer2"
-  "\n  tail call void @free(i8* %modelOwnerToFree)"
-  "\n  %modelOwnerToFree3 = load i8*, i8** %pointer"
-  "\n  tail call void @free(i8* %modelOwnerToFree3)"
+  "\n  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
+    "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))"
+  "\n  %0 = bitcast i8* %malloccall to %MShape*"
+  "\n  %pointer = alloca %MShape*"
+  "\n  store %MShape* %0, %MShape** %pointer"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
+    "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))"
+  "\n  %1 = bitcast i8* %malloccall1 to %MShape*"
+  "\n  %pointer2 = alloca %MShape*"
+  "\n  store %MShape* %1, %MShape** %pointer2"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape** %pointer2)"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape** %pointer)"
   "\n  ret void\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

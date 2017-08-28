@@ -138,7 +138,8 @@ void Method::storeArgumentValue(IRGenerationContext& context,
     Type* variableLLVMType = variableType->getLLVMType(context.getLLVMContext());
     Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterObjectPointer");
     IRWriter::newStoreInst(context, variableValue, alloc);
-    IVariable* variable = new HeapOwnerMethodParameter(variableName, variableType, alloc);
+    IObjectOwnerType* objectOwnerType = (IObjectOwnerType*) variableType;
+    IVariable* variable = new HeapOwnerMethodParameter(variableName, objectOwnerType, alloc);
     context.getScopes().setVariable(variable);
     return;
   }

@@ -72,6 +72,7 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   
   context.getScopes().pushScope();
   
+  IConcreteObjectType::composeDestructorBody(context, node);
   IConcreteObjectType::declareFieldVariables(context, node);
   
   for (Method* method : node->getMethods()) {

@@ -66,6 +66,10 @@ struct ThrowStatementTest : public Test {
                        circleFullName + ".name");
     mCircleModel->createRTTI(mContext);
 
+    IConcreteObjectType::generateNameGlobal(mContext, mCircleModel);
+    IConcreteObjectType::generateVTable(mContext, mCircleModel);
+    IConcreteObjectType::composeDestructorBody(mContext, mCircleModel);
+
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -123,7 +127,8 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
 }
 
 TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
-  Type* structType = Type::getInt8Ty(mLLVMContext);
+  Type* structType = mCircleModel->getLLVMType(mLLVMContext)
+    ->getPointerElementType()->getPointerElementType();
   Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
@@ -151,28 +156,30 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
-    "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  %pointer = alloca i8*"
-  "\n  store i8* %malloccall, i8** %pointer"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
-    "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  %pointer2 = alloca i8*"
-  "\n  store i8* %malloccall1, i8** %pointer2"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MCircle*, "
+  "\n  %malloccall = tail call i8* @malloc(i64 0)"
+  "\n  %0 = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MCircle*"
+  "\n  %pointer = alloca %systems.vos.wisey.compiler.tests.MCircle*"
+  "\n  store %systems.vos.wisey.compiler.tests.MCircle* %0, "
+    "%systems.vos.wisey.compiler.tests.MCircle** %pointer"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 0)"
+  "\n  %1 = bitcast i8* %malloccall1 to %systems.vos.wisey.compiler.tests.MCircle*"
+  "\n  %pointer2 = alloca %systems.vos.wisey.compiler.tests.MCircle*"
+  "\n  store %systems.vos.wisey.compiler.tests.MCircle* %1, "
+    "%systems.vos.wisey.compiler.tests.MCircle** %pointer2"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.MCircle*, "
     "%systems.vos.wisey.compiler.tests.MCircle** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MCircle* %0 to i8*"
-  "\n  %2 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
-  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MCircle* %2 to i8*"
+  "\n  %4 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
+  "\n  %5 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
     "%systems.vos.wisey.compiler.tests.MCircle* null, i32 1"
-  "\n  %4 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %3 to i64"
-  "\n  %5 = call i8* @__cxa_allocate_exception(i64 %4)"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %5, i8* %1, i64 %4, i32 4, i1 false)"
-  "\n  %modelOwnerToFree = load i8*, i8** %pointer2"
-  "\n  tail call void @free(i8* %modelOwnerToFree)"
-  "\n  %modelOwnerToFree3 = load i8*, i8** %pointer"
-  "\n  tail call void @free(i8* %modelOwnerToFree3)"
-  "\n  call void @__cxa_throw(i8* %5, i8* %2, i8* null)"
+  "\n  %6 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %5 to i64"
+  "\n  %7 = call i8* @__cxa_allocate_exception(i64 %6)"
+  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %7, i8* %3, i64 %6, i32 4, i1 false)"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MCircle("
+    "%systems.vos.wisey.compiler.tests.MCircle** %pointer2)"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MCircle("
+    "%systems.vos.wisey.compiler.tests.MCircle** %pointer)"
+  "\n  call void @__cxa_throw(i8* %7, i8* %4, i8* null)"
   "\n  unreachable\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

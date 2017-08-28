@@ -1,0 +1,28 @@
+package systems.vos.wisey.compiler.tests;
+
+model MSubModel {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+model MModel {
+  MSubModel* mSubModel;
+
+  public MSubModel getSubModel() {
+    return mSubModel;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MModel* myModel = builder(MModel).withSubModel(builder(MSubModel).withValue(3).build()).build();
+    
+    return myModel.getSubModel().getValue();
+  }
+} 
+
+bind(CProgram).to(IProgram);

@@ -60,7 +60,5 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
 }
 
 void NodeOwner::free(IRGenerationContext &context, Value *value) const {
-  Value* thisPointer = IRWriter::newLoadInst(context, value, "nodeOwnerToFree");
-  
-  IRWriter::createFree(context, thisPointer);
+  IConcreteObjectType::composeDestructorCall(context, getObject(), value);
 }

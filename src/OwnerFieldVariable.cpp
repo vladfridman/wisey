@@ -78,7 +78,7 @@ void OwnerFieldVariable::setToNull(IRGenerationContext& context) const {
 }
 
 void OwnerFieldVariable::free(IRGenerationContext& context) const {
-  /** Not implmeneted yet */
+  /** Freed using object destructor */
 }
 
 bool OwnerFieldVariable::existsInOuterScope() const {

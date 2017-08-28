@@ -19,12 +19,12 @@ namespace wisey {
 class HeapOwnerMethodParameter : public IVariable {
     
   std::string mName;
-  const IType* mType;
+  const IObjectOwnerType* mType;
   llvm::Value* mValue;
   
 public:
   
-  HeapOwnerMethodParameter(std::string name, const IType* type, llvm::Value* value)
+  HeapOwnerMethodParameter(std::string name, const IObjectOwnerType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value) { }
   
   ~HeapOwnerMethodParameter() {

@@ -12,6 +12,7 @@
 
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Verifier.h>
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
@@ -21,6 +22,7 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -58,6 +60,9 @@ struct ModelTest : public Test {
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()),
   mField3Expression(new NiceMock<MockExpression>()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -201,6 +206,7 @@ struct ModelTest : public Test {
     
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateVTable(mContext, mStarModel);
+    IConcreteObjectType::composeDestructorBody(mContext, mStarModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -264,6 +270,7 @@ TEST_F(ModelTest, getOwnerTest) {
 TEST_F(ModelTest, getSizeTest) {
   Value* value = mModel->getSize(mContext);
   IRWriter::createReturnInst(mContext, value);
+  
   GenericValue result = mContext.runCode();
   
   EXPECT_EQ(result.IntVal, 8);

@@ -59,8 +59,6 @@ Value* ModelOwner::castTo(IRGenerationContext& context,
   return mModel->castTo(context, fromValue, toType);
 }
 
-void ModelOwner::free(IRGenerationContext &context, Value *value) const {
-  Value* thisPointer = IRWriter::newLoadInst(context, value, "modelOwnerToFree");
-  
-  IRWriter::createFree(context, thisPointer);
+void ModelOwner::free(IRGenerationContext &context, Value* value) const {
+  IConcreteObjectType::composeDestructorCall(context, getObject(), value);
 }
