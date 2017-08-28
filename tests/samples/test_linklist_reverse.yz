@@ -16,12 +16,11 @@ node NNode {
     mNext = next;
   }
 
-  // TODO: move this down belowe takeNext()
-  public NNode getNext() {
+  public NNode* takeNext() {
     return mNext;
   }
 
-  public NNode* takeNext() {
+  public NNode getNext() {
     return mNext;
   }
 
