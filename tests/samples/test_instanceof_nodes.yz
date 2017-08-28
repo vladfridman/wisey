@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+interface IHasAnswer {
+
+}
+
+node NNode implements IHasAnswer {
+
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    NNode nnode = builder(NNode).build();
+    
+    return nnode instanceof IHasAnswer;
+  }
+}
+
+bind(CProgram).to(IProgram);

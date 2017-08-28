@@ -308,3 +308,10 @@ TEST_F(TestFileSampleRunner, interfaceInstanceOfInterfaceNotMatchRunTest) {
   runFile("tests/samples/test_interface_instanceof_interface_notmatch.yz", "0");
 }
 
+TEST_F(TestFileSampleRunner, interfaceInstanceControllersRunTest) {
+  runFile("tests/samples/test_instanceof_controllers.yz", "1");
+}
+
+TEST_F(TestFileSampleRunner, interfaceInstanceNodesRunTest) {
+  runFile("tests/samples/test_instanceof_nodes.yz", "1");
+}

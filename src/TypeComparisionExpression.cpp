@@ -40,12 +40,13 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const
   if (type->getTypeKind() == PRIMITIVE_TYPE || expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     return valueFalse;
   }
-  if (expressionType->getTypeKind() == MODEL_TYPE && type->getTypeKind() == MODEL_TYPE) {
+  if (IType::isConcreteObjectType(expressionType) && IType::isConcreteObjectType(type)) {
     return valueFalse;
   }
-  if (expressionType->getTypeKind() == MODEL_TYPE && type->getTypeKind() == INTERFACE_TYPE) {
-    Model* model = (Model*) expressionType;
-    return model->doesImplmentInterface((Interface*) type) ? valueTrue : valueFalse;
+  if (IType::isConcreteObjectType(expressionType) && type->getTypeKind() == INTERFACE_TYPE) {
+    IConcreteObjectType* concreteObjectType = (IConcreteObjectType*) expressionType;
+    return IConcreteObjectType::getInterfaceIndex(concreteObjectType, (Interface*) type) >= 0
+      ? valueTrue : valueFalse;
   }
   Interface* interface = (Interface*) expressionType;
   if (type->getTypeKind() == INTERFACE_TYPE && interface->doesExtendInterface((Interface*) type)) {
