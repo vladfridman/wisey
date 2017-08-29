@@ -32,7 +32,7 @@ public:
   static llvm::CallInst* call(IRGenerationContext& context,
                               const Interface* interface,
                               llvm::Value* interfaceObject,
-                              IObjectType* object);
+                              const IObjectType* object);
 
 private:
   

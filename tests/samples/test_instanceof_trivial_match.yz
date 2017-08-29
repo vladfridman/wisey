@@ -36,9 +36,9 @@ controller CProgram implements IProgram {
   public int run() {
     MFridge* fridge = builder(MFridge).withSize(5).build();
 
-    int result1 = fridge instanceof IObject;
+    int result1 = fridge instanceof IObject*;
     int result2 = ((IHasFreezer) fridge) instanceof IObject;
-    int result3 = fridge instanceof ICar;
+    int result3 = fridge instanceof ICar*;
     
     return result1 + result2 + result3;
   }

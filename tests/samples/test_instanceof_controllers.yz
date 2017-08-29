@@ -12,7 +12,7 @@ controller CProgram implements IProgram {
   inject CService* mService;
 
   public int run() {
-    return mService instanceof IHasAnswer;
+    return mService instanceof IHasAnswer*;
   }
 }
 

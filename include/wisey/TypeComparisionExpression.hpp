@@ -42,7 +42,17 @@ public:
 
 private:
   
-  llvm::Value* checkInterfaceImplemented(IRGenerationContext& context) const;
+  llvm::Value* checkInterfaceImplemented(IRGenerationContext& context,
+                                         const IType* expressionType,
+                                         const IObjectType* objectType) const;
+  
+  llvm::Value* generateIRforOwnerTypes(IRGenerationContext& context,
+                                       const IObjectOwnerType* expressionType,
+                                       const IObjectOwnerType* type) const;
+  
+  llvm::Value* generateIRforReferenceTypes(IRGenerationContext& context,
+                                           const IObjectType* expressionType,
+                                           const IObjectType* type) const;
 };
 
 } /* namespace wisey */

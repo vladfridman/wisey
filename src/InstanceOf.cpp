@@ -20,7 +20,7 @@ using namespace wisey;
 CallInst* InstanceOf::call(IRGenerationContext& context,
                            const Interface* interface,
                            Value* interfaceObject,
-                           IObjectType* callableObjectType) {
+                           const IObjectType* callableObjectType) {
   Function* function = getOrCreateFunction(context, interface);
   
   Constant* namePointer = IObjectType::getObjectNamePointer(callableObjectType, context);
