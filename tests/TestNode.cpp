@@ -16,7 +16,6 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-
 #include "wisey/IRWriter.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/Node.hpp"
@@ -483,4 +482,12 @@ TEST_F(TestFileSampleRunner, linkListRunTest) {
 
 TEST_F(TestFileSampleRunner, linkListReverseRunTest) {
   runFile("tests/samples/test_linklist_reverse.yz", "7");
+}
+
+TEST_F(TestFileSampleRunner, nodeBuilderObjectArgumentAutocast) {
+  runFile("tests/samples/test_node_builder_object_argument_autocast.yz", "2018");
+}
+
+TEST_F(TestFileSampleRunner, nodeBuilderPrimitiveArgumentAutocast) {
+  runFile("tests/samples/test_node_builder_primitive_argument_autocast.yz", "0");
 }

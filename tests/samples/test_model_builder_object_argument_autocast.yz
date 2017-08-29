@@ -1,0 +1,36 @@
+package systems.vos.wisey.compiler.tests;
+
+interface IHasDirection {
+
+}
+
+interface IHasValue {
+  int getValue();
+}
+
+model MYear implements IHasDirection, IHasValue {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+model MCar {
+  IHasValue* mYear;
+
+  public int getYear() {
+    return mYear.getValue();
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MCar* car = builder(MCar).withYear(builder(MYear).withValue(2017).build()).build();
+    
+    return car.getYear();
+  }
+}
+
+bind(CProgram).to(IProgram);

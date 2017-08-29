@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/Log.hpp"
@@ -295,15 +296,16 @@ void Model::initializeFields(IRGenerationContext& context,
     Field* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    if (field->getType() != argumentType) {
+    if (!argumentType->canAutoCastTo(field->getType())) {
       Log::e("Model builder argument value for field " + argumentName +
              " does not match its type");
       exit(1);
     }
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, field->getType());
     if (argumentType->getTypeKind() == PRIMITIVE_TYPE) {
-      IRWriter::newStoreInst(context, argumentValue, fieldPointer);
+      IRWriter::newStoreInst(context, castValue, fieldPointer);
     } else {
-      Value* argumentValueLoaded = IRWriter::newLoadInst(context, argumentValue, "");
+      Value* argumentValueLoaded = IRWriter::newLoadInst(context, castValue, "");
       IRWriter::newStoreInst(context, argumentValueLoaded, fieldPointer);
     }
     if (IType::isOwnerType(field->getType())) {

@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "TestFileSampleRunner.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/Model.hpp"
@@ -498,4 +499,12 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   EXPECT_EXIT(mStarModel->build(mContext, argumentList),
               ::testing::ExitedWithCode(1),
               expected);
+}
+
+TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocast) {
+  runFile("tests/samples/test_model_builder_object_argument_autocast.yz", "2017");
+}
+
+TEST_F(TestFileSampleRunner, modelBuilderPrimitiveArgumentAutocast) {
+  runFile("tests/samples/test_model_builder_primitive_argument_autocast.yz", "1");
 }
