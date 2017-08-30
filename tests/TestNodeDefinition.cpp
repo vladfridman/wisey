@@ -247,3 +247,9 @@ TEST_F(TestFileSampleRunner, nodeDefinitionRunTest) {
 TEST_F(TestFileSampleRunner, nodeDefinitionWithMethodRunTest) {
   runFile("tests/samples/test_node_method.yz", "5");
 }
+
+TEST_F(TestFileSampleRunner, nodeStateFieldsNonNodeOwnerTypeDeathRunTest) {
+  expectFailCompile("tests/samples/test_node_state_fields_non_node_owner_type.yz",
+                    1,
+                    "Error: Node state fields can only be node owner type");
+}

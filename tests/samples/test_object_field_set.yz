@@ -1,6 +1,6 @@
 package systems.vos.wisey.compiler.tests;
 
-node NColor {
+controller CService {
   state int mValue;
 
   public void setValue(int a) {
@@ -13,13 +13,12 @@ node NColor {
 }
 
 controller CProgram implements IProgram {
+  inject CService* mService;
 
   public int run() {
-    NColor* color = builder(NColor).withValue(5).build();
-    
-    color.setValue(7);
+    mService.setValue(7);
 
-    return color.getValue();
+    return mService.getValue();
   }
 }
 

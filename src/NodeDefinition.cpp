@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Log.hpp"
 #include "wisey/NodeDefinition.hpp"
 
 using namespace llvm;
@@ -126,6 +127,11 @@ vector<FieldState*> NodeDefinition::createStateFields(IRGenerationContext& conte
                                                       unsigned long startIndex) const {
   vector<FieldState*> fields;
   for (FieldDeclaration* fieldDeclaration : declarations) {
+    const IType* type = fieldDeclaration->getTypeSpecifier()->getType(context);
+    if (type->getTypeKind() != NODE_OWNER_TYPE) {
+      Log::e("Node state fields can only be node owner type");
+      exit(1);
+    }
     FieldState* field = new FieldState(fieldDeclaration->getTypeSpecifier()->getType(context),
                                        fieldDeclaration->getName(),
                                        startIndex + fields.size(),

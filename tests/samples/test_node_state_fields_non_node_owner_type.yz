@@ -1,0 +1,14 @@
+package systems.vos.wisey.compiler.tests;
+
+node NNode {
+  state int mValue;
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return 0;
+  }
+}
+
+bind(CProgram).to(IProgram);
