@@ -70,10 +70,12 @@ struct IConcreteObjectTypeTest : public Test {
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
-    map<string, Field*> starFields;
-    starFields["mBrightness"] =
-    new Field(PrimitiveTypes::INT_TYPE, "mBrightness", 0, fieldArguments);
-    starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
+    map<string, IField*> starFields;
+    starFields["mBrightness"] = new FieldFixed(PrimitiveTypes::INT_TYPE,
+                                               "mBrightness",
+                                               0,
+                                               fieldArguments);
+    starFields["mWeight"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
     mStarModel = new Model(starFullName, starStructType);
     mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);
@@ -83,8 +85,8 @@ struct IConcreteObjectTypeTest : public Test {
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
-    map<string, Field*> galaxyFields;
-    galaxyFields["mStar"] = new Field(mStarModel->getOwner(), "mStar", 0, fieldArguments);
+    map<string, IField*> galaxyFields;
+    galaxyFields["mStar"] = new FieldFixed(mStarModel->getOwner(), "mStar", 0, fieldArguments);
     mGalaxyModel = new Model(galaxyFullName, galaxyStructType);
     mGalaxyModel->setFields(galaxyFields);
     mContext.addModel(mGalaxyModel);
@@ -101,8 +103,8 @@ struct IConcreteObjectTypeTest : public Test {
     string carFullName = "systems.vos.wisey.compiler.tests.MCar";
     StructType* carStructType = StructType::create(mLLVMContext, carFullName);
     carStructType->setBody(carTypes);
-    map<string, Field*> carFields;
-    carFields["mNavigator"] = new Field(mCanNavigate->getOwner(), "mNavigator", 0, fieldArguments);
+    map<string, IField*> carFields;
+    carFields["mNavigator"] = new FieldFixed(mCanNavigate->getOwner(), "mNavigator", 0, fieldArguments);
     mCarModel = new Model(carFullName, carStructType);
     mCarModel->setFields(carFields);
     mContext.addModel(mCarModel);

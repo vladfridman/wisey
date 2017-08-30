@@ -28,10 +28,10 @@ Model::Model(string name, StructType* structType) {
 }
 
 Model::~Model() {
-  for(map<std::string, Field*>::iterator iterator = mFields.begin();
+  for(map<std::string, IField*>::iterator iterator = mFields.begin();
       iterator != mFields.end();
       iterator++) {
-    Field* field = iterator->second;
+    IField* field = iterator->second;
     delete field;
   }
   mFields.clear();
@@ -44,7 +44,7 @@ Model::~Model() {
   mFlattenedInterfaceHierarchy.clear();
 }
 
-void Model::setFields(map<string, Field *> fields) {
+void Model::setFields(map<string, IField*> fields) {
   mFields = fields;
 }
 
@@ -77,7 +77,7 @@ Value* Model::getSize(IRGenerationContext& context) const {
   return IRWriter::newPtrToIntInst(context, sizePointer, Type::getInt64Ty(llvmContext), "");
 }
 
-Field* Model::findField(string fieldName) const {
+IField* Model::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
   }
@@ -85,14 +85,14 @@ Field* Model::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-map<string, Field*> Model::getFields() const {
+map<string, IField*> Model::getFields() const {
   return mFields;
 }
 
 vector<string> Model::getMissingFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (map<string, Field*>::const_iterator iterator = mFields.begin();
+  for (map<string, IField*>::const_iterator iterator = mFields.begin();
        iterator != mFields.end();
        iterator++) {
     string fieldName = iterator->first;
@@ -293,7 +293,7 @@ void Model::initializeFields(IRGenerationContext& context,
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);
     const IType* argumentType = argument->getType(context);
-    Field* field = findField(argumentName);
+    IField* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     if (!argumentType->canAutoCastTo(field->getType())) {

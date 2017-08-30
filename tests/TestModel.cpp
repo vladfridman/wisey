@@ -47,8 +47,8 @@ struct ModelTest : public Test {
   Interface* mCarInterface;
   Method* mMethod;
   StructType* mStructType;
-  Field* mWidthField;
-  Field* mHeightField;
+  FieldFixed* mWidthField;
+  FieldFixed* mHeightField;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   NiceMock<MockExpression>* mField3Expression;
@@ -71,10 +71,10 @@ struct ModelTest : public Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
-    map<string, Field*> fields;
+    map<string, IField*> fields;
     ExpressionList fieldArguments;
-    mWidthField = new Field(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
-    mHeightField = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
+    mWidthField = new FieldFixed(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
+    mHeightField = new FieldFixed(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     fields["width"] = mWidthField;
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
@@ -188,10 +188,10 @@ struct ModelTest : public Test {
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
-    map<string, Field*> starFields;
+    map<string, IField*> starFields;
     starFields["mBrightness"] =
-      new Field(PrimitiveTypes::INT_TYPE, "mBrightness", 0, fieldArguments);
-    starFields["mWeight"] = new Field(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
+      new FieldFixed(PrimitiveTypes::INT_TYPE, "mBrightness", 0, fieldArguments);
+    starFields["mWeight"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
     mStarModel = new Model(starFullName, starStructType);
     mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);

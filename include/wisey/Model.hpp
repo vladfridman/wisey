@@ -13,7 +13,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Field.hpp"
+#include "wisey/FieldFixed.hpp"
 #include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
@@ -30,7 +30,7 @@ class Model : public IBuildableConcreteObjectType {
   std::string mName;
   ModelOwner* mModelOwner;
   llvm::StructType* mStructType;
-  std::map<std::string, Field*> mFields;
+  std::map<std::string, IField*> mFields;
   std::vector<Method*> mMethods;
   std::map<std::string, Method*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
@@ -45,7 +45,7 @@ public:
   /**
    * Set fields to the given map of fields
    */
-  void setFields(std::map<std::string, Field*> fields);
+  void setFields(std::map<std::string, IField*> fields);
   
   /**
    * Set interfaces for this model
@@ -90,9 +90,9 @@ public:
   llvm::Instruction* build(IRGenerationContext& context,
                            const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const override;
   
-  Field* findField(std::string fieldName) const override;
+  IField* findField(std::string fieldName) const override;
   
-  std::map<std::string, Field*> getFields() const override;
+  std::map<std::string, IField*> getFields() const override;
   
   Method* findMethod(std::string methodName) const override;
   

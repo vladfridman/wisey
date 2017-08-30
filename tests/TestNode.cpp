@@ -45,9 +45,9 @@ struct NodeTest : public Test {
   Interface* mVehicleInterface;
   Method* mMethod;
   StructType* mStructType;
-  Field* mLeftField;
-  Field* mRightField;
-  Field* mAreaField;
+  FieldFixed* mLeftField;
+  FieldFixed* mRightField;
+  FieldState* mAreaField;
   BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
@@ -119,11 +119,11 @@ struct NodeTest : public Test {
     string complicatedNodeFullName = "systems.vos.wisey.compiler.tests.NComplicatedNode";
     mStructType = StructType::create(mLLVMContext, complicatedNodeFullName);
     mStructType->setBody(types);
-    vector<Field*> fixedFields;
-    vector<Field*> stateFields;
+    vector<FieldFixed*> fixedFields;
+    vector<FieldState*> stateFields;
     ExpressionList fieldArguments;
-    mLeftField = new Field(PrimitiveTypes::INT_TYPE, "mLeft", 0, fieldArguments);
-    mRightField = new Field(PrimitiveTypes::INT_TYPE, "mRight", 1, fieldArguments);
+    mLeftField = new FieldFixed(PrimitiveTypes::INT_TYPE, "mLeft", 0, fieldArguments);
+    mRightField = new FieldFixed(PrimitiveTypes::INT_TYPE, "mRight", 1, fieldArguments);
     fixedFields.push_back(mLeftField);
     fixedFields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -162,17 +162,17 @@ struct NodeTest : public Test {
     string simpleNodeFullName = "systems.vos.wisey.compiler.tests.NSimpleNode";
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
-    vector<Field*> simpleNodeFixedFields;
-    vector<Field*> simpleNodeStateFields;
-    simpleNodeFixedFields.push_back(new Field(PrimitiveTypes::INT_TYPE,
-                                              "mLeft",
-                                              0,
-                                              fieldArguments));
-    simpleNodeFixedFields.push_back(new Field(PrimitiveTypes::INT_TYPE,
-                                              "mRight",
-                                              1,
-                                              fieldArguments));
-    mAreaField = new Field(PrimitiveTypes::INT_TYPE, "mArea", 2, fieldArguments);
+    vector<FieldFixed*> simpleNodeFixedFields;
+    vector<FieldState*> simpleNodeStateFields;
+    simpleNodeFixedFields.push_back(new FieldFixed(PrimitiveTypes::INT_TYPE,
+                                                   "mLeft",
+                                                   0,
+                                                   fieldArguments));
+    simpleNodeFixedFields.push_back(new FieldFixed(PrimitiveTypes::INT_TYPE,
+                                                   "mRight",
+                                                   1,
+                                                   fieldArguments));
+    mAreaField = new FieldState(PrimitiveTypes::INT_TYPE, "mArea", 2, fieldArguments);
     simpleNodeStateFields.push_back(mAreaField);
     mSimpleNode = new Node(simpleNodeFullName, simpleNodeStructType);
     mSimpleNode->setFields(simpleNodeFixedFields, simpleNodeStateFields);
@@ -184,16 +184,16 @@ struct NodeTest : public Test {
     string simplerNodeFullName = "systems.vos.wisey.compiler.tests.NSimplerNode";
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
-    vector<Field*> simplerNodeFixedFields;
-    vector<Field*> simplerNodeStateFields;
-    simplerNodeStateFields.push_back(new Field(PrimitiveTypes::INT_TYPE,
-                                               "mLeft",
-                                               0,
-                                               fieldArguments));
-    simplerNodeStateFields.push_back(new Field(PrimitiveTypes::INT_TYPE,
-                                               "mRight",
-                                               1,
-                                               fieldArguments));
+    vector<FieldFixed*> simplerNodeFixedFields;
+    vector<FieldState*> simplerNodeStateFields;
+    simplerNodeStateFields.push_back(new FieldState(PrimitiveTypes::INT_TYPE,
+                                                    "mLeft",
+                                                    0,
+                                                    fieldArguments));
+    simplerNodeStateFields.push_back(new FieldState(PrimitiveTypes::INT_TYPE,
+                                                    "mRight",
+                                                    1,
+                                                    fieldArguments));
     mSimplerNode = new Node(simplerNodeFullName, simplerNodeStructType);
     mSimplerNode->setFields(simplerNodeFixedFields, simplerNodeStateFields);
     mContext.addNode(mSimplerNode);

@@ -110,10 +110,10 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   types.push_back(Type::getInt32Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
-  map<string, Field*> fields;
+  map<string, IField*> fields;
   ExpressionList fieldArguments;
-  fields["fieldA"] = new Field(PrimitiveTypes::INT_TYPE, "fieldA", 0, fieldArguments);
-  fields["fieldB"] = new Field(PrimitiveTypes::INT_TYPE, "fieldB", 0, fieldArguments);
+  fields["fieldA"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "fieldA", 0, fieldArguments);
+  fields["fieldB"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "fieldB", 0, fieldArguments);
   Model* model = new Model(modelFullName, structType);
   model->setFields(fields);
 

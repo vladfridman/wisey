@@ -33,12 +33,18 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     StructType* structType = StructType::create(llvmContext, "CMultiplier");
     structType->setBody(types);
-    vector<Field*> receivedFields;
-    vector<Field*> injectedFields;
-    vector<Field*> stateFields;
+    vector<FieldReceived*> receivedFields;
+    vector<FieldInjected*> injectedFields;
+    vector<FieldState*> stateFields;
     ExpressionList fieldArguments;
-    receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments));
-    receivedFields.push_back(new Field(PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments));
+    receivedFields.push_back(new FieldReceived(PrimitiveTypes::INT_TYPE,
+                                               "left",
+                                               0,
+                                               fieldArguments));
+    receivedFields.push_back(new FieldReceived(PrimitiveTypes::INT_TYPE,
+                                               "right",
+                                               1,
+                                               fieldArguments));
     vector<MethodArgument*> methodArguments;
     vector<Method*> methods;
     vector<const Model*> thrownExceptions;

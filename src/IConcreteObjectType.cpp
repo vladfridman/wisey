@@ -13,8 +13,8 @@
 #include "wisey/Cast.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
-#include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IField.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -284,11 +284,11 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
 }
 
 void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context, IConcreteObjectType* object) {
-  map<string, Field*> fields = object->getFields();
-  for (map<string, Field*>::const_iterator iterator = fields.begin();
+  map<string, IField*> fields = object->getFields();
+  for (map<string, IField*>::const_iterator iterator = fields.begin();
        iterator != fields.end();
        iterator++) {
-    Field* field = iterator->second;
+    IField* field = iterator->second;
     const IType* type = field->getType();
     IFieldVariable* fieldVariable = NULL;
     if (IType::isOwnerType(type)) {
@@ -333,11 +333,11 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
 
   context.setBasicBlock(ifThisIsNotNullBlock);
   
-  map<string, Field*> fields = object->getFields();
-  for (map<string, Field*>::const_iterator iterator = fields.begin();
+  map<string, IField*> fields = object->getFields();
+  for (map<string, IField*>::const_iterator iterator = fields.begin();
        iterator != fields.end();
        iterator++) {
-    Field* field = iterator->second;
+    IField* field = iterator->second;
     const IType* fieldType = field->getType();
     if (!IType::isOwnerType(fieldType)) {
       continue;

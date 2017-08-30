@@ -1,18 +1,17 @@
 //
-//  TestField.cpp
+//  TestFieldReceived.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 6/5/17.
+//  Created by Vladimir Fridman on 8/30/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link Field}
+//  Tests {@link FieldReceived}
 //
 
 #include <gtest/gtest.h>
 
 #include "MockExpression.hpp"
 #include "MockType.hpp"
-#include "wisey/Field.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -21,7 +20,7 @@ using namespace wisey;
 using ::testing::NiceMock;
 using ::testing::Test;
 
-struct FieldTest : public Test {
+struct FieldReceivedTest : public Test {
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
@@ -30,7 +29,7 @@ struct FieldTest : public Test {
   
 public:
   
-  FieldTest() :
+  FieldReceivedTest() :
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField"),
@@ -38,12 +37,12 @@ public:
     mArguments.push_back(mExpression);
   }
   
-  ~FieldTest() {
+  ~FieldReceivedTest() {
   }
 };
 
-TEST_F(FieldTest, fieldObjectCreationTest) {
-  Field field(mType, mName, mIndex, mArguments);
+TEST_F(FieldReceivedTest, fieldReceivedObjectCreationTest) {
+  FieldReceived field(mType, mName, mIndex, mArguments);
   
   EXPECT_EQ(field.getType(), mType);
   EXPECT_STREQ(field.getName().c_str(), "mField");

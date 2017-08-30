@@ -9,7 +9,7 @@
 #ifndef IFieldVariable_h
 #define IFieldVariable_h
 
-#include "wisey/Field.hpp"
+#include "wisey/IField.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IVariable.hpp"
 
@@ -27,9 +27,9 @@ public:
    *
    * Logs an error if the field is not found and exits
    */
-  static Field* checkAndFindField(IRGenerationContext& context,
-                                  const IConcreteObjectType* object,
-                                  std::string fieldName);
+  static IField* checkAndFindField(IRGenerationContext& context,
+                                   const IConcreteObjectType* object,
+                                   std::string fieldName);
   
   /**
    * Returns an llvm pointer to the object's field given an object and field name

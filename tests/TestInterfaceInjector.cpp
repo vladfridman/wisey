@@ -56,12 +56,12 @@ struct InterfaceInjectorTest : Test {
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     StructType *controllerStructType = StructType::create(llvmContext, controllerFullName);
     controllerStructType->setBody(types);
-    vector<Field*> controllerReceivedFields;
-    vector<Field*> controllerInjectedFields;
-    vector<Field*> controllerStateFields;
+    vector<FieldReceived*> controllerReceivedFields;
+    vector<FieldInjected*> controllerInjectedFields;
+    vector<FieldState*> controllerStateFields;
     ExpressionList fieldArguments;
-    Field* fieldLeft = new Field(PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments);
-    Field* fieldRight = new Field(PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments);
+    FieldState* fieldLeft = new FieldState(PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments);
+    FieldState* fieldRight = new FieldState(PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments);
     controllerStateFields.push_back(fieldLeft);
     controllerStateFields.push_back(fieldRight);
     mController = new Controller(controllerFullName, controllerStructType);

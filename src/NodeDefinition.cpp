@@ -48,10 +48,10 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   
   // In object struct fields start after vTables for all its interfaces
   unsigned long offset = node->getInterfaces().size();
-  vector<Field*> fixedFields = fieldDeclarationsToFields(context, mFixedFieldDeclarations, offset);
-  vector<Field*> stateFields = fieldDeclarationsToFields(context,
-                                                         mStateFieldDeclarations,
-                                                         offset + fixedFields.size());
+  vector<FieldFixed*> fixedFields = createFixedFields(context, mFixedFieldDeclarations, offset);
+  vector<FieldState*> stateFields = createStateFields(context,
+                                                      mStateFieldDeclarations,
+                                                      offset + fixedFields.size());
   node->setFields(fixedFields, stateFields);
   
   vector<Type*> types;
@@ -106,16 +106,30 @@ vector<Method*> NodeDefinition::createMethods(IRGenerationContext& context) cons
   return methods;
 }
 
-vector<Field*> NodeDefinition::fieldDeclarationsToFields(IRGenerationContext& context,
-                                                         vector<FieldDeclaration*>
-                                                         declarations,
-                                                         unsigned long startIndex) const {
-  vector<Field*> fields;
+vector<FieldFixed*> NodeDefinition::createFixedFields(IRGenerationContext& context,
+                                                      vector<FieldDeclaration*> declarations,
+                                                      unsigned long startIndex) const {
+  vector<FieldFixed*> fields;
   for (FieldDeclaration* fieldDeclaration : declarations) {
-    Field* field = new Field(fieldDeclaration->getTypeSpecifier()->getType(context),
-                             fieldDeclaration->getName(),
-                             startIndex + fields.size(),
-                             fieldDeclaration->getArguments());
+    FieldFixed* field = new FieldFixed(fieldDeclaration->getTypeSpecifier()->getType(context),
+                                       fieldDeclaration->getName(),
+                                       startIndex + fields.size(),
+                                       fieldDeclaration->getArguments());
+    fields.push_back(field);
+  }
+  
+  return fields;
+}
+
+vector<FieldState*> NodeDefinition::createStateFields(IRGenerationContext& context,
+                                                      vector<FieldDeclaration*> declarations,
+                                                      unsigned long startIndex) const {
+  vector<FieldState*> fields;
+  for (FieldDeclaration* fieldDeclaration : declarations) {
+    FieldState* field = new FieldState(fieldDeclaration->getTypeSpecifier()->getType(context),
+                                       fieldDeclaration->getName(),
+                                       startIndex + fields.size(),
+                                       fieldDeclaration->getArguments());
     fields.push_back(field);
   }
   

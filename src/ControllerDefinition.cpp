@@ -63,18 +63,17 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
   
   // In object struct fields start after vTables for all its interfaces
   unsigned long offset = controller->getInterfaces().size();
-  vector<Field*> receivedFields = fieldDeclarationsToFields(context,
-                                                            mReceivedFieldDeclarations,
-                                                            offset);
-  vector<Field*> injectedFields = fieldDeclarationsToFields(context,
-                                                            mInjectedFieldDeclarations,
-                                                            offset +
-                                                            receivedFields.size());
-  vector<Field*> stateFields = fieldDeclarationsToFields(context,
-                                                         mStateFieldDeclarations,
-                                                         offset +
-                                                         receivedFields.size() +
-                                                         injectedFields.size());
+  vector<FieldReceived*> receivedFields = createReceivedFields(context,
+                                                               mReceivedFieldDeclarations,
+                                                               offset);
+  vector<FieldInjected*> injectedFields = createInjectedFields(context,
+                                                               mInjectedFieldDeclarations,
+                                                               offset + receivedFields.size());
+  vector<FieldState*> stateFields = createStateFields(context,
+                                                      mStateFieldDeclarations,
+                                                      offset + receivedFields.size()
+                                                      + injectedFields.size());
+
   controller->setFields(receivedFields, injectedFields, stateFields);
 
   createFieldVariables(context, controller, types);
@@ -110,24 +109,59 @@ vector<Interface*> ControllerDefinition::processInterfaces(IRGenerationContext& 
   return interfaces;
 }
 
-vector<Field*> ControllerDefinition::fieldDeclarationsToFields(IRGenerationContext& context,
-                                                               vector<FieldDeclaration*>
-                                                                declarations,
-                                                               unsigned long startIndex) const {
-  vector<Field*> fields;
+vector<FieldReceived*> ControllerDefinition::createReceivedFields(IRGenerationContext& context,
+                                                                  vector<FieldDeclaration*>
+                                                                    declarations,
+                                                                  unsigned long startIndex) const {
+  vector<FieldReceived*> fields;
   for (FieldDeclaration* fieldDeclaration : declarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
-    if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
-        fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
+    FieldReceived* field = new FieldReceived(fieldType,
+                                             fieldDeclaration->getName(),
+                                             startIndex + fields.size(),
+                                             fieldDeclaration->getArguments());
+    fields.push_back(field);
+  }
+  
+  return fields;
+}
+
+vector<FieldInjected*> ControllerDefinition::createInjectedFields(IRGenerationContext& context,
+                                                                  vector<FieldDeclaration*>
+                                                                  declarations,
+                                                                  unsigned long startIndex) const {
+  vector<FieldInjected*> fields;
+  for (FieldDeclaration* fieldDeclaration : declarations) {
+    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
+    
+    if (fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
       Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
       fieldType = context.getBoundController(interface)->getOwner();
     }
+
+    FieldInjected* field = new FieldInjected(fieldType,
+                                             fieldDeclaration->getName(),
+                                             startIndex + fields.size(),
+                                             fieldDeclaration->getArguments());
+    fields.push_back(field);
+  }
+  
+  return fields;
+}
+
+vector<FieldState*> ControllerDefinition::createStateFields(IRGenerationContext& context,
+                                                                  vector<FieldDeclaration*>
+                                                                  declarations,
+                                                                  unsigned long startIndex) const {
+  vector<FieldState*> fields;
+  for (FieldDeclaration* fieldDeclaration : declarations) {
+    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
-    Field* field = new Field(fieldType,
-                             fieldDeclaration->getName(),
-                             startIndex + fields.size(),
-                             fieldDeclaration->getArguments());
+    FieldState* field = new FieldState(fieldType,
+                                       fieldDeclaration->getName(),
+                                       startIndex + fields.size(),
+                                       fieldDeclaration->getArguments());
     fields.push_back(field);
   }
   

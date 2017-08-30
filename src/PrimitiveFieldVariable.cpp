@@ -44,7 +44,7 @@ Value* PrimitiveFieldVariable::generateAssignmentIR(IRGenerationContext& context
     exit(1);
   }
   
-  Field* field = checkAndFindField(context, mObject, mName);
+  IField* field = checkAndFindField(context, mObject, mName);
   const IType* expressionType = assignToExpression->getType(context);
   const IType* fieldType = field->getType();
   if (!expressionType->canAutoCastTo(fieldType)) {

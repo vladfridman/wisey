@@ -75,10 +75,10 @@ struct TestTypeComparisionExpressionTest : public Test {
     string squareFullName = "systems.vos.wisey.compiler.tests.MSquare";
     StructType* squareStructType = StructType::create(mLLVMContext, squareFullName);
     squareStructType->setBody(squareTypes);
-    map<string, Field*> squareFields;
+    map<string, IField*> squareFields;
     ExpressionList fieldArguments;
-    squareFields["width"] = new Field(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
-    squareFields["height"] = new Field(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
+    squareFields["width"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
+    squareFields["height"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<MethodArgument*> methodArguments;
     vector<Method*> squareMethods;
     vector<const Model*> thrownExceptions;

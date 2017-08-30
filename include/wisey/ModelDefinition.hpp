@@ -10,6 +10,7 @@
 #define ModelDefinition_h
 
 #include "wisey/FieldDeclaration.hpp"
+#include "wisey/IField.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -46,8 +47,8 @@ public:
   
 private:
   
-  std::map<std::string, Field*> createFields(IRGenerationContext& context,
-                                             unsigned long numberOfInterfaces) const;
+  std::map<std::string, IField*> createFields(IRGenerationContext& context,
+                                              unsigned long numberOfInterfaces) const;
   
   void createFieldVariables(IRGenerationContext& context,
                             Model* model,

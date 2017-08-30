@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/HeapReferenceVariable.hpp"
+#include "wisey/FieldFixed.hpp"
 #include "wisey/IFieldVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -33,7 +34,7 @@ struct IFieldVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Model* mObject;
-  Field* mField;
+  FieldFixed* mField;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -44,9 +45,9 @@ struct IFieldVariableTest : Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.MObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    map<string, Field*> fields;
+    map<string, IField*> fields;
     ExpressionList fieldArguments;
-    mField = new Field(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
+    mField = new FieldFixed(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
     fields["foo"] = mField;
     mObject = new Model(objectFullName, objectStructType);
     mObject->setFields(fields);

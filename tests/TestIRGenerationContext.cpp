@@ -42,9 +42,9 @@ struct IRGenerationContextTest : public Test {
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
-    vector<Field*> controllerReceivedFields;
-    vector<Field*> controllerInjectedFields;
-    vector<Field*> controllerStateFields;
+    vector<FieldReceived*> controllerReceivedFields;
+    vector<FieldInjected*> controllerInjectedFields;
+    vector<FieldState*> controllerStateFields;
     vector<Method*> controllerMethods;
     vector<Interface*> controllerInterfaces;
     mController = new Controller(controllerFullName, controllerStructType);

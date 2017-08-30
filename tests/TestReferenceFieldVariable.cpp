@@ -64,11 +64,11 @@ struct ReferenceFieldVariableTest : Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    vector<Field*> stateFields;
-    vector<Field*> fixedFields;
+    vector<FieldState*> stateFields;
+    vector<FieldFixed*> fixedFields;
     ExpressionList fieldArguments;
-    stateFields.push_back(new Field(mNode, "foo", 0, fieldArguments));
-    stateFields.push_back(new Field(mInterface, "bar", 1, fieldArguments));
+    stateFields.push_back(new FieldState(mNode, "foo", 0, fieldArguments));
+    stateFields.push_back(new FieldState(mInterface, "bar", 1, fieldArguments));
     mObject = new Node(objectFullName, objectStructType);
     mObject->setFields(fixedFields, stateFields);
     

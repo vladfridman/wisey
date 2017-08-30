@@ -12,7 +12,6 @@
 #include "wisey/Controller.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/Environment.hpp"
-#include "wisey/Field.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -30,15 +29,15 @@ Controller::Controller(std::string name, llvm::StructType* structType) {
 }
 
 Controller::~Controller() {
-  for (Field* field : mReceivedFields) {
+  for (FieldReceived* field : mReceivedFields) {
     delete field;
   }
   mReceivedFields.clear();
-  for (Field* field : mInjectedFields) {
+  for (FieldInjected* field : mInjectedFields) {
     delete field;
   }
   mInjectedFields.clear();
-  for (Field* field : mStateFields) {
+  for (FieldState* field : mStateFields) {
     delete field;
   }
   mStateFields.clear();
@@ -52,20 +51,20 @@ Controller::~Controller() {
   mFlattenedInterfaceHierarchy.clear();
 }
 
-void Controller::setFields(vector<Field*> receivedFields,
-                           vector<Field*> injectedFields,
-                           vector<Field*> stateFields) {
+void Controller::setFields(vector<FieldReceived*> receivedFields,
+                           vector<FieldInjected*> injectedFields,
+                           vector<FieldState*> stateFields) {
   mReceivedFields = receivedFields;
   mInjectedFields = injectedFields;
   mStateFields = stateFields;
   
-  for (Field* field : receivedFields) {
+  for (IField* field : receivedFields) {
     mFields[field->getName()] = field;
   }
-  for (Field* field : injectedFields) {
+  for (IField* field : injectedFields) {
     mFields[field->getName()] = field;
   }
-  for (Field* field : stateFields) {
+  for (IField* field : stateFields) {
     mFields[field->getName()] = field;
   }
 }
@@ -142,7 +141,7 @@ Instruction* Controller::createMalloc(IRGenerationContext& context) const {
   return malloc;
 }
 
-Field* Controller::findField(string fieldName) const {
+IField* Controller::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
   }
@@ -150,7 +149,7 @@ Field* Controller::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-map<string, Field*> Controller::getFields() const {
+map<string, IField*> Controller::getFields() const {
   return mFields;
 }
 
@@ -226,7 +225,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
   for (IExpression* argument : controllerInjectorArguments) {
     Value* fieldValue = argument->generateIR(context);
     const IType* fieldType = argument->getType(context);
-    Field* field = mReceivedFields[fieldIndex];
+    IField* field = mReceivedFields[fieldIndex];
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     if (field->getType() != fieldType) {
@@ -249,7 +248,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
 
   Value *index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (Field* field : mInjectedFields) {
+  for (IField* field : mInjectedFields) {
     const IType* fieldType = field->getType();
     if (fieldType->getTypeKind() == CONTROLLER_TYPE) {
       Log::e("Injected fields must have owner type denoted by '*'");
@@ -272,7 +271,7 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
   
   Value *index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (Field* field : mStateFields) {
+  for (IField* field : mStateFields) {
     const IType* fieldType = field->getType();
     Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);
     

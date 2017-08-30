@@ -11,7 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Field.hpp"
+#include "wisey/IField.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/Method.hpp"
 
@@ -72,12 +72,12 @@ public:
   /**
    * Looks for a field with a given name in the object
    */
-  virtual Field* findField(std::string fieldName) const = 0;
+  virtual IField* findField(std::string fieldName) const = 0;
 
   /**
    * Returns a map of all fields keyed by their names
    */
-  virtual std::map<std::string, Field*> getFields() const = 0;
+  virtual std::map<std::string, IField*> getFields() const = 0;
   
   /**
    * Returns the name of the vTable global varaible

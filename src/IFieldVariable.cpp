@@ -16,10 +16,10 @@
 using namespace llvm;
 using namespace wisey;
 
-Field* IFieldVariable::checkAndFindField(IRGenerationContext& context,
+IField* IFieldVariable::checkAndFindField(IRGenerationContext& context,
                                          const IConcreteObjectType* object,
                                          std::string fieldName) {
-  Field* field = object->findField(fieldName);
+  IField* field = object->findField(fieldName);
   
   if (field != NULL) {
     return field;
@@ -35,7 +35,7 @@ GetElementPtrInst* IFieldVariable::getFieldPointer(IRGenerationContext& context,
   IVariable* thisVariable = context.getScopes().getVariable("this");
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  Field* field = checkAndFindField(context, object, fieldName);
+  IField* field = checkAndFindField(context, object, fieldName);
   Value* index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
