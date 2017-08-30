@@ -186,8 +186,8 @@ Instruction* Node::build(IRGenerationContext& context,
                         const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
   checkArguments(ObjectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
-  initializeFixedFields(context, ObjectBuilderArgumentList, malloc);
-  initializeStateFields(context, malloc);
+  setStateFieldsToNull(context, malloc);
+  initializePresetFields(context, ObjectBuilderArgumentList, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   return malloc;
@@ -211,9 +211,9 @@ void Node::checkArgumentsAreWellFormed(const ObjectBuilderArgumentList& ObjectBu
   }
 }
 
-void Node::checkAllFieldsAreSet(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
+void Node::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderArgumentList) const {
   set<string> allFieldsThatAreSet;
-  for (ObjectBuilderArgument* argument : ObjectBuilderArgumentList) {
+  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
   }
   
@@ -239,14 +239,14 @@ Instruction* Node::createMalloc(IRGenerationContext& context) const {
   return malloc;
 }
 
-void Node::initializeFixedFields(IRGenerationContext& context,
-                                 const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
-                                 Instruction* malloc) const {
+void Node::initializePresetFields(IRGenerationContext& context,
+                                  const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                  Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (ObjectBuilderArgument* argument : ObjectBuilderArgumentList) {
+  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);
     const IType* argumentType = argument->getType(context);
@@ -271,11 +271,12 @@ void Node::initializeFixedFields(IRGenerationContext& context,
   }
 }
 
-void Node::initializeStateFields(IRGenerationContext& context, Instruction* malloc) const {
+void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* malloc) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value *index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  
   for (IField* field : mStateFields) {
     const IType* fieldType = field->getType();
     Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);

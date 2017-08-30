@@ -396,16 +396,16 @@ TEST_F(NodeTest, buildTest) {
   "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 3))"
   "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.NSimpleNode*"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
-  "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 0"
-  "\n  store i32 3, i32* %0"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
-  "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 1"
-  "\n  store i32 5, i32* %1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
   "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 2"
-  "\n  store i32 0, i32* %2\n";
+  "\n  store i32 0, i32* %0"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
+  "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 0"
+  "\n  store i32 3, i32* %1"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
+  "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 1"
+  "\n  store i32 5, i32* %2\n";
   
-  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -490,4 +490,8 @@ TEST_F(TestFileSampleRunner, nodeBuilderObjectArgumentAutocast) {
 
 TEST_F(TestFileSampleRunner, nodeBuilderPrimitiveArgumentAutocast) {
   runFile("tests/samples/test_node_builder_primitive_argument_autocast.yz", "0");
+}
+
+TEST_F(TestFileSampleRunner, nodeBuilderSetStateFieldsRunTest) {
+  runFile("tests/samples/test_node_builder_set_state_fields.yz", "2018");
 }

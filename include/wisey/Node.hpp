@@ -123,12 +123,11 @@ private:
 
   llvm::Instruction* createMalloc(IRGenerationContext& context) const;
 
-  void initializeFixedFields(IRGenerationContext& context,
-                             const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
-                             llvm::Instruction* malloc) const;
+  void initializePresetFields(IRGenerationContext& context,
+                              const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
+                              llvm::Instruction* malloc) const;
 
-  void initializeStateFields(IRGenerationContext& context,
-                             llvm::Instruction* malloc) const;
+  void setStateFieldsToNull(IRGenerationContext& context, llvm::Instruction* malloc) const;
 
 };
   

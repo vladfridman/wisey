@@ -1,0 +1,26 @@
+package systems.vos.wisey.compiler.tests;
+
+node NCar {
+  state int mYear;
+  state NCar* mNextCar;
+
+  public int getYear() {
+    return mYear;
+  }
+
+  public NCar getNextCar() {
+    return mNextCar;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    NCar* car2018 = builder(NCar).withYear(2018).withNextCar(null).build();
+    NCar* car2017 = builder(NCar).withYear(2017).withNextCar(car2018).build();
+    
+    return car2017.getNextCar().getYear();
+  }
+}
+
+bind(CProgram).to(IProgram);

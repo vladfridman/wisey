@@ -30,7 +30,7 @@ class ObjectBuilder : public IExpression {
 public:
   
   ObjectBuilder(IBuildableConcreteObjectTypeSpecifier* typeSpecifier,
-               ObjectBuilderArgumentList ObjectBuilderArgumentList) :
+                ObjectBuilderArgumentList ObjectBuilderArgumentList) :
   mTypeSpecifier(typeSpecifier),
   mObjectBuilderArgumentList(ObjectBuilderArgumentList) { }
   
