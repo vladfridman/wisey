@@ -1,7 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
 node NColor {
-  int mValue;
+  state int mValue;
 
   public void setValue(boolean a) {
     mValue = a;

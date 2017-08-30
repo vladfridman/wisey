@@ -1,0 +1,24 @@
+package systems.vos.wisey.compiler.tests;
+
+node NCar {
+  int mYear;
+
+  public void setYear(int year) {
+    mYear = year;
+  }
+
+  public int getYear() {
+    return mYear;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    NCar* car = builder(NCar).withYear(2017).build();
+    
+    return car.getYear();
+  }
+}
+
+bind(CProgram).to(IProgram);

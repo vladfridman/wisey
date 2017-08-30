@@ -155,6 +155,6 @@ TEST_F(TestFileSampleRunner, objectFieldSetRunTest) {
   runFile("tests/samples/test_object_field_set.yz", "7");
 }
 
-TEST_F(TestFileSampleRunner, modelFieldSetWithAutocastRunTest) {
+TEST_F(TestFileSampleRunner, objectFieldSetWithAutocastRunTest) {
   runFile("tests/samples/test_object_field_set_with_autocast.yz", "1");
 }

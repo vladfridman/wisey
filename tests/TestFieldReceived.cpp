@@ -49,4 +49,5 @@ TEST_F(FieldReceivedTest, fieldReceivedObjectCreationTest) {
   EXPECT_EQ(field.getIndex(), mIndex);
   EXPECT_EQ(field.getArguments().size(), 1u);
   EXPECT_EQ(field.getArguments().at(0), mExpression);
+  EXPECT_TRUE(field.isAssignable());
 }

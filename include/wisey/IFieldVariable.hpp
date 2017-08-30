@@ -25,18 +25,29 @@ public:
   /**
    * Returns an object's field given an object and field name
    *
-   * Logs an error if the field is not found and exits
+   * Logs an error if the field is not assinable or does not exist
    */
-  static IField* checkAndFindField(IRGenerationContext& context,
-                                   const IConcreteObjectType* object,
-                                   std::string fieldName);
-  
+  static IField* checkAndFindFieldForAssignment(IRGenerationContext& context,
+                                                const IConcreteObjectType* object,
+                                                std::string fieldName);
+
   /**
    * Returns an llvm pointer to the object's field given an object and field name
    */
   static llvm::GetElementPtrInst* getFieldPointer(IRGenerationContext& context,
                                                   const IConcreteObjectType* object,
                                                   std::string fieldName);
+
+private:
+  
+  /**
+   * Returns an object's field given an object and field name
+   *
+   * Logs an error if the field is not found and exits
+   */
+  static IField* checkAndFindField(IRGenerationContext& context,
+                                   const IConcreteObjectType* object,
+                                   std::string fieldName);
 
 };
   

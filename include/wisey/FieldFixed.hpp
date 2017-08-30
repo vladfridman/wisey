@@ -40,6 +40,8 @@ public:
   unsigned long getIndex() const override;
   
   ExpressionList getArguments() const override;
+  
+  bool isAssignable() const override;
 
 };
   

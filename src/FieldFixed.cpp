@@ -31,3 +31,7 @@ unsigned long FieldFixed::getIndex() const {
 ExpressionList FieldFixed::getArguments() const {
   return mArguments;
 }
+
+bool FieldFixed::isAssignable() const {
+  return false;
+}

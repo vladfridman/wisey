@@ -33,24 +33,30 @@ using ::testing::Test;
 struct IFieldVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Model* mObject;
-  FieldFixed* mField;
+  Node* mNode;
+  FieldState* mFieldState;
+  FieldFixed* mFieldFixed;
+  
   BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
   IFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    ExpressionList fieldArguments;
     vector<Type*> types;
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mLLVMContext));
-    string objectFullName = "systems.vos.wisey.compiler.tests.MObject";
-    StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
-    objectStructType->setBody(types);
-    map<string, IField*> fields;
-    ExpressionList fieldArguments;
-    mField = new FieldFixed(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
-    fields["foo"] = mField;
-    mObject = new Model(objectFullName, objectStructType);
-    mObject->setFields(fields);
+    string nodeFullName = "systems.vos.wisey.compiler.tests.NNode";
+    StructType* nodeStructType = StructType::create(mLLVMContext, nodeFullName);
+    nodeStructType->setBody(types);
+    vector<FieldFixed*> nodeFixedFields;
+    vector<FieldState*> nodeStateFields;
+    mFieldFixed = new FieldFixed(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
+    mFieldState = new FieldState(PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
+    nodeFixedFields.push_back(mFieldFixed);
+    nodeStateFields.push_back(mFieldState);
+    mNode = new Node(nodeFullName, nodeStructType);
+    mNode->setFields(nodeFixedFields, nodeStateFields);
+    
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -62,8 +68,8 @@ struct IFieldVariableTest : Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mLLVMContext));
-    IVariable* thisVariable = new HeapReferenceVariable("this", mObject, thisPointer);
+    Value* thisPointer = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));
+    IVariable* thisVariable = new HeapReferenceVariable("this", mNode, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -71,30 +77,36 @@ struct IFieldVariableTest : Test {
   
   ~IFieldVariableTest() {
     delete mStringStream;
-    delete mObject;
+    delete mNode;
   }
 };
 
-TEST_F(IFieldVariableTest, checkAndFindFieldTest) {
-  EXPECT_EQ(IFieldVariable::checkAndFindField(mContext, mObject, "foo"), mField);
+TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentTest) {
+  EXPECT_EQ(IFieldVariable::checkAndFindFieldForAssignment(mContext, mNode, "bar"), mFieldState);
 }
 
 TEST_F(IFieldVariableTest, getFieldPointerTest) {
-  IFieldVariable::getFieldPointer(mContext, mObject, "foo");
+  IFieldVariable::getFieldPointer(mContext, mNode, "foo");
 
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MObject*, "
-  "%systems.vos.wisey.compiler.tests.MObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MObject, "
-  "%systems.vos.wisey.compiler.tests.MObject* %0, i32 0, i32 0\n";
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.NNode*, "
+  "%systems.vos.wisey.compiler.tests.NNode** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NNode, "
+  "%systems.vos.wisey.compiler.tests.NNode* %0, i32 0, i32 0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(IFieldVariableTest, checkAndFindFieldDeathTest) {
-  EXPECT_EXIT(IFieldVariable::checkAndFindField(mContext, mObject, "bar"),
+TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentDoesNotExistDeathTest) {
+  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mNode, "var"),
               ::testing::ExitedWithCode(1),
-              "Error: Field bar is not found in object systems.vos.wisey.compiler.tests.MObject");
+              "Error: Field var is not found in object systems.vos.wisey.compiler.tests.NNode");
+}
+
+TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentNotAssignableDeathTest) {
+  EXPECT_EXIT(IFieldVariable::checkAndFindFieldForAssignment(mContext, mNode, "foo"),
+              ::testing::ExitedWithCode(1),
+              "Error: Can not assign to field foo");
 }

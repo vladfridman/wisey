@@ -31,3 +31,7 @@ unsigned long FieldInjected::getIndex() const {
 ExpressionList FieldInjected::getArguments() const {
   return mArguments;
 }
+
+bool FieldInjected::isAssignable() const {
+  return false;
+}

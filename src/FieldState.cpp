@@ -31,3 +31,7 @@ unsigned long FieldState::getIndex() const {
 ExpressionList FieldState::getArguments() const {
   return mArguments;
 }
+
+bool FieldState::isAssignable() const {
+  return true;
+}

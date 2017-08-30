@@ -31,3 +31,7 @@ unsigned long FieldReceived::getIndex() const {
 ExpressionList FieldReceived::getArguments() const {
   return mArguments;
 }
+
+bool FieldReceived::isAssignable() const {
+  return true;
+}

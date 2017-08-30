@@ -10,6 +10,7 @@
 
 #include <gtest/gtest.h>
 
+#include "TestFileSampleRunner.hpp"
 #include "MockExpression.hpp"
 #include "MockType.hpp"
 
@@ -49,4 +50,11 @@ TEST_F(FieldFixedTest, fieldFixedObjectCreationTest) {
   EXPECT_EQ(field.getIndex(), mIndex);
   EXPECT_EQ(field.getArguments().size(), 1u);
   EXPECT_EQ(field.getArguments().at(0), mExpression);
+  EXPECT_FALSE(field.isAssignable());
+}
+
+TEST_F(TestFileSampleRunner, nodeWithFixedFieldSetterDeathRunTest) {
+  expectFailCompile("tests/samples/test_node_with_fixed_field_setter.yz",
+                    1,
+                    "Error: Can not assign to field mYear");
 }

@@ -41,6 +41,8 @@ public:
   
   ExpressionList getArguments() const override;
   
+  bool isAssignable() const override;
+
 };
   
 } /* namespace wisey */

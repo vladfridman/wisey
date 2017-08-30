@@ -43,6 +43,11 @@ public:
    */
   virtual ExpressionList getArguments() const = 0;
   
+  /**
+   * Tells whether this field is assignable
+   */
+  virtual bool isAssignable() const = 0;
+  
 };
 
 } /* namespace wisey */

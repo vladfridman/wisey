@@ -16,6 +16,19 @@
 using namespace llvm;
 using namespace wisey;
 
+IField* IFieldVariable::checkAndFindFieldForAssignment(IRGenerationContext& context,
+                                                       const IConcreteObjectType* object,
+                                                       std::string fieldName) {
+  IField* field = checkAndFindField(context, object, fieldName);
+  
+  if (field->isAssignable()) {
+    return field;
+  }
+  
+  Log::e("Can not assign to field " + field->getName());
+  exit(1);
+}
+
 IField* IFieldVariable::checkAndFindField(IRGenerationContext& context,
                                          const IConcreteObjectType* object,
                                          std::string fieldName) {
