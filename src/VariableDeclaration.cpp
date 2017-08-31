@@ -50,11 +50,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     return NULL;
   }
   
-  IVariable* variable = context.getScopes().getVariable(mId->getName());
-  if (variable == NULL) {
-    Log::e("undeclared variable " + mId->getName());
-    exit(1);
-  }
+  IVariable* variable = IVariable::getVariable(context, mId->getName());
   
   const IType* declarationType = variable->getType();
   TypeKind declarationTypeKind = declarationType->getTypeKind();

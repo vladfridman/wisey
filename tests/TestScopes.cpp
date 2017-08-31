@@ -371,7 +371,7 @@ TEST_F(ScopesTest, addReferenceToOwnerVariableTest) {
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTest) {
   expectFailCompile("tests/samples/test_reference_memory_deallocated_by_passing_owner.yz",
                     1,
-                    "Error: Undeclared variable 'anotherRef'");
+                    "Error: Variable 'anotherRef' was previously cleared and can not be used");
 }
 
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullOutsideObjectRunDeathTest) {
@@ -386,7 +386,7 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThe
   expectFailCompile("tests/samples/"
                     "test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz",
                     1,
-                    "Error: Undeclared variable 'data'");
+                    "Error: Variable 'data' was previously cleared and can not be used");
 }
 
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerReuseReferenceRunTest) {

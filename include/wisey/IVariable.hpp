@@ -79,6 +79,11 @@ public:
    */
   static std::string getTemporaryVariableName(const void* object);
 
+  /**
+   * Get variable reference from scopes and print an error message if the variable is missing
+   */
+  static IVariable* getVariable(IRGenerationContext& context, std::string name);
+  
 };
   
 } /* namespace wisey */

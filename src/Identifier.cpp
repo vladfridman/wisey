@@ -19,21 +19,11 @@ const string& Identifier::getName() const {
 }
 
 Value* Identifier::generateIR(IRGenerationContext& context) const {
-  return checkGetVariable(context)->generateIdentifierIR(context, mLLVMVariableName);
+  return IVariable::getVariable(context, mName)->generateIdentifierIR(context, mLLVMVariableName);
 }
 
 const IType* Identifier::getType(IRGenerationContext& context) const {
-  return checkGetVariable(context)->getType();
-}
-
-IVariable* Identifier::checkGetVariable(IRGenerationContext& context) const {
-  IVariable* variable = context.getScopes().getVariable(mName);
-  if (variable != NULL) {
-    return variable;
-  }
-  
-  Log::e("Undeclared variable '" + mName + "'");
-  exit(1);
+  return IVariable::getVariable(context, mName)->getType();
 }
 
 void Identifier::releaseOwnership(IRGenerationContext& context) const {
@@ -41,9 +31,10 @@ void Identifier::releaseOwnership(IRGenerationContext& context) const {
 }
 
 void Identifier::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
-  IVariable* variable = checkGetVariable(context);
+  IVariable* variable = IVariable::getVariable(context, mName);
   IVariable* owner = IType::isOwnerType(variable->getType())
-  ? variable : context.getScopes().getOwnerForReference(variable);
+    ? variable
+    : context.getScopes().getOwnerForReference(variable);
   
   if (owner == NULL) {
     Log::e("Can not store a reference because its owner does not exist in the current scope");
@@ -53,7 +44,6 @@ void Identifier::addReferenceToOwner(IRGenerationContext& context, IVariable* re
   context.getScopes().addReferenceToOwnerVariable(owner, reference);
 }
 
-
 bool Identifier::existsInOuterScope(IRGenerationContext& context) const {
-  return checkGetVariable(context)->existsInOuterScope();
+  return IVariable::getVariable(context, mName)->existsInOuterScope();
 }

@@ -44,9 +44,6 @@ public:
   
   void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const override;
 
-private:
-  
-  IVariable* checkGetVariable(IRGenerationContext& context) const;
 };
   
 } /* namespace wisey */

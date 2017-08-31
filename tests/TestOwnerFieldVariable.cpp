@@ -210,7 +210,7 @@ TEST_F(OwnerFieldVariableTest, existsInOuterScopeTest) {
 TEST_F(TestFileSampleRunner, objectFieldVariableSetToNullTest) {
   expectFailCompile("tests/samples/test_object_field_variable_set_to_null.yz",
                     1,
-                    "Error: Undeclared variable 'mModel'");
+                    "Error: Variable 'mModel' was previously cleared and can not be used");
 }
 
 TEST_F(TestFileSampleRunner, stateOwnerFieldSetToNullTest) {

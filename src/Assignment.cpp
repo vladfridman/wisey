@@ -21,7 +21,7 @@ Assignment::~Assignment() {
 Value* Assignment::generateIR(IRGenerationContext& context) const {
   IVariable* variable = context.getScopes().getVariableForAssignement(mIdentifier->getName());
   if (variable == NULL) {
-    Log::e("Undeclared variable " + mIdentifier->getName());
+    Log::e("Undeclared variable '" + mIdentifier->getName() + "'");
     exit(1);
   }
   context.getScopes().eraseFromClearedVariables(variable);

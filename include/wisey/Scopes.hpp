@@ -71,6 +71,11 @@ public:
   void eraseFromClearedVariables(IVariable* variable);
   
   /**
+   * Tells whether a variable with the given name was cleared
+   */
+  bool isVariableCleared(std::string name);
+ 
+  /**
    * Add reference to owner type variables
    */
   void addReferenceToOwnerVariable(IVariable* ownerVariable, IVariable* referenceVariable);

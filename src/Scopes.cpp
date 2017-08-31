@@ -82,6 +82,10 @@ void Scopes::eraseFromClearedVariables(IVariable* variable) {
   mClearedVariables.erase(variable->getName());
 }
 
+bool Scopes::isVariableCleared(string name) {
+  return mClearedVariables.count(name);
+}
+
 void Scopes::pushScope() {
   mScopes.push_front(new Scope());
 }
