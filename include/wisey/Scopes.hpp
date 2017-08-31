@@ -26,7 +26,7 @@ class Scopes {
   std::list<Scope *> mScopes;
   std::map<std::string, IVariable*> mClearedVariables;
   std::map<std::string, std::map<std::string, IVariable*>> mOwnerToReferencesMap;
-  std::map<std::string, IVariable*> mRererenceToOwnerMap;
+  std::map<std::string, std::vector<IVariable*>> mRererenceToOwnersMap;
 
 public:
   
@@ -81,9 +81,9 @@ public:
   void addReferenceToOwnerVariable(IVariable* ownerVariable, IVariable* referenceVariable);
   
   /**
-   * Returns an owner variable for the given reference variable
+   * Returns list of owner variable for the given reference variable
    */
-  IVariable* getOwnerForReference(IVariable* reference);
+  std::vector<IVariable*> getOwnersForReference(IVariable* reference);
   
   /**
    * Pushes a new program scope on the stack of program scopes

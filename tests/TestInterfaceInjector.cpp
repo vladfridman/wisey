@@ -122,9 +122,9 @@ TEST_F(InterfaceInjectorTest, addReferenceToOwnerDeathTest) {
 
   interfaceInjector.addReferenceToOwner(mContext, &referenceVariable);
   
-  IVariable* owner = mContext.getScopes().getOwnerForReference(&referenceVariable);
-  
-  EXPECT_EQ(owner, mContext.getScopes().getVariable(temporaryVariableName));
+  vector<IVariable*> owners = mContext.getScopes().getOwnersForReference(&referenceVariable);
+  EXPECT_EQ(owners.size(), 1u);
+  EXPECT_EQ(owners.front(), mContext.getScopes().getVariable(temporaryVariableName));
 }
 
 TEST_F(InterfaceInjectorTest, getTypeTest) {

@@ -365,7 +365,7 @@ TEST_F(ScopesTest, addReferenceToOwnerVariableTest) {
   
   mScopes.addReferenceToOwnerVariable(&foo, &bar);
   
-  EXPECT_EQ(mScopes.getOwnerForReference(&bar), &foo);
+  EXPECT_EQ(mScopes.getOwnersForReference(&bar).front(), &foo);
 }
 
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTest) {

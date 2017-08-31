@@ -102,12 +102,14 @@ void Scopes::popScope(IRGenerationContext& context) {
     mOwnerToReferencesMap.erase(variable->getName());
   }
   for (IVariable* variable : top->getReferenceVariables()) {
-    if (!mRererenceToOwnerMap.count(variable->getName())) {
+    if (!mRererenceToOwnersMap.count(variable->getName())) {
       continue;
     }
-    IVariable* owner = mRererenceToOwnerMap.at(variable->getName());
-    mOwnerToReferencesMap[owner->getName()].erase(variable->getName());
-    mRererenceToOwnerMap.erase(variable->getName());
+    vector<IVariable*> owners = mRererenceToOwnersMap.at(variable->getName());
+    for (IVariable* owner : owners) {
+      mOwnerToReferencesMap[owner->getName()].erase(variable->getName());
+    }
+    mRererenceToOwnersMap.erase(variable->getName());
   }
   
   map<string, const Model*> exceptions = top->getExceptions();
@@ -270,13 +272,15 @@ void Scopes::clearReferencesToOwnerTypeVariable(IVariable* ownerVariable) {
 
 void Scopes::addReferenceToOwnerVariable(IVariable* ownerVariable, IVariable* referenceVariable) {
   mOwnerToReferencesMap[ownerVariable->getName()][referenceVariable->getName()] = referenceVariable;
-  mRererenceToOwnerMap[referenceVariable->getName()] = ownerVariable;
+  mRererenceToOwnersMap[referenceVariable->getName()].push_back(ownerVariable);
 }
 
-IVariable* Scopes::getOwnerForReference(IVariable* reference) {
-  if (mRererenceToOwnerMap.count(reference->getName())) {
-    return mRererenceToOwnerMap[reference->getName()];
+vector<IVariable*> Scopes::getOwnersForReference(IVariable* reference) {
+  if (mRererenceToOwnersMap.count(reference->getName())) {
+    return mRererenceToOwnersMap[reference->getName()];
   }
 
-  return NULL;
+  vector<IVariable*> emptyList;
+
+  return emptyList;
 }

@@ -100,8 +100,8 @@ void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const
 
 void ConditionalExpression::addReferenceToOwner(IRGenerationContext& context,
                                                 IVariable* reference) const {
-  Log::e("Can not add a reference to non owner type conditional expression");
-  exit(1);
+  mIfFalseExpression->addReferenceToOwner(context, reference);
+  mIfTrueExpression->addReferenceToOwner(context, reference);
 }
 
 // TODO: implement a more sensible type checking/casting

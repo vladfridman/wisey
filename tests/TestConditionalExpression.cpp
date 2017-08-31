@@ -18,6 +18,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/ConditionalExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -41,6 +42,7 @@ struct ConditionalExpressionTest : Test {
   NiceMock<MockExpression>* mConditionExpression;
   NiceMock<MockExpression>* mIfTrueExpression;
   NiceMock<MockExpression>* mIfFalseExpression;
+  NiceMock<MockVariable>* mVariable;
   Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -50,7 +52,8 @@ struct ConditionalExpressionTest : Test {
   mLLVMContext(mContext.getLLVMContext()),
   mConditionExpression(new NiceMock<MockExpression>()),
   mIfTrueExpression(new NiceMock<MockExpression>()),
-  mIfFalseExpression(new NiceMock<MockExpression>()) {
+  mIfFalseExpression(new NiceMock<MockExpression>()),
+  mVariable(new NiceMock<MockVariable>()) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
@@ -216,10 +219,29 @@ TEST_F(ConditionalExpressionTest, releaseOwnershipTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
+TEST_F(ConditionalExpressionTest, addReferenceToOwnersTest) {
+  Type* type = mModel->getOwner()->getLLVMType(mLLVMContext);
+  Value* ifTrueValue = IRWriter::newAllocaInst(mContext, type, "ifTrueValue");
+  Value* ifFalseValue = IRWriter::newAllocaInst(mContext, type, "ifFalseValue");
+  ON_CALL(*mIfTrueExpression, generateIR(_)).WillByDefault(Return(ifTrueValue));
+  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(mModel->getOwner()));
+  ON_CALL(*mIfFalseExpression, generateIR(_)).WillByDefault(Return(ifFalseValue));
+  ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(mModel->getOwner()));
+  Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
+  ON_CALL(*mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+
+  EXPECT_CALL(*mIfTrueExpression, addReferenceToOwner(_, mVariable));
+  EXPECT_CALL(*mIfFalseExpression, addReferenceToOwner(_, mVariable));
+  
+  expression.addReferenceToOwner(mContext, mVariable);
+}
+
 TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   Mock::AllowLeak(mConditionExpression);
   Mock::AllowLeak(mIfTrueExpression);
   Mock::AllowLeak(mIfFalseExpression);
+  Mock::AllowLeak(mVariable);
   
   Value* trueValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.5);
   ON_CALL(*mIfTrueExpression, generateIR(_)).WillByDefault(Return(trueValue));
@@ -236,6 +258,7 @@ TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {
   Mock::AllowLeak(mConditionExpression);
   Mock::AllowLeak(mIfTrueExpression);
   Mock::AllowLeak(mIfFalseExpression);
+  Mock::AllowLeak(mVariable);
   
   ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
@@ -251,7 +274,8 @@ TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
   Mock::AllowLeak(mConditionExpression);
   Mock::AllowLeak(mIfTrueExpression);
   Mock::AllowLeak(mIfFalseExpression);
-  
+  Mock::AllowLeak(mVariable);
+ 
   ON_CALL(*mConditionExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
@@ -259,18 +283,6 @@ TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
   EXPECT_EXIT(expression.generateIR(mContext),
               ::testing::ExitedWithCode(1),
               "Condition in a conditional expression is not of type BOOLEAN");
-}
-
-TEST_F(ConditionalExpressionTest, addReferenceToOwnerDeathTest) {
-  Mock::AllowLeak(mConditionExpression);
-  Mock::AllowLeak(mIfTrueExpression);
-  Mock::AllowLeak(mIfFalseExpression);
-  
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
-
-  EXPECT_EXIT(expression.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to non owner type conditional expression");
 }
 
 TEST_F(TestFileSampleRunner, conditionalExpressionRunTrueConditionRunTest) {
@@ -283,4 +295,10 @@ TEST_F(TestFileSampleRunner, conditionalExpressionRunFlaseConditionRunTest) {
 
 TEST_F(TestFileSampleRunner, conditionalExpressionReleaseOwnershipRunTest) {
   runFile("tests/samples/test_conditional_expression_release_ownership.yz", "1");
+}
+
+TEST_F(TestFileSampleRunner, conditionalExpressionAddReferenceToOwnerDeathRunTest) {
+  expectFailCompile("tests/samples/test_conditional_expression_add_reference_to_owner.yz",
+                    1,
+                    "Error: Variable 'car' was previously cleared and can not be used");
 }

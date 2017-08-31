@@ -103,6 +103,7 @@ TEST_F(IdentifierTest, addReferenceToOwnerTest) {
   
   identifier->addReferenceToOwner(mContext, &referenceVariable);
   
-  IVariable* owner = mContext.getScopes().getOwnerForReference(&referenceVariable);
-  EXPECT_EQ(owner, &mockVariable);
+  vector<IVariable*> owners = mContext.getScopes().getOwnersForReference(&referenceVariable);
+  EXPECT_EQ(owners.size(), 1u);
+  EXPECT_EQ(owners.front(), &mockVariable);
 }
