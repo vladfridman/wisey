@@ -1,0 +1,21 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  public int getColor() {
+    return 1;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MCar* car1 = builder(MCar).build();
+    MCar* car2 = builder(MCar).build();
+    
+    MCar* car = true ? car1 : car2;
+
+    return car.getColor();
+  }
+} 
+
+bind(CProgram).to(IProgram);

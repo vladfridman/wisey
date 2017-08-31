@@ -21,6 +21,8 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/ConditionalExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/Model.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
@@ -35,18 +37,26 @@ using namespace wisey;
 
 struct ConditionalExpressionTest : Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   NiceMock<MockExpression>* mConditionExpression;
   NiceMock<MockExpression>* mIfTrueExpression;
   NiceMock<MockExpression>* mIfFalseExpression;
+  Model* mModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
   
   ConditionalExpressionTest() :
+  mLLVMContext(mContext.getLLVMContext()),
   mConditionExpression(new NiceMock<MockExpression>()),
   mIfTrueExpression(new NiceMock<MockExpression>()),
   mIfFalseExpression(new NiceMock<MockExpression>()) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
+    
+    string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
+    StructType* structType = StructType::create(llvmContext, modelFullName);
+    mModel = new Model(modelFullName, structType);
+
     Value* ifTrueValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
     Value* ifFalseValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 5);
     ON_CALL(*mIfTrueExpression, generateIR(_)).WillByDefault(Return(ifTrueValue));
@@ -60,6 +70,10 @@ struct ConditionalExpressionTest : Test {
     mFunction = Function::Create(functionType, GlobalValue::InternalLinkage, "test");
     mContext.setBasicBlock(BasicBlock::Create(llvmContext, "entry", mFunction));
     mContext.getScopes().pushScope();
+
+    IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::generateVTable(mContext, mModel);
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -163,6 +177,45 @@ TEST_F(ConditionalExpressionTest, existsInOuterScopeTest) {
   EXPECT_FALSE(expression.existsInOuterScope(mContext));
 }
 
+TEST_F(ConditionalExpressionTest, releaseOwnershipTest) {
+  Type* type = mModel->getOwner()->getLLVMType(mLLVMContext);
+  Value* ifTrueValue = IRWriter::newAllocaInst(mContext, type, "ifTrueValue");
+  Value* ifFalseValue = IRWriter::newAllocaInst(mContext, type, "ifFalseValue");
+  ON_CALL(*mIfTrueExpression, generateIR(_)).WillByDefault(Return(ifTrueValue));
+  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(mModel->getOwner()));
+  ON_CALL(*mIfFalseExpression, generateIR(_)).WillByDefault(Return(ifFalseValue));
+  ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(mModel->getOwner()));
+  Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
+  ON_CALL(*mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  
+  expression.releaseOwnership(mContext);
+
+  *mStringStream << *mFunction;
+  string expected = string() +
+  "\ndefine internal i32 @test() {"
+  "\nentry:"
+  "\n  %ifTrueValue = alloca %systems.vos.wisey.compiler.tests.MModel*"
+  "\n  %ifFalseValue = alloca %systems.vos.wisey.compiler.tests.MModel*"
+  "\n  br i1 true, label %cond.release.true, label %cond.release.false"
+  "\n"
+  "\ncond.release.true:                                ; preds = %entry"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MModel("
+  "%systems.vos.wisey.compiler.tests.MModel** %ifFalseValue)"
+  "\n  br label %cond.release.end"
+  "\n"
+  "\ncond.release.false:                               ; preds = %entry"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MModel("
+  "%systems.vos.wisey.compiler.tests.MModel** %ifTrueValue)"
+  "\n  br label %cond.release.end"
+  "\n"
+  "\ncond.release.end:                                 "
+  "; preds = %cond.release.false, %cond.release.true"
+  "\n}\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
 TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   Mock::AllowLeak(mConditionExpression);
   Mock::AllowLeak(mIfTrueExpression);
@@ -208,19 +261,6 @@ TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
               "Condition in a conditional expression is not of type BOOLEAN");
 }
 
-TEST_F(ConditionalExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(mConditionExpression);
-  Mock::AllowLeak(mIfTrueExpression);
-  Mock::AllowLeak(mIfFalseExpression);
-  
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
-  
-  EXPECT_EXIT(expression.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a conditional expression result, "
-              "it is not a heap pointer");
-}
-
 TEST_F(ConditionalExpressionTest, addReferenceToOwnerDeathTest) {
   Mock::AllowLeak(mConditionExpression);
   Mock::AllowLeak(mIfTrueExpression);
@@ -239,4 +279,8 @@ TEST_F(TestFileSampleRunner, conditionalExpressionRunTrueConditionRunTest) {
 
 TEST_F(TestFileSampleRunner, conditionalExpressionRunFlaseConditionRunTest) {
   runFile("tests/samples/test_conditional_with_false.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, conditionalExpressionReleaseOwnershipRunTest) {
+  runFile("tests/samples/test_conditional_expression_release_ownership.yz", "1");
 }

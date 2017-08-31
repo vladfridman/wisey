@@ -20,8 +20,8 @@ using namespace wisey;
 
 ConditionalExpression::~ConditionalExpression() {
   delete mConditionExpression;
-  delete mConditionTrueExpression;
-  delete mConditionFalseExpression;
+  delete mIfTrueExpression;
+  delete mIfFalseExpression;
 }
 
 Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
@@ -31,46 +31,71 @@ Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   
   Function* function = context.getBasicBlock()->getParent();
   
-  BasicBlock* blockCondTrue = BasicBlock::Create(context.getLLVMContext(), "cond.true", function);
-  BasicBlock* blockCondFalse = BasicBlock::Create(context.getLLVMContext(), "cond.false", function);
-  BasicBlock* blockCondEnd = BasicBlock::Create(context.getLLVMContext(), "cond.end", function);
-  IRWriter::createConditionalBranch(context, blockCondTrue, blockCondFalse, conditionValue);
+  LLVMContext& llvmContext = context.getLLVMContext();
+  BasicBlock* blockTrue = BasicBlock::Create(llvmContext, "cond.true", function);
+  BasicBlock* blockFalse = BasicBlock::Create(llvmContext, "cond.false", function);
+  BasicBlock* blockEnd = BasicBlock::Create(llvmContext, "cond.end", function);
+  IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValue);
   
-  context.setBasicBlock(blockCondTrue);
-  Value* condTrueValue = mConditionTrueExpression->generateIR(context);
-  Type* condTrueResultType = condTrueValue->getType();
-  BasicBlock* lastBlock = context.getBasicBlock();
-  IRWriter::createBranch(context, blockCondEnd);
+  context.setBasicBlock(blockTrue);
+  Value* ifTrueValue = mIfTrueExpression->generateIR(context);
+  Type* ifTrueResultType = ifTrueValue->getType();
+  IRWriter::createBranch(context, blockEnd);
 
-  context.setBasicBlock(blockCondFalse);
-  Value* condFalseValue = mConditionFalseExpression->generateIR(context);
-  Type* condFalseResultType = condTrueValue->getType();
-  lastBlock = context.getBasicBlock();
-  IRWriter::createBranch(context, blockCondEnd);
+  context.setBasicBlock(blockFalse);
+  Value* ifFalseValue = mIfFalseExpression->generateIR(context);
+  Type* ifFalseResultType = ifFalseValue->getType();
+  IRWriter::createBranch(context, blockEnd);
 
-  if (condTrueResultType != condFalseResultType) {
+  if (ifTrueResultType != ifFalseResultType) {
     Log::e("Results of different type in a conditional expresion!");
   }
 
-  context.setBasicBlock(blockCondEnd);
+  context.setBasicBlock(blockEnd);
   PHINode* phiNode = IRWriter::createPhiNode(context,
-                                             condTrueResultType,
+                                             ifTrueResultType,
                                              "cond",
-                                             condTrueValue,
-                                             blockCondTrue,
-                                             condFalseValue,
-                                             blockCondFalse);
+                                             ifTrueValue,
+                                             blockTrue,
+                                             ifFalseValue,
+                                             blockFalse);
   
   return phiNode;
 }
 
 const IType* ConditionalExpression::getType(IRGenerationContext& context) const {
-  return mConditionTrueExpression->getType(context);
+  return mIfTrueExpression->getType(context);
 }
 
 void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a conditional expression result, it is not a heap pointer");
-  exit(1);
+  Function* function = context.getBasicBlock()->getParent();
+
+  Value* conditionValue = mConditionExpression->generateIR(context);
+
+  LLVMContext& llvmContext = context.getLLVMContext();
+  BasicBlock* blockTrue = BasicBlock::Create(llvmContext, "cond.release.true", function);
+  BasicBlock* blockFalse = BasicBlock::Create(llvmContext, "cond.release.false", function);
+  BasicBlock* blockEnd = BasicBlock::Create(llvmContext, "cond.release.end", function);
+  IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValue);
+
+  Value* ifTrueValue = mIfTrueExpression->generateIR(context);
+  const IType* ifTrueType = mIfTrueExpression->getType(context);
+  Value* ifFalseValue = mIfFalseExpression->generateIR(context);
+  const IType* ifFalseType = mIfFalseExpression->getType(context);
+
+  context.setBasicBlock(blockTrue);
+  mIfTrueExpression->releaseOwnership(context);
+  assert(IType::isOwnerType(ifFalseType));
+  ((IObjectOwnerType*) ifFalseType)->free(context, ifFalseValue);
+  IRWriter::createBranch(context, blockEnd);
+  
+  context.setBasicBlock(blockFalse);
+  mIfFalseExpression->releaseOwnership(context);
+  assert(IType::isOwnerType(ifTrueType));
+  ((IObjectOwnerType*) ifTrueType)->free(context, ifTrueValue);
+  IRWriter::createBranch(context, blockEnd);
+
+  context.setBasicBlock(blockEnd);
 }
 
 void ConditionalExpression::addReferenceToOwner(IRGenerationContext& context,
@@ -81,26 +106,26 @@ void ConditionalExpression::addReferenceToOwner(IRGenerationContext& context,
 
 // TODO: implement a more sensible type checking/casting
 void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
-  const IType* trueExpressionType = mConditionTrueExpression->getType(context);
-  const IType* falseExpressionType = mConditionFalseExpression->getType(context);
+  const IType* ifTrueExpressionType = mIfTrueExpression->getType(context);
+  const IType* ifFalseExpressionType = mIfFalseExpression->getType(context);
   
   if (mConditionExpression->getType(context) != PrimitiveTypes::BOOLEAN_TYPE) {
     Log::e("Condition in a conditional expression is not of type BOOLEAN");
     exit(1);
   }
   
-  if (trueExpressionType != falseExpressionType) {
+  if (ifTrueExpressionType != ifFalseExpressionType) {
     Log::e("Incompatible types in conditional expression operation");
     exit(1);
   }
   
-  if (trueExpressionType == PrimitiveTypes::VOID_TYPE) {
+  if (ifTrueExpressionType == PrimitiveTypes::VOID_TYPE) {
     Log::e("Can not use expressions of type VOID in a conditional expression");
     exit(1);
   }
 }
 
 bool ConditionalExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return mConditionTrueExpression->existsInOuterScope(context) &&
-  mConditionFalseExpression->existsInOuterScope(context);
+  return mIfTrueExpression->existsInOuterScope(context) &&
+  mIfFalseExpression->existsInOuterScope(context);
 }

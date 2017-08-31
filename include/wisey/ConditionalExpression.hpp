@@ -15,20 +15,23 @@ namespace wisey {
 
 /**
  * Represents a condition expression such as a == b ? 1 : 2
+ *
+ * When conditional expression is of owner type both of expressions are realeased and the one that 
+ * did not get returned as result is freed.
  */
 class ConditionalExpression : public IExpression {
   
   IExpression* mConditionExpression;
-  IExpression* mConditionTrueExpression;
-  IExpression* mConditionFalseExpression;
+  IExpression* mIfTrueExpression;
+  IExpression* mIfFalseExpression;
   
 public:
   ConditionalExpression(IExpression* conditionExpression,
-                        IExpression* conditionTrueExpression,
-                        IExpression* conditionFalseExpression)
+                        IExpression* ifTrueExpression,
+                        IExpression* ifFalseExpression)
   : mConditionExpression(conditionExpression),
-    mConditionTrueExpression(conditionTrueExpression),
-    mConditionFalseExpression(conditionFalseExpression) {  }
+    mIfTrueExpression(ifTrueExpression),
+    mIfFalseExpression(ifFalseExpression) {  }
   
   ~ConditionalExpression();
   
