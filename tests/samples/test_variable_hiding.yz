@@ -1,0 +1,16 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    int var = 1;
+
+    {
+      int var = 2;
+      return var;
+    }
+    return var;
+  }
+} 
+
+bind(CProgram).to(IProgram);

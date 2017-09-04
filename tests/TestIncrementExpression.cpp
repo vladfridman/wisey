@@ -116,10 +116,12 @@ TEST_F(IncrementExpressionTest, existsInOuterScopeTest) {
 }
 
 TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
-  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
-  StackVariable* variable = new StackVariable(mName, PrimitiveTypes::FLOAT_TYPE, NULL);
+  Identifier* identifier = new Identifier("bar", "bar");
+  
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier);
+  StackVariable* variable = new StackVariable("bar", PrimitiveTypes::FLOAT_TYPE, NULL);
   mContext.getScopes().setVariable(variable);
-  string expected = "Error: Identifier foo is of a type that is "
+  string expected = "Error: Identifier bar is of a type that is "
     "incompatible with increment/decrement operation";
   
   EXPECT_EXIT(expression->generateIR(mContext),

@@ -89,12 +89,14 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   return createFunctionCall(context,
                             (Function*) function,
                             functionType->getReturnType(),
-                            methodDescriptor);
+                            methodDescriptor,
+                            expressionValueStore);
 }
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
                                               IObjectType* object,
                                               IMethodDescriptor* methodDescriptor) const {
+  Value* expressionValueStore = mExpression->generateIR(context);
   string llvmFunctionName = translateObjectMethodToLLVMFunctionName(object, mMethodName);
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
@@ -104,20 +106,24 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
     exit(1);
   }
 
-  return createFunctionCall(context, function, function->getReturnType(), methodDescriptor);
+  return createFunctionCall(context,
+                            function,
+                            function->getReturnType(),
+                            methodDescriptor,
+                            expressionValueStore);
 }
 
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Function* function,
                                       Type* returnLLVMType,
-                                      IMethodDescriptor* methodDescriptor) const {
-  Value* expressionValue = mExpression->generateIR(context);
+                                      IMethodDescriptor* methodDescriptor,
+                                      Value* expressionValueStore) const {
 
-  Value* valueLoaded = IRWriter::newLoadInst(context, expressionValue, "");
+  Value* valueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
   Composer::checkNullAndThrowNPE(context, valueLoaded);
 
   vector<Value*> arguments;
-  arguments.push_back(expressionValue);
+  arguments.push_back(expressionValueStore);
   
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();

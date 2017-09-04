@@ -87,13 +87,13 @@ TEST_F(ScopesTest, scopesCorrectlyOrderedTest) {
   StackVariable* outerVariable =
   new StackVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
   StackVariable* innerVariable =
-  new StackVariable("foo", PrimitiveTypes::INT_TYPE, innerValue);
+  new StackVariable("bar", PrimitiveTypes::INT_TYPE, innerValue);
   
   mScopes.setVariable(outerVariable);
   mScopes.pushScope();
   mScopes.setVariable(innerVariable);
   
-  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), innerValue);
+  EXPECT_EQ(mScopes.getVariable("bar")->getValue(), innerValue);
   
   mScopes.popScope(mContext);
   
@@ -366,6 +366,30 @@ TEST_F(ScopesTest, addReferenceToOwnerVariableTest) {
   mScopes.addReferenceToOwnerVariable(&foo, &bar);
   
   EXPECT_EQ(mScopes.getOwnersForReference(&bar).front(), &foo);
+}
+
+TEST_F(ScopesTest, variableHidingDeathTest) {
+  mScopes.pushScope();
+  Value* outerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  Value* innerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+  
+  StackVariable* outerVariable =
+  new StackVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
+  StackVariable* innerVariable =
+  new StackVariable("foo", PrimitiveTypes::INT_TYPE, innerValue);
+  
+  mScopes.setVariable(outerVariable);
+  mScopes.pushScope();
+  EXPECT_EXIT(mScopes.setVariable(innerVariable),
+              ::testing::ExitedWithCode(1),
+              "Error: Already declared variable named 'foo'. Variable hiding is not allowed.");
+}
+
+TEST_F(TestFileSampleRunner, variableHidingRunDeathTest) {
+  expectFailCompile("tests/samples/test_variable_hiding.yz",
+                    1,
+                    "Error: Already declared variable named 'var'. "
+                    "Variable hiding is not allowed.");
 }
 
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTest) {

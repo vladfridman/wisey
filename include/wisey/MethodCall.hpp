@@ -80,7 +80,8 @@ private:
   llvm::Value* createFunctionCall(IRGenerationContext& context,
                                   llvm::Function* function,
                                   llvm::Type* returnLLVMType,
-                                  IMethodDescriptor* methodDescriptor) const;
+                                  IMethodDescriptor* methodDescriptor,
+                                  llvm::Value* expressionValueStore) const;
 };
 
 } /* namespace wisey */

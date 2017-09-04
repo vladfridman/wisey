@@ -67,6 +67,11 @@ void Scopes::clearVariable(IRGenerationContext& context, string name) {
 }
 
 void Scopes::setVariable(IVariable* variable) {
+  if (getVariable(variable->getName())) {
+    Log::e("Already declared variable named '" + variable->getName() +
+           "'. Variable hiding is not allowed.");
+    exit(1);
+  }
   getScope()->setVariable(variable->getName(), variable);
 }
 
