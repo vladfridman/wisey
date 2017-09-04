@@ -55,7 +55,7 @@ Value* PrimitiveFieldVariable::generateAssignmentIR(IRGenerationContext& context
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
 
-void PrimitiveFieldVariable::setToNull(IRGenerationContext& context) const {
+void PrimitiveFieldVariable::setToNull(IRGenerationContext& context) {
 }
 
 void PrimitiveFieldVariable::free(IRGenerationContext& context) const {

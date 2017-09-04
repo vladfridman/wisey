@@ -65,7 +65,7 @@ Value* ReferenceFieldVariable::generateAssignmentIR(IRGenerationContext& context
   return IRWriter::newStoreInst(context, castLoaded, fieldPointer);
 }
 
-void ReferenceFieldVariable::setToNull(IRGenerationContext& context) const {
+void ReferenceFieldVariable::setToNull(IRGenerationContext& context) {
 }
 
 void ReferenceFieldVariable::free(IRGenerationContext& context) const {

@@ -23,11 +23,12 @@ class HeapOwnerVariable : public IVariable {
   std::string mName;
   const IObjectOwnerType* mType;
   llvm::Value* mValue;
+  bool mIsInitialized;
   
 public:
   
   HeapOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value)
-  : mName(name), mType(type), mValue(value) { }
+  : mName(name), mType(type), mValue(value), mIsInitialized(false) { }
   
   ~HeapOwnerVariable() {
   }
@@ -48,7 +49,7 @@ public:
   
   bool existsInOuterScope() const override;
   
-  void setToNull(IRGenerationContext& context) const override;
+  void setToNull(IRGenerationContext& context) override;
   
 };
   

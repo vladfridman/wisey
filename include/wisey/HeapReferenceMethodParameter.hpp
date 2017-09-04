@@ -46,7 +46,7 @@ public:
   
   bool existsInOuterScope() const override;
   
-  void setToNull(IRGenerationContext& context) const override;
+  void setToNull(IRGenerationContext& context) override;
   
 };
   

@@ -35,6 +35,11 @@ Value* HeapOwnerVariable::getValue() const {
 
 Value* HeapOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
                                                string llvmVariableName) const {
+  if (!mIsInitialized) {
+    Log::e("Variable '" + mName + "' is used before it is initialized");
+    exit(1);
+  }
+  
   return mValue;
 }
 
@@ -50,13 +55,16 @@ Value* HeapOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* newValueLoaded = IRWriter::newLoadInst(context, newValue, "");
   IRWriter::newStoreInst(context, newValueLoaded, mValue);
   
+  mIsInitialized = true;
+  
   return mValue;
 }
 
-void HeapOwnerVariable::setToNull(IRGenerationContext& context) const {
+void HeapOwnerVariable::setToNull(IRGenerationContext& context) {
   PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
   Value* null = ConstantPointerNull::get(type);
   IRWriter::newStoreInst(context, null, mValue);
+  mIsInitialized = true;
 }
 
 void HeapOwnerVariable::free(IRGenerationContext& context) const {

@@ -73,7 +73,7 @@ public:
 }
 };
 
-TEST_F(HeapReferenceMethodParameterTest, heapVariableAssignmentDeathTest) {
+TEST_F(HeapReferenceMethodParameterTest, heapReferenceMethodParameterVariableAssignmentDeathTest) {
   HeapReferenceMethodParameter heapMethodParameter("foo", PrimitiveTypes::INT_TYPE, NULL);
   
   EXPECT_EXIT(heapMethodParameter.generateAssignmentIR(mContext, NULL),
@@ -81,7 +81,7 @@ TEST_F(HeapReferenceMethodParameterTest, heapVariableAssignmentDeathTest) {
               "Assignment to method parameters is not allowed");
 }
 
-TEST_F(HeapReferenceMethodParameterTest, heapVariableIdentifierTest) {
+TEST_F(HeapReferenceMethodParameterTest, heapReferenceMethodParameterVariableIdentifierTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   HeapReferenceMethodParameter heapMethodParameter("foo", PrimitiveTypes::INT_TYPE, fooValue);
   

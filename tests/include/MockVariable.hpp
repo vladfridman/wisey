@@ -28,7 +28,7 @@ public:
                                                    wisey::IExpression*));
   MOCK_CONST_METHOD1(free, void (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD0(existsInOuterScope, bool ());
-  MOCK_CONST_METHOD1(setToNull, void (wisey::IRGenerationContext&));
+  MOCK_METHOD1(setToNull, void (wisey::IRGenerationContext&));
 };
 
 #endif /* MockVariable_h */

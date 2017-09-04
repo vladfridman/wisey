@@ -44,7 +44,7 @@ Value* HeapOwnerMethodParameter::generateAssignmentIR(IRGenerationContext& conte
   exit(1);
 }
 
-void HeapOwnerMethodParameter::setToNull(IRGenerationContext& context) const {
+void HeapOwnerMethodParameter::setToNull(IRGenerationContext& context) {
   PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
   Value* null = ConstantPointerNull::get(type);
   IRWriter::newStoreInst(context, null, mValue);

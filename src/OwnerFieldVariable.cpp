@@ -66,7 +66,7 @@ Value* OwnerFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   return IRWriter::newStoreInst(context, loadedCast, fieldPointer);
 }
 
-void OwnerFieldVariable::setToNull(IRGenerationContext& context) const {
+void OwnerFieldVariable::setToNull(IRGenerationContext& context) {
   PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
   Value* null = ConstantPointerNull::get(type);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);

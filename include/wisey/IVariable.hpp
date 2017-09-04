@@ -72,7 +72,7 @@ public:
   /**
    * Sets variable to null if it is an owner type variable
    */
-  virtual void setToNull(IRGenerationContext& context) const = 0;
+  virtual void setToNull(IRGenerationContext& context) = 0;
 
   /**
    * Creates a name for naming temporary heap variables in the scope

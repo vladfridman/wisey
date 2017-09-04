@@ -111,12 +111,24 @@ TEST_F(HeapOwnerVariableTest, heapVariableAssignmentTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(HeapOwnerVariableTest, heapVariableIdentifierTest) {
+TEST_F(HeapOwnerVariableTest, heapOwnerVariableIdentifierTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   HeapOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  
+  heapOwnerVariable.setToNull(mContext);
 
   EXPECT_EQ(heapOwnerVariable.generateIdentifierIR(mContext, "fooVal"), fooValue);
+}
+
+TEST_F(HeapOwnerVariableTest, heapOwnerVariableIdentifierUninitializedDeathTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  HeapOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  
+  EXPECT_EXIT(heapOwnerVariable.generateIdentifierIR(mContext, "fooVal"),
+              ::testing::ExitedWithCode(1),
+              "Error: Variable 'foo' is used before it is initialized");
 }
 
 TEST_F(HeapOwnerVariableTest, existsInOuterScopeTest) {
@@ -165,7 +177,8 @@ TEST_F(HeapOwnerVariableTest, setToNullTest) {
   
 }
 
-TEST_F(TestFileSampleRunner, nullPointerExceptionRunTest) {
-  compileAndRunFile("tests/samples/test_heap_owner_variable_not_initialized.yz", 11);
+TEST_F(TestFileSampleRunner, usingUninitializedHeapOwnerVariableRunDeathTest) {
+  expectFailCompile("tests/samples/test_heap_owner_variable_not_initialized.yz",
+                    1,
+                    "Error: Variable 'color' is used before it is initialized");
 }
-

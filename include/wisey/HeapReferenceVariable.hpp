@@ -22,11 +22,12 @@ class HeapReferenceVariable : public IVariable {
   std::string mName;
   const IType* mType;
   llvm::Value* mValue;
+  bool mIsInitialized;
   
 public:
   
   HeapReferenceVariable(std::string name, const IType* type, llvm::Value* value)
-  : mName(name), mType(type), mValue(value) { }
+  : mName(name), mType(type), mValue(value), mIsInitialized(false) { }
   
   ~HeapReferenceVariable() {
   }
@@ -47,7 +48,7 @@ public:
   
   bool existsInOuterScope() const override;
   
-  void setToNull(IRGenerationContext& context) const override;
+  void setToNull(IRGenerationContext& context) override;
 
 };
 

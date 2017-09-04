@@ -74,7 +74,7 @@ public:
   }
 };
 
-TEST_F(HeapReferenceVariableTest, heapVariableAssignmentTest) {
+TEST_F(HeapReferenceVariableTest, heapReferenceVariableAssignmentTest) {
   Type* llvmType = mModel->getLLVMType(mLLVMContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   
@@ -89,12 +89,24 @@ TEST_F(HeapReferenceVariableTest, heapVariableAssignmentTest) {
   EXPECT_EQ(uninitializedHeapVariable->generateAssignmentIR(mContext, &expression), barValue);
 }
 
-TEST_F(HeapReferenceVariableTest, heapVariableIdentifierTest) {
+TEST_F(HeapReferenceVariableTest, heapReferenceVariableIdentifierTest) {
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  HeapReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
+
+  heapReferenceVariable.setToNull(mContext);
+
+  EXPECT_EQ(heapReferenceVariable.generateIdentifierIR(mContext, "fooVal"), fooValue);
+}
+
+TEST_F(HeapReferenceVariableTest, heapReferenceVariableIdentifierUninitializedDeathTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   HeapReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
   
-  EXPECT_EQ(heapReferenceVariable.generateIdentifierIR(mContext, "fooVal"), fooValue);
+  EXPECT_EXIT(heapReferenceVariable.generateIdentifierIR(mContext, "fooVal"),
+              ::testing::ExitedWithCode(1),
+              "Error: Variable 'foo' is used before it is initialized");
 }
 
 TEST_F(HeapReferenceVariableTest, existsInOuterScopeTest) {
@@ -103,7 +115,7 @@ TEST_F(HeapReferenceVariableTest, existsInOuterScopeTest) {
   EXPECT_FALSE(heapReferenceVariable.existsInOuterScope());
 }
 
-TEST_F(TestFileSampleRunner, modelVariableAssignmentRunTest) {
+TEST_F(TestFileSampleRunner, headReferenceVariableAssignmentRunTest) {
   runFile("tests/samples/test_assignment_model_variable.yz", "0");
 }
 
@@ -111,8 +123,10 @@ TEST_F(TestFileSampleRunner, interfaceVariableAssignmentRunTest) {
   runFile("tests/samples/test_interface_variable_assignment.yz", "25");
 }
 
-TEST_F(TestFileSampleRunner, usingUninitializedHeapVariableRunDeathTest) {
-  compileAndRunFile("tests/samples/test_heap_variable_not_initialized.yz", 11);
+TEST_F(TestFileSampleRunner, usingUninitializedHeapReferenceVariableRunDeathTest) {
+  expectFailCompile("tests/samples/test_heap_reference_variable_not_initialized.yz",
+                    1,
+                    "Error: Variable 'color' is used before it is initialized");
 }
 
 TEST_F(TestFileSampleRunner, incompatableHeapVariableTypesInAssignmentRunDeathTest) {

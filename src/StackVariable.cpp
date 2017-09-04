@@ -44,7 +44,7 @@ Value* StackVariable::generateAssignmentIR(IRGenerationContext& context,
   return IRWriter::newStoreInst(context, castAssignToValue, mValue);
 }
 
-void StackVariable::setToNull(IRGenerationContext& context) const {
+void StackVariable::setToNull(IRGenerationContext& context) {
   Log::e("Stack Variables should not be set to null");
   exit(1);
 }

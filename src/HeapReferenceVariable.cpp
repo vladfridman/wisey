@@ -35,6 +35,11 @@ Value* HeapReferenceVariable::getValue() const {
 
 Value* HeapReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
                                                    string llvmVariableName) const {
+  if (!mIsInitialized) {
+    Log::e("Variable '" + mName + "' is used before it is initialized");
+    exit(1);
+  }
+  
   return mValue;
 }
 
@@ -45,11 +50,13 @@ Value* HeapReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   
   mValue = newValue;
+  mIsInitialized = true;
   
   return mValue;
 }
 
-void HeapReferenceVariable::setToNull(IRGenerationContext& context) const {
+void HeapReferenceVariable::setToNull(IRGenerationContext& context) {
+  mIsInitialized = true;
 }
 
 void HeapReferenceVariable::free(IRGenerationContext& context) const {

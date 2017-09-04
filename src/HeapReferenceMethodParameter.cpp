@@ -44,7 +44,7 @@ Value* HeapReferenceMethodParameter::generateAssignmentIR(IRGenerationContext& c
   exit(1);
 }
 
-void HeapReferenceMethodParameter::setToNull(IRGenerationContext& context) const {
+void HeapReferenceMethodParameter::setToNull(IRGenerationContext& context) {
   return;
 }
 
