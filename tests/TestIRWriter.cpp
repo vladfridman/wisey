@@ -12,6 +12,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "wisey/Block.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -137,10 +138,8 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   vector<Catch*> catchList;
   BasicBlock* landingpadBlock = BasicBlock::Create(mLLVMContext, "eh.lpad", mMainFunction);
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue", mMainFunction);
-  TryCatchInfo tryCatchInfo(landingpadBlock,
-                            continueBlock,
-                            &EmptyStatement::EMPTY_STATEMENT,
-                            catchList);
+  Block* emptyBlock = new Block();
+  TryCatchInfo tryCatchInfo(landingpadBlock, continueBlock, emptyBlock, catchList);
   
   mContext.getScopes().setTryCatchInfo(&tryCatchInfo);
   InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");

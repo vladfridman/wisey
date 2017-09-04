@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Block.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 
@@ -21,7 +22,7 @@ ReturnInst* IRWriter::createReturnInst(IRGenerationContext& context, Value* retu
   }
   
   if (context.getScopes().getTryCatchInfo()) {
-    context.getScopes().getTryCatchInfo()->getFinallyStatement()->generateIR(context);
+    context.getScopes().getTryCatchInfo()->getFinallyBlock()->generateIR(context);
   }
   currentBlock = context.getBasicBlock();
   

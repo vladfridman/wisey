@@ -95,7 +95,6 @@ TryCatchInfo* Scope::getTryCatchInfo() {
 void Scope::clearTryCatchInfo() {
   assert(mTryCatchInfo != NULL);
   
-  delete mTryCatchInfo;
   mTryCatchInfo = NULL;
 }
 

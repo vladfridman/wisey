@@ -18,6 +18,7 @@
 #include "MockExpression.hpp"
 #include "MockType.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/Block.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/Interface.hpp"
@@ -113,7 +114,8 @@ public:
 
     BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
     vector<Catch*> catchList;
-    TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, NULL, catchList);
+    Block* emptyBlock = new Block();
+    TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, emptyBlock, catchList);
     mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -272,9 +274,10 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext, "eh.landing.pad");
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
   vector<Catch*> catchList;
+  Block* emptyBlock = new Block();
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock,
                                                 continueBlock,
-                                                &EmptyStatement::EMPTY_STATEMENT,
+                                                emptyBlock,
                                                 catchList);
   mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 

@@ -14,6 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "wisey/Block.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -65,9 +66,9 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext,
                                                    "cleanup.landing.pad",
                                                    mMainFunction);
-  const IStatement* emptyStatement = new EmptyStatement();
+  Block* finallyBlock = new Block();
   vector<Catch*> catchList;
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emptyStatement, catchList);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, finallyBlock, catchList);
   mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 
   Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext)

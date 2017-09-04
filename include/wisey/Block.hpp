@@ -11,11 +11,12 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IRGenerationContext.hpp"
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
 
+class IRGenerationContext;
+  
 /**
  * Represents a block of statements
  */

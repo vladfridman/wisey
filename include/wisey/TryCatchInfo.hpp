@@ -15,6 +15,7 @@
 
 namespace wisey {
 
+class Block;
 class Catch;
   
 /**
@@ -23,21 +24,21 @@ class Catch;
 class TryCatchInfo {
   llvm::BasicBlock* mLandingPadBlock;
   llvm::BasicBlock* mContinueBlock;
-  const IStatement* mFinallyStatement;
+  Block* mFinallyBlock;
   std::vector<Catch*> mCatchList;
   
 public:
   
   TryCatchInfo(llvm::BasicBlock* landingPadBlock,
                llvm::BasicBlock* continueBlock,
-               const IStatement* finallyStatement,
+               Block* finallyBlock,
                std::vector<Catch*> catchList) :
   mLandingPadBlock(landingPadBlock),
   mContinueBlock(continueBlock),
-  mFinallyStatement(finallyStatement),
+  mFinallyBlock(finallyBlock),
   mCatchList(catchList) { }
   
-  ~TryCatchInfo() {}
+  ~TryCatchInfo();
   
   /**
    * Returns the landing pad basic block for exception handling 
@@ -50,9 +51,9 @@ public:
   llvm::BasicBlock* getContinueBlock();
   
   /**
-   * Returns the statement that should always by executed for a try/catch block
+   * Returns the list of statement that should always by executed for a try/catch block
    */
-  const IStatement* getFinallyStatement();
+  Block* getFinallyBlock();
   
   /**
    * Returns the list of catch statements for this try/catch block

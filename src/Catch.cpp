@@ -33,7 +33,7 @@ bool Catch::generateIR(IRGenerationContext& context,
                        Value* wrappedException,
                        BasicBlock* catchBlock,
                        BasicBlock* exceptionContinueBlock,
-                       const IStatement* finallyStatement) const {
+                       Block* finallyBlock) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function* beginCatchFunction = IntrinsicFunctions::getBeginCatchFunction(context);
@@ -75,7 +75,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   mStatement->generateIR(context);
   context.getScopes().popScope(context);
   
-  finallyStatement->generateIR(context);
+  finallyBlock->generateIR(context);
   bool hasTerminator = context.getBasicBlock()->getTerminator() != NULL;
   
   IRWriter::createBranch(context, exceptionContinueBlock);

@@ -9,6 +9,7 @@
 #ifndef Catch_h
 #define Catch_h
 
+#include "wisey/Block.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
@@ -42,7 +43,7 @@ public:
                   llvm::Value* wrappedException,
                   llvm::BasicBlock* catchBlock,
                   llvm::BasicBlock* exceptionContinueBlock,
-                  const IStatement* finallyStatement) const;
+                  Block* finallyBlock) const;
 };
   
 } /* namespace wisey */

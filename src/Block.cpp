@@ -7,6 +7,7 @@
 //
 
 #include "wisey/Block.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/Scope.hpp"
 
 using namespace llvm;

@@ -11,6 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/Block.hpp"
 #include "wisey/Catch.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -24,13 +25,13 @@ namespace wisey {
 class TryCatchStatement : public IStatement {
   IStatement* mTryBlock;
   std::vector<Catch*> mCatchList;
-  const IStatement* mFinallyStatement;
+  IStatement* mFinallyStatement;
   
 public:
   
   TryCatchStatement(IStatement* tryBlock,
                     std::vector<Catch*> catchList,
-                    const IStatement* finallyStatement) : 
+                    IStatement* finallyStatement) :
   mTryBlock(tryBlock), 
   mCatchList(catchList), 
   mFinallyStatement(finallyStatement) { }
@@ -55,12 +56,14 @@ private:
   void generateResumeAndFail(IRGenerationContext& context,
                              llvm::LandingPadInst* landingPadInst,
                              llvm::Value* exceptionTypeId,
-                             llvm::Value* wrappedException) const;
+                             llvm::Value* wrappedException,
+                             Block* finallyBlock) const;
   
   bool generateCatches(IRGenerationContext& context,
                        llvm::Value* wrappedException,
                        std::vector<std::tuple<Catch*, llvm::BasicBlock*>> catchesAndBlocks,
-                       llvm::BasicBlock* exceptionContinueBlock) const;
+                       llvm::BasicBlock* exceptionContinueBlock,
+                       Block* finallyBlock) const;
 
 };
   

@@ -191,9 +191,9 @@ void Method::maybeGenerateCleanupTryCatchInfo(IRGenerationContext& context) cons
   BasicBlock* landingPadBlock = BasicBlock::Create(context.getLLVMContext(),
                                                    "cleanup.landing.pad",
                                                    mFunction);
-  const IStatement* emptyStatement = new EmptyStatement();
+  Block* emtpyBlock = new Block();
   vector<Catch*> catchList;
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emptyStatement, catchList);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emtpyBlock, catchList);
   context.getScopes().setTryCatchInfo(tryCatchInfo);
 }
 
