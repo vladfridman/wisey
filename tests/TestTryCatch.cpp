@@ -54,6 +54,10 @@ TEST_F(TestFileSampleRunner, tryCatchNestedFinallyTest) {
   compileAndRunFile("tests/samples/test_try_catch_nested_finally.yz", 45);
 }
 
+TEST_F(TestFileSampleRunner, tryThrowFromInsideCatchTest) {
+  compileAndRunFile("tests/samples/test_throw_from_inside_catch.yz", 45);
+}
+
 TEST_F(TestFileSampleRunner, tryCatchNestedUnmatchedThrowDeathTest) {
   expectFailCompile("tests/samples/test_try_catch_nested_unmatched_throw.yz",
                     1,
