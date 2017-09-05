@@ -252,6 +252,8 @@
 		F56AD4A11E9F66C40020868C /* IObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD4A01E9F66C40020868C /* IObjectType.cpp */; };
 		F56AD4A21E9F66C40020868C /* IObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD4A01E9F66C40020868C /* IObjectType.cpp */; };
 		F56AD4A41E9F6D5B0020868C /* TestIObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */; };
+		F56C214A1F5EA91A002510FC /* Cleanup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C21491F5EA91A002510FC /* Cleanup.cpp */; };
+		F56C214B1F5EA91A002510FC /* Cleanup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56C21491F5EA91A002510FC /* Cleanup.cpp */; };
 		F57085F61E511BAC007D627E /* TestReferenceFieldVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085F51E511BAC007D627E /* TestReferenceFieldVariable.cpp */; };
 		F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FB1E51E2ED007D627E /* MethodCall.cpp */; };
 		F57085FD1E51E2ED007D627E /* MethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57085FB1E51E2ED007D627E /* MethodCall.cpp */; };
@@ -753,6 +755,8 @@
 		F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowStatement.cpp; path = tests/TestThrowStatement.cpp; sourceTree = "<group>"; };
 		F56AD4A01E9F66C40020868C /* IObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectType.cpp; path = src/IObjectType.cpp; sourceTree = "<group>"; };
 		F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIObjectType.cpp; path = tests/TestIObjectType.cpp; sourceTree = "<group>"; };
+		F56C21481F5EA851002510FC /* Cleanup.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Cleanup.hpp; path = include/wisey/Cleanup.hpp; sourceTree = "<group>"; };
+		F56C21491F5EA91A002510FC /* Cleanup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cleanup.cpp; path = src/Cleanup.cpp; sourceTree = "<group>"; };
 		F57085F51E511BAC007D627E /* TestReferenceFieldVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestReferenceFieldVariable.cpp; path = tests/TestReferenceFieldVariable.cpp; sourceTree = "<group>"; };
 		F57085FB1E51E2ED007D627E /* MethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodCall.cpp; path = src/MethodCall.cpp; sourceTree = "<group>"; };
 		F57085FE1E51F8C9007D627E /* TestMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodCall.cpp; path = tests/TestMethodCall.cpp; sourceTree = "<group>"; };
@@ -1210,6 +1214,7 @@
 				F5CB18121EB0D96A007E2E43 /* Catch.cpp */,
 				F531B6591E0DE52F008304F3 /* CharConstant.cpp */,
 				F5C6FD641E48AB3B0054209D /* CharType.cpp */,
+				F56C21491F5EA91A002510FC /* Cleanup.cpp */,
 				F5FCAE321ED5C38B00C69899 /* Compiler.cpp */,
 				F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */,
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
@@ -1380,6 +1385,7 @@
 				F5089C571ECD01D9004A1223 /* Catch.hpp */,
 				F5089C581ECD01D9004A1223 /* CharConstant.hpp */,
 				F5089C591ECD01D9004A1223 /* CharType.hpp */,
+				F56C21481F5EA851002510FC /* Cleanup.hpp */,
 				F5FCAE2F1ED5BC3C00C69899 /* Compiler.hpp */,
 				F5FCAE351ED5C56600C69899 /* CompilerArgumentParser.hpp */,
 				F5FCAE311ED5C31D00C69899 /* CompilerArguments.hpp */,
@@ -1724,6 +1730,7 @@
 				F57085FF1E51F8C9007D627E /* TestMethodCall.cpp in Sources */,
 				F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */,
 				F53A2C141EF018EE00E76A9E /* TestInterfaceOwner.cpp in Sources */,
+				F56C214B1F5EA91A002510FC /* Cleanup.cpp in Sources */,
 				F56AD4A41E9F6D5B0020868C /* TestIObjectType.cpp in Sources */,
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
 				F594970E1F569E730002F14F /* FieldInjected.cpp in Sources */,
@@ -1840,6 +1847,7 @@
 				F53400EE1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F59D82231E0F6DAE00057FB5 /* IfStatement.cpp in Sources */,
 				F5B9B1531E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
+				F56C214A1F5EA91A002510FC /* Cleanup.cpp in Sources */,
 				F52FF1851F1C570C003F4D37 /* Names.cpp in Sources */,
 				F53A2C281EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,

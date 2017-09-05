@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Cleanup.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/HeapOwnerMethodParameter.hpp"
@@ -80,7 +81,9 @@ void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) c
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", mFunction, 0);
   context.setBasicBlock(basicBlock);
   
-  maybeGenerateCleanupTryCatchInfo(context);
+  if (mThrownExceptions.size()) {
+    Cleanup::generateCleanupTryCatchInfo(context);
+  }
   
   createArguments(context, mFunction, objectType);
   mCompoundStatement->generateIR(context);
@@ -88,7 +91,9 @@ void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) c
   maybeAddImpliedVoidReturn(context);
 
   checkForUnhandledExceptions(context);
-  maybeGenerateCleanupLandingPad(context);
+  if (mThrownExceptions.size()) {
+    Cleanup::generateCleanupLandingPad(context);
+  }
 
   scopes.popScope(context);
   scopes.setClearedVariables(clearedVariablesBefore);
@@ -181,45 +186,4 @@ void Method::checkForUnhandledExceptions(IRGenerationContext& context) const {
   if (hasUnhandledExceptions) {
     exit(1);
   }
-}
-
-void Method::maybeGenerateCleanupTryCatchInfo(IRGenerationContext& context) const {
-  if (!mThrownExceptions.size()) {
-    return;
-  }
-  
-  BasicBlock* landingPadBlock = BasicBlock::Create(context.getLLVMContext(),
-                                                   "cleanup.landing.pad",
-                                                   mFunction);
-  Block* emtpyBlock = new Block();
-  vector<Catch*> catchList;
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emtpyBlock, catchList);
-  context.getScopes().setTryCatchInfo(tryCatchInfo);
-}
-
-void Method::maybeGenerateCleanupLandingPad(IRGenerationContext& context) const {
-  if (!mThrownExceptions.size()) {
-    return;
-  }
-  
-  context.setBasicBlock(context.getScopes().getTryCatchInfo()->getLandingPadBlock());
-  
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Function* function = context.getBasicBlock()->getParent();
-  if (!function->hasPersonalityFn()) {
-    function->setPersonalityFn(IntrinsicFunctions::getPersonalityFunction(context));
-  }
-  
-  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  vector<Type*> landingPadReturnTypes;
-  landingPadReturnTypes.push_back(int8PointerType);
-  landingPadReturnTypes.push_back(Type::getInt32Ty(llvmContext));
-  StructType* landingPadReturnType = StructType::get(llvmContext, landingPadReturnTypes);
-  LandingPadInst* landingPad = LandingPadInst::Create(landingPadReturnType,
-                                                      0,
-                                                      "",
-                                                      context.getBasicBlock());
-
-  landingPad->setCleanup(true);
-  IRWriter::createResumeInst(context, landingPad);
 }
