@@ -92,7 +92,7 @@ void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) c
 
   checkForUnhandledExceptions(context);
   if (mThrownExceptions.size()) {
-    Cleanup::generateCleanupLandingPad(context);
+    Cleanup::generateCleanupLandingPad(context, NULL);
   }
 
   scopes.popScope(context);

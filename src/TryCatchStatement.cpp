@@ -10,6 +10,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/IR/TypeBuilder.h>
 
+#include "wisey/Cleanup.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ModelOwner.hpp"
@@ -209,6 +210,8 @@ bool TryCatchStatement::generateCatches(IRGenerationContext& context,
                                         vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks,
                                         BasicBlock* exceptionContinueBlock,
                                         Block* finallyBlock) const {
+  Cleanup::generateCleanupTryCatchInfo(context);
+
   bool doAllCatchesTerminate = true;
   for (tuple<Catch*, BasicBlock*> catchAndBlock : catchesAndBlocks) {
     Catch* catchClause = get<0>(catchAndBlock);
@@ -219,6 +222,8 @@ bool TryCatchStatement::generateCatches(IRGenerationContext& context,
                                                      exceptionContinueBlock,
                                                      finallyBlock);
   }
+  
+  Cleanup::generateCleanupLandingPad(context, finallyBlock);
   
   return doAllCatchesTerminate;
 }

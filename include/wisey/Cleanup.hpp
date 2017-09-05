@@ -28,7 +28,7 @@ public:
   /**
    * Generate landing pad code that is executed once an exception is thrown
    */
-  static void generateCleanupLandingPad(IRGenerationContext& context);
+  static void generateCleanupLandingPad(IRGenerationContext& context, Block* finallyBlock);
 
 };
   

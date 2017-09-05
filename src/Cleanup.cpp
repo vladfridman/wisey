@@ -27,7 +27,7 @@ void Cleanup::generateCleanupTryCatchInfo(IRGenerationContext& context) {
   context.getScopes().setTryCatchInfo(tryCatchInfo);
 }
 
-void Cleanup::generateCleanupLandingPad(IRGenerationContext& context) {
+void Cleanup::generateCleanupLandingPad(IRGenerationContext& context, Block* finallyBlock) {
   TryCatchInfo* tryCatchInfo = context.getScopes().getTryCatchInfo();
   context.setBasicBlock(tryCatchInfo->getLandingPadBlock());
   
@@ -48,6 +48,9 @@ void Cleanup::generateCleanupLandingPad(IRGenerationContext& context) {
                                                       context.getBasicBlock());
   
   landingPad->setCleanup(true);
+  if (finallyBlock) {
+    finallyBlock->generateIR(context);
+  }
   IRWriter::createResumeInst(context, landingPad);
   
   context.getScopes().clearTryCatchInfo();
