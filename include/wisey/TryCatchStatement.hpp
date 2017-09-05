@@ -11,8 +11,8 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Block.hpp"
 #include "wisey/Catch.hpp"
+#include "wisey/FinallyBlock.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IStatement.hpp"
@@ -57,13 +57,13 @@ private:
                              llvm::LandingPadInst* landingPadInst,
                              llvm::Value* exceptionTypeId,
                              llvm::Value* wrappedException,
-                             Block* finallyBlock) const;
+                             FinallyBlock* finallyBlock) const;
   
   bool generateCatches(IRGenerationContext& context,
                        llvm::Value* wrappedException,
                        std::vector<std::tuple<Catch*, llvm::BasicBlock*>> catchesAndBlocks,
                        llvm::BasicBlock* exceptionContinueBlock,
-                       Block* finallyBlock) const;
+                       FinallyBlock* finallyBlock) const;
 
 };
   

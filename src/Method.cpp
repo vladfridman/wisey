@@ -82,7 +82,7 @@ void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) c
   context.setBasicBlock(basicBlock);
   
   if (mThrownExceptions.size()) {
-    Cleanup::generateCleanupTryCatchInfo(context);
+    Cleanup::generateCleanupTryCatchInfo(context, "cleanup.landing.pad");
   }
   
   createArguments(context, mFunction, objectType);

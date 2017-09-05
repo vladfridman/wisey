@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Block.hpp"
 #include "wisey/Catch.hpp"
+#include "wisey/FinallyBlock.hpp"
 #include "wisey/TryCatchInfo.hpp"
 
 using namespace llvm;
@@ -15,7 +15,6 @@ using namespace std;
 using namespace wisey;
 
 TryCatchInfo::~TryCatchInfo() {
-  mFinallyBlock->getStatements().clear();
   delete mFinallyBlock;
 }
 
@@ -27,7 +26,7 @@ BasicBlock* TryCatchInfo::getContinueBlock() {
   return mContinueBlock;
 }
 
-Block* TryCatchInfo::getFinallyBlock() {
+FinallyBlock* TryCatchInfo::getFinallyBlock() {
   return mFinallyBlock;
 }
 

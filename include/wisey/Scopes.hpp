@@ -101,6 +101,11 @@ public:
   Scope* getScope();
   
   /**
+   * Returns a reference to all scopes
+   */
+  std::list<Scope *> getScopesList();
+  
+  /**
    * Free memory owned by variables in all scopes in the scope stack.
    *
    * This is typically called before a return or a throw

@@ -9,6 +9,7 @@
 #ifndef Cleanup_h
 #define Cleanup_h
 
+#include "wisey/FinallyBlock.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
@@ -23,12 +24,12 @@ public:
   /**
    * Generate landing pad information for code that might throw an exception
    */
-  static void generateCleanupTryCatchInfo(IRGenerationContext& context);
+  static void generateCleanupTryCatchInfo(IRGenerationContext& context, std::string label);
   
   /**
    * Generate landing pad code that is executed once an exception is thrown
    */
-  static void generateCleanupLandingPad(IRGenerationContext& context, Block* finallyBlock);
+  static void generateCleanupLandingPad(IRGenerationContext& context, FinallyBlock* finallyBlock);
 
 };
   

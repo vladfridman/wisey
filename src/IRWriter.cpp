@@ -6,7 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Block.hpp"
+#include "wisey/FinallyBlock.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 

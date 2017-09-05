@@ -145,6 +145,10 @@ Scope* Scopes::getScope() {
   return mScopes.front();
 }
 
+list<Scope*> Scopes::getScopesList() {
+  return mScopes;
+}
+
 void Scopes::freeOwnedMemory(IRGenerationContext& context) {
   for (Scope* scope : mScopes) {
     scope->freeOwnedMemory(context, mClearedVariables);

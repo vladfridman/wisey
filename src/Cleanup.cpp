@@ -6,8 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/Block.hpp"
 #include "wisey/Cleanup.hpp"
+#include "wisey/FinallyBlock.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/TryCatchInfo.hpp"
@@ -16,18 +16,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-void Cleanup::generateCleanupTryCatchInfo(IRGenerationContext& context) {
+void Cleanup::generateCleanupTryCatchInfo(IRGenerationContext& context, string label) {
   Function* function = context.getBasicBlock()->getParent();
-  BasicBlock* landingPadBlock = BasicBlock::Create(context.getLLVMContext(),
-                                                   "cleanup.landing.pad",
-                                                   function);
-  Block* emtpyBlock = new Block();
+  BasicBlock* landingPadBlock = BasicBlock::Create(context.getLLVMContext(), label, function);
+  FinallyBlock* emtpyBlock = new FinallyBlock();
   vector<Catch*> catchList;
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emtpyBlock, catchList);
   context.getScopes().setTryCatchInfo(tryCatchInfo);
 }
 
-void Cleanup::generateCleanupLandingPad(IRGenerationContext& context, Block* finallyBlock) {
+void Cleanup::generateCleanupLandingPad(IRGenerationContext& context, FinallyBlock* finallyBlock) {
   TryCatchInfo* tryCatchInfo = context.getScopes().getTryCatchInfo();
   context.setBasicBlock(tryCatchInfo->getLandingPadBlock());
   
