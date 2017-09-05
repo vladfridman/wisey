@@ -15,12 +15,14 @@
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/ReturnStatement.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -49,6 +51,7 @@ struct ModelDefinitionTest : public Test {
 
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     mBlock->getStatements().push_back(mMockStatement);
+    mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5)));
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock);
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =

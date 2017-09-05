@@ -18,6 +18,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StackVariable.hpp"
 
 using namespace llvm;
@@ -156,6 +157,10 @@ void Method::storeArgumentValue(IRGenerationContext& context,
 void Method::maybeAddImpliedVoidReturn(IRGenerationContext& context) const {
   if (context.getBasicBlock()->getTerminator()) {
     return;
+  }
+  if (mReturnType != PrimitiveTypes::VOID_TYPE) {
+    Log::e("Method " + mName + " must return a value of type " + mReturnType->getName());
+    exit(1);
   }
 
   context.getScopes().freeOwnedMemory(context);

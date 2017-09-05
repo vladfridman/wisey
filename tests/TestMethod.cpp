@@ -111,7 +111,7 @@ TEST_F(MethodTest, generateIRTest) {
   vector<const Model*> thrownExceptions;
   Method method("foo",
                 AccessLevel::PUBLIC_ACCESS,
-                PrimitiveTypes::FLOAT_TYPE,
+                PrimitiveTypes::VOID_TYPE,
                 arguments,
                 thrownExceptions,
                 &mCompoundStatement,
@@ -121,7 +121,7 @@ TEST_F(MethodTest, generateIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal float @systems.vos.wisey.compiler.tests.MObject.foo("
+  "\ndefine internal void @systems.vos.wisey.compiler.tests.MObject.foo("
   "%systems.vos.wisey.compiler.tests.MObject** %this, i32 %intargument) {"
   "\nentry:"
   "\n  %intargument.param = alloca i32"
@@ -133,10 +133,16 @@ TEST_F(MethodTest, generateIRTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, methodMissesThrowsQualifierDeathTest) {
+TEST_F(TestFileSampleRunner, methodMissesThrowsQualifierDeathRunTest) {
   expectFailCompile("tests/samples/test_missing_throws.yz",
                     1,
                     "Error: Method doThrow neither handles the exception "
                     "systems.vos.wisey.compiler.tests.MException nor throws it");
+}
+
+TEST_F(TestFileSampleRunner, returnTypeIsNotVoidDeathRunTest) {
+  expectFailCompile("tests/samples/test_return_type_is_not_void.yz",
+                    1,
+                    "Error: Method run must return a value of type int");
 }
 

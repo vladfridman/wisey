@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ControllerDefinition.hpp"
+#include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -27,6 +28,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/ReturnStatement.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -35,6 +37,7 @@ using namespace wisey;
 using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ControllerDefinitionTest : public Test {
@@ -58,6 +61,7 @@ struct ControllerDefinitionTest : public Test {
 
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     block->getStatements().push_back(mMockStatement);
+    block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5)));
     CompoundStatement* compoundStatement = new CompoundStatement(block);
     PrimitiveTypeSpecifier* intTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
