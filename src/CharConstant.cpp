@@ -15,6 +15,10 @@
 using namespace llvm;
 using namespace wisey;
 
+IVariable* CharConstant::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* CharConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt16Ty(context.getLLVMContext()), mValue);
 }

@@ -34,6 +34,10 @@ struct NullExpressionTest : public Test {
   
 };
 
+TEST_F(NullExpressionTest, getVariableTest) {
+  EXPECT_EQ(mNullExpression.getVariable(mContext), nullptr);
+}
+
 TEST_F(NullExpressionTest, generateIRTest) {
   Value* expexted = ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   ASSERT_EQ(mNullExpression.generateIR(mContext), expexted);

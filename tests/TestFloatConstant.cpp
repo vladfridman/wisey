@@ -30,6 +30,10 @@ struct FloatConstantTest : public ::testing::Test {
   FloatConstantTest() : mFloatConstant(3.5) { }
 };
 
+TEST_F(FloatConstantTest, getVariableTest) {
+  EXPECT_EQ(mFloatConstant.getVariable(mContext), nullptr);
+}
+
 TEST_F(FloatConstantTest, floatConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);

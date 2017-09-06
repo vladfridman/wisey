@@ -16,6 +16,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+IVariable* StringConstant::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* StringConstant::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Constant* stringConstant = ConstantDataArray::getString(llvmContext, mValue);

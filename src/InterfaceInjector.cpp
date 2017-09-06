@@ -19,6 +19,10 @@ InterfaceInjector::~InterfaceInjector() {
   delete mInterfaceTypeSpecifier;
 }
 
+IVariable* InterfaceInjector::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* InterfaceInjector::generateIR(IRGenerationContext& context) const {
   
   Interface* interface = (Interface*) mInterfaceTypeSpecifier->getType(context);

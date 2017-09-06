@@ -24,6 +24,10 @@ ConditionalExpression::~ConditionalExpression() {
   delete mIfFalseExpression;
 }
 
+IVariable* ConditionalExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value *ConditionalExpression::generateIR(IRGenerationContext& context) const {
   checkTypes(context);
   

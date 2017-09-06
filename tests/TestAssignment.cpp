@@ -63,6 +63,17 @@ public:
   }
 };
 
+TEST_F(AssignmentTest, getVariableTest) {
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
+  mContext.getScopes().setVariable(&mockVariable);
+  Identifier* identifier = new Identifier("foo", "bar");
+  Assignment assignment(identifier, mExpression);
+
+  EXPECT_EQ(identifier->getVariable(mContext), &mockVariable);
+}
+
 TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
   Identifier* identifier = new Identifier("foo", "bar");
   Assignment assignment(identifier, mExpression);

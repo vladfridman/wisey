@@ -18,6 +18,10 @@ Assignment::~Assignment() {
   delete mExpression;
 }
 
+IVariable* Assignment::getVariable(IRGenerationContext& context) const {
+  return context.getScopes().getVariableForAssignement(mIdentifier->getName());
+}
+
 Value* Assignment::generateIR(IRGenerationContext& context) const {
   IVariable* variable = context.getScopes().getVariableForAssignement(mIdentifier->getName());
   if (variable == NULL) {

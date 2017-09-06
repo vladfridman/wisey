@@ -34,6 +34,7 @@ struct IncrementExpressionTest : public Test {
   BasicBlock* mBlock = BasicBlock::Create(mLLVMContext, "entry");
   string mName = "foo";
   Identifier* mIdentifier;
+  StackVariable* mVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
@@ -44,8 +45,8 @@ public:
     mContext.getScopes().pushScope();
     AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), mName);
     
-    StackVariable* variable = new StackVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
-    mContext.getScopes().setVariable(variable);
+    mVariable = new StackVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
+    mContext.getScopes().setVariable(mVariable);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 
@@ -54,6 +55,12 @@ public:
     delete mStringStream;
   }
 };
+
+TEST_F(IncrementExpressionTest, getVariableTest) {
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
+
+  EXPECT_EQ(expression->getVariable(mContext), mVariable);
+}
 
 TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);

@@ -27,6 +27,10 @@ ObjectBuilder::~ObjectBuilder() {
   mObjectBuilderArgumentList.clear();
 }
 
+IVariable* ObjectBuilder::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* ObjectBuilder::generateIR(IRGenerationContext& context) const {
   const IBuildableConcreteObjectType* object = mTypeSpecifier->getType(context);
   Instruction* malloc = object->build(context, mObjectBuilderArgumentList);

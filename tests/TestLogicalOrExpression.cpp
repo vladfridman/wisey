@@ -62,6 +62,12 @@ struct LogicalOrExpressionTest : Test {
   }
 };
 
+TEST_F(LogicalOrExpressionTest, getVariableTest) {
+  LogicalOrExpression expression(mLeftExpression, mRightExpression);
+  
+  EXPECT_EQ(expression.getVariable(mContext), nullptr);
+}
+
 TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
   ON_CALL(*mLeftExpression, generateIR(_)).WillByDefault(Return(mTrueValue));
   ON_CALL(*mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));

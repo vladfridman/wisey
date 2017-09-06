@@ -75,6 +75,11 @@ struct RelationalExpressionTest : public Test {
   }
 };
 
+TEST_F(RelationalExpressionTest, getVariableTest) {
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression);
+  EXPECT_EQ(expression.getVariable(mContext), nullptr);
+}
+
 TEST_F(RelationalExpressionTest, intLessThanTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression);
   expression.generateIR(mContext);

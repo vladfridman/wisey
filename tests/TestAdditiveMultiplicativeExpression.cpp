@@ -63,6 +63,11 @@ struct AdditiveMultiplicativeExpressionTest : Test {
   }
 };
 
+TEST_F(AdditiveMultiplicativeExpressionTest, getVariableTest) {
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  EXPECT_EQ(expression.getVariable(mContext), nullptr);
+}
+
 TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   expression.generateIR(mContext);

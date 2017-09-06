@@ -23,6 +23,10 @@ LogicalOrExpression::~LogicalOrExpression() {
   delete mRightExpression;
 }
 
+IVariable* LogicalOrExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* LogicalOrExpression::generateIR(IRGenerationContext& context) const {
   Value* leftValue = mLeftExpression->generateIR(context);
   BasicBlock* entryBlock = context.getBasicBlock();

@@ -15,6 +15,10 @@
 using namespace llvm;
 using namespace wisey;
 
+IVariable* LongConstant::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* LongConstant::generateIR(IRGenerationContext& context) const {
   return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), mValue, true);
 }

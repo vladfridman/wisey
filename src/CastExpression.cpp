@@ -22,6 +22,10 @@ CastExpression::~CastExpression() {
   delete mExpression;
 }
 
+IVariable* CastExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* CastExpression::generateIR(IRGenerationContext& context) const {
   const IType* fromType = mExpression->getType(context);
   Value* fromValue = mExpression->generateIR(context);

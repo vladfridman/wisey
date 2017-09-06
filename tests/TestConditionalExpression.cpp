@@ -86,6 +86,11 @@ struct ConditionalExpressionTest : Test {
   }
 };
 
+TEST_F(ConditionalExpressionTest, getVariableTest) {
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+  EXPECT_EQ(expression.getVariable(mContext), nullptr);
+}
+
 TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithFalse) {
   Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 0);
   ON_CALL(*mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));

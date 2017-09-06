@@ -73,6 +73,11 @@ public:
   }
 };
 
+TEST_F(CastExpressionTest, getVariableTest) {
+  CastExpression castExpression(mTypeSpecifier, mExpression);
+  EXPECT_EQ(castExpression.getVariable(mContext), nullptr);
+}
+
 TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);

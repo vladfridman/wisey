@@ -107,6 +107,10 @@ struct ObjectBuilderTest : Test {
   }
 };
 
+TEST_F(ObjectBuilderTest, getVariableTest) {
+  EXPECT_EQ(mObjectBuilder->getVariable(mContext), nullptr);
+}
+
 TEST_F(ObjectBuilderTest, releaseOwnershipTest) {
   mObjectBuilder->generateIR(mContext);
   string temporaryVariableName = IVariable::getTemporaryVariableName(mObjectBuilder);

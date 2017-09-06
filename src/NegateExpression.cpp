@@ -22,6 +22,10 @@ NegateExpression::~NegateExpression() {
   delete mExpression;
 }
 
+IVariable* NegateExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* NegateExpression::generateIR(IRGenerationContext& context) const {
   const IType* type = getType(context);
   if (type->getTypeKind() != PRIMITIVE_TYPE || type == PrimitiveTypes::VOID_TYPE) {

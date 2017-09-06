@@ -24,6 +24,10 @@ AdditiveMultiplicativeExpression::~AdditiveMultiplicativeExpression() {
   delete mRightExpression;
 }
 
+IVariable* AdditiveMultiplicativeExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context) const {
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);

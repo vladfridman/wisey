@@ -30,6 +30,10 @@ struct LongConstantTest : public ::testing::Test {
   LongConstantTest() : mLongConstant(5) { }
 };
 
+TEST_F(LongConstantTest, getVariableTest) {
+  EXPECT_EQ(mLongConstant.getVariable(mContext), nullptr);
+}
+
 TEST_F(LongConstantTest, longConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);

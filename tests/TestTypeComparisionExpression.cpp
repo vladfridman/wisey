@@ -183,6 +183,12 @@ struct TestTypeComparisionExpressionTest : public Test {
   }
 };
 
+TEST_F(TestTypeComparisionExpressionTest, getVariableTest) {
+  TypeComparisionExpression typeComparision(mExpression, NULL);
+  
+  EXPECT_EQ(typeComparision.getVariable(mContext), nullptr);
+}
+
 TEST_F(TestTypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();

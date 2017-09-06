@@ -30,6 +30,10 @@ struct IntConstantTest : public ::testing::Test {
   IntConstantTest() : mIntConstant(5) { }
 };
 
+TEST_F(IntConstantTest, getVariableTest) {
+  EXPECT_EQ(mIntConstant.getVariable(mContext), nullptr);
+}
+
 TEST_F(IntConstantTest, intConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);

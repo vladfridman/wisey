@@ -59,6 +59,11 @@ struct BooleanNotExpressionTest : Test {
   }
 };
 
+TEST_F(BooleanNotExpressionTest, getVariableTest) {
+  BooleanNotExpression booleanNotExpression(mExpression);
+  EXPECT_EQ(booleanNotExpression.getVariable(mContext), nullptr);
+}
+
 TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
   Value* one = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
   ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(one));

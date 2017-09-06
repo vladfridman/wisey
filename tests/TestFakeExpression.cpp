@@ -41,6 +41,10 @@ public:
   }
 };
 
+TEST_F(FakeExpressionTest, getVariableTest) {
+  EXPECT_EQ(mFakeExpression->getVariable(mContext), nullptr);
+}
+
 TEST_F(FakeExpressionTest, fakeExpressionTest) {
   EXPECT_EQ(mFakeExpression->getType(mContext), mType);
   EXPECT_EQ(mFakeExpression->generateIR(mContext), mValue);

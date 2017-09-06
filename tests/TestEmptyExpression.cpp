@@ -23,6 +23,10 @@ struct EmptyExpressionTest : public ::testing::Test {
   EmptyExpressionTest() { }
 };
 
+TEST_F(EmptyExpressionTest, getVariableTest) {
+  EXPECT_EQ(mEmptyExpression.getVariable(mContext), nullptr);
+}
+
 TEST_F(EmptyExpressionTest, simpleEmptyExpressionTest) {
   EXPECT_EQ(mEmptyExpression.generateIR(mContext), nullptr);
 }

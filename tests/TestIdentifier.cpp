@@ -45,6 +45,14 @@ struct IdentifierTest : public Test {
   ~IdentifierTest() { }
 };
 
+TEST_F(IdentifierTest, getVariableTest) {
+  StackVariable* variable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+  mContext.getScopes().setVariable(variable);
+  Identifier identifier("foo", "bar");
+
+  EXPECT_EQ(identifier.getVariable(mContext), variable);
+}
+
 TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
   Identifier identifier("foo", "bar");
 

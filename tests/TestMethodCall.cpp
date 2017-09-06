@@ -291,6 +291,12 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
+TEST_F(MethodCallTest, getVariableTest) {
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  
+  EXPECT_EQ(methodCall.getVariable(mContext), nullptr);
+}
+
 TEST_F(MethodCallTest, existsInOuterScopeTest) {
   MethodCall methodCall(mExpression, "foo", mArgumentList);
   

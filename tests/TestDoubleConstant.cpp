@@ -30,6 +30,10 @@ struct DoubleConstantTest : public ::testing::Test {
   DoubleConstantTest() : mDoubleConstant(5.7) { }
 };
 
+TEST_F(DoubleConstantTest, getVariableTest) {
+  EXPECT_EQ(mDoubleConstant.getVariable(mContext), nullptr);
+}
+
 TEST_F(DoubleConstantTest, doubleConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);

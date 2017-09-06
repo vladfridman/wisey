@@ -22,6 +22,10 @@ IncrementExpression::~IncrementExpression() {
   delete mIdentifier;
 }
 
+IVariable* IncrementExpression::getVariable(IRGenerationContext& context) const {
+  return context.getScopes().getVariableForAssignement(mIdentifier->getName());
+}
+
 Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
   const IType* identifierType = mIdentifier->getType(context);
   if (identifierType != PrimitiveTypes::INT_TYPE &&

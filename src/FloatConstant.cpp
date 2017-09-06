@@ -15,6 +15,10 @@
 using namespace llvm;
 using namespace wisey;
 
+IVariable* FloatConstant::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* FloatConstant::generateIR(IRGenerationContext& context) const {
   return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), mValue);
 }

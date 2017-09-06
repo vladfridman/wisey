@@ -15,6 +15,10 @@
 using namespace llvm;
 using namespace wisey;
 
+IVariable* FakeExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* FakeExpression::generateIR(IRGenerationContext& context) const {
   return mValue;
 }

@@ -20,6 +20,7 @@
  */
 class MockExpression : public wisey::IExpression {
 public:
+  MOCK_CONST_METHOD1(getVariable, wisey::IVariable* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(generateIR, llvm::Value* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, const wisey::IType* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(releaseOwnership, void (wisey::IRGenerationContext&));

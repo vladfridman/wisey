@@ -23,6 +23,10 @@ LogicalAndExpression::~LogicalAndExpression() {
   delete mRightExpression;
 }
 
+IVariable* LogicalAndExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* LogicalAndExpression::generateIR(IRGenerationContext& context) const {
   Value* leftValue = mLeftExpression->generateIR(context);
   BasicBlock* entryBlock = context.getBasicBlock();

@@ -23,6 +23,10 @@ RelationalExpression::~RelationalExpression() {
   delete mRightExpression;
 }
 
+IVariable* RelationalExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);

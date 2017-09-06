@@ -59,6 +59,12 @@ struct NegateExpressionTest : Test {
   }
 };
 
+TEST_F(NegateExpressionTest, getVariableTest) {
+  NegateExpression negateExpression(mExpression);
+  
+  EXPECT_EQ(negateExpression.getVariable(mContext), nullptr);
+}
+
 TEST_F(NegateExpressionTest, negateIntExpressionTest) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
   ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(value));

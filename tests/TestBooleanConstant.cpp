@@ -40,6 +40,11 @@ struct BooleanConstantTest : public Test {
   }
 };
 
+TEST_F(BooleanConstantTest, getVariableTest) {
+  BooleanConstant booleanTrue(true);
+  EXPECT_EQ(booleanTrue.getVariable(mContext), nullptr);
+}
+
 TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
   BooleanConstant booleanTrue(true);
   Value* irValue = booleanTrue.generateIR(mContext);

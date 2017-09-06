@@ -29,6 +29,10 @@ MethodCall::~MethodCall() {
   delete mExpression;
 }
 
+IVariable* MethodCall::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
   IObjectType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);

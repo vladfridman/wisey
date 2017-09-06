@@ -15,6 +15,10 @@
 using namespace llvm;
 using namespace wisey;
 
+IVariable* DoubleConstant::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* DoubleConstant::generateIR(IRGenerationContext& context) const {
   return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), mValue);
 }

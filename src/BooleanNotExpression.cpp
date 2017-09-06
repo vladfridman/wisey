@@ -22,6 +22,10 @@ BooleanNotExpression::~BooleanNotExpression() {
   delete mExpression;
 }
 
+IVariable* BooleanNotExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* BooleanNotExpression::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   if (expressionType != PrimitiveTypes::BOOLEAN_TYPE) {

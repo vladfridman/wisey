@@ -31,6 +31,10 @@ struct CharConstantTest : public ::testing::Test {
   CharConstantTest() : mCharConstant('y') { }
 };
 
+TEST_F(CharConstantTest, getVariableTest) {
+  EXPECT_EQ(mCharConstant.getVariable(mContext), nullptr);
+}
+
 TEST_F(CharConstantTest, charConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);

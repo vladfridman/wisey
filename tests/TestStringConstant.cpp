@@ -38,6 +38,12 @@ struct StringConstantTest : public Test {
   }
 };
 
+TEST_F(StringConstantTest, getVariableTest) {
+  StringConstant stringConstant("\"test\"");
+  
+  EXPECT_EQ(stringConstant.getVariable(mContext), nullptr);
+}
+
 TEST_F(StringConstantTest, stringConstantTest) {
   StringConstant stringConstant("\"test\"");
   

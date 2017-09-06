@@ -23,6 +23,10 @@ TypeComparisionExpression::~TypeComparisionExpression() {
   delete mTypeSpecifier;
 }
 
+IVariable* TypeComparisionExpression::getVariable(IRGenerationContext& context) const {
+  return NULL;
+}
+
 Value* TypeComparisionExpression::generateIR(IRGenerationContext& context) const {
   const IType* expressionType = mExpression->getType(context);
   const IType* type = mTypeSpecifier->getType(context);

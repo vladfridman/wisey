@@ -32,6 +32,8 @@ public:
   
   ~Identifier() { }
   
+  IVariable* getVariable(IRGenerationContext& context) const override;
+
   const std::string& getName() const;
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;

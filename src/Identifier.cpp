@@ -14,6 +14,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+IVariable* Identifier::getVariable(IRGenerationContext& context) const {
+  return context.getScopes().getVariableForAssignement(mName);
+}
+
 const string& Identifier::getName() const {
   return mName;
 }

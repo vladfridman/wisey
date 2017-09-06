@@ -97,6 +97,12 @@ struct InterfaceInjectorTest : Test {
   }
 };
 
+TEST_F(InterfaceInjectorTest, getVariableTest) {
+  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
+  
+  EXPECT_EQ(interfaceInjector.getVariable(mContext), nullptr);
+}
+
 TEST_F(InterfaceInjectorTest, releaseOwnershipTest) {
   InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
   interfaceInjector.generateIR(mContext);
