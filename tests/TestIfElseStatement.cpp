@@ -119,3 +119,7 @@ TEST_F(TestFileSampleRunner, ifThenElseStatementRunTest) {
 TEST_F(TestFileSampleRunner, ifThenElseStatementWithClearedObjectsRunTest) {
   runFile("tests/samples/test_if_then_else_statement_with_cleared_objects.yz", "5");
 }
+
+TEST_F(TestFileSampleRunner, ifElseIfElseRunTest) {
+  runFile("tests/samples/test_if_else_if_else.yz", "5");
+}

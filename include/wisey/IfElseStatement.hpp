@@ -24,13 +24,13 @@ namespace wisey {
 class IfElseStatement : public IStatement {
   IExpression* mCondition;
   CompoundStatement* mThenStatement;
-  CompoundStatement* mElseStatement;
+  IStatement* mElseStatement;
   
 public:
   
   IfElseStatement(IExpression* condition,
                   CompoundStatement* thenStatement,
-                  CompoundStatement* elseStatement) :
+                  IStatement* elseStatement) :
     mCondition(condition),
     mThenStatement(thenStatement),
     mElseStatement(elseStatement) { }

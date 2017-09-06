@@ -570,7 +570,7 @@ expression_statement
   ;
 
 selection_statement
-  : TIF '(' expression ')' compound_statement TELSE compound_statement
+  : TIF '(' expression ')' compound_statement TELSE statement
     { $$ = new IfElseStatement ($3, $5, $7); }
   | TIF '(' expression ')' compound_statement { $$ = new IfStatement($3, $5); }
   | TSWITCH '(' expression ')' '{' case_statement_list_with_default '}'

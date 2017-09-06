@@ -1,0 +1,19 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    int a = 10;
+    if (a < 5) {
+      a = 6;
+    } else if (a > 11) {
+      a = 2;
+    } else {
+      a = 5;
+    }
+    
+    return a;
+  }
+} 
+
+bind(CProgram).to(IProgram);

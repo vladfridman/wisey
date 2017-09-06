@@ -18,6 +18,7 @@ IfElseStatement::~IfElseStatement() {
   delete mThenStatement;
   delete mElseStatement;
 }
+
 Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
   Function* function = context.getBasicBlock()->getParent();
   
