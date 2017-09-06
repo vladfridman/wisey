@@ -1,0 +1,62 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CResult {
+  state int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+
+  public void setValue(int value) {
+    mValue = value;
+  }
+}
+
+model MException {
+}
+
+controller CThrower {
+  public int doThrow() throws MException {
+    MException* exception = builder(MException).build();
+    throw exception;
+  }
+}
+
+controller CCatcher {
+  inject CThrower* mThrower;
+
+  public void doTryCatch(CResult result) throws MException {
+    result.setValue(result.getValue() + 1);
+    try {
+      if (false) {
+        result.setValue(result.getValue() + 2);
+        mThrower.doThrow();
+      } else {
+        result.setValue(result.getValue() + 4);
+        mThrower.doThrow();
+      }
+    } catch (MException* exception) {
+      result.setValue(result.getValue() + 8);
+    } finally {
+      result.setValue(result.getValue() + 16);
+    }
+    result.setValue(result.getValue() + 32);
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CCatcher* mCatcher;
+  inject CResult* mResult;
+
+  public int run() {
+    mResult.setValue(0);
+    try {
+      mCatcher.doTryCatch(mResult);
+    } catch (MException* exception) {
+      mResult.setValue(mResult.getValue() + 64);
+    }
+    return mResult.getValue();
+  }
+}
+
+bind(CProgram).to(IProgram);
