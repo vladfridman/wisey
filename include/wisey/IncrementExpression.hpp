@@ -19,16 +19,16 @@ namespace wisey {
  * Represents an increment or decrement expresssion such as i++ or i--
  */
 class IncrementExpression : public IExpression {
-  Identifier* mIdentifier;
+  IExpression* mExpression;
   long long mIncrementBy;
   std::string mVariableName;
   bool mIsPrefix;
   
-  IncrementExpression(Identifier* identifier,
+  IncrementExpression(IExpression* expression,
                       long long incrementBy,
                       std::string variableName,
                       bool isPrefix) :
-    mIdentifier(identifier),
+    mExpression(expression),
     mIncrementBy(incrementBy),
     mVariableName(variableName),
     mIsPrefix(isPrefix) { }
@@ -52,15 +52,15 @@ public:
   /**
    * Create increment by one expression
    */
-  static IncrementExpression * newIncrementByOne(Identifier* identifier) {
-    return new IncrementExpression(identifier, 1, "inc", false);
+  static IncrementExpression * newIncrementByOne(IExpression* expression) {
+    return new IncrementExpression(expression, 1, "inc", false);
   }
   
   /**
    * Create decrement by one expression
    */
-  static IncrementExpression * newDecrementByOne(Identifier* identifier) {
-    return new IncrementExpression(identifier, -1, "dec", false);
+  static IncrementExpression * newDecrementByOne(IExpression* expression) {
+    return new IncrementExpression(expression, -1, "dec", false);
   }
 };
   

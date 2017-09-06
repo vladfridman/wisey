@@ -1,0 +1,16 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  public int getValue() {
+    return 5;
+  }
+}
+
+controller CProgram implements IProgram {
+  public int run() {
+    MCar* car = builder(MCar).build();
+    return car.getValue()++;
+  }
+}
+
+bind(CProgram).to(IProgram);

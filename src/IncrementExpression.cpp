@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/FakeExpression.hpp"
 #include "wisey/IncrementExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -19,24 +20,27 @@ using namespace llvm;
 using namespace wisey;
 
 IncrementExpression::~IncrementExpression() {
-  delete mIdentifier;
+  delete mExpression;
 }
 
 IVariable* IncrementExpression::getVariable(IRGenerationContext& context) const {
-  return context.getScopes().getVariableForAssignement(mIdentifier->getName());
+  return mExpression->getVariable(context);
 }
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
-  const IType* identifierType = mIdentifier->getType(context);
-  if (identifierType != PrimitiveTypes::INT_TYPE &&
-      identifierType != PrimitiveTypes::CHAR_TYPE &&
-      identifierType != PrimitiveTypes::LONG_TYPE) {
-    Log::e("Identifier " + mIdentifier->getName() +
-           " is of a type that is incompatible with increment/decrement operation");
+  const IType* expressionType = mExpression->getType(context);
+  if (!mExpression->getVariable(context)) {
+    Log::e("Increment/decrement operation may only be applied to variables");
+    exit(1);
+  }
+  if (expressionType != PrimitiveTypes::INT_TYPE &&
+      expressionType != PrimitiveTypes::CHAR_TYPE &&
+      expressionType != PrimitiveTypes::LONG_TYPE) {
+    Log::e("Expression is of a type that is incompatible with increment/decrement operation");
     exit(1);
   }
   
-  Value* originalValue = mIdentifier->generateIR(context);
+  Value* originalValue = mExpression->generateIR(context);
   Value* increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
                                       mIncrementBy,
                                       true);
@@ -47,14 +51,15 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
                                                           increment,
                                                           mVariableName);
 
-  IRWriter::newStoreInst(context,
-                         incrementResult,
-                         context.getScopes().getVariable(mIdentifier->getName())->getValue());
+  
+  FakeExpression fakeExpression(incrementResult, getVariable(context)->getType());
+  getVariable(context)->generateAssignmentIR(context, &fakeExpression);
+
   return mIsPrefix ? incrementResult : originalValue;
 }
 
 const IType* IncrementExpression::getType(IRGenerationContext& context) const {
-  return mIdentifier->getType(context);
+  return mExpression->getType(context);
 }
 
 void IncrementExpression::releaseOwnership(IRGenerationContext& context) const {

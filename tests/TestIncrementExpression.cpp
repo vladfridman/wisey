@@ -128,8 +128,8 @@ TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier);
   StackVariable* variable = new StackVariable("bar", PrimitiveTypes::FLOAT_TYPE, NULL);
   mContext.getScopes().setVariable(variable);
-  string expected = "Error: Identifier bar is of a type that is "
-    "incompatible with increment/decrement operation";
+  string expected = "Error: Expression is of a type that is incompatible with "
+    "increment/decrement operation";
   
   EXPECT_EXIT(expression->generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -171,3 +171,8 @@ TEST_F(TestFileSampleRunner, incrementByOneWrappedIdentifierRunTest) {
   runFile("tests/samples/test_increment_by_one_wrapped_identifier.yz", "7");
 }
 
+TEST_F(TestFileSampleRunner, illigalIncrementRunDeathTest) {
+  expectFailCompile("tests/samples/test_illegal_increment.yz",
+                    1,
+                    "Error: Increment/decrement operation may only be applied to variables");
+}
