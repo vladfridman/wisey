@@ -198,7 +198,7 @@
 %type <identifier_list> identifier_chain
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
-%type <model_type_specifier_list> exception_type_specifier_list
+%type <model_type_specifier_list> method_exceptions exception_type_specifier_list
 %type <interface_list> interface_list
 
 %left '+' '-'
@@ -280,20 +280,12 @@ method_signature_list
   ;
 
 method_signature
-  : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' ';'
+  : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
       {
-        std::vector<ModelTypeSpecifier*> thrownExceptions;
-        $$ = new MethodSignatureDeclaration($1, *$2, *$4, thrownExceptions);
+        $$ = new MethodSignatureDeclaration($1, *$2, *$4, *$6);
         delete $2;
         delete $4;
-      }
-  | type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
-    TTHROWS exception_type_specifier_list ';'
-      {
-        $$ = new MethodSignatureDeclaration($1, *$2, *$4, *$7);
-        delete $2;
-        delete $4;
-        delete $7;
+        delete $6;
       }
   ;
 
@@ -632,21 +624,18 @@ variable_declaration
 
 method_definition
   : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
-      compound_statement
+      method_exceptions compound_statement
     {
-      std::vector<ModelTypeSpecifier*> exceptions;
-      $$ = new MethodDeclaration($1, $2, *$3, *$5, exceptions, $7);
+      $$ = new MethodDeclaration($1, $2, *$3, *$5, *$7, $8);
       delete $3;
       delete $5;
+      delete $7;
     }
-  | access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
-    TTHROWS exception_type_specifier_list compound_statement
-    {
-      $$ = new MethodDeclaration($1, $2, *$3, *$5, *$8, $9);
-      delete $3;
-      delete $5;
-      delete $8;
-    }
+  ;
+
+method_exceptions
+  : /* blank */ { $$ = new std::vector<ModelTypeSpecifier*>(); }
+  | TTHROWS exception_type_specifier_list { $$ = $2; }
   ;
 
 exception_type_specifier_list
