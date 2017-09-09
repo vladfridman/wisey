@@ -59,7 +59,3 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
                     mCompoundStatement,
                     index);
 }
-
-string MethodDeclaration::getMethodName() const {
-  return mMethodName;
-}

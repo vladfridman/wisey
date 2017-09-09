@@ -56,11 +56,6 @@ public:
    */
   Method* createMethod(IRGenerationContext& context, unsigned long index) const;
   
-  /**
-   * Returns method's name
-   */
-  std::string getMethodName() const;
-  
 };
 
 } /* namespace wisey */
