@@ -87,15 +87,13 @@ struct TestTypeComparisionExpressionTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    thrownExceptions,
-                                   NULL,
-                                   0);
+                                   NULL);
     Method* barMethod = new Method("bar",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    thrownExceptions,
-                                   NULL,
-                                   1);
+                                   NULL);
     squareMethods.push_back(fooMethod);
     squareMethods.push_back(barMethod);
     
@@ -110,8 +108,7 @@ struct TestTypeComparisionExpressionTest : public Test {
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               subShapeInterfaceMethodArguments,
-                                                              subShapeThrownExceptions,
-                                                              0);
+                                                              subShapeThrownExceptions);
     subShapeInterfaceMethods.push_back(methodFooSignature);
     mSubShapeInterface = new Interface(subShapeFullName, subShapeIinterfaceStructType);
     vector<Interface*> subShapeParentInterfaces;
@@ -129,8 +126,7 @@ struct TestTypeComparisionExpressionTest : public Test {
                                              AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
                                              shapeInterfaceMethodArguments,
-                                             shapeThrownExceptions,
-                                             0);
+                                             shapeThrownExceptions);
     shapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mSubShapeInterface);
@@ -149,8 +145,7 @@ struct TestTypeComparisionExpressionTest : public Test {
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
-                                                              objectThrownExceptions,
-                                                              0);
+                                                              objectThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
     mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
     vector<Interface*> objectParentInterfaces;

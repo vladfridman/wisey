@@ -44,8 +44,7 @@ public:
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
                          thrownExceptions,
-                         NULL,
-                         0);
+                         NULL);
 
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -74,8 +73,7 @@ TEST_F(IMethodDescriptorTest, compareTest) {
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                NULL,
-                0);
+                NULL);
   
   ASSERT_TRUE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -92,8 +90,7 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                NULL,
-                0);
+                NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -108,8 +105,7 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                NULL,
-                0);
+                NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -126,8 +122,7 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                NULL,
-                0);
+                NULL);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -141,8 +136,7 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::FLOAT_TYPE,
                          arguments,
-                         thrownExceptions,
-                         0);
+                         thrownExceptions);
   FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(&method, mContext, mModel);
   
   EXPECT_EQ(functionType->getReturnType(), Type::getFloatTy(mLLVMContext));

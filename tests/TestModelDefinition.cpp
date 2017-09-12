@@ -161,8 +161,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                          AccessLevel::PUBLIC_ACCESS,
                                                          PrimitiveTypes::FLOAT_TYPE,
                                                          methodArguments,
-                                                         methodThrownExceptions,
-                                                         0);
+                                                         methodThrownExceptions);
   interfaceMethodSignatures.push_back(methodSignature);
   Interface* interface = new Interface(interfaceFullName, structType);
   vector<Interface*> parentInterfaces;

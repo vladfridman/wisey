@@ -24,9 +24,9 @@ public:
   virtual ~IMethodDeclaration() { }
   
   /**
-   * Returns object representing the method that will be saved in a Model object
+   * Returns object representing the method that will be saved in an object
    */
-  virtual Method* createMethod(IRGenerationContext& context, unsigned long index) const = 0;
+  virtual Method* createMethod(IRGenerationContext& context) const = 0;
 
 };
   

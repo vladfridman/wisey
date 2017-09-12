@@ -56,11 +56,6 @@ public:
   virtual std::vector<MethodArgument*> getArguments() const = 0;
   
   /**
-   * Tells index of this method in the container model or interface
-   */
-  virtual unsigned long getIndex() const = 0;
-  
-  /**
    * Returns a list of exceptions this method throws
    */
   virtual std::vector<const Model*> getThrownExceptions() const = 0;

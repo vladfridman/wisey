@@ -29,8 +29,7 @@ struct MethodSignatureTest : Test {
                                            AccessLevel::PUBLIC_ACCESS,
                                            PrimitiveTypes::LONG_TYPE,
                                            arguments,
-                                           thrownExceptions,
-                                           1);
+                                           thrownExceptions);
   }
 };
 
@@ -38,14 +37,12 @@ TEST_F(MethodSignatureTest, methodSignatureTest) {
   EXPECT_STREQ(mMethodSignature->getName().c_str(), "foo");
   EXPECT_EQ(mMethodSignature->getReturnType(), PrimitiveTypes::LONG_TYPE);
   EXPECT_EQ(mMethodSignature->getArguments().size(), 0u);
-  EXPECT_EQ(mMethodSignature->getIndex(), 1u);
 }
 
-TEST_F(MethodSignatureTest, createCopyWithIndexTest) {
-  MethodSignature* copy = mMethodSignature->createCopyWithIndex(55);
+TEST_F(MethodSignatureTest, createCopyTest) {
+  MethodSignature* copy = mMethodSignature->createCopy();
   
   EXPECT_STREQ(copy->getName().c_str(), "foo");
   EXPECT_EQ(copy->getReturnType(), PrimitiveTypes::LONG_TYPE);
   EXPECT_EQ(copy->getArguments().size(), 0u);
-  EXPECT_EQ(copy->getIndex(), 55u);
 }

@@ -52,7 +52,7 @@ public:
   
   ~MethodDeclaration();
   
-  Method* createMethod(IRGenerationContext& context, unsigned long index) const override;
+  Method* createMethod(IRGenerationContext& context) const override;
   
 };
 

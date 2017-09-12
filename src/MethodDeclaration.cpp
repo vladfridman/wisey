@@ -31,7 +31,7 @@ MethodDeclaration::~MethodDeclaration() {
   delete mCompoundStatement;
 }
 
-Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned long index) const {
+Method* MethodDeclaration::createMethod(IRGenerationContext& context) const {
   vector<MethodArgument*> arguments;
   
   for (VariableList::const_iterator iterator = mArguments.begin();
@@ -56,6 +56,5 @@ Method* MethodDeclaration::createMethod(IRGenerationContext& context, unsigned l
                     returnType,
                     arguments,
                     thrownExceptions,
-                    mCompoundStatement,
-                    index);
+                    mCompoundStatement);
 }

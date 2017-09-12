@@ -27,8 +27,8 @@ MethodSignatureDeclaration::~MethodSignatureDeclaration() {
   mThrownExceptions.clear();
 }
 
-MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationContext& context,
-                                                                   unsigned long index) const {
+MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationContext&
+                                                                   context) const {
   vector<MethodArgument*> arguments;
   
   for (VariableList::const_iterator iterator = mArguments.begin();
@@ -52,6 +52,5 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
                              AccessLevel::PUBLIC_ACCESS,
                              returnType,
                              arguments,
-                             exceptions,
-                             index);
+                             exceptions);
 }

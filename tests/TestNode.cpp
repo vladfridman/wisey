@@ -71,8 +71,7 @@ struct NodeTest : public Test {
                                                                AccessLevel::PUBLIC_ACCESS,
                                                                PrimitiveTypes::INT_TYPE,
                                                                elementInterfaceMethodArguments,
-                                                               elementThrownExceptions,
-                                                               0);
+                                                               elementThrownExceptions);
     elementInterfaceMethods.push_back(getElementSignature);
     vector<Interface*> elementParentInterfaces;
     mElementInterface = new Interface(elementInterfaceFullName, elementInterfaceStructType);
@@ -105,8 +104,7 @@ struct NodeTest : public Test {
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
-                                                              objectThrownExceptions,
-                                                              0);
+                                                              objectThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
     mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
     vector<Interface*> objectParentInterfaces;
@@ -133,8 +131,7 @@ struct NodeTest : public Test {
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          thrownExceptions,
-                         NULL,
-                         0);
+                         NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* fooMethod = new Method("foo",
@@ -142,8 +139,7 @@ struct NodeTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    thrownExceptions,
-                                   NULL,
-                                   1);
+                                   NULL);
     methods.push_back(fooMethod);
     
     vector<Interface*> interfaces;
@@ -283,11 +279,6 @@ TEST_F(NodeTest, findFeildTest) {
 TEST_F(NodeTest, findMethodTest) {
   EXPECT_EQ(mComplicatedNode->findMethod("getElement"), mMethod);
   EXPECT_EQ(mComplicatedNode->findMethod("bar"), nullptr);
-}
-
-TEST_F(NodeTest, methodIndexesTest) {
-  EXPECT_EQ(mComplicatedNode->findMethod("getElement")->getIndex(), 0u);
-  EXPECT_EQ(mComplicatedNode->findMethod("foo")->getIndex(), 1u);
 }
 
 TEST_F(NodeTest, getObjectNameGlobalVariableNameTest) {

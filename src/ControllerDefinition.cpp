@@ -171,7 +171,7 @@ vector<FieldState*> ControllerDefinition::createStateFields(IRGenerationContext&
 vector<Method*> ControllerDefinition::createMethods(IRGenerationContext& context) const {
   vector<Method*> methods;
   for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    Method* method = methodDeclaration->createMethod(context, methods.size());
+    Method* method = methodDeclaration->createMethod(context);
     methods.push_back(method);
   }
   return methods;

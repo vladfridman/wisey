@@ -49,9 +49,13 @@ void Interface::setParentInterfacesAndMethodSignatures(vector<Interface *> paren
     mNameToMethodSignatureMap[methodSignature->getName()] = methodSignature;
     mAllMethodSignatures.push_back(methodSignature);
   }
-  unsigned long methodIndex = mMethodSignatures.size();
   for (Interface* parentInterface : mParentInterfaces) {
-    methodIndex = includeInterfaceMethods(parentInterface, methodIndex);
+    includeInterfaceMethods(parentInterface);
+  }
+  unsigned long index = 0;
+  for (MethodSignature* methodSignature : mAllMethodSignatures) {
+    mMethodIndexes[methodSignature] = index;
+    index++;
   }
 }
 
@@ -59,8 +63,7 @@ void Interface::setStructBodyTypes(vector<Type*> types) {
   mStructType->setBody(types);
 }
 
-unsigned long Interface::includeInterfaceMethods(Interface* parentInterface,
-                                                 unsigned long methodIndex) {
+void Interface::includeInterfaceMethods(Interface* parentInterface) {
   vector<MethodSignature*> inheritedMethods = parentInterface->getAllMethodSignatures();
   for (MethodSignature* methodSignature : inheritedMethods) {
     MethodSignature* existingMethod = findMethod(methodSignature->getName());
@@ -72,12 +75,10 @@ unsigned long Interface::includeInterfaceMethods(Interface* parentInterface,
     if (existingMethod) {
       continue;
     }
-    MethodSignature* copySignature = methodSignature->createCopyWithIndex(methodIndex);
+    MethodSignature* copySignature = methodSignature->createCopy();
     mAllMethodSignatures.push_back(copySignature);
     mNameToMethodSignatureMap[copySignature->getName()] = copySignature;
-    methodIndex++;
   }
-  return methodIndex;
 }
 
 vector<MethodSignature*> Interface::getAllMethodSignatures() const {
@@ -86,6 +87,14 @@ vector<MethodSignature*> Interface::getAllMethodSignatures() const {
 
 vector<Interface*> Interface::getParentInterfaces() const {
   return mParentInterfaces;
+}
+
+unsigned long Interface::getMethodIndex(IMethodDescriptor* methodDescriptor) const {
+  if (!mMethodIndexes.count(methodDescriptor)) {
+    Log::e("Method " + methodDescriptor->getName() + " not found in interface " + getName());
+    exit(1);
+  }
+  return mMethodIndexes.at(methodDescriptor);
 }
 
 bool Interface::doesExtendInterface(Interface* interface) const {

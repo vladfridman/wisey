@@ -67,8 +67,7 @@ struct ControllerTest : public Test {
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               calculatorInterfaceMethodArguments,
-                                                              calculatorThrownExceptions,
-                                                              0);
+                                                              calculatorThrownExceptions);
     calculatorInterfaceMethods.push_back(calculateSignature);
     vector<Interface*> calculatorParentInterfaces;
     mCalculatorInterface = new Interface(calculatorFullName, calculatorIinterfaceStructType);
@@ -101,8 +100,7 @@ struct ControllerTest : public Test {
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
-                                                              objectThrownExceptions,
-                                                              0);
+                                                              objectThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
     mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
     vector<Interface*> objectParentInterfaces;
@@ -130,8 +128,7 @@ struct ControllerTest : public Test {
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          thrownExceptions,
-                         NULL,
-                         0);
+                         NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* fooMethod = new Method("foo",
@@ -139,8 +136,7 @@ struct ControllerTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    thrownExceptions,
-                                   NULL,
-                                   1);
+                                   NULL);
     methods.push_back(fooMethod);
     
     vector<Interface*> interfaces;
@@ -269,11 +265,6 @@ TEST_F(ControllerTest, findFeildTest) {
 TEST_F(ControllerTest, findMethodTest) {
   EXPECT_EQ(mMultiplierController->findMethod("calculate"), mMethod);
   EXPECT_EQ(mMultiplierController->findMethod("bar"), nullptr);
-}
-
-TEST_F(ControllerTest, methodIndexesTest) {
-  EXPECT_EQ(mMultiplierController->findMethod("calculate")->getIndex(), 0u);
-  EXPECT_EQ(mMultiplierController->findMethod("foo")->getIndex(), 1u);
 }
 
 TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {

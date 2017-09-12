@@ -37,19 +37,10 @@ vector<MethodArgument*> MethodSignature::getArguments() const {
   return mArguments;
 }
 
-unsigned long MethodSignature::getIndex() const {
-  return mIndex;
-}
-
 vector<const Model*> MethodSignature::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-MethodSignature* MethodSignature::createCopyWithIndex(unsigned long index) const {
-  return new MethodSignature(mName,
-                             mAccessLevel,
-                             mReturnType,
-                             mArguments,
-                             mThrownExceptions,
-                             index);
+MethodSignature* MethodSignature::createCopy() const {
+  return new MethodSignature(mName, mAccessLevel, mReturnType, mArguments, mThrownExceptions);
 }

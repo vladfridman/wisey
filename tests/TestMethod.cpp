@@ -53,8 +53,7 @@ public:
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
                          thrownExceptions,
-                         NULL,
-                         0);
+                         NULL);
 
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -93,8 +92,7 @@ TEST_F(MethodTest, defineFunctionTest) {
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
                 thrownExceptions,
-                &mCompoundStatement,
-                0);
+                &mCompoundStatement);
   Function* function = method.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
@@ -114,8 +112,7 @@ TEST_F(MethodTest, generateIRTest) {
                 PrimitiveTypes::VOID_TYPE,
                 arguments,
                 thrownExceptions,
-                &mCompoundStatement,
-                0);
+                &mCompoundStatement);
   Function* function = method.defineFunction(mContext, mModel);
   method.generateIR(mContext, mModel);
   

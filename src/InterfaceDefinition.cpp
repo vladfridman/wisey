@@ -39,12 +39,10 @@ void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   Interface* interface = context.getInterface(getFullName(context));
 
   vector<MethodSignature*> methodSignatures;
-  unsigned int methodIndex = 0;
   for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
     MethodSignature* methodSignature =
-    methodSignatureDeclaration->createMethodSignature(context, methodIndex);
+    methodSignatureDeclaration->createMethodSignature(context);
     methodSignatures.push_back(methodSignature);
-    methodIndex++;
   }
   
   vector<Interface*> parentInterfaces;

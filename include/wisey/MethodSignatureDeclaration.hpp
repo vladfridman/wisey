@@ -43,7 +43,7 @@ public:
   /**
    * Returns object representing the method for storage in an Interface object
    */
-  MethodSignature* createMethodSignature(IRGenerationContext& context, unsigned long index) const;
+  MethodSignature* createMethodSignature(IRGenerationContext& context) const;
 
 };
   

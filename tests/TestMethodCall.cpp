@@ -81,8 +81,7 @@ public:
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          fooThrownExceptions,
-                         NULL,
-                         0);
+                         NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
     vector<const Model*> barThrownExceptions;
@@ -94,8 +93,7 @@ public:
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    barThrownExceptions,
-                                   NULL,
-                                   1);
+                                   NULL);
     methods.push_back(barMethod);
     mModel = new Model(modelFullName, mStructType);
     mModel->setFields(fields);

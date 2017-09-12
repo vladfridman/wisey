@@ -84,8 +84,7 @@ struct ModelTest : public Test {
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          thrownExceptions,
-                         NULL,
-                         0);
+                         NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* barMethod = new Method("bar",
@@ -93,8 +92,7 @@ struct ModelTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    thrownExceptions,
-                                   NULL,
-                                   1);
+                                   NULL);
     methods.push_back(barMethod);
     
     vector<Type*> subShapeInterfaceTypes;
@@ -108,8 +106,7 @@ struct ModelTest : public Test {
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               subShapeInterfaceMethodArguments,
-                                                              subShapeInterfaceThrownExceptions,
-                                                              0);
+                                                              subShapeInterfaceThrownExceptions);
     subShapeInterfaceMethods.push_back(methodFooSignature);
     mSubShapeInterface = new Interface(subShapeFullName, subShapeIinterfaceStructType);
     vector<Interface*> subShapeParentInterfaces;
@@ -127,8 +124,7 @@ struct ModelTest : public Test {
                                              AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
                                              shapeInterfaceMethodArguments,
-                                             shapeInterfaceThrownExceptions,
-                                             0);
+                                             shapeInterfaceThrownExceptions);
     shapeInterfaceMethods.push_back(methodFooSignature);
     vector<Interface*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mSubShapeInterface);
@@ -147,8 +143,7 @@ struct ModelTest : public Test {
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
-                                                              objectInterfaceThrownExceptions,
-                                                              0);
+                                                              objectInterfaceThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
     mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
     vector<Interface*> objectParentInterfaces;
@@ -296,11 +291,6 @@ TEST_F(ModelTest, findFeildTest) {
 TEST_F(ModelTest, findMethodTest) {
   EXPECT_EQ(mModel->findMethod("foo"), mMethod);
   EXPECT_EQ(mModel->findMethod("get"), nullptr);
-}
-
-TEST_F(ModelTest, methodIndexesTest) {
-  EXPECT_EQ(mModel->findMethod("foo")->getIndex(), 0u);
-  EXPECT_EQ(mModel->findMethod("bar")->getIndex(), 1u);
 }
 
 TEST_F(ModelTest, getMissingFieldsTest) {

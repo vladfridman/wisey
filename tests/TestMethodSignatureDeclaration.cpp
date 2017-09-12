@@ -74,7 +74,7 @@ TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
                                                         "foo",
                                                         mArguments,
                                                         thrownExceptions);
-  MethodSignature* methodSignature = methodSignatureDeclaration.createMethodSignature(mContext, 0);
+  MethodSignature* methodSignature = methodSignatureDeclaration.createMethodSignature(mContext);
   vector<MethodArgument*> arguments = methodSignature->getArguments();
   
   EXPECT_STREQ(methodSignature->getName().c_str(), "foo");

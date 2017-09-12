@@ -53,8 +53,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
                                         PrimitiveTypes::INT_TYPE,
                                         methodArguments,
                                         thrownExceptions,
-                                        NULL,
-                                        0);
+                                        NULL);
     methods.push_back(multiplyMethod);
     mController = new Controller(controllerFullName, structType);
     mController->setFields(receivedFields, injectedFields, stateFields);

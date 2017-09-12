@@ -69,8 +69,7 @@ struct NodeOwnerTest : public Test {
                                                                AccessLevel::PUBLIC_ACCESS,
                                                                PrimitiveTypes::INT_TYPE,
                                                                elementInterfaceMethodArguments,
-                                                               elementThrownExceptions,
-                                                               0);
+                                                               elementThrownExceptions);
     elementInterfaceMethods.push_back(getElementSignature);
     vector<Interface*> elementParentInterfaces;
     mElementInterface = new Interface(elementInterfaceFullName, elementInterfaceStructType);
@@ -103,8 +102,7 @@ struct NodeOwnerTest : public Test {
                                                               AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
-                                                              objectThrownExceptions,
-                                                              0);
+                                                              objectThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
     mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
     vector<Interface*> objectParentInterfaces;
@@ -131,8 +129,7 @@ struct NodeOwnerTest : public Test {
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          thrownExceptions,
-                         NULL,
-                         0);
+                         NULL);
     vector<Method*> methods;
     methods.push_back(mMethod);
     Method* fooMethod = new Method("foo",
@@ -140,8 +137,7 @@ struct NodeOwnerTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    thrownExceptions,
-                                   NULL,
-                                   1);
+                                   NULL);
     methods.push_back(fooMethod);
     
     vector<Interface*> interfaces;

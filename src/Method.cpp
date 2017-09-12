@@ -49,10 +49,6 @@ vector<MethodArgument*> Method::getArguments() const {
   return mArguments;
 }
 
-unsigned long Method::getIndex() const {
-  return mIndex;
-}
-
 vector<const Model*> Method::getThrownExceptions() const {
   return mThrownExceptions;
 }

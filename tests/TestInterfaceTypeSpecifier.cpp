@@ -38,8 +38,7 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
                                                            AccessLevel::PUBLIC_ACCESS,
                                                            PrimitiveTypes::INT_TYPE,
                                                            methodArguments,
-                                                           methodExceptions,
-                                                           0);
+                                                           methodExceptions);
     methodSignatures.push_back(methodSignature);
     mInterface = new Interface(interfaceFullName, structType);
     vector<Interface*> parentInterfaces;

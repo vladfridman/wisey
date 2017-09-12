@@ -32,11 +32,8 @@ class Interface : public IObjectType {
   llvm::StructType* mStructType;
   std::vector<Interface*> mParentInterfaces;
   std::vector<MethodSignature*> mMethodSignatures;
-  
-  /** 
-   * includes inherited method signatures 
-   */
   std::vector<MethodSignature*> mAllMethodSignatures;
+  std::map<IMethodDescriptor*, unsigned long> mMethodIndexes;
   std::map<std::string, MethodSignature*> mNameToMethodSignatureMap;
   
 public:
@@ -82,6 +79,11 @@ public:
   std::string getCastFunctionName(IObjectType* toType) const;
   
   /**
+   * Returns method index in the list of all methods that this interface has or inherits
+   */
+  unsigned long getMethodIndex(IMethodDescriptor* methodDescriptor) const;
+  
+  /**
    * Given a value of type interface get the pointer back to the original object that implements it
    */
   static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
@@ -110,8 +112,7 @@ public:
 
 private:
   
-  unsigned long includeInterfaceMethods(Interface* parentInterface,
-                                        unsigned long methodIndex);
+  void includeInterfaceMethods(Interface* parentInterface);
   
   /**
    * Get all method signatures including the ones inherited from parent interfaces
