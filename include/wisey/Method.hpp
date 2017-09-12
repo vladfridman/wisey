@@ -12,7 +12,7 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/AccessLevel.hpp"
-#include "wisey/IMethodDescriptor.hpp"
+#include "wisey/IMethod.hpp"
 
 namespace wisey {
   
@@ -22,7 +22,7 @@ class Model;
 /**
  * Contains information about a method including its return type and all of its arguments
  */
-class Method : public IMethodDescriptor {
+class Method : public IMethod {
   std::string mName;
   AccessLevel mAccessLevel;
   const IType* mReturnType;
@@ -49,15 +49,9 @@ public:
   
   ~Method();
   
-  /**
-   * Defines LLVM function for this method
-   */
-  llvm::Function* defineFunction(IRGenerationContext& context, IObjectType* objectType);
+  llvm::Function* defineFunction(IRGenerationContext& context, IObjectType* objectType) override;
   
-  /**
-   * Generate IR for this method in a given model or a controller object
-   */
-  void generateIR(IRGenerationContext& context, IObjectType* objectType) const;
+  void generateIR(IRGenerationContext& context, IObjectType* objectType) const override;
 
   std::string getName() const override;
   

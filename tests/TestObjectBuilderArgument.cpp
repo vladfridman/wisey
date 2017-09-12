@@ -45,8 +45,6 @@ struct ObjectBuilderArgumentTest : Test {
     map<string, IField*> fields;
     ExpressionList fieldArguments;
     fields["mFieldA"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "mFieldA", 0, fieldArguments);
-    vector<Method*> methods;
-    vector<Interface*> interfaces;
     mModel = new Model(modelFullName, structType);
     mModel->setFields(fields);
     

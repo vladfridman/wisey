@@ -17,6 +17,7 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Controller.hpp"
+#include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -40,7 +41,7 @@ struct ControllerTest : public Test {
   Interface* mScienceCalculatorInterface;
   Interface* mObjectInterface;
   Interface* mVehicleInterface;
-  Method* mMethod;
+  IMethod* mMethod;
   StructType* mStructType;
   FieldReceived* mLeftField;
   FieldReceived* mRightField;
@@ -129,14 +130,14 @@ struct ControllerTest : public Test {
                          methodArguments,
                          thrownExceptions,
                          NULL);
-    vector<Method*> methods;
+    vector<IMethod*> methods;
     methods.push_back(mMethod);
-    Method* fooMethod = new Method("foo",
-                                   AccessLevel::PUBLIC_ACCESS,
-                                   PrimitiveTypes::INT_TYPE,
-                                   methodArguments,
-                                   thrownExceptions,
-                                   NULL);
+    IMethod* fooMethod = new Method("foo",
+                                    AccessLevel::PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    methodArguments,
+                                    thrownExceptions,
+                                    NULL);
     methods.push_back(fooMethod);
     
     vector<Interface*> interfaces;

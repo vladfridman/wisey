@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "wisey/Method.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -38,14 +39,14 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     fields["width"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
     fields["height"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<MethodArgument*> methodArguments;
-    vector<Method*> methods;
+    vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
-    Method* fooMethod = new Method("foo",
-                                   AccessLevel::PUBLIC_ACCESS,
-                                   PrimitiveTypes::INT_TYPE,
-                                   methodArguments,
-                                   thrownExceptions,
-                                   NULL);
+    IMethod* fooMethod = new Method("foo",
+                                    AccessLevel::PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    methodArguments,
+                                    thrownExceptions,
+                                    NULL);
     methods.push_back(fooMethod);
     mModel = new Model(modelFullName, structType);
     mModel->setFields(fields);

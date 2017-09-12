@@ -27,8 +27,8 @@ public:
   MOCK_CONST_METHOD0(getInterfaces, std::vector<wisey::Interface*> ());
   MOCK_CONST_METHOD0(getFlattenedInterfaceHierarchy, std::vector<wisey::Interface*> ());
   MOCK_CONST_METHOD0(getTypeTableName, std::string ());
-  MOCK_CONST_METHOD1(findMethod, wisey::Method* (std::string));
-  MOCK_CONST_METHOD0(getMethods, std::vector<wisey::Method*> ());
+  MOCK_CONST_METHOD1(findMethod, wisey::IMethod* (std::string));
+  MOCK_CONST_METHOD0(getMethods, std::vector<wisey::IMethod*> ());
 
   MOCK_CONST_METHOD0(getObjectNameGlobalVariableName, std::string ());
   MOCK_CONST_METHOD0(getOwner, const wisey::IObjectOwnerType* ());

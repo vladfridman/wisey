@@ -16,6 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/NodeOwner.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
@@ -41,7 +42,6 @@ struct NodeOwnerTest : public Test {
   Interface* mElementInterface;
   Interface* mObjectInterface;
   Interface* mVehicleInterface;
-  Method* mMethod;
   StructType* mStructType;
   FieldFixed* mLeftField;
   FieldFixed* mRightField;
@@ -124,15 +124,15 @@ struct NodeOwnerTest : public Test {
     fixedFields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    mMethod = new Method("getElement",
-                         AccessLevel::PUBLIC_ACCESS,
-                         PrimitiveTypes::INT_TYPE,
-                         methodArguments,
-                         thrownExceptions,
-                         NULL);
-    vector<Method*> methods;
-    methods.push_back(mMethod);
-    Method* fooMethod = new Method("foo",
+    IMethod* method = new Method("getElement",
+                                 AccessLevel::PUBLIC_ACCESS,
+                                 PrimitiveTypes::INT_TYPE,
+                                 methodArguments,
+                                 thrownExceptions,
+                                 NULL);
+    vector<IMethod*> methods;
+    methods.push_back(method);
+    IMethod* fooMethod = new Method("foo",
                                    AccessLevel::PUBLIC_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,

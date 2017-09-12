@@ -31,7 +31,7 @@ MethodDeclaration::~MethodDeclaration() {
   delete mCompoundStatement;
 }
 
-Method* MethodDeclaration::createMethod(IRGenerationContext& context) const {
+IMethod* MethodDeclaration::createMethod(IRGenerationContext& context) const {
   vector<MethodArgument*> arguments;
   
   for (VariableList::const_iterator iterator = mArguments.begin();

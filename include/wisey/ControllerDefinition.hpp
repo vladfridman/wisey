@@ -73,7 +73,7 @@ private:
                                                 std::vector<FieldDeclaration*> declarations,
                                                 unsigned long startIndex) const;
 
-  std::vector<Method*> createMethods(IRGenerationContext& context) const;
+  std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
 
   void createFieldVariables(IRGenerationContext& context,
                             Controller* controller,

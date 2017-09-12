@@ -54,7 +54,7 @@ private:
                             Model* model,
                             std::vector<llvm::Type*>& types) const;
   
-  std::vector<Method*> createMethods(IRGenerationContext& context) const;
+  std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
     
   std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
 

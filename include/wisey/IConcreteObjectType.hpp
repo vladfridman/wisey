@@ -12,8 +12,8 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IField.hpp"
+#include "wisey/IMethod.hpp"
 #include "wisey/IObjectType.hpp"
-#include "wisey/Method.hpp"
 
 namespace wisey {
   
@@ -107,12 +107,12 @@ public:
   /**
    * Finds a method with a given name.
    */
-  virtual Method* findMethod(std::string methodName) const = 0;
+  virtual IMethod* findMethod(std::string methodName) const = 0;
   
   /**
    * Get list of all methods
    */
-  virtual std::vector<Method*> getMethods() const = 0;
+  virtual std::vector<IMethod*> getMethods() const = 0;
 
   /**
    * Generate global variable with the name of the given object

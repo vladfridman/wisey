@@ -34,7 +34,7 @@ Node::~Node() {
     delete field;
   }
   mStateFields.clear();
-  for (Method* method : mMethods) {
+  for (IMethod* method : mMethods) {
     delete method;
   }
   mMethods.clear();
@@ -72,9 +72,9 @@ void Node::addInterfaceAndItsParents(vector<Interface*>& result, Interface* inte
   }
 }
 
-void Node::setMethods(vector<Method *> methods) {
+void Node::setMethods(vector<IMethod *> methods) {
   mMethods = methods;
-  for (Method* method : methods) {
+  for (IMethod* method : methods) {
     mNameToMethodMap[method->getName()] = method;
   }
 }
@@ -95,7 +95,7 @@ map<string, IField*> Node::getFields() const {
   return mFields;
 }
 
-Method* Node::findMethod(string methodName) const {
+IMethod* Node::findMethod(string methodName) const {
   if (!mNameToMethodMap.count(methodName)) {
     return NULL;
   }
@@ -103,7 +103,7 @@ Method* Node::findMethod(string methodName) const {
   return mNameToMethodMap.at(methodName);
 }
 
-vector<Method*> Node::getMethods() const {
+vector<IMethod*> Node::getMethods() const {
   return mMethods;
 }
 

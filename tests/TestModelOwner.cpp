@@ -17,6 +17,7 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/ModelOwner.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -42,7 +43,6 @@ struct ModelOwnerTest : public Test {
   Interface* mShapeInterface;
   Interface* mObjectInterface;
   Interface* mCarInterface;
-  Method* mMethod;
   StructType* mStructType;
   FieldFixed* mWidthField;
   FieldFixed* mHeightField;
@@ -73,20 +73,20 @@ struct ModelOwnerTest : public Test {
     fields["height"] = mHeightField;
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    mMethod = new Method("foo",
-                         AccessLevel::PUBLIC_ACCESS,
-                         PrimitiveTypes::INT_TYPE,
-                         methodArguments,
-                         thrownExceptions,
-                         NULL);
-    vector<Method*> methods;
-    methods.push_back(mMethod);
-    Method* barMethod = new Method("bar",
-                                   AccessLevel::PUBLIC_ACCESS,
-                                   PrimitiveTypes::INT_TYPE,
-                                   methodArguments,
-                                   thrownExceptions,
-                                   NULL);
+    IMethod* method = new Method("foo",
+                                 AccessLevel::PUBLIC_ACCESS,
+                                 PrimitiveTypes::INT_TYPE,
+                                 methodArguments,
+                                 thrownExceptions,
+                                 NULL);
+    vector<IMethod*> methods;
+    methods.push_back(method);
+    IMethod* barMethod = new Method("bar",
+                                    AccessLevel::PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    methodArguments,
+                                    thrownExceptions,
+                                    NULL);
     methods.push_back(barMethod);
     
     vector<Type*> subShapeInterfaceTypes;

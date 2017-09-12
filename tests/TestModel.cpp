@@ -18,6 +18,7 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -45,7 +46,7 @@ struct ModelTest : public Test {
   Interface* mShapeInterface;
   Interface* mObjectInterface;
   Interface* mCarInterface;
-  Method* mMethod;
+  IMethod* mMethod;
   StructType* mStructType;
   FieldFixed* mWidthField;
   FieldFixed* mHeightField;
@@ -85,14 +86,14 @@ struct ModelTest : public Test {
                          methodArguments,
                          thrownExceptions,
                          NULL);
-    vector<Method*> methods;
+    vector<IMethod*> methods;
     methods.push_back(mMethod);
-    Method* barMethod = new Method("bar",
-                                   AccessLevel::PUBLIC_ACCESS,
-                                   PrimitiveTypes::INT_TYPE,
-                                   methodArguments,
-                                   thrownExceptions,
-                                   NULL);
+    IMethod* barMethod = new Method("bar",
+                                    AccessLevel::PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    methodArguments,
+                                    thrownExceptions,
+                                    NULL);
     methods.push_back(barMethod);
     
     vector<Type*> subShapeInterfaceTypes;

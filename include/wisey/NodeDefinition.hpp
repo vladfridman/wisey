@@ -57,7 +57,7 @@ private:
 
   std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
   
-  std::vector<Method*> createMethods(IRGenerationContext& context) const;
+  std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
 
   std::vector<FieldFixed*> createFixedFields(IRGenerationContext& context,
                                              std::vector<FieldDeclaration*>

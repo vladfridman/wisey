@@ -16,7 +16,7 @@
 #include "wisey/FieldFixed.hpp"
 #include "wisey/FieldState.hpp"
 #include "wisey/IBuildableConcreteObjectType.hpp"
-#include "wisey/Method.hpp"
+#include "wisey/IMethod.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 
 namespace wisey {
@@ -34,8 +34,8 @@ class Node : public IBuildableConcreteObjectType {
   std::vector<FieldFixed*> mFixedFields;
   std::vector<FieldState*> mStateFields;
   std::map<std::string, IField*> mFields;
-  std::vector<Method*> mMethods;
-  std::map<std::string, Method*> mNameToMethodMap;
+  std::vector<IMethod*> mMethods;
+  std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
   
@@ -58,7 +58,7 @@ public:
   /**
    * Set methods for this controller
    */
-  void setMethods(std::vector<Method*> methods);
+  void setMethods(std::vector<IMethod*> methods);
   
   /**
    * Set the struct field types for the struct that represents this controller
@@ -77,9 +77,9 @@ public:
   
   std::map<std::string, IField*> getFields() const override;
   
-  Method* findMethod(std::string methodName) const override;
+  IMethod* findMethod(std::string methodName) const override;
   
-  std::vector<Method*> getMethods() const override;
+  std::vector<IMethod*> getMethods() const override;
   
   std::string getObjectNameGlobalVariableName() const override;
   

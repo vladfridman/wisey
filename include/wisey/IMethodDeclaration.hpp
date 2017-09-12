@@ -9,8 +9,8 @@
 #ifndef IMethodDeclaration_h
 #define IMethodDeclaration_h
 
+#include "wisey/IMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/Method.hpp"
 
 namespace wisey {
 
@@ -26,7 +26,7 @@ public:
   /**
    * Returns object representing the method that will be saved in an object
    */
-  virtual Method* createMethod(IRGenerationContext& context) const = 0;
+  virtual IMethod* createMethod(IRGenerationContext& context) const = 0;
 
 };
   

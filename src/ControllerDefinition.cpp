@@ -50,7 +50,7 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
   Controller* controller = context.getController(getFullName(context));
 
   vector<Interface*> interfaces = processInterfaces(context);
-  vector<Method*> methods = createMethods(context);
+  vector<IMethod*> methods = createMethods(context);
 
   controller->setInterfaces(interfaces);
   controller->setMethods(methods);
@@ -91,7 +91,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::declareFieldVariables(context, controller);
   IConcreteObjectType::composeDestructorBody(context, controller);
   
-  for (Method* method : controller->getMethods()) {
+  for (IMethod* method : controller->getMethods()) {
     method->generateIR(context, controller);
   }
   
@@ -168,10 +168,10 @@ vector<FieldState*> ControllerDefinition::createStateFields(IRGenerationContext&
   return fields;
 }
 
-vector<Method*> ControllerDefinition::createMethods(IRGenerationContext& context) const {
-  vector<Method*> methods;
+vector<IMethod*> ControllerDefinition::createMethods(IRGenerationContext& context) const {
+  vector<IMethod*> methods;
   for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    Method* method = methodDeclaration->createMethod(context);
+    IMethod* method = methodDeclaration->createMethod(context);
     methods.push_back(method);
   }
   return methods;

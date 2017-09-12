@@ -603,6 +603,7 @@
 		F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceDefinition.cpp; path = tests/TestInterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F518B5E71EB2240C00577EEB /* TestCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCatch.cpp; path = tests/TestCatch.cpp; sourceTree = "<group>"; };
 		F51BA8FD1EA689440038C98B /* MockObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectType.hpp; path = tests/include/MockObjectType.hpp; sourceTree = "<group>"; };
+		F51D2BA71F68390200510784 /* IMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethod.hpp; path = include/wisey/IMethod.hpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
 		F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTryCatch.cpp; path = tests/TestTryCatch.cpp; sourceTree = "<group>"; };
 		F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethodDeclaration.hpp; path = include/wisey/IMethodDeclaration.hpp; sourceTree = "<group>"; };
@@ -1436,6 +1437,7 @@
 				F5089C711ECD01D9004A1223 /* IfStatement.hpp */,
 				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
 				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
+				F51D2BA71F68390200510784 /* IMethod.hpp */,
 				F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */,
 				F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */,
 				F53B8EB91ECE0E5800F45564 /* ImportStatement.hpp */,

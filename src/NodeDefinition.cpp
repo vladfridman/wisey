@@ -43,7 +43,7 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(getFullName(context));
   vector<Interface*> interfaces = processInterfaces(context);
-  vector<Method*> methods = createMethods(context);
+  vector<IMethod*> methods = createMethods(context);
   node->setMethods(methods);
   node->setInterfaces(interfaces);
   
@@ -76,7 +76,7 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::composeDestructorBody(context, node);
   IConcreteObjectType::declareFieldVariables(context, node);
   
-  for (Method* method : node->getMethods()) {
+  for (IMethod* method : node->getMethods()) {
     method->generateIR(context, node);
   }
   
@@ -98,10 +98,10 @@ vector<Interface*> NodeDefinition::processInterfaces(IRGenerationContext& contex
   return interfaces;
 }
 
-vector<Method*> NodeDefinition::createMethods(IRGenerationContext& context) const {
-  vector<Method*> methods;
+vector<IMethod*> NodeDefinition::createMethods(IRGenerationContext& context) const {
+  vector<IMethod*> methods;
   for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    Method* method = methodDeclaration->createMethod(context);
+    IMethod* method = methodDeclaration->createMethod(context);
     methods.push_back(method);
   }
   return methods;

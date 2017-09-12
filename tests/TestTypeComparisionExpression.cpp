@@ -20,6 +20,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/Method.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -80,20 +81,20 @@ struct TestTypeComparisionExpressionTest : public Test {
     squareFields["width"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
     squareFields["height"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
     vector<MethodArgument*> methodArguments;
-    vector<Method*> squareMethods;
+    vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;
-    Method* fooMethod = new Method("foo",
-                                   AccessLevel::PUBLIC_ACCESS,
-                                   PrimitiveTypes::INT_TYPE,
-                                   methodArguments,
-                                   thrownExceptions,
-                                   NULL);
-    Method* barMethod = new Method("bar",
-                                   AccessLevel::PUBLIC_ACCESS,
-                                   PrimitiveTypes::INT_TYPE,
-                                   methodArguments,
-                                   thrownExceptions,
-                                   NULL);
+    IMethod* fooMethod = new Method("foo",
+                                    AccessLevel::PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    methodArguments,
+                                    thrownExceptions,
+                                    NULL);
+    IMethod* barMethod = new Method("bar",
+                                    AccessLevel::PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    methodArguments,
+                                    thrownExceptions,
+                                    NULL);
     squareMethods.push_back(fooMethod);
     squareMethods.push_back(barMethod);
     

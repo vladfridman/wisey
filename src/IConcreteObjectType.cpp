@@ -132,9 +132,9 @@ void IConcreteObjectType::generateVTable(IRGenerationContext& context,
 map<string, Function*> IConcreteObjectType::generateMethodFunctions(IRGenerationContext& context,
                                                                     IConcreteObjectType* object) {
   map<string, Function*> methodFunctionMap;
-  vector<tuple<Method*, Function*>> methodsWithFunctions;
+  vector<tuple<IMethod*, Function*>> methodsWithFunctions;
   
-  for (Method* method : object->getMethods()) {
+  for (IMethod* method : object->getMethods()) {
     Function* function = method->defineFunction(context, object);
     methodFunctionMap[method->getName()] = function;
     methodsWithFunctions.push_back(make_tuple(method, function));

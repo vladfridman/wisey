@@ -39,7 +39,7 @@ struct BindActionTest : public Test {
     vector<FieldReceived*> controllerReceivedFields;
     vector<FieldInjected*> controllerInjectedFields;
     vector<FieldState*> controllerStateFields;
-    vector<Method*> controllerMethods;
+    vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
     mController = new Controller(controllerFullName, controllerStructType);
     mController->setFields(controllerReceivedFields,

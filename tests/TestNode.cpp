@@ -17,6 +17,7 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/Node.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
@@ -43,7 +44,7 @@ struct NodeTest : public Test {
   Interface* mElementInterface;
   Interface* mObjectInterface;
   Interface* mVehicleInterface;
-  Method* mMethod;
+  IMethod* mMethod;
   StructType* mStructType;
   FieldFixed* mLeftField;
   FieldFixed* mRightField;
@@ -132,7 +133,7 @@ struct NodeTest : public Test {
                          methodArguments,
                          thrownExceptions,
                          NULL);
-    vector<Method*> methods;
+    vector<IMethod*> methods;
     methods.push_back(mMethod);
     Method* fooMethod = new Method("foo",
                                    AccessLevel::PUBLIC_ACCESS,

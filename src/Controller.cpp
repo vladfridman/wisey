@@ -41,7 +41,7 @@ Controller::~Controller() {
     delete field;
   }
   mStateFields.clear();
-  for (Method* method : mMethods) {
+  for (IMethod* method : mMethods) {
     delete method;
   }
   mMethods.clear();
@@ -77,9 +77,9 @@ void Controller::setInterfaces(vector<Interface *> interfaces) {
   }
 }
 
-void Controller::setMethods(vector<Method *> methods) {
+void Controller::setMethods(vector<IMethod *> methods) {
   mMethods = methods;
-  for (Method* method : methods) {
+  for (IMethod* method : methods) {
     mNameToMethodMap[method->getName()] = method;
   }
 }
@@ -153,7 +153,7 @@ map<string, IField*> Controller::getFields() const {
   return mFields;
 }
 
-Method* Controller::findMethod(std::string methodName) const {
+IMethod* Controller::findMethod(std::string methodName) const {
   if (!mNameToMethodMap.count(methodName)) {
     return NULL;
   }
@@ -161,7 +161,7 @@ Method* Controller::findMethod(std::string methodName) const {
   return mNameToMethodMap.at(methodName);
 }
 
-vector<Method*> Controller::getMethods() const {
+vector<IMethod*> Controller::getMethods() const {
   return mMethods;
 }
 

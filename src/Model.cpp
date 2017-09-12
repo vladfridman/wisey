@@ -35,7 +35,7 @@ Model::~Model() {
     delete field;
   }
   mFields.clear();
-  for (Method* method : mMethods) {
+  for (IMethod* method : mMethods) {
     delete method;
   }
   mMethods.clear();
@@ -55,9 +55,9 @@ void Model::setInterfaces(vector<Interface*> interfaces) {
   }
 }
 
-void Model::setMethods(vector<Method*> methods) {
+void Model::setMethods(vector<IMethod*> methods) {
   mMethods = methods;
-  for (Method* method : methods) {
+  for (IMethod* method : methods) {
     mNameToMethodMap[method->getName()] = method;
   }
 }
@@ -104,7 +104,7 @@ vector<string> Model::getMissingFields(set<string> givenFields) const {
   return missingFields;
 }
 
-Method* Model::findMethod(std::string methodName) const {
+IMethod* Model::findMethod(std::string methodName) const {
   if (!mNameToMethodMap.count(methodName)) {
     return NULL;
   }
@@ -112,7 +112,7 @@ Method* Model::findMethod(std::string methodName) const {
   return mNameToMethodMap.at(methodName);
 }
 
-vector<Method*> Model::getMethods() const {
+vector<IMethod*> Model::getMethods() const {
   return mMethods;
 }
 

@@ -52,7 +52,7 @@ public:
   
   ~MethodDeclaration();
   
-  Method* createMethod(IRGenerationContext& context) const override;
+  IMethod* createMethod(IRGenerationContext& context) const override;
   
 };
 

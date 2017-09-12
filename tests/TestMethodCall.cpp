@@ -82,7 +82,7 @@ public:
                          methodArguments,
                          fooThrownExceptions,
                          NULL);
-    vector<Method*> methods;
+    vector<IMethod*> methods;
     methods.push_back(mMethod);
     vector<const Model*> barThrownExceptions;
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");

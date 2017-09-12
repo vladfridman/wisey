@@ -12,6 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/Method.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -46,14 +47,14 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
                                                1,
                                                fieldArguments));
     vector<MethodArgument*> methodArguments;
-    vector<Method*> methods;
+    vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
-    Method* multiplyMethod = new Method("multiply",
-                                        AccessLevel::PUBLIC_ACCESS,
-                                        PrimitiveTypes::INT_TYPE,
-                                        methodArguments,
-                                        thrownExceptions,
-                                        NULL);
+    IMethod* multiplyMethod = new Method("multiply",
+                                         AccessLevel::PUBLIC_ACCESS,
+                                         PrimitiveTypes::INT_TYPE,
+                                         methodArguments,
+                                         thrownExceptions,
+                                         NULL);
     methods.push_back(multiplyMethod);
     mController = new Controller(controllerFullName, structType);
     mController->setFields(receivedFields, injectedFields, stateFields);
