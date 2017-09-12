@@ -29,7 +29,7 @@ ControllerDefinition::~ControllerDefinition() {
     delete fieldDeclaration;
   }
   mStateFieldDeclarations.clear();
-  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
     delete methodDeclaration;
   }
   mMethodDeclarations.clear();
@@ -170,7 +170,7 @@ vector<FieldState*> ControllerDefinition::createStateFields(IRGenerationContext&
 
 vector<Method*> ControllerDefinition::createMethods(IRGenerationContext& context) const {
   vector<Method*> methods;
-  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
     Method* method = methodDeclaration->createMethod(context, methods.size());
     methods.push_back(method);
   }

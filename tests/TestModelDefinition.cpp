@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -38,7 +39,7 @@ struct ModelDefinitionTest : public Test {
   LLVMContext& mLLVMContext;
   MethodDeclaration *mMethodDeclaration;
   vector<FieldDeclaration*> mFields;
-  vector<MethodDeclaration*> mMethodDeclarations;
+  vector<IMethodDeclaration*> mMethodDeclarations;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
  
@@ -69,9 +70,6 @@ struct ModelDefinitionTest : public Test {
                                                thrownExceptions,
                                                compoundStatement);
     mMethodDeclarations.push_back(mMethodDeclaration);
-  }
-  
-  ~ModelDefinitionTest() {
   }
 };
 

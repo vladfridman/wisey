@@ -44,7 +44,7 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
 
 void ProgramPrefix::defineNPEModel(IRGenerationContext& context) const {
   vector<FieldDeclaration*> npeFields;
-  vector<MethodDeclaration*> npeMethods;
+  vector<IMethodDeclaration*> npeMethods;
   vector<InterfaceTypeSpecifier*> npeParentInterfaces;
   ModelDefinition npeModelDefinition(Names::getNPEModelName(),
                                      npeFields,

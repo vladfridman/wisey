@@ -12,8 +12,8 @@
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/IField.hpp"
 #include "wisey/IGlobalStatement.hpp"
+#include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/MethodDeclaration.hpp"
 
 namespace wisey {
   
@@ -23,14 +23,14 @@ namespace wisey {
 class ModelDefinition : public IGlobalStatement {
   const std::string mName;
   std::vector<FieldDeclaration*> mFieldDeclarations;
-  std::vector<MethodDeclaration*> mMethodDeclarations;
+  std::vector<IMethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ModelDefinition(std::string name,
                   std::vector<FieldDeclaration*> fieldDeclarations,
-                  std::vector<MethodDeclaration *> methodDeclarations,
+                  std::vector<IMethodDeclaration *> methodDeclarations,
                   std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mName(name),
   mFieldDeclarations(fieldDeclarations),

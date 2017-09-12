@@ -17,6 +17,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/MethodDeclaration.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NodeDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -39,7 +40,7 @@ struct NodeDefinitionTest : public Test {
   MethodDeclaration *mMethodDeclaration;
   vector<FieldDeclaration*> mFixedFields;
   vector<FieldDeclaration*> mStateFields;
-  vector<MethodDeclaration*> mMethodDeclarations;
+  vector<IMethodDeclaration*> mMethodDeclarations;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
   

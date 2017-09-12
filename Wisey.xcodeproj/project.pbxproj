@@ -605,6 +605,7 @@
 		F51BA8FD1EA689440038C98B /* MockObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectType.hpp; path = tests/include/MockObjectType.hpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
 		F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTryCatch.cpp; path = tests/TestTryCatch.cpp; sourceTree = "<group>"; };
+		F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethodDeclaration.hpp; path = include/wisey/IMethodDeclaration.hpp; sourceTree = "<group>"; };
 		F52FF1831F1C565D003F4D37 /* Names.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Names.hpp; path = include/wisey/Names.hpp; sourceTree = "<group>"; };
 		F52FF1841F1C570C003F4D37 /* Names.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Names.cpp; path = src/Names.cpp; sourceTree = "<group>"; };
 		F530B4561DFA02C900477384 /* runtests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = runtests; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1435,6 +1436,7 @@
 				F5089C711ECD01D9004A1223 /* IfStatement.hpp */,
 				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
 				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
+				F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */,
 				F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */,
 				F53B8EB91ECE0E5800F45564 /* ImportStatement.hpp */,
 				F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */,

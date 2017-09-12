@@ -18,8 +18,8 @@
 #include "wisey/FieldState.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IGlobalStatement.hpp"
+#include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/MethodDeclaration.hpp"
 
 namespace wisey {
 
@@ -31,7 +31,7 @@ class ControllerDefinition : public IGlobalStatement {
   std::vector<FieldDeclaration*> mReceivedFieldDeclarations;
   std::vector<FieldDeclaration*> mInjectedFieldDeclarations;
   std::vector<FieldDeclaration*> mStateFieldDeclarations;
-  std::vector<MethodDeclaration*> mMethodDeclarations;
+  std::vector<IMethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
@@ -40,7 +40,7 @@ public:
                        std::vector<FieldDeclaration*> receivedFieldDeclarations,
                        std::vector<FieldDeclaration*> injectedFieldDeclarations,
                        std::vector<FieldDeclaration*> stateFieldDeclarations,
-                       std::vector<MethodDeclaration*> methodDeclarations,
+                       std::vector<IMethodDeclaration*> methodDeclarations,
                        std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mName(name),
   mReceivedFieldDeclarations(receivedFieldDeclarations),

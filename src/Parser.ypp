@@ -111,14 +111,14 @@
   wisey::FieldDeclaration* object_field;
   wisey::NodeTypeSpecifier* node_type_specifier;
   wisey::AccessLevel access_specifier;
-  wisey::MethodDeclaration* method_declaration;
+  wisey::IMethodDeclaration* method_declaration;
   wisey::MethodSignatureDeclaration* method_signature;
   wisey::Catch* catch_clause;
   wisey::ProgramFile* program_file;
   std::vector<wisey::Catch*>* catch_vector;
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<wisey::IExpression*>* expression_vector;
-  std::vector<wisey::MethodDeclaration*>* method_declaration_vector;
+  std::vector<wisey::IMethodDeclaration*>* method_declaration_vector;
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
   std::vector<wisey::FieldDeclaration*>* object_field_vector;
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
@@ -496,12 +496,12 @@ node_state_field_declaration
   ;
 
 method_definition_list_optional
-  : /* blank */ { $$ = new std::vector<MethodDeclaration*>(); }
+  : /* blank */ { $$ = new std::vector<IMethodDeclaration*>(); }
   | method_definition_list
   ;
 
 method_definition_list
-  : method_definition { $$ = new std::vector<MethodDeclaration*>(); $$->push_back($1); }
+  : method_definition { $$ = new std::vector<IMethodDeclaration*>(); $$->push_back($1); }
   | method_definition_list method_definition { $1->push_back($2); }
   ;
 

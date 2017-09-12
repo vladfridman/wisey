@@ -22,7 +22,7 @@ NodeDefinition::~NodeDefinition() {
     delete fieldDeclaration;
   }
   mStateFieldDeclarations.clear();
-  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
     delete methodDeclaration;
   }
   mMethodDeclarations.clear();
@@ -100,7 +100,7 @@ vector<Interface*> NodeDefinition::processInterfaces(IRGenerationContext& contex
 
 vector<Method*> NodeDefinition::createMethods(IRGenerationContext& context) const {
   vector<Method*> methods;
-  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
     Method* method = methodDeclaration->createMethod(context, methods.size());
     methods.push_back(method);
   }

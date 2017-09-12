@@ -22,7 +22,7 @@ ModelDefinition::~ModelDefinition() {
     delete fieldDeclaration;
   }
   mFieldDeclarations.clear();
-  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
     delete methodDeclaration;
   }
   mMethodDeclarations.clear();
@@ -116,7 +116,7 @@ void ModelDefinition::createFieldVariables(IRGenerationContext& context,
 
 vector<Method*> ModelDefinition::createMethods(IRGenerationContext& context) const {
   vector<Method*> methods;
-  for (MethodDeclaration* methodDeclaration : mMethodDeclarations) {
+  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
     Method* method = methodDeclaration->createMethod(context, methods.size());
     methods.push_back(method);
   }

@@ -47,7 +47,7 @@ struct ControllerDefinitionTest : public Test {
   vector<FieldDeclaration*> mReceivedFields;
   vector<FieldDeclaration*> mInjectedFields;
   vector<FieldDeclaration*> mStateFields;
-  vector<MethodDeclaration*> mMethodDeclarations;
+  vector<IMethodDeclaration*> mMethodDeclarations;
   vector<InterfaceTypeSpecifier*> mInterfaces;
   
   ControllerDefinitionTest() :

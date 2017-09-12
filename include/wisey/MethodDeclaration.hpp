@@ -12,6 +12,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/Identifier.hpp"
+#include "wisey/IMethodDeclaration.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/Method.hpp"
@@ -26,7 +27,7 @@ namespace wisey {
  *
  * A method contains a coumpound statement that is the body of the method.
  */
-class MethodDeclaration {
+class MethodDeclaration : public IMethodDeclaration {
   const AccessLevel mAccessLevel;
   const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mMethodName;
@@ -51,10 +52,7 @@ public:
   
   ~MethodDeclaration();
   
-  /**
-   * Returns object representing the method that will be saved in a Model object
-   */
-  Method* createMethod(IRGenerationContext& context, unsigned long index) const;
+  Method* createMethod(IRGenerationContext& context, unsigned long index) const override;
   
 };
 

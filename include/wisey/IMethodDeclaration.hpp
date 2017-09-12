@@ -1,0 +1,35 @@
+//
+//  IMethodDeclaration.hpp
+//  Wisey
+//
+//  Created by Vladimir Fridman on 9/12/17.
+//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//
+
+#ifndef IMethodDeclaration_h
+#define IMethodDeclaration_h
+
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/Method.hpp"
+
+namespace wisey {
+
+/**
+ * Represents a method declaration that could either be static or non-static
+ */
+class IMethodDeclaration {
+  
+public:
+  
+  virtual ~IMethodDeclaration() { }
+  
+  /**
+   * Returns object representing the method that will be saved in a Model object
+   */
+  virtual Method* createMethod(IRGenerationContext& context, unsigned long index) const = 0;
+
+};
+  
+} /* namespace wisey */
+
+#endif /* IMethodDeclaration_h */

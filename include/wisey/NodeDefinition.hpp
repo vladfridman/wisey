@@ -14,8 +14,8 @@
 #include "wisey/FieldInjected.hpp"
 #include "wisey/FieldState.hpp"
 #include "wisey/IGlobalStatement.hpp"
+#include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/MethodDeclaration.hpp"
 
 namespace wisey {
   
@@ -27,7 +27,7 @@ class NodeDefinition : public IGlobalStatement {
   const std::string mName;
   std::vector<FieldDeclaration*> mFixedFieldDeclarations;
   std::vector<FieldDeclaration*> mStateFieldDeclarations;
-  std::vector<MethodDeclaration*> mMethodDeclarations;
+  std::vector<IMethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
@@ -35,7 +35,7 @@ public:
   NodeDefinition(std::string name,
                  std::vector<FieldDeclaration*> fixedFieldDeclarations,
                  std::vector<FieldDeclaration*> stateFieldDeclarations,
-                 std::vector<MethodDeclaration *> methodDeclarations,
+                 std::vector<IMethodDeclaration *> methodDeclarations,
                  std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mName(name),
   mFixedFieldDeclarations(fixedFieldDeclarations),
