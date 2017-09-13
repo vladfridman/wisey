@@ -1,24 +1,24 @@
 //
-//  MethodDeclaration.cpp
+//  StaticMethodDeclaration.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 12/12/16.
-//  Copyright © 2016 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 9/12/17.
+//  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
-#include "wisey/MethodDeclaration.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/StaticMethod.hpp"
+#include "wisey/StaticMethodDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-MethodDeclaration::~MethodDeclaration() {
+StaticMethodDeclaration::~StaticMethodDeclaration() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {
     delete argument;
@@ -31,7 +31,7 @@ MethodDeclaration::~MethodDeclaration() {
   delete mCompoundStatement;
 }
 
-IMethod* MethodDeclaration::createMethod(IRGenerationContext& context) const {
+IMethod* StaticMethodDeclaration::createMethod(IRGenerationContext& context) const {
   vector<MethodArgument*> arguments;
   
   for (VariableList::const_iterator iterator = mArguments.begin();
@@ -51,10 +51,10 @@ IMethod* MethodDeclaration::createMethod(IRGenerationContext& context) const {
   }
   thrownExceptions.push_back(context.getModel(Names::getNPEModelName()));
   
-  return new Method(mMethodName,
-                    mAccessLevel,
-                    returnType,
-                    arguments,
-                    thrownExceptions,
-                    mCompoundStatement);
+  return new StaticMethod(mMethodName,
+                          mAccessLevel,
+                          returnType,
+                          arguments,
+                          thrownExceptions,
+                          mCompoundStatement);
 }

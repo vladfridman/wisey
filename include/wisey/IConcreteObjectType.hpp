@@ -160,6 +160,16 @@ public:
   static void composeDestructorCall(IRGenerationContext& context,
                                     IConcreteObjectType* objectOwnerType,
                                     llvm::Value* object);
+  
+  /**
+   * Generates IR for static methods of a given object
+   */
+  static void generateStaticMethodsIR(IRGenerationContext& context, IConcreteObjectType* object);
+  
+  /**
+   * Generates IR for non-static methods of a given object
+   */
+  static void generateMethodsIR(IRGenerationContext& context, IConcreteObjectType* object);
 
 private:
   

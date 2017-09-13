@@ -82,6 +82,7 @@ WS  [ \t\v\n\f]
 "receive"                     return TOKEN(TRECEIVE);
 "return"                      return TOKEN(TRETURN);
 "state"                       return TOKEN(TSTATE);
+"static"                      return TOKEN(TSTATIC);
 "switch"                      return TOKEN(TSWITCH);
 "throw"                       return TOKEN(TTHROW);
 "throws"                      return TOKEN(TTHROWS);

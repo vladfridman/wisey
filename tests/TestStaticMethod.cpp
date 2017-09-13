@@ -1,11 +1,11 @@
 //
-//  TestMethod.cpp
+//  TestStaticMethod.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/3/17.
+//  Created by Vladimir Fridman on 9/13/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link Method}
+//  Tests {@link StaticMethod}
 //
 
 #include <gtest/gtest.h>
@@ -15,9 +15,9 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "wisey/CompoundStatement.hpp"
-#include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/StaticMethod.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -25,10 +25,10 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct MethodTest : public Test {
+struct StaticMethodTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Method* mMethod;
+  StaticMethod* mStaticMethod;
   Model* mModel;
   Block* mBlock;
   CompoundStatement mCompoundStatement;
@@ -37,24 +37,24 @@ struct MethodTest : public Test {
   
 public:
   
-  MethodTest() :
+  StaticMethodTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mBlock(new Block()),
   mCompoundStatement(CompoundStatement(mBlock)) {
-
+    
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
     std::vector<MethodArgument*> arguments;
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
-    mMethod = new Method("mymethod",
-                         AccessLevel::PUBLIC_ACCESS,
-                         PrimitiveTypes::BOOLEAN_TYPE,
-                         arguments,
-                         thrownExceptions,
-                         NULL);
-
+    mStaticMethod = new StaticMethod("mymethod",
+                                     AccessLevel::PUBLIC_ACCESS,
+                                     PrimitiveTypes::BOOLEAN_TYPE,
+                                     arguments,
+                                     thrownExceptions,
+                                     NULL);
+    
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -71,55 +71,53 @@ public:
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~MethodTest() {
+  ~StaticMethodTest() {
     delete mStringStream;
   }
 };
 
-TEST_F(MethodTest, basicMethodTest) {
-  ASSERT_STREQ(mMethod->getName().c_str(), "mymethod");
-  ASSERT_EQ(mMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
-  ASSERT_EQ(mMethod->getArguments().size(), 2u);
+TEST_F(StaticMethodTest, basicStaticMethodTest) {
+  ASSERT_STREQ(mStaticMethod->getName().c_str(), "mymethod");
+  ASSERT_EQ(mStaticMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
+  ASSERT_EQ(mStaticMethod->getArguments().size(), 2u);
 }
 
-TEST_F(MethodTest, defineFunctionTest) {
+TEST_F(StaticMethodTest, defineFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  Method method("foo",
-                AccessLevel::PUBLIC_ACCESS,
-                PrimitiveTypes::FLOAT_TYPE,
-                arguments,
-                thrownExceptions,
-                &mCompoundStatement);
-  Function* function = method.defineFunction(mContext, mModel);
+  StaticMethod staticMethod("foo",
+                            AccessLevel::PUBLIC_ACCESS,
+                            PrimitiveTypes::FLOAT_TYPE,
+                            arguments,
+                            thrownExceptions,
+                            &mCompoundStatement);
+  Function* function = staticMethod.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
-  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo("
-    "%systems.vos.wisey.compiler.tests.MObject**, i32)\n";
+  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo(i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
-TEST_F(MethodTest, generateIRTest) {
+TEST_F(StaticMethodTest, generateIRTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  Method method("foo",
-                AccessLevel::PUBLIC_ACCESS,
-                PrimitiveTypes::VOID_TYPE,
-                arguments,
-                thrownExceptions,
-                &mCompoundStatement);
-  Function* function = method.defineFunction(mContext, mModel);
-  method.generateIR(mContext, mModel);
+  StaticMethod staticMethod("foo",
+                            AccessLevel::PUBLIC_ACCESS,
+                            PrimitiveTypes::VOID_TYPE,
+                            arguments,
+                            thrownExceptions,
+                            &mCompoundStatement);
+  Function* function = staticMethod.defineFunction(mContext, mModel);
+  staticMethod.generateIR(mContext, mModel);
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject** %this, i32 %intargument) {"
+  "\ndefine internal void @systems.vos.wisey.compiler.tests.MObject.foo(i32 %intargument) {"
   "\nentry:"
   "\n  %intargument.param = alloca i32"
   "\n  store i32 %intargument, i32* %intargument.param"
@@ -130,16 +128,20 @@ TEST_F(MethodTest, generateIRTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, methodMissingThrowsDeathRunTest) {
-  expectFailCompile("tests/samples/test_method_missing_throws.yz",
+TEST_F(TestFileSampleRunner, staticMethodDefinitionRunTest) {
+  runFile("tests/samples/test_static_method_definition.yz", "2018");
+}
+
+TEST_F(TestFileSampleRunner, staticMethodMissingThrowsDeathRunTest) {
+  expectFailCompile("tests/samples/test_static_method_missing_throws.yz",
                     1,
                     "Error: Method doThrow neither handles the exception "
                     "systems.vos.wisey.compiler.tests.MException nor throws it");
 }
 
-TEST_F(TestFileSampleRunner, methodReturnTypeIsNotVoidDeathRunTest) {
-  expectFailCompile("tests/samples/test_method_return_type_is_not_void.yz",
+TEST_F(TestFileSampleRunner, staticMethodReturnTypeIsNotVoidDeathRunTest) {
+  expectFailCompile("tests/samples/test_static_method_return_type_is_not_void.yz",
                     1,
-                    "Error: Method run must return a value of type int");
+                    "Error: Method foo must return a value of type int");
 }
 

@@ -61,6 +61,11 @@ public:
   virtual std::vector<const Model*> getThrownExceptions() const = 0;
   
   /**
+   * Tells whether this method is static
+   */
+  virtual bool isStatic() const = 0;
+  
+  /**
    * Returns two if two method descriptors are the same in terms of their name, return type
    * and argument types
    */

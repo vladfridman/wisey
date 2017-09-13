@@ -1,8 +1,8 @@
 //
-//  Method.cpp
+//  StaticMethod.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/3/17.
+//  Created by Vladimir Fridman on 9/12/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
@@ -14,18 +14,18 @@
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StackVariable.hpp"
+#include "wisey/StaticMethod.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Method::~Method() {
+StaticMethod::~StaticMethod() {
   for (MethodArgument* argument : mArguments) {
     delete argument;
   }
@@ -33,31 +33,31 @@ Method::~Method() {
   // mCompoundStatement is deleted with MethodDeclaration
 }
 
-bool Method::isStatic() const {
-  return false;
+bool StaticMethod::isStatic() const {
+  return true;
 }
 
-string Method::getName() const {
+string StaticMethod::getName() const {
   return mName;
 }
 
-AccessLevel Method::getAccessLevel() const {
+AccessLevel StaticMethod::getAccessLevel() const {
   return mAccessLevel;
 }
 
-const IType* Method::getReturnType() const {
+const IType* StaticMethod::getReturnType() const {
   return mReturnType;
 }
 
-vector<MethodArgument*> Method::getArguments() const {
+vector<MethodArgument*> StaticMethod::getArguments() const {
   return mArguments;
 }
 
-vector<const Model*> Method::getThrownExceptions() const {
+vector<const Model*> StaticMethod::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-Function* Method::defineFunction(IRGenerationContext& context, IObjectType* objectType) {
+Function* StaticMethod::defineFunction(IRGenerationContext& context, IObjectType* objectType) {
   FunctionType* ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
                                                                context,
                                                                objectType);
@@ -71,7 +71,7 @@ Function* Method::defineFunction(IRGenerationContext& context, IObjectType* obje
   return mFunction;
 }
 
-void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) const {
+void StaticMethod::generateIR(IRGenerationContext& context, IObjectType* objectType) const {
   assert(mFunction != NULL);
   
   Scopes& scopes = context.getScopes();
@@ -91,21 +91,23 @@ void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) c
   
   IMethod::maybeAddImpliedVoidReturn(context, this);
   IMethod::checkForUnhandledExceptions(context, this);
+  
   if (mThrownExceptions.size()) {
     Cleanup::generateCleanupLandingPad(context, NULL);
   }
-
+  
   scopes.popScope(context);
   scopes.setClearedVariables(clearedVariablesBefore);
 }
 
-void Method::createArguments(IRGenerationContext& context,
-                             Function* function,
-                             IObjectType* objectType) const {
+void StaticMethod::createArguments(IRGenerationContext& context,
+                                   Function* function,
+                                   IObjectType* objectType) const {
+  if (!function->arg_size()) {
+    return;
+  }
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
-  llvmFunctionArgument->setName("this");
-  llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;
     llvmFunctionArgument->setName(methodArgument->getName());
@@ -113,8 +115,6 @@ void Method::createArguments(IRGenerationContext& context,
   }
   
   llvmFunctionArguments = function->arg_begin();
-  IMethod::storeArgumentValue(context, "this", objectType, &*llvmFunctionArguments);
-  llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     IMethod::storeArgumentValue(context,
                                 methodArgument->getName(),

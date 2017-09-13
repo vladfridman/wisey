@@ -79,7 +79,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   Value* expressionValue = IRWriter::newLoadInst(context, expressionValueStore, "");
 
   FunctionType* functionType =
-    IMethodDescriptor::getLLVMFunctionType(methodDescriptor, context, interface);
+    IMethod::getLLVMFunctionType(methodDescriptor, context, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, expressionValue, pointerToVTablePointer);
@@ -127,7 +127,9 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   Composer::checkNullAndThrowNPE(context, valueLoaded);
 
   vector<Value*> arguments;
-  arguments.push_back(expressionValueStore);
+  if (!methodDescriptor->isStatic()) {
+    arguments.push_back(expressionValueStore);
+  }
   
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();

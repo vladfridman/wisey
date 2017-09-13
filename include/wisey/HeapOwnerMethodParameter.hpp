@@ -9,6 +9,9 @@
 #ifndef HeapOwnerMethodParameter_h
 #define HeapOwnerMethodParameter_h
 
+#include "wisey/IObjectOwnerType.hpp"
+#include "wisey/IVariable.hpp"
+
 namespace wisey {
   
 /**

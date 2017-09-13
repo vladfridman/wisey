@@ -68,12 +68,10 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
  
   context.getScopes().pushScope();
   
+  IConcreteObjectType::generateStaticMethodsIR(context, model);
   IConcreteObjectType::composeDestructorBody(context, model);
   IConcreteObjectType::declareFieldVariables(context, model);
-
-  for (IMethod* method : model->getMethods()) {
-    method->generateIR(context, model);
-  }
+  IConcreteObjectType::generateMethodsIR(context, model);
   
   context.getScopes().popScope(context);
 

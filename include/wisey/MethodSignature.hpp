@@ -42,6 +42,8 @@ public:
    */
   MethodSignature* createCopy() const;
   
+  bool isStatic() const override;
+  
   std::string getName() const override;
   
   AccessLevel getAccessLevel() const override;

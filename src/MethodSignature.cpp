@@ -21,6 +21,10 @@ MethodSignature::~MethodSignature() {
   mArguments.clear();
 }
 
+bool MethodSignature::isStatic() const {
+  return false;
+}
+
 string MethodSignature::getName() const {
   return mName;
 }

@@ -9,6 +9,7 @@
 #ifndef VariableDeclaration_h
 #define VariableDeclaration_h
 
+#include "wisey/Identifier.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 

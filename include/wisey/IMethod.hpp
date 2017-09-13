@@ -31,6 +31,15 @@ public:
    */
   virtual void generateIR(IRGenerationContext& context, IObjectType* objectType) const = 0;
 
+  static void storeArgumentValue(IRGenerationContext& context,
+                                 std::string variableName,
+                                 const IType* variableType,
+                                 llvm::Value* variableValue);
+
+  static void checkForUnhandledExceptions(IRGenerationContext& context, const IMethod* method);
+
+  static void maybeAddImpliedVoidReturn(IRGenerationContext& context, const IMethod* method);
+  
 };
   
 } /* namespace wisey */

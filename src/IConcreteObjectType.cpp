@@ -386,3 +386,21 @@ void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
   
   IRWriter::createCallInst(context, function, arguments, "");
 }
+
+void IConcreteObjectType::generateStaticMethodsIR(IRGenerationContext& context,
+                                                  IConcreteObjectType* object) {
+  for (IMethod* method : object->getMethods()) {
+    if (method->isStatic()) {
+      method->generateIR(context, object);
+    }
+  }
+}
+
+void IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
+                                            IConcreteObjectType* object) {
+  for (IMethod* method : object->getMethods()) {
+    if (!method->isStatic()) {
+      method->generateIR(context, object);
+    }
+  }
+}

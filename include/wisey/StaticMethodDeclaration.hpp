@@ -1,13 +1,13 @@
 //
-//  MethodDeclaration.hpp
+//  StaticMethodDeclaration.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 12/12/16.
-//  Copyright © 2016 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 9/12/17.
+//  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef MethodDeclaration_h
-#define MethodDeclaration_h
+#ifndef StaticMethodDeclaration_h
+#define StaticMethodDeclaration_h
 
 #include "wisey/AccessLevel.hpp"
 #include "wisey/CompoundStatement.hpp"
@@ -19,11 +19,11 @@
 namespace wisey {
 
 /**
- * Represents a concrete object's method declaration.
+ * Represents a concrete object's static method declaration.
  *
- * A method contains a coumpound statement that is the body of the method.
+ * Static method does not have access to object instance
  */
-class MethodDeclaration : public IMethodDeclaration {
+class StaticMethodDeclaration : public IMethodDeclaration {
   const AccessLevel mAccessLevel;
   const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mMethodName;
@@ -33,12 +33,12 @@ class MethodDeclaration : public IMethodDeclaration {
   
 public:
   
-  MethodDeclaration(const AccessLevel AccessLevel,
-                    const ITypeSpecifier* returnTypeSpecifier,
-                    std::string methodName,
-                    VariableList arguments,
-                    std::vector<ModelTypeSpecifier*> exceptions,
-                    CompoundStatement* compoundStatement) :
+  StaticMethodDeclaration(const AccessLevel AccessLevel,
+                          const ITypeSpecifier* returnTypeSpecifier,
+                          std::string methodName,
+                          VariableList arguments,
+                          std::vector<ModelTypeSpecifier*> exceptions,
+                          CompoundStatement* compoundStatement) :
   mAccessLevel(AccessLevel),
   mReturnTypeSpecifier(returnTypeSpecifier),
   mMethodName(methodName),
@@ -46,12 +46,12 @@ public:
   mExceptions(exceptions),
   mCompoundStatement(compoundStatement) { }
   
-  ~MethodDeclaration();
+  ~StaticMethodDeclaration();
   
   IMethod* createMethod(IRGenerationContext& context) const override;
   
 };
-
+  
 } /* namespace wisey */
 
-#endif /* MethodDeclaration_h */
+#endif /* StaticMethodDeclaration_h */
