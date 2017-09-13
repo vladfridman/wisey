@@ -1,0 +1,21 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCircle {
+
+  public static int getRadius() {
+    return 5;
+  }
+
+  public static int getDiameter() {
+    return 2 * MCircle.getRadius();
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return MCircle.getDiameter();
+  }
+}
+
+bind(CProgram).to(IProgram);

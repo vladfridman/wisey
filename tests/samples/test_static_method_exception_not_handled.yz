@@ -1,0 +1,26 @@
+package systems.vos.wisey.compiler.tests;
+
+model MException {
+  int mValue;
+}
+
+controller CThrower {
+  public static int doThrow() throws MException {
+    MException* exception = builder(MException).withValue(3).build();
+    throw exception;
+  }
+}
+
+controller CCatcher {
+  public static int doSomething() {
+    return CThrower.doThrow();
+  }
+}
+
+controller CProgram implements IProgram {
+  public int run() {
+    return CCatcher.doSomething();
+  }
+}
+
+bind(CProgram).to(IProgram);

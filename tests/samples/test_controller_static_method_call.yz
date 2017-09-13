@@ -1,0 +1,17 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CService {
+
+  public static int getValue() {
+    return 7;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return CService.getValue();
+  }
+}
+
+bind(CProgram).to(IProgram);

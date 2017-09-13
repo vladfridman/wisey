@@ -60,6 +60,7 @@
   #include "wisey/ReturnStatement.hpp"
   #include "wisey/ReturnVoidStatement.hpp"
   #include "wisey/StringConstant.hpp"
+  #include "wisey/StaticMethodCall.hpp"
   #include "wisey/StaticMethodDeclaration.hpp"
   #include "wisey/SwitchStatement.hpp"
   #include "wisey/TryCatchStatement.hpp"
@@ -153,7 +154,7 @@
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression object_builder method_call
 %type <expression> cast_expression primary_expression assignment unary_expression
-%type <expression> type_comparision_expression increment_expression
+%type <expression> type_comparision_expression increment_expression static_method_call
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments
 %type <block> block_item_list 
@@ -697,12 +698,22 @@ method_call
     }
   ;
 
+static_method_call
+  : object_type_specifier '.' TIDENTIFIER '(' call_arguments ')'
+    {
+      $$ = new StaticMethodCall($1, *$3, *$5);
+      delete $3;
+      delete $5;
+    }
+  ;
+
 primary_expression
   : TFIELDIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
   | constant
   | string_literal { $$ = new StringConstant(*$1); delete $1; }
   | object_builder
   | method_call
+  | static_method_call
   | '(' expression ')' { $$ = $2; }
   | TNULL { $$ = new NullExpression(); }
   ;

@@ -11,7 +11,7 @@
 
 #include "wisey/IObjectType.hpp"
 #include "wisey/IExpression.hpp"
-#include "wisey/Method.hpp"
+#include "wisey/IMethodDescriptor.hpp"
 
 namespace wisey {
 

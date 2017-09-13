@@ -64,8 +64,8 @@ void IMethod::checkForUnhandledExceptions(IRGenerationContext& context, const IM
   for (map<string, const Model*>::const_iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
-    Log::e("Method " + method->getName() + " neither handles the exception " + iterator->first +
-           " nor throws it");
+    Log::e((method->isStatic() ? "Static method " : "Method ") + method->getName() +
+           " neither handles the exception " + iterator->first + " nor throws it");
     hasUnhandledExceptions = true;
   }
   
@@ -81,7 +81,8 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context, const IMet
   
   const IType* returnType = method->getReturnType();
   if (returnType != PrimitiveTypes::VOID_TYPE) {
-    Log::e("Method " + method->getName() + " must return a value of type " + returnType->getName());
+    Log::e((method->isStatic() ? "Static method " : "Method ") + method->getName() +
+           " must return a value of type " + returnType->getName());
     exit(1);
   }
   

@@ -1,0 +1,17 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  
+  public static int getYear() {
+    return 2018;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return MCar.getYear();
+  }
+}
+
+bind(CProgram).to(IProgram);

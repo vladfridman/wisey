@@ -135,13 +135,13 @@ TEST_F(TestFileSampleRunner, staticMethodDefinitionRunTest) {
 TEST_F(TestFileSampleRunner, staticMethodMissingThrowsDeathRunTest) {
   expectFailCompile("tests/samples/test_static_method_missing_throws.yz",
                     1,
-                    "Error: Method doThrow neither handles the exception "
+                    "Error: Static method doThrow neither handles the exception "
                     "systems.vos.wisey.compiler.tests.MException nor throws it");
 }
 
 TEST_F(TestFileSampleRunner, staticMethodReturnTypeIsNotVoidDeathRunTest) {
   expectFailCompile("tests/samples/test_static_method_return_type_is_not_void.yz",
                     1,
-                    "Error: Method foo must return a value of type int");
+                    "Error: Static method foo must return a value of type int");
 }
 

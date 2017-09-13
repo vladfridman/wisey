@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+model MColor {
+  public static int getValue() {
+    return 3;
+  }
+}
+
+model MShape {
+  public static int getValue() {
+    return MColor.getValue();
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return MShape.getValue();
+  }
+}
+
+bind(CProgram).to(IProgram);

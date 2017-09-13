@@ -1,0 +1,18 @@
+package systems.vos.wisey.compiler.tests;
+
+model MShape {
+  int mSize;
+
+  public static int getSize() {
+    return 4;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return MShape.getSize() * 2;
+  }
+}
+
+bind(CProgram).to(IProgram);

@@ -93,6 +93,8 @@
 		F51D2BB41F691C8100510784 /* IMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BB31F691C8100510784 /* IMethod.cpp */; };
 		F51D2BB51F691C8100510784 /* IMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BB31F691C8100510784 /* IMethod.cpp */; };
 		F51D2BB71F6921DB00510784 /* TestStaticMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BB61F6921DB00510784 /* TestStaticMethod.cpp */; };
+		F51D2BBA1F6940D800510784 /* StaticMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BB91F6940D800510784 /* StaticMethodCall.cpp */; };
+		F51D2BBB1F6940D800510784 /* StaticMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BB91F6940D800510784 /* StaticMethodCall.cpp */; };
 		F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F52F2C991EA95C7B0081DE38 /* TestTryCatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */; };
@@ -311,6 +313,7 @@
 		F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
+		F58D07F21F697027001A7544 /* TestStaticMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */; };
 		F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestMain.cpp */; };
 		F59496FE1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
 		F59496FF1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
@@ -617,6 +620,8 @@
 		F51D2BAD1F68453500510784 /* StaticMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StaticMethod.cpp; path = src/StaticMethod.cpp; sourceTree = "<group>"; };
 		F51D2BB31F691C8100510784 /* IMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IMethod.cpp; path = src/IMethod.cpp; sourceTree = "<group>"; };
 		F51D2BB61F6921DB00510784 /* TestStaticMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethod.cpp; path = tests/TestStaticMethod.cpp; sourceTree = "<group>"; };
+		F51D2BB81F6928DC00510784 /* StaticMethodCall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StaticMethodCall.hpp; path = include/wisey/StaticMethodCall.hpp; sourceTree = "<group>"; };
+		F51D2BB91F6940D800510784 /* StaticMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StaticMethodCall.cpp; path = src/StaticMethodCall.cpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
 		F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTryCatch.cpp; path = tests/TestTryCatch.cpp; sourceTree = "<group>"; };
 		F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethodDeclaration.hpp; path = include/wisey/IMethodDeclaration.hpp; sourceTree = "<group>"; };
@@ -807,6 +812,7 @@
 		F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanNotExpression.cpp; path = tests/TestBooleanNotExpression.cpp; sourceTree = "<group>"; };
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
+		F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodCall.cpp; path = tests/TestStaticMethodCall.cpp; sourceTree = "<group>"; };
 		F592C9951ED323F7007FB2D0 /* TestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMain.cpp; path = tests/TestMain.cpp; sourceTree = "<group>"; };
 		F59496FC1F5467540002F14F /* InstanceOf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InstanceOf.hpp; path = include/wisey/InstanceOf.hpp; sourceTree = "<group>"; };
 		F59496FD1F5469900002F14F /* InstanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InstanceOf.cpp; path = src/InstanceOf.cpp; sourceTree = "<group>"; };
@@ -1118,6 +1124,7 @@
 				F530B45E1DFA031A00477384 /* TestsRun.cpp */,
 				F50427AE1E4DD329001CB148 /* TestStackVariable.cpp */,
 				F51D2BB61F6921DB00510784 /* TestStaticMethod.cpp */,
+				F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */,
 				F531B6561E0DE040008304F3 /* TestStringConstant.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
 				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
@@ -1332,6 +1339,7 @@
 				F50FA2FE1E323AAD00435EEA /* Scopes.cpp */,
 				F50427A71E4D226C001CB148 /* StackVariable.cpp */,
 				F51D2BAD1F68453500510784 /* StaticMethod.cpp */,
+				F51D2BB91F6940D800510784 /* StaticMethodCall.cpp */,
 				F51D2BA91F68436C00510784 /* StaticMethodDeclaration.cpp */,
 				F531B6531E0DDD96008304F3 /* StringConstant.cpp */,
 				F50FA2A71E269E5700435EEA /* SwitchStatement.cpp */,
@@ -1520,6 +1528,7 @@
 				F5089CA41ECD01D9004A1223 /* Scopes.hpp */,
 				F5089C861ECD01D9004A1223 /* StackVariable.hpp */,
 				F51D2BAC1F6844AA00510784 /* StaticMethod.hpp */,
+				F51D2BB81F6928DC00510784 /* StaticMethodCall.hpp */,
 				F51D2BA81F6842B400510784 /* StaticMethodDeclaration.hpp */,
 				F5089CA51ECD01D9004A1223 /* StringConstant.hpp */,
 				F5089CA61ECD01D9004A1223 /* SwitchStatement.hpp */,
@@ -1725,9 +1734,11 @@
 				F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */,
 				F52FF1811F1B8729003F4D37 /* Composer.cpp in Sources */,
 				F51581251E89B02F009CE419 /* FieldDeclaration.cpp in Sources */,
+				F51D2BBB1F6940D800510784 /* StaticMethodCall.cpp in Sources */,
 				F556E65A1EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp in Sources */,
 				F5A3635A1F376F1C005880B3 /* TestPrimitiveFieldVariable.cpp in Sources */,
 				F53B8EBC1ECE101A00F45564 /* ImportStatement.cpp in Sources */,
+				F58D07F21F697027001A7544 /* TestStaticMethodCall.cpp in Sources */,
 				F5A363501F374DCB005880B3 /* TestOwnerFieldVariable.cpp in Sources */,
 				F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
@@ -1946,6 +1957,7 @@
 				F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,
 				F51581241E89B02F009CE419 /* FieldDeclaration.cpp in Sources */,
 				F57411591E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
+				F51D2BBA1F6940D800510784 /* StaticMethodCall.cpp in Sources */,
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F507D2651E43551900495E2D /* Model.cpp in Sources */,
 				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,

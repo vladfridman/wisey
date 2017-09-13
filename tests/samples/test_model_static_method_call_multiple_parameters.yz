@@ -1,0 +1,19 @@
+package systems.vos.wisey.compiler.tests;
+
+model MColor {
+
+  public static int doubleValue(int b) {
+    return b + b;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MColor* color = builder(MColor).build();
+
+    return MColor.doubleValue(3);
+  }
+}
+
+bind(CProgram).to(IProgram);

@@ -1,0 +1,17 @@
+package systems.vos.wisey.compiler.tests;
+
+node NNode {
+
+  public static int getValue() {
+    return 5;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return NNode.getValue();
+  }
+}
+
+bind(CProgram).to(IProgram);
