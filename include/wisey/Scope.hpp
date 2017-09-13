@@ -33,6 +33,7 @@ class Scope {
   TryCatchInfo* mTryCatchInfo;
   bool mHasOwnedMemoryBeenFreed;
   const IType* mReturnType;
+  const IObjectType* mObjectType;
   std::map<std::string, const Model*> mExceptions;
 
 public:
@@ -42,7 +43,8 @@ public:
   mContinueToBlock(NULL),
   mTryCatchInfo(NULL),
   mHasOwnedMemoryBeenFreed(false),
-  mReturnType(NULL) { }
+  mReturnType(NULL),
+  mObjectType(NULL) { }
   
   ~Scope();
 
@@ -106,6 +108,16 @@ public:
    * Clear information about exception handling
    */
   void clearTryCatchInfo();
+  
+  /**
+   * When processing object definition this keeps track which object type is being processed
+   */
+  void setObjectType(const IObjectType* objectType);
+  
+  /**
+   * Gets type of the object definition that is being processed
+   */
+  const IObjectType* getObjectType() const;
   
   /**
    * Set current method's return type

@@ -158,10 +158,20 @@ public:
   void clearTryCatchInfo();
   
   /**
+   * When processing object definition this keeps track which object type is being processed
+   */
+  void setObjectType(const IObjectType* objectType);
+
+  /**
+   * Gets type of the current object definition that is being processed
+   */
+  const IObjectType* getObjectType() const;
+  
+  /**
    * Merge catches from scopes above with catches in the current scope
    */
   std::vector<Catch*> mergeNestedCatchLists(IRGenerationContext& context);
-
+  
 private:
 
   void reportUnhandledExceptions(std::map<std::string, const Model*> exceptions);

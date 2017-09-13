@@ -87,6 +87,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   Controller* controller = context.getController(getFullName(context));
   
   context.getScopes().pushScope();
+  context.getScopes().setObjectType(controller);
  
   IConcreteObjectType::generateStaticMethodsIR(context, controller);
   IConcreteObjectType::declareFieldVariables(context, controller);

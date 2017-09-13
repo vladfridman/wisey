@@ -98,6 +98,14 @@ void Scope::clearTryCatchInfo() {
   mTryCatchInfo = NULL;
 }
 
+void Scope::setObjectType(const IObjectType* objectType) {
+  mObjectType = objectType;
+}
+
+const IObjectType* Scope::getObjectType() const {
+  return mObjectType;
+}
+
 void Scope::setReturnType(const IType* type) {
   mReturnType = type;
 }

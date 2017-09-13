@@ -216,6 +216,25 @@ void Scopes::clearTryCatchInfo() {
   getScope()->clearTryCatchInfo();
 }
 
+void Scopes::setObjectType(const IObjectType* objectType) {
+  getScope()->setObjectType(objectType);
+}
+
+const IObjectType* Scopes::getObjectType() const {
+  if (mScopes.size() == 0) {
+    return NULL;
+  }
+  
+  for (Scope* scope : mScopes) {
+    const IObjectType* objectType = scope->getObjectType();
+    if (objectType != NULL) {
+      return objectType;
+    }
+  }
+  
+  return NULL;
+}
+
 vector<Catch*> Scopes::mergeNestedCatchLists(IRGenerationContext& context) {
   vector<Catch*> result;
   set<string> processedCatches;

@@ -266,6 +266,17 @@ TEST_F(ScopesTest, clearTryCatchInfoTest) {
   ASSERT_EQ(mScopes.getTryCatchInfo(), nullptr);
 }
 
+TEST_F(ScopesTest, setObjectTypeTest) {
+  mScopes.pushScope();
+  Model* model = new Model("MModel", NULL);
+  
+  mScopes.setObjectType(model);
+  mScopes.pushScope();
+  mScopes.pushScope();
+  
+  ASSERT_EQ(mScopes.getObjectType(), model);
+}
+
 TEST_F(ScopesTest, mergeNestedCatchListsTest) {
   mContext.setPackage("systems.vos.wisey.compiler.tests");
   EmptyStatement* emptyStatement = new EmptyStatement();
