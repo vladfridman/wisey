@@ -244,7 +244,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   Value* irValue = methodCall.generateIR(mContext);
 
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
+  EXPECT_STREQ("  %3 = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
                "%systems.vos.wisey.compiler.tests.MSquare** %0, float 0x4014CCCCC0000000)",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
@@ -282,7 +282,7 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   Value* irValue = methodCall.generateIR(mContext);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
+  EXPECT_STREQ("  %3 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
                "%systems.vos.wisey.compiler.tests.MSquare** %0, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());

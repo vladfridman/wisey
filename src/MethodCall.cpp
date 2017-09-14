@@ -83,16 +83,14 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
-  Value* expressionValueStore = mExpression != NULL
-    ? mExpression->generateIR(context)
-    : context.getThis()->generateIdentifierIR(context, "");
-  Value* expressionValue = IRWriter::newLoadInst(context, expressionValueStore, "");
+  Value* expressionValueStore = generateExpressionIR(context);
+  Value* expressionValueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
 
   FunctionType* functionType =
     IMethod::getLLVMFunctionType(methodDescriptor, context, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
-  IRWriter::newBitCastInst(context, expressionValue, pointerToVTablePointer);
+  IRWriter::newBitCastInst(context, expressionValueLoaded, pointerToVTablePointer);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
@@ -100,50 +98,40 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   LoadInst* function = IRWriter::newLoadInst(context, virtualFunction, "");
   
-  Value* valueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
-  Composer::checkNullAndThrowNPE(context, valueLoaded);
+  Composer::checkNullAndThrowNPE(context, expressionValueLoaded);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValueStore);
 
-  return createFunctionCall(context,
-                            (Function*) function,
-                            functionType->getReturnType(),
-                            methodDescriptor,
-                            arguments);
+  return createFunctionCall(context, (Function*) function, methodDescriptor, arguments);
 }
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
                                               const IObjectType* object,
                                               IMethodDescriptor* methodDescriptor) const {
-  Value* expressionValueStore = mExpression != NULL
-    ? mExpression->generateIR(context)
-    : context.getThis()->generateIdentifierIR(context, "");
-  string llvmFunctionName = translateObjectMethodToLLVMFunctionName(object, mMethodName);
+  Value* expressionValueStore = generateExpressionIR(context);
+  Value* expressionValueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
   
-  Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
-  if (function == NULL) {
-    Log::e("LLVM function implementing object '" + object->getName() + "' method '" +
-           mMethodName + "' was not found");
-    exit(1);
-  }
-
-  Value* valueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
-  Composer::checkNullAndThrowNPE(context, valueLoaded);
+  Function* function = getMethodFunction(context, object);
+  Composer::checkNullAndThrowNPE(context, expressionValueLoaded);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValueStore);
   
-  return createFunctionCall(context,
-                            function,
-                            function->getReturnType(),
-                            methodDescriptor,
-                            arguments);
+  return createFunctionCall(context, function, methodDescriptor, arguments);
 }
 
 Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
                                               const IObjectType* object,
                                               IMethodDescriptor* methodDescriptor) const {
+  Function* function = getMethodFunction(context, object);
+  vector<Value*> arguments;
+  
+  return createFunctionCall(context, function, methodDescriptor, arguments);
+}
+
+Function* MethodCall::getMethodFunction(IRGenerationContext& context,
+                                        const IObjectType* object) const {
   string llvmFunctionName = translateObjectMethodToLLVMFunctionName(object, mMethodName);
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
@@ -152,19 +140,18 @@ Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
            mMethodName + "' was not found");
     exit(1);
   }
-  
-  vector<Value*> arguments;
-  
-  return createFunctionCall(context,
-                            function,
-                            function->getReturnType(),
-                            methodDescriptor,
-                            arguments);
+
+  return function;
+}
+
+Value* MethodCall::generateExpressionIR(IRGenerationContext& context) const {
+  return mExpression != NULL
+  ? mExpression->generateIR(context)
+  : context.getThis()->generateIdentifierIR(context, "");
 }
 
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Function* function,
-                                      Type* returnLLVMType,
                                       IMethodDescriptor* methodDescriptor,
                                       vector<Value*> arguments) const {
 
@@ -188,13 +175,12 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     }
     methodArgumentIterator++;
   }
-  string resultName = returnLLVMType->isVoidTy() ? "" : "call";
   
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {
-    result = IRWriter::createCallInst(context, function, arguments, resultName);
+    result = IRWriter::createCallInst(context, function, arguments, "");
   } else {
-    result = IRWriter::createInvokeInst(context, function, arguments, resultName);
+    result = IRWriter::createInvokeInst(context, function, arguments, "");
   }
   
   const IType* returnType = methodDescriptor->getReturnType();

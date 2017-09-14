@@ -75,6 +75,11 @@ private:
                                              Interface* interface,
                                              IMethodDescriptor* methodDescriptor) const;
   
+  llvm::Function* getMethodFunction(IRGenerationContext& context,
+                                    const IObjectType* object) const;
+  
+  llvm::Value* generateExpressionIR(IRGenerationContext& context) const;
+  
   const IObjectType* getObjectWithMethods(IRGenerationContext& context) const;
   
   IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
@@ -85,7 +90,6 @@ private:
 
   llvm::Value* createFunctionCall(IRGenerationContext& context,
                                   llvm::Function* function,
-                                  llvm::Type* returnLLVMType,
                                   IMethodDescriptor* methodDescriptor,
                                   std::vector<llvm::Value*> arguments) const;
 };
