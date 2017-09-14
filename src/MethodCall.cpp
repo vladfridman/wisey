@@ -200,8 +200,6 @@ void MethodCall::addReferenceToOwner(IRGenerationContext& context, IVariable* re
   IVariable* variable = context.getScopes().getVariable(variableName);
   if (IType::isOwnerType(variable->getType())) {
     context.getScopes().addReferenceToOwnerVariable(variable, reference);
-  } else {
-    mExpression->addReferenceToOwner(context, reference);
   }
 }
 
