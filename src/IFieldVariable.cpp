@@ -45,7 +45,7 @@ IField* IFieldVariable::checkAndFindField(IRGenerationContext& context,
 GetElementPtrInst* IFieldVariable::getFieldPointer(IRGenerationContext& context,
                                                    const IConcreteObjectType* object,
                                                    std::string fieldName) {
-  IVariable* thisVariable = context.getScopes().getVariable("this");
+  IVariable* thisVariable = context.getThis();
   LLVMContext& llvmContext = context.getLLVMContext();
   
   IField* field = checkAndFindField(context, object, fieldName);

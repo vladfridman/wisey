@@ -161,6 +161,11 @@ public:
   Scopes& getScopes();
   
   /**
+   * Returns 'this' variable
+   */
+  IVariable* getThis();
+  
+  /**
    * Returns the LLVMContext
    */
   llvm::LLVMContext& getLLVMContext();

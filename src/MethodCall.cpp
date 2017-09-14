@@ -67,7 +67,7 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
   if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
     return true;
   }
-  IVariable* thisVariable = context.getScopes().getVariable("this");
+  IVariable* thisVariable = context.getThis();
   
   return thisVariable != NULL && thisVariable->getType() == object;
 }

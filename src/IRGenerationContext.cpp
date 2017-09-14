@@ -234,6 +234,10 @@ Scopes& IRGenerationContext::getScopes() {
   return mScopes;
 }
 
+IVariable* IRGenerationContext::getThis() {
+  return getScopes().getVariable("this");
+}
+
 LLVMContext& IRGenerationContext::getLLVMContext() {
   return mLLVMContext;
 }

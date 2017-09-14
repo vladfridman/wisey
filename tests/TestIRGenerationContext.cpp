@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Names.hpp"
@@ -25,6 +26,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Mock;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct IRGenerationContextTest : public Test {
@@ -261,6 +266,18 @@ TEST_F(IRGenerationContextTest, clearAndAddDefaultImportsDeathTest) {
   EXPECT_EXIT(mContext.getImport("CMyController"),
               ::testing::ExitedWithCode(1),
               "Error: Could not find definition for CMyController");
+}
+
+TEST_F(IRGenerationContextTest, getThisTest) {
+  mContext.getScopes().pushScope();
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("this"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(mModel));
+  mContext.getScopes().setVariable(&mockVariable);
+  mContext.getScopes().pushScope();
+  mContext.getScopes().pushScope();
+
+  EXPECT_EQ(mContext.getThis(), &mockVariable);
 }
 
 struct IRGenerationContextRunTest : public ::testing::Test {
