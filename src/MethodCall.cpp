@@ -26,7 +26,9 @@ MethodCall::~MethodCall() {
     delete expression;
   }
   mArguments.clear();
-  delete mExpression;
+  if (mExpression) {
+    delete mExpression;
+  }
 }
 
 IVariable* MethodCall::getVariable(IRGenerationContext& context) const {
@@ -34,7 +36,7 @@ IVariable* MethodCall::getVariable(IRGenerationContext& context) const {
 }
 
 Value* MethodCall::generateIR(IRGenerationContext& context) const {
-  IObjectType* objectWithMethodsType = getObjectWithMethods(context);
+  const IObjectType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   if (!checkAccess(context, objectWithMethodsType, methodDescriptor)) {
     Log::e("Method '" + mMethodName + "()' of object '" + objectWithMethodsType->getName() +
@@ -45,6 +47,9 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions);
   
+  if (methodDescriptor->isStatic()) {
+    return generateStaticMethodCallIR(context, objectWithMethodsType, methodDescriptor);
+  }
   if (IType::isConcreteObjectType(objectWithMethodsType)) {
     return generateObjectMethodCallIR(context,
                                       (IObjectType*) objectWithMethodsType,
@@ -61,11 +66,14 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
 }
 
 bool MethodCall::checkAccess(IRGenerationContext& context,
-                             IObjectType* object,
+                             const IObjectType* object,
                              IMethodDescriptor* methodDescriptor) const {
   
   if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
     return true;
+  }
+  if (methodDescriptor->isStatic()) {
+    return context.getScopes().getObjectType() == object;
   }
   IVariable* thisVariable = context.getThis();
   
@@ -75,7 +83,9 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
-  Value* expressionValueStore = mExpression->generateIR(context);
+  Value* expressionValueStore = mExpression != NULL
+    ? mExpression->generateIR(context)
+    : context.getThis()->generateIdentifierIR(context, "");
   Value* expressionValue = IRWriter::newLoadInst(context, expressionValueStore, "");
 
   FunctionType* functionType =
@@ -90,17 +100,25 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   LoadInst* function = IRWriter::newLoadInst(context, virtualFunction, "");
   
+  Value* valueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
+  Composer::checkNullAndThrowNPE(context, valueLoaded);
+  
+  vector<Value*> arguments;
+  arguments.push_back(expressionValueStore);
+
   return createFunctionCall(context,
                             (Function*) function,
                             functionType->getReturnType(),
                             methodDescriptor,
-                            expressionValueStore);
+                            arguments);
 }
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
-                                              IObjectType* object,
+                                              const IObjectType* object,
                                               IMethodDescriptor* methodDescriptor) const {
-  Value* expressionValueStore = mExpression->generateIR(context);
+  Value* expressionValueStore = mExpression != NULL
+    ? mExpression->generateIR(context)
+    : context.getThis()->generateIdentifierIR(context, "");
   string llvmFunctionName = translateObjectMethodToLLVMFunctionName(object, mMethodName);
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
@@ -110,27 +128,46 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
     exit(1);
   }
 
+  Value* valueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
+  Composer::checkNullAndThrowNPE(context, valueLoaded);
+  
+  vector<Value*> arguments;
+  arguments.push_back(expressionValueStore);
+  
   return createFunctionCall(context,
                             function,
                             function->getReturnType(),
                             methodDescriptor,
-                            expressionValueStore);
+                            arguments);
+}
+
+Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
+                                              const IObjectType* object,
+                                              IMethodDescriptor* methodDescriptor) const {
+  string llvmFunctionName = translateObjectMethodToLLVMFunctionName(object, mMethodName);
+  
+  Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
+  if (function == NULL) {
+    Log::e("LLVM function implementing object '" + object->getName() + "' method '" +
+           mMethodName + "' was not found");
+    exit(1);
+  }
+  
+  vector<Value*> arguments;
+  
+  return createFunctionCall(context,
+                            function,
+                            function->getReturnType(),
+                            methodDescriptor,
+                            arguments);
 }
 
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Function* function,
                                       Type* returnLLVMType,
                                       IMethodDescriptor* methodDescriptor,
-                                      Value* expressionValueStore) const {
+                                      vector<Value*> arguments) const {
 
-  Value* valueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
-  Composer::checkNullAndThrowNPE(context, valueLoaded);
-
-  vector<Value*> arguments;
-  if (!methodDescriptor->isStatic()) {
-    arguments.push_back(expressionValueStore);
-  }
-  
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {
@@ -203,7 +240,15 @@ void MethodCall::addReferenceToOwner(IRGenerationContext& context, IVariable* re
   }
 }
 
-IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
+const IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
+  if (mExpression == NULL && context.getThis()) {
+    return (IObjectType*) context.getThis()->getType();
+  }
+  
+  if (mExpression == NULL) {
+    return context.getScopes().getObjectType();
+  }
+  
   const IType* expressionType = mExpression->getType(context);
   if (expressionType->getTypeKind() == PRIMITIVE_TYPE) {
     Log::e("Attempt to call a method '" + mMethodName + "' on a primitive type expression");
@@ -218,7 +263,7 @@ IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) cons
 }
 
 IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context) const {
-  IObjectType* objectWithMethods = getObjectWithMethods(context);
+  const IObjectType* objectWithMethods = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = objectWithMethods->findMethod(mMethodName);
   if (methodDescriptor == NULL) {
     Log::e("Method '" + mMethodName + "' is not found in object '" +
@@ -229,7 +274,7 @@ IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context)
   return methodDescriptor;
 }
 
-void MethodCall::checkArgumentType(IObjectType* objectWithMethods,
+void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
                                    IMethodDescriptor* methodDescriptor,
                                    IRGenerationContext& context) const {
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
@@ -256,7 +301,7 @@ void MethodCall::checkArgumentType(IObjectType* objectWithMethods,
   }
 }
 
-string MethodCall::translateObjectMethodToLLVMFunctionName(IObjectType* object,
+string MethodCall::translateObjectMethodToLLVMFunctionName(const IObjectType* object,
                                                            string methodName) {
   if (object == NULL) {
     return methodName;
@@ -264,7 +309,7 @@ string MethodCall::translateObjectMethodToLLVMFunctionName(IObjectType* object,
   return object->getName() + "." + methodName;
 }
 
-string MethodCall::translateInterfaceMethodToLLVMFunctionName(IObjectType* object,
+string MethodCall::translateInterfaceMethodToLLVMFunctionName(const IObjectType* object,
                                                               const Interface* interface,
                                                               string methodName) {
   if (object == NULL) {
@@ -274,5 +319,11 @@ string MethodCall::translateInterfaceMethodToLLVMFunctionName(IObjectType* objec
 }
 
 bool MethodCall::existsInOuterScope(IRGenerationContext& context) const {
+  if (mExpression == NULL && context.getThis()) {
+    return context.getThis()->existsInOuterScope();
+  }
+  if (mExpression == NULL) {
+    return true;
+  }
   return mExpression->existsInOuterScope(context);
 }

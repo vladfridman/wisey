@@ -47,35 +47,39 @@ public:
   /**
    * Translate object method name into its LLVM implemenation function name
    */
-  static std::string translateObjectMethodToLLVMFunctionName(IObjectType* object,
+  static std::string translateObjectMethodToLLVMFunctionName(const IObjectType* object,
                                                              std::string methodName);
 
   /**
    * Translate interface method name into its LLVM implemenation function name
    */
-  static std::string translateInterfaceMethodToLLVMFunctionName(IObjectType* object,
+  static std::string translateInterfaceMethodToLLVMFunctionName(const IObjectType* object,
                                                                 const Interface* interface,
                                                                 std::string methodName);
 
 private:
 
   bool checkAccess(IRGenerationContext& context,
-                   IObjectType* object,
+                   const IObjectType* object,
                    IMethodDescriptor* methodDescriptor) const;
   
+  llvm::Value* generateStaticMethodCallIR(IRGenerationContext& context,
+                                          const IObjectType* object,
+                                          IMethodDescriptor* methodDescriptor) const;
+  
   llvm::Value* generateObjectMethodCallIR(IRGenerationContext& context,
-                                          IObjectType* object,
+                                          const IObjectType* object,
                                           IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
                                              Interface* interface,
                                              IMethodDescriptor* methodDescriptor) const;
   
-  IObjectType* getObjectWithMethods(IRGenerationContext& context) const;
+  const IObjectType* getObjectWithMethods(IRGenerationContext& context) const;
   
   IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
   
-  void checkArgumentType(IObjectType* objectWithMethods,
+  void checkArgumentType(const IObjectType* objectWithMethods,
                          IMethodDescriptor* methodDescriptor,
                          IRGenerationContext& context) const;
 
@@ -83,7 +87,7 @@ private:
                                   llvm::Function* function,
                                   llvm::Type* returnLLVMType,
                                   IMethodDescriptor* methodDescriptor,
-                                  llvm::Value* expressionValueStore) const;
+                                  std::vector<llvm::Value*> arguments) const;
 };
 
 } /* namespace wisey */

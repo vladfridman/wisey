@@ -1,0 +1,19 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CService {
+  public static int getNumber() {
+    return getDouble();
+  }
+
+  private static int getDouble() {
+    return 5 * 2;
+  }
+}
+
+controller CProgram implements IProgram {
+  public int run() {
+    return CService.getNumber();
+  }
+}
+
+bind(CProgram).to(IProgram);

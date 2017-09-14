@@ -345,6 +345,10 @@ TEST_F(TestFileSampleRunner, passOwnerAsParameterToMethodRunTest) {
   runFile("tests/samples/test_pass_owner_as_parameter_to_method.yz", "3");
 }
 
+TEST_F(TestFileSampleRunner, callToPrivateStaticMethodFromAnotherMethodRunTest) {
+  runFile("tests/samples/test_call_to_private_static_method_from_another_method.yz", "10");
+}
+
 TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_method_call.yz",
                     1,
