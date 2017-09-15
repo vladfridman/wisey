@@ -55,6 +55,7 @@
   #include "wisey/OwnerTypeSpecifier.hpp"
   #include "wisey/PrimitiveTypes.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
+  #include "wisey/PrintOutStatement.hpp"
   #include "wisey/ProgramFile.hpp"
   #include "wisey/RelationalExpression.hpp"
   #include "wisey/ReturnStatement.hpp"
@@ -140,7 +141,8 @@
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXTENDS TDEFAULT TFALLTHROUGH TFALSE
 %token <token> TFINALLY TFOR TIF TIMPLEMENTS TIMPORT TINJECT TINSTANCEOF TINTERFACE
-%token <token> TMODEL TNODE TNULL TOROP TPACKAGE TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC
+%token <token> TMODEL TNODE TNULL TOROP TPACKAGE TPRINTOUT 
+%token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC
 %token <token> TSWITCH TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPECHAR TTYPEDOUBLE 
 %token <token> TTYPEFLOAT TTYPEINT TTYPELONG TTYPEVOID TWHILE
 
@@ -162,7 +164,7 @@
 %type <statement> statement variable_declaration
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> declaration expression_statement iteration_statement
-%type <statement> selection_statement
+%type <statement> print_statement printout_statement selection_statement 
 %type <statement> throw_statement try_catch_statement finally_clause
 %type <global_statement> controller_definition interface_definition model_definition
 %type <global_statement> node_definition bind_action import_statement global_statement
@@ -531,9 +533,18 @@ statement
   | expression_statement
   | selection_statement
   | iteration_statement
+  | print_statement
   | jump_statement
   | throw_statement
   | try_catch_statement
+  ;
+
+print_statement
+  : printout_statement
+  ;
+
+printout_statement
+  : TPRINTOUT '(' string_literal ')' ';' { $$ = new PrintOutStatement($3); }
   ;
 
 case_statement_list_with_default

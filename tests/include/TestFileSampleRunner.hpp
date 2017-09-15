@@ -27,10 +27,14 @@ public:
   ~TestFileSampleRunner();
   
   /**
-   * Call this to run a sample wisey file through the compiler and check the output of a compiled
-   * program against the expected one.
+   * Compiles a sample file, runs it and checks the result against the expected one.
    */
   void runFile(std::string fileName, std::string expectedResult);
+
+  /**
+   * Compiles a sample file, runs it and checks the stdout and stderr against the expected one.
+   */
+  void runFileCheckOutput(std::string fileName, std::string expectedOut, std::string expectedErr);
 
   /**
    * Compile and run given file and compare the result
