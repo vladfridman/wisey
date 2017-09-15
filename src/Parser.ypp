@@ -148,8 +148,8 @@
  * Parsing tree node types
  */
 %type <identifier> identifier
-%type <string> string_literal package package_name
-%type <expression> constant expression multiplicative_expression additive_expression
+%type <string> package package_name
+%type <expression> string_literal constant expression multiplicative_expression additive_expression
 %type <expression> relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression object_builder method_call
@@ -685,7 +685,7 @@ constant
   ;
     
 string_literal
-  : STRING_LITERAL
+  : STRING_LITERAL { $$ = new StringConstant(*$1); delete $1; }
   ;
 
 method_call
@@ -709,7 +709,7 @@ static_method_call
 primary_expression
   : TFIELDIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
   | constant
-  | string_literal { $$ = new StringConstant(*$1); delete $1; }
+  | string_literal
   | object_builder
   | method_call
   | static_method_call
