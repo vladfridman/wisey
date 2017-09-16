@@ -15,6 +15,7 @@
 #include "wisey/FloatType.hpp"
 #include "wisey/IntType.hpp"
 #include "wisey/LongType.hpp"
+#include "wisey/StringType.hpp"
 #include "wisey/VoidType.hpp"
 
 namespace wisey {
@@ -32,6 +33,7 @@ public:
   static FloatType* FLOAT_TYPE;
   static IntType* INT_TYPE;
   static LongType* LONG_TYPE;
+  static StringType* STRING_TYPE;
   static VoidType* VOID_TYPE;
 
   /**

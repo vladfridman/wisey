@@ -62,7 +62,7 @@ string wisey::StringLiteral::unescape(const string& input) {
 }
 
 const IType* wisey::StringLiteral::getType(IRGenerationContext& context) const {
-  return PrimitiveTypes::VOID_TYPE;
+  return PrimitiveTypes::STRING_TYPE;
 }
 
 void wisey::StringLiteral::releaseOwnership(IRGenerationContext& context) const {

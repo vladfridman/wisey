@@ -22,6 +22,8 @@ IntType* PrimitiveTypes::INT_TYPE = new IntType();
 
 LongType* PrimitiveTypes::LONG_TYPE = new LongType();
 
+StringType* PrimitiveTypes::STRING_TYPE = new StringType();
+
 VoidType* PrimitiveTypes::VOID_TYPE = new VoidType();
 
 bool PrimitiveTypes::isFloatType(const IType* type) {
