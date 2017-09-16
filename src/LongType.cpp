@@ -20,7 +20,7 @@ string LongType::getName() const {
 }
 
 llvm::Type* LongType::getLLVMType(LLVMContext& llvmContext) const {
-  return (llvm::Type*) Type::getInt64Ty(llvmContext);
+  return Type::getInt64Ty(llvmContext);
 }
 
 TypeKind LongType::getTypeKind() const {

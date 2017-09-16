@@ -20,7 +20,7 @@ string BooleanType::getName() const {
 }
 
 llvm::Type* BooleanType::getLLVMType(LLVMContext& llvmContext) const {
-  return (llvm::Type*) Type::getInt1Ty(llvmContext);
+  return Type::getInt1Ty(llvmContext);
 }
 
 TypeKind BooleanType::getTypeKind() const {
