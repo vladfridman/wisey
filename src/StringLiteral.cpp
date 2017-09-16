@@ -1,5 +1,5 @@
 //
-//  StringConstant.cpp
+//  StringLiteral.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 12/23/16.
@@ -10,17 +10,17 @@
 
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StringConstant.hpp"
+#include "wisey/StringLiteral.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-IVariable* StringConstant::getVariable(IRGenerationContext& context) const {
+IVariable* wisey::StringLiteral::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-Value* StringConstant::generateIR(IRGenerationContext& context) const {
+Value* wisey::StringLiteral::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Constant* stringConstant = ConstantDataArray::getString(llvmContext, mValue);
   GlobalVariable* globalVariableString =
@@ -37,7 +37,7 @@ Value* StringConstant::generateIR(IRGenerationContext& context) const {
   return ConstantExpr::getGetElementPtr(NULL, globalVariableString, indices, true);
 }
 
-string StringConstant::unescape(const string& input) {
+string wisey::StringLiteral::unescape(const string& input) {
   string result;
   string::const_iterator iterator = input.begin();
   while (iterator != input.end())
@@ -61,20 +61,20 @@ string StringConstant::unescape(const string& input) {
   return result;
 }
 
-const IType* StringConstant::getType(IRGenerationContext& context) const {
+const IType* wisey::StringLiteral::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::VOID_TYPE;
 }
 
-void StringConstant::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a string constant, it is not a heap pointer");
+void wisey::StringLiteral::releaseOwnership(IRGenerationContext& context) const {
+  Log::e("Can not release ownership of a string literal, it is not a heap pointer");
   exit(1);
 }
 
-void StringConstant::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
-  Log::e("Can not add a reference to a string constant expression");
+void wisey::StringLiteral::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
+  Log::e("Can not add a reference to a string literal expression");
   exit(1);
 }
 
-bool StringConstant::existsInOuterScope(IRGenerationContext& context) const {
+bool wisey::StringLiteral::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

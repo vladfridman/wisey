@@ -1,28 +1,28 @@
 //
-//  StringConstant.hpp
+//  StringLiteral.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 12/23/16.
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef StringConstant_h
-#define StringConstant_h
+#ifndef StringLiteral_h
+#define StringLiteral_h
 
 #include "wisey/IExpression.hpp"
 
 namespace wisey {
   
 /**
- * Represents a constant string
+ * Represents a string literal
  */
-class StringConstant : public IExpression {
+class StringLiteral : public IExpression {
   std::string mValue;
   
 public:
-  StringConstant(std::string input) : mValue(unescape(input.substr(1, input.length() - 2))) { }
+  StringLiteral(std::string input) : mValue(unescape(input.substr(1, input.length() - 2))) { }
   
-  ~StringConstant() { }
+  ~StringLiteral() { }
   
   IVariable* getVariable(IRGenerationContext& context) const override;
 
@@ -43,4 +43,4 @@ private:
   
 } /* namespace wisey */
 
-#endif /* StringConstant_h */
+#endif /* StringLiteral_h */

@@ -60,7 +60,7 @@
   #include "wisey/RelationalExpression.hpp"
   #include "wisey/ReturnStatement.hpp"
   #include "wisey/ReturnVoidStatement.hpp"
-  #include "wisey/StringConstant.hpp"
+  #include "wisey/StringLiteral.hpp"
   #include "wisey/StaticMethodCall.hpp"
   #include "wisey/StaticMethodDeclaration.hpp"
   #include "wisey/SwitchStatement.hpp"
@@ -696,7 +696,7 @@ constant
   ;
     
 string_literal
-  : STRING_LITERAL { $$ = new StringConstant(*$1); delete $1; }
+  : STRING_LITERAL { $$ = new StringLiteral(*$1); delete $1; }
   ;
 
 method_call

@@ -12,7 +12,6 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IStatement.hpp"
-#include "wisey/StringConstant.hpp"
 
 namespace wisey {
   
@@ -22,11 +21,11 @@ class IRGenerationContext;
  * Represents a printout statement for printing things to stdout stream
  */
 class PrintOutStatement : public IStatement {
-  IExpression* mStringConstant;
+  IExpression* mStringLiteral;
   
 public:
   
-  PrintOutStatement(IExpression* stringConstant) : mStringConstant(stringConstant) { }
+  PrintOutStatement(IExpression* stringLiteral) : mStringLiteral(stringLiteral) { }
   
   ~PrintOutStatement();
   

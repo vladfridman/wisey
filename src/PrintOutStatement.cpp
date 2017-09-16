@@ -16,11 +16,11 @@ using namespace std;
 using namespace wisey;
 
 PrintOutStatement::~PrintOutStatement() {
-  delete mStringConstant;
+  delete mStringLiteral;
 }
 
 Value* PrintOutStatement::generateIR(IRGenerationContext& context) const {
-  Value* stringValue = mStringConstant->generateIR(context);
+  Value* stringValue = mStringLiteral->generateIR(context);
 
   Function* printf = IntrinsicFunctions::getPrintfFunction(context);
   vector<Value*> arguments;
