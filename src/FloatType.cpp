@@ -59,3 +59,7 @@ Value* FloatType::castTo(IRGenerationContext& context,
   Cast::exitIncompatibleTypes(this, toType);
   return NULL;
 }
+
+string FloatType::getFormat() const {
+  return "%f";
+}

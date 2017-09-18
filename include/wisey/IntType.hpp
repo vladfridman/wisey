@@ -9,14 +9,14 @@
 #ifndef IntType_h
 #define IntType_h
 
-#include "wisey/IType.hpp"
+#include "wisey/IPrimitiveType.hpp"
 
 namespace wisey {
   
 /**
  * Represents integer expression type
  */
-class IntType : public IType {
+class IntType : public IPrimitiveType {
   
 public:
   
@@ -37,6 +37,9 @@ public:
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       const IType* toType) const override;
+  
+  std::string getFormat() const override;
+  
 };
   
 } /* namespace wisey */

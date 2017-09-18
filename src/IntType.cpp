@@ -60,3 +60,7 @@ Value* IntType::castTo(IRGenerationContext& context,
   Cast::exitIncompatibleTypes(this, toType);
   return NULL;
 }
+
+string IntType::getFormat() const {
+  return "%d";
+}

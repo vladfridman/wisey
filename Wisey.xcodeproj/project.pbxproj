@@ -819,6 +819,7 @@
 		F58725501F6D744600FA25E6 /* StringType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StringType.hpp; path = include/wisey/StringType.hpp; sourceTree = "<group>"; };
 		F58725511F6D749100FA25E6 /* StringType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringType.cpp; path = src/StringType.cpp; sourceTree = "<group>"; };
 		F58725541F6DB97C00FA25E6 /* TestStringType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStringType.cpp; path = tests/TestStringType.cpp; sourceTree = "<group>"; };
+		F587255B1F6FEF6D00FA25E6 /* IPrimitiveType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IPrimitiveType.hpp; path = include/wisey/IPrimitiveType.hpp; sourceTree = "<group>"; };
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
 		F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodCall.cpp; path = tests/TestStaticMethodCall.cpp; sourceTree = "<group>"; };
@@ -1371,6 +1372,7 @@
 				F53A2C0E1EED4CFE00E76A9E /* IObjectOwnerType.hpp */,
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F53A2C0F1EED58BD00E76A9E /* IObjectTypeSpecifier.hpp */,
+				F587255B1F6FEF6D00FA25E6 /* IPrimitiveType.hpp */,
 				F5089C811ECD01D9004A1223 /* IStatement.hpp */,
 				F5089C821ECD01D9004A1223 /* IType.hpp */,
 				F5089C831ECD01D9004A1223 /* ITypeSpecifier.hpp */,

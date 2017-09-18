@@ -14,6 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/VoidType.hpp"
 
@@ -56,6 +57,7 @@ TEST_F(VoidTypeTest, voidTypeTest) {
   EXPECT_EQ(mVoidType.getLLVMType(mLLVMContext), Type::getVoidTy(mLLVMContext));
   EXPECT_STREQ(mVoidType.getName().c_str(), "void");
   EXPECT_EQ(mVoidType.getTypeKind(), PRIMITIVE_TYPE);
+  EXPECT_EQ(mVoidType.getFormat(), "");
 }
 
 TEST_F(VoidTypeTest, canAutoCastToTest) {

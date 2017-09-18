@@ -14,6 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StringType.hpp"
 
@@ -56,6 +57,7 @@ TEST_F(StringTypeTest, stringTypeTest) {
   EXPECT_EQ(mStringType.getLLVMType(mLLVMContext), Type::getInt16Ty(mLLVMContext)->getPointerTo());
   EXPECT_STREQ(mStringType.getName().c_str(), "string");
   EXPECT_EQ(mStringType.getTypeKind(), PRIMITIVE_TYPE);
+  EXPECT_EQ(mStringType.getFormat(), "%s");
 }
 
 TEST_F(StringTypeTest, canAutoCastToTest) {

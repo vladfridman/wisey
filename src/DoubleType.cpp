@@ -59,3 +59,7 @@ Value* DoubleType::castTo(IRGenerationContext& context,
   Cast::exitIncompatibleTypes(this, toType);
   return NULL;
 }
+
+string DoubleType::getFormat() const {
+  return "%e";
+}

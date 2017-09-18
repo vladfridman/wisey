@@ -64,3 +64,7 @@ Value* CharType::castTo(IRGenerationContext& context,
   Cast::exitIncompatibleTypes(this, toType);
   return NULL;
 }
+
+string CharType::getFormat() const {
+  return "%c";
+}

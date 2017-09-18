@@ -9,14 +9,14 @@
 #ifndef FloatType_h
 #define FloatType_h
 
-#include "wisey/IType.hpp"
+#include "wisey/IPrimitiveType.hpp"
 
 namespace wisey {
   
 /**
  * Represents float expression type
  */
-class FloatType : public IType {
+class FloatType : public IPrimitiveType {
     
 public:
   
@@ -37,6 +37,9 @@ public:
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       const IType* toType) const override;
+  
+  std::string getFormat() const override;
+  
 };
   
 } /* namespace wisey */

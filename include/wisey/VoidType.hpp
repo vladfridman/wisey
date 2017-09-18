@@ -9,17 +9,14 @@
 #ifndef VoidType_h
 #define VoidType_h
 
-#include <llvm/IR/LLVMContext.h>
-#include <llvm/IR/Type.h>
-
-#include "wisey/IType.hpp"
+#include "wisey/IPrimitiveType.hpp"
 
 namespace wisey {
   
 /**
  * Represents void expression type
  */
-class VoidType : public IType {
+class VoidType : public IPrimitiveType {
     
 public:
   
@@ -40,6 +37,9 @@ public:
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       const IType* toType) const override;
+  
+  std::string getFormat() const override;
+  
 };
   
 } /* namespace wisey */

@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/IntConstant.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 

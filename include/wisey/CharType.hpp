@@ -9,18 +9,14 @@
 #ifndef CharType_h
 #define CharType_h
 
-#include <llvm/IR/LLVMContext.h>
-#include <llvm/IR/Type.h>
-
-#include "wisey/IRGenerationContext.hpp"
-#include "wisey/IType.hpp"
+#include "wisey/IPrimitiveType.hpp"
 
 namespace wisey {
 
 /**
  * Represents char expression type
  */
-class CharType : public IType {
+class CharType : public IPrimitiveType {
   
 public:
   
@@ -41,6 +37,9 @@ public:
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       const IType* toType) const override;
+  
+  std::string getFormat() const override;
+  
 };
 
 } /* namespace wisey */

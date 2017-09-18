@@ -9,14 +9,14 @@
 #ifndef BooleanType_h
 #define BooleanType_h
 
-#include "wisey/IType.hpp"
+#include "wisey/IPrimitiveType.hpp"
 
 namespace wisey {
   
 /**
  * Represents char expression type
  */
-class BooleanType : public IType {
+class BooleanType : public IPrimitiveType {
     
 public:
   
@@ -37,6 +37,9 @@ public:
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       const IType* toType) const override;
+  
+  std::string getFormat() const override;
+
 };
 
 } /* namespace wisey */

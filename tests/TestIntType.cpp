@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/IntType.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -56,6 +57,7 @@ TEST_F(IntTypeTest, intTypeTest) {
   EXPECT_EQ(mIntType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt32Ty(mLLVMContext));
   EXPECT_STREQ(mIntType.getName().c_str(), "int");
   EXPECT_EQ(mIntType.getTypeKind(), PRIMITIVE_TYPE);
+  EXPECT_EQ(mIntType.getFormat(), "%d");
 }
 
 TEST_F(IntTypeTest, canAutoCastToTest) {

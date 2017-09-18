@@ -52,3 +52,7 @@ Value* VoidType::castTo(IRGenerationContext& context,
   Cast::exitIncompatibleTypes(this, toType);
   return NULL;
 }
+
+string VoidType::getFormat() const {
+  return "";
+}

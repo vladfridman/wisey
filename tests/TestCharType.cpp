@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/CharType.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -56,6 +57,7 @@ TEST_F(CharTypeTest, charTypeTest) {
   EXPECT_EQ(mCharType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt16Ty(mLLVMContext));
   EXPECT_STREQ(mCharType.getName().c_str(), "char");
   EXPECT_EQ(mCharType.getTypeKind(), PRIMITIVE_TYPE);
+  EXPECT_EQ(mCharType.getFormat(), "%c");
 }
 
 TEST_F(CharTypeTest, canAutoCastToTest) {

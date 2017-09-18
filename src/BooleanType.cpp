@@ -63,3 +63,7 @@ Value* BooleanType::castTo(IRGenerationContext& context,
   Cast::exitIncompatibleTypes(this, toType);
   return NULL;
 }
+
+string BooleanType::getFormat() const {
+  return "%d";
+}

@@ -58,3 +58,7 @@ Value* LongType::castTo(IRGenerationContext& context,
   Cast::exitIncompatibleTypes(this, toType);
   return NULL;
 }
+
+string LongType::getFormat() const {
+  return "%d";
+}

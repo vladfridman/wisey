@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/LongType.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -56,6 +57,7 @@ TEST_F(LongTypeTest, longTypeTest) {
   EXPECT_EQ(mLongType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt64Ty(mLLVMContext));
   EXPECT_STREQ(mLongType.getName().c_str(), "long");
   EXPECT_EQ(mLongType.getTypeKind(), PRIMITIVE_TYPE);
+  EXPECT_EQ(mLongType.getFormat(), "%d");
 }
 
 TEST_F(LongTypeTest, canAutoCastToTest) {

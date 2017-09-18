@@ -9,14 +9,14 @@
 #ifndef LongType_h
 #define LongType_h
 
-#include "wisey/IType.hpp"
+#include "wisey/IPrimitiveType.hpp"
 
 namespace wisey {
   
 /**
  * Represents long integer expression type
  */
-class LongType : public IType {
+class LongType : public IPrimitiveType {
   
 public:
   
@@ -37,6 +37,9 @@ public:
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       const IType* toType) const override;
+  
+  std::string getFormat() const override;
+  
 };
   
 } /* namespace wisey */

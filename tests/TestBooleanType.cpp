@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/BooleanType.hpp"
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -56,6 +57,7 @@ TEST_F(BooleanTypeTest, booleanTypeTest) {
   EXPECT_EQ(mBoleanType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt1Ty(mLLVMContext));
   EXPECT_STREQ(mBoleanType.getName().c_str(), "boolean");
   EXPECT_EQ(mBoleanType.getTypeKind(), PRIMITIVE_TYPE);
+  EXPECT_EQ(mBoleanType.getFormat(), "%d");
 }
 
 TEST_F(BooleanTypeTest, canAutoCastToTest) {

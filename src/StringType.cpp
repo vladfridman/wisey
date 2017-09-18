@@ -46,3 +46,7 @@ Value* StringType::castTo(IRGenerationContext& context,
   Cast::exitIncompatibleTypes(this, toType);
   return NULL;
 }
+
+string StringType::getFormat() const {
+  return "%s";
+}

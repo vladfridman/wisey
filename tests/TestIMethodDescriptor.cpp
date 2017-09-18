@@ -13,6 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
