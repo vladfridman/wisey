@@ -38,3 +38,7 @@ string Names::getLangPackageName() {
 string Names::getFreeIfNotNullFunctionName() {
   return "__freeIfNotNull";
 }
+
+string Names::getStdErrName() {
+  return "__stderrp";
+}

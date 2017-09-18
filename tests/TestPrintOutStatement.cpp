@@ -10,10 +10,22 @@
 
 #include "TestFileSampleRunner.hpp"
 
-TEST_F(TestFileSampleRunner, printoutRunTest) {
+TEST_F(TestFileSampleRunner, printOutRunTest) {
   runFileCheckOutput("tests/samples/test_printout.yz", "Hello world!\n", "");
 }
 
-TEST_F(TestFileSampleRunner, printoutCompositeStringRunTest) {
+TEST_F(TestFileSampleRunner, printOutCompositeStringRunTest) {
   runFileCheckOutput("tests/samples/test_printout_composite_string.yz", "Car year: 2018\n", "");
+}
+
+TEST_F(TestFileSampleRunner, printOutNonPrimitiveTypeRunDeathTest) {
+  expectFailCompile("tests/samples/test_printout_non_primitive_type.yz",
+                    1,
+                    "Error: Can not print non primitive types");
+}
+
+TEST_F(TestFileSampleRunner, printOutVoidTypeRunDeathTest) {
+  expectFailCompile("tests/samples/test_printout_void_type.yz",
+                    1,
+                    "Error: Can not print a void type expression");
 }

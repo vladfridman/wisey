@@ -9,8 +9,10 @@
 #include <llvm/IR/TypeBuilder.h>
 
 #include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/Names.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
 
 Function* IntrinsicFunctions::getThrowFunction(IRGenerationContext& context) {
@@ -90,4 +92,18 @@ Function* IntrinsicFunctions::getPrintfFunction(IRGenerationContext& context) {
   AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
   return cast<Function>(context.getModule()->
                         getOrInsertFunction("printf", printfType, attributeSet));
+}
+
+Function* IntrinsicFunctions::getFprintfFunction(IRGenerationContext& context) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  GlobalVariable* stderrPointer = context.getModule()->getGlobalVariable(Names::getStdErrName());
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(stderrPointer->getType()->getPointerElementType());
+  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  FunctionType *printfType = FunctionType::get(Type::getInt32Ty(llvmContext), argTypesArray, true);
+  
+  AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
+  return cast<Function>(context.getModule()->
+                        getOrInsertFunction("fprintf", printfType, attributeSet));
 }

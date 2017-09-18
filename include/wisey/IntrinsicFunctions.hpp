@@ -68,6 +68,11 @@ public:
    * Declares printf function that is used to print things to screen
    */
   static llvm::Function* getPrintfFunction(IRGenerationContext& context);
+  
+  /**
+   * Declares fprintf function that is used to print things to screen
+   */
+  static llvm::Function* getFprintfFunction(IRGenerationContext& context);
 };
   
 } /* namespace wisey */

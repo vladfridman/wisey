@@ -56,6 +56,10 @@ public:
    */
   static std::string getFreeIfNotNullFunctionName();
   
+  /**
+   * Get name of the stderr pointer
+   */
+  static std::string getStdErrName();
 };
 
 } /* namespace wisey */

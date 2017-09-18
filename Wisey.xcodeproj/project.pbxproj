@@ -313,6 +313,11 @@
 		F58725521F6D749100FA25E6 /* StringType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725511F6D749100FA25E6 /* StringType.cpp */; };
 		F58725531F6D749100FA25E6 /* StringType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725511F6D749100FA25E6 /* StringType.cpp */; };
 		F58725551F6DB97C00FA25E6 /* TestStringType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725541F6DB97C00FA25E6 /* TestStringType.cpp */; };
+		F587255E1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F587255D1F6FFB2D00FA25E6 /* PrintErrStatement.cpp */; };
+		F587255F1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F587255D1F6FFB2D00FA25E6 /* PrintErrStatement.cpp */; };
+		F58725621F70143100FA25E6 /* IPrintStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725611F70143100FA25E6 /* IPrintStatement.cpp */; };
+		F58725631F70143100FA25E6 /* IPrintStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725611F70143100FA25E6 /* IPrintStatement.cpp */; };
+		F58725651F70178D00FA25E6 /* TestPrintErrStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */; };
 		F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
@@ -820,6 +825,11 @@
 		F58725511F6D749100FA25E6 /* StringType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringType.cpp; path = src/StringType.cpp; sourceTree = "<group>"; };
 		F58725541F6DB97C00FA25E6 /* TestStringType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStringType.cpp; path = tests/TestStringType.cpp; sourceTree = "<group>"; };
 		F587255B1F6FEF6D00FA25E6 /* IPrimitiveType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IPrimitiveType.hpp; path = include/wisey/IPrimitiveType.hpp; sourceTree = "<group>"; };
+		F587255C1F6FFAEE00FA25E6 /* PrintErrStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrintErrStatement.hpp; path = include/wisey/PrintErrStatement.hpp; sourceTree = "<group>"; };
+		F587255D1F6FFB2D00FA25E6 /* PrintErrStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrintErrStatement.cpp; path = src/PrintErrStatement.cpp; sourceTree = "<group>"; };
+		F58725601F70131D00FA25E6 /* IPrintStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IPrintStatement.hpp; path = include/wisey/IPrintStatement.hpp; sourceTree = "<group>"; };
+		F58725611F70143100FA25E6 /* IPrintStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IPrintStatement.cpp; path = src/IPrintStatement.cpp; sourceTree = "<group>"; };
+		F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrintErrStatement.cpp; path = tests/TestPrintErrStatement.cpp; sourceTree = "<group>"; };
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
 		F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodCall.cpp; path = tests/TestStaticMethodCall.cpp; sourceTree = "<group>"; };
@@ -1127,6 +1137,7 @@
 				F5A363591F376F1C005880B3 /* TestPrimitiveFieldVariable.cpp */,
 				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
+				F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */,
 				F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */,
 				F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */,
 				F57085F51E511BAC007D627E /* TestReferenceFieldVariable.cpp */,
@@ -1373,6 +1384,7 @@
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F53A2C0F1EED58BD00E76A9E /* IObjectTypeSpecifier.hpp */,
 				F587255B1F6FEF6D00FA25E6 /* IPrimitiveType.hpp */,
+				F58725601F70131D00FA25E6 /* IPrintStatement.hpp */,
 				F5089C811ECD01D9004A1223 /* IStatement.hpp */,
 				F5089C821ECD01D9004A1223 /* IType.hpp */,
 				F5089C831ECD01D9004A1223 /* ITypeSpecifier.hpp */,
@@ -1389,6 +1401,7 @@
 				F51D2BB31F691C8100510784 /* IMethod.cpp */,
 				F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */,
 				F56AD4A01E9F66C40020868C /* IObjectType.cpp */,
+				F58725611F70143100FA25E6 /* IPrintStatement.cpp */,
 				F5CE2D401EF6A43C002ABB85 /* IType.cpp */,
 				F53A2C1D1EF96C0200E76A9E /* IVariable.cpp */,
 			);
@@ -1588,6 +1601,7 @@
 				F5089C701ECD01D9004A1223 /* IfElseStatement.hpp */,
 				F5089C711ECD01D9004A1223 /* IfStatement.hpp */,
 				F53B8EB91ECE0E5800F45564 /* ImportStatement.hpp */,
+				F587255C1F6FFAEE00FA25E6 /* PrintErrStatement.hpp */,
 				F5E3D6481F6C00DC00FC37CB /* PrintOutStatement.hpp */,
 				F5089C9C1ECD01D9004A1223 /* ProgramFile.hpp */,
 				F5089C9D1ECD01D9004A1223 /* ProgramPrefix.hpp */,
@@ -1617,6 +1631,7 @@
 				F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */,
 				F59D82221E0F6DAE00057FB5 /* IfStatement.cpp */,
 				F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */,
+				F587255D1F6FFB2D00FA25E6 /* PrintErrStatement.cpp */,
 				F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */,
 				F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */,
 				F57780A81EC7778A0049542D /* ProgramPrefix.cpp */,
@@ -1921,8 +1936,10 @@
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
 				F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */,
 				F53A2C371EFFFCEE00E76A9E /* TestNode.cpp in Sources */,
+				F58725631F70143100FA25E6 /* IPrintStatement.cpp in Sources */,
 				F507D26E1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F57411681E02CE97009809FF /* TestIRGenerationContext.cpp in Sources */,
+				F587255F1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */,
 				F50FA2F81E2E3B3900435EEA /* TestLongConstant.cpp in Sources */,
 				F5CB18141EB0D96A007E2E43 /* Catch.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
@@ -2007,6 +2024,7 @@
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
 				F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
+				F58725651F70178D00FA25E6 /* TestPrintErrStatement.cpp in Sources */,
 				F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */,
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
@@ -2076,6 +2094,7 @@
 				F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
+				F58725621F70143100FA25E6 /* IPrintStatement.cpp in Sources */,
 				F5FCAE331ED5C38B00C69899 /* Compiler.cpp in Sources */,
 				F50427AC1E4D2747001CB148 /* HeapReferenceVariable.cpp in Sources */,
 				F50FA2B71E28BA5600435EEA /* DoStatement.cpp in Sources */,
@@ -2185,6 +2204,7 @@
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F59497051F569C050002F14F /* FieldFixed.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
+				F587255E1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */,
 				F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F5EEDDA01E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
 				F50FA2E51E2E3B0900435EEA /* DoubleConstant.cpp in Sources */,

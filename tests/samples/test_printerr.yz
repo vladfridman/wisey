@@ -1,0 +1,11 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    printerr("Hello world!\n");
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);

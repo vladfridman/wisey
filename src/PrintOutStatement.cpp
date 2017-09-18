@@ -27,35 +27,7 @@ PrintOutStatement::~PrintOutStatement() {
 }
 
 Value* PrintOutStatement::generateIR(IRGenerationContext& context) const {
-  string formatString = "";
-  for (IExpression* expression : mExpressionList) {
-    const IType* type = expression->getType(context);
-    if (type->getTypeKind() != PRIMITIVE_TYPE) {
-      Log::e("Can not print non primitive types");
-      exit(1);
-    }
-    if (type == PrimitiveTypes::VOID_TYPE) {
-      Log::e("Can not print a void type expression");
-      exit(1);
-    }
-    const IPrimitiveType* primitiveType = (const IPrimitiveType*) type;
-    formatString += primitiveType->getFormat();
-  }
-  
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Constant* stringConstant = ConstantDataArray::getString(llvmContext, formatString);
-  GlobalVariable* globalVariableString =
-  new GlobalVariable(*context.getModule(),
-                     stringConstant->getType(),
-                     true,
-                     GlobalValue::InternalLinkage,
-                     stringConstant,
-                     ".format.str");
-  
-  Constant* zero = Constant::getNullValue(IntegerType::getInt32Ty(llvmContext));
-  Constant* indices[] = {zero, zero};
-  
-  Value* formatPointer = ConstantExpr::getGetElementPtr(NULL, globalVariableString, indices, true);
+  Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList);
 
   Function* printf = IntrinsicFunctions::getPrintfFunction(context);
   vector<Value*> arguments;

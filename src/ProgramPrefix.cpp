@@ -37,7 +37,9 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   defineFreeIfNotNullFunction(context);
   defineNPEModel(context);
   defineNPEFunction(context);
-  defindIProgramInterface(context);
+  defineIProgramInterface(context);
+  StructType* fileStructType = defineFileStruct(context);
+  defineStderr(context, fileStructType);
   
   return NULL;
 }
@@ -140,7 +142,7 @@ void ProgramPrefix::defineFreeIfNotNullFunction(IRGenerationContext& context) co
   IRWriter::createReturnInst(context, NULL);
 }
 
-void ProgramPrefix::defindIProgramInterface(IRGenerationContext& context) const {
+void ProgramPrefix::defineIProgramInterface(IRGenerationContext& context) const {
   PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableList variableList;
   vector<ModelTypeSpecifier*> thrownExceptions;
@@ -166,4 +168,79 @@ void ProgramPrefix::defindIProgramInterface(IRGenerationContext& context) const 
   programInterface.generateIR(context);
   
   context.addImport(context.getInterface(Names::getIProgramName()));
+}
+
+StructType* ProgramPrefix::defineFileStruct(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  vector<Type*> sbufTypes;
+  sbufTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  sbufTypes.push_back(Type::getInt32Ty(llvmContext));
+  StructType* sbufTypeStructType = StructType::create(llvmContext, "struct.__sbuf");
+  sbufTypeStructType->setBody(sbufTypes);
+
+  StructType* sbufFileXStructType = StructType::create(llvmContext, "struct.__sFILEX");
+  
+  vector<Type*> sbufFileTypes;
+  sbufFileTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  sbufFileTypes.push_back(Type::getInt32Ty(llvmContext));
+  sbufFileTypes.push_back(Type::getInt32Ty(llvmContext));
+  sbufFileTypes.push_back(Type::getInt16Ty(llvmContext));
+  sbufFileTypes.push_back(Type::getInt16Ty(llvmContext));
+  sbufFileTypes.push_back(sbufTypeStructType);
+  sbufFileTypes.push_back(Type::getInt32Ty(llvmContext));
+  sbufFileTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  sbufFileTypes.push_back(FunctionType::get(Type::getInt32Ty(llvmContext),
+                                            argTypesArray,
+                                            false)->getPointerTo());
+  argumentTypes.clear();
+  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  argumentTypes.push_back(Type::getInt32Ty(llvmContext));
+  argTypesArray = ArrayRef<Type*>(argumentTypes);
+  sbufFileTypes.push_back(FunctionType::get(Type::getInt32Ty(llvmContext),
+                                            argTypesArray,
+                                            false)->getPointerTo());
+  argumentTypes.clear();
+  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
+  argumentTypes.push_back(Type::getInt32Ty(llvmContext));
+  argTypesArray = ArrayRef<Type*>(argumentTypes);
+  sbufFileTypes.push_back(FunctionType::get(Type::getInt64Ty(llvmContext),
+                                            argTypesArray,
+                                            false)->getPointerTo());
+  argumentTypes.clear();
+  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  argumentTypes.push_back(Type::getInt32Ty(llvmContext));
+  argTypesArray = ArrayRef<Type*>(argumentTypes);
+  sbufFileTypes.push_back(FunctionType::get(Type::getInt32Ty(llvmContext),
+                                            argTypesArray,
+                                            false)->getPointerTo());
+  sbufFileTypes.push_back(sbufTypeStructType);
+  sbufFileTypes.push_back(sbufFileXStructType->getPointerTo());
+  sbufFileTypes.push_back(Type::getInt32Ty(llvmContext));
+  sbufFileTypes.push_back(ArrayType::get(Type::getInt8Ty(llvmContext), 3));
+  sbufFileTypes.push_back(ArrayType::get(Type::getInt8Ty(llvmContext), 1));
+  sbufFileTypes.push_back(sbufTypeStructType);
+  sbufFileTypes.push_back(Type::getInt32Ty(llvmContext));
+  sbufFileTypes.push_back(Type::getInt64Ty(llvmContext));
+  
+  StructType* sbufFileStructType = StructType::create(llvmContext, "struct.__sFILE");
+  sbufFileStructType->setBody(sbufFileTypes);
+  
+  return sbufFileStructType;
+}
+
+void ProgramPrefix::defineStderr(IRGenerationContext& context, StructType* fileStructType) const {
+  GlobalVariable* global = new GlobalVariable(*context.getModule(),
+                                              fileStructType->getPointerTo(),
+                                              false,
+                                              GlobalValue::ExternalLinkage,
+                                              nullptr,
+                                              Names::getStdErrName());
+  global->setAlignment(8);
 }

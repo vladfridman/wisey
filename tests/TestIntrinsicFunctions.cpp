@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 
 #include "wisey/IntrinsicFunctions.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -23,8 +24,7 @@ struct IntrinsicFunctionsTest : public Test {
   
 public:
   
-  IntrinsicFunctionsTest() {
-    mModule = mContext.getModule();
+  IntrinsicFunctionsTest() : mModule(mContext.getModule()) {
   }
 };
 
@@ -80,5 +80,13 @@ TEST_F(IntrinsicFunctionsTest, getPrintfFunctionTest) {
   EXPECT_EQ(mModule->getFunction("printf"), nullptr);
   EXPECT_NE(IntrinsicFunctions::getPrintfFunction(mContext), nullptr);
   EXPECT_NE(mModule->getFunction("printf"), nullptr);
+}
+
+TEST_F(IntrinsicFunctionsTest, getFprintfFunctionTest) {
+  ProgramPrefix programPrefix;
+  programPrefix.generateIR(mContext);
+  EXPECT_EQ(mModule->getFunction("fprintf"), nullptr);
+  EXPECT_NE(IntrinsicFunctions::getFprintfFunction(mContext), nullptr);
+  EXPECT_NE(mModule->getFunction("fprintf"), nullptr);
 }
 

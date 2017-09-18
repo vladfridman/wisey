@@ -1,0 +1,21 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  int mYear;
+
+  public int getYear() {
+    return mYear;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MCar* car = builder(MCar).withYear(2018).build();
+
+    printerr("Car year: " + car + "\n");
+    return car.getYear();
+  }
+}
+
+bind(CProgram).to(IProgram);
