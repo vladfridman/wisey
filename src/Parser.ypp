@@ -158,7 +158,7 @@
 %type <expression> cast_expression primary_expression assignment unary_expression
 %type <expression> type_comparision_expression increment_expression static_method_call
 %type <variable_vector> method_declaration_arguments
-%type <expression_vector> call_arguments
+%type <expression_vector> call_arguments string_concatenation_list
 %type <block> block_item_list 
 %type <program_file> program
 %type <statement> statement variable_declaration
@@ -544,7 +544,12 @@ print_statement
   ;
 
 printout_statement
-  : TPRINTOUT '(' string_literal ')' ';' { $$ = new PrintOutStatement($3); }
+  : TPRINTOUT '(' string_concatenation_list ')' ';' { $$ = new PrintOutStatement(*$3); delete $3; }
+  ;
+
+string_concatenation_list
+  : cast_expression { $$ = new std::vector<IExpression*>(); $$->push_back($1); }
+  | string_concatenation_list '+' cast_expression { $1->push_back($3); $$ = $1; }
   ;
 
 case_statement_list_with_default

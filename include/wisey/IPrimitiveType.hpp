@@ -12,12 +12,12 @@
 #include "wisey/IType.hpp"
 
 namespace wisey {
-  
+
 /**
  * Represents a primitive type such as int, boolean, char, string
  */
 class IPrimitiveType : public IType {
-    
+
 public:
   
   /**
