@@ -22,10 +22,10 @@ LIBDIR = ${CURDIR}/lib
 SOURCES = $(shell find src -name '*.cpp')
 # Object files to be generated
 OBJ = $(SOURCES:src/%.cpp=$(BUILDDIR)/%.o) $(BUILDDIR)/Tokens.o $(BUILDDIR)/y.tab.o
-# file name that contains the main() function
-MAIN = main 
-# Objects except the main
-OBJEXCEPTMAIN = $(filter-out $(BUILDDIR)/main.o, $(OBJ))
+# objects that contain main() funtions
+MAINS = $(BUILDDIR)/wisey.o $(BUILDDIR)/wiseyc.o $(BUILDDIR)/wiseylibc.o
+# Objects except the object files that contain main functions
+OBJEXCEPTMAINS = $(filter-out $(MAINS), $(OBJ))
 # Test directory
 TESTDIR = tests
 # Test sources
@@ -75,14 +75,23 @@ $(BUILDDIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${BUILDDIR}
 $(BUILDDIR)/Tokens.o: ${PARSERDIR}/Tokens.cpp | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
 
-$(BUILDDIR)/main.o: ${SRCDIR}/main.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
+$(BUILDDIR)/wisey.o: ${SRCDIR}/wisey.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
+
+$(BUILDDIR)/wiseyc.o: ${SRCDIR}/wiseyc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
+	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
+
+$(BUILDDIR)/wiseylibc.o: ${SRCDIR}/wiseylibc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
 $(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/wisey/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
-${BINDIR}/wisey: $(OBJ) | ${BINDIR}
+${BINDIR}/wisey: $(OBJEXCEPTMAINS) ${BUILDDIR}/wisey.o | ${BINDIR}
 	$(LD) -o $@ $(LDFLAGS) $^
 
-${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAIN) | ${BINDIR} ${BINDIR}/wisey
+${BINDIR}/wiseylibc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseylibc.o | ${BINDIR}
+	$(LD) -o $@ $(LDFLAGS) $^
+
+${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/wisey
 	$(CC) -o ${BINDIR}/runtests $(LDFLAGS) -lgtest -lgmock $^

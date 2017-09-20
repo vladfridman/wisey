@@ -256,7 +256,7 @@
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
-		F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9F71DF9CE6600BBB20E /* main.cpp */; };
+		F569E9F81DF9CE6600BBB20E /* wisey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9F71DF9CE6600BBB20E /* wisey.cpp */; };
 		F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */; };
 		F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */; };
 		F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */; };
@@ -318,6 +318,8 @@
 		F58725621F70143100FA25E6 /* IPrintStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725611F70143100FA25E6 /* IPrintStatement.cpp */; };
 		F58725631F70143100FA25E6 /* IPrintStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725611F70143100FA25E6 /* IPrintStatement.cpp */; };
 		F58725651F70178D00FA25E6 /* TestPrintErrStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */; };
+		F58725671F7178DB00FA25E6 /* wiseyc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725661F7178DB00FA25E6 /* wiseyc.cpp */; };
+		F58725681F7178DB00FA25E6 /* wiseyc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725661F7178DB00FA25E6 /* wiseyc.cpp */; };
 		F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
@@ -785,7 +787,7 @@
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
-		F569E9F71DF9CE6600BBB20E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
+		F569E9F71DF9CE6600BBB20E /* wisey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wisey.cpp; path = src/wisey.cpp; sourceTree = "<group>"; };
 		F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowStatement.cpp; path = src/ThrowStatement.cpp; sourceTree = "<group>"; };
 		F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowStatement.cpp; path = tests/TestThrowStatement.cpp; sourceTree = "<group>"; };
 		F56AD4A01E9F66C40020868C /* IObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectType.cpp; path = src/IObjectType.cpp; sourceTree = "<group>"; };
@@ -830,6 +832,7 @@
 		F58725601F70131D00FA25E6 /* IPrintStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IPrintStatement.hpp; path = include/wisey/IPrintStatement.hpp; sourceTree = "<group>"; };
 		F58725611F70143100FA25E6 /* IPrintStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IPrintStatement.cpp; path = src/IPrintStatement.cpp; sourceTree = "<group>"; };
 		F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrintErrStatement.cpp; path = tests/TestPrintErrStatement.cpp; sourceTree = "<group>"; };
+		F58725661F7178DB00FA25E6 /* wiseyc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wiseyc.cpp; path = src/wiseyc.cpp; sourceTree = "<group>"; };
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
 		F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodCall.cpp; path = tests/TestStaticMethodCall.cpp; sourceTree = "<group>"; };
@@ -1724,7 +1727,8 @@
 				F508E06E1E73076E005D6115 /* Environment.cpp */,
 				F569E9EB1DF9CC9600BBB20E /* Log.cpp */,
 				F52FF1841F1C570C003F4D37 /* Names.cpp */,
-				F569E9F71DF9CE6600BBB20E /* main.cpp */,
+				F569E9F71DF9CE6600BBB20E /* wisey.cpp */,
+				F58725661F7178DB00FA25E6 /* wiseyc.cpp */,
 			);
 			name = compiler;
 			sourceTree = "<group>";
@@ -1846,6 +1850,7 @@
 				F5ADB6221E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F51764CC1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
 				F5C6FD831E48B7260054209D /* TestIntType.cpp in Sources */,
+				F58725681F7178DB00FA25E6 /* wiseyc.cpp in Sources */,
 				F5ADB6111E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F5F396DE1E3F898900F34296 /* TestObjectBuilderArgument.cpp in Sources */,
 				F508E0671E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
@@ -2167,6 +2172,7 @@
 				F51764CB1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */,
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
 				F5ADB6211E66F9B400FFC941 /* Interface.cpp in Sources */,
+				F58725671F7178DB00FA25E6 /* wiseyc.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F5E6BD0A1F190B8500D59444 /* FakeExpression.cpp in Sources */,
 				F531B65A1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
@@ -2189,7 +2195,7 @@
 				F51D2BBA1F6940D800510784 /* StaticMethodCall.cpp in Sources */,
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F507D2651E43551900495E2D /* Model.cpp in Sources */,
-				F569E9F81DF9CE6600BBB20E /* main.cpp in Sources */,
+				F569E9F81DF9CE6600BBB20E /* wisey.cpp in Sources */,
 				F53A2C081EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F56AD4A11E9F66C40020868C /* IObjectType.cpp in Sources */,
