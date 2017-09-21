@@ -58,8 +58,7 @@ TEST_F(TestMain, helpTest) {
 TEST_F(TestMain, outputToFileTest) {
   system("mkdir -p build");
 
-  system("bin/wiseyc tests/samples/test_addition.yz -o build/test.bc 2>&1");
-  system("/usr/local/bin/llc -filetype=obj build/test.bc");
+  system("bin/wiseyc tests/samples/test_addition.yz -o build/test.o 2>&1");
   system("g++ -o build/test build/test.o");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);

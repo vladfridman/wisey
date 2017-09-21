@@ -39,10 +39,9 @@ TEST_F(CompilerTest, compileAndSaveTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_addition.yz");
   system("mkdir -p build");
   
-  mCompilerArguments.setOutputFile("build/test.bc");
+  mCompilerArguments.setOutputFile("build/test.o");
   mCompiler.compile();
   
-  system("/usr/local/bin/llc -filetype=obj build/test.bc");
   system("g++ -o build/test build/test.o");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);

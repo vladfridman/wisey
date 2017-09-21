@@ -47,7 +47,7 @@ private:
   
   void printAssembly();
   
-  void saveBitcode(std::string outputFile);
+  void saveBinary(std::string outputFile);
   
   std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourceFiles);
   

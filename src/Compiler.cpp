@@ -7,9 +7,13 @@
 //
 
 #include <llvm/Bitcode/BitcodeWriter.h>
+#include "llvm/IR/LegacyPassManager.h"
+#include <llvm/IR/PassManager.h>
 #include <llvm/IR/Verifier.h>
 #include <llvm/Support/FileSystem.h>
+#include <llvm/Support/TargetRegistry.h>
 #include <llvm/Support/TargetSelect.h>
+#include <llvm/Target/TargetMachine.h>
 #include <llvm-c/Target.h>
 
 #include "wisey/Compiler.hpp"
@@ -26,7 +30,6 @@ extern ProgramFile* programFile;
 extern FILE* yyin;
 
 Compiler::~Compiler() {
-  
 }
 
 void Compiler::compile() {
@@ -55,7 +58,7 @@ void Compiler::compile() {
   }
   
   if (mArguments.getOutputFile().size()) {
-    saveBitcode(mArguments.getOutputFile());
+    saveBinary(mArguments.getOutputFile());
   }
 }
 
@@ -71,10 +74,53 @@ GenericValue Compiler::run() {
   return mContext.runCode();
 }
 
-void Compiler::saveBitcode(string outputFile) {
-  std::error_code errorStream;
-  raw_fd_ostream OS(outputFile, errorStream, sys::fs::OpenFlags::F_None);
-  llvm::WriteBitcodeToFile(mContext.getModule(), OS);
+void Compiler::saveBinary(string outputFile) {
+  auto fileType = TargetMachine::CGFT_ObjectFile;
+  auto targetTriple = sys::getDefaultTargetTriple();
+  InitializeAllTargetInfos();
+  InitializeAllTargets();
+  InitializeAllTargetMCs();
+  InitializeAllAsmParsers();
+  InitializeAllAsmPrinters();
+  string error;
+  auto target = TargetRegistry::lookupTarget(targetTriple, error);
+  
+  if (!target) {
+    errs() << error;
+    return;
+  }
+
+  auto cpu = "generic";
+  auto features = "";
+  
+  TargetOptions targetOptions;
+  auto relocModel = Optional<Reloc::Model>();
+  auto targetMachine = target->createTargetMachine(targetTriple,
+                                                   cpu,
+                                                   features,
+                                                   targetOptions,
+                                                   relocModel);
+  
+  mContext.getModule()->setDataLayout(targetMachine->createDataLayout());
+  mContext.getModule()->setTargetTriple(targetTriple);
+
+  error_code errorCode;
+  raw_fd_ostream destinationRawStream(outputFile, errorCode, sys::fs::F_None);
+  
+  if (errorCode) {
+    errs() << "Could not open file: " << errorCode.message();
+    return;
+  }
+  
+  legacy::PassManager passManager;
+  
+  if (targetMachine->addPassesToEmitFile(passManager, destinationRawStream, fileType)) {
+    errs() << "TargetMachine can't emit a file of this type";
+    return;
+  }
+  
+  passManager.run(*mContext.getModule());
+  destinationRawStream.flush();
 }
 
 vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles) {

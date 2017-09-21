@@ -109,9 +109,8 @@ void TestFileSampleRunner::expectFailCompile(string fileName,
 void TestFileSampleRunner::compileAndRunFile(string fileName, int expectedResult) {
   exec("mkdir -p build");
   
-  string wiseyCompileCommand = "bin/wiseyc " + fileName + " -o build/test.bc";
+  string wiseyCompileCommand = "bin/wiseyc " + fileName + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
-  exec("/usr/local/bin/llc -filetype=obj build/test.bc");
   exec("g++ -o build/test build/test.o");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);
