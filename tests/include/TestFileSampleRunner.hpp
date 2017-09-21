@@ -18,9 +18,9 @@
  * the actual one.
  */
 class TestFileSampleRunner : public ::testing::Test {
+  wisey::CompilerArguments mCompilerArguments;
   wisey::Compiler mCompiler;
-  std::vector<std::string> mSourceFiles;
-  
+
 public:
   TestFileSampleRunner();
   
@@ -47,14 +47,6 @@ public:
   void expectFailCompile(std::string fileName,
                          int expectedErrorCode,
                          std::string expectedErrorMessage);
-  
-  /**
-   * Call this to run a sample wisey file that is expected to pass IR generation but
-   * that will die during run with a given error message
-   */
-  void expectDeathDuringRun(std::string fileName,
-                            std::string expectedErrorMessage);
-  
 
 private:
   

@@ -26,7 +26,7 @@ extern int yyparse();
 extern FILE* yyin;
 extern ProgramFile* programFile;
 
-TestFileSampleRunner::TestFileSampleRunner() {
+TestFileSampleRunner::TestFileSampleRunner() : mCompiler(mCompilerArguments) {
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
   
@@ -38,9 +38,8 @@ TestFileSampleRunner::~TestFileSampleRunner() {
 }
 
 void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
-  mSourceFiles.push_back(fileName);
-  
-  mCompiler.compile(mSourceFiles, false);
+  mCompilerArguments.addSourceFile(fileName);
+  mCompiler.compile();
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
 
@@ -52,9 +51,8 @@ void TestFileSampleRunner::runFileCheckOutput(string fileName,
                                               string expectedErr) {
   exec("mkdir -p build");
 
-  mSourceFiles.push_back(fileName);
-  
-  mCompiler.compile(mSourceFiles, false);
+  mCompilerArguments.addSourceFile(fileName);
+  mCompiler.compile();
 
   FILE* wiseyStdOut = fopen("build/wisey.out", "w");
   FILE* wiseyStdErr = fopen("build/wisey.err", "w");
@@ -101,19 +99,11 @@ void TestFileSampleRunner::runFileCheckOutput(string fileName,
 void TestFileSampleRunner::expectFailCompile(string fileName,
                                              int expectedErrorCode,
                                              string expectedErrorMessage) {
-  mSourceFiles.push_back(fileName);
-  
-  EXPECT_EXIT(mCompiler.compile(mSourceFiles, false),
+  mCompilerArguments.addSourceFile(fileName);
+
+  EXPECT_EXIT(mCompiler.compile(),
               ::testing::ExitedWithCode(expectedErrorCode),
               expectedErrorMessage);
-}
-
-void TestFileSampleRunner::expectDeathDuringRun(string fileName,
-                                                string expectedErrorMessage) {
-  mSourceFiles.push_back(fileName);
-  mCompiler.compile(mSourceFiles, false);
-  
-  ASSERT_DEATH(mCompiler.run(), expectedErrorMessage);
 }
 
 void TestFileSampleRunner::compileAndRunFile(string fileName, int expectedResult) {

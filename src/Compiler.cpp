@@ -29,7 +29,7 @@ Compiler::~Compiler() {
   
 }
 
-void Compiler::compile(std::vector<string> sourceFiles, bool printInfo) {
+void Compiler::compile() {
   vector<ProgramFile*> programFiles;
   ProgramPrefix programPrefix;
   ProgramSuffix programSuffix;
@@ -37,7 +37,7 @@ void Compiler::compile(std::vector<string> sourceFiles, bool printInfo) {
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
   
-  programFiles = parseFiles(sourceFiles, printInfo);
+  programFiles = parseFiles(mArguments.getSourceFiles(), !mArguments.getOutputFile().size());
   
   prototypeObjects(programFiles, mContext);
   programPrefix.generateIR(mContext);
@@ -47,17 +47,19 @@ void Compiler::compile(std::vector<string> sourceFiles, bool printInfo) {
   
   verifyModule(*mContext.getModule());
   
+  deleteProgramFiles(programFiles);
   mHasCompiled = true;
   
-  deleteProgramFiles(programFiles);
+  if (mArguments.shouldPrintAssembly()) {
+    printAssembly();
+  }
+  
+  if (mArguments.getOutputFile().size()) {
+    saveBitcode(mArguments.getOutputFile());
+  }
 }
 
 void Compiler::printAssembly() {
-  if (!mHasCompiled) {
-    Log::e("Need to compile before printing assembly");
-    exit(1);
-  }
-  
   mContext.printAssembly(outs());
 }
 
@@ -66,16 +68,10 @@ GenericValue Compiler::run() {
     Log::e("Need to compile before running code");
     exit(1);
   }
-  
   return mContext.runCode();
 }
 
 void Compiler::saveBitcode(string outputFile) {
-  if (!mHasCompiled) {
-    Log::e("Need to compile before saving bitcode");
-    exit(1);
-  }
-  
   std::error_code errorStream;
   raw_fd_ostream OS(outputFile, errorStream, sys::fs::OpenFlags::F_None);
   llvm::WriteBitcodeToFile(mContext.getModule(), OS);

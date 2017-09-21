@@ -19,17 +19,16 @@ using namespace llvm;
 using namespace wisey;
 
 struct CompilerTest : public ::testing::Test {
-  CompilerArguments mArguments;
-  vector<string> mSourceFiles;
+  CompilerArguments mCompilerArguments;
   Compiler mCompiler;
  
-  CompilerTest() {
-    mSourceFiles.push_back("tests/samples/test_addition.yz");
+  CompilerTest() : mCompiler(mCompilerArguments) {
+    mCompilerArguments.addSourceFile("tests/samples/test_addition.yz");
   }
 };
 
 TEST_F(CompilerTest, compileAndRunTest) {
-  mCompiler.compile(mSourceFiles, true);
+  mCompiler.compile();
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
   
@@ -39,8 +38,9 @@ TEST_F(CompilerTest, compileAndRunTest) {
 TEST_F(CompilerTest, compileAndSaveTest) {
   system("mkdir -p build");
   
-  mCompiler.compile(mSourceFiles, true);
-  mCompiler.saveBitcode("build/test.bc");
+  mCompilerArguments.setOutputFile("build/test.bc");
+  mCompiler.compile();
+  
   system("/usr/local/bin/llc -filetype=obj build/test.bc");
   system("g++ -o build/test build/test.o");
   int result = system("build/test");
@@ -55,14 +55,3 @@ TEST_F(CompilerTest, runWithoutCompileDeathTest) {
               "Error: Need to compile before running code");
 }
 
-TEST_F(CompilerTest, printWithoutCompileDeathTest) {
-  EXPECT_EXIT(mCompiler.printAssembly(),
-              ::testing::ExitedWithCode(1),
-              "Error: Need to compile before printing assembly");
-}
-
-TEST_F(CompilerTest, saveWithoutCompileDeathTest) {
-  EXPECT_EXIT(mCompiler.saveBitcode("test"),
-              ::testing::ExitedWithCode(1),
-              "Error: Need to compile before saving bitcode");
-}

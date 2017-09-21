@@ -24,35 +24,30 @@ class IRGenerationContext;
  */
 class Compiler {
   IRGenerationContext mContext;
+  CompilerArguments& mArguments;
   bool mHasCompiled;
 
 public:
   
-  Compiler() : mHasCompiled(false) { }
+  Compiler(CompilerArguments& argments) : mArguments(argments), mHasCompiled(false) { }
   
   ~Compiler();
   
   /**
    * Compile Wisey code passed through constructor arguments
    */
-  void compile(std::vector<std::string> sourceFiles, bool printInfo);
-  
-  /**
-   * Print LLVM assembly
-   */
-  void printAssembly();
+  void compile();
   
   /**
    * Run compiled code
    */
   llvm::GenericValue run();
   
-  /**
-   * Save bitcode into output file
-   */
-  void saveBitcode(std::string outputFile);
-  
 private:
+  
+  void printAssembly();
+  
+  void saveBitcode(std::string outputFile);
   
   std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourceFiles, bool printInfo);
   
