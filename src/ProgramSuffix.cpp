@@ -27,8 +27,22 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
+  vector<string> package;
+  InterfaceTypeSpecifier* programInterfaceSpecifier =
+    new InterfaceTypeSpecifier(package, Names::getIProgramName());
+  Interface* interface = (Interface*) programInterfaceSpecifier->getType(context);
+  if (!context.hasBoundController(interface)) {
+    return NULL;
+  }
   
+  return generateMain(context, programInterfaceSpecifier);
+}
+
+Value* ProgramSuffix::generateMain(IRGenerationContext& context,
+                                   InterfaceTypeSpecifier* programInterfaceSpecifier) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  vector<string> package;
+
   FunctionType* mainFunctionType =
   FunctionType::get(Type::getInt32Ty(llvmContext), false);
   Function* mainFunction = Function::Create(mainFunctionType,
@@ -40,9 +54,6 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   context.getScopes().pushScope();
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
   
-  vector<string> package;
-  InterfaceTypeSpecifier* programInterfaceSpecifier =
-    new InterfaceTypeSpecifier(package, Names::getIProgramName());
   InterfaceInjector* interfaceInjector = new InterfaceInjector(programInterfaceSpecifier);
   Identifier* programIdentifier = new Identifier("program", "program");
   programInterfaceSpecifier = new InterfaceTypeSpecifier(package, Names::getIProgramName());

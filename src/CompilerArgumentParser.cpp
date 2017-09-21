@@ -13,7 +13,8 @@ using namespace std;
 using namespace wisey;
 
 void CompilerArgumentParser::printSyntaxAndExit() const {
-  Log::e("Syntax: wisey -o <bitcode_file> <filename1.yz> <filename2.yz>");
+  Log::e("Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
+         "[-o|--output <bitcode_file>] <sourcefile.yz>...");
   exit(1);
 }
 
@@ -25,18 +26,22 @@ CompilerArguments CompilerArgumentParser::parse(int argc, char **argv) const {
   }
   
   for (int i = 1; i < argc; i++) {
-    if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
+    if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
       printSyntaxAndExit();
     }
-    if (!strcmp(argv[i], "--emit-llvm")) {
+    if (!strcmp(argv[i], "--emit-llvm") || !strcmp(argv[i], "-e")) {
       compilerArguments.setShouldPrintAssembly(true);
       continue;
     }
-    if (!strcmp(argv[i], "-o") && i == argc - 1) {
-      Log::e("You need to specify the output file name after \"-o\"");
+    if (!strcmp(argv[i], "--verbouse") || !strcmp(argv[i], "-v")) {
+      compilerArguments.setVerbouse(true);
+      continue;
+    }
+    if ((!strcmp(argv[i], "--output") || !strcmp(argv[i], "-o")) && i == argc - 1) {
+      Log::e("You need to specify the output file name after \"" + string(argv[i]) + "\"");
       exit(1);
     }
-    if (!strcmp(argv[i], "-o")) {
+    if (!strcmp(argv[i], "--output") || !strcmp(argv[i], "-o")) {
       i++;
       compilerArguments.setOutputFile(argv[i]);
       continue;

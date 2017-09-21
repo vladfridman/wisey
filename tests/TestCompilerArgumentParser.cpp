@@ -26,7 +26,8 @@ TEST_F(CompilerArgumentParserTest, noArgumentsTest) {
   char const * argv[] = {"bin/wisey"};
   EXPECT_EXIT(mParser.parse(1, (char**) argv),
               ::testing::ExitedWithCode(1),
-              "Error: Syntax: wisey -o <bitcode_file> <filename1.yz> <filename2.yz>\n");
+              "Error: Syntax: wiseyc \\[-e|--emit-llvm\\] \\[-h|--help\\] \\[-v|--verbouse\\] "
+              "\\[-o|--output <bitcode_file>\\] <sourcefile.yz>...\n");
 }
 
 TEST_F(CompilerArgumentParserTest, helpTest) {
@@ -34,7 +35,8 @@ TEST_F(CompilerArgumentParserTest, helpTest) {
   
   EXPECT_EXIT(mParser.parse(2, (char**) argv),
               ::testing::ExitedWithCode(1),
-              "Error: Syntax: wisey -o <bitcode_file> <filename1.yz> <filename2.yz>\n");
+              "Error: Syntax: wiseyc \\[-e|--emit-llvm\\] \\[-h|--help\\] \\[-v|--verbouse\\] "
+              "\\[-o|--output <bitcode_file>\\] <sourcefile.yz>...\n");
 }
 
 TEST_F(CompilerArgumentParserTest, missingOutputFileTest) {

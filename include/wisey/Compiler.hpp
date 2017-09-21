@@ -49,7 +49,7 @@ private:
   
   void saveBitcode(std::string outputFile);
   
-  std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourceFiles, bool printInfo);
+  std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourceFiles);
   
   void prototypeObjects(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
   

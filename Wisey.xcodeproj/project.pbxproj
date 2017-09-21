@@ -256,7 +256,6 @@
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
-		F569E9F81DF9CE6600BBB20E /* wisey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9F71DF9CE6600BBB20E /* wisey.cpp */; };
 		F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */; };
 		F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */; };
 		F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */; };
@@ -446,6 +445,7 @@
 		F5F396DC1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */; };
 		F5F396DE1E3F898900F34296 /* TestObjectBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */; };
 		F5F396E01E3F8C5700F34296 /* TestObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */; };
+		F5FA52931F7437A8001BBE67 /* wiseyrun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FA52921F7437A7001BBE67 /* wiseyrun.cpp */; };
 		F5FCAE331ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
 		F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
 		F5FCAE381ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE371ED5C68900C69899 /* CompilerArgumentParser.cpp */; };
@@ -785,7 +785,6 @@
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
-		F569E9F71DF9CE6600BBB20E /* wisey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wisey.cpp; path = src/wisey.cpp; sourceTree = "<group>"; };
 		F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowStatement.cpp; path = src/ThrowStatement.cpp; sourceTree = "<group>"; };
 		F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowStatement.cpp; path = tests/TestThrowStatement.cpp; sourceTree = "<group>"; };
 		F56AD4A01E9F66C40020868C /* IObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectType.cpp; path = src/IObjectType.cpp; sourceTree = "<group>"; };
@@ -939,6 +938,7 @@
 		F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectBuilderArgument.cpp; path = src/ObjectBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectBuilderArgument.cpp; path = tests/TestObjectBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectBuilder.cpp; path = tests/TestObjectBuilder.cpp; sourceTree = "<group>"; };
+		F5FA52921F7437A7001BBE67 /* wiseyrun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wiseyrun.cpp; path = src/wiseyrun.cpp; sourceTree = "<group>"; };
 		F5FCAE2F1ED5BC3C00C69899 /* Compiler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Compiler.hpp; path = include/wisey/Compiler.hpp; sourceTree = "<group>"; };
 		F5FCAE311ED5C31D00C69899 /* CompilerArguments.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompilerArguments.hpp; path = include/wisey/CompilerArguments.hpp; sourceTree = "<group>"; };
 		F5FCAE321ED5C38B00C69899 /* Compiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Compiler.cpp; path = src/Compiler.cpp; sourceTree = "<group>"; };
@@ -1725,7 +1725,7 @@
 				F508E06E1E73076E005D6115 /* Environment.cpp */,
 				F569E9EB1DF9CC9600BBB20E /* Log.cpp */,
 				F52FF1841F1C570C003F4D37 /* Names.cpp */,
-				F569E9F71DF9CE6600BBB20E /* wisey.cpp */,
+				F5FA52921F7437A7001BBE67 /* wiseyrun.cpp */,
 				F58725661F7178DB00FA25E6 /* wiseyc.cpp */,
 			);
 			name = compiler;
@@ -1784,9 +1784,9 @@
 			productReference = F530B4561DFA02C900477384 /* runtests */;
 			productType = "com.apple.product-type.tool";
 		};
-		F546258C1DE5E43A00074D66 /* wisey */ = {
+		F546258C1DE5E43A00074D66 /* wiseyrun */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F54625941DE5E43A00074D66 /* Build configuration list for PBXNativeTarget "wisey" */;
+			buildConfigurationList = F54625941DE5E43A00074D66 /* Build configuration list for PBXNativeTarget "wiseyrun" */;
 			buildPhases = (
 				F54625891DE5E43A00074D66 /* Sources */,
 				F546258A1DE5E43A00074D66 /* Frameworks */,
@@ -1796,7 +1796,7 @@
 			);
 			dependencies = (
 			);
-			name = wisey;
+			name = wiseyrun;
 			productName = ToyCompiler;
 			productReference = F546258D1DE5E43A00074D66 /* wisey */;
 			productType = "com.apple.product-type.tool";
@@ -1830,7 +1830,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F546258C1DE5E43A00074D66 /* wisey */,
+				F546258C1DE5E43A00074D66 /* wiseyrun */,
 				F530B4551DFA02C900477384 /* runtests */,
 			);
 		};
@@ -2109,6 +2109,7 @@
 				F5A363531F376A23005880B3 /* PrimitiveFieldVariable.cpp in Sources */,
 				F5CE2D4F1F180B89002ABB85 /* TryCatchInfo.cpp in Sources */,
 				F51797111E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
+				F5FA52931F7437A8001BBE67 /* wiseyrun.cpp in Sources */,
 				F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */,
 				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,
@@ -2191,7 +2192,6 @@
 				F51D2BBA1F6940D800510784 /* StaticMethodCall.cpp in Sources */,
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F507D2651E43551900495E2D /* Model.cpp in Sources */,
-				F569E9F81DF9CE6600BBB20E /* wisey.cpp in Sources */,
 				F53A2C081EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F56AD4A11E9F66C40020868C /* IObjectType.cpp in Sources */,
@@ -2551,7 +2551,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F54625941DE5E43A00074D66 /* Build configuration list for PBXNativeTarget "wisey" */ = {
+		F54625941DE5E43A00074D66 /* Build configuration list for PBXNativeTarget "wiseyrun" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F54625951DE5E43A00074D66 /* Debug */,

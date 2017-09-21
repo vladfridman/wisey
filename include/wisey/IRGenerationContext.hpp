@@ -131,6 +131,11 @@ public:
   Controller* getBoundController(Interface* interface);
   
   /**
+   * Tells whether there is a controller bound to the given interface
+   */
+  bool hasBoundController(Interface* interface);
+
+  /**
    * Set the package name
    */
   void setPackage(std::string package);

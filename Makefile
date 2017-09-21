@@ -23,7 +23,7 @@ SOURCES = $(shell find src -name '*.cpp')
 # Object files to be generated
 OBJ = $(SOURCES:src/%.cpp=$(BUILDDIR)/%.o) $(BUILDDIR)/Tokens.o $(BUILDDIR)/y.tab.o
 # objects that contain main() funtions
-MAINS = $(BUILDDIR)/wisey.o $(BUILDDIR)/wiseyc.o $(BUILDDIR)/wiseylibc.o
+MAINS = $(BUILDDIR)/wiseyrun.o $(BUILDDIR)/wiseyc.o $(BUILDDIR)/wiseylibc.o
 # Objects except the object files that contain main functions
 OBJEXCEPTMAINS = $(filter-out $(MAINS), $(OBJ))
 # Test directory
@@ -42,7 +42,7 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 # Flags used for linking
 LDFLAGS = `llvm-config --ldflags --system-libs --libs engine` -L$(LIBDIR)
 
-default: ${BINDIR}/wisey
+default: ${BINDIR}/wiseyc
 
 clean:
 	rm -rf ${BINDIR} ${BUILDDIR} ${PARSERDIR}
@@ -75,9 +75,6 @@ $(BUILDDIR)/y.tab.o: ${PARSERDIR}/y.tab.c | ${BUILDDIR}
 $(BUILDDIR)/Tokens.o: ${PARSERDIR}/Tokens.cpp | ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} $(CFLAGS) $<
 
-$(BUILDDIR)/wisey.o: ${SRCDIR}/wisey.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
-	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
-
 $(BUILDDIR)/wiseyc.o: ${SRCDIR}/wiseyc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
@@ -87,11 +84,11 @@ $(BUILDDIR)/wiseylibc.o: ${SRCDIR}/wiseylibc.cpp | ${PARSERDIR}/Tokens.cpp ${BUI
 $(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/wisey/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
-${BINDIR}/wisey: $(OBJEXCEPTMAINS) ${BUILDDIR}/wisey.o | ${BINDIR}
+${BINDIR}/wiseyc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseyc.o | ${BINDIR}
 	$(LD) -o $@ $(LDFLAGS) $^
 
 ${BINDIR}/wiseylibc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseylibc.o | ${BINDIR}
 	$(LD) -o $@ $(LDFLAGS) $^
 
-${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/wisey
+${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/wiseyc
 	$(CC) -o ${BINDIR}/runtests $(LDFLAGS) -lgtest -lgmock $^

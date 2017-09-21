@@ -37,7 +37,7 @@ void Compiler::compile() {
   InitializeNativeTarget();
   LLVMInitializeNativeAsmPrinter();
   
-  programFiles = parseFiles(mArguments.getSourceFiles(), !mArguments.getOutputFile().size());
+  programFiles = parseFiles(mArguments.getSourceFiles());
   
   prototypeObjects(programFiles, mContext);
   programPrefix.generateIR(mContext);
@@ -77,13 +77,11 @@ void Compiler::saveBitcode(string outputFile) {
   llvm::WriteBitcodeToFile(mContext.getModule(), OS);
 }
 
-vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles, bool printInfo) {
+vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles) {
   vector<ProgramFile*> results;
   
   for (string sourceFile : sourceFiles) {
-    if (printInfo) {
-      Log::i("Parsing file " + string(sourceFile));
-    }
+    Log::i("Parsing file " + string(sourceFile));
     
     yyin = fopen(sourceFile.c_str(), "r");
     if (yyin == NULL) {

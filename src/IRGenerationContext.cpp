@@ -190,11 +190,15 @@ void IRGenerationContext::bindInterfaceToController(Interface* interface, Contro
 }
 
 Controller* IRGenerationContext::getBoundController(Interface* interface) {
-  if (!mBindings.count(interface)) {
+  if (!hasBoundController(interface)) {
     Log::e("No controller is bound to interface " + interface->getName());
     exit(1);
   }
   return mBindings[interface];
+}
+
+bool IRGenerationContext::hasBoundController(Interface* interface) {
+  return mBindings.count(interface);
 }
 
 void IRGenerationContext::setPackage(string package) {

@@ -17,16 +17,17 @@ using namespace wisey;
  * Main for running the wisey compiler
  */
 int main(int argc, char **argv) {
-  Log::setLogLevel(ERRORLEVEL);
-  
   CompilerArgumentParser compilerArgumentParser;
-  CompilerArguments compilerArguents = compilerArgumentParser.parse(argc, argv);
+  CompilerArguments compilerArguments = compilerArgumentParser.parse(argc, argv);
+
+  Log::setLogLevel(compilerArguments.isVerbouse() ? INFOLEVEL : ERRORLEVEL);
   
-  Compiler compiler(compilerArguents);
-  compiler.compile();
-  if (!compilerArguents.getOutputFile().size()) {
-    compiler.run();
+  if (!compilerArguments.getOutputFile().size()) {
+    compilerArguments.setOutputFile("compiled.bc");
   }
+
+  Compiler compiler(compilerArguments);
+  compiler.compile();
 
   return 0;
 }

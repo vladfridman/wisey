@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
@@ -21,6 +22,10 @@ public:
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
+private:
+  
+  llvm::Value* generateMain(IRGenerationContext& context,
+                            InterfaceTypeSpecifier* programInterfaceSpecifier) const;
 };
   
 } /* namespace wisey */

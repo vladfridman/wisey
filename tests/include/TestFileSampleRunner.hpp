@@ -48,9 +48,10 @@ public:
                          int expectedErrorCode,
                          std::string expectedErrorMessage);
 
-private:
-  
-  std::string exec(const char* cmd);
+  /**
+   * Execute a command, capture and return output
+   */
+  static std::string exec(const char* cmd);
 };
 
 #endif /* TestFileSampleRunner_h */
