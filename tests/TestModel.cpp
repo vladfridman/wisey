@@ -492,6 +492,20 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
               expected);
 }
 
+TEST_F(ModelTest, extractHeaderTest) {
+  stringstream stringStream;
+  mModel->extractHeader(stringStream);
+  
+  EXPECT_STREQ("model systems.vos.wisey.compiler.tests.MSquare\n"
+               "  implements\n"
+               "    systems.vos.wisey.compiler.tests.IShape,\n"
+               "    systems.vos.wisey.compiler.tests.IObject {\n"
+               "  int foo();\n"
+               "  int bar();\n"
+               "}\n",
+               stringStream.str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocast) {
   runFile("tests/samples/test_model_builder_object_argument_autocast.yz", "2017");
 }

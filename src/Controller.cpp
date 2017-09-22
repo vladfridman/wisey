@@ -299,3 +299,7 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
 const IObjectOwnerType* Controller::getOwner() const {
   return mControllerOwner;
 }
+
+void Controller::extractHeader(iostream& stream) const {
+  IConcreteObjectType::extractHeaderFromObject(this, stream);
+}

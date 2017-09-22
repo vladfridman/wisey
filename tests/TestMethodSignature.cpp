@@ -46,3 +46,10 @@ TEST_F(MethodSignatureTest, createCopyTest) {
   EXPECT_EQ(copy->getReturnType(), PrimitiveTypes::LONG_TYPE);
   EXPECT_EQ(copy->getArguments().size(), 0u);
 }
+
+TEST_F(MethodSignatureTest, extractHeaderTest) {
+  stringstream stringStream;
+  mMethodSignature->extractHeader(stringStream);
+  
+  EXPECT_STREQ("  long foo();\n", stringStream.str().c_str());
+}

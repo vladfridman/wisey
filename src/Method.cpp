@@ -123,3 +123,7 @@ void Method::createArguments(IRGenerationContext& context,
     llvmFunctionArguments++;
   }
 }
+
+void Method::extractHeader(iostream& stream) const {
+  IMethodDescriptor::extractHeaderFromDescriptor(this, stream);
+}

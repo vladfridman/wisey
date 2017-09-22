@@ -111,6 +111,8 @@ public:
   
   const IObjectOwnerType* getOwner() const override;
   
+  void extractHeader(std::iostream& stream) const override;
+
 private:
   
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;

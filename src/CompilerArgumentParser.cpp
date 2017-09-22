@@ -13,8 +13,14 @@ using namespace std;
 using namespace wisey;
 
 void CompilerArgumentParser::printSyntaxAndExit() const {
-  Log::e("Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
-         "[-o|--output <bitcode_file>] <sourcefile.yz>...");
+  cerr << "Syntax: wiseyc "
+          "[-e|--emit-llvm] "
+          "[-h|--help] "
+          "[-v|--verbouse] "
+          "[-H|--headers <header_file.yzh>] "
+          "[-o|--output <object_file.o>] "
+          "[-n|--no-output] "
+          "<source_file.yz>..." << endl;
   exit(1);
 }
 
@@ -44,6 +50,19 @@ CompilerArguments CompilerArgumentParser::parse(int argc, char **argv) const {
     if (!strcmp(argv[i], "--output") || !strcmp(argv[i], "-o")) {
       i++;
       compilerArguments.setOutputFile(argv[i]);
+      continue;
+    }
+    if ((!strcmp(argv[i], "--headers") || !strcmp(argv[i], "-H")) && i == argc - 1) {
+      Log::e("You need to specify the header file name after \"" + string(argv[i]) + "\"");
+      exit(1);
+    }
+    if (!strcmp(argv[i], "--headers") || !strcmp(argv[i], "-H")) {
+      i++;
+      compilerArguments.setHeaderFile(argv[i]);
+      continue;
+    }
+    if (!strcmp(argv[i], "--no-output") || !strcmp(argv[i], "-n")) {
+      compilerArguments.setShouldOutput(false);
       continue;
     }
     if (strcmp(argv[i] + strlen(argv[i]) - 3, ".yz")) {

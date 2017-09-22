@@ -130,7 +130,7 @@ public:
   /**
    * Returns the interface index in the list of flattened interface hierarchy
    */
-  static int getInterfaceIndex(IConcreteObjectType* object, Interface* interface);
+  static int getInterfaceIndex(const IConcreteObjectType* object, Interface* interface);
   
   /**
    * Initialize vTable of a newly created concrete object
@@ -170,6 +170,11 @@ public:
    * Generates IR for non-static methods of a given object
    */
   static void generateMethodsIR(IRGenerationContext& context, IConcreteObjectType* object);
+  
+  /**
+   * Extract header information about the given object into a file
+   */
+  static void extractHeaderFromObject(const IConcreteObjectType* object, std::iostream& stream);
 
 private:
   

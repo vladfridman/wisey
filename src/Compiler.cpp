@@ -6,6 +6,9 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <fstream>
+#include <iostream>
+
 #include <llvm/Bitcode/BitcodeWriter.h>
 #include "llvm/IR/LegacyPassManager.h"
 #include <llvm/IR/PassManager.h>
@@ -60,6 +63,10 @@ void Compiler::compile() {
   if (mArguments.getOutputFile().size()) {
     saveBinary(mArguments.getOutputFile());
   }
+  
+  if (mArguments.getHeaderFile().size()) {
+    extractHeaders(mArguments.getHeaderFile());
+  }
 }
 
 void Compiler::printAssembly() {
@@ -72,6 +79,13 @@ GenericValue Compiler::run() {
     exit(1);
   }
   return mContext.runCode();
+}
+
+void Compiler::extractHeaders(string headerFile) {
+  fstream fileStream;
+  fileStream.open(headerFile, ios::out);
+  mContext.extractHeaders(fileStream);
+  fileStream.close();
 }
 
 void Compiler::saveBinary(string outputFile) {

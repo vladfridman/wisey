@@ -48,3 +48,7 @@ vector<const Model*> MethodSignature::getThrownExceptions() const {
 MethodSignature* MethodSignature::createCopy() const {
   return new MethodSignature(mName, mAccessLevel, mReturnType, mArguments, mThrownExceptions);
 }
+
+void MethodSignature::extractHeader(iostream& stream) const {
+  IMethodDescriptor::extractHeaderFromDescriptor(this, stream);
+}

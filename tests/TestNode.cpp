@@ -468,6 +468,20 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
               expected);
 }
 
+TEST_F(NodeTest, extractHeaderTest) {
+  stringstream stringStream;
+  mComplicatedNode->extractHeader(stringStream);
+  
+  EXPECT_STREQ("node systems.vos.wisey.compiler.tests.NComplicatedNode\n"
+               "  implements\n"
+               "    systems.vos.wisey.compiler.tests.IComplicatedElement,\n"
+               "    systems.vos.wisey.compiler.tests.IObject {\n"
+               "  int getElement();\n"
+               "  int foo();\n"
+               "}\n",
+               stringStream.str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, linkListRunTest) {
   runFile("tests/samples/test_linklist.yz", "9");
 }

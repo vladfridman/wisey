@@ -49,6 +49,8 @@ private:
   
   void saveBinary(std::string outputFile);
   
+  void extractHeaders(std::string headerFile);
+  
   std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourceFiles);
   
   void prototypeObjects(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);

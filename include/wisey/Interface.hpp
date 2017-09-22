@@ -9,6 +9,7 @@
 #ifndef Interface_hpp
 #define Interface_hpp
 
+#include <iostream>
 #include <list>
 #include <vector>
 
@@ -82,7 +83,7 @@ public:
    * Returns method index in the list of all methods that this interface has or inherits
    */
   unsigned long getMethodIndex(IMethodDescriptor* methodDescriptor) const;
-  
+
   /**
    * Given a value of type interface get the pointer back to the original object that implements it
    */
@@ -109,6 +110,8 @@ public:
                       const IType* toType) const override;
   
   const IObjectOwnerType* getOwner() const override;
+  
+  void extractHeader(std::iostream& stream) const override;
 
 private:
   

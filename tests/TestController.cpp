@@ -485,6 +485,20 @@ TEST_F(ControllerTest, injectFieldTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ControllerTest, extractHeaderTest) {
+  stringstream stringStream;
+  mMultiplierController->extractHeader(stringStream);
+  
+  EXPECT_STREQ("controller systems.vos.wisey.compiler.tests.CMultiplier\n"
+               "  implements\n"
+               "    systems.vos.wisey.compiler.tests.IScienceCalculator,\n"
+               "    systems.vos.wisey.compiler.tests.IObject {\n"
+               "  int calculate();\n"
+               "  int foo();\n"
+               "}\n",
+               stringStream.str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, controllerInjectionChainRunTest) {
   runFile("tests/samples/test_controller_injection_chain.yz", "2");
 }

@@ -22,30 +22,36 @@ using namespace std;
 using namespace wisey;
 
 IRGenerationContext::~IRGenerationContext() {
-  for(map<string, Model*>::iterator iterator = mModels.begin();
+  for (map<string, Model*>::iterator iterator = mModels.begin();
       iterator != mModels.end();
       iterator++) {
     Model* model = iterator->second;
     delete model;
   }
-  for(map<string, Controller*>::iterator iterator = mControllers.begin();
+  for (map<string, Controller*>::iterator iterator = mControllers.begin();
       iterator != mControllers.end();
       iterator++) {
     Controller* controller = iterator->second;
     delete controller;
   }
-  for(map<string, Interface*>::iterator iterator = mInterfaces.begin();
+  for (map<string, Interface*>::iterator iterator = mInterfaces.begin();
       iterator != mInterfaces.end();
       iterator++) {
     Interface* interface = iterator->second;
     delete interface;
+  }
+  for (map<string, Node*>::iterator iterator = mNodes.begin();
+      iterator != mNodes.end();
+      iterator++) {
+    Node* node = iterator->second;
+    delete node;
   }
   mBindings.clear();
   mImports.clear();
 }
 
 GenericValue IRGenerationContext::runCode() {
-  ExecutionEngine *executionEngine = EngineBuilder(move(mOwner)).create();
+  ExecutionEngine *executionEngine = EngineBuilder(move(mModuleOwner)).create();
   vector<GenericValue> noargs;
   if (mMainFunction == NULL) {
     Log::e("Function main is not defined. Exiting.");
@@ -250,6 +256,56 @@ void IRGenerationContext::printAssembly(raw_ostream &outputStream) {
   legacy::PassManager passManager;
   passManager.add(createPrintModulePass(outputStream));
   passManager.run(*mModule);
+}
+
+void IRGenerationContext::extractHeaders(iostream& stream) {
+  if (mInterfaces.size()) {
+    stream << "\\* Interfaces *\\" << endl << endl;
+  }
+  for (map<string, Interface*>::iterator iterator = mInterfaces.begin();
+       iterator != mInterfaces.end();
+       iterator++) {
+    Interface* interface = iterator->second;
+    interface->extractHeader(stream);
+  }
+  if (mModels.size()) {
+    stream << endl << "\\* Models *\\" << endl << endl;
+  }
+  for (map<string, Model*>::iterator iterator = mModels.begin();
+      iterator != mModels.end();
+      iterator++) {
+    Model* model = iterator->second;
+    model->extractHeader(stream);
+  }
+  if (mControllers.size()) {
+    stream << endl << "\\* Controllers *\\" << endl << endl;
+  }
+  for (map<string, Controller*>::iterator iterator = mControllers.begin();
+      iterator != mControllers.end();
+      iterator++) {
+    Controller* controller = iterator->second;
+    controller->extractHeader(stream);
+  }
+  if (mNodes.size()) {
+    stream << endl << "\\* Nodes *\\" << endl << endl;
+  }
+  for (map<string, Node*>::iterator iterator = mNodes.begin();
+       iterator != mNodes.end();
+       iterator++) {
+    Node* node = iterator->second;
+    node->extractHeader(stream);
+  }
+  if (mBindings.size()) {
+    stream << endl << "\\* Bindings *\\" << endl << endl;
+  }
+  for (map<Interface*, Controller*>::iterator iterator = mBindings.begin();
+       iterator != mBindings.end();
+       iterator++) {
+    Interface* interface = iterator->first;
+    Controller* controller = iterator->second;
+    stream << "bind(" << controller->getName() << ").to(" << interface->getName() << ");";
+    stream << endl;
+  }
 }
 
 void IRGenerationContext::optimizeIR() {

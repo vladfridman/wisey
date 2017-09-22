@@ -22,8 +22,8 @@ int main(int argc, char **argv) {
 
   Log::setLogLevel(compilerArguments.isVerbouse() ? INFOLEVEL : ERRORLEVEL);
   
-  if (!compilerArguments.getOutputFile().size()) {
-    compilerArguments.setOutputFile("compiled.bc");
+  if (compilerArguments.shouldOutput() && !compilerArguments.getOutputFile().size()) {
+    compilerArguments.setOutputFile("compiled.o");
   }
 
   Compiler compiler(compilerArguments);

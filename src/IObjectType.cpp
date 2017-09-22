@@ -27,3 +27,4 @@ Constant* IObjectType::getObjectNamePointer(const IObjectType *object,
   
   return ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
 }
+

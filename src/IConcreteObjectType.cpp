@@ -71,7 +71,8 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   return store;
 }
 
-int IConcreteObjectType::getInterfaceIndex(IConcreteObjectType* object, Interface* interface) {
+int IConcreteObjectType::getInterfaceIndex(const IConcreteObjectType* object,
+                                           Interface* interface) {
   int index = 0;
   for (Interface* implementedInterface : object->getFlattenedInterfaceHierarchy()) {
     if (implementedInterface == interface) {
@@ -403,4 +404,31 @@ void IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
       method->generateIR(context, object);
     }
   }
+}
+
+void IConcreteObjectType::extractHeaderFromObject(const IConcreteObjectType* object,
+                                                  iostream& stream) {
+  if (object->getTypeKind() == MODEL_TYPE) {
+    stream << "model ";
+  } else if (object->getTypeKind() == NODE_TYPE) {
+    stream << "node ";
+  } else {
+    stream << "controller ";
+  }
+  stream << object->getName();
+  vector<Interface*> interfaces = object->getInterfaces();
+  if (interfaces.size()) {
+    stream << endl << "  implements";
+  }
+  for (Interface* interface : interfaces) {
+    stream << endl << "    " << interface->getName();
+    if (interface != interfaces.at(interfaces.size() - 1)) {
+      stream << ",";
+    }
+  }
+  stream << " {" << endl;
+  for (IMethod* method : object->getMethods()) {
+    method->extractHeader(stream);
+  }
+  stream << "}" << endl;
 }

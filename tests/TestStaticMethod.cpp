@@ -128,6 +128,16 @@ TEST_F(StaticMethodTest, generateIRTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
+TEST_F(StaticMethodTest, extractHeaderTest) {
+  stringstream stringStream;
+  mStaticMethod->extractHeader(stringStream);
+  
+  EXPECT_STREQ("  static boolean mymethod(\n"
+               "    double argDouble,\n"
+               "    char argChar);\n",
+               stringStream.str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, staticMethodDefinitionRunTest) {
   runFile("tests/samples/test_static_method_definition.yz", "2018");
 }

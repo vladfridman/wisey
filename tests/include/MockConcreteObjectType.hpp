@@ -12,6 +12,8 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include <iostream>
+
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
@@ -41,6 +43,7 @@ public:
   MOCK_CONST_METHOD3(castTo, llvm::Value* (wisey::IRGenerationContext&,
                                            llvm::Value*,
                                            const wisey::IType*));
+  MOCK_CONST_METHOD1(extractHeader, void (std::iostream& stream));
 };
 
 #endif /* MockConcreteObjectType_h */

@@ -321,3 +321,7 @@ string Model::getRTTIVariableName() const {
 const IObjectOwnerType* Model::getOwner() const {
   return mModelOwner;
 }
+
+void Model::extractHeader(iostream& stream) const {
+	IConcreteObjectType::extractHeaderFromObject(this, stream);
+}

@@ -65,6 +65,8 @@ public:
   
   std::vector<const Model*> getThrownExceptions() const override;
   
+  void extractHeader(std::iostream& stream) const override;
+
 private:
   
   void createArguments(IRGenerationContext& context,

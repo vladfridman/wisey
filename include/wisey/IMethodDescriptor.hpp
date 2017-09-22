@@ -9,6 +9,7 @@
 #ifndef IMethodDescriptor_h
 #define IMethodDescriptor_h
 
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -66,6 +67,11 @@ public:
   virtual bool isStatic() const = 0;
   
   /**
+   * Extract header information into a file
+   */
+  virtual void extractHeader(std::iostream& stream) const = 0;
+
+  /**
    * Returns two if two method descriptors are the same in terms of their name, return type
    * and argument types
    */
@@ -77,6 +83,13 @@ public:
   static llvm::FunctionType* getLLVMFunctionType(IMethodDescriptor* method,
                                                  IRGenerationContext& context,
                                                  IObjectType* object);
+  
+  /**
+   * Extract header information about this interface into a file
+   */
+  static void extractHeaderFromDescriptor(const IMethodDescriptor* method,
+                                          std::iostream& stream);
+  
 };
   
 } /* namespace wisey */

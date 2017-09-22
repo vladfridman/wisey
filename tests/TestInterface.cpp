@@ -185,6 +185,18 @@ TEST_F(InterfaceTest, canAutoCastToTest) {
   EXPECT_FALSE(mObjectInterface->canAutoCastTo(NullType::NULL_TYPE));
 }
 
+TEST_F(InterfaceTest, extractHeaderTest) {
+  stringstream stringStream;
+  mShapeInterface->extractHeader(stringStream);
+  
+  EXPECT_STREQ("interface systems.vos.wisey.compiler.tests.IShape\n"
+               "  extends\n"
+               "    systems.vos.wisey.compiler.tests.IObject {\n"
+               "  int foo();\n"
+               "}\n",
+               stringStream.str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
                     1,

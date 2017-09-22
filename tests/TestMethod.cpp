@@ -130,6 +130,16 @@ TEST_F(MethodTest, generateIRTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
+TEST_F(MethodTest, extractHeaderTest) {
+  stringstream stringStream;
+  mMethod->extractHeader(stringStream);
+  
+  EXPECT_STREQ("  boolean mymethod(\n"
+               "    double argDouble,\n"
+               "    char argChar);\n",
+               stringStream.str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, methodMissingThrowsDeathRunTest) {
   expectFailCompile("tests/samples/test_method_missing_throws.yz",
                     1,

@@ -301,3 +301,7 @@ void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* mallo
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
 }
+
+void Node::extractHeader(iostream& stream) const {
+  IConcreteObjectType::extractHeaderFromObject(this, stream);
+}

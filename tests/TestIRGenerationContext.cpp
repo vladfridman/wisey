@@ -280,6 +280,37 @@ TEST_F(IRGenerationContextTest, getThisTest) {
   EXPECT_EQ(mContext.getThis(), &mockVariable);
 }
 
+TEST_F(IRGenerationContextTest, extractHeadersTest) {
+  mContext.addInterface(mInterface);
+  mContext.addNode(mNode);
+  mContext.addController(mController);
+  mContext.addModel(mModel);
+  
+  stringstream stringStream;
+  mContext.extractHeaders(stringStream);
+  
+  EXPECT_STREQ("\\* Interfaces *\\\n"
+               "\n"
+               "interface systems.vos.wisey.compiler.tests.IMyInterface {\n"
+               "}\n"
+               "\n"
+               "\\* Models *\\\n"
+               "\n"
+               "model systems.vos.wisey.compiler.tests.MMyModel {\n"
+               "}\n"
+               "\n"
+               "\\* Controllers *\\\n"
+               "\n"
+               "controller systems.vos.wisey.compiler.tests.CMyController {\n"
+               "}\n"
+               "\n"
+               "\\* Nodes *\\\n"
+               "\n"
+               "node systems.vos.wisey.compiler.tests.NMyNode {\n"
+               "}\n",
+               stringStream.str().c_str());
+}
+
 struct IRGenerationContextRunTest : public ::testing::Test {
   IRGenerationContext mContext;
   
@@ -312,10 +343,10 @@ TEST_F(IRGenerationContextRunTest, runCodeTest) {
 }
 
 TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
-  string mStringBuffer;
-  raw_string_ostream mStringStream(mStringBuffer);
+  string stringBuffer;
+  raw_string_ostream stringStream(stringBuffer);
   
-  mContext.printAssembly(mStringStream);
+  mContext.printAssembly(stringStream);
   string expected = string() +
     "; ModuleID = 'wisey'\n" +
     "source_filename = \"wisey\"\n" +
@@ -325,5 +356,6 @@ TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
     "  ret i32 5\n" +
     "}\n";
   
-  EXPECT_STREQ(expected.c_str(), mStringBuffer.c_str());
+  EXPECT_STREQ(expected.c_str(), stringBuffer.c_str());
 }
+

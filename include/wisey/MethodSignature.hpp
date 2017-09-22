@@ -41,7 +41,7 @@ public:
    * Creates a copy of the object with a different index
    */
   MethodSignature* createCopy() const;
-  
+
   bool isStatic() const override;
   
   std::string getName() const override;
@@ -54,6 +54,8 @@ public:
   
   std::vector<const Model*> getThrownExceptions() const override;
   
+  void extractHeader(std::iostream& stream) const override;
+
 };
   
 } /* namespace wisey */

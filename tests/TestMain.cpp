@@ -10,34 +10,36 @@
 #include <gtest/gtest.h>
 
 #include <array>
+#include <fstream>
 #include <iostream>
 
 #include "TestFileSampleRunner.hpp"
 
 using namespace std;
 
-struct TestMain : public ::testing::Test {
-  TestMain() {
+struct MainTest : public ::testing::Test {
+  MainTest() {
     system("mkdir -p build");
   }
   
-  ~TestMain() { }
+  ~MainTest() { }
 };
 
-TEST_F(TestMain, noArgumentsTest) {
+TEST_F(MainTest, noArgumentsTest) {
   EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc 2>&1").c_str(),
-               "Error: Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
-               "[-o|--output <bitcode_file>] <sourcefile.yz>...\n");
+               "Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
+               "[-H|--headers <header_file.yzh>] [-o|--output <object_file.o>] "
+               "[-n|--no-output] <source_file.yz>...\n");
 }
 
-TEST_F(TestMain, missingFileTest) {
+TEST_F(MainTest, missingFileTest) {
   EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc -v "
                                           "tests/samples/missingFile.yz 2>&1").c_str(),
                "Info: Parsing file tests/samples/missingFile.yz\n"
                "Error: File tests/samples/missingFile.yz not found!\n");
 }
 
-TEST_F(TestMain, missingOutputFileTest) {
+TEST_F(MainTest, missingOutputFileTest) {
   EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc tests/samples/test_addition.yz -o "
                                           "2>&1").c_str(),
                "Error: You need to specify the output file name after \"-o\"\n");
@@ -46,16 +48,18 @@ TEST_F(TestMain, missingOutputFileTest) {
                "Error: You need to specify the output file name after \"--output\"\n");
 }
 
-TEST_F(TestMain, helpTest) {
+TEST_F(MainTest, helpTest) {
   EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc -h 2>&1").c_str(),
-               "Error: Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
-               "[-o|--output <bitcode_file>] <sourcefile.yz>...\n");
+               "Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
+               "[-H|--headers <header_file.yzh>] [-o|--output <object_file.o>] "
+               "[-n|--no-output] <source_file.yz>...\n");
   EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc --help 2>&1").c_str(),
-               "Error: Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
-               "[-o|--output <bitcode_file>] <sourcefile.yz>...\n");
+               "Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
+               "[-H|--headers <header_file.yzh>] [-o|--output <object_file.o>] "
+               "[-n|--no-output] <source_file.yz>...\n");
 }
 
-TEST_F(TestMain, outputToFileTest) {
+TEST_F(MainTest, outputToFileTest) {
   system("mkdir -p build");
 
   system("bin/wiseyc tests/samples/test_addition.yz -o build/test.o 2>&1");
@@ -66,7 +70,40 @@ TEST_F(TestMain, outputToFileTest) {
   EXPECT_EQ(returnValue, 7);
 }
 
-TEST_F(TestMain, emitLLVMTest) {
+TEST_F(MainTest, extractHeadersTest) {
+  system("mkdir -p build");
+  system("bin/wiseyc tests/samples/test_addition.yz -H build/test.yzh --no-output 2>&1");
+  
+  ifstream stream;
+  stream.open("build/test.yzh");
+  string output((istreambuf_iterator<char>(stream)), istreambuf_iterator<char>());
+  
+  EXPECT_STREQ("\\* Interfaces *\\\n"
+               "\n"
+               "interface wisey.lang.IProgram {\n"
+               "  int run();\n"
+               "}\n"
+               "\n"
+               "\\* Models *\\\n"
+               "\n"
+               "model wisey.lang.MNullPointerException {\n"
+               "}\n"
+               "\n"
+               "\\* Controllers *\\\n"
+               "\n"
+               "controller systems.vos.wisey.compiler.tests.CProgram\n"
+               "  implements\n"
+               "    wisey.lang.IProgram {\n"
+               "  int run();\n"
+               "}\n"
+               "\n"
+               "\\* Bindings *\\\n"
+               "\n"
+               "bind(systems.vos.wisey.compiler.tests.CProgram).to(wisey.lang.IProgram);\n",
+               output.c_str());
+}
+
+TEST_F(MainTest, emitLLVMTest) {
   system("mkdir -p build");
 
   string resultWithoutEmitLLVM =

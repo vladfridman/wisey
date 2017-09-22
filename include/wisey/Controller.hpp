@@ -109,7 +109,9 @@ public:
   std::string getTypeTableName() const override;
   
   const IObjectOwnerType* getOwner() const override;
- 
+  
+  void extractHeader(std::iostream& stream) const override;
+
 private:
 
   void checkArguments(ExpressionList received) const;

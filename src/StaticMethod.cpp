@@ -123,3 +123,7 @@ void StaticMethod::createArguments(IRGenerationContext& context,
     llvmFunctionArguments++;
   }
 }
+
+void StaticMethod::extractHeader(iostream& stream) const {
+  IMethodDescriptor::extractHeaderFromDescriptor(this, stream);
+}

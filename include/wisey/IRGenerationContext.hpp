@@ -9,7 +9,9 @@
 #ifndef IRGenerationContext_h
 #define IRGenerationContext_h
 
+#include <iostream>
 #include <stack>
+
 #include <llvm/ExecutionEngine/GenericValue.h>
 #include <llvm/IR/Function.h>
 #include <llvm/IR/LLVMContext.h>
@@ -30,7 +32,7 @@ class IRGenerationContext {
   llvm::LLVMContext mLLVMContext;
   llvm::Function* mMainFunction;
   llvm::Module* mModule;
-  std::unique_ptr<llvm::Module> mOwner;
+  std::unique_ptr<llvm::Module> mModuleOwner;
   llvm::BasicBlock* mBasicBlock;
   std::map<std::string, Model*> mModels;
   std::map<std::string, Controller*> mControllers;
@@ -44,8 +46,8 @@ class IRGenerationContext {
 public:
   
   IRGenerationContext() : mMainFunction(NULL), mBasicBlock(NULL) {
-    mOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
-    mModule = mOwner.get();
+    mModuleOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
+    mModule = mModuleOwner.get();
   }
   
   ~IRGenerationContext();
@@ -179,6 +181,11 @@ public:
    * Print LLVM assembly language of the IR program
    */
   void printAssembly(llvm::raw_ostream &outputStream);
+  
+  /**
+   * Extract header information into a file
+   */
+  void extractHeaders(std::iostream& stream);
   
   /**
    * Oprimize IR code

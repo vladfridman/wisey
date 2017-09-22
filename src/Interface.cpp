@@ -468,3 +468,21 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
 const IObjectOwnerType* Interface::getOwner() const {
   return mInterfaceOwner;
 }
+
+void Interface::extractHeader(iostream& stream) const {
+  stream << "interface " << getName();
+  if (mParentInterfaces.size()) {
+    stream << endl << "  extends";
+  }
+  for (Interface* interface : mParentInterfaces) {
+    stream << endl << "    " << interface->getName();
+    if (interface != mParentInterfaces.at(mParentInterfaces.size() - 1)) {
+      stream << ",";
+    }
+  }
+  stream << " {" << endl;
+  for (MethodSignature* methodSignature : mMethodSignatures) {
+    methodSignature->extractHeader(stream);
+  }
+  stream << "}" << endl;
+}

@@ -52,3 +52,20 @@ FunctionType* IMethodDescriptor::getLLVMFunctionType(IMethodDescriptor* method,
   Type* llvmReturnType = method->getReturnType()->getLLVMType(llvmContext);
   return FunctionType::get(llvmReturnType, argTypesArray, false);
 }
+
+void IMethodDescriptor::extractHeaderFromDescriptor(const IMethodDescriptor* method, 
+                                                    iostream& stream) {
+  stream << "  ";
+  if (method->isStatic()) {
+    stream << "static ";
+  }
+  stream << method->getReturnType()->getName() << " " << method->getName() << "(";
+  vector<MethodArgument*> arguments = method->getArguments();
+  for (MethodArgument* argument : arguments) {
+    stream << endl << "    " << argument->getType()->getName() << " " << argument->getName();
+    if (argument != arguments.at(arguments.size()-1)) {
+      stream << ",";
+    }
+  }
+  stream << ");" << endl;
+}

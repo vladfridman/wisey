@@ -83,3 +83,4 @@ TEST_F(BindActionTest, generateIRTest) {
   
   EXPECT_EQ(mContext.getBoundController(mInterface), mController);
 }
+

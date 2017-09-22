@@ -19,19 +19,30 @@ namespace wisey {
  */
 class CompilerArguments {
   std::string mOutputFile;
+  std::string mHeaderFile;
   bool mShouldPrintAssembly;
   bool mIsVerbouse;
+  bool mShouldOutput;
   std::vector<std::string> mSourceFiles;
   
 public:
   
-  CompilerArguments() : mOutputFile(""), mShouldPrintAssembly(false), mIsVerbouse(false) { }
+  CompilerArguments() :
+  mOutputFile(""),
+  mHeaderFile(""),
+  mShouldPrintAssembly(false),
+  mIsVerbouse(false),
+  mShouldOutput(true) { }
   
   ~CompilerArguments() { }
   
   std::string getOutputFile() { return mOutputFile; }
   
   void setOutputFile(std::string outputFile) { mOutputFile = outputFile; }
+  
+  std::string getHeaderFile() { return mHeaderFile; }
+  
+  void setHeaderFile(std::string headerFile) { mHeaderFile = headerFile; }
   
   bool shouldPrintAssembly() { return mShouldPrintAssembly; }
   
@@ -40,6 +51,10 @@ public:
   bool isVerbouse() { return mIsVerbouse; }
   
   void setVerbouse(bool value) { mIsVerbouse = value; }
+  
+  bool shouldOutput() { return mShouldOutput; }
+  
+  void setShouldOutput(bool value) { mShouldOutput = value; }
   
   std::vector<std::string> getSourceFiles() { return mSourceFiles; }
   
