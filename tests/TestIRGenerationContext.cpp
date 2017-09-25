@@ -289,27 +289,27 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
   stringstream stringStream;
   mContext.printToStream(stringStream);
   
-  EXPECT_STREQ("\\* Interfaces *\\\n"
+  EXPECT_STREQ("/* Interfaces */\n"
                "\n"
                "interface systems.vos.wisey.compiler.tests.IMyInterface {\n"
                "}\n"
                "\n"
-               "\\* Models *\\\n"
+               "/* Models */\n"
                "\n"
                "external model systems.vos.wisey.compiler.tests.MMyModel {\n"
                "}\n"
                "\n"
-               "\\* Controllers *\\\n"
+               "/* Controllers */\n"
                "\n"
                "external controller systems.vos.wisey.compiler.tests.CMyController {\n"
                "}\n"
                "\n"
-               "\\* Nodes *\\\n"
+               "/* Nodes */\n"
                "\n"
                "external node systems.vos.wisey.compiler.tests.NMyNode {\n"
                "}\n"
                "\n"
-               "\\* Bindings *\\\n"
+               "/* Bindings */\n"
                "\n",
                stringStream.str().c_str());
 }

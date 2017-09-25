@@ -78,18 +78,18 @@ TEST_F(MainTest, extractHeadersTest) {
   stream.open("build/test.yzh");
   string output((istreambuf_iterator<char>(stream)), istreambuf_iterator<char>());
   
-  EXPECT_STREQ("\\* Interfaces *\\\n"
+  EXPECT_STREQ("/* Interfaces */\n"
                "\n"
                "interface wisey.lang.IProgram {\n"
                "  int run();\n"
                "}\n"
                "\n"
-               "\\* Models *\\\n"
+               "/* Models */\n"
                "\n"
                "external model wisey.lang.MNullPointerException {\n"
                "}\n"
                "\n"
-               "\\* Controllers *\\\n"
+               "/* Controllers */\n"
                "\n"
                "external controller systems.vos.wisey.compiler.tests.CProgram\n"
                "  implements\n"
@@ -98,9 +98,9 @@ TEST_F(MainTest, extractHeadersTest) {
               "  int run();\n"
                "}\n"
                "\n"
-               "\\* Nodes *\\\n"
+               "/* Nodes */\n"
                "\n"
-               "\\* Bindings *\\\n"
+               "/* Bindings */\n"
                "\n"
                "bind(systems.vos.wisey.compiler.tests.CProgram).to(wisey.lang.IProgram);\n"
                "\n",

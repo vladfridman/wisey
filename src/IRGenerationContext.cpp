@@ -259,7 +259,7 @@ void IRGenerationContext::printAssembly(raw_ostream &outputStream) {
 }
 
 void IRGenerationContext::printToStream(iostream& stream) const {
-  stream << "\\* Interfaces *\\" << endl << endl;
+  stream << "/* Interfaces */" << endl << endl;
   for (map<string, Interface*>::const_iterator iterator = mInterfaces.begin();
        iterator != mInterfaces.end();
        iterator++) {
@@ -268,7 +268,7 @@ void IRGenerationContext::printToStream(iostream& stream) const {
     stream << endl;
   }
   
-  stream << "\\* Models *\\" << endl << endl;
+  stream << "/* Models */" << endl << endl;
   for (map<string, Model*>::const_iterator iterator = mModels.begin();
        iterator != mModels.end();
        iterator++) {
@@ -277,7 +277,7 @@ void IRGenerationContext::printToStream(iostream& stream) const {
     stream << endl;
   }
   
-  stream << "\\* Controllers *\\" << endl << endl;
+  stream << "/* Controllers */" << endl << endl;
   for (map<string, Controller*>::const_iterator iterator = mControllers.begin();
        iterator != mControllers.end();
        iterator++) {
@@ -286,7 +286,7 @@ void IRGenerationContext::printToStream(iostream& stream) const {
     stream << endl;
   }
   
-  stream << "\\* Nodes *\\" << endl << endl;
+  stream << "/* Nodes */" << endl << endl;
   for (map<string, Node*>::const_iterator iterator = mNodes.begin();
        iterator != mNodes.end();
        iterator++) {
@@ -295,7 +295,7 @@ void IRGenerationContext::printToStream(iostream& stream) const {
     stream << endl;
   }
   
-  stream << "\\* Bindings *\\" << endl << endl;
+  stream << "/* Bindings */" << endl << endl;
   for (map<Interface*, Controller*>::const_iterator iterator = mBindings.begin();
        iterator != mBindings.end();
        iterator++) {
