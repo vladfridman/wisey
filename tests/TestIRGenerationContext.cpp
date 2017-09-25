@@ -307,7 +307,10 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
                "\\* Nodes *\\\n"
                "\n"
                "external node systems.vos.wisey.compiler.tests.NMyNode {\n"
-               "}\n",
+               "}\n"
+               "\n"
+               "\\* Bindings *\\\n"
+               "\n",
                stringStream.str().c_str());
 }
 

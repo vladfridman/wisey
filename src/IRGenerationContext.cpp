@@ -259,51 +259,52 @@ void IRGenerationContext::printAssembly(raw_ostream &outputStream) {
 }
 
 void IRGenerationContext::printToStream(iostream& stream) const {
-  if (mInterfaces.size()) {
-    stream << "\\* Interfaces *\\" << endl << endl;
-  }
+  stream << "\\* Interfaces *\\" << endl << endl;
   for (map<string, Interface*>::const_iterator iterator = mInterfaces.begin();
        iterator != mInterfaces.end();
        iterator++) {
     Interface* interface = iterator->second;
     interface->printToStream(stream);
+    stream << endl;
   }
-  if (mModels.size()) {
-    stream << endl << "\\* Models *\\" << endl << endl;
-  }
+  
+  stream << "\\* Models *\\" << endl << endl;
   for (map<string, Model*>::const_iterator iterator = mModels.begin();
-      iterator != mModels.end();
-      iterator++) {
+       iterator != mModels.end();
+       iterator++) {
     Model* model = iterator->second;
     model->printToStream(stream);
+    stream << endl;
   }
-  if (mControllers.size()) {
-    stream << endl << "\\* Controllers *\\" << endl << endl;
-  }
+  
+  stream << "\\* Controllers *\\" << endl << endl;
   for (map<string, Controller*>::const_iterator iterator = mControllers.begin();
-      iterator != mControllers.end();
-      iterator++) {
+       iterator != mControllers.end();
+       iterator++) {
     Controller* controller = iterator->second;
     controller->printToStream(stream);
+    stream << endl;
   }
-  if (mNodes.size()) {
-    stream << endl << "\\* Nodes *\\" << endl << endl;
-  }
+  
+  stream << "\\* Nodes *\\" << endl << endl;
   for (map<string, Node*>::const_iterator iterator = mNodes.begin();
        iterator != mNodes.end();
        iterator++) {
     Node* node = iterator->second;
     node->printToStream(stream);
+    stream << endl;
   }
-  if (mBindings.size()) {
-    stream << endl << "\\* Bindings *\\" << endl << endl;
-  }
+  
+  stream << "\\* Bindings *\\" << endl << endl;
   for (map<Interface*, Controller*>::const_iterator iterator = mBindings.begin();
        iterator != mBindings.end();
        iterator++) {
     Interface* interface = iterator->first;
     Controller* controller = iterator->second;
     stream << "bind(" << controller->getName() << ").to(" << interface->getName() << ");";
+    stream << endl;
+  }
+  if (mBindings.size()) {
     stream << endl;
   }
 }

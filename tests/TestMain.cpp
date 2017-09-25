@@ -98,9 +98,12 @@ TEST_F(MainTest, extractHeadersTest) {
               "  int run();\n"
                "}\n"
                "\n"
+               "\\* Nodes *\\\n"
+               "\n"
                "\\* Bindings *\\\n"
                "\n"
-               "bind(systems.vos.wisey.compiler.tests.CProgram).to(wisey.lang.IProgram);\n",
+               "bind(systems.vos.wisey.compiler.tests.CProgram).to(wisey.lang.IProgram);\n"
+               "\n",
                output.c_str());
 }
 
