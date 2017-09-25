@@ -13,6 +13,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "MockExpression.hpp"
 #include "MockType.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -51,6 +52,15 @@ TEST_F(FieldFixedTest, fieldFixedObjectCreationTest) {
   EXPECT_EQ(field.getArguments().size(), 1u);
   EXPECT_EQ(field.getArguments().at(0), mExpression);
   EXPECT_FALSE(field.isAssignable());
+}
+
+TEST_F(FieldFixedTest, extractHeaderTest) {
+  FieldFixed field(PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, mArguments);
+  
+  stringstream stringStream;
+  field.extractHeader(stringStream);
+
+  EXPECT_STREQ("  double mField;\n", stringStream.str().c_str());
 }
 
 TEST_F(TestFileSampleRunner, nodeWithFixedFieldSetterDeathRunTest) {

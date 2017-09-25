@@ -48,6 +48,11 @@ public:
    */
   virtual bool isAssignable() const = 0;
   
+  /**
+   * Extract header information into a file
+   */
+  virtual void extractHeader(std::iostream& stream) const = 0;
+
 };
 
 } /* namespace wisey */

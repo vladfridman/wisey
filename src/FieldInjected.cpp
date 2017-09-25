@@ -35,3 +35,20 @@ ExpressionList FieldInjected::getArguments() const {
 bool FieldInjected::isAssignable() const {
   return false;
 }
+
+void FieldInjected::extractHeader(iostream& stream) const {
+  stream << "  inject " << getType()->getName() << " " << getName();
+  if (!mArguments.size()) {
+    stream << "endl";
+    return;
+  }
+  
+  stream << "(";
+  for (IExpression* expression : mArguments) {
+    expression->printToStream(stream);
+    if (expression != mArguments.at(mArguments.size() - 1)) {
+      stream << ", ";
+    }
+  }
+  stream << ");" << endl;
+}

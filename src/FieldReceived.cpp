@@ -35,3 +35,7 @@ ExpressionList FieldReceived::getArguments() const {
 bool FieldReceived::isAssignable() const {
   return true;
 }
+
+void FieldReceived::extractHeader(iostream& stream) const {
+  stream << "  receive " << getType()->getName() << " " << getName() << ";" << endl;
+}

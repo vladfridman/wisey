@@ -476,6 +476,10 @@ TEST_F(NodeTest, extractHeaderTest) {
                "  implements\n"
                "    systems.vos.wisey.compiler.tests.IComplicatedElement,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
+               "\n"
+               "  int mLeft;\n"
+               "  int mRight;\n"
+               "\n"
                "  int getElement();\n"
                "  int foo();\n"
                "}\n",

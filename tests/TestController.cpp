@@ -493,6 +493,10 @@ TEST_F(ControllerTest, extractHeaderTest) {
                "  implements\n"
                "    systems.vos.wisey.compiler.tests.IScienceCalculator,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
+               "\n"
+               "  receive int left;\n"
+               "  receive int right;\n"
+               "\n"
                "  int calculate();\n"
                "  int foo();\n"
                "}\n",

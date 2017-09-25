@@ -74,10 +74,10 @@ struct ModelTest : public Test {
     mStructType->setBody(types);
     map<string, IField*> fields;
     ExpressionList fieldArguments;
-    mWidthField = new FieldFixed(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
-    mHeightField = new FieldFixed(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
-    fields["width"] = mWidthField;
-    fields["height"] = mHeightField;
+    mWidthField = new FieldFixed(PrimitiveTypes::INT_TYPE, "mWidth", 0, fieldArguments);
+    mHeightField = new FieldFixed(PrimitiveTypes::INT_TYPE, "mHeight", 1, fieldArguments);
+    fields["mWidth"] = mWidthField;
+    fields["mHeight"] = mHeightField;
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mMethod = new Method("foo",
@@ -284,9 +284,9 @@ TEST_F(ModelTest, createRTTITest) {
 }
 
 TEST_F(ModelTest, findFeildTest) {
-  EXPECT_EQ(mModel->findField("width"), mWidthField);
-  EXPECT_EQ(mModel->findField("height"), mHeightField);
-  EXPECT_EQ(mModel->findField("depth"), nullptr);
+  EXPECT_EQ(mModel->findField("mWidth"), mWidthField);
+  EXPECT_EQ(mModel->findField("mHeight"), mHeightField);
+  EXPECT_EQ(mModel->findField("mDepth"), nullptr);
 }
 
 TEST_F(ModelTest, findMethodTest) {
@@ -296,12 +296,12 @@ TEST_F(ModelTest, findMethodTest) {
 
 TEST_F(ModelTest, getMissingFieldsTest) {
   set<string> givenFields;
-  givenFields.insert("width");
+  givenFields.insert("mWidth");
   
   vector<string> missingFields = mModel->getMissingFields(givenFields);
   
   ASSERT_EQ(missingFields.size(), 1u);
-  EXPECT_EQ(missingFields.at(0), "height");
+  EXPECT_EQ(missingFields.at(0), "mHeight");
 }
 
 TEST_F(ModelTest, canCastToTest) {
@@ -500,6 +500,10 @@ TEST_F(ModelTest, extractHeaderTest) {
                "  implements\n"
                "    systems.vos.wisey.compiler.tests.IShape,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
+               "\n"
+               "  int mHeight;\n"
+               "  int mWidth;\n"
+               "\n"
                "  int foo();\n"
                "  int bar();\n"
                "}\n",

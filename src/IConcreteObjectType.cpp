@@ -427,8 +427,24 @@ void IConcreteObjectType::extractHeaderFromObject(const IConcreteObjectType* obj
     }
   }
   stream << " {" << endl;
+
+  map<string, IField*> fields = object->getFields();
+  if (fields.size()) {
+    stream << endl;
+  }
+  for (map<string, IField*>::iterator iterator = fields.begin();
+       iterator != fields.end();
+       iterator++) {
+    iterator->second->extractHeader(stream);
+  }
+  
+  if (object->getMethods().size()) {
+    stream << endl;
+  }
+  
   for (IMethod* method : object->getMethods()) {
     method->extractHeader(stream);
   }
   stream << "}" << endl;
 }
+

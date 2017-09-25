@@ -43,6 +43,8 @@ public:
   
   bool isAssignable() const override;
   
+  void extractHeader(std::iostream& stream) const override;
+
 };
   
 } /* namespace wisey */

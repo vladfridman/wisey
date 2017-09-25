@@ -12,6 +12,7 @@
 
 #include "MockExpression.hpp"
 #include "MockType.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -50,4 +51,13 @@ TEST_F(FieldStateTest, fieldStateObjectCreationTest) {
   EXPECT_EQ(field.getArguments().size(), 1u);
   EXPECT_EQ(field.getArguments().at(0), mExpression);
   EXPECT_TRUE(field.isAssignable());
+}
+
+TEST_F(FieldStateTest, extractHeaderTest) {
+  FieldState field(PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, mArguments);
+  
+  stringstream stringStream;
+  field.extractHeader(stringStream);
+  
+  EXPECT_STREQ("  state double mField;\n", stringStream.str().c_str());
 }

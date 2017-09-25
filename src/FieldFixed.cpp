@@ -35,3 +35,7 @@ ExpressionList FieldFixed::getArguments() const {
 bool FieldFixed::isAssignable() const {
   return false;
 }
+
+void FieldFixed::extractHeader(iostream& stream) const {
+  stream << "  " << getType()->getName() << " " << getName() << ";" << endl;
+}

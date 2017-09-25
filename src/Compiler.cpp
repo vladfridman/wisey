@@ -53,6 +53,10 @@ void Compiler::compile() {
   
   verifyModule(*mContext.getModule());
   
+  if (mArguments.getHeaderFile().size()) {
+    extractHeaders(mArguments.getHeaderFile());
+  }
+
   deleteProgramFiles(programFiles);
   mHasCompiled = true;
   
@@ -62,10 +66,6 @@ void Compiler::compile() {
   
   if (mArguments.getOutputFile().size()) {
     saveBinary(mArguments.getOutputFile());
-  }
-  
-  if (mArguments.getHeaderFile().size()) {
-    extractHeaders(mArguments.getHeaderFile());
   }
 }
 

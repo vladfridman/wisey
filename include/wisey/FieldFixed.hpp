@@ -42,6 +42,8 @@ public:
   ExpressionList getArguments() const override;
   
   bool isAssignable() const override;
+  
+  void extractHeader(std::iostream& stream) const override;
 
 };
   

@@ -35,3 +35,7 @@ ExpressionList FieldState::getArguments() const {
 bool FieldState::isAssignable() const {
   return true;
 }
+
+void FieldState::extractHeader(iostream& stream) const {
+  stream << "  state " << getType()->getName() << " " << getName() << ";" << endl;
+}
