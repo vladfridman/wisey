@@ -57,6 +57,15 @@ TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierCreateWithPackageTest) {
   EXPECT_EQ(nodeTypeSpecifier.getType(mContext), mNode);
 }
 
+TEST_F(NodeTypeSpecifierTest, printToStreamTest) {
+  NodeTypeSpecifier nodeTypeSpecifier(mPackage, "NElement");
+
+  stringstream stringStream;
+  nodeTypeSpecifier.printToStream(stringStream);
+  
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.NElement", stringStream.str().c_str());
+}
+
 TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierSamePackageDeathTest) {
   vector<string> package;
   NodeTypeSpecifier nodeTypeSpecifier(package, "NNode");

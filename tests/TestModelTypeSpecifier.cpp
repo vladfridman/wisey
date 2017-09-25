@@ -74,6 +74,15 @@ TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierCreateWithPackageTest) {
   EXPECT_EQ(modelTypeSpecifier.getType(mContext), mModel);
 }
 
+TEST_F(ModelTypeSpecifierTest, printToStreamTest) {
+  ModelTypeSpecifier modelTypeSpecifier(mPackage, "MSquare");
+
+  stringstream stringStream;
+  modelTypeSpecifier.printToStream(stringStream);
+  
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MSquare", stringStream.str().c_str());
+}
+
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierSamePackageDeathTest) {
   vector<string> package;
   ModelTypeSpecifier modelTypeSpecifier(package, "MCircle");

@@ -63,3 +63,9 @@ void Assignment::addReferenceToOwner(IRGenerationContext& context, IVariable* re
 bool Assignment::existsInOuterScope(IRGenerationContext& context) const {
   return mIdentifier->existsInOuterScope(context);
 }
+
+void Assignment::printToStream(std::iostream& stream) const {
+  mIdentifier->printToStream(stream);
+  stream << " = ";
+  mExpression->printToStream(stream);
+}

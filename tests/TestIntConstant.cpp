@@ -54,6 +54,13 @@ TEST_F(IntConstantTest, existsInOuterScopeTest) {
   EXPECT_FALSE(mIntConstant.existsInOuterScope(mContext));
 }
 
+TEST_F(IntConstantTest, printToStreamTest) {
+  stringstream stringStream;
+  mIntConstant.printToStream(stringStream);
+  
+  EXPECT_STREQ("5", stringStream.str().c_str());
+}
+
 TEST_F(IntConstantTest, releaseOwnershipDeathTest) {
   EXPECT_EXIT(mIntConstant.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),

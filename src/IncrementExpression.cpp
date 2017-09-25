@@ -76,3 +76,12 @@ void IncrementExpression::addReferenceToOwner(IRGenerationContext& context,
 bool IncrementExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void IncrementExpression::printToStream(std::iostream& stream) const {
+  mExpression->printToStream(stream);
+  if (mIncrementBy > 0) {
+    stream << "++";
+  } else {
+    stream << "--";
+  }
+}

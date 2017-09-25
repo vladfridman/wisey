@@ -111,3 +111,10 @@ void TypeComparisionExpression::addReferenceToOwner(IRGenerationContext& context
 bool TypeComparisionExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void TypeComparisionExpression::printToStream(std::iostream& stream) const {
+  mExpression->printToStream(stream);
+  stream << " instanceof ";
+  mTypeSpecifier->printToStream(stream);
+}
+

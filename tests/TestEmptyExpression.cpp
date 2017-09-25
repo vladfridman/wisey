@@ -40,6 +40,13 @@ TEST_F(EmptyExpressionTest, existsInOuterScopeTest) {
   EXPECT_FALSE(mEmptyExpression.existsInOuterScope(mContext));
 }
 
+TEST_F(EmptyExpressionTest, printToStreamTest) {
+  std::stringstream stringStream;
+  mEmptyExpression.printToStream(stringStream);
+  
+  EXPECT_EQ(0u, stringStream.str().size());
+}
+
 TEST_F(EmptyExpressionTest, releaseOwnershipDeathTest) {
   EXPECT_EXIT(mEmptyExpression.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),

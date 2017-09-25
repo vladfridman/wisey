@@ -71,3 +71,9 @@ bool InterfaceInjector::existsInOuterScope(IRGenerationContext& context) const {
   string variableName = IVariable::getTemporaryVariableName(this);
   return context.getScopes().getVariable(variableName)->existsInOuterScope();
 }
+
+void InterfaceInjector::printToStream(std::iostream& stream) const {
+  stream << "inject(";
+  mInterfaceTypeSpecifier->printToStream(stream);
+  stream << ")";
+}

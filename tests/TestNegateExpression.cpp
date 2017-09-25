@@ -26,6 +26,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -56,6 +57,10 @@ struct NegateExpressionTest : Test {
   
   ~NegateExpressionTest() {
     delete mStringStream;
+  }
+  
+  static void printExpression(iostream& stream) {
+    stream << "expression";
   }
 };
 
@@ -95,6 +100,16 @@ TEST_F(NegateExpressionTest, existsInOuterScopeTest) {
   NegateExpression negateExpression(mExpression);
 
   EXPECT_FALSE(negateExpression.existsInOuterScope(mContext));
+}
+
+TEST_F(NegateExpressionTest, printToStreamTest) {
+  NegateExpression negateExpression(mExpression);
+
+  stringstream stringStream;
+  ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+  negateExpression.printToStream(stringStream);
+  
+  EXPECT_STREQ("!expression", stringStream.str().c_str());
 }
 
 TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {

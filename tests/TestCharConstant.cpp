@@ -49,6 +49,17 @@ TEST_F(CharConstantTest, charConstantTypeTest) {
   EXPECT_EQ(mCharConstant.getType(mContext), PrimitiveTypes::CHAR_TYPE);
 }
 
+TEST_F(CharConstantTest, existsInOuterScopeTest) {
+  EXPECT_FALSE(mCharConstant.existsInOuterScope(mContext));
+}
+
+TEST_F(CharConstantTest, printToStreamTest) {
+  stringstream stringStream;
+  mCharConstant.printToStream(stringStream);
+  
+  EXPECT_STREQ("'y'", stringStream.str().c_str());
+}
+
 TEST_F(CharConstantTest, releaseOwnershipDeathTest) {
   EXPECT_EXIT(mCharConstant.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
@@ -59,10 +70,6 @@ TEST_F(CharConstantTest, addReferenceToOwnerDeathTest) {
   EXPECT_EXIT(mCharConstant.addReferenceToOwner(mContext, NULL),
               ::testing::ExitedWithCode(1),
               "Error: Can not add a reference to non owner type char constant expression");
-}
-
-TEST_F(CharConstantTest, existsInOuterScopeTest) {
-  EXPECT_FALSE(mCharConstant.existsInOuterScope(mContext));
 }
 
 TEST_F(TestFileSampleRunner, charVariableRunTest) {

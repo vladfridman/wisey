@@ -41,3 +41,7 @@ void CharConstant::addReferenceToOwner(IRGenerationContext& context, IVariable* 
 bool CharConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void CharConstant::printToStream(std::iostream& stream) const {
+  stream << "'" << mValue << "'";
+}

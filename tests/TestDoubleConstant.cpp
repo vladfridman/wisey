@@ -52,6 +52,13 @@ TEST_F(DoubleConstantTest, existsInOuterScopeTest) {
   EXPECT_FALSE(mDoubleConstant.existsInOuterScope(mContext));
 }
 
+TEST_F(DoubleConstantTest, printToStreamTest) {
+  stringstream stringStream;
+  mDoubleConstant.printToStream(stringStream);
+  
+  EXPECT_STREQ("5.7d", stringStream.str().c_str());
+}
+
 TEST_F(DoubleConstantTest, releaseOwnershipDeathTest) {
   EXPECT_EXIT(mDoubleConstant.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),

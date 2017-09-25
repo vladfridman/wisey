@@ -41,3 +41,7 @@ void DoubleConstant::addReferenceToOwner(IRGenerationContext& context, IVariable
 bool DoubleConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void DoubleConstant::printToStream(std::iostream& stream) const {
+  stream << mValue << "d";
+}

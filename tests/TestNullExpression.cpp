@@ -51,6 +51,13 @@ TEST_F(NullExpressionTest, existsInOuterScopeTest) {
   ASSERT_FALSE(mNullExpression.existsInOuterScope(mContext));
 }
 
+TEST_F(NullExpressionTest, printToStreamTest) {
+  stringstream stringStream;
+  mNullExpression.printToStream(stringStream);
+  
+  EXPECT_STREQ("null", stringStream.str().c_str());
+}
+
 TEST_F(NullExpressionTest, addReferenceToOwnerDeathTest) {
   EXPECT_EXIT(mNullExpression.addReferenceToOwner(mContext, NULL),
               ::testing::ExitedWithCode(1),

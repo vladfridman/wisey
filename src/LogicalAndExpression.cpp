@@ -73,3 +73,9 @@ void LogicalAndExpression::addReferenceToOwner(IRGenerationContext& context,
 bool LogicalAndExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void LogicalAndExpression::printToStream(std::iostream& stream) const {
+  mLeftExpression->printToStream(stream);
+  stream << " && ";
+  mRightExpression->printToStream(stream);
+}

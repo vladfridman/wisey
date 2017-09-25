@@ -21,3 +21,8 @@ Interface* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
 
   return context.getInterface(fullName);
 }
+
+void InterfaceTypeSpecifier::printToStream(std::iostream& stream) const {
+  printPackageToStream(stream, mPackage);
+  stream << mName;
+}

@@ -21,6 +21,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Property;
@@ -61,6 +62,14 @@ struct AdditiveMultiplicativeExpressionTest : Test {
     delete mBasicBlock;
     delete mStringStream;
   }
+
+  static void printLeftExpression(iostream& stream) {
+    stream << "i";
+  }
+
+  static void printRightExpression(iostream& stream) {
+    stream << "j";
+  }
 };
 
 TEST_F(AdditiveMultiplicativeExpressionTest, getVariableTest) {
@@ -86,6 +95,23 @@ TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
   Instruction &instruction = mBasicBlock->front();
   *mStringStream << instruction;
   ASSERT_STREQ(mStringStream->str().c_str(), "  %sub = sub i32 3, 5");
+}
+
+TEST_F(AdditiveMultiplicativeExpressionTest, existsInOuterScopeTest) {
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  
+  EXPECT_FALSE(expression.existsInOuterScope(mContext));
+}
+
+TEST_F(AdditiveMultiplicativeExpressionTest, printToStreamTest) {
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  
+  stringstream stringStream;
+  ON_CALL(*mLeftExpression, printToStream(_)).WillByDefault(Invoke(printLeftExpression));
+  ON_CALL(*mRightExpression, printToStream(_)).WillByDefault(Invoke(printRightExpression));
+  expression.printToStream(stringStream);
+  
+  EXPECT_STREQ("i + j", stringStream.str().c_str());
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
@@ -185,12 +211,6 @@ TEST_F(AdditiveMultiplicativeExpressionTest, addReferenceToOwnerDeathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Can not add a reference to non owner type "
               "additive/multiplicative expression");
-}
-
-TEST_F(AdditiveMultiplicativeExpressionTest, existsInOuterScopeTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
-  
-  EXPECT_FALSE(expression.existsInOuterScope(mContext));
 }
 
 TEST_F(TestFileSampleRunner, additionRunTest) {

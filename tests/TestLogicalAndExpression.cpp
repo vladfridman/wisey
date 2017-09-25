@@ -26,6 +26,7 @@ using namespace wisey;
 
 using ::testing::_;
 using ::testing::ExitedWithCode;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -59,6 +60,14 @@ struct LogicalAndExpressionTest : Test {
   ~LogicalAndExpressionTest() {
     delete mFunction;
     delete mStringStream;
+  }
+
+  static void printLeftExpression(iostream& stream) {
+    stream << "a";
+  }
+  
+  static void printRightExpression(iostream& stream) {
+    stream << "b";
   }
 };
 
@@ -140,6 +149,17 @@ TEST_F(LogicalAndExpressionTest, existsInOuterScopeTest) {
   LogicalAndExpression expression(mLeftExpression, mRightExpression);
   
   EXPECT_FALSE(expression.existsInOuterScope(mContext));
+}
+
+TEST_F(LogicalAndExpressionTest, printToStreamTest) {
+  LogicalAndExpression expression(mLeftExpression, mRightExpression);
+  
+  stringstream stringStream;
+  ON_CALL(*mLeftExpression, printToStream(_)).WillByDefault(Invoke(printLeftExpression));
+  ON_CALL(*mRightExpression, printToStream(_)).WillByDefault(Invoke(printRightExpression));
+  expression.printToStream(stringStream);
+  
+  EXPECT_STREQ("a && b", stringStream.str().c_str());
 }
 
 TEST_F(LogicalAndExpressionTest, releaseOwnershipDeathTest) {

@@ -43,3 +43,7 @@ void EmptyExpression::addReferenceToOwner(IRGenerationContext& context,
 bool EmptyExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void EmptyExpression::printToStream(std::iostream& stream) const {
+}
+

@@ -145,3 +145,12 @@ TEST_F(InterfaceInjectorTest, existsInOuterScopeTest) {
   
   EXPECT_FALSE(interfaceInjector.existsInOuterScope(mContext));
 }
+
+TEST_F(InterfaceInjectorTest, printToStreamTest) {
+  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
+
+  stringstream stringStream;
+  interfaceInjector.printToStream(stringStream);
+  
+  EXPECT_STREQ("inject(IMyInterface)", stringStream.str().c_str());
+}

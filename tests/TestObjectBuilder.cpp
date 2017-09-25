@@ -29,6 +29,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -69,10 +70,12 @@ struct ObjectBuilderTest : Test {
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(fieldValue1));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField1Expression, printToStream(_)).WillByDefault(Invoke(printBuilderArgument1));
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
     ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(fieldValue2));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    
+    ON_CALL(*mField2Expression, printToStream(_)).WillByDefault(Invoke(printBuilderArgument2));
+
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateVTable(mContext, mModel);
 
@@ -104,6 +107,14 @@ struct ObjectBuilderTest : Test {
     delete mField1Expression;
     delete mField2Expression;
     delete mStringStream;
+  }
+  
+  static void printBuilderArgument1(iostream& stream) {
+    stream << "3";
+  }
+  
+  static void printBuilderArgument2(iostream& stream) {
+    stream << "5";
   }
 };
 
@@ -148,4 +159,12 @@ TEST_F(ObjectBuilderTest, existsInOuterScopeTest) {
   mObjectBuilder->generateIR(mContext);
 
   EXPECT_FALSE(mObjectBuilder->existsInOuterScope(mContext));
+}
+
+TEST_F(ObjectBuilderTest, printToStreamTest) {
+  stringstream stringStream;
+  mObjectBuilder->printToStream(stringStream);
+  
+  EXPECT_STREQ("builder(MShape).withWidth(3).withHeight(5).build()",
+               stringStream.str().c_str());
 }

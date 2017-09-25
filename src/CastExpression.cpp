@@ -55,3 +55,10 @@ void CastExpression::addReferenceToOwner(IRGenerationContext& context, IVariable
 bool CastExpression::existsInOuterScope(IRGenerationContext& context) const {
   return mExpression->existsInOuterScope(context);
 }
+
+void CastExpression::printToStream(std::iostream& stream) const {
+  stream << "(";
+  mTypeSpecifier->printToStream(stream);
+  stream << ") ";
+  mExpression->printToStream(stream);
+}

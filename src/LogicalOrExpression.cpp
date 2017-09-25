@@ -73,3 +73,9 @@ void LogicalOrExpression::addReferenceToOwner(IRGenerationContext& context,
 bool LogicalOrExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void LogicalOrExpression::printToStream(std::iostream& stream) const {
+  mLeftExpression->printToStream(stream);
+  stream << " || ";
+  mRightExpression->printToStream(stream);
+}

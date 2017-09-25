@@ -43,6 +43,8 @@ public:
   void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const override;
   
   bool existsInOuterScope(IRGenerationContext& context) const override;
+  
+  void printToStream(std::iostream& stream) const override;
 
 private:
   

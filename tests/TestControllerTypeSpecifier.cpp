@@ -82,6 +82,15 @@ TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierCreateWithPackageTest
   EXPECT_EQ(controllerTypeSpecifier.getType(mContext), mController);
 }
 
+TEST_F(ControllerTypeSpecifierTest, printToStreamTest) {
+  ControllerTypeSpecifier controllerTypeSpecifier(mPackage, "CMultiplier");
+
+  stringstream stringStream;
+  controllerTypeSpecifier.printToStream(stringStream);
+  
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier", stringStream.str().c_str());
+}
+
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierSamePackageDeathTest) {
   vector<string> package;
   ControllerTypeSpecifier controllerTypeSpecifier(package, "CAdder");

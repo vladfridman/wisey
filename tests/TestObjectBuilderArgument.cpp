@@ -21,6 +21,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -51,6 +52,11 @@ struct ObjectBuilderArgumentTest : Test {
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));
     ON_CALL(*mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+    ON_CALL(*mFieldExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+  }
+  
+  static void printExpression(iostream& stream) {
+    stream << "expression";
   }
 };
 
@@ -113,4 +119,13 @@ TEST_F(ObjectBuilderArgumentTest, releaseOwnershipTest) {
   EXPECT_CALL(*mFieldExpression, releaseOwnership(_)).Times(1);
   
   argument.releaseOwnership(mContext);
+}
+
+TEST_F(ObjectBuilderArgumentTest, printToStreamTest) {
+  string argumentSpecifier("withFieldA");
+  ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
+  stringstream stringStream;
+  argument.printToStream(stringStream);
+  
+  EXPECT_STREQ("withFieldA(expression)", stringStream.str().c_str());
 }

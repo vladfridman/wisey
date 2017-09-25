@@ -91,6 +91,19 @@ TEST_F(BooleanConstantTest, addReferenceToOwnerDeathTest) {
               "Error: Can not add a reference to non owner type boolean constant expression");
 }
 
+TEST_F(BooleanConstantTest, printToStreamTest) {
+  BooleanConstant trueConstant(true);
+  BooleanConstant falseConstant(false);
+
+  stringstream stringStreamTrue;
+  trueConstant.printToStream(stringStreamTrue);
+  EXPECT_STREQ("true", stringStreamTrue.str().c_str());
+
+  stringstream stringStreamFalse;
+  falseConstant.printToStream(stringStreamFalse);
+  EXPECT_STREQ("false", stringStreamFalse.str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, booleanConstantRunTest) {
   runFile("tests/samples/test_boolean_constant.yz", "7");
 }

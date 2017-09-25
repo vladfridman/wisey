@@ -9,6 +9,8 @@
 #ifndef IObjectTypeSpecifier_h
 #define IObjectTypeSpecifier_h
 
+#include <iostream>
+
 #include "wisey/IObjectType.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
@@ -23,6 +25,11 @@ public:
   
   virtual const IObjectType* getType(IRGenerationContext& context) const = 0;
 
+  /**
+   * Prints a given package to a stream
+   */
+  static void printPackageToStream(std::iostream& stream, std::vector<std::string> package);
+  
 };
   
 } /* namespace wisey */

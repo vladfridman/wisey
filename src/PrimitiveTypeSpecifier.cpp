@@ -15,3 +15,7 @@ using namespace wisey;
 IType* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
   return mType;
 }
+
+void PrimitiveTypeSpecifier::printToStream(std::iostream& stream) const {
+  stream << mType->getName();
+}

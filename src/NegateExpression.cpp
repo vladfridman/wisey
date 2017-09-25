@@ -68,3 +68,8 @@ void NegateExpression::addReferenceToOwner(IRGenerationContext& context,
 bool NegateExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void NegateExpression::printToStream(std::iostream& stream) const {
+  stream << "!";
+  mExpression->printToStream(stream);
+}

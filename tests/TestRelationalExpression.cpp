@@ -23,6 +23,7 @@
 #include "wisey/RelationalExpression.hpp"
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -72,6 +73,14 @@ struct RelationalExpressionTest : public Test {
   ~RelationalExpressionTest() {
     delete mBasicBlock;
     delete mStringStream;
+  }
+  
+  static void printLeftExpression(iostream& stream) {
+    stream << "left";
+  }
+  
+  static void printRightExpression(iostream& stream) {
+    stream << "right";
   }
 };
 
@@ -139,6 +148,16 @@ TEST_F(RelationalExpressionTest, floatLessThanTest) {
                "  %cmp = fcmp olt float 0x40099999A0000000, 0x4016666660000000");
 }
 
+TEST_F(RelationalExpressionTest, printToStreamTest) {
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LE, mRightExpression);
+
+  stringstream stringStream;
+  ON_CALL(*mLeftExpression, printToStream(_)).WillByDefault(Invoke(printLeftExpression));
+  ON_CALL(*mRightExpression, printToStream(_)).WillByDefault(Invoke(printRightExpression));
+  expression.printToStream(stringStream);
+  
+  EXPECT_STREQ("left <= right", stringStream.str().c_str());
+}
 
 TEST_F(RelationalExpressionTest, objectAndNonObjectCompareDeathTest) {
   Mock::AllowLeak(mLeftExpression);

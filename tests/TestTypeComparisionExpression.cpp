@@ -31,6 +31,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -177,6 +178,14 @@ struct TestTypeComparisionExpressionTest : public Test {
   ~TestTypeComparisionExpressionTest() {
     delete mStringStream;
   }
+  
+  static void printExpression(iostream& stream) {
+    stream << "object";
+  }
+  
+  static void printTypeSpecifier(iostream& stream) {
+    stream << "type";
+  }
 };
 
 TEST_F(TestTypeComparisionExpressionTest, getVariableTest) {
@@ -267,6 +276,17 @@ TEST_F(TestTypeComparisionExpressionTest, existsInOuterScopeTest) {
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
   
   EXPECT_FALSE(typeComparision.existsInOuterScope(mContext));
+}
+
+TEST_F(TestTypeComparisionExpressionTest, printToStreamTest) {
+  NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+  ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+  ON_CALL(*typeSpecifier, printToStream(_)).WillByDefault(Invoke(printTypeSpecifier));
+
+  stringstream stringStream;
+  typeComparision.printToStream(stringStream);
+  EXPECT_STREQ("object instanceof type", stringStream.str().c_str());
 }
 
 TEST_F(TestTypeComparisionExpressionTest, releaseOwnershipDeathTest) {

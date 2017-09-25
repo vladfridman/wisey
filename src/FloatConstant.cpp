@@ -41,3 +41,7 @@ void FloatConstant::addReferenceToOwner(IRGenerationContext& context, IVariable*
 bool FloatConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void FloatConstant::printToStream(std::iostream& stream) const {
+  stream << mValue;
+}

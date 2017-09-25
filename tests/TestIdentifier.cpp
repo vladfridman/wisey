@@ -115,3 +115,12 @@ TEST_F(IdentifierTest, addReferenceToOwnerTest) {
   EXPECT_EQ(owners.size(), 1u);
   EXPECT_EQ(owners.front(), &mockVariable);
 }
+
+TEST_F(IdentifierTest, printToStreamTest) {
+  Identifier identifier("foo", "bar");
+
+  stringstream stringStream;
+  identifier.printToStream(stringStream);
+  
+  EXPECT_STREQ("foo", stringStream.str().c_str());
+}

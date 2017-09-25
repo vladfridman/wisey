@@ -27,6 +27,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -52,14 +53,18 @@ public:
     mExpressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(mExpressionValue));
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
 
     mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface", NULL);
-    
     mController = new Controller("systems.vos.wisey.compiler.tests.CController", NULL);
   }
   
   ~AssignmentTest() {
     delete mBlock;
+  }
+
+  static void printExpression(iostream& stream) {
+    stream << "5";
   }
 };
 
@@ -191,6 +196,20 @@ TEST_F(AssignmentTest, existsInOuterScopeTest) {
   
   ON_CALL(mockVariable, existsInOuterScope()).WillByDefault(Return(false));
   EXPECT_FALSE(assignment.existsInOuterScope(mContext));
+}
+
+TEST_F(AssignmentTest, printToStreamTest) {
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
+  mContext.getScopes().setVariable(&mockVariable);
+  Identifier* identifier = new Identifier("foo", "bar");
+  Assignment assignment(identifier, mExpression);
+
+  stringstream stringStream;
+  assignment.printToStream(stringStream);
+  
+  EXPECT_STREQ("foo = 5", stringStream.str().c_str());
 }
 
 TEST_F(TestFileSampleRunner, assignToControllerRunDeathTest) {

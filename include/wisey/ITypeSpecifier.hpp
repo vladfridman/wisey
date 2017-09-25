@@ -10,6 +10,7 @@
 #define ITypeSpecifier_h
 
 #include "wisey/IHasType.hpp"
+#include "wisey/IPrintable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
@@ -17,7 +18,7 @@ namespace wisey {
 /**
  * Represents a type specifier that could either be a primitive or an object type
  */
-class ITypeSpecifier : public IHasType { };
+class ITypeSpecifier : public IHasType, public IPrintable { };
 
 } /* namespace wisey */
 

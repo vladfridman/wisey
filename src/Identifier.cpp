@@ -57,3 +57,7 @@ void Identifier::addReferenceToOwner(IRGenerationContext& context, IVariable* re
 bool Identifier::existsInOuterScope(IRGenerationContext& context) const {
   return IVariable::getVariable(context, mName)->existsInOuterScope();
 }
+
+void Identifier::printToStream(std::iostream& stream) const {
+  stream << mName;
+}

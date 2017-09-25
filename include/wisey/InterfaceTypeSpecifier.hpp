@@ -30,6 +30,8 @@ public:
   
   Interface* getType(IRGenerationContext& context) const override;
   
+  void printToStream(std::iostream& stream) const override;
+
 };
   
 } /* namespace wisey */

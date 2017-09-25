@@ -41,3 +41,7 @@ void LongConstant::addReferenceToOwner(IRGenerationContext& context, IVariable* 
 bool LongConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void LongConstant::printToStream(std::iostream& stream) const {
+  stream << mValue << "l";
+}

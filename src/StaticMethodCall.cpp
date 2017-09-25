@@ -191,3 +191,15 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
 bool StaticMethodCall::existsInOuterScope(IRGenerationContext& context) const {
   return true;
 }
+
+void StaticMethodCall::printToStream(std::iostream& stream) const {
+  mObjectTypeSpecifier->printToStream(stream);
+  stream << "." << mMethodName << "(";
+  for (IExpression* expression : mArguments) {
+    expression->printToStream(stream);
+    if (expression != mArguments.at(mArguments.size() - 1)) {
+      stream << ", ";
+    }
+  }
+  stream << ")";
+}

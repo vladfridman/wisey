@@ -42,6 +42,8 @@ public:
   
   void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const override;
   
+  void printToStream(std::iostream& stream) const override;
+
 private:
   
   void checkTypes(const IType* leftType, const IType* rightType) const;

@@ -26,6 +26,7 @@ public:
   MOCK_CONST_METHOD1(releaseOwnership, void (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(existsInOuterScope, bool (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD2(addReferenceToOwner, void (wisey::IRGenerationContext&, wisey::IVariable*));
+  MOCK_CONST_METHOD1(printToStream, void (std::iostream&));
 };
 
 #endif /* MockExpression_h */

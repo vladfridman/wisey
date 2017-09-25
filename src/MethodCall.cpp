@@ -313,3 +313,15 @@ bool MethodCall::existsInOuterScope(IRGenerationContext& context) const {
   }
   return mExpression->existsInOuterScope(context);
 }
+
+void MethodCall::printToStream(std::iostream& stream) const {
+  mExpression->printToStream(stream);
+  stream << "." << mMethodName << "(";
+  for (IExpression* expression : mArguments) {
+    expression->printToStream(stream);
+    if (expression != mArguments.at(mArguments.size() - 1)) {
+      stream << ", ";
+    }
+  }
+  stream << ")";
+}

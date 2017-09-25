@@ -159,6 +159,18 @@ TEST_F(IncrementExpressionTest, incrementExpressionTypeTest) {
   EXPECT_EQ(expression->getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
+TEST_F(IncrementExpressionTest, printToStreamTest) {
+  IncrementExpression* incrementExpression = IncrementExpression::newIncrementByOne(mIdentifier);
+  stringstream stringStreamIncrement;
+  incrementExpression->printToStream(stringStreamIncrement);
+  EXPECT_STREQ("foo++", stringStreamIncrement.str().c_str());
+
+  IncrementExpression* decrementExpression = IncrementExpression::newDecrementByOne(mIdentifier);
+  stringstream stringStreamDecrement;
+  decrementExpression->printToStream(stringStreamDecrement);
+  EXPECT_STREQ("foo--", stringStreamDecrement.str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, incrementByOneRunTest) {
   runFile("tests/samples/test_increment_by_one.yz", "3");
 }

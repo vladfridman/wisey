@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IType.hpp"
+#include "wisey/IPrintable.hpp"
 
 namespace wisey {
 
@@ -30,7 +31,7 @@ class IConcreteObjectType;
  *
  * withField(1) represents one model builder argument
  */
-class ObjectBuilderArgument {
+class ObjectBuilderArgument : public IPrintable {
   
   std::string mFieldSpecifier;
   IExpression* mFieldExpression;
@@ -64,6 +65,8 @@ public:
    */
   void releaseOwnership(IRGenerationContext& context) const;
   
+  void printToStream(std::iostream& stream) const override;
+
 };
   
 /**

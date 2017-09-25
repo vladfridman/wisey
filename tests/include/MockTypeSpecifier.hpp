@@ -21,6 +21,7 @@
 class MockTypeSpecifier : public wisey::ITypeSpecifier {
 public:
   MOCK_CONST_METHOD1(getType, wisey::IType* (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD1(printToStream, void (std::iostream&));
 };
 
 #endif /* MockTypeSpecifier_h */

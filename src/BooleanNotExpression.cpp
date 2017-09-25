@@ -56,3 +56,8 @@ void BooleanNotExpression::addReferenceToOwner(IRGenerationContext& context,
 bool BooleanNotExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void BooleanNotExpression::printToStream(std::iostream& stream) const {
+  stream << "!";
+  mExpression->printToStream(stream);
+}

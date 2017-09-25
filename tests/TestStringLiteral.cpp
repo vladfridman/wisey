@@ -75,6 +75,14 @@ TEST_F(StringLiteralTest, existsInOuterScopeTest) {
   EXPECT_FALSE(stringLiteral.existsInOuterScope(mContext));
 }
 
+TEST_F(StringLiteralTest, printToStreamTest) {
+  StringLiteral stringLiteral("\"test\"");
+
+  stringstream stringStream;
+  stringLiteral.printToStream(stringStream);
+  EXPECT_STREQ("\"test\"", stringStream.str().c_str());
+}
+
 TEST_F(StringLiteralTest, releaseOwnershipDeathTest) {
   StringLiteral stringLiteral("\"test\ntest\"");
   

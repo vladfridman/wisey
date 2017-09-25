@@ -67,6 +67,15 @@ TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateWithPackageTest) 
   EXPECT_EQ(interfaceTypeSpecifier.getType(mContext), mInterface);
 }
 
+TEST_F(InterfaceTypeSpecifierTest, printToStreamTest) {
+  InterfaceTypeSpecifier interfaceTypeSpecifier(mPackage, "IShape");
+
+  stringstream stringStream;
+  interfaceTypeSpecifier.printToStream(stringStream);
+  
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.IShape", stringStream.str().c_str());
+}
+
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierSamePackageDeathTest) {
   vector<string> package;
   InterfaceTypeSpecifier interfaceTypeSpecifier(package, "IObject");

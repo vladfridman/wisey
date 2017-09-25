@@ -36,6 +36,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -127,6 +128,14 @@ public:
   
   ~StaticMethodCallTest() {
     delete mStringStream;
+  }
+
+  static void printArgument1(iostream& stream) {
+    stream << "argument1";
+  }
+  
+  static void printArgument2(iostream& stream) {
+    stream << "argument2";
   }
 };
 
@@ -262,6 +271,22 @@ TEST_F(StaticMethodCallTest, existsInOuterScopeTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
   
   EXPECT_TRUE(staticMethodCall.existsInOuterScope(mContext));
+}
+
+TEST_F(StaticMethodCallTest, printToStreamTest) {
+  NiceMock<MockExpression>* argument1Expression = new NiceMock<MockExpression>();
+  ON_CALL(*argument1Expression, printToStream(_)).WillByDefault(Invoke(printArgument1));
+  mArgumentList.push_back(argument1Expression);
+  NiceMock<MockExpression>* argument2Expression = new NiceMock<MockExpression>();
+  ON_CALL(*argument2Expression, printToStream(_)).WillByDefault(Invoke(printArgument2));
+  mArgumentList.push_back(argument2Expression);
+  
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
+
+  stringstream stringStream;
+  staticMethodCall.printToStream(stringStream);
+  
+  EXPECT_STREQ("MSquare.foo(argument1, argument2)", stringStream.str().c_str());
 }
 
 TEST_F(TestFileSampleRunner, modelStaticMethodCallRunTest) {

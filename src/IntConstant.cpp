@@ -41,3 +41,7 @@ void IntConstant::addReferenceToOwner(IRGenerationContext& context, IVariable* r
 bool IntConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void IntConstant::printToStream(std::iostream& stream) const {
+  stream << mValue;
+}

@@ -40,3 +40,7 @@ void NullExpression::addReferenceToOwner(IRGenerationContext& context, IVariable
 bool NullExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void NullExpression::printToStream(std::iostream& stream) const {
+  stream << "null";
+}

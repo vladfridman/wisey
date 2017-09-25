@@ -21,6 +21,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Test;
@@ -30,6 +31,10 @@ struct OwnerTypeSpecifierTest : public Test {
   NiceMock<MockObjectTypeSpecifier>* mObjectTypeSpecifier;
   
   OwnerTypeSpecifierTest() : mObjectTypeSpecifier(new NiceMock<MockObjectTypeSpecifier>()) {
+  }
+  
+  static void printObjectTypeSpecifier(iostream& stream) {
+    stream << "systems.vos.wisey.compiler.tests.NElement";
   }
 };
 
@@ -42,4 +47,14 @@ TEST_F(OwnerTypeSpecifierTest, getTypeTest) {
   OwnerTypeSpecifier ownerTypeSpecifier(mObjectTypeSpecifier);
   
   EXPECT_EQ(ownerTypeSpecifier.getType(mContext), &mockOwnerObjectType);
+}
+
+TEST_F(OwnerTypeSpecifierTest, printToStreamTest) {
+  ON_CALL(*mObjectTypeSpecifier, printToStream(_)).WillByDefault(Invoke(printObjectTypeSpecifier));
+  OwnerTypeSpecifier ownerTypeSpecifier(mObjectTypeSpecifier);
+
+  stringstream stringStream;
+  ownerTypeSpecifier.printToStream(stringStream);
+  
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.NElement*", stringStream.str().c_str());
 }

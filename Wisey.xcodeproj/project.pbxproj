@@ -248,6 +248,9 @@
 		F556E6541EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */; };
 		F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */; };
 		F556E65A1EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */; };
+		F55DB05F1F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */; };
+		F55DB0601F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */; };
+		F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */; };
 		F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
 		F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
 		F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */; };
@@ -735,7 +738,7 @@
 		F5404F391E109CBD00A31543 /* test_variable_declaration_assign_to_zero.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration_assign_to_zero.yz; path = tests/samples/test_variable_declaration_assign_to_zero.yz; sourceTree = "<group>"; };
 		F5404F3A1E109CBD00A31543 /* test_variable_declaration.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration.yz; path = tests/samples/test_variable_declaration.yz; sourceTree = "<group>"; };
 		F5404F3B1E109CBD00A31543 /* test_while_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_while_statement.yz; path = tests/samples/test_while_statement.yz; sourceTree = "<group>"; };
-		F546258D1DE5E43A00074D66 /* wisey */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wisey; sourceTree = BUILT_PRODUCTS_DIR; };
+		F546258D1DE5E43A00074D66 /* wisey */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = wisey; path = wiseyrun; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54625B11DE5E53200074D66 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = /usr/local/lib/libLLVMX86Disassembler.a; sourceTree = "<absolute>"; };
 		F54625C01DE5EA2800074D66 /* libLLVMX86AsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86AsmParser.a; path = /usr/local/lib/libLLVMX86AsmParser.a; sourceTree = "<absolute>"; };
@@ -778,6 +781,9 @@
 		F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IConcreteObjectType.cpp; path = src/IConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIConcreteObjectType.cpp; path = tests/TestIConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F556E65B1EDEE45B00CCC3D7 /* MockConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockConcreteObjectType.hpp; path = tests/include/MockConcreteObjectType.hpp; sourceTree = "<group>"; };
+		F55DB05D1F7911320009942C /* IPrintable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IPrintable.hpp; path = include/wisey/IPrintable.hpp; sourceTree = "<group>"; };
+		F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectTypeSpecifier.cpp; path = src/IObjectTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIObjectTypeSpecifier.cpp; path = tests/TestIObjectTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRWriter.cpp; path = src/IRWriter.cpp; sourceTree = "<group>"; };
 		F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRWriter.cpp; path = tests/TestIRWriter.cpp; sourceTree = "<group>"; };
 		F5676E2A1F5F207700740278 /* FinallyBlock.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FinallyBlock.hpp; path = include/wisey/FinallyBlock.hpp; sourceTree = "<group>"; };
@@ -1105,6 +1111,7 @@
 				F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */,
 				F5C6FD821E48B7260054209D /* TestIntType.cpp */,
 				F56AD4A31E9F6D5B0020868C /* TestIObjectType.cpp */,
+				F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
 				F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */,
 				F59497001F546CED0002F14F /* TestIsntanceOf.cpp */,
@@ -1385,6 +1392,7 @@
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F53A2C0F1EED58BD00E76A9E /* IObjectTypeSpecifier.hpp */,
 				F587255B1F6FEF6D00FA25E6 /* IPrimitiveType.hpp */,
+				F55DB05D1F7911320009942C /* IPrintable.hpp */,
 				F58725601F70131D00FA25E6 /* IPrintStatement.hpp */,
 				F5089C811ECD01D9004A1223 /* IStatement.hpp */,
 				F5089C821ECD01D9004A1223 /* IType.hpp */,
@@ -1402,6 +1410,7 @@
 				F51D2BB31F691C8100510784 /* IMethod.cpp */,
 				F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */,
 				F56AD4A01E9F66C40020868C /* IObjectType.cpp */,
+				F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */,
 				F58725611F70143100FA25E6 /* IPrintStatement.cpp */,
 				F5CE2D401EF6A43C002ABB85 /* IType.cpp */,
 				F53A2C1D1EF96C0200E76A9E /* IVariable.cpp */,
@@ -2004,6 +2013,7 @@
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
+				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F53A2C1C1EF92D8300E76A9E /* TestHeapReferenceMethodParameter.cpp in Sources */,
@@ -2027,6 +2037,7 @@
 				F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */,
 				F5FCAE391ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,
 				F58725651F70178D00FA25E6 /* TestPrintErrStatement.cpp in Sources */,
+				F55DB0601F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */,
 				F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */,
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
@@ -2193,6 +2204,7 @@
 				F57411421E015961009809FF /* ReturnStatement.cpp in Sources */,
 				F507D2651E43551900495E2D /* Model.cpp in Sources */,
 				F53A2C081EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
+				F55DB05F1F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */,
 				F5C6FD7B1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F56AD4A11E9F66C40020868C /* IObjectType.cpp in Sources */,
 				F5FCAE381ED5C68900C69899 /* CompilerArgumentParser.cpp in Sources */,

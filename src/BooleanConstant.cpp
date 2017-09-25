@@ -42,3 +42,11 @@ void BooleanConstant::addReferenceToOwner(IRGenerationContext& context,
 bool BooleanConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void BooleanConstant::printToStream(std::iostream& stream) const {
+  if (mValue) {
+    stream << "true";
+  } else {
+    stream << "false";
+  }
+}

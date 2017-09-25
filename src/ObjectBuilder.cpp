@@ -74,3 +74,14 @@ bool ObjectBuilder::existsInOuterScope(IRGenerationContext& context) const {
   IVariable* variable = context.getScopes().getVariable(IVariable::getTemporaryVariableName(this));
   return variable->existsInOuterScope();
 }
+
+void ObjectBuilder::printToStream(std::iostream& stream) const {
+  stream << "builder(";
+  mTypeSpecifier->printToStream(stream);
+  stream << ")";
+  for (ObjectBuilderArgument* argument : mObjectBuilderArgumentList) {
+    stream << ".";
+    argument->printToStream(stream);
+  }
+  stream << ".build()";
+}

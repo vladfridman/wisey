@@ -11,6 +11,7 @@
 
 #include "wisey/IHasType.hpp"
 #include "wisey/INode.hpp"
+#include "wisey/IPrintable.hpp"
 #include "wisey/IVariable.hpp"
 
 namespace wisey {
@@ -18,7 +19,7 @@ namespace wisey {
 /**
  * Interface representing a wisey language expression
  */
-class IExpression : public INode, public IHasType {
+class IExpression : public INode, public IHasType, public IPrintable {
 
 public:
 

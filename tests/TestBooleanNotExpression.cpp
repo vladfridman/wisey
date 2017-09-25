@@ -26,6 +26,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -57,6 +58,10 @@ struct BooleanNotExpressionTest : Test {
   ~BooleanNotExpressionTest() {
     delete mStringStream;
   }
+  
+  static void printExpression(iostream& stream) {
+    stream << "value";
+  }
 };
 
 TEST_F(BooleanNotExpressionTest, getVariableTest) {
@@ -81,6 +86,16 @@ TEST_F(BooleanNotExpressionTest, existsInOuterScopeTest) {
   BooleanNotExpression booleanNotExpression(mExpression);
   
   EXPECT_FALSE(booleanNotExpression.existsInOuterScope(mContext));
+}
+
+TEST_F(BooleanNotExpressionTest, printToStreamTest) {
+  BooleanNotExpression booleanNotExpression(mExpression);
+  ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+  
+  stringstream stringStream;
+  booleanNotExpression.printToStream(stringStream);
+  
+  EXPECT_STREQ("!value", stringStream.str().c_str());
 }
 
 TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {

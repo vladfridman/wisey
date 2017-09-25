@@ -79,3 +79,7 @@ void wisey::StringLiteral::addReferenceToOwner(IRGenerationContext& context, IVa
 bool wisey::StringLiteral::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void wisey::StringLiteral::printToStream(std::iostream& stream) const {
+  stream << "\"" << mValue << "\"";
+}

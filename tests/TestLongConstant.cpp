@@ -52,6 +52,13 @@ TEST_F(LongConstantTest, existsInOuterScopeTest) {
   EXPECT_FALSE(mLongConstant.existsInOuterScope(mContext));
 }
 
+TEST_F(LongConstantTest, printToStreamTest) {
+  stringstream stringStream;
+  mLongConstant.printToStream(stringStream);
+  
+  EXPECT_STREQ("5l", stringStream.str().c_str());
+}
+
 TEST_F(LongConstantTest, releaseOwnershipDeathTest) {
   EXPECT_EXIT(mLongConstant.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),

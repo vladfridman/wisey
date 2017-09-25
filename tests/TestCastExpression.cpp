@@ -28,6 +28,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -70,6 +71,14 @@ public:
   
   ~CastExpressionTest() {
     delete mStringStream;
+  }
+  
+  static void printTypeSpecifier(iostream& stream) {
+    stream << "int";
+  }
+  
+  static void printExpression(iostream& stream) {
+    stream << "true";
   }
 };
 
@@ -134,6 +143,17 @@ TEST_F(CastExpressionTest, addReferenceToOwnerTest) {
   EXPECT_CALL(*mExpression, addReferenceToOwner(_, &referenceVariable));
   
   castExpression.addReferenceToOwner(mContext, &referenceVariable);
+}
+
+TEST_F(CastExpressionTest, printToStreamTest) {
+  CastExpression castExpression(mTypeSpecifier, mExpression);
+  ON_CALL(*mTypeSpecifier, printToStream(_)).WillByDefault(Invoke(printTypeSpecifier));
+  ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+
+  stringstream stringStream;
+  castExpression.printToStream(stringStream);
+  
+  EXPECT_STREQ("(int) true", stringStream.str().c_str());
 }
 
 TEST_F(TestFileSampleRunner, CastOrExpressionGrammarRunTest) {

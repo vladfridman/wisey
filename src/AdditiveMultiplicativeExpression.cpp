@@ -110,3 +110,9 @@ void AdditiveMultiplicativeExpression::checkTypes(const IType* leftType,
 bool AdditiveMultiplicativeExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void AdditiveMultiplicativeExpression::printToStream(std::iostream& stream) const {
+  mLeftExpression->printToStream(stream);
+  stream << " + ";
+  mRightExpression->printToStream(stream);
+}

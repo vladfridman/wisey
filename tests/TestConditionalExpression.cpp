@@ -27,6 +27,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -83,6 +84,18 @@ struct ConditionalExpressionTest : Test {
   ~ConditionalExpressionTest() {
     delete mFunction;
     delete mStringStream;
+  }
+  
+  static void printConditionalExpression(iostream& stream) {
+    stream << "a";
+  }
+  
+  static void printIfTrueExpression(iostream& stream) {
+    stream << "b";
+  }
+  
+  static void printIfFalseExpression(iostream& stream) {
+    stream << "c";
   }
 };
 
@@ -240,6 +253,19 @@ TEST_F(ConditionalExpressionTest, addReferenceToOwnersTest) {
   EXPECT_CALL(*mIfFalseExpression, addReferenceToOwner(_, mVariable));
   
   expression.addReferenceToOwner(mContext, mVariable);
+}
+
+TEST_F(ConditionalExpressionTest, printToStreamTest) {
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+
+  stringstream stringStream;
+  ON_CALL(*mConditionExpression, printToStream(_))
+  .WillByDefault(Invoke(printConditionalExpression));
+  ON_CALL(*mIfTrueExpression, printToStream(_)).WillByDefault(Invoke(printIfTrueExpression));
+  ON_CALL(*mIfFalseExpression, printToStream(_)).WillByDefault(Invoke(printIfFalseExpression));
+  expression.printToStream(stringStream);
+  
+  EXPECT_STREQ("a ? b : c", stringStream.str().c_str());
 }
 
 TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {

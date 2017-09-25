@@ -40,3 +40,6 @@ void FakeExpression::addReferenceToOwner(IRGenerationContext& context, IVariable
 bool FakeExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
+
+void FakeExpression::printToStream(std::iostream& stream) const {
+}
