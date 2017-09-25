@@ -54,11 +54,11 @@ TEST_F(FieldFixedTest, fieldFixedObjectCreationTest) {
   EXPECT_FALSE(field.isAssignable());
 }
 
-TEST_F(FieldFixedTest, extractHeaderTest) {
+TEST_F(FieldFixedTest, printToStreamTest) {
   FieldFixed field(PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, mArguments);
   
   stringstream stringStream;
-  field.extractHeader(stringStream);
+  field.printToStream(stringStream);
 
   EXPECT_STREQ("  double mField;\n", stringStream.str().c_str());
 }

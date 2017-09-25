@@ -19,6 +19,7 @@
 
 #include "wisey/Controller.hpp"
 #include "wisey/Interface.hpp"
+#include "wisey/IPrintable.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/Node.hpp"
 #include "wisey/Scopes.hpp"
@@ -28,7 +29,7 @@ namespace wisey {
 /**
  * Represents context for Intermidate Representation code generation
  */
-class IRGenerationContext {
+class IRGenerationContext : public IPrintable {
   llvm::LLVMContext mLLVMContext;
   llvm::Function* mMainFunction;
   llvm::Module* mModule;
@@ -183,15 +184,13 @@ public:
   void printAssembly(llvm::raw_ostream &outputStream);
   
   /**
-   * Extract header information into a file
-   */
-  void extractHeaders(std::iostream& stream);
-  
-  /**
    * Oprimize IR code
    * TODO: implement and add a unit test for it
    */
   void optimizeIR();
+  
+  void printToStream(std::iostream& stream) const override;
+
 };
 
 } /* namespace wisey */

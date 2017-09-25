@@ -43,7 +43,7 @@ public:
   MOCK_CONST_METHOD3(castTo, llvm::Value* (wisey::IRGenerationContext&,
                                            llvm::Value*,
                                            const wisey::IType*));
-  MOCK_CONST_METHOD1(extractHeader, void (std::iostream& stream));
+  MOCK_CONST_METHOD1(printToStream, void (std::iostream& stream));
 };
 
 #endif /* MockConcreteObjectType_h */

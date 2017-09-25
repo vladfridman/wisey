@@ -36,6 +36,6 @@ bool FieldReceived::isAssignable() const {
   return true;
 }
 
-void FieldReceived::extractHeader(iostream& stream) const {
+void FieldReceived::printToStream(iostream& stream) const {
   stream << "  receive " << getType()->getName() << " " << getName() << ";" << endl;
 }

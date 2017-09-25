@@ -16,6 +16,7 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/AccessLevel.hpp"
+#include "wisey/IPrintable.hpp"
 
 namespace wisey {
   
@@ -30,7 +31,7 @@ class Model;
  *
  * There are two implementations: Method and MethodSignature
  */
-class IMethodDescriptor {
+class IMethodDescriptor : public IPrintable {
 
 public:
   
@@ -67,11 +68,6 @@ public:
   virtual bool isStatic() const = 0;
   
   /**
-   * Extract header information into a file
-   */
-  virtual void extractHeader(std::iostream& stream) const = 0;
-
-  /**
    * Returns two if two method descriptors are the same in terms of their name, return type
    * and argument types
    */
@@ -85,10 +81,9 @@ public:
                                                  IObjectType* object);
   
   /**
-   * Extract header information about this interface into a file
+   * Print the given method descriptor to the given stream
    */
-  static void extractHeaderFromDescriptor(const IMethodDescriptor* method,
-                                          std::iostream& stream);
+  static void printDescriptorToStream(const IMethodDescriptor* method, std::iostream& stream);
   
 };
   

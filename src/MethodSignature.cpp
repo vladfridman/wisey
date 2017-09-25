@@ -49,6 +49,6 @@ MethodSignature* MethodSignature::createCopy() const {
   return new MethodSignature(mName, mAccessLevel, mReturnType, mArguments, mThrownExceptions);
 }
 
-void MethodSignature::extractHeader(iostream& stream) const {
-  IMethodDescriptor::extractHeaderFromDescriptor(this, stream);
+void MethodSignature::printToStream(iostream& stream) const {
+  IMethodDescriptor::printDescriptorToStream(this, stream);
 }

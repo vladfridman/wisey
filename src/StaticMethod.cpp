@@ -124,6 +124,6 @@ void StaticMethod::createArguments(IRGenerationContext& context,
   }
 }
 
-void StaticMethod::extractHeader(iostream& stream) const {
-  IMethodDescriptor::extractHeaderFromDescriptor(this, stream);
+void StaticMethod::printToStream(iostream& stream) const {
+  IMethodDescriptor::printDescriptorToStream(this, stream);
 }

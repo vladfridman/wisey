@@ -130,9 +130,9 @@ TEST_F(MethodTest, generateIRTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
-TEST_F(MethodTest, extractHeaderTest) {
+TEST_F(MethodTest, printToStreamTest) {
   stringstream stringStream;
-  mMethod->extractHeader(stringStream);
+  mMethod->printToStream(stringStream);
   
   EXPECT_STREQ("  boolean mymethod(\n"
                "    double argDouble,\n"

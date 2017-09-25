@@ -172,9 +172,9 @@ public:
   static void generateMethodsIR(IRGenerationContext& context, IConcreteObjectType* object);
   
   /**
-   * Extract header information about the given object into a file
+   * Print the given object to the given stream
    */
-  static void extractHeaderFromObject(const IConcreteObjectType* object, std::iostream& stream);
+  static void printObjectToStream(const IConcreteObjectType* object, std::iostream& stream);
 
 private:
   

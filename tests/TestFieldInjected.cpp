@@ -63,11 +63,11 @@ TEST_F(FieldInjectedTest, fieldInjectedObjectCreationTest) {
   EXPECT_FALSE(field.isAssignable());
 }
 
-TEST_F(FieldInjectedTest, extractHeaderTest) {
+TEST_F(FieldInjectedTest, printToStreamTest) {
   FieldInjected field(mType, mName, mIndex, mArguments);
   
   stringstream stringStream;
-  field.extractHeader(stringStream);
+  field.printToStream(stringStream);
   
   EXPECT_STREQ("  inject MObject* mField(expression);\n", stringStream.str().c_str());
 }

@@ -53,8 +53,8 @@ FunctionType* IMethodDescriptor::getLLVMFunctionType(IMethodDescriptor* method,
   return FunctionType::get(llvmReturnType, argTypesArray, false);
 }
 
-void IMethodDescriptor::extractHeaderFromDescriptor(const IMethodDescriptor* method, 
-                                                    iostream& stream) {
+void IMethodDescriptor::printDescriptorToStream(const IMethodDescriptor* method,
+                                                iostream& stream) {
   stream << "  ";
   if (method->isStatic()) {
     stream << "static ";

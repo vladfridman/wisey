@@ -485,9 +485,9 @@ TEST_F(ControllerTest, injectFieldTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ControllerTest, extractHeaderTest) {
+TEST_F(ControllerTest, printToStreamTest) {
   stringstream stringStream;
-  mMultiplierController->extractHeader(stringStream);
+  mMultiplierController->printToStream(stringStream);
   
   EXPECT_STREQ("controller systems.vos.wisey.compiler.tests.CMultiplier\n"
                "  implements\n"

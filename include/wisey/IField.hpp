@@ -10,6 +10,7 @@
 #define IField_h
 
 #include "wisey/IExpression.hpp"
+#include "wisey/IPrintable.hpp"
 #include "wisey/IType.hpp"
 
 namespace wisey {
@@ -17,7 +18,7 @@ namespace wisey {
 /**
  * Interface representing a concrete object's field
  */
-class IField {
+class IField : public IPrintable {
     
 public:
   
@@ -47,11 +48,6 @@ public:
    * Tells whether this field is assignable
    */
   virtual bool isAssignable() const = 0;
-  
-  /**
-   * Extract header information into a file
-   */
-  virtual void extractHeader(std::iostream& stream) const = 0;
 
 };
 

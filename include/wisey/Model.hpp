@@ -128,7 +128,7 @@ public:
   
   const IObjectOwnerType* getOwner() const override;
   
-  void extractHeader(std::iostream& stream) const override;
+  void printToStream(std::iostream& stream) const override;
 
 private:
   

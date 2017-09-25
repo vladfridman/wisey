@@ -14,13 +14,14 @@
 #include "wisey/IType.hpp"
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IObjectOwnerType.hpp"
+#include "wisey/IPrintable.hpp"
 
 namespace wisey {
   
 /**
  * Represents an IType that is either model, controller or interface
  */
-class IObjectType : public IType {
+class IObjectType : public IPrintable, public IType {
     
 public:
   
@@ -48,11 +49,6 @@ public:
    * Override method from IType because ObjectOwner llvm type is always a PointerType
    */
   virtual llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override = 0;
-  
-  /**
-   * Extract header information into a file
-   */
-  virtual void extractHeader(std::iostream& stream) const = 0;
 
   /**
    * Returns an i8* constant pointer to the name of the collable object

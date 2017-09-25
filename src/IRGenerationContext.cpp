@@ -258,47 +258,47 @@ void IRGenerationContext::printAssembly(raw_ostream &outputStream) {
   passManager.run(*mModule);
 }
 
-void IRGenerationContext::extractHeaders(iostream& stream) {
+void IRGenerationContext::printToStream(iostream& stream) const {
   if (mInterfaces.size()) {
     stream << "\\* Interfaces *\\" << endl << endl;
   }
-  for (map<string, Interface*>::iterator iterator = mInterfaces.begin();
+  for (map<string, Interface*>::const_iterator iterator = mInterfaces.begin();
        iterator != mInterfaces.end();
        iterator++) {
     Interface* interface = iterator->second;
-    interface->extractHeader(stream);
+    interface->printToStream(stream);
   }
   if (mModels.size()) {
     stream << endl << "\\* Models *\\" << endl << endl;
   }
-  for (map<string, Model*>::iterator iterator = mModels.begin();
+  for (map<string, Model*>::const_iterator iterator = mModels.begin();
       iterator != mModels.end();
       iterator++) {
     Model* model = iterator->second;
-    model->extractHeader(stream);
+    model->printToStream(stream);
   }
   if (mControllers.size()) {
     stream << endl << "\\* Controllers *\\" << endl << endl;
   }
-  for (map<string, Controller*>::iterator iterator = mControllers.begin();
+  for (map<string, Controller*>::const_iterator iterator = mControllers.begin();
       iterator != mControllers.end();
       iterator++) {
     Controller* controller = iterator->second;
-    controller->extractHeader(stream);
+    controller->printToStream(stream);
   }
   if (mNodes.size()) {
     stream << endl << "\\* Nodes *\\" << endl << endl;
   }
-  for (map<string, Node*>::iterator iterator = mNodes.begin();
+  for (map<string, Node*>::const_iterator iterator = mNodes.begin();
        iterator != mNodes.end();
        iterator++) {
     Node* node = iterator->second;
-    node->extractHeader(stream);
+    node->printToStream(stream);
   }
   if (mBindings.size()) {
     stream << endl << "\\* Bindings *\\" << endl << endl;
   }
-  for (map<Interface*, Controller*>::iterator iterator = mBindings.begin();
+  for (map<Interface*, Controller*>::const_iterator iterator = mBindings.begin();
        iterator != mBindings.end();
        iterator++) {
     Interface* interface = iterator->first;

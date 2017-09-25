@@ -53,11 +53,11 @@ TEST_F(FieldStateTest, fieldStateObjectCreationTest) {
   EXPECT_TRUE(field.isAssignable());
 }
 
-TEST_F(FieldStateTest, extractHeaderTest) {
+TEST_F(FieldStateTest, printToStreamTest) {
   FieldState field(PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, mArguments);
   
   stringstream stringStream;
-  field.extractHeader(stringStream);
+  field.printToStream(stringStream);
   
   EXPECT_STREQ("  state double mField;\n", stringStream.str().c_str());
 }

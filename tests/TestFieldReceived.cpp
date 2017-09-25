@@ -53,11 +53,11 @@ TEST_F(FieldReceivedTest, fieldReceivedObjectCreationTest) {
   EXPECT_TRUE(field.isAssignable());
 }
 
-TEST_F(FieldReceivedTest, extractHeaderTest) {
+TEST_F(FieldReceivedTest, printToStreamTest) {
   FieldReceived field(PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, mArguments);
   
   stringstream stringStream;
-  field.extractHeader(stringStream);
+  field.printToStream(stringStream);
   
   EXPECT_STREQ("  receive double mField;\n", stringStream.str().c_str());
 }

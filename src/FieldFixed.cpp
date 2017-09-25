@@ -36,6 +36,6 @@ bool FieldFixed::isAssignable() const {
   return false;
 }
 
-void FieldFixed::extractHeader(iostream& stream) const {
+void FieldFixed::printToStream(iostream& stream) const {
   stream << "  " << getType()->getName() << " " << getName() << ";" << endl;
 }

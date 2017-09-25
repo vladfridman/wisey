@@ -469,7 +469,7 @@ const IObjectOwnerType* Interface::getOwner() const {
   return mInterfaceOwner;
 }
 
-void Interface::extractHeader(iostream& stream) const {
+void Interface::printToStream(iostream& stream) const {
   stream << "interface " << getName();
   if (mParentInterfaces.size()) {
     stream << endl << "  extends";
@@ -482,7 +482,7 @@ void Interface::extractHeader(iostream& stream) const {
   }
   stream << " {" << endl;
   for (MethodSignature* methodSignature : mMethodSignatures) {
-    methodSignature->extractHeader(stream);
+    methodSignature->printToStream(stream);
   }
   stream << "}" << endl;
 }

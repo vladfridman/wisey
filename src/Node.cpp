@@ -302,6 +302,6 @@ void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* mallo
   }
 }
 
-void Node::extractHeader(iostream& stream) const {
-  IConcreteObjectType::extractHeaderFromObject(this, stream);
+void Node::printToStream(iostream& stream) const {
+  IConcreteObjectType::printObjectToStream(this, stream);
 }

@@ -185,9 +185,9 @@ TEST_F(InterfaceTest, canAutoCastToTest) {
   EXPECT_FALSE(mObjectInterface->canAutoCastTo(NullType::NULL_TYPE));
 }
 
-TEST_F(InterfaceTest, extractHeaderTest) {
+TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
-  mShapeInterface->extractHeader(stringStream);
+  mShapeInterface->printToStream(stringStream);
   
   EXPECT_STREQ("interface systems.vos.wisey.compiler.tests.IShape\n"
                "  extends\n"

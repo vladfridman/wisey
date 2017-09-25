@@ -124,6 +124,6 @@ void Method::createArguments(IRGenerationContext& context,
   }
 }
 
-void Method::extractHeader(iostream& stream) const {
-  IMethodDescriptor::extractHeaderFromDescriptor(this, stream);
+void Method::printToStream(iostream& stream) const {
+  IMethodDescriptor::printDescriptorToStream(this, stream);
 }

@@ -280,14 +280,14 @@ TEST_F(IRGenerationContextTest, getThisTest) {
   EXPECT_EQ(mContext.getThis(), &mockVariable);
 }
 
-TEST_F(IRGenerationContextTest, extractHeadersTest) {
+TEST_F(IRGenerationContextTest, printToStreamTest) {
   mContext.addInterface(mInterface);
   mContext.addNode(mNode);
   mContext.addController(mController);
   mContext.addModel(mModel);
   
   stringstream stringStream;
-  mContext.extractHeaders(stringStream);
+  mContext.printToStream(stringStream);
   
   EXPECT_STREQ("\\* Interfaces *\\\n"
                "\n"

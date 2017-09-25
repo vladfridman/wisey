@@ -492,9 +492,9 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
               expected);
 }
 
-TEST_F(ModelTest, extractHeaderTest) {
+TEST_F(ModelTest, printToStreamTest) {
   stringstream stringStream;
-  mModel->extractHeader(stringStream);
+  mModel->printToStream(stringStream);
   
   EXPECT_STREQ("model systems.vos.wisey.compiler.tests.MSquare\n"
                "  implements\n"

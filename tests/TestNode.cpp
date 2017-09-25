@@ -468,9 +468,9 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
               expected);
 }
 
-TEST_F(NodeTest, extractHeaderTest) {
+TEST_F(NodeTest, printToStreamTest) {
   stringstream stringStream;
-  mComplicatedNode->extractHeader(stringStream);
+  mComplicatedNode->printToStream(stringStream);
   
   EXPECT_STREQ("node systems.vos.wisey.compiler.tests.NComplicatedNode\n"
                "  implements\n"

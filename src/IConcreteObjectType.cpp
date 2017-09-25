@@ -406,8 +406,7 @@ void IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
   }
 }
 
-void IConcreteObjectType::extractHeaderFromObject(const IConcreteObjectType* object,
-                                                  iostream& stream) {
+void IConcreteObjectType::printObjectToStream(const IConcreteObjectType* object, iostream& stream) {
   if (object->getTypeKind() == MODEL_TYPE) {
     stream << "model ";
   } else if (object->getTypeKind() == NODE_TYPE) {
@@ -432,10 +431,10 @@ void IConcreteObjectType::extractHeaderFromObject(const IConcreteObjectType* obj
   if (fields.size()) {
     stream << endl;
   }
-  for (map<string, IField*>::iterator iterator = fields.begin();
+  for (map<string, IField*>::const_iterator iterator = fields.begin();
        iterator != fields.end();
        iterator++) {
-    iterator->second->extractHeader(stream);
+    iterator->second->printToStream(stream);
   }
   
   if (object->getMethods().size()) {
@@ -443,7 +442,7 @@ void IConcreteObjectType::extractHeaderFromObject(const IConcreteObjectType* obj
   }
   
   for (IMethod* method : object->getMethods()) {
-    method->extractHeader(stream);
+    method->printToStream(stream);
   }
   stream << "}" << endl;
 }

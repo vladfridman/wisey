@@ -36,7 +36,7 @@ bool FieldInjected::isAssignable() const {
   return false;
 }
 
-void FieldInjected::extractHeader(iostream& stream) const {
+void FieldInjected::printToStream(iostream& stream) const {
   stream << "  inject " << getType()->getName() << " " << getName();
   if (!mArguments.size()) {
     stream << "endl";

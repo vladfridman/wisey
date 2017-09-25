@@ -47,9 +47,9 @@ TEST_F(MethodSignatureTest, createCopyTest) {
   EXPECT_EQ(copy->getArguments().size(), 0u);
 }
 
-TEST_F(MethodSignatureTest, extractHeaderTest) {
+TEST_F(MethodSignatureTest, printToStreamTest) {
   stringstream stringStream;
-  mMethodSignature->extractHeader(stringStream);
+  mMethodSignature->printToStream(stringStream);
   
   EXPECT_STREQ("  long foo();\n", stringStream.str().c_str());
 }

@@ -322,6 +322,6 @@ const IObjectOwnerType* Model::getOwner() const {
   return mModelOwner;
 }
 
-void Model::extractHeader(iostream& stream) const {
-	IConcreteObjectType::extractHeaderFromObject(this, stream);
+void Model::printToStream(iostream& stream) const {
+	IConcreteObjectType::printObjectToStream(this, stream);
 }
