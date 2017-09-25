@@ -139,62 +139,6 @@ public:
   }
 };
 
-TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "lorem", mArgumentList);
-  
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Static method 'lorem' is not found in object "
-              "'systems.vos.wisey.compiler.tests.MSquare'");
-}
-
-TEST_F(StaticMethodCallTest, incorrectNumberOfArgumentsDeathTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
-
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Number of arguments for static method call 'foo' of the object type "
-              "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
-}
-
-TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
-  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
-  mArgumentList.push_back(argumentExpression);
-  StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList);
-  Mock::AllowLeak(argumentExpression);
-  
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
-              "method 'bar' was not found");
-}
-
-TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(mStructType->getPointerTo());
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
-                                                 argTypesArray,
-                                                 false);
-  Function::Create(functionType,
-                   GlobalValue::InternalLinkage,
-                   "systems.vos.wisey.compiler.tests.MSquare.foo",
-                   mContext.getModule());
-  
-  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
-  mArgumentList.push_back(argumentExpression);
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
-  Mock::AllowLeak(argumentExpression);
-  
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Call argument types do not match for a call to method 'foo' "
-              "of the object type 'systems.vos.wisey.compiler.tests.MSquare");
-}
-
 TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
@@ -287,6 +231,62 @@ TEST_F(StaticMethodCallTest, printToStreamTest) {
   staticMethodCall.printToStream(stringStream);
   
   EXPECT_STREQ("MSquare.foo(argument1, argument2)", stringStream.str().c_str());
+}
+
+TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
+  StaticMethodCall staticMethodCall(mModelSpecifier, "lorem", mArgumentList);
+  
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Static method 'lorem' is not found in object "
+              "'systems.vos.wisey.compiler.tests.MSquare'");
+}
+
+TEST_F(StaticMethodCallTest, incorrectNumberOfArgumentsDeathTest) {
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
+  
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Number of arguments for static method call 'foo' of the object type "
+              "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
+}
+
+TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
+  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  mArgumentList.push_back(argumentExpression);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList);
+  Mock::AllowLeak(argumentExpression);
+  
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
+              "method 'bar' was not found");
+}
+
+TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mStructType->getPointerTo());
+  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
+                                                 argTypesArray,
+                                                 false);
+  Function::Create(functionType,
+                   GlobalValue::InternalLinkage,
+                   "systems.vos.wisey.compiler.tests.MSquare.foo",
+                   mContext.getModule());
+  
+  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  mArgumentList.push_back(argumentExpression);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
+  Mock::AllowLeak(argumentExpression);
+  
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Call argument types do not match for a call to method 'foo' "
+              "of the object type 'systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, modelStaticMethodCallRunTest) {

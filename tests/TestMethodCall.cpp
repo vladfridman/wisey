@@ -165,76 +165,6 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
   delete mExpression;
 }
 
-TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
-  MethodCall methodCall(mExpression, "lorem", mArgumentList);
-  Mock::AllowLeak(mExpression);
-  
-  EXPECT_EXIT(methodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Method 'lorem' is not found in object "
-              "'systems.vos.wisey.compiler.tests.MSquare'");
-}
-
-TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
-  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
-  Mock::AllowLeak(mExpression);
-  
-  EXPECT_EXIT(methodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Attempt to call a method 'foo' on a primitive type expression");
-}
-
-TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
-  Mock::AllowLeak(mExpression);
-  
-  EXPECT_EXIT(methodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Number of arguments for method call 'foo' of the object type "
-              "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
-}
-
-TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
-  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
-  mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "bar", mArgumentList);
-  Mock::AllowLeak(mExpression);
-  Mock::AllowLeak(argumentExpression);
-  
-  EXPECT_EXIT(methodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
-              "method 'bar' was not found");
-}
-
-TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(mStructType->getPointerTo());
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
-                                                 argTypesArray,
-                                                 false);
-  Function::Create(functionType,
-                   GlobalValue::InternalLinkage,
-                   "systems.vos.wisey.compiler.tests.MSquare.foo",
-                   mContext.getModule());
-
-  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
-  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
-  mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
-  Mock::AllowLeak(mExpression);
-  Mock::AllowLeak(argumentExpression);
-
-  EXPECT_EXIT(methodCall.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Call argument types do not match for a call to method 'foo' "
-              "of the object type 'systems.vos.wisey.compiler.tests.MSquare");
-}
-
 TEST_F(MethodCallTest, modelMethodCallTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo()->getPointerTo());
@@ -333,6 +263,76 @@ TEST_F(MethodCallTest, printToStreamTest) {
   methodCall.printToStream(stringStream);
   
   EXPECT_STREQ("object.foo(argument1, argument2)", stringStream.str().c_str());
+}
+
+TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
+  MethodCall methodCall(mExpression, "lorem", mArgumentList);
+  Mock::AllowLeak(mExpression);
+  
+  EXPECT_EXIT(methodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Method 'lorem' is not found in object "
+              "'systems.vos.wisey.compiler.tests.MSquare'");
+}
+
+TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  Mock::AllowLeak(mExpression);
+  
+  EXPECT_EXIT(methodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Attempt to call a method 'foo' on a primitive type expression");
+}
+
+TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  Mock::AllowLeak(mExpression);
+  
+  EXPECT_EXIT(methodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Number of arguments for method call 'foo' of the object type "
+              "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
+}
+
+TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
+  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  mArgumentList.push_back(argumentExpression);
+  MethodCall methodCall(mExpression, "bar", mArgumentList);
+  Mock::AllowLeak(mExpression);
+  Mock::AllowLeak(argumentExpression);
+  
+  EXPECT_EXIT(methodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
+              "method 'bar' was not found");
+}
+
+TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mStructType->getPointerTo());
+  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
+                                                 argTypesArray,
+                                                 false);
+  Function::Create(functionType,
+                   GlobalValue::InternalLinkage,
+                   "systems.vos.wisey.compiler.tests.MSquare.foo",
+                   mContext.getModule());
+  
+  NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
+  ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
+  mArgumentList.push_back(argumentExpression);
+  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  Mock::AllowLeak(mExpression);
+  Mock::AllowLeak(argumentExpression);
+  
+  EXPECT_EXIT(methodCall.generateIR(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Call argument types do not match for a call to method 'foo' "
+              "of the object type 'systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, modelMethodCallRunTest) {
