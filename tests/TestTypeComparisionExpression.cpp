@@ -37,7 +37,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct TestTypeComparisionExpressionTest : public Test {
+struct TypeComparisionExpressionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -54,7 +54,7 @@ struct TestTypeComparisionExpressionTest : public Test {
   Interface* mCarInterface;
   NiceMock<MockExpression>* mExpression;
   
-  TestTypeComparisionExpressionTest() :
+  TypeComparisionExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
@@ -175,7 +175,7 @@ struct TestTypeComparisionExpressionTest : public Test {
     mCircleModel = new Model(circleFullName, circleStructType);
   }
   
-  ~TestTypeComparisionExpressionTest() {
+  ~TypeComparisionExpressionTest() {
     delete mStringStream;
   }
   
@@ -188,13 +188,13 @@ struct TestTypeComparisionExpressionTest : public Test {
   }
 };
 
-TEST_F(TestTypeComparisionExpressionTest, getVariableTest) {
+TEST_F(TypeComparisionExpressionTest, getVariableTest) {
   TypeComparisionExpression typeComparision(mExpression, NULL);
   
   EXPECT_EQ(typeComparision.getVariable(mContext), nullptr);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
+TEST_F(TypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
@@ -205,7 +205,7 @@ TEST_F(TestTypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
   EXPECT_EQ(value, mTrueValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, compareDifferntPrimiteveTypesTest) {
+TEST_F(TypeComparisionExpressionTest, compareDifferntPrimiteveTypesTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
@@ -216,7 +216,7 @@ TEST_F(TestTypeComparisionExpressionTest, compareDifferntPrimiteveTypesTest) {
   EXPECT_EQ(value, mFalseValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, compareIdenticalModelTypesTest) {
+TEST_F(TypeComparisionExpressionTest, compareIdenticalModelTypesTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mCircleModel));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mCircleModel));
@@ -227,7 +227,7 @@ TEST_F(TestTypeComparisionExpressionTest, compareIdenticalModelTypesTest) {
   EXPECT_EQ(value, mTrueValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, compareDifferentModelTypesTest) {
+TEST_F(TypeComparisionExpressionTest, compareDifferentModelTypesTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mCircleModel));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSquareModel));
@@ -238,7 +238,7 @@ TEST_F(TestTypeComparisionExpressionTest, compareDifferentModelTypesTest) {
   EXPECT_EQ(value, mFalseValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, compareModelAndInterfaceTypesTest) {
+TEST_F(TypeComparisionExpressionTest, compareModelAndInterfaceTypesTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mSquareModel));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSubShapeInterface));
@@ -249,7 +249,7 @@ TEST_F(TestTypeComparisionExpressionTest, compareModelAndInterfaceTypesTest) {
   EXPECT_EQ(value, mTrueValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, compareModelAndInterfaceTypesNotMatchTest) {
+TEST_F(TypeComparisionExpressionTest, compareModelAndInterfaceTypesNotMatchTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mSquareModel));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
@@ -260,7 +260,7 @@ TEST_F(TestTypeComparisionExpressionTest, compareModelAndInterfaceTypesNotMatchT
   EXPECT_EQ(value, mFalseValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest) {
+TEST_F(TypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mShapeInterface));
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSubShapeInterface));
@@ -271,14 +271,14 @@ TEST_F(TestTypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest)
   EXPECT_EQ(value, mTrueValue);
 }
 
-TEST_F(TestTypeComparisionExpressionTest, existsInOuterScopeTest) {
+TEST_F(TypeComparisionExpressionTest, existsInOuterScopeTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
   
   EXPECT_FALSE(typeComparision.existsInOuterScope(mContext));
 }
 
-TEST_F(TestTypeComparisionExpressionTest, printToStreamTest) {
+TEST_F(TypeComparisionExpressionTest, printToStreamTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
   ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
@@ -289,7 +289,7 @@ TEST_F(TestTypeComparisionExpressionTest, printToStreamTest) {
   EXPECT_STREQ("object instanceof type", stringStream.str().c_str());
 }
 
-TEST_F(TestTypeComparisionExpressionTest, releaseOwnershipDeathTest) {
+TEST_F(TypeComparisionExpressionTest, releaseOwnershipDeathTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
   
@@ -302,7 +302,7 @@ TEST_F(TestTypeComparisionExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(TestTypeComparisionExpressionTest, addReferenceToOwnerDeathTest) {
+TEST_F(TypeComparisionExpressionTest, addReferenceToOwnerDeathTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
   
