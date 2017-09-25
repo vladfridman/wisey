@@ -496,7 +496,7 @@ TEST_F(ModelTest, printToStreamTest) {
   stringstream stringStream;
   mModel->printToStream(stringStream);
   
-  EXPECT_STREQ("model systems.vos.wisey.compiler.tests.MSquare\n"
+  EXPECT_STREQ("external model systems.vos.wisey.compiler.tests.MSquare\n"
                "  implements\n"
                "    systems.vos.wisey.compiler.tests.IShape,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"

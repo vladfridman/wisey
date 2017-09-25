@@ -407,6 +407,7 @@ void IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
 }
 
 void IConcreteObjectType::printObjectToStream(const IConcreteObjectType* object, iostream& stream) {
+  stream << "external ";
   if (object->getTypeKind() == MODEL_TYPE) {
     stream << "model ";
   } else if (object->getTypeKind() == NODE_TYPE) {

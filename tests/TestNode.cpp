@@ -472,7 +472,7 @@ TEST_F(NodeTest, printToStreamTest) {
   stringstream stringStream;
   mComplicatedNode->printToStream(stringStream);
   
-  EXPECT_STREQ("node systems.vos.wisey.compiler.tests.NComplicatedNode\n"
+  EXPECT_STREQ("external node systems.vos.wisey.compiler.tests.NComplicatedNode\n"
                "  implements\n"
                "    systems.vos.wisey.compiler.tests.IComplicatedElement,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"

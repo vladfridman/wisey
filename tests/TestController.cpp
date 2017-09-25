@@ -489,7 +489,7 @@ TEST_F(ControllerTest, printToStreamTest) {
   stringstream stringStream;
   mMultiplierController->printToStream(stringStream);
   
-  EXPECT_STREQ("controller systems.vos.wisey.compiler.tests.CMultiplier\n"
+  EXPECT_STREQ("external controller systems.vos.wisey.compiler.tests.CMultiplier\n"
                "  implements\n"
                "    systems.vos.wisey.compiler.tests.IScienceCalculator,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"

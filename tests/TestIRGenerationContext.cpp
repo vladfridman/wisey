@@ -296,17 +296,17 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
                "\n"
                "\\* Models *\\\n"
                "\n"
-               "model systems.vos.wisey.compiler.tests.MMyModel {\n"
+               "external model systems.vos.wisey.compiler.tests.MMyModel {\n"
                "}\n"
                "\n"
                "\\* Controllers *\\\n"
                "\n"
-               "controller systems.vos.wisey.compiler.tests.CMyController {\n"
+               "external controller systems.vos.wisey.compiler.tests.CMyController {\n"
                "}\n"
                "\n"
                "\\* Nodes *\\\n"
                "\n"
-               "node systems.vos.wisey.compiler.tests.NMyNode {\n"
+               "external node systems.vos.wisey.compiler.tests.NMyNode {\n"
                "}\n",
                stringStream.str().c_str());
 }
