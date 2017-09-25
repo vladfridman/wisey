@@ -27,9 +27,23 @@ struct PrimitiveTypeSpecifierTest : public Test {
 };
 
 TEST_F(PrimitiveTypeSpecifierTest, creationTest) {
+  PrimitiveTypeSpecifier booleanTypeSpecifier(PrimitiveTypes::BOOLEAN_TYPE);
+  PrimitiveTypeSpecifier charTypeSpecifier(PrimitiveTypes::CHAR_TYPE);
+  PrimitiveTypeSpecifier doubleTypeSpecifier(PrimitiveTypes::DOUBLE_TYPE);
+  PrimitiveTypeSpecifier floatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   PrimitiveTypeSpecifier intTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier longTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier stringTypeSpecifier(PrimitiveTypes::STRING_TYPE);
+  PrimitiveTypeSpecifier voidTypeSpecifier(PrimitiveTypes::VOID_TYPE);
 
+  EXPECT_EQ(booleanTypeSpecifier.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(charTypeSpecifier.getType(mContext), PrimitiveTypes::CHAR_TYPE);
+  EXPECT_EQ(doubleTypeSpecifier.getType(mContext), PrimitiveTypes::DOUBLE_TYPE);
+  EXPECT_EQ(floatTypeSpecifier.getType(mContext), PrimitiveTypes::FLOAT_TYPE);
   EXPECT_EQ(intTypeSpecifier.getType(mContext), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(longTypeSpecifier.getType(mContext), PrimitiveTypes::LONG_TYPE);
+  EXPECT_EQ(stringTypeSpecifier.getType(mContext), PrimitiveTypes::STRING_TYPE);
+  EXPECT_EQ(voidTypeSpecifier.getType(mContext), PrimitiveTypes::VOID_TYPE);
 }
 
 TEST_F(PrimitiveTypeSpecifierTest, printToStreamTest) {
