@@ -42,7 +42,6 @@ class IRGenerationContext : public IPrintable {
   std::map<Interface*, Controller*> mBindings;
   std::map<std::string, IObjectType*> mImports;
   std::string mPackage;
-  std::vector<std::string> mPackageVector;
   Scopes mScopes;
 
 public:
@@ -148,11 +147,6 @@ public:
    * Get the current package name
    */
   std::string getPackage() const;
-  
-  /**
-   * Get the current package name in vector form
-   */
-  std::vector<std::string> getPackageVector() const;
   
   /**
    * Add an import that adds an alias from object's short name to the object

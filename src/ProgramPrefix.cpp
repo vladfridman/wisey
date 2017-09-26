@@ -48,7 +48,8 @@ void ProgramPrefix::defineNPEModel(IRGenerationContext& context) const {
   vector<FieldDeclaration*> npeFields;
   vector<IMethodDeclaration*> npeMethods;
   vector<InterfaceTypeSpecifier*> npeParentInterfaces;
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(context.getPackageVector(),
+  vector<string> package;
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
                                                                   Names::getNPEModelName());
   ModelDefinition npeModelDefinition(modelTypeSpecifier,
                                      npeFields,
@@ -87,7 +88,8 @@ void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
   FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
 
   Block* thenBlock = new Block();
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(context.getPackageVector(),
+  vector<string> package;
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
                                                                   Names::getNPEModelName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
@@ -147,7 +149,8 @@ void ProgramPrefix::defineIProgramInterface(IRGenerationContext& context) const 
   PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableList variableList;
   vector<ModelTypeSpecifier*> thrownExceptions;
-  ModelTypeSpecifier* npeExceptionTypeSpecifier = new ModelTypeSpecifier(context.getPackageVector(),
+  vector<string> package;
+  ModelTypeSpecifier* npeExceptionTypeSpecifier = new ModelTypeSpecifier(package,
                                                                          Names::getNPEModelName());
   thrownExceptions.push_back(npeExceptionTypeSpecifier);
   
@@ -160,7 +163,7 @@ void ProgramPrefix::defineIProgramInterface(IRGenerationContext& context) const 
   vector<MethodSignatureDeclaration *> methodSignatureDeclarations;
   methodSignatureDeclarations.push_back(runMethod);
   InterfaceTypeSpecifier* interfaceTypeSpecifier =
-    new InterfaceTypeSpecifier(context.getPackageVector(), Names::getIProgramName());
+    new InterfaceTypeSpecifier(package, Names::getIProgramName());
   InterfaceDefinition programInterface(interfaceTypeSpecifier,
                                        parentInterfaces,
                                        methodSignatureDeclarations);

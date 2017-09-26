@@ -218,21 +218,10 @@ void IRGenerationContext::setPackage(string package) {
   }
     
   mPackage = package;
-  
-  replace(package.begin(), package.end(), '.', ' ');
-  stringstream stringStream(package);
-  istream_iterator<string> begin(stringStream);
-  istream_iterator<string> end;
-  vector<string> vstrings(begin, end);
-  mPackageVector = vstrings;
 }
 
 string IRGenerationContext::getPackage() const {
   return mPackage;
-}
-
-vector<string> IRGenerationContext::getPackageVector() const {
-  return mPackageVector;
 }
 
 void IRGenerationContext::addImport(IObjectType* object) {
