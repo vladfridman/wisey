@@ -33,7 +33,7 @@ struct OwnerTypeSpecifierTest : public Test {
   OwnerTypeSpecifierTest() : mObjectTypeSpecifier(new NiceMock<MockObjectTypeSpecifier>()) {
   }
   
-  static void printObjectTypeSpecifier(iostream& stream) {
+  static void printObjectTypeSpecifier(IRGenerationContext& context, iostream& stream) {
     stream << "systems.vos.wisey.compiler.tests.NElement";
   }
 };
@@ -50,11 +50,12 @@ TEST_F(OwnerTypeSpecifierTest, getTypeTest) {
 }
 
 TEST_F(OwnerTypeSpecifierTest, printToStreamTest) {
-  ON_CALL(*mObjectTypeSpecifier, printToStream(_)).WillByDefault(Invoke(printObjectTypeSpecifier));
+  ON_CALL(*mObjectTypeSpecifier, printToStream(_, _))
+    .WillByDefault(Invoke(printObjectTypeSpecifier));
   OwnerTypeSpecifier ownerTypeSpecifier(mObjectTypeSpecifier);
 
   stringstream stringStream;
-  ownerTypeSpecifier.printToStream(stringStream);
+  ownerTypeSpecifier.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.NElement*", stringStream.str().c_str());
 }

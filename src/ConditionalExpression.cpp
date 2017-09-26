@@ -134,10 +134,11 @@ bool ConditionalExpression::existsInOuterScope(IRGenerationContext& context) con
   mIfFalseExpression->existsInOuterScope(context);
 }
 
-void ConditionalExpression::printToStream(std::iostream& stream) const {
-  mConditionExpression->printToStream(stream);
+void ConditionalExpression::printToStream(IRGenerationContext& context,
+                                          std::iostream& stream) const {
+  mConditionExpression->printToStream(context, stream);
   stream << " ? ";
-  mIfTrueExpression->printToStream(stream);
+  mIfTrueExpression->printToStream(context, stream);
   stream << " : ";
-  mIfFalseExpression->printToStream(stream);
+  mIfFalseExpression->printToStream(context, stream);
 }

@@ -314,11 +314,11 @@ bool MethodCall::existsInOuterScope(IRGenerationContext& context) const {
   return mExpression->existsInOuterScope(context);
 }
 
-void MethodCall::printToStream(std::iostream& stream) const {
-  mExpression->printToStream(stream);
+void MethodCall::printToStream(IRGenerationContext& context, std::iostream& stream) const {
+  mExpression->printToStream(context, stream);
   stream << "." << mMethodName << "(";
   for (IExpression* expression : mArguments) {
-    expression->printToStream(stream);
+    expression->printToStream(context, stream);
     if (expression != mArguments.at(mArguments.size() - 1)) {
       stream << ", ";
     }

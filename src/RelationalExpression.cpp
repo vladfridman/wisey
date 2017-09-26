@@ -197,8 +197,9 @@ void RelationalExpression::reportIncompatableTypes(const IType* leftType,
   Log::e("Can not compare types " + leftType->getName() + " and " + rightType->getName());
 }
 
-void RelationalExpression::printToStream(std::iostream& stream) const {
-  mLeftExpression->printToStream(stream);
+void RelationalExpression::printToStream(IRGenerationContext& context,
+                                         std::iostream& stream) const {
+  mLeftExpression->printToStream(context, stream);
   switch (mOperation) {
     case RELATIONAL_OPERATION_LT : stream << " < "; break;
     case RELATIONAL_OPERATION_GT : stream << " > "; break;
@@ -207,5 +208,5 @@ void RelationalExpression::printToStream(std::iostream& stream) const {
     case RELATIONAL_OPERATION_EQ : stream << " == "; break;
     case RELATIONAL_OPERATION_NE : stream << " != "; break;
   }
-  mRightExpression->printToStream(stream);
+  mRightExpression->printToStream(context, stream);
 }

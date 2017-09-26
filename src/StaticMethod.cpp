@@ -124,6 +124,6 @@ void StaticMethod::createArguments(IRGenerationContext& context,
   }
 }
 
-void StaticMethod::printToStream(iostream& stream) const {
+void StaticMethod::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }

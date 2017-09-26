@@ -22,7 +22,7 @@ Model* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getModel(fullName);
 }
 
-void ModelTypeSpecifier::printToStream(std::iostream& stream) const {
+void ModelTypeSpecifier::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   printPackageToStream(stream, mPackage);
   stream << mName;
 }

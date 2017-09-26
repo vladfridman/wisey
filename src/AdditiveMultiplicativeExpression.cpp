@@ -111,8 +111,9 @@ bool AdditiveMultiplicativeExpression::existsInOuterScope(IRGenerationContext& c
   return false;
 }
 
-void AdditiveMultiplicativeExpression::printToStream(std::iostream& stream) const {
-  mLeftExpression->printToStream(stream);
+void AdditiveMultiplicativeExpression::printToStream(IRGenerationContext& context,
+                                                     std::iostream& stream) const {
+  mLeftExpression->printToStream(context, stream);
   stream << " + ";
-  mRightExpression->printToStream(stream);
+  mRightExpression->printToStream(context, stream);
 }

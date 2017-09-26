@@ -86,7 +86,7 @@ TEST_F(ControllerTypeSpecifierTest, printToStreamTest) {
   ControllerTypeSpecifier controllerTypeSpecifier(mPackage, "CMultiplier");
 
   stringstream stringStream;
-  controllerTypeSpecifier.printToStream(stringStream);
+  controllerTypeSpecifier.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.CMultiplier", stringStream.str().c_str());
 }

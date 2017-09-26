@@ -300,6 +300,6 @@ const IObjectOwnerType* Controller::getOwner() const {
   return mControllerOwner;
 }
 
-void Controller::printToStream(iostream& stream) const {
-  IConcreteObjectType::printObjectToStream(this, stream);
+void Controller::printToStream(IRGenerationContext& context, iostream& stream) const {
+  IConcreteObjectType::printObjectToStream(context, this, stream);
 }

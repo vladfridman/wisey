@@ -130,7 +130,7 @@ TEST_F(StaticMethodTest, generateIRTest) {
 
 TEST_F(StaticMethodTest, printToStreamTest) {
   stringstream stringStream;
-  mStaticMethod->printToStream(stringStream);
+  mStaticMethod->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("  static boolean mymethod(\n"
                "    double argDouble,\n"

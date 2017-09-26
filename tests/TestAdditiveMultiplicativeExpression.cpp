@@ -63,11 +63,11 @@ struct AdditiveMultiplicativeExpressionTest : Test {
     delete mStringStream;
   }
 
-  static void printLeftExpression(iostream& stream) {
+  static void printLeftExpression(IRGenerationContext& context, iostream& stream) {
     stream << "i";
   }
 
-  static void printRightExpression(iostream& stream) {
+  static void printRightExpression(IRGenerationContext& context, iostream& stream) {
     stream << "j";
   }
 };
@@ -107,9 +107,9 @@ TEST_F(AdditiveMultiplicativeExpressionTest, printToStreamTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   
   stringstream stringStream;
-  ON_CALL(*mLeftExpression, printToStream(_)).WillByDefault(Invoke(printLeftExpression));
-  ON_CALL(*mRightExpression, printToStream(_)).WillByDefault(Invoke(printRightExpression));
-  expression.printToStream(stringStream);
+  ON_CALL(*mLeftExpression, printToStream(_, _)).WillByDefault(Invoke(printLeftExpression));
+  ON_CALL(*mRightExpression, printToStream(_, _)).WillByDefault(Invoke(printRightExpression));
+  expression.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("i + j", stringStream.str().c_str());
 }

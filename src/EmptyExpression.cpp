@@ -44,6 +44,6 @@ bool EmptyExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
-void EmptyExpression::printToStream(std::iostream& stream) const {
+void EmptyExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
 }
 

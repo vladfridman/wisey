@@ -51,8 +51,9 @@ void ObjectBuilderArgument::releaseOwnership(IRGenerationContext& context) const
   mFieldExpression->releaseOwnership(context);
 }
 
-void ObjectBuilderArgument::printToStream(std::iostream &stream) const {
+void ObjectBuilderArgument::printToStream(IRGenerationContext& context,
+                                          std::iostream &stream) const {
   stream << mFieldSpecifier << "(";
-  mFieldExpression->printToStream(stream);
+  mFieldExpression->printToStream(context, stream);
   stream << ")";
 }

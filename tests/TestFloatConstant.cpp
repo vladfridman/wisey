@@ -55,7 +55,7 @@ TEST_F(FloatConstantTest, existsInOuterScopeTest) {
 
 TEST_F(FloatConstantTest, printToStreamTest) {
   stringstream stringStream;
-  mFloatConstant.printToStream(stringStream);
+  mFloatConstant.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("3.5", stringStream.str().c_str());
 }

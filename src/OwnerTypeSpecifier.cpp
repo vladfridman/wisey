@@ -19,7 +19,7 @@ const IObjectOwnerType* OwnerTypeSpecifier::getType(IRGenerationContext& context
   return mObjectTypeSpecifier->getType(context)->getOwner();
 }
 
-void OwnerTypeSpecifier::printToStream(std::iostream& stream) const {
-  mObjectTypeSpecifier->printToStream(stream);
+void OwnerTypeSpecifier::printToStream(IRGenerationContext& context, std::iostream& stream) const {
+  mObjectTypeSpecifier->printToStream(context, stream);
   stream << "*";
 }

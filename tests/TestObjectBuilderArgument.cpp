@@ -52,10 +52,10 @@ struct ObjectBuilderArgumentTest : Test {
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));
     ON_CALL(*mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
-    ON_CALL(*mFieldExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+    ON_CALL(*mFieldExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   }
   
-  static void printExpression(iostream& stream) {
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
     stream << "expression";
   }
 };
@@ -125,7 +125,7 @@ TEST_F(ObjectBuilderArgumentTest, printToStreamTest) {
   string argumentSpecifier("withFieldA");
   ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
   stringstream stringStream;
-  argument.printToStream(stringStream);
+  argument.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("withFieldA(expression)", stringStream.str().c_str());
 }

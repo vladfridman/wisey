@@ -71,7 +71,7 @@ TEST_F(InterfaceTypeSpecifierTest, printToStreamTest) {
   InterfaceTypeSpecifier interfaceTypeSpecifier(mPackage, "IShape");
 
   stringstream stringStream;
-  interfaceTypeSpecifier.printToStream(stringStream);
+  interfaceTypeSpecifier.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.IShape", stringStream.str().c_str());
 }

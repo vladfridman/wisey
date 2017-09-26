@@ -487,7 +487,7 @@ TEST_F(ControllerTest, injectFieldTest) {
 
 TEST_F(ControllerTest, printToStreamTest) {
   stringstream stringStream;
-  mMultiplierController->printToStream(stringStream);
+  mMultiplierController->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("external controller systems.vos.wisey.compiler.tests.CMultiplier\n"
                "  implements\n"

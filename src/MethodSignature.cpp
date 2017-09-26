@@ -49,6 +49,6 @@ MethodSignature* MethodSignature::createCopy() const {
   return new MethodSignature(mName, mAccessLevel, mReturnType, mArguments, mThrownExceptions);
 }
 
-void MethodSignature::printToStream(iostream& stream) const {
+void MethodSignature::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }

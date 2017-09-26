@@ -22,7 +22,8 @@ Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context) const
   return context.getController(fullName);
 }
 
-void ControllerTypeSpecifier::printToStream(std::iostream& stream) const {
+void ControllerTypeSpecifier::printToStream(IRGenerationContext& context,
+                                            std::iostream& stream) const {
   printPackageToStream(stream, mPackage);
   stream << mName;
 }

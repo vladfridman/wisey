@@ -36,6 +36,6 @@ bool FieldState::isAssignable() const {
   return true;
 }
 
-void FieldState::printToStream(iostream& stream) const {
+void FieldState::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << "  state " << getType()->getName() << " " << getName() << ";" << endl;
 }

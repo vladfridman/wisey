@@ -54,7 +54,7 @@ TEST_F(LongConstantTest, existsInOuterScopeTest) {
 
 TEST_F(LongConstantTest, printToStreamTest) {
   stringstream stringStream;
-  mLongConstant.printToStream(stringStream);
+  mLongConstant.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("5l", stringStream.str().c_str());
 }

@@ -189,7 +189,7 @@ public:
    */
   void optimizeIR();
   
-  void printToStream(std::iostream& stream) const override;
+  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 };
 

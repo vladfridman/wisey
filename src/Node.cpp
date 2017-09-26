@@ -302,6 +302,6 @@ void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* mallo
   }
 }
 
-void Node::printToStream(iostream& stream) const {
-  IConcreteObjectType::printObjectToStream(this, stream);
+void Node::printToStream(IRGenerationContext& context, iostream& stream) const {
+  IConcreteObjectType::printObjectToStream(context, this, stream);
 }

@@ -42,6 +42,6 @@ bool FloatConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
-void FloatConstant::printToStream(std::iostream& stream) const {
+void FloatConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << mValue;
 }

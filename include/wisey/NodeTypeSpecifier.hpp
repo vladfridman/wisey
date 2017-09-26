@@ -31,7 +31,7 @@ public:
   
   Node* getType(IRGenerationContext& context) const override;
   
-  void printToStream(std::iostream& stream) const override;
+  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 };
   

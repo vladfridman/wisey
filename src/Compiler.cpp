@@ -84,7 +84,7 @@ GenericValue Compiler::run() {
 void Compiler::extractHeaders(string headerFile) {
   fstream fileStream;
   fileStream.open(headerFile, ios::out);
-  mContext.printToStream(fileStream);
+  mContext.printToStream(mContext, fileStream);
   fileStream.close();
 }
 

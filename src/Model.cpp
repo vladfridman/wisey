@@ -322,6 +322,6 @@ const IObjectOwnerType* Model::getOwner() const {
   return mModelOwner;
 }
 
-void Model::printToStream(iostream& stream) const {
-	IConcreteObjectType::printObjectToStream(this, stream);
+void Model::printToStream(IRGenerationContext& context, iostream& stream) const {
+	IConcreteObjectType::printObjectToStream(context, this, stream);
 }

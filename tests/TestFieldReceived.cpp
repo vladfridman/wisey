@@ -22,6 +22,7 @@ using ::testing::NiceMock;
 using ::testing::Test;
 
 struct FieldReceivedTest : public Test {
+  IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
@@ -57,7 +58,7 @@ TEST_F(FieldReceivedTest, printToStreamTest) {
   FieldReceived field(PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, mArguments);
   
   stringstream stringStream;
-  field.printToStream(stringStream);
+  field.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("  receive double mField;\n", stringStream.str().c_str());
 }

@@ -23,7 +23,7 @@ Node* NodeTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getNode(fullName);
 }
 
-void NodeTypeSpecifier::printToStream(std::iostream& stream) const {
+void NodeTypeSpecifier::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   printPackageToStream(stream, mPackage);
   stream << mName;
 }

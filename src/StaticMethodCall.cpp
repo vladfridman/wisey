@@ -192,11 +192,12 @@ bool StaticMethodCall::existsInOuterScope(IRGenerationContext& context) const {
   return true;
 }
 
-void StaticMethodCall::printToStream(std::iostream& stream) const {
-  mObjectTypeSpecifier->printToStream(stream);
+void StaticMethodCall::printToStream(IRGenerationContext& context,
+                                     std::iostream& stream) const {
+  mObjectTypeSpecifier->printToStream(context, stream);
   stream << "." << mMethodName << "(";
   for (IExpression* expression : mArguments) {
-    expression->printToStream(stream);
+    expression->printToStream(context, stream);
     if (expression != mArguments.at(mArguments.size() - 1)) {
       stream << ", ";
     }

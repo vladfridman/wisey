@@ -258,13 +258,13 @@ void IRGenerationContext::printAssembly(raw_ostream &outputStream) {
   passManager.run(*mModule);
 }
 
-void IRGenerationContext::printToStream(iostream& stream) const {
+void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << "/* Interfaces */" << endl << endl;
   for (map<string, Interface*>::const_iterator iterator = mInterfaces.begin();
        iterator != mInterfaces.end();
        iterator++) {
     Interface* interface = iterator->second;
-    interface->printToStream(stream);
+    interface->printToStream(context, stream);
     stream << endl;
   }
   
@@ -273,7 +273,7 @@ void IRGenerationContext::printToStream(iostream& stream) const {
        iterator != mModels.end();
        iterator++) {
     Model* model = iterator->second;
-    model->printToStream(stream);
+    model->printToStream(context, stream);
     stream << endl;
   }
   
@@ -282,7 +282,7 @@ void IRGenerationContext::printToStream(iostream& stream) const {
        iterator != mControllers.end();
        iterator++) {
     Controller* controller = iterator->second;
-    controller->printToStream(stream);
+    controller->printToStream(context, stream);
     stream << endl;
   }
   
@@ -291,7 +291,7 @@ void IRGenerationContext::printToStream(iostream& stream) const {
        iterator != mNodes.end();
        iterator++) {
     Node* node = iterator->second;
-    node->printToStream(stream);
+    node->printToStream(context, stream);
     stream << endl;
   }
   

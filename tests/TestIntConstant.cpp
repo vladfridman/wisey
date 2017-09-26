@@ -56,7 +56,7 @@ TEST_F(IntConstantTest, existsInOuterScopeTest) {
 
 TEST_F(IntConstantTest, printToStreamTest) {
   stringstream stringStream;
-  mIntConstant.printToStream(stringStream);
+  mIntConstant.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("5", stringStream.str().c_str());
 }

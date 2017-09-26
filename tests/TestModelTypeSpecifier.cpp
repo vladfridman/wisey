@@ -78,7 +78,7 @@ TEST_F(ModelTypeSpecifierTest, printToStreamTest) {
   ModelTypeSpecifier modelTypeSpecifier(mPackage, "MSquare");
 
   stringstream stringStream;
-  modelTypeSpecifier.printToStream(stringStream);
+  modelTypeSpecifier.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.MSquare", stringStream.str().c_str());
 }

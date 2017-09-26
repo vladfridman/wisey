@@ -120,7 +120,7 @@ TEST_F(IdentifierTest, printToStreamTest) {
   Identifier identifier("foo", "bar");
 
   stringstream stringStream;
-  identifier.printToStream(stringStream);
+  identifier.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("foo", stringStream.str().c_str());
 }

@@ -23,6 +23,7 @@ using ::testing::NiceMock;
 using ::testing::Test;
 
 struct FieldFixedTest : public Test {
+  IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
@@ -58,7 +59,7 @@ TEST_F(FieldFixedTest, printToStreamTest) {
   FieldFixed field(PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, mArguments);
   
   stringstream stringStream;
-  field.printToStream(stringStream);
+  field.printToStream(mContext, stringStream);
 
   EXPECT_STREQ("  double mField;\n", stringStream.str().c_str());
 }

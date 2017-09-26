@@ -174,7 +174,9 @@ public:
   /**
    * Print the given object to the given stream
    */
-  static void printObjectToStream(const IConcreteObjectType* object, std::iostream& stream);
+  static void printObjectToStream(IRGenerationContext& context,
+                                  const IConcreteObjectType* object,
+                                  std::iostream& stream);
 
 private:
   

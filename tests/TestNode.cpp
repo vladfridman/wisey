@@ -470,7 +470,7 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
 
 TEST_F(NodeTest, printToStreamTest) {
   stringstream stringStream;
-  mComplicatedNode->printToStream(stringStream);
+  mComplicatedNode->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("external node systems.vos.wisey.compiler.tests.NComplicatedNode\n"
                "  implements\n"

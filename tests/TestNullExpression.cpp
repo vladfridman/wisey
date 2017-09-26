@@ -53,7 +53,7 @@ TEST_F(NullExpressionTest, existsInOuterScopeTest) {
 
 TEST_F(NullExpressionTest, printToStreamTest) {
   stringstream stringStream;
-  mNullExpression.printToStream(stringStream);
+  mNullExpression.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("null", stringStream.str().c_str());
 }

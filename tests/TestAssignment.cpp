@@ -53,7 +53,7 @@ public:
     mExpressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(mExpressionValue));
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+    ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
 
     mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface", NULL);
     mController = new Controller("systems.vos.wisey.compiler.tests.CController", NULL);
@@ -63,7 +63,7 @@ public:
     delete mBlock;
   }
 
-  static void printExpression(iostream& stream) {
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
     stream << "5";
   }
 };
@@ -207,7 +207,7 @@ TEST_F(AssignmentTest, printToStreamTest) {
   Assignment assignment(identifier, mExpression);
 
   stringstream stringStream;
-  assignment.printToStream(stringStream);
+  assignment.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("foo = 5", stringStream.str().c_str());
 }

@@ -179,11 +179,11 @@ struct TypeComparisionExpressionTest : public Test {
     delete mStringStream;
   }
   
-  static void printExpression(iostream& stream) {
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
     stream << "object";
   }
   
-  static void printTypeSpecifier(iostream& stream) {
+  static void printTypeSpecifier(IRGenerationContext& context, iostream& stream) {
     stream << "type";
   }
 };
@@ -281,11 +281,11 @@ TEST_F(TypeComparisionExpressionTest, existsInOuterScopeTest) {
 TEST_F(TypeComparisionExpressionTest, printToStreamTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
-  ON_CALL(*typeSpecifier, printToStream(_)).WillByDefault(Invoke(printTypeSpecifier));
+  ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
+  ON_CALL(*typeSpecifier, printToStream(_, _)).WillByDefault(Invoke(printTypeSpecifier));
 
   stringstream stringStream;
-  typeComparision.printToStream(stringStream);
+  typeComparision.printToStream(mContext, stringStream);
   EXPECT_STREQ("object instanceof type", stringStream.str().c_str());
 }
 

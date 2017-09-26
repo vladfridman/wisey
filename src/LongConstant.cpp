@@ -42,6 +42,6 @@ bool LongConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
-void LongConstant::printToStream(std::iostream& stream) const {
+void LongConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << mValue << "l";
 }

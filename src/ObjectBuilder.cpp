@@ -75,13 +75,13 @@ bool ObjectBuilder::existsInOuterScope(IRGenerationContext& context) const {
   return variable->existsInOuterScope();
 }
 
-void ObjectBuilder::printToStream(std::iostream& stream) const {
+void ObjectBuilder::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "builder(";
-  mTypeSpecifier->printToStream(stream);
+  mTypeSpecifier->printToStream(context, stream);
   stream << ")";
   for (ObjectBuilderArgument* argument : mObjectBuilderArgumentList) {
     stream << ".";
-    argument->printToStream(stream);
+    argument->printToStream(context, stream);
   }
   stream << ".build()";
 }

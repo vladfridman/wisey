@@ -41,6 +41,6 @@ bool NullExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
-void NullExpression::printToStream(std::iostream& stream) const {
+void NullExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "null";
 }

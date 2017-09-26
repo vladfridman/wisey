@@ -187,7 +187,7 @@ TEST_F(InterfaceTest, canAutoCastToTest) {
 
 TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
-  mShapeInterface->printToStream(stringStream);
+  mShapeInterface->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("interface systems.vos.wisey.compiler.tests.IShape\n"
                "  extends\n"

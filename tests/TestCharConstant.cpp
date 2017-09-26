@@ -55,7 +55,7 @@ TEST_F(CharConstantTest, existsInOuterScopeTest) {
 
 TEST_F(CharConstantTest, printToStreamTest) {
   stringstream stringStream;
-  mCharConstant.printToStream(stringStream);
+  mCharConstant.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("'y'", stringStream.str().c_str());
 }

@@ -86,15 +86,15 @@ struct ConditionalExpressionTest : Test {
     delete mStringStream;
   }
   
-  static void printConditionalExpression(iostream& stream) {
+  static void printConditionalExpression(IRGenerationContext& context, iostream& stream) {
     stream << "a";
   }
   
-  static void printIfTrueExpression(iostream& stream) {
+  static void printIfTrueExpression(IRGenerationContext& context, iostream& stream) {
     stream << "b";
   }
   
-  static void printIfFalseExpression(iostream& stream) {
+  static void printIfFalseExpression(IRGenerationContext& context, iostream& stream) {
     stream << "c";
   }
 };
@@ -259,11 +259,11 @@ TEST_F(ConditionalExpressionTest, printToStreamTest) {
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
 
   stringstream stringStream;
-  ON_CALL(*mConditionExpression, printToStream(_))
+  ON_CALL(*mConditionExpression, printToStream(_, _))
   .WillByDefault(Invoke(printConditionalExpression));
-  ON_CALL(*mIfTrueExpression, printToStream(_)).WillByDefault(Invoke(printIfTrueExpression));
-  ON_CALL(*mIfFalseExpression, printToStream(_)).WillByDefault(Invoke(printIfFalseExpression));
-  expression.printToStream(stringStream);
+  ON_CALL(*mIfTrueExpression, printToStream(_, _)).WillByDefault(Invoke(printIfTrueExpression));
+  ON_CALL(*mIfFalseExpression, printToStream(_, _)).WillByDefault(Invoke(printIfFalseExpression));
+  expression.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("a ? b : c", stringStream.str().c_str());
 }

@@ -24,6 +24,7 @@ using ::testing::Return;
 using ::testing::Test;
 
 struct FieldInjectedTest : public Test {
+  IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
@@ -39,7 +40,7 @@ public:
   mIndex(3u) {
     mArguments.push_back(mExpression);
     ON_CALL(*mType, getName()).WillByDefault(Return("MObject*"));
-    ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+    ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   }
   
   ~FieldInjectedTest() {
@@ -47,7 +48,7 @@ public:
     delete mExpression;
   }
   
-  static void printExpression(iostream& stream) {
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
     stream << "expression";
   }
 };
@@ -67,7 +68,7 @@ TEST_F(FieldInjectedTest, printToStreamTest) {
   FieldInjected field(mType, mName, mIndex, mArguments);
   
   stringstream stringStream;
-  field.printToStream(stringStream);
+  field.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("  inject MObject* mField(expression);\n", stringStream.str().c_str());
 }

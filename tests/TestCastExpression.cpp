@@ -73,11 +73,11 @@ public:
     delete mStringStream;
   }
   
-  static void printTypeSpecifier(iostream& stream) {
+  static void printTypeSpecifier(IRGenerationContext& context, iostream& stream) {
     stream << "int";
   }
   
-  static void printExpression(iostream& stream) {
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
     stream << "true";
   }
 };
@@ -147,11 +147,11 @@ TEST_F(CastExpressionTest, addReferenceToOwnerTest) {
 
 TEST_F(CastExpressionTest, printToStreamTest) {
   CastExpression castExpression(mTypeSpecifier, mExpression);
-  ON_CALL(*mTypeSpecifier, printToStream(_)).WillByDefault(Invoke(printTypeSpecifier));
-  ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+  ON_CALL(*mTypeSpecifier, printToStream(_, _)).WillByDefault(Invoke(printTypeSpecifier));
+  ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
 
   stringstream stringStream;
-  castExpression.printToStream(stringStream);
+  castExpression.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("(int) true", stringStream.str().c_str());
 }

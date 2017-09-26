@@ -59,7 +59,7 @@ struct BooleanNotExpressionTest : Test {
     delete mStringStream;
   }
   
-  static void printExpression(iostream& stream) {
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
     stream << "value";
   }
 };
@@ -90,10 +90,10 @@ TEST_F(BooleanNotExpressionTest, existsInOuterScopeTest) {
 
 TEST_F(BooleanNotExpressionTest, printToStreamTest) {
   BooleanNotExpression booleanNotExpression(mExpression);
-  ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+  ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   
   stringstream stringStream;
-  booleanNotExpression.printToStream(stringStream);
+  booleanNotExpression.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("!value", stringStream.str().c_str());
 }

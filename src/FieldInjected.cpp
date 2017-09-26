@@ -36,7 +36,7 @@ bool FieldInjected::isAssignable() const {
   return false;
 }
 
-void FieldInjected::printToStream(iostream& stream) const {
+void FieldInjected::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << "  inject " << getType()->getName() << " " << getName();
   if (!mArguments.size()) {
     stream << "endl";
@@ -45,7 +45,7 @@ void FieldInjected::printToStream(iostream& stream) const {
   
   stream << "(";
   for (IExpression* expression : mArguments) {
-    expression->printToStream(stream);
+    expression->printToStream(context, stream);
     if (expression != mArguments.at(mArguments.size() - 1)) {
       stream << ", ";
     }

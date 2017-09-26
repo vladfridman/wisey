@@ -54,7 +54,7 @@ TEST_F(DoubleConstantTest, existsInOuterScopeTest) {
 
 TEST_F(DoubleConstantTest, printToStreamTest) {
   stringstream stringStream;
-  mDoubleConstant.printToStream(stringStream);
+  mDoubleConstant.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("5.7d", stringStream.str().c_str());
 }

@@ -49,41 +49,41 @@ TEST_F(PrimitiveTypeSpecifierTest, creationTest) {
 TEST_F(PrimitiveTypeSpecifierTest, printToStreamTest) {
   PrimitiveTypeSpecifier booleanTypeSpecifier(PrimitiveTypes::BOOLEAN_TYPE);
   stringstream booleanStringStream;
-  booleanTypeSpecifier.printToStream(booleanStringStream);
+  booleanTypeSpecifier.printToStream(mContext, booleanStringStream);
   EXPECT_STREQ("boolean", booleanStringStream.str().c_str());
   
   PrimitiveTypeSpecifier charTypeSpecifier(PrimitiveTypes::CHAR_TYPE);
   stringstream charStringStream;
-  charTypeSpecifier.printToStream(charStringStream);
+  charTypeSpecifier.printToStream(mContext, charStringStream);
   EXPECT_STREQ("char", charStringStream.str().c_str());
   
   PrimitiveTypeSpecifier doubleTypeSpecifier(PrimitiveTypes::DOUBLE_TYPE);
   stringstream doubleStringStream;
-  doubleTypeSpecifier.printToStream(doubleStringStream);
+  doubleTypeSpecifier.printToStream(mContext, doubleStringStream);
   EXPECT_STREQ("double", doubleStringStream.str().c_str());
   
   PrimitiveTypeSpecifier floatTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   stringstream floatStringStream;
-  floatTypeSpecifier.printToStream(floatStringStream);
+  floatTypeSpecifier.printToStream(mContext, floatStringStream);
   EXPECT_STREQ("float", floatStringStream.str().c_str());
   
   PrimitiveTypeSpecifier intTypeSpecifier(PrimitiveTypes::INT_TYPE);
   stringstream intStringStream;
-  intTypeSpecifier.printToStream(intStringStream);
+  intTypeSpecifier.printToStream(mContext, intStringStream);
   EXPECT_STREQ("int", intStringStream.str().c_str());
 
   PrimitiveTypeSpecifier longTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   stringstream longStringStream;
-  longTypeSpecifier.printToStream(longStringStream);
+  longTypeSpecifier.printToStream(mContext, longStringStream);
   EXPECT_STREQ("long", longStringStream.str().c_str());
 
   PrimitiveTypeSpecifier stringTypeSpecifier(PrimitiveTypes::STRING_TYPE);
   stringstream stringStringStream;
-  stringTypeSpecifier.printToStream(stringStringStream);
+  stringTypeSpecifier.printToStream(mContext, stringStringStream);
   EXPECT_STREQ("string", stringStringStream.str().c_str());
 
   PrimitiveTypeSpecifier voidTypeSpecifier(PrimitiveTypes::VOID_TYPE);
   stringstream voidStringStream;
-  voidTypeSpecifier.printToStream(voidStringStream);
+  voidTypeSpecifier.printToStream(mContext, voidStringStream);
   EXPECT_STREQ("void", voidStringStream.str().c_str());
 }

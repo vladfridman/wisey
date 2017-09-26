@@ -69,7 +69,7 @@ bool NegateExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
-void NegateExpression::printToStream(std::iostream& stream) const {
+void NegateExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "!";
-  mExpression->printToStream(stream);
+  mExpression->printToStream(context, stream);
 }

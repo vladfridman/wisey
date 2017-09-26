@@ -96,11 +96,11 @@ TEST_F(BooleanConstantTest, printToStreamTest) {
   BooleanConstant falseConstant(false);
 
   stringstream stringStreamTrue;
-  trueConstant.printToStream(stringStreamTrue);
+  trueConstant.printToStream(mContext, stringStreamTrue);
   EXPECT_STREQ("true", stringStreamTrue.str().c_str());
 
   stringstream stringStreamFalse;
-  falseConstant.printToStream(stringStreamFalse);
+  falseConstant.printToStream(mContext, stringStreamFalse);
   EXPECT_STREQ("false", stringStreamFalse.str().c_str());
 }
 

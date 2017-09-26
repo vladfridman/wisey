@@ -406,7 +406,9 @@ void IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
   }
 }
 
-void IConcreteObjectType::printObjectToStream(const IConcreteObjectType* object, iostream& stream) {
+void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
+                                              const IConcreteObjectType* object,
+                                              iostream& stream) {
   stream << "external ";
   if (object->getTypeKind() == MODEL_TYPE) {
     stream << "model ";
@@ -435,7 +437,7 @@ void IConcreteObjectType::printObjectToStream(const IConcreteObjectType* object,
   for (map<string, IField*>::const_iterator iterator = fields.begin();
        iterator != fields.end();
        iterator++) {
-    iterator->second->printToStream(stream);
+    iterator->second->printToStream(context, stream);
   }
   
   if (object->getMethods().size()) {
@@ -443,7 +445,7 @@ void IConcreteObjectType::printObjectToStream(const IConcreteObjectType* object,
   }
   
   for (IMethod* method : object->getMethods()) {
-    method->printToStream(stream);
+    method->printToStream(context, stream);
   }
   stream << "}" << endl;
 }

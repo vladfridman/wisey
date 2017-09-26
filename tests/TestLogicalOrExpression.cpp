@@ -62,11 +62,11 @@ struct LogicalOrExpressionTest : Test {
     delete mStringStream;
   }
 
-  static void printLeftExpression(iostream& stream) {
+  static void printLeftExpression(IRGenerationContext& context, iostream& stream) {
     stream << "a";
   }
   
-  static void printRightExpression(iostream& stream) {
+  static void printRightExpression(IRGenerationContext& context, iostream& stream) {
     stream << "b";
   }
 };
@@ -155,9 +155,9 @@ TEST_F(LogicalOrExpressionTest, printToStreamTest) {
   LogicalOrExpression expression(mLeftExpression, mRightExpression);
   
   stringstream stringStream;
-  ON_CALL(*mLeftExpression, printToStream(_)).WillByDefault(Invoke(printLeftExpression));
-  ON_CALL(*mRightExpression, printToStream(_)).WillByDefault(Invoke(printRightExpression));
-  expression.printToStream(stringStream);
+  ON_CALL(*mLeftExpression, printToStream(_, _)).WillByDefault(Invoke(printLeftExpression));
+  ON_CALL(*mRightExpression, printToStream(_, _)).WillByDefault(Invoke(printRightExpression));
+  expression.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("a || b", stringStream.str().c_str());
 }

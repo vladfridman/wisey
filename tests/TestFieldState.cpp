@@ -22,6 +22,7 @@ using ::testing::NiceMock;
 using ::testing::Test;
 
 struct FieldStateTest : public Test {
+  IRGenerationContext mContext;
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
@@ -57,7 +58,7 @@ TEST_F(FieldStateTest, printToStreamTest) {
   FieldState field(PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, mArguments);
   
   stringstream stringStream;
-  field.printToStream(stringStream);
+  field.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("  state double mField;\n", stringStream.str().c_str());
 }

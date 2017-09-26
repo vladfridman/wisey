@@ -72,8 +72,8 @@ bool InterfaceInjector::existsInOuterScope(IRGenerationContext& context) const {
   return context.getScopes().getVariable(variableName)->existsInOuterScope();
 }
 
-void InterfaceInjector::printToStream(std::iostream& stream) const {
+void InterfaceInjector::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "inject(";
-  mInterfaceTypeSpecifier->printToStream(stream);
+  mInterfaceTypeSpecifier->printToStream(context, stream);
   stream << ")";
 }

@@ -44,7 +44,7 @@ public:
   
   void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const override;
   
-  void printToStream(std::iostream& stream) const override;
+  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
   /**
    * Translate object method name into its LLVM implemenation function name

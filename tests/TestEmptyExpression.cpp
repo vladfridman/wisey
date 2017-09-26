@@ -42,7 +42,7 @@ TEST_F(EmptyExpressionTest, existsInOuterScopeTest) {
 
 TEST_F(EmptyExpressionTest, printToStreamTest) {
   std::stringstream stringStream;
-  mEmptyExpression.printToStream(stringStream);
+  mEmptyExpression.printToStream(mContext, stringStream);
   
   EXPECT_EQ(0u, stringStream.str().size());
 }

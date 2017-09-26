@@ -80,6 +80,7 @@ bool wisey::StringLiteral::existsInOuterScope(IRGenerationContext& context) cons
   return false;
 }
 
-void wisey::StringLiteral::printToStream(std::iostream& stream) const {
+void wisey::StringLiteral::printToStream(IRGenerationContext& context,
+                                         std::iostream& stream) const {
   stream << "\"" << mValue << "\"";
 }

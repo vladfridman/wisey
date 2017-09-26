@@ -162,12 +162,12 @@ TEST_F(IncrementExpressionTest, incrementExpressionTypeTest) {
 TEST_F(IncrementExpressionTest, printToStreamTest) {
   IncrementExpression* incrementExpression = IncrementExpression::newIncrementByOne(mIdentifier);
   stringstream stringStreamIncrement;
-  incrementExpression->printToStream(stringStreamIncrement);
+  incrementExpression->printToStream(mContext, stringStreamIncrement);
   EXPECT_STREQ("foo++", stringStreamIncrement.str().c_str());
 
   IncrementExpression* decrementExpression = IncrementExpression::newDecrementByOne(mIdentifier);
   stringstream stringStreamDecrement;
-  decrementExpression->printToStream(stringStreamDecrement);
+  decrementExpression->printToStream(mContext, stringStreamDecrement);
   EXPECT_STREQ("foo--", stringStreamDecrement.str().c_str());
 }
 

@@ -150,7 +150,7 @@ TEST_F(InterfaceInjectorTest, printToStreamTest) {
   InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
 
   stringstream stringStream;
-  interfaceInjector.printToStream(stringStream);
+  interfaceInjector.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("inject(IMyInterface)", stringStream.str().c_str());
 }

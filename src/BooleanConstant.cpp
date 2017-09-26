@@ -43,7 +43,7 @@ bool BooleanConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
-void BooleanConstant::printToStream(std::iostream& stream) const {
+void BooleanConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   if (mValue) {
     stream << "true";
   } else {

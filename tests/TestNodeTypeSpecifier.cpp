@@ -61,7 +61,7 @@ TEST_F(NodeTypeSpecifierTest, printToStreamTest) {
   NodeTypeSpecifier nodeTypeSpecifier(mPackage, "NElement");
 
   stringstream stringStream;
-  nodeTypeSpecifier.printToStream(stringStream);
+  nodeTypeSpecifier.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("systems.vos.wisey.compiler.tests.NElement", stringStream.str().c_str());
 }

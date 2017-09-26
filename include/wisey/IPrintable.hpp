@@ -13,6 +13,8 @@
 
 namespace wisey {
 
+class IRGenerationContext;
+  
 /**
  * Indicates that the class can be printed into a stream
  */
@@ -25,7 +27,7 @@ public:
   /**
    * Converts the class instance to string form and prints it to the given stream
    */
-  virtual void printToStream(std::iostream& stream) const = 0;
+  virtual void printToStream(IRGenerationContext& context, std::iostream& stream) const = 0;
 
 };
 

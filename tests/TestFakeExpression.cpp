@@ -57,7 +57,7 @@ TEST_F(FakeExpressionTest, fakeExpressionTest) {
 
 TEST_F(FakeExpressionTest, printToStreamTest) {
   std::stringstream stringStream;
-  mFakeExpression->printToStream(stringStream);
+  mFakeExpression->printToStream(mContext, stringStream);
   
   EXPECT_EQ(0u, stringStream.str().size());
 }

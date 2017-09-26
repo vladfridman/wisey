@@ -65,7 +65,7 @@ public:
    */
   void releaseOwnership(IRGenerationContext& context) const;
   
-  void printToStream(std::iostream& stream) const override;
+  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 };
   

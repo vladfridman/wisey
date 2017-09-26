@@ -124,6 +124,6 @@ void Method::createArguments(IRGenerationContext& context,
   }
 }
 
-void Method::printToStream(iostream& stream) const {
+void Method::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }

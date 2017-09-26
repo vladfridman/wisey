@@ -287,7 +287,7 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
   mContext.addModel(mModel);
   
   stringstream stringStream;
-  mContext.printToStream(stringStream);
+  mContext.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("/* Interfaces */\n"
                "\n"

@@ -79,7 +79,7 @@ TEST_F(StringLiteralTest, printToStreamTest) {
   StringLiteral stringLiteral("\"test\"");
 
   stringstream stringStream;
-  stringLiteral.printToStream(stringStream);
+  stringLiteral.printToStream(mContext, stringStream);
   EXPECT_STREQ("\"test\"", stringStream.str().c_str());
 }
 

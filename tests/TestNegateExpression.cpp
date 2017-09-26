@@ -59,7 +59,7 @@ struct NegateExpressionTest : Test {
     delete mStringStream;
   }
   
-  static void printExpression(iostream& stream) {
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
     stream << "expression";
   }
 };
@@ -106,8 +106,8 @@ TEST_F(NegateExpressionTest, printToStreamTest) {
   NegateExpression negateExpression(mExpression);
 
   stringstream stringStream;
-  ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
-  negateExpression.printToStream(stringStream);
+  ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
+  negateExpression.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("!expression", stringStream.str().c_str());
 }

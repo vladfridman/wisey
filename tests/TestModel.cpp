@@ -494,7 +494,7 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
 
 TEST_F(ModelTest, printToStreamTest) {
   stringstream stringStream;
-  mModel->printToStream(stringStream);
+  mModel->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("external model systems.vos.wisey.compiler.tests.MSquare\n"
                "  implements\n"

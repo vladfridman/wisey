@@ -10,6 +10,7 @@
 
 #include <gtest/gtest.h>
 
+#include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -20,6 +21,7 @@ using namespace wisey;
 using ::testing::Test;
 
 struct MethodSignatureTest : Test {
+  IRGenerationContext mContext;
   MethodSignature* mMethodSignature;
   
   MethodSignatureTest() {
@@ -49,7 +51,7 @@ TEST_F(MethodSignatureTest, createCopyTest) {
 
 TEST_F(MethodSignatureTest, printToStreamTest) {
   stringstream stringStream;
-  mMethodSignature->printToStream(stringStream);
+  mMethodSignature->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("  long foo();\n", stringStream.str().c_str());
 }

@@ -125,22 +125,22 @@ public:
                                               mStructType->getPointerTo()->getPointerTo());
     ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(bitcast));
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mModel));
-    ON_CALL(*mExpression, printToStream(_)).WillByDefault(Invoke(printExpression));
+    ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   }
   
   ~MethodCallTest() {
     delete mStringStream;
   }
   
-  static void printExpression(iostream& stream) {
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
     stream << "object";
   }
 
-  static void printArgument1(iostream& stream) {
+  static void printArgument1(IRGenerationContext& context, iostream& stream) {
     stream << "argument1";
   }
 
-  static void printArgument2(iostream& stream) {
+  static void printArgument2(IRGenerationContext& context, iostream& stream) {
     stream << "argument2";
   }
 };
@@ -251,16 +251,16 @@ TEST_F(MethodCallTest, existsInOuterScopeTest) {
 
 TEST_F(MethodCallTest, printToStreamTest) {
   NiceMock<MockExpression>* argument1Expression = new NiceMock<MockExpression>();
-  ON_CALL(*argument1Expression, printToStream(_)).WillByDefault(Invoke(printArgument1));
+  ON_CALL(*argument1Expression, printToStream(_, _)).WillByDefault(Invoke(printArgument1));
   mArgumentList.push_back(argument1Expression);
   NiceMock<MockExpression>* argument2Expression = new NiceMock<MockExpression>();
-  ON_CALL(*argument2Expression, printToStream(_)).WillByDefault(Invoke(printArgument2));
+  ON_CALL(*argument2Expression, printToStream(_, _)).WillByDefault(Invoke(printArgument2));
   mArgumentList.push_back(argument2Expression);
 
   MethodCall methodCall(mExpression, "foo", mArgumentList);
 
   stringstream stringStream;
-  methodCall.printToStream(stringStream);
+  methodCall.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("object.foo(argument1, argument2)", stringStream.str().c_str());
 }
