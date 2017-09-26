@@ -11,9 +11,21 @@
 using namespace std;
 using namespace wisey;
 
-void IObjectTypeSpecifier::printPackageToStream(iostream& stream, vector<string> package) {
-  for (string packagePart : package) {
-    stream << packagePart;
-    stream << ".";
+std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
+                                              string shortName,
+                                              vector<string> package) {
+  if (package.size() == 0 && context.getImport(shortName) != NULL) {
+    return context.getImport(shortName)->getName();
   }
+  if (package.size() == 0 && context.getPackage().size() != 0) {
+    return context.getPackage() + "." + shortName;
+  }
+  
+  string fullName = "";
+  for (string part : package) {
+    fullName.append(part + ".");
+  }
+  fullName.append(shortName);
+  
+  return fullName;
 }

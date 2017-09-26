@@ -16,6 +16,7 @@
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/NodeTypeSpecifier.hpp"
 
 namespace wisey {
   
@@ -24,7 +25,7 @@ namespace wisey {
  * and mutable fields that point to other nodes.
  */
 class NodeDefinition : public IGlobalStatement {
-  const std::string mName;
+  NodeTypeSpecifier* mNodeTypeSpecifier;
   std::vector<FieldDeclaration*> mFixedFieldDeclarations;
   std::vector<FieldDeclaration*> mStateFieldDeclarations;
   std::vector<IMethodDeclaration*> mMethodDeclarations;
@@ -32,12 +33,12 @@ class NodeDefinition : public IGlobalStatement {
   
 public:
   
-  NodeDefinition(std::string name,
+  NodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
                  std::vector<FieldDeclaration*> fixedFieldDeclarations,
                  std::vector<FieldDeclaration*> stateFieldDeclarations,
                  std::vector<IMethodDeclaration *> methodDeclarations,
                  std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
-  mName(name),
+  mNodeTypeSpecifier(nodeTypeSpecifier),
   mFixedFieldDeclarations(fixedFieldDeclarations),
   mStateFieldDeclarations(stateFieldDeclarations),
   mMethodDeclarations(methodDeclarations),
@@ -53,8 +54,6 @@ public:
   
 private:
   
-  std::string getFullName(IRGenerationContext& context) const;
-
   std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
   
   std::vector<IMethod*> createMethods(IRGenerationContext& context) const;

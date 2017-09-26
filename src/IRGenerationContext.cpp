@@ -6,6 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <sstream>
+
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/MCJIT.h>
 #include <llvm/IR/IRPrintingPasses.h>
@@ -99,7 +101,7 @@ void IRGenerationContext::addModel(Model* model) {
 Model* IRGenerationContext::getModel(string name) {
   bool isFullName = name.find('.') != string::npos;
   if (!isFullName && mImports.count(name)) {
-    return (Model*) getImport(name);
+    return (Model*) getImportWithFail(name);
   }
   
   string fullName = isFullName ? name : mPackage + "." + name;
@@ -124,7 +126,7 @@ void IRGenerationContext::addController(Controller* controller) {
 Controller* IRGenerationContext::getController(string name) {
   bool isFullName = name.find('.') != string::npos;
   if (!isFullName && mImports.count(name)) {
-    return (Controller*) getImport(name);
+    return (Controller*) getImportWithFail(name);
   }
   
   string fullName = isFullName ? name : mPackage + "." + name;
@@ -149,7 +151,7 @@ void IRGenerationContext::addNode(Node* node) {
 Node* IRGenerationContext::getNode(string name) {
   bool isFullName = name.find('.') != string::npos;
   if (!isFullName && mImports.count(name)) {
-    return (Node*) getImport(name);
+    return (Node*) getImportWithFail(name);
   }
   
   string fullName = isFullName ? name : mPackage + "." + name;
@@ -174,7 +176,7 @@ void IRGenerationContext::addInterface(Interface* interface) {
 Interface* IRGenerationContext::getInterface(string name) {
   bool isFullName = name.find('.') != string::npos;
   if (!isFullName && mImports.count(name)) {
-    return (Interface*) getImport(name);
+    return (Interface*) getImportWithFail(name);
   }
   
   string fullName = isFullName ? name : mPackage + "." + name;
@@ -216,10 +218,21 @@ void IRGenerationContext::setPackage(string package) {
   }
     
   mPackage = package;
+  
+  replace(package.begin(), package.end(), '.', ' ');
+  stringstream stringStream(package);
+  istream_iterator<string> begin(stringStream);
+  istream_iterator<string> end;
+  vector<string> vstrings(begin, end);
+  mPackageVector = vstrings;
 }
 
-string IRGenerationContext::getPackage() {
+string IRGenerationContext::getPackage() const {
   return mPackage;
+}
+
+vector<string> IRGenerationContext::getPackageVector() const {
+  return mPackageVector;
 }
 
 void IRGenerationContext::addImport(IObjectType* object) {
@@ -228,10 +241,18 @@ void IRGenerationContext::addImport(IObjectType* object) {
 
 IObjectType* IRGenerationContext::getImport(string objectName) {
   if (!mImports.count(objectName)) {
+    return NULL;
+  }
+  return mImports[objectName];
+}
+
+IObjectType* IRGenerationContext::getImportWithFail(string objectName) {
+  IObjectType* object = getImport(objectName);
+  if (!object) {
     Log::e("Could not find definition for " + objectName + ". Perhaps it was not imported");
     exit(1);
   }
-  return mImports[objectName];
+  return object;
 }
 
 void IRGenerationContext::clearAndAddDefaultImports() {

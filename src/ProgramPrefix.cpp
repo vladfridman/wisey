@@ -48,7 +48,9 @@ void ProgramPrefix::defineNPEModel(IRGenerationContext& context) const {
   vector<FieldDeclaration*> npeFields;
   vector<IMethodDeclaration*> npeMethods;
   vector<InterfaceTypeSpecifier*> npeParentInterfaces;
-  ModelDefinition npeModelDefinition(Names::getNPEModelName(),
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(context.getPackageVector(),
+                                                                  Names::getNPEModelName());
+  ModelDefinition npeModelDefinition(modelTypeSpecifier,
                                      npeFields,
                                      npeMethods,
                                      npeParentInterfaces);
@@ -85,8 +87,7 @@ void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
   FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
 
   Block* thenBlock = new Block();
-  vector<string> package;
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(context.getPackageVector(),
                                                                   Names::getNPEModelName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
@@ -146,9 +147,8 @@ void ProgramPrefix::defineIProgramInterface(IRGenerationContext& context) const 
   PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableList variableList;
   vector<ModelTypeSpecifier*> thrownExceptions;
-  vector<string> packageSpecifier;
-  ModelTypeSpecifier* npeExceptionTypeSpecifier =
-  new ModelTypeSpecifier(packageSpecifier, Names::getNPEModelName());
+  ModelTypeSpecifier* npeExceptionTypeSpecifier = new ModelTypeSpecifier(context.getPackageVector(),
+                                                                         Names::getNPEModelName());
   thrownExceptions.push_back(npeExceptionTypeSpecifier);
   
   MethodSignatureDeclaration* runMethod = new MethodSignatureDeclaration(intTypeSpecifier,
@@ -159,7 +159,9 @@ void ProgramPrefix::defineIProgramInterface(IRGenerationContext& context) const 
   vector<InterfaceTypeSpecifier*> parentInterfaces;
   vector<MethodSignatureDeclaration *> methodSignatureDeclarations;
   methodSignatureDeclarations.push_back(runMethod);
-  InterfaceDefinition programInterface(Names::getIProgramName(),
+  InterfaceTypeSpecifier* interfaceTypeSpecifier =
+    new InterfaceTypeSpecifier(context.getPackageVector(), Names::getIProgramName());
+  InterfaceDefinition programInterface(interfaceTypeSpecifier,
                                        parentInterfaces,
                                        methodSignatureDeclarations);
   

@@ -13,17 +13,18 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+std::string NodeTypeSpecifier::getShortName() const {
+  return mShortName;
+}
+
+std::string NodeTypeSpecifier::getName(IRGenerationContext& context) const {
+  return getFullName(context, mShortName, mPackage);
+}
+
 Node* NodeTypeSpecifier::getType(IRGenerationContext& context) const {
-  string fullName = "";
-  for (string part : mPackage) {
-    fullName.append(part + ".");
-  }
-  fullName.append(mName);
-  
-  return context.getNode(fullName);
+  return context.getNode(getName(context));
 }
 
 void NodeTypeSpecifier::printToStream(IRGenerationContext& context, std::iostream& stream) const {
-  printPackageToStream(stream, mPackage);
-  stream << mName;
+  stream << getName(context);
 }

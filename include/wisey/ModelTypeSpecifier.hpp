@@ -20,15 +20,19 @@ namespace wisey {
  */
 class ModelTypeSpecifier : public IBuildableConcreteObjectTypeSpecifier {
   const std::vector<std::string> mPackage;
-  const std::string mName;
+  const std::string mShortName;
 
 public:
   
-  ModelTypeSpecifier(std::vector<std::string> package, std::string name)
-  : mPackage(package), mName(name) { }
+  ModelTypeSpecifier(std::vector<std::string> package, std::string shortName)
+  : mPackage(package), mShortName(shortName) { }
   
   ~ModelTypeSpecifier() { }
 
+  std::string getShortName() const override;
+  
+  std::string getName(IRGenerationContext& context) const override;
+  
   Model* getType(IRGenerationContext& context) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;

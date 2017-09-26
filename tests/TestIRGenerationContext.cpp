@@ -250,9 +250,7 @@ TEST_F(IRGenerationContextTest, addImportTest) {
 }
 
 TEST_F(IRGenerationContextTest, getImportDeathTest) {
-  EXPECT_EXIT(mContext.getImport("CMyController"),
-              ::testing::ExitedWithCode(1),
-              "Error: Could not find definition for CMyController");
+  ASSERT_EQ(mContext.getImport("CMyController"), nullptr);
 }
 
 TEST_F(IRGenerationContextTest, clearAndAddDefaultImportsDeathTest) {
@@ -263,9 +261,7 @@ TEST_F(IRGenerationContextTest, clearAndAddDefaultImportsDeathTest) {
   mContext.clearAndAddDefaultImports();
   
   EXPECT_NE(mContext.getImport(Names::getIProgramName()), nullptr);
-  EXPECT_EXIT(mContext.getImport("CMyController"),
-              ::testing::ExitedWithCode(1),
-              "Error: Could not find definition for CMyController");
+  EXPECT_EQ(mContext.getImport("CMyController"), nullptr);
 }
 
 TEST_F(IRGenerationContextTest, getThisTest) {

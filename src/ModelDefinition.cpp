@@ -18,6 +18,7 @@ using namespace std;
 using namespace wisey;
 
 ModelDefinition::~ModelDefinition() {
+  delete mModelTypeSpecifier;
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     delete fieldDeclaration;
   }
@@ -33,7 +34,7 @@ ModelDefinition::~ModelDefinition() {
 }
 
 void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = getFullName(context);
+  string fullName = mModelTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Model* model = new Model(fullName, structType);
@@ -41,7 +42,7 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
 }
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Model* model = context.getModel(getFullName(context));
+  Model* model = context.getModel(mModelTypeSpecifier->getName(context));
   vector<Interface*> interfaces = processInterfaces(context);
   vector<IMethod*> methods = createMethods(context);
   model->setMethods(methods);
@@ -64,7 +65,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
-  Model* model = context.getModel(getFullName(context));
+  Model* model = context.getModel(mModelTypeSpecifier->getName(context));
  
   context.getScopes().pushScope();
   context.getScopes().setObjectType(model);
@@ -131,6 +132,3 @@ vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& conte
   return interfaces;
 }
 
-string ModelDefinition::getFullName(IRGenerationContext& context) const {
-  return context.getPackage() + "." + mName;
-}

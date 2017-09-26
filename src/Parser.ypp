@@ -261,16 +261,15 @@ bind_action
   ;
 
 interface_definition
-  : TINTERFACE TINTERFACEIDENTIFIER '{' method_signature_list_optional '}'
+  : TINTERFACE interface_type_specifier '{' method_signature_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaceList;
-      $$ = new InterfaceDefinition(*$2, interfaceList, *$4);
-      delete $2;
+      $$ = new InterfaceDefinition($2, interfaceList, *$4);
       delete $4;
     }
-  | TINTERFACE TINTERFACEIDENTIFIER TEXTENDS interface_list
+  | TINTERFACE interface_type_specifier TEXTENDS interface_list
       '{' method_signature_list_optional '}'
-    { $$ = new InterfaceDefinition(*$2, *$4, *$6); delete $2; delete $4; delete $6; }
+    { $$ = new InterfaceDefinition($2, *$4, *$6); delete $4; delete $6; }
   ;
 
 method_signature_list_optional
@@ -294,24 +293,22 @@ method_signature
   ;
 
 controller_definition
-  : TCONTROLLER TCONTROLLERIDENTIFIER
+  : TCONTROLLER controller_type_specifier
       '{' controller_received_fields_optional controller_injected_fields_optional
       controller_state_fields_optional method_definition_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ControllerDefinition(*$2, *$4, *$5, *$6, *$7, interfaces);
-      delete $2;
+      $$ = new ControllerDefinition($2, *$4, *$5, *$6, *$7, interfaces);
       delete $4;
       delete $5;
       delete $6;
       delete $7;
     }
-  | TCONTROLLER TCONTROLLERIDENTIFIER TIMPLEMENTS interface_list
+  | TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
     '{' controller_received_fields_optional controller_injected_fields_optional
       controller_state_fields_optional method_definition_list_optional '}'
     {
-      $$ = new ControllerDefinition(*$2, *$6, *$7, *$8, *$9, *$4);
-      delete $2;
+      $$ = new ControllerDefinition($2, *$6, *$7, *$8, *$9, *$4);
       delete $6;
       delete $7;
       delete $8;
@@ -391,20 +388,18 @@ controller_state_field_declaration
   ;
 
 node_definition
-  : TNODE TNODEIDENTIFIER '{' node_fixed_fields_optional node_state_fields_optional
+  : TNODE node_type_specifier '{' node_fixed_fields_optional node_state_fields_optional
       method_definition_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new NodeDefinition(*$2, *$4, *$5, *$6, interfaces);
-      delete $2;
+      $$ = new NodeDefinition($2, *$4, *$5, *$6, interfaces);
       delete $4;
       delete $5;
     }
-  | TNODE TNODEIDENTIFIER TIMPLEMENTS interface_list
+  | TNODE node_type_specifier TIMPLEMENTS interface_list
       '{' node_fixed_fields_optional node_state_fields_optional method_definition_list_optional '}'
     {
-      $$ = new NodeDefinition(*$2, *$6, *$7, *$8, *$4);
-      delete $2;
+      $$ = new NodeDefinition($2, *$6, *$7, *$8, *$4);
       delete $6;
       delete $7;
       delete $4;
@@ -412,19 +407,17 @@ node_definition
   ;
 
 model_definition
-  : TMODEL TMODELIDENTIFIER '{' model_fixed_fields_optional method_definition_list_optional '}'
+  : TMODEL model_type_specifier '{' model_fixed_fields_optional method_definition_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ModelDefinition(*$2, *$4, *$5, interfaces);
-      delete $2;
+      $$ = new ModelDefinition($2, *$4, *$5, interfaces);
       delete $4;
       delete $5;
     }
-  | TMODEL TMODELIDENTIFIER TIMPLEMENTS interface_list
+  | TMODEL model_type_specifier TIMPLEMENTS interface_list
       '{' model_fixed_fields_optional method_definition_list_optional '}'
     {
-      $$ = new ModelDefinition(*$2, *$6, *$7, *$4);
-      delete $2;
+      $$ = new ModelDefinition($2, *$6, *$7, *$4);
       delete $6;
       delete $7;
       delete $4;

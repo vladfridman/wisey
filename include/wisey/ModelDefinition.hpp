@@ -14,6 +14,7 @@
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 
 namespace wisey {
   
@@ -21,18 +22,18 @@ namespace wisey {
  * Represents model definition which is analogous to an immutable class in C++
  */
 class ModelDefinition : public IGlobalStatement {
-  const std::string mName;
+  ModelTypeSpecifier* mModelTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<IMethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
-  ModelDefinition(std::string name,
+  ModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
                   std::vector<FieldDeclaration*> fieldDeclarations,
                   std::vector<IMethodDeclaration *> methodDeclarations,
                   std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
-  mName(name),
+  mModelTypeSpecifier(modelTypeSpecifier),
   mFieldDeclarations(fieldDeclarations),
   mMethodDeclarations(methodDeclarations),
   mInterfaceSpecifiers(interfaceSpecifiers) { }
@@ -57,8 +58,6 @@ private:
   std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
     
   std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
-
-  std::string getFullName(IRGenerationContext& context) const;
 
 };
 

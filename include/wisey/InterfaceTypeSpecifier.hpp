@@ -19,14 +19,18 @@ namespace wisey {
  */
 class InterfaceTypeSpecifier : public IObjectTypeSpecifier {
   const std::vector<std::string> mPackage;
-  const std::string mName;
+  const std::string mShortName;
   
 public:
   
-  InterfaceTypeSpecifier(std::vector<std::string> package, std::string name)
-  : mPackage(package), mName(name) { }
+  InterfaceTypeSpecifier(std::vector<std::string> package, std::string shortName)
+  : mPackage(package), mShortName(shortName) { }
   
   ~InterfaceTypeSpecifier() { }
+  
+  std::string getShortName() const override;
+  
+  std::string getName(IRGenerationContext& context) const override;
   
   Interface* getType(IRGenerationContext& context) const override;
   

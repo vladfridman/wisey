@@ -12,18 +12,19 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
-  string fullName = "";
-  for (string part : mPackage) {
-    fullName.append(part + ".");
-  }
-  fullName.append(mName);
+std::string ControllerTypeSpecifier::getShortName() const {
+  return mShortName;
+}
 
-  return context.getController(fullName);
+std::string ControllerTypeSpecifier::getName(IRGenerationContext& context) const {
+  return getFullName(context, mShortName, mPackage);
+}
+
+Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
+  return context.getController(getName(context));
 }
 
 void ControllerTypeSpecifier::printToStream(IRGenerationContext& context,
                                             std::iostream& stream) const {
-  printPackageToStream(stream, mPackage);
-  stream << mName;
+  stream << getName(context);
 }

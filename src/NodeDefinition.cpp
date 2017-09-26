@@ -14,6 +14,7 @@ using namespace std;
 using namespace wisey;
 
 NodeDefinition::~NodeDefinition() {
+  delete mNodeTypeSpecifier;
   for (FieldDeclaration* fieldDeclaration : mFixedFieldDeclarations) {
     delete fieldDeclaration;
   }
@@ -33,7 +34,7 @@ NodeDefinition::~NodeDefinition() {
 }
 
 void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = getFullName(context);
+  string fullName = mNodeTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Node* node = new Node(fullName, structType);
@@ -41,7 +42,7 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
 }
 
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Node* node = context.getNode(getFullName(context));
+  Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
   vector<Interface*> interfaces = processInterfaces(context);
   vector<IMethod*> methods = createMethods(context);
   node->setMethods(methods);
@@ -69,7 +70,7 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
 }
 
 Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
-  Node* node = context.getNode(getFullName(context));
+  Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
   
   context.getScopes().pushScope();
   context.getScopes().setObjectType(node);
@@ -82,10 +83,6 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   context.getScopes().popScope(context);
   
   return NULL;
-}
-
-string NodeDefinition::getFullName(IRGenerationContext& context) const {
-  return context.getPackage() + "." + mName;
 }
 
 vector<Interface*> NodeDefinition::processInterfaces(IRGenerationContext& context) const {

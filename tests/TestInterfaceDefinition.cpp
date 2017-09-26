@@ -59,7 +59,9 @@ struct InterfaceDefinitionTest : public Test {
     methods.push_back(methodSignatureDeclaration);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     
-    mInterfaceDefinition = new InterfaceDefinition("IMyInterface", parentInterfaces, methods);
+    vector<string> package;
+    InterfaceTypeSpecifier* typeSpecifier = new InterfaceTypeSpecifier(package, "IMyInterface");
+    mInterfaceDefinition = new InterfaceDefinition(typeSpecifier, parentInterfaces, methods);
   }
   
   ~InterfaceDefinitionTest() {

@@ -23,12 +23,24 @@ class IObjectTypeSpecifier : public ITypeSpecifier {
     
 public:
   
-  virtual const IObjectType* getType(IRGenerationContext& context) const = 0;
-
   /**
-   * Prints a given package to a stream
+   * Returns the short object type name without the package prefix
    */
-  static void printPackageToStream(std::iostream& stream, std::vector<std::string> package);
+  virtual std::string getShortName() const = 0;
+  
+  /**
+   * Returns the full name with the package prefix
+   */
+  virtual std::string getName(IRGenerationContext& context) const = 0;
+  
+  virtual const IObjectType* getType(IRGenerationContext& context) const = 0;
+  
+  /**
+   * Given the package and the short name return the full name
+   */
+  static std::string getFullName(IRGenerationContext& context,
+                                 std::string shortName,
+                                 std::vector<std::string> package);
   
 };
   

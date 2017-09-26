@@ -97,7 +97,9 @@ struct ControllerDefinitionTest : public Test {
 };
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
-  ControllerDefinition controllerDefinition("CMyController",
+  vector<string> package;
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerDefinition controllerDefinition(typeSpecifier,
                                             mReceivedFields,
                                             mInjectedFields,
                                             mStateFields,
@@ -118,7 +120,9 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
-  ControllerDefinition controllerDefinition("CMyController",
+  vector<string> package;
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerDefinition controllerDefinition(typeSpecifier,
                                             mReceivedFields,
                                             mInjectedFields,
                                             mStateFields,
@@ -135,7 +139,9 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
-  ControllerDefinition controllerDefinition("CMyController",
+  vector<string> package;
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerDefinition controllerDefinition(typeSpecifier,
                                             mReceivedFields,
                                             mInjectedFields,
                                             mStateFields,

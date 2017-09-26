@@ -12,17 +12,18 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Model* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
-  string fullName = "";
-  for (string part : mPackage) {
-    fullName.append(part + ".");
-  }
-  fullName.append(mName);
+std::string ModelTypeSpecifier::getShortName() const {
+  return mShortName;
+}
 
-  return context.getModel(fullName);
+std::string ModelTypeSpecifier::getName(IRGenerationContext& context) const {
+  return getFullName(context, mShortName, mPackage);
+}
+
+Model* ModelTypeSpecifier::getType(IRGenerationContext& context) const {
+  return context.getModel(getName(context));
 }
 
 void ModelTypeSpecifier::printToStream(IRGenerationContext& context, std::iostream& stream) const {
-  printPackageToStream(stream, mPackage);
-  stream << mName;
+  stream << getName(context);
 }

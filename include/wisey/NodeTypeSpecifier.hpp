@@ -20,15 +20,19 @@ namespace wisey {
  */
 class NodeTypeSpecifier : public IBuildableConcreteObjectTypeSpecifier {
   const std::vector<std::string> mPackage;
-  const std::string mName;
+  const std::string mShortName;
   
 public:
   
-  NodeTypeSpecifier(std::vector<std::string> package, std::string name)
-  : mPackage(package), mName(name) { }
+  NodeTypeSpecifier(std::vector<std::string> package, std::string shortName)
+  : mPackage(package), mShortName(shortName) { }
   
   ~NodeTypeSpecifier() { }
   
+  std::string getShortName() const override;
+  
+  std::string getName(IRGenerationContext& context) const override;
+
   Node* getType(IRGenerationContext& context) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;

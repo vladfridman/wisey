@@ -87,7 +87,9 @@ TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
   mFixedFields.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
-  NodeDefinition nodeDefinition("NMyNode",
+  vector<string> package;
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeDefinition nodeDefinition(typeSpecifier,
                                 mFixedFields,
                                 mStateFields,
                                 mMethodDeclarations,
@@ -112,7 +114,9 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   mFixedFields.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
-  NodeDefinition nodeDefinition("NMyNode",
+  vector<string> package;
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeDefinition nodeDefinition(typeSpecifier,
                                 mFixedFields,
                                 mStateFields,
                                 mMethodDeclarations,
@@ -136,7 +140,9 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   mFixedFields.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
-  NodeDefinition nodeDefinition("NMyNode",
+  vector<string> package;
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeDefinition nodeDefinition(typeSpecifier,
                                 mFixedFields,
                                 mStateFields,
                                 mMethodDeclarations,
@@ -195,7 +201,8 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<string> package;
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
-  NodeDefinition nodeDefinition("NMyNode",
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeDefinition nodeDefinition(typeSpecifier,
                                 mFixedFields,
                                 mStateFields,
                                 mMethodDeclarations,
@@ -231,7 +238,9 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
   package.push_back("tests");
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
-  NodeDefinition nodeDefinition("NMyNode",
+  vector<string> packageSpecifier;
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(packageSpecifier, "NMyNode");
+  NodeDefinition nodeDefinition(typeSpecifier,
                                 mFixedFields,
                                 mStateFields,
                                 mMethodDeclarations,

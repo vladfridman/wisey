@@ -83,7 +83,9 @@ TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
   mFields.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
-  ModelDefinition modelDefinition("MMyModel", mFields, mMethodDeclarations, interfaces);
+  vector<string> package;
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
 
@@ -104,7 +106,9 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   mFields.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
-  ModelDefinition modelDefinition("MMyModel", mFields, mMethodDeclarations, interfaces);
+  vector<string> package;
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);
@@ -124,7 +128,9 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   mFields.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
-  ModelDefinition modelDefinition("MMyModel", mFields, mMethodDeclarations, interfaces);
+  vector<string> package;
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
@@ -179,7 +185,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<string> package;
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
-  ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MModel");
+  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
@@ -211,7 +218,9 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   package.push_back("tests");
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
-  ModelDefinition modelDefinition("MModel", mFields, mMethodDeclarations, interfaces);
+  vector<string> packageSpecifier;
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(packageSpecifier, "MModel");
+  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
   modelDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),

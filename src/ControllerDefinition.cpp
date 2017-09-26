@@ -17,6 +17,7 @@ using namespace std;
 using namespace wisey;
 
 ControllerDefinition::~ControllerDefinition() {
+  delete mControllerTypeSpecifier;
   for (FieldDeclaration* fieldDeclaration : mReceivedFieldDeclarations) {
     delete fieldDeclaration;
   }
@@ -40,14 +41,14 @@ ControllerDefinition::~ControllerDefinition() {
 }
 
 void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = getFullName(context);
+  string fullName = mControllerTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Controller* controller = new Controller(fullName, structType);
   context.addController(controller);
 }
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Controller* controller = context.getController(getFullName(context));
+  Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
 
   vector<Interface*> interfaces = processInterfaces(context);
   vector<IMethod*> methods = createMethods(context);
@@ -84,7 +85,7 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
-  Controller* controller = context.getController(getFullName(context));
+  Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
   
   context.getScopes().pushScope();
   context.getScopes().setObjectType(controller);
@@ -209,6 +210,3 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
   }
 }
 
-string ControllerDefinition::getFullName(IRGenerationContext& context) const {
-  return context.getPackage() + "." + mName;
-}

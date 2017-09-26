@@ -11,7 +11,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "TestFileSampleRunner.hpp"
 #include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/Model.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -20,6 +22,7 @@ using namespace wisey;
 using ::testing::Test;
 
 struct IObjectTypeSpecifierTest : public Test {
+  IRGenerationContext mContext;
   vector<string> mPackage;
   
   IObjectTypeSpecifierTest() {
@@ -29,12 +32,23 @@ struct IObjectTypeSpecifierTest : public Test {
   }
 };
 
-TEST_F(IObjectTypeSpecifierTest, printPackageToStreamTest) {
-  stringstream stringStream;
-  IObjectTypeSpecifier::printPackageToStream(stringStream, mPackage);
+TEST_F(IObjectTypeSpecifierTest, getFullNameNameAndPackageTest) {
+  EXPECT_STREQ("systems.vos.wisey.MObject",
+               IObjectTypeSpecifier::getFullName(mContext, "MObject", mPackage).c_str());
   
-  EXPECT_STREQ("systems.vos.wisey.", stringStream.str().c_str());
+  vector<string> package;
+  mContext.setPackage("lang.wisey");
+  EXPECT_STREQ("lang.wisey.MObject",
+               IObjectTypeSpecifier::getFullName(mContext, "MObject", package).c_str());
+  
+  Model* model = new Model("other.wisey.MObject", NULL);
+  mContext.addImport(model);
+  EXPECT_STREQ("other.wisey.MObject",
+               IObjectTypeSpecifier::getFullName(mContext, "MObject", package).c_str());
 }
 
+TEST_F(TestFileSampleRunner, longObjectTypeSpecifiersRunTest) {
+  runFile("tests/samples/test_long_object_type_specifiers.yz", "5");
+}
 
 

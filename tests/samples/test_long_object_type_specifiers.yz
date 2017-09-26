@@ -1,0 +1,26 @@
+package wisey.lang;
+
+interface systems.vos.wisey.compiler.tests.IInterface {
+  int calculate();
+}
+
+model systems.vos.wisey.compiler.tests.MModel {
+
+}
+
+node systems.vos.wisey.compiler.tests.NNode implements systems.vos.wisey.compiler.tests.IInterface {
+  public int calculate() {
+    return 5;
+  }
+}
+
+controller systems.vos.wisey.compiler.tests.CController implements IProgram {
+
+  public int run() {
+    systems.vos.wisey.compiler.tests.NNode* object = 
+      builder(systems.vos.wisey.compiler.tests.NNode).build();
+    return object.calculate();
+  }
+}
+
+bind(systems.vos.wisey.compiler.tests.CController).to(IProgram);

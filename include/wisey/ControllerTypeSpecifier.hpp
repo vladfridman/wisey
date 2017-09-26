@@ -18,14 +18,18 @@ namespace wisey {
  */
 class ControllerTypeSpecifier : public IObjectTypeSpecifier {
   const std::vector<std::string> mPackage;
-  const std::string mName;
+  const std::string mShortName;
   
 public:
   
-  ControllerTypeSpecifier(std::vector<std::string> package, std::string name)
-  : mPackage(package), mName(name) { }
+  ControllerTypeSpecifier(std::vector<std::string> package, std::string shortName)
+  : mPackage(package), mShortName(shortName) { }
   
   ~ControllerTypeSpecifier() { }
+  
+  std::string getShortName() const override;
+  
+  std::string getName(IRGenerationContext& context) const override;
   
   Controller* getType(IRGenerationContext& context) const override;
   

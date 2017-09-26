@@ -21,16 +21,16 @@ namespace wisey {
  * Represents an INTERFACE definition which is analogous to a pure virtual class in C++
  */
 class InterfaceDefinition : public IGlobalStatement {
-  const std::string mName;
+  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
   std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;
   
 public:
   
-  InterfaceDefinition(std::string name,
+  InterfaceDefinition(InterfaceTypeSpecifier* interfaceTypeSpecifier,
                       std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                       std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations) :
-  mName(name),
+  mInterfaceTypeSpecifier(interfaceTypeSpecifier),
   mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
   mMethodSignatureDeclarations(methodSignatureDeclarations) { }
   
@@ -45,8 +45,6 @@ public:
 private:
   
   void defineInterfaceTypeName(IRGenerationContext& context, Interface* interface) const;
-  
-  std::string getFullName(IRGenerationContext& context) const;
 
 };
   

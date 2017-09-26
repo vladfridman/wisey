@@ -17,6 +17,7 @@ using namespace std;
 using namespace wisey;
 
 InterfaceDefinition::~InterfaceDefinition() {
+  delete mInterfaceTypeSpecifier;
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mParentInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -28,7 +29,7 @@ InterfaceDefinition::~InterfaceDefinition() {
 }
 
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = getFullName(context);
+  string fullName = mInterfaceTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Interface* interface = new Interface(fullName, structType);
   context.addInterface(interface);
@@ -36,7 +37,7 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Interface* interface = context.getInterface(getFullName(context));
+  Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName(context));
 
   vector<MethodSignature*> methodSignatures;
   for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
@@ -84,6 +85,3 @@ void InterfaceDefinition::defineInterfaceTypeName(IRGenerationContext& context,
                      interface->getObjectNameGlobalVariableName());
 }
 
-string InterfaceDefinition::getFullName(IRGenerationContext& context) const {
-  return context.getPackage() + "." + mName;
-}

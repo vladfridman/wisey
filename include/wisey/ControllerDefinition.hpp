@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/FieldInjected.hpp"
 #include "wisey/FieldReceived.hpp"
@@ -24,10 +25,10 @@
 namespace wisey {
 
 /**
- * Represents CONTROLLER definition which is analogous to a class in C++ with dependency injection
+ * Represents controller definition which is analogous to a class in C++ with dependency injection
  */
 class ControllerDefinition : public IGlobalStatement {
-  std::string mName;
+  ControllerTypeSpecifier* mControllerTypeSpecifier;
   std::vector<FieldDeclaration*> mReceivedFieldDeclarations;
   std::vector<FieldDeclaration*> mInjectedFieldDeclarations;
   std::vector<FieldDeclaration*> mStateFieldDeclarations;
@@ -36,13 +37,13 @@ class ControllerDefinition : public IGlobalStatement {
   
 public:
   
-  ControllerDefinition(std::string name,
+  ControllerDefinition(ControllerTypeSpecifier* controllerTypeSpecifier,
                        std::vector<FieldDeclaration*> receivedFieldDeclarations,
                        std::vector<FieldDeclaration*> injectedFieldDeclarations,
                        std::vector<FieldDeclaration*> stateFieldDeclarations,
                        std::vector<IMethodDeclaration*> methodDeclarations,
                        std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
-  mName(name),
+  mControllerTypeSpecifier(controllerTypeSpecifier),
   mReceivedFieldDeclarations(receivedFieldDeclarations),
   mInjectedFieldDeclarations(injectedFieldDeclarations),
   mStateFieldDeclarations(stateFieldDeclarations),
@@ -84,7 +85,6 @@ private:
                                            Controller* controller,
                                            std::vector<llvm::Type*>& types) const;
 
-  std::string getFullName(IRGenerationContext& context) const;
 };
 
 } /* namespace wisey */

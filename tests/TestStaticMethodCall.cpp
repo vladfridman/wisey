@@ -230,7 +230,8 @@ TEST_F(StaticMethodCallTest, printToStreamTest) {
   stringstream stringStream;
   staticMethodCall.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("MSquare.foo(argument1, argument2)", stringStream.str().c_str());
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MSquare.foo(argument1, argument2)",
+               stringStream.str().c_str());
 }
 
 TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {

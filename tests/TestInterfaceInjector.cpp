@@ -152,5 +152,5 @@ TEST_F(InterfaceInjectorTest, printToStreamTest) {
   stringstream stringStream;
   interfaceInjector.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("inject(IMyInterface)", stringStream.str().c_str());
+  EXPECT_STREQ("inject(systems.vos.wisey.compiler.tests.IMyInterface)", stringStream.str().c_str());
 }

@@ -165,6 +165,7 @@ TEST_F(ObjectBuilderTest, printToStreamTest) {
   stringstream stringStream;
   mObjectBuilder->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("builder(MShape).withWidth(3).withHeight(5).build()",
+  EXPECT_STREQ("builder(systems.vos.wisey.compiler.tests.MShape)"
+               ".withWidth(3).withHeight(5).build()",
                stringStream.str().c_str());
 }
