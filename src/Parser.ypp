@@ -151,7 +151,7 @@
  * Parsing tree node types
  */
 %type <identifier> identifier
-%type <string> package package_name
+%type <string> package_optional package_name
 %type <expression> string_literal constant expression multiplicative_expression additive_expression
 %type <expression> relational_expression equality_expression
 %type <expression> logical_and_expression logical_or_expression
@@ -221,11 +221,12 @@
 %%
 
 program
-  : package global_statement_list { programFile = new ProgramFile(*$1, *$2); delete $1; delete $2; }
+  : package_optional global_statement_list { programFile = new ProgramFile(*$1, *$2); delete $1; delete $2; }
   ;
 
-package
-  : TPACKAGE package_name ';' { $$ = $2; }
+package_optional
+  : /* blank */ { $$ = new std::string(""); }
+  | TPACKAGE package_name ';' { $$ = $2; }
   ;
 
 package_name

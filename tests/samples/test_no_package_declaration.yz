@@ -1,0 +1,8 @@
+controller systems.vos.wisey.compiler.tests.CProgram implements IProgram {
+
+  public int run() {
+    return 7;
+  }
+}
+
+bind(systems.vos.wisey.compiler.tests.CProgram).to(IProgram);

@@ -101,6 +101,10 @@ TEST_F(TestFileSampleRunner, commentsRunTest) {
   runFile("tests/samples/test_comments.yz", "5");
 }
 
+TEST_F(TestFileSampleRunner, noPackageDeclarationRunTest) {
+  runFile("tests/samples/test_no_package_declaration.yz", "7");
+}
+
 TEST_F(CompilerTest, unterminatedCommentRunDeathTest) {
   string result = TestFileSampleRunner::exec("bin/wiseyc "
                                              "tests/samples/test_unterminated_comment.yz");
