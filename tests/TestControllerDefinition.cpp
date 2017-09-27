@@ -24,7 +24,6 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
-#include "wisey/MethodSignature.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"

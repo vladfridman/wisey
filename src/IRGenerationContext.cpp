@@ -216,7 +216,7 @@ void IRGenerationContext::setPackage(string package) {
     Log::e("Package names should only conain lowercase characters");
     exit(1);
   }
-    
+
   mPackage = package;
 }
 

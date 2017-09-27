@@ -27,6 +27,11 @@ public:
   ~TestFileSampleRunner();
   
   /**
+   * Compiles a file without running it
+   */
+  void compileFile(std::string fileName);
+  
+  /**
    * Compiles a sample file, runs it and checks the result against the expected one.
    */
   void runFile(std::string fileName, std::string expectedResult);

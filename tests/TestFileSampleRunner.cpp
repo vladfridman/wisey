@@ -37,6 +37,11 @@ TestFileSampleRunner::~TestFileSampleRunner() {
   fclose(yyin);
 }
 
+void TestFileSampleRunner::compileFile(string fileName) {
+  mCompilerArguments.addSourceFile(fileName);
+  mCompiler.compile();
+}
+
 void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
   mCompilerArguments.addSourceFile(fileName);
   mCompiler.compile();

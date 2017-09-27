@@ -513,6 +513,12 @@
 		F58A83491F79682300369388 /* libLLVMXCoreDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53060DE1F79494F0098D637 /* libLLVMXCoreDesc.a */; };
 		F58A834A1F79682300369388 /* libLLVMXCoreDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53060DC1F7949430098D637 /* libLLVMXCoreDisassembler.a */; };
 		F58A834B1F79682300369388 /* libLLVMXCoreInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53060E21F7949680098D637 /* libLLVMXCoreInfo.a */; };
+		F58A834E1F7988D600369388 /* ExternalControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */; };
+		F58A834F1F7988D600369388 /* ExternalControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */; };
+		F58A83521F798A6C00369388 /* ExternalModelDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A83511F798A6C00369388 /* ExternalModelDefinition.cpp */; };
+		F58A83531F798A6C00369388 /* ExternalModelDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A83511F798A6C00369388 /* ExternalModelDefinition.cpp */; };
+		F58A83561F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A83551F798B6300369388 /* ExternalNodeDefinition.cpp */; };
+		F58A83571F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58A83551F798B6300369388 /* ExternalNodeDefinition.cpp */; };
 		F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
@@ -606,6 +612,8 @@
 		F5C6FD861E48B7A00054209D /* LongType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD841E48B7A00054209D /* LongType.cpp */; };
 		F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD871E48B7DE0054209D /* TestLongType.cpp */; };
 		F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD891E48D08F0054209D /* TestModel.cpp */; };
+		F5C7D1581F7C256400D65584 /* TestExternalModelDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C7D1571F7C256400D65584 /* TestExternalModelDefinition.cpp */; };
+		F5C7D15A1F7C270800D65584 /* TestExternalNodeDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C7D1591F7C270800D65584 /* TestExternalNodeDefinition.cpp */; };
 		F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */; };
 		F5CB180D1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */; };
 		F5CB180F1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */; };
@@ -623,6 +631,7 @@
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
 		F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */; };
 		F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */; };
+		F5E39A3E1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E39A3D1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp */; };
 		F5E3D64A1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */; };
 		F5E3D64B1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */; };
 		F5E3D64D1F6C19D900FC37CB /* TestPrintOutStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */; };
@@ -1126,6 +1135,12 @@
 		F58725611F70143100FA25E6 /* IPrintStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IPrintStatement.cpp; path = src/IPrintStatement.cpp; sourceTree = "<group>"; };
 		F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrintErrStatement.cpp; path = tests/TestPrintErrStatement.cpp; sourceTree = "<group>"; };
 		F58725661F7178DB00FA25E6 /* wiseyc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wiseyc.cpp; path = src/wiseyc.cpp; sourceTree = "<group>"; };
+		F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalControllerDefinition.hpp; path = include/wisey/ExternalControllerDefinition.hpp; sourceTree = "<group>"; };
+		F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalControllerDefinition.cpp; path = src/ExternalControllerDefinition.cpp; sourceTree = "<group>"; };
+		F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalModelDefinition.hpp; path = include/wisey/ExternalModelDefinition.hpp; sourceTree = "<group>"; };
+		F58A83511F798A6C00369388 /* ExternalModelDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalModelDefinition.cpp; path = src/ExternalModelDefinition.cpp; sourceTree = "<group>"; };
+		F58A83541F798AFC00369388 /* ExternalNodeDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalNodeDefinition.hpp; path = include/wisey/ExternalNodeDefinition.hpp; sourceTree = "<group>"; };
+		F58A83551F798B6300369388 /* ExternalNodeDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalNodeDefinition.cpp; path = src/ExternalNodeDefinition.cpp; sourceTree = "<group>"; };
 		F58B32841E1635850001CC15 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContinueStatement.cpp; path = src/ContinueStatement.cpp; sourceTree = "<group>"; };
 		F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestContinueStatement.cpp; path = tests/TestContinueStatement.cpp; sourceTree = "<group>"; };
 		F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodCall.cpp; path = tests/TestStaticMethodCall.cpp; sourceTree = "<group>"; };
@@ -1201,6 +1216,8 @@
 		F5C6FD841E48B7A00054209D /* LongType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LongType.cpp; path = src/LongType.cpp; sourceTree = "<group>"; };
 		F5C6FD871E48B7DE0054209D /* TestLongType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLongType.cpp; path = tests/TestLongType.cpp; sourceTree = "<group>"; };
 		F5C6FD891E48D08F0054209D /* TestModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModel.cpp; path = tests/TestModel.cpp; sourceTree = "<group>"; };
+		F5C7D1571F7C256400D65584 /* TestExternalModelDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalModelDefinition.cpp; path = tests/TestExternalModelDefinition.cpp; sourceTree = "<group>"; };
+		F5C7D1591F7C270800D65584 /* TestExternalNodeDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalNodeDefinition.cpp; path = tests/TestExternalNodeDefinition.cpp; sourceTree = "<group>"; };
 		F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IntrinsicFunctions.cpp; path = src/IntrinsicFunctions.cpp; sourceTree = "<group>"; };
 		F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIntrinsicFunctions.cpp; path = tests/TestIntrinsicFunctions.cpp; sourceTree = "<group>"; };
 		F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TryCatchStatement.cpp; path = src/TryCatchStatement.cpp; sourceTree = "<group>"; };
@@ -1212,6 +1229,7 @@
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestVariableDeclaration.cpp; path = tests/TestVariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypeSpecifier.cpp; path = src/PrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5E39A3D1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalControllerDefinition.cpp; path = tests/TestExternalControllerDefinition.cpp; sourceTree = "<group>"; };
 		F5E3D6481F6C00DC00FC37CB /* PrintOutStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrintOutStatement.hpp; path = include/wisey/PrintOutStatement.hpp; sourceTree = "<group>"; };
 		F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrintOutStatement.cpp; path = src/PrintOutStatement.cpp; sourceTree = "<group>"; };
 		F5E3D64C1F6C19D900FC37CB /* TestPrintOutStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrintOutStatement.cpp; path = tests/TestPrintOutStatement.cpp; sourceTree = "<group>"; };
@@ -1669,6 +1687,9 @@
 				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
 				F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */,
 				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
+				F5E39A3D1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp */,
+				F5C7D1571F7C256400D65584 /* TestExternalModelDefinition.cpp */,
+				F5C7D1591F7C270800D65584 /* TestExternalNodeDefinition.cpp */,
 				F5E6BD0B1F1B7B1600D59444 /* TestFakeExpression.cpp */,
 				F5BD74681EE5BAC20035E8FC /* TestFieldFixed.cpp */,
 				F59497151F56B9830002F14F /* TestFieldInjected.cpp */,
@@ -2042,6 +2063,9 @@
 				F5089C5E1ECD01D9004A1223 /* ControllerDefinition.hpp */,
 				F53A2C021EEC30F700E76A9E /* ControllerOwner.hpp */,
 				F5089C601ECD01D9004A1223 /* ControllerTypeSpecifier.hpp */,
+				F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */,
+				F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */,
+				F58A83541F798AFC00369388 /* ExternalNodeDefinition.hpp */,
 				F5089C5F1ECD01D9004A1223 /* FieldDeclaration.hpp */,
 				F59497031F569AEC0002F14F /* FieldFixed.hpp */,
 				F594970B1F569E2B0002F14F /* FieldInjected.hpp */,
@@ -2074,6 +2098,9 @@
 				F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */,
 				F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */,
 				F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */,
+				F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */,
+				F58A83511F798A6C00369388 /* ExternalModelDefinition.cpp */,
+				F58A83551F798B6300369388 /* ExternalNodeDefinition.cpp */,
 				F51581231E89B02F009CE419 /* FieldDeclaration.cpp */,
 				F59497041F569C050002F14F /* FieldFixed.cpp */,
 				F594970C1F569E730002F14F /* FieldInjected.cpp */,
@@ -2447,6 +2474,7 @@
 				F5C6FD831E48B7260054209D /* TestIntType.cpp in Sources */,
 				F5ADB6111E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F5F396DE1E3F898900F34296 /* TestObjectBuilderArgument.cpp in Sources */,
+				F58A83531F798A6C00369388 /* ExternalModelDefinition.cpp in Sources */,
 				F508E0671E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
 				F53A2C2D1EFFD5E800E76A9E /* Node.cpp in Sources */,
 				F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
@@ -2474,6 +2502,7 @@
 				F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */,
+				F5C7D15A1F7C270800D65584 /* TestExternalNodeDefinition.cpp in Sources */,
 				F50FA2B81E28BA5600435EEA /* DoStatement.cpp in Sources */,
 				F52F2C991EA95C7B0081DE38 /* TestTryCatch.cpp in Sources */,
 				F50FA2F51E2E3B2E00435EEA /* TestDoubleConstant.cpp in Sources */,
@@ -2513,6 +2542,7 @@
 				F51581301E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
 				F51D2BB71F6921DB00510784 /* TestStaticMethod.cpp in Sources */,
+				F58A834F1F7988D600369388 /* ExternalControllerDefinition.cpp in Sources */,
 				F53A2C161EF020B400E76A9E /* TestModelOwner.cpp in Sources */,
 				F5C6FD681E48B16F0054209D /* TestCharType.cpp in Sources */,
 				F59D821E1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
@@ -2579,6 +2609,7 @@
 				F53A2C4C1F029DC800E76A9E /* TestNullType.cpp in Sources */,
 				F53A2C001EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp in Sources */,
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
+				F5E39A3E1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp in Sources */,
 				F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */,
 				F5A3634A1F373FFE005880B3 /* TestHeapOwnerMethodParameter.cpp in Sources */,
 				F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */,
@@ -2610,6 +2641,7 @@
 				F51581291E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */,
 				F57411641E01BBFC009809FF /* Scope.cpp in Sources */,
 				F58725531F6D749100FA25E6 /* StringType.cpp in Sources */,
+				F5C7D1581F7C256400D65584 /* TestExternalModelDefinition.cpp in Sources */,
 				F5C6FD771E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F58725551F6DB97C00FA25E6 /* TestStringType.cpp in Sources */,
 				F59497121F56A2870002F14F /* FieldReceived.cpp in Sources */,
@@ -2675,6 +2707,7 @@
 				F5E6BD0C1F1B7B1600D59444 /* TestFakeExpression.cpp in Sources */,
 				F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F52FF1821F1B8731003F4D37 /* FakeExpression.cpp in Sources */,
+				F58A83571F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */,
 				F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* StringLiteral.cpp in Sources */,
 				F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */,
@@ -2728,6 +2761,7 @@
 				F53A2C281EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F58725521F6D749100FA25E6 /* StringType.cpp in Sources */,
 				F531B63C1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
+				F58A83521F798A6C00369388 /* ExternalModelDefinition.cpp in Sources */,
 				F57780A51EC673EC0049542D /* EmptyStatement.cpp in Sources */,
 				F5E6BD071F190B4700D59444 /* Composer.cpp in Sources */,
 				F5E209281E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
@@ -2800,6 +2834,7 @@
 				F50FA29E1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F57085FC1E51E2ED007D627E /* MethodCall.cpp in Sources */,
 				F5ADB61B1E5F568400FFC941 /* NegateExpression.cpp in Sources */,
+				F58A834E1F7988D600369388 /* ExternalControllerDefinition.cpp in Sources */,
 				F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F59497111F56A2870002F14F /* FieldReceived.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
@@ -2812,6 +2847,7 @@
 				F50FA2E51E2E3B0900435EEA /* DoubleConstant.cpp in Sources */,
 				F508E0661E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
 				F508E0691E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
+				F58A83561F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */,
 				F5F2F3771EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */,
 				F5A363571F376C90005880B3 /* IFieldVariable.cpp in Sources */,
 				F5C6FD6F1E48B40F0054209D /* BooleanType.cpp in Sources */,

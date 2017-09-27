@@ -22,6 +22,9 @@
   #include "wisey/EmptyExpression.hpp"
   #include "wisey/EmptyStatement.hpp"
   #include "wisey/ExpressionStatement.hpp"
+  #include "wisey/ExternalControllerDefinition.hpp"
+  #include "wisey/ExternalModelDefinition.hpp"
+  #include "wisey/ExternalNodeDefinition.hpp"
   #include "wisey/FieldDeclaration.hpp"
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"
@@ -140,8 +143,8 @@
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
-%token <token> TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXTENDS TDEFAULT TFALLTHROUGH TFALSE
-%token <token> TFINALLY TFOR TIF TIMPLEMENTS TIMPORT TINJECT TINSTANCEOF TINTERFACE
+%token <token> TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH
+%token <token> TFALSE TFINALLY TFOR TIF TIMPLEMENTS TIMPORT TINJECT TINSTANCEOF TINTERFACE
 %token <token> TMODEL TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
 %token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC
 %token <token> TSWITCH TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPECHAR TTYPEDOUBLE 
@@ -169,6 +172,8 @@
 %type <statement> throw_statement try_catch_statement finally_clause
 %type <global_statement> controller_definition interface_definition model_definition
 %type <global_statement> node_definition bind_action import_statement global_statement
+%type <global_statement> object_definition external_object_definition external_model_definition
+%type <global_statement> external_node_definition external_controller_definition
 %type <global_statement_list> global_statement_list
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
@@ -239,12 +244,23 @@ global_statement_list
   ;
 
 global_statement
+  : object_definition
+  | external_object_definition
+  | bind_action
+  | import_statement
+  ;
+
+object_definition
   : model_definition
   | interface_definition
   | controller_definition
   | node_definition
-  | bind_action
-  | import_statement
+  ;
+
+external_object_definition
+  : external_model_definition
+  | external_node_definition
+  | external_controller_definition
   ;
 
 import_statement
@@ -313,6 +329,31 @@ controller_definition
       delete $8;
       delete $9;
       delete $4;
+    }
+  ;
+
+external_controller_definition
+  : TEXTERNAL TCONTROLLER controller_type_specifier
+      '{' controller_received_fields_optional controller_injected_fields_optional
+      controller_state_fields_optional method_signature_list_optional '}'
+    {
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      $$ = new ExternalControllerDefinition($3, *$5, *$6, *$7, *$8, interfaces);
+      delete $5;
+      delete $6;
+      delete $7;
+      delete $8;
+    }
+  | TEXTERNAL TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
+    '{' controller_received_fields_optional controller_injected_fields_optional
+      controller_state_fields_optional method_signature_list_optional '}'
+    {
+      $$ = new ExternalControllerDefinition($3, *$7, *$8, *$9, *$10, *$5);
+      delete $7;
+      delete $8;
+      delete $9;
+      delete $10;
+      delete $5;
     }
   ;
 
@@ -394,6 +435,7 @@ node_definition
       $$ = new NodeDefinition($2, *$4, *$5, *$6, interfaces);
       delete $4;
       delete $5;
+      delete $6;
     }
   | TNODE node_type_specifier TIMPLEMENTS interface_list
       '{' fixed_fields_optional node_state_fields_optional method_definition_list_optional '}'
@@ -401,8 +443,83 @@ node_definition
       $$ = new NodeDefinition($2, *$6, *$7, *$8, *$4);
       delete $6;
       delete $7;
+      delete $8;
       delete $4;
     }
+  ;
+
+external_node_definition
+  : TEXTERNAL TNODE node_type_specifier '{' fixed_fields_list node_state_fields_list
+      method_signature_list_optional '}'
+    {
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      $$ = new ExternalNodeDefinition($3, *$5, *$6, *$7, interfaces);
+      delete $5;
+      delete $6;
+      delete $7;
+    }
+  | TEXTERNAL TNODE node_type_specifier '{' node_state_fields_list
+      method_signature_list_optional '}'
+    {
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      std::vector<FieldDeclaration*> fixedFields;
+      $$ = new ExternalNodeDefinition($3, fixedFields, *$5, *$6, interfaces);
+      delete $5;
+      delete $6;
+    }
+  | TEXTERNAL TNODE node_type_specifier '{' fixed_fields_list
+      method_signature_list_optional '}'
+    {
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      std::vector<FieldDeclaration*> stateFields;
+      $$ = new ExternalNodeDefinition($3, *$5, stateFields, *$6, interfaces);
+      delete $5;
+      delete $6;
+    }
+  | TEXTERNAL TNODE node_type_specifier '{' method_signature_list_optional '}'
+    {
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      std::vector<FieldDeclaration*> fixedFields;
+      std::vector<FieldDeclaration*> stateFields;
+      $$ = new ExternalNodeDefinition($3, fixedFields, stateFields, *$5, interfaces);
+      delete $5;
+    }
+  | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
+      '{' fixed_fields_list node_state_fields_list method_signature_list_optional '}'
+    {
+      $$ = new ExternalNodeDefinition($3, *$7, *$8, *$9, *$5);
+      delete $7;
+      delete $8;
+      delete $9;
+      delete $5;
+    }
+  | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
+      '{' node_state_fields_list method_signature_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> fixedFields;
+      $$ = new ExternalNodeDefinition($3, fixedFields, *$7, *$8, *$5);
+      delete $7;
+      delete $8;
+      delete $5;
+     }
+  | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
+      '{' fixed_fields_list method_signature_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> stateFields;
+      $$ = new ExternalNodeDefinition($3, *$7, stateFields, *$8, *$5);
+      delete $7;
+      delete $8;
+      delete $5;
+     }
+  | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
+      '{' method_signature_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> fixedFields;
+      std::vector<FieldDeclaration*> stateFields;
+      $$ = new ExternalNodeDefinition($3, fixedFields, stateFields, *$7, *$5);
+      delete $7;
+      delete $5;
+     }
   ;
 
 model_definition
@@ -420,6 +537,39 @@ model_definition
       delete $6;
       delete $7;
       delete $4;
+    }
+  ;
+
+external_model_definition
+  : TEXTERNAL TMODEL model_type_specifier '{' fixed_fields_list method_signature_list_optional '}'
+    {
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      $$ = new ExternalModelDefinition($3, *$5, *$6, interfaces);
+      delete $5;
+      delete $6;
+    }
+  | TEXTERNAL TMODEL model_type_specifier '{' method_signature_list_optional '}'
+    {
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      std::vector<FieldDeclaration*> fixedFields;
+      $$ = new ExternalModelDefinition($3, fixedFields, *$5, interfaces);
+      delete $5;
+    }
+  | TEXTERNAL TMODEL model_type_specifier TIMPLEMENTS interface_list 
+      '{' fixed_fields_list method_signature_list_optional '}'
+    {
+      $$ = new ExternalModelDefinition($3, *$7, *$8, *$5);
+      delete $7;
+      delete $8;
+      delete $5;
+    }
+  | TEXTERNAL TMODEL model_type_specifier TIMPLEMENTS interface_list
+      '{' method_signature_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> fixedFields;
+      $$ = new ExternalModelDefinition($3, fixedFields, *$7, *$5);
+      delete $7;
+      delete $5;
     }
   ;
 

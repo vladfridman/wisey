@@ -59,6 +59,7 @@ WS  [ \t\v\n\f]
 "double"                      return TOKEN(TTYPEDOUBLE);
 "else"                        return TOKEN(TELSE);
 "extends"                     return TOKEN(TEXTENDS);
+"external"                    return TOKEN(TEXTERNAL);
 "default"                     return TOKEN(TDEFAULT);
 "fallthrough"                 return TOKEN(TFALLTHROUGH);
 "false"                       return TOKEN(TFALSE);
