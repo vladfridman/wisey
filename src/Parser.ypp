@@ -174,14 +174,12 @@
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
 %type <switch_cases> case_statement_list case_statement_list_with_default
-%type <object_field_vector> model_fixed_fields_list model_fixed_fields_optional 
-%type <object_field_vector> node_fixed_fields_list node_fixed_fields_optional 
+%type <object_field_vector> fixed_fields_list fixed_fields_optional 
 %type <object_field_vector> node_state_fields_list node_state_fields_optional 
 %type <object_field_vector> controller_received_fields_optional controller_received_fields_list
 %type <object_field_vector> controller_injected_fields_optional controller_injected_fields_list
 %type <object_field_vector> controller_state_fields_optional controller_state_fields_list
-%type <object_field> model_fixed_field_declaration 
-%type <object_field> node_fixed_field_declaration node_state_field_declaration
+%type <object_field> fixed_field_declaration node_state_field_declaration
 %type <object_field> controller_received_field_declaration
 %type <object_field> controller_injected_field_declaration
 %type <object_field> controller_state_field_declaration
@@ -389,7 +387,7 @@ controller_state_field_declaration
   ;
 
 node_definition
-  : TNODE node_type_specifier '{' node_fixed_fields_optional node_state_fields_optional
+  : TNODE node_type_specifier '{' fixed_fields_optional node_state_fields_optional
       method_definition_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
@@ -398,7 +396,7 @@ node_definition
       delete $5;
     }
   | TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' node_fixed_fields_optional node_state_fields_optional method_definition_list_optional '}'
+      '{' fixed_fields_optional node_state_fields_optional method_definition_list_optional '}'
     {
       $$ = new NodeDefinition($2, *$6, *$7, *$8, *$4);
       delete $6;
@@ -408,7 +406,7 @@ node_definition
   ;
 
 model_definition
-  : TMODEL model_type_specifier '{' model_fixed_fields_optional method_definition_list_optional '}'
+  : TMODEL model_type_specifier '{' fixed_fields_optional method_definition_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
       $$ = new ModelDefinition($2, *$4, *$5, interfaces);
@@ -416,7 +414,7 @@ model_definition
       delete $5;
     }
   | TMODEL model_type_specifier TIMPLEMENTS interface_list
-      '{' model_fixed_fields_optional method_definition_list_optional '}'
+      '{' fixed_fields_optional method_definition_list_optional '}'
     {
       $$ = new ModelDefinition($2, *$6, *$7, *$4);
       delete $6;
@@ -431,40 +429,19 @@ interface_list
   | interface_list ',' interface_type_specifier { $$ = $1; $$->push_back($3); }
   ;
 
-model_fixed_fields_optional
+fixed_fields_optional
   : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
-  | model_fixed_fields_list
+  | fixed_fields_list
   ;
 
-model_fixed_fields_list
-  : model_fixed_field_declaration
+fixed_fields_list
+  : fixed_field_declaration
     { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
-  | model_fixed_fields_list model_fixed_field_declaration
+  | fixed_fields_list fixed_field_declaration
     { $1->push_back($2); }
   ;
 
-model_fixed_field_declaration
-  : type_specifier TFIELDIDENTIFIER ';'
-    {
-      std::vector<IExpression*> arguments;
-      $$ = new FieldDeclaration(FIXED_FIELD, $1, *$2, arguments);
-      delete $2;
-    }
-  ;
-
-node_fixed_fields_optional
-  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
-  | node_fixed_fields_list
-  ;
-
-node_fixed_fields_list
-  : node_fixed_field_declaration
-    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
-  | node_fixed_fields_list node_fixed_field_declaration
-    { $1->push_back($2); }
-  ;
-
-node_fixed_field_declaration
+fixed_field_declaration
   : type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
