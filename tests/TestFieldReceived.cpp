@@ -52,6 +52,7 @@ TEST_F(FieldReceivedTest, fieldReceivedObjectCreationTest) {
   EXPECT_EQ(field.getArguments().size(), 1u);
   EXPECT_EQ(field.getArguments().at(0), mExpression);
   EXPECT_TRUE(field.isAssignable());
+  EXPECT_EQ(field.getFieldKind(), FieldKind::RECEIVED_FIELD);
 }
 
 TEST_F(FieldReceivedTest, printToStreamTest) {

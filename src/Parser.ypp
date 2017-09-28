@@ -26,6 +26,7 @@
   #include "wisey/ExternalModelDefinition.hpp"
   #include "wisey/ExternalNodeDefinition.hpp"
   #include "wisey/FieldDeclaration.hpp"
+  #include "wisey/FieldKind.hpp"
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"
   #include "wisey/IBuildableConcreteObjectTypeSpecifier.hpp"
@@ -373,7 +374,7 @@ controller_received_field_declaration
   : TRECEIVE type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new FieldDeclaration(RECEIVED_FIELD, $2, *$3, arguments);
+      $$ = new FieldDeclaration(FieldKind::RECEIVED_FIELD, $2, *$3, arguments);
       delete $3;
     }
   ;
@@ -394,7 +395,7 @@ controller_injected_field_declaration
   : TINJECT type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new FieldDeclaration(INJECTED_FIELD, $2, *$3, arguments);
+      $$ = new FieldDeclaration(FieldKind::INJECTED_FIELD, $2, *$3, arguments);
       delete $3;
     }
   | TINJECT type_specifier TFIELDIDENTIFIER '(' call_arguments ')' ';'
@@ -422,7 +423,7 @@ controller_state_field_declaration
   : TSTATE type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new FieldDeclaration(STATE_FIELD, $2, *$3, arguments);
+      $$ = new FieldDeclaration(FieldKind::STATE_FIELD, $2, *$3, arguments);
       delete $3;
     }
   ;
@@ -595,7 +596,7 @@ fixed_field_declaration
   : type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
-      $$ = new FieldDeclaration(FIXED_FIELD, $1, *$2, arguments);
+      $$ = new FieldDeclaration(FieldKind::FIXED_FIELD, $1, *$2, arguments);
       delete $2;
     }
   ;

@@ -36,6 +36,10 @@ bool FieldFixed::isAssignable() const {
   return false;
 }
 
+FieldKind FieldFixed::getFieldKind() const {
+  return FieldKind::FIXED_FIELD;
+}
+
 void FieldFixed::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << "  " << getType()->getName() << " " << getName() << ";" << endl;
 }

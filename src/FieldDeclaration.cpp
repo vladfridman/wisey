@@ -20,8 +20,8 @@ FieldDeclaration::~FieldDeclaration() {
   mArguments.clear();
 }
 
-FieldQualifier FieldDeclaration::getFieldQualifier() const {
-  return mFieldQualifier;
+FieldKind FieldDeclaration::getFieldKind() const {
+  return mFieldKind;
 }
 
 ITypeSpecifier* FieldDeclaration::getTypeSpecifier() const {

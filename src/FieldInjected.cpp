@@ -36,6 +36,10 @@ bool FieldInjected::isAssignable() const {
   return false;
 }
 
+FieldKind FieldInjected::getFieldKind() const {
+  return FieldKind::INJECTED_FIELD;
+}
+
 void FieldInjected::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << "  inject " << getType()->getName() << " " << getName();
   if (!mArguments.size()) {

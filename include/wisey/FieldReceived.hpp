@@ -46,6 +46,8 @@ public:
   
   bool isAssignable() const override;
   
+  FieldKind getFieldKind() const override;
+
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 };

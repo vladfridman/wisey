@@ -62,6 +62,7 @@ TEST_F(FieldInjectedTest, fieldInjectedObjectCreationTest) {
   EXPECT_EQ(field.getArguments().size(), 1u);
   EXPECT_EQ(field.getArguments().at(0), mExpression);
   EXPECT_FALSE(field.isAssignable());
+  EXPECT_EQ(field.getFieldKind(), FieldKind::INJECTED_FIELD);
 }
 
 TEST_F(FieldInjectedTest, printToStreamTest) {

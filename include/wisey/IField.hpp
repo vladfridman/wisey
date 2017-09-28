@@ -9,12 +9,13 @@
 #ifndef IField_h
 #define IField_h
 
+#include "wisey/FieldKind.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IPrintable.hpp"
 #include "wisey/IType.hpp"
 
 namespace wisey {
-  
+
 /**
  * Interface representing a concrete object's field
  */
@@ -48,7 +49,12 @@ public:
    * Tells whether this field is assignable
    */
   virtual bool isAssignable() const = 0;
-
+  
+  /**
+   * Returns field kind: fixed, state, injected or received
+   */
+  virtual FieldKind getFieldKind() const = 0;
+  
 };
 
 } /* namespace wisey */

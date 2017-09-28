@@ -787,6 +787,7 @@
 		F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodDescriptor.cpp; path = src/IMethodDescriptor.cpp; sourceTree = "<group>"; };
 		F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIMethodDescriptor.cpp; path = tests/TestIMethodDescriptor.cpp; sourceTree = "<group>"; };
 		F508E06E1E73076E005D6115 /* Environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Environment.cpp; path = src/Environment.cpp; sourceTree = "<group>"; };
+		F509E75C1F7D0A6E00F96C14 /* FieldKind.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldKind.hpp; path = include/wisey/FieldKind.hpp; sourceTree = "<group>"; };
 		F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IGlobalStatement.hpp; path = include/wisey/IGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockGlobalStatement.hpp; path = tests/include/MockGlobalStatement.hpp; sourceTree = "<group>"; };
 		F50FA29D1E2693F400435EEA /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CompoundStatement.cpp; path = src/CompoundStatement.cpp; sourceTree = "<group>"; };
@@ -2069,6 +2070,7 @@
 				F5089C5F1ECD01D9004A1223 /* FieldDeclaration.hpp */,
 				F59497031F569AEC0002F14F /* FieldFixed.hpp */,
 				F594970B1F569E2B0002F14F /* FieldInjected.hpp */,
+				F509E75C1F7D0A6E00F96C14 /* FieldKind.hpp */,
 				F594970F1F56A1E00002F14F /* FieldReceived.hpp */,
 				F59497071F569D6A0002F14F /* FieldState.hpp */,
 				F5089C771ECD01D9004A1223 /* Interface.hpp */,

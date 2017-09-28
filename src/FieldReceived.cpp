@@ -36,6 +36,10 @@ bool FieldReceived::isAssignable() const {
   return true;
 }
 
+FieldKind FieldReceived::getFieldKind() const {
+  return FieldKind::RECEIVED_FIELD;
+}
+
 void FieldReceived::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << "  receive " << getType()->getName() << " " << getName() << ";" << endl;
 }

@@ -195,7 +195,7 @@ void ControllerDefinition::createFieldVariablesForDeclarations(IRGenerationConte
   for (FieldDeclaration* fieldDeclaration : declarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
 
-    if (fieldDeclaration->getFieldQualifier() == INJECTED_FIELD &&
+    if (fieldDeclaration->getFieldKind() == INJECTED_FIELD &&
         fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
       Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
       fieldType = context.getBoundController(interface);

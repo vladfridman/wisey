@@ -9,45 +9,35 @@
 #ifndef FieldDeclaration_h
 #define FieldDeclaration_h
 
+#include "wisey/FieldKind.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
   
 /**
- * Lists possible controller field qualifiers
- */
-typedef enum FieldQualifierEnum {
-  FIXED_FIELD,
-  RECEIVED_FIELD,
-  INJECTED_FIELD,
-  STATE_FIELD,
-} FieldQualifier;
-  
-/**
- * Represents a field in CONTROLLER definition
+ * Represents a field in controller definition
  */
 class FieldDeclaration {
-  
-  FieldQualifier mFieldQualifier;
+  FieldKind mFieldKind;
   ITypeSpecifier* mTypeSpecifier;
   std::string mName;
   ExpressionList mArguments;
   
 public:
   
-  FieldDeclaration(FieldQualifier fieldQualifier,
-                             ITypeSpecifier* typeSpecifier,
-                             std::string name,
-                             ExpressionList arguments) :
-  mFieldQualifier(fieldQualifier),
+  FieldDeclaration(FieldKind fieldKind,
+                   ITypeSpecifier* typeSpecifier,
+                   std::string name,
+                   ExpressionList arguments) :
+  mFieldKind(fieldKind),
   mTypeSpecifier(typeSpecifier),
   mName(name),
   mArguments(arguments) { }
   
   ~FieldDeclaration();
   
-  FieldQualifier getFieldQualifier() const;
+  FieldKind getFieldKind() const;
   
   ITypeSpecifier* getTypeSpecifier() const;
   
