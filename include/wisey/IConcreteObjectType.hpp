@@ -13,6 +13,7 @@
 
 #include "wisey/IField.hpp"
 #include "wisey/IMethod.hpp"
+#include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IObjectType.hpp"
 
 namespace wisey {
@@ -107,7 +108,7 @@ public:
   /**
    * Finds a method with a given name.
    */
-  virtual IMethod* findMethod(std::string methodName) const = 0;
+  virtual IMethodDescriptor* findMethod(std::string methodName) const = 0;
   
   /**
    * Get list of all methods
