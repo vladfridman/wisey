@@ -46,10 +46,10 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
-    map<string, IField*> fields;
-    ExpressionList fieldArguments;
-    fields["width"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
-    fields["height"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
+    vector<Field*> fields;
+    ExpressionList arguments;
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", 0, arguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", 1, arguments));
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

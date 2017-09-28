@@ -14,9 +14,6 @@
 
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/FieldInjected.hpp"
-#include "wisey/FieldReceived.hpp"
-#include "wisey/FieldState.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/IMethodDeclaration.hpp"
@@ -62,17 +59,17 @@ private:
   
   std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
 
-  std::vector<FieldReceived*> createReceivedFields(IRGenerationContext& context,
-                                                   std::vector<FieldDeclaration*> declarations,
-                                                   unsigned long startIndex) const;
+  std::vector<Field*> createReceivedFields(IRGenerationContext& context,
+                                           std::vector<FieldDeclaration*> declarations,
+                                           unsigned long startIndex) const;
 
-  std::vector<FieldInjected*> createInjectedFields(IRGenerationContext& context,
-                                                   std::vector<FieldDeclaration*> declarations,
-                                                   unsigned long startIndex) const;
+  std::vector<Field*> createInjectedFields(IRGenerationContext& context,
+                                           std::vector<FieldDeclaration*> declarations,
+                                           unsigned long startIndex) const;
 
-  std::vector<FieldState*> createStateFields(IRGenerationContext& context,
-                                                std::vector<FieldDeclaration*> declarations,
-                                                unsigned long startIndex) const;
+  std::vector<Field*> createStateFields(IRGenerationContext& context,
+                                        std::vector<FieldDeclaration*> declarations,
+                                        unsigned long startIndex) const;
 
   std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
 

@@ -36,15 +36,11 @@ struct BindActionTest : public Test {
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
-    vector<FieldReceived*> controllerReceivedFields;
-    vector<FieldInjected*> controllerInjectedFields;
-    vector<FieldState*> controllerStateFields;
+    vector<Field*> controllerFields;
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
     mController = new Controller(controllerFullName, controllerStructType);
-    mController->setFields(controllerReceivedFields,
-                           controllerInjectedFields,
-                           controllerStateFields);
+    mController->setFields(controllerFields);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
     

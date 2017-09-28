@@ -53,10 +53,10 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
     StructType* structType = StructType::create(mLLVMContext, "MObject");
     structType->setBody(types);
-    map<string, IField*> fields;
+    vector<Field*> fields;
     ExpressionList fieldArguments;
-    fields["foo"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
-    fields["bar"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments));
     mModel = new Model(modelFullName, structType);
     mModel->setFields(fields);
 }

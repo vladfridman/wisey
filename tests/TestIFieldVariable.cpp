@@ -15,7 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/HeapReferenceVariable.hpp"
-#include "wisey/FieldFixed.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IFieldVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -34,8 +34,8 @@ struct IFieldVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Node* mNode;
-  FieldState* mFieldState;
-  FieldFixed* mFieldFixed;
+  Field* mStateField;
+  Field* mFixedField;
   
   BasicBlock* mBasicBlock;
   string mStringBuffer;
@@ -48,15 +48,13 @@ struct IFieldVariableTest : Test {
     string nodeFullName = "systems.vos.wisey.compiler.tests.NNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, nodeFullName);
     nodeStructType->setBody(types);
-    vector<FieldFixed*> nodeFixedFields;
-    vector<FieldState*> nodeStateFields;
-    mFieldFixed = new FieldFixed(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
-    mFieldState = new FieldState(PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
-    nodeFixedFields.push_back(mFieldFixed);
-    nodeStateFields.push_back(mFieldState);
+    vector<Field*> nodeFields;
+    mFixedField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments);
+    mStateField = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
+    nodeFields.push_back(mFixedField);
+    nodeFields.push_back(mStateField);
     mNode = new Node(nodeFullName, nodeStructType);
-    mNode->setFields(nodeFixedFields, nodeStateFields);
-    
+    mNode->setFields(nodeFields);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -82,7 +80,7 @@ struct IFieldVariableTest : Test {
 };
 
 TEST_F(IFieldVariableTest, checkAndFindFieldForAssignmentTest) {
-  EXPECT_EQ(IFieldVariable::checkAndFindFieldForAssignment(mContext, mNode, "bar"), mFieldState);
+  EXPECT_EQ(IFieldVariable::checkAndFindFieldForAssignment(mContext, mNode, "bar"), mStateField);
 }
 
 TEST_F(IFieldVariableTest, getFieldPointerTest) {

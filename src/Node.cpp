@@ -26,33 +26,37 @@ Node::Node(string name, StructType* structType) {
 }
 
 Node::~Node() {
-  for (FieldFixed* field : mFixedFields) {
+  for(map<std::string, Field*>::iterator iterator = mFields.begin();
+      iterator != mFields.end();
+      iterator++) {
+    Field* field = iterator->second;
     delete field;
   }
+  mFields.clear();
   mFixedFields.clear();
-  for (FieldState* field : mStateFields) {
-    delete field;
-  }
   mStateFields.clear();
   for (IMethod* method : mMethods) {
     delete method;
   }
   mMethods.clear();
-  mFields.clear();
   mNameToMethodMap.clear();
   mInterfaces.clear();
   mFlattenedInterfaceHierarchy.clear();
 }
 
-void Node::setFields(vector<FieldFixed*> fixedFields, vector<FieldState*> stateFields) {
-  mFixedFields = fixedFields;
-  mStateFields = stateFields;
-  
-  for (IField* field : fixedFields) {
+void Node::setFields(vector<Field*> fields) {
+  for (Field* field : fields) {
     mFields[field->getName()] = field;
-  }
-  for (IField* field : stateFields) {
-    mFields[field->getName()] = field;
+    switch (field->getFieldKind()) {
+      case FieldKind::FIXED_FIELD :
+        mFixedFields.push_back(field);
+        break;
+      case FieldKind::STATE_FIELD :
+        mStateFields.push_back(field);
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -83,7 +87,7 @@ void Node::setStructBodyTypes(vector<Type*> types) {
   mStructType->setBody(types);
 }
 
-IField* Node::findField(string fieldName) const {
+Field* Node::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
   }
@@ -91,7 +95,7 @@ IField* Node::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-map<string, IField*> Node::getFields() const {
+map<string, Field*> Node::getFields() const {
   return mFields;
 }
 
@@ -173,7 +177,7 @@ const IObjectOwnerType* Node::getOwner() const {
 vector<string> Node::getMissingFields(set<string> givenFields) const {
   vector<string> missingFields;
   
-  for (FieldFixed* fixedField : mFixedFields) {
+  for (Field* fixedField : mFixedFields) {
     if (givenFields.find(fixedField->getName()) == givenFields.end()) {
       missingFields.push_back(fixedField->getName());
     }
@@ -250,7 +254,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);
     const IType* argumentType = argument->getType(context);
-    IField* field = findField(argumentName);
+    Field* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     if (!argumentType->canAutoCastTo(field->getType())) {
@@ -277,7 +281,7 @@ void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* mallo
   Value *index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   
-  for (IField* field : mStateFields) {
+  for (Field* field : mStateFields) {
     const IType* fieldType = field->getType();
     Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);
     

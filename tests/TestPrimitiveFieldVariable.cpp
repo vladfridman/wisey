@@ -50,12 +50,11 @@ struct PrimitiveFieldVariableTest : Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    vector<FieldFixed*> fixedFields;
-    vector<FieldState*> stateFields;
-    ExpressionList fieldArguments;
-    stateFields.push_back(new FieldState(PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments));
+    vector<Field*> fields;
+    ExpressionList arguments;
+    fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "foo", 0, arguments));
     mObject = new Node(objectFullName, objectStructType);
-    mObject->setFields(fixedFields, stateFields);
+    mObject->setFields(fields);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

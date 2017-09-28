@@ -10,9 +10,6 @@
 #define ExternalNodeDefinition_h
 
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/FieldFixed.hpp"
-#include "wisey/FieldInjected.hpp"
-#include "wisey/FieldState.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"

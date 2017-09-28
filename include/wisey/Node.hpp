@@ -13,8 +13,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/FieldFixed.hpp"
-#include "wisey/FieldState.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
@@ -31,9 +30,9 @@ class Node : public IBuildableConcreteObjectType {
   std::string mName;
   NodeOwner* mNodeOwner;
   llvm::StructType* mStructType;
-  std::vector<FieldFixed*> mFixedFields;
-  std::vector<FieldState*> mStateFields;
-  std::map<std::string, IField*> mFields;
+  std::vector<Field*> mFixedFields;
+  std::vector<Field*> mStateFields;
+  std::map<std::string, Field*> mFields;
   std::vector<IMethod*> mMethods;
   std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
@@ -48,7 +47,7 @@ public:
   /**
    * Set fixed and state fields to the given lists of fields
    */
-  void setFields(std::vector<FieldFixed*> fixedFields, std::vector<FieldState*> stateFields);
+  void setFields(std::vector<Field*>);
 
   /**
    * Set interfaces for this node
@@ -73,9 +72,9 @@ public:
   llvm::Instruction* build(IRGenerationContext& context,
                            const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const override;
   
-  IField* findField(std::string fieldName) const override;
+  Field* findField(std::string fieldName) const override;
   
-  std::map<std::string, IField*> getFields() const override;
+  std::map<std::string, Field*> getFields() const override;
   
   IMethod* findMethod(std::string methodName) const override;
   

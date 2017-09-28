@@ -11,9 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/FieldInjected.hpp"
-#include "wisey/FieldReceived.hpp"
-#include "wisey/FieldState.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IMethod.hpp"
@@ -30,11 +28,11 @@ class Controller : public IConcreteObjectType {
   std::string mName;
   ControllerOwner* mControllerOwner;
   llvm::StructType* mStructType;
-  std::vector<FieldReceived*> mReceivedFields;
-  std::vector<FieldInjected*> mInjectedFields;
-  std::vector<FieldState*> mStateFields;
+  std::vector<Field*> mReceivedFields;
+  std::vector<Field*> mInjectedFields;
+  std::vector<Field*> mStateFields;
   std::vector<IMethod*> mMethods;
-  std::map<std::string, IField*> mFields;
+  std::map<std::string, Field*> mFields;
   std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
@@ -48,9 +46,7 @@ public:
   /**
    * Set received, injected and state fields to the given lists of fields
    */
-  void setFields(std::vector<FieldReceived*> receivedFields,
-                 std::vector<FieldInjected*> injectedFields,
-                 std::vector<FieldState*> stateFields);
+  void setFields(std::vector<Field*> fields);
 
   /**
    * Set interfaces for this controller
@@ -72,9 +68,9 @@ public:
    */
   llvm::Instruction* inject(IRGenerationContext& context, ExpressionList expressionList) const;
   
-  IField* findField(std::string fieldName) const override;
+  Field* findField(std::string fieldName) const override;
   
-  std::map<std::string, IField*> getFields() const override;
+  std::map<std::string, Field*> getFields() const override;
   
   IMethod* findMethod(std::string methodName) const override;
   

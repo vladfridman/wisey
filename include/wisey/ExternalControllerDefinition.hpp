@@ -14,9 +14,6 @@
 
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/FieldInjected.hpp"
-#include "wisey/FieldReceived.hpp"
-#include "wisey/FieldState.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"

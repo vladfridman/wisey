@@ -16,7 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "wisey/IField.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -43,9 +43,9 @@ struct ObjectBuilderArgumentTest : Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
-    map<string, IField*> fields;
-    ExpressionList fieldArguments;
-    fields["mFieldA"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "mFieldA", 0, fieldArguments);
+    vector<Field*> fields;
+    ExpressionList arguments;
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", 0, arguments));
     mModel = new Model(modelFullName, structType);
     mModel->setFields(fields);
     

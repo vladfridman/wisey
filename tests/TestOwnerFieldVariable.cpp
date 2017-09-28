@@ -68,13 +68,12 @@ struct OwnerFieldVariableTest : Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
-    vector<FieldFixed*> fixedFields;
-    vector<FieldState*> stateFields;
+    vector<Field*> fields;
     ExpressionList fieldArguments;
-    stateFields.push_back(new FieldState(mNode->getOwner(), "foo", 0, fieldArguments));
-    stateFields.push_back(new FieldState(mInterface->getOwner(), "bar", 1, fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mNode->getOwner(), "foo", 0, fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mInterface->getOwner(), "bar", 1, fieldArguments));
     mObject = new Node(objectFullName, objectStructType);
-    mObject->setFields(fixedFields, stateFields);
+    mObject->setFields(fields);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

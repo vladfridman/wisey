@@ -44,8 +44,8 @@ struct ModelOwnerTest : public Test {
   Interface* mObjectInterface;
   Interface* mCarInterface;
   StructType* mStructType;
-  FieldFixed* mWidthField;
-  FieldFixed* mHeightField;
+  Field* mWidthField;
+  Field* mHeightField;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   NiceMock<MockExpression>* mField3Expression;
@@ -65,12 +65,10 @@ struct ModelOwnerTest : public Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
-    map<string, IField*> fields;
-    ExpressionList fieldArguments;
-    mWidthField = new FieldFixed(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
-    mHeightField = new FieldFixed(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
-    fields["width"] = mWidthField;
-    fields["height"] = mHeightField;
+    vector<Field*> fields;
+    ExpressionList arguments;
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", 0, arguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", 1, arguments));
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     IMethod* method = new Method("foo",
@@ -174,12 +172,17 @@ struct ModelOwnerTest : public Test {
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
-    map<string, IField*> starFields;
-    starFields["mBrightness"] = new FieldFixed(PrimitiveTypes::INT_TYPE,
-                                               "mBrightness",
-                                               0,
-                                               fieldArguments);
-    starFields["mWeight"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "mWeight", 1, fieldArguments);
+    vector<Field*> starFields;
+    starFields.push_back(new Field(FIXED_FIELD,
+                                   PrimitiveTypes::INT_TYPE,
+                                   "mBrightness",
+                                   0,
+                                   arguments));
+    starFields.push_back(new Field(FIXED_FIELD,
+                                   PrimitiveTypes::INT_TYPE,
+                                   "mWeight",
+                                   1,
+                                   arguments));
     mStarModel = new Model(starFullName, starStructType);
     mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);

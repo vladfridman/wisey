@@ -43,8 +43,8 @@ struct ControllerTest : public Test {
   Interface* mVehicleInterface;
   IMethod* mMethod;
   StructType* mStructType;
-  FieldReceived* mLeftField;
-  FieldReceived* mRightField;
+  Field* mLeftField;
+  Field* mRightField;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock *mBasicBlock;
@@ -112,14 +112,12 @@ struct ControllerTest : public Test {
     string multiplierFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     mStructType = StructType::create(mLLVMContext, multiplierFullName);
     mStructType->setBody(types);
-    vector<FieldReceived*> receivedFields;
-    vector<FieldInjected*> injectedFields;
-    vector<FieldState*> stateFields;
+    vector<Field*> fields;
     ExpressionList fieldArguments;
-    mLeftField = new FieldReceived(PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments);
-    mRightField = new FieldReceived(PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments);
-    receivedFields.push_back(mLeftField);
-    receivedFields.push_back(mRightField);
+    mLeftField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments);
+    mRightField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments);
+    fields.push_back(mLeftField);
+    fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     mMethod = new Method("calculate",
@@ -143,7 +141,7 @@ struct ControllerTest : public Test {
     interfaces.push_back(mObjectInterface);
     
     mMultiplierController = new Controller(multiplierFullName, mStructType);
-    mMultiplierController->setFields(receivedFields, injectedFields, stateFields);
+    mMultiplierController->setFields(fields);
     mMultiplierController->setMethods(methods);
     mMultiplierController->setInterfaces(interfaces);
     
@@ -153,19 +151,19 @@ struct ControllerTest : public Test {
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType *additorStructType = StructType::create(mLLVMContext, additorFullName);
     additorStructType->setBody(additorTypes);
-    vector<FieldReceived*> additorReceivedFields;
-    vector<FieldInjected*> additorInjectedFields;
-    vector<FieldState*> additorStateFields;
-    additorReceivedFields.push_back(new FieldReceived(PrimitiveTypes::INT_TYPE,
-                                                      "left",
-                                                      0,
-                                                      fieldArguments));
-    additorReceivedFields.push_back(new FieldReceived(PrimitiveTypes::INT_TYPE,
-                                              "right",
-                                              1,
-                                              fieldArguments));
+    vector<Field*> additorFields;
+    additorFields.push_back(new Field(RECEIVED_FIELD,
+                                      PrimitiveTypes::INT_TYPE,
+                                      "left",
+                                      0,
+                                      fieldArguments));
+    additorFields.push_back(new Field(RECEIVED_FIELD,
+                                      PrimitiveTypes::INT_TYPE,
+                                      "right",
+                                      1,
+                                      fieldArguments));
     mAdditorController = new Controller(additorFullName, additorStructType);
-    mAdditorController->setFields(additorReceivedFields, additorInjectedFields, additorStateFields);
+    mAdditorController->setFields(additorFields);
     mContext.addController(mMultiplierController);
 
     vector<Type*> doublerTypes;
@@ -174,17 +172,14 @@ struct ControllerTest : public Test {
     string doublerFullName = "systems.vos.wisey.compiler.tests.CDoubler";
     StructType* doublerStructType = StructType::create(mLLVMContext, doublerFullName);
     doublerStructType->setBody(doublerTypes);
-    vector<FieldReceived*> doublerReceivedFields;
-    vector<FieldInjected*> doublerInjectedFields;
-    vector<FieldState*> doublerStateFields;
-    doublerInjectedFields.push_back(new FieldInjected(PrimitiveTypes::INT_TYPE,
-                                                      "left",
-                                                      0,
-                                                      fieldArguments));
+    vector<Field*> doublerFields;
+    doublerFields.push_back(new Field(INJECTED_FIELD,
+                                      PrimitiveTypes::INT_TYPE,
+                                      "left",
+                                      0,
+                                      fieldArguments));
     mDoublerController = new Controller(doublerFullName, doublerStructType);
-    mDoublerController->setFields(doublerReceivedFields,
-                                  doublerInjectedFields,
-                                  doublerStateFields);
+    mDoublerController->setFields(doublerFields);
     mContext.addController(mDoublerController);
 
     vector<Type*> vehicleInterfaceTypes;
@@ -437,11 +432,9 @@ TEST_F(ControllerTest, injectFieldTest) {
   string childFullName = "systems.vos.wisey.compiler.tests.CChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
   childStructType->setBody(childTypes);
-  vector<FieldReceived*> childReceivedFields;
-  vector<FieldInjected*> childInjectedFields;
-  vector<FieldState*> childStateFields;
+  vector<Field*> childFields;
   Controller* childController = new Controller(childFullName, childStructType);
-  childController->setFields(childReceivedFields, childInjectedFields, childStateFields);
+  childController->setFields(childFields);
   mContext.addController(childController);
 
   vector<Type*> parentTypes;
@@ -449,15 +442,14 @@ TEST_F(ControllerTest, injectFieldTest) {
   string parentFullName = "systems.vos.wisey.compiler.tests.CParent";
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
   parentStructType->setBody(parentTypes);
-  vector<FieldReceived*> parentReceivedFields;
-  vector<FieldInjected*> parentInjectedFields;
-  vector<FieldState*> parentStateFields;
-  parentInjectedFields.push_back(new FieldInjected(childController->getOwner(),
-                                                   "mChild",
-                                                   0,
-                                                   fieldArguments));
+  vector<Field*> parentFields;
+  parentFields.push_back(new Field(INJECTED_FIELD,
+                                   childController->getOwner(),
+                                   "mChild",
+                                   0,
+                                   fieldArguments));
   Controller* parentController = new Controller(parentFullName, parentStructType);
-  parentController->setFields(parentReceivedFields, parentInjectedFields, parentStateFields);
+  parentController->setFields(parentFields);
   mContext.addController(parentController);
 
   ExpressionList injectionArguments;

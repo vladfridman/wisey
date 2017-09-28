@@ -63,10 +63,10 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
     StructType* structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
-    map<string, IField*> fields;
+    vector<Field*> fields;
     ExpressionList fieldArguments;
-    fields["width"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments);
-    fields["height"] = new FieldFixed(PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments);
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments));
     mModel = new Model(modelFullName, structType);
     mModel->setFields(fields);
     

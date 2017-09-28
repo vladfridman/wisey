@@ -50,11 +50,14 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   
   // In object struct fields start after vTables for all its interfaces
   unsigned long offset = node->getInterfaces().size();
-  vector<FieldFixed*> fixedFields = createFixedFields(context, mFixedFieldDeclarations, offset);
-  vector<FieldState*> stateFields = createStateFields(context,
-                                                      mStateFieldDeclarations,
-                                                      offset + fixedFields.size());
-  node->setFields(fixedFields, stateFields);
+  vector<Field*> fixedFields = createFixedFields(context, mFixedFieldDeclarations, offset);
+  vector<Field*> stateFields = createStateFields(context,
+                                                 mStateFieldDeclarations,
+                                                 offset + fixedFields.size());
+  vector<Field*> allFields;
+  allFields.insert(allFields.end(), fixedFields.begin(), fixedFields.end());
+  allFields.insert(allFields.end(), stateFields.begin(), stateFields.end());
+  node->setFields(allFields);
   
   vector<Type*> types;
   for (Interface* interface : node->getInterfaces()) {
@@ -103,35 +106,37 @@ vector<IMethod*> NodeDefinition::createMethods(IRGenerationContext& context) con
   return methods;
 }
 
-vector<FieldFixed*> NodeDefinition::createFixedFields(IRGenerationContext& context,
-                                                      vector<FieldDeclaration*> declarations,
-                                                      unsigned long startIndex) const {
-  vector<FieldFixed*> fields;
+vector<Field*> NodeDefinition::createFixedFields(IRGenerationContext& context,
+                                                 vector<FieldDeclaration*> declarations,
+                                                 unsigned long startIndex) const {
+  vector<Field*> fields;
   for (FieldDeclaration* fieldDeclaration : declarations) {
-    FieldFixed* field = new FieldFixed(fieldDeclaration->getTypeSpecifier()->getType(context),
-                                       fieldDeclaration->getName(),
-                                       startIndex + fields.size(),
-                                       fieldDeclaration->getArguments());
+    Field* field = new Field(FieldKind::FIXED_FIELD,
+                             fieldDeclaration->getTypeSpecifier()->getType(context),
+                             fieldDeclaration->getName(),
+                             startIndex + fields.size(),
+                             fieldDeclaration->getArguments());
     fields.push_back(field);
   }
   
   return fields;
 }
 
-vector<FieldState*> NodeDefinition::createStateFields(IRGenerationContext& context,
-                                                      vector<FieldDeclaration*> declarations,
-                                                      unsigned long startIndex) const {
-  vector<FieldState*> fields;
+vector<Field*> NodeDefinition::createStateFields(IRGenerationContext& context,
+                                                 vector<FieldDeclaration*> declarations,
+                                                 unsigned long startIndex) const {
+  vector<Field*> fields;
   for (FieldDeclaration* fieldDeclaration : declarations) {
     const IType* type = fieldDeclaration->getTypeSpecifier()->getType(context);
     if (type->getTypeKind() != NODE_OWNER_TYPE) {
       Log::e("Node state fields can only be node owner type");
       exit(1);
     }
-    FieldState* field = new FieldState(fieldDeclaration->getTypeSpecifier()->getType(context),
-                                       fieldDeclaration->getName(),
-                                       startIndex + fields.size(),
-                                       fieldDeclaration->getArguments());
+    Field* field = new Field(FieldKind::STATE_FIELD,
+                             fieldDeclaration->getTypeSpecifier()->getType(context),
+                             fieldDeclaration->getName(),
+                             startIndex + fields.size(),
+                             fieldDeclaration->getArguments());
     fields.push_back(field);
   }
   

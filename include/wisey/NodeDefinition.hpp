@@ -10,9 +10,7 @@
 #define NodeDefinition_h
 
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/FieldFixed.hpp"
-#include "wisey/FieldInjected.hpp"
-#include "wisey/FieldState.hpp"
+#include "wisey/Field.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -58,15 +56,15 @@ private:
   
   std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
 
-  std::vector<FieldFixed*> createFixedFields(IRGenerationContext& context,
-                                             std::vector<FieldDeclaration*>
-                                             declarations,
-                                             unsigned long startIndex) const;
-  
-  std::vector<FieldState*> createStateFields(IRGenerationContext& context,
-                                             std::vector<FieldDeclaration*>
-                                             declarations,
-                                             unsigned long startIndex) const;
+  std::vector<Field*> createFixedFields(IRGenerationContext& context,
+                                        std::vector<FieldDeclaration*>
+                                        declarations,
+                                        unsigned long startIndex) const;
+
+  std::vector<Field*> createStateFields(IRGenerationContext& context,
+                                        std::vector<FieldDeclaration*>
+                                        declarations,
+                                        unsigned long startIndex) const;
 
   void createFieldVariables(IRGenerationContext& context,
                             Node* node,

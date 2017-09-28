@@ -16,10 +16,10 @@
 using namespace llvm;
 using namespace wisey;
 
-IField* IFieldVariable::checkAndFindFieldForAssignment(IRGenerationContext& context,
-                                                       const IConcreteObjectType* object,
-                                                       std::string fieldName) {
-  IField* field = checkAndFindField(context, object, fieldName);
+Field* IFieldVariable::checkAndFindFieldForAssignment(IRGenerationContext& context,
+                                                      const IConcreteObjectType* object,
+                                                      std::string fieldName) {
+  Field* field = checkAndFindField(context, object, fieldName);
   
   if (field->isAssignable()) {
     return field;
@@ -29,10 +29,10 @@ IField* IFieldVariable::checkAndFindFieldForAssignment(IRGenerationContext& cont
   exit(1);
 }
 
-IField* IFieldVariable::checkAndFindField(IRGenerationContext& context,
+Field* IFieldVariable::checkAndFindField(IRGenerationContext& context,
                                          const IConcreteObjectType* object,
                                          std::string fieldName) {
-  IField* field = object->findField(fieldName);
+  Field* field = object->findField(fieldName);
   
   if (field != NULL) {
     return field;
@@ -48,7 +48,7 @@ GetElementPtrInst* IFieldVariable::getFieldPointer(IRGenerationContext& context,
   IVariable* thisVariable = context.getThis();
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  IField* field = checkAndFindField(context, object, fieldName);
+  Field* field = checkAndFindField(context, object, fieldName);
   Value* index[2];
   index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());

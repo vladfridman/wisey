@@ -43,9 +43,9 @@ struct NodeOwnerTest : public Test {
   Interface* mObjectInterface;
   Interface* mVehicleInterface;
   StructType* mStructType;
-  FieldFixed* mLeftField;
-  FieldFixed* mRightField;
-  FieldState* mAreaField;
+  Field* mLeftField;
+  Field* mRightField;
+  Field* mAreaField;
   BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
@@ -113,13 +113,12 @@ struct NodeOwnerTest : public Test {
     string complicatedNodeFullName = "systems.vos.wisey.compiler.tests.NComplicatedNode";
     mStructType = StructType::create(mLLVMContext, complicatedNodeFullName);
     mStructType->setBody(types);
-    vector<FieldFixed*> fixedFields;
-    vector<FieldState*> stateFields;
+    vector<Field*> fields;
     ExpressionList fieldArguments;
-    mLeftField = new FieldFixed(PrimitiveTypes::INT_TYPE, "mLeft", 0, fieldArguments);
-    mRightField = new FieldFixed(PrimitiveTypes::INT_TYPE, "mRight", 1, fieldArguments);
-    fixedFields.push_back(mLeftField);
-    fixedFields.push_back(mRightField);
+    mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mLeft", 0, fieldArguments);
+    mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mRight", 1, fieldArguments);
+    fields.push_back(mLeftField);
+    fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     IMethod* method = new Method("getElement",
@@ -143,7 +142,7 @@ struct NodeOwnerTest : public Test {
     interfaces.push_back(mObjectInterface);
     
     mComplicatedNode = new Node(complicatedNodeFullName, mStructType);
-    mComplicatedNode->setFields(fixedFields, stateFields);
+    mComplicatedNode->setFields(fields);
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
     
@@ -154,20 +153,21 @@ struct NodeOwnerTest : public Test {
     string simpleNodeFullName = "systems.vos.wisey.compiler.tests.NSimpleNode";
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
-    vector<FieldFixed*> simpleNodeFixedFields;
-    vector<FieldState*> simpleNodeStateFields;
-    simpleNodeFixedFields.push_back(new FieldFixed(PrimitiveTypes::INT_TYPE,
-                                                   "mLeft",
-                                                   0,
-                                                   fieldArguments));
-    simpleNodeFixedFields.push_back(new FieldFixed(PrimitiveTypes::INT_TYPE,
-                                                   "mRight",
-                                                   1,
-                                                   fieldArguments));
-    mAreaField = new FieldState(PrimitiveTypes::INT_TYPE, "mArea", 2, fieldArguments);
-    simpleNodeStateFields.push_back(mAreaField);
+    vector<Field*> simpleNodeFields;
+    simpleNodeFields.push_back(new Field(FIXED_FIELD,
+                                         PrimitiveTypes::INT_TYPE,
+                                         "mLeft",
+                                         0,
+                                         fieldArguments));
+    simpleNodeFields.push_back(new Field(FIXED_FIELD,
+                                         PrimitiveTypes::INT_TYPE,
+                                         "mRight",
+                                         1,
+                                         fieldArguments));
+    mAreaField = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "mArea", 2, fieldArguments);
+    simpleNodeFields.push_back(mAreaField);
     mSimpleNode = new Node(simpleNodeFullName, simpleNodeStructType);
-    mSimpleNode->setFields(simpleNodeFixedFields, simpleNodeStateFields);
+    mSimpleNode->setFields(simpleNodeFields);
     mContext.addNode(mSimpleNode);
     
     vector<Type*> simplerNodeTypes;
@@ -176,18 +176,19 @@ struct NodeOwnerTest : public Test {
     string simplerNodeFullName = "systems.vos.wisey.compiler.tests.NSimplerNode";
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
-    vector<FieldFixed*> simplerNodeFixedFields;
-    vector<FieldState*> simplerNodeStateFields;
-    simplerNodeStateFields.push_back(new FieldState(PrimitiveTypes::INT_TYPE,
-                                                    "mLeft",
-                                                    0,
-                                                    fieldArguments));
-    simplerNodeStateFields.push_back(new FieldState(PrimitiveTypes::INT_TYPE,
-                                                    "mRight",
-                                                    1,
-                                                    fieldArguments));
+    vector<Field*> simplerNodeFields;
+    simplerNodeFields.push_back(new Field(STATE_FIELD,
+                                          PrimitiveTypes::INT_TYPE,
+                                          "mLeft",
+                                          0,
+                                          fieldArguments));
+    simplerNodeFields.push_back(new Field(STATE_FIELD,
+                                          PrimitiveTypes::INT_TYPE,
+                                          "mRight",
+                                          1,
+                                          fieldArguments));
     mSimplerNode = new Node(simplerNodeFullName, simplerNodeStructType);
-    mSimplerNode->setFields(simplerNodeFixedFields, simplerNodeStateFields);
+    mSimplerNode->setFields(simplerNodeFields);
     mContext.addNode(mSimplerNode);
     
     vector<Type*> vehicleInterfaceTypes;

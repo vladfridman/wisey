@@ -43,7 +43,7 @@ Value* ReferenceFieldVariable::generateIdentifierIR(IRGenerationContext& context
 
 Value* ReferenceFieldVariable::generateAssignmentIR(IRGenerationContext& context,
                                                           IExpression* assignToExpression) {
-  IField* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
 
   const IType* expressionType = assignToExpression->getType(context);
   const IType* fieldType = field->getType();

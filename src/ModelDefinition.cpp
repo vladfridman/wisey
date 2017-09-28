@@ -48,7 +48,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   model->setMethods(methods);
   model->setInterfaces(interfaces);
 
-  map<string, IField*> fields = createFields(context, model->getInterfaces().size());
+  vector<Field*> fields = createFields(context, model->getInterfaces().size());
   model->setFields(fields);
   
   vector<Type*> types;
@@ -82,18 +82,19 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-map<string, IField*> ModelDefinition::createFields(IRGenerationContext& context,
-                                                  unsigned long numberOfInterfaces) const {
-  map<string, IField*> fields;
+vector<Field*> ModelDefinition::createFields(IRGenerationContext& context,
+                                             unsigned long numberOfInterfaces) const {
+  vector<Field*> fields;
   ExpressionList arguments;
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     
-    IField* field = new FieldFixed(fieldType,
-                                   fieldDeclaration->getName(),
-                                   numberOfInterfaces + fields.size(),
-                                   arguments);
-    fields[fieldDeclaration->getName()] = field;
+    Field* field = new Field(FieldKind::FIXED_FIELD,
+                             fieldType,
+                             fieldDeclaration->getName(),
+                             numberOfInterfaces + fields.size(),
+                             arguments);
+    fields.push_back(field);
   }
   return fields;
 }
