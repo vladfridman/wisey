@@ -21,6 +21,8 @@ void IConcreteObjectDefinition::configureConcreteObject(IRGenerationContext& con
                                                         methodDeclarations,
                                                         vector<InterfaceTypeSpecifier*>
                                                         interfaceSpecifiers) {
+  object->setFields(createFields(context, fieldDeclarations, interfaceSpecifiers.size()));
+
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
   vector<IMethod*> methods = createMethods(context, methodDeclarations);
   
@@ -38,6 +40,30 @@ void IConcreteObjectDefinition::configureConcreteObject(IRGenerationContext& con
   
   IConcreteObjectType::generateNameGlobal(context, object);
   IConcreteObjectType::generateVTable(context, object);
+}
+
+vector<Field*> IConcreteObjectDefinition::createFields(IRGenerationContext& context,
+                                                       vector<FieldDeclaration*> fieldDeclarations,
+                                                       unsigned long startIndex) {
+  vector<Field*> fields;
+  for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
+    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
+    FieldKind fieldKind = fieldDeclaration->getFieldKind();
+    
+    if (fieldKind == INJECTED_FIELD && fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
+      Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
+      fieldType = context.getBoundController(interface)->getOwner();
+    }
+    
+    Field* field = new Field(fieldKind,
+                             fieldType,
+                             fieldDeclaration->getName(),
+                             startIndex + fields.size(),
+                             fieldDeclaration->getArguments());
+    fields.push_back(field);
+  }
+  
+  return fields;
 }
 
 vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationContext& context,

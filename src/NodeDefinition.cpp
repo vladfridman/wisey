@@ -39,8 +39,8 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
-  node->setFields(createFields(context, mInterfaceSpecifiers.size()));
-  
+  checkFields(context);
+
   configureConcreteObject(context,
                           node,
                           mFieldDeclarations,
@@ -64,30 +64,19 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-vector<Field*> NodeDefinition::createFields(IRGenerationContext& context,
-                                            unsigned long startIndex) const {
-  vector<Field*> fields;
+void NodeDefinition::checkFields(IRGenerationContext& context) const {
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    const IType* type = fieldDeclaration->getTypeSpecifier()->getType(context);
     FieldKind fieldKind = fieldDeclaration->getFieldKind();
-
+    
     if (fieldKind != STATE_FIELD && fieldKind != FIXED_FIELD) {
       Log::e("Nodes can only have fixed or state fields");
       exit(1);
     }
     
+    const IType* type = fieldDeclaration->getTypeSpecifier()->getType(context);
     if (fieldKind == STATE_FIELD && type->getTypeKind() != NODE_OWNER_TYPE) {
       Log::e("Node state fields can only be node owner type");
       exit(1);
     }
-    
-    Field* field = new Field(fieldKind,
-                             type,
-                             fieldDeclaration->getName(),
-                             startIndex + fields.size(),
-                             fieldDeclaration->getArguments());
-    fields.push_back(field);
-  }
-  
-  return fields;
+      }
 }

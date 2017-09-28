@@ -48,8 +48,7 @@ public:
   
 private:
   
-  std::vector<Field*> createFields(IRGenerationContext& context,
-                                   unsigned long numberOfInterfaces) const;
+  void checkFields(IRGenerationContext& context) const;
 
 };
 

@@ -37,6 +37,10 @@ public:
 
 private:
 
+  static std::vector<Field*> createFields(IRGenerationContext& context,
+                                          std::vector<FieldDeclaration*> fieldDeclarations,
+                                          unsigned long startIndex);
+
   static std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                                    std::vector<InterfaceTypeSpecifier*>
                                                    interfaceSpecifiers);

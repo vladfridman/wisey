@@ -49,7 +49,7 @@ public:
   
 private:
   
-  std::vector<Field*> createFields(IRGenerationContext& context, unsigned long startIndex) const;
+  void checkFields(IRGenerationContext& context) const;
 
 };
   

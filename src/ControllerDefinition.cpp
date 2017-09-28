@@ -42,7 +42,7 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
-  controller->setFields(createFields(context, mInterfaceSpecifiers.size()));
+  checkFields(context);
 
   configureConcreteObject(context,
                           controller,
@@ -67,31 +67,13 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-vector<Field*> ControllerDefinition::createFields(IRGenerationContext& context,
-                                                  unsigned long startIndex) const {
-  vector<Field*> fields;
+void ControllerDefinition::checkFields(IRGenerationContext& context) const {
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     FieldKind fieldKind = fieldDeclaration->getFieldKind();
-
+    
     if (fieldKind != STATE_FIELD && fieldKind != INJECTED_FIELD && fieldKind != RECEIVED_FIELD) {
       Log::e("Controllers can only have fixed, injected or state fields");
       exit(1);
     }
-    
-    if (fieldKind == INJECTED_FIELD && fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
-      Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
-      fieldType = context.getBoundController(interface)->getOwner();
-    }
-
-    Field* field = new Field(fieldKind,
-                             fieldType,
-                             fieldDeclaration->getName(),
-                             startIndex + fields.size(),
-                             fieldDeclaration->getArguments());
-    fields.push_back(field);
   }
-  
-  return fields;
 }
-
