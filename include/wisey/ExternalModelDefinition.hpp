@@ -11,8 +11,8 @@
 
 
 #include "wisey/FieldDeclaration.hpp"
+#include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IField.hpp"
-#include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -22,7 +22,7 @@ namespace wisey {
 /**
  * Represents model definition implemented in a shared library
  */
-class ExternalModelDefinition : public IGlobalStatement {
+class ExternalModelDefinition : public IConcreteObjectDefinition {
   ModelTypeSpecifier* mModelTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<MethodSignatureDeclaration*> mMethodSignatures;

@@ -11,7 +11,7 @@
 
 #include "wisey/Field.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/IGlobalStatement.hpp"
+#include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -21,7 +21,7 @@ namespace wisey {
 /**
  * Represents model definition which is analogous to an immutable class in C++
  */
-class ModelDefinition : public IGlobalStatement {
+class ModelDefinition : public IConcreteObjectDefinition {
   ModelTypeSpecifier* mModelTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<IMethodDeclaration*> mMethodDeclarations;

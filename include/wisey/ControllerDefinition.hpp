@@ -14,8 +14,7 @@
 
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IGlobalStatement.hpp"
+#include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 
@@ -24,7 +23,7 @@ namespace wisey {
 /**
  * Represents controller definition which is analogous to a class in C++ with dependency injection
  */
-class ControllerDefinition : public IGlobalStatement {
+class ControllerDefinition : public IConcreteObjectDefinition {
   ControllerTypeSpecifier* mControllerTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<IMethodDeclaration*> mMethodDeclarations;

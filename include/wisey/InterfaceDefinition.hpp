@@ -11,16 +11,16 @@
 
 #include "wisey/Block.hpp"
 #include "wisey/Identifier.hpp"
-#include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/IObjectDefinition.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 
 namespace wisey {
   
 /**
- * Represents an INTERFACE definition which is analogous to a pure virtual class in C++
+ * Represents an interface definition which is analogous to a pure virtual class in C++
  */
-class InterfaceDefinition : public IGlobalStatement {
+class InterfaceDefinition : public IObjectDefinition {
   InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
   std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;

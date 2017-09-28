@@ -11,7 +11,7 @@
 
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/Field.hpp"
-#include "wisey/IGlobalStatement.hpp"
+#include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
@@ -22,7 +22,7 @@ namespace wisey {
  * Represents a node definition which is an object that can have immutable model fields
  * and mutable fields that point to other nodes.
  */
-class NodeDefinition : public IGlobalStatement {
+class NodeDefinition : public IConcreteObjectDefinition {
   NodeTypeSpecifier* mNodeTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<IMethodDeclaration*> mMethodDeclarations;

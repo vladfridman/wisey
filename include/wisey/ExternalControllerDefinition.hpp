@@ -14,8 +14,7 @@
 
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IGlobalStatement.hpp"
+#include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 
@@ -24,7 +23,7 @@ namespace wisey {
 /**
  * Represents controller definition implemented in a shared library
  */
-class ExternalControllerDefinition : public IGlobalStatement {
+class ExternalControllerDefinition : public IConcreteObjectDefinition {
   ControllerTypeSpecifier* mControllerTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<MethodSignatureDeclaration*> mMethodSignatures;
