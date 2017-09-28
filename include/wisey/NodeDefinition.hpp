@@ -55,10 +55,10 @@ private:
 
   std::vector<Field*> createFields(IRGenerationContext& context, unsigned long startIndex) const;
 
-  void createFieldVariables(IRGenerationContext& context,
-                            Node* node,
-                            std::vector<llvm::Type*>& types) const;
-  
+  void collectFieldTypes(IRGenerationContext& context,
+                         Node* node,
+                         std::vector<llvm::Type*>& types) const;
+
 };
   
 } /* namespace wisey */

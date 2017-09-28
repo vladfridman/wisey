@@ -58,7 +58,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
                     ->getPointerElementType()->getPointerElementType());
   }
   
-  createFieldVariables(context, model, types);
+  collectFieldTypes(context, model, types);
   model->setStructBodyTypes(types);
   
   IConcreteObjectType::generateNameGlobal(context, model);
@@ -106,9 +106,9 @@ vector<Field*> ModelDefinition::createFields(IRGenerationContext& context,
   return fields;
 }
 
-void ModelDefinition::createFieldVariables(IRGenerationContext& context,
-                                           Model* model,
-                                           vector<Type*>& types) const {
+void ModelDefinition::collectFieldTypes(IRGenerationContext& context,
+                                        Model* model,
+                                        vector<Type*>& types) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {

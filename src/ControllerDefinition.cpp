@@ -59,7 +59,7 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
   vector<Field*> fields = createFields(context, controller->getInterfaces().size());
   controller->setFields(fields);
 
-  createFieldVariables(context, controller, types);
+  collectFieldTypes(context, controller, types);
   controller->setStructBodyTypes(types);
 
   IConcreteObjectType::generateNameGlobal(context, controller);
@@ -128,9 +128,9 @@ vector<IMethod*> ControllerDefinition::createMethods(IRGenerationContext& contex
   return methods;
 }
 
-void ControllerDefinition::createFieldVariables(IRGenerationContext& context,
-                                                Controller* controller,
-                                                vector<Type*>& types) const {
+void ControllerDefinition::collectFieldTypes(IRGenerationContext& context,
+                                             Controller* controller,
+                                             vector<Type*>& types) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {

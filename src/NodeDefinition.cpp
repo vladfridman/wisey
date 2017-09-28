@@ -54,7 +54,7 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
                     ->getPointerElementType()->getPointerElementType());
   }
   
-  createFieldVariables(context, node, types);
+  collectFieldTypes(context, node, types);
   node->setStructBodyTypes(types);
   
   IConcreteObjectType::generateNameGlobal(context, node);
@@ -123,9 +123,9 @@ vector<Field*> NodeDefinition::createFields(IRGenerationContext& context,
   return fields;
 }
 
-void NodeDefinition::createFieldVariables(IRGenerationContext& context,
-                                          Node* node,
-                                          vector<Type*>& types) const {
+void NodeDefinition::collectFieldTypes(IRGenerationContext& context,
+                                       Node* node,
+                                       vector<Type*>& types) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {

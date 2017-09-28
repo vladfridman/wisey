@@ -57,9 +57,9 @@ private:
 
   std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
 
-  void createFieldVariables(IRGenerationContext& context,
-                            Controller* controller,
-                            std::vector<llvm::Type*>& types) const;
+  void collectFieldTypes(IRGenerationContext& context,
+                         Controller* controller,
+                         std::vector<llvm::Type*>& types) const;
 
 };
 
