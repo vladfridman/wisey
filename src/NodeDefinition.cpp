@@ -39,14 +39,12 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
+  vector<Field*> fields = createFields(context, mInterfaceSpecifiers.size());
+  
   vector<Interface*> interfaces = processInterfaces(context);
   vector<IMethod*> methods = createMethods(context);
   node->setMethods(methods);
   node->setInterfaces(interfaces);
-  
-  // In object struct fields start after vTables for all its interfaces
-  vector<Field*> fields = createFields(context, node->getInterfaces().size());
-  node->setFields(fields);
   
   vector<Type*> types;
   for (Interface* interface : node->getInterfaces()) {
@@ -55,6 +53,7 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   }
   
   collectFieldTypes(context, node, types);
+  node->setFields(fields);
   node->setStructBodyTypes(types);
   
   IConcreteObjectType::generateNameGlobal(context, node);

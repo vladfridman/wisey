@@ -44,13 +44,13 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
+  vector<Field*> fields = createFields(context, mInterfaceSpecifiers.size());
+
   vector<Interface*> interfaces = processInterfaces(context);
   vector<IMethod*> methods = createMethods(context);
   model->setMethods(methods);
   model->setInterfaces(interfaces);
 
-  vector<Field*> fields = createFields(context, model->getInterfaces().size());
-  model->setFields(fields);
   
   vector<Type*> types;
   for (Interface* interface : model->getInterfaces()) {
@@ -59,6 +59,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   }
   
   collectFieldTypes(context, model, types);
+  model->setFields(fields);
   model->setStructBodyTypes(types);
   
   IConcreteObjectType::generateNameGlobal(context, model);

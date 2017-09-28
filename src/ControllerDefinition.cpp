@@ -42,6 +42,7 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
+  vector<Field*> fields = createFields(context, mInterfaceSpecifiers.size());
 
   vector<Interface*> interfaces = processInterfaces(context);
   vector<IMethod*> methods = createMethods(context);
@@ -55,11 +56,8 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
                     ->getPointerElementType()->getPointerElementType());
   }
   
-  // In object struct fields start after vTables for all its interfaces
-  vector<Field*> fields = createFields(context, controller->getInterfaces().size());
-  controller->setFields(fields);
-
   collectFieldTypes(context, controller, types);
+  controller->setFields(fields);
   controller->setStructBodyTypes(types);
 
   IConcreteObjectType::generateNameGlobal(context, controller);
