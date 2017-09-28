@@ -82,7 +82,7 @@ TEST_F(MethodTest, basicMethodTest) {
   ASSERT_EQ(mMethod->getArguments().size(), 2u);
 }
 
-TEST_F(MethodTest, defineFunctionTest) {
+TEST_F(MethodTest, definePublicFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
@@ -96,8 +96,28 @@ TEST_F(MethodTest, defineFunctionTest) {
   Function* function = method.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
+  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
+  "%systems.vos.wisey.compiler.tests.MObject**, i32)\n";
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  EXPECT_EQ(mContext.getMainFunction(), nullptr);
+}
+
+TEST_F(MethodTest, definePrivateFunctionTest) {
+  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<MethodArgument*> arguments;
+  arguments.push_back(intArgument);
+  vector<const Model*> thrownExceptions;
+  Method method("foo",
+                AccessLevel::PRIVATE_ACCESS,
+                PrimitiveTypes::FLOAT_TYPE,
+                arguments,
+                thrownExceptions,
+                &mCompoundStatement);
+  Function* function = method.defineFunction(mContext, mModel);
+  
+  *mStringStream << *function;
   string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo("
-    "%systems.vos.wisey.compiler.tests.MObject**, i32)\n";
+  "%systems.vos.wisey.compiler.tests.MObject**, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -118,7 +138,7 @@ TEST_F(MethodTest, generateIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @systems.vos.wisey.compiler.tests.MObject.foo("
+  "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo("
   "%systems.vos.wisey.compiler.tests.MObject** %this, i32 %intargument) {"
   "\nentry:"
   "\n  %intargument.param = alloca i32"

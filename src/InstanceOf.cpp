@@ -98,7 +98,7 @@ Function* InstanceOf::createFunction(IRGenerationContext& context, const Interfa
   Type* llvmReturnType = PrimitiveTypes::INT_TYPE->getLLVMType(llvmContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
   Function* function = Function::Create(functionType,
-                                        GlobalValue::InternalLinkage,
+                                        GlobalValue::ExternalLinkage,
                                         getFunctionName(interface),
                                         context.getModule());
   

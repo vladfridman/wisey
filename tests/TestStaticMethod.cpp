@@ -82,13 +82,32 @@ TEST_F(StaticMethodTest, basicStaticMethodTest) {
   ASSERT_EQ(mStaticMethod->getArguments().size(), 2u);
 }
 
-TEST_F(StaticMethodTest, defineFunctionTest) {
+TEST_F(StaticMethodTest, definePublicFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   StaticMethod staticMethod("foo",
                             AccessLevel::PUBLIC_ACCESS,
+                            PrimitiveTypes::FLOAT_TYPE,
+                            arguments,
+                            thrownExceptions,
+                            &mCompoundStatement);
+  Function* function = staticMethod.defineFunction(mContext, mModel);
+  
+  *mStringStream << *function;
+  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(i32)\n";
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  EXPECT_EQ(mContext.getMainFunction(), nullptr);
+}
+
+TEST_F(StaticMethodTest, definePrivateFunctionTest) {
+  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<MethodArgument*> arguments;
+  arguments.push_back(intArgument);
+  vector<const Model*> thrownExceptions;
+  StaticMethod staticMethod("foo",
+                            AccessLevel::PRIVATE_ACCESS,
                             PrimitiveTypes::FLOAT_TYPE,
                             arguments,
                             thrownExceptions,
@@ -117,7 +136,7 @@ TEST_F(StaticMethodTest, generateIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @systems.vos.wisey.compiler.tests.MObject.foo(i32 %intargument) {"
+  "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo(i32 %intargument) {"
   "\nentry:"
   "\n  %intargument.param = alloca i32"
   "\n  store i32 %intargument, i32* %intargument.param"

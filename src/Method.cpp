@@ -63,10 +63,10 @@ Function* Method::defineFunction(IRGenerationContext& context, IObjectType* obje
                                                                objectType);
   string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
-  mFunction = Function::Create(ftype,
-                               GlobalValue::InternalLinkage,
-                               functionName,
-                               context.getModule());
+  GlobalValue::LinkageTypes linkageType = mAccessLevel == PRIVATE_ACCESS
+    ? GlobalValue::InternalLinkage
+    : GlobalValue::ExternalLinkage;
+  mFunction = Function::Create(ftype, linkageType, functionName, context.getModule());
   
   return mFunction;
 }

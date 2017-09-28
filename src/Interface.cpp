@@ -194,7 +194,7 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                                                            this,
                                                            interfaceMethodSignature->getName());
   Function* function = Function::Create(concreteObjectFunction->getFunctionType(),
-                                        GlobalValue::InternalLinkage,
+                                        GlobalValue::ExternalLinkage,
                                         functionName,
                                         context.getModule());
   Function::arg_iterator arguments = function->arg_begin();
@@ -384,7 +384,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
     ->getPointerElementType();
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
   Function* function = Function::Create(functionType,
-                                        GlobalValue::InternalLinkage,
+                                        GlobalValue::ExternalLinkage,
                                         getCastFunctionName(toType),
                                         context.getModule());
   
