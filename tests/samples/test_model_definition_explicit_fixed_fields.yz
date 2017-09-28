@@ -1,0 +1,32 @@
+package systems.vos.wisey.compiler.tests;
+
+model MColor {
+  fixed double mColor;
+}
+
+model MShape {
+  fixed int mWidth;
+  fixed long mHeight;
+  fixed float mDepth;
+  fixed MColor* mColor;
+
+  public int getWidth() {
+    return mWidth;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MShape rectangle = builder(MShape)
+      .withWidth(3)
+      .withHeight(5l)
+      .withDepth(2.0)
+      .withColor(builder(MColor).withColor(6.7d).build())
+      .build();
+
+    return rectangle.getWidth();
+  }
+}
+
+bind(CProgram).to(IProgram);

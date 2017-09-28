@@ -145,7 +145,7 @@
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXTENDS TEXTERNAL TDEFAULT TFALLTHROUGH
-%token <token> TFALSE TFINALLY TFOR TIF TIMPLEMENTS TIMPORT TINJECT TINSTANCEOF TINTERFACE
+%token <token> TFALSE TFINALLY TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECT TINSTANCEOF TINTERFACE
 %token <token> TMODEL TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
 %token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC
 %token <token> TSWITCH TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPECHAR TTYPEDOUBLE 
@@ -598,6 +598,12 @@ fixed_field_declaration
       std::vector<IExpression*> arguments;
       $$ = new FieldDeclaration(FieldKind::FIXED_FIELD, $1, *$2, arguments);
       delete $2;
+    }
+  | TFIXED type_specifier TFIELDIDENTIFIER ';'
+    {
+      std::vector<IExpression*> arguments;
+      $$ = new FieldDeclaration(FieldKind::FIXED_FIELD, $2, *$3, arguments);
+      delete $3;
     }
   ;
 

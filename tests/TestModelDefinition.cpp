@@ -231,6 +231,10 @@ TEST_F(TestFileSampleRunner, modelDefinitionRunTest) {
   runFile("tests/samples/test_model_definition.yz", "0");
 }
 
+TEST_F(TestFileSampleRunner, modelDefinitionExplicitFixedFieldsRunTest) {
+  runFile("tests/samples/test_model_definition_explicit_fixed_fields.yz", "3");
+}
+
 TEST_F(TestFileSampleRunner, modelDefinitionWithMethodRunTest) {
   runFile("tests/samples/test_model_method.yz", "7");
 }

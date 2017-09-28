@@ -64,6 +64,7 @@ WS  [ \t\v\n\f]
 "fallthrough"                 return TOKEN(TFALLTHROUGH);
 "false"                       return TOKEN(TFALSE);
 "finally"                     return TOKEN(TFINALLY);
+"fixed"                       return TOKEN(TFIXED);
 "float"                       return TOKEN(TTYPEFLOAT);
 "for"                         return TOKEN(TFOR);
 "if"                          return TOKEN(TIF);
