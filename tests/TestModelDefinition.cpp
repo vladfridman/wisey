@@ -164,7 +164,6 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   methodThrownExceptions.push_back(mContext.getModel(Names::getNPEModelName()));
   methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
   MethodSignature* methodSignature = new MethodSignature("foo",
-                                                         AccessLevel::PUBLIC_ACCESS,
                                                          PrimitiveTypes::FLOAT_TYPE,
                                                          methodArguments,
                                                          methodThrownExceptions);

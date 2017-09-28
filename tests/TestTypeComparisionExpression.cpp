@@ -107,7 +107,6 @@ struct TypeComparisionExpressionTest : public Test {
     vector<MethodSignature*> subShapeInterfaceMethods;
     vector<const Model*> subShapeThrownExceptions;
     MethodSignature* methodFooSignature = new MethodSignature("foo",
-                                                              AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               subShapeInterfaceMethodArguments,
                                                               subShapeThrownExceptions);
@@ -125,7 +124,6 @@ struct TypeComparisionExpressionTest : public Test {
     vector<MethodSignature*> shapeInterfaceMethods;
     vector<const Model*> shapeThrownExceptions;
     methodFooSignature = new MethodSignature("foo",
-                                             AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
                                              shapeInterfaceMethodArguments,
                                              shapeThrownExceptions);
@@ -144,7 +142,6 @@ struct TypeComparisionExpressionTest : public Test {
     vector<MethodSignature*> objectInterfaceMethods;
     vector<const Model*> objectThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("bar",
-                                                              AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
                                                               objectThrownExceptions);

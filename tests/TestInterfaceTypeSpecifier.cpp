@@ -35,7 +35,6 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     vector<MethodSignature*> methodSignatures;
     vector<const Model*> methodExceptions;
     MethodSignature* methodSignature = new MethodSignature("foo",
-                                                           AccessLevel::PUBLIC_ACCESS,
                                                            PrimitiveTypes::INT_TYPE,
                                                            methodArguments,
                                                            methodExceptions);

@@ -97,7 +97,6 @@ struct ModelOwnerTest : public Test {
     vector<MethodSignature*> subShapeInterfaceMethods;
     vector<const Model*> subShapeInterfaceThrownExceptions;
     MethodSignature* methodFooSignature = new MethodSignature("foo",
-                                                              AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               subShapeInterfaceMethodArguments,
                                                               subShapeInterfaceThrownExceptions);
@@ -115,7 +114,6 @@ struct ModelOwnerTest : public Test {
     vector<MethodSignature*> shapeInterfaceMethods;
     vector<const Model*> shapeInterfaceThrownExceptions;
     methodFooSignature = new MethodSignature("foo",
-                                             AccessLevel::PUBLIC_ACCESS,
                                              PrimitiveTypes::INT_TYPE,
                                              shapeInterfaceMethodArguments,
                                              shapeInterfaceThrownExceptions);
@@ -134,7 +132,6 @@ struct ModelOwnerTest : public Test {
     vector<MethodSignature*> objectInterfaceMethods;
     vector<const Model*> objectInterfaceThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("bar",
-                                                              AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
                                                               objectInterfaceThrownExceptions);

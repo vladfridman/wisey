@@ -17,7 +17,6 @@ namespace wisey {
 class MethodSignature : public IMethodDescriptor {
   
   std::string mName;
-  AccessLevel mAccessLevel;
   const IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
   std::vector<const Model*> mThrownExceptions;
@@ -25,12 +24,10 @@ class MethodSignature : public IMethodDescriptor {
 public:
   
   MethodSignature(std::string name,
-                  AccessLevel accessLevel,
                   const IType* returnType,
                   std::vector<MethodArgument*> arguments,
                   std::vector<const Model*> thrownExceptions) :
   mName(name),
-  mAccessLevel(accessLevel),
   mReturnType(returnType),
   mArguments(arguments),
   mThrownExceptions(thrownExceptions) { }

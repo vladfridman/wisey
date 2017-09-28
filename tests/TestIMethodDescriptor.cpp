@@ -134,7 +134,6 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   vector<const Model*> thrownExceptions;
   arguments.push_back(intArgument);
   MethodSignature method("foo",
-                         AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::FLOAT_TYPE,
                          arguments,
                          thrownExceptions);

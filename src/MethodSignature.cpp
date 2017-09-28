@@ -30,7 +30,7 @@ string MethodSignature::getName() const {
 }
 
 AccessLevel MethodSignature::getAccessLevel() const {
-  return mAccessLevel;
+  return AccessLevel::PUBLIC_ACCESS;
 }
 
 const IType* MethodSignature::getReturnType() const {
@@ -46,7 +46,7 @@ vector<const Model*> MethodSignature::getThrownExceptions() const {
 }
 
 MethodSignature* MethodSignature::createCopy() const {
-  return new MethodSignature(mName, mAccessLevel, mReturnType, mArguments, mThrownExceptions);
+  return new MethodSignature(mName, mReturnType, mArguments, mThrownExceptions);
 }
 
 void MethodSignature::printToStream(IRGenerationContext& context, iostream& stream) const {

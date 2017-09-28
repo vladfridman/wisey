@@ -49,7 +49,6 @@ struct InterfaceTest : public Test {
     objectStructType->setBody(objectTypes);
     mObjectInterface = new Interface(objectFullName, objectStructType);
     mBarMethodSignature = new MethodSignature("bar",
-                                              AccessLevel::PUBLIC_ACCESS,
                                               PrimitiveTypes::INT_TYPE,
                                               methodArguments,
                                               thrownExceptions);
@@ -64,7 +63,6 @@ struct InterfaceTest : public Test {
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mShapeStructType->setBody(shapeTypes);
     mFooMethodSignature = new MethodSignature("foo",
-                                              AccessLevel::PUBLIC_ACCESS,
                                               PrimitiveTypes::INT_TYPE,
                                               methodArguments,
                                               thrownExceptions);

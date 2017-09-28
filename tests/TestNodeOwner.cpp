@@ -66,7 +66,6 @@ struct NodeOwnerTest : public Test {
     vector<MethodSignature*> elementInterfaceMethods;
     vector<const Model*> elementThrownExceptions;
     MethodSignature* getElementSignature = new MethodSignature("getElement",
-                                                               AccessLevel::PUBLIC_ACCESS,
                                                                PrimitiveTypes::INT_TYPE,
                                                                elementInterfaceMethodArguments,
                                                                elementThrownExceptions);
@@ -99,7 +98,6 @@ struct NodeOwnerTest : public Test {
     vector<MethodSignature*> objectInterfaceMethods;
     vector<const Model*> objectThrownExceptions;
     MethodSignature* methodBarSignature = new MethodSignature("foo",
-                                                              AccessLevel::PUBLIC_ACCESS,
                                                               PrimitiveTypes::INT_TYPE,
                                                               objectInterfaceMethodArguments,
                                                               objectThrownExceptions);

@@ -48,9 +48,5 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   }
   exceptions.push_back(context.getModel(Names::getNPEModelName()));
   
-  return new MethodSignature(mMethodName,
-                             AccessLevel::PUBLIC_ACCESS,
-                             returnType,
-                             arguments,
-                             exceptions);
+  return new MethodSignature(mMethodName, returnType, arguments, exceptions);
 }
