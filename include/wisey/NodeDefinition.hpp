@@ -49,15 +49,7 @@ public:
   
 private:
   
-  std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
-  
-  std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
-
   std::vector<Field*> createFields(IRGenerationContext& context, unsigned long startIndex) const;
-
-  void collectFieldTypes(IRGenerationContext& context,
-                         Node* node,
-                         std::vector<llvm::Type*>& types) const;
 
 };
   

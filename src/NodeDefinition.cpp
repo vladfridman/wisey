@@ -39,25 +39,13 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
-  vector<Field*> fields = createFields(context, mInterfaceSpecifiers.size());
+  node->setFields(createFields(context, mInterfaceSpecifiers.size()));
   
-  vector<Interface*> interfaces = processInterfaces(context);
-  vector<IMethod*> methods = createMethods(context);
-  node->setMethods(methods);
-  node->setInterfaces(interfaces);
-  
-  vector<Type*> types;
-  for (Interface* interface : node->getInterfaces()) {
-    types.push_back(interface->getLLVMType(context.getLLVMContext())
-                    ->getPointerElementType()->getPointerElementType());
-  }
-  
-  collectFieldTypes(context, node, types);
-  node->setFields(fields);
-  node->setStructBodyTypes(types);
-  
-  IConcreteObjectType::generateNameGlobal(context, node);
-  IConcreteObjectType::generateVTable(context, node);
+  configureConcreteObject(context,
+                          node,
+                          mFieldDeclarations,
+                          mMethodDeclarations,
+                          mInterfaceSpecifiers);
 }
 
 Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
@@ -74,24 +62,6 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   context.getScopes().popScope(context);
   
   return NULL;
-}
-
-vector<Interface*> NodeDefinition::processInterfaces(IRGenerationContext& context) const {
-  vector<Interface*> interfaces;
-  for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
-    Interface* interface = (Interface*) interfaceSpecifier->getType(context);
-    interfaces.push_back(interface);
-  }
-  return interfaces;
-}
-
-vector<IMethod*> NodeDefinition::createMethods(IRGenerationContext& context) const {
-  vector<IMethod*> methods;
-  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    IMethod* method = methodDeclaration->createMethod(context);
-    methods.push_back(method);
-  }
-  return methods;
 }
 
 vector<Field*> NodeDefinition::createFields(IRGenerationContext& context,
@@ -121,20 +91,3 @@ vector<Field*> NodeDefinition::createFields(IRGenerationContext& context,
   
   return fields;
 }
-
-void NodeDefinition::collectFieldTypes(IRGenerationContext& context,
-                                       Node* node,
-                                       vector<Type*>& types) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
-    Type* llvmType = fieldType->getLLVMType(llvmContext);
-    if (IType::isReferenceType(fieldType)) {
-      types.push_back(llvmType->getPointerElementType());
-    } else {
-      types.push_back(llvmType);
-    }
-  }
-}
-

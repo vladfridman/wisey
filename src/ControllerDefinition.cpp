@@ -42,26 +42,13 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
-  vector<Field*> fields = createFields(context, mInterfaceSpecifiers.size());
+  controller->setFields(createFields(context, mInterfaceSpecifiers.size()));
 
-  vector<Interface*> interfaces = processInterfaces(context);
-  vector<IMethod*> methods = createMethods(context);
-
-  controller->setInterfaces(interfaces);
-  controller->setMethods(methods);
-
-  vector<Type*> types;
-  for (Interface* interface : controller->getInterfaces()) {
-    types.push_back(interface->getLLVMType(context.getLLVMContext())
-                    ->getPointerElementType()->getPointerElementType());
-  }
-  
-  collectFieldTypes(context, controller, types);
-  controller->setFields(fields);
-  controller->setStructBodyTypes(types);
-
-  IConcreteObjectType::generateNameGlobal(context, controller);
-  IConcreteObjectType::generateVTable(context, controller);
+  configureConcreteObject(context,
+                          controller,
+                          mFieldDeclarations,
+                          mMethodDeclarations,
+                          mInterfaceSpecifiers);
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
@@ -78,15 +65,6 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   context.getScopes().popScope(context);
   
   return NULL;
-}
-
-vector<Interface*> ControllerDefinition::processInterfaces(IRGenerationContext& context) const {
-  vector<Interface*> interfaces;
-  for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
-    Interface* interface = (Interface*) interfaceSpecifier->getType(context);
-    interfaces.push_back(interface);
-  }
-  return interfaces;
 }
 
 vector<Field*> ControllerDefinition::createFields(IRGenerationContext& context,
@@ -117,34 +95,3 @@ vector<Field*> ControllerDefinition::createFields(IRGenerationContext& context,
   return fields;
 }
 
-vector<IMethod*> ControllerDefinition::createMethods(IRGenerationContext& context) const {
-  vector<IMethod*> methods;
-  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    IMethod* method = methodDeclaration->createMethod(context);
-    methods.push_back(method);
-  }
-  return methods;
-}
-
-void ControllerDefinition::collectFieldTypes(IRGenerationContext& context,
-                                             Controller* controller,
-                                             vector<Type*>& types) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
-    
-    if (fieldDeclaration->getFieldKind() == INJECTED_FIELD &&
-        fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
-      Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
-      fieldType = context.getBoundController(interface);
-    }
-    
-    Type* llvmType = fieldType->getLLVMType(llvmContext);
-    if (IType::isReferenceType(fieldType)) {
-      types.push_back(llvmType->getPointerElementType());
-    } else {
-      types.push_back(llvmType);
-    }
-  }
-}

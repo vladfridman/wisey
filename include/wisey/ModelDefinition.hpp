@@ -50,14 +50,6 @@ private:
   
   std::vector<Field*> createFields(IRGenerationContext& context,
                                    unsigned long numberOfInterfaces) const;
-  
-  void collectFieldTypes(IRGenerationContext& context,
-                         Model* model,
-                         std::vector<llvm::Type*>& types) const;
-
-  std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
-    
-  std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
 
 };
 

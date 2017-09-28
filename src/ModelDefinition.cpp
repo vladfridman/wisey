@@ -44,26 +44,13 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
-  vector<Field*> fields = createFields(context, mInterfaceSpecifiers.size());
+  model->setFields(createFields(context, mInterfaceSpecifiers.size()));
 
-  vector<Interface*> interfaces = processInterfaces(context);
-  vector<IMethod*> methods = createMethods(context);
-  model->setMethods(methods);
-  model->setInterfaces(interfaces);
-
-  
-  vector<Type*> types;
-  for (Interface* interface : model->getInterfaces()) {
-    types.push_back(interface->getLLVMType(context.getLLVMContext())
-                    ->getPointerElementType()->getPointerElementType());
-  }
-  
-  collectFieldTypes(context, model, types);
-  model->setFields(fields);
-  model->setStructBodyTypes(types);
-  
-  IConcreteObjectType::generateNameGlobal(context, model);
-  IConcreteObjectType::generateVTable(context, model);
+  configureConcreteObject(context,
+                          model,
+                          mFieldDeclarations,
+                          mMethodDeclarations,
+                          mInterfaceSpecifiers);
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
@@ -106,38 +93,3 @@ vector<Field*> ModelDefinition::createFields(IRGenerationContext& context,
   }
   return fields;
 }
-
-void ModelDefinition::collectFieldTypes(IRGenerationContext& context,
-                                        Model* model,
-                                        vector<Type*>& types) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
-    Type* llvmType = fieldType->getLLVMType(llvmContext);
-    if (IType::isReferenceType(fieldType)) {
-      types.push_back(llvmType->getPointerElementType());
-    } else {
-      types.push_back(llvmType);
-    }
-  }
-}
-
-vector<IMethod*> ModelDefinition::createMethods(IRGenerationContext& context) const {
-  vector<IMethod*> methods;
-  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    IMethod* method = methodDeclaration->createMethod(context);
-    methods.push_back(method);
-  }
-  return methods;
-}
-
-vector<Interface*> ModelDefinition::processInterfaces(IRGenerationContext& context) const {
-  vector<Interface*> interfaces;
-  for (InterfaceTypeSpecifier* interfaceSpecifier : mInterfaceSpecifiers) {
-    Interface* interface = (Interface*) interfaceSpecifier->getType(context);
-    interfaces.push_back(interface);
-  }
-  return interfaces;
-}
-

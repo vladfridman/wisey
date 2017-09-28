@@ -526,6 +526,8 @@
 		F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32841E1635850001CC15 /* ContinueStatement.cpp */; };
 		F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */; };
 		F58D07F21F697027001A7544 /* TestStaticMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */; };
+		F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */; };
+		F592A7BA1F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */; };
 		F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestMain.cpp */; };
 		F59496FE1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
 		F59496FF1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
@@ -1141,6 +1143,7 @@
 		F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodCall.cpp; path = tests/TestStaticMethodCall.cpp; sourceTree = "<group>"; };
 		F592A7B61F7D609D0026BD2F /* IObjectDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectDefinition.hpp; path = include/wisey/IObjectDefinition.hpp; sourceTree = "<group>"; };
 		F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IConcreteObjectDefinition.hpp; path = include/wisey/IConcreteObjectDefinition.hpp; sourceTree = "<group>"; };
+		F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IConcreteObjectDefinition.cpp; path = src/IConcreteObjectDefinition.cpp; sourceTree = "<group>"; };
 		F592C9951ED323F7007FB2D0 /* TestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMain.cpp; path = tests/TestMain.cpp; sourceTree = "<group>"; };
 		F59496FC1F5467540002F14F /* InstanceOf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InstanceOf.hpp; path = include/wisey/InstanceOf.hpp; sourceTree = "<group>"; };
 		F59496FD1F5469900002F14F /* InstanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InstanceOf.cpp; path = src/InstanceOf.cpp; sourceTree = "<group>"; };
@@ -1996,6 +1999,7 @@
 		F587253A1F6D337900FA25E6 /* interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */,
 				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
 				F5A363561F376C90005880B3 /* IFieldVariable.cpp */,
 				F51D2BB31F691C8100510784 /* IMethod.cpp */,
@@ -2451,6 +2455,7 @@
 				F5C6FD831E48B7260054209D /* TestIntType.cpp in Sources */,
 				F5ADB6111E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F5F396DE1E3F898900F34296 /* TestObjectBuilderArgument.cpp in Sources */,
+				F592A7BA1F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */,
 				F58A83531F798A6C00369388 /* ExternalModelDefinition.cpp in Sources */,
 				F508E0671E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
 				F53A2C2D1EFFD5E800E76A9E /* Node.cpp in Sources */,
@@ -2712,6 +2717,7 @@
 				F5CE2D4F1F180B89002ABB85 /* TryCatchInfo.cpp in Sources */,
 				F51797111E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F5FA52931F7437A8001BBE67 /* wiseyrun.cpp in Sources */,
+				F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */,
 				F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */,
 				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,
