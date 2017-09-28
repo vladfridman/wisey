@@ -26,24 +26,18 @@ namespace wisey {
  */
 class ExternalControllerDefinition : public IGlobalStatement {
   ControllerTypeSpecifier* mControllerTypeSpecifier;
-  std::vector<FieldDeclaration*> mReceivedFieldDeclarations;
-  std::vector<FieldDeclaration*> mInjectedFieldDeclarations;
-  std::vector<FieldDeclaration*> mStateFieldDeclarations;
+  std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<MethodSignatureDeclaration*> mMethodSignatures;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ExternalControllerDefinition(ControllerTypeSpecifier* controllerTypeSpecifier,
-                               std::vector<FieldDeclaration*> receivedFieldDeclarations,
-                               std::vector<FieldDeclaration*> injectedFieldDeclarations,
-                               std::vector<FieldDeclaration*> stateFieldDeclarations,
+                               std::vector<FieldDeclaration*> fieldDeclarations,
                                std::vector<MethodSignatureDeclaration*> methodSignatures,
                                std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mControllerTypeSpecifier(controllerTypeSpecifier),
-  mReceivedFieldDeclarations(receivedFieldDeclarations),
-  mInjectedFieldDeclarations(injectedFieldDeclarations),
-  mStateFieldDeclarations(stateFieldDeclarations),
+  mFieldDeclarations(fieldDeclarations),
   mMethodSignatures(methodSignatures),
   mInterfaceSpecifiers(interfaceSpecifiers) { }
   

@@ -26,24 +26,18 @@ namespace wisey {
  */
 class ControllerDefinition : public IGlobalStatement {
   ControllerTypeSpecifier* mControllerTypeSpecifier;
-  std::vector<FieldDeclaration*> mReceivedFieldDeclarations;
-  std::vector<FieldDeclaration*> mInjectedFieldDeclarations;
-  std::vector<FieldDeclaration*> mStateFieldDeclarations;
+  std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<IMethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ControllerDefinition(ControllerTypeSpecifier* controllerTypeSpecifier,
-                       std::vector<FieldDeclaration*> receivedFieldDeclarations,
-                       std::vector<FieldDeclaration*> injectedFieldDeclarations,
-                       std::vector<FieldDeclaration*> stateFieldDeclarations,
+                       std::vector<FieldDeclaration*> fieldDeclarations,
                        std::vector<IMethodDeclaration*> methodDeclarations,
                        std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mControllerTypeSpecifier(controllerTypeSpecifier),
-  mReceivedFieldDeclarations(receivedFieldDeclarations),
-  mInjectedFieldDeclarations(injectedFieldDeclarations),
-  mStateFieldDeclarations(stateFieldDeclarations),
+  mFieldDeclarations(fieldDeclarations),
   mMethodDeclarations(methodDeclarations),
   mInterfaceSpecifiers(interfaceSpecifiers) { }
   
@@ -59,28 +53,13 @@ private:
   
   std::vector<Interface*> processInterfaces(IRGenerationContext& context) const;
 
-  std::vector<Field*> createReceivedFields(IRGenerationContext& context,
-                                           std::vector<FieldDeclaration*> declarations,
-                                           unsigned long startIndex) const;
-
-  std::vector<Field*> createInjectedFields(IRGenerationContext& context,
-                                           std::vector<FieldDeclaration*> declarations,
-                                           unsigned long startIndex) const;
-
-  std::vector<Field*> createStateFields(IRGenerationContext& context,
-                                        std::vector<FieldDeclaration*> declarations,
-                                        unsigned long startIndex) const;
+  std::vector<Field*> createFields(IRGenerationContext& context, unsigned long startIndex) const;
 
   std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
 
   void createFieldVariables(IRGenerationContext& context,
                             Controller* controller,
                             std::vector<llvm::Type*>& types) const;
-
-  void createFieldVariablesForDeclarations(IRGenerationContext& context,
-                                           std::vector<FieldDeclaration*> declarations,
-                                           Controller* controller,
-                                           std::vector<llvm::Type*>& types) const;
 
 };
 

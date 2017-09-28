@@ -15,14 +15,10 @@ using namespace wisey;
 
 NodeDefinition::~NodeDefinition() {
   delete mNodeTypeSpecifier;
-  for (FieldDeclaration* fieldDeclaration : mFixedFieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     delete fieldDeclaration;
   }
-  mFixedFieldDeclarations.clear();
-  for (FieldDeclaration* fieldDeclaration : mStateFieldDeclarations) {
-    delete fieldDeclaration;
-  }
-  mStateFieldDeclarations.clear();
+  mFieldDeclarations.clear();
   for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
     delete methodDeclaration;
   }
@@ -49,15 +45,8 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   node->setInterfaces(interfaces);
   
   // In object struct fields start after vTables for all its interfaces
-  unsigned long offset = node->getInterfaces().size();
-  vector<Field*> fixedFields = createFixedFields(context, mFixedFieldDeclarations, offset);
-  vector<Field*> stateFields = createStateFields(context,
-                                                 mStateFieldDeclarations,
-                                                 offset + fixedFields.size());
-  vector<Field*> allFields;
-  allFields.insert(allFields.end(), fixedFields.begin(), fixedFields.end());
-  allFields.insert(allFields.end(), stateFields.begin(), stateFields.end());
-  node->setFields(allFields);
+  vector<Field*> fields = createFields(context, node->getInterfaces().size());
+  node->setFields(fields);
   
   vector<Type*> types;
   for (Interface* interface : node->getInterfaces()) {
@@ -106,34 +95,25 @@ vector<IMethod*> NodeDefinition::createMethods(IRGenerationContext& context) con
   return methods;
 }
 
-vector<Field*> NodeDefinition::createFixedFields(IRGenerationContext& context,
-                                                 vector<FieldDeclaration*> declarations,
-                                                 unsigned long startIndex) const {
+vector<Field*> NodeDefinition::createFields(IRGenerationContext& context,
+                                            unsigned long startIndex) const {
   vector<Field*> fields;
-  for (FieldDeclaration* fieldDeclaration : declarations) {
-    Field* field = new Field(FieldKind::FIXED_FIELD,
-                             fieldDeclaration->getTypeSpecifier()->getType(context),
-                             fieldDeclaration->getName(),
-                             startIndex + fields.size(),
-                             fieldDeclaration->getArguments());
-    fields.push_back(field);
-  }
-  
-  return fields;
-}
-
-vector<Field*> NodeDefinition::createStateFields(IRGenerationContext& context,
-                                                 vector<FieldDeclaration*> declarations,
-                                                 unsigned long startIndex) const {
-  vector<Field*> fields;
-  for (FieldDeclaration* fieldDeclaration : declarations) {
+  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     const IType* type = fieldDeclaration->getTypeSpecifier()->getType(context);
-    if (type->getTypeKind() != NODE_OWNER_TYPE) {
+    FieldKind fieldKind = fieldDeclaration->getFieldKind();
+
+    if (fieldKind != STATE_FIELD && fieldKind != FIXED_FIELD) {
+      Log::e("Nodes can only have fixed or state fields");
+      exit(1);
+    }
+    
+    if (fieldKind == STATE_FIELD && type->getTypeKind() != NODE_OWNER_TYPE) {
       Log::e("Node state fields can only be node owner type");
       exit(1);
     }
-    Field* field = new Field(FieldKind::STATE_FIELD,
-                             fieldDeclaration->getTypeSpecifier()->getType(context),
+    
+    Field* field = new Field(fieldKind,
+                             type,
                              fieldDeclaration->getName(),
                              startIndex + fields.size(),
                              fieldDeclaration->getArguments());
@@ -146,18 +126,9 @@ vector<Field*> NodeDefinition::createStateFields(IRGenerationContext& context,
 void NodeDefinition::createFieldVariables(IRGenerationContext& context,
                                           Node* node,
                                           vector<Type*>& types) const {
-  createFieldVariablesForDeclarations(context, mFixedFieldDeclarations, node, types);
-  createFieldVariablesForDeclarations(context, mStateFieldDeclarations, node, types);
-}
-
-void NodeDefinition::createFieldVariablesForDeclarations(IRGenerationContext& context,
-                                                         vector<FieldDeclaration*>
-                                                         declarations,
-                                                         Node* node,
-                                                         vector<Type*>& types) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  for (FieldDeclaration* fieldDeclaration : declarations) {
+  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
     Type* llvmType = fieldType->getLLVMType(llvmContext);
     if (IType::isReferenceType(fieldType)) {
@@ -167,3 +138,4 @@ void NodeDefinition::createFieldVariablesForDeclarations(IRGenerationContext& co
     }
   }
 }
+

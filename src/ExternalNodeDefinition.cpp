@@ -14,14 +14,10 @@ using namespace wisey;
 
 ExternalNodeDefinition::~ExternalNodeDefinition() {
   delete mNodeTypeSpecifier;
-  for (FieldDeclaration* fieldDeclaration : mFixedFieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     delete fieldDeclaration;
   }
-  mFixedFieldDeclarations.clear();
-  for (FieldDeclaration* fieldDeclaration : mStateFieldDeclarations) {
-    delete fieldDeclaration;
-  }
-  mStateFieldDeclarations.clear();
+  mFieldDeclarations.clear();
   for (MethodSignatureDeclaration* methodSignature : mMethodSignatures) {
     delete methodSignature;
   }

@@ -14,18 +14,10 @@ using namespace wisey;
 
 ExternalControllerDefinition::~ExternalControllerDefinition() {
   delete mControllerTypeSpecifier;
-  for (FieldDeclaration* fieldDeclaration : mReceivedFieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     delete fieldDeclaration;
   }
-  mReceivedFieldDeclarations.clear();
-  for (FieldDeclaration* fieldDeclaration : mInjectedFieldDeclarations) {
-    delete fieldDeclaration;
-  }
-  mInjectedFieldDeclarations.clear();
-  for (FieldDeclaration* fieldDeclaration : mStateFieldDeclarations) {
-    delete fieldDeclaration;
-  }
-  mStateFieldDeclarations.clear();
+  mFieldDeclarations.clear();
   for (MethodSignatureDeclaration* methodSignature : mMethodSignatures) {
     delete methodSignature;
   }

@@ -1,0 +1,5 @@
+package systems.vos.wisey.compiler.tests;
+
+model MShape {
+  state int mWidth;
+}

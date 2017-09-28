@@ -24,21 +24,18 @@ namespace wisey {
  */
 class NodeDefinition : public IGlobalStatement {
   NodeTypeSpecifier* mNodeTypeSpecifier;
-  std::vector<FieldDeclaration*> mFixedFieldDeclarations;
-  std::vector<FieldDeclaration*> mStateFieldDeclarations;
+  std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<IMethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   NodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
-                 std::vector<FieldDeclaration*> fixedFieldDeclarations,
-                 std::vector<FieldDeclaration*> stateFieldDeclarations,
+                 std::vector<FieldDeclaration*> fieldDeclarations,
                  std::vector<IMethodDeclaration *> methodDeclarations,
                  std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mNodeTypeSpecifier(nodeTypeSpecifier),
-  mFixedFieldDeclarations(fixedFieldDeclarations),
-  mStateFieldDeclarations(stateFieldDeclarations),
+  mFieldDeclarations(fieldDeclarations),
   mMethodDeclarations(methodDeclarations),
   mInterfaceSpecifiers(interfaceSpecifiers) { }
   
@@ -56,25 +53,12 @@ private:
   
   std::vector<IMethod*> createMethods(IRGenerationContext& context) const;
 
-  std::vector<Field*> createFixedFields(IRGenerationContext& context,
-                                        std::vector<FieldDeclaration*>
-                                        declarations,
-                                        unsigned long startIndex) const;
-
-  std::vector<Field*> createStateFields(IRGenerationContext& context,
-                                        std::vector<FieldDeclaration*>
-                                        declarations,
-                                        unsigned long startIndex) const;
+  std::vector<Field*> createFields(IRGenerationContext& context, unsigned long startIndex) const;
 
   void createFieldVariables(IRGenerationContext& context,
                             Node* node,
                             std::vector<llvm::Type*>& types) const;
-
-  void createFieldVariablesForDeclarations(IRGenerationContext& context,
-                                           std::vector<FieldDeclaration*> declarations,
-                                           Node* node,
-                                           std::vector<llvm::Type*>& types) const;
-
+  
 };
   
 } /* namespace wisey */

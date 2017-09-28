@@ -11,6 +11,7 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/Environment.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/ModelDefinition.hpp"
 
 using namespace llvm;
@@ -88,8 +89,14 @@ vector<Field*> ModelDefinition::createFields(IRGenerationContext& context,
   ExpressionList arguments;
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
     const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
+    FieldKind fieldKind = fieldDeclaration->getFieldKind();
     
-    Field* field = new Field(FieldKind::FIXED_FIELD,
+    if (fieldKind != FIXED_FIELD) {
+      Log::e("Models can only have fixed fields");
+      exit(1);
+    }
+    
+    Field* field = new Field(fieldKind,
                              fieldType,
                              fieldDeclaration->getName(),
                              numberOfInterfaces + fields.size(),

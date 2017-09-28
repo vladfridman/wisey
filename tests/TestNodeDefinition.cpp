@@ -38,8 +38,7 @@ struct NodeDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   MethodDeclaration *mMethodDeclaration;
-  vector<FieldDeclaration*> mFixedFields;
-  vector<FieldDeclaration*> mStateFields;
+  vector<FieldDeclaration*> mFieldDeclarations;
   vector<IMethodDeclaration*> mMethodDeclarations;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
@@ -83,17 +82,13 @@ TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFixedFields.push_back(field1);
-  mFixedFields.push_back(field2);
+  mFieldDeclarations.push_back(field1);
+  mFieldDeclarations.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier,
-                                mFixedFields,
-                                mStateFields,
-                                mMethodDeclarations,
-                                interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
   
@@ -110,17 +105,13 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFixedFields.push_back(field1);
-  mFixedFields.push_back(field2);
+  mFieldDeclarations.push_back(field1);
+  mFieldDeclarations.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier,
-                                mFixedFields,
-                                mStateFields,
-                                mMethodDeclarations,
-                                interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
@@ -136,17 +127,13 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFixedFields.push_back(field1);
-  mFixedFields.push_back(field2);
+  mFieldDeclarations.push_back(field1);
+  mFieldDeclarations.push_back(field2);
   
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier,
-                                mFixedFields,
-                                mStateFields,
-                                mMethodDeclarations,
-                                interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
   
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
@@ -201,11 +188,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier,
-                                mFixedFields,
-                                mStateFields,
-                                mMethodDeclarations,
-                                interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
   nodeDefinition.generateIR(mContext);
@@ -239,16 +222,32 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
   
   vector<string> packageSpecifier;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(packageSpecifier, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier,
-                                mFixedFields,
-                                mStateFields,
-                                mMethodDeclarations,
-                                interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
+}
+
+TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
+  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  vector<IExpression*> arguments;
+  FieldDeclaration* field1 = new FieldDeclaration(INJECTED_FIELD, longType, "field1", arguments);
+  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  mFieldDeclarations.push_back(field1);
+  mFieldDeclarations.push_back(field2);
+  
+  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<string> package;
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
+  nodeDefinition.prototypeObjects(mContext);
+  
+  EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Nodes can only have fixed or state fields");
 }
 
 TEST_F(TestFileSampleRunner, nodeDefinitionRunTest) {
@@ -263,4 +262,10 @@ TEST_F(TestFileSampleRunner, nodeStateFieldsNonNodeOwnerTypeDeathRunTest) {
   expectFailCompile("tests/samples/test_node_state_fields_non_node_owner_type.yz",
                     1,
                     "Error: Node state fields can only be node owner type");
+}
+
+TEST_F(TestFileSampleRunner, nodeWithInjectedFieldDeathRunTest) {
+  expectFailCompile("tests/samples/test_node_with_injected_field.yz",
+                    1,
+                    "Error: Nodes can only have fixed or state fields");
 }

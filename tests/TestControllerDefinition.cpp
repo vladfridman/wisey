@@ -43,9 +43,7 @@ struct ControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockStatement>* mMockStatement;
-  vector<FieldDeclaration*> mReceivedFields;
-  vector<FieldDeclaration*> mInjectedFields;
-  vector<FieldDeclaration*> mStateFields;
+  vector<FieldDeclaration*> mFieldDeclarations;
   vector<IMethodDeclaration*> mMethodDeclarations;
   vector<InterfaceTypeSpecifier*> mInterfaces;
   
@@ -83,12 +81,10 @@ struct ControllerDefinitionTest : public Test {
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     ExpressionList arguments;
-    FieldDeclaration* field1 =
-    new FieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
-    FieldDeclaration* field2 =
-    new FieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
-    mReceivedFields.push_back(field1);
-    mReceivedFields.push_back(field2);
+    FieldDeclaration* field1 = new FieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
+    FieldDeclaration* field2 = new FieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
+    mFieldDeclarations.push_back(field1);
+    mFieldDeclarations.push_back(field2);
   }
   
   ~ControllerDefinitionTest() {
@@ -99,9 +95,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
   vector<string> package;
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
   ControllerDefinition controllerDefinition(typeSpecifier,
-                                            mReceivedFields,
-                                            mInjectedFields,
-                                            mStateFields,
+                                            mFieldDeclarations,
                                             mMethodDeclarations,
                                             mInterfaces);
 
@@ -122,9 +116,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
   vector<string> package;
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
   ControllerDefinition controllerDefinition(typeSpecifier,
-                                            mReceivedFields,
-                                            mInjectedFields,
-                                            mStateFields,
+                                            mFieldDeclarations,
                                             mMethodDeclarations,
                                             mInterfaces);
 
@@ -141,9 +133,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   vector<string> package;
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
   ControllerDefinition controllerDefinition(typeSpecifier,
-                                            mReceivedFields,
-                                            mInjectedFields,
-                                            mStateFields,
+                                            mFieldDeclarations,
                                             mMethodDeclarations,
                                             mInterfaces);
 
@@ -168,6 +158,24 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   EXPECT_NE(controller->findMethod("foo"), nullptr);
 }
 
+TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
+  vector<string> package;
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ExpressionList arguments;
+  PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
+  mFieldDeclarations.push_back(field);
+  ControllerDefinition controllerDefinition(typeSpecifier,
+                                            mFieldDeclarations,
+                                            mMethodDeclarations,
+                                            mInterfaces);
+  controllerDefinition.prototypeObjects(mContext);
+  
+  EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Controllers can only have fixed, injected or state fields");
+}
+
 TEST_F(TestFileSampleRunner, controllerDefinitionSyntaxRunTest) {
   runFile("tests/samples/test_controller_definition.yz", "8");
 }
@@ -178,5 +186,11 @@ TEST_F(TestFileSampleRunner, controllerDefinitionWithModelStateSyntaxRunTest) {
 
 TEST_F(TestFileSampleRunner, controllerDefinitionWithInjectedInterfaceFieldRunTest) {
   runFile("tests/samples/test_controller_definition_with_injected_interface_field.yz", "8");
+}
+
+TEST_F(TestFileSampleRunner, controllerWithFixedFieldDeathRunTest) {
+  expectFailCompile("tests/samples/test_controller_with_fixed_field.yz",
+                    1,
+                    "Error: Controllers can only have fixed, injected or state fields");
 }
 

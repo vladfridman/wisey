@@ -180,15 +180,8 @@
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
 %type <switch_cases> case_statement_list case_statement_list_with_default
-%type <object_field_vector> fixed_fields_list fixed_fields_optional 
-%type <object_field_vector> node_state_fields_list node_state_fields_optional 
-%type <object_field_vector> controller_received_fields_optional controller_received_fields_list
-%type <object_field_vector> controller_injected_fields_optional controller_injected_fields_list
-%type <object_field_vector> controller_state_fields_optional controller_state_fields_list
-%type <object_field> fixed_field_declaration node_state_field_declaration
-%type <object_field> controller_received_field_declaration
-%type <object_field> controller_injected_field_declaration
-%type <object_field> controller_state_field_declaration
+%type <object_field_vector> field_declaration_list 
+%type <object_field> field_declaration
 %type <type_specifier> type_specifier primitive_type_specifier
 %type <buildable_concrete_object_type_specifier> buildable_concrete_object_type_specifier
 %type <object_type_specifier> object_type_specifier
@@ -309,240 +302,174 @@ method_signature
   ;
 
 controller_definition
-  : TCONTROLLER controller_type_specifier
-      '{' controller_received_fields_optional controller_injected_fields_optional
-      controller_state_fields_optional method_definition_list_optional '}'
+  : TCONTROLLER controller_type_specifier 
+      '{' field_declaration_list method_definition_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ControllerDefinition($2, *$4, *$5, *$6, *$7, interfaces);
+      $$ = new ControllerDefinition($2, *$4, *$5, interfaces);
       delete $4;
       delete $5;
-      delete $6;
-      delete $7;
     }
-  | TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
-    '{' controller_received_fields_optional controller_injected_fields_optional
-      controller_state_fields_optional method_definition_list_optional '}'
+  | TCONTROLLER controller_type_specifier '{' method_definition_list_optional '}'
     {
-      $$ = new ControllerDefinition($2, *$6, *$7, *$8, *$9, *$4);
+      std::vector<FieldDeclaration*> fields;
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      $$ = new ControllerDefinition($2, fields, *$4, interfaces);
+      delete $4;
+    }
+  | TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list 
+      '{' field_declaration_list method_definition_list_optional '}'
+    {
+      $$ = new ControllerDefinition($2, *$6, *$7, *$4);
       delete $6;
       delete $7;
-      delete $8;
-      delete $9;
+      delete $4;
+    }
+  | TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list 
+      '{' method_definition_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> fields;
+      $$ = new ControllerDefinition($2, fields, *$6, *$4);
+      delete $6;
       delete $4;
     }
   ;
 
 external_controller_definition
   : TEXTERNAL TCONTROLLER controller_type_specifier
-      '{' controller_received_fields_optional controller_injected_fields_optional
-      controller_state_fields_optional method_signature_list_optional '}'
+      '{' field_declaration_list method_signature_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ExternalControllerDefinition($3, *$5, *$6, *$7, *$8, interfaces);
+      $$ = new ExternalControllerDefinition($3, *$5, *$6, interfaces);
       delete $5;
       delete $6;
-      delete $7;
-      delete $8;
+    }
+  | TEXTERNAL TCONTROLLER controller_type_specifier '{' method_signature_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> fields;
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      $$ = new ExternalControllerDefinition($3, fields, *$5, interfaces);
+      delete $5;
     }
   | TEXTERNAL TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
-    '{' controller_received_fields_optional controller_injected_fields_optional
-      controller_state_fields_optional method_signature_list_optional '}'
+    '{' field_declaration_list method_signature_list_optional '}'
     {
-      $$ = new ExternalControllerDefinition($3, *$7, *$8, *$9, *$10, *$5);
+      $$ = new ExternalControllerDefinition($3, *$7, *$8, *$5);
       delete $7;
       delete $8;
-      delete $9;
-      delete $10;
       delete $5;
     }
-  ;
-
-controller_received_fields_optional
-  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
-  | controller_received_fields_list
-  ;
-
-controller_received_fields_list
-  : controller_received_field_declaration
-    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
-  | controller_received_fields_list controller_received_field_declaration
-    { $1->push_back($2); }
-  ;
-
-controller_received_field_declaration
-  : TRECEIVE type_specifier TFIELDIDENTIFIER ';'
+  | TEXTERNAL TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
+    '{' method_signature_list_optional '}'
     {
-      std::vector<IExpression*> arguments;
-      $$ = new FieldDeclaration(FieldKind::RECEIVED_FIELD, $2, *$3, arguments);
-      delete $3;
-    }
-  ;
-
-controller_injected_fields_optional
-  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
-  | controller_injected_fields_list
-  ;
-
-controller_injected_fields_list
-  : controller_injected_field_declaration
-    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
-  | controller_injected_fields_list controller_injected_field_declaration
-    { $1->push_back($2); }
-  ;
-
-controller_injected_field_declaration
-  : TINJECT type_specifier TFIELDIDENTIFIER ';'
-    {
-      std::vector<IExpression*> arguments;
-      $$ = new FieldDeclaration(FieldKind::INJECTED_FIELD, $2, *$3, arguments);
-      delete $3;
-    }
-  | TINJECT type_specifier TFIELDIDENTIFIER '(' call_arguments ')' ';'
-    {
-      $$ = new FieldDeclaration(INJECTED_FIELD, $2, *$3, *$5);
-      delete $3;
+      std::vector<FieldDeclaration*> fields;
+      $$ = new ExternalControllerDefinition($3, fields, *$7, *$5);
+      delete $7;
       delete $5;
-    }
-
-  ;
-
-controller_state_fields_optional
-  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
-  | controller_state_fields_list
-  ;
-
-controller_state_fields_list
-  : controller_state_field_declaration
-    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
-  | controller_state_fields_list controller_state_field_declaration
-    { $1->push_back($2); }
-  ;
-
-controller_state_field_declaration
-  : TSTATE type_specifier TFIELDIDENTIFIER ';'
-    {
-      std::vector<IExpression*> arguments;
-      $$ = new FieldDeclaration(FieldKind::STATE_FIELD, $2, *$3, arguments);
-      delete $3;
     }
   ;
 
 node_definition
-  : TNODE node_type_specifier '{' fixed_fields_optional node_state_fields_optional
-      method_definition_list_optional '}'
+  : TNODE node_type_specifier '{' field_declaration_list method_definition_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new NodeDefinition($2, *$4, *$5, *$6, interfaces);
+      $$ = new NodeDefinition($2, *$4, *$5, interfaces);
       delete $4;
       delete $5;
-      delete $6;
+    }
+  | TNODE node_type_specifier '{' method_definition_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> fields;
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      $$ = new NodeDefinition($2, fields, *$4, interfaces);
+      delete $4;
     }
   | TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' fixed_fields_optional node_state_fields_optional method_definition_list_optional '}'
+      '{' field_declaration_list method_definition_list_optional '}'
     {
-      $$ = new NodeDefinition($2, *$6, *$7, *$8, *$4);
+      $$ = new NodeDefinition($2, *$6, *$7, *$4);
       delete $6;
       delete $7;
-      delete $8;
+      delete $4;
+    }
+  | TNODE node_type_specifier TIMPLEMENTS interface_list '{' method_definition_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> fields;
+      $$ = new NodeDefinition($2, fields, *$6, *$4);
+      delete $6;
       delete $4;
     }
   ;
 
 external_node_definition
-  : TEXTERNAL TNODE node_type_specifier '{' fixed_fields_list node_state_fields_list
+  : TEXTERNAL TNODE node_type_specifier '{' field_declaration_list 
       method_signature_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ExternalNodeDefinition($3, *$5, *$6, *$7, interfaces);
-      delete $5;
-      delete $6;
-      delete $7;
-    }
-  | TEXTERNAL TNODE node_type_specifier '{' node_state_fields_list
-      method_signature_list_optional '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<FieldDeclaration*> fixedFields;
-      $$ = new ExternalNodeDefinition($3, fixedFields, *$5, *$6, interfaces);
-      delete $5;
-      delete $6;
-    }
-  | TEXTERNAL TNODE node_type_specifier '{' fixed_fields_list
-      method_signature_list_optional '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<FieldDeclaration*> stateFields;
-      $$ = new ExternalNodeDefinition($3, *$5, stateFields, *$6, interfaces);
+      $$ = new ExternalNodeDefinition($3, *$5, *$6, interfaces);
       delete $5;
       delete $6;
     }
   | TEXTERNAL TNODE node_type_specifier '{' method_signature_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<FieldDeclaration*> fixedFields;
-      std::vector<FieldDeclaration*> stateFields;
-      $$ = new ExternalNodeDefinition($3, fixedFields, stateFields, *$5, interfaces);
+      std::vector<FieldDeclaration*> fields;
+      $$ = new ExternalNodeDefinition($3, fields, *$5, interfaces);
       delete $5;
     }
   | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' fixed_fields_list node_state_fields_list method_signature_list_optional '}'
+      '{' field_declaration_list method_signature_list_optional '}'
     {
-      $$ = new ExternalNodeDefinition($3, *$7, *$8, *$9, *$5);
+      $$ = new ExternalNodeDefinition($3, *$7, *$8, *$5);
       delete $7;
       delete $8;
-      delete $9;
       delete $5;
     }
-  | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' node_state_fields_list method_signature_list_optional '}'
-    {
-      std::vector<FieldDeclaration*> fixedFields;
-      $$ = new ExternalNodeDefinition($3, fixedFields, *$7, *$8, *$5);
-      delete $7;
-      delete $8;
-      delete $5;
-     }
-  | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' fixed_fields_list method_signature_list_optional '}'
-    {
-      std::vector<FieldDeclaration*> stateFields;
-      $$ = new ExternalNodeDefinition($3, *$7, stateFields, *$8, *$5);
-      delete $7;
-      delete $8;
-      delete $5;
-     }
   | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
       '{' method_signature_list_optional '}'
     {
-      std::vector<FieldDeclaration*> fixedFields;
-      std::vector<FieldDeclaration*> stateFields;
-      $$ = new ExternalNodeDefinition($3, fixedFields, stateFields, *$7, *$5);
-      delete $7;
+      std::vector<FieldDeclaration*> fields;
+      $$ = new ExternalNodeDefinition($3, fields, *$7, *$5);
       delete $5;
-     }
+      delete $7;
+    }
   ;
 
 model_definition
-  : TMODEL model_type_specifier '{' fixed_fields_optional method_definition_list_optional '}'
+  : TMODEL model_type_specifier '{' field_declaration_list method_definition_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
       $$ = new ModelDefinition($2, *$4, *$5, interfaces);
       delete $4;
       delete $5;
     }
+  | TMODEL model_type_specifier '{' method_definition_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> fields;
+      std::vector<InterfaceTypeSpecifier*> interfaces;
+      $$ = new ModelDefinition($2, fields, *$4, interfaces);
+      delete $4;
+    }
   | TMODEL model_type_specifier TIMPLEMENTS interface_list
-      '{' fixed_fields_optional method_definition_list_optional '}'
+      '{' field_declaration_list method_definition_list_optional '}'
     {
       $$ = new ModelDefinition($2, *$6, *$7, *$4);
       delete $6;
       delete $7;
       delete $4;
     }
+  | TMODEL model_type_specifier TIMPLEMENTS interface_list '{' method_definition_list_optional '}'
+    {
+      std::vector<FieldDeclaration*> fields;
+      $$ = new ModelDefinition($2, fields, *$6, *$4);
+      delete $6;
+      delete $4;
+    }
   ;
 
 external_model_definition
-  : TEXTERNAL TMODEL model_type_specifier '{' fixed_fields_list method_signature_list_optional '}'
+  : TEXTERNAL TMODEL model_type_specifier '{' field_declaration_list 
+      method_signature_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
       $$ = new ExternalModelDefinition($3, *$5, *$6, interfaces);
@@ -557,7 +484,7 @@ external_model_definition
       delete $5;
     }
   | TEXTERNAL TMODEL model_type_specifier TIMPLEMENTS interface_list 
-      '{' fixed_fields_list method_signature_list_optional '}'
+      '{' field_declaration_list method_signature_list_optional '}'
     {
       $$ = new ExternalModelDefinition($3, *$7, *$8, *$5);
       delete $7;
@@ -580,19 +507,14 @@ interface_list
   | interface_list ',' interface_type_specifier { $$ = $1; $$->push_back($3); }
   ;
 
-fixed_fields_optional
-  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
-  | fixed_fields_list
-  ;
-
-fixed_fields_list
-  : fixed_field_declaration
+field_declaration_list
+  : field_declaration
     { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
-  | fixed_fields_list fixed_field_declaration
+  | field_declaration_list field_declaration
     { $1->push_back($2); }
   ;
 
-fixed_field_declaration
+field_declaration
   : type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
@@ -605,22 +527,25 @@ fixed_field_declaration
       $$ = new FieldDeclaration(FieldKind::FIXED_FIELD, $2, *$3, arguments);
       delete $3;
     }
-  ;
-
-node_state_fields_optional
-  : /* blank */ { $$ = new std::vector<FieldDeclaration*>(); }
-  | node_state_fields_list
-  ;
-
-node_state_fields_list
-  : node_state_field_declaration
-    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
-  | node_state_fields_list node_state_field_declaration
-    { $1->push_back($2); }
-  ;
-
-node_state_field_declaration
-  : TSTATE type_specifier TFIELDIDENTIFIER ';'
+  | TINJECT type_specifier TFIELDIDENTIFIER ';'
+    {
+      std::vector<IExpression*> arguments;
+      $$ = new FieldDeclaration(FieldKind::INJECTED_FIELD, $2, *$3, arguments);
+      delete $3;
+    }
+  | TINJECT type_specifier TFIELDIDENTIFIER '(' call_arguments ')' ';'
+    {
+      $$ = new FieldDeclaration(INJECTED_FIELD, $2, *$3, *$5);
+      delete $3;
+      delete $5;
+    }
+  | TRECEIVE type_specifier TFIELDIDENTIFIER ';'
+    {
+      std::vector<IExpression*> arguments;
+      $$ = new FieldDeclaration(FieldKind::RECEIVED_FIELD, $2, *$3, arguments);
+      delete $3;
+    }
+  | TSTATE type_specifier TFIELDIDENTIFIER ';'
     {
       std::vector<IExpression*> arguments;
       $$ = new FieldDeclaration(STATE_FIELD, $2, *$3, arguments);

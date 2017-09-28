@@ -227,6 +227,23 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
               "Error: Interface systems.vos.wisey.compiler.tests.IMyInterface is not defined");
 }
 
+TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
+  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  vector<IExpression*> arguments;
+  FieldDeclaration* field1 = new FieldDeclaration(INJECTED_FIELD, longType, "field1", arguments);
+  mFields.push_back(field1);
+  
+  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<string> package;
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
+  modelDefinition.prototypeObjects(mContext);
+  
+  EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Models can only have fixed fields");
+}
+
 TEST_F(TestFileSampleRunner, modelDefinitionRunTest) {
   runFile("tests/samples/test_model_definition.yz", "0");
 }
@@ -243,4 +260,10 @@ TEST_F(TestFileSampleRunner, setterInModelDeathRunTest) {
   expectFailCompile("tests/samples/test_setter_in_model.yz",
                     1,
                     "Error: Can not assign to field mValue");
+}
+
+TEST_F(TestFileSampleRunner, modelWithStateFieldDeathRunTest) {
+  expectFailCompile("tests/samples/test_model_with_state_field.yz",
+                    1,
+                    "Error: Models can only have fixed fields");
 }

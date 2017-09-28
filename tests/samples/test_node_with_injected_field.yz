@@ -1,0 +1,9 @@
+package systems.vos.wisey.compiler.tests;
+
+model MModel {
+
+}
+
+node NNode {
+  inject MModel* mModel;
+}

@@ -22,21 +22,18 @@ namespace wisey {
  */
 class ExternalNodeDefinition : public IGlobalStatement {
   NodeTypeSpecifier* mNodeTypeSpecifier;
-  std::vector<FieldDeclaration*> mFixedFieldDeclarations;
-  std::vector<FieldDeclaration*> mStateFieldDeclarations;
+  std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<MethodSignatureDeclaration*> mMethodSignatures;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ExternalNodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
-                         std::vector<FieldDeclaration*> fixedFieldDeclarations,
-                         std::vector<FieldDeclaration*> stateFieldDeclarations,
+                         std::vector<FieldDeclaration*> fieldDeclarations,
                          std::vector<MethodSignatureDeclaration *> methodSignatures,
                          std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mNodeTypeSpecifier(nodeTypeSpecifier),
-  mFixedFieldDeclarations(fixedFieldDeclarations),
-  mStateFieldDeclarations(stateFieldDeclarations),
+  mFieldDeclarations(fieldDeclarations),
   mMethodSignatures(methodSignatures),
   mInterfaceSpecifiers(interfaceSpecifiers) { }
   
