@@ -657,6 +657,7 @@
 		F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */; };
 		F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */; };
 		F5FE0A1E1F7D9B84000621CA /* TestExternalMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FE0A1D1F7D9B84000621CA /* TestExternalMethodDeclaration.cpp */; };
+		F5FE0A201F7D9E7C000621CA /* TestStaticMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FE0A1F1F7D9E7C000621CA /* TestStaticMethodDeclaration.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1260,6 +1261,7 @@
 		F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompilerArgumentParser.cpp; path = tests/TestCompilerArgumentParser.cpp; sourceTree = "<group>"; };
 		F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCompiler.cpp; path = tests/TestCompiler.cpp; sourceTree = "<group>"; };
 		F5FE0A1D1F7D9B84000621CA /* TestExternalMethodDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalMethodDeclaration.cpp; path = tests/TestExternalMethodDeclaration.cpp; sourceTree = "<group>"; };
+		F5FE0A1F1F7D9E7C000621CA /* TestStaticMethodDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestStaticMethodDeclaration.cpp; path = tests/TestStaticMethodDeclaration.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1764,6 +1766,7 @@
 				F50427AE1E4DD329001CB148 /* TestStackVariable.cpp */,
 				F51D2BB61F6921DB00510784 /* TestStaticMethod.cpp */,
 				F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */,
+				F5FE0A1F1F7D9E7C000621CA /* TestStaticMethodDeclaration.cpp */,
 				F531B6561E0DE040008304F3 /* TestStringLiteral.cpp */,
 				F58725541F6DB97C00FA25E6 /* TestStringType.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
@@ -2540,6 +2543,7 @@
 				F59496FF1F5469900002F14F /* InstanceOf.cpp in Sources */,
 				F51581301E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
+				F5FE0A201F7D9E7C000621CA /* TestStaticMethodDeclaration.cpp in Sources */,
 				F51D2BB71F6921DB00510784 /* TestStaticMethod.cpp in Sources */,
 				F58A834F1F7988D600369388 /* ExternalControllerDefinition.cpp in Sources */,
 				F53A2C161EF020B400E76A9E /* TestModelOwner.cpp in Sources */,
