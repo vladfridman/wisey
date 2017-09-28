@@ -45,32 +45,21 @@ public:
   ~Node();
   
   /**
-   * Set fixed and state fields to the given lists of fields
-   */
-  void setFields(std::vector<Field*>);
-
-  /**
-   * Set interfaces for this node
-   */
-  void setInterfaces(std::vector<Interface*> interfaces);
-  
-  /**
-   * Set methods for this controller
-   */
-  void setMethods(std::vector<IMethod*> methods);
-  
-  /**
-   * Set the struct field types for the struct that represents this controller
-   */
-  void setStructBodyTypes(std::vector<llvm::Type*> types);
-
-  /**
    * Returns the difference beteween the set of fixed fields and the fields given as argument
    */
   std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
 
+  void setFields(std::vector<Field*> fields) override;
+  
+  void setInterfaces(std::vector<Interface*> interfaces) override;
+  
+  void setMethods(std::vector<IMethod*> methods) override;
+  
+  void setStructBodyTypes(std::vector<llvm::Type*> types) override;
+  
   llvm::Instruction* build(IRGenerationContext& context,
-                           const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const override;
+                           const ObjectBuilderArgumentList&
+                           ObjectBuilderArgumentList) const override;
   
   Field* findField(std::string fieldName) const override;
   

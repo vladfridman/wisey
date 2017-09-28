@@ -43,26 +43,6 @@ public:
   ~Model();
   
   /**
-   * Set fields to the given map of fields
-   */
-  void setFields(std::vector<Field*> fields);
-  
-  /**
-   * Set interfaces for this model
-   */
-  void setInterfaces(std::vector<Interface*> interfaces);
-  
-  /**
-   * Set methods for this model
-   */
-  void setMethods(std::vector<IMethod*> methods);
-
-  /**
-   * Set body types of the struct that represents this model
-   */
-  void setStructBodyTypes(std::vector<llvm::Type*> types);
-
-  /**
    * Gets a set of field names and returns the ones that are missing
    */
   std::vector<std::string> getMissingFields(std::set<std::string> givenFields) const;
@@ -87,8 +67,17 @@ public:
    */
   llvm::Value* getSize(IRGenerationContext& context) const;
   
+  void setFields(std::vector<Field*> fields) override;
+  
+  void setInterfaces(std::vector<Interface*> interfaces) override;
+  
+  void setMethods(std::vector<IMethod*> methods) override;
+  
+  void setStructBodyTypes(std::vector<llvm::Type*> types) override;
+  
   llvm::Instruction* build(IRGenerationContext& context,
-                           const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const override;
+                           const ObjectBuilderArgumentList&
+                           ObjectBuilderArgumentList) const override;
   
   Field* findField(std::string fieldName) const override;
   

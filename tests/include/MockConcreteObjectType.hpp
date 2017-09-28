@@ -44,6 +44,10 @@ public:
                                            llvm::Value*,
                                            const wisey::IType*));
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
+  MOCK_METHOD1(setFields, void (std::vector<wisey::Field*>));
+  MOCK_METHOD1(setInterfaces, void (std::vector<wisey::Interface*>));
+  MOCK_METHOD1(setMethods, void (std::vector<wisey::IMethod*>));
+  MOCK_METHOD1(setStructBodyTypes, void (std::vector<llvm::Type*>));
 };
 
 #endif /* MockConcreteObjectType_h */

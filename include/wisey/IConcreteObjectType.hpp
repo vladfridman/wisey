@@ -116,6 +116,26 @@ public:
   virtual std::vector<IMethod*> getMethods() const = 0;
 
   /**
+   * Set fields to the given map of fields
+   */
+  virtual void setFields(std::vector<Field*> fields) = 0;
+  
+  /**
+   * Set interfaces for this object
+   */
+  virtual void setInterfaces(std::vector<Interface*> interfaces) = 0;
+  
+  /**
+   * Set methods for this object
+   */
+  virtual void setMethods(std::vector<IMethod*> methods) = 0;
+  
+  /**
+   * Set body types of the struct that represents this object
+   */
+  virtual void setStructBodyTypes(std::vector<llvm::Type*> types) = 0;
+
+  /**
    * Generate global variable with the name of the given object
    */
   static void generateNameGlobal(IRGenerationContext& context, IConcreteObjectType* object);

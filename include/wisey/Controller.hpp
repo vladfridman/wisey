@@ -44,29 +44,17 @@ public:
   ~Controller();
   
   /**
-   * Set received, injected and state fields to the given lists of fields
-   */
-  void setFields(std::vector<Field*> fields);
-
-  /**
-   * Set interfaces for this controller
-   */
-  void setInterfaces(std::vector<Interface*> interfaces);
-  
-  /**
-   * Set methods for this controller
-   */
-  void setMethods(std::vector<IMethod*> methods);
-  
-  /**
-   * Set the struct field types for the struct that represents this controller
-   */
-  void setStructBodyTypes(std::vector<llvm::Type*> types);
-
-  /**
    * Inject an instance of this controller into LLVM code
    */
   llvm::Instruction* inject(IRGenerationContext& context, ExpressionList expressionList) const;
+  
+  void setFields(std::vector<Field*> fields) override;
+  
+  void setInterfaces(std::vector<Interface*> interfaces) override;
+  
+  void setMethods(std::vector<IMethod*> methods) override;
+  
+  void setStructBodyTypes(std::vector<llvm::Type*> types) override;
   
   Field* findField(std::string fieldName) const override;
   
