@@ -1,16 +1,16 @@
 //
-//  ExternalMethodDeclaration.hpp
+//  ExternalStaticMethodDeclaration.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 9/28/17.
+//  Created by Vladimir Fridman on 9/29/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ExternalMethodDeclaration_h
-#define ExternalMethodDeclaration_h
+#ifndef ExternalStaticMethodDeclaration_h
+#define ExternalStaticMethodDeclaration_h
 
 #include "wisey/AccessLevel.hpp"
-#include "wisey/ExternalMethod.hpp"
+#include "wisey/ExternalStaticMethod.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
@@ -21,9 +21,9 @@
 namespace wisey {
   
 /**
- * Represents method declaration for an externally implemented object
+ * Represents a static method declaration with an external implemention
  */
-class ExternalMethodDeclaration : public IMethodDeclaration {
+class ExternalStaticMethodDeclaration : public IMethodDeclaration {
   const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mName;
   VariableList mArguments;
@@ -31,7 +31,7 @@ class ExternalMethodDeclaration : public IMethodDeclaration {
   
 public:
   
-  ExternalMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
+  ExternalStaticMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                             std::string name,
                             const VariableList& arguments,
                             std::vector<ModelTypeSpecifier*> thrownExceptions) :
@@ -40,12 +40,12 @@ public:
   mArguments(arguments),
   mThrownExceptions(thrownExceptions) { }
   
-  ~ExternalMethodDeclaration();
+  ~ExternalStaticMethodDeclaration();
   
-  ExternalMethod* createMethod(IRGenerationContext& context) const override;
+  ExternalStaticMethod* createMethod(IRGenerationContext& context) const override;
   
 };
 
 } /* namespace wisey */
 
-#endif /* ExternalMethodDeclaration_h */
+#endif /* ExternalStaticMethodDeclaration_h */

@@ -1,0 +1,14 @@
+
+external model wisey.lang.MModel {
+  fixed int mValue;
+
+  static int getValue();
+}
+
+external node wisey.lang.NNode {
+  static int getValue(float a);
+}
+
+external controller wisey.lang.CConctroller {
+  static int getValue(wisey.lang.MModel* input);
+}

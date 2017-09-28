@@ -24,6 +24,7 @@
   #include "wisey/ExpressionStatement.hpp"
   #include "wisey/ExternalControllerDefinition.hpp"
   #include "wisey/ExternalMethodDeclaration.hpp"
+  #include "wisey/ExternalStaticMethodDeclaration.hpp"
   #include "wisey/ExternalModelDefinition.hpp"
   #include "wisey/ExternalNodeDefinition.hpp"
   #include "wisey/FieldDeclaration.hpp"
@@ -527,6 +528,13 @@ external_method_declaration
         delete $2;
         delete $4;
         delete $6;
+      }
+  | TSTATIC type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
+      {
+        $$ = new ExternalStaticMethodDeclaration($2, *$3, *$5, *$7);
+        delete $3;
+        delete $5;
+        delete $7;
       }
   ;
 

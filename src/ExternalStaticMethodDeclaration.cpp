@@ -1,20 +1,20 @@
 //
-//  ExternalMethodDeclaration.cpp
+//  ExternalStaticMethodDeclaration.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 9/28/17.
+//  Created by Vladimir Fridman on 9/29/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ExternalMethod.hpp"
-#include "wisey/ExternalMethodDeclaration.hpp"
+#include "wisey/ExternalStaticMethod.hpp"
+#include "wisey/ExternalStaticMethodDeclaration.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ExternalMethodDeclaration::~ExternalMethodDeclaration() {
+ExternalStaticMethodDeclaration::~ExternalStaticMethodDeclaration() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {
     delete argument;
@@ -26,11 +26,13 @@ ExternalMethodDeclaration::~ExternalMethodDeclaration() {
   mThrownExceptions.clear();
 }
 
-ExternalMethod* ExternalMethodDeclaration::createMethod(IRGenerationContext& context) const {
+ExternalStaticMethod* ExternalStaticMethodDeclaration::createMethod(IRGenerationContext&
+                                                                    context) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,
                                                                             mThrownExceptions);
-
-  return new ExternalMethod(mName, returnType, arguments, exceptions);
+  
+  return new ExternalStaticMethod(mName, returnType, arguments, exceptions);
 }
+

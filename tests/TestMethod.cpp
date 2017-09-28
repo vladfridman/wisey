@@ -80,6 +80,7 @@ TEST_F(MethodTest, basicMethodTest) {
   ASSERT_STREQ(mMethod->getName().c_str(), "mymethod");
   ASSERT_EQ(mMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
   ASSERT_EQ(mMethod->getArguments().size(), 2u);
+  ASSERT_FALSE(mMethod->isStatic());
 }
 
 TEST_F(MethodTest, definePublicFunctionTest) {
