@@ -1,12 +1,12 @@
 
 external model wisey.lang.MModelWithFieldsAndMethods {
-  int mValue;
+  fixed int mValue;
 
   int getValue();
 }
 
 external model wisey.lang.MModelWithFields {
-  int mValue;
+  fixed int mValue;
 }
 
 external model wisey.lang.MModelWithMethods {
@@ -17,13 +17,13 @@ interface wisey.lang.IInterface {
 }
 
 external model wisey.lang.MModelWithFieldsAndMethodsAndInterface implements wisey.lang.IInterface {
-  int mValue;
+  fixed int mValue;
 
   int getValue();
 }
 
 external model wisey.lang.MModelWithFieldsAndInterface implements wisey.lang.IInterface {
-  int mValue;
+  fixed int mValue;
 }
 
 external model wisey.lang.MModelWithMethodsAndInterface implements wisey.lang.IInterface {

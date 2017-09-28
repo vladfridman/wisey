@@ -41,16 +41,21 @@ bool Field::isAssignable() const {
 }
 
 void Field::printToStream(IRGenerationContext& context, iostream& stream) const {
-  stream << "  ";
-  
-  if (mFieldKind == FieldKind::INJECTED_FIELD) {
-    stream << "inject ";
-  } else if (mFieldKind == FieldKind::RECEIVED_FIELD) {
-    stream << "receive ";
-  } else if (mFieldKind == FieldKind::STATE_FIELD) {
-    stream << "state ";
+  switch (mFieldKind) {
+    case FieldKind::FIXED_FIELD:
+      stream << "  fixed ";
+      break;
+    case FieldKind::INJECTED_FIELD:
+      stream << "  inject ";
+     break;
+    case FieldKind::RECEIVED_FIELD:
+      stream << "  receive ";
+     break;
+    case FieldKind::STATE_FIELD:
+      stream << "  state ";
+      break;
   }
-  
+
   stream << getType()->getName() << " " << getName();
   
   if (!mArguments.size()) {

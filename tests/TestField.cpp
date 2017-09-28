@@ -104,7 +104,7 @@ TEST_F(FieldTest, fixedFieldPrintToStreamTest) {
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("  double mField;\n", stringStream.str().c_str());
+  EXPECT_STREQ("  fixed double mField;\n", stringStream.str().c_str());
 }
 
 TEST_F(TestFileSampleRunner, nodeWithFixedFieldSetterDeathRunTest) {
