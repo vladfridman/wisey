@@ -133,7 +133,7 @@ struct NodeTest : public Test {
     vector<IMethod*> methods;
     methods.push_back(mMethod);
     Method* fooMethod = new Method("foo",
-                                   AccessLevel::PUBLIC_ACCESS,
+                                   AccessLevel::PRIVATE_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    thrownExceptions,
@@ -480,7 +480,6 @@ TEST_F(NodeTest, printToStreamTest) {
                "  fixed int mRight;\n"
                "\n"
                "  int getElement();\n"
-               "  int foo();\n"
                "}\n",
                stringStream.str().c_str());
 }

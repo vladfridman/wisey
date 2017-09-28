@@ -89,7 +89,7 @@ struct ModelTest : public Test {
     vector<IMethod*> methods;
     methods.push_back(mMethod);
     IMethod* barMethod = new Method("bar",
-                                    AccessLevel::PUBLIC_ACCESS,
+                                    AccessLevel::PRIVATE_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
@@ -509,8 +509,7 @@ TEST_F(ModelTest, printToStreamTest) {
                "  fixed int mWidth;\n"
                "\n"
                "  int foo();\n"
-               "  int bar();\n"
-               "}\n",
+                "}\n",
                stringStream.str().c_str());
 }
 

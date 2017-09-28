@@ -445,7 +445,9 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   }
   
   for (IMethod* method : object->getMethods()) {
-    method->printToStream(context, stream);
+    if (method->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
+      method->printToStream(context, stream);
+    }
   }
   stream << "}" << endl;
 }
