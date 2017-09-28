@@ -57,7 +57,50 @@ struct ExternalModelDefinitionTest : public Test {
   }
 };
 
-// TODO: add tests once ExternalModelDefinition is implemented
+TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
+  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  vector<IExpression*> arguments;
+  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
+  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  mFields.push_back(field1);
+  mFields.push_back(field2);
+  
+  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<string> package;
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ExternalModelDefinition modelDefinition(typeSpecifier, mFields, mMethodSignatures, interfaces);
+  
+  modelDefinition.prototypeObjects(mContext);
+  
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+  
+  EXPECT_STREQ(model->getName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
+  EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
+  EXPECT_EQ(model->findMethod("foo"), nullptr);
+}
+
+TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
+  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  vector<IExpression*> arguments;
+  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
+  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  mFields.push_back(field1);
+  mFields.push_back(field2);
+  
+  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<string> package;
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ExternalModelDefinition modelDefinition(typeSpecifier, mFields, mMethodSignatures, interfaces);
+
+  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeMethods(mContext);
+  
+  Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
+  
+  EXPECT_NE(model->findMethod("foo"), nullptr);
+}
 
 TEST_F(TestFileSampleRunner, externalModelDefinitionsRunTest) {
   compileFile("tests/samples/test_external_model_definitions.yz");

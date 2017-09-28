@@ -157,7 +157,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @destructor.systems.vos.wisey.compiler.tests.MStar("
+  "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MStar("
   "%systems.vos.wisey.compiler.tests.MStar** %this) {"
   "\nentry:"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MStar*, "
@@ -190,7 +190,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldsT
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @destructor.systems.vos.wisey.compiler.tests.MGalaxy("
+  "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MGalaxy("
   "%systems.vos.wisey.compiler.tests.MGalaxy** %this) {"
   "\nentry:"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MGalaxy*, "
@@ -233,7 +233,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @destructor.systems.vos.wisey.compiler.tests.MCar("
+  "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MCar("
   "%systems.vos.wisey.compiler.tests.MCar** %this) {"
   "\nentry:"
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MCar*, "

@@ -41,7 +41,12 @@ public:
   mInterfaceSpecifiers(interfaceSpecifiers) { }
   
   ~ControllerDefinition();
-  
+
+  /**
+   * Checks field delcarations for correctness
+   */
+  static void checkFields(std::vector<FieldDeclaration*> fieldDeclarations);
+
   void prototypeObjects(IRGenerationContext& context) const override;
   
   void prototypeMethods(IRGenerationContext& context) const override;

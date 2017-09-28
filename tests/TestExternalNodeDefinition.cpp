@@ -31,8 +31,7 @@ struct ExternalNodeDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   MethodSignatureDeclaration* mMethodSignatureDeclaration;
-  vector<FieldDeclaration*> mFixedFields;
-  vector<FieldDeclaration*> mStateFields;
+  vector<FieldDeclaration*> mFieldDeclarations;
   vector<MethodSignatureDeclaration*> mMethodSignatures;
   
   ExternalNodeDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
@@ -60,7 +59,56 @@ struct ExternalNodeDefinitionTest : public Test {
   }
 };
 
-// TODO: add tests once ExternalNodeDefinition is implemented
+TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
+  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  vector<IExpression*> arguments;
+  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
+  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  mFieldDeclarations.push_back(field1);
+  mFieldDeclarations.push_back(field2);
+  
+  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<string> package;
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  ExternalNodeDefinition nodeDefinition(typeSpecifier,
+                                        mFieldDeclarations,
+                                        mMethodSignatures,
+                                        interfaces);
+  
+  nodeDefinition.prototypeObjects(mContext);
+  
+  Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
+  
+  EXPECT_STREQ(node->getName().c_str(), "systems.vos.wisey.compiler.tests.NMyNode");
+  EXPECT_STREQ(node->getShortName().c_str(), "NMyNode");
+  EXPECT_EQ(node->findMethod("foo"), nullptr);
+}
+
+TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
+  PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  vector<IExpression*> arguments;
+  FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
+  FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
+  mFieldDeclarations.push_back(field1);
+  mFieldDeclarations.push_back(field2);
+  
+  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<string> package;
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  ExternalNodeDefinition nodeDefinition(typeSpecifier,
+                                        mFieldDeclarations,
+                                        mMethodSignatures,
+                                        interfaces);
+  
+  nodeDefinition.prototypeObjects(mContext);
+  nodeDefinition.prototypeMethods(mContext);
+  
+  Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
+  
+  EXPECT_NE(node->findMethod("foo"), nullptr);
+}
 
 TEST_F(TestFileSampleRunner, externalNodeDefinitionsRunTest) {
   compileFile("tests/samples/test_external_node_definitions.yz");

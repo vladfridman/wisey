@@ -21,7 +21,8 @@ void IConcreteObjectDefinition::configureConcreteObject(IRGenerationContext& con
                                                         methodDeclarations,
                                                         vector<InterfaceTypeSpecifier*>
                                                         interfaceSpecifiers) {
-  object->setFields(createFields(context, fieldDeclarations, interfaceSpecifiers.size()));
+  vector<Field*> fields = createFields(context, fieldDeclarations, interfaceSpecifiers.size());
+  object->setFields(fields);
 
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
   vector<IMethod*> methods = createMethods(context, methodDeclarations);

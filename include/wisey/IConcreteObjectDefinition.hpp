@@ -35,23 +35,32 @@ public:
                                       std::vector<IMethodDeclaration*> methodDeclarations,
                                       std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
 
-private:
-
+  /**
+   * Create fields given field declarations
+   */
   static std::vector<Field*> createFields(IRGenerationContext& context,
                                           std::vector<FieldDeclaration*> fieldDeclarations,
                                           unsigned long startIndex);
-
+ 
+  /**
+   * Create list of interface pointers given interface type specifiers
+   */
   static std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                                    std::vector<InterfaceTypeSpecifier*>
                                                    interfaceSpecifiers);
   
-  static std::vector<IMethod*> createMethods(IRGenerationContext& context,
-                                             std::vector<IMethodDeclaration*> methodDeclarations);
-  
+  /**
+   * Goes through field declarations and collects llvm types for subsequent object struct definition
+   */
   static void collectFieldTypes(IRGenerationContext& context,
                                 std::vector<llvm::Type*>& types,
                                 std::vector<FieldDeclaration*> fieldDeclarations);
+  
+private:
 
+  static std::vector<IMethod*> createMethods(IRGenerationContext& context,
+                                             std::vector<IMethodDeclaration*> methodDeclarations);
+  
 };
 
 } /* namespace wisey */

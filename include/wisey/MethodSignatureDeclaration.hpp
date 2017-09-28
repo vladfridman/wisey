@@ -10,6 +10,7 @@
 #define MethodSignatureDeclaration_h
 
 #include "wisey/AccessLevel.hpp"
+#include "wisey/ExternalMethod.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
@@ -44,7 +45,18 @@ public:
    * Returns object representing the method for storage in an Interface object
    */
   MethodSignature* createMethodSignature(IRGenerationContext& context) const;
+  
+  /**
+   * Returns object represtining external method, used in external objects
+   */
+  ExternalMethod* createExternalMethod(IRGenerationContext& context) const;
 
+private:
+  
+  std::vector<MethodArgument*> createArgumnetList(IRGenerationContext& context) const;
+  
+  std::vector<const Model*> createExceptionList(IRGenerationContext& context) const;
+  
 };
   
 } /* namespace wisey */

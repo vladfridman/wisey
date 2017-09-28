@@ -1,4 +1,3 @@
-
 external node wisey.lang.NNodeWithFixedFieldsAndMethods {
   int mValue;
 
@@ -7,13 +6,13 @@ external node wisey.lang.NNodeWithFixedFieldsAndMethods {
 
 external node wisey.lang.NNodeWithFixedFieldsAndStateFieldsAndMethods {
   int mValue;
-  state int mStateField;
+  state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 
   int getValue();
 }
 
 external node wisey.lang.NNodeWithStateFieldsAndMethods {
-  state int mStateField;
+  state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 
   int getValue();
 }
@@ -24,11 +23,11 @@ external node wisey.lang.NNodeWithFixedFields {
 
 external node wisey.lang.NNodeWithFixedFieldsAndStateFields {
   int mValue;
-  state int mStateField;
+  state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 }
 
 external node wisey.lang.NNodeWithStateFields {
-  state int mStateField;
+  state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 }
 
 external node wisey.lang.NNodeWithMethods {
@@ -46,13 +45,13 @@ external node wisey.lang.NNodeWithFixedFieldsAndMethodsAndInterface implements w
 
 external node wisey.lang.NNodeWithFixedFieldsAndStateFieldsAndMethodsAndInterface implements wisey.lang.IInterface {
   int mValue;
-  state int mStateField;
+  state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 
   int getValue();
 }
 
 external node wisey.lang.NNodeWithStateFieldsAndMethodsAndInterface implements wisey.lang.IInterface {
-  state int mStateField;
+  state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 
   int getValue();
 }
@@ -63,11 +62,11 @@ external node wisey.lang.NNodeWithFixedFieldsAndInterface implements wisey.lang.
 
 external node wisey.lang.NNodeWithFixedFieldsAndStateFieldsAndInterface implements wisey.lang.IInterface {
   int mValue;
-  state int mStateField;
+  state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 }
 
 external node wisey.lang.NNodeWithStateFieldsAndInterface implements wisey.lang.IInterface {
-  state int mStateField;
+  state wisey.lang.NNodeWithFixedFieldsAndMethods* mStateField;
 }
 
 external node wisey.lang.NNodeWithMethodsAndInterface implements wisey.lang.IInterface {

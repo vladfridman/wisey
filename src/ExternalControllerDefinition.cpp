@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ControllerDefinition.hpp"
 #include "wisey/ExternalControllerDefinition.hpp"
 
 using namespace std;
@@ -29,14 +30,24 @@ ExternalControllerDefinition::~ExternalControllerDefinition() {
 }
 
 void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
-  // TODO implement this
+  string fullName = mControllerTypeSpecifier->getName(context);
+  StructType* structType = StructType::create(context.getLLVMContext(), fullName);
+
+  Controller* controller = new Controller(fullName, structType);
+  context.addController(controller);
 }
 
 void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
-  // TODO implement this
+  Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
+  ControllerDefinition::checkFields(mFieldDeclarations);
+  
+  configureExternalObject(context,
+                          controller,
+                          mFieldDeclarations,
+                          mMethodSignatures,
+                          mInterfaceSpecifiers);
 }
 
 Value* ExternalControllerDefinition::generateIR(IRGenerationContext& context) const {
-  // TODO implement this
   return NULL;
 }

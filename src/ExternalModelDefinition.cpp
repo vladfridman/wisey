@@ -7,6 +7,7 @@
 //
 
 #include "wisey/ExternalModelDefinition.hpp"
+#include "wisey/ModelDefinition.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -29,14 +30,28 @@ ExternalModelDefinition::~ExternalModelDefinition() {
 }
 
 void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) const {
-  // TODO: implement this
+  string fullName = mModelTypeSpecifier->getName(context);
+  StructType* structType = StructType::create(context.getLLVMContext(), fullName);
+  
+  Model* model = new Model(fullName, structType);
+  context.addModel(model);
 }
 
 void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) const {
-  // TODO: implement this
+  Model* model = context.getModel(mModelTypeSpecifier->getName(context));
+  ModelDefinition::checkFields(mFieldDeclarations);
+  
+  configureExternalObject(context,
+                          model,
+                          mFieldDeclarations,
+                          mMethodSignatures,
+                          mInterfaceSpecifiers);
 }
 
 Value* ExternalModelDefinition::generateIR(IRGenerationContext& context) const {
-  // TODO: implement this
+  Model* model = context.getModel(mModelTypeSpecifier->getName(context));
+  model->createRTTI(context);
+  
   return NULL;
 }
+

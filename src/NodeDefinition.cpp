@@ -39,7 +39,7 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
-  checkFields(context);
+  checkFields(context, mFieldDeclarations);
 
   configureConcreteObject(context,
                           node,
@@ -64,8 +64,9 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-void NodeDefinition::checkFields(IRGenerationContext& context) const {
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
+void NodeDefinition::checkFields(IRGenerationContext& context,
+                                 vector<FieldDeclaration*> fieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
     FieldKind fieldKind = fieldDeclaration->getFieldKind();
     
     if (fieldKind != STATE_FIELD && fieldKind != FIXED_FIELD) {

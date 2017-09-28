@@ -4,7 +4,7 @@ external controller wisey.lang.CController {
 
 external controller wisey.lang.CControllerWithFieldsAndMethods {
   receive int mReceivedField;
-  inject CController* mInjectedField;
+  inject wisey.lang.CController* mInjectedField;
   state int mStateField;
 
   int getValue();
@@ -17,7 +17,7 @@ interface wisey.lang.IInterface {
 external controller wisey.lang.CControllerWithFieldsAndMethodsAndInterface
     implements wisey.lang.IInterface {
   receive int mReceivedField;
-  inject CController* mInjectedField;
+  inject wisey.lang.CController* mInjectedField;
   state int mStateField;
 
   int getValue();

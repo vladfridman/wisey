@@ -10,7 +10,7 @@
 #define ExternalNodeDefinition_h
 
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/IConcreteObjectDefinition.hpp"
+#include "wisey/IExternalObjectDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
@@ -20,7 +20,7 @@ namespace wisey {
 /**
  * Represents node definition implemented in a shared library
  */
-class ExternalNodeDefinition : public IConcreteObjectDefinition {
+class ExternalNodeDefinition : public IExternalObjectDefinition {
   NodeTypeSpecifier* mNodeTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
   std::vector<MethodSignatureDeclaration*> mMethodSignatures;

@@ -29,6 +29,25 @@ MethodSignatureDeclaration::~MethodSignatureDeclaration() {
 
 MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationContext&
                                                                    context) const {
+  const IType* returnType = mReturnTypeSpecifier->getType(context);
+  vector<MethodArgument*> arguments = createArgumnetList(context);
+  vector<const Model*> exceptions = createExceptionList(context);
+
+  
+  return new MethodSignature(mMethodName, returnType, arguments, exceptions);
+}
+
+ExternalMethod* MethodSignatureDeclaration::createExternalMethod(IRGenerationContext&
+                                                                 context) const {
+    const IType* returnType = mReturnTypeSpecifier->getType(context);
+    vector<MethodArgument*> arguments = createArgumnetList(context);
+    vector<const Model*> exceptions = createExceptionList(context);
+
+    return new ExternalMethod(mMethodName, returnType, arguments, exceptions);
+}
+
+vector<MethodArgument*> MethodSignatureDeclaration::createArgumnetList(IRGenerationContext&
+                                                                       context) const {
   vector<MethodArgument*> arguments;
   
   for (VariableList::const_iterator iterator = mArguments.begin();
@@ -39,14 +58,17 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
     MethodArgument* methodArgument = new MethodArgument(type, name);
     arguments.push_back(methodArgument);
   }
-  
-  const IType* returnType = mReturnTypeSpecifier->getType(context);
-  
+
+  return arguments;
+}
+
+vector<const Model*> MethodSignatureDeclaration::createExceptionList(IRGenerationContext&
+                                                                     context) const {
   vector<const Model*> exceptions;
   for (ModelTypeSpecifier* typeSpecifier : mThrownExceptions) {
     exceptions.push_back(typeSpecifier->getType(context));
   }
   exceptions.push_back(context.getModel(Names::getNPEModelName()));
   
-  return new MethodSignature(mMethodName, returnType, arguments, exceptions);
+  return exceptions;
 }

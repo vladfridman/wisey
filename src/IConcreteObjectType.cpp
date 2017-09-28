@@ -171,7 +171,7 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
   string functionName = getObjectDestructorFunctionName(object);
   
   Function* destructor = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
+                                          GlobalValue::ExternalLinkage,
                                           functionName,
                                           context.getModule());
   

@@ -44,7 +44,7 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
-  checkFields(context);
+  checkFields(mFieldDeclarations);
 
   configureConcreteObject(context,
                           model,
@@ -71,8 +71,8 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-void ModelDefinition::checkFields(IRGenerationContext& context) const {
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
+void ModelDefinition::checkFields(vector<FieldDeclaration*> fieldDeclarations) {
+  for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
     FieldKind fieldKind = fieldDeclaration->getFieldKind();
     
     if (fieldKind != FIXED_FIELD) {

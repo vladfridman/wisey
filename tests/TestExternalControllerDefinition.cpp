@@ -35,9 +35,7 @@ using ::testing::Test;
 struct ExternalControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  vector<FieldDeclaration*> mReceivedFields;
-  vector<FieldDeclaration*> mInjectedFields;
-  vector<FieldDeclaration*> mStateFields;
+  vector<FieldDeclaration*> mFieldDeclarations;
   vector<MethodSignatureDeclaration*> mMethodSignatures;
   vector<InterfaceTypeSpecifier*> mInterfaces;
   
@@ -67,19 +65,50 @@ struct ExternalControllerDefinitionTest : public Test {
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     ExpressionList arguments;
-    FieldDeclaration* field1 =
-    new FieldDeclaration(RECEIVED_FIELD, longType, "mField1", arguments);
+    FieldDeclaration* field1 = new FieldDeclaration(RECEIVED_FIELD, longType, "mField1", arguments);
     FieldDeclaration* field2 =
-    new FieldDeclaration(RECEIVED_FIELD, floatType, "mField2", arguments);
-    mReceivedFields.push_back(field1);
-    mReceivedFields.push_back(field2);
+      new FieldDeclaration(RECEIVED_FIELD, floatType, "mField2", arguments);
+    mFieldDeclarations.push_back(field1);
+    mFieldDeclarations.push_back(field2);
   }
   
   ~ExternalControllerDefinitionTest() {
   }
 };
 
-// TODO: add tests once ExternalControllerDefinition is implemented
+TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
+  vector<string> package;
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ExternalControllerDefinition controllerDefinition(typeSpecifier,
+                                                    mFieldDeclarations,
+                                                    mMethodSignatures,
+                                                    mInterfaces);
+
+  controllerDefinition.prototypeObjects(mContext);
+  
+  ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
+  
+  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+  
+  EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
+  EXPECT_STREQ(controller->getName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
+  EXPECT_EQ(controller->findMethod("foo"), nullptr);
+}
+
+TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
+  vector<string> package;
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ExternalControllerDefinition controllerDefinition(typeSpecifier,
+                                                    mFieldDeclarations,
+                                                    mMethodSignatures,
+                                                    mInterfaces);
+
+  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeMethods(mContext);
+  
+  Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
+  EXPECT_NE(controller->findMethod("foo"), nullptr);
+}
 
 TEST_F(TestFileSampleRunner, externalControllerDefinitionsRunTest) {
   compileFile("tests/samples/test_external_controller_definitions.yz");

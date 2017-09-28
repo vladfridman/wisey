@@ -41,15 +41,17 @@ public:
   
   ~NodeDefinition();
   
+  /**
+   * Checks field delcarations for correctness
+   */
+  static void checkFields(IRGenerationContext& context,
+                          std::vector<FieldDeclaration*> fieldDeclarations);
+
   void prototypeObjects(IRGenerationContext& context) const override;
   
   void prototypeMethods(IRGenerationContext& context) const override;
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
-private:
-  
-  void checkFields(IRGenerationContext& context) const;
 
 };
   

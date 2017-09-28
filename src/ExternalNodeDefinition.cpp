@@ -7,6 +7,7 @@
 //
 
 #include "wisey/ExternalNodeDefinition.hpp"
+#include "wisey/NodeDefinition.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -29,15 +30,25 @@ ExternalNodeDefinition::~ExternalNodeDefinition() {
 }
 
 void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) const {
-  // TODO: implement this
+  string fullName = mNodeTypeSpecifier->getName(context);
+  StructType* structType = StructType::create(context.getLLVMContext(), fullName);
+  
+  Node* node = new Node(fullName, structType);
+  context.addNode(node);
 }
 
 void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) const {
-  // TODO: implement this
+  Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
+  NodeDefinition::checkFields(context, mFieldDeclarations);
+  
+  configureExternalObject(context,
+                          node,
+                          mFieldDeclarations,
+                          mMethodSignatures,
+                          mInterfaceSpecifiers);
 }
 
 Value* ExternalNodeDefinition::generateIR(IRGenerationContext& context) const {
-  // TODO: implement this
   return NULL;
 }
 

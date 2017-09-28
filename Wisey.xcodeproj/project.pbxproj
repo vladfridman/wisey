@@ -528,6 +528,8 @@
 		F58D07F21F697027001A7544 /* TestStaticMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58D07F11F697027001A7544 /* TestStaticMethodCall.cpp */; };
 		F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */; };
 		F592A7BA1F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */; };
+		F592A7BD1F7D70F20026BD2F /* IExternalObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7BC1F7D70F20026BD2F /* IExternalObjectDefinition.cpp */; };
+		F592A7BE1F7D70F20026BD2F /* IExternalObjectDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592A7BC1F7D70F20026BD2F /* IExternalObjectDefinition.cpp */; };
 		F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestMain.cpp */; };
 		F59496FE1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
 		F59496FF1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
@@ -607,6 +609,8 @@
 		F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C6FD891E48D08F0054209D /* TestModel.cpp */; };
 		F5C7D1581F7C256400D65584 /* TestExternalModelDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C7D1571F7C256400D65584 /* TestExternalModelDefinition.cpp */; };
 		F5C7D15A1F7C270800D65584 /* TestExternalNodeDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C7D1591F7C270800D65584 /* TestExternalNodeDefinition.cpp */; };
+		F5C7D1601F7CFCD700D65584 /* ExternalMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C7D15F1F7CFCD700D65584 /* ExternalMethod.cpp */; };
+		F5C7D1611F7D02FD00D65584 /* ExternalMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5C7D15F1F7CFCD700D65584 /* ExternalMethod.cpp */; };
 		F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */; };
 		F5CB180D1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */; };
 		F5CB180F1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */; };
@@ -1144,6 +1148,8 @@
 		F592A7B61F7D609D0026BD2F /* IObjectDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectDefinition.hpp; path = include/wisey/IObjectDefinition.hpp; sourceTree = "<group>"; };
 		F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IConcreteObjectDefinition.hpp; path = include/wisey/IConcreteObjectDefinition.hpp; sourceTree = "<group>"; };
 		F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IConcreteObjectDefinition.cpp; path = src/IConcreteObjectDefinition.cpp; sourceTree = "<group>"; };
+		F592A7BB1F7D6FFA0026BD2F /* IExternalObjectDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IExternalObjectDefinition.hpp; path = include/wisey/IExternalObjectDefinition.hpp; sourceTree = "<group>"; };
+		F592A7BC1F7D70F20026BD2F /* IExternalObjectDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IExternalObjectDefinition.cpp; path = src/IExternalObjectDefinition.cpp; sourceTree = "<group>"; };
 		F592C9951ED323F7007FB2D0 /* TestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMain.cpp; path = tests/TestMain.cpp; sourceTree = "<group>"; };
 		F59496FC1F5467540002F14F /* InstanceOf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InstanceOf.hpp; path = include/wisey/InstanceOf.hpp; sourceTree = "<group>"; };
 		F59496FD1F5469900002F14F /* InstanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InstanceOf.cpp; path = src/InstanceOf.cpp; sourceTree = "<group>"; };
@@ -1205,6 +1211,8 @@
 		F5C6FD891E48D08F0054209D /* TestModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModel.cpp; path = tests/TestModel.cpp; sourceTree = "<group>"; };
 		F5C7D1571F7C256400D65584 /* TestExternalModelDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalModelDefinition.cpp; path = tests/TestExternalModelDefinition.cpp; sourceTree = "<group>"; };
 		F5C7D1591F7C270800D65584 /* TestExternalNodeDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalNodeDefinition.cpp; path = tests/TestExternalNodeDefinition.cpp; sourceTree = "<group>"; };
+		F5C7D15B1F7CEF6200D65584 /* ExternalMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalMethod.hpp; path = include/wisey/ExternalMethod.hpp; sourceTree = "<group>"; };
+		F5C7D15F1F7CFCD700D65584 /* ExternalMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalMethod.cpp; path = src/ExternalMethod.cpp; sourceTree = "<group>"; };
 		F5CB180B1EB0C16D007E2E43 /* IntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IntrinsicFunctions.cpp; path = src/IntrinsicFunctions.cpp; sourceTree = "<group>"; };
 		F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIntrinsicFunctions.cpp; path = tests/TestIntrinsicFunctions.cpp; sourceTree = "<group>"; };
 		F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TryCatchStatement.cpp; path = src/TryCatchStatement.cpp; sourceTree = "<group>"; };
@@ -1974,6 +1982,7 @@
 				F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */,
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
 				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
+				F592A7BB1F7D6FFA0026BD2F /* IExternalObjectDefinition.hpp */,
 				F5A363551F376AE8005880B3 /* IFieldVariable.hpp */,
 				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
 				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
@@ -2001,6 +2010,7 @@
 			children = (
 				F592A7B81F7D62D10026BD2F /* IConcreteObjectDefinition.cpp */,
 				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
+				F592A7BC1F7D70F20026BD2F /* IExternalObjectDefinition.cpp */,
 				F5A363561F376C90005880B3 /* IFieldVariable.cpp */,
 				F51D2BB31F691C8100510784 /* IMethod.cpp */,
 				F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */,
@@ -2279,6 +2289,7 @@
 		F58725471F6D6E3B00FA25E6 /* methods */ = {
 			isa = PBXGroup;
 			children = (
+				F5C7D15B1F7CEF6200D65584 /* ExternalMethod.hpp */,
 				F5089C8C1ECD01D9004A1223 /* Method.hpp */,
 				F5089C8D1ECD01D9004A1223 /* MethodArgument.hpp */,
 				F5089C8E1ECD01D9004A1223 /* MethodCall.hpp */,
@@ -2295,6 +2306,7 @@
 		F58725481F6D6E5D00FA25E6 /* methods */ = {
 			isa = PBXGroup;
 			children = (
+				F5C7D15F1F7CFCD700D65584 /* ExternalMethod.cpp */,
 				F5ADB6271E69831A00FFC941 /* Method.cpp */,
 				F57085FB1E51E2ED007D627E /* MethodCall.cpp */,
 				F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */,
@@ -2513,6 +2525,7 @@
 				F57411661E01BF18009809FF /* TestScope.cpp in Sources */,
 				F53A2C051EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */,
 				F51764CE1ECCEDAE000AFBA7 /* TestProgramFile.cpp in Sources */,
+				F592A7BE1F7D70F20026BD2F /* IExternalObjectDefinition.cpp in Sources */,
 				F50FA29F1E2693F400435EEA /* CompoundStatement.cpp in Sources */,
 				F53A2C311EFFD91200E76A9E /* NodeOwner.cpp in Sources */,
 				F508E06A1E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
@@ -2572,6 +2585,7 @@
 				F5A363501F374DCB005880B3 /* TestOwnerFieldVariable.cpp in Sources */,
 				F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
+				F5C7D1601F7CFCD700D65584 /* ExternalMethod.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
 				F574114C1E019597009809FF /* TestReturnVoidStatement.cpp in Sources */,
 				F5C6FD861E48B7A00054209D /* LongType.cpp in Sources */,
@@ -2781,6 +2795,7 @@
 				F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */,
 				F5ADB6211E66F9B400FFC941 /* Interface.cpp in Sources */,
 				F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
+				F592A7BD1F7D70F20026BD2F /* IExternalObjectDefinition.cpp in Sources */,
 				F5E6BD0A1F190B8500D59444 /* FakeExpression.cpp in Sources */,
 				F531B65A1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
 				F53A2C451F0298E800E76A9E /* NullType.cpp in Sources */,
@@ -2816,6 +2831,7 @@
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
+				F5C7D1611F7D02FD00D65584 /* ExternalMethod.cpp in Sources */,
 				F587255E1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */,
 				F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F5EEDDA01E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,
