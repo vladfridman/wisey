@@ -29,11 +29,11 @@ public:
   /**
    * Fill up concrete object prototype with methods, fields, types and other data
    */
-  static void configureConcreteObject(IRGenerationContext& context,
-                                      IConcreteObjectType* object,
-                                      std::vector<FieldDeclaration*> fieldDeclarations,
-                                      std::vector<IMethodDeclaration*> methodDeclarations,
-                                      std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
+  static void configureObject(IRGenerationContext& context,
+                              IConcreteObjectType* object,
+                              std::vector<FieldDeclaration*> fieldDeclarations,
+                              std::vector<IMethodDeclaration*> methodDeclarations,
+                              std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
 
   /**
    * Create fields given field declarations

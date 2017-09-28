@@ -11,6 +11,9 @@
 
 #include "wisey/IMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/MethodArgument.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
 
@@ -27,6 +30,19 @@ public:
    * Returns object representing the method that will be saved in an object
    */
   virtual IMethod* createMethod(IRGenerationContext& context) const = 0;
+
+  /**
+   * Helper function for creating method argument list for different types of methods
+   */
+  static std::vector<MethodArgument*> createArgumnetList(IRGenerationContext& context,
+                                                         VariableList argumentDefinitions);
+  
+  /**
+   * Helper function for creating exception type list for different types of methods
+   */
+  static std::vector<const Model*> createExceptionList(IRGenerationContext& context,
+                                                       std::vector<ModelTypeSpecifier*>
+                                                       thrownExceptions);
 
 };
   

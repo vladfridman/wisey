@@ -46,11 +46,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
   checkFields(mFieldDeclarations);
 
-  configureConcreteObject(context,
-                          model,
-                          mFieldDeclarations,
-                          mMethodDeclarations,
-                          mInterfaceSpecifiers);
+  configureObject(context, model, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {

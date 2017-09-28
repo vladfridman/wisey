@@ -22,7 +22,7 @@ namespace wisey {
 /**
  * Represents a method signature declaration contained within an interface
  */
-class MethodSignatureDeclaration {
+  class MethodSignatureDeclaration {
   const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
@@ -45,18 +45,7 @@ public:
    * Returns object representing the method for storage in an Interface object
    */
   MethodSignature* createMethodSignature(IRGenerationContext& context) const;
-  
-  /**
-   * Returns object represtining external method, used in external objects
-   */
-  ExternalMethod* createExternalMethod(IRGenerationContext& context) const;
 
-private:
-  
-  std::vector<MethodArgument*> createArgumnetList(IRGenerationContext& context) const;
-  
-  std::vector<const Model*> createExceptionList(IRGenerationContext& context) const;
-  
 };
   
 } /* namespace wisey */

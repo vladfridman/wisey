@@ -15,6 +15,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/ExternalNodeDefinition.hpp"
+#include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -30,9 +31,9 @@ using ::testing::Test;
 struct ExternalNodeDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  MethodSignatureDeclaration* mMethodSignatureDeclaration;
+  ExternalMethodDeclaration* mMethodDeclaration;
   vector<FieldDeclaration*> mFieldDeclarations;
-  vector<MethodSignatureDeclaration*> mMethodSignatures;
+  vector<IMethodDeclaration*> mMethodDeclarations;
   
   ExternalNodeDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
@@ -48,11 +49,11 @@ struct ExternalNodeDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ModelTypeSpecifier*> thrownExceptions;
-    mMethodSignatureDeclaration = new MethodSignatureDeclaration(floatTypeSpecifier,
-                                                                 "foo",
-                                                                 methodArguments,
-                                                                 thrownExceptions);
-    mMethodSignatures.push_back(mMethodSignatureDeclaration);
+    mMethodDeclaration = new ExternalMethodDeclaration(floatTypeSpecifier,
+                                                       "foo",
+                                                       methodArguments,
+                                                       thrownExceptions);
+    mMethodDeclarations.push_back(mMethodDeclaration);
   }
   
   ~ExternalNodeDefinitionTest() {
@@ -73,7 +74,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
   ExternalNodeDefinition nodeDefinition(typeSpecifier,
                                         mFieldDeclarations,
-                                        mMethodSignatures,
+                                        mMethodDeclarations,
                                         interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
@@ -99,7 +100,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
   ExternalNodeDefinition nodeDefinition(typeSpecifier,
                                         mFieldDeclarations,
-                                        mMethodSignatures,
+                                        mMethodDeclarations,
                                         interfaces);
   
   nodeDefinition.prototypeObjects(mContext);

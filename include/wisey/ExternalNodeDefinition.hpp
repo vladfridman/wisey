@@ -9,10 +9,10 @@
 #ifndef ExternalNodeDefinition_h
 #define ExternalNodeDefinition_h
 
+#include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/IExternalObjectDefinition.hpp"
+#include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
 
 namespace wisey {
@@ -20,21 +20,21 @@ namespace wisey {
 /**
  * Represents node definition implemented in a shared library
  */
-class ExternalNodeDefinition : public IExternalObjectDefinition {
+class ExternalNodeDefinition : public IConcreteObjectDefinition {
   NodeTypeSpecifier* mNodeTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
-  std::vector<MethodSignatureDeclaration*> mMethodSignatures;
+  std::vector<IMethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ExternalNodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
                          std::vector<FieldDeclaration*> fieldDeclarations,
-                         std::vector<MethodSignatureDeclaration *> methodSignatures,
+                         std::vector<IMethodDeclaration *> methodDeclarations,
                          std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mNodeTypeSpecifier(nodeTypeSpecifier),
   mFieldDeclarations(fieldDeclarations),
-  mMethodSignatures(methodSignatures),
+  mMethodDeclarations(methodDeclarations),
   mInterfaceSpecifiers(interfaceSpecifiers) { }
   
   ~ExternalNodeDefinition();

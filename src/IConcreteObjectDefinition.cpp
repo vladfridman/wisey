@@ -13,14 +13,12 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-void IConcreteObjectDefinition::configureConcreteObject(IRGenerationContext& context,
-                                                        IConcreteObjectType* object,
-                                                        vector<FieldDeclaration*>
-                                                        fieldDeclarations,
-                                                        vector<IMethodDeclaration*>
-                                                        methodDeclarations,
-                                                        vector<InterfaceTypeSpecifier*>
-                                                        interfaceSpecifiers) {
+void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
+                                                IConcreteObjectType* object,
+                                                vector<FieldDeclaration*> fieldDeclarations,
+                                                vector<IMethodDeclaration*> methodDeclarations,
+                                                vector<InterfaceTypeSpecifier*>
+                                                  interfaceSpecifiers) {
   vector<Field*> fields = createFields(context, fieldDeclarations, interfaceSpecifiers.size());
   object->setFields(fields);
 

@@ -43,14 +43,13 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
-  checkFields(mFieldDeclarations
-              );
+  checkFields(mFieldDeclarations);
 
-  configureConcreteObject(context,
-                          controller,
-                          mFieldDeclarations,
-                          mMethodDeclarations,
-                          mInterfaceSpecifiers);
+  configureObject(context,
+                  controller,
+                  mFieldDeclarations,
+                  mMethodDeclarations,
+                  mInterfaceSpecifiers);
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {

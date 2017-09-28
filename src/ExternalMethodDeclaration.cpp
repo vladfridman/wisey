@@ -1,20 +1,20 @@
 //
-//  MethodSignatureDeclaration.cpp
+//  ExternalMethodDeclaration.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 2/28/17.
+//  Created by Vladimir Fridman on 9/28/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ExternalMethod.hpp"
+#include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/IMethodDeclaration.hpp"
-#include "wisey/MethodSignature.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-MethodSignatureDeclaration::~MethodSignatureDeclaration() {
+ExternalMethodDeclaration::~ExternalMethodDeclaration() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {
     delete argument;
@@ -26,12 +26,11 @@ MethodSignatureDeclaration::~MethodSignatureDeclaration() {
   mThrownExceptions.clear();
 }
 
-MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationContext&
-                                                                   context) const {
+ExternalMethod* ExternalMethodDeclaration::createMethod(IRGenerationContext& context) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,
                                                                             mThrownExceptions);
-  
-  return new MethodSignature(mMethodName, returnType, arguments, exceptions);
+
+  return new ExternalMethod(mMethodName, returnType, arguments, exceptions);
 }

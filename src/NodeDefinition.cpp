@@ -41,11 +41,7 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
   checkFields(context, mFieldDeclarations);
 
-  configureConcreteObject(context,
-                          node,
-                          mFieldDeclarations,
-                          mMethodDeclarations,
-                          mInterfaceSpecifiers);
+  configureObject(context, node, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
 }
 
 Value* NodeDefinition::generateIR(IRGenerationContext& context) const {

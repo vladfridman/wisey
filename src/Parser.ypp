@@ -23,6 +23,7 @@
   #include "wisey/EmptyStatement.hpp"
   #include "wisey/ExpressionStatement.hpp"
   #include "wisey/ExternalControllerDefinition.hpp"
+  #include "wisey/ExternalMethodDeclaration.hpp"
   #include "wisey/ExternalModelDefinition.hpp"
   #include "wisey/ExternalNodeDefinition.hpp"
   #include "wisey/FieldDeclaration.hpp"
@@ -192,10 +193,12 @@
 %type <interface_type_specifier> interface_type_specifier
 %type <node_type_specifier> node_type_specifier
 %type <access_specifier> access_specifier
+%type <method_declaration> method_definition external_method_declaration
 %type <method_declaration_vector> method_definition_list method_definition_list_optional
-%type <method_signature_vector> method_signature_list method_signature_list_optional
-%type <method_declaration> method_definition
+%type <method_declaration_vector> external_method_declaration_list 
+%type <method_declaration_vector> external_method_declaration_list_optional
 %type <method_signature> method_signature
+%type <method_signature_vector> method_signature_list method_signature_list_optional
 %type <identifier_list> identifier_chain
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
@@ -337,14 +340,15 @@ controller_definition
 
 external_controller_definition
   : TEXTERNAL TCONTROLLER controller_type_specifier
-      '{' field_declaration_list method_signature_list_optional '}'
+      '{' field_declaration_list external_method_declaration_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
       $$ = new ExternalControllerDefinition($3, *$5, *$6, interfaces);
       delete $5;
       delete $6;
     }
-  | TEXTERNAL TCONTROLLER controller_type_specifier '{' method_signature_list_optional '}'
+  | TEXTERNAL TCONTROLLER controller_type_specifier 
+      '{' external_method_declaration_list_optional '}'
     {
       std::vector<FieldDeclaration*> fields;
       std::vector<InterfaceTypeSpecifier*> interfaces;
@@ -352,7 +356,7 @@ external_controller_definition
       delete $5;
     }
   | TEXTERNAL TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
-    '{' field_declaration_list method_signature_list_optional '}'
+    '{' field_declaration_list external_method_declaration_list_optional '}'
     {
       $$ = new ExternalControllerDefinition($3, *$7, *$8, *$5);
       delete $7;
@@ -360,7 +364,7 @@ external_controller_definition
       delete $5;
     }
   | TEXTERNAL TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
-    '{' method_signature_list_optional '}'
+    '{' external_method_declaration_list_optional '}'
     {
       std::vector<FieldDeclaration*> fields;
       $$ = new ExternalControllerDefinition($3, fields, *$7, *$5);
@@ -403,14 +407,14 @@ node_definition
 
 external_node_definition
   : TEXTERNAL TNODE node_type_specifier '{' field_declaration_list 
-      method_signature_list_optional '}'
+      external_method_declaration_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
       $$ = new ExternalNodeDefinition($3, *$5, *$6, interfaces);
       delete $5;
       delete $6;
     }
-  | TEXTERNAL TNODE node_type_specifier '{' method_signature_list_optional '}'
+  | TEXTERNAL TNODE node_type_specifier '{' external_method_declaration_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
       std::vector<FieldDeclaration*> fields;
@@ -418,7 +422,7 @@ external_node_definition
       delete $5;
     }
   | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' field_declaration_list method_signature_list_optional '}'
+      '{' field_declaration_list external_method_declaration_list_optional '}'
     {
       $$ = new ExternalNodeDefinition($3, *$7, *$8, *$5);
       delete $7;
@@ -426,7 +430,7 @@ external_node_definition
       delete $5;
     }
   | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' method_signature_list_optional '}'
+      '{' external_method_declaration_list_optional '}'
     {
       std::vector<FieldDeclaration*> fields;
       $$ = new ExternalNodeDefinition($3, fields, *$7, *$5);
@@ -469,14 +473,14 @@ model_definition
 
 external_model_definition
   : TEXTERNAL TMODEL model_type_specifier '{' field_declaration_list 
-      method_signature_list_optional '}'
+      external_method_declaration_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
       $$ = new ExternalModelDefinition($3, *$5, *$6, interfaces);
       delete $5;
       delete $6;
     }
-  | TEXTERNAL TMODEL model_type_specifier '{' method_signature_list_optional '}'
+  | TEXTERNAL TMODEL model_type_specifier '{' external_method_declaration_list_optional '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
       std::vector<FieldDeclaration*> fixedFields;
@@ -484,7 +488,7 @@ external_model_definition
       delete $5;
     }
   | TEXTERNAL TMODEL model_type_specifier TIMPLEMENTS interface_list 
-      '{' field_declaration_list method_signature_list_optional '}'
+      '{' field_declaration_list external_method_declaration_list_optional '}'
     {
       $$ = new ExternalModelDefinition($3, *$7, *$8, *$5);
       delete $7;
@@ -492,13 +496,38 @@ external_model_definition
       delete $5;
     }
   | TEXTERNAL TMODEL model_type_specifier TIMPLEMENTS interface_list
-      '{' method_signature_list_optional '}'
+      '{' external_method_declaration_list_optional '}'
     {
       std::vector<FieldDeclaration*> fixedFields;
       $$ = new ExternalModelDefinition($3, fixedFields, *$7, *$5);
       delete $7;
       delete $5;
     }
+  ;
+
+external_method_declaration_list_optional
+  : /* blank */ { $$ = new std::vector<IMethodDeclaration *>(); }
+  | external_method_declaration_list
+  ;
+
+external_method_declaration_list
+  : external_method_declaration 
+      { 
+        $$ = new std::vector<IMethodDeclaration *>(); 
+        $$->push_back($1); 
+      }
+  | external_method_declaration_list external_method_declaration 
+      { $1->push_back($2); }
+  ;
+
+external_method_declaration
+  : type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
+      {
+        $$ = new ExternalMethodDeclaration($1, *$2, *$4, *$6);
+        delete $2;
+        delete $4;
+        delete $6;
+      }
   ;
 
 interface_list

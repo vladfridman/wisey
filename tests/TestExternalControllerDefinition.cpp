@@ -16,12 +16,12 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ExternalControllerDefinition.hpp"
+#include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -36,14 +36,14 @@ struct ExternalControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   vector<FieldDeclaration*> mFieldDeclarations;
-  vector<MethodSignatureDeclaration*> mMethodSignatures;
+  vector<IMethodDeclaration*> mMethodDeclarations;
   vector<InterfaceTypeSpecifier*> mInterfaces;
   
   ExternalControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
-    MethodSignatureDeclaration* methodSignature;
+    ExternalMethodDeclaration* methodDeclaration;
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     PrimitiveTypeSpecifier* intTypeSpecifier =
@@ -56,11 +56,11 @@ struct ExternalControllerDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ModelTypeSpecifier*> thrownExceptions;
-    methodSignature = new MethodSignatureDeclaration(floatTypeSpecifier,
-                                                     "foo",
-                                                     methodArguments,
-                                                     thrownExceptions);
-    mMethodSignatures.push_back(methodSignature);
+    methodDeclaration = new ExternalMethodDeclaration(floatTypeSpecifier,
+                                                      "foo",
+                                                      methodArguments,
+                                                      thrownExceptions);
+    mMethodDeclarations.push_back(methodDeclaration);
     
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
@@ -81,7 +81,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mFieldDeclarations,
-                                                    mMethodSignatures,
+                                                    mMethodDeclarations,
                                                     mInterfaces);
 
   controllerDefinition.prototypeObjects(mContext);
@@ -100,7 +100,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mFieldDeclarations,
-                                                    mMethodSignatures,
+                                                    mMethodDeclarations,
                                                     mInterfaces);
 
   controllerDefinition.prototypeObjects(mContext);

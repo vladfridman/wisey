@@ -32,29 +32,15 @@ StaticMethodDeclaration::~StaticMethodDeclaration() {
 }
 
 IMethod* StaticMethodDeclaration::createMethod(IRGenerationContext& context) const {
-  vector<MethodArgument*> arguments;
-  
-  for (VariableList::const_iterator iterator = mArguments.begin();
-       iterator != mArguments.end();
-       iterator++) {
-    const IType* type = (**iterator).getTypeSpecifier()->getType(context);
-    string name = (**iterator).getId()->getName();
-    MethodArgument* methodArgument = new MethodArgument(type, name);
-    arguments.push_back(methodArgument);
-  }
-  
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   
-  vector<const Model*> thrownExceptions;
-  for (ModelTypeSpecifier* exceptionTypeSpecifier : mExceptions) {
-    thrownExceptions.push_back(exceptionTypeSpecifier->getType(context));
-  }
-  thrownExceptions.push_back(context.getModel(Names::getNPEModelName()));
+  vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
+  vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context, mExceptions);
   
-  return new StaticMethod(mMethodName,
+  return new StaticMethod(mName,
                           mAccessLevel,
                           returnType,
                           arguments,
-                          thrownExceptions,
+                          exceptions,
                           mCompoundStatement);
 }

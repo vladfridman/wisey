@@ -19,10 +19,10 @@ ExternalNodeDefinition::~ExternalNodeDefinition() {
     delete fieldDeclaration;
   }
   mFieldDeclarations.clear();
-  for (MethodSignatureDeclaration* methodSignature : mMethodSignatures) {
-    delete methodSignature;
+  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
+    delete methodDeclaration;
   }
-  mMethodSignatures.clear();
+  mMethodDeclarations.clear();
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -41,11 +41,7 @@ void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) cons
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
   NodeDefinition::checkFields(context, mFieldDeclarations);
   
-  configureExternalObject(context,
-                          node,
-                          mFieldDeclarations,
-                          mMethodSignatures,
-                          mInterfaceSpecifiers);
+  configureObject(context, node, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
 }
 
 Value* ExternalNodeDefinition::generateIR(IRGenerationContext& context) const {

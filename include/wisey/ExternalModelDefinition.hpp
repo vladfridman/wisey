@@ -9,12 +9,10 @@
 #ifndef ExternalModelDefinition_h
 #define ExternalModelDefinition_h
 
-
+#include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/IField.hpp"
-#include "wisey/IExternalObjectDefinition.hpp"
+#include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
 namespace wisey {
@@ -22,21 +20,21 @@ namespace wisey {
 /**
  * Represents model definition implemented in a shared library
  */
-class ExternalModelDefinition : public IExternalObjectDefinition {
+class ExternalModelDefinition : public IConcreteObjectDefinition {
   ModelTypeSpecifier* mModelTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
-  std::vector<MethodSignatureDeclaration*> mMethodSignatures;
+  std::vector<IMethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ExternalModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
                           std::vector<FieldDeclaration*> fieldDeclarations,
-                          std::vector<MethodSignatureDeclaration *> methodSignatures,
+                          std::vector<IMethodDeclaration *> methodDeclarations,
                           std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mModelTypeSpecifier(modelTypeSpecifier),
   mFieldDeclarations(fieldDeclarations),
-  mMethodSignatures(methodSignatures),
+  mMethodDeclarations(methodDeclarations),
   mInterfaceSpecifiers(interfaceSpecifiers) { }
   
   ~ExternalModelDefinition();

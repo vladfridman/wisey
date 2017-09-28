@@ -19,10 +19,10 @@ ExternalControllerDefinition::~ExternalControllerDefinition() {
     delete fieldDeclaration;
   }
   mFieldDeclarations.clear();
-  for (MethodSignatureDeclaration* methodSignature : mMethodSignatures) {
-    delete methodSignature;
+  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
+    delete methodDeclaration;
   }
-  mMethodSignatures.clear();
+  mMethodDeclarations.clear();
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -41,11 +41,11 @@ void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
   ControllerDefinition::checkFields(mFieldDeclarations);
   
-  configureExternalObject(context,
-                          controller,
-                          mFieldDeclarations,
-                          mMethodSignatures,
-                          mInterfaceSpecifiers);
+  configureObject(context,
+                  controller,
+                  mFieldDeclarations,
+                  mMethodDeclarations,
+                  mInterfaceSpecifiers);
 }
 
 Value* ExternalControllerDefinition::generateIR(IRGenerationContext& context) const {

@@ -13,10 +13,10 @@
 #include <llvm/IR/Constants.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/ExternalModelDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
@@ -31,9 +31,9 @@ using ::testing::Test;
 struct ExternalModelDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  MethodSignatureDeclaration *mMethodSignatureDeclaration;
+  ExternalMethodDeclaration* mMethodDeclaration;
   vector<FieldDeclaration*> mFields;
-  vector<MethodSignatureDeclaration*> mMethodSignatures;
+  vector<IMethodDeclaration*> mMethodDeclarations;
   
   ExternalModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
@@ -49,11 +49,11 @@ struct ExternalModelDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ModelTypeSpecifier*> thrownExceptions;
-    mMethodSignatureDeclaration = new MethodSignatureDeclaration(floatTypeSpecifier,
-                                                                 "foo",
-                                                                 methodArguments,
-                                                                 thrownExceptions);
-    mMethodSignatures.push_back(mMethodSignatureDeclaration);
+    mMethodDeclaration = new ExternalMethodDeclaration(floatTypeSpecifier,
+                                                       "foo",
+                                                       methodArguments,
+                                                       thrownExceptions);
+    mMethodDeclarations.push_back(mMethodDeclaration);
   }
 };
 
@@ -69,7 +69,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
-  ExternalModelDefinition modelDefinition(typeSpecifier, mFields, mMethodSignatures, interfaces);
+  ExternalModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
   
@@ -92,7 +92,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
-  ExternalModelDefinition modelDefinition(typeSpecifier, mFields, mMethodSignatures, interfaces);
+  ExternalModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
 
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);

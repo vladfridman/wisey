@@ -13,31 +13,31 @@
 #include <vector>
 
 #include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/IExternalObjectDefinition.hpp"
+#include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
 
 namespace wisey {
   
 /**
  * Represents controller definition implemented in a shared library
  */
-class ExternalControllerDefinition : public IExternalObjectDefinition {
+class ExternalControllerDefinition : public IConcreteObjectDefinition {
   ControllerTypeSpecifier* mControllerTypeSpecifier;
   std::vector<FieldDeclaration*> mFieldDeclarations;
-  std::vector<MethodSignatureDeclaration*> mMethodSignatures;
+  std::vector<IMethodDeclaration*> mMethodDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ExternalControllerDefinition(ControllerTypeSpecifier* controllerTypeSpecifier,
                                std::vector<FieldDeclaration*> fieldDeclarations,
-                               std::vector<MethodSignatureDeclaration*> methodSignatures,
+                               std::vector<IMethodDeclaration*> methodDeclarations,
                                std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
   mControllerTypeSpecifier(controllerTypeSpecifier),
   mFieldDeclarations(fieldDeclarations),
-  mMethodSignatures(methodSignatures),
+  mMethodDeclarations(methodDeclarations),
   mInterfaceSpecifiers(interfaceSpecifiers) { }
   
   ~ExternalControllerDefinition();

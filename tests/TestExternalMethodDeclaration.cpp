@@ -1,26 +1,20 @@
 //
-//  TestMethodDeclaration.cpp
-//  Wisey
+//  TestExternalMethodDeclaration.cpp
+//  runtests
 //
-//  Created by Vladimir Fridman on 12/13/16.
-//  Copyright © 2016 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 9/29/17.
+//  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link MethodDeclaration}
+//  Tests {@link ExternalMethodDeclaration}
 //
 
 #include <gtest/gtest.h>
 
-#include <llvm/IR/Constants.h>
-
-#include "TestFileSampleRunner.hpp"
-#include "wisey/AccessLevel.hpp"
+#include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/MethodArgument.hpp"
-#include "wisey/MethodDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
-#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -28,7 +22,7 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct MethodDeclarationTest : Test {
+struct ExternalMethodDeclarationTest : Test {
   IRGenerationContext mContext;
   PrimitiveTypeSpecifier* mFloatTypeSpecifier;
   PrimitiveTypeSpecifier* mIntTypeSpecifier;
@@ -37,54 +31,38 @@ struct MethodDeclarationTest : Test {
   VariableDeclaration* mIntArgument;
   VariableDeclaration* mFloatArgument;
   VariableList mArguments;
-  Block* mBlock;
-  CompoundStatement* mCompoundStatement;
   
-  MethodDeclarationTest() :
+  ExternalMethodDeclarationTest() :
   mFloatTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE)),
   mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
   mIntArgumentIdentifier(new Identifier("intargument")),
   mFloatArgumentIdentifier(new Identifier("floatargument")),
   mIntArgument(new VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
-  mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
-  mBlock(new Block()),
-  mCompoundStatement(new CompoundStatement(mBlock)) {
+  mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
   }
 };
 
-TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
+TEST_F(ExternalMethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
   vector<ModelTypeSpecifier*> thrownExceptions;
-  MethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                      new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE),
-                                      "foo",
-                                      mArguments,
-                                      thrownExceptions,
-                                      mCompoundStatement);
+  PrimitiveTypeSpecifier* floatTypeSpecifier =
+    new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  ExternalMethodDeclaration methodDeclaration(floatTypeSpecifier,
+                                              "foo",
+                                              mArguments,
+                                              thrownExceptions);
   IMethod* method = methodDeclaration.createMethod(mContext);
   vector<MethodArgument*> arguments = method->getArguments();
   
-  EXPECT_FALSE(method->isStatic());
   EXPECT_STREQ(method->getName().c_str(), "foo");
+  EXPECT_FALSE(method->isStatic());
   EXPECT_EQ(method->getReturnType(), PrimitiveTypes::FLOAT_TYPE);
   EXPECT_EQ(arguments.size(), 2ul);
   EXPECT_EQ(arguments.at(0)->getName(), "intargument");
   EXPECT_EQ(arguments.at(0)->getType(), PrimitiveTypes::INT_TYPE);
   EXPECT_EQ(arguments.at(1)->getName(), "floatargument");
   EXPECT_EQ(arguments.at(1)->getType(), PrimitiveTypes::FLOAT_TYPE);
-}
-
-TEST_F(TestFileSampleRunner, methodDecalarationIntFunctionRunTest) {
-  runFile("tests/samples/test_int_method.yz", "10");
-}
-
-TEST_F(TestFileSampleRunner, methodDecalarationImpliedReturnRunTest) {
-  runFile("tests/samples/test_implied_return.yz", "5");
-}
-
-TEST_F(TestFileSampleRunner, methodDecalarationMultipleParametersRunTest) {
-  runFile("tests/samples/test_method_multiple_arguments.yz", "6");
 }

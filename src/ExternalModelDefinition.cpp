@@ -19,10 +19,10 @@ ExternalModelDefinition::~ExternalModelDefinition() {
     delete fieldDeclaration;
   }
   mFieldDeclarations.clear();
-  for (MethodSignatureDeclaration* methodSignature : mMethodSignatures) {
-    delete methodSignature;
+  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
+    delete methodDeclaration;
   }
-  mMethodSignatures.clear();
+  mMethodDeclarations.clear();
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -41,11 +41,7 @@ void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) con
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
   ModelDefinition::checkFields(mFieldDeclarations);
   
-  configureExternalObject(context,
-                          model,
-                          mFieldDeclarations,
-                          mMethodSignatures,
-                          mInterfaceSpecifiers);
+  configureObject(context, model, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
 }
 
 Value* ExternalModelDefinition::generateIR(IRGenerationContext& context) const {

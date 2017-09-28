@@ -26,7 +26,7 @@ namespace wisey {
 class MethodDeclaration : public IMethodDeclaration {
   const AccessLevel mAccessLevel;
   const ITypeSpecifier* mReturnTypeSpecifier;
-  std::string mMethodName;
+  std::string mName;
   VariableList mArguments;
   std::vector<ModelTypeSpecifier*> mExceptions;
   CompoundStatement* mCompoundStatement;
@@ -35,13 +35,13 @@ public:
   
   MethodDeclaration(const AccessLevel AccessLevel,
                     const ITypeSpecifier* returnTypeSpecifier,
-                    std::string methodName,
+                    std::string name,
                     VariableList arguments,
                     std::vector<ModelTypeSpecifier*> exceptions,
                     CompoundStatement* compoundStatement) :
   mAccessLevel(AccessLevel),
   mReturnTypeSpecifier(returnTypeSpecifier),
-  mMethodName(methodName),
+  mName(name),
   mArguments(arguments),
   mExceptions(exceptions),
   mCompoundStatement(compoundStatement) { }
