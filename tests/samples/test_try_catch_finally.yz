@@ -1,5 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.IProgram;
+
 model MException {
   int mValue;
 

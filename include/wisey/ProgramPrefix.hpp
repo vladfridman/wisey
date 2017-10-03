@@ -32,8 +32,6 @@ private:
 
   void defineNPEFunction(IRGenerationContext& context) const;
   
-  void defineIProgramInterface(IRGenerationContext& context) const;
-  
   llvm::StructType* defineFileStruct(IRGenerationContext& context) const;
 
   void defineStderr(IRGenerationContext& context, llvm::StructType* fileStructType) const;

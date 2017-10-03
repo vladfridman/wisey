@@ -27,10 +27,6 @@ string Names::getIProgramName() {
   return "IProgram";
 }
 
-string Names::getIProgramFullName() {
-  return getLangPackageName() + "." + getIProgramName();
-}
-
 string Names::getLangPackageName() {
   return "wisey.lang";
 }

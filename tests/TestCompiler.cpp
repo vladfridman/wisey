@@ -22,12 +22,16 @@ using namespace wisey;
 struct CompilerTest : public ::testing::Test {
   CompilerArguments mCompilerArguments;
   Compiler mCompiler;
+  static const string WISEYLIB;
  
   CompilerTest() : mCompiler(mCompilerArguments) { }
 };
 
+const string CompilerTest::WISEYLIB =  "wiseylib/wiseylib.yz";
+
 TEST_F(CompilerTest, compileAndRunTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_addition.yz");
+  mCompilerArguments.addSourceFile(WISEYLIB);
   mCompiler.compile();
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
@@ -37,6 +41,7 @@ TEST_F(CompilerTest, compileAndRunTest) {
 
 TEST_F(CompilerTest, compileAndSaveTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_addition.yz");
+  mCompilerArguments.addSourceFile(WISEYLIB);
   system("mkdir -p build");
   
   mCompilerArguments.setOutputFile("build/test.o");
@@ -60,6 +65,7 @@ TEST_F(CompilerTest, runWithoutCompileDeathTest) {
 TEST_F(CompilerTest, runMultipleFilesTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_controller/Adder.yz");
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_controller/Runner.yz");
+  mCompilerArguments.addSourceFile(WISEYLIB);
   mCompiler.compile();
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
@@ -70,6 +76,7 @@ TEST_F(CompilerTest, runMultipleFilesTest) {
 TEST_F(CompilerTest, runMultipleFilesOutOfOrderTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_controller/Runner.yz");
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_controller/Adder.yz");
+  mCompilerArguments.addSourceFile(WISEYLIB);
   mCompiler.compile();
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
@@ -80,6 +87,7 @@ TEST_F(CompilerTest, runMultipleFilesOutOfOrderTest) {
 TEST_F(CompilerTest, runMultipleFilesControllerAndModelsTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_model/MAdder.yz");
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_controller_model/CProgram.yz");
+  mCompilerArguments.addSourceFile(WISEYLIB);
   mCompiler.compile();
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
@@ -90,6 +98,7 @@ TEST_F(CompilerTest, runMultipleFilesControllerAndModelsTest) {
 TEST_F(CompilerTest, runMultipleFilesInterdependentModelsTest) {
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_model_model/CProgram.yz");
   mCompilerArguments.addSourceFile("tests/samples/test_multifile_model_model/MAdder.yz");
+  mCompilerArguments.addSourceFile(WISEYLIB);
   mCompiler.compile();
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);

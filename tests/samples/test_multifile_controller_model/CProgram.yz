@@ -1,5 +1,7 @@
 package systems.vos.wisey.compiler.tests.multifile;
 
+import wisey.lang.IProgram;
+
 controller CProgram implements IProgram {
   state MAdder* mAdder;
 

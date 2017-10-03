@@ -155,11 +155,6 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
 TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType *structType = StructType::create(mLLVMContext, interfaceFullName);
-  vector<Type*> types;
-  Type* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), true);
-  Type* vtableType = functionType->getPointerTo()->getPointerTo();
-  types.push_back(vtableType);
-  structType->setBody(types);
   vector<MethodSignatureDeclaration*> interfaceMethodSignatures;
   VariableList methodArguments;
   vector<ModelTypeSpecifier*> methodThrownExceptions;
@@ -183,6 +178,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                        structType,
                                        parentInterfaces,
                                        interfaceMethodSignatures);
+  mContext.addInterface(interface);
+  interface->buildMethods(mContext);
   Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());
   new GlobalVariable(*mContext.getModule(),
                      stringConstant->getType(),
@@ -191,7 +188,6 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      stringConstant,
                      interface->getObjectNameGlobalVariableName());
 
-  mContext.addInterface(interface);
   vector<InterfaceTypeSpecifier*> interfaces;
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   

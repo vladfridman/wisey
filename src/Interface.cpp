@@ -34,7 +34,8 @@ mName(name),
 mStructType(structType),
 mInterfaceOwner(new InterfaceOwner(this)),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
-mMethodSignatureDeclarations(methodSignatureDeclarations) { }
+mMethodSignatureDeclarations(methodSignatureDeclarations),
+mIsComplete(false) { }
 
 Interface::~Interface() {
   mParentInterfaces.clear();
@@ -47,6 +48,10 @@ Interface::~Interface() {
 }
 
 void Interface::buildMethods(IRGenerationContext& context) {
+  if (mIsComplete) {
+    return;
+  }
+  
   LLVMContext& llvmContext = context.getLLVMContext();
   for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
     MethodSignature* methodSignature =
@@ -56,6 +61,9 @@ void Interface::buildMethods(IRGenerationContext& context) {
   
   for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
+    if (!parentInterface->isComplete()) {
+      parentInterface->buildMethods(context);
+    }
     mParentInterfaces.push_back(parentInterface);
   }
   
@@ -85,6 +93,11 @@ void Interface::buildMethods(IRGenerationContext& context) {
   mStructType->setBody(types);
   mMethodSignatureDeclarations.clear();
   mParentInterfaceSpecifiers.clear();
+  mIsComplete = true;
+}
+
+bool Interface::isComplete() const {
+  return mIsComplete;
 }
 
 void Interface::includeInterfaceMethods(Interface* parentInterface) {

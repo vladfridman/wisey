@@ -1,6 +1,7 @@
 package systems.vos.wisey.compiler.tests.multifile;
 
 import systems.vos.wisey.compiler.tests.other.CAdder;
+import wisey.lang.IProgram;
 
 controller CProgram implements IProgram {
   inject CAdder* mAdder;

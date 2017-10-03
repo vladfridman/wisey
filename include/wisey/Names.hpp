@@ -42,11 +42,6 @@ public:
   static std::string getIProgramName();
   
   /**
-   * Returns full name of the IProgram interface that main function calls
-   */
-  static std::string getIProgramFullName();
-  
-  /**
    * Returns name of the lang package
    */
   static std::string getLangPackageName();

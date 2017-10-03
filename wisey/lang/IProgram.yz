@@ -1,0 +1,5 @@
+package wisey.lang;
+
+interface IProgram {
+  int run();
+}

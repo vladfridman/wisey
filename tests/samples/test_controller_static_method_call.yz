@@ -1,5 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.IProgram;
+
 controller CService {
 
   public static int getValue() {

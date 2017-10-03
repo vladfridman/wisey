@@ -1,0 +1,14 @@
+/* Interfaces */
+
+interface wisey.lang.IProgram {
+  int run();
+}
+
+/* Models */
+
+/* Controllers */
+
+/* Nodes */
+
+/* Bindings */
+

@@ -1,5 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.IProgram;
+
 model MColor {
   public static int getValue() {
     return 3;

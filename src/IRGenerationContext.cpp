@@ -246,7 +246,6 @@ IObjectType* IRGenerationContext::getImportWithFail(string objectName) {
 
 void IRGenerationContext::clearAndAddDefaultImports() {
   mImports.clear();
-  addImport(getInterface(Names::getIProgramFullName()));
   addImport(getModel(Names::getNPEModelFullName()));
 }
 

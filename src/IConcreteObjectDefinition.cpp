@@ -71,6 +71,9 @@ vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationCont
   vector<Interface*> interfaces;
   for (InterfaceTypeSpecifier* interfaceSpecifier : interfaceSpecifiers) {
     Interface* interface = (Interface*) interfaceSpecifier->getType(context);
+    if (!interface->isComplete()) {
+      interface->buildMethods(context);
+    }
     interfaces.push_back(interface);
   }
   return interfaces;

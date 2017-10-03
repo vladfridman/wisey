@@ -1,5 +1,7 @@
 package wisey.lang;
 
+import wisey.lang.IProgram;
+
 interface systems.vos.wisey.compiler.tests.IInterface {
   int calculate();
 }

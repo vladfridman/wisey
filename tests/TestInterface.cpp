@@ -34,10 +34,12 @@ using ::testing::Test;
 struct InterfaceTest : public Test {
   Interface* mShapeInterface;
   Interface* mObjectInterface;
+  Interface* mIncompleteInterface;
   InterfaceTypeSpecifier* mObjectInterfaceSpecifier;
   MethodSignatureDeclaration* mFooMethod;
   MethodSignatureDeclaration* mBarMethod;
   StructType* mShapeStructType;
+  StructType* mIncompleteInterfaceStructType;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -84,6 +86,12 @@ struct InterfaceTest : public Test {
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
 
+    mIncompleteInterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
+    mIncompleteInterface = new Interface(shapeFullName,
+                                         mIncompleteInterfaceStructType,
+                                         shapeParentInterfaces,
+                                         shapeMethodSignatures);
+    
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                             mShapeInterface->getName());
     new GlobalVariable(*mContext.getModule(),
@@ -152,6 +160,12 @@ TEST_F(InterfaceTest, getParentInterfacesTest) {
 TEST_F(InterfaceTest, doesExtendInterfaceTest) {
   EXPECT_FALSE(mObjectInterface->doesExtendInterface(mShapeInterface));
   EXPECT_TRUE(mShapeInterface->doesExtendInterface(mObjectInterface));
+}
+
+TEST_F(InterfaceTest, isCompleteTest) {
+  EXPECT_FALSE(mIncompleteInterface->isComplete());
+  mIncompleteInterface->buildMethods(mContext);
+  EXPECT_TRUE(mIncompleteInterface->isComplete());
 }
 
 TEST_F(InterfaceTest, getOriginalObjectTest) {

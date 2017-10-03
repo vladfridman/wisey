@@ -271,7 +271,7 @@ TEST_F(IRGenerationContextTest, clearAndAddDefaultImportsDeathTest) {
   mContext.addImport(mController);
   mContext.clearAndAddDefaultImports();
   
-  EXPECT_NE(mContext.getImport(Names::getIProgramName()), nullptr);
+  EXPECT_NE(mContext.getImport(Names::getNPEModelName()), nullptr);
   EXPECT_EQ(mContext.getImport("CMyController"), nullptr);
 }
 

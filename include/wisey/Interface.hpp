@@ -39,6 +39,7 @@ class Interface : public IObjectType {
   std::vector<MethodSignature*> mAllMethodSignatures;
   std::map<IMethodDescriptor*, unsigned long> mMethodIndexes;
   std::map<std::string, MethodSignature*> mNameToMethodSignatureMap;
+  bool mIsComplete;
   
 public:
   
@@ -83,6 +84,11 @@ public:
    * Returns method index in the list of all methods that this interface has or inherits
    */
   unsigned long getMethodIndex(IMethodDescriptor* methodDescriptor) const;
+  
+  /**
+   * Tells whether building of this interface completed
+   */
+  bool isComplete() const;
 
   /**
    * Given a value of type interface get the pointer back to the original object that implements it

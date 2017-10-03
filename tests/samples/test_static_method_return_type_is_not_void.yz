@@ -1,5 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.IProgram;
+
 controller CProgram implements IProgram {
 
   public static int foo() {

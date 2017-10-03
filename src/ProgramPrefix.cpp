@@ -37,7 +37,6 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   defineFreeIfNotNullFunction(context);
   defineNPEModel(context);
   defineNPEFunction(context);
-  defineIProgramInterface(context);
   StructType* fileStructType = defineFileStruct(context);
   defineStderr(context, fileStructType);
   
@@ -143,36 +142,6 @@ void ProgramPrefix::defineFreeIfNotNullFunction(IRGenerationContext& context) co
   
   IRWriter::createFree(context, llvmArgument);
   IRWriter::createReturnInst(context, NULL);
-}
-
-void ProgramPrefix::defineIProgramInterface(IRGenerationContext& context) const {
-  PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  VariableList variableList;
-  vector<ModelTypeSpecifier*> thrownExceptions;
-  vector<string> package;
-  ModelTypeSpecifier* npeExceptionTypeSpecifier = new ModelTypeSpecifier(package,
-                                                                         Names::getNPEModelName());
-  thrownExceptions.push_back(npeExceptionTypeSpecifier);
-  
-  MethodSignatureDeclaration* runMethod = new MethodSignatureDeclaration(intTypeSpecifier,
-                                                                         "run",
-                                                                         variableList,
-                                                                         thrownExceptions);
-  
-  vector<InterfaceTypeSpecifier*> parentInterfaces;
-  vector<MethodSignatureDeclaration *> methodSignatureDeclarations;
-  methodSignatureDeclarations.push_back(runMethod);
-  InterfaceTypeSpecifier* interfaceTypeSpecifier =
-    new InterfaceTypeSpecifier(package, Names::getIProgramName());
-  InterfaceDefinition programInterface(interfaceTypeSpecifier,
-                                       parentInterfaces,
-                                       methodSignatureDeclarations);
-  
-  programInterface.prototypeObjects(context);
-  programInterface.prototypeMethods(context);
-  programInterface.generateIR(context);
-  
-  context.addImport(context.getInterface(Names::getIProgramName()));
 }
 
 StructType* ProgramPrefix::defineFileStruct(IRGenerationContext& context) const {

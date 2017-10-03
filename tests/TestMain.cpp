@@ -18,6 +18,7 @@
 using namespace std;
 
 struct MainTest : public ::testing::Test {
+
   MainTest() {
     system("mkdir -p build");
   }
@@ -62,7 +63,7 @@ TEST_F(MainTest, helpTest) {
 TEST_F(MainTest, outputToFileTest) {
   system("mkdir -p build");
 
-  system("bin/wiseyc tests/samples/test_addition.yz -o build/test.o 2>&1");
+  system("bin/wiseyc tests/samples/test_addition.yz wiseylib/wiseylib.yz -o build/test.o 2>&1");
   system("g++ -o build/test build/test.o");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);
@@ -72,7 +73,8 @@ TEST_F(MainTest, outputToFileTest) {
 
 TEST_F(MainTest, extractHeadersTest) {
   system("mkdir -p build");
-  system("bin/wiseyc tests/samples/test_addition.yz -H build/test.yzh --no-output 2>&1");
+  system("bin/wiseyc tests/samples/test_addition.yz wiseylib/wiseylib.yz "
+         "-H build/test.yzh --no-output 2>&1");
   
   ifstream stream;
   stream.open("build/test.yzh");
@@ -111,14 +113,17 @@ TEST_F(MainTest, emitLLVMTest) {
   system("mkdir -p build");
 
   string resultWithoutEmitLLVM =
-  TestFileSampleRunner::exec("bin/wiseyc -o build/test.bc tests/samples/test_addition.yz");
+  TestFileSampleRunner::exec("bin/wiseyc -o build/test.bc tests/samples/test_addition.yz "
+                             "wiseylib/wiseylib.yz");
   EXPECT_EQ(resultWithoutEmitLLVM.find("define i32 @main()"), string::npos);
   
   string resultWithEmitLLVM = TestFileSampleRunner::exec("bin/wiseyc --emit-llvm -o build/test.bc "
-                                                         "tests/samples/test_addition.yz");
+                                                         "tests/samples/test_addition.yz "
+                                                         "wiseylib/wiseylib.yz");
   EXPECT_NE(resultWithEmitLLVM.find("define i32 @main()"), string::npos);
   
   resultWithEmitLLVM = TestFileSampleRunner::exec("bin/wiseyc -e -o build/test.bc "
-                                                  "tests/samples/test_addition.yz");
+                                                  "tests/samples/test_addition.yz "
+                                                  "wiseylib/wiseylib.yz");
   EXPECT_NE(resultWithEmitLLVM.find("define i32 @main()"), string::npos);
 }

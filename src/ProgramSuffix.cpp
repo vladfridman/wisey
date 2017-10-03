@@ -28,6 +28,8 @@ using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   vector<string> package;
+  package.push_back("wisey");
+  package.push_back("lang");
   InterfaceTypeSpecifier* programInterfaceSpecifier =
     new InterfaceTypeSpecifier(package, Names::getIProgramName());
   Interface* interface = (Interface*) programInterfaceSpecifier->getType(context);
@@ -41,7 +43,6 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
 Value* ProgramSuffix::generateMain(IRGenerationContext& context,
                                    InterfaceTypeSpecifier* programInterfaceSpecifier) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  vector<string> package;
 
   FunctionType* mainFunctionType =
   FunctionType::get(Type::getInt32Ty(llvmContext), false);
@@ -56,6 +57,9 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   
   InterfaceInjector* interfaceInjector = new InterfaceInjector(programInterfaceSpecifier);
   Identifier* programIdentifier = new Identifier("program", "program");
+  vector<string> package;
+  package.push_back("wisey");
+  package.push_back("lang");
   programInterfaceSpecifier = new InterfaceTypeSpecifier(package, Names::getIProgramName());
   VariableDeclaration programVariableDeclaration(programInterfaceSpecifier,
                                                  programIdentifier,

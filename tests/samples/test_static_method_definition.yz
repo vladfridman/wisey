@@ -1,5 +1,7 @@
 package systems.vos.wisey.compiler.tests;
 
+import wisey.lang.IProgram;
+
 model MCar {
   
   public static int getYear() {
