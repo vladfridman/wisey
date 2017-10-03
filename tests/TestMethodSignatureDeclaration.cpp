@@ -57,7 +57,9 @@ struct MethodSignatureDeclarationTest : Test {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* structType = StructType::create(llvmContext, interfaceFullName);
     structType->setBody(types);
-    mInterface = new Interface(interfaceFullName, structType);
+    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<MethodSignatureDeclaration*> interfaceMethods;
+    mInterface = new Interface(interfaceFullName, structType, parentInterfaces, interfaceMethods);
   }
   
   ~MethodSignatureDeclarationTest() {

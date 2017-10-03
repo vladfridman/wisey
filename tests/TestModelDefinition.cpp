@@ -18,12 +18,14 @@
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnStatement.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -158,19 +160,29 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
   types.push_back(vtableType);
   structType->setBody(types);
-  vector<MethodSignature*> interfaceMethodSignatures;
-  vector<MethodArgument*> methodArguments;
-  vector<const Model*> methodThrownExceptions;
-  methodThrownExceptions.push_back(mContext.getModel(Names::getNPEModelName()));
-  methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
-  MethodSignature* methodSignature = new MethodSignature("foo",
-                                                         PrimitiveTypes::FLOAT_TYPE,
-                                                         methodArguments,
-                                                         methodThrownExceptions);
+  vector<MethodSignatureDeclaration*> interfaceMethodSignatures;
+  VariableList methodArguments;
+  vector<ModelTypeSpecifier*> methodThrownExceptions;
+  vector<string> package;
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
+                                                                  Names::getNPEModelName());
+  methodThrownExceptions.push_back(modelTypeSpecifier);
+  const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  VariableDeclaration* methodArgument = new VariableDeclaration(intSpecifier,
+                                                                new Identifier("intargument"));
+  methodArguments.push_back(methodArgument);
+  PrimitiveTypeSpecifier* floatSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  MethodSignatureDeclaration* methodSignature =
+    new MethodSignatureDeclaration(floatSpecifier,
+                                   "foo",
+                                   methodArguments,
+                                   methodThrownExceptions);
   interfaceMethodSignatures.push_back(methodSignature);
-  Interface* interface = new Interface(interfaceFullName, structType);
-  vector<Interface*> parentInterfaces;
-  interface->setParentInterfacesAndMethodSignatures(parentInterfaces, interfaceMethodSignatures);
+  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  Interface* interface = new Interface(interfaceFullName,
+                                       structType,
+                                       parentInterfaces,
+                                       interfaceMethodSignatures);
   Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());
   new GlobalVariable(*mContext.getModule(),
                      stringConstant->getType(),
@@ -181,7 +193,6 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 
   mContext.addInterface(interface);
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MModel");

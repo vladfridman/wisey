@@ -37,7 +37,12 @@ struct IdentifierTest : public Test {
   Interface* mInterface;
 
   IdentifierTest() {
-    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface", NULL);
+    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<MethodSignatureDeclaration*> interfaceMethods;
+    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface",
+                               NULL,
+                               parentInterfaces,
+                               interfaceMethods);
 
     mContext.getScopes().pushScope();
   }

@@ -31,42 +31,18 @@ InterfaceDefinition::~InterfaceDefinition() {
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   string fullName = mInterfaceTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
-  Interface* interface = new Interface(fullName, structType);
+  Interface* interface = new Interface(fullName,
+                                       structType,
+                                       mParentInterfaceSpecifiers,
+                                       mMethodSignatureDeclarations);
   context.addInterface(interface);
+  
+  defineInterfaceTypeName(context, interface);
 }
 
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
   Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName(context));
-
-  vector<MethodSignature*> methodSignatures;
-  for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
-    MethodSignature* methodSignature =
-    methodSignatureDeclaration->createMethodSignature(context);
-    methodSignatures.push_back(methodSignature);
-  }
-  
-  vector<Interface*> parentInterfaces;
-  for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
-    Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
-    parentInterfaces.push_back(parentInterface);
-  }
-
-  interface->setParentInterfacesAndMethodSignatures(parentInterfaces, methodSignatures);
-
-  Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
-  Type* vtableType = functionType->getPointerTo()->getPointerTo();
-  vector<Type*> types;
-  types.push_back(vtableType);
-  
-  for (Interface* parentInterface : interface->getParentInterfaces()) {
-    types.push_back(parentInterface->getLLVMType(llvmContext)
-                    ->getPointerElementType()->getPointerElementType());
-  }
-  
-  interface->setStructBodyTypes(types);
-  
-  defineInterfaceTypeName(context, interface);
+  interface->buildMethods(context);
 }
 
 Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {

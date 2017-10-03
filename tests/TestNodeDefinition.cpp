@@ -18,6 +18,7 @@
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NodeDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -161,19 +162,27 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   Type* vtableType = functionType->getPointerTo()->getPointerTo();
   types.push_back(vtableType);
   structType->setBody(types);
-  vector<MethodSignature*> interfaceMethodSignatures;
-  vector<MethodArgument*> methodArguments;
-  vector<const Model*> methodThrownExceptions;
-  methodThrownExceptions.push_back(mContext.getModel(Names::getNPEModelName()));
-  methodArguments.push_back(new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument"));
-  MethodSignature* methodSignature = new MethodSignature("foo",
-                                                         PrimitiveTypes::FLOAT_TYPE,
-                                                         methodArguments,
-                                                         methodThrownExceptions);
+  vector<MethodSignatureDeclaration*> interfaceMethodSignatures;
+  VariableList methodArguments;
+  vector<ModelTypeSpecifier*> methodThrownExceptions;
+  vector<string> package;
+  methodThrownExceptions.push_back(new ModelTypeSpecifier(package, Names::getNPEModelName()));
+  const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  PrimitiveTypeSpecifier* floatSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
+  VariableDeclaration* methodArgument = new VariableDeclaration(intSpecifier,
+                                                                new Identifier("intargument"));
+  methodArguments.push_back(methodArgument);
+  MethodSignatureDeclaration* methodSignature =
+    new MethodSignatureDeclaration(floatSpecifier,
+                                   "foo",
+                                   methodArguments,
+                                   methodThrownExceptions);
   interfaceMethodSignatures.push_back(methodSignature);
-  Interface* interface = new Interface(interfaceFullName, structType);
-  vector<Interface*> parentInterfaces;
-  interface->setParentInterfacesAndMethodSignatures(parentInterfaces, interfaceMethodSignatures);
+  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  Interface* interface = new Interface(interfaceFullName,
+                                       structType,
+                                       parentInterfaces,
+                                       interfaceMethodSignatures);
   Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());
   new GlobalVariable(*mContext.getModule(),
                      stringConstant->getType(),
@@ -184,7 +193,6 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   
   mContext.addInterface(interface);
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");

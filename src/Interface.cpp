@@ -13,23 +13,28 @@
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceOwner.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
-#include "wisey/MethodSignature.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/Model.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Interface::Interface(std::string name, llvm::StructType* structType) {
-  mName = name;
-  mStructType = structType;
-  mInterfaceOwner = new InterfaceOwner(this);
-}
+Interface::Interface(string name,
+                     StructType* structType,
+                     vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+                     vector<MethodSignatureDeclaration *> methodSignatureDeclarations) :
+mName(name),
+mStructType(structType),
+mInterfaceOwner(new InterfaceOwner(this)),
+mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
+mMethodSignatureDeclarations(methodSignatureDeclarations) { }
 
 Interface::~Interface() {
   mParentInterfaces.clear();
@@ -41,10 +46,19 @@ Interface::~Interface() {
   mNameToMethodSignatureMap.clear();
 }
 
-void Interface::setParentInterfacesAndMethodSignatures(vector<Interface *> parentInterfaces,
-                                                       vector<MethodSignature *> methodSignatures) {
-  mParentInterfaces = parentInterfaces;
-  mMethodSignatures = methodSignatures;
+void Interface::buildMethods(IRGenerationContext& context) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
+    MethodSignature* methodSignature =
+    methodSignatureDeclaration->createMethodSignature(context);
+    mMethodSignatures.push_back(methodSignature);
+  }
+  
+  for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
+    Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
+    mParentInterfaces.push_back(parentInterface);
+  }
+  
   for (MethodSignature* methodSignature : mMethodSignatures) {
     mNameToMethodSignatureMap[methodSignature->getName()] = methodSignature;
     mAllMethodSignatures.push_back(methodSignature);
@@ -57,10 +71,20 @@ void Interface::setParentInterfacesAndMethodSignatures(vector<Interface *> paren
     mMethodIndexes[methodSignature] = index;
     index++;
   }
-}
 
-void Interface::setStructBodyTypes(vector<Type*> types) {
+  Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);
+  Type* vtableType = functionType->getPointerTo()->getPointerTo();
+  vector<Type*> types;
+  types.push_back(vtableType);
+  
+  for (Interface* parentInterface : mParentInterfaces) {
+    types.push_back(parentInterface->getLLVMType(llvmContext)
+                    ->getPointerElementType()->getPointerElementType());
+  }
+  
   mStructType->setBody(types);
+  mMethodSignatureDeclarations.clear();
+  mParentInterfaceSpecifiers.clear();
 }
 
 void Interface::includeInterfaceMethods(Interface* parentInterface) {

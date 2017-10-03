@@ -17,11 +17,16 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Controller.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -55,56 +60,65 @@ struct ControllerTest : public Test {
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
+    
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
 
-    vector<Type*> calculatorInterfaceTypes;
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
                                                                     calculatorFullName);
-    calculatorIinterfaceStructType->setBody(calculatorInterfaceTypes);
-    vector<MethodArgument*> calculatorInterfaceMethodArguments;
-    vector<MethodSignature*> calculatorInterfaceMethods;
-    vector<const Model*> calculatorThrownExceptions;
-    MethodSignature* calculateSignature = new MethodSignature("calculate",
-                                                              PrimitiveTypes::INT_TYPE,
-                                                              calculatorInterfaceMethodArguments,
-                                                              calculatorThrownExceptions);
+    VariableList calculatorInterfaceMethodArguments;
+    vector<MethodSignatureDeclaration*> calculatorInterfaceMethods;
+    vector<ModelTypeSpecifier*> calculatorThrownExceptions;
+    PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    MethodSignatureDeclaration* calculateSignature =
+      new MethodSignatureDeclaration(intSpecifier,
+                                     "calculate",
+                                     calculatorInterfaceMethodArguments,
+                                     calculatorThrownExceptions);
     calculatorInterfaceMethods.push_back(calculateSignature);
-    vector<Interface*> calculatorParentInterfaces;
-    mCalculatorInterface = new Interface(calculatorFullName, calculatorIinterfaceStructType);
-    mCalculatorInterface->setParentInterfacesAndMethodSignatures(calculatorParentInterfaces,
-                                                                 calculatorInterfaceMethods);
+    vector<InterfaceTypeSpecifier*> calculatorParentInterfaces;
+    mCalculatorInterface = new Interface(calculatorFullName,
+                                         calculatorIinterfaceStructType,
+                                         calculatorParentInterfaces,
+                                         calculatorInterfaceMethods);
+    mContext.addInterface(mCalculatorInterface);
+    mCalculatorInterface->buildMethods(mContext);
     
-    vector<Type*> scienceCalculatorInterfaceTypes;
     string scienceCalculatorFullName = "systems.vos.wisey.compiler.tests.IScienceCalculator";
     StructType* scienceCalculatorIinterfaceStructType =
       StructType::create(mLLVMContext, scienceCalculatorFullName);
-    scienceCalculatorIinterfaceStructType->setBody(scienceCalculatorInterfaceTypes);
-    vector<MethodSignature*> scienceCalculatorInterfaceMethods;
+    vector<MethodSignatureDeclaration*> scienceCalculatorInterfaceMethods;
     scienceCalculatorInterfaceMethods.push_back(calculateSignature);
-    vector<Interface*> scienceCalculatorParentInterfaces;
-    scienceCalculatorParentInterfaces.push_back(mCalculatorInterface);
+    vector<InterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
+    vector<string> package;
+    InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier(package,
+                                                                             "ICalculator");
+    scienceCalculatorParentInterfaces.push_back(calculatorSpecifier);
     mScienceCalculatorInterface = new Interface(scienceCalculatorFullName,
-                                                scienceCalculatorIinterfaceStructType);
-    mScienceCalculatorInterface->
-    setParentInterfacesAndMethodSignatures(scienceCalculatorParentInterfaces,
-                                           scienceCalculatorInterfaceMethods);
+                                                scienceCalculatorIinterfaceStructType,
+                                                scienceCalculatorParentInterfaces,
+                                                scienceCalculatorInterfaceMethods);
+    mContext.addInterface(mScienceCalculatorInterface);
+    mScienceCalculatorInterface->buildMethods(mContext);
 
-    vector<Type*> objectInterfaceTypes;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    objectInterfaceStructType->setBody(objectInterfaceTypes);
-    vector<MethodArgument*> objectInterfaceMethodArguments;
-    vector<MethodSignature*> objectInterfaceMethods;
-    vector<const Model*> objectThrownExceptions;
-    MethodSignature* methodBarSignature = new MethodSignature("foo",
-                                                               PrimitiveTypes::INT_TYPE,
-                                                              objectInterfaceMethodArguments,
-                                                              objectThrownExceptions);
+    VariableList objectInterfaceMethodArguments;
+    vector<MethodSignatureDeclaration*> objectInterfaceMethods;
+    vector<ModelTypeSpecifier*> objectThrownExceptions;
+    MethodSignatureDeclaration* methodBarSignature =
+      new MethodSignatureDeclaration(intSpecifier,
+                                     "foo",
+                                     objectInterfaceMethodArguments,
+                                     objectThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
-    mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
-    vector<Interface*> objectParentInterfaces;
-    mObjectInterface->setParentInterfacesAndMethodSignatures(objectParentInterfaces,
-                                                             objectInterfaceMethods);
+    vector<InterfaceTypeSpecifier*> objectParentInterfaces;
+    mObjectInterface = new Interface(objectFullName,
+                                     objectInterfaceStructType,
+                                     objectParentInterfaces,
+                                     objectInterfaceMethods);
+    mContext.addInterface(mObjectInterface);
+    mObjectInterface->buildMethods(mContext);
 
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -182,12 +196,17 @@ struct ControllerTest : public Test {
     mDoublerController->setFields(doublerFields);
     mContext.addController(mDoublerController);
 
-    vector<Type*> vehicleInterfaceTypes;
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
-    vehicleInterfaceStructType->setBody(vehicleInterfaceTypes);
-    mVehicleInterface = new Interface(vehicleFullName, vehicleInterfaceStructType);
-    
+    vector<InterfaceTypeSpecifier*> vehicleParentInterfaces;
+    vector<MethodSignatureDeclaration*> vehicleMethodSignatures;
+    mVehicleInterface = new Interface(vehicleFullName,
+                                      vehicleInterfaceStructType,
+                                      vehicleParentInterfaces,
+                                      vehicleMethodSignatures);
+    mContext.addInterface(mVehicleInterface);
+    mVehicleInterface->buildMethods(mContext);
+
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateVTable(mContext, mAdditorController);
     

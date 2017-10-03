@@ -13,7 +13,9 @@
 
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodSignature.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -31,17 +33,17 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* structType = StructType::create(mContext.getLLVMContext(), "IShape");
     structType->setBody(types);
-    vector<MethodArgument*> methodArguments;
-    vector<MethodSignature*> methodSignatures;
-    vector<const Model*> methodExceptions;
-    MethodSignature* methodSignature = new MethodSignature("foo",
-                                                           PrimitiveTypes::INT_TYPE,
-                                                           methodArguments,
-                                                           methodExceptions);
+    VariableList methodArguments;
+    vector<MethodSignatureDeclaration*> methodSignatures;
+    vector<ModelTypeSpecifier*> methodExceptions;
+    PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    MethodSignatureDeclaration* methodSignature = new MethodSignatureDeclaration(intSpecifier,
+                                                                                 "foo",
+                                                                                 methodArguments,
+                                                                                 methodExceptions);
     methodSignatures.push_back(methodSignature);
-    mInterface = new Interface(interfaceFullName, structType);
-    vector<Interface*> parentInterfaces;
-    mInterface->setParentInterfacesAndMethodSignatures(parentInterfaces, methodSignatures);
+    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    mInterface = new Interface(interfaceFullName, structType, parentInterfaces, methodSignatures);
    
     mContext.addInterface(mInterface);
 

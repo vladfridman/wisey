@@ -16,6 +16,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/InterfaceOwner.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -35,24 +36,33 @@ struct InterfaceOwnerTest : public Test {
   raw_string_ostream* mStringStream;
   
   InterfaceOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    
     vector<Type*> objectTypes;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(objectTypes);
-    mObjectInterface = new Interface(objectFullName, objectStructType);
+    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<MethodSignatureDeclaration*> interfaceMethods;
+    mObjectInterface = new Interface(objectFullName,
+                                     objectStructType,
+                                     parentInterfaces,
+                                     interfaceMethods);
     
     vector<Type*> shapeTypes;
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mShapeStructType->setBody(shapeTypes);
-    vector<MethodArgument*> shapeMethodArguments;
-    vector<const IType*> thrownExceptions;
-    vector<MethodSignature*> shapeMethodSignatures;
-    vector<Interface*> shapeParentInterfaces;
-    shapeParentInterfaces.push_back(mObjectInterface);
-    mShapeInterface = new Interface(shapeFullName, mShapeStructType);
-    mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
-                                                            shapeMethodSignatures);
+    vector<MethodSignatureDeclaration*> shapeMethodSignatures;
+    vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
+    vector<string> package;
+    InterfaceTypeSpecifier* objectInterfaceSpecifier = new InterfaceTypeSpecifier(package,
+                                                                                  "IObject");
+    shapeParentInterfaces.push_back(objectInterfaceSpecifier);
+    mShapeInterface = new Interface(shapeFullName,
+                                    mShapeStructType,
+                                    shapeParentInterfaces,
+                                    shapeMethodSignatures);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

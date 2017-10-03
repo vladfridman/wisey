@@ -46,7 +46,12 @@ struct ScopesTest : public Test {
   Interface* mInterface;
   
   ScopesTest() : mLLVMContext(mContext.getLLVMContext()) {
-    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface", NULL);
+    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<MethodSignatureDeclaration*> methodSignatures;
+    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface",
+                               NULL,
+                               parentInterfaces,
+                               methodSignatures);
   }
 };
 

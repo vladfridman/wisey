@@ -11,6 +11,7 @@
 #define InterfaceTypeSpecifier_h
 
 #include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/Interface.hpp"
 
 namespace wisey {
   

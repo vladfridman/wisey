@@ -16,11 +16,17 @@
 
 #include "MockExpression.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/NodeOwner.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -57,56 +63,67 @@ struct NodeOwnerTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()) {
-    vector<Type*> elementInterfaceTypes;
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+    
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
     string elementInterfaceFullName = "systems.vos.wisey.compiler.tests.IElement";
     StructType* elementInterfaceStructType = StructType::create(mLLVMContext,
                                                                 elementInterfaceFullName);
-    elementInterfaceStructType->setBody(elementInterfaceTypes);
-    vector<MethodArgument*> elementInterfaceMethodArguments;
-    vector<MethodSignature*> elementInterfaceMethods;
-    vector<const Model*> elementThrownExceptions;
-    MethodSignature* getElementSignature = new MethodSignature("getElement",
-                                                               PrimitiveTypes::INT_TYPE,
-                                                               elementInterfaceMethodArguments,
-                                                               elementThrownExceptions);
+    VariableList elementInterfaceMethodArguments;
+    vector<MethodSignatureDeclaration*> elementInterfaceMethods;
+    vector<ModelTypeSpecifier*> elementThrownExceptions;
+    PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    MethodSignatureDeclaration* getElementSignature =
+    new MethodSignatureDeclaration(intSpecifier,
+                                   "getElement",
+                                   elementInterfaceMethodArguments,
+                                   elementThrownExceptions);
     elementInterfaceMethods.push_back(getElementSignature);
-    vector<Interface*> elementParentInterfaces;
-    mElementInterface = new Interface(elementInterfaceFullName, elementInterfaceStructType);
-    mElementInterface->setParentInterfacesAndMethodSignatures(elementParentInterfaces,
-                                                              elementInterfaceMethods);
+    vector<InterfaceTypeSpecifier*> elementParentInterfaces;
+    mElementInterface = new Interface(elementInterfaceFullName,
+                                      elementInterfaceStructType,
+                                      elementParentInterfaces,
+                                      elementInterfaceMethods);
+    mContext.addInterface(mElementInterface);
+    mElementInterface->buildMethods(mContext);
     
-    vector<Type*> complicatedElementInterfaceTypes;
     string complicatedElementFullName = "systems.vos.wisey.compiler.tests.IComplicatedElement";
     StructType* complicatedElementIinterfaceStructType =
     StructType::create(mLLVMContext, complicatedElementFullName);
-    complicatedElementIinterfaceStructType->setBody(complicatedElementInterfaceTypes);
-    vector<MethodSignature*> complicatedElementInterfaceMethods;
+    vector<MethodSignatureDeclaration*> complicatedElementInterfaceMethods;
     complicatedElementInterfaceMethods.push_back(getElementSignature);
-    vector<Interface*> complicatedElementParentInterfaces;
-    complicatedElementParentInterfaces.push_back(mElementInterface);
+    vector<InterfaceTypeSpecifier*> complicatedElementParentInterfaces;
+    vector<string> package;
+    InterfaceTypeSpecifier* elementInterfaceTypeSpecifier =
+    new InterfaceTypeSpecifier(package, "IElement");
+    complicatedElementParentInterfaces.push_back(elementInterfaceTypeSpecifier);
     mComplicatedElementInterface = new Interface(complicatedElementFullName,
-                                                 complicatedElementIinterfaceStructType);
-    mComplicatedElementInterface->
-    setParentInterfacesAndMethodSignatures(complicatedElementParentInterfaces,
-                                           complicatedElementInterfaceMethods);
-    
-    vector<Type*> objectInterfaceTypes;
+                                                 complicatedElementIinterfaceStructType,
+                                                 complicatedElementParentInterfaces,
+                                                 complicatedElementInterfaceMethods);
+    mContext.addInterface(mComplicatedElementInterface);
+    mComplicatedElementInterface->buildMethods(mContext);
+
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    objectInterfaceStructType->setBody(objectInterfaceTypes);
-    vector<MethodArgument*> objectInterfaceMethodArguments;
-    vector<MethodSignature*> objectInterfaceMethods;
-    vector<const Model*> objectThrownExceptions;
-    MethodSignature* methodBarSignature = new MethodSignature("foo",
-                                                              PrimitiveTypes::INT_TYPE,
-                                                              objectInterfaceMethodArguments,
-                                                              objectThrownExceptions);
+    VariableList objectInterfaceMethodArguments;
+    vector<MethodSignatureDeclaration*> objectInterfaceMethods;
+    vector<ModelTypeSpecifier*> objectThrownExceptions;
+    MethodSignatureDeclaration* methodBarSignature =
+      new MethodSignatureDeclaration(intSpecifier,
+                                     "foo",
+                                     objectInterfaceMethodArguments,
+                                     objectThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
-    mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
-    vector<Interface*> objectParentInterfaces;
-    mObjectInterface->setParentInterfacesAndMethodSignatures(objectParentInterfaces,
-                                                             objectInterfaceMethods);
-    
+    vector<InterfaceTypeSpecifier*> objectParentInterfaces;
+    mObjectInterface = new Interface(objectFullName,
+                                     objectInterfaceStructType,
+                                     objectParentInterfaces,
+                                     objectInterfaceMethods);
+    mContext.addInterface(mObjectInterface);
+    mObjectInterface->buildMethods(mContext);
+
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -191,11 +208,14 @@ struct NodeOwnerTest : public Test {
     mSimplerNode->setFields(simplerNodeFields);
     mContext.addNode(mSimplerNode);
     
-    vector<Type*> vehicleInterfaceTypes;
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
-    vehicleInterfaceStructType->setBody(vehicleInterfaceTypes);
-    mVehicleInterface = new Interface(vehicleFullName, vehicleInterfaceStructType);
+    vector<InterfaceTypeSpecifier*> vehicleParentInterfaces;
+    vector<MethodSignatureDeclaration*> vehicleMethods;
+    mVehicleInterface = new Interface(vehicleFullName,
+                                      vehicleInterfaceStructType,
+                                      vehicleParentInterfaces,
+                                      vehicleMethods);
     
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateVTable(mContext, mSimpleNode);
@@ -206,6 +226,8 @@ struct NodeOwnerTest : public Test {
     Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    
+    mVehicleInterface->buildMethods(mContext);
     
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,

@@ -45,7 +45,12 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mFooVariable(new NiceMock<MockVariable>()),
   mBarVariable(new NiceMock<MockVariable>()) {
-    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface", NULL);
+    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<MethodSignatureDeclaration*> interfaceMethods;
+    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface",
+                               NULL,
+                               parentInterfaces,
+                               interfaceMethods);
 
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");
     mExceptionModel = new Model("MExceptionA", exceptionModelStructType);

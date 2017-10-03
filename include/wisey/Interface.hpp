@@ -21,7 +21,8 @@
 namespace wisey {
 
 class InterfaceOwner;
-class MethodSignature;
+class InterfaceTypeSpecifier;
+class MethodSignatureDeclaration;
 class Model;
   
 /**
@@ -29,8 +30,10 @@ class Model;
  */
 class Interface : public IObjectType {
   std::string mName;
-  InterfaceOwner* mInterfaceOwner;
   llvm::StructType* mStructType;
+  InterfaceOwner* mInterfaceOwner;
+  std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
+  std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;
   std::vector<Interface*> mParentInterfaces;
   std::vector<MethodSignature*> mMethodSignatures;
   std::vector<MethodSignature*> mAllMethodSignatures;
@@ -39,20 +42,17 @@ class Interface : public IObjectType {
   
 public:
   
-  Interface(std::string name, llvm::StructType* structType);
+  Interface(std::string name,
+            llvm::StructType* structType,
+            std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+            std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations);
   
   ~Interface();
   
   /**
-   * Set parent interfaces and method signatures for this interface
+   * Build methods for this interface
    */
-  void setParentInterfacesAndMethodSignatures(std::vector<Interface*> parentInterfaces,
-                                              std::vector<MethodSignature*> methodSignatures);
-
-  /**
-   * Set body types of the struct that represents this interface
-   */
-  void setStructBodyTypes(std::vector<llvm::Type*> types);
+  void buildMethods(IRGenerationContext& context);
 
   /**
    * Generate functions that map interface methods to model methods

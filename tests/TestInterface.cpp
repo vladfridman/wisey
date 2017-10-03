@@ -17,9 +17,13 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodSignature.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -30,8 +34,9 @@ using ::testing::Test;
 struct InterfaceTest : public Test {
   Interface* mShapeInterface;
   Interface* mObjectInterface;
-  MethodSignature* mFooMethodSignature;
-  MethodSignature* mBarMethodSignature;
+  InterfaceTypeSpecifier* mObjectInterfaceSpecifier;
+  MethodSignatureDeclaration* mFooMethod;
+  MethodSignatureDeclaration* mBarMethod;
   StructType* mShapeStructType;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
@@ -40,39 +45,44 @@ struct InterfaceTest : public Test {
   raw_string_ostream* mStringStream;
   
   InterfaceTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<MethodArgument*> methodArguments;
-    vector<const Model*> thrownExceptions;
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+    
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    vector<ModelTypeSpecifier*> exceptions;
 
-    vector<Type*> objectTypes;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
-    objectStructType->setBody(objectTypes);
-    mObjectInterface = new Interface(objectFullName, objectStructType);
-    mBarMethodSignature = new MethodSignature("bar",
-                                              PrimitiveTypes::INT_TYPE,
-                                              methodArguments,
-                                              thrownExceptions);
-    vector<MethodSignature*> objectMethodSignatures;
-    objectMethodSignatures.push_back(mBarMethodSignature);
-    vector<Interface*> objectParentInterfaces;
-    mObjectInterface->setParentInterfacesAndMethodSignatures(objectParentInterfaces,
-                                                             objectMethodSignatures);
+    
+    PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    VariableList methodArguments;
+    mBarMethod = new MethodSignatureDeclaration(intSpecifier, "bar", methodArguments, exceptions);
+    vector<MethodSignatureDeclaration*> objectMethodSignatures;
+    objectMethodSignatures.push_back(mBarMethod);
+    vector<InterfaceTypeSpecifier*> objectParentInterfaces;
+    vector<MethodSignatureDeclaration*> methodDeclarations;
+    mObjectInterface = new Interface(objectFullName,
+                                     objectStructType,
+                                     objectParentInterfaces,
+                                     objectMethodSignatures);
+    mContext.addInterface(mObjectInterface);
+    mObjectInterface->buildMethods(mContext);
 
-    vector<Type*> shapeTypes;
+    vector<string> package;
+    mObjectInterfaceSpecifier = new InterfaceTypeSpecifier(package, "IObject");
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
-    mShapeStructType->setBody(shapeTypes);
-    mFooMethodSignature = new MethodSignature("foo",
-                                              PrimitiveTypes::INT_TYPE,
-                                              methodArguments,
-                                              thrownExceptions);
-    vector<MethodSignature*> shapeMethodSignatures;
-    shapeMethodSignatures.push_back(mFooMethodSignature);
-    vector<Interface*> shapeParentInterfaces;
-    shapeParentInterfaces.push_back(mObjectInterface);
-    mShapeInterface = new Interface(shapeFullName, mShapeStructType);
-    mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
-                                                            shapeMethodSignatures);
+    mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);
+    vector<MethodSignatureDeclaration*> shapeMethodSignatures;
+    shapeMethodSignatures.push_back(mFooMethod);
+    vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
+    shapeParentInterfaces.push_back(mObjectInterfaceSpecifier);
+    mShapeInterface = new Interface(shapeFullName,
+                                    mShapeStructType,
+                                    shapeParentInterfaces,
+                                    shapeMethodSignatures);
+    mContext.addInterface(mShapeInterface);
+    mShapeInterface->buildMethods(mContext);
 
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                             mShapeInterface->getName());
@@ -111,7 +121,8 @@ TEST_F(InterfaceTest, interfaceInstantiationTest) {
 }
 
 TEST_F(InterfaceTest, findMethodTest) {
-  EXPECT_EQ(mShapeInterface->findMethod("foo"), mFooMethodSignature);
+  EXPECT_NE(mShapeInterface->findMethod("foo"), nullptr);
+  EXPECT_STREQ(mShapeInterface->findMethod("foo")->getName().c_str(), "foo");
   EXPECT_NE(mShapeInterface->findMethod("bar"), nullptr);
   EXPECT_EQ(mShapeInterface->findMethod("zzz"), nullptr);
 }
@@ -122,9 +133,9 @@ TEST_F(InterfaceTest, getMethodIndexTest) {
 }
 
 TEST_F(InterfaceTest, getMethodIndexDeathTest) {
-  EXPECT_EXIT(mShapeInterface->getMethodIndex(mBarMethodSignature),
+  EXPECT_EXIT(mObjectInterface->getMethodIndex(mShapeInterface->findMethod("foo")),
               ::testing::ExitedWithCode(1),
-              "Error: Method bar not found in interface systems.vos.wisey.compiler.tests.IShape");
+              "Error: Method foo not found in interface systems.vos.wisey.compiler.tests.IObject");
 }
 
 TEST_F(InterfaceTest, getObjectNameGlobalVariableNameTest) {

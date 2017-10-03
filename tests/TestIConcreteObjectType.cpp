@@ -52,10 +52,12 @@ struct IConcreteObjectTypeTest : public Test {
     ON_CALL(mMockObject, getObjectNameGlobalVariableName()).WillByDefault(Return("Object.name"));
 
     vector<Interface*> interfaces;
-    Interface* interface1 = new Interface("Interface1", NULL);
-    Interface* interface2 = new Interface("Interface2", NULL);
-    mInterface3 = new Interface("Interface3", NULL);
-    Interface* interface4 = new Interface("Interface4", NULL);
+    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<MethodSignatureDeclaration*> methodSignatures;
+    Interface* interface1 = new Interface("Interface1", NULL, parentInterfaces, methodSignatures);
+    Interface* interface2 = new Interface("Interface2", NULL, parentInterfaces, methodSignatures);
+    mInterface3 = new Interface("Interface3", NULL, parentInterfaces, methodSignatures);
+    Interface* interface4 = new Interface("Interface4", NULL, parentInterfaces, methodSignatures);
     interfaces.push_back(interface1);
     interfaces.push_back(interface2);
     interfaces.push_back(mInterface3);
@@ -105,7 +107,12 @@ struct IConcreteObjectTypeTest : public Test {
     canNavigateTypes.push_back(Type::getInt32Ty(mLLVMContext)->getPointerTo()->getPointerTo());
     string canNavigateFullName = "systems.vos.wisey.compiler.tests.ICanNavigate";
     StructType* canNavigateStructType = StructType::create(mLLVMContext, canNavigateFullName);
-    mCanNavigate = new Interface(canNavigateFullName, canNavigateStructType);
+    vector<InterfaceTypeSpecifier*> canNavigateParentInterfaces;
+    vector<MethodSignatureDeclaration*> canNavigateMethods;
+    mCanNavigate = new Interface(canNavigateFullName,
+                                 canNavigateStructType,
+                                 canNavigateParentInterfaces,
+                                 canNavigateMethods);
 
     vector<Type*> carTypes;
     carTypes.push_back(mCanNavigate->getLLVMType(mLLVMContext)->getPointerElementType());

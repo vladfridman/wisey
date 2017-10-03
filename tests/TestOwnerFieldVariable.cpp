@@ -53,7 +53,12 @@ struct OwnerFieldVariableTest : Test {
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
-    mInterface = new Interface(interfaceFullName, interfaceStructType);
+    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<MethodSignatureDeclaration*> interfaceMethods;
+    mInterface = new Interface(interfaceFullName,
+                               interfaceStructType,
+                               parentInterfaces,
+                               interfaceMethods);
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);
 

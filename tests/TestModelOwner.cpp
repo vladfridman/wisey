@@ -17,11 +17,16 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelOwner.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
+#include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -58,6 +63,9 @@ struct ModelOwnerTest : public Test {
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()),
   mField3Expression(new NiceMock<MockExpression>()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+    
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -87,64 +95,78 @@ struct ModelOwnerTest : public Test {
                                     NULL);
     methods.push_back(barMethod);
     
-    vector<Type*> subShapeInterfaceTypes;
     string subShapeFullName = "systems.vos.wisey.compiler.tests.ISubShape";
     StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, subShapeFullName);
-    subShapeIinterfaceStructType->setBody(subShapeInterfaceTypes);
-    vector<MethodArgument*> subShapeInterfaceMethodArguments;
-    vector<MethodSignature*> subShapeInterfaceMethods;
-    vector<const Model*> subShapeInterfaceThrownExceptions;
-    MethodSignature* methodFooSignature = new MethodSignature("foo",
-                                                              PrimitiveTypes::INT_TYPE,
-                                                              subShapeInterfaceMethodArguments,
-                                                              subShapeInterfaceThrownExceptions);
+    VariableList subShapeInterfaceMethodArguments;
+    vector<MethodSignatureDeclaration*> subShapeInterfaceMethods;
+    vector<ModelTypeSpecifier*> subShapeInterfaceThrownExceptions;
+    PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    MethodSignatureDeclaration* methodFooSignature =
+      new MethodSignatureDeclaration(intSpecifier,
+                                     "foo",
+                                     subShapeInterfaceMethodArguments,
+                                     subShapeInterfaceThrownExceptions);
     subShapeInterfaceMethods.push_back(methodFooSignature);
-    mSubShapeInterface = new Interface(subShapeFullName, subShapeIinterfaceStructType);
-    vector<Interface*> subShapeParentInterfaces;
-    mSubShapeInterface->setParentInterfacesAndMethodSignatures(subShapeParentInterfaces,
-                                                               subShapeInterfaceMethods);
-    
-    vector<Type*> shapeInterfaceTypes;
+    vector<InterfaceTypeSpecifier*> subShapeParentInterfaces;
+    mSubShapeInterface = new Interface(subShapeFullName,
+                                       subShapeIinterfaceStructType,
+                                       subShapeParentInterfaces,
+                                       subShapeInterfaceMethods);
+    mSubShapeInterface->buildMethods(mContext);
+    mContext.addInterface(mSubShapeInterface);
+
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
-    shapeIinterfaceStructType->setBody(shapeInterfaceTypes);
-    vector<MethodArgument*> shapeInterfaceMethodArguments;
-    vector<MethodSignature*> shapeInterfaceMethods;
-    vector<const Model*> shapeInterfaceThrownExceptions;
-    methodFooSignature = new MethodSignature("foo",
-                                             PrimitiveTypes::INT_TYPE,
-                                             shapeInterfaceMethodArguments,
-                                             shapeInterfaceThrownExceptions);
+    VariableList shapeInterfaceMethodArguments;
+    vector<MethodSignatureDeclaration*> shapeInterfaceMethods;
+    vector<ModelTypeSpecifier*> shapeInterfaceThrownExceptions;
+    methodFooSignature = new MethodSignatureDeclaration(intSpecifier,
+                                                        "foo",
+                                                        shapeInterfaceMethodArguments,
+                                                        shapeInterfaceThrownExceptions);
     shapeInterfaceMethods.push_back(methodFooSignature);
-    vector<Interface*> shapeParentInterfaces;
-    shapeParentInterfaces.push_back(mSubShapeInterface);
-    mShapeInterface = new Interface(shapeFullName, shapeIinterfaceStructType);
-    mShapeInterface->setParentInterfacesAndMethodSignatures(shapeParentInterfaces,
-                                                            shapeInterfaceMethods);
-    
-    vector<Type*> objectInterfaceTypes;
+    vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
+    vector<string> package;
+    InterfaceTypeSpecifier* subShapeInterfaceTypeSpecifier =
+      new InterfaceTypeSpecifier(package, "ISubShape");
+    shapeParentInterfaces.push_back(subShapeInterfaceTypeSpecifier);
+    mShapeInterface = new Interface(shapeFullName,
+                                    shapeIinterfaceStructType,
+                                    shapeParentInterfaces,
+                                    shapeInterfaceMethods);
+    mShapeInterface->buildMethods(mContext);
+    mContext.addInterface(mShapeInterface);
+
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    objectInterfaceStructType->setBody(objectInterfaceTypes);
-    vector<MethodArgument*> objectInterfaceMethodArguments;
-    vector<MethodSignature*> objectInterfaceMethods;
-    vector<const Model*> objectInterfaceThrownExceptions;
-    MethodSignature* methodBarSignature = new MethodSignature("bar",
-                                                              PrimitiveTypes::INT_TYPE,
-                                                              objectInterfaceMethodArguments,
-                                                              objectInterfaceThrownExceptions);
+    VariableList objectInterfaceMethodArguments;
+    vector<MethodSignatureDeclaration*> objectInterfaceMethods;
+    vector<ModelTypeSpecifier*> objectInterfaceThrownExceptions;
+    MethodSignatureDeclaration* methodBarSignature =
+      new MethodSignatureDeclaration(intSpecifier,
+                                     "bar",
+                                     objectInterfaceMethodArguments,
+                                     objectInterfaceThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
-    mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
-    vector<Interface*> objectParentInterfaces;
-    mObjectInterface->setParentInterfacesAndMethodSignatures(objectParentInterfaces,
-                                                             objectInterfaceMethods);
-    
-    vector<Type*> carInterfaceTypes;
+    vector<InterfaceTypeSpecifier*> objectParentInterfaces;
+    mObjectInterface = new Interface(objectFullName,
+                                     objectInterfaceStructType,
+                                     objectParentInterfaces,
+                                     objectInterfaceMethods);
+    mObjectInterface->buildMethods(mContext);
+    mContext.addInterface(mObjectInterface);
+
     string carFullName = "systems.vos.wisey.compiler.tests.ICar";
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
-    carInterfaceStructType->setBody(carInterfaceTypes);
-    mCarInterface = new Interface(carFullName, carInterfaceStructType);
-    
+    vector<InterfaceTypeSpecifier*> carParentInterfaces;
+    vector<MethodSignatureDeclaration*> carMethodSignatures;
+    mCarInterface = new Interface(carFullName,
+                                  carInterfaceStructType,
+                                  carParentInterfaces,
+                                  carMethodSignatures);
+    mCarInterface->buildMethods(mContext);
+    mContext.addInterface(mCarInterface);
+
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);

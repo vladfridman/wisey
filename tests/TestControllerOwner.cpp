@@ -16,7 +16,9 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -39,9 +41,19 @@ struct ControllerOwnerTest : public Test {
   raw_string_ostream* mStringStream;
   
   ControllerOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+    
+    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
-    mVehicleInterface = new Interface(vehicleFullName, vehicleInterfaceStructType);
+    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<MethodSignatureDeclaration*> interfaceMethods;
+    mVehicleInterface = new Interface(vehicleFullName,
+                                      vehicleInterfaceStructType,
+                                      parentInterfaces,
+                                      interfaceMethods);
 
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType *additorStructType = StructType::create(mLLVMContext, additorFullName);
@@ -50,23 +62,37 @@ struct ControllerOwnerTest : public Test {
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
                                                                     calculatorFullName);
-    mCalculatorInterface = new Interface(calculatorFullName, calculatorIinterfaceStructType);
+    mCalculatorInterface = new Interface(calculatorFullName,
+                                         calculatorIinterfaceStructType,
+                                         parentInterfaces,
+                                         interfaceMethods);
+    mContext.addInterface(mCalculatorInterface);
+    mCalculatorInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    mObjectInterface = new Interface(objectFullName, objectInterfaceStructType);
+    mObjectInterface = new Interface(objectFullName,
+                                     objectInterfaceStructType,
+                                     parentInterfaces,
+                                     interfaceMethods);
+    mContext.addInterface(mObjectInterface);
+    mObjectInterface->buildMethods(mContext);
 
     string scienceCalculatorFullName = "systems.vos.wisey.compiler.tests.IScienceCalculator";
     StructType* scienceCalculatorIinterfaceStructType =
     StructType::create(mLLVMContext, scienceCalculatorFullName);
+    vector<InterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
+    vector<MethodSignatureDeclaration*> scienceCalculatorInterfaceMethods;
+    vector<string> package;
+    InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier(package,
+                                                                                 "ICalculator");
+    scienceCalculatorParentInterfaces.push_back(calculatorTypeSpecifier);
     mScienceCalculatorInterface = new Interface(scienceCalculatorFullName,
-                                                scienceCalculatorIinterfaceStructType);
-    vector<Interface*> scienceCalculatorParentInterfaces;
-    vector<MethodSignature*> scienceCalculatorInterfaceMethods;
-    scienceCalculatorParentInterfaces.push_back(mCalculatorInterface);
-    mScienceCalculatorInterface->
-    setParentInterfacesAndMethodSignatures(scienceCalculatorParentInterfaces,
-                                           scienceCalculatorInterfaceMethods);
+                                                scienceCalculatorIinterfaceStructType,
+                                                scienceCalculatorParentInterfaces,
+                                                scienceCalculatorInterfaceMethods);
+    mContext.addInterface(mScienceCalculatorInterface);
+    mScienceCalculatorInterface->buildMethods(mContext);
 
     vector<Interface*> interfaces;
     interfaces.push_back(mScienceCalculatorInterface);
