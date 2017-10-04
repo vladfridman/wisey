@@ -353,6 +353,9 @@
 		F55CF1781F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp */; };
 		F55CF17A1F7DA3EA00A11426 /* TestExternalMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1791F7DA3EA00A11426 /* TestExternalMethod.cpp */; };
 		F55CF17C1F7DA54900A11426 /* TestExternalStaticMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF17B1F7DA54900A11426 /* TestExternalStaticMethod.cpp */; };
+		F55CF1831F85052500A11426 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F55CF1821F85052500A11426 /* libwisey.so */; };
+		F55CF1851F850D5B00A11426 /* libwisey.so in Frameworks */ = {isa = PBXBuildFile; fileRef = F55CF1821F85052500A11426 /* libwisey.so */; };
+		F55CF1881F850EEB00A11426 /* TestPrefix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1871F850EEB00A11426 /* TestPrefix.cpp */; };
 		F55DB05F1F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */; };
 		F55DB0601F7914CB0009942C /* IObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */; };
 		F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */; };
@@ -1038,7 +1041,6 @@
 		F5404F2E1E109CBD00A31543 /* test_if_then_else_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_if_then_else_statement.yz; path = tests/samples/test_if_then_else_statement.yz; sourceTree = "<group>"; };
 		F5404F2F1E109CBD00A31543 /* test_if_then_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_if_then_statement.yz; path = tests/samples/test_if_then_statement.yz; sourceTree = "<group>"; };
 		F5404F301E109CBD00A31543 /* test_increment_by_one.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_increment_by_one.yz; path = tests/samples/test_increment_by_one.yz; sourceTree = "<group>"; };
-		F5404F311E109CBD00A31543 /* test_int_function.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_int_function.yz; path = tests/samples/test_int_function.yz; sourceTree = "<group>"; };
 		F5404F321E109CBD00A31543 /* test_less_than.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_less_than.yz; path = tests/samples/test_less_than.yz; sourceTree = "<group>"; };
 		F5404F331E109CBD00A31543 /* test_logical_and_result_false.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_logical_and_result_false.yz; path = tests/samples/test_logical_and_result_false.yz; sourceTree = "<group>"; };
 		F5404F341E109CBD00A31543 /* test_logical_and_result_true.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_logical_and_result_true.yz; path = tests/samples/test_logical_and_result_true.yz; sourceTree = "<group>"; };
@@ -1049,7 +1051,7 @@
 		F5404F391E109CBD00A31543 /* test_variable_declaration_assign_to_zero.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration_assign_to_zero.yz; path = tests/samples/test_variable_declaration_assign_to_zero.yz; sourceTree = "<group>"; };
 		F5404F3A1E109CBD00A31543 /* test_variable_declaration.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration.yz; path = tests/samples/test_variable_declaration.yz; sourceTree = "<group>"; };
 		F5404F3B1E109CBD00A31543 /* test_while_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_while_statement.yz; path = tests/samples/test_while_statement.yz; sourceTree = "<group>"; };
-		F546258D1DE5E43A00074D66 /* wisey */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = wisey; path = wiseyrun; sourceTree = BUILT_PRODUCTS_DIR; };
+		F546258D1DE5E43A00074D66 /* wiseyrun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wiseyrun; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54625B11DE5E53200074D66 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = /usr/local/lib/libLLVMX86Disassembler.a; sourceTree = "<absolute>"; };
 		F54625C01DE5EA2800074D66 /* libLLVMX86AsmParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86AsmParser.a; path = /usr/local/lib/libLLVMX86AsmParser.a; sourceTree = "<absolute>"; };
@@ -1097,6 +1099,11 @@
 		F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalStaticMethodDeclaration.cpp; path = tests/TestExternalStaticMethodDeclaration.cpp; sourceTree = "<group>"; };
 		F55CF1791F7DA3EA00A11426 /* TestExternalMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalMethod.cpp; path = tests/TestExternalMethod.cpp; sourceTree = "<group>"; };
 		F55CF17B1F7DA54900A11426 /* TestExternalStaticMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalStaticMethod.cpp; path = tests/TestExternalStaticMethod.cpp; sourceTree = "<group>"; };
+		F55CF17D1F84F7E800A11426 /* wiseylib.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = wiseylib.o; path = wiseylib/wiseylib.o; sourceTree = "<group>"; };
+		F55CF1801F8504C100A11426 /* libwisey.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libwisey.so; path = wiseylib/libwisey.so; sourceTree = "<group>"; };
+		F55CF1821F85052500A11426 /* libwisey.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libwisey.so; path = libwisey/libwisey.so; sourceTree = "<group>"; };
+		F55CF1861F850E5900A11426 /* TestPrefix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = TestPrefix.hpp; path = tests/include/TestPrefix.hpp; sourceTree = "<group>"; };
+		F55CF1871F850EEB00A11426 /* TestPrefix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrefix.cpp; path = tests/TestPrefix.cpp; sourceTree = "<group>"; };
 		F55DB05D1F7911320009942C /* IPrintable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IPrintable.hpp; path = include/wisey/IPrintable.hpp; sourceTree = "<group>"; };
 		F55DB05E1F7914CB0009942C /* IObjectTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IObjectTypeSpecifier.cpp; path = src/IObjectTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIObjectTypeSpecifier.cpp; path = tests/TestIObjectTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -1283,6 +1290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F55CF1851F850D5B00A11426 /* libwisey.so in Frameworks */,
 				F53400E41DFBF1D10002BF7E /* libgmock.a in Frameworks */,
 				F53400E51DFBF1D10002BF7E /* libgtest.a in Frameworks */,
 				F53400DF1DFBE7ED0002BF7E /* libcurses.dylib in Frameworks */,
@@ -1423,6 +1431,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F55CF1831F85052500A11426 /* libwisey.so in Frameworks */,
 				F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */,
 				F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */,
 				F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */,
@@ -1564,6 +1573,9 @@
 		F53060C71F7947800098D637 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F55CF1801F8504C100A11426 /* libwisey.so */,
+				F55CF1821F85052500A11426 /* libwisey.so */,
+				F55CF17D1F84F7E800A11426 /* wiseylib.o */,
 				F53061881F794DA20098D637 /* libLLVMAsmParser.a */,
 				F53061861F794D810098D637 /* libLLVMIRReader.a */,
 				F53061841F794D510098D637 /* libLLVMLinker.a */,
@@ -1767,6 +1779,7 @@
 				F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */,
 				F5A3634F1F374DCB005880B3 /* TestOwnerFieldVariable.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */,
+				F55CF1871F850EEB00A11426 /* TestPrefix.cpp */,
 				F5A363591F376F1C005880B3 /* TestPrimitiveFieldVariable.cpp */,
 				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
 				F531B6381E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp */,
@@ -1816,7 +1829,6 @@
 				F5404F2E1E109CBD00A31543 /* test_if_then_else_statement.yz */,
 				F5404F2F1E109CBD00A31543 /* test_if_then_statement.yz */,
 				F5404F301E109CBD00A31543 /* test_increment_by_one.yz */,
-				F5404F311E109CBD00A31543 /* test_int_function.yz */,
 				F5404F321E109CBD00A31543 /* test_less_than.yz */,
 				F5404F331E109CBD00A31543 /* test_logical_and_result_false.yz */,
 				F5404F341E109CBD00A31543 /* test_logical_and_result_true.yz */,
@@ -1839,14 +1851,15 @@
 				F556E65B1EDEE45B00CCC3D7 /* MockConcreteObjectType.hpp */,
 				F5E48B8E1E870E150087CC70 /* MockExpression.hpp */,
 				F50EF2A01EDC7A97002E68A8 /* MockGlobalStatement.hpp */,
+				F53A2C101EEE9EFD00E76A9E /* MockObjectOwnerType.hpp */,
 				F51BA8FD1EA689440038C98B /* MockObjectType.hpp */,
 				F53A2C011EEC174800E76A9E /* MockObjectTypeSpecifier.hpp */,
-				F53A2C101EEE9EFD00E76A9E /* MockObjectOwnerType.hpp */,
 				F5E48B901E87122E0087CC70 /* MockStatement.hpp */,
 				F5E48B921E8713F00087CC70 /* MockType.hpp */,
 				F5E48B911E8713630087CC70 /* MockTypeSpecifier.hpp */,
 				F5E48B8F1E8710DB0087CC70 /* MockVariable.hpp */,
 				F53401041DFEDA3C0002BF7E /* TestFileSampleRunner.hpp */,
+				F55CF1861F850E5900A11426 /* TestPrefix.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -1878,7 +1891,7 @@
 		F546258E1DE5E43A00074D66 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F546258D1DE5E43A00074D66 /* wisey */,
+				F546258D1DE5E43A00074D66 /* wiseyrun */,
 				F530B4561DFA02C900477384 /* runtests */,
 			);
 			name = Products;
@@ -2446,7 +2459,7 @@
 			);
 			name = wiseyrun;
 			productName = ToyCompiler;
-			productReference = F546258D1DE5E43A00074D66 /* wisey */;
+			productReference = F546258D1DE5E43A00074D66 /* wiseyrun */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -2520,6 +2533,7 @@
 				F50FA2F61E2E3B3200435EEA /* TestFloatConstant.cpp in Sources */,
 				F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */,
 				F5ADB6261E67075400FFC941 /* TestInterface.cpp in Sources */,
+				F55CF1881F850EEB00A11426 /* TestPrefix.cpp in Sources */,
 				F53400EF1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
 				F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */,
 				F53A2C091EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
@@ -2909,6 +2923,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
 					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)/libwisey",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = (
@@ -2975,6 +2990,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
 					"$(PROJECT_DIR)/lib",
+					"$(PROJECT_DIR)/libwisey",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = (
@@ -3131,7 +3147,10 @@
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LEXFLAGS = "";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"$(PROJECT_DIR)/libwisey",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = (
 					"-isystem",
@@ -3170,7 +3189,10 @@
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LEXFLAGS = "";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"$(PROJECT_DIR)/libwisey",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = (
 					"-isystem",

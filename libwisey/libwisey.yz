@@ -6,6 +6,9 @@ interface wisey.lang.IProgram {
 
 /* Models */
 
+external model wisey.lang.MNullPointerException {
+}
+
 /* Controllers */
 
 /* Nodes */

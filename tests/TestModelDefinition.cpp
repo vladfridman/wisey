@@ -15,6 +15,7 @@
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -49,6 +50,7 @@ struct ModelDefinitionTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mBlock(new Block()),
   mMockStatement(new NiceMock<MockStatement>()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
@@ -158,8 +160,10 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<MethodSignatureDeclaration*> interfaceMethodSignatures;
   VariableList methodArguments;
   vector<ModelTypeSpecifier*> methodThrownExceptions;
-  vector<string> package;
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
+  vector<string> wiseyLangPackage;
+  wiseyLangPackage.push_back("wisey");
+  wiseyLangPackage.push_back("lang");
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(wiseyLangPackage,
                                                                   Names::getNPEModelName());
   methodThrownExceptions.push_back(modelTypeSpecifier);
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
@@ -189,9 +193,10 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      interface->getObjectNameGlobalVariableName());
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
+  vector<string> emptyPackage;
+  interfaces.push_back(new InterfaceTypeSpecifier(emptyPackage, "IMyInterface"));
   
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(emptyPackage, "MModel");
   ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);

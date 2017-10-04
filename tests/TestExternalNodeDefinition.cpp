@@ -13,6 +13,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/ExternalNodeDefinition.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
@@ -20,7 +21,6 @@
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -36,8 +36,7 @@ struct ExternalNodeDefinitionTest : public Test {
   vector<IMethodDeclaration*> mMethodDeclarations;
   
   ExternalNodeDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);

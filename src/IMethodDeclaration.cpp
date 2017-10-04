@@ -36,7 +36,7 @@ vector<const Model*> IMethodDeclaration::createExceptionList(IRGenerationContext
   for (ModelTypeSpecifier* typeSpecifier : thrownExceptions) {
     exceptions.push_back(typeSpecifier->getType(context));
   }
-  exceptions.push_back(context.getModel(Names::getNPEModelName()));
+  exceptions.push_back(context.getModel(Names::getNPEModelFullName()));
   
   return exceptions;
 }

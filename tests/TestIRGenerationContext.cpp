@@ -16,11 +16,11 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockVariable.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -265,9 +265,8 @@ TEST_F(IRGenerationContextTest, getImportDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, clearAndAddDefaultImportsDeathTest) {
-  ProgramPrefix programPrefix;
+  TestPrefix::run(mContext);
   
-  programPrefix.generateIR(mContext);
   mContext.addImport(mController);
   mContext.clearAndAddDefaultImports();
   

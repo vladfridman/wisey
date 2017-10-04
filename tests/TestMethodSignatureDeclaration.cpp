@@ -13,6 +13,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -20,7 +21,6 @@
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -47,8 +47,7 @@ struct MethodSignatureDeclarationTest : Test {
   mFloatArgumentIdentifier(new Identifier("floatargument")),
   mIntArgument(new VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
   mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
 
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;

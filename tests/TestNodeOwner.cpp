@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
@@ -25,7 +26,6 @@
 #include "wisey/NodeTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -63,8 +63,7 @@ struct NodeOwnerTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     string elementInterfaceFullName = "systems.vos.wisey.compiler.tests.IElement";

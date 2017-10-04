@@ -14,6 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ExternalControllerDefinition.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
@@ -24,7 +25,6 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -40,8 +40,7 @@ struct ExternalControllerDefinitionTest : public Test {
   vector<InterfaceTypeSpecifier*> mInterfaces;
   
   ExternalControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
     
     ExternalMethodDeclaration* methodDeclaration;
     

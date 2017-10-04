@@ -19,13 +19,11 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NullExpression.hpp"
-#include "wisey/ObjectBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/RelationalExpression.hpp"
 #include "wisey/ReturnVoidStatement.hpp"
-#include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -35,7 +33,6 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage(Names::getLangPackageName());
 
   defineFreeIfNotNullFunction(context);
-  defineNPEModel(context);
   defineNPEFunction(context);
   StructType* fileStructType = defineFileStruct(context);
   defineStderr(context, fileStructType);
@@ -43,66 +40,18 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-void ProgramPrefix::defineNPEModel(IRGenerationContext& context) const {
-  vector<FieldDeclaration*> npeFields;
-  vector<IMethodDeclaration*> npeMethods;
-  vector<InterfaceTypeSpecifier*> npeParentInterfaces;
-  vector<string> package;
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
-                                                                  Names::getNPEModelName());
-  ModelDefinition npeModelDefinition(modelTypeSpecifier,
-                                     npeFields,
-                                     npeMethods,
-                                     npeParentInterfaces);
-  npeModelDefinition.prototypeObjects(context);
-  npeModelDefinition.prototypeMethods(context);
-  npeModelDefinition.generateIR(context);
-  
-  context.addImport(context.getModel(Names::getNPEModelName()));
-}
-
 void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
-  PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  argumentTypes.push_back(int8PointerType);
+  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
   FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
 
-  Function* function = Function::Create(ftype,
-                                        GlobalValue::InternalLinkage,
-                                        Names::getNPECheckFunctionName(),
-                                        context.getModule());
-  
-  Function::arg_iterator llvmArguments = function->arg_begin();
-  llvm::Argument *llvmArgument = &*llvmArguments;
-  llvmArgument->setName("pointer");
-
-  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
-  context.setBasicBlock(basicBlock);
-
-  Value* null = ConstantPointerNull::get(int8PointerType);
-  Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, llvmArgument, null, "cmp");
-  FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
-
-  Block* thenBlock = new Block();
-  vector<string> package;
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
-                                                                  Names::getNPEModelName());
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
-  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder);
-  thenBlock->getStatements().push_back(throwStatement);
-  CompoundStatement* thenStatement = new CompoundStatement(thenBlock);
-  IfStatement ifStatement(fakeExpression, thenStatement);
-  
-  context.getScopes().pushScope();
-  ifStatement.generateIR(context);
-  context.getScopes().getScope()->removeException(context.getModel(Names::getNPEModelName()));
-  context.getScopes().popScope(context);
-  
-  IRWriter::createReturnInst(context, NULL);
+  Function::Create(ftype,
+                   GlobalValue::InternalLinkage,
+                   Names::getNPECheckFunctionName(),
+                   context.getModule());
 }
 
 void ProgramPrefix::defineFreeIfNotNullFunction(IRGenerationContext& context) const {

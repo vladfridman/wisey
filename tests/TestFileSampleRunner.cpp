@@ -26,7 +26,7 @@ extern int yyparse();
 extern FILE* yyin;
 extern ProgramFile* programFile;
 
-const string TestFileSampleRunner::WISEYLIB = "wiseylib/wiseylib.yz";
+const string TestFileSampleRunner::LIBWISEY = "libwisey/libwisey.yz";
 
 TestFileSampleRunner::TestFileSampleRunner() : mCompiler(mCompilerArguments) {
   InitializeNativeTarget();
@@ -41,13 +41,13 @@ TestFileSampleRunner::~TestFileSampleRunner() {
 
 void TestFileSampleRunner::compileFile(string fileName) {
   mCompilerArguments.addSourceFile(fileName);
-  mCompilerArguments.addSourceFile(WISEYLIB);
+  mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
 }
 
 void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
   mCompilerArguments.addSourceFile(fileName);
-  mCompilerArguments.addSourceFile(WISEYLIB);
+  mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
   GenericValue result = mCompiler.run();
   string resultString = result.IntVal.toString(10, true);
@@ -61,7 +61,7 @@ void TestFileSampleRunner::runFileCheckOutput(string fileName,
   exec("mkdir -p build");
 
   mCompilerArguments.addSourceFile(fileName);
-  mCompilerArguments.addSourceFile(WISEYLIB);
+  mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
 
   FILE* wiseyStdOut = fopen("build/wisey.out", "w");
@@ -110,7 +110,7 @@ void TestFileSampleRunner::expectFailCompile(string fileName,
                                              int expectedErrorCode,
                                              string expectedErrorMessage) {
   mCompilerArguments.addSourceFile(fileName);
-  mCompilerArguments.addSourceFile(WISEYLIB);
+  mCompilerArguments.addSourceFile(LIBWISEY);
 
   EXPECT_EXIT(mCompiler.compile(),
               ::testing::ExitedWithCode(expectedErrorCode),
@@ -120,9 +120,9 @@ void TestFileSampleRunner::expectFailCompile(string fileName,
 void TestFileSampleRunner::compileAndRunFile(string fileName, int expectedResult) {
   exec("mkdir -p build");
   
-  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + WISEYLIB + " -o build/test.o";
+  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
   exec(wiseyCompileCommand.c_str());
-  exec("g++ -o build/test build/test.o");
+  exec("g++ -o build/test build/test.o -Llibwisey -lwisey");
   int result = system("build/test");
   int returnValue = WEXITSTATUS(result);
   

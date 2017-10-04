@@ -14,9 +14,12 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Verifier.h>
 #include <llvm/Support/raw_ostream.h>
+#include <llvm/Support/TargetSelect.h>
+#include <llvm-c/Target.h>
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
@@ -66,6 +69,7 @@ struct ModelTest : public Test {
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()),
   mField3Expression(new NiceMock<MockExpression>()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
@@ -287,11 +291,37 @@ TEST_F(ModelTest, getOwnerTest) {
   EXPECT_EQ(mModel->getOwner()->getObject(), mModel);
 }
 
-TEST_F(ModelTest, getSizeTest) {
-  Value* value = mModel->getSize(mContext);
-  IRWriter::createReturnInst(mContext, value);
+TEST(ModelGetSizeTest, getSizeTest) {
+  InitializeNativeTarget();
+  LLVMInitializeNativeAsmPrinter();
+
+  IRGenerationContext context;
+  LLVMContext& llvmContext = context.getLLVMContext();
   
-  GenericValue result = mContext.runCode();
+  vector<Type*> types;
+  types.push_back(Type::getInt32Ty(llvmContext));
+  types.push_back(Type::getInt32Ty(llvmContext));
+  string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
+  StructType* structType = StructType::create(llvmContext, modelFullName);
+  structType->setBody(types);
+
+  Model* model = new Model(modelFullName, structType);
+  context.addModel(model);
+  
+  FunctionType* functionType = FunctionType::get(Type::getInt64Ty(llvmContext), false);
+  Function* function = Function::Create(functionType,
+                                        GlobalValue::ExternalLinkage,
+                                        "main",
+                                        context.getModule());
+  
+  BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
+  context.setBasicBlock(basicBlock);
+  context.getScopes().pushScope();
+  context.setMainFunction(function);
+
+  Value* value = model->getSize(context);
+  IRWriter::createReturnInst(context, value);
+  GenericValue result = context.runCode();
   
   EXPECT_EQ(result.IntVal, 8);
 }

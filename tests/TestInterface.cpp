@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -23,7 +24,6 @@
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -47,8 +47,7 @@ struct InterfaceTest : public Test {
   raw_string_ostream* mStringStream;
   
   InterfaceTest() : mLLVMContext(mContext.getLLVMContext()) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<ModelTypeSpecifier*> exceptions;

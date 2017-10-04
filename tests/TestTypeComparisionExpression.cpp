@@ -18,6 +18,7 @@
 #include "MockExpression.hpp"
 #include "MockTypeSpecifier.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -26,7 +27,6 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/TypeComparisionExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
@@ -61,8 +61,7 @@ struct TypeComparisionExpressionTest : public Test {
   TypeComparisionExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

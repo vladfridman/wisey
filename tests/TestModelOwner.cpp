@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "TestPrefix.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -25,7 +26,6 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -63,8 +63,7 @@ struct ModelOwnerTest : public Test {
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()),
   mField3Expression(new NiceMock<MockExpression>()) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;

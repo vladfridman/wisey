@@ -6,19 +6,26 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/Block.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
+#include "wisey/FakeExpression.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"
+#include "wisey/IfStatement.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceInjector.hpp"
-#include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/ObjectBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramSuffix.hpp"
 #include "wisey/ReturnStatement.hpp"
+#include "wisey/ThrowStatement.hpp"
 #include "wisey/TryCatchStatement.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
@@ -27,6 +34,8 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
+  composeNPEFunctionBody(context);
+  
   vector<string> package;
   package.push_back("wisey");
   package.push_back("lang");
@@ -38,6 +47,42 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   }
   
   return generateMain(context, programInterfaceSpecifier);
+}
+
+void ProgramSuffix::composeNPEFunctionBody(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Function* function = context.getModule()->getFunction(Names::getNPECheckFunctionName());
+  
+  Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument *llvmArgument = &*llvmArguments;
+  llvmArgument->setName("pointer");
+  
+  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
+  context.setBasicBlock(basicBlock);
+  
+  Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
+  Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, llvmArgument, null, "cmp");
+  FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
+  
+  Block* thenBlock = new Block();
+  vector<string> package;
+  package.push_back("wisey");
+  package.push_back("lang");
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
+                                                                  Names::getNPEModelName());
+  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
+  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder);
+  thenBlock->getStatements().push_back(throwStatement);
+  CompoundStatement* thenStatement = new CompoundStatement(thenBlock);
+  IfStatement ifStatement(fakeExpression, thenStatement);
+  
+  context.getScopes().pushScope();
+  ifStatement.generateIR(context);
+  context.getScopes().getScope()->removeException(context.getModel(Names::getNPEModelName()));
+  context.getScopes().popScope(context);
+  
+  IRWriter::createReturnInst(context, NULL);
 }
 
 Value* ProgramSuffix::generateMain(IRGenerationContext& context,

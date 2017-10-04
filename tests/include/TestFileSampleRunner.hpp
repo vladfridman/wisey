@@ -18,7 +18,7 @@
  * the actual one.
  */
 class TestFileSampleRunner : public ::testing::Test {
-  static const std::string WISEYLIB;
+  static const std::string LIBWISEY;
   wisey::CompilerArguments mCompilerArguments;
   wisey::Compiler mCompiler;
 

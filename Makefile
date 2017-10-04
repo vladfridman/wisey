@@ -18,12 +18,14 @@ INCLUDEDIR = ${CURDIR}/include
 TESTINCLUDEDIR = ${CURDIR}/tests/include
 # System lib directory
 LIBDIR = ${CURDIR}/lib
+# Wisey lib directory
+WISEYLIB = ${CURDIR}/libwisey
 # List of source files
 SOURCES = $(shell find src -name '*.cpp')
 # Object files to be generated
 OBJ = $(SOURCES:src/%.cpp=$(BUILDDIR)/%.o) $(BUILDDIR)/Tokens.o $(BUILDDIR)/y.tab.o
 # objects that contain main() funtions
-MAINS = $(BUILDDIR)/wiseyrun.o $(BUILDDIR)/wiseyc.o $(BUILDDIR)/wiseylibc.o
+MAINS = $(BUILDDIR)/wiseyrun.o $(BUILDDIR)/wiseyc.o
 # Objects except the object files that contain main functions
 OBJEXCEPTMAINS = $(filter-out $(MAINS), $(OBJ))
 # Test directory
@@ -40,7 +42,7 @@ CFLAGS = -fPIC -fvisibility-inlines-hidden -Wall -W \
 	-std=c++11 -g -fno-exceptions -fno-rtti \
 	-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -c
 # Flags used for linking
-LDFLAGS = `llvm-config --ldflags --system-libs --libs all` -L$(LIBDIR)
+LDFLAGS = `llvm-config --ldflags --system-libs --libs all` -L$(LIBDIR) -L$(WISEYLIB) -lwisey
 
 default: ${BINDIR}/wiseyc
 
@@ -78,16 +80,10 @@ $(BUILDDIR)/Tokens.o: ${PARSERDIR}/Tokens.cpp | ${BUILDDIR}
 $(BUILDDIR)/wiseyc.o: ${SRCDIR}/wiseyc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
-$(BUILDDIR)/wiseylibc.o: ${SRCDIR}/wiseylibc.cpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
-	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
-
 $(BUILDDIR)/%.o: ${SRCDIR}/%.cpp ${INCLUDEDIR}/wisey/%.hpp | ${PARSERDIR}/Tokens.cpp ${BUILDDIR}
 	$(CC) -o $@ -I$(ISYSTEMDIR) -I${INCLUDEDIR} -I${PARSERDIR} $(CFLAGS) $< 
 
 ${BINDIR}/wiseyc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseyc.o | ${BINDIR}
-	$(LD) -o $@ $(LDFLAGS) $^
-
-${BINDIR}/wiseylibc: $(OBJEXCEPTMAINS) ${BUILDDIR}/wiseylibc.o | ${BINDIR}
 	$(LD) -o $@ $(LDFLAGS) $^
 
 ${BINDIR}/runtests: ${TESTOBJ} $(OBJEXCEPTMAINS) | ${BINDIR} ${BINDIR}/wiseyc

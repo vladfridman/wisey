@@ -16,6 +16,7 @@
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ControllerDefinition.hpp"
 #include "wisey/FloatConstant.hpp"
@@ -50,6 +51,8 @@ struct ControllerDefinitionTest : public Test {
   ControllerDefinitionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mMockStatement(new NiceMock<MockStatement>()) {
+    TestPrefix::run(mContext);
+    
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

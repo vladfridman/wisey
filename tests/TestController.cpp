@@ -16,6 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
@@ -25,7 +26,6 @@
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -58,8 +58,7 @@ struct ControllerTest : public Test {
   raw_string_ostream* mStringStream;
   
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
 

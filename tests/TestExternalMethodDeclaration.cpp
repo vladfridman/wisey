@@ -10,11 +10,11 @@
 
 #include <gtest/gtest.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -39,8 +39,7 @@ struct ExternalMethodDeclarationTest : Test {
   mFloatArgumentIdentifier(new Identifier("floatargument")),
   mIntArgument(new VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
   mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
   }
 };
 

@@ -21,9 +21,11 @@ class ProgramSuffix : public IStatement {
 public:
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
+
 private:
-  
+
+  void composeNPEFunctionBody(IRGenerationContext& context) const;
+
   llvm::Value* generateMain(IRGenerationContext& context,
                             InterfaceTypeSpecifier* programInterfaceSpecifier) const;
 };

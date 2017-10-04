@@ -13,12 +13,12 @@
 #include <llvm/IR/Constants.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
-#include "wisey/ProgramPrefix.hpp"
 #include "wisey/StaticMethodDeclaration.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
@@ -49,8 +49,7 @@ struct StaticMethodDeclarationTest : Test {
   mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
   mBlock(new Block()),
   mCompoundStatement(new CompoundStatement(mBlock)) {
-    ProgramPrefix programPrefix;
-    programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
   }
 };
 

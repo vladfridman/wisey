@@ -15,6 +15,7 @@
 
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -48,6 +49,7 @@ struct NodeDefinitionTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mBlock(new Block()),
   mMockStatement(new NiceMock<MockStatement>()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
@@ -160,8 +162,11 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<MethodSignatureDeclaration*> interfaceMethodSignatures;
   VariableList methodArguments;
   vector<ModelTypeSpecifier*> methodThrownExceptions;
-  vector<string> package;
-  methodThrownExceptions.push_back(new ModelTypeSpecifier(package, Names::getNPEModelName()));
+  vector<string> wiseyLangPackage;
+  wiseyLangPackage.push_back("wisey");
+  wiseyLangPackage.push_back("lang");
+  methodThrownExceptions.push_back(new ModelTypeSpecifier(wiseyLangPackage,
+                                                          Names::getNPEModelName()));
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   PrimitiveTypeSpecifier* floatSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   VariableDeclaration* methodArgument = new VariableDeclaration(intSpecifier,
@@ -190,9 +195,10 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      interface->getObjectNameGlobalVariableName());
   
   vector<InterfaceTypeSpecifier*> interfaces;
-  interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
+  vector<string> emptyPackage;
+  interfaces.push_back(new InterfaceTypeSpecifier(emptyPackage, "IMyInterface"));
   
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(emptyPackage, "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
