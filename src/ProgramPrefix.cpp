@@ -36,6 +36,7 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   defineNPEFunction(context);
   StructType* fileStructType = defineFileStruct(context);
   defineStderr(context, fileStructType);
+  defineEmptyString(context);
   
   return NULL;
 }
@@ -166,4 +167,15 @@ void ProgramPrefix::defineStderr(IRGenerationContext& context, StructType* fileS
                                               nullptr,
                                               Names::getStdErrName());
   global->setAlignment(8);
+}
+
+void ProgramPrefix::defineEmptyString(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Constant* stringConstant = ConstantDataArray::getString(llvmContext, "");
+  new GlobalVariable(*context.getModule(),
+                     stringConstant->getType(),
+                     true,
+                     GlobalValue::InternalLinkage,
+                     stringConstant,
+                     Names::getEmptyStringName());
 }

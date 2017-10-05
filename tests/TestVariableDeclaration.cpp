@@ -176,6 +176,14 @@ TEST_F(TestFileSampleRunner, uninitializedIntRunTest) {
   runFile("tests/samples/test_uninitialized_int.yz", "2");
 }
 
+TEST_F(TestFileSampleRunner, stringRunTest) {
+  runFileCheckOutput("tests/samples/test_string.yz", "hello\n", "");
+}
+
+TEST_F(TestFileSampleRunner, stringUninitialzedRunTest) {
+  runFileCheckOutput("tests/samples/test_string_uninitialized.yz", "1\n", "");
+}
+
 TEST_F(TestFileSampleRunner, variableOfControllerTypeRunDeathTest) {
   expectFailCompile("tests/samples/test_variable_controller_type.yz",
                     1,

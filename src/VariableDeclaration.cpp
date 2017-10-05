@@ -17,6 +17,7 @@
 #include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/StackVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -87,6 +88,16 @@ void VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
     value = ConstantFP::get(llvmType, 0.0);
   } else if (llvmType->isIntegerTy()) {
     value = ConstantInt::get(llvmType, 0);
+  } else if (llvmType->isPointerTy()) {
+    GlobalVariable* nameGlobal =
+      context.getModule()->getNamedGlobal(Names::getEmptyStringName());
+    ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
+    Value* Idx[2];
+    Idx[0] = zeroInt32;
+    Idx[1] = zeroInt32;
+    Type* elementType = nameGlobal->getType()->getPointerElementType();
+    
+    value = ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
   } else {
     Log::e("Unexpected primitive variable type, can not initialize");
     exit(1);

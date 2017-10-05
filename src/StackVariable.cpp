@@ -32,12 +32,12 @@ Value* StackVariable::getValue() const {
 }
 
 Value* StackVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                std::string llvmVariableName) const {
+                                           string llvmVariableName) const {
   return IRWriter::newLoadInst(context, mValue, llvmVariableName);
 }
 
 Value* StackVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                IExpression* assignToExpression) {
+                                           IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
   Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);

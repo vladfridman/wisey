@@ -21,7 +21,7 @@ string StringType::getName() const {
 }
 
 llvm::Type* StringType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getInt16Ty(llvmContext)->getPointerTo();
+  return Type::getInt8Ty(llvmContext)->getPointerTo();
 }
 
 TypeKind StringType::getTypeKind() const {

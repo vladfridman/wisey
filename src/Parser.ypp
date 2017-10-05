@@ -151,7 +151,7 @@
 %token <token> TMODEL TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
 %token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC
 %token <token> TSWITCH TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPECHAR TTYPEDOUBLE 
-%token <token> TTYPEFLOAT TTYPEINT TTYPELONG TTYPEVOID TWHILE
+%token <token> TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
 
 /**
  * Parsing tree node types
@@ -969,10 +969,11 @@ object_type_specifier
 primitive_type_specifier
   : TTYPEBOOLEAN { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::BOOLEAN_TYPE); }
   | TTYPECHAR { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::CHAR_TYPE); }
+  | TTYPEDOUBLE { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::DOUBLE_TYPE); }
+  | TTYPEFLOAT { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE); }
   | TTYPEINT { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE); }
   | TTYPELONG { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE); }
-  | TTYPEFLOAT { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE); }
-  | TTYPEDOUBLE { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::DOUBLE_TYPE); }
+  | TTYPESTRING { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE); }
   | TTYPEVOID { $$ = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE); }
   ;
 

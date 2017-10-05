@@ -34,6 +34,8 @@ private:
 
   void defineStderr(IRGenerationContext& context, llvm::StructType* fileStructType) const;
   
+  void defineEmptyString(IRGenerationContext& context) const;
+  
 };
   
 } /* namespace wisey */

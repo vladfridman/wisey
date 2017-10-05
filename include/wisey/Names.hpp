@@ -55,6 +55,11 @@ public:
    * Get name of the stderr pointer
    */
   static std::string getStdErrName();
+  
+  /**
+   * Empty string literal
+   */
+  static std::string getEmptyStringName();
 };
 
 } /* namespace wisey */
