@@ -74,9 +74,24 @@ void VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
   const IType* type = mTypeSpecifier->getType(context);
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId->getName());
-  
+
   StackVariable* variable = new StackVariable(mId->getName(), type, alloc);
   context.getScopes().setVariable(variable);
+
+  if (mAssignmentExpression != NULL) {
+    return;
+  }
+  
+  Value* value;
+  if (llvmType->isFloatTy() || llvmType->isDoubleTy()) {
+    value = ConstantFP::get(llvmType, 0.0);
+  } else if (llvmType->isIntegerTy()) {
+    value = ConstantInt::get(llvmType, 0);
+  } else {
+    Log::e("Unexpected primitive variable type, can not initialize");
+    exit(1);
+  }
+  IRWriter::newStoreInst(context, value, alloc);
 }
 
 void VariableDeclaration::allocateOwnerOnHeap(IRGenerationContext& context) const {

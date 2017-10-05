@@ -72,9 +72,15 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   declaration.generateIR(mContext);
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
-  ASSERT_EQ(1ul, mBlock->size());
-  *mStringStream << mBlock->front();
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
+  ASSERT_EQ(2ul, mBlock->size());
+  *mStringStream << *mBlock;
+  string expected =
+  "\nentry:"
+  "\n  %foo = alloca i32"
+  "\n  store i32 0, i32* %foo\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
@@ -89,6 +95,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
   ASSERT_EQ(2ul, mBlock->size());
+
   BasicBlock::iterator iterator = mBlock->begin();
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
@@ -163,6 +170,10 @@ TEST_F(TestFileSampleRunner, variableDeclarationRunTest) {
 
 TEST_F(TestFileSampleRunner, variableDeclarationAssignToZeroRunTest) {
   runFile("tests/samples/test_variable_declaration_assign_to_zero.yz", "0");
+}
+
+TEST_F(TestFileSampleRunner, uninitializedIntRunTest) {
+  runFile("tests/samples/test_uninitialized_int.yz", "2");
 }
 
 TEST_F(TestFileSampleRunner, variableOfControllerTypeRunDeathTest) {
