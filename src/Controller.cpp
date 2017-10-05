@@ -279,7 +279,7 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
     } else if (IType::isReferenceType(fieldType)) {
       fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(llvmContext)
                                             ->getPointerElementType());
-    } else if (fieldLLVMType->isFloatTy()) {
+    } else if (fieldLLVMType->isFloatTy() || fieldLLVMType->isDoubleTy()) {
       fieldValue = ConstantFP::get(fieldLLVMType, 0.0);
     } else if (fieldLLVMType->isIntegerTy()) {
       fieldValue = ConstantInt::get(fieldLLVMType, 0);

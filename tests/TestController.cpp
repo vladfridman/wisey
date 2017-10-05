@@ -405,7 +405,7 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
               "Error: Controller injector argumet value for field 'right' does not match its type");
 }
 
-TEST_F(ControllerTest, testInjectNonInjectableTypeDeathTest) {
+TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
   ExpressionList injectionArguments;
   
   EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments),
@@ -513,6 +513,10 @@ TEST_F(ControllerTest, printToStreamTest) {
 
 TEST_F(TestFileSampleRunner, controllerInjectionChainRunTest) {
   runFile("tests/samples/test_controller_injection_chain.yz", "2");
+}
+
+TEST_F(TestFileSampleRunner, controllerWithUninitializedStateFieldRunTest) {
+  runFile("tests/samples/test_controller_with_unitilized_state_field.yz", "0");
 }
 
 TEST_F(TestFileSampleRunner, injectNonOwnerRunDeathTest) {
