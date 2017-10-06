@@ -385,7 +385,7 @@ TEST_F(ScopesTest, addReferenceToOwnerVariableTest) {
   
   mScopes.addReferenceToOwnerVariable(&foo, &bar);
   
-  EXPECT_EQ(mScopes.getOwnersForReference(&bar).front(), &foo);
+  EXPECT_EQ(mScopes.getOwnersForReference(&bar).begin()->second, &foo);
 }
 
 TEST_F(ScopesTest, variableHidingDeathTest) {

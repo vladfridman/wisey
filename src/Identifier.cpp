@@ -42,15 +42,17 @@ void Identifier::addReferenceToOwner(IRGenerationContext& context, IVariable* re
     return;
   }
   
-  vector<IVariable*> owners = context.getScopes().getOwnersForReference(variable);
+  map<string, IVariable*> owners = context.getScopes().getOwnersForReference(variable);
 
   if (!owners.size()) {
     Log::e("Can not store a reference because its owner does not exist in the current scope");
     exit(1);
   }
 
-  for (IVariable* owner : owners) {
-    context.getScopes().addReferenceToOwnerVariable(owner, reference);
+  for (map<string, IVariable*>::iterator iterator = owners.begin();
+       iterator != owners.end();
+       iterator++) {
+    context.getScopes().addReferenceToOwnerVariable(iterator->second, reference);
   }
 }
 

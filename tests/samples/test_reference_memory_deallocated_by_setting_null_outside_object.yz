@@ -14,6 +14,7 @@ controller CService {
   state MData mData;
 
   public void set(MData data) {
+    // error here because owner is outside the scope
     mData = data;
   }
 

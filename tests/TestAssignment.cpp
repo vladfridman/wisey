@@ -166,9 +166,9 @@ TEST_F(AssignmentTest, addReferenceToOwnerTest) {
   
   assignment.addReferenceToOwner(mContext, &referenceVariable);
   
-  vector<IVariable*> owners = mContext.getScopes().getOwnersForReference(&referenceVariable);
+  map<string, IVariable*> owners = mContext.getScopes().getOwnersForReference(&referenceVariable);
   EXPECT_EQ(owners.size(), 1u);
-  EXPECT_EQ(owners.front(), &mockVariable);
+  EXPECT_EQ(owners.begin()->second, &mockVariable);
 }
 
 TEST_F(AssignmentTest, generateIRWithControllerTypeDeathTest) {

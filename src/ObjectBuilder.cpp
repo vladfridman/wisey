@@ -60,9 +60,11 @@ void ObjectBuilder::addReferenceToOwner(IRGenerationContext& context, IVariable*
     return;
   }
   
-  vector<IVariable*> owners = context.getScopes().getOwnersForReference(variable);
-  for (IVariable* owner : owners) {
-    context.getScopes().addReferenceToOwnerVariable(owner, reference);
+  map<string, IVariable*> owners = context.getScopes().getOwnersForReference(variable);
+  for (map<string, IVariable*>::iterator iterator = owners.begin();
+       iterator != owners.end();
+       iterator++) {
+    context.getScopes().addReferenceToOwnerVariable(iterator->second, reference);
   }
 }
 
