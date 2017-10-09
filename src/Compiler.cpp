@@ -45,6 +45,10 @@ void Compiler::compile() {
   
   programFiles = parseFiles(mArguments.getSourceFiles());
   
+  if (mArguments.isDestructorDebugOn()) {
+    mContext.turnDestructorDebugOn();
+  }
+  
   prototypeObjects(programFiles, mContext);
   programPrefix.generateIR(mContext);
   prototypeMethods(programFiles, mContext);

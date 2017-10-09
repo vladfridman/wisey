@@ -328,3 +328,11 @@ void IRGenerationContext::optimizeIR() {
   
   passManager.run(*mModule);
 }
+
+void IRGenerationContext::turnDestructorDebugOn() {
+  mIsDestructorDebugOn = true;
+}
+
+bool IRGenerationContext::isDestructorDebugOn() const {
+  return mIsDestructorDebugOn;
+}

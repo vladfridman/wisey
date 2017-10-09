@@ -43,10 +43,11 @@ class IRGenerationContext : public IPrintable {
   std::map<std::string, IObjectType*> mImports;
   std::string mPackage;
   Scopes mScopes;
+  bool mIsDestructorDebugOn;
 
 public:
   
-  IRGenerationContext() : mMainFunction(NULL), mBasicBlock(NULL) {
+  IRGenerationContext() : mMainFunction(NULL), mBasicBlock(NULL), mIsDestructorDebugOn(false) {
     mModuleOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
     mModule = mModuleOwner.get();
   }
@@ -188,6 +189,16 @@ public:
    * TODO: implement and add a unit test for it
    */
   void optimizeIR();
+  
+  /**
+   * Turns on destrcutor debug mode on that prints out a message when object destructor is called
+   */
+  void turnDestructorDebugOn();
+  
+  /**
+   * Tells whether the program is compiled with destructor debugging mode on
+   */
+  bool isDestructorDebugOn() const;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 

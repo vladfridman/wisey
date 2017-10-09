@@ -28,8 +28,13 @@ struct MainTest : public ::testing::Test {
 
 TEST_F(MainTest, noArgumentsTest) {
   EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc 2>&1").c_str(),
-               "Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
-               "[-H|--headers <header_file.yzh>] [-o|--output <object_file.o>] "
+               "Syntax: wiseyc "
+               "[-d|--destructor-debug] "
+               "[-e|--emit-llvm] "
+               "[-h|--help] "
+               "[-v|--verbouse] "
+               "[-H|--headers <header_file.yzh>] "
+               "[-o|--output <object_file.o>] "
                "[-n|--no-output] <source_file.yz>...\n");
 }
 
@@ -51,12 +56,22 @@ TEST_F(MainTest, missingOutputFileTest) {
 
 TEST_F(MainTest, helpTest) {
   EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc -h 2>&1").c_str(),
-               "Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
-               "[-H|--headers <header_file.yzh>] [-o|--output <object_file.o>] "
+               "Syntax: wiseyc "
+               "[-d|--destructor-debug] "
+               "[-e|--emit-llvm] "
+               "[-h|--help] "
+               "[-v|--verbouse] "
+               "[-H|--headers <header_file.yzh>] "
+               "[-o|--output <object_file.o>] "
                "[-n|--no-output] <source_file.yz>...\n");
   EXPECT_STREQ(TestFileSampleRunner::exec("bin/wiseyc --help 2>&1").c_str(),
-               "Syntax: wiseyc [-e|--emit-llvm] [-h|--help] [-v|--verbouse] "
-               "[-H|--headers <header_file.yzh>] [-o|--output <object_file.o>] "
+               "Syntax: wiseyc "
+               "[-d|--destructor-debug] "
+               "[-e|--emit-llvm] "
+               "[-h|--help] "
+               "[-v|--verbouse] "
+               "[-H|--headers <header_file.yzh>] "
+               "[-o|--output <object_file.o>] "
                "[-n|--no-output] <source_file.yz>...\n");
 }
 
@@ -121,6 +136,7 @@ TEST_F(MainTest, extractHeadersTest) {
                "bind(systems.vos.wisey.compiler.tests.CProgram).to(wisey.lang.IProgram);\n"
                "\n",
                output.c_str());
+  stream.close();
 }
 
 TEST_F(MainTest, emitLLVMTest) {
@@ -140,4 +156,25 @@ TEST_F(MainTest, emitLLVMTest) {
                                                   "tests/samples/test_addition.yz "
                                                   "libwisey/libwisey.yz");
   EXPECT_NE(resultWithEmitLLVM.find("define i32 @main()"), string::npos);
+}
+
+TEST_F(MainTest, debugDestructorsTest) {
+  system("mkdir -p build");
+  
+  system("bin/wiseyc tests/samples/test_controller_injection_chain.yz "
+         "libwisey/libwisey.yz -o build/test.o -d 2>&1");
+  system("g++ -o build/test build/test.o -Llibwisey -lwisey");
+  system("build/test > build/test.out");
+  
+  ifstream stream;
+  stream.open("build/test.out");
+  string output((istreambuf_iterator<char>(stream)), istreambuf_iterator<char>());
+  
+  EXPECT_STREQ("destructor systems.vos.wisey.compiler.tests.CProgram\n"
+               "destructor systems.vos.wisey.compiler.tests.CTopController\n"
+               "destructor systems.vos.wisey.compiler.tests.CMiddleController\n"
+               "destructor systems.vos.wisey.compiler.tests.CBottomController\n",
+               output.c_str());
+
+  stream.close();
 }

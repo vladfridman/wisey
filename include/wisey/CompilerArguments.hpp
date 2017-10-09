@@ -23,6 +23,7 @@ class CompilerArguments {
   bool mShouldPrintAssembly;
   bool mIsVerbouse;
   bool mShouldOutput;
+  bool mIsDestructorDebugOn;
   std::vector<std::string> mSourceFiles;
   
 public:
@@ -32,7 +33,8 @@ public:
   mHeaderFile(""),
   mShouldPrintAssembly(false),
   mIsVerbouse(false),
-  mShouldOutput(true) { }
+  mShouldOutput(true),
+  mIsDestructorDebugOn(false) { }
   
   ~CompilerArguments() { }
   
@@ -59,6 +61,10 @@ public:
   std::vector<std::string> getSourceFiles() { return mSourceFiles; }
   
   void addSourceFile(std::string sourceFile) { mSourceFiles.push_back(sourceFile); }
+
+  void setDestructorDebug(bool value) { mIsDestructorDebugOn = value; }
+  
+  bool isDestructorDebugOn() { return mIsDestructorDebugOn; }
   
 };
   

@@ -14,6 +14,7 @@ using namespace wisey;
 
 void CompilerArgumentParser::printSyntaxAndExit() const {
   cerr << "Syntax: wiseyc "
+          "[-d|--destructor-debug] "
           "[-e|--emit-llvm] "
           "[-h|--help] "
           "[-v|--verbouse] "
@@ -63,6 +64,10 @@ CompilerArguments CompilerArgumentParser::parse(int argc, char **argv) const {
     }
     if (!strcmp(argv[i], "--no-output") || !strcmp(argv[i], "-n")) {
       compilerArguments.setShouldOutput(false);
+      continue;
+    }
+    if (!strcmp(argv[i], "--destructor-debug") || !strcmp(argv[i], "-d")) {
+      compilerArguments.setDestructorDebug(true);
       continue;
     }
     if (strcmp(argv[i] + strlen(argv[i]) - 3, ".yz")) {

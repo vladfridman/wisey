@@ -20,7 +20,9 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/OwnerFieldVariable.hpp"
 #include "wisey/PrimitiveFieldVariable.hpp"
+#include "wisey/PrintOutStatement.hpp"
 #include "wisey/ReferenceFieldVariable.hpp"
+#include "wisey/StringLiteral.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -317,6 +319,13 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   thisArgument->setName("this");
   Value* thisLoaded = IRWriter::newLoadInst(context, thisArgument, "");
   
+  if (context.isDestructorDebugOn()) {
+    vector<IExpression*> printOutArguments;
+    printOutArguments.push_back(new StringLiteral("destructor " + object->getName() + "\n"));
+    PrintOutStatement printOutStatement(printOutArguments);
+    printOutStatement.generateIR(context);
+  }
+
   Value* nullValue = ConstantPointerNull::get((PointerType*) thisLoaded->getType());
   Value* condition = IRWriter::newICmpInst(context,
                                            ICmpInst::ICMP_EQ,

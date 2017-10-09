@@ -26,8 +26,13 @@ TEST_F(CompilerArgumentParserTest, noArgumentsTest) {
   char const * argv[] = {"bin/wisey"};
   EXPECT_EXIT(mParser.parse(1, (char**) argv),
               ::testing::ExitedWithCode(1),
-              "Syntax: wiseyc \\[-e|--emit-llvm\\] \\[-h|--help\\] \\[-v|--verbouse\\] "
-              "\\[-H|--headers <header_file.yzh>\\] \\[-o|--output <object_file.o>\\] "
+              "Syntax: wiseyc "
+              "\\[-d|--destructor-debug\\] "
+              "\\[-e|--emit-llvm\\] "
+              "\\[-h|--help\\] "
+              "\\[-v|--verbouse\\] "
+              "\\[-H|--headers <header_file.yzh>\\] "
+              "\\[-o|--output <object_file.o>\\] "
               "\\[-n|--no-output\\] <source_file.yz>...\n");
 }
 
@@ -36,8 +41,13 @@ TEST_F(CompilerArgumentParserTest, helpTest) {
   
   EXPECT_EXIT(mParser.parse(2, (char**) argv),
               ::testing::ExitedWithCode(1),
-              "Syntax: wiseyc \\[-e|--emit-llvm\\] \\[-h|--help\\] \\[-v|--verbouse\\] "
-              "\\[-H|--headers <header_file.yzh>\\] \\[-o|--output <object_file.o>\\] "
+              "Syntax: wiseyc "
+              "\\[-d|--destructor-debug\\] "
+              "\\[-e|--emit-llvm\\] "
+              "\\[-h|--help\\] "
+              "\\[-v|--verbouse\\] "
+              "\\[-H|--headers <header_file.yzh>\\] "
+              "\\[-o|--output <object_file.o>\\] "
               "\\[-n|--no-output\\] <source_file.yz>...\n");
 }
 
