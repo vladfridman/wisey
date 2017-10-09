@@ -74,7 +74,7 @@ public:
    * Generate functions that map interface methods to model methods
    */
   std::vector<std::list<llvm::Constant*>> generateMapFunctionsIR(IRGenerationContext& context,
-                                                                 IObjectType* object,
+                                                                 const IObjectType* object,
                                                                  std::map<std::string,
                                                                  llvm::Function*>&
                                                                  methodFunctionMap,
@@ -157,13 +157,13 @@ private:
   std::vector<MethodSignature*> getAllMethodSignatures() const;
 
   llvm::Function* generateMapFunctionForMethod(IRGenerationContext& context,
-                                               IObjectType* object,
+                                               const IObjectType* object,
                                                llvm::Function* concreteObjectFunction,
                                                unsigned long interfaceIndex,
                                                MethodSignature* methodSignature) const;
 
   void generateMapFunctionBody(IRGenerationContext& context,
-                               IObjectType* object,
+                               const IObjectType* object,
                                llvm::Function* concreteObjectFunction,
                                llvm::Function* mapFunction,
                                unsigned long interfaceIndex,

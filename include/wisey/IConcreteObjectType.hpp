@@ -138,13 +138,13 @@ public:
   /**
    * Generate global variable with the name of the given object
    */
-  static void generateNameGlobal(IRGenerationContext& context, IConcreteObjectType* object);
+  static void generateNameGlobal(IRGenerationContext& context, const IConcreteObjectType* object);
   
   /**
    * Casts this concrete object to a given type
    */
   static llvm::Value* castTo(IRGenerationContext& context,
-                             IConcreteObjectType* object,
+                             const IConcreteObjectType* object,
                              llvm::Value* fromValue,
                              const IType* toType);
 
@@ -157,40 +157,44 @@ public:
    * Initialize vTable of a newly created concrete object
    */
   static void initializeVTable(IRGenerationContext& context,
-                               IConcreteObjectType* object,
+                               const IConcreteObjectType* object,
                                llvm::Instruction* malloc);
   
   /**
    * Generate vTable global variable for the given object
    */
-  static void generateVTable(IRGenerationContext& context, IConcreteObjectType* object);
+  static void generateVTable(IRGenerationContext& context,
+                             const IConcreteObjectType* object);
   
   /**
    * Declare all fields as variables in the current scope
    */
-  static void declareFieldVariables(IRGenerationContext& context, IConcreteObjectType* object);
+  static void declareFieldVariables(IRGenerationContext& context,
+                                    const IConcreteObjectType* object);
   
   /**
    * Composes destructor function code
    */
-  static void composeDestructorBody(IRGenerationContext& context, IConcreteObjectType* object);
+  static void composeDestructorBody(IRGenerationContext& context,
+                                    const IConcreteObjectType* object);
   
   /**
    * Compose a call to destroy a given concrete object
    */
   static void composeDestructorCall(IRGenerationContext& context,
-                                    IConcreteObjectType* objectOwnerType,
-                                    llvm::Value* object);
+                                    const IConcreteObjectType* object,
+                                    llvm::Value* value);
   
   /**
    * Generates IR for static methods of a given object
    */
-  static void generateStaticMethodsIR(IRGenerationContext& context, IConcreteObjectType* object);
+  static void generateStaticMethodsIR(IRGenerationContext& context,
+                                      const IConcreteObjectType* object);
   
   /**
    * Generates IR for non-static methods of a given object
    */
-  static void generateMethodsIR(IRGenerationContext& context, IConcreteObjectType* object);
+  static void generateMethodsIR(IRGenerationContext& context, const IConcreteObjectType* object);
   
   /**
    * Print the given object to the given stream
@@ -202,32 +206,32 @@ public:
 private:
   
   static std::map<std::string, llvm::Function*>
-  generateMethodFunctions(IRGenerationContext& context, IConcreteObjectType* object);  
+  generateMethodFunctions(IRGenerationContext& context, const IConcreteObjectType* object);
 
   static void addTypeListInfo(IRGenerationContext& context,
-                              IConcreteObjectType* object,
+                              const IConcreteObjectType* object,
                               std::vector<std::vector<llvm::Constant*>>& vTables);
   
   static void addUnthunkInfo(IRGenerationContext& context,
-                             IConcreteObjectType* object,
+                             const IConcreteObjectType* object,
                              std::vector<std::vector<llvm::Constant*>>& vTables);
   
   static void generateInterfaceMapFunctions(IRGenerationContext& context,
-                                            IConcreteObjectType* object,
+                                            const IConcreteObjectType* object,
                                             std::vector<std::vector<llvm::Constant*>>& vTables);
   
   static void createVTableGlobal(IRGenerationContext& context,
-                                 IConcreteObjectType* object,
+                                 const IConcreteObjectType* object,
                                  std::vector<std::vector<llvm::Constant*>> interfaceVTables);
   
   static llvm::GlobalVariable* createTypeListGlobal(IRGenerationContext& context,
-                                                    IConcreteObjectType* object);
+                                                    const IConcreteObjectType* object);
   
   static void addDestructorInfo(IRGenerationContext& context,
-                                IConcreteObjectType* objet,
+                                const IConcreteObjectType* objet,
                                 std::vector<std::vector<llvm::Constant*>>& vTables);
 
-  static std::string getObjectDestructorFunctionName(IConcreteObjectType* object);
+  static std::string getObjectDestructorFunctionName(const IConcreteObjectType* object);
   
 };
   

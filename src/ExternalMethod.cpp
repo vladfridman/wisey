@@ -29,14 +29,15 @@ bool ExternalMethod::isStatic() const {
   return false;
 }
 
-Function* ExternalMethod::defineFunction(IRGenerationContext& context, IObjectType* objectType) {
+Function* ExternalMethod::defineFunction(IRGenerationContext& context,
+                                         const IObjectType* objectType) {
   FunctionType* functionType = getLLVMFunctionType(this, context, objectType);
   string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
   return cast<Function>(context.getModule()->getOrInsertFunction(functionName, functionType));
 }
 
-void ExternalMethod::generateIR(IRGenerationContext& context, IObjectType* objectType) const {
+void ExternalMethod::generateIR(IRGenerationContext& context, const IObjectType* objectType) const {
 }
 
 string ExternalMethod::getName() const {

@@ -57,7 +57,7 @@ vector<const Model*> Method::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-Function* Method::defineFunction(IRGenerationContext& context, IObjectType* objectType) {
+Function* Method::defineFunction(IRGenerationContext& context, const IObjectType* objectType) {
   FunctionType* ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
                                                                context,
                                                                objectType);
@@ -71,7 +71,7 @@ Function* Method::defineFunction(IRGenerationContext& context, IObjectType* obje
   return mFunction;
 }
 
-void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) const {
+void Method::generateIR(IRGenerationContext& context, const IObjectType* objectType) const {
   assert(mFunction != NULL);
   
   Scopes& scopes = context.getScopes();
@@ -101,7 +101,7 @@ void Method::generateIR(IRGenerationContext& context, IObjectType* objectType) c
 
 void Method::createArguments(IRGenerationContext& context,
                              Function* function,
-                             IObjectType* objectType) const {
+                             const IObjectType* objectType) const {
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName("this");

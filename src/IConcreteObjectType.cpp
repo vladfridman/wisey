@@ -29,7 +29,7 @@ using namespace llvm;
 using namespace wisey;
 
 void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
-                                             IConcreteObjectType* object) {
+                                             const IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Constant* stringConstant = ConstantDataArray::getString(llvmContext, object->getName());
   new GlobalVariable(*context.getModule(),
@@ -41,7 +41,7 @@ void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
 }
 
 Value* IConcreteObjectType::castTo(IRGenerationContext& context,
-                                   IConcreteObjectType* object,
+                                   const IConcreteObjectType* object,
                                    Value* fromValue,
                                    const IType* toType) {
   if (toType == object) {
@@ -86,7 +86,7 @@ int IConcreteObjectType::getInterfaceIndex(const IConcreteObjectType* object,
 }
 
 void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
-                                           IConcreteObjectType* object,
+                                           const IConcreteObjectType* object,
                                            Instruction* malloc) {
   LLVMContext& llvmContext = context.getLLVMContext();
   GlobalVariable* vTableGlobal = context.getModule()->getGlobalVariable(object->getVTableName());
@@ -121,7 +121,7 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
 }
 
 void IConcreteObjectType::generateVTable(IRGenerationContext& context,
-                                         IConcreteObjectType* object) {
+                                         const IConcreteObjectType* object) {
 
   vector<vector<Constant*>> vTables;
 
@@ -133,7 +133,8 @@ void IConcreteObjectType::generateVTable(IRGenerationContext& context,
 }
 
 map<string, Function*> IConcreteObjectType::generateMethodFunctions(IRGenerationContext& context,
-                                                                    IConcreteObjectType* object) {
+                                                                    const IConcreteObjectType*
+                                                                    object) {
   map<string, Function*> methodFunctionMap;
   vector<tuple<IMethod*, Function*>> methodsWithFunctions;
   
@@ -147,7 +148,7 @@ map<string, Function*> IConcreteObjectType::generateMethodFunctions(IRGeneration
 }
 
 void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
-                                          IConcreteObjectType* object,
+                                          const IConcreteObjectType* object,
                                           vector<vector<Constant*>>& vTables) {
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, object);
   
@@ -161,7 +162,7 @@ void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
 }
 
 void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
-                                            IConcreteObjectType* object,
+                                            const IConcreteObjectType* object,
                                             vector<vector<Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
@@ -182,7 +183,7 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
 }
 
 void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
-                                         IConcreteObjectType* object,
+                                         const IConcreteObjectType* object,
                                          vector<vector<Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
@@ -202,7 +203,7 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
 }
 
 void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& context,
-                                                        IConcreteObjectType* object,
+                                                        const IConcreteObjectType* object,
                                                         vector<vector<Constant*>>& vTables) {
   map<string, Function*> methodFunctionMap = generateMethodFunctions(context, object);
   
@@ -231,7 +232,7 @@ void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& con
 }
 
 void IConcreteObjectType::createVTableGlobal(IRGenerationContext& context,
-                                             IConcreteObjectType* object,
+                                             const IConcreteObjectType* object,
                                              vector<vector<Constant*>> interfaceVTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -259,7 +260,7 @@ void IConcreteObjectType::createVTableGlobal(IRGenerationContext& context,
 }
 
 GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& context,
-                                                          IConcreteObjectType* object) {
+                                                          const IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Interface*> interfaces = object->getFlattenedInterfaceHierarchy();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -286,7 +287,8 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
                             object->getTypeTableName());
 }
 
-void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context, IConcreteObjectType* object) {
+void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
+                                                const IConcreteObjectType* object) {
   map<string, Field*> fields = object->getFields();
   for (map<string, Field*>::const_iterator iterator = fields.begin();
        iterator != fields.end();
@@ -307,7 +309,7 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context, IC
 }
 
 void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
-                                                IConcreteObjectType* object) {
+                                                const IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getModule()->getFunction(getObjectDestructorFunctionName(object));
 
@@ -382,12 +384,12 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   IRWriter::createReturnInst(context, NULL);
 }
 
-string IConcreteObjectType::getObjectDestructorFunctionName(IConcreteObjectType* object) {
+string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjectType* object) {
   return "destructor." + object->getName();
 }
 
 void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
-                                                IConcreteObjectType* object,
+                                                const IConcreteObjectType* object,
                                                 Value* value) {
   string destructorFunctionName = getObjectDestructorFunctionName(object);
   Function* function = context.getModule()->getFunction(destructorFunctionName);
@@ -398,7 +400,7 @@ void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
 }
 
 void IConcreteObjectType::generateStaticMethodsIR(IRGenerationContext& context,
-                                                  IConcreteObjectType* object) {
+                                                  const IConcreteObjectType* object) {
   for (IMethod* method : object->getMethods()) {
     if (method->isStatic()) {
       method->generateIR(context, object);
@@ -407,7 +409,7 @@ void IConcreteObjectType::generateStaticMethodsIR(IRGenerationContext& context,
 }
 
 void IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
-                                            IConcreteObjectType* object) {
+                                            const IConcreteObjectType* object) {
   for (IMethod* method : object->getMethods()) {
     if (!method->isStatic()) {
       method->generateIR(context, object);

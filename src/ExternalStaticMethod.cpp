@@ -30,7 +30,7 @@ bool ExternalStaticMethod::isStatic() const {
 }
 
 Function* ExternalStaticMethod::defineFunction(IRGenerationContext& context,
-                                               IObjectType* objectType) {
+                                               const IObjectType* objectType) {
   FunctionType* functionType = getLLVMFunctionType(this, context, objectType);
   string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
   
@@ -38,7 +38,7 @@ Function* ExternalStaticMethod::defineFunction(IRGenerationContext& context,
 }
 
 void ExternalStaticMethod::generateIR(IRGenerationContext& context,
-                                      IObjectType* objectType) const {
+                                      const IObjectType* objectType) const {
 }
 
 string ExternalStaticMethod::getName() const {

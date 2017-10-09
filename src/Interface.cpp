@@ -183,7 +183,7 @@ MethodSignature* Interface::findMethod(std::string methodName) const {
 }
 
 vector<list<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& context,
-                                                          IObjectType* object,
+                                                          const IObjectType* object,
                                                           map<string, Function*>& methodFunctionMap,
                                                           unsigned long interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -216,7 +216,7 @@ vector<list<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& c
 }
 
 Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
-                                                  IObjectType* object,
+                                                  const IObjectType* object,
                                                   llvm::Function* concreteObjectFunction,
                                                   unsigned long interfaceIndex,
                                                   MethodSignature* interfaceMethodSignature) const {
@@ -303,7 +303,7 @@ bool Interface::doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMet
 }
 
 void Interface::generateMapFunctionBody(IRGenerationContext& context,
-                                        IObjectType* object,
+                                        const IObjectType* object,
                                         Function* concreteObjectFunction,
                                         Function* mapFunction,
                                         unsigned long interfaceIndex,

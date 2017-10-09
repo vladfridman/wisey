@@ -51,9 +51,10 @@ public:
   
   bool isStatic() const override;
 
-  llvm::Function* defineFunction(IRGenerationContext& context, IObjectType* objectType) override;
+  llvm::Function* defineFunction(IRGenerationContext& context,
+                                 const IObjectType* objectType) override;
   
-  void generateIR(IRGenerationContext& context, IObjectType* objectType) const override;
+  void generateIR(IRGenerationContext& context, const IObjectType* objectType) const override;
   
   std::string getName() const override;
   
@@ -71,7 +72,7 @@ private:
   
   void createArguments(IRGenerationContext& context,
                        llvm::Function* function,
-                       IObjectType* objectType) const;
+                       const IObjectType* objectType) const;
   
 };
   

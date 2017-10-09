@@ -78,7 +78,7 @@ public:
    */
   static llvm::FunctionType* getLLVMFunctionType(IMethodDescriptor* method,
                                                  IRGenerationContext& context,
-                                                 IObjectType* object);
+                                                 const IObjectType* object);
   
   /**
    * Print the given method descriptor to the given stream

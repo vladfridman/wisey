@@ -57,7 +57,8 @@ vector<const Model*> StaticMethod::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-Function* StaticMethod::defineFunction(IRGenerationContext& context, IObjectType* objectType) {
+Function* StaticMethod::defineFunction(IRGenerationContext& context,
+                                       const IObjectType* objectType) {
   FunctionType* ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
                                                                context,
                                                                objectType);
@@ -71,7 +72,7 @@ Function* StaticMethod::defineFunction(IRGenerationContext& context, IObjectType
   return mFunction;
 }
 
-void StaticMethod::generateIR(IRGenerationContext& context, IObjectType* objectType) const {
+void StaticMethod::generateIR(IRGenerationContext& context, const IObjectType* objectType) const {
   assert(mFunction != NULL);
   
   Scopes& scopes = context.getScopes();
@@ -102,7 +103,7 @@ void StaticMethod::generateIR(IRGenerationContext& context, IObjectType* objectT
 
 void StaticMethod::createArguments(IRGenerationContext& context,
                                    Function* function,
-                                   IObjectType* objectType) const {
+                                   const IObjectType* objectType) const {
   if (!function->arg_size()) {
     return;
   }
