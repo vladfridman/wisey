@@ -32,7 +32,7 @@ TypeKind InterfaceOwner::getTypeKind() const {
 }
 
 bool InterfaceOwner::canCastTo(const IType* toType) const {
-  if (toType == this) {
+  if (toType == this || toType == mInterface) {
     return true;
   }
   
@@ -50,7 +50,7 @@ bool InterfaceOwner::canAutoCastTo(const IType* toType) const {
 Value* InterfaceOwner::castTo(IRGenerationContext& context,
                               Value* fromValue,
                               const IType* toType) const {
-  if (toType == this) {
+  if (toType == this || toType == mInterface) {
     return fromValue;
   }
 

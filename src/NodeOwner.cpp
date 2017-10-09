@@ -30,7 +30,7 @@ TypeKind NodeOwner::getTypeKind() const {
 }
 
 bool NodeOwner::canCastTo(const IType* toType) const {
-  if (toType == this) {
+  if (toType == this || toType == mNode) {
     return true;
   }
   
@@ -48,7 +48,7 @@ bool NodeOwner::canAutoCastTo(const IType* toType) const {
 Value* NodeOwner::castTo(IRGenerationContext& context,
                          Value* fromValue,
                          const IType* toType) const {
-  if (toType == this) {
+  if (toType == this || toType == mNode) {
     return fromValue;
   }
   

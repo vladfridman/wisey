@@ -30,7 +30,7 @@ TypeKind ControllerOwner::getTypeKind() const {
 }
 
 bool ControllerOwner::canCastTo(const IType* toType) const {
-  if (toType == this) {
+  if (toType == this || toType == mController) {
     return true;
   }
   
@@ -48,7 +48,7 @@ bool ControllerOwner::canAutoCastTo(const IType* toType) const {
 Value* ControllerOwner::castTo(IRGenerationContext& context,
                                Value* fromValue,
                                const IType* toType) const {
-  if (toType == this) {
+  if (toType == this || toType == mController) {
     return fromValue;
   }
 

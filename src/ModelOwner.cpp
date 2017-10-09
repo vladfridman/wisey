@@ -30,7 +30,7 @@ TypeKind ModelOwner::getTypeKind() const {
 }
 
 bool ModelOwner::canCastTo(const IType* toType) const {
-  if (toType == this) {
+  if (toType == this || toType == mModel) {
     return true;
   }
   
@@ -48,7 +48,7 @@ bool ModelOwner::canAutoCastTo(const IType* toType) const {
 Value* ModelOwner::castTo(IRGenerationContext& context,
                           Value* fromValue,
                           const IType* toType) const {
-  if (toType == this) {
+  if (toType == this || toType == mModel) {
     return fromValue;
   }
 
