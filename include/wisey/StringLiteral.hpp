@@ -20,9 +20,10 @@ class StringLiteral : public IExpression {
   std::string mValue;
   
 public:
-  StringLiteral(std::string input) : mValue(unescape(input.substr(1, input.length() - 2))) { }
   
-  ~StringLiteral() { }
+  StringLiteral(std::string input);
+  
+  ~StringLiteral();
   
   IVariable* getVariable(IRGenerationContext& context) const override;
 

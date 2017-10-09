@@ -38,13 +38,13 @@ struct StringLiteralTest : public Test {
 };
 
 TEST_F(StringLiteralTest, getVariableTest) {
-  StringLiteral stringLiteral("\"test\"");
+  StringLiteral stringLiteral("test");
   
   EXPECT_EQ(stringLiteral.getVariable(mContext), nullptr);
 }
 
 TEST_F(StringLiteralTest, stringLiteralTest) {
-  StringLiteral stringLiteral("\"test\"");
+  StringLiteral stringLiteral("test");
   
   llvm::Value* irValue = stringLiteral.generateIR(mContext);
 
@@ -58,7 +58,7 @@ TEST_F(StringLiteralTest, stringLiteralTest) {
 }
 
 TEST_F(StringLiteralTest, stringLiteralEscapeNewlineTest) {
-  StringLiteral stringLiteral("\"test\ntest\"");
+  StringLiteral stringLiteral("test\ntest");
   
   stringLiteral.generateIR(mContext);
   
@@ -70,13 +70,13 @@ TEST_F(StringLiteralTest, stringLiteralEscapeNewlineTest) {
 }
 
 TEST_F(StringLiteralTest, existsInOuterScopeTest) {
-  StringLiteral stringLiteral("\"test\"");
+  StringLiteral stringLiteral("test");
   
   EXPECT_FALSE(stringLiteral.existsInOuterScope(mContext));
 }
 
 TEST_F(StringLiteralTest, printToStreamTest) {
-  StringLiteral stringLiteral("\"test\"");
+  StringLiteral stringLiteral("test");
 
   stringstream stringStream;
   stringLiteral.printToStream(mContext, stringStream);
@@ -84,7 +84,7 @@ TEST_F(StringLiteralTest, printToStreamTest) {
 }
 
 TEST_F(StringLiteralTest, releaseOwnershipDeathTest) {
-  StringLiteral stringLiteral("\"test\ntest\"");
+  StringLiteral stringLiteral("test\ntest");
   
   EXPECT_EXIT(stringLiteral.releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),
@@ -92,7 +92,7 @@ TEST_F(StringLiteralTest, releaseOwnershipDeathTest) {
 }
 
 TEST_F(StringLiteralTest, addReferenceToOwnerDeathTest) {
-  StringLiteral stringLiteral("\"test\ntest\"");
+  StringLiteral stringLiteral("test\ntest");
   
   EXPECT_EXIT(stringLiteral.addReferenceToOwner(mContext, NULL),
               ::testing::ExitedWithCode(1),
