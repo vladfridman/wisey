@@ -1,0 +1,44 @@
+package wisey.lang;
+
+node NProgramStackNode {
+  string mFunctionName;
+  state NProgramStackNode* mNextNode;
+
+  public string getFunctionName() {
+    return mFunctionName;
+  }
+
+  public void setNext(NProgramStackNode* next) {
+    mNextNode = next;
+  }
+
+  public NProgramStackNode getNext() {
+    return mNextNode;
+  }
+}
+
+controller CThread {
+  state NProgramStackNode* mProgramStackHead;
+  state NProgramStackNode mProgramStackTail;
+
+  public void pushStack(string functionName) {
+    NProgramStackNode* newNode = builder(NProgramStackNode).withFunctionName(functionName).build();
+    newNode.setNext(null);
+    if (mProgramStackTail == null) {
+      mProgramStackHead = newNode;
+      mProgramStackTail = mProgramStackHead;
+    } else {
+      mProgramStackTail.setNext(newNode);
+      mProgramStackTail = mProgramStackTail.getNext();
+    }
+  }
+
+  public void dumpStack() {
+    NProgramStackNode iterator = mProgramStackHead;
+    printout("Stack trace:\n");
+    while (iterator != null) {
+      printout(iterator.getFunctionName() + "\n");
+      iterator = iterator.getNext();
+    }
+  }
+}

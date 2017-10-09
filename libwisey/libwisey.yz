@@ -11,7 +11,28 @@ external model wisey.lang.MNullPointerException {
 
 /* Controllers */
 
+external controller wisey.lang.CThread {
+
+  state wisey.lang.NProgramStackNode* mProgramStackHead;
+  state wisey.lang.NProgramStackNode mProgramStackTail;
+
+  void pushStack(
+    string functionName);
+  void dumpStack();
+}
+
 /* Nodes */
+
+external node wisey.lang.NProgramStackNode {
+
+  fixed string mFunctionName;
+  state wisey.lang.NProgramStackNode* mNextNode;
+
+  string getFunctionName();
+  void setNext(
+    wisey.lang.NProgramStackNode* next);
+  wisey.lang.NProgramStackNode getNext();
+}
 
 /* Bindings */
 

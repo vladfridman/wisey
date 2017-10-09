@@ -103,8 +103,15 @@ void Scopes::popScope(IRGenerationContext& context) {
   for (string variableName : top->getClearedVariables(mClearedVariables)) {
     mClearedVariables.erase(variableName);
   }
-  for (IVariable* variable : top->getOwnerVariables()) {
-    mOwnerToReferencesMap.erase(variable->getName());
+  for (IVariable* owner : top->getOwnerVariables()) {
+    map<string, IVariable*> references = mOwnerToReferencesMap[owner->getName()];
+    for (map<string, IVariable*>::iterator iterator = references.begin();
+         iterator != references.end();
+         iterator++) {
+      IVariable* reference = iterator->second;
+      mRererenceToOwnersMap[reference->getName()].erase(owner->getName());
+    }
+    mOwnerToReferencesMap.erase(owner->getName());
   }
   for (IVariable* variable : top->getReferenceVariables()) {
     if (!mRererenceToOwnersMap.count(variable->getName())) {

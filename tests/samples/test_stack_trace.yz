@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+import wisey.lang.CThread;
+
+controller CProgram implements IProgram {
+  inject CThread* mThread;
+
+  public int run() {
+    mThread.pushStack("function1");
+    mThread.pushStack("function2");
+    mThread.pushStack("function3");
+    mThread.pushStack("function4");
+    mThread.pushStack("function5");
+    mThread.dumpStack();
+    return 5;
+  }
+}
+
+bind(CProgram).to(IProgram);
