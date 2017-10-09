@@ -40,7 +40,7 @@ Value* HeapReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
     exit(1);
   }
   
-  return mValue;
+  return IRWriter::newLoadInst(context, mValue, "");
 }
 
 Value* HeapReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -48,14 +48,18 @@ Value* HeapReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
-  
-  mValue = newValue;
+
+  IRWriter::newStoreInst(context, newValue, mValue);
+
   mIsInitialized = true;
   
   return mValue;
 }
 
 void HeapReferenceVariable::setToNull(IRGenerationContext& context) {
+  PointerType* llvmType = (PointerType*) mType->getLLVMType(context.getLLVMContext());
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), mValue);
+
   mIsInitialized = true;
 }
 

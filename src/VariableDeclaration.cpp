@@ -120,8 +120,7 @@ void VariableDeclaration::allocateOwnerOnHeap(IRGenerationContext& context) cons
 void VariableDeclaration::allocateReferenceOnHeap(IRGenerationContext& context) const {
   string variableName = mId->getName();
   const IObjectType* type = (IObjectType*) mTypeSpecifier->getType(context);
-  PointerType* llvmType = (PointerType*) type->getLLVMType(context.getLLVMContext())
-    ->getPointerElementType();
+  PointerType* llvmType = (PointerType*) type->getLLVMType(context.getLLVMContext());
 
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);

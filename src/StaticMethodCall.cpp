@@ -108,19 +108,15 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   
   string variableName = IVariable::getTemporaryVariableName(this);
   
-  if (!IType::isOwnerType(returnType)) {
-    IVariable* tempVariable = new HeapReferenceVariable(variableName, returnType, result);
-    context.getScopes().setVariable(tempVariable);
-    return result;
-  }
-  
   Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
   IRWriter::newStoreInst(context, result, pointer);
-  IVariable* tempVariable = new HeapOwnerVariable(variableName,
-                                                  (IObjectOwnerType*) returnType,
-                                                  pointer);
+
+  IVariable* tempVariable = IType::isOwnerType(returnType)
+    ? (IVariable*) new HeapOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer)
+    : (IVariable*) new HeapReferenceVariable(variableName, returnType, pointer);
+
   context.getScopes().setVariable(tempVariable);
-  return pointer;
+  return IType::isOwnerType(returnType) ? pointer : result;
 }
 
 const IType* StaticMethodCall::getType(IRGenerationContext& context) const {
