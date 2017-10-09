@@ -46,6 +46,11 @@ public:
   virtual const IObjectOwnerType* getOwner() const = 0;
   
   /**
+   * Tells whether this object is externally implemented in a shared library
+   */
+  virtual bool isExternal() const = 0;
+
+  /**
    * Override method from IType because ObjectOwner llvm type is always a PointerType
    */
   virtual llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override = 0;

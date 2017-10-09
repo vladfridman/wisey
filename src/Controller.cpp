@@ -22,9 +22,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Controller::Controller(std::string name, llvm::StructType* structType) :
+Controller::Controller(std::string name, llvm::StructType* structType, bool isExternal) :
 mName(name),
-mStructType(structType) {
+mStructType(structType),
+mIsExternal(isExternal) {
   mControllerOwner = new ControllerOwner(this);
 }
 
@@ -49,7 +50,11 @@ Controller::~Controller() {
 }
 
 Controller* Controller::newController(string name, StructType* structType) {
-  return new Controller(name, structType);
+  return new Controller(name, structType, false);
+}
+
+Controller* Controller::newExternalController(string name, StructType* structType) {
+  return new Controller(name, structType, true);
 }
 
 void Controller::setFields(vector<Field*> fields) {
@@ -300,6 +305,10 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
 
 const IObjectOwnerType* Controller::getOwner() const {
   return mControllerOwner;
+}
+
+bool Controller::isExternal() const {
+  return mIsExternal;
 }
 
 void Controller::printToStream(IRGenerationContext& context, iostream& stream) const {

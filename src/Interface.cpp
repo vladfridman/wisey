@@ -28,10 +28,12 @@ using namespace wisey;
 
 Interface::Interface(string name,
                      StructType* structType,
+                     bool isExternal,
                      vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                      vector<MethodSignatureDeclaration *> methodSignatureDeclarations) :
 mName(name),
 mStructType(structType),
+mIsExternal(isExternal),
 mInterfaceOwner(new InterfaceOwner(this)),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mMethodSignatureDeclarations(methodSignatureDeclarations),
@@ -52,7 +54,24 @@ Interface* Interface::newInterface(string name,
                                    vector<InterfaceTypeSpecifier *> parentInterfaceSpecifiers,
                                    vector<MethodSignatureDeclaration *>
                                    methodSignatureDeclarations) {
-  return new Interface(name, structType, parentInterfaceSpecifiers, methodSignatureDeclarations);
+  return new Interface(name,
+                       structType,
+                       false,
+                       parentInterfaceSpecifiers,
+                       methodSignatureDeclarations);
+}
+
+Interface* Interface::newExternalInterface(string name,
+                                           StructType *structType,
+                                           vector<InterfaceTypeSpecifier *>
+                                           parentInterfaceSpecifiers,
+                                           vector<MethodSignatureDeclaration *>
+                                           methodSignatureDeclarations) {
+  return new Interface(name,
+                       structType,
+                       true,
+                       parentInterfaceSpecifiers,
+                       methodSignatureDeclarations);
 }
 
 void Interface::buildMethods(IRGenerationContext& context) {
@@ -512,6 +531,10 @@ Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) 
 
 const IObjectOwnerType* Interface::getOwner() const {
   return mInterfaceOwner;
+}
+
+bool Interface::isExternal() const {
+  return mIsExternal;
 }
 
 void Interface::printToStream(IRGenerationContext& context, iostream& stream) const {

@@ -28,8 +28,9 @@ class NodeOwner;
  */
 class Node : public IBuildableConcreteObjectType {
   std::string mName;
-  NodeOwner* mNodeOwner;
   llvm::StructType* mStructType;
+  bool mIsExternal;
+  NodeOwner* mNodeOwner;
   std::vector<Field*> mFixedFields;
   std::vector<Field*> mStateFields;
   std::map<std::string, Field*> mFields;
@@ -46,6 +47,11 @@ public:
    * static method for node instantiation
    */
   static Node* newNode(std::string name, llvm::StructType* structType);
+
+  /**
+   * static method for external node instantiation
+   */
+  static Node* newExternalNode(std::string name, llvm::StructType* structType);
 
   /**
    * Returns the difference beteween the set of fixed fields and the fields given as argument
@@ -102,11 +108,13 @@ public:
   
   const IObjectOwnerType* getOwner() const override;
   
+  bool isExternal() const override;
+
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 private:
   
-  Node(std::string name, llvm::StructType* structType);
+  Node(std::string name, llvm::StructType* structType, bool isExternal);
 
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   

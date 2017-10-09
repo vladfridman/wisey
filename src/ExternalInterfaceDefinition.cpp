@@ -32,10 +32,10 @@ ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
 void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   string fullName = mInterfaceTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
-  Interface* interface = Interface::newInterface(fullName,
-                                                 structType,
-                                                 mParentInterfaceSpecifiers,
-                                                 mMethodSignatureDeclarations);
+  Interface* interface = Interface::newExternalInterface(fullName,
+                                                         structType,
+                                                         mParentInterfaceSpecifiers,
+                                                         mMethodSignatureDeclarations);
   context.addInterface(interface);
   
   interface->defineInterfaceTypeName(context);

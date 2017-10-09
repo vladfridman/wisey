@@ -26,8 +26,9 @@ class ControllerOwner;
  */
 class Controller : public IConcreteObjectType {
   std::string mName;
-  ControllerOwner* mControllerOwner;
   llvm::StructType* mStructType;
+  bool mIsExternal;
+  ControllerOwner* mControllerOwner;
   std::vector<Field*> mReceivedFields;
   std::vector<Field*> mInjectedFields;
   std::vector<Field*> mStateFields;
@@ -46,6 +47,11 @@ public:
    */
   static Controller* newController(std::string name, llvm::StructType* structType);
   
+  /**
+   * static method for external controller instantiation
+   */
+  static Controller* newExternalController(std::string name, llvm::StructType* structType);
+
   /**
    * Inject an instance of this controller into LLVM code
    */
@@ -97,11 +103,13 @@ public:
   
   const IObjectOwnerType* getOwner() const override;
   
+  bool isExternal() const override;
+  
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 private:
 
-  Controller(std::string name, llvm::StructType* structType);
+  Controller(std::string name, llvm::StructType* structType, bool isExternal);
 
   void checkArguments(ExpressionList received) const;
   

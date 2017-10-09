@@ -273,6 +273,9 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator != mInterfaces.end();
        iterator++) {
     Interface* interface = iterator->second;
+    if (interface->isExternal()) {
+      continue;
+    }
     interface->printToStream(context, stream);
     stream << endl;
   }
@@ -282,6 +285,9 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator != mModels.end();
        iterator++) {
     Model* model = iterator->second;
+    if (model->isExternal()) {
+      continue;
+    }
     model->printToStream(context, stream);
     stream << endl;
   }
@@ -291,6 +297,9 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator != mControllers.end();
        iterator++) {
     Controller* controller = iterator->second;
+    if (controller->isExternal()) {
+      continue;
+    }
     controller->printToStream(context, stream);
     stream << endl;
   }
@@ -300,6 +309,9 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator != mNodes.end();
        iterator++) {
     Node* node = iterator->second;
+    if (node->isExternal()) {
+      continue;
+    }
     node->printToStream(context, stream);
     stream << endl;
   }

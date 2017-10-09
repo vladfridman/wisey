@@ -33,7 +33,7 @@ void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context
   string fullName = mControllerTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
 
-  Controller* controller = Controller::newController(fullName, structType);
+  Controller* controller = Controller::newExternalController(fullName, structType);
   context.addController(controller);
 }
 

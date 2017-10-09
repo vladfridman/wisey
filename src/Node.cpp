@@ -19,7 +19,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Node::Node(string name, StructType* structType) : mName(name), mStructType(structType) {
+Node::Node(string name, StructType* structType, bool isExternal) :
+mName(name),
+mStructType(structType),
+mIsExternal(isExternal) {
   mNodeOwner = new NodeOwner(this);
 }
 
@@ -43,7 +46,11 @@ Node::~Node() {
 }
 
 Node* Node::newNode(string name, StructType* structType) {
-  return new Node(name, structType);
+  return new Node(name, structType, false);
+}
+
+Node* Node::newExternalNode(string name, StructType* structType) {
+  return new Node(name, structType, true);
 }
 
 void Node::setFields(vector<Field*> fields) {
@@ -306,6 +313,10 @@ void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* mallo
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
+}
+
+bool Node::isExternal() const {
+  return mIsExternal;
 }
 
 void Node::printToStream(IRGenerationContext& context, iostream& stream) const {

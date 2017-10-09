@@ -34,6 +34,7 @@ public:
   MOCK_CONST_METHOD3(castTo, llvm::Value* (wisey::IRGenerationContext&,
                                            llvm::Value*,
                                            const wisey::IType*));
+  MOCK_CONST_METHOD0(isExternal, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&,std::iostream& stream));
 };
 

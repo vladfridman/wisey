@@ -31,6 +31,7 @@ class Model;
 class Interface : public IObjectType {
   std::string mName;
   llvm::StructType* mStructType;
+  bool mIsExternal;
   InterfaceOwner* mInterfaceOwner;
   std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;
@@ -53,6 +54,16 @@ public:
                                  std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                                  std::vector<MethodSignatureDeclaration *>
                                  methodSignatureDeclarations);
+
+  /**
+   * static method for external interface instantiation
+   */
+  static Interface* newExternalInterface(std::string name,
+                                         llvm::StructType* structType,
+                                         std::vector<InterfaceTypeSpecifier*>
+                                         parentInterfaceSpecifiers,
+                                         std::vector<MethodSignatureDeclaration *>
+                                         methodSignatureDeclarations);
 
   /**
    * Build methods for this interface
@@ -126,12 +137,15 @@ public:
   
   const IObjectOwnerType* getOwner() const override;
   
+  bool isExternal() const override;
+
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 private:
   
   Interface(std::string name,
             llvm::StructType* structType,
+            bool isExternal,
             std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
             std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations);
   

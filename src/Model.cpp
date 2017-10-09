@@ -21,7 +21,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Model::Model(string name, StructType* structType) : mName(name), mStructType(structType) {
+Model::Model(string name, StructType* structType, bool isExternal) :
+mName(name),
+mStructType(structType),
+mIsExternal(isExternal) {
   mModelOwner = new ModelOwner(this);
 }
 
@@ -43,7 +46,11 @@ Model::~Model() {
 }
 
 Model* Model::newModel(string name, StructType* structType) {
-  return new Model(name, structType);
+  return new Model(name, structType, false);
+}
+
+Model* Model::newExternalModel(string name, StructType* structType) {
+  return new Model(name, structType, true);
 }
 
 void Model::setFields(vector<Field*> fields) {
@@ -324,6 +331,10 @@ string Model::getRTTIVariableName() const {
 
 const IObjectOwnerType* Model::getOwner() const {
   return mModelOwner;
+}
+
+bool Model::isExternal() const {
+  return mIsExternal;
 }
 
 void Model::printToStream(IRGenerationContext& context, iostream& stream) const {
