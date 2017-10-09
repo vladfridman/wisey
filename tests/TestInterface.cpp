@@ -62,10 +62,10 @@ struct InterfaceTest : public Test {
     objectMethodSignatures.push_back(mBarMethod);
     vector<InterfaceTypeSpecifier*> objectParentInterfaces;
     vector<MethodSignatureDeclaration*> methodDeclarations;
-    mObjectInterface = new Interface(objectFullName,
-                                     objectStructType,
-                                     objectParentInterfaces,
-                                     objectMethodSignatures);
+    mObjectInterface = Interface::newInterface(objectFullName,
+                                               objectStructType,
+                                               objectParentInterfaces,
+                                               objectMethodSignatures);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -78,18 +78,18 @@ struct InterfaceTest : public Test {
     shapeMethodSignatures.push_back(mFooMethod);
     vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterfaceSpecifier);
-    mShapeInterface = new Interface(shapeFullName,
-                                    mShapeStructType,
-                                    shapeParentInterfaces,
-                                    shapeMethodSignatures);
+    mShapeInterface = Interface::newInterface(shapeFullName,
+                                              mShapeStructType,
+                                              shapeParentInterfaces,
+                                              shapeMethodSignatures);
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
 
     mIncompleteInterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
-    mIncompleteInterface = new Interface(shapeFullName,
-                                         mIncompleteInterfaceStructType,
-                                         shapeParentInterfaces,
-                                         shapeMethodSignatures);
+    mIncompleteInterface = Interface::newInterface(shapeFullName,
+                                                   mIncompleteInterfaceStructType,
+                                                   shapeParentInterfaces,
+                                                   shapeMethodSignatures);
     
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                             mShapeInterface->getName());

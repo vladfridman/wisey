@@ -43,7 +43,10 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
                                                                                  methodExceptions);
     methodSignatures.push_back(methodSignature);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    mInterface = new Interface(interfaceFullName, structType, parentInterfaces, methodSignatures);
+    mInterface = Interface::newInterface(interfaceFullName,
+                                         structType,
+                                         parentInterfaces,
+                                         methodSignatures);
    
     mContext.addInterface(mInterface);
 

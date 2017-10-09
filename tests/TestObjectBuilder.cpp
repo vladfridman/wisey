@@ -64,7 +64,7 @@ struct ObjectBuilderTest : Test {
     ExpressionList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", 0, arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", 1, arguments));
-    mModel = new Model(modelFullName, structType);
+    mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);

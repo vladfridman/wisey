@@ -135,7 +135,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   
   string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
-  Model* model = new Model(modelFullName, structType);
+  Model* model = Model::newModel(modelFullName, structType);
 
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(model));

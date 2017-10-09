@@ -28,6 +28,7 @@ class ModelOwner;
  */
 class Model : public IBuildableConcreteObjectType {
   std::string mName;
+  bool mIsExternal;
   ModelOwner* mModelOwner;
   llvm::StructType* mStructType;
   std::map<std::string, Field*> mFields;
@@ -38,10 +39,13 @@ class Model : public IBuildableConcreteObjectType {
   
 public:
   
-  Model(std::string name, llvm::StructType* structType);
-  
   ~Model();
-  
+
+  /**
+   * static method for model instantiation
+   */
+  static Model* newModel(std::string name, llvm::StructType* structType);
+
   /**
    * Gets a set of field names and returns the ones that are missing
    */
@@ -121,6 +125,8 @@ public:
 
 private:
   
+  Model(std::string name, llvm::StructType* structType);
+
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   
   void checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;

@@ -48,10 +48,10 @@ struct ScopesTest : public Test {
   ScopesTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> methodSignatures;
-    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface",
-                               NULL,
-                               parentInterfaces,
-                               methodSignatures);
+    mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
+                                         NULL,
+                                         parentInterfaces,
+                                         methodSignatures);
   }
 };
 
@@ -273,7 +273,7 @@ TEST_F(ScopesTest, clearTryCatchInfoTest) {
 
 TEST_F(ScopesTest, setObjectTypeTest) {
   mScopes.pushScope();
-  Model* model = new Model("MModel", NULL);
+  Model* model = Model::newModel("MModel", NULL);
   
   mScopes.setObjectType(model);
   mScopes.pushScope();
@@ -291,20 +291,20 @@ TEST_F(ScopesTest, mergeNestedCatchListsTest) {
 
   ModelTypeSpecifier* exception1TypeSpecifier = new ModelTypeSpecifier(package, "MException1");
   StructType* exceptionModel1StructType = StructType::create(mLLVMContext, "MException1");
-  Model* exceptionModel1 = new Model("systems.vos.wisey.compiler.tests.MException1",
-                                     exceptionModel1StructType);
+  Model* exceptionModel1 = Model::newModel("systems.vos.wisey.compiler.tests.MException1",
+                                           exceptionModel1StructType);
   mContext.addModel(exceptionModel1);
 
   ModelTypeSpecifier* exception2TypeSpecifier = new ModelTypeSpecifier(package, "MException2");
   StructType* exceptionModel2StructType = StructType::create(mLLVMContext, "MException2");
-  Model* exceptionModel2 = new Model("systems.vos.wisey.compiler.tests.MException2",
-                                     exceptionModel2StructType);
+  Model* exceptionModel2 = Model::newModel("systems.vos.wisey.compiler.tests.MException2",
+                                           exceptionModel2StructType);
   mContext.addModel(exceptionModel2);
 
   ModelTypeSpecifier* exception3TypeSpecifier = new ModelTypeSpecifier(package, "MException3");
   StructType* exceptionModel3StructType = StructType::create(mLLVMContext, "MException3");
-  Model* exceptionModel3 = new Model("systems.vos.wisey.compiler.tests.MException3",
-                                     exceptionModel3StructType);
+  Model* exceptionModel3 = Model::newModel("systems.vos.wisey.compiler.tests.MException3",
+                                           exceptionModel3StructType);
   mContext.addModel(exceptionModel3);
 
   Catch* catch1 = new Catch(exception1TypeSpecifier, "exception", emptyStatement);
@@ -345,7 +345,7 @@ TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
   mScopes.pushScope();
   
   StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
-  Model* exceptionModel = new Model("MException", exceptionModelStructType);
+  Model* exceptionModel = Model::newModel("MException", exceptionModelStructType);
 
   mScopes.getScope()->addException(exceptionModel);
   

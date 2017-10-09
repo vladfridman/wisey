@@ -46,7 +46,7 @@ struct ObjectBuilderArgumentTest : Test {
     vector<Field*> fields;
     ExpressionList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", 0, arguments));
-    mModel = new Model(modelFullName, structType);
+    mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);

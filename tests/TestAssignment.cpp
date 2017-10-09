@@ -57,11 +57,11 @@ public:
 
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface",
-                               NULL,
-                               parentInterfaces,
-                               interfaceMethods);
-    mController = new Controller("systems.vos.wisey.compiler.tests.CController", NULL);
+    mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
+                                         NULL,
+                                         parentInterfaces,
+                                         interfaceMethods);
+    mController = Controller::newController("systems.vos.wisey.compiler.tests.CController", NULL);
   }
   
   ~AssignmentTest() {

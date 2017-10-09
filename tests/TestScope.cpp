@@ -47,13 +47,13 @@ public:
   mBarVariable(new NiceMock<MockVariable>()) {
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface",
-                               NULL,
-                               parentInterfaces,
-                               interfaceMethods);
+    mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
+                                         NULL,
+                                         parentInterfaces,
+                                         interfaceMethods);
 
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");
-    mExceptionModel = new Model("MExceptionA", exceptionModelStructType);
+    mExceptionModel = Model::newModel("MExceptionA", exceptionModelStructType);
     
     ON_CALL(*mFooVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(*mBarVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
@@ -100,7 +100,7 @@ TEST_F(ScopeTest, addExceptionTest) {
 
 TEST_F(ScopeTest, addExceptionsTest) {
   StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionB");
-  Model* exceptionModel = new Model("MExceptionB", exceptionModelStructType);
+  Model* exceptionModel = Model::newModel("MExceptionB", exceptionModelStructType);
 
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   

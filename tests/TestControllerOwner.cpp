@@ -50,31 +50,31 @@ struct ControllerOwnerTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mVehicleInterface = new Interface(vehicleFullName,
-                                      vehicleInterfaceStructType,
-                                      parentInterfaces,
-                                      interfaceMethods);
+    mVehicleInterface = Interface::newInterface(vehicleFullName,
+                                                vehicleInterfaceStructType,
+                                                parentInterfaces,
+                                                interfaceMethods);
 
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType *additorStructType = StructType::create(mLLVMContext, additorFullName);
-    mAdditorController = new Controller(additorFullName, additorStructType);
+    mAdditorController = Controller::newController(additorFullName, additorStructType);
     
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
                                                                     calculatorFullName);
-    mCalculatorInterface = new Interface(calculatorFullName,
-                                         calculatorIinterfaceStructType,
-                                         parentInterfaces,
-                                         interfaceMethods);
+    mCalculatorInterface = Interface::newInterface(calculatorFullName,
+                                                   calculatorIinterfaceStructType,
+                                                   parentInterfaces,
+                                                   interfaceMethods);
     mContext.addInterface(mCalculatorInterface);
     mCalculatorInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    mObjectInterface = new Interface(objectFullName,
-                                     objectInterfaceStructType,
-                                     parentInterfaces,
-                                     interfaceMethods);
+    mObjectInterface = Interface::newInterface(objectFullName,
+                                               objectInterfaceStructType,
+                                               parentInterfaces,
+                                               interfaceMethods);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -87,10 +87,10 @@ struct ControllerOwnerTest : public Test {
     InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier(package,
                                                                                  "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorTypeSpecifier);
-    mScienceCalculatorInterface = new Interface(scienceCalculatorFullName,
-                                                scienceCalculatorIinterfaceStructType,
-                                                scienceCalculatorParentInterfaces,
-                                                scienceCalculatorInterfaceMethods);
+    mScienceCalculatorInterface = Interface::newInterface(scienceCalculatorFullName,
+                                                          scienceCalculatorIinterfaceStructType,
+                                                          scienceCalculatorParentInterfaces,
+                                                          scienceCalculatorInterfaceMethods);
     mContext.addInterface(mScienceCalculatorInterface);
     mScienceCalculatorInterface->buildMethods(mContext);
 
@@ -100,7 +100,7 @@ struct ControllerOwnerTest : public Test {
 
     string multiplierFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     StructType* structType = StructType::create(mLLVMContext, multiplierFullName);
-    mMultiplierController = new Controller(multiplierFullName, structType);
+    mMultiplierController = Controller::newController(multiplierFullName, structType);
     mMultiplierController->setInterfaces(interfaces);
   
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);

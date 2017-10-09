@@ -107,10 +107,10 @@ struct ModelOwnerTest : public Test {
                                      subShapeInterfaceThrownExceptions);
     subShapeInterfaceMethods.push_back(methodFooSignature);
     vector<InterfaceTypeSpecifier*> subShapeParentInterfaces;
-    mSubShapeInterface = new Interface(subShapeFullName,
-                                       subShapeIinterfaceStructType,
-                                       subShapeParentInterfaces,
-                                       subShapeInterfaceMethods);
+    mSubShapeInterface = Interface::newInterface(subShapeFullName,
+                                                 subShapeIinterfaceStructType,
+                                                 subShapeParentInterfaces,
+                                                 subShapeInterfaceMethods);
     mSubShapeInterface->buildMethods(mContext);
     mContext.addInterface(mSubShapeInterface);
 
@@ -129,10 +129,10 @@ struct ModelOwnerTest : public Test {
     InterfaceTypeSpecifier* subShapeInterfaceTypeSpecifier =
       new InterfaceTypeSpecifier(package, "ISubShape");
     shapeParentInterfaces.push_back(subShapeInterfaceTypeSpecifier);
-    mShapeInterface = new Interface(shapeFullName,
-                                    shapeIinterfaceStructType,
-                                    shapeParentInterfaces,
-                                    shapeInterfaceMethods);
+    mShapeInterface = Interface::newInterface(shapeFullName,
+                                              shapeIinterfaceStructType,
+                                              shapeParentInterfaces,
+                                              shapeInterfaceMethods);
     mShapeInterface->buildMethods(mContext);
     mContext.addInterface(mShapeInterface);
 
@@ -148,10 +148,10 @@ struct ModelOwnerTest : public Test {
                                      objectInterfaceThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<InterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = new Interface(objectFullName,
-                                     objectInterfaceStructType,
-                                     objectParentInterfaces,
-                                     objectInterfaceMethods);
+    mObjectInterface = Interface::newInterface(objectFullName,
+                                               objectInterfaceStructType,
+                                               objectParentInterfaces,
+                                               objectInterfaceMethods);
     mObjectInterface->buildMethods(mContext);
     mContext.addInterface(mObjectInterface);
 
@@ -159,17 +159,17 @@ struct ModelOwnerTest : public Test {
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
     vector<InterfaceTypeSpecifier*> carParentInterfaces;
     vector<MethodSignatureDeclaration*> carMethodSignatures;
-    mCarInterface = new Interface(carFullName,
-                                  carInterfaceStructType,
-                                  carParentInterfaces,
-                                  carMethodSignatures);
+    mCarInterface = Interface::newInterface(carFullName,
+                                            carInterfaceStructType,
+                                            carParentInterfaces,
+                                            carMethodSignatures);
     mCarInterface->buildMethods(mContext);
     mContext.addInterface(mCarInterface);
 
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel = new Model(modelFullName, mStructType);
+    mModel = Model::newModel(modelFullName, mStructType);
     mModel->setFields(fields);
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
@@ -178,7 +178,7 @@ struct ModelOwnerTest : public Test {
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    mCircleModel = new Model(cirlceFullName, circleStructType);
+    mCircleModel = Model::newModel(cirlceFullName, circleStructType);
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, cirlceFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
@@ -204,7 +204,7 @@ struct ModelOwnerTest : public Test {
                                    "mWeight",
                                    1,
                                    arguments));
-    mStarModel = new Model(starFullName, starStructType);
+    mStarModel = Model::newModel(starFullName, starStructType);
     mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);

@@ -40,10 +40,13 @@ class Node : public IBuildableConcreteObjectType {
   
 public:
   
-  Node(std::string name, llvm::StructType* structType);
-  
   ~Node();
-  
+
+  /**
+   * static method for node instantiation
+   */
+  static Node* newNode(std::string name, llvm::StructType* structType);
+
   /**
    * Returns the difference beteween the set of fixed fields and the fields given as argument
    */
@@ -103,6 +106,8 @@ public:
 
 private:
   
+  Node(std::string name, llvm::StructType* structType);
+
   void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   
   void checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;

@@ -66,10 +66,10 @@ public:
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mCarInterface = new Interface(carFullName,
-                                  carInterfaceStructType,
-                                  parentInterfaces,
-                                  interfaceMethods);
+    mCarInterface = Interface::newInterface(carFullName,
+                                            carInterfaceStructType,
+                                            parentInterfaces,
+                                            interfaceMethods);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

@@ -42,7 +42,7 @@ public:
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
-    mModel = new Model(modelFullName, modelStructType);
+    mModel = Model::newModel(modelFullName, modelStructType);
 
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

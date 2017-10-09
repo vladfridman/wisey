@@ -22,9 +22,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Controller::Controller(std::string name, llvm::StructType* structType) {
-  mName = name;
-  mStructType = structType;
+Controller::Controller(std::string name, llvm::StructType* structType) :
+mName(name),
+mStructType(structType) {
   mControllerOwner = new ControllerOwner(this);
 }
 
@@ -46,6 +46,10 @@ Controller::~Controller() {
   mNameToMethodMap.clear();
   mInterfaces.clear();
   mFlattenedInterfaceHierarchy.clear();
+}
+
+Controller* Controller::newController(string name, StructType* structType) {
+  return new Controller(name, structType);
 }
 
 void Controller::setFields(vector<Field*> fields) {

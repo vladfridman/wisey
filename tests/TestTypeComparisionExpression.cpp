@@ -119,10 +119,10 @@ struct TypeComparisionExpressionTest : public Test {
                                      subShapeThrownExceptions);
     subShapeInterfaceMethods.push_back(methodFooSignature);
     vector<InterfaceTypeSpecifier*> subShapeParentInterfaces;
-    mSubShapeInterface = new Interface(subShapeFullName,
-                                       subShapeIinterfaceStructType,
-                                       subShapeParentInterfaces,
-                                       subShapeInterfaceMethods);
+    mSubShapeInterface = Interface::newInterface(subShapeFullName,
+                                                 subShapeIinterfaceStructType,
+                                                 subShapeParentInterfaces,
+                                                 subShapeInterfaceMethods);
     mContext.addInterface(mSubShapeInterface);
     mSubShapeInterface->buildMethods(mContext);
     
@@ -141,10 +141,10 @@ struct TypeComparisionExpressionTest : public Test {
     InterfaceTypeSpecifier* subShapeTypeSpecifier =
       new InterfaceTypeSpecifier(package, "ISubShape");
     shapeParentInterfaces.push_back(subShapeTypeSpecifier);
-    mShapeInterface = new Interface(shapeFullName,
-                                    shapeIinterfaceStructType,
-                                    shapeParentInterfaces,
-                                    shapeInterfaceMethods);
+    mShapeInterface = Interface::newInterface(shapeFullName,
+                                              shapeIinterfaceStructType,
+                                              shapeParentInterfaces,
+                                              shapeInterfaceMethods);
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
 
@@ -160,10 +160,10 @@ struct TypeComparisionExpressionTest : public Test {
                                      objectThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<InterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = new Interface(objectFullName,
-                                     objectInterfaceStructType,
-                                     objectParentInterfaces,
-                                     objectInterfaceMethods);
+    mObjectInterface = Interface::newInterface(objectFullName,
+                                               objectInterfaceStructType,
+                                               objectParentInterfaces,
+                                               objectInterfaceMethods);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -171,17 +171,17 @@ struct TypeComparisionExpressionTest : public Test {
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
     vector<InterfaceTypeSpecifier*> carParentInterfaces;
     vector<MethodSignatureDeclaration*> carMethods;
-    mCarInterface = new Interface(carFullName,
-                                  carInterfaceStructType,
-                                  carParentInterfaces,
-                                  carMethods);
+    mCarInterface = Interface::newInterface(carFullName,
+                                            carInterfaceStructType,
+                                            carParentInterfaces,
+                                            carMethods);
     mContext.addInterface(mCarInterface);
     mCarInterface->buildMethods(mContext);
 
     vector<Interface*> sqaureInterfaces;
     sqaureInterfaces.push_back(mShapeInterface);
     sqaureInterfaces.push_back(mObjectInterface);
-    mSquareModel = new Model(squareFullName, squareStructType);
+    mSquareModel = Model::newModel(squareFullName, squareStructType);
     mSquareModel->setFields(squareFields);
     mSquareModel->setMethods(squareMethods);
     mSquareModel->setInterfaces(sqaureInterfaces);
@@ -190,7 +190,7 @@ struct TypeComparisionExpressionTest : public Test {
     StructType* circleStructType = StructType::create(mLLVMContext, "MCircle");
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
-    mCircleModel = new Model(circleFullName, circleStructType);
+    mCircleModel = Model::newModel(circleFullName, circleStructType);
   }
   
   ~TypeComparisionExpressionTest() {

@@ -44,10 +44,10 @@ struct InterfaceOwnerTest : public Test {
     objectStructType->setBody(objectTypes);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mObjectInterface = new Interface(objectFullName,
-                                     objectStructType,
-                                     parentInterfaces,
-                                     interfaceMethods);
+    mObjectInterface = Interface::newInterface(objectFullName,
+                                               objectStructType,
+                                               parentInterfaces,
+                                               interfaceMethods);
     
     vector<Type*> shapeTypes;
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -59,10 +59,10 @@ struct InterfaceOwnerTest : public Test {
     InterfaceTypeSpecifier* objectInterfaceSpecifier = new InterfaceTypeSpecifier(package,
                                                                                   "IObject");
     shapeParentInterfaces.push_back(objectInterfaceSpecifier);
-    mShapeInterface = new Interface(shapeFullName,
-                                    mShapeStructType,
-                                    shapeParentInterfaces,
-                                    shapeMethodSignatures);
+    mShapeInterface = Interface::newInterface(shapeFullName,
+                                              mShapeStructType,
+                                              shapeParentInterfaces,
+                                              shapeMethodSignatures);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

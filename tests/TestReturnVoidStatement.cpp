@@ -55,7 +55,7 @@ struct ReturnVoidStatementTest : public Test {
     ExpressionList fieldArguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments));
-    mModel = new Model(modelFullName, structType);
+    mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);

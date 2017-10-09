@@ -55,16 +55,16 @@ struct OwnerFieldVariableTest : Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mInterface = new Interface(interfaceFullName,
-                               interfaceStructType,
-                               parentInterfaces,
-                               interfaceMethods);
+    mInterface = Interface::newInterface(interfaceFullName,
+                                         interfaceStructType,
+                                         parentInterfaces,
+                                         interfaceMethods);
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);
 
     string modelFullName = "systems.vos.wisey.compiler.tests.NNode";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
-    mNode = new Node(modelFullName, modelStructType);
+    mNode = Node::newNode(modelFullName, modelStructType);
     mNode->setInterfaces(interfaces);
     
     vector<Type*> types;
@@ -77,7 +77,7 @@ struct OwnerFieldVariableTest : Test {
     ExpressionList fieldArguments;
     fields.push_back(new Field(STATE_FIELD, mNode->getOwner(), "foo", 0, fieldArguments));
     fields.push_back(new Field(STATE_FIELD, mInterface->getOwner(), "bar", 1, fieldArguments));
-    mObject = new Node(objectFullName, objectStructType);
+    mObject = Node::newNode(objectFullName, objectStructType);
     mObject->setFields(fields);
     
     FunctionType* functionType =

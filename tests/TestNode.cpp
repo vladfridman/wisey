@@ -83,10 +83,10 @@ struct NodeTest : public Test {
                                      elementThrownExceptions);
     elementInterfaceMethods.push_back(getElementSignature);
     vector<InterfaceTypeSpecifier*> elementParentInterfaces;
-    mElementInterface = new Interface(elementInterfaceFullName,
-                                      elementInterfaceStructType,
-                                      elementParentInterfaces,
-                                      elementInterfaceMethods);
+    mElementInterface = Interface::newInterface(elementInterfaceFullName,
+                                                elementInterfaceStructType,
+                                                elementParentInterfaces,
+                                                elementInterfaceMethods);
     mContext.addInterface(mElementInterface);
     mElementInterface->buildMethods(mContext);
     
@@ -100,10 +100,10 @@ struct NodeTest : public Test {
     InterfaceTypeSpecifier* elementInterfaceSpecifier =
       new InterfaceTypeSpecifier(package, "IElement");
     complicatedElementParentInterfaces.push_back(elementInterfaceSpecifier);
-    mComplicatedElementInterface = new Interface(complicatedElementFullName,
-                                                 complicatedElementIinterfaceStructType,
-                                                 complicatedElementParentInterfaces,
-                                                 complicatedElementInterfaceMethods);
+    mComplicatedElementInterface = Interface::newInterface(complicatedElementFullName,
+                                                           complicatedElementIinterfaceStructType,
+                                                           complicatedElementParentInterfaces,
+                                                           complicatedElementInterfaceMethods);
     mContext.addInterface(mComplicatedElementInterface);
     mComplicatedElementInterface->buildMethods(mContext);
 
@@ -119,10 +119,10 @@ struct NodeTest : public Test {
                                      objectThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<InterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = new Interface(objectFullName,
-                                     objectInterfaceStructType,
-                                     objectParentInterfaces,
-                                     objectInterfaceMethods);
+    mObjectInterface = Interface::newInterface(objectFullName,
+                                               objectInterfaceStructType,
+                                               objectParentInterfaces,
+                                               objectInterfaceMethods);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -160,7 +160,7 @@ struct NodeTest : public Test {
     interfaces.push_back(mComplicatedElementInterface);
     interfaces.push_back(mObjectInterface);
     
-    mComplicatedNode = new Node(complicatedNodeFullName, mStructType);
+    mComplicatedNode = Node::newNode(complicatedNodeFullName, mStructType);
     mComplicatedNode->setFields(fields);
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
@@ -185,7 +185,7 @@ struct NodeTest : public Test {
                                          arguments));
     mAreaField = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "mArea", 2, arguments);
     simpleNodeFields.push_back(mAreaField);
-    mSimpleNode = new Node(simpleNodeFullName, simpleNodeStructType);
+    mSimpleNode = Node::newNode(simpleNodeFullName, simpleNodeStructType);
     mSimpleNode->setFields(simpleNodeFields);
     mContext.addNode(mSimpleNode);
     
@@ -206,7 +206,7 @@ struct NodeTest : public Test {
                                           "mRight",
                                           1,
                                           arguments));
-    mSimplerNode = new Node(simplerNodeFullName, simplerNodeStructType);
+    mSimplerNode = Node::newNode(simplerNodeFullName, simplerNodeStructType);
     mSimplerNode->setFields(simplerNodeFields);
     mContext.addNode(mSimplerNode);
     
@@ -214,10 +214,10 @@ struct NodeTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<InterfaceTypeSpecifier*> vehicleParentInterfaces;
     vector<MethodSignatureDeclaration*> vehicleMethods;
-    mVehicleInterface = new Interface(vehicleFullName,
-                                      vehicleInterfaceStructType,
-                                      vehicleParentInterfaces,
-                                      vehicleMethods);
+    mVehicleInterface = Interface::newInterface(vehicleFullName,
+                                                vehicleInterfaceStructType,
+                                                vehicleParentInterfaces,
+                                                vehicleMethods);
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);
 

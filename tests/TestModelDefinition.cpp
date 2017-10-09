@@ -178,10 +178,10 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                    methodThrownExceptions);
   interfaceMethodSignatures.push_back(methodSignature);
   vector<InterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = new Interface(interfaceFullName,
-                                       structType,
-                                       parentInterfaces,
-                                       interfaceMethodSignatures);
+  Interface* interface = Interface::newInterface(interfaceFullName,
+                                                 structType,
+                                                 parentInterfaces,
+                                                 interfaceMethodSignatures);
   mContext.addInterface(interface);
   interface->buildMethods(mContext);
   Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());

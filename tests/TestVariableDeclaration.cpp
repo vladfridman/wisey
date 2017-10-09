@@ -121,7 +121,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   ExpressionList arguments;
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldA", 0, arguments));
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldB", 0, arguments));
-  Model* model = new Model(modelFullName, structType);
+  Model* model = Model::newModel(modelFullName, structType);
   model->setFields(fields);
 
   mContext.addModel(model);
@@ -153,7 +153,7 @@ TEST_F(VariableDeclarationTest, controllerVariableDeclarationWithoutAssignmentDe
   types.push_back(Type::getInt32Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
-  Controller* controller = new Controller(controllerFullName, structType);
+  Controller* controller = Controller::newController(controllerFullName, structType);
   
   mContext.addController(controller);
   VariableDeclaration declaration(typeSpecifier, mIdentifier);

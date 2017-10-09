@@ -65,7 +65,7 @@ public:
     ExpressionList fieldArguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments));
-    mModel = new Model(modelFullName, structType);
+    mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
     
     mStringStream = new raw_string_ostream(mStringBuffer);

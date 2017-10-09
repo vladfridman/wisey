@@ -87,7 +87,7 @@ public:
     methods.push_back(fooMethod);
     vector<const Model*> barThrownExceptions;
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
-    Model* exceptionModel = new Model("MException", exceptionModelStructType);
+    Model* exceptionModel = Model::newModel("MException", exceptionModelStructType);
     barThrownExceptions.push_back(exceptionModel);
     IMethod* barMethod = new Method("bar",
                                     AccessLevel::PUBLIC_ACCESS,
@@ -96,7 +96,7 @@ public:
                                     barThrownExceptions,
                                     NULL);
     methods.push_back(barMethod);
-    mModel = new Model(modelFullName, mStructType);
+    mModel = Model::newModel(modelFullName, mStructType);
     mModel->setFields(fields);
     mModel->setMethods(methods);
 
@@ -157,10 +157,10 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<InterfaceTypeSpecifier*> parentInterfaces;
   vector<MethodSignatureDeclaration*> interfaceMethods;
-  Interface* interface = new Interface(interfaceFullName,
-                                       structType,
-                                       parentInterfaces,
-                                       interfaceMethods);
+  Interface* interface = Interface::newInterface(interfaceFullName,
+                                                 structType,
+                                                 parentInterfaces,
+                                                 interfaceMethods);
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(mModel, interface, "foo");
   

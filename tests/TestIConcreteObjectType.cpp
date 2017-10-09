@@ -54,10 +54,22 @@ struct IConcreteObjectTypeTest : public Test {
     vector<Interface*> interfaces;
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> methodSignatures;
-    Interface* interface1 = new Interface("Interface1", NULL, parentInterfaces, methodSignatures);
-    Interface* interface2 = new Interface("Interface2", NULL, parentInterfaces, methodSignatures);
-    mInterface3 = new Interface("Interface3", NULL, parentInterfaces, methodSignatures);
-    Interface* interface4 = new Interface("Interface4", NULL, parentInterfaces, methodSignatures);
+    Interface* interface1 = Interface::newInterface("Interface1",
+                                                    NULL,
+                                                    parentInterfaces,
+                                                    methodSignatures);
+    Interface* interface2 = Interface::newInterface("Interface2",
+                                                    NULL,
+                                                    parentInterfaces,
+                                                    methodSignatures);
+    mInterface3 = Interface::newInterface("Interface3",
+                                          NULL,
+                                          parentInterfaces,
+                                          methodSignatures);
+    Interface* interface4 = Interface::newInterface("Interface4",
+                                                    NULL,
+                                                    parentInterfaces,
+                                                    methodSignatures);
     interfaces.push_back(interface1);
     interfaces.push_back(interface2);
     interfaces.push_back(mInterface3);
@@ -83,7 +95,7 @@ struct IConcreteObjectTypeTest : public Test {
                                    "mWeight",
                                    1,
                                    fieldArguments));
-    mStarModel = new Model(starFullName, starStructType);
+    mStarModel = Model::newModel(starFullName, starStructType);
     mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);
     
@@ -98,7 +110,7 @@ struct IConcreteObjectTypeTest : public Test {
                                      "mStar",
                                      0,
                                      fieldArguments));
-    mGalaxyModel = new Model(galaxyFullName, galaxyStructType);
+    mGalaxyModel = Model::newModel(galaxyFullName, galaxyStructType);
     mGalaxyModel->setFields(galaxyFields);
     mContext.addModel(mGalaxyModel);
 
@@ -109,10 +121,10 @@ struct IConcreteObjectTypeTest : public Test {
     StructType* canNavigateStructType = StructType::create(mLLVMContext, canNavigateFullName);
     vector<InterfaceTypeSpecifier*> canNavigateParentInterfaces;
     vector<MethodSignatureDeclaration*> canNavigateMethods;
-    mCanNavigate = new Interface(canNavigateFullName,
-                                 canNavigateStructType,
-                                 canNavigateParentInterfaces,
-                                 canNavigateMethods);
+    mCanNavigate = Interface::newInterface(canNavigateFullName,
+                                           canNavigateStructType,
+                                           canNavigateParentInterfaces,
+                                           canNavigateMethods);
 
     vector<Type*> carTypes;
     carTypes.push_back(mCanNavigate->getLLVMType(mLLVMContext)->getPointerElementType());
@@ -125,7 +137,7 @@ struct IConcreteObjectTypeTest : public Test {
                                   "mNavigator",
                                   0,
                                   fieldArguments));
-    mCarModel = new Model(carFullName, carStructType);
+    mCarModel = Model::newModel(carFullName, carStructType);
     mCarModel->setFields(carFields);
     mContext.addModel(mCarModel);
 

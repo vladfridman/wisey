@@ -31,10 +31,10 @@ InterfaceDefinition::~InterfaceDefinition() {
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   string fullName = mInterfaceTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
-  Interface* interface = new Interface(fullName,
-                                       structType,
-                                       mParentInterfaceSpecifiers,
-                                       mMethodSignatureDeclarations);
+  Interface* interface = Interface::newInterface(fullName,
+                                                 structType,
+                                                 mParentInterfaceSpecifiers,
+                                                 mMethodSignatureDeclarations);
   context.addInterface(interface);
   
   interface->defineInterfaceTypeName(context);

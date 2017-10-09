@@ -33,7 +33,7 @@ void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) cons
   string fullName = mNodeTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Node* node = new Node(fullName, structType);
+  Node* node = Node::newNode(fullName, structType);
   context.addNode(node);
 }
 

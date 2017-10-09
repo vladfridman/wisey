@@ -48,7 +48,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
                                     thrownExceptions,
                                     NULL);
     methods.push_back(fooMethod);
-    mModel = new Model(modelFullName, structType);
+    mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
     mModel->setMethods(methods);
     mContext.addModel(mModel);

@@ -60,7 +60,7 @@ public:
                                     thrownExceptions,
                                     NULL);
     methods.push_back(fooMethod);
-    mModel = new Model(modelFullName, structType);
+    mModel = Model::newModel(modelFullName, structType);
     mModel->setMethods(methods);
     mModel->setFields(fields);
     mContext.addModel(mModel);

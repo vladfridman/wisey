@@ -62,7 +62,7 @@ struct InterfaceInjectorTest : Test {
     Field* fieldRight = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "right", 1, arguments);
     controllerFields.push_back(fieldLeft);
     controllerFields.push_back(fieldRight);
-    mController = new Controller(controllerFullName, controllerStructType);
+    mController = Controller::newController(controllerFullName, controllerStructType);
     mController->setFields(controllerFields);
     mContext.addController(mController);
 
@@ -70,10 +70,10 @@ struct InterfaceInjectorTest : Test {
     StructType* interfaceStructType = StructType::create(llvmContext, interfaceFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mInterface = new Interface(interfaceFullName,
-                               interfaceStructType,
-                               parentInterfaces,
-                               interfaceMethods);
+    mInterface = Interface::newInterface(interfaceFullName,
+                                         interfaceStructType,
+                                         parentInterfaces,
+                                         interfaceMethods);
     mContext.addInterface(mInterface);
     mContext.bindInterfaceToController(mInterface, mController);
    

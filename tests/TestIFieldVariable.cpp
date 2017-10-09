@@ -53,7 +53,7 @@ struct IFieldVariableTest : Test {
     mStateField = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments);
     nodeFields.push_back(mFixedField);
     nodeFields.push_back(mStateField);
-    mNode = new Node(nodeFullName, nodeStructType);
+    mNode = Node::newNode(nodeFullName, nodeStructType);
     mNode->setFields(nodeFields);
     
     FunctionType* functionType =

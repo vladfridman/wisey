@@ -41,7 +41,7 @@ TEST_F(IObjectTypeSpecifierTest, getFullNameNameAndPackageTest) {
   EXPECT_STREQ("lang.wisey.MObject",
                IObjectTypeSpecifier::getFullName(mContext, "MObject", package).c_str());
   
-  Model* model = new Model("other.wisey.MObject", NULL);
+  Model* model = Model::newModel("other.wisey.MObject", NULL);
   mContext.addImport(model);
   EXPECT_STREQ("other.wisey.MObject",
                IObjectTypeSpecifier::getFullName(mContext, "MObject", package).c_str());

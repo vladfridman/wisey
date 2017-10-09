@@ -43,13 +43,17 @@ class Interface : public IObjectType {
   
 public:
   
-  Interface(std::string name,
-            llvm::StructType* structType,
-            std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-            std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations);
-  
   ~Interface();
-  
+
+  /**
+   * static method for interface instantiation
+   */
+  static Interface* newInterface(std::string name,
+                                 llvm::StructType* structType,
+                                 std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+                                 std::vector<MethodSignatureDeclaration *>
+                                 methodSignatureDeclarations);
+
   /**
    * Build methods for this interface
    */
@@ -125,6 +129,11 @@ public:
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 private:
+  
+  Interface(std::string name,
+            llvm::StructType* structType,
+            std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+            std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations);
   
   void includeInterfaceMethods(Interface* parentInterface);
   

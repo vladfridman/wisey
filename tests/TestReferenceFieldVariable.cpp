@@ -51,16 +51,16 @@ struct ReferenceFieldVariableTest : Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mInterface = new Interface(interfaceFullName,
-                               interfaceStructType,
-                               parentInterfaces,
-                               interfaceMethods);
+    mInterface = Interface::newInterface(interfaceFullName,
+                                         interfaceStructType,
+                                         parentInterfaces,
+                                         interfaceMethods);
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, nodeFullName);
-    mNode = new Node(nodeFullName, nodeStructType);
+    mNode = Node::newNode(nodeFullName, nodeStructType);
     mNode->setInterfaces(interfaces);
   
     vector<Type*> types;
@@ -73,7 +73,7 @@ struct ReferenceFieldVariableTest : Test {
     ExpressionList fieldArguments;
     fields.push_back(new Field(STATE_FIELD, mNode, "foo", 0, fieldArguments));
     fields.push_back(new Field(STATE_FIELD, mInterface, "bar", 1, fieldArguments));
-    mObject = new Node(objectFullName, objectStructType);
+    mObject = Node::newNode(objectFullName, objectStructType);
     mObject->setFields(fields);
     
     FunctionType* functionType =

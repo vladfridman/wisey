@@ -19,9 +19,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Node::Node(string name, StructType* structType) {
-  mName = name;
-  mStructType = structType;
+Node::Node(string name, StructType* structType) : mName(name), mStructType(structType) {
   mNodeOwner = new NodeOwner(this);
 }
 
@@ -42,6 +40,10 @@ Node::~Node() {
   mNameToMethodMap.clear();
   mInterfaces.clear();
   mFlattenedInterfaceHierarchy.clear();
+}
+
+Node* Node::newNode(string name, StructType* structType) {
+  return new Node(name, structType);
 }
 
 void Node::setFields(vector<Field*> fields) {

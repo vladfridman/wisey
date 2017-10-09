@@ -21,9 +21,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Model::Model(string name, StructType* structType) {
-  mName = name;
-  mStructType = structType;
+Model::Model(string name, StructType* structType) : mName(name), mStructType(structType) {
   mModelOwner = new ModelOwner(this);
 }
 
@@ -42,6 +40,10 @@ Model::~Model() {
   mNameToMethodMap.clear();
   mInterfaces.clear();
   mFlattenedInterfaceHierarchy.clear();
+}
+
+Model* Model::newModel(string name, StructType* structType) {
+  return new Model(name, structType);
 }
 
 void Model::setFields(vector<Field*> fields) {

@@ -53,7 +53,7 @@ struct PrimitiveFieldVariableTest : Test {
     vector<Field*> fields;
     ExpressionList arguments;
     fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "foo", 0, arguments));
-    mObject = new Node(objectFullName, objectStructType);
+    mObject = Node::newNode(objectFullName, objectStructType);
     mObject->setFields(fields);
     
     FunctionType* functionType =

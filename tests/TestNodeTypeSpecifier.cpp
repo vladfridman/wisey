@@ -33,7 +33,7 @@ struct NodeTypeSpecifierTest : public ::testing::Test {
     string nodeFullName = "systems.vos.wisey.compiler.tests.NElement";
     StructType* structType = StructType::create(llvmContext, nodeFullName);
     structType->setBody(types);
-    mNode = new Node(nodeFullName, structType);
+    mNode = Node::newNode(nodeFullName, structType);
     mContext.addNode(mNode);
     
     mPackage.push_back("systems");

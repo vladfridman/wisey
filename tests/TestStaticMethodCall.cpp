@@ -90,7 +90,7 @@ public:
     MethodArgument* barMethodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> barMethodArguments;
     barMethodArguments.push_back(barMethodArgument);
-    Model* exceptionModel = new Model("MException", exceptionModelStructType);
+    Model* exceptionModel = Model::newModel("MException", exceptionModelStructType);
     barThrownExceptions.push_back(exceptionModel);
     IMethod* barMethod = new StaticMethod("bar",
                                           AccessLevel::PUBLIC_ACCESS,
@@ -99,7 +99,7 @@ public:
                                           barThrownExceptions,
                                           NULL);
     methods.push_back(barMethod);
-    mModel = new Model(modelFullName, mStructType);
+    mModel = Model::newModel(modelFullName, mStructType);
     mModel->setFields(fields);
     mModel->setMethods(methods);
     mContext.addModel(mModel);

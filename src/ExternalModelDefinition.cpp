@@ -33,7 +33,7 @@ void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) con
   string fullName = mModelTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = new Model(fullName, structType);
+  Model* model = Model::newModel(fullName, structType);
   context.addModel(model);
 }
 

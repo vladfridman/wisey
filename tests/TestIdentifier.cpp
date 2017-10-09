@@ -39,10 +39,10 @@ struct IdentifierTest : public Test {
   IdentifierTest() {
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mInterface = new Interface("systems.vos.wisey.compiler.tests.IInterface",
-                               NULL,
-                               parentInterfaces,
-                               interfaceMethods);
+    mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
+                                         NULL,
+                                         parentInterfaces,
+                                         interfaceMethods);
 
     mContext.getScopes().pushScope();
   }

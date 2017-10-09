@@ -47,6 +47,14 @@ Interface::~Interface() {
   mNameToMethodSignatureMap.clear();
 }
 
+Interface* Interface::newInterface(string name,
+                                   StructType *structType,
+                                   vector<InterfaceTypeSpecifier *> parentInterfaceSpecifiers,
+                                   vector<MethodSignatureDeclaration *>
+                                   methodSignatureDeclarations) {
+  return new Interface(name, structType, parentInterfaceSpecifiers, methodSignatureDeclarations);
+}
+
 void Interface::buildMethods(IRGenerationContext& context) {
   if (mIsComplete) {
     return;

@@ -76,10 +76,10 @@ struct ControllerTest : public Test {
                                      calculatorThrownExceptions);
     calculatorInterfaceMethods.push_back(calculateSignature);
     vector<InterfaceTypeSpecifier*> calculatorParentInterfaces;
-    mCalculatorInterface = new Interface(calculatorFullName,
-                                         calculatorIinterfaceStructType,
-                                         calculatorParentInterfaces,
-                                         calculatorInterfaceMethods);
+    mCalculatorInterface = Interface::newInterface(calculatorFullName,
+                                                   calculatorIinterfaceStructType,
+                                                   calculatorParentInterfaces,
+                                                   calculatorInterfaceMethods);
     mContext.addInterface(mCalculatorInterface);
     mCalculatorInterface->buildMethods(mContext);
     
@@ -93,10 +93,10 @@ struct ControllerTest : public Test {
     InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier(package,
                                                                              "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorSpecifier);
-    mScienceCalculatorInterface = new Interface(scienceCalculatorFullName,
-                                                scienceCalculatorIinterfaceStructType,
-                                                scienceCalculatorParentInterfaces,
-                                                scienceCalculatorInterfaceMethods);
+    mScienceCalculatorInterface = Interface::newInterface(scienceCalculatorFullName,
+                                                          scienceCalculatorIinterfaceStructType,
+                                                          scienceCalculatorParentInterfaces,
+                                                          scienceCalculatorInterfaceMethods);
     mContext.addInterface(mScienceCalculatorInterface);
     mScienceCalculatorInterface->buildMethods(mContext);
 
@@ -112,10 +112,10 @@ struct ControllerTest : public Test {
                                      objectThrownExceptions);
     objectInterfaceMethods.push_back(methodBarSignature);
     vector<InterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = new Interface(objectFullName,
-                                     objectInterfaceStructType,
-                                     objectParentInterfaces,
-                                     objectInterfaceMethods);
+    mObjectInterface = Interface::newInterface(objectFullName,
+                                               objectInterfaceStructType,
+                                               objectParentInterfaces,
+                                               objectInterfaceMethods);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -153,7 +153,7 @@ struct ControllerTest : public Test {
     interfaces.push_back(mScienceCalculatorInterface);
     interfaces.push_back(mObjectInterface);
     
-    mMultiplierController = new Controller(multiplierFullName, mStructType);
+    mMultiplierController = Controller::newController(multiplierFullName, mStructType);
     mMultiplierController->setFields(fields);
     mMultiplierController->setMethods(methods);
     mMultiplierController->setInterfaces(interfaces);
@@ -175,7 +175,7 @@ struct ControllerTest : public Test {
                                       "right",
                                       1,
                                       fieldArguments));
-    mAdditorController = new Controller(additorFullName, additorStructType);
+    mAdditorController = Controller::newController(additorFullName, additorStructType);
     mAdditorController->setFields(additorFields);
     mContext.addController(mMultiplierController);
 
@@ -191,7 +191,7 @@ struct ControllerTest : public Test {
                                       "left",
                                       0,
                                       fieldArguments));
-    mDoublerController = new Controller(doublerFullName, doublerStructType);
+    mDoublerController = Controller::newController(doublerFullName, doublerStructType);
     mDoublerController->setFields(doublerFields);
     mContext.addController(mDoublerController);
 
@@ -199,10 +199,10 @@ struct ControllerTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<InterfaceTypeSpecifier*> vehicleParentInterfaces;
     vector<MethodSignatureDeclaration*> vehicleMethodSignatures;
-    mVehicleInterface = new Interface(vehicleFullName,
-                                      vehicleInterfaceStructType,
-                                      vehicleParentInterfaces,
-                                      vehicleMethodSignatures);
+    mVehicleInterface = Interface::newInterface(vehicleFullName,
+                                                vehicleInterfaceStructType,
+                                                vehicleParentInterfaces,
+                                                vehicleMethodSignatures);
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);
 
@@ -451,7 +451,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
   childStructType->setBody(childTypes);
   vector<Field*> childFields;
-  Controller* childController = new Controller(childFullName, childStructType);
+  Controller* childController = Controller::newController(childFullName, childStructType);
   childController->setFields(childFields);
   mContext.addController(childController);
 
@@ -466,7 +466,7 @@ TEST_F(ControllerTest, injectFieldTest) {
                                    "mChild",
                                    0,
                                    fieldArguments));
-  Controller* parentController = new Controller(parentFullName, parentStructType);
+  Controller* parentController = Controller::newController(parentFullName, parentStructType);
   parentController->setFields(parentFields);
   mContext.addController(parentController);
 

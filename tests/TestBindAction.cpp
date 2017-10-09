@@ -34,17 +34,17 @@ struct BindActionTest : public Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<MethodSignatureDeclaration*> methodDeclarations;
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    mInterface = new Interface(interfaceFullName,
-                               interfaceStructType,
-                               parentInterfaces,
-                               methodDeclarations);
+    mInterface = Interface::newInterface(interfaceFullName,
+                                         interfaceStructType,
+                                         parentInterfaces,
+                                         methodDeclarations);
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
     vector<Field*> controllerFields;
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    mController = new Controller(controllerFullName, controllerStructType);
+    mController = Controller::newController(controllerFullName, controllerStructType);
     mController->setFields(controllerFields);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);

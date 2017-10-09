@@ -39,9 +39,12 @@ class Controller : public IConcreteObjectType {
   
 public:
   
-  Controller(std::string name, llvm::StructType* structType);
-  
   ~Controller();
+  
+  /**
+   * static method for controller instantiation
+   */
+  static Controller* newController(std::string name, llvm::StructType* structType);
   
   /**
    * Inject an instance of this controller into LLVM code
@@ -97,6 +100,8 @@ public:
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 private:
+
+  Controller(std::string name, llvm::StructType* structType);
 
   void checkArguments(ExpressionList received) const;
   

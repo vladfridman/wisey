@@ -37,17 +37,17 @@ struct InstanceOfTest : public Test {
     StructType* shapeStructType = StructType::create(mLLVMContext, shapeFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<MethodSignatureDeclaration*> interfaceMethods;
-    mShapeInterface = new Interface(shapeFullName,
-                                    shapeStructType,
-                                    parentInterfaces,
-                                    interfaceMethods);
+    mShapeInterface = Interface::newInterface(shapeFullName,
+                                              shapeStructType,
+                                              parentInterfaces,
+                                              interfaceMethods);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
-    mObjectInterface = new Interface(objectFullName,
-                                     objectStructType,
-                                     parentInterfaces,
-                                     interfaceMethods);
+    mObjectInterface = Interface::newInterface(objectFullName,
+                                               objectStructType,
+                                               parentInterfaces,
+                                               interfaceMethods);
 
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                             mShapeInterface->getName());
