@@ -309,6 +309,8 @@
 		F53B8EBB1ECE101A00F45564 /* ImportStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */; };
 		F53B8EBC1ECE101A00F45564 /* ImportStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */; };
 		F53CDAD01F8BA91700D27687 /* TestThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53CDACF1F8BA91700D27687 /* TestThread.cpp */; };
+		F53CDAD31F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53CDAD21F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp */; };
+		F53CDAD41F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53CDAD21F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp */; };
 		F54625BF1DE5EA1900074D66 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */; };
 		F54625C11DE5EA2800074D66 /* libLLVMX86AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625C01DE5EA2800074D66 /* libLLVMX86AsmParser.a */; };
 		F54625C31DE5EA2D00074D66 /* libLLVMX86CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625C21DE5EA2D00074D66 /* libLLVMX86CodeGen.a */; };
@@ -1029,6 +1031,8 @@
 		F53B8EB91ECE0E5800F45564 /* ImportStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ImportStatement.hpp; path = include/wisey/ImportStatement.hpp; sourceTree = "<group>"; };
 		F53B8EBA1ECE101A00F45564 /* ImportStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImportStatement.cpp; path = src/ImportStatement.cpp; sourceTree = "<group>"; };
 		F53CDACF1F8BA91700D27687 /* TestThread.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThread.cpp; path = tests/TestThread.cpp; sourceTree = "<group>"; };
+		F53CDAD11F8BC44B00D27687 /* ExternalInterfaceDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalInterfaceDefinition.hpp; path = include/wisey/ExternalInterfaceDefinition.hpp; sourceTree = "<group>"; };
+		F53CDAD21F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalInterfaceDefinition.cpp; path = src/ExternalInterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F5404F231E109CBD00A31543 /* test_break_out_of_for_loop.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_break_out_of_for_loop.yz; path = tests/samples/test_break_out_of_for_loop.yz; sourceTree = "<group>"; };
 		F5404F241E109CBD00A31543 /* test_conditional_with_false.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_conditional_with_false.yz; path = tests/samples/test_conditional_with_false.yz; sourceTree = "<group>"; };
 		F5404F251E109CBD00A31543 /* test_conditional_with_true.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_conditional_with_true.yz; path = tests/samples/test_conditional_with_true.yz; sourceTree = "<group>"; };
@@ -2101,6 +2105,7 @@
 				F53A2C021EEC30F700E76A9E /* ControllerOwner.hpp */,
 				F5089C601ECD01D9004A1223 /* ControllerTypeSpecifier.hpp */,
 				F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */,
+				F53CDAD11F8BC44B00D27687 /* ExternalInterfaceDefinition.hpp */,
 				F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */,
 				F58A83541F798AFC00369388 /* ExternalNodeDefinition.hpp */,
 				F509E75D1F7D128500F96C14 /* Field.hpp */,
@@ -2134,6 +2139,7 @@
 				F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */,
 				F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */,
 				F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */,
+				F53CDAD21F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp */,
 				F58A83511F798A6C00369388 /* ExternalModelDefinition.cpp */,
 				F58A83551F798B6300369388 /* ExternalNodeDefinition.cpp */,
 				F509E75E1F7D131C00F96C14 /* Field.cpp */,
@@ -2634,6 +2640,7 @@
 				F53B8EBC1ECE101A00F45564 /* ImportStatement.cpp in Sources */,
 				F58D07F21F697027001A7544 /* TestStaticMethodCall.cpp in Sources */,
 				F5A363501F374DCB005880B3 /* TestOwnerFieldVariable.cpp in Sources */,
+				F53CDAD41F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */,
 				F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F5C7D1601F7CFCD700D65584 /* ExternalMethod.cpp in Sources */,
@@ -2789,6 +2796,7 @@
 				F51797111E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F5FA52931F7437A8001BBE67 /* wiseyrun.cpp in Sources */,
 				F592A7B91F7D62D10026BD2F /* IConcreteObjectDefinition.cpp in Sources */,
+				F53CDAD31F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */,
 				F50FA3051E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F5C6FD651E48AB3B0054209D /* CharType.cpp in Sources */,
 				F50FA2AA1E269E5700435EEA /* SwitchStatement.cpp in Sources */,

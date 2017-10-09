@@ -42,10 +42,6 @@ public:
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
-private:
-  
-  void defineInterfaceTypeName(IRGenerationContext& context, Interface* interface) const;
-
 };
   
 } /* namespace wisey */

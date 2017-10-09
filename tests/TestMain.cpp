@@ -97,7 +97,7 @@ TEST_F(MainTest, extractHeadersTest) {
   
   EXPECT_STREQ("/* Interfaces */\n"
                "\n"
-               "interface wisey.lang.IProgram {\n"
+               "external interface wisey.lang.IProgram {\n"
                "  int run();\n"
                "}\n"
                "\n"

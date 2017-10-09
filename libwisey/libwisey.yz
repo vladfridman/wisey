@@ -1,6 +1,6 @@
 /* Interfaces */
 
-interface wisey.lang.IProgram {
+external interface wisey.lang.IProgram {
   int run();
 }
 

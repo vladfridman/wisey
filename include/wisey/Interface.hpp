@@ -89,12 +89,17 @@ public:
    * Tells whether building of this interface completed
    */
   bool isComplete() const;
+ 
+  /**
+   * Defines global variable with the interface name
+   */
+  void defineInterfaceTypeName(IRGenerationContext& context);
 
   /**
    * Given a value of type interface get the pointer back to the original object that implements it
    */
   static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
-  
+
   MethodSignature* findMethod(std::string methodName) const override;
 
   std::string getObjectNameGlobalVariableName() const override;

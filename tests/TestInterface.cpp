@@ -211,7 +211,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
   stringstream stringStream;
   mShapeInterface->printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("interface systems.vos.wisey.compiler.tests.IShape\n"
+  EXPECT_STREQ("external interface systems.vos.wisey.compiler.tests.IShape\n"
                "  extends\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
                "  int foo();\n"

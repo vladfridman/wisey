@@ -23,10 +23,11 @@
   #include "wisey/EmptyStatement.hpp"
   #include "wisey/ExpressionStatement.hpp"
   #include "wisey/ExternalControllerDefinition.hpp"
+  #include "wisey/ExternalInterfaceDefinition.hpp"
   #include "wisey/ExternalMethodDeclaration.hpp"
-  #include "wisey/ExternalStaticMethodDeclaration.hpp"
   #include "wisey/ExternalModelDefinition.hpp"
   #include "wisey/ExternalNodeDefinition.hpp"
+  #include "wisey/ExternalStaticMethodDeclaration.hpp"
   #include "wisey/FieldDeclaration.hpp"
   #include "wisey/FieldKind.hpp"
   #include "wisey/FloatConstant.hpp"
@@ -177,6 +178,7 @@
 %type <global_statement> node_definition bind_action import_statement global_statement
 %type <global_statement> object_definition external_object_definition external_model_definition
 %type <global_statement> external_node_definition external_controller_definition
+%type <global_statement> external_interface_definition
 %type <global_statement_list> global_statement_list
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
@@ -249,16 +251,17 @@ global_statement
   ;
 
 object_definition
-  : model_definition
+  : controller_definition
   | interface_definition
-  | controller_definition
+  | model_definition
   | node_definition
   ;
 
 external_object_definition
-  : external_model_definition
+  : external_controller_definition
+  | external_interface_definition
+  | external_model_definition
   | external_node_definition
-  | external_controller_definition
   ;
 
 import_statement
@@ -283,6 +286,18 @@ interface_definition
   | TINTERFACE interface_type_specifier TEXTENDS interface_list
       '{' method_signature_list_optional '}'
     { $$ = new InterfaceDefinition($2, *$4, *$6); delete $4; delete $6; }
+  ;
+
+external_interface_definition
+  : TEXTERNAL TINTERFACE interface_type_specifier '{' method_signature_list_optional '}'
+    {
+      std::vector<InterfaceTypeSpecifier*> interfaceList;
+      $$ = new ExternalInterfaceDefinition($3, interfaceList, *$5);
+      delete $5;
+    }
+  | TEXTERNAL TINTERFACE interface_type_specifier TEXTENDS interface_list
+      '{' method_signature_list_optional '}'
+    { $$ = new ExternalInterfaceDefinition($3, *$5, *$7); delete $5; delete $7; }
   ;
 
 method_signature_list_optional

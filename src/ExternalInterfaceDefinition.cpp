@@ -1,22 +1,23 @@
 //
-//  InterfaceDefinition.cpp
+//  ExternalInterfaceDefinition.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 2/28/17.
+//  Created by Vladimir Fridman on 10/9/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/ExternalInterfaceDefinition.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
-#include "wisey/InterfaceDefinition.hpp"
+#include "wisey/MethodSignatureDeclaration.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InterfaceDefinition::~InterfaceDefinition() {
+ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
   delete mInterfaceTypeSpecifier;
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mParentInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
@@ -28,7 +29,7 @@ InterfaceDefinition::~InterfaceDefinition() {
   mMethodSignatureDeclarations.clear();
 }
 
-void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
+void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   string fullName = mInterfaceTypeSpecifier->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Interface* interface = new Interface(fullName,
@@ -40,12 +41,12 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   interface->defineInterfaceTypeName(context);
 }
 
-void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
+void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName(context));
   interface->buildMethods(context);
 }
 
-Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
+Value* ExternalInterfaceDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 

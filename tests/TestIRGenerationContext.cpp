@@ -297,7 +297,7 @@ TEST_F(IRGenerationContextTest, printToStreamTest) {
   
   EXPECT_STREQ("/* Interfaces */\n"
                "\n"
-               "interface systems.vos.wisey.compiler.tests.IMyInterface {\n"
+               "external interface systems.vos.wisey.compiler.tests.IMyInterface {\n"
                "}\n"
                "\n"
                "/* Models */\n"

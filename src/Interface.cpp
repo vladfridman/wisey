@@ -507,7 +507,7 @@ const IObjectOwnerType* Interface::getOwner() const {
 }
 
 void Interface::printToStream(IRGenerationContext& context, iostream& stream) const {
-  stream << "interface " << getName();
+  stream << "external interface " << getName();
   if (mParentInterfaces.size()) {
     stream << endl << "  extends";
   }
@@ -522,4 +522,15 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
     methodSignature->printToStream(context, stream);
   }
   stream << "}" << endl;
+}
+
+void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Constant* stringConstant = ConstantDataArray::getString(llvmContext, getName());
+  new GlobalVariable(*context.getModule(),
+                     stringConstant->getType(),
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     stringConstant,
+                     getObjectNameGlobalVariableName());
 }
