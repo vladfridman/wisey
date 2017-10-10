@@ -120,6 +120,12 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   vector<Catch*> catchList;
   catchList.push_back(catchClause);
 
+  Controller* threadController = context.getController("wisey.lang.CThread");
+  ExpressionList injectionArguments;
+  Value* injectedController = threadController->inject(context, injectionArguments);
+  FakeExpression* controllerExpresssion = new FakeExpression(injectedController, threadController);
+  // TODO: pass controllerExpression to run method and then on to all methods
+  
   ExpressionList runMethodArguments;
   programIdentifier = new Identifier("program", "program");
   MethodCall* runMethodCall = new MethodCall(programIdentifier, "run", runMethodArguments);
