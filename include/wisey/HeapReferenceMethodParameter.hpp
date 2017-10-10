@@ -9,6 +9,10 @@
 #ifndef HeapReferenceMethodParameter_h
 #define HeapReferenceMethodParameter_h
 
+#include "wisey/IExpression.hpp"
+#include "wisey/IObjectType.hpp"
+#include "wisey/IVariable.hpp"
+
 namespace wisey {
   
 /**
@@ -19,12 +23,12 @@ namespace wisey {
 class HeapReferenceMethodParameter : public IVariable {
   
   std::string mName;
-  const IType* mType;
+  const IObjectType* mType;
   llvm::Value* mValue;
   
 public:
   
-  HeapReferenceMethodParameter(std::string name, const IType* type, llvm::Value* value)
+  HeapReferenceMethodParameter(std::string name, const IObjectType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value) { }
   
   ~HeapReferenceMethodParameter() {
@@ -32,7 +36,7 @@ public:
   
   std::string getName() const override;
   
-  const IType* getType() const override;
+  const IObjectType* getType() const override;
   
   llvm::Value* getValue() const override;
   

@@ -74,7 +74,7 @@ public:
 };
 
 TEST_F(HeapReferenceMethodParameterTest, heapReferenceMethodParameterVariableAssignmentDeathTest) {
-  HeapReferenceMethodParameter heapMethodParameter("foo", PrimitiveTypes::INT_TYPE, NULL);
+  HeapReferenceMethodParameter heapMethodParameter("foo", mModel, NULL);
   
   EXPECT_EXIT(heapMethodParameter.generateAssignmentIR(mContext, NULL),
               ::testing::ExitedWithCode(1),
@@ -83,7 +83,7 @@ TEST_F(HeapReferenceMethodParameterTest, heapReferenceMethodParameterVariableAss
 
 TEST_F(HeapReferenceMethodParameterTest, heapReferenceMethodParameterVariableIdentifierTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapReferenceMethodParameter heapMethodParameter("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  HeapReferenceMethodParameter heapMethodParameter("foo", mModel, fooValue);
   
   EXPECT_EQ(heapMethodParameter.generateIdentifierIR(mContext, "bar"), fooValue);
 }

@@ -25,7 +25,7 @@ string HeapReferenceMethodParameter::getName() const {
   return mName;
 }
 
-const IType* HeapReferenceMethodParameter::getType() const {
+const IObjectType* HeapReferenceMethodParameter::getType() const {
   return mType;
 }
 

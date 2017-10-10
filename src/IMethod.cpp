@@ -44,7 +44,9 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
     return;
   }
   
-  IVariable* variable = new HeapReferenceMethodParameter(variableName, variableType, variableValue);
+  IVariable* variable = new HeapReferenceMethodParameter(variableName,
+                                                         (IObjectType*) variableType,
+                                                         variableValue);
   context.getScopes().setVariable(variable);
 }
 
