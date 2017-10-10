@@ -106,6 +106,13 @@ void TestFileSampleRunner::runFileCheckOutput(string fileName,
   ASSERT_STREQ(expectedErr.c_str(), stdErrContents);
 }
 
+void TestFileSampleRunner::runFileCheckOutputWithDestructorDebug(string fileName,
+                                                                 string expectedOut,
+                                                                 string expectedErr) {
+  mCompilerArguments.setDestructorDebug(true);
+  runFileCheckOutput(fileName, expectedOut, expectedErr);
+}
+
 void TestFileSampleRunner::expectFailCompile(string fileName,
                                              int expectedErrorCode,
                                              string expectedErrorMessage) {

@@ -137,23 +137,11 @@ TEST_F(MainTest, emitLLVMTest) {
   EXPECT_NE(resultWithEmitLLVM.find("define i32 @main()"), string::npos);
 }
 
-TEST_F(MainTest, debugDestructorsTest) {
-  system("mkdir -p build");
-  
-  system("bin/wiseyc tests/samples/test_controller_injection_chain.yz "
-         "libwisey/libwisey.yz -o build/test.o -d 2>&1");
-  system("g++ -o build/test build/test.o -Llibwisey -lwisey");
-  system("build/test > build/test.out");
-  
-  ifstream stream;
-  stream.open("build/test.out");
-  string output((istreambuf_iterator<char>(stream)), istreambuf_iterator<char>());
-  
-  EXPECT_STREQ("destructor systems.vos.wisey.compiler.tests.CProgram\n"
-               "destructor systems.vos.wisey.compiler.tests.CTopController\n"
-               "destructor systems.vos.wisey.compiler.tests.CMiddleController\n"
-               "destructor systems.vos.wisey.compiler.tests.CBottomController\n",
-               output.c_str());
-
-  stream.close();
+TEST_F(TestFileSampleRunner, debugDestructorsRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_controller_injection_chain.yz",
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CTopController\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CMiddleController\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CBottomController\n",
+                                        "");
 }

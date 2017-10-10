@@ -43,6 +43,13 @@ public:
   void runFileCheckOutput(std::string fileName, std::string expectedOut, std::string expectedErr);
 
   /**
+   * Compiles a sample file with destructor debug option on, runs it and checks outputs.
+   */
+  void runFileCheckOutputWithDestructorDebug(std::string fileName,
+                                             std::string expectedOut,
+                                             std::string expectedErr);
+
+  /**
    * Compile and run given file and compare the result
    */
   void compileAndRunFile(std::string fileName, int expectedResult);
