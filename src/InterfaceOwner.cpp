@@ -61,15 +61,46 @@ Value* InterfaceOwner::castTo(IRGenerationContext& context,
   return mInterface->castTo(context, fromValue, toType);
 }
 
-void InterfaceOwner::free(IRGenerationContext &context, Value *value) const {
-  Value* thisPointer = Interface::getOriginalObject(context, value);
+void InterfaceOwner::free(IRGenerationContext& context, Value* value) const {
+  Function* destructor = context.getModule()->getFunction(getDestructorFunctionName());
   
+  if (destructor == NULL) {
+    destructor = composeDestructorFunction(context);
+  }
+
+  vector<Value*> arguments;
+  arguments.push_back(value);
+
+  IRWriter::createCallInst(context, destructor, arguments, "");
+}
+
+string InterfaceOwner::getDestructorFunctionName() const {
+  return "destructor." + mInterface->getName();
+}
+
+Function* InterfaceOwner::composeDestructorFunction(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
+
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(llvmContext)->getPointerTo());
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  Type* voidType = Type::getVoidTy(llvmContext);
+  FunctionType* functionType = FunctionType::get(voidType, argTypesArray, false);
+  Function* interfaceDestructorFunction = Function::Create(functionType,
+                                                           GlobalValue::ExternalLinkage,
+                                                           getDestructorFunctionName(),
+                                                           context.getModule());
+
+  Function::arg_iterator functionArguments = interfaceDestructorFunction->arg_begin();
+  Argument* thisArgument = &*functionArguments;
+  thisArgument->setName("this");
+  functionArguments++;
+  
+  BasicBlock* lastBasicBlock = context.getBasicBlock();
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", interfaceDestructorFunction);
+  context.setBasicBlock(entryBlock);
+
+  Value* thisPointer = Interface::getOriginalObject(context, thisArgument);
   
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
@@ -78,7 +109,7 @@ void InterfaceOwner::free(IRGenerationContext &context, Value *value) const {
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 2);
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
-  Function* function = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
+  Function* objectDestructor = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
   
   Type* argumentType = getLLVMType(llvmContext);
   Value* bitcast = IRWriter::newBitCastInst(context, thisPointer, argumentType);
@@ -88,5 +119,12 @@ void InterfaceOwner::free(IRGenerationContext &context, Value *value) const {
   vector<Value*> arguments;
   arguments.push_back(bitcastStore);
   
-  IRWriter::createCallInst(context, function, arguments, "");
+  IRWriter::createCallInst(context, objectDestructor, arguments, "");
+  IRWriter::createReturnInst(context, NULL);
+
+  context.setBasicBlock(lastBasicBlock);
+  
+  return interfaceDestructorFunction;
+
 }
+
