@@ -361,23 +361,8 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
     
     Value* fieldPointer = IRWriter::createGetElementPtrInst(context, thisLoaded, index);
-    Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
     
-    BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
-    BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
-    Value* nullValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(llvmContext));
-    Value* condition = IRWriter::newICmpInst(context,
-                                             ICmpInst::ICMP_EQ,
-                                             fieldPointerLoaded,
-                                             nullValue,
-                                             "");
-    IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
-
-    context.setBasicBlock(ifNotNullBlock);
     objectOwnerType->free(context, fieldPointer);
-    IRWriter::createBranch(context, ifNullBlock);
-    
-    context.setBasicBlock(ifNullBlock);
   }
   
   Composer::freeIfNotNull(context, thisLoaded);

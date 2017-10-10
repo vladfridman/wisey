@@ -86,19 +86,32 @@ Function* InterfaceOwner::composeDestructorFunction(IRGenerationContext& context
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* voidType = Type::getVoidTy(llvmContext);
   FunctionType* functionType = FunctionType::get(voidType, argTypesArray, false);
-  Function* interfaceDestructorFunction = Function::Create(functionType,
-                                                           GlobalValue::ExternalLinkage,
-                                                           getDestructorFunctionName(),
-                                                           context.getModule());
+  Function* destructor = Function::Create(functionType,
+                                          GlobalValue::ExternalLinkage,
+                                          getDestructorFunctionName(),
+                                          context.getModule());
 
-  Function::arg_iterator functionArguments = interfaceDestructorFunction->arg_begin();
+  Function::arg_iterator functionArguments = destructor->arg_begin();
   Argument* thisArgument = &*functionArguments;
   thisArgument->setName("this");
   functionArguments++;
   
   BasicBlock* lastBasicBlock = context.getBasicBlock();
-  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", interfaceDestructorFunction);
+  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", destructor);
+  BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", destructor);
+  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", destructor);
+  
   context.setBasicBlock(entryBlock);
+
+  Value* thisLoaded = IRWriter::newLoadInst(context, thisArgument, "");
+  Value* nullValue = ConstantPointerNull::get(getLLVMType(llvmContext));
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisLoaded, nullValue, "");
+  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
+
+  context.setBasicBlock(ifNullBlock);
+  IRWriter::createReturnInst(context, NULL);
+  
+  context.setBasicBlock(ifNotNullBlock);
 
   Value* thisPointer = Interface::getOriginalObject(context, thisArgument);
   
@@ -124,7 +137,7 @@ Function* InterfaceOwner::composeDestructorFunction(IRGenerationContext& context
 
   context.setBasicBlock(lastBasicBlock);
   
-  return interfaceDestructorFunction;
+  return destructor;
 
 }
 
