@@ -1,7 +1,13 @@
 package wisey.lang;
 
+/**
+ * An element of the stack structore used to store method call stack
+ *
+ * TODO: make it an inner class of CThread so it does not get exported
+ */
 node NProgramStackNode {
   string mFunctionName;
+  NProgramStackNode mPreviousNode;
   state NProgramStackNode* mNextNode;
 
   public string getFunctionName() {
@@ -15,24 +21,59 @@ node NProgramStackNode {
   public NProgramStackNode getNext() {
     return mNextNode;
   }
+
+  public NProgramStackNode getPrevious() {
+    return mPreviousNode;
+  }
 }
 
+/**
+ * Keeps track of the method call stack and can print out a strack trace
+ */
 controller CThread {
   state NProgramStackNode* mProgramStackHead;
   state NProgramStackNode mProgramStackTail;
 
+  /**
+   * Pushes a new method on the call stack
+   */
   public void pushStack(string functionName) {
-    NProgramStackNode* newNode = builder(NProgramStackNode).withFunctionName(functionName).build();
-    newNode.setNext(null);
     if (mProgramStackTail == null) {
+      NProgramStackNode* newNode = builder(NProgramStackNode)
+        .withFunctionName(functionName)
+        .withPreviousNode(null)
+        .build();
       mProgramStackHead = newNode;
       mProgramStackTail = mProgramStackHead;
     } else {
+      NProgramStackNode* newNode = builder(NProgramStackNode)
+        .withFunctionName(functionName)
+        .withPreviousNode(mProgramStackTail)
+        .build();
       mProgramStackTail.setNext(newNode);
       mProgramStackTail = mProgramStackTail.getNext();
     }
   }
 
+  /**
+   * Pops the method call stack
+   */
+  public void popStack() {
+    if (mProgramStackTail == null) {
+      return;
+    }
+
+    mProgramStackTail = mProgramStackTail.getPrevious();
+    if (mProgramStackTail == null) {
+      mProgramStackHead = null;
+    } else {
+      mProgramStackTail.setNext(null);
+    }
+  }
+
+  /**
+   * Dumps the call stack to standart output
+   */
   public void dumpStack() {
     NProgramStackNode iterator = mProgramStackHead;
     printout("Stack trace:\n");

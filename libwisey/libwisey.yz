@@ -18,6 +18,7 @@ external controller wisey.lang.CThread {
 
   void pushStack(
     string functionName);
+  void popStack();
   void dumpStack();
 }
 
@@ -27,11 +28,13 @@ external node wisey.lang.NProgramStackNode {
 
   fixed string mFunctionName;
   state wisey.lang.NProgramStackNode* mNextNode;
+  fixed wisey.lang.NProgramStackNode mPreviousNode;
 
   string getFunctionName();
   void setNext(
     wisey.lang.NProgramStackNode* next);
   wisey.lang.NProgramStackNode getNext();
+  wisey.lang.NProgramStackNode getPrevious();
 }
 
 /* Bindings */

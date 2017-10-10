@@ -17,10 +17,13 @@ TEST_F(TestFileSampleRunner, stackTraceRunTest) {
   "Stack trace:\n"
   "function1\n"
   "function2\n"
-  "function3\n"
-  "function4\n"
-  "function5\n";
-  
+  "Stack trace:\n"
+  "function1\n"
+  "Stack trace:\n"
+  "Stack trace:\n"
+  "Stack trace:\n"
+  "function3\n";
+
   runFileCheckOutput("tests/samples/test_stack_trace.yz",
                      expected.c_str(),
                      "");
