@@ -7,6 +7,7 @@
 //
 
 #include "TestPrefix.hpp"
+#include "wisey/ControllerDefinition.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -19,6 +20,7 @@ using namespace wisey;
 
 void TestPrefix::run(IRGenerationContext& context) {
   defineNPEModel(context);
+  defineThreadController(context);
 }
 
 void TestPrefix::defineNPEModel(IRGenerationContext& context) {
@@ -36,4 +38,21 @@ void TestPrefix::defineNPEModel(IRGenerationContext& context) {
                                      npeParentInterfaces);
   npeModelDefinition.prototypeObjects(context);
   npeModelDefinition.prototypeMethods(context);
+}
+
+void TestPrefix::defineThreadController(IRGenerationContext& context) {
+  vector<string> package;
+  package.push_back("wisey");
+  package.push_back("lang");
+  ControllerTypeSpecifier* controllerTypeSpecifier =
+    new ControllerTypeSpecifier(package, Names::getThreadControllerName());
+  vector<FieldDeclaration*> fieldDeclarations;
+  vector<IMethodDeclaration*> methodDeclarations;
+  vector<InterfaceTypeSpecifier*> interfaceSpecifiers;
+  ControllerDefinition threadControllerDefinition(controllerTypeSpecifier,
+                                                  fieldDeclarations,
+                                                  methodDeclarations,
+                                                  interfaceSpecifiers);
+  threadControllerDefinition.prototypeObjects(context);
+  threadControllerDefinition.prototypeMethods(context);
 }

@@ -14,6 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ExternalStaticMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -37,6 +38,7 @@ public:
   
   ExternalStaticMethodTest() :
   mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::run(mContext);
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
@@ -86,7 +88,8 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
   Function* function = staticMethod.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
-  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(i32)\n";
+  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
+  "%wisey.lang.CThread**, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }

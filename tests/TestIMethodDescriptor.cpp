@@ -13,9 +13,11 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -29,10 +31,12 @@ struct IMethodDescriptorTest : public Test {
   LLVMContext& mLLVMContext;
   Method* mMethod;
   Model* mModel;
+  Controller* mThreadController;
   
 public:
   
   IMethodDescriptorTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::run(mContext);
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
@@ -59,6 +63,8 @@ public:
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments));
     mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
+    
+    mThreadController = mContext.getController(Names::getThreadControllerFullName());
 }
 };
 
@@ -140,8 +146,9 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(&method, mContext, mModel);
   
   EXPECT_EQ(functionType->getReturnType(), Type::getFloatTy(mLLVMContext));
-  EXPECT_EQ(functionType->getNumParams(), 2u);
+  EXPECT_EQ(functionType->getNumParams(), 3u);
   EXPECT_EQ(functionType->getParamType(0), mModel->getLLVMType(mLLVMContext));
-  EXPECT_EQ(functionType->getParamType(1), Type::getInt32Ty(mLLVMContext));
+  EXPECT_EQ(functionType->getParamType(1), mThreadController->getLLVMType(mLLVMContext));
+  EXPECT_EQ(functionType->getParamType(2), Type::getInt32Ty(mLLVMContext));
 }
 

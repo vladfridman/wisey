@@ -12,6 +12,7 @@
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
+#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"
@@ -122,10 +123,21 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
 
   Controller* threadController = context.getController("wisey.lang.CThread");
   ExpressionList injectionArguments;
-  Value* injectedController = threadController->inject(context, injectionArguments);
-  FakeExpression* controllerExpresssion = new FakeExpression(injectedController, threadController);
-  // TODO: pass controllerExpression to run method and then on to all methods
+  Value* injectedThread = threadController->inject(context, injectionArguments);
+  Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
+  IRWriter::newStoreInst(context, injectedThread, threadStore);
+  Value* threadReference = IRWriter::newAllocaInst(context,
+                                                   threadController->getLLVMType(llvmContext),
+                                                   "threadReference");
+  IVariable* threadVariable = new HeapReferenceVariable("thread",
+                                                        threadController,
+                                                        threadReference);
+  context.getScopes().setVariable(threadVariable);
   
+  FakeExpression* threadExpression = new FakeExpression(threadStore,
+                                                        threadController->getOwner());
+  threadVariable->generateAssignmentIR(context, threadExpression);
+
   ExpressionList runMethodArguments;
   programIdentifier = new Identifier("program", "program");
   MethodCall* runMethodCall = new MethodCall(programIdentifier, "run", runMethodArguments);

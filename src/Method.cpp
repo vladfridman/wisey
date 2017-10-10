@@ -18,6 +18,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StackVariable.hpp"
 
@@ -106,6 +107,9 @@ void Method::createArguments(IRGenerationContext& context,
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName("this");
   llvmFunctionArguments++;
+  llvmFunctionArgument = &*llvmFunctionArguments;
+  llvmFunctionArgument->setName("thread");
+  llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;
     llvmFunctionArgument->setName(methodArgument->getName());
@@ -114,6 +118,11 @@ void Method::createArguments(IRGenerationContext& context,
   
   llvmFunctionArguments = function->arg_begin();
   IMethod::storeArgumentValue(context, "this", objectType, &*llvmFunctionArguments);
+  llvmFunctionArguments++;
+  IMethod::storeArgumentValue(context,
+                              "thread",
+                              context.getController(Names::getThreadControllerFullName()),
+                              &*llvmFunctionArguments);
   llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     IMethod::storeArgumentValue(context,

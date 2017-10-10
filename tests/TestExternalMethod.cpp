@@ -13,6 +13,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/ExternalMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -36,6 +37,8 @@ public:
   
   ExternalMethodTest() :
   mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::run(mContext);
+    
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
     std::vector<MethodArgument*> arguments;
@@ -85,7 +88,7 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject**, i32)\n";
+  "%systems.vos.wisey.compiler.tests.MObject**, %wisey.lang.CThread**, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }

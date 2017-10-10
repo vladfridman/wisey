@@ -14,6 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -41,6 +42,7 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mBlock(new Block()),
   mCompoundStatement(CompoundStatement(mBlock)) {
+    TestPrefix::run(mContext);
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
@@ -97,7 +99,8 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
   Function* function = staticMethod.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
-  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo(i32)\n";
+  string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
+  "%wisey.lang.CThread**, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -116,7 +119,8 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
   Function* function = staticMethod.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
-  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo(i32)\n";
+  string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo("
+  "%wisey.lang.CThread**, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -137,7 +141,8 @@ TEST_F(StaticMethodTest, generateIRTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo(i32 %intargument) {"
+  "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo("
+  "%wisey.lang.CThread** %thread, i32 %intargument) {"
   "\nentry:"
   "\n  %intargument.param = alloca i32"
   "\n  store i32 %intargument, i32* %intargument.param"

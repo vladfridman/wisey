@@ -60,6 +60,17 @@ public:
    * Empty string literal
    */
   static std::string getEmptyStringName();
+  
+  /**
+   * Thread controller name
+   */
+  static std::string getThreadControllerName();
+
+  /**
+   * Thread controller name
+   */
+  static std::string getThreadControllerFullName();
+
 };
 
 } /* namespace wisey */

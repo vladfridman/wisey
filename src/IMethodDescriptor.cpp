@@ -9,6 +9,7 @@
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/Names.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -44,6 +45,9 @@ FunctionType* IMethodDescriptor::getLLVMFunctionType(IMethodDescriptor* method,
   if (!method->isStatic()) {
     argumentTypes.push_back(object->getLLVMType(llvmContext));
   }
+  Controller* threadController = context.getController(Names::getThreadControllerFullName());
+  argumentTypes.push_back(threadController->getLLVMType(llvmContext));
+  
   for (MethodArgument* methodArgument : method->getArguments()) {
     const IType* type = methodArgument->getType();
     argumentTypes.push_back(type->getLLVMType(llvmContext));

@@ -42,3 +42,12 @@ string Names::getStdErrName() {
 string Names::getEmptyStringName() {
   return "__empty.str";
 }
+
+string Names::getThreadControllerName() {
+  return "CThread";
+}
+
+string Names::getThreadControllerFullName() {
+  return getLangPackageName() + "." + getThreadControllerName();
+}
+

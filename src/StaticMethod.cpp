@@ -17,6 +17,7 @@
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StackVariable.hpp"
 #include "wisey/StaticMethod.hpp"
@@ -104,11 +105,10 @@ void StaticMethod::generateIR(IRGenerationContext& context, const IObjectType* o
 void StaticMethod::createArguments(IRGenerationContext& context,
                                    Function* function,
                                    const IObjectType* objectType) const {
-  if (!function->arg_size()) {
-    return;
-  }
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
+  llvmFunctionArgument->setName("thread");
+  llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;
     llvmFunctionArgument->setName(methodArgument->getName());
@@ -116,6 +116,11 @@ void StaticMethod::createArguments(IRGenerationContext& context,
   }
   
   llvmFunctionArguments = function->arg_begin();
+  IMethod::storeArgumentValue(context,
+                              "thread",
+                              context.getController(Names::getThreadControllerFullName()),
+                              &*llvmFunctionArguments);
+  llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     IMethod::storeArgumentValue(context,
                                 methodArgument->getName(),

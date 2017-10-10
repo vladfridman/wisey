@@ -14,6 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -41,7 +42,8 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mBlock(new Block()),
   mCompoundStatement(CompoundStatement(mBlock)) {
-
+    TestPrefix::run(mContext);
+    
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
     std::vector<MethodArgument*> arguments;
@@ -98,7 +100,7 @@ TEST_F(MethodTest, definePublicFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject**, i32)\n";
+  "%systems.vos.wisey.compiler.tests.MObject**, %wisey.lang.CThread**, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -118,7 +120,7 @@ TEST_F(MethodTest, definePrivateFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject**, i32)\n";
+  "%systems.vos.wisey.compiler.tests.MObject**, %wisey.lang.CThread**, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -140,7 +142,8 @@ TEST_F(MethodTest, generateIRTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject** %this, i32 %intargument) {"
+  "%systems.vos.wisey.compiler.tests.MObject** %this, %wisey.lang.CThread** %thread, "
+  "i32 %intargument) {"
   "\nentry:"
   "\n  %intargument.param = alloca i32"
   "\n  store i32 %intargument, i32* %intargument.param"

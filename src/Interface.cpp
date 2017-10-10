@@ -265,6 +265,8 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
   llvm::Argument *argument = &*arguments;
   argument->setName("this");
   arguments++;
+  argument->setName("thread");
+  arguments++;
   vector<MethodArgument*> methodArguments = interfaceMethodSignature->getArguments();
   for (MethodArgument* methodArgument : interfaceMethodSignature->getArguments()) {
     llvm::Argument *argument = &*arguments;
@@ -315,6 +317,8 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Function::arg_iterator arguments = mapFunction->arg_begin();
   Value* interfaceThis = &*arguments;
   arguments++;
+  Value* threadReference = &*arguments;
+  arguments++;
   vector<Value*> argumentPointers;
   for (MethodArgument* methodArgument : methodSignature->getArguments()) {
     Value* argumentPointer = storeArgumentValue(context,
@@ -343,6 +347,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   
   vector<Value*> callArguments;
   callArguments.push_back(castedObjectThisStore);
+  callArguments.push_back(threadReference);
   for (Value* argumentPointer : argumentPointers) {
     Value* loadedCallArgument = IRWriter::newLoadInst(context, argumentPointer, "");
     callArguments.push_back(loadedCallArgument);

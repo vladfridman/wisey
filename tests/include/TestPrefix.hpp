@@ -23,7 +23,9 @@ public:
 private:
   
   static void defineNPEModel(wisey::IRGenerationContext& context);
-  
+
+  static void defineThreadController(wisey::IRGenerationContext& context);
+
 };
 
 #endif /* TestPrefix_h */
