@@ -25,7 +25,7 @@ string HeapReferenceVariable::getName() const {
   return mName;
 }
 
-const IType* HeapReferenceVariable::getType() const {
+const IObjectType* HeapReferenceVariable::getType() const {
   return mType;
 }
 
@@ -57,7 +57,7 @@ Value* HeapReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
 }
 
 void HeapReferenceVariable::setToNull(IRGenerationContext& context) {
-  PointerType* llvmType = (PointerType*) mType->getLLVMType(context.getLLVMContext());
+  PointerType* llvmType = mType->getLLVMType(context.getLLVMContext());
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), mValue);
 
   mIsInitialized = true;

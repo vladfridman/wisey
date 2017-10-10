@@ -198,7 +198,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
 
   IVariable* tempVariable = IType::isOwnerType(returnType)
     ? (IVariable*) new HeapOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer)
-    : (IVariable*) new HeapReferenceVariable(variableName, returnType, pointer);
+    : (IVariable*) new HeapReferenceVariable(variableName, (IObjectType*) returnType, pointer);
   
   context.getScopes().setVariable(tempVariable);
   return IType::isOwnerType(returnType) ? pointer : result;

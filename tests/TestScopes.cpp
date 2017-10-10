@@ -225,7 +225,7 @@ TEST_F(ScopesTest, setHeapVariableTest) {
   mScopes.pushScope();
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   IVariable* heapVariable =
-    new HeapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+    new HeapReferenceVariable("foo", mInterface, fooValue);
   mScopes.setVariable(heapVariable);
   
   ASSERT_NE(mScopes.getVariable("foo"), nullptr);
@@ -236,7 +236,7 @@ TEST_F(ScopesTest, setUnitializedHeapVariableTest) {
   mScopes.pushScope();
   
   IVariable* unitializedHeapVariable =
-    new HeapReferenceVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+    new HeapReferenceVariable("foo", mInterface, NULL);
   mScopes.setVariable(unitializedHeapVariable);
   
   ASSERT_NE(mScopes.getVariable("foo"), nullptr);

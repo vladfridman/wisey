@@ -60,7 +60,7 @@ Value* HeapOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
 }
 
 void HeapOwnerVariable::setToNull(IRGenerationContext& context) {
-  PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
+  PointerType* type = getType()->getLLVMType(context.getLLVMContext());
   Value* null = ConstantPointerNull::get(type);
   IRWriter::newStoreInst(context, null, mValue);
   mIsInitialized = true;

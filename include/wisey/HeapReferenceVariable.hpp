@@ -10,6 +10,7 @@
 #define HeapReferenceVariable_h
 
 #include "wisey/IExpression.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IVariable.hpp"
 
 namespace wisey {
@@ -20,13 +21,13 @@ namespace wisey {
 class HeapReferenceVariable : public IVariable {
   
   std::string mName;
-  const IType* mType;
+  const IObjectType* mType;
   llvm::Value* mValue;
   bool mIsInitialized;
   
 public:
   
-  HeapReferenceVariable(std::string name, const IType* type, llvm::Value* value)
+  HeapReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value), mIsInitialized(false) { }
   
   ~HeapReferenceVariable() {
@@ -34,7 +35,7 @@ public:
   
   std::string getName() const override;
   
-  const IType* getType() const override;
+  const IObjectType* getType() const override;
   
   llvm::Value* getValue() const override;
   
