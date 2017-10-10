@@ -59,8 +59,7 @@ Value* OwnerFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
-  Value* objectPointer = IRWriter::newLoadInst(context, fieldPointer, "ownerFieldToFree");
-  Composer::freeIfNotNull(context, objectPointer);
+  ((IObjectOwnerType*) field->getType())->free(context, fieldPointer);
   
   Value* loadedCast = IRWriter::newLoadInst(context, cast, "");
   return IRWriter::newStoreInst(context, loadedCast, fieldPointer);

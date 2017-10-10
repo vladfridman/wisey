@@ -320,13 +320,6 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   Argument* thisArgument = &*functionArguments;
   thisArgument->setName("this");
   Value* thisLoaded = IRWriter::newLoadInst(context, thisArgument, "");
-  
-  if (context.isDestructorDebugOn()) {
-    vector<IExpression*> printOutArguments;
-    printOutArguments.push_back(new StringLiteral("destructor " + object->getName() + "\n"));
-    PrintOutStatement printOutStatement(printOutArguments);
-    printOutStatement.generateIR(context);
-  }
 
   Value* nullValue = ConstantPointerNull::get((PointerType*) thisLoaded->getType());
   Value* condition = IRWriter::newICmpInst(context,
@@ -345,6 +338,13 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
 
   context.setBasicBlock(ifThisIsNotNullBlock);
   
+  if (context.isDestructorDebugOn()) {
+    vector<IExpression*> printOutArguments;
+    printOutArguments.push_back(new StringLiteral("destructor " + object->getName() + "\n"));
+    PrintOutStatement printOutStatement(printOutArguments);
+    printOutStatement.generateIR(context);
+  }
+
   map<string, Field*> fields = object->getFields();
   for (map<string, Field*>::const_iterator iterator = fields.begin();
        iterator != fields.end();

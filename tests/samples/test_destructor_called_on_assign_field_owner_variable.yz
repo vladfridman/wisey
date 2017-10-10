@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+}
+
+controller CProgram implements IProgram {
+  state MCar* mCar;
+
+  public int run() {
+    mCar = builder(MCar).build();
+    mCar = null;
+    printout("car is destoyed\n");
+
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);

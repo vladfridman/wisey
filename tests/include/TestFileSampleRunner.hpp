@@ -65,6 +65,7 @@ public:
    * Execute a command, capture and return output
    */
   static std::string exec(const char* cmd);
+  
 };
 
 #endif /* TestFileSampleRunner_h */

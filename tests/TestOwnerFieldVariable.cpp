@@ -97,6 +97,17 @@ struct OwnerFieldVariableTest : Test {
     mOwnerFieldValue = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));
     mOwnerFieldVariable = new OwnerFieldVariable("foo", mOwnerFieldValue, mObject);
     
+    vector<Type*> argumentTypes;
+    argumentTypes.push_back(mNode->getLLVMType(mLLVMContext));
+    ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+    FunctionType* destructorFunctionType = FunctionType::get(Type::getVoidTy(mLLVMContext),
+                                                             argTypesArray,
+                                                             false);
+    Function::Create(destructorFunctionType,
+                     GlobalValue::InternalLinkage,
+                     "destructor." + mNode->getName(),
+                     mContext.getModule());
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -144,13 +155,11 @@ TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   "%systems.vos.wisey.compiler.tests.NObject** null"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
   "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0"
-  "\n  %ownerFieldToFree = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** %1"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %ownerFieldToFree to i8*"
-  "\n  call void @__freeIfNotNull(i8* %2)"
-  "\n  %3 = load %systems.vos.wisey.compiler.tests.NNode*, "
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.NNode("
+  "%systems.vos.wisey.compiler.tests.NNode** %1)"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.NNode*, "
   "%systems.vos.wisey.compiler.tests.NNode** null"
-  "\n  store %systems.vos.wisey.compiler.tests.NNode* %3, "
+  "\n  store %systems.vos.wisey.compiler.tests.NNode* %2, "
   "%systems.vos.wisey.compiler.tests.NNode** %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -179,13 +188,11 @@ TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTes
   "%systems.vos.wisey.compiler.tests.NObject** null"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
   "%systems.vos.wisey.compiler.tests.NObject* %1, i32 0, i32 1"
-  "\n  %ownerFieldToFree = load %systems.vos.wisey.compiler.tests.IInterface*, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %2"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %ownerFieldToFree to i8*"
-  "\n  call void @__freeIfNotNull(i8* %3)"
-  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, "
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.IInterface("
+  "%systems.vos.wisey.compiler.tests.IInterface** %2)"
+  "\n  %3 = load %systems.vos.wisey.compiler.tests.IInterface*, "
   "%systems.vos.wisey.compiler.tests.IInterface** %0"
-  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %4, "
+  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %3, "
   "%systems.vos.wisey.compiler.tests.IInterface** %2\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -227,4 +234,12 @@ TEST_F(TestFileSampleRunner, objectFieldVariableSetToAnotherTest) {
 
 TEST_F(TestFileSampleRunner, objectFieldVariableNullComplicatedTest) {
   compileAndRunFile("tests/samples/test_object_field_variable_null_complicated.yz", 11);
+}
+
+TEST_F(TestFileSampleRunner, destructorCalledOnAssignFieldOwnerVariableRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_destructor_called_on_assign_field_owner_variable.yz",
+                                        "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "car is destoyed\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
 }

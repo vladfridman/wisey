@@ -49,8 +49,7 @@ Value* HeapOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   
-  Value* objectPointer = IRWriter::newLoadInst(context, mValue, "ownerToFree");
-  Composer::freeIfNotNull(context, objectPointer);
+  free(context);
   
   Value* newValueLoaded = IRWriter::newLoadInst(context, newValue, "");
   IRWriter::newStoreInst(context, newValueLoaded, mValue);

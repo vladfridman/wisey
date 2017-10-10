@@ -98,13 +98,11 @@ TEST_F(HeapOwnerVariableTest, heapVariableAssignmentTest) {
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %ownerToFree = load %systems.vos.wisey.compiler.tests.MShape*, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape* %ownerToFree to i8*"
-  "\n  call void @__freeIfNotNull(i8* %1)"
-  "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape("
+  "%systems.vos.wisey.compiler.tests.MShape** %0)"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, "
   "%systems.vos.wisey.compiler.tests.MShape** null"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* %2, "
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* %1, "
   "%systems.vos.wisey.compiler.tests.MShape** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -181,4 +179,12 @@ TEST_F(TestFileSampleRunner, usingUninitializedHeapOwnerVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_heap_owner_variable_not_initialized.yz",
                     1,
                     "Error: Variable 'color' is used before it is initialized");
+}
+
+TEST_F(TestFileSampleRunner, destructorCalledOnAssignHeapOwnerVariableRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_destructor_called_on_assign_heap_owner_variable.yz",
+                                        "destructor systems.vos.wisey.compiler.tests.MCar\n"
+                                        "car is destoyed\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
 }
