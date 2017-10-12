@@ -15,9 +15,15 @@ external controller wisey.lang.CThread {
 
   state wisey.lang.NProgramStackNode* mProgramStackHead;
   state wisey.lang.NProgramStackNode mProgramStackTail;
+  state string mObjectName;
+  state string mMethodName;
 
+  void setObjectAndMethod(
+    string objectName,
+    string methodName);
   void pushStack(
-    string functionName);
+    string fileName,
+    int lineNumber);
   void popStack();
   void dumpStack();
 }
@@ -26,11 +32,17 @@ external controller wisey.lang.CThread {
 
 external node wisey.lang.NProgramStackNode {
 
-  fixed string mFunctionName;
+  fixed string mObjectName;
+  fixed string mMethodName;
+  fixed string mFileName;
+  fixed int mLineNumber;
   fixed wisey.lang.NProgramStackNode mPreviousNode;
   state wisey.lang.NProgramStackNode* mNextNode;
 
-  string getFunctionName();
+  string getObjectName();
+  string getMethodName();
+  string getFileName();
+  int getLineNumber();
   void setNext(
     wisey.lang.NProgramStackNode* next);
   wisey.lang.NProgramStackNode getNext();

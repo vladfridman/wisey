@@ -6,12 +6,27 @@ package wisey.lang;
  * TODO: make it an inner class of CThread so it does not get exported
  */
 node NProgramStackNode {
-  string mFunctionName;
+  string mObjectName;
+  string mMethodName;
+  string mFileName;
+  int mLineNumber;
   NProgramStackNode mPreviousNode;
   state NProgramStackNode* mNextNode;
 
-  public string getFunctionName() {
-    return mFunctionName;
+  public string getObjectName() {
+    return mObjectName;
+  }
+
+  public string getMethodName() {
+    return mMethodName;
+  }
+
+  public string getFileName() {
+    return mFileName;
+  }
+
+  public int getLineNumber() {
+    return mLineNumber;
   }
 
   public void setNext(NProgramStackNode* next) {
@@ -33,21 +48,37 @@ node NProgramStackNode {
 controller CThread {
   state NProgramStackNode* mProgramStackHead;
   state NProgramStackNode mProgramStackTail;
+  state string mObjectName;
+  state string mMethodName;
+
+  /**
+   * Sets current object and method name that later will be pushed to the stack with a line number
+   */
+  public void setObjectAndMethod(string objectName, string methodName) {
+    mObjectName = objectName;
+    mMethodName = methodName;
+  }
 
   /**
    * Pushes a new method on the call stack
    */
-  public void pushStack(string functionName) {
+  public void pushStack(string fileName, int lineNumber) {
     if (mProgramStackTail == null) {
       NProgramStackNode* newNode = builder(NProgramStackNode)
-        .withFunctionName(functionName)
+        .withObjectName(mObjectName)
+        .withMethodName(mMethodName)
+        .withFileName(fileName)
+        .withLineNumber(lineNumber)
         .withPreviousNode(null)
         .build();
       mProgramStackHead = newNode;
       mProgramStackTail = mProgramStackHead;
     } else {
       NProgramStackNode* newNode = builder(NProgramStackNode)
-        .withFunctionName(functionName)
+        .withObjectName(mObjectName)
+        .withMethodName(mMethodName)
+        .withFileName(fileName)
+        .withLineNumber(lineNumber)
         .withPreviousNode(mProgramStackTail)
         .build();
       mProgramStackTail.setNext(newNode);
@@ -78,7 +109,8 @@ controller CThread {
     NProgramStackNode iterator = mProgramStackHead;
     printout("Stack trace:\n");
     while (iterator != null) {
-      printout(iterator.getFunctionName() + "\n");
+      printout(iterator.getObjectName() + "." + iterator.getMethodName() + "(" + 
+        iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
       iterator = iterator.getNext();
     }
   }

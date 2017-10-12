@@ -7,16 +7,23 @@ controller CProgram implements IProgram {
   inject CThread* mThread;
 
   public int run() {
-    mThread.pushStack("function1");
-    mThread.pushStack("function2");
+    mThread.setObjectAndMethod("object1", "method1");
+    mThread.pushStack("FileA", 123);
+    mThread.setObjectAndMethod("object2", "method2");
+    mThread.pushStack("FileB", 57);
     mThread.dumpStack();
+
     mThread.popStack();
     mThread.dumpStack();
+
     mThread.popStack();
     mThread.dumpStack();
+
     mThread.popStack();
     mThread.dumpStack();
-    mThread.pushStack("function3");
+    
+    mThread.setObjectAndMethod("object3", "method3");
+    mThread.pushStack("FileC", 99);
     mThread.dumpStack();
     return 5;
   }

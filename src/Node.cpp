@@ -9,11 +9,12 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AutoCast.hpp"
-#include "wisey/NodeOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/Node.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/Names.hpp"
+#include "wisey/Node.hpp"
+#include "wisey/NodeOwner.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -303,8 +304,18 @@ void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* mallo
       fieldValue = ConstantFP::get(fieldLLVMType, 0.0);
     } else if (fieldLLVMType->isIntegerTy()) {
       fieldValue = ConstantInt::get(fieldLLVMType, 0);
+    } else if (fieldLLVMType->isPointerTy()) {
+      GlobalVariable* nameGlobal =
+      context.getModule()->getNamedGlobal(Names::getEmptyStringName());
+      ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
+      Value* Idx[2];
+      Idx[0] = zeroInt32;
+      Idx[1] = zeroInt32;
+      Type* elementType = nameGlobal->getType()->getPointerElementType();
+      
+      fieldValue = ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
     } else {
-      Log::e("Unexpected state field type, can not initialize");
+      Log::e("Unexpected node state field type, can not initialize");
       exit(1);
     }
     

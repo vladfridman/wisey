@@ -12,11 +12,12 @@
 #include "wisey/Controller.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/HeapOwnerVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapOwnerVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/Names.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -291,8 +292,18 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
       fieldValue = ConstantFP::get(fieldLLVMType, 0.0);
     } else if (fieldLLVMType->isIntegerTy()) {
       fieldValue = ConstantInt::get(fieldLLVMType, 0);
+    } else if (fieldLLVMType->isPointerTy()) {
+      GlobalVariable* nameGlobal =
+        context.getModule()->getNamedGlobal(Names::getEmptyStringName());
+      ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
+      Value* Idx[2];
+      Idx[0] = zeroInt32;
+      Idx[1] = zeroInt32;
+      Type* elementType = nameGlobal->getType()->getPointerElementType();
+      
+      fieldValue = ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
     } else {
-      Log::e("Unexpected state field type, can not initialize");
+      Log::e("Unexpected controller state field type, can not initialize");
       exit(1);
     }
     

@@ -15,14 +15,14 @@ using namespace std;
 TEST_F(TestFileSampleRunner, stackTraceRunTest) {
   string expected =
   "Stack trace:\n"
-  "function1\n"
-  "function2\n"
+  "object1.method1(FileA:123)\n"
+  "object2.method2(FileB:57)\n"
   "Stack trace:\n"
-  "function1\n"
+  "object1.method1(FileA:123)\n"
   "Stack trace:\n"
   "Stack trace:\n"
   "Stack trace:\n"
-  "function3\n";
+  "object3.method3(FileC:99)\n";
 
   runFileCheckOutput("tests/samples/test_stack_trace.yz",
                      expected.c_str(),
