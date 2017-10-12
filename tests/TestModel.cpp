@@ -554,8 +554,8 @@ TEST_F(ModelTest, printToStreamTest) {
                "    systems.vos.wisey.compiler.tests.IShape,\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
                "\n"
-               "  fixed int mHeight;\n"
                "  fixed int mWidth;\n"
+               "  fixed int mHeight;\n"
                "\n"
                "  int foo();\n"
                 "}\n",

@@ -27,12 +27,10 @@ mIsExternal(isExternal) {
 }
 
 Node::~Node() {
-  for(map<std::string, Field*>::iterator iterator = mFields.begin();
-      iterator != mFields.end();
-      iterator++) {
-    Field* field = iterator->second;
+  for(Field* field : mFieldsOrdered) {
     delete field;
   }
+  mFieldsOrdered.clear();
   mFields.clear();
   mFixedFields.clear();
   mStateFields.clear();
@@ -54,6 +52,7 @@ Node* Node::newExternalNode(string name, StructType* structType) {
 }
 
 void Node::setFields(vector<Field*> fields) {
+  mFieldsOrdered = fields;
   for (Field* field : fields) {
     mFields[field->getName()] = field;
     switch (field->getFieldKind()) {
@@ -104,8 +103,8 @@ Field* Node::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-map<string, Field*> Node::getFields() const {
-  return mFields;
+vector<Field*> Node::getFields() const {
+  return mFieldsOrdered;
 }
 
 IMethod* Node::findMethod(string methodName) const {

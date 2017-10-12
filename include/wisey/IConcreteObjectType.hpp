@@ -76,9 +76,9 @@ public:
   virtual Field* findField(std::string fieldName) const = 0;
 
   /**
-   * Returns a map of all fields keyed by their names
+   * Returns a list of all fields
    */
-  virtual std::map<std::string, Field*> getFields() const = 0;
+  virtual std::vector<Field*> getFields() const = 0;
   
   /**
    * Returns the name of the vTable global varaible

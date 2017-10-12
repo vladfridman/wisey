@@ -23,7 +23,7 @@
 class MockConcreteObjectType : public wisey::IConcreteObjectType {
 public:
   MOCK_CONST_METHOD1(findField, wisey::Field* (std::string));
-  MOCK_CONST_METHOD0(getFields, std::map<std::string, wisey::Field*> ());
+  MOCK_CONST_METHOD0(getFields, std::vector<wisey::Field*> ());
   MOCK_CONST_METHOD0(getVTableName, std::string ());
   MOCK_CONST_METHOD0(getVTableSize, unsigned long ());
   MOCK_CONST_METHOD0(getInterfaces, std::vector<wisey::Interface*> ());

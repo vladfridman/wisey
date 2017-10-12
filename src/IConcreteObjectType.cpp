@@ -289,11 +289,7 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
 
 void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
                                                 const IConcreteObjectType* object) {
-  map<string, Field*> fields = object->getFields();
-  for (map<string, Field*>::const_iterator iterator = fields.begin();
-       iterator != fields.end();
-       iterator++) {
-    Field* field = iterator->second;
+  for (Field* field : object->getFields()) {
     const IType* type = field->getType();
     IFieldVariable* fieldVariable = NULL;
     if (IType::isOwnerType(type)) {
@@ -345,11 +341,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     printOutStatement.generateIR(context);
   }
 
-  map<string, Field*> fields = object->getFields();
-  for (map<string, Field*>::const_iterator iterator = fields.begin();
-       iterator != fields.end();
-       iterator++) {
-    Field* field = iterator->second;
+  for (Field* field : object->getFields()) {
     const IType* fieldType = field->getType();
     if (!IType::isOwnerType(fieldType)) {
       continue;
@@ -426,14 +418,12 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   }
   stream << " {" << endl;
 
-  map<string, Field*> fields = object->getFields();
+  vector<Field*> fields = object->getFields();
   if (fields.size()) {
     stream << endl;
   }
-  for (map<string, Field*>::const_iterator iterator = fields.begin();
-       iterator != fields.end();
-       iterator++) {
-    iterator->second->printToStream(context, stream);
+  for (Field* field : fields) {
+    field->printToStream(context, stream);
   }
   
   if (object->getMethods().size()) {

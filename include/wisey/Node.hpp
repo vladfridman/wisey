@@ -34,6 +34,7 @@ class Node : public IBuildableConcreteObjectType {
   std::vector<Field*> mFixedFields;
   std::vector<Field*> mStateFields;
   std::map<std::string, Field*> mFields;
+  std::vector<Field*> mFieldsOrdered;
   std::vector<IMethod*> mMethods;
   std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
@@ -72,7 +73,7 @@ public:
   
   Field* findField(std::string fieldName) const override;
   
-  std::map<std::string, Field*> getFields() const override;
+  std::vector<Field*> getFields() const override;
   
   IMethod* findMethod(std::string methodName) const override;
   

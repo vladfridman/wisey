@@ -30,12 +30,10 @@ mIsExternal(isExternal) {
 }
 
 Controller::~Controller() {
-  for(map<std::string, Field*>::iterator iterator = mFields.begin();
-      iterator != mFields.end();
-      iterator++) {
-    Field* field = iterator->second;
+  for(Field* field : mFieldsOrdered) {
     delete field;
   }
+  mFieldsOrdered.clear();
   mFields.clear();
   mReceivedFields.clear();
   mInjectedFields.clear();
@@ -60,6 +58,7 @@ Controller* Controller::newExternalController(string name, StructType* structTyp
 void Controller::setFields(vector<Field*> fields) {
   for (Field* field : fields) {
     mFields[field->getName()] = field;
+    mFieldsOrdered.push_back(field);
     switch (field->getFieldKind()) {
       case FieldKind::RECEIVED_FIELD :
         mReceivedFields.push_back(field);
@@ -156,8 +155,8 @@ Field* Controller::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-map<string, Field*> Controller::getFields() const {
-  return mFields;
+vector<Field*> Controller::getFields() const {
+  return mFieldsOrdered;
 }
 
 IMethod* Controller::findMethod(std::string methodName) const {

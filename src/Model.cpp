@@ -29,12 +29,10 @@ mIsExternal(isExternal) {
 }
 
 Model::~Model() {
-  for(map<std::string, Field*>::iterator iterator = mFields.begin();
-      iterator != mFields.end();
-      iterator++) {
-    Field* field = iterator->second;
+  for(Field* field : mFieldsOrdered) {
     delete field;
   }
+  mFieldsOrdered.clear();
   mFields.clear();
   for (IMethod* method : mMethods) {
     delete method;
@@ -54,6 +52,7 @@ Model* Model::newExternalModel(string name, StructType* structType) {
 }
 
 void Model::setFields(vector<Field*> fields) {
+  mFieldsOrdered = fields;
   for (Field* field : fields) {
     mFields[field->getName()] = field;
   }
@@ -96,8 +95,8 @@ Field* Model::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
-map<string, Field*> Model::getFields() const {
-  return mFields;
+vector<Field*> Model::getFields() const {
+  return mFieldsOrdered;
 }
 
 vector<string> Model::getMissingFields(set<string> givenFields) const {
