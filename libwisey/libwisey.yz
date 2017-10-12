@@ -27,8 +27,8 @@ external controller wisey.lang.CThread {
 external node wisey.lang.NProgramStackNode {
 
   fixed string mFunctionName;
-  state wisey.lang.NProgramStackNode* mNextNode;
   fixed wisey.lang.NProgramStackNode mPreviousNode;
+  state wisey.lang.NProgramStackNode* mNextNode;
 
   string getFunctionName();
   void setNext(
