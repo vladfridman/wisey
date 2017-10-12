@@ -141,6 +141,9 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   ExpressionList runMethodArguments;
   programIdentifier = new Identifier("program", "program");
   MethodCall* runMethodCall = new MethodCall(programIdentifier, "run", runMethodArguments);
+  
+  IConcreteObjectType::composeDestructorCall(context, threadController, threadStore);
+  
   ReturnStatement* returnStatement = new ReturnStatement(runMethodCall);
  
   Block* tryBlock = new Block();
