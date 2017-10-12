@@ -12,7 +12,7 @@
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
+#include "wisey/HeapOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"
@@ -125,24 +125,21 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   ExpressionList injectionArguments;
   Value* injectedThread = threadController->inject(context, injectionArguments);
   Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
-  IRWriter::newStoreInst(context, injectedThread, threadStore);
-  Value* threadReference = IRWriter::newAllocaInst(context,
-                                                   threadController->getLLVMType(llvmContext),
-                                                   "threadReference");
-  IVariable* threadVariable = new HeapReferenceVariable("thread",
-                                                        threadController,
-                                                        threadReference);
+  Value* threadTemp = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadTemp");
+  IRWriter::newStoreInst(context, injectedThread, threadTemp);
+  IVariable* threadVariable = new HeapOwnerVariable("thread",
+                                                    threadController->getOwner(),
+                                                    threadStore);
   context.getScopes().setVariable(threadVariable);
+  threadVariable->setToNull(context);
   
-  FakeExpression* threadExpression = new FakeExpression(threadStore,
+  FakeExpression* threadExpression = new FakeExpression(threadTemp,
                                                         threadController->getOwner());
   threadVariable->generateAssignmentIR(context, threadExpression);
 
   ExpressionList runMethodArguments;
   programIdentifier = new Identifier("program", "program");
   MethodCall* runMethodCall = new MethodCall(programIdentifier, "run", runMethodArguments);
-  
-  IConcreteObjectType::composeDestructorCall(context, threadController, threadStore);
   
   ReturnStatement* returnStatement = new ReturnStatement(runMethodCall);
  
