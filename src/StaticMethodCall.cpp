@@ -73,7 +73,8 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   
   vector<Value*> arguments;
   IVariable* threadVariable = context.getScopes().getVariable("thread");
-  arguments.push_back(threadVariable->generateIdentifierIR(context, "threadLoaded"));
+  Value* threadObject = threadVariable->generateIdentifierIR(context, "threadLoaded");
+  arguments.push_back(threadObject);
 
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
@@ -96,6 +97,8 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
     methodArgumentIterator++;
   }
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
+  
+  pushCallStack(context, objectType, mMethodName, NULL, threadObject);
   
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {

@@ -137,6 +137,33 @@ public:
     threadVariable->setToNull(mContext);
     mContext.getScopes().setVariable(threadVariable);
 
+    string objectName = mModel->getObjectNameGlobalVariableName();
+    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getName());
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::InternalLinkage,
+                       stringConstant,
+                       objectName);
+    
+    string functionName = IMethodCall::getMethodNameConstantName("foo");
+    stringConstant = ConstantDataArray::getString(mLLVMContext, "foo");
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::InternalLinkage,
+                       stringConstant,
+                       functionName);
+    
+    functionName = IMethodCall::getMethodNameConstantName("bar");
+    stringConstant = ConstantDataArray::getString(mLLVMContext, "bar");
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::InternalLinkage,
+                       stringConstant,
+                       functionName);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
