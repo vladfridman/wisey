@@ -11,8 +11,11 @@
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -49,6 +52,42 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   vector<FieldDeclaration*> fieldDeclarations;
   vector<IMethodDeclaration*> methodDeclarations;
   vector<InterfaceTypeSpecifier*> interfaceSpecifiers;
+  
+  PrimitiveTypeSpecifier* stringTypeSpecifier;
+  VariableList arguments;
+  stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
+  arguments.push_back(new VariableDeclaration(stringTypeSpecifier, new Identifier("objectName")));
+  stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
+  arguments.push_back(new VariableDeclaration(stringTypeSpecifier, new Identifier("methodName")));
+  vector<ModelTypeSpecifier*> exceptions;
+  Block* block = new Block();
+  CompoundStatement* compoundStatement = new CompoundStatement(block);
+  PrimitiveTypeSpecifier* voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  MethodDeclaration* setObjectAndMethodMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                                                                      voidTypeSpecifier,
+                                                                      "setObjectAndMethod",
+                                                                      arguments,
+                                                                      exceptions,
+                                                                      compoundStatement);
+
+  arguments.clear();
+  stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
+  arguments.push_back(new VariableDeclaration(stringTypeSpecifier, new Identifier("fileName")));
+  PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  arguments.push_back(new VariableDeclaration(intTypeSpecifier, new Identifier("lineNumber")));
+  voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  block = new Block();
+  compoundStatement = new CompoundStatement(block);
+  MethodDeclaration* pushStackMethodMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                                                                      voidTypeSpecifier,
+                                                                      "pushStack",
+                                                                      arguments,
+                                                                      exceptions,
+                                                                      compoundStatement);
+
+  methodDeclarations.push_back(setObjectAndMethodMethod);
+  methodDeclarations.push_back(pushStackMethodMethod);
+
   ControllerDefinition threadControllerDefinition(controllerTypeSpecifier,
                                                   fieldDeclarations,
                                                   methodDeclarations,

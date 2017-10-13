@@ -58,17 +58,8 @@ vector<const Model*> StaticMethod::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-Function* StaticMethod::defineFunction(IRGenerationContext& context,
-                                       const IObjectType* objectType) {
-  FunctionType* ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
-                                                               context,
-                                                               objectType);
-  string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
-  
-  GlobalValue::LinkageTypes linkageType = mAccessLevel == PRIVATE_ACCESS
-    ? GlobalValue::InternalLinkage
-    : GlobalValue::ExternalLinkage;
-  mFunction = Function::Create(ftype, linkageType, functionName, context.getModule());
+Function* StaticMethod::defineFunction(IRGenerationContext& context, const IObjectType* object) {
+  mFunction = IMethod::defineFunction(context, object, this);
   
   return mFunction;
 }

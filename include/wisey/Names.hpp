@@ -71,6 +71,21 @@ public:
    */
   static std::string getThreadControllerFullName();
 
+  /**
+   * Get name of the thread call stack node
+   */
+  static std::string getThreadStackNodeName();
+  
+  /**
+   * Get the method for setting call stack's current object and method
+   */
+  static std::string getThreadSetObjectAndMethod();
+  
+  /**
+   * Get the method for pushing the call stack
+   */
+  static std::string getThreadPushStack();
+  
 };
 
 } /* namespace wisey */

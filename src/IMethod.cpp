@@ -6,12 +6,15 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/HeapOwnerMethodParameter.hpp"
 #include "wisey/HeapReferenceMethodParameter.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/MethodCall.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StackVariable.hpp"
 
@@ -90,4 +93,32 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context, const IMet
   
   context.getScopes().freeOwnedMemory(context);
   IRWriter::createReturnInst(context, NULL);
+}
+
+Function* IMethod::defineFunction(IRGenerationContext& context,
+                                  const IObjectType* objectType,
+                                  const IMethod* method) {
+  FunctionType* ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) method,
+                                                               context,
+                                                               objectType);
+  string methodName = method->getName();
+  string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, methodName);
+  
+  GlobalValue::LinkageTypes linkageType = method->getAccessLevel() == PRIVATE_ACCESS
+    ? GlobalValue::InternalLinkage
+    : GlobalValue::ExternalLinkage;
+  Function* function = Function::Create(ftype, linkageType, functionName, context.getModule());
+  
+  string functionNameConstantName = MethodCall::getMethodNameConstantName(methodName);
+  if (!context.getModule()->getNamedGlobal(functionNameConstantName)) {
+    Constant* stringConstant = ConstantDataArray::getString(context.getLLVMContext(), methodName);
+    new GlobalVariable(*context.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::InternalLinkage,
+                       stringConstant,
+                       functionNameConstantName);
+  }
+  
+  return function;
 }

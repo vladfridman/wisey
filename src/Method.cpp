@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/Cleanup.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
@@ -58,16 +60,8 @@ vector<const Model*> Method::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-Function* Method::defineFunction(IRGenerationContext& context, const IObjectType* objectType) {
-  FunctionType* ftype = IMethodDescriptor::getLLVMFunctionType((IMethodDescriptor*) this,
-                                                               context,
-                                                               objectType);
-  string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, mName);
-  
-  GlobalValue::LinkageTypes linkageType = mAccessLevel == PRIVATE_ACCESS
-    ? GlobalValue::InternalLinkage
-    : GlobalValue::ExternalLinkage;
-  mFunction = Function::Create(ftype, linkageType, functionName, context.getModule());
+Function* Method::defineFunction(IRGenerationContext& context, const IObjectType* object) {
+  mFunction = IMethod::defineFunction(context, object, this);
   
   return mFunction;
 }

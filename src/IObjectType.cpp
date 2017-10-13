@@ -18,7 +18,7 @@ using namespace wisey;
 Constant* IObjectType::getObjectNamePointer(const IObjectType *object,
                                             IRGenerationContext& context) {
   GlobalVariable* nameGlobal =
-    context.getModule()->getGlobalVariable(object->getObjectNameGlobalVariableName());
+    context.getModule()->getNamedGlobal(object->getObjectNameGlobalVariableName());
   ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
   Value* Idx[2];
   Idx[0] = zeroInt32;

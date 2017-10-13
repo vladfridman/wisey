@@ -140,7 +140,34 @@ public:
     IVariable* threadVariable = new HeapReferenceVariable("thread", mThreadController, threadStore);
     threadVariable->setToNull(mContext);
     mContext.getScopes().setVariable(threadVariable);
-  }
+
+    string objectName = mModel->getObjectNameGlobalVariableName();
+    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getName());
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::InternalLinkage,
+                       stringConstant,
+                       objectName);
+
+    string functionName = MethodCall::getMethodNameConstantName("foo");
+    stringConstant = ConstantDataArray::getString(mLLVMContext, "foo");
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::InternalLinkage,
+                       stringConstant,
+                       functionName);
+
+    functionName = MethodCall::getMethodNameConstantName("bar");
+    stringConstant = ConstantDataArray::getString(mLLVMContext, "bar");
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::InternalLinkage,
+                       stringConstant,
+                       functionName);
+}
   
   ~MethodCallTest() {
     delete mStringStream;

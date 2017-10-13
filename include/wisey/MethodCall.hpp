@@ -59,6 +59,11 @@ public:
                                                                 const Interface* interface,
                                                                 std::string methodName);
 
+  /**
+   * Return name of the global constant containing method name
+   */
+  static std::string getMethodNameConstantName(std::string methodName);
+
 private:
 
   bool checkAccess(IRGenerationContext& context,
@@ -91,9 +96,23 @@ private:
                          IRGenerationContext& context) const;
 
   llvm::Value* createFunctionCall(IRGenerationContext& context,
+                                  const IObjectType* object,
                                   llvm::Function* function,
                                   IMethodDescriptor* methodDescriptor,
-                                  std::vector<llvm::Value*> arguments) const;
+                                  std::vector<llvm::Value*> arguments,
+                                  llvm::Value* expressionValue) const;
+  
+  llvm::Constant* getMethodNameConstantPointer(IRGenerationContext& context) const;
+  
+  void pushCallStack(IRGenerationContext& context,
+                     const IObjectType* object,
+                     llvm::Value* expressionValue,
+                     llvm::Value* threadObject) const;
+  
+  llvm::Value* getObjectNamePointer(IRGenerationContext& context,
+                                    const IObjectType* object,
+                                    llvm::Value* expressionValue) const;
+
 };
 
 } /* namespace wisey */

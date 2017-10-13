@@ -32,15 +32,31 @@ public:
    */
   virtual void generateIR(IRGenerationContext& context, const IObjectType* objectType) const = 0;
 
+  /**
+   * Store method argument as a variable in the current scope
+   */
   static void storeArgumentValue(IRGenerationContext& context,
                                  std::string variableName,
                                  const IType* variableType,
                                  llvm::Value* variableValue);
 
+  /**
+   * Check that the method handles or rethrows all the exceptions and print an error if it does not
+   */
   static void checkForUnhandledExceptions(IRGenerationContext& context, const IMethod* method);
 
+  /**
+   * Add a return void if there is no explicit return is in the wisey code
+   */
   static void maybeAddImpliedVoidReturn(IRGenerationContext& context, const IMethod* method);
   
+  /**
+   * Define llvm function for the given method
+   */
+  static llvm::Function* defineFunction(IRGenerationContext& context,
+                                        const IObjectType* objectType,
+                                        const IMethod* method);
+
 };
   
 } /* namespace wisey */
