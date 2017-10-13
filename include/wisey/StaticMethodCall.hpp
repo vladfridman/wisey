@@ -9,15 +9,15 @@
 #ifndef StaticMethodCall_h
 #define StaticMethodCall_h
 
+#include "wisey/IMethodCall.hpp"
 #include "wisey/IObjectTypeSpecifier.hpp"
-#include "wisey/IExpression.hpp"
 
 namespace wisey {
 
 /**
  * Represents a static method call of the form MModel.someMethod() where MModel is object type
  */
-class StaticMethodCall : public IExpression {
+class StaticMethodCall : public IMethodCall {
   IObjectTypeSpecifier* mObjectTypeSpecifier;
   std::string mMethodName;
   ExpressionList mArguments;

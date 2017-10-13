@@ -9,16 +9,16 @@
 #ifndef MethodCall_h
 #define MethodCall_h
 
-#include "wisey/IObjectType.hpp"
-#include "wisey/IExpression.hpp"
+#include "wisey/IMethodCall.hpp"
 #include "wisey/IMethodDescriptor.hpp"
+#include "wisey/IObjectType.hpp"
 
 namespace wisey {
 
 /**
  * Represents a method call for an object that could be a model or an interface or a controller
  */
-class MethodCall : public IExpression {
+class MethodCall : public IMethodCall {
   const unsigned int VTABLE_METHODS_OFFSET = 3;
   
   IExpression* mExpression;
@@ -47,22 +47,11 @@ public:
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
   /**
-   * Translate object method name into its LLVM implemenation function name
-   */
-  static std::string translateObjectMethodToLLVMFunctionName(const IObjectType* object,
-                                                             std::string methodName);
-
-  /**
    * Translate interface method name into its LLVM implemenation function name
    */
   static std::string translateInterfaceMethodToLLVMFunctionName(const IObjectType* object,
                                                                 const Interface* interface,
                                                                 std::string methodName);
-
-  /**
-   * Return name of the global constant containing method name
-   */
-  static std::string getMethodNameConstantName(std::string methodName);
 
 private:
 
@@ -101,17 +90,6 @@ private:
                                   IMethodDescriptor* methodDescriptor,
                                   std::vector<llvm::Value*> arguments,
                                   llvm::Value* expressionValue) const;
-  
-  llvm::Constant* getMethodNameConstantPointer(IRGenerationContext& context) const;
-  
-  void pushCallStack(IRGenerationContext& context,
-                     const IObjectType* object,
-                     llvm::Value* expressionValue,
-                     llvm::Value* threadObject) const;
-  
-  llvm::Value* getObjectNamePointer(IRGenerationContext& context,
-                                    const IObjectType* object,
-                                    llvm::Value* expressionValue) const;
 
 };
 

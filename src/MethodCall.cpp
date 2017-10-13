@@ -194,7 +194,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     methodArgumentIterator++;
   }
   
-  pushCallStack(context, object, expressionValue, threadObject);
+  pushCallStack(context, object, mMethodName, expressionValue, threadObject);
   
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {
@@ -219,76 +219,6 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   
   context.getScopes().setVariable(tempVariable);
   return IType::isOwnerType(returnType) ? pointer : result;
-}
-
-void MethodCall::pushCallStack(IRGenerationContext& context,
-                               const IObjectType* object,
-                               Value* expressionValue,
-                               Value* threadObject) const {
-  vector<Value*> arguments;
-  Controller* threadController = context.getController(Names::getThreadControllerFullName());
-  if (!Names::getThreadStackNodeName().compare(object->getName())) {
-    // avoid inifinite recursion in wisey.lang.CThread.pushStack()
-    return;
-  }
-
-  Value* objectName = getObjectNamePointer(context, object, expressionValue);
-  Constant* functionName = getMethodNameConstantPointer(context);
-  arguments.push_back(threadObject);
-  arguments.push_back(threadObject);
-  arguments.push_back(objectName);
-  arguments.push_back(functionName);
-  string setObjectAndMethodFunctionName =
-    translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadSetObjectAndMethod());
-  Function* setObjectAndMethodFunction = context.getModule()->
-    getFunction(setObjectAndMethodFunctionName.c_str());
-  IRWriter::createCallInst(context, setObjectAndMethodFunction, arguments, "");
-  
-  GlobalVariable* emptyStringGlobal =
-    context.getModule()->getNamedGlobal(Names::getEmptyStringName());
-  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
-  Value* Idx[2];
-  Idx[0] = zeroInt32;
-  Idx[1] = zeroInt32;
-  Type* elementType = emptyStringGlobal->getType()->getPointerElementType();
-  Value* emptyStringPointer = ConstantExpr::getGetElementPtr(elementType, emptyStringGlobal, Idx);
-  arguments.clear();
-  arguments.push_back(threadObject);
-  arguments.push_back(threadObject);
-  arguments.push_back(emptyStringPointer);
-  arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0));
-  string pushStackFunctionName =
-    translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadPushStack());
-  Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());
-  IRWriter::createCallInst(context, pushStackFunction, arguments, "");
-}
-
-Value* MethodCall::getObjectNamePointer(IRGenerationContext& context,
-                                        const IObjectType* object,
-                                        Value* expressionValue) const {
-  if (IType::isConcreteObjectType(object)) {
-    return IObjectType::getObjectNamePointer(object, context);
-  }
-
-  const Interface* interface = (const Interface*) object;
-  Value* originalObject = interface->getOriginalObject(context, expressionValue);
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* int8Type = Type::getInt8Ty(llvmContext);
-  Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, originalObject, pointerType);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
-  Value* index[1];
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
-  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
-  BitCastInst* arrayOfStrings =
-    IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
-  
-  LoadInst* stringPointer = IRWriter::newLoadInst(context, stringPointerPointer, "stringPointer");
-
-  return stringPointer;
 }
 
 const IType* MethodCall::getType(IRGenerationContext& context) const {
@@ -373,18 +303,6 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
   }
 }
 
-string MethodCall::translateObjectMethodToLLVMFunctionName(const IObjectType* object,
-                                                           string methodName) {
-  if (object == NULL) {
-    return methodName;
-  }
-  return object->getName() + "." + methodName;
-}
-
-string MethodCall::getMethodNameConstantName(string methodName) {
-  return "methodname." + methodName;
-}
-
 string MethodCall::translateInterfaceMethodToLLVMFunctionName(const IObjectType* object,
                                                               const Interface* interface,
                                                               string methodName) {
@@ -416,14 +334,3 @@ void MethodCall::printToStream(IRGenerationContext& context, std::iostream& stre
   stream << ")";
 }
 
-Constant* MethodCall::getMethodNameConstantPointer(IRGenerationContext& context) const {
-  string constantName = getMethodNameConstantName(mMethodName);
-  GlobalVariable* constant = context.getModule()->getNamedGlobal(constantName);
-  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
-  Value* Idx[2];
-  Idx[0] = zeroInt32;
-  Idx[1] = zeroInt32;
-  Type* elementType = constant->getType()->getPointerElementType();
-  
-  return ConstantExpr::getGetElementPtr(elementType, constant, Idx);
-}

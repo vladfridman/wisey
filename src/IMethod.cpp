@@ -102,7 +102,8 @@ Function* IMethod::defineFunction(IRGenerationContext& context,
                                                                context,
                                                                objectType);
   string methodName = method->getName();
-  string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(objectType, methodName);
+  string functionName = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType,
+                                                                             methodName);
   
   GlobalValue::LinkageTypes linkageType = method->getAccessLevel() == PRIVATE_ACCESS
     ? GlobalValue::InternalLinkage

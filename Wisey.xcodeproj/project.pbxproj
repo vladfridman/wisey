@@ -593,6 +593,8 @@
 		F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
 		F5ADB6291E69831A00FFC941 /* Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB6271E69831A00FFC941 /* Method.cpp */; };
 		F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */; };
+		F5B3DCE51F9116AF00FC76D3 /* IMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */; };
+		F5B3DCE61F9116AF00FC76D3 /* IMethodCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */; };
 		F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */; };
 		F5B9B1531E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */; };
 		F5B9B1541E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */; };
@@ -1220,6 +1222,8 @@
 		F5ADB6251E67075400FFC941 /* TestInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterface.cpp; path = tests/TestInterface.cpp; sourceTree = "<group>"; };
 		F5ADB6271E69831A00FFC941 /* Method.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Method.cpp; path = src/Method.cpp; sourceTree = "<group>"; };
 		F5ADB62A1E69860F00FFC941 /* TestMethod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethod.cpp; path = tests/TestMethod.cpp; sourceTree = "<group>"; };
+		F5B3DCE31F91156C00FC76D3 /* IMethodCall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethodCall.hpp; path = include/wisey/IMethodCall.hpp; sourceTree = "<group>"; };
+		F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IMethodCall.cpp; path = src/IMethodCall.cpp; sourceTree = "<group>"; };
 		F5B9B14F1E797B4800456CB4 /* TestMethodSignature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodSignature.cpp; path = tests/TestMethodSignature.cpp; sourceTree = "<group>"; };
 		F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TypeComparisionExpression.cpp; path = src/TypeComparisionExpression.cpp; sourceTree = "<group>"; };
 		F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTypeComparisionExpression.cpp; path = tests/TestTypeComparisionExpression.cpp; sourceTree = "<group>"; };
@@ -2032,6 +2036,7 @@
 				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
 				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
 				F51D2BA71F68390200510784 /* IMethod.hpp */,
+				F5B3DCE31F91156C00FC76D3 /* IMethodCall.hpp */,
 				F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */,
 				F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */,
 				F5089C751ECD01D9004A1223 /* INode.hpp */,
@@ -2057,6 +2062,7 @@
 				F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */,
 				F5A363561F376C90005880B3 /* IFieldVariable.cpp */,
 				F51D2BB31F691C8100510784 /* IMethod.cpp */,
+				F5B3DCE41F9116AF00FC76D3 /* IMethodCall.cpp */,
 				F592A7C31F7D8EAE0026BD2F /* IMethodDeclaration.cpp */,
 				F508E0681E72D954005D6115 /* IMethodDescriptor.cpp */,
 				F56AD4A01E9F66C40020868C /* IObjectType.cpp */,
@@ -2712,6 +2718,7 @@
 				F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */,
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
+				F5B3DCE61F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
 				F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F53A2C251EFFD0BD00E76A9E /* NodeDefinition.cpp in Sources */,
 				F57085F61E511BAC007D627E /* TestReferenceFieldVariable.cpp in Sources */,
@@ -2904,6 +2911,7 @@
 				F50FA2E51E2E3B0900435EEA /* DoubleConstant.cpp in Sources */,
 				F508E0661E72CB0E005D6115 /* MethodSignature.cpp in Sources */,
 				F508E0691E72D954005D6115 /* IMethodDescriptor.cpp in Sources */,
+				F5B3DCE51F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
 				F58A83561F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */,
 				F5F2F3771EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */,
 				F5A363571F376C90005880B3 /* IFieldVariable.cpp in Sources */,

@@ -187,7 +187,7 @@ public:
 };
 
 TEST_F(MethodCallTest, translateObjectMethodToLLVMFunctionNameTest) {
-  string functionName = MethodCall::translateObjectMethodToLLVMFunctionName(mModel, "foo");
+  string functionName = IMethodCall::translateObjectMethodToLLVMFunctionName(mModel, "foo");
   
   EXPECT_STREQ(functionName.c_str(), "systems.vos.wisey.compiler.tests.MSquare.foo");
   delete mExpression;
