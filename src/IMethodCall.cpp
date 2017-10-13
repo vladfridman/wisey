@@ -42,17 +42,6 @@ void IMethodCall::pushCallStack(IRGenerationContext& context,
   }
   
   vector<Value*> arguments;
-  Value* objectName = getObjectNamePointer(context, object, expressionValue);
-  Constant* functionName = getMethodNameConstantPointer(context, methodName);
-  arguments.push_back(threadObject);
-  arguments.push_back(threadObject);
-  arguments.push_back(objectName);
-  arguments.push_back(functionName);
-  string setObjectAndMethodFunctionName =
-    translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadSetObjectAndMethod());
-  Function* setObjectAndMethodFunction = context.getModule()->
-    getFunction(setObjectAndMethodFunctionName.c_str());
-  IRWriter::createCallInst(context, setObjectAndMethodFunction, arguments, "");
   
   GlobalVariable* emptyStringGlobal =
   context.getModule()->getNamedGlobal(Names::getEmptyStringName());
@@ -71,6 +60,19 @@ void IMethodCall::pushCallStack(IRGenerationContext& context,
     translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadPushStack());
   Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());
   IRWriter::createCallInst(context, pushStackFunction, arguments, "");
+
+  arguments.clear();
+  Value* objectName = getObjectNamePointer(context, object, expressionValue);
+  Constant* functionName = getMethodNameConstantPointer(context, methodName);
+  arguments.push_back(threadObject);
+  arguments.push_back(threadObject);
+  arguments.push_back(objectName);
+  arguments.push_back(functionName);
+  string setObjectAndMethodFunctionName =
+  translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadSetObjectAndMethod());
+  Function* setObjectAndMethodFunction = context.getModule()->
+  getFunction(setObjectAndMethodFunctionName.c_str());
+  IRWriter::createCallInst(context, setObjectAndMethodFunction, arguments, "");
 }
 
 void IMethodCall::popCallStack(IRGenerationContext& context,
