@@ -203,6 +203,8 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     result = IRWriter::createInvokeInst(context, function, arguments, "");
   }
   
+  popCallStack(context, object, threadObject);
+  
   const IType* returnType = methodDescriptor->getReturnType();
   if (returnType->getTypeKind() == PRIMITIVE_TYPE) {
     return result;

@@ -35,13 +35,13 @@ void IMethodCall::pushCallStack(IRGenerationContext& context,
                                 string methodName,
                                 Value* expressionValue,
                                 Value* threadObject) {
-  vector<Value*> arguments;
   Controller* threadController = context.getController(Names::getThreadControllerFullName());
   if (!Names::getThreadStackNodeName().compare(object->getName())) {
     // avoid inifinite recursion in wisey.lang.CThread.pushStack()
     return;
   }
   
+  vector<Value*> arguments;
   Value* objectName = getObjectNamePointer(context, object, expressionValue);
   Constant* functionName = getMethodNameConstantPointer(context, methodName);
   arguments.push_back(threadObject);
@@ -51,7 +51,7 @@ void IMethodCall::pushCallStack(IRGenerationContext& context,
   string setObjectAndMethodFunctionName =
     translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadSetObjectAndMethod());
   Function* setObjectAndMethodFunction = context.getModule()->
-  getFunction(setObjectAndMethodFunctionName.c_str());
+    getFunction(setObjectAndMethodFunctionName.c_str());
   IRWriter::createCallInst(context, setObjectAndMethodFunction, arguments, "");
   
   GlobalVariable* emptyStringGlobal =
@@ -71,6 +71,24 @@ void IMethodCall::pushCallStack(IRGenerationContext& context,
     translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadPushStack());
   Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());
   IRWriter::createCallInst(context, pushStackFunction, arguments, "");
+}
+
+void IMethodCall::popCallStack(IRGenerationContext& context,
+                               const IObjectType* object,
+                               Value* threadObject) {
+  Controller* threadController = context.getController(Names::getThreadControllerFullName());
+  if (!Names::getThreadStackNodeName().compare(object->getName())) {
+    // avoid inifinite recursion in wisey.lang.CThread.popStack()
+    return;
+  }
+
+  vector<Value*> arguments;
+  arguments.push_back(threadObject);
+  arguments.push_back(threadObject);
+  string popStackFunctionName =
+    translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadPopStack());
+  Function* popStackFunction = context.getModule()->getFunction(popStackFunctionName.c_str());
+  IRWriter::createCallInst(context, popStackFunction, arguments, "");
 }
 
 Value* IMethodCall::getObjectNamePointer(IRGenerationContext& context,

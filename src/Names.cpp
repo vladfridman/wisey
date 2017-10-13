@@ -63,5 +63,6 @@ string Names::getThreadPushStack() {
   return "pushStack";
 }
 
-
-
+string Names::getThreadPopStack() {
+  return "popStack";
+}

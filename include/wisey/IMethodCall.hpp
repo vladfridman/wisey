@@ -31,6 +31,13 @@ public:
                             llvm::Value* threadObject);
 
   /**
+   * Pop a method call from stack
+   */
+  static void popCallStack(IRGenerationContext& context,
+                           const IObjectType* object,
+                           llvm::Value* threadObject);
+  
+  /**
    * Translate object method name into its LLVM implemenation function name
    */
   static std::string translateObjectMethodToLLVMFunctionName(const IObjectType* object,

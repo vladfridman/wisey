@@ -78,15 +78,27 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
   block = new Block();
   compoundStatement = new CompoundStatement(block);
-  MethodDeclaration* pushStackMethodMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                                                      voidTypeSpecifier,
-                                                                      "pushStack",
-                                                                      arguments,
-                                                                      exceptions,
-                                                                      compoundStatement);
+  MethodDeclaration* pushStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                                                             voidTypeSpecifier,
+                                                             "pushStack",
+                                                             arguments,
+                                                             exceptions,
+                                                             compoundStatement);
+
+  arguments.clear();
+  voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  block = new Block();
+  compoundStatement = new CompoundStatement(block);
+  MethodDeclaration* popStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                                                            voidTypeSpecifier,
+                                                            "popStack",
+                                                            arguments,
+                                                            exceptions,
+                                                            compoundStatement);
 
   methodDeclarations.push_back(setObjectAndMethodMethod);
-  methodDeclarations.push_back(pushStackMethodMethod);
+  methodDeclarations.push_back(pushStackMethod);
+  methodDeclarations.push_back(popStackMethod);
 
   ControllerDefinition threadControllerDefinition(controllerTypeSpecifier,
                                                   fieldDeclarations,

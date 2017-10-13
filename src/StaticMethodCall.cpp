@@ -107,6 +107,8 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
     result = IRWriter::createInvokeInst(context, function, arguments, resultName);
   }
   
+  popCallStack(context, objectType, threadObject);
+
   const IType* returnType = methodDescriptor->getReturnType();
   if (returnType->getTypeKind() == PRIMITIVE_TYPE) {
     return result;

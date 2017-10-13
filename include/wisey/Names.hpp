@@ -86,6 +86,10 @@ public:
    */
   static std::string getThreadPushStack();
   
+  /**
+   * Get the method for popping the call stack
+   */
+  static std::string getThreadPopStack();
 };
 
 } /* namespace wisey */
