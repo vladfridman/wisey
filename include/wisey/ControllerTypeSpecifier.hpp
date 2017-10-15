@@ -9,14 +9,14 @@
 #ifndef ControllerTypeSpecifier_h
 #define ControllerTypeSpecifier_h
 
-#include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/IInjectableObjectTypeSpecifier.hpp"
 
 namespace wisey {
   
 /**
  * Represents controller type specifier
  */
-class ControllerTypeSpecifier : public IObjectTypeSpecifier {
+class ControllerTypeSpecifier : public IInjectableObjectTypeSpecifier {
   const std::vector<std::string> mPackage;
   const std::string mShortName;
   
@@ -31,7 +31,7 @@ public:
   
   std::string getName(IRGenerationContext& context) const override;
   
-  Controller* getType(IRGenerationContext& context) const override;
+  const Controller* getType(IRGenerationContext& context) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 

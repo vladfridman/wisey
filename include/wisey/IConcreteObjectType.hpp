@@ -151,7 +151,8 @@ public:
   /**
    * Returns the interface index in the list of flattened interface hierarchy
    */
-  static int getInterfaceIndex(const IConcreteObjectType* object, Interface* interface);
+  static int getInterfaceIndex(const IConcreteObjectType* object,
+                               const Interface* interface);
   
   /**
    * Initialize vTable of a newly created concrete object

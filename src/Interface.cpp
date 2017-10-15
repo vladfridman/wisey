@@ -161,7 +161,7 @@ unsigned long Interface::getMethodIndex(IMethodDescriptor* methodDescriptor) con
   return mMethodIndexes.at(methodDescriptor);
 }
 
-bool Interface::doesExtendInterface(Interface* interface) const {
+bool Interface::doesExtendInterface(const Interface* interface) const {
   for (Interface* parentInterface : mParentInterfaces) {
     if (parentInterface == interface || parentInterface->doesExtendInterface(interface)) {
       return true;
@@ -569,4 +569,9 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
                      GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                      stringConstant,
                      getObjectNameGlobalVariableName());
+}
+
+Instruction* Interface::inject(IRGenerationContext& context, ExpressionList expressionList) const {
+  Controller* controller = context.getBoundController(context.getInterface(getName()));
+  return controller->inject(context, expressionList);
 }

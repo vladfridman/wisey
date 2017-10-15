@@ -74,7 +74,7 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
 }
 
 int IConcreteObjectType::getInterfaceIndex(const IConcreteObjectType* object,
-                                           Interface* interface) {
+                                           const Interface* interface) {
   int index = 0;
   for (Interface* implementedInterface : object->getFlattenedInterfaceHierarchy()) {
     if (implementedInterface == interface) {

@@ -33,12 +33,14 @@
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"
   #include "wisey/IBuildableConcreteObjectTypeSpecifier.hpp"
+  #include "wisey/IInjectableObjectTypeSpecifier.hpp"
   #include "wisey/Identifier.hpp"
   #include "wisey/IfElseStatement.hpp"
   #include "wisey/IfStatement.hpp"
   #include "wisey/IGlobalStatement.hpp"
   #include "wisey/ImportStatement.hpp"
   #include "wisey/IncrementExpression.hpp"
+  #include "wisey/Injector.hpp"
   #include "wisey/IntConstant.hpp"
   #include "wisey/InterfaceDefinition.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -119,6 +121,7 @@
   wisey::ModelTypeSpecifier* model_type_specifier;
   wisey::ControllerTypeSpecifier* controller_type_specifier;
   wisey::InterfaceTypeSpecifier* interface_type_specifier;
+  wisey::IInjectableObjectTypeSpecifier* injectable_object_type_specifier;
   wisey::FieldDeclaration* object_field;
   wisey::NodeTypeSpecifier* node_type_specifier;
   wisey::AccessLevel access_specifier;
@@ -164,7 +167,7 @@
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression object_builder method_call
 %type <expression> cast_expression primary_expression assignment unary_expression
-%type <expression> type_comparision_expression increment_expression static_method_call
+%type <expression> type_comparision_expression increment_expression static_method_call injection
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments string_concatenation_list
 %type <block> block_item_list 
@@ -188,6 +191,7 @@
 %type <object_field> field_declaration
 %type <type_specifier> type_specifier primitive_type_specifier
 %type <buildable_concrete_object_type_specifier> buildable_concrete_object_type_specifier
+%type <injectable_object_type_specifier> injectable_object_type_specifier
 %type <object_type_specifier> object_type_specifier
 %type <object_builder_argument_list> object_builder_argument_list
 %type <object_builder_argument> object_builder_argument
@@ -830,6 +834,7 @@ primary_expression
   | constant
   | string_literal
   | object_builder
+  | injection
   | method_call
   | static_method_call
   | '(' expression ')' { $$ = $2; }
@@ -944,6 +949,10 @@ assignment
   : identifier '=' expression { $$ = new Assignment($<identifier>1, $3); }
   ;
 
+injection
+  : TINJECT '(' injectable_object_type_specifier ')' { $$ = new Injector($3); }
+  ;
+
 object_builder
   : TBUILDER '(' buildable_concrete_object_type_specifier ')' object_builder_argument_list
     '.' TBUILD '(' ')'
@@ -1043,6 +1052,11 @@ exception_type_specifier
 buildable_concrete_object_type_specifier
   : model_type_specifier { $$ = (IBuildableConcreteObjectTypeSpecifier*) $1; }
   | node_type_specifier { $$ = (IBuildableConcreteObjectTypeSpecifier*) $1; }
+  ;
+
+injectable_object_type_specifier
+  : interface_type_specifier { $$ = (IInjectableObjectTypeSpecifier*) $1; }
+  | controller_type_specifier { $$ = (IInjectableObjectTypeSpecifier*) $1; }
   ;
 
 %%

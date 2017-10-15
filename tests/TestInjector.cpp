@@ -1,11 +1,11 @@
 //
-//  TestInterfaceInjector.cpp
+//  TestInjector.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 5/15/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link InterfaceInjector}
+//  Tests {@link Injector}
 //
 
 #include <sstream>
@@ -18,8 +18,9 @@
 
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
-#include "wisey/InterfaceInjector.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/Injector.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -32,7 +33,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct InterfaceInjectorTest : Test {
+struct InjectorTest : Test {
   IRGenerationContext mContext;
   Controller* mController;
   Interface* mInterface;
@@ -44,7 +45,7 @@ struct InterfaceInjectorTest : Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  InterfaceInjectorTest() {
+  InjectorTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     mContext.setPackage("systems.vos.wisey.compiler.tests");
 
@@ -93,65 +94,65 @@ struct InterfaceInjectorTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~InterfaceInjectorTest() {
+  ~InjectorTest() {
     delete mStringStream;
   }
 };
 
-TEST_F(InterfaceInjectorTest, getVariableTest) {
-  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
+TEST_F(InjectorTest, getVariableTest) {
+  Injector injector(mInterfaceTypeSpecifier);
   
-  EXPECT_EQ(interfaceInjector.getVariable(mContext), nullptr);
+  EXPECT_EQ(injector.getVariable(mContext), nullptr);
 }
 
-TEST_F(InterfaceInjectorTest, releaseOwnershipTest) {
-  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
-  interfaceInjector.generateIR(mContext);
+TEST_F(InjectorTest, releaseOwnershipTest) {
+  Injector injector(mInterfaceTypeSpecifier);
+  injector.generateIR(mContext);
   
-  string temporaryVariableName = IVariable::getTemporaryVariableName(&interfaceInjector);
+  string temporaryVariableName = IVariable::getTemporaryVariableName(&injector);
   
   EXPECT_NE(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
   
-  interfaceInjector.releaseOwnership(mContext);
+  injector.releaseOwnership(mContext);
   
   EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
 }
 
-TEST_F(InterfaceInjectorTest, addReferenceToOwnerDeathTest) {
-  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
-  interfaceInjector.generateIR(mContext);
+TEST_F(InjectorTest, addReferenceToOwnerDeathTest) {
+  Injector injector(mInterfaceTypeSpecifier);
+  injector.generateIR(mContext);
   
   NiceMock<MockVariable> referenceVariable;
   ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
   ON_CALL(referenceVariable, getType()).WillByDefault(Return(mInterface));
 
-  string temporaryVariableName = IVariable::getTemporaryVariableName(&interfaceInjector);
+  string temporaryVariableName = IVariable::getTemporaryVariableName(&injector);
 
-  interfaceInjector.addReferenceToOwner(mContext, &referenceVariable);
+  injector.addReferenceToOwner(mContext, &referenceVariable);
   
   map<string, IVariable*> owners = mContext.getScopes().getOwnersForReference(&referenceVariable);
   EXPECT_EQ(owners.size(), 1u);
   EXPECT_EQ(owners.begin()->second, mContext.getScopes().getVariable(temporaryVariableName));
 }
 
-TEST_F(InterfaceInjectorTest, getTypeTest) {
-  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
+TEST_F(InjectorTest, getTypeTest) {
+  Injector injector(mInterfaceTypeSpecifier);
   
-  EXPECT_EQ(interfaceInjector.getType(mContext), mController->getOwner());
+  EXPECT_EQ(injector.getType(mContext), mController->getOwner());
 }
 
-TEST_F(InterfaceInjectorTest, existsInOuterScopeTest) {
-  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
-  interfaceInjector.generateIR(mContext);
+TEST_F(InjectorTest, existsInOuterScopeTest) {
+  Injector injector(mInterfaceTypeSpecifier);
+  injector.generateIR(mContext);
   
-  EXPECT_FALSE(interfaceInjector.existsInOuterScope(mContext));
+  EXPECT_FALSE(injector.existsInOuterScope(mContext));
 }
 
-TEST_F(InterfaceInjectorTest, printToStreamTest) {
-  InterfaceInjector interfaceInjector(mInterfaceTypeSpecifier);
+TEST_F(InjectorTest, printToStreamTest) {
+  Injector injector(mInterfaceTypeSpecifier);
 
   stringstream stringStream;
-  interfaceInjector.printToStream(mContext, stringStream);
+  injector.printToStream(mContext, stringStream);
   
   EXPECT_STREQ("inject(systems.vos.wisey.compiler.tests.IMyInterface)", stringStream.str().c_str());
 }

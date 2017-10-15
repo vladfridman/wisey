@@ -20,7 +20,7 @@ std::string ControllerTypeSpecifier::getName(IRGenerationContext& context) const
   return getFullName(context, mShortName, mPackage);
 }
 
-Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
+const Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getController(getName(context));
 }
 

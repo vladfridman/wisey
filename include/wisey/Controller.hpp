@@ -14,6 +14,7 @@
 #include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IExpression.hpp"
+#include "wisey/IInjectable.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/Interface.hpp"
 
@@ -24,7 +25,7 @@ class ControllerOwner;
 /**
  * Contains information about a Controller including its fields and methods
  */
-class Controller : public IConcreteObjectType {
+class Controller : public IConcreteObjectType, public IInjectable {
   std::string mName;
   llvm::StructType* mStructType;
   bool mIsExternal;
@@ -53,10 +54,8 @@ public:
    */
   static Controller* newExternalController(std::string name, llvm::StructType* structType);
 
-  /**
-   * Inject an instance of this controller into LLVM code
-   */
-  llvm::Instruction* inject(IRGenerationContext& context, ExpressionList expressionList) const;
+  llvm::Instruction* inject(IRGenerationContext& context,
+                            ExpressionList expressionList) const override;
   
   void setFields(std::vector<Field*> fields) override;
   

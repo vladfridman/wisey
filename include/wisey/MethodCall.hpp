@@ -68,7 +68,7 @@ private:
                                           IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
-                                             Interface* interface,
+                                             const Interface* interface,
                                              IMethodDescriptor* methodDescriptor) const;
   
   llvm::Function* getMethodFunction(IRGenerationContext& context,

@@ -15,7 +15,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IObjectType.hpp"
+#include "wisey/IInjectable.hpp"
 #include "wisey/MethodSignature.hpp"
 
 namespace wisey {
@@ -28,7 +28,7 @@ class Model;
 /**
  * Contains information about an Interface including the llvm::StructType and method information
  */
-class Interface : public IObjectType {
+class Interface : public IObjectType, public IInjectable {
   std::string mName;
   llvm::StructType* mStructType;
   bool mIsExternal;
@@ -88,7 +88,7 @@ public:
   /**
    * Tells whether this interface extends a given one
    */
-  bool doesExtendInterface(Interface* interface) const;
+  bool doesExtendInterface(const Interface* interface) const;
   
   /**
    * Return function name that casts this interface into a given ICallableObject type
@@ -114,6 +114,9 @@ public:
    * Given a value of type interface get the pointer back to the original object that implements it
    */
   static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
+
+  llvm::Instruction* inject(IRGenerationContext& context,
+                            ExpressionList expressionList) const override;
 
   MethodSignature* findMethod(std::string methodName) const override;
 

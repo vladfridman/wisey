@@ -33,7 +33,7 @@ public:
   
   std::string getName(IRGenerationContext& context) const override;
 
-  Node* getType(IRGenerationContext& context) const override;
+  const Node* getType(IRGenerationContext& context) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 

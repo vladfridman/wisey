@@ -21,7 +21,7 @@ std::string NodeTypeSpecifier::getName(IRGenerationContext& context) const {
   return getFullName(context, mShortName, mPackage);
 }
 
-Node* NodeTypeSpecifier::getType(IRGenerationContext& context) const {
+const Node* NodeTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getNode(getName(context));
 }
 

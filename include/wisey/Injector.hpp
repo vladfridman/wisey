@@ -1,39 +1,38 @@
 //
-//  InterfaceInjector.hpp
+//  Injector.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 5/13/17.
+//  Created by Vladimir Fridman on 10/14/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef InterfaceInjector_h
-#define InterfaceInjector_h
+#ifndef Injector_h
+#define Injector_h
 
-#include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/IExpression.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/IInjectableObjectTypeSpecifier.hpp"
 
 namespace wisey {
   
 /**
- * Represents injector used to initialize and instantiate controllers bound to interfaces
+ * Represents injector used to initialize and instantiate controllers
  */
-class InterfaceInjector : public IExpression {
+class Injector : public IExpression {
     
-  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
+  IInjectableObjectTypeSpecifier* mInjectableObjectTypeSpecifier;
   
 public:
   
-  InterfaceInjector(InterfaceTypeSpecifier* interfaceTypeSpecifier) :
-  mInterfaceTypeSpecifier(interfaceTypeSpecifier) { }
+  Injector(IInjectableObjectTypeSpecifier* injectableObjectTypeSpecifier) :
+  mInjectableObjectTypeSpecifier(injectableObjectTypeSpecifier) { }
   
-  ~InterfaceInjector();
+  ~Injector();
   
   IVariable* getVariable(IRGenerationContext& context) const override;
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
-  const IType* getType(IRGenerationContext& context) const override;
+  const IObjectOwnerType* getType(IRGenerationContext& context) const override;
   
   void releaseOwnership(IRGenerationContext& context) const override;
   
@@ -42,9 +41,9 @@ public:
   void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-};
   
+};
+
 } /* namespace wisey */
 
-#endif /* InterfaceInjector_h */
+#endif /* Injector_h */

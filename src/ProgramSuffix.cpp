@@ -17,8 +17,8 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IfStatement.hpp"
+#include "wisey/Injector.hpp"
 #include "wisey/IntConstant.hpp"
-#include "wisey/InterfaceInjector.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
@@ -101,7 +101,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   context.getScopes().pushScope();
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
   
-  InterfaceInjector* interfaceInjector = new InterfaceInjector(programInterfaceSpecifier);
+  Injector* injector = new Injector(programInterfaceSpecifier);
   Identifier* programIdentifier = new Identifier("program", "program");
   vector<string> package;
   package.push_back("wisey");
@@ -109,7 +109,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   programInterfaceSpecifier = new InterfaceTypeSpecifier(package, Names::getIProgramName());
   VariableDeclaration programVariableDeclaration(programInterfaceSpecifier,
                                                  programIdentifier,
-                                                 interfaceInjector);
+                                                 injector);
   programVariableDeclaration.generateIR(context);
 
   IntConstant* exceptionIntConstant = new IntConstant(11);

@@ -83,7 +83,7 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
 }
 
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
-                                                 Interface* interface,
+                                                 const Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
   Value* expressionValueStore = generateExpressionIR(context);
   Value* expressionValueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
