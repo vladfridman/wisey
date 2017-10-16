@@ -66,7 +66,7 @@ TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
               "Undeclared variable 'foo'");
 }
 
-TEST_F(IdentifierTest, variableTypeTest) {
+TEST_F(IdentifierTest, getTypeTest) {
   StackVariable* variable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
   mContext.getScopes().setVariable(variable);
   Identifier identifier("foo", "bar");
@@ -74,7 +74,7 @@ TEST_F(IdentifierTest, variableTypeTest) {
   EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(IdentifierTest, generateIdentifierIR) {
+TEST_F(IdentifierTest, generateIRTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
@@ -88,7 +88,7 @@ TEST_F(IdentifierTest, generateIdentifierIR) {
   identifier.generateIR(mContext);
 }
 
-TEST_F(IdentifierTest, releaseOwnership) {
+TEST_F(IdentifierTest, releaseOwnershipTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
