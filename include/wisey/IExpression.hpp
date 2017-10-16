@@ -25,6 +25,8 @@ public:
 
   /**
    * If this expression resolves to a vairable returns the variable otherwise returns NULL
+   *
+   * This is needed for checking wheather an increment operation can by applied to an expression
    */
   virtual IVariable* getVariable(IRGenerationContext& context) const = 0;
   
