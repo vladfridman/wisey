@@ -357,7 +357,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     objectOwnerType->free(context, fieldPointer);
   }
   
-  Composer::freeIfNotNull(context, thisLoaded);
+  IRWriter::createFree(context, thisLoaded);
   IRWriter::createReturnInst(context, NULL);
 }
 

@@ -25,11 +25,6 @@ public:
    * Check if a given expession is null and throw an NPE if it is
    */
   static void checkNullAndThrowNPE(IRGenerationContext& context, llvm::Value* value);
-  
-  /**
-   * Free memory if the pointer is not null
-   */
-  static void freeIfNotNull(IRGenerationContext& context, llvm::Value* pointer);
 
 };
 

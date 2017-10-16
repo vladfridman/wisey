@@ -189,7 +189,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MStar* %0 to i8*"
-  "\n  call void @__freeIfNotNull(i8* %2)"
+  "\n  tail call void @free(i8* %2)"
   "\n  ret void"
   "\n}\n";
   
@@ -226,7 +226,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldsT
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MStar("
   "%systems.vos.wisey.compiler.tests.MStar** %2)"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %0 to i8*"
-  "\n  call void @__freeIfNotNull(i8* %3)"
+  "\n  tail call void @free(i8* %3)"
   "\n  ret void"
   "\n}\n";
   
@@ -260,7 +260,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.ICanNavigate("
   "%systems.vos.wisey.compiler.tests.ICanNavigate** %2)"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MCar* %0 to i8*"
-  "\n  call void @__freeIfNotNull(i8* %3)"
+  "\n  tail call void @free(i8* %3)"
   "\n  ret void"
   "\n}\n";
   

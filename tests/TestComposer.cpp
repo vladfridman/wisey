@@ -93,20 +93,3 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ComposerTest, freeIfNotNullTest) {
-  Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext)
-                                          ->getPointerElementType());
-  
-  Composer::freeIfNotNull(mContext, value);
-  
-  *mStringStream << *mMainFunction;
-  string expected =
-  "\ndefine internal i32 @main() {"
-  "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MMyModel* null to i8*"
-  "\n  call void @__freeIfNotNull(i8* %0)"
-  "\n}\n";
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  
-  mStringBuffer.clear();
-}

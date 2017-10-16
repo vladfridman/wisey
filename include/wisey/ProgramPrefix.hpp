@@ -26,8 +26,6 @@ public:
 
 private:
   
-  void defineFreeIfNotNullFunction(IRGenerationContext& context) const;
-
   void defineNPEFunction(IRGenerationContext& context) const;
   
   llvm::StructType* defineFileStruct(IRGenerationContext& context) const;
