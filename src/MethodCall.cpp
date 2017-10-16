@@ -74,10 +74,10 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
   if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
     return true;
   }
-  if (methodDescriptor->isStatic()) {
+  IVariable* thisVariable = context.getThis();
+  if (thisVariable == NULL) {
     return context.getScopes().getObjectType() == object;
   }
-  IVariable* thisVariable = context.getThis();
   
   return thisVariable != NULL && thisVariable->getType() == object;
 }
