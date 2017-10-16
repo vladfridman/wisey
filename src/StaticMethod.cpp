@@ -21,6 +21,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StackVariable.hpp"
 #include "wisey/StaticMethod.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -98,7 +99,7 @@ void StaticMethod::createArguments(IRGenerationContext& context,
                                    const IObjectType* objectType) const {
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
-  llvmFunctionArgument->setName("thread");
+  llvmFunctionArgument->setName(ThreadExpression::THREAD);
   llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;
@@ -108,7 +109,7 @@ void StaticMethod::createArguments(IRGenerationContext& context,
   
   llvmFunctionArguments = function->arg_begin();
   IMethod::storeArgumentValue(context,
-                              "thread",
+                              ThreadExpression::THREAD,
                               context.getController(Names::getThreadControllerFullName()),
                               &*llvmFunctionArguments);
   llvmFunctionArguments++;

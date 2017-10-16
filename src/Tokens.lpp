@@ -89,6 +89,7 @@ WS  [ \t\v\n\f]
 "static"                      return TOKEN(TSTATIC);
 "string"                      return TOKEN(TTYPESTRING);
 "switch"                      return TOKEN(TSWITCH);
+"thread"                      return TOKEN(TTHREAD);
 "throw"                       return TOKEN(TTHROW);
 "throws"                      return TOKEN(TTHROWS);
 "to"                          return TOKEN(TTO);

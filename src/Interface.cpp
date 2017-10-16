@@ -21,6 +21,7 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -265,7 +266,7 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
   llvm::Argument *argument = &*arguments;
   argument->setName("this");
   arguments++;
-  argument->setName("thread");
+  argument->setName(ThreadExpression::THREAD);
   arguments++;
   vector<MethodArgument*> methodArguments = interfaceMethodSignature->getArguments();
   for (MethodArgument* methodArgument : interfaceMethodSignature->getArguments()) {

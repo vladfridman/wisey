@@ -16,6 +16,7 @@
 #include "wisey/Log.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/StaticMethodCall.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -72,7 +73,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   }
   
   vector<Value*> arguments;
-  IVariable* threadVariable = context.getScopes().getVariable("thread");
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context, "threadLoaded");
   arguments.push_back(threadObject);
 

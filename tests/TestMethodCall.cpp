@@ -32,6 +32,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -137,7 +138,9 @@ public:
     Value* threadStore = IRWriter::newAllocaInst(mContext,
                                                  mThreadController->getLLVMType(mLLVMContext),
                                                  "threadStore");
-    IVariable* threadVariable = new HeapReferenceVariable("thread", mThreadController, threadStore);
+    IVariable* threadVariable = new HeapReferenceVariable(ThreadExpression::THREAD,
+                                                          mThreadController,
+                                                          threadStore);
     threadVariable->setToNull(mContext);
     mContext.getScopes().setVariable(threadVariable);
 

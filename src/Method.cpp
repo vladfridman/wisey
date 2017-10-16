@@ -23,6 +23,7 @@
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StackVariable.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -102,7 +103,7 @@ void Method::createArguments(IRGenerationContext& context,
   llvmFunctionArgument->setName("this");
   llvmFunctionArguments++;
   llvmFunctionArgument = &*llvmFunctionArguments;
-  llvmFunctionArgument->setName("thread");
+  llvmFunctionArgument->setName(ThreadExpression::THREAD);
   llvmFunctionArguments++;
   for (MethodArgument* methodArgument : mArguments) {
     llvmFunctionArgument = &*llvmFunctionArguments;

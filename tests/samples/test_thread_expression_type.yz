@@ -1,0 +1,13 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return thread instanceof wisey.lang.CThread;
+  }
+}
+
+bind(CProgram).to(IProgram);
+

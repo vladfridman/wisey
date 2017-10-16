@@ -431,6 +431,9 @@
 		F58725651F70178D00FA25E6 /* TestPrintErrStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */; };
 		F58748301F921F6B0088F1E3 /* Injector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F587482F1F921F6B0088F1E3 /* Injector.cpp */; };
 		F58748311F921F6B0088F1E3 /* Injector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F587482F1F921F6B0088F1E3 /* Injector.cpp */; };
+		F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58748331F95143A0088F1E3 /* ThreadExpression.cpp */; };
+		F58748351F95143A0088F1E3 /* ThreadExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58748331F95143A0088F1E3 /* ThreadExpression.cpp */; };
+		F58748371F951E580088F1E3 /* TestThreadExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F58748361F951E580088F1E3 /* TestThreadExpression.cpp */; };
 		F58A82EC1F79657300369388 /* libLLVMAArch64AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061671F794C280098D637 /* libLLVMAArch64AsmParser.a */; };
 		F58A82ED1F79657300369388 /* libLLVMAArch64AsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F530616A1F794C280098D637 /* libLLVMAArch64AsmPrinter.a */; };
 		F58A82EE1F79657300369388 /* libLLVMAArch64CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061661F794C280098D637 /* libLLVMAArch64CodeGen.a */; };
@@ -1169,6 +1172,9 @@
 		F587482D1F921CC60088F1E3 /* IInjectable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IInjectable.hpp; path = include/wisey/IInjectable.hpp; sourceTree = "<group>"; };
 		F587482E1F921ECB0088F1E3 /* Injector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Injector.hpp; path = include/wisey/Injector.hpp; sourceTree = "<group>"; };
 		F587482F1F921F6B0088F1E3 /* Injector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Injector.cpp; path = src/Injector.cpp; sourceTree = "<group>"; };
+		F58748321F9513B00088F1E3 /* ThreadExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThreadExpression.hpp; path = include/wisey/ThreadExpression.hpp; sourceTree = "<group>"; };
+		F58748331F95143A0088F1E3 /* ThreadExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThreadExpression.cpp; path = src/ThreadExpression.cpp; sourceTree = "<group>"; };
+		F58748361F951E580088F1E3 /* TestThreadExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThreadExpression.cpp; path = tests/TestThreadExpression.cpp; sourceTree = "<group>"; };
 		F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalControllerDefinition.hpp; path = include/wisey/ExternalControllerDefinition.hpp; sourceTree = "<group>"; };
 		F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalControllerDefinition.cpp; path = src/ExternalControllerDefinition.cpp; sourceTree = "<group>"; };
 		F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalModelDefinition.hpp; path = include/wisey/ExternalModelDefinition.hpp; sourceTree = "<group>"; };
@@ -1751,10 +1757,10 @@
 				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
 				F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
+				F57780B51ECA6B460049542D /* TestInjector.cpp */,
 				F50FA2EF1E2E3B2A00435EEA /* TestIntConstant.cpp */,
 				F5ADB6251E67075400FFC941 /* TestInterface.cpp */,
 				F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */,
-				F57780B51ECA6B460049542D /* TestInjector.cpp */,
 				F53A2C131EF018EE00E76A9E /* TestInterfaceOwner.cpp */,
 				F5EEDDA21E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp */,
 				F5CB180E1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp */,
@@ -1813,6 +1819,7 @@
 				F58725541F6DB97C00FA25E6 /* TestStringType.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
 				F53CDACF1F8BA91700D27687 /* TestThread.cpp */,
+				F58748361F951E580088F1E3 /* TestThreadExpression.cpp */,
 				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
 				F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */,
 				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
@@ -2195,6 +2202,7 @@
 				F53A2C471F029AF700E76A9E /* NullExpression.hpp */,
 				F5089C9F1ECD01D9004A1223 /* RelationalExpression.hpp */,
 				F5089CA01ECD01D9004A1223 /* RelationalOperation.hpp */,
+				F58748321F9513B00088F1E3 /* ThreadExpression.hpp */,
 				F5089CA91ECD01D9004A1223 /* TypeComparisionExpression.hpp */,
 			);
 			name = expressions;
@@ -2220,6 +2228,7 @@
 				F5ADB61A1E5F568400FFC941 /* NegateExpression.cpp */,
 				F53A2C481F029BA500E76A9E /* NullExpression.cpp */,
 				F53400F71DFC775A0002BF7E /* RelationalExpression.cpp */,
+				F58748331F95143A0088F1E3 /* ThreadExpression.cpp */,
 				F5B9B1521E7A9DB000456CB4 /* TypeComparisionExpression.cpp */,
 			);
 			name = expressions;
@@ -2583,6 +2592,7 @@
 				F507D2661E43551900495E2D /* Model.cpp in Sources */,
 				F531B65B1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
 				F50FA2EB1E2E3B1500435EEA /* IntConstant.cpp in Sources */,
+				F58748371F951E580088F1E3 /* TestThreadExpression.cpp in Sources */,
 				F53A2C0D1EEC37E900E76A9E /* InterfaceOwner.cpp in Sources */,
 				F531B65D1E0DEB26008304F3 /* TestCharConstant.cpp in Sources */,
 				F57780B61ECA6B460049542D /* TestInjector.cpp in Sources */,
@@ -2632,6 +2642,7 @@
 				F53401121DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
 				F55496FC1E06430500DDA2AF /* TestIdentifier.cpp in Sources */,
 				F5CB18151EB0F1BA007E2E43 /* TryCatchStatement.cpp in Sources */,
+				F58748351F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
@@ -2850,6 +2861,7 @@
 				F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
+				F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,

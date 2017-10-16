@@ -26,6 +26,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramSuffix.hpp"
 #include "wisey/ReturnStatement.hpp"
+#include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowStatement.hpp"
 #include "wisey/TryCatchStatement.hpp"
 #include "wisey/VariableDeclaration.hpp"
@@ -127,7 +128,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
   Value* threadTemp = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadTemp");
   IRWriter::newStoreInst(context, injectedThread, threadTemp);
-  IVariable* threadVariable = new HeapOwnerVariable("thread",
+  IVariable* threadVariable = new HeapOwnerVariable(ThreadExpression::THREAD,
                                                     threadController->getOwner(),
                                                     threadStore);
   context.getScopes().setVariable(threadVariable);
