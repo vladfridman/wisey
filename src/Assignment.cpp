@@ -31,11 +31,6 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
   context.getScopes().eraseFromClearedVariables(variable);
   
   const IType* identifierType = getType(context);
-  TypeKind identifierTypeKind = identifierType->getTypeKind();
-  if (identifierTypeKind == CONTROLLER_TYPE || identifierTypeKind == CONTROLLER_OWNER_TYPE) {
-    Log::e("Can not assign to controllers");
-    exit(1);
-  }
   
   Value* result = variable->generateAssignmentIR(context, mExpression);
   

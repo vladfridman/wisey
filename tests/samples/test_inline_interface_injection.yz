@@ -1,0 +1,26 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IHasValue {
+  int getValue();
+}
+
+controller CService implements IHasValue {
+
+  public int getValue() {
+    return 7;
+  }
+}
+
+bind(CService).to(IHasValue);
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    IHasValue* hasValue = inject(IHasValue);
+    return hasValue.getValue();
+  }
+}
+
+bind(CProgram).to(IProgram);

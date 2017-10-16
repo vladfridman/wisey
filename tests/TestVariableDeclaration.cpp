@@ -143,27 +143,6 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(VariableDeclarationTest, controllerVariableDeclarationWithoutAssignmentDeathTest) {
-  vector<string> package;
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CController");
-  
-  string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
-  StructType* structType = StructType::create(mLLVMContext, controllerFullName);
-  vector<Type*> types;
-  types.push_back(Type::getInt32Ty(mLLVMContext));
-  types.push_back(Type::getInt32Ty(mLLVMContext));
-  structType->setBody(types);
-  Controller* controller = Controller::newController(controllerFullName, structType);
-  
-  mContext.addController(controller);
-  VariableDeclaration declaration(typeSpecifier, mIdentifier);
-  
-  EXPECT_EXIT(declaration.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not have local controller type variables, "
-              "controllers can only be injected.");
-}
-
 TEST_F(TestFileSampleRunner, variableDeclarationRunTest) {
   runFile("tests/samples/test_variable_declaration.yz", "5");
 }
@@ -182,11 +161,4 @@ TEST_F(TestFileSampleRunner, stringRunTest) {
 
 TEST_F(TestFileSampleRunner, stringUninitialzedRunTest) {
   runFileCheckOutput("tests/samples/test_string_uninitialized.yz", "1\n", "");
-}
-
-TEST_F(TestFileSampleRunner, variableOfControllerTypeRunDeathTest) {
-  expectFailCompile("tests/samples/test_variable_controller_type.yz",
-                    1,
-                    "Error: Can not have local controller type variables, "
-                    "controllers can only be injected.");
 }

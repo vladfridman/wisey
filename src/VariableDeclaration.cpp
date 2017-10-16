@@ -34,11 +34,6 @@ VariableDeclaration::~VariableDeclaration() {
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   TypeKind typeKind = mTypeSpecifier->getType(context)->getTypeKind();
-  if (typeKind == CONTROLLER_TYPE || typeKind == CONTROLLER_OWNER_TYPE) {
-    Log::e("Can not have local controller type variables, controllers can only be injected.");
-    exit(1);
-  }
-  
   if (typeKind == PRIMITIVE_TYPE) {
     allocateOnStack(context);
   } else if (IType::isOwnerType(mTypeSpecifier->getType(context))) {
@@ -54,11 +49,6 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   IVariable* variable = IVariable::getVariable(context, mId->getName());
   
   const IType* declarationType = variable->getType();
-  TypeKind declarationTypeKind = declarationType->getTypeKind();
-  if (declarationTypeKind == CONTROLLER_TYPE || declarationTypeKind == CONTROLLER_OWNER_TYPE) {
-    Log::e("Can not assign to controllers");
-    exit(1);
-  }
   
   variable->generateAssignmentIR(context, mAssignmentExpression);
   

@@ -171,23 +171,6 @@ TEST_F(AssignmentTest, addReferenceToOwnerTest) {
   EXPECT_EQ(owners.begin()->second, &mockVariable);
 }
 
-TEST_F(AssignmentTest, generateIRWithControllerTypeDeathTest) {
-  NiceMock<MockVariable> mockVariable;
-  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(mController));
-  mContext.getScopes().setVariable(&mockVariable);
-  
-  Identifier* identifier = new Identifier("foo", "bar");
-  Assignment assignment(identifier, mExpression);
-
-  Mock::AllowLeak(mExpression);
-  Mock::AllowLeak(&mockVariable);
-  
-  EXPECT_EXIT(assignment.generateIR(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not assign to controllers");
-}
-
 TEST_F(AssignmentTest, existsInOuterScopeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
@@ -220,5 +203,5 @@ TEST_F(AssignmentTest, printToStreamTest) {
 TEST_F(TestFileSampleRunner, assignToControllerRunDeathTest) {
   expectFailCompile("tests/samples/test_assign_to_controller.yz",
                     1,
-                    "Error: Can not assign to controllers");
+                    "Error: Can not assign to field mAdder1");
 }

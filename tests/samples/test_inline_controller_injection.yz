@@ -2,14 +2,18 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 
-controller CAdder {
-  public int get() { return 1; }
+controller CService {
+
+  public int getValue() {
+    return 5;
+  }
 }
 
 controller CProgram implements IProgram {
+
   public int run() {
-    CAdder* adder;
-    return 1;
+    CService* service = inject(CService);
+    return service.getValue();
   }
 }
 
