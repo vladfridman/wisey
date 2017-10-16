@@ -89,7 +89,7 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
                                            const IConcreteObjectType* object,
                                            Instruction* malloc) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  GlobalVariable* vTableGlobal = context.getModule()->getGlobalVariable(object->getVTableName());
+  GlobalVariable* vTableGlobal = context.getModule()->getNamedGlobal(object->getVTableName());
   
   Type* genericPointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Type* functionType = FunctionType::get(Type::getInt32Ty(llvmContext), true);

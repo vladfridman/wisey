@@ -30,7 +30,7 @@ PrintErrStatement::~PrintErrStatement() {
 Value* PrintErrStatement::generateIR(IRGenerationContext& context) const {
   Value* formatPointer = IPrintStatement::getFormatString(context, mExpressionList);
 
-  GlobalVariable* stderrPointer = context.getModule()->getGlobalVariable(Names::getStdErrName());
+  GlobalVariable* stderrPointer = context.getModule()->getNamedGlobal(Names::getStdErrName());
   Value* stderrLoaded = IRWriter::newLoadInst(context, stderrPointer, "");
   
   Function* fprintf = IntrinsicFunctions::getFprintfFunction(context);

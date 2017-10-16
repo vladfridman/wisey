@@ -37,7 +37,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   context.getScopes().getScope()->addException(model);
 
-  GlobalVariable* rtti = context.getModule()->getGlobalVariable(model->getRTTIVariableName());
+  GlobalVariable* rtti = context.getModule()->getNamedGlobal(model->getRTTIVariableName());
 
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* exceptionObjectStore = mExpression->generateIR(context);

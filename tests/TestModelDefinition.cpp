@@ -203,7 +203,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   modelDefinition.generateIR(mContext);
   
   GlobalVariable* vTablePointer = mContext.getModule()->
-  getGlobalVariable("systems.vos.wisey.compiler.tests.MModel.vtable");
+    getNamedGlobal("systems.vos.wisey.compiler.tests.MModel.vtable");
   
   ASSERT_NE(vTablePointer, nullptr);
   ASSERT_TRUE(vTablePointer->getType()->getPointerElementType()->isStructTy());
@@ -213,7 +213,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   EXPECT_EQ(vTableInitializer->getType()->getStructNumElements(), 1u);
 
   GlobalVariable* vModelTypesPointer =
-    mContext.getModule()->getGlobalVariable("systems.vos.wisey.compiler.tests.MModel.typetable");
+    mContext.getModule()->getNamedGlobal("systems.vos.wisey.compiler.tests.MModel.typetable");
   EXPECT_NE(vModelTypesPointer, nullptr);
   ASSERT_TRUE(vModelTypesPointer->getType()->getPointerElementType()->isArrayTy());
   EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 3u);

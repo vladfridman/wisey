@@ -112,7 +112,7 @@ TryCatchStatement::generateLandingPad(IRGenerationContext& context,
   for (Catch* catchClause : allCatches) {
     ModelOwner* exceptionType = catchClause->getType(context);
     landingPad->addClause(context.getModule()->
-                          getGlobalVariable(exceptionType->getObject()->getRTTIVariableName()));
+                          getNamedGlobal(exceptionType->getObject()->getRTTIVariableName()));
   }
   for (Catch* catchClause : mCatchList) {
     context.getScopes().getScope()->removeException(catchClause->getType(context)->getObject());
@@ -182,7 +182,7 @@ TryCatchStatement::generateSelectCatchByExceptionType(IRGenerationContext& conte
     context.setBasicBlock(currentBlock);
     ModelOwner* exceptionType = catchClause->getType(context);
     Value* rtti = context.getModule()->
-      getGlobalVariable(exceptionType->getObject()->getRTTIVariableName());
+      getNamedGlobal(exceptionType->getObject()->getRTTIVariableName());
     Value* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
     vector<Value*> arguments;
     arguments.push_back(rttiBitcast);

@@ -148,11 +148,11 @@ struct IConcreteObjectTypeTest : public Test {
 };
 
 TEST_F(IConcreteObjectTypeTest, generateNameGlobalTest) {
-  ASSERT_EQ(mContext.getModule()->getGlobalVariable("Object.name"), nullptr);
+  ASSERT_EQ(mContext.getModule()->getNamedGlobal("Object.name"), nullptr);
 
   IConcreteObjectType::generateNameGlobal(mContext, &mMockObject);
 
-  ASSERT_NE(mContext.getModule()->getGlobalVariable("Object.name"), nullptr);
+  ASSERT_NE(mContext.getModule()->getNamedGlobal("Object.name"), nullptr);
 }
 
 TEST_F(IConcreteObjectTypeTest, getInterfaceIndexTest) {

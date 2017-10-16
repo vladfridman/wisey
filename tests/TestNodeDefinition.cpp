@@ -205,7 +205,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   nodeDefinition.generateIR(mContext);
   
   GlobalVariable* vTablePointer = mContext.getModule()->
-  getGlobalVariable("systems.vos.wisey.compiler.tests.NMyNode.vtable");
+    getNamedGlobal("systems.vos.wisey.compiler.tests.NMyNode.vtable");
   
   ASSERT_NE(vTablePointer, nullptr);
   ASSERT_TRUE(vTablePointer->getType()->getPointerElementType()->isStructTy());
@@ -215,7 +215,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   EXPECT_EQ(vTableInitializer->getType()->getStructNumElements(), 1u);
   
   GlobalVariable* vModelTypesPointer =
-  mContext.getModule()->getGlobalVariable("systems.vos.wisey.compiler.tests.NMyNode.typetable");
+  mContext.getModule()->getNamedGlobal("systems.vos.wisey.compiler.tests.NMyNode.typetable");
   EXPECT_NE(vModelTypesPointer, nullptr);
   ASSERT_TRUE(vModelTypesPointer->getType()->getPointerElementType()->isArrayTy());
   EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 3u);

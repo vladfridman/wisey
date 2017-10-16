@@ -327,12 +327,11 @@ TEST(ModelGetSizeTest, getSizeTest) {
 }
 
 TEST_F(ModelTest, createRTTITest) {
-  GlobalVariable* rtti = mContext.getModule()->
-    getGlobalVariable(mCircleModel->getRTTIVariableName());
+  GlobalVariable* rtti = mContext.getModule()->getNamedGlobal(mCircleModel->getRTTIVariableName());
   ASSERT_EQ(rtti, nullptr);
   
   mCircleModel->createRTTI(mContext);
-  rtti = mContext.getModule()->getGlobalVariable(mCircleModel->getRTTIVariableName());
+  rtti = mContext.getModule()->getNamedGlobal(mCircleModel->getRTTIVariableName());
   ASSERT_NE(rtti, nullptr);
 }
 
