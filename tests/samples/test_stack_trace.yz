@@ -1,31 +1,33 @@
 package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
-import wisey.lang.CThread;
+
+model MEngine {
+  fixed int mVolume;
+
+  public int getVolume() {
+    printout("Stack trace 1:\n");
+    thread.dumpStack();
+    return mVolume;
+  }
+}
+
+model MCar {
+  fixed MEngine mEngine;
+
+  public int getEngineVolume() {
+    return mEngine.getVolume();
+  }
+}
 
 controller CProgram implements IProgram {
-  inject CThread* mThread;
 
   public int run() {
-    mThread.setObjectAndMethod("object1", "method1");
-    mThread.pushStack("FileA", 123);
-    mThread.setObjectAndMethod("object2", "method2");
-    mThread.pushStack("FileB", 57);
-    mThread.dumpStack();
-
-    mThread.popStack();
-    mThread.dumpStack();
-
-    mThread.popStack();
-    mThread.dumpStack();
-
-    mThread.popStack();
-    mThread.dumpStack();
-    
-    mThread.setObjectAndMethod("object3", "method3");
-    mThread.pushStack("FileC", 99);
-    mThread.dumpStack();
-    return 5;
+    MCar car = builder(MCar).withEngine(builder(MEngine).withVolume(3).build()).build();
+    int result = car.getEngineVolume();
+    printout("Stack trace 2:\n");
+    thread.dumpStack();
+    return result;
   }
 }
 

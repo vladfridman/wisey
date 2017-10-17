@@ -94,6 +94,9 @@ controller CThread {
       return;
     }
 
+    mObjectName = mProgramStackTail.getObjectName();
+    mMethodName = mProgramStackTail.getMethodName();
+
     mProgramStackTail = mProgramStackTail.getPrevious();
     if (mProgramStackTail == null) {
       mProgramStackHead = null;
@@ -106,12 +109,12 @@ controller CThread {
    * Dumps the call stack to standart output
    */
   public void dumpStack() {
-    NProgramStackNode iterator = mProgramStackHead;
-    printout("Stack trace:\n");
+    printout(mObjectName + "." + mMethodName + "(CThread.yz:109)\n");
+    NProgramStackNode iterator = mProgramStackTail;
     while (iterator != null) {
       printout(iterator.getObjectName() + "." + iterator.getMethodName() + "(" + 
         iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
-      iterator = iterator.getNext();
+      iterator = iterator.getPrevious();
     }
   }
 }

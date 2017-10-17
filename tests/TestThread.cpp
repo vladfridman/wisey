@@ -14,15 +14,16 @@ using namespace std;
 
 TEST_F(TestFileSampleRunner, stackTraceRunTest) {
   string expected =
-  "Stack trace:\n"
-  "object1.method1(FileA:123)\n"
-  "object2.method2(FileB:57)\n"
-  "Stack trace:\n"
-  "object1.method1(FileA:123)\n"
-  "Stack trace:\n"
-  "Stack trace:\n"
-  "Stack trace:\n"
-  "object3.method3(FileC:99)\n";
+  "Stack trace 1:\n"
+  "wisey.lang.CThread.dumpStack(CThread.yz:109)\n"
+  "systems.vos.wisey.compiler.tests.MEngine.getVolume(:0)\n"
+  "systems.vos.wisey.compiler.tests.MCar.getEngineVolume(:0)\n"
+  "systems.vos.wisey.compiler.tests.CProgram.run(:0)\n"
+  ".(:0)\n"
+  "Stack trace 2:\n"
+  "wisey.lang.CThread.dumpStack(CThread.yz:109)\n"
+  "systems.vos.wisey.compiler.tests.CProgram.run(:0)\n"
+  ".(:0)\n";
 
   runFileCheckOutput("tests/samples/test_stack_trace.yz",
                      expected.c_str(),
