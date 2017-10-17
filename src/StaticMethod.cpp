@@ -18,8 +18,6 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StackVariable.hpp"
 #include "wisey/StaticMethod.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -76,6 +74,8 @@ void StaticMethod::generateIR(IRGenerationContext& context, const IObjectType* o
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", mFunction, 0);
   context.setBasicBlock(basicBlock);
   
+  defineCurrentMethodNameVariable(context, mName);
+
   if (mThrownExceptions.size()) {
     Cleanup::generateCleanupTryCatchInfo(context, "cleanup.landing.pad");
   }

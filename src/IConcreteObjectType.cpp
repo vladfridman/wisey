@@ -20,8 +20,10 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/OwnerFieldVariable.hpp"
 #include "wisey/PrimitiveFieldVariable.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/ReferenceFieldVariable.hpp"
+#include "wisey/StackVariable.hpp"
 #include "wisey/StringLiteral.hpp"
 
 using namespace std;
@@ -438,3 +440,11 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   stream << "}" << endl;
 }
 
+void IConcreteObjectType::defineCurrentObjectNameVariable(IRGenerationContext& context,
+                                                          const IConcreteObjectType* objectType) {
+  Value* objectName = IObjectType::getObjectNamePointer(objectType, context);
+  StackVariable* objectNameVariable = new StackVariable("currentObject",
+                                                        PrimitiveTypes::STRING_TYPE,
+                                                        objectName);
+  context.getScopes().setVariable(objectNameVariable);
+}

@@ -15,13 +15,11 @@ using namespace std;
 TEST_F(TestFileSampleRunner, stackTraceRunTest) {
   string expected =
   "Stack trace 1:\n"
-  "wisey.lang.CThread.dumpStack(CThread.yz:109)\n"
   "systems.vos.wisey.compiler.tests.MEngine.getVolume(tests/samples/test_stack_trace.yz:10)\n"
   "systems.vos.wisey.compiler.tests.MCar.getEngineVolume(tests/samples/test_stack_trace.yz:19)\n"
   "systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_stack_trace.yz:27)\n"
   "wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n"
   "Stack trace 2:\n"
-  "wisey.lang.CThread.dumpStack(CThread.yz:109)\n"
   "systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_stack_trace.yz:29)\n"
   "wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n";
 
@@ -32,7 +30,6 @@ TEST_F(TestFileSampleRunner, stackTraceRunTest) {
 
 TEST_F(TestFileSampleRunner, stackTraceMultipleFilesRunTest) {
   string expected =
-  "wisey.lang.CThread.dumpStack(CThread.yz:109)\n"
   "systems.vos.wisey.compiler.tests.multifile.MAdder.add(tests/samples/test_multifile_stack_trace/MAdder.yz:5)\n"
   "systems.vos.wisey.compiler.tests.multifile.CProgram.run(tests/samples/test_multifile_stack_trace/CProgram.yz:10)\n"
   "wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n";

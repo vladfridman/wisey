@@ -48,25 +48,18 @@ node NProgramStackNode {
 controller CThread {
   state NProgramStackNode* mProgramStackHead;
   state NProgramStackNode mProgramStackTail;
-  state string mObjectName;
-  state string mMethodName;
-
-  /**
-   * Sets current object and method name that later will be pushed to the stack with a line number
-   */
-  public void setObjectAndMethod(string objectName, string methodName) {
-    mObjectName = objectName;
-    mMethodName = methodName;
-  }
 
   /**
    * Pushes a new method on the call stack
    */
-  public void pushStack(string fileName, int lineNumber) {
+  public void pushStack(string objectName, 
+                        string methodName, 
+                        string fileName, 
+                        int lineNumber) {
     if (mProgramStackTail == null) {
       NProgramStackNode* newNode = builder(NProgramStackNode)
-        .withObjectName(mObjectName)
-        .withMethodName(mMethodName)
+        .withObjectName(objectName)
+        .withMethodName(methodName)
         .withFileName(fileName)
         .withLineNumber(lineNumber)
         .withPreviousNode(null)
@@ -75,8 +68,8 @@ controller CThread {
       mProgramStackTail = mProgramStackHead;
     } else {
       NProgramStackNode* newNode = builder(NProgramStackNode)
-        .withObjectName(mObjectName)
-        .withMethodName(mMethodName)
+        .withObjectName(objectName)
+        .withMethodName(methodName)
         .withFileName(fileName)
         .withLineNumber(lineNumber)
         .withPreviousNode(mProgramStackTail)
@@ -94,9 +87,6 @@ controller CThread {
       return;
     }
 
-    mObjectName = mProgramStackTail.getObjectName();
-    mMethodName = mProgramStackTail.getMethodName();
-
     mProgramStackTail = mProgramStackTail.getPrevious();
     if (mProgramStackTail == null) {
       mProgramStackHead = null;
@@ -109,7 +99,6 @@ controller CThread {
    * Dumps the call stack to standart output
    */
   public void dumpStack() {
-    printout(mObjectName + "." + mMethodName + "(CThread.yz:109)\n");
     NProgramStackNode iterator = mProgramStackTail;
     while (iterator != null) {
       printout(iterator.getObjectName() + "." + iterator.getMethodName() + "(" + 

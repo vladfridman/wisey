@@ -123,3 +123,20 @@ Function* IMethod::defineFunction(IRGenerationContext& context,
   
   return function;
 }
+
+void IMethod::defineCurrentMethodNameVariable(IRGenerationContext& context, string methodName) {
+  string constantName = IMethodCall::getMethodNameConstantName(methodName);
+  GlobalVariable* constant = context.getModule()->getNamedGlobal(constantName);
+  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
+  Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  Type* elementType = constant->getType()->getPointerElementType();
+  
+  Value* value = ConstantExpr::getGetElementPtr(elementType, constant, Idx);
+  
+  StackVariable* methodNameVariable = new StackVariable("currentMethod",
+                                                        PrimitiveTypes::STRING_TYPE,
+                                                        value);
+  context.getScopes().setVariable(methodNameVariable);
+}

@@ -232,7 +232,6 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   }
   
   Composer::pushCallStack(context, threadObject, object, mLine);
-  Composer::setNextOnCallStack(context, threadObject, object, expressionValue, mMethodName);
 
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {

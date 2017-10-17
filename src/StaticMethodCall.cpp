@@ -109,7 +109,6 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
   
   Composer::pushCallStack(context, threadObject, objectType, mLine);
-  Composer::setNextOnCallStack(context, threadObject, objectType, NULL, mMethodName);
 
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {

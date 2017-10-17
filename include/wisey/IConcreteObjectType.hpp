@@ -203,6 +203,12 @@ public:
   static void printObjectToStream(IRGenerationContext& context,
                                   const IConcreteObjectType* object,
                                   std::iostream& stream);
+  
+  /**
+   * Define variable containing current object name
+   */
+  static void defineCurrentObjectNameVariable(IRGenerationContext& context,
+                                              const IConcreteObjectType* objectType);
 
 private:
   

@@ -39,15 +39,6 @@ public:
                             int line);
 
   /**
-   * Set next entry on call stack
-   */
-  static void setNextOnCallStack(IRGenerationContext& context,
-                                 llvm::Value* threadObject,
-                                 const IObjectType* objectType,
-                                 llvm::Value* objectValue,
-                                 std::string methodName);
-
-  /**
    * Pop an entry from call stack
    */
   static void popCallStack(IRGenerationContext& context,
@@ -55,10 +46,7 @@ public:
                            const IObjectType* objectType);
 
 private:
-  
-  static llvm::Constant* getMethodNameConstantPointer(IRGenerationContext& context,
-                                                      std::string methodName);
-
+ 
   static llvm::Value* getObjectNamePointer(IRGenerationContext& context,
                                            const IObjectType* object,
                                            llvm::Value* expressionValue);

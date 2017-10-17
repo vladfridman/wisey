@@ -18,6 +18,7 @@
 #include "wisey/Composer.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FinallyBlock.hpp"
+#include "wisey/IMethod.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ProgramFile.hpp"
@@ -92,6 +93,8 @@ public:
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
                        IMethodCall::getMethodNameConstantName(mMethodName));
+    IConcreteObjectType::defineCurrentObjectNameVariable(mContext, mModel);
+    IMethod::defineCurrentMethodNameVariable(mContext, mMethodName);
 
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
     mThreadObject = ConstantPointerNull::get(mThreadController->getLLVMType(mLLVMContext));
@@ -127,10 +130,13 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   "\ndefine internal i32 @main() {"
   "\nentry:"
   "\n  call void @wisey.lang.CThread.pushStack("
-  "%wisey.lang.CThread** null, "
-  "%wisey.lang.CThread** null, "
-  "i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), "
-  "i32 5)"
+    "%wisey.lang.CThread** null, "
+    "%wisey.lang.CThread** null, "
+    "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
+    "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
+    "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), "
+    "i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), "
+    "i32 5)"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MMyModel* null to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"
   "\n          to label %invoke.continue unwind label %cleanup.landing.pad"
@@ -154,28 +160,13 @@ TEST_F(ComposerTest, pushCallStackTest) {
   string expected =
   "\nentry:"
   "\n  call void @wisey.lang.CThread.pushStack("
-  "%wisey.lang.CThread** null, "
-  "%wisey.lang.CThread** null, "
-  "i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), "
-  "i32 5)\n";
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  
-  mStringBuffer.clear();
-}
-
-TEST_F(ComposerTest, setNextOnCallStackTest) {
-  Value* modelObject = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
-  Composer::setNextOnCallStack(mContext, mThreadObject, mModel, modelObject, mMethodName);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  call void @wisey.lang.CThread.setObjectAndMethod("
-  "%wisey.lang.CThread** null, "
-  "%wisey.lang.CThread** null, "
-  "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
-  "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
-  "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0))\n";
+    "%wisey.lang.CThread** null, "
+    "%wisey.lang.CThread** null, "
+    "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
+    "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
+    "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), "
+    "i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), "
+    "i32 5)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

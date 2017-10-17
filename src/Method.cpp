@@ -21,8 +21,6 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StackVariable.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -71,12 +69,14 @@ void Method::generateIR(IRGenerationContext& context, const IObjectType* objectT
   assert(mFunction != NULL);
   
   Scopes& scopes = context.getScopes();
-  
+
   map<string, IVariable*> clearedVariablesBefore = scopes.getClearedVariables();
   scopes.pushScope();
   scopes.setReturnType(mReturnType);
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", mFunction, 0);
   context.setBasicBlock(basicBlock);
+
+  defineCurrentMethodNameVariable(context, mName);
   
   if (mThrownExceptions.size()) {
     Cleanup::generateCleanupTryCatchInfo(context, "cleanup.landing.pad");

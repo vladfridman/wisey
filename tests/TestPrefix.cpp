@@ -55,29 +55,18 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   
   PrimitiveTypeSpecifier* stringTypeSpecifier;
   VariableList arguments;
+  vector<ModelTypeSpecifier*> exceptions;
   stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
   arguments.push_back(new VariableDeclaration(stringTypeSpecifier, new Identifier("objectName")));
   stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
   arguments.push_back(new VariableDeclaration(stringTypeSpecifier, new Identifier("methodName")));
-  vector<ModelTypeSpecifier*> exceptions;
-  Block* block = new Block();
-  CompoundStatement* compoundStatement = new CompoundStatement(block);
-  PrimitiveTypeSpecifier* voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
-  MethodDeclaration* setObjectAndMethodMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
-                                                                      voidTypeSpecifier,
-                                                                      "setObjectAndMethod",
-                                                                      arguments,
-                                                                      exceptions,
-                                                                      compoundStatement);
-
-  arguments.clear();
   stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
   arguments.push_back(new VariableDeclaration(stringTypeSpecifier, new Identifier("fileName")));
   PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   arguments.push_back(new VariableDeclaration(intTypeSpecifier, new Identifier("lineNumber")));
-  voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
-  block = new Block();
-  compoundStatement = new CompoundStatement(block);
+  PrimitiveTypeSpecifier* voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
+  Block* block = new Block();
+  CompoundStatement* compoundStatement = new CompoundStatement(block);
   MethodDeclaration* pushStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                              voidTypeSpecifier,
                                                              "pushStack",
@@ -96,7 +85,6 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
                                                             exceptions,
                                                             compoundStatement);
 
-  methodDeclarations.push_back(setObjectAndMethodMethod);
   methodDeclarations.push_back(pushStackMethod);
   methodDeclarations.push_back(popStackMethod);
 
