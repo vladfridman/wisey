@@ -73,6 +73,12 @@ public:
    * Declares fprintf function that is used to print things to screen
    */
   static llvm::Function* getFprintfFunction(IRGenerationContext& context);
+  
+  /**
+   * Declares exit function that is used to exit the program
+   */
+  static llvm::Function* getExitFunction(IRGenerationContext& context);
+
 };
   
 } /* namespace wisey */

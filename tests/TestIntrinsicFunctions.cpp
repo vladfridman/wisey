@@ -90,3 +90,9 @@ TEST_F(IntrinsicFunctionsTest, getFprintfFunctionTest) {
   EXPECT_NE(mModule->getFunction("fprintf"), nullptr);
 }
 
+TEST_F(IntrinsicFunctionsTest, getExitFunctionTest) {
+  EXPECT_EQ(mModule->getFunction("exit"), nullptr);
+  EXPECT_NE(IntrinsicFunctions::getExitFunction(mContext), nullptr);
+  EXPECT_NE(mModule->getFunction("exit"), nullptr);
+}
+

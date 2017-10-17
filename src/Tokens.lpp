@@ -58,6 +58,7 @@ WS  [ \t\v\n\f]
 "do"                          return TOKEN(TDO);
 "double"                      return TOKEN(TTYPEDOUBLE);
 "else"                        return TOKEN(TELSE);
+"exit"                        return TOKEN(TEXIT);
 "extends"                     return TOKEN(TEXTENDS);
 "external"                    return TOKEN(TEXTERNAL);
 "default"                     return TOKEN(TDEFAULT);

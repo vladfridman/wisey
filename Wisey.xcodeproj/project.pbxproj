@@ -351,6 +351,9 @@
 		F556E6541EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */; };
 		F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */; };
 		F556E65A1EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */; };
+		F558057B1F96A29D004F62F2 /* ExitStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F558057A1F96A29D004F62F2 /* ExitStatement.cpp */; };
+		F558057C1F96A29D004F62F2 /* ExitStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F558057A1F96A29D004F62F2 /* ExitStatement.cpp */; };
+		F558057E1F96A6E8004F62F2 /* TestExitStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F558057D1F96A6E8004F62F2 /* TestExitStatement.cpp */; };
 		F55CF1751F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1741F7DA11C00A11426 /* ExternalStaticMethod.cpp */; };
 		F55CF1761F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1741F7DA11C00A11426 /* ExternalStaticMethod.cpp */; };
 		F55CF1781F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp */; };
@@ -1104,6 +1107,9 @@
 		F556E6531EDDD2F900CCC3D7 /* IConcreteObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IConcreteObjectType.cpp; path = src/IConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIConcreteObjectType.cpp; path = tests/TestIConcreteObjectType.cpp; sourceTree = "<group>"; };
 		F556E65B1EDEE45B00CCC3D7 /* MockConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockConcreteObjectType.hpp; path = tests/include/MockConcreteObjectType.hpp; sourceTree = "<group>"; };
+		F55805791F96A265004F62F2 /* ExitStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExitStatement.hpp; path = include/wisey/ExitStatement.hpp; sourceTree = "<group>"; };
+		F558057A1F96A29D004F62F2 /* ExitStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExitStatement.cpp; path = src/ExitStatement.cpp; sourceTree = "<group>"; };
+		F558057D1F96A6E8004F62F2 /* TestExitStatement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExitStatement.cpp; path = tests/TestExitStatement.cpp; sourceTree = "<group>"; };
 		F55CF1731F7DA0CC00A11426 /* ExternalStaticMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalStaticMethod.hpp; path = include/wisey/ExternalStaticMethod.hpp; sourceTree = "<group>"; };
 		F55CF1741F7DA11C00A11426 /* ExternalStaticMethod.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalStaticMethod.cpp; path = src/ExternalStaticMethod.cpp; sourceTree = "<group>"; };
 		F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalStaticMethodDeclaration.cpp; path = tests/TestExternalStaticMethodDeclaration.cpp; sourceTree = "<group>"; };
@@ -1732,6 +1738,7 @@
 				F5C6FD781E48B59C0054209D /* TestDoubleType.cpp */,
 				F59D82161E0F414F00057FB5 /* TestEmptyExpression.cpp */,
 				F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */,
+				F558057D1F96A6E8004F62F2 /* TestExitStatement.cpp */,
 				F531B63E1E089ED6008304F3 /* TestExpressionStatement.cpp */,
 				F5E39A3D1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp */,
 				F55CF1791F7DA3EA00A11426 /* TestExternalMethod.cpp */,
@@ -2278,6 +2285,7 @@
 				F5089C611ECD01D9004A1223 /* DefaultCaseStatement.hpp */,
 				F5089C621ECD01D9004A1223 /* DoStatement.hpp */,
 				F5089C661ECD01D9004A1223 /* EmptyStatement.hpp */,
+				F55805791F96A265004F62F2 /* ExitStatement.hpp */,
 				F5089C681ECD01D9004A1223 /* ExpressionStatement.hpp */,
 				F5089C6D1ECD01D9004A1223 /* ForStatement.hpp */,
 				F5089C701ECD01D9004A1223 /* IfElseStatement.hpp */,
@@ -2308,6 +2316,7 @@
 				F50FA2B21E27DD9400435EEA /* DefaultCaseStatement.cpp */,
 				F50FA2B61E28BA5600435EEA /* DoStatement.cpp */,
 				F57780A41EC673EC0049542D /* EmptyStatement.cpp */,
+				F558057A1F96A29D004F62F2 /* ExitStatement.cpp */,
 				F531B63B1E089E59008304F3 /* ExpressionStatement.cpp */,
 				F59D82101E0F311B00057FB5 /* ForStatement.cpp */,
 				F59D821C1E0F66E800057FB5 /* IfElseStatement.cpp */,
@@ -2547,6 +2556,7 @@
 				F50FA2F71E2E3B3500435EEA /* TestIntConstant.cpp in Sources */,
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
 				F53A2C461F0298E800E76A9E /* NullType.cpp in Sources */,
+				F558057C1F96A29D004F62F2 /* ExitStatement.cpp in Sources */,
 				F57085FD1E51E2ED007D627E /* MethodCall.cpp in Sources */,
 				F5F2F3781EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp in Sources */,
 				F531B63D1E089E59008304F3 /* ExpressionStatement.cpp in Sources */,
@@ -2566,6 +2576,7 @@
 				F53A2C091EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
 				F50427A91E4D226C001CB148 /* StackVariable.cpp in Sources */,
 				F55CF17C1F7DA54900A11426 /* TestExternalStaticMethod.cpp in Sources */,
+				F558057E1F96A6E8004F62F2 /* TestExitStatement.cpp in Sources */,
 				F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */,
 				F53400DD1DFBE6F30002BF7E /* Parser.ypp in Sources */,
 				F5EEDDA31E6EF50100215278 /* TestInterfaceTypeSpecifier.cpp in Sources */,
@@ -2829,6 +2840,7 @@
 				F508E06F1E73076E005D6115 /* Environment.cpp in Sources */,
 				F51581281E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,
+				F558057B1F96A29D004F62F2 /* ExitStatement.cpp in Sources */,
 				F53A2C041EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */,
 				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
 				F53400EE1DFC21B40002BF7E /* AdditiveMultiplicativeExpression.cpp in Sources */,
