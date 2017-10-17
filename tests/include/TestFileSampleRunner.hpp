@@ -38,12 +38,28 @@ public:
   void runFile(std::string fileName, std::string expectedResult);
 
   /**
-   * Compiles a sample file, runs it and checks the stdout and stderr against the expected one.
+   * Compiles sample files, runs them and checks the stdout and stderr against the expected one.
    */
-  void runFileCheckOutput(std::string fileName, std::string expectedOut, std::string expectedErr);
+  void runFilesCheckOutput(std::vector<std::string> fileNames,
+                           std::string expectedOut,
+                           std::string expectedErr);
 
   /**
-   * Compiles a sample file with destructor debug option on, runs it and checks outputs.
+   * Compiles a single file, runs it and checks the stdout and stderr against the expected one.
+   */
+  void runFileCheckOutput(std::string fileName,
+                          std::string expectedOut,
+                          std::string expectedErr);
+
+  /**
+   * Compiles sample files with destructor debug option on, runs them and checks outputs.
+   */
+  void runFilesCheckOutputWithDestructorDebug(std::vector<std::string> fileNames,
+                                              std::string expectedOut,
+                                              std::string expectedErr);
+
+  /**
+   * Compiles a single sample file with destructor debug option on, runs it and checks outputs.
    */
   void runFileCheckOutputWithDestructorDebug(std::string fileName,
                                              std::string expectedOut,

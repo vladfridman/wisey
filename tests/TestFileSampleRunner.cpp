@@ -55,12 +55,14 @@ void TestFileSampleRunner::runFile(string fileName, string expectedResult) {
   ASSERT_STREQ(expectedResult.c_str(), resultString.c_str());
 }
 
-void TestFileSampleRunner::runFileCheckOutput(string fileName,
-                                              string expectedOut,
-                                              string expectedErr) {
+void TestFileSampleRunner::runFilesCheckOutput(vector<string> fileNames,
+                                               string expectedOut,
+                                               string expectedErr) {
   exec("mkdir -p build");
 
-  mCompilerArguments.addSourceFile(fileName);
+  for (string fileName : fileNames) {
+    mCompilerArguments.addSourceFile(fileName);
+  }
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
 
@@ -106,11 +108,27 @@ void TestFileSampleRunner::runFileCheckOutput(string fileName,
   ASSERT_STREQ(expectedErr.c_str(), stdErrContents);
 }
 
+void TestFileSampleRunner::runFilesCheckOutputWithDestructorDebug(vector<string> fileNames,
+                                                                  string expectedOut,
+                                                                  string expectedErr) {
+  mCompilerArguments.setDestructorDebug(true);
+  runFilesCheckOutput(fileNames, expectedOut, expectedErr);
+}
+
+void TestFileSampleRunner::runFileCheckOutput(string fileName,
+                                              string expectedOut,
+                                              string expectedErr) {
+  vector<string> fileNames;
+  fileNames.push_back(fileName);
+  runFilesCheckOutput(fileNames, expectedOut, expectedErr);
+}
+
 void TestFileSampleRunner::runFileCheckOutputWithDestructorDebug(string fileName,
                                                                  string expectedOut,
                                                                  string expectedErr) {
-  mCompilerArguments.setDestructorDebug(true);
-  runFileCheckOutput(fileName, expectedOut, expectedErr);
+  vector<string> fileNames;
+  fileNames.push_back(fileName);
+  runFilesCheckOutputWithDestructorDebug(fileNames, expectedOut, expectedErr);
 }
 
 void TestFileSampleRunner::expectFailCompile(string fileName,
