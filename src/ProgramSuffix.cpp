@@ -10,6 +10,7 @@
 
 #include "wisey/Block.hpp"
 #include "wisey/CompoundStatement.hpp"
+#include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/HeapOwnerVariable.hpp"
@@ -23,9 +24,11 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ObjectBuilder.hpp"
+#include "wisey/OwnerTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramSuffix.hpp"
 #include "wisey/ReturnStatement.hpp"
+#include "wisey/StaticMethodCall.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowStatement.hpp"
 #include "wisey/TryCatchStatement.hpp"
@@ -102,26 +105,6 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   context.getScopes().pushScope();
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
   
-  Injector* injector = new Injector(programInterfaceSpecifier);
-  Identifier* programIdentifier = new Identifier("program", "program");
-  vector<string> package;
-  package.push_back("wisey");
-  package.push_back("lang");
-  programInterfaceSpecifier = new InterfaceTypeSpecifier(package, Names::getIProgramName());
-  VariableDeclaration programVariableDeclaration(programInterfaceSpecifier,
-                                                 programIdentifier,
-                                                 injector);
-  programVariableDeclaration.generateIR(context);
-
-  IntConstant* exceptionIntConstant = new IntConstant(11);
-  ReturnStatement* exceptionReturnStatement = new ReturnStatement(exceptionIntConstant);
-  vector<string> packageSpecifier;
-  ModelTypeSpecifier* npeTypeSpecifier = new ModelTypeSpecifier(packageSpecifier,
-                                                                Names::getNPEModelName());
-  Catch* catchClause = new Catch(npeTypeSpecifier, "exception", exceptionReturnStatement);
-  vector<Catch*> catchList;
-  catchList.push_back(catchClause);
-
   Controller* threadController = context.getController("wisey.lang.CThread");
   ExpressionList injectionArguments;
   Value* injectedThread = threadController->inject(context, injectionArguments);
@@ -133,27 +116,34 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
                                                     threadStore);
   context.getScopes().setVariable(threadVariable);
   threadVariable->setToNull(context);
-  
   FakeExpression* threadExpression = new FakeExpression(threadTemp,
                                                         threadController->getOwner());
   threadVariable->generateAssignmentIR(context, threadExpression);
 
-  ExpressionList runMethodArguments;
+  vector<string> package;
+  package.push_back("wisey");
+  package.push_back("lang");
+
+  Injector* injector = new Injector(programInterfaceSpecifier);
+  Identifier* programIdentifier = new Identifier("program", "program");
+  programInterfaceSpecifier = new InterfaceTypeSpecifier(package, Names::getIProgramName());
+  OwnerTypeSpecifier* programOwnerTypeSpecifier = new OwnerTypeSpecifier(programInterfaceSpecifier);
+  VariableDeclaration programVariableDeclaration(programOwnerTypeSpecifier,
+                                                 programIdentifier,
+                                                 injector);
+  programVariableDeclaration.generateIR(context);
+
+  ExpressionList argumentList;
   programIdentifier = new Identifier("program", "program");
-  MethodCall* runMethodCall = new MethodCall(programIdentifier, "run", runMethodArguments, 0);
-  
-  ReturnStatement* returnStatement = new ReturnStatement(runMethodCall);
- 
-  Block* tryBlock = new Block();
-  tryBlock->getStatements().push_back(returnStatement);
-  CompoundStatement* tryCompoundStatement = new CompoundStatement(tryBlock);
-  EmptyStatement* emptyStatement = new EmptyStatement();
-  TryCatchStatement tryCatchStatement(tryCompoundStatement, catchList, emptyStatement);
-  tryCatchStatement.generateIR(context);
-  
-  IntConstant* normalIntConstant = new IntConstant(-5);
-  ReturnStatement normalReturnStatement(normalIntConstant);
-  normalReturnStatement.generateIR(context);
+  argumentList.push_back(programIdentifier);
+  ControllerTypeSpecifier* programRunnerControllerSpecifier =
+    new ControllerTypeSpecifier(package, "CProgramRunner");
+  StaticMethodCall* runnerCall = new StaticMethodCall(programRunnerControllerSpecifier,
+                                                      "run",
+                                                      argumentList,
+                                                      0);
+  ReturnStatement* returnStatement = new ReturnStatement(runnerCall);
+  returnStatement->generateIR(context);
 
   context.getScopes().popScope(context);
   context.setMainFunction(mainFunction);

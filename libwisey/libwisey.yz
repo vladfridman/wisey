@@ -11,6 +11,12 @@ external model wisey.lang.MNullPointerException {
 
 /* Controllers */
 
+external controller wisey.lang.CProgramRunner {
+
+  static int run(
+    wisey.lang.IProgram* runnable);
+}
+
 external controller wisey.lang.CThread {
 
   state wisey.lang.NProgramStackNode* mProgramStackHead;

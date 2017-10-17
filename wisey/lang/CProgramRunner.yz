@@ -1,0 +1,20 @@
+package wisey.lang;
+
+import wisey.lang.IProgram;
+import wisey.lang.MNullPointerException;
+
+/**
+ * Injects program controller and runs it
+ */
+controller CProgramRunner {
+
+  public static int run(IProgram* runnable) {
+    try {
+      return runnable.run();
+    } catch (MNullPointerException* exception) {
+      return 11;
+    }
+
+    return -1;
+  }
+}
