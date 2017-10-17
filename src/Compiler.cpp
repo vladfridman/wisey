@@ -33,6 +33,7 @@ extern int yyparse();
 extern ProgramFile* programFile;
 extern FILE* yyin;
 extern int yylineno;
+std::string SourceFile;
 
 Compiler::~Compiler() {
 }
@@ -152,6 +153,7 @@ vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles) {
     
     yyin = fopen(sourceFile.c_str(), "r");
     yylineno = 1;
+    SourceFile = sourceFile;
     if (yyin == NULL) {
       Log::e(string("File ") + sourceFile + " not found!");
       exit(1);

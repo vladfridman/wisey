@@ -88,9 +88,10 @@
   
   extern int yylex();
   extern int yylineno;
+  extern std::string SourceFile;
 
   void yyerror(const char *error_msg) {
-    printf("Line %d: %s\n", yylineno, error_msg);
+    printf("%s(%d): %s\n", SourceFile.c_str(), yylineno, error_msg);
     exit(1);
   }
 %}

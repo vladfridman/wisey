@@ -118,6 +118,6 @@ TEST_F(CompilerTest, unterminatedCommentRunDeathTest) {
   string result = TestFileSampleRunner::exec("bin/wiseyc "
                                              "tests/samples/test_unterminated_comment.yz");
   
-  string lastLine = result.substr(result.find("Line 2:"));
-  EXPECT_STREQ(lastLine.c_str(), "Line 2: unterminated comment\n");
+  EXPECT_STREQ(result.c_str(), "tests/samples/test_unterminated_comment.yz(2): "
+               "unterminated comment\n");
 }
