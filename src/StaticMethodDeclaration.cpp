@@ -36,7 +36,8 @@ IMethod* StaticMethodDeclaration::createMethod(IRGenerationContext& context) con
   
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context, mExceptions);
-  
+  exceptions.push_back(context.getModel(Names::getNPEModelFullName()));
+
   return new StaticMethod(mName,
                           mAccessLevel,
                           returnType,

@@ -9,6 +9,7 @@
 #include "wisey/IMethodDeclaration.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/Names.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -32,6 +33,7 @@ MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationC
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,
                                                                             mThrownExceptions);
-  
+  exceptions.push_back(context.getModel(Names::getNPEModelFullName()));
+
   return new MethodSignature(mMethodName, returnType, arguments, exceptions);
 }
