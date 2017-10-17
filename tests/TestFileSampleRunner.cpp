@@ -27,6 +27,8 @@ extern FILE* yyin;
 extern ProgramFile* programFile;
 
 const string TestFileSampleRunner::LIBWISEY = "libwisey/libwisey.yz";
+const char TestFileSampleRunner::STDOUT_FILE[] = "build/wisey.out";
+const char TestFileSampleRunner::STDERR_FILE[] = "build/wisey.err";
 
 TestFileSampleRunner::TestFileSampleRunner() : mCompiler(mCompilerArguments) {
   InitializeNativeTarget();
@@ -66,8 +68,8 @@ void TestFileSampleRunner::runFilesCheckOutput(vector<string> fileNames,
   mCompilerArguments.addSourceFile(LIBWISEY);
   mCompiler.compile();
 
-  FILE* wiseyStdOut = fopen("build/wisey.out", "w");
-  FILE* wiseyStdErr = fopen("build/wisey.err", "w");
+  FILE* wiseyStdOut = fopen(STDOUT_FILE, "w");
+  FILE* wiseyStdErr = fopen(STDERR_FILE, "w");
   int oldStdOut = dup(STDOUT_FILENO);
   int oldStdErr = dup(STDERR_FILENO);
   dup2(fileno(wiseyStdOut), STDOUT_FILENO);
@@ -81,31 +83,8 @@ void TestFileSampleRunner::runFilesCheckOutput(vector<string> fileNames,
   dup2(oldStdOut, STDOUT_FILENO);
   dup2(oldStdErr, STDERR_FILENO);
   
-  char* stdOutContents;
-  long stdOutFileSize;
-  FILE* stdOutFile = fopen("build/wisey.out", "rb");
-  fseek(stdOutFile, 0, SEEK_END);
-  stdOutFileSize = ftell(stdOutFile) + 1;
-  rewind(stdOutFile);
-  stdOutContents = (char*) malloc(stdOutFileSize * (sizeof(char)));
-  fread(stdOutContents, sizeof(char), stdOutFileSize, stdOutFile);
-  fclose(stdOutFile);
-  stdOutContents[stdOutFileSize - 1] = '\0';
-  
-  ASSERT_STREQ(expectedOut.c_str(), stdOutContents);
-
-  char* stdErrContents;
-  long stdErrFileSize;
-  FILE* stdErrFile = fopen("build/wisey.err", "rb");
-  fseek(stdErrFile, 0, SEEK_END);
-  stdErrFileSize = ftell(stdErrFile) + 1;
-  rewind(stdErrFile);
-  stdErrContents = (char*) malloc(stdErrFileSize * (sizeof(char)));
-  fread(stdErrContents, sizeof(char), stdErrFileSize, stdErrFile);
-  fclose(stdErrFile);
-  stdErrContents[stdErrFileSize - 1] = '\0';
-  
-  ASSERT_STREQ(expectedErr.c_str(), stdErrContents);
+  checkOutput(STDOUT_FILE, expectedOut);
+  checkOutput(STDERR_FILE, expectedErr);
 }
 
 void TestFileSampleRunner::runFilesCheckOutputWithDestructorDebug(vector<string> fileNames,
@@ -154,6 +133,24 @@ void TestFileSampleRunner::compileAndRunFile(string fileName, int expectedResult
   EXPECT_EQ(returnValue, expectedResult);
 }
 
+void TestFileSampleRunner::compileAndRunFileCheckOutput(string fileName,
+                                                        int expectedResult,
+                                                        string expectedOut,
+                                                        string expectedErr) {
+  exec("mkdir -p build");
+  
+  string wiseyCompileCommand = "bin/wiseyc " + fileName + " " + LIBWISEY + " -o build/test.o";
+  exec(wiseyCompileCommand.c_str());
+  exec("g++ -o build/test build/test.o -Llibwisey -lwisey");
+  int result = system("build/test > build/wisey.out 2> build/wisey.err");
+  int returnValue = WEXITSTATUS(result);
+
+  checkOutput(STDOUT_FILE, expectedOut);
+  checkOutput(STDERR_FILE, expectedErr);
+  
+  EXPECT_EQ(returnValue, expectedResult);
+}
+
 string TestFileSampleRunner::exec(const char* cmd) {
   array<char, 128> buffer;
   string result;
@@ -165,3 +162,19 @@ string TestFileSampleRunner::exec(const char* cmd) {
   }
   return result;
 }
+
+void TestFileSampleRunner::checkOutput(const char fileName[], string expectedOut) {
+  char* contents;
+  long fileSize;
+  FILE* file = fopen(fileName, "rb");
+  fseek(file, 0, SEEK_END);
+  fileSize = ftell(file) + 1;
+  rewind(file);
+  contents = (char*) malloc(fileSize * (sizeof(char)));
+  fread(contents, sizeof(char), fileSize, file);
+  fclose(file);
+  contents[fileSize - 1] = '\0';
+  
+  ASSERT_STREQ(expectedOut.c_str(), contents);
+}
+

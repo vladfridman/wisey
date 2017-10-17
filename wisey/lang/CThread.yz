@@ -106,4 +106,14 @@ controller CThread {
       iterator = iterator.getPrevious();
     }
   }
+
+  public void exitWithException(IException exception) {
+    printerr("Unhandled exception\n");
+    NProgramStackNode iterator = mProgramStackTail;
+    while (iterator != null) {
+      printerr("  at " + iterator.getObjectName() + "." + iterator.getMethodName() + "(" +
+        iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
+      iterator = iterator.getPrevious();
+    }
+  }
 }

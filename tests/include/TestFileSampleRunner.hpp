@@ -19,10 +19,14 @@
  */
 class TestFileSampleRunner : public ::testing::Test {
   static const std::string LIBWISEY;
+  static const char STDOUT_FILE[];
+  static const char STDERR_FILE[];
+
   wisey::CompilerArguments mCompilerArguments;
   wisey::Compiler mCompiler;
-
+  
 public:
+  
   TestFileSampleRunner();
   
   ~TestFileSampleRunner();
@@ -69,7 +73,15 @@ public:
    * Compile and run given file and compare the result
    */
   void compileAndRunFile(std::string fileName, int expectedResult);
-  
+
+  /**
+   * Compile and run given file and compare the result
+   */
+  void compileAndRunFileCheckOutput(std::string fileName,
+                                    int expectedResult,
+                                    std::string expectedOut,
+                                    std::string expectedErr);
+
   /**
    * Call this to run a sample wisey file that is expected to fail at compilation
    */
@@ -81,6 +93,10 @@ public:
    * Execute a command, capture and return output
    */
   static std::string exec(const char* cmd);
+  
+private:
+  
+  void checkOutput(const char fileName[], std::string exprectedOut);
   
 };
 

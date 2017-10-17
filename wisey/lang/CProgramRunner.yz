@@ -12,9 +12,8 @@ controller CProgramRunner {
     try {
       return runnable.run();
     } catch (MNullPointerException* exception) {
-      return 11;
+      thread.exitWithException(exception);
+      exit(1);
     }
-
-    return -1;
   }
 }
