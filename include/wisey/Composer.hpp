@@ -29,7 +29,10 @@ public:
   /**
    * Push new entry on call stack
    */
-  static void pushCallStack(IRGenerationContext& context, llvm::Value* threadObject, int line);
+  static void pushCallStack(IRGenerationContext& context,
+                            llvm::Value* threadObject,
+                            const IObjectType* objectType,
+                            int line);
 
   /**
    * Set next entry on call stack

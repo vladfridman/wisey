@@ -22,23 +22,6 @@ class IMethodCall : public IExpression {
 public:
   
   /**
-   * Push a method call on stack
-   */
-  static void pushCallStack(IRGenerationContext& context,
-                            const IObjectType* objectType,
-                            std::string methodName,
-                            llvm::Value* objectValue,
-                            llvm::Value* threadObject,
-                            int line);
-
-  /**
-   * Pop a method call from stack
-   */
-  static void popCallStack(IRGenerationContext& context,
-                           const IObjectType* objectType,
-                           llvm::Value* threadObject);
-  
-  /**
    * Translate object method name into its LLVM implemenation function name
    */
   static std::string translateObjectMethodToLLVMFunctionName(const IObjectType* object,

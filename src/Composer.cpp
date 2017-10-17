@@ -28,7 +28,15 @@ void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value) 
   IRWriter::createInvokeInst(context, function, arguments, "");
 }
 
-void Composer::pushCallStack(IRGenerationContext& context, Value* threadObject, int line) {
+void Composer::pushCallStack(IRGenerationContext& context,
+                             Value* threadObject,
+                             const IObjectType* objectType,
+                             int line) {
+  if (!Names::getThreadStackNodeName().compare(objectType->getName())) {
+    // avoid inifinite recursion in wisey.lang.CThread.pushStack()
+    return;
+  }
+  
   Value* sourceFileNamePointer = context.getSourceFileNamePointer();
   if (sourceFileNamePointer == NULL) {
     return;

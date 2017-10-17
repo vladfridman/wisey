@@ -136,7 +136,7 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
 }
 
 TEST_F(ComposerTest, pushCallStackTest) {
-  Composer::pushCallStack(mContext, mThreadObject, 5);
+  Composer::pushCallStack(mContext, mThreadObject, mModel, 5);
 
   *mStringStream << *mBasicBlock;
   string expected =

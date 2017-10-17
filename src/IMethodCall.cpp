@@ -31,27 +31,6 @@ string IMethodCall::getMethodNameConstantName(string methodName) {
   return "methodname." + methodName;
 }
 
-void IMethodCall::pushCallStack(IRGenerationContext& context,
-                                const IObjectType* objectType,
-                                string methodName,
-                                Value* objectValue,
-                                Value* threadObject,
-                                int line) {
-  if (!Names::getThreadStackNodeName().compare(objectType->getName())) {
-    // avoid inifinite recursion in wisey.lang.CThread.pushStack()
-    return;
-  }
-  
-  Composer::pushCallStack(context, threadObject, line);
-  Composer::setNextOnCallStack(context, threadObject, objectType, objectValue, methodName);
-}
-
-void IMethodCall::popCallStack(IRGenerationContext& context,
-                               const IObjectType* objectType,
-                               Value* threadObject) {
-  Composer::popCallStack(context, threadObject, objectType);
-}
-
 Value* IMethodCall::getObjectNamePointer(IRGenerationContext& context,
                                          const IObjectType* object,
                                          Value* expressionValue) {

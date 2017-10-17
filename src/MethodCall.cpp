@@ -204,8 +204,9 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     methodArgumentIterator++;
   }
   
-  pushCallStack(context, object, mMethodName, expressionValue, threadObject, mLine);
-  
+  Composer::pushCallStack(context, threadObject, object, mLine);
+  Composer::setNextOnCallStack(context, threadObject, object, expressionValue, mMethodName);
+
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {
     result = IRWriter::createCallInst(context, function, arguments, "");
@@ -213,8 +214,8 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     result = IRWriter::createInvokeInst(context, function, arguments, "");
   }
   
-  popCallStack(context, object, threadObject);
-  
+  Composer::popCallStack(context, threadObject, object);
+
   const IType* returnType = methodDescriptor->getReturnType();
   if (returnType->getTypeKind() == PRIMITIVE_TYPE) {
     return result;
