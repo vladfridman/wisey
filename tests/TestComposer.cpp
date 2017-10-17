@@ -38,6 +38,8 @@ struct ComposerTest : public Test {
   Model* mModel;
   Function* mMainFunction;
   string mMethodName;
+  Controller* mThreadController;
+  Value* mThreadObject;
 
 public:
   
@@ -91,6 +93,9 @@ public:
                        stringConstant,
                        IMethodCall::getMethodNameConstantName(mMethodName));
 
+    mThreadController = mContext.getController(Names::getThreadControllerFullName());
+    mThreadObject = ConstantPointerNull::get(mThreadController->getLLVMType(mLLVMContext));
+
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   
@@ -131,9 +136,7 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
 }
 
 TEST_F(ComposerTest, pushCallStackTest) {
-  Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-  Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
-  Composer::pushCallStack(mContext, threadObject, 5);
+  Composer::pushCallStack(mContext, mThreadObject, 5);
 
   *mStringStream << *mBasicBlock;
   string expected =
@@ -149,10 +152,8 @@ TEST_F(ComposerTest, pushCallStackTest) {
 }
 
 TEST_F(ComposerTest, setNextOnCallStackTest) {
-  Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-  Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
   Value* modelObject = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
-  Composer::setNextOnCallStack(mContext, threadObject, mModel, modelObject, mMethodName);
+  Composer::setNextOnCallStack(mContext, mThreadObject, mModel, modelObject, mMethodName);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -163,6 +164,20 @@ TEST_F(ComposerTest, setNextOnCallStackTest) {
   "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
   "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
   "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0))\n";
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  
+  mStringBuffer.clear();
+}
+
+TEST_F(ComposerTest, popCallStackTest) {
+  Composer::popCallStack(mContext, mThreadObject, mModel);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  call void @wisey.lang.CThread.popStack("
+  "%wisey.lang.CThread** null, "
+  "%wisey.lang.CThread** null)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

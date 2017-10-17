@@ -107,3 +107,22 @@ Constant* Composer::getMethodNameConstantPointer(IRGenerationContext& context, s
   
   return ConstantExpr::getGetElementPtr(elementType, constant, Idx);
 }
+
+void Composer::popCallStack(IRGenerationContext& context,
+                            Value* threadObject,
+                            const IObjectType* objectType) {
+  Controller* threadController = context.getController(Names::getThreadControllerFullName());
+  if (!Names::getThreadStackNodeName().compare(objectType->getName())) {
+    // avoid inifinite recursion in wisey.lang.CThread.popStack()
+    return;
+  }
+  
+  vector<Value*> arguments;
+  arguments.push_back(threadObject);
+  arguments.push_back(threadObject);
+  string popStackFunctionName =
+    IMethodCall::translateObjectMethodToLLVMFunctionName(threadController,
+                                                         Names::getThreadPopStack());
+  Function* popStackFunction = context.getModule()->getFunction(popStackFunctionName.c_str());
+  IRWriter::createCallInst(context, popStackFunction, arguments, "");
+}

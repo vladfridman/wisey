@@ -35,7 +35,7 @@ public:
    * Pop a method call from stack
    */
   static void popCallStack(IRGenerationContext& context,
-                           const IObjectType* object,
+                           const IObjectType* objectType,
                            llvm::Value* threadObject);
   
   /**

@@ -40,6 +40,13 @@ public:
                                  llvm::Value* objectValue,
                                  std::string methodName);
 
+  /**
+   * Pop an entry from call stack
+   */
+  static void popCallStack(IRGenerationContext& context,
+                           llvm::Value* threadObject,
+                           const IObjectType* objectType);
+
 private:
   
   static llvm::Constant* getMethodNameConstantPointer(IRGenerationContext& context,

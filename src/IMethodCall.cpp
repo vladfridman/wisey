@@ -47,21 +47,9 @@ void IMethodCall::pushCallStack(IRGenerationContext& context,
 }
 
 void IMethodCall::popCallStack(IRGenerationContext& context,
-                               const IObjectType* object,
+                               const IObjectType* objectType,
                                Value* threadObject) {
-  Controller* threadController = context.getController(Names::getThreadControllerFullName());
-  if (!Names::getThreadStackNodeName().compare(object->getName())) {
-    // avoid inifinite recursion in wisey.lang.CThread.popStack()
-    return;
-  }
-
-  vector<Value*> arguments;
-  arguments.push_back(threadObject);
-  arguments.push_back(threadObject);
-  string popStackFunctionName =
-    translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadPopStack());
-  Function* popStackFunction = context.getModule()->getFunction(popStackFunctionName.c_str());
-  IRWriter::createCallInst(context, popStackFunction, arguments, "");
+  Composer::popCallStack(context, threadObject, objectType);
 }
 
 Value* IMethodCall::getObjectNamePointer(IRGenerationContext& context,
