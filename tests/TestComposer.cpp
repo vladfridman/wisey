@@ -116,12 +116,21 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext)
                                           ->getPointerElementType());
   
-  Composer::checkNullAndThrowNPE(mContext, value);
+  Composer::checkNullAndThrowNPE(mContext,
+                                 value,
+                                 mThreadObject,
+                                 mModel,
+                                 5);
 
   *mStringStream << *mMainFunction;
   string expected =
   "\ndefine internal i32 @main() {"
   "\nentry:"
+  "\n  call void @wisey.lang.CThread.pushStack("
+  "%wisey.lang.CThread** null, "
+  "%wisey.lang.CThread** null, "
+  "i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), "
+  "i32 5)"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MMyModel* null to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"
   "\n          to label %invoke.continue unwind label %cleanup.landing.pad"
@@ -129,6 +138,9 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   "\ncleanup.landing.pad:                              ; preds = %entry"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  call void @wisey.lang.CThread.popStack("
+  "%wisey.lang.CThread** null, "
+  "%wisey.lang.CThread** null)"
   "\n}\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 

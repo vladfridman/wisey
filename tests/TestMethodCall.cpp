@@ -240,7 +240,8 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   *mStringStream << *irValue;
   EXPECT_STREQ("  %4 = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
                "%systems.vos.wisey.compiler.tests.MSquare** %0, "
-               "%wisey.lang.CThread** %3, float 0x4014CCCCC0000000)",
+               "%wisey.lang.CThread** %1, "
+               "float 0x4014CCCCC0000000)",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
@@ -279,7 +280,8 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %4 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
-               "%systems.vos.wisey.compiler.tests.MSquare** %0, %wisey.lang.CThread** %3, "
+               "%systems.vos.wisey.compiler.tests.MSquare** %0, "
+               "%wisey.lang.CThread** %1, "
                "float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());

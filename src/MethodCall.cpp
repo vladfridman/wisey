@@ -59,16 +59,24 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions);
   
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, "threadLoaded");
+
   if (methodDescriptor->isStatic()) {
-    return generateStaticMethodCallIR(context, objectWithMethodsType, methodDescriptor);
+    return generateStaticMethodCallIR(context,
+                                      threadObject,
+                                      objectWithMethodsType,
+                                      methodDescriptor);
   }
   if (IType::isConcreteObjectType(objectWithMethodsType)) {
     return generateObjectMethodCallIR(context,
+                                      threadObject,
                                       (IObjectType*) objectWithMethodsType,
                                       methodDescriptor);
   }
   if (objectWithMethodsType->getTypeKind() == INTERFACE_TYPE) {
     return generateInterfaceMethodCallIR(context,
+                                         threadObject,
                                          (Interface*) objectWithMethodsType,
                                          methodDescriptor);
   }
@@ -93,6 +101,7 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
 }
 
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
+                                                 Value* threadObject,
                                                  const Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
   Value* expressionValueStore = generateExpressionIR(context);
@@ -110,13 +119,18 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   LoadInst* function = IRWriter::newLoadInst(context, virtualFunction, "");
   
-  Composer::checkNullAndThrowNPE(context, expressionValueLoaded);
+  Composer::checkNullAndThrowNPE(context,
+                                 expressionValueLoaded,
+                                 threadObject,
+                                 interface,
+                                 mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValueStore);
 
   return createFunctionCall(context,
                             interface,
+                            threadObject,
                             (Function*) function,
                             methodDescriptor,
                             arguments,
@@ -124,19 +138,26 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
 }
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
-                                              const IObjectType* object,
+                                              Value* threadObject,
+                                              const IObjectType* objectType,
                                               IMethodDescriptor* methodDescriptor) const {
   Value* expressionValueStore = generateExpressionIR(context);
   Value* expressionValueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
   
-  Function* function = getMethodFunction(context, object);
-  Composer::checkNullAndThrowNPE(context, expressionValueLoaded);
+  Function* function = getMethodFunction(context, objectType);
+
+  Composer::checkNullAndThrowNPE(context,
+                                 expressionValueLoaded,
+                                 threadObject,
+                                 objectType,
+                                 mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValueStore);
   
   return createFunctionCall(context,
-                            object,
+                            objectType,
+                            threadObject,
                             function,
                             methodDescriptor,
                             arguments,
@@ -144,12 +165,19 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
 }
 
 Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
-                                              const IObjectType* object,
+                                              Value* threadObject,
+                                              const IObjectType* objectType,
                                               IMethodDescriptor* methodDescriptor) const {
-  Function* function = getMethodFunction(context, object);
+  Function* function = getMethodFunction(context, objectType);
   vector<Value*> arguments;
   
-  return createFunctionCall(context, object, function, methodDescriptor, arguments, NULL);
+  return createFunctionCall(context,
+                            objectType,
+                            threadObject,
+                            function,
+                            methodDescriptor,
+                            arguments,
+                            NULL);
 }
 
 Function* MethodCall::getMethodFunction(IRGenerationContext& context,
@@ -174,13 +202,12 @@ Value* MethodCall::generateExpressionIR(IRGenerationContext& context) const {
 
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       const IObjectType* object,
+                                      Value* threadObject,
                                       Function* function,
                                       IMethodDescriptor* methodDescriptor,
                                       vector<Value*> arguments,
                                       Value* expressionValue) const {
 
-  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context, "threadLoaded");
   arguments.push_back(threadObject);
   
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();

@@ -24,7 +24,11 @@ public:
   /**
    * Check if a given expession is null and throw an NPE if it is
    */
-  static void checkNullAndThrowNPE(IRGenerationContext& context, llvm::Value* value);
+  static void checkNullAndThrowNPE(IRGenerationContext& context,
+                                   llvm::Value* value,
+                                   llvm::Value* threadObject,
+                                   const IObjectType* objectType,
+                                   int line);
 
   /**
    * Push new entry on call stack

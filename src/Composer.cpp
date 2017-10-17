@@ -17,7 +17,13 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value) {
+void Composer::checkNullAndThrowNPE(IRGenerationContext& context,
+                                    Value* value,
+                                    Value* threadObject,
+                                    const IObjectType* objectType,
+                                    int line) {
+  pushCallStack(context, threadObject, objectType, line);
+  
   PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
   
@@ -26,6 +32,8 @@ void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value) 
   arguments.push_back(bitcast);
 
   IRWriter::createInvokeInst(context, function, arguments, "");
+
+  popCallStack(context, threadObject, objectType);
 }
 
 void Composer::pushCallStack(IRGenerationContext& context,
@@ -60,6 +68,10 @@ void Composer::setNextOnCallStack(IRGenerationContext& context,
                                   const IObjectType* objectType,
                                   Value* objectValue,
                                   string methodName) {
+  if (!Names::getThreadStackNodeName().compare(objectType->getName())) {
+    // avoid inifinite recursion in wisey.lang.CThread.pushStack()
+    return;
+  }
   vector<Value*> arguments;
   Value* objectName = getObjectNamePointer(context, objectType, objectValue);
   Constant* functionName = getMethodNameConstantPointer(context, methodName);

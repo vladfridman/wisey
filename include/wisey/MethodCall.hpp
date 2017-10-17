@@ -60,14 +60,17 @@ private:
                    IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateStaticMethodCallIR(IRGenerationContext& context,
-                                          const IObjectType* object,
+                                          llvm::Value* threadObject,
+                                          const IObjectType* objectType,
                                           IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateObjectMethodCallIR(IRGenerationContext& context,
-                                          const IObjectType* object,
+                                          llvm::Value* threadObject,
+                                          const IObjectType* objectType,
                                           IMethodDescriptor* methodDescriptor) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
+                                             llvm::Value* threadObject,
                                              const Interface* interface,
                                              IMethodDescriptor* methodDescriptor) const;
   
@@ -86,6 +89,7 @@ private:
 
   llvm::Value* createFunctionCall(IRGenerationContext& context,
                                   const IObjectType* object,
+                                  llvm::Value* threadObject,
                                   llvm::Function* function,
                                   IMethodDescriptor* methodDescriptor,
                                   std::vector<llvm::Value*> arguments,
