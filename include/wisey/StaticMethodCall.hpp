@@ -21,15 +21,14 @@ class StaticMethodCall : public IMethodCall {
   IObjectTypeSpecifier* mObjectTypeSpecifier;
   std::string mMethodName;
   ExpressionList mArguments;
+  int mLine;
   
 public:
   
   StaticMethodCall(IObjectTypeSpecifier* objectTypeSpecifier,
                    std::string methodName,
-                   ExpressionList arguments)
-  : mObjectTypeSpecifier(objectTypeSpecifier),
-  mMethodName(methodName),
-  mArguments(arguments) { }
+                   ExpressionList arguments,
+                   int mLine);
   
   ~StaticMethodCall();
   

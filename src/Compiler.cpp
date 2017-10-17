@@ -32,6 +32,7 @@ using namespace wisey;
 extern int yyparse();
 extern ProgramFile* programFile;
 extern FILE* yyin;
+extern int yylineno;
 
 Compiler::~Compiler() {
 }
@@ -150,6 +151,7 @@ vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles) {
     Log::i("Parsing file " + string(sourceFile));
     
     yyin = fopen(sourceFile.c_str(), "r");
+    yylineno = 1;
     if (yyin == NULL) {
       Log::e(string("File ") + sourceFile + " not found!");
       exit(1);

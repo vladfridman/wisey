@@ -22,6 +22,15 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+StaticMethodCall::StaticMethodCall(IObjectTypeSpecifier* objectTypeSpecifier,
+                                   string methodName,
+                                   ExpressionList arguments,
+                                   int line) :
+mObjectTypeSpecifier(objectTypeSpecifier),
+mMethodName(methodName),
+mArguments(arguments),
+mLine(line) { }
+
 StaticMethodCall::~StaticMethodCall() {
   for (IExpression* expression : mArguments) {
     delete expression;
@@ -99,7 +108,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   }
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
   
-  pushCallStack(context, objectType, mMethodName, NULL, threadObject);
+  pushCallStack(context, objectType, mMethodName, NULL, threadObject, mLine);
   
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {

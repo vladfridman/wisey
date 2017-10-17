@@ -24,6 +24,15 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+MethodCall::MethodCall(IExpression* expression,
+                       std::string methodName,
+                       ExpressionList arguments,
+                       int line) :
+mExpression(expression),
+mMethodName(methodName),
+mArguments(arguments),
+mLine(line) { }
+
 MethodCall::~MethodCall() {
   for (IExpression* expression : mArguments) {
     delete expression;
@@ -195,7 +204,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     methodArgumentIterator++;
   }
   
-  pushCallStack(context, object, mMethodName, expressionValue, threadObject);
+  pushCallStack(context, object, mMethodName, expressionValue, threadObject, mLine);
   
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {

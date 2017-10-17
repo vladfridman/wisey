@@ -201,7 +201,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   ON_CALL(*argumentExpression, generateIR(_)).WillByDefault(Return(value));
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   
   Value* irValue = staticMethodCall.generateIR(mContext);
   
@@ -230,7 +230,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodInvokeTest) {
   ON_CALL(*argumentExpression, generateIR(_)).WillByDefault(Return(value));
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
-  StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList, 0);
   BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext, "eh.landing.pad");
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
   vector<Catch*> catchList;
@@ -252,13 +252,13 @@ TEST_F(StaticMethodCallTest, modelStaticMethodInvokeTest) {
 }
 
 TEST_F(StaticMethodCallTest, getVariableTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   
   EXPECT_EQ(staticMethodCall.getVariable(mContext), nullptr);
 }
 
 TEST_F(StaticMethodCallTest, existsInOuterScopeTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   
   EXPECT_TRUE(staticMethodCall.existsInOuterScope(mContext));
 }
@@ -271,7 +271,7 @@ TEST_F(StaticMethodCallTest, printToStreamTest) {
   ON_CALL(*argument2Expression, printToStream(_, _)).WillByDefault(Invoke(printArgument2));
   mArgumentList.push_back(argument2Expression);
   
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
 
   stringstream stringStream;
   staticMethodCall.printToStream(mContext, stringStream);
@@ -281,7 +281,7 @@ TEST_F(StaticMethodCallTest, printToStreamTest) {
 }
 
 TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "lorem", mArgumentList);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "lorem", mArgumentList, 0);
   
   EXPECT_EXIT(staticMethodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -290,7 +290,7 @@ TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
 }
 
 TEST_F(StaticMethodCallTest, incorrectNumberOfArgumentsDeathTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   
   EXPECT_EXIT(staticMethodCall.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -302,7 +302,7 @@ TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
-  StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList, 0);
   Mock::AllowLeak(argumentExpression);
   
   EXPECT_EXIT(staticMethodCall.generateIR(mContext),
@@ -327,7 +327,7 @@ TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   mArgumentList.push_back(argumentExpression);
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList);
+  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   Mock::AllowLeak(argumentExpression);
   
   EXPECT_EXIT(staticMethodCall.generateIR(mContext),

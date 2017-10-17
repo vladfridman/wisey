@@ -233,7 +233,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   ON_CALL(*argumentExpression, generateIR(_)).WillByDefault(Return(value));
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   
   Value* irValue = methodCall.generateIR(mContext);
 
@@ -264,7 +264,7 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   ON_CALL(*argumentExpression, generateIR(_)).WillByDefault(Return(value));
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "bar", mArgumentList);
+  MethodCall methodCall(mExpression, "bar", mArgumentList, 0);
   BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext, "eh.landing.pad");
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
   vector<Catch*> catchList;
@@ -287,13 +287,13 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
 }
 
 TEST_F(MethodCallTest, getVariableTest) {
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   
   EXPECT_EQ(methodCall.getVariable(mContext), nullptr);
 }
 
 TEST_F(MethodCallTest, existsInOuterScopeTest) {
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   
   ON_CALL(*mExpression, existsInOuterScope(_)).WillByDefault(Return(false));
   EXPECT_FALSE(methodCall.existsInOuterScope(mContext));
@@ -310,7 +310,7 @@ TEST_F(MethodCallTest, printToStreamTest) {
   ON_CALL(*argument2Expression, printToStream(_, _)).WillByDefault(Invoke(printArgument2));
   mArgumentList.push_back(argument2Expression);
 
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
 
   stringstream stringStream;
   methodCall.printToStream(mContext, stringStream);
@@ -319,7 +319,7 @@ TEST_F(MethodCallTest, printToStreamTest) {
 }
 
 TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
-  MethodCall methodCall(mExpression, "lorem", mArgumentList);
+  MethodCall methodCall(mExpression, "lorem", mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
@@ -330,7 +330,7 @@ TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
 
 TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
@@ -339,7 +339,7 @@ TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
 }
 
 TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext),
@@ -352,7 +352,7 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "bar", mArgumentList);
+  MethodCall methodCall(mExpression, "bar", mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
@@ -378,7 +378,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "foo", mArgumentList);
+  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   

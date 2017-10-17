@@ -34,7 +34,8 @@ void IMethodCall::pushCallStack(IRGenerationContext& context,
                                 const IObjectType* object,
                                 string methodName,
                                 Value* expressionValue,
-                                Value* threadObject) {
+                                Value* threadObject,
+                                int line) {
   Controller* threadController = context.getController(Names::getThreadControllerFullName());
   if (!Names::getThreadStackNodeName().compare(object->getName())) {
     // avoid inifinite recursion in wisey.lang.CThread.pushStack()
@@ -48,7 +49,7 @@ void IMethodCall::pushCallStack(IRGenerationContext& context,
     arguments.push_back(threadObject);
     arguments.push_back(threadObject);
     arguments.push_back(sourceFileNamePointer);
-    arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0));
+    arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
     string pushStackFunctionName =
       translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadPushStack());
     Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());

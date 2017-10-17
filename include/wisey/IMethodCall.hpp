@@ -28,7 +28,8 @@ public:
                             const IObjectType* object,
                             std::string methodName,
                             llvm::Value* expressionValue,
-                            llvm::Value* threadObject);
+                            llvm::Value* threadObject,
+                            int line);
 
   /**
    * Pop a method call from stack

@@ -24,11 +24,11 @@ class MethodCall : public IMethodCall {
   IExpression* mExpression;
   std::string mMethodName;
   ExpressionList mArguments;
+  int mLine;
   
 public:
   
-  MethodCall(IExpression* expression, std::string methodName, ExpressionList arguments)
-  : mExpression(expression), mMethodName(methodName), mArguments(arguments) { }
+  MethodCall(IExpression* expression, std::string methodName, ExpressionList arguments, int line);
   
   ~MethodCall();
   

@@ -140,7 +140,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
 
   ExpressionList runMethodArguments;
   programIdentifier = new Identifier("program", "program");
-  MethodCall* runMethodCall = new MethodCall(programIdentifier, "run", runMethodArguments);
+  MethodCall* runMethodCall = new MethodCall(programIdentifier, "run", runMethodArguments, 0);
   
   ReturnStatement* returnStatement = new ReturnStatement(runMethodCall);
  
