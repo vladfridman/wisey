@@ -13,6 +13,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ProgramFile::ProgramFile(std::string package, GlobalStatementList globalStatementList) :
+mPackage(package),
+mGlobalStatementList(globalStatementList),
+mSourceFileConstantPointer(NULL) { }
+
 ProgramFile::~ProgramFile() {
   for (IGlobalStatement* statement : mGlobalStatementList) {
     delete statement;
@@ -45,4 +50,16 @@ Value* ProgramFile::generateIR(IRGenerationContext& context) const {
   }
   
   return NULL;
+}
+
+void ProgramFile::setSourceFile(Value* sourceFileConstantPointer) {
+  mSourceFileConstantPointer = sourceFileConstantPointer;
+}
+
+Value* ProgramFile::getSourceFile() const {
+  return mSourceFileConstantPointer;
+}
+
+string ProgramFile::getSourceFileConstantName(string sourceFile) {
+  return "sourcefile." + sourceFile;
 }

@@ -23,6 +23,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+IRGenerationContext::IRGenerationContext() :
+mMainFunction(NULL),
+mBasicBlock(NULL),
+mSourceFileConstantPointer(NULL),
+mIsDestructorDebugOn(false) {
+  mModuleOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
+  mModule = mModuleOwner.get();
+}
+
 IRGenerationContext::~IRGenerationContext() {
   for (map<string, Model*>::iterator iterator = mModels.begin();
       iterator != mModels.end();
@@ -347,4 +356,12 @@ void IRGenerationContext::turnDestructorDebugOn() {
 
 bool IRGenerationContext::isDestructorDebugOn() const {
   return mIsDestructorDebugOn;
+}
+
+void IRGenerationContext::setSourceFileNamePointer(Value* sourceFileConstantPointer) {
+  mSourceFileConstantPointer = sourceFileConstantPointer;
+}
+
+Value* IRGenerationContext::getSourceFileNamePointer() const {
+  return mSourceFileConstantPointer;
 }

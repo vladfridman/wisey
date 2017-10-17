@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include <llvm/Bitcode/BitcodeWriter.h>
+#include "llvm/IR/Constants.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include <llvm/IR/PassManager.h>
 #include <llvm/IR/Verifier.h>
@@ -53,6 +54,7 @@ void Compiler::compile() {
   programPrefix.generateIR(mContext);
   prototypeMethods(programFiles, mContext);
   generateIR(programFiles, mContext);
+  mContext.setSourceFileNamePointer(NULL);
   programSuffix.generateIR(mContext);
   
   verifyModule(*mContext.getModule());
@@ -155,6 +157,7 @@ vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles) {
     yyparse();
     fclose(yyin);
     
+    programFile->setSourceFile(defineSourceFileConstant(sourceFile));
     results.push_back(programFile);
   }
   
@@ -176,6 +179,7 @@ void Compiler::prototypeMethods(vector<ProgramFile*> programFiles, IRGenerationC
 void Compiler::generateIR(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
   for (ProgramFile* programFile : programFiles) {
     context.clearAndAddDefaultImports();
+    context.setSourceFileNamePointer(programFile->getSourceFile());
     programFile->generateIR(context);
   }
 }
@@ -184,4 +188,24 @@ void Compiler::deleteProgramFiles(vector<ProgramFile*> programFiles) {
   for (ProgramFile* programFile : programFiles) {
     delete programFile;
   }
+}
+
+Value* Compiler::defineSourceFileConstant(string sourceFile) {
+  LLVMContext& llvmContext = mContext.getLLVMContext();
+
+  Constant* stringConstant = ConstantDataArray::getString(llvmContext, sourceFile);
+  GlobalVariable* global = new GlobalVariable(*mContext.getModule(),
+                            stringConstant->getType(),
+                            true,
+                            GlobalValue::InternalLinkage,
+                            stringConstant,
+                            ProgramFile::getSourceFileConstantName(sourceFile));
+
+  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  Type* elementType = global->getType()->getPointerElementType();
+  
+  return ConstantExpr::getGetElementPtr(elementType, global, Idx);
 }

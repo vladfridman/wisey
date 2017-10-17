@@ -60,6 +60,9 @@ private:
   void generateIR(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
   
   void deleteProgramFiles(std::vector<ProgramFile*> programFiles);
+  
+  llvm::Value* defineSourceFileConstant(std::string sourceFile);
+  
 };
   
 } /* namespace wisey */

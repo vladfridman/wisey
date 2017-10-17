@@ -1,0 +1,8 @@
+package systems.vos.wisey.compiler.tests.multifile;
+
+model MAdder {
+  public int add(int a, int b) {
+    thread.dumpStack();
+    return a + b; 
+  }
+}

@@ -43,23 +43,17 @@ void IMethodCall::pushCallStack(IRGenerationContext& context,
   
   vector<Value*> arguments;
   
-  GlobalVariable* emptyStringGlobal =
-  context.getModule()->getNamedGlobal(Names::getEmptyStringName());
-  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
-  Value* Idx[2];
-  Idx[0] = zeroInt32;
-  Idx[1] = zeroInt32;
-  Type* elementType = emptyStringGlobal->getType()->getPointerElementType();
-  Value* emptyStringPointer = ConstantExpr::getGetElementPtr(elementType, emptyStringGlobal, Idx);
-  arguments.clear();
-  arguments.push_back(threadObject);
-  arguments.push_back(threadObject);
-  arguments.push_back(emptyStringPointer);
-  arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0));
-  string pushStackFunctionName =
-    translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadPushStack());
-  Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());
-  IRWriter::createCallInst(context, pushStackFunction, arguments, "");
+  Value* sourceFileNamePointer = context.getSourceFileNamePointer();
+  if (sourceFileNamePointer != NULL) {
+    arguments.push_back(threadObject);
+    arguments.push_back(threadObject);
+    arguments.push_back(sourceFileNamePointer);
+    arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0));
+    string pushStackFunctionName =
+      translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadPushStack());
+    Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());
+    IRWriter::createCallInst(context, pushStackFunction, arguments, "");
+  }
 
   arguments.clear();
   Value* objectName = getObjectNamePointer(context, object, expressionValue);

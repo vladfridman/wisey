@@ -21,11 +21,11 @@ class ProgramFile : public IStatement {
 
   std::string mPackage;
   GlobalStatementList mGlobalStatementList;
+  llvm::Value* mSourceFileConstantPointer;
   
 public:
   
-  ProgramFile(std::string package, GlobalStatementList globalStatementList)
-  : mPackage(package), mGlobalStatementList(globalStatementList) { }
+  ProgramFile(std::string package, GlobalStatementList globalStatementList);
   
   ~ProgramFile();
   
@@ -38,8 +38,20 @@ public:
    * Generate method information for prototyped objects
    */
   void prototypeMethods(IRGenerationContext& context) const;
+  
+  /**
+   * Sets source file name
+   */
+  void setSourceFile(llvm::Value* sourceFileConstant);
 
+  /**
+   * Returns source file name
+   */
+  llvm::Value* getSourceFile() const;
+  
   llvm::Value* generateIR(IRGenerationContext& context) const override;
+  
+  static std::string getSourceFileConstantName(std::string sourceFile);
   
 };
 

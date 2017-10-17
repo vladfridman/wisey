@@ -42,15 +42,13 @@ class IRGenerationContext : public IPrintable {
   std::map<Interface*, Controller*> mBindings;
   std::map<std::string, IObjectType*> mImports;
   std::string mPackage;
+  llvm::Value* mSourceFileConstantPointer;
   Scopes mScopes;
   bool mIsDestructorDebugOn;
 
 public:
   
-  IRGenerationContext() : mMainFunction(NULL), mBasicBlock(NULL), mIsDestructorDebugOn(false) {
-    mModuleOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
-    mModule = mModuleOwner.get();
-  }
+  IRGenerationContext();
   
   ~IRGenerationContext();
   
@@ -149,6 +147,16 @@ public:
    */
   std::string getPackage() const;
   
+  /**
+   * Sets the current source file being processed
+   */
+  void setSourceFileNamePointer(llvm::Value* sourceFileConstantPointer);
+  
+  /**
+   * Returns the current source file being processed
+   */
+  llvm::Value* getSourceFileNamePointer() const;
+
   /**
    * Add an import that adds an alias from object's short name to the object
    */

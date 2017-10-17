@@ -16,16 +16,26 @@ TEST_F(TestFileSampleRunner, stackTraceRunTest) {
   string expected =
   "Stack trace 1:\n"
   "wisey.lang.CThread.dumpStack(CThread.yz:109)\n"
-  "systems.vos.wisey.compiler.tests.MEngine.getVolume(:0)\n"
-  "systems.vos.wisey.compiler.tests.MCar.getEngineVolume(:0)\n"
-  "systems.vos.wisey.compiler.tests.CProgram.run(:0)\n"
-  ".(:0)\n"
+  "systems.vos.wisey.compiler.tests.MEngine.getVolume(tests/samples/test_stack_trace.yz:0)\n"
+  "systems.vos.wisey.compiler.tests.MCar.getEngineVolume(tests/samples/test_stack_trace.yz:0)\n"
+  "systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_stack_trace.yz:0)\n"
   "Stack trace 2:\n"
   "wisey.lang.CThread.dumpStack(CThread.yz:109)\n"
-  "systems.vos.wisey.compiler.tests.CProgram.run(:0)\n"
-  ".(:0)\n";
+  "systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_stack_trace.yz:0)\n";
 
   runFileCheckOutput("tests/samples/test_stack_trace.yz",
                      expected.c_str(),
                      "");
+}
+
+TEST_F(TestFileSampleRunner, stackTraceMultipleFilesRunTest) {
+  string expected =
+  "wisey.lang.CThread.dumpStack(CThread.yz:109)\n"
+  "systems.vos.wisey.compiler.tests.multifile.MAdder.add(tests/samples/test_multifile_stack_trace/MAdder.yz:0)\n"
+  "systems.vos.wisey.compiler.tests.multifile.CProgram.run(tests/samples/test_multifile_stack_trace/CProgram.yz:0)\n";
+  
+  vector<string> files;
+  files.push_back("tests/samples/test_multifile_stack_trace/CProgram.yz");
+  files.push_back("tests/samples/test_multifile_stack_trace/MAdder.yz");
+  runFilesCheckOutput(files, expected.c_str(), "");
 }
