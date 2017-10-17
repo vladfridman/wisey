@@ -21,7 +21,7 @@ class ProgramFile : public IStatement {
 
   std::string mPackage;
   GlobalStatementList mGlobalStatementList;
-  llvm::Value* mSourceFileConstantPointer;
+  std::string mSourceFile;
   
 public:
   
@@ -40,14 +40,14 @@ public:
   void prototypeMethods(IRGenerationContext& context) const;
   
   /**
-   * Sets source file name
+   * Sets source file name pointer
    */
-  void setSourceFile(llvm::Value* sourceFileConstant);
+  void setSourceFile(std::string sourceFile);
 
   /**
-   * Returns source file name
+   * Returns source file name pointer
    */
-  llvm::Value* getSourceFile() const;
+  std::string getSourceFile() const;
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

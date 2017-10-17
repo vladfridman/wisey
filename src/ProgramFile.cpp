@@ -16,7 +16,7 @@ using namespace wisey;
 ProgramFile::ProgramFile(std::string package, GlobalStatementList globalStatementList) :
 mPackage(package),
 mGlobalStatementList(globalStatementList),
-mSourceFileConstantPointer(NULL) { }
+mSourceFile("") { }
 
 ProgramFile::~ProgramFile() {
   for (IGlobalStatement* statement : mGlobalStatementList) {
@@ -52,12 +52,12 @@ Value* ProgramFile::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-void ProgramFile::setSourceFile(Value* sourceFileConstantPointer) {
-  mSourceFileConstantPointer = sourceFileConstantPointer;
+void ProgramFile::setSourceFile(string sourceFile) {
+  mSourceFile = sourceFile;
 }
 
-Value* ProgramFile::getSourceFile() const {
-  return mSourceFileConstantPointer;
+string ProgramFile::getSourceFile() const {
+  return mSourceFile;
 }
 
 string ProgramFile::getSourceFileConstantName(string sourceFile) {

@@ -161,7 +161,7 @@ vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles) {
     yyparse();
     fclose(yyin);
     
-    programFile->setSourceFile(defineSourceFileConstant(sourceFile));
+    programFile->setSourceFile(sourceFile);
     results.push_back(programFile);
   }
   
@@ -183,7 +183,8 @@ void Compiler::prototypeMethods(vector<ProgramFile*> programFiles, IRGenerationC
 void Compiler::generateIR(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
   for (ProgramFile* programFile : programFiles) {
     context.clearAndAddDefaultImports();
-    context.setSourceFileNamePointer(programFile->getSourceFile());
+    Value* sourceFileNamePointer = defineSourceFileConstant(programFile->getSourceFile());
+    context.setSourceFileNamePointer(sourceFileNamePointer);
     programFile->generateIR(context);
   }
 }
