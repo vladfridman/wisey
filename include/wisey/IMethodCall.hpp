@@ -25,9 +25,9 @@ public:
    * Push a method call on stack
    */
   static void pushCallStack(IRGenerationContext& context,
-                            const IObjectType* object,
+                            const IObjectType* objectType,
                             std::string methodName,
-                            llvm::Value* expressionValue,
+                            llvm::Value* objectValue,
                             llvm::Value* threadObject,
                             int line);
 
@@ -50,9 +50,6 @@ public:
   static std::string getMethodNameConstantName(std::string methodName);
 
 private:
-  
-  static llvm::Constant* getMethodNameConstantPointer(IRGenerationContext& context,
-                                                      std::string methodName);
   
   static llvm::Value* getObjectNamePointer(IRGenerationContext& context,
                                            const IObjectType* object,

@@ -14,9 +14,13 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FinallyBlock.hpp"
+#include "wisey/IMethodCall.hpp"
+#include "wisey/Names.hpp"
+#include "wisey/ProgramFile.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
@@ -28,17 +32,19 @@ using ::testing::Test;
 struct ComposerTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Model* mModel;
   Function* mMainFunction;
+  string mMethodName;
 
 public:
   
-  ComposerTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ComposerTest() : mLLVMContext(mContext.getLLVMContext()), mMethodName("foo") {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
+    TestPrefix::run(mContext);
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
@@ -50,9 +56,40 @@ public:
                                      GlobalValue::InternalLinkage,
                                      "main",
                                      mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", mMainFunction);
-    mContext.setBasicBlock(mBlock);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mMainFunction);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
+
+    string sourceFile = "test.yz";
+    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, sourceFile);
+    GlobalVariable* global = new GlobalVariable(*mContext.getModule(),
+                                                stringConstant->getType(),
+                                                true,
+                                                GlobalValue::InternalLinkage,
+                                                stringConstant,
+                                                ProgramFile::getSourceFileConstantName(sourceFile));
+    ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 0);
+    Value* Idx[2];
+    Idx[0] = zeroInt32;
+    Idx[1] = zeroInt32;
+    Type* elementType = global->getType()->getPointerElementType();
+    mContext.setSourceFileNamePointer(ConstantExpr::getGetElementPtr(elementType, global, Idx));
+
+    stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getName());
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                       stringConstant,
+                       mModel->getObjectNameGlobalVariableName());
+
+    stringConstant = ConstantDataArray::getString(mLLVMContext, mMethodName);
+    new GlobalVariable(*mContext.getModule(),
+                       stringConstant->getType(),
+                       true,
+                       GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                       stringConstant,
+                       IMethodCall::getMethodNameConstantName(mMethodName));
 
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
@@ -93,3 +130,40 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ComposerTest, pushCallStackTest) {
+  Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
+  Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+  Composer::pushCallStack(mContext, threadObject, 5);
+
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  call void @wisey.lang.CThread.pushStack("
+  "%wisey.lang.CThread** null, "
+  "%wisey.lang.CThread** null, "
+  "i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), "
+  "i32 5)\n";
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  
+  mStringBuffer.clear();
+}
+
+TEST_F(ComposerTest, setNextOnCallStackTest) {
+  Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
+  Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+  Value* modelObject = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  Composer::setNextOnCallStack(mContext, threadObject, mModel, modelObject, mMethodName);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  call void @wisey.lang.CThread.setObjectAndMethod("
+  "%wisey.lang.CThread** null, "
+  "%wisey.lang.CThread** null, "
+  "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
+  "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
+  "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0))\n";
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  
+  mStringBuffer.clear();
+}

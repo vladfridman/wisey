@@ -50,7 +50,10 @@ public:
   std::string getSourceFile() const;
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
-  
+
+  /**
+   * Returns the name of the constant containing the given source file name
+   */
   static std::string getSourceFileConstantName(std::string sourceFile);
   
 };

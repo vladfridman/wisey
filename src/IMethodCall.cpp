@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/Composer.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -31,43 +32,18 @@ string IMethodCall::getMethodNameConstantName(string methodName) {
 }
 
 void IMethodCall::pushCallStack(IRGenerationContext& context,
-                                const IObjectType* object,
+                                const IObjectType* objectType,
                                 string methodName,
-                                Value* expressionValue,
+                                Value* objectValue,
                                 Value* threadObject,
                                 int line) {
-  Controller* threadController = context.getController(Names::getThreadControllerFullName());
-  if (!Names::getThreadStackNodeName().compare(object->getName())) {
+  if (!Names::getThreadStackNodeName().compare(objectType->getName())) {
     // avoid inifinite recursion in wisey.lang.CThread.pushStack()
     return;
   }
   
-  vector<Value*> arguments;
-  
-  Value* sourceFileNamePointer = context.getSourceFileNamePointer();
-  if (sourceFileNamePointer != NULL) {
-    arguments.push_back(threadObject);
-    arguments.push_back(threadObject);
-    arguments.push_back(sourceFileNamePointer);
-    arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
-    string pushStackFunctionName =
-      translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadPushStack());
-    Function* pushStackFunction = context.getModule()->getFunction(pushStackFunctionName.c_str());
-    IRWriter::createCallInst(context, pushStackFunction, arguments, "");
-  }
-
-  arguments.clear();
-  Value* objectName = getObjectNamePointer(context, object, expressionValue);
-  Constant* functionName = getMethodNameConstantPointer(context, methodName);
-  arguments.push_back(threadObject);
-  arguments.push_back(threadObject);
-  arguments.push_back(objectName);
-  arguments.push_back(functionName);
-  string setObjectAndMethodFunctionName =
-  translateObjectMethodToLLVMFunctionName(threadController, Names::getThreadSetObjectAndMethod());
-  Function* setObjectAndMethodFunction = context.getModule()->
-  getFunction(setObjectAndMethodFunctionName.c_str());
-  IRWriter::createCallInst(context, setObjectAndMethodFunction, arguments, "");
+  Composer::pushCallStack(context, threadObject, line);
+  Composer::setNextOnCallStack(context, threadObject, objectType, objectValue, methodName);
 }
 
 void IMethodCall::popCallStack(IRGenerationContext& context,
@@ -116,15 +92,3 @@ Value* IMethodCall::getObjectNamePointer(IRGenerationContext& context,
   return stringPointer;
 }
 
-Constant* IMethodCall::getMethodNameConstantPointer(IRGenerationContext& context,
-                                                    string methodName) {
-  string constantName = getMethodNameConstantName(methodName);
-  GlobalVariable* constant = context.getModule()->getNamedGlobal(constantName);
-  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
-  Value* Idx[2];
-  Idx[0] = zeroInt32;
-  Idx[1] = zeroInt32;
-  Type* elementType = constant->getType()->getPointerElementType();
-  
-  return ConstantExpr::getGetElementPtr(elementType, constant, Idx);
-}
