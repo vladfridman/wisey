@@ -1,12 +1,17 @@
 /* Interfaces */
 
+external interface wisey.lang.IException {
+}
+
 external interface wisey.lang.IProgram {
   int run();
 }
 
 /* Models */
 
-external model wisey.lang.MNullPointerException {
+external model wisey.lang.MNullPointerException
+  implements
+    wisey.lang.IException {
 }
 
 /* Controllers */

@@ -1,5 +1,7 @@
 package wisey.lang;
 
-model MNullPointerException {
+import wisey.lang.IException;
+
+model MNullPointerException implements IException {
 
 }
