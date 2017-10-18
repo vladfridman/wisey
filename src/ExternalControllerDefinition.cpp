@@ -13,6 +13,19 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+ExternalControllerDefinition::ExternalControllerDefinition(ControllerTypeSpecifier*
+                                                           controllerTypeSpecifier,
+                                                           vector<FieldDeclaration*>
+                                                           fieldDeclarations,
+                                                           vector<IMethodDeclaration*>
+                                                           methodDeclarations,
+                                                           vector<InterfaceTypeSpecifier*>
+                                                           interfaceSpecifiers) :
+mControllerTypeSpecifier(controllerTypeSpecifier),
+mFieldDeclarations(fieldDeclarations),
+mMethodDeclarations(methodDeclarations),
+mInterfaceSpecifiers(interfaceSpecifiers) { }
+
 ExternalControllerDefinition::~ExternalControllerDefinition() {
   delete mControllerTypeSpecifier;
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {

@@ -13,6 +13,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+FieldDeclaration::FieldDeclaration(FieldKind fieldKind,
+                                   ITypeSpecifier* typeSpecifier,
+                                   string name,
+                                   ExpressionList arguments) :
+mFieldKind(fieldKind),
+mTypeSpecifier(typeSpecifier),
+mName(name),
+mArguments(arguments) { }
+
 FieldDeclaration::~FieldDeclaration() {
   delete mTypeSpecifier;
   for (IExpression* expression : mArguments) {

@@ -31,11 +31,7 @@ public:
   FieldDeclaration(FieldKind fieldKind,
                    ITypeSpecifier* typeSpecifier,
                    std::string name,
-                   ExpressionList arguments) :
-  mFieldKind(fieldKind),
-  mTypeSpecifier(typeSpecifier),
-  mName(name),
-  mArguments(arguments) { }
+                   ExpressionList arguments);
   
   ~FieldDeclaration();
   

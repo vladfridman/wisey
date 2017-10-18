@@ -34,12 +34,7 @@ public:
         const IType* type,
         std::string name,
         unsigned long index,
-        ExpressionList arguments) :
-  mFieldKind(fieldKind),
-  mType(type),
-  mName(name),
-  mIndex(index),
-  mArguments(arguments) { }
+        ExpressionList arguments);
   
   ~Field();
   

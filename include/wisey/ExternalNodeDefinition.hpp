@@ -31,11 +31,7 @@ public:
   ExternalNodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
                          std::vector<FieldDeclaration*> fieldDeclarations,
                          std::vector<IMethodDeclaration *> methodDeclarations,
-                         std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
-  mNodeTypeSpecifier(nodeTypeSpecifier),
-  mFieldDeclarations(fieldDeclarations),
-  mMethodDeclarations(methodDeclarations),
-  mInterfaceSpecifiers(interfaceSpecifiers) { }
+                         std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
   
   ~ExternalNodeDefinition();
   

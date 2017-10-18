@@ -13,6 +13,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ModelOwner::ModelOwner(Model* model) : mModel(model) { }
+
+ModelOwner::~ModelOwner() { }
+
 Model* ModelOwner::getObject() const {
   return mModel;
 }

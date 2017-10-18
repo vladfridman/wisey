@@ -23,9 +23,9 @@ class NodeOwner : public IObjectOwnerType {
   
 public:
   
-  NodeOwner(Node* node) : mNode(node) { }
+  NodeOwner(Node* node);
   
-  ~NodeOwner() { }
+  ~NodeOwner();
   
   Node* getObject() const override;
   

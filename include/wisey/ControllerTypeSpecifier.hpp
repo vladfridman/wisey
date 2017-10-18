@@ -22,10 +22,9 @@ class ControllerTypeSpecifier : public IInjectableObjectTypeSpecifier {
   
 public:
   
-  ControllerTypeSpecifier(std::vector<std::string> package, std::string shortName)
-  : mPackage(package), mShortName(shortName) { }
+  ControllerTypeSpecifier(std::vector<std::string> package, std::string shortName);
   
-  ~ControllerTypeSpecifier() { }
+  ~ControllerTypeSpecifier();
   
   std::string getShortName() const override;
   

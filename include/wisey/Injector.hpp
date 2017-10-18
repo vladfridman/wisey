@@ -23,8 +23,7 @@ class Injector : public IExpression {
   
 public:
   
-  Injector(IInjectableObjectTypeSpecifier* injectableObjectTypeSpecifier) :
-  mInjectableObjectTypeSpecifier(injectableObjectTypeSpecifier) { }
+  Injector(IInjectableObjectTypeSpecifier* injectableObjectTypeSpecifier);
   
   ~Injector();
   

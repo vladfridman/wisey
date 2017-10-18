@@ -15,6 +15,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+InterfaceOwner::InterfaceOwner(Interface* interface) : mInterface(interface) { }
+
+InterfaceOwner::~InterfaceOwner() { }
+
 Interface* InterfaceOwner::getObject() const {
   return mInterface;
 }

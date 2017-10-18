@@ -13,6 +13,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+NodeDefinition::NodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
+                               vector<FieldDeclaration*> fieldDeclarations,
+                               vector<IMethodDeclaration *> methodDeclarations,
+                               vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
+mNodeTypeSpecifier(nodeTypeSpecifier),
+mFieldDeclarations(fieldDeclarations),
+mMethodDeclarations(methodDeclarations),
+mInterfaceSpecifiers(interfaceSpecifiers) { }
+
 NodeDefinition::~NodeDefinition() {
   delete mNodeTypeSpecifier;
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {

@@ -34,11 +34,7 @@ public:
   ExternalControllerDefinition(ControllerTypeSpecifier* controllerTypeSpecifier,
                                std::vector<FieldDeclaration*> fieldDeclarations,
                                std::vector<IMethodDeclaration*> methodDeclarations,
-                               std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
-  mControllerTypeSpecifier(controllerTypeSpecifier),
-  mFieldDeclarations(fieldDeclarations),
-  mMethodDeclarations(methodDeclarations),
-  mInterfaceSpecifiers(interfaceSpecifiers) { }
+                               std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
   
   ~ExternalControllerDefinition();
   

@@ -23,9 +23,9 @@ class ControllerOwner : public IObjectOwnerType {
   
 public:
   
-  ControllerOwner(Controller* controller) : mController(controller) { }
+  ControllerOwner(Controller* controller);
   
-  ~ControllerOwner() { }
+  ~ControllerOwner();
   
   Controller* getObject() const override;
 

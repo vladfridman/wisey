@@ -13,6 +13,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ControllerOwner::ControllerOwner(Controller* controller) : mController(controller) { }
+
+ControllerOwner::~ControllerOwner() { }
+
 Controller* ControllerOwner::getObject() const {
   return mController;
 }

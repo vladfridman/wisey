@@ -24,10 +24,9 @@ class NodeTypeSpecifier : public IBuildableConcreteObjectTypeSpecifier {
   
 public:
   
-  NodeTypeSpecifier(std::vector<std::string> package, std::string shortName)
-  : mPackage(package), mShortName(shortName) { }
+  NodeTypeSpecifier(std::vector<std::string> package, std::string shortName);
   
-  ~NodeTypeSpecifier() { }
+  ~NodeTypeSpecifier();
   
   std::string getShortName() const override;
   

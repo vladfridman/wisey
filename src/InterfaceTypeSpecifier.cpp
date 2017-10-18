@@ -12,11 +12,17 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-std::string InterfaceTypeSpecifier::getShortName() const {
+InterfaceTypeSpecifier::InterfaceTypeSpecifier(vector<string> package, string shortName) :
+mPackage(package),
+mShortName(shortName) { }
+
+InterfaceTypeSpecifier::~InterfaceTypeSpecifier() { }
+
+string InterfaceTypeSpecifier::getShortName() const {
   return mShortName;
 }
 
-std::string InterfaceTypeSpecifier::getName(IRGenerationContext& context) const {
+string InterfaceTypeSpecifier::getName(IRGenerationContext& context) const {
   return getFullName(context, mShortName, mPackage);
 }
 
@@ -25,6 +31,6 @@ Interface* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
 }
 
 void InterfaceTypeSpecifier::printToStream(IRGenerationContext& context,
-                                           std::iostream& stream) const {
+                                           iostream& stream) const {
   stream << getName(context);
 }

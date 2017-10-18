@@ -24,10 +24,9 @@ class ModelTypeSpecifier : public IBuildableConcreteObjectTypeSpecifier {
 
 public:
   
-  ModelTypeSpecifier(std::vector<std::string> package, std::string shortName)
-  : mPackage(package), mShortName(shortName) { }
+  ModelTypeSpecifier(std::vector<std::string> package, std::string shortName);
   
-  ~ModelTypeSpecifier() { }
+  ~ModelTypeSpecifier();
 
   std::string getShortName() const override;
   

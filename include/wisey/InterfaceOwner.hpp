@@ -22,9 +22,9 @@ class InterfaceOwner : public IObjectOwnerType {
   
 public:
   
-  InterfaceOwner(Interface* interface) : mInterface(interface) { }
+  InterfaceOwner(Interface* interface);
   
-  ~InterfaceOwner() { }
+  ~InterfaceOwner();
 
   Interface* getObject() const override;
 

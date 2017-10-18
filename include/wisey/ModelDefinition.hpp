@@ -32,11 +32,7 @@ public:
   ModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
                   std::vector<FieldDeclaration*> fieldDeclarations,
                   std::vector<IMethodDeclaration *> methodDeclarations,
-                  std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
-  mModelTypeSpecifier(modelTypeSpecifier),
-  mFieldDeclarations(fieldDeclarations),
-  mMethodDeclarations(methodDeclarations),
-  mInterfaceSpecifiers(interfaceSpecifiers) { }
+                  std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
   
   ~ModelDefinition();
 

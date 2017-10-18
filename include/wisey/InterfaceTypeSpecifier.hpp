@@ -25,10 +25,9 @@ class InterfaceTypeSpecifier : public IInjectableObjectTypeSpecifier {
   
 public:
   
-  InterfaceTypeSpecifier(std::vector<std::string> package, std::string shortName)
-  : mPackage(package), mShortName(shortName) { }
+  InterfaceTypeSpecifier(std::vector<std::string> package, std::string shortName);
   
-  ~InterfaceTypeSpecifier() { }
+  ~InterfaceTypeSpecifier();
   
   std::string getShortName() const override;
   

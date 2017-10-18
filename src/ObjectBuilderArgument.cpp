@@ -16,6 +16,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ObjectBuilderArgument::ObjectBuilderArgument(string fieldSpecifier, IExpression* fieldExpression) :
+mFieldSpecifier(fieldSpecifier),
+mFieldExpression(fieldExpression) { }
+
 ObjectBuilderArgument::~ObjectBuilderArgument() {
   delete mFieldExpression;
 }
@@ -52,7 +56,7 @@ void ObjectBuilderArgument::releaseOwnership(IRGenerationContext& context) const
 }
 
 void ObjectBuilderArgument::printToStream(IRGenerationContext& context,
-                                          std::iostream &stream) const {
+                                          iostream &stream) const {
   stream << mFieldSpecifier << "(";
   mFieldExpression->printToStream(context, stream);
   stream << ")";

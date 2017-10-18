@@ -17,6 +17,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ExternalInterfaceDefinition::ExternalInterfaceDefinition(InterfaceTypeSpecifier*
+                                                         interfaceTypeSpecifier,
+                                                         vector<InterfaceTypeSpecifier*>
+                                                         parentInterfaceSpecifiers,
+                                                         vector<MethodSignatureDeclaration *>
+                                                         methodSignatureDeclarations) :
+mInterfaceTypeSpecifier(interfaceTypeSpecifier),
+mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
+mMethodSignatureDeclarations(methodSignatureDeclarations) { }
+
 ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
   delete mInterfaceTypeSpecifier;
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mParentInterfaceSpecifiers) {

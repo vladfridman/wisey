@@ -13,6 +13,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ExternalNodeDefinition::ExternalNodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
+                                               vector<FieldDeclaration*> fieldDeclarations,
+                                               vector<IMethodDeclaration *> methodDeclarations,
+                                               vector<InterfaceTypeSpecifier*>
+                                               interfaceSpecifiers) :
+mNodeTypeSpecifier(nodeTypeSpecifier),
+mFieldDeclarations(fieldDeclarations),
+mMethodDeclarations(methodDeclarations),
+mInterfaceSpecifiers(interfaceSpecifiers) { }
+
 ExternalNodeDefinition::~ExternalNodeDefinition() {
   delete mNodeTypeSpecifier;
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {

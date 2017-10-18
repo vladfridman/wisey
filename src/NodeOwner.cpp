@@ -13,6 +13,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+NodeOwner::NodeOwner(Node* node) : mNode(node) { }
+
+NodeOwner::~NodeOwner() { }
+
 Node* NodeOwner::getObject() const {
   return mNode;
 }

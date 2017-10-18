@@ -22,9 +22,9 @@ class ModelOwner : public IObjectOwnerType {
   
 public:
   
-  ModelOwner(Model* model) : mModel(model) { }
+  ModelOwner(Model* model);
   
-  ~ModelOwner() { }
+  ~ModelOwner();
   
   Model* getObject() const override;
   

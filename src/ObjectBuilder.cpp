@@ -19,6 +19,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ObjectBuilder::ObjectBuilder(IBuildableConcreteObjectTypeSpecifier* typeSpecifier,
+                             ObjectBuilderArgumentList ObjectBuilderArgumentList) :
+mTypeSpecifier(typeSpecifier),
+mObjectBuilderArgumentList(ObjectBuilderArgumentList) { }
+
 ObjectBuilder::~ObjectBuilder() {
   delete mTypeSpecifier;
   for (ObjectBuilderArgument* argument : mObjectBuilderArgumentList) {

@@ -22,8 +22,7 @@ class OwnerTypeSpecifier : public ITypeSpecifier {
   
 public:
   
-  OwnerTypeSpecifier(const IObjectTypeSpecifier* objectTypeSpecifier)
-  : mObjectTypeSpecifier(objectTypeSpecifier) { }
+  OwnerTypeSpecifier(const IObjectTypeSpecifier* objectTypeSpecifier);
   
   ~OwnerTypeSpecifier();
   

@@ -38,8 +38,7 @@ class ObjectBuilderArgument : public IPrintable {
   
 public:
   
-  ObjectBuilderArgument(std::string fieldSpecifier, IExpression* fieldExpression)
-    : mFieldSpecifier(fieldSpecifier), mFieldExpression(fieldExpression) { }
+  ObjectBuilderArgument(std::string fieldSpecifier, IExpression* fieldExpression);
   
   ~ObjectBuilderArgument();
   

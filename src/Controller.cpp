@@ -23,7 +23,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Controller::Controller(std::string name, llvm::StructType* structType, bool isExternal) :
+Controller::Controller(string name, StructType* structType, bool isExternal) :
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal) {

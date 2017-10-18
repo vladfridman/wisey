@@ -13,6 +13,16 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+ExternalModelDefinition::ExternalModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
+                                                 vector<FieldDeclaration*> fieldDeclarations,
+                                                 vector<IMethodDeclaration *> methodDeclarations,
+                                                 vector<InterfaceTypeSpecifier*>
+                                                 interfaceSpecifiers) :
+mModelTypeSpecifier(modelTypeSpecifier),
+mFieldDeclarations(fieldDeclarations),
+mMethodDeclarations(methodDeclarations),
+mInterfaceSpecifiers(interfaceSpecifiers) { }
+
 ExternalModelDefinition::~ExternalModelDefinition() {
   delete mModelTypeSpecifier;
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {

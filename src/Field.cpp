@@ -11,6 +11,17 @@
 using namespace std;
 using namespace wisey;
 
+Field::Field(FieldKind fieldKind,
+             const IType* type,
+             std::string name,
+             unsigned long index,
+             ExpressionList arguments) :
+mFieldKind(fieldKind),
+mType(type),
+mName(name),
+mIndex(index),
+mArguments(arguments) { }
+
 Field::~Field() {
   // Argument expressions are deleted with delcarations
   mArguments.clear();

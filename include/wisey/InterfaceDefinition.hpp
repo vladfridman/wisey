@@ -29,10 +29,7 @@ public:
   
   InterfaceDefinition(InterfaceTypeSpecifier* interfaceTypeSpecifier,
                       std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                      std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations) :
-  mInterfaceTypeSpecifier(interfaceTypeSpecifier),
-  mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
-  mMethodSignatureDeclarations(methodSignatureDeclarations) { }
+                      std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations);
   
   ~InterfaceDefinition();
   

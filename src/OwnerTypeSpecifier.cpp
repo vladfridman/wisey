@@ -11,6 +11,9 @@
 using namespace std;
 using namespace wisey;
 
+OwnerTypeSpecifier::OwnerTypeSpecifier(const IObjectTypeSpecifier* objectTypeSpecifier) :
+mObjectTypeSpecifier(objectTypeSpecifier) { }
+
 OwnerTypeSpecifier::~OwnerTypeSpecifier() {
   delete mObjectTypeSpecifier;
 }
@@ -19,7 +22,7 @@ const IObjectOwnerType* OwnerTypeSpecifier::getType(IRGenerationContext& context
   return mObjectTypeSpecifier->getType(context)->getOwner();
 }
 
-void OwnerTypeSpecifier::printToStream(IRGenerationContext& context, std::iostream& stream) const {
+void OwnerTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {
   mObjectTypeSpecifier->printToStream(context, stream);
   stream << "*";
 }

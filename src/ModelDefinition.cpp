@@ -18,6 +18,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ModelDefinition::ModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
+                                 vector<FieldDeclaration*> fieldDeclarations,
+                                 vector<IMethodDeclaration *> methodDeclarations,
+                                 vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
+mModelTypeSpecifier(modelTypeSpecifier),
+mFieldDeclarations(fieldDeclarations),
+mMethodDeclarations(methodDeclarations),
+mInterfaceSpecifiers(interfaceSpecifiers) { }
+
 ModelDefinition::~ModelDefinition() {
   delete mModelTypeSpecifier;
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {

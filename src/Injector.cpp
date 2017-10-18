@@ -15,6 +15,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+Injector::Injector(IInjectableObjectTypeSpecifier* injectableObjectTypeSpecifier) :
+mInjectableObjectTypeSpecifier(injectableObjectTypeSpecifier) { }
+
 Injector::~Injector() {
   delete mInjectableObjectTypeSpecifier;
 }
