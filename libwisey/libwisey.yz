@@ -1,6 +1,7 @@
 /* Interfaces */
 
 external interface wisey.lang.IException {
+  string getName();
 }
 
 external interface wisey.lang.IProgram {
@@ -12,6 +13,8 @@ external interface wisey.lang.IProgram {
 external model wisey.lang.MNullPointerException
   implements
     wisey.lang.IException {
+
+  string getName();
 }
 
 /* Controllers */

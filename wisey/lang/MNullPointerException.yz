@@ -4,4 +4,8 @@ import wisey.lang.IException;
 
 model MNullPointerException implements IException {
 
+  public string getName() {
+    return "wisey.lang.MNullPointerException";
+  }
+
 }

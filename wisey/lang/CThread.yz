@@ -108,7 +108,7 @@ controller CThread {
   }
 
   public void exitWithException(IException exception) {
-    printerr("Unhandled exception\n");
+    printerr("Unhandled exception " + exception.getName() + "\n");
     NProgramStackNode iterator = mProgramStackTail;
     while (iterator != null) {
       printerr("  at " + iterator.getObjectName() + "." + iterator.getMethodName() + "(" +

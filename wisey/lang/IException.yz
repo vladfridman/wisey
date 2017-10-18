@@ -5,4 +5,10 @@ package wisey.lang;
  */
 interface IException {
 
+
+  /**
+   * Returns name of this exception
+   */
+  string getName();
+
 }
