@@ -76,5 +76,5 @@ void NodeDefinition::checkFields(IRGenerationContext& context,
       Log::e("Node state fields can only be node owner type");
       exit(1);
     }
-      }
+  }
 }

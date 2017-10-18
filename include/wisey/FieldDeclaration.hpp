@@ -14,6 +14,8 @@
 #include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
+
+class Field;
   
 /**
  * Represents a field in controller definition
@@ -37,6 +39,11 @@ public:
   
   ~FieldDeclaration();
   
+  /**
+   * Creates the Field object based on the declaration
+   */
+  Field* declare(IRGenerationContext& context, unsigned long index) const;
+  
   FieldKind getFieldKind() const;
   
   ITypeSpecifier* getTypeSpecifier() const;
@@ -44,6 +51,7 @@ public:
   std::string getName() const;
   
   ExpressionList getArguments() const;
+  
 };
   
 } /* namespace wisey */

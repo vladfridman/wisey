@@ -46,19 +46,7 @@ vector<Field*> IConcreteObjectDefinition::createFields(IRGenerationContext& cont
                                                        unsigned long startIndex) {
   vector<Field*> fields;
   for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
-    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
-    FieldKind fieldKind = fieldDeclaration->getFieldKind();
-    
-    if (fieldKind == INJECTED_FIELD && fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
-      Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
-      fieldType = context.getBoundController(interface)->getOwner();
-    }
-    
-    Field* field = new Field(fieldKind,
-                             fieldType,
-                             fieldDeclaration->getName(),
-                             startIndex + fields.size(),
-                             fieldDeclaration->getArguments());
+    Field* field = fieldDeclaration->declare(context, startIndex + fields.size());
     fields.push_back(field);
   }
   
