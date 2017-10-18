@@ -237,7 +237,6 @@ TEST_F(TestFileSampleRunner, objectFieldVariableNullComplicatedTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:15)\n"
                                "  at systems.vos.wisey.compiler.tests.CService.getValue(tests/samples/test_object_field_variable_null_complicated.yz:26)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_object_field_variable_null_complicated.yz:36)\n"
                                "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n");

@@ -444,7 +444,6 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:15)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_setting_null.yz:33)\n"
                                "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n");
 }

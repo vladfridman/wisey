@@ -37,7 +37,7 @@ external controller wisey.lang.CThread {
     int lineNumber);
   void popStack();
   void dumpStack();
-  void exitWithException(
+  void reportException(
     wisey.lang.IException exception);
 }
 

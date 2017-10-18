@@ -107,13 +107,22 @@ controller CThread {
     }
   }
 
-  public void exitWithException(IException exception) {
+  /**
+   * Print a stack trace for an exception.
+   *
+   * The last element in the stack trace is the call to this method and is not printed
+   */
+  public void reportException(IException exception) {
     printerr("Unhandled exception " + exception.getName() + "\n");
     NProgramStackNode iterator = mProgramStackTail;
+    if (iterator != null) {
+      iterator = iterator.getPrevious();
+    }
     while (iterator != null) {
       printerr("  at " + iterator.getObjectName() + "." + iterator.getMethodName() + "(" +
         iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
       iterator = iterator.getPrevious();
     }
+    exit(1);
   }
 }
