@@ -54,7 +54,6 @@ struct NodeTest : public Test {
   StructType* mStructType;
   Field* mLeftField;
   Field* mRightField;
-  Field* mAreaField;
   BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
@@ -183,8 +182,6 @@ struct NodeTest : public Test {
                                          "mRight",
                                          1,
                                          arguments));
-    mAreaField = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "mArea", 2, arguments);
-    simpleNodeFields.push_back(mAreaField);
     mSimpleNode = Node::newNode(simpleNodeFullName, simpleNodeStructType);
     mSimpleNode->setFields(simpleNodeFields);
     mContext.addNode(mSimpleNode);
@@ -196,12 +193,12 @@ struct NodeTest : public Test {
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
     vector<Field*> simplerNodeFields;
-    simplerNodeFields.push_back(new Field(STATE_FIELD,
+    simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
                                           "mLeft",
                                           0,
                                           arguments));
-    simplerNodeFields.push_back(new Field(STATE_FIELD,
+    simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
                                           "mRight",
                                           1,
@@ -399,8 +396,6 @@ TEST_F(NodeTest, buildTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
   
-  ASSERT_EQ(8ul, mBasicBlock->size());
-  
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
@@ -408,14 +403,11 @@ TEST_F(NodeTest, buildTest) {
   "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 3))"
   "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.NSimpleNode*"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
-  "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 2"
-  "\n  store i32 0, i32* %0"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
   "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 0"
-  "\n  store i32 3, i32* %1"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
+  "\n  store i32 3, i32* %0"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
   "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 1"
-  "\n  store i32 5, i32* %2\n";
+  "\n  store i32 5, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

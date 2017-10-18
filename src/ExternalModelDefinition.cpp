@@ -39,7 +39,6 @@ void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) con
 
 void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
-  ModelDefinition::checkFields(mFieldDeclarations);
   
   configureObject(context, model, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
 }

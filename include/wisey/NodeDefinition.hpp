@@ -40,12 +40,6 @@ public:
   mInterfaceSpecifiers(interfaceSpecifiers) { }
   
   ~NodeDefinition();
-  
-  /**
-   * Checks field delcarations for correctness
-   */
-  static void checkFields(IRGenerationContext& context,
-                          std::vector<FieldDeclaration*> fieldDeclarations);
 
   void prototypeObjects(IRGenerationContext& context) const override;
   

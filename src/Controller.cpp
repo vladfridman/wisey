@@ -71,6 +71,8 @@ void Controller::setFields(vector<Field*> fields) {
         mInjectedFields.push_back(field);
         break;
       default:
+        Log::e("Controllers can only have fixed, injected or state fields");
+        exit(1);
         break;
     }
   }

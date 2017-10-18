@@ -37,7 +37,7 @@ using ::testing::Test;
 struct PrimitiveFieldVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Node* mObject;
+  Controller* mObject;
   BasicBlock* mBasicBlock;
   Value* mPrimitiveFieldValue;
   PrimitiveFieldVariable* mPrimitiveFieldVariable;
@@ -47,13 +47,13 @@ struct PrimitiveFieldVariableTest : Test {
   PrimitiveFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> types;
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mLLVMContext));
-    string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
+    string objectFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<Field*> fields;
     ExpressionList arguments;
     fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "foo", 0, arguments));
-    mObject = Node::newNode(objectFullName, objectStructType);
+    mObject = Controller::newController(objectFullName, objectStructType);
     mObject->setFields(fields);
     
     FunctionType* functionType =
@@ -94,10 +94,10 @@ TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateIdentifierIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
+  "%systems.vos.wisey.compiler.tests.CController** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
+  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 0"
   "\n  %2 = load i32, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -115,10 +115,10 @@ TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
+  "%systems.vos.wisey.compiler.tests.CController** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
+  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 0"
   "\n  store i32 3, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -137,10 +137,10 @@ TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentWithC
   string expected = string() +
   "\nentry:" +
   "\n  %conv = zext i16 3 to i32"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
+  "%systems.vos.wisey.compiler.tests.CController** null"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
+  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 0"
   "\n  store i32 %conv, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

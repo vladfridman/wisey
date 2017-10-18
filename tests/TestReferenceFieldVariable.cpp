@@ -71,8 +71,8 @@ struct ReferenceFieldVariableTest : Test {
     objectStructType->setBody(types);
     vector<Field*> fields;
     ExpressionList fieldArguments;
-    fields.push_back(new Field(STATE_FIELD, mNode, "foo", 0, fieldArguments));
-    fields.push_back(new Field(STATE_FIELD, mInterface, "bar", 1, fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mNode->getOwner(), "foo", 0, fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mInterface->getOwner(), "bar", 1, fieldArguments));
     mObject = Node::newNode(objectFullName, objectStructType);
     mObject->setFields(fields);
     
@@ -104,7 +104,7 @@ struct ReferenceFieldVariableTest : Test {
 
 TEST_F(ReferenceFieldVariableTest, basicFieldsTest) {
   EXPECT_STREQ(mReferenceFieldVariable->getName().c_str(), "foo");
-  EXPECT_EQ(mReferenceFieldVariable->getType(), mNode);
+  EXPECT_EQ(mReferenceFieldVariable->getType(), mNode->getOwner());
   EXPECT_EQ(mReferenceFieldVariable->getValue(), mReferenceFieldValue);
 }
 
@@ -127,7 +127,7 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   
   PointerType* llvmType = (PointerType*) mNode->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
-  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode));
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
   mReferenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
@@ -152,7 +152,7 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentWithC
   
   PointerType* llvmType = mNode->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
-  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode));
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
   Value* referenceFieldValue = ConstantPointerNull::get(mInterface->getLLVMType(mLLVMContext));

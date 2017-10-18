@@ -180,7 +180,7 @@ struct NodeOwnerTest : public Test {
                                          "mRight",
                                          1,
                                          fieldArguments));
-    mAreaField = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "mArea", 2, fieldArguments);
+    mAreaField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mArea", 2, fieldArguments);
     simpleNodeFields.push_back(mAreaField);
     mSimpleNode = Node::newNode(simpleNodeFullName, simpleNodeStructType);
     mSimpleNode->setFields(simpleNodeFields);
@@ -193,12 +193,12 @@ struct NodeOwnerTest : public Test {
     StructType* simplerNodeStructType = StructType::create(mLLVMContext, simplerNodeFullName);
     simplerNodeStructType->setBody(simplerNodeTypes);
     vector<Field*> simplerNodeFields;
-    simplerNodeFields.push_back(new Field(STATE_FIELD,
+    simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
                                           "mLeft",
                                           0,
                                           fieldArguments));
-    simplerNodeFields.push_back(new Field(STATE_FIELD,
+    simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
                                           "mRight",
                                           1,

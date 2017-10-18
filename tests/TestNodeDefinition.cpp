@@ -272,7 +272,7 @@ TEST_F(TestFileSampleRunner, nodeDefinitionWithMethodRunTest) {
 TEST_F(TestFileSampleRunner, nodeStateFieldsNonNodeOwnerTypeDeathRunTest) {
   expectFailCompile("tests/samples/test_node_state_fields_non_node_owner_type.yz",
                     1,
-                    "Error: Node state fields can only be node owner type");
+                    "Error: Node state fields can only be node owner or interface owner type");
 }
 
 TEST_F(TestFileSampleRunner, nodeWithInjectedFieldDeathRunTest) {

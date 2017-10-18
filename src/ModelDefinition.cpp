@@ -44,7 +44,6 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
-  checkFields(mFieldDeclarations);
 
   configureObject(context, model, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
 }
@@ -68,13 +67,3 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-void ModelDefinition::checkFields(vector<FieldDeclaration*> fieldDeclarations) {
-  for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
-    FieldKind fieldKind = fieldDeclaration->getFieldKind();
-    
-    if (fieldKind != FIXED_FIELD) {
-      Log::e("Models can only have fixed fields");
-      exit(1);
-    }
-  }
-}

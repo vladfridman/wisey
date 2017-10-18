@@ -56,14 +56,21 @@ void Node::setFields(vector<Field*> fields) {
   mFieldsOrdered = fields;
   for (Field* field : fields) {
     mFields[field->getName()] = field;
+    TypeKind typeKind = field->getType()->getTypeKind();
     switch (field->getFieldKind()) {
       case FieldKind::FIXED_FIELD :
         mFixedFields.push_back(field);
         break;
       case FieldKind::STATE_FIELD :
+        if (typeKind != NODE_OWNER_TYPE && typeKind != INTERFACE_OWNER_TYPE) {
+          Log::e("Node state fields can only be node owner or interface owner type");
+          exit(1);
+        }
         mStateFields.push_back(field);
         break;
       default:
+        Log::e("Nodes can only have fixed or state fields");
+        exit(1);
         break;
     }
   }

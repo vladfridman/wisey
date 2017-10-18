@@ -55,6 +55,10 @@ void Model::setFields(vector<Field*> fields) {
   mFieldsOrdered = fields;
   for (Field* field : fields) {
     mFields[field->getName()] = field;
+    if (field->getFieldKind() != FIXED_FIELD) {
+      Log::e("Models can only have fixed fields");
+      exit(1);
+    }
   }
 }
 

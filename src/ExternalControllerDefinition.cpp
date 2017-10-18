@@ -39,7 +39,6 @@ void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context
 
 void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
-  ControllerDefinition::checkFields(mFieldDeclarations);
   
   configureObject(context,
                   controller,

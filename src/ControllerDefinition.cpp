@@ -43,7 +43,6 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
-  checkFields(mFieldDeclarations);
 
   configureObject(context,
                   controller,
@@ -69,13 +68,3 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-void ControllerDefinition::checkFields(vector<FieldDeclaration*> fieldDeclarations) {
-  for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
-    FieldKind fieldKind = fieldDeclaration->getFieldKind();
-    
-    if (fieldKind != STATE_FIELD && fieldKind != INJECTED_FIELD && fieldKind != RECEIVED_FIELD) {
-      Log::e("Controllers can only have fixed, injected or state fields");
-      exit(1);
-    }
-  }
-}
