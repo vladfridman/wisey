@@ -168,6 +168,21 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
               "Error: Controllers can only have fixed, injected or state fields");
 }
 
+TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
+  vector<string> package;
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ExpressionList arguments;
+  PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
+  mElementDeclarations.push_back(field);
+  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
+  controllerDefinition.prototypeObjects(mContext);
+  
+  EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Fields should be declared before methods");
+}
+
 TEST_F(TestFileSampleRunner, controllerDefinitionSyntaxRunTest) {
   runFile("tests/samples/test_controller_definition.yz", "8");
 }
@@ -186,3 +201,8 @@ TEST_F(TestFileSampleRunner, controllerWithFixedFieldDeathRunTest) {
                     "Error: Controllers can only have fixed, injected or state fields");
 }
 
+TEST_F(TestFileSampleRunner, objectFieldsAfterMethodsDeathRunTest) {
+  expectFailCompile("tests/samples/test_object_fields_after_methods.yz",
+                    1,
+                    "Error: Fields should be declared before methods");
+}

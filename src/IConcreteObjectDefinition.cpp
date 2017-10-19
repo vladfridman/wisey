@@ -8,6 +8,7 @@
 
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/Log.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -48,6 +49,10 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
   for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
     IObjectElement* element = elementDeclaration->declare(context);
     if (element->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
+      if (methods.size()) {
+        Log::e("Fields should be declared before methods");
+        exit(1);
+      }
       fields.push_back((Field*) element);
     } else {
       methods.push_back((IMethod*) element);
