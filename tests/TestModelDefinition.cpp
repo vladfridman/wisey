@@ -160,7 +160,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
 TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType *structType = StructType::create(mLLVMContext, interfaceFullName);
-  vector<MethodSignatureDeclaration*> interfaceMethodSignatures;
+  vector<IObjectElementDeclaration*> interfaceElements;
   VariableList methodArguments;
   vector<ModelTypeSpecifier*> methodThrownExceptions;
   vector<string> wiseyLangPackage;
@@ -174,17 +174,17 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                                 new Identifier("intargument"));
   methodArguments.push_back(methodArgument);
   PrimitiveTypeSpecifier* floatSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  MethodSignatureDeclaration* methodSignature =
+  IObjectElementDeclaration* methodSignature =
     new MethodSignatureDeclaration(floatSpecifier,
                                    "foo",
                                    methodArguments,
                                    methodThrownExceptions);
-  interfaceMethodSignatures.push_back(methodSignature);
+  interfaceElements.push_back(methodSignature);
   vector<InterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
-                                                 interfaceMethodSignatures);
+                                                 interfaceElements);
   mContext.addInterface(interface);
   interface->buildMethods(mContext);
   llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());

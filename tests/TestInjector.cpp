@@ -71,11 +71,11 @@ struct InjectorTest : Test {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(llvmContext, interfaceFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> interfaceMethods;
+    vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface(interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
-                                         interfaceMethods);
+                                         interfaceElements);
     mContext.addInterface(mInterface);
     mContext.bindInterfaceToController(mInterface, mController);
    

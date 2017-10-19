@@ -16,9 +16,11 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/MethodDeclaration.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/NullType.hpp"
@@ -36,8 +38,8 @@ struct InterfaceTest : public Test {
   Interface* mObjectInterface;
   Interface* mIncompleteInterface;
   InterfaceTypeSpecifier* mObjectInterfaceSpecifier;
-  MethodSignatureDeclaration* mFooMethod;
-  MethodSignatureDeclaration* mBarMethod;
+  IObjectElementDeclaration* mFooMethod;
+  IObjectElementDeclaration* mBarMethod;
   StructType* mShapeStructType;
   StructType* mIncompleteInterfaceStructType;
   IRGenerationContext mContext;
@@ -58,14 +60,14 @@ struct InterfaceTest : public Test {
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     VariableList methodArguments;
     mBarMethod = new MethodSignatureDeclaration(intSpecifier, "bar", methodArguments, exceptions);
-    vector<MethodSignatureDeclaration*> objectMethodSignatures;
-    objectMethodSignatures.push_back(mBarMethod);
+    vector<IObjectElementDeclaration*> objectElementDeclarations;
+    objectElementDeclarations.push_back(mBarMethod);
     vector<InterfaceTypeSpecifier*> objectParentInterfaces;
     vector<MethodSignatureDeclaration*> methodDeclarations;
     mObjectInterface = Interface::newInterface(objectFullName,
                                                objectStructType,
                                                objectParentInterfaces,
-                                               objectMethodSignatures);
+                                               objectElementDeclarations);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -74,14 +76,14 @@ struct InterfaceTest : public Test {
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);
-    vector<MethodSignatureDeclaration*> shapeMethodSignatures;
-    shapeMethodSignatures.push_back(mFooMethod);
+    vector<IObjectElementDeclaration*> shapeElements;
+    shapeElements.push_back(mFooMethod);
     vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterfaceSpecifier);
     mShapeInterface = Interface::newInterface(shapeFullName,
                                               mShapeStructType,
                                               shapeParentInterfaces,
-                                              shapeMethodSignatures);
+                                              shapeElements);
     mContext.addInterface(mShapeInterface);
     mShapeInterface->buildMethods(mContext);
 
@@ -89,7 +91,7 @@ struct InterfaceTest : public Test {
     mIncompleteInterface = Interface::newInterface(shapeFullName,
                                                    mIncompleteInterfaceStructType,
                                                    shapeParentInterfaces,
-                                                   shapeMethodSignatures);
+                                                   shapeElements);
     
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                             mShapeInterface->getName());
@@ -217,6 +219,53 @@ TEST_F(InterfaceTest, printToStreamTest) {
                "  int foo();\n"
                "}\n",
                stringStream.str().c_str());
+}
+
+TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
+  PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  ExpressionList arguments;
+  FieldDeclaration* fieldDeclaration = new FieldDeclaration(FieldKind::FIXED_FIELD,
+                                                            intSpecifier,
+                                                            "mField",
+                                                            arguments);
+  
+  
+  string name = "systems.vos.wisey.compiler.tests.IInterface";
+  StructType* structType = StructType::create(mLLVMContext, name);
+  vector<IObjectElementDeclaration*> elements;
+  elements.push_back(fieldDeclaration);
+  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
+  
+  EXPECT_EXIT(interface->buildMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Interfaces can not contain fields");
+}
+
+TEST_F(InterfaceTest, methodDeclarationDeathTest) {
+  const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  VariableList arguments;
+  vector<ModelTypeSpecifier*> thrownExceptions;
+  Block* block = new Block();
+  CompoundStatement* compoundStatement = new CompoundStatement(block);
+  MethodDeclaration* methodDeclaration =
+  new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                        intSpecifier,
+                        "foo",
+                        arguments,
+                        thrownExceptions,
+                        compoundStatement);
+
+  string name = "systems.vos.wisey.compiler.tests.IInterface";
+  StructType* structType = StructType::create(mLLVMContext, name);
+  vector<IObjectElementDeclaration*> elements;
+  elements.push_back(methodDeclaration);
+  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
+  
+  EXPECT_EXIT(interface->buildMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Interfaces can not contain method implmentations");
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {

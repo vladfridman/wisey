@@ -37,6 +37,7 @@ struct InterfaceDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   InterfaceDefinition* mInterfaceDefinition;
+  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
 
   InterfaceDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::run(mContext);
@@ -52,15 +53,17 @@ struct InterfaceDefinitionTest : public Test {
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ModelTypeSpecifier*> thrownExceptions;
-    MethodSignatureDeclaration* methodSignatureDeclaration =
+    IObjectElementDeclaration* methodSignatureDeclaration =
       new MethodSignatureDeclaration(floatTypeSpecifier, "foo", methodArguments, thrownExceptions);
-    vector<MethodSignatureDeclaration *> methods;
-    methods.push_back(methodSignatureDeclaration);
+    vector<IObjectElementDeclaration *> objectElements;
+    objectElements.push_back(methodSignatureDeclaration);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     
     vector<string> package;
-    InterfaceTypeSpecifier* typeSpecifier = new InterfaceTypeSpecifier(package, "IMyInterface");
-    mInterfaceDefinition = new InterfaceDefinition(typeSpecifier, parentInterfaces, methods);
+    mInterfaceTypeSpecifier = new InterfaceTypeSpecifier(package, "IMyInterface");
+    mInterfaceDefinition = new InterfaceDefinition(mInterfaceTypeSpecifier,
+                                                   parentInterfaces,
+                                                   objectElements);
   }
   
   ~InterfaceDefinitionTest() {

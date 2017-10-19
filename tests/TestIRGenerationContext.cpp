@@ -44,11 +44,11 @@ struct IRGenerationContextTest : public Test {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> interfaceMethods;
+    vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface(interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
-                                         interfaceMethods);
+                                         interfaceElements);
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
@@ -172,11 +172,11 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<InterfaceTypeSpecifier*> parentInterfaces;
-  vector<MethodSignatureDeclaration*> interfaceMethods;
+  vector<IObjectElementDeclaration*> interfaceElements;
   Interface* interface = Interface::newInterface(interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
-                                                 interfaceMethods);
+                                                 interfaceElements);
   mContext.addInterface(interface);
   Interface* resultInterface =
     mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
@@ -191,11 +191,11 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<InterfaceTypeSpecifier*> parentInterfaces;
-  vector<MethodSignatureDeclaration*> interfaceMethods;
+  vector<IObjectElementDeclaration*> interfaceElements;
   Interface* interface = Interface::newInterface(interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
-                                                 interfaceMethods);
+                                                 interfaceElements);
   mContext.addInterface(interface);
   
   EXPECT_EXIT(mContext.addInterface(interface),

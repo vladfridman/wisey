@@ -194,9 +194,10 @@
 %type <switch_cases> case_statement_list case_statement_list_with_default
 %type <object_element> object_element_declaration external_object_element_declaration
 %type <object_element> field_declaration method_definition external_method_declaration
-%type <object_element> constant_declaration
+%type <object_element> constant_declaration interface_element_declaration method_signature
 %type <object_element_list> object_element_declaration_list 
 %type <object_element_list> external_object_element_declaration_list
+%type <object_element_list> interface_element_delcaration_list
 %type <type_specifier> type_specifier primitive_type_specifier
 %type <buildable_concrete_object_type_specifier> buildable_concrete_object_type_specifier
 %type <injectable_object_type_specifier> injectable_object_type_specifier
@@ -208,8 +209,6 @@
 %type <interface_type_specifier> interface_type_specifier
 %type <node_type_specifier> node_type_specifier
 %type <access_specifier> access_specifier
-%type <method_signature> method_signature
-%type <method_signature_vector> method_signature_list
 %type <identifier_list> identifier_chain
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
@@ -285,7 +284,8 @@ bind_action
   ;
 
 interface_definition
-  : TINTERFACE interface_type_specifier extends_interfaces '{' method_signature_list '}'
+  : TINTERFACE interface_type_specifier extends_interfaces 
+      '{' interface_element_delcaration_list '}'
     {
       $$ = new InterfaceDefinition($2, *$3, *$5);
       delete $3;
@@ -294,7 +294,8 @@ interface_definition
   ;
 
 external_interface_definition
-  : TEXTERNAL TINTERFACE interface_type_specifier extends_interfaces '{' method_signature_list '}'
+  : TEXTERNAL TINTERFACE interface_type_specifier extends_interfaces 
+      '{' interface_element_delcaration_list '}'
     {
       $$ = new ExternalInterfaceDefinition($3, *$4, *$6);
       delete $4;
@@ -302,9 +303,13 @@ external_interface_definition
     }
   ;
 
-method_signature_list
-  : /* blank */ { $$ = new std::vector<MethodSignatureDeclaration *>(); }
-  | method_signature_list method_signature { $1->push_back($2); }
+interface_element_delcaration_list
+  : /* blank */ { $$ = new std::vector<IObjectElementDeclaration *>(); }
+  | interface_element_delcaration_list interface_element_declaration { $1->push_back($2); }
+  ;
+
+interface_element_declaration
+  : method_signature
   ;
 
 method_signature

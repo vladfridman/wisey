@@ -34,19 +34,19 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     StructType* structType = StructType::create(mContext.getLLVMContext(), "IShape");
     structType->setBody(types);
     VariableList methodArguments;
-    vector<MethodSignatureDeclaration*> methodSignatures;
+    vector<IObjectElementDeclaration*> objectElements;
     vector<ModelTypeSpecifier*> methodExceptions;
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-    MethodSignatureDeclaration* methodSignature = new MethodSignatureDeclaration(intSpecifier,
-                                                                                 "foo",
-                                                                                 methodArguments,
-                                                                                 methodExceptions);
-    methodSignatures.push_back(methodSignature);
+    IObjectElementDeclaration* methodSignature = new MethodSignatureDeclaration(intSpecifier,
+                                                                                "foo",
+                                                                                methodArguments,
+                                                                                methodExceptions);
+    objectElements.push_back(methodSignature);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     mInterface = Interface::newInterface(interfaceFullName,
                                          structType,
                                          parentInterfaces,
-                                         methodSignatures);
+                                         objectElements);
    
     mContext.addInterface(mInterface);
 

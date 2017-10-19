@@ -18,11 +18,11 @@ using namespace wisey;
 
 InterfaceDefinition::InterfaceDefinition(InterfaceTypeSpecifier* interfaceTypeSpecifier,
                                          vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                                         vector<MethodSignatureDeclaration *>
-                                         methodSignatureDeclarations) :
+                                         vector<IObjectElementDeclaration *>
+                                         elementDeclarations) :
 mInterfaceTypeSpecifier(interfaceTypeSpecifier),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
-mMethodSignatureDeclarations(methodSignatureDeclarations) { }
+mElementDeclarations(elementDeclarations) { }
 
 InterfaceDefinition::~InterfaceDefinition() {
   delete mInterfaceTypeSpecifier;
@@ -30,10 +30,10 @@ InterfaceDefinition::~InterfaceDefinition() {
     delete interfaceTypeSpecifier;
   }
   mParentInterfaceSpecifiers.clear();
-  for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
-    delete methodSignatureDeclaration;
+  for (IObjectElementDeclaration* elementDeclaration : mElementDeclarations) {
+    delete elementDeclaration;
   }
-  mMethodSignatureDeclarations.clear();
+  mElementDeclarations.clear();
 }
 
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
@@ -42,7 +42,7 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   Interface* interface = Interface::newInterface(fullName,
                                                  structType,
                                                  mParentInterfaceSpecifiers,
-                                                 mMethodSignatureDeclarations);
+                                                 mElementDeclarations);
   context.addInterface(interface);
   
   interface->defineInterfaceTypeName(context);

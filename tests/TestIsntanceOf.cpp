@@ -36,18 +36,18 @@ struct InstanceOfTest : public Test {
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* shapeStructType = StructType::create(mLLVMContext, shapeFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> interfaceMethods;
+    vector<IObjectElementDeclaration*> interfaceElements;
     mShapeInterface = Interface::newInterface(shapeFullName,
                                               shapeStructType,
                                               parentInterfaces,
-                                              interfaceMethods);
+                                              interfaceElements);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     mObjectInterface = Interface::newInterface(objectFullName,
                                                objectStructType,
                                                parentInterfaces,
-                                               interfaceMethods);
+                                               interfaceElements);
 
     Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                             mShapeInterface->getName());

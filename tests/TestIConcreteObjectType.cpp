@@ -53,23 +53,23 @@ struct IConcreteObjectTypeTest : public Test {
 
     vector<Interface*> interfaces;
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> methodSignatures;
+    vector<IObjectElementDeclaration*> interfaceElements;
     Interface* interface1 = Interface::newInterface("Interface1",
                                                     NULL,
                                                     parentInterfaces,
-                                                    methodSignatures);
+                                                    interfaceElements);
     Interface* interface2 = Interface::newInterface("Interface2",
                                                     NULL,
                                                     parentInterfaces,
-                                                    methodSignatures);
+                                                    interfaceElements);
     mInterface3 = Interface::newInterface("Interface3",
                                           NULL,
                                           parentInterfaces,
-                                          methodSignatures);
+                                          interfaceElements);
     Interface* interface4 = Interface::newInterface("Interface4",
                                                     NULL,
                                                     parentInterfaces,
-                                                    methodSignatures);
+                                                    interfaceElements);
     interfaces.push_back(interface1);
     interfaces.push_back(interface2);
     interfaces.push_back(mInterface3);
@@ -117,11 +117,11 @@ struct IConcreteObjectTypeTest : public Test {
     string canNavigateFullName = "systems.vos.wisey.compiler.tests.ICanNavigate";
     StructType* canNavigateStructType = StructType::create(mLLVMContext, canNavigateFullName);
     vector<InterfaceTypeSpecifier*> canNavigateParentInterfaces;
-    vector<MethodSignatureDeclaration*> canNavigateMethods;
+    vector<IObjectElementDeclaration*> canNavigateElements;
     mCanNavigate = Interface::newInterface(canNavigateFullName,
                                            canNavigateStructType,
                                            canNavigateParentInterfaces,
-                                           canNavigateMethods);
+                                           canNavigateElements);
 
     vector<Type*> carTypes;
     carTypes.push_back(mCanNavigate->getLLVMType(mLLVMContext)->getPointerElementType());

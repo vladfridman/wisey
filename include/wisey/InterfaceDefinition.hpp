@@ -13,7 +13,7 @@
 #include "wisey/Identifier.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectDefinition.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 
 namespace wisey {
   
@@ -23,13 +23,13 @@ namespace wisey {
 class InterfaceDefinition : public IObjectDefinition {
   InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
   std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
-  std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;
+  std::vector<IObjectElementDeclaration *> mElementDeclarations;
   
 public:
   
   InterfaceDefinition(InterfaceTypeSpecifier* interfaceTypeSpecifier,
                       std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                      std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations);
+                      std::vector<IObjectElementDeclaration *> elementDeclarations);
   
   ~InterfaceDefinition();
   

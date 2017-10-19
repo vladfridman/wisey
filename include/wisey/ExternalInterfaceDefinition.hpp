@@ -9,9 +9,9 @@
 #ifndef ExternalInterfaceDefinition_h
 #define ExternalInterfaceDefinition_h
 
-#include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
@@ -23,14 +23,13 @@ namespace wisey {
 class ExternalInterfaceDefinition : public IConcreteObjectDefinition {
   InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
   std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
-  std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;
+  std::vector<IObjectElementDeclaration*> mElementDeclarations;
 
 public:
   
   ExternalInterfaceDefinition(InterfaceTypeSpecifier* interfaceTypeSpecifier,
                               std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                              std::vector<MethodSignatureDeclaration *>
-                              methodSignatureDeclarations);
+                              std::vector<IObjectElementDeclaration*> elementDeclarations);
   
   ~ExternalInterfaceDefinition();
   

@@ -18,6 +18,7 @@ typedef enum ObjectElementTypeEnum {
   OBJECT_ELEMENT_CONSTANT,
   OBJECT_ELEMENT_FIELD,
   OBJECT_ELEMENT_METHOD,
+  OBJECT_ELEMENT_METHOD_SIGNATURE,
 } ObjectElementType;
 
 /**

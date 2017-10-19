@@ -11,10 +11,11 @@
 
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IMethodDescriptor.hpp"
+#include "wisey/IObjectElement.hpp"
 
 namespace wisey {
   
-class MethodSignature : public IMethodDescriptor {
+class MethodSignature : public IMethodDescriptor, public IObjectElement {
   
   std::string mName;
   const IType* mReturnType;
@@ -50,6 +51,8 @@ public:
   std::vector<MethodArgument*> getArguments() const override;
   
   std::vector<const Model*> getThrownExceptions() const override;
+  
+  ObjectElementType getObjectElementType() const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 

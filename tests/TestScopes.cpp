@@ -47,11 +47,11 @@ struct ScopesTest : public Test {
   
   ScopesTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> methodSignatures;
+    vector<IObjectElementDeclaration*> objectElements;
     mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,
                                          parentInterfaces,
-                                         methodSignatures);
+                                         objectElements);
   }
 };
 

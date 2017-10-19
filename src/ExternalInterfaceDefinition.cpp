@@ -21,11 +21,11 @@ ExternalInterfaceDefinition::ExternalInterfaceDefinition(InterfaceTypeSpecifier*
                                                          interfaceTypeSpecifier,
                                                          vector<InterfaceTypeSpecifier*>
                                                          parentInterfaceSpecifiers,
-                                                         vector<MethodSignatureDeclaration *>
-                                                         methodSignatureDeclarations) :
+                                                         vector<IObjectElementDeclaration *>
+                                                         elementDeclarations) :
 mInterfaceTypeSpecifier(interfaceTypeSpecifier),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
-mMethodSignatureDeclarations(methodSignatureDeclarations) { }
+mElementDeclarations(elementDeclarations) { }
 
 ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
   delete mInterfaceTypeSpecifier;
@@ -33,10 +33,10 @@ ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
     delete interfaceTypeSpecifier;
   }
   mParentInterfaceSpecifiers.clear();
-  for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
-    delete methodSignatureDeclaration;
+  for (IObjectElementDeclaration* elementDeclaration : mElementDeclarations) {
+    delete elementDeclaration;
   }
-  mMethodSignatureDeclarations.clear();
+  mElementDeclarations.clear();
 }
 
 void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
@@ -45,7 +45,7 @@ void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context)
   Interface* interface = Interface::newExternalInterface(fullName,
                                                          structType,
                                                          mParentInterfaceSpecifiers,
-                                                         mMethodSignatureDeclarations);
+                                                         mElementDeclarations);
   context.addInterface(interface);
   
   interface->defineInterfaceTypeName(context);

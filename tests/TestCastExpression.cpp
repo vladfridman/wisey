@@ -65,11 +65,11 @@ public:
     StructType* carInterfaceStructType = StructType::create(mContext.getLLVMContext(), carFullName);
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> interfaceMethods;
+    vector<IObjectElementDeclaration*> interfaceElements;
     mCarInterface = Interface::newInterface(carFullName,
                                             carInterfaceStructType,
                                             parentInterfaces,
-                                            interfaceMethods);
+                                            interfaceElements);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

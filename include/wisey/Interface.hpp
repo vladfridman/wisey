@@ -16,6 +16,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IInjectable.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/MethodSignature.hpp"
 
 namespace wisey {
@@ -34,7 +35,7 @@ class Interface : public IObjectType, public IInjectable {
   bool mIsExternal;
   InterfaceOwner* mInterfaceOwner;
   std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
-  std::vector<MethodSignatureDeclaration *> mMethodSignatureDeclarations;
+  std::vector<IObjectElementDeclaration *> mElementDeclarations;
   std::vector<Interface*> mParentInterfaces;
   std::vector<MethodSignature*> mMethodSignatures;
   std::vector<MethodSignature*> mAllMethodSignatures;
@@ -52,8 +53,7 @@ public:
   static Interface* newInterface(std::string name,
                                  llvm::StructType* structType,
                                  std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                                 std::vector<MethodSignatureDeclaration *>
-                                 methodSignatureDeclarations);
+                                 std::vector<IObjectElementDeclaration *> elementDeclarations);
 
   /**
    * static method for external interface instantiation
@@ -62,8 +62,8 @@ public:
                                          llvm::StructType* structType,
                                          std::vector<InterfaceTypeSpecifier*>
                                          parentInterfaceSpecifiers,
-                                         std::vector<MethodSignatureDeclaration *>
-                                         methodSignatureDeclarations);
+                                         std::vector<IObjectElementDeclaration *>
+                                         elementDeclarations);
 
   /**
    * Build methods for this interface
@@ -150,7 +150,7 @@ private:
             llvm::StructType* structType,
             bool isExternal,
             std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-            std::vector<MethodSignatureDeclaration *> methodSignatureDeclarations);
+            std::vector<IObjectElementDeclaration *> elementDelcarations);
   
   void includeInterfaceMethods(Interface* parentInterface);
   
@@ -186,6 +186,10 @@ private:
                                           IMethodDescriptor* objectMethodDescriptor,
                                           std::string objectName) const;
   
+  static std::vector<MethodSignature*> createElements(IRGenerationContext& context,
+                                                      std::vector<IObjectElementDeclaration*>
+                                                      elementDeclarations);
+
 };
   
 } /* namespace wisey */

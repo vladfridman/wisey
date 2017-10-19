@@ -56,11 +56,11 @@ public:
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
 
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> interfaceMethods;
+    vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,
                                          parentInterfaces,
-                                         interfaceMethods);
+                                         interfaceElements);
     mController = Controller::newController("systems.vos.wisey.compiler.tests.CController", NULL);
   }
   

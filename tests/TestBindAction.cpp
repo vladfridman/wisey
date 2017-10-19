@@ -32,12 +32,12 @@ struct BindActionTest : public Test {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
-    vector<MethodSignatureDeclaration*> methodDeclarations;
+    vector<IObjectElementDeclaration*> interfaceElements;
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     mInterface = Interface::newInterface(interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
-                                         methodDeclarations);
+                                         interfaceElements);
     
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMyController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);

@@ -49,6 +49,10 @@ MethodSignature* MethodSignature::createCopy() const {
   return new MethodSignature(mName, mReturnType, mArguments, mThrownExceptions);
 }
 
+ObjectElementType MethodSignature::getObjectElementType() const {
+  return OBJECT_ELEMENT_METHOD_SIGNATURE;
+}
+
 void MethodSignature::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }

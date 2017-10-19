@@ -70,28 +70,28 @@ struct NodeOwnerTest : public Test {
     StructType* elementInterfaceStructType = StructType::create(mLLVMContext,
                                                                 elementInterfaceFullName);
     VariableList elementInterfaceMethodArguments;
-    vector<MethodSignatureDeclaration*> elementInterfaceMethods;
+    vector<IObjectElementDeclaration*> elementObjectElements;
     vector<ModelTypeSpecifier*> elementThrownExceptions;
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-    MethodSignatureDeclaration* getElementSignature =
+    IObjectElementDeclaration* getElementSignature =
     new MethodSignatureDeclaration(intSpecifier,
                                    "getElement",
                                    elementInterfaceMethodArguments,
                                    elementThrownExceptions);
-    elementInterfaceMethods.push_back(getElementSignature);
+    elementObjectElements.push_back(getElementSignature);
     vector<InterfaceTypeSpecifier*> elementParentInterfaces;
     mElementInterface = Interface::newInterface(elementInterfaceFullName,
                                                 elementInterfaceStructType,
                                                 elementParentInterfaces,
-                                                elementInterfaceMethods);
+                                                elementObjectElements);
     mContext.addInterface(mElementInterface);
     mElementInterface->buildMethods(mContext);
     
     string complicatedElementFullName = "systems.vos.wisey.compiler.tests.IComplicatedElement";
     StructType* complicatedElementIinterfaceStructType =
     StructType::create(mLLVMContext, complicatedElementFullName);
-    vector<MethodSignatureDeclaration*> complicatedElementInterfaceMethods;
-    complicatedElementInterfaceMethods.push_back(getElementSignature);
+    vector<IObjectElementDeclaration*> complicatedElementObjectElements;
+    complicatedElementObjectElements.push_back(getElementSignature);
     vector<InterfaceTypeSpecifier*> complicatedElementParentInterfaces;
     vector<string> package;
     InterfaceTypeSpecifier* elementInterfaceTypeSpecifier =
@@ -100,26 +100,26 @@ struct NodeOwnerTest : public Test {
     mComplicatedElementInterface = Interface::newInterface(complicatedElementFullName,
                                                            complicatedElementIinterfaceStructType,
                                                            complicatedElementParentInterfaces,
-                                                           complicatedElementInterfaceMethods);
+                                                           complicatedElementObjectElements);
     mContext.addInterface(mComplicatedElementInterface);
     mComplicatedElementInterface->buildMethods(mContext);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
     VariableList objectInterfaceMethodArguments;
-    vector<MethodSignatureDeclaration*> objectInterfaceMethods;
+    vector<IObjectElementDeclaration*> objectElements;
     vector<ModelTypeSpecifier*> objectThrownExceptions;
-    MethodSignatureDeclaration* methodBarSignature =
+    IObjectElementDeclaration* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      objectInterfaceMethodArguments,
                                      objectThrownExceptions);
-    objectInterfaceMethods.push_back(methodBarSignature);
+    objectElements.push_back(methodBarSignature);
     vector<InterfaceTypeSpecifier*> objectParentInterfaces;
     mObjectInterface = Interface::newInterface(objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
-                                               objectInterfaceMethods);
+                                               objectElements);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -206,11 +206,11 @@ struct NodeOwnerTest : public Test {
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<InterfaceTypeSpecifier*> vehicleParentInterfaces;
-    vector<MethodSignatureDeclaration*> vehicleMethods;
+    vector<IObjectElementDeclaration*> vehicleObjectElements;
     mVehicleInterface = Interface::newInterface(vehicleFullName,
                                                 vehicleInterfaceStructType,
                                                 vehicleParentInterfaces,
-                                                vehicleMethods);
+                                                vehicleObjectElements);
     
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateVTable(mContext, mSimpleNode);

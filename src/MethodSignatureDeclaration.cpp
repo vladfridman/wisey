@@ -27,8 +27,7 @@ MethodSignatureDeclaration::~MethodSignatureDeclaration() {
   mThrownExceptions.clear();
 }
 
-MethodSignature* MethodSignatureDeclaration::createMethodSignature(IRGenerationContext&
-                                                                   context) const {
+MethodSignature* MethodSignatureDeclaration::declare(IRGenerationContext& context) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,

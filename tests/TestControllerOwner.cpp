@@ -49,11 +49,11 @@ struct ControllerOwnerTest : public Test {
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> interfaceMethods;
+    vector<IObjectElementDeclaration*> interfaceElements;
     mVehicleInterface = Interface::newInterface(vehicleFullName,
                                                 vehicleInterfaceStructType,
                                                 parentInterfaces,
-                                                interfaceMethods);
+                                                interfaceElements);
 
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType *additorStructType = StructType::create(mLLVMContext, additorFullName);
@@ -65,7 +65,7 @@ struct ControllerOwnerTest : public Test {
     mCalculatorInterface = Interface::newInterface(calculatorFullName,
                                                    calculatorIinterfaceStructType,
                                                    parentInterfaces,
-                                                   interfaceMethods);
+                                                   interfaceElements);
     mContext.addInterface(mCalculatorInterface);
     mCalculatorInterface->buildMethods(mContext);
 
@@ -74,7 +74,7 @@ struct ControllerOwnerTest : public Test {
     mObjectInterface = Interface::newInterface(objectFullName,
                                                objectInterfaceStructType,
                                                parentInterfaces,
-                                               interfaceMethods);
+                                               interfaceElements);
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
@@ -82,7 +82,7 @@ struct ControllerOwnerTest : public Test {
     StructType* scienceCalculatorIinterfaceStructType =
     StructType::create(mLLVMContext, scienceCalculatorFullName);
     vector<InterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
-    vector<MethodSignatureDeclaration*> scienceCalculatorInterfaceMethods;
+    vector<IObjectElementDeclaration*> scienceCalculatorInterfaceElements;
     vector<string> package;
     InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier(package,
                                                                                  "ICalculator");
@@ -90,7 +90,7 @@ struct ControllerOwnerTest : public Test {
     mScienceCalculatorInterface = Interface::newInterface(scienceCalculatorFullName,
                                                           scienceCalculatorIinterfaceStructType,
                                                           scienceCalculatorParentInterfaces,
-                                                          scienceCalculatorInterfaceMethods);
+                                                          scienceCalculatorInterfaceElements);
     mContext.addInterface(mScienceCalculatorInterface);
     mScienceCalculatorInterface->buildMethods(mContext);
 

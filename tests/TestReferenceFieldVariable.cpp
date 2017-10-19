@@ -50,11 +50,11 @@ struct ReferenceFieldVariableTest : Test {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> interfaceMethods;
+    vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface(interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
-                                         interfaceMethods);
+                                         interfaceElements);
     vector<Interface*> interfaces;
     interfaces.push_back(mInterface);
 

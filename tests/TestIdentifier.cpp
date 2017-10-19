@@ -38,11 +38,11 @@ struct IdentifierTest : public Test {
 
   IdentifierTest() {
     vector<InterfaceTypeSpecifier*> parentInterfaces;
-    vector<MethodSignatureDeclaration*> interfaceMethods;
+    vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,
                                          parentInterfaces,
-                                         interfaceMethods);
+                                         interfaceElements);
 
     mContext.getScopes().pushScope();
   }

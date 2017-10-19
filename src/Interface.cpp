@@ -31,13 +31,13 @@ Interface::Interface(string name,
                      StructType* structType,
                      bool isExternal,
                      vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                     vector<MethodSignatureDeclaration *> methodSignatureDeclarations) :
+                     vector<IObjectElementDeclaration *> elementDelcarations) :
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
 mInterfaceOwner(new InterfaceOwner(this)),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
-mMethodSignatureDeclarations(methodSignatureDeclarations),
+mElementDeclarations(elementDelcarations),
 mIsComplete(false) { }
 
 Interface::~Interface() {
@@ -53,39 +53,36 @@ Interface::~Interface() {
 Interface* Interface::newInterface(string name,
                                    StructType *structType,
                                    vector<InterfaceTypeSpecifier *> parentInterfaceSpecifiers,
-                                   vector<MethodSignatureDeclaration *>
-                                   methodSignatureDeclarations) {
+                                   vector<IObjectElementDeclaration *>
+                                   elementDeclarations) {
   return new Interface(name,
                        structType,
                        false,
                        parentInterfaceSpecifiers,
-                       methodSignatureDeclarations);
+                       elementDeclarations);
 }
 
 Interface* Interface::newExternalInterface(string name,
                                            StructType *structType,
                                            vector<InterfaceTypeSpecifier *>
                                            parentInterfaceSpecifiers,
-                                           vector<MethodSignatureDeclaration *>
-                                           methodSignatureDeclarations) {
+                                           vector<IObjectElementDeclaration *>
+                                           elementDeclarations) {
   return new Interface(name,
                        structType,
                        true,
                        parentInterfaceSpecifiers,
-                       methodSignatureDeclarations);
+                       elementDeclarations);
 }
 
 void Interface::buildMethods(IRGenerationContext& context) {
   if (mIsComplete) {
     return;
   }
-  
+
   LLVMContext& llvmContext = context.getLLVMContext();
-  for (MethodSignatureDeclaration* methodSignatureDeclaration : mMethodSignatureDeclarations) {
-    MethodSignature* methodSignature =
-    methodSignatureDeclaration->createMethodSignature(context);
-    mMethodSignatures.push_back(methodSignature);
-  }
+
+  mMethodSignatures = createElements(context, mElementDeclarations);
   
   for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
@@ -119,7 +116,7 @@ void Interface::buildMethods(IRGenerationContext& context) {
   }
   
   mStructType->setBody(types);
-  mMethodSignatureDeclarations.clear();
+  mElementDeclarations.clear();
   mParentInterfaceSpecifiers.clear();
   mIsComplete = true;
 }
@@ -575,4 +572,23 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
 Instruction* Interface::inject(IRGenerationContext& context, ExpressionList expressionList) const {
   Controller* controller = context.getBoundController(context.getInterface(getName()));
   return controller->inject(context, expressionList);
+}
+
+vector<MethodSignature*> Interface::createElements(IRGenerationContext& context,
+                                                   vector<IObjectElementDeclaration*>
+                                                   elementDeclarations) {
+  vector<MethodSignature*> methodSignatures;
+  for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
+    IObjectElement* objectElement = elementDeclaration->declare(context);
+    if (objectElement->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
+      Log::e("Interfaces can not contain fields");
+      exit(1);
+    }
+    if (objectElement->getObjectElementType() == OBJECT_ELEMENT_METHOD) {
+      Log::e("Interfaces can not contain method implmentations");
+      exit(1);
+    }
+    methodSignatures.push_back((MethodSignature*) objectElement);
+  }
+  return methodSignatures;
 }
