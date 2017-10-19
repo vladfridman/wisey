@@ -57,7 +57,8 @@ public:
 };
 
 TEST_F(FieldTest, injectedFieldObjectCreationTest) {
-  Field field(FieldKind::INJECTED_FIELD, mType, mName, mIndex, mArguments);
+  Field field(FieldKind::INJECTED_FIELD, mType, mName, mArguments);
+  field.setIndex(mIndex);
   
   EXPECT_EQ(field.getType(), mType);
   EXPECT_STREQ(field.getName().c_str(), "mField");
@@ -69,7 +70,8 @@ TEST_F(FieldTest, injectedFieldObjectCreationTest) {
 }
 
 TEST_F(FieldTest, injectedFieldPrintToStreamTest) {
-  Field field(FieldKind::INJECTED_FIELD, mType, mName, mIndex, mArguments);
+  Field field(FieldKind::INJECTED_FIELD, mType, mName, mArguments);
+  field.setIndex(mIndex);
   
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
@@ -79,8 +81,9 @@ TEST_F(FieldTest, injectedFieldPrintToStreamTest) {
 
 TEST_F(FieldTest, receivedFieldPrintToStreamTest) {
   ExpressionList arguments;
-  Field field(FieldKind::RECEIVED_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, arguments);
-  
+  Field field(FieldKind::RECEIVED_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, arguments);
+  field.setIndex(mIndex);
+
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
   
@@ -89,8 +92,9 @@ TEST_F(FieldTest, receivedFieldPrintToStreamTest) {
 
 TEST_F(FieldTest, stateFieldPrintToStreamTest) {
   ExpressionList arguments;
-  Field field(FieldKind::STATE_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, arguments);
-  
+  Field field(FieldKind::STATE_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, arguments);
+  field.setIndex(mIndex);
+
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
   
@@ -99,8 +103,9 @@ TEST_F(FieldTest, stateFieldPrintToStreamTest) {
 
 TEST_F(FieldTest, fixedFieldPrintToStreamTest) {
   ExpressionList arguments;
-  Field field(FieldKind::FIXED_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, mIndex, arguments);
-  
+  Field field(FieldKind::FIXED_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, arguments);
+  field.setIndex(mIndex);
+
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
   

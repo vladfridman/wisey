@@ -14,12 +14,11 @@ using namespace wisey;
 Field::Field(FieldKind fieldKind,
              const IType* type,
              std::string name,
-             unsigned long index,
              ExpressionList arguments) :
 mFieldKind(fieldKind),
 mType(type),
 mName(name),
-mIndex(index),
+mIndex(0),
 mArguments(arguments) { }
 
 Field::~Field() {
@@ -82,4 +81,8 @@ void Field::printToStream(IRGenerationContext& context, iostream& stream) const 
     }
   }
   stream << ");" << endl;
+}
+
+void Field::setIndex(unsigned long index) {
+  mIndex = index;
 }

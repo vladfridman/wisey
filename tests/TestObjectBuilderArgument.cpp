@@ -45,7 +45,7 @@ struct ObjectBuilderArgumentTest : Test {
     structType->setBody(types);
     vector<Field*> fields;
     ExpressionList arguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", 0, arguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", arguments));
     mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
     

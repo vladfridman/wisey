@@ -30,7 +30,7 @@ FieldDeclaration::~FieldDeclaration() {
   mArguments.clear();
 }
 
-Field* FieldDeclaration::declare(IRGenerationContext& context, unsigned long index) const {
+Field* FieldDeclaration::declare(IRGenerationContext& context) const {
   const IType* fieldType = mTypeSpecifier->getType(context);
   
   if (mFieldKind == INJECTED_FIELD && fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
@@ -38,7 +38,7 @@ Field* FieldDeclaration::declare(IRGenerationContext& context, unsigned long ind
     fieldType = context.getBoundController(interface)->getOwner();
   }
   
-  return new Field(mFieldKind, fieldType, mName, index, mArguments);
+  return new Field(mFieldKind, fieldType, mName, mArguments);
 }
 
 FieldKind FieldDeclaration::getFieldKind() const {

@@ -46,7 +46,8 @@ vector<Field*> IConcreteObjectDefinition::createFields(IRGenerationContext& cont
                                                        unsigned long startIndex) {
   vector<Field*> fields;
   for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
-    Field* field = fieldDeclaration->declare(context, startIndex + fields.size());
+    Field* field = fieldDeclaration->declare(context);
+    field->setIndex(startIndex + fields.size());
     fields.push_back(field);
   }
   

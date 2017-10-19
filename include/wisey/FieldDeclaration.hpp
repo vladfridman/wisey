@@ -11,6 +11,7 @@
 
 #include "wisey/FieldKind.hpp"
 #include "wisey/IExpression.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 
 namespace wisey {
@@ -20,7 +21,7 @@ class Field;
 /**
  * Represents a field in controller definition
  */
-class FieldDeclaration {
+class FieldDeclaration : public IObjectElementDeclaration {
   FieldKind mFieldKind;
   ITypeSpecifier* mTypeSpecifier;
   std::string mName;
@@ -38,7 +39,7 @@ public:
   /**
    * Creates the Field object based on the declaration
    */
-  Field* declare(IRGenerationContext& context, unsigned long index) const;
+  Field* declare(IRGenerationContext& context) const override;
   
   FieldKind getFieldKind() const;
   

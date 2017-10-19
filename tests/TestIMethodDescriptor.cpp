@@ -59,13 +59,14 @@ public:
     structType->setBody(types);
     vector<Field*> fields;
     ExpressionList fieldArguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", 0, fieldArguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", 1, fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments));
+    fields.back()->setIndex(1u);
     mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
     
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
-}
+  }
 };
 
 TEST_F(IMethodDescriptorTest, compareTest) {

@@ -86,8 +86,9 @@ struct TypeComparisionExpressionTest : public Test {
     squareStructType->setBody(squareTypes);
     vector<Field*> squareFields;
     ExpressionList arguments;
-    squareFields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", 0, arguments));
-    squareFields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", 1, arguments));
+    squareFields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
+    squareFields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
+    squareFields.back()->setIndex(1u);
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;

@@ -127,8 +127,9 @@ struct ControllerTest : public Test {
     mStructType->setBody(types);
     vector<Field*> fields;
     ExpressionList fieldArguments;
-    mLeftField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "left", 0, fieldArguments);
-    mRightField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "right", 1, fieldArguments);
+    mLeftField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "left", fieldArguments);
+    mRightField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "right", fieldArguments);
+    mRightField->setIndex(1u);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -168,13 +169,12 @@ struct ControllerTest : public Test {
     additorFields.push_back(new Field(RECEIVED_FIELD,
                                       PrimitiveTypes::INT_TYPE,
                                       "left",
-                                      0,
                                       fieldArguments));
     additorFields.push_back(new Field(RECEIVED_FIELD,
                                       PrimitiveTypes::INT_TYPE,
                                       "right",
-                                      1,
                                       fieldArguments));
+    additorFields.back()->setIndex(1u);
     mAdditorController = Controller::newController(additorFullName, additorStructType);
     mAdditorController->setFields(additorFields);
     mContext.addController(mMultiplierController);
@@ -189,7 +189,6 @@ struct ControllerTest : public Test {
     doublerFields.push_back(new Field(INJECTED_FIELD,
                                       PrimitiveTypes::INT_TYPE,
                                       "left",
-                                      0,
                                       fieldArguments));
     mDoublerController = Controller::newController(doublerFullName, doublerStructType);
     mDoublerController->setFields(doublerFields);
@@ -464,7 +463,6 @@ TEST_F(ControllerTest, injectFieldTest) {
   parentFields.push_back(new Field(INJECTED_FIELD,
                                    childController->getOwner(),
                                    "mChild",
-                                   0,
                                    fieldArguments));
   Controller* parentController = Controller::newController(parentFullName, parentStructType);
   parentController->setFields(parentFields);

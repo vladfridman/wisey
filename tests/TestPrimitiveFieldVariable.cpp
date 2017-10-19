@@ -52,7 +52,7 @@ struct PrimitiveFieldVariableTest : Test {
     objectStructType->setBody(types);
     vector<Field*> fields;
     ExpressionList arguments;
-    fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "foo", 0, arguments));
+    fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "foo", arguments));
     mObject = Controller::newController(objectFullName, objectStructType);
     mObject->setFields(fields);
     

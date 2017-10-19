@@ -55,8 +55,9 @@ public:
     structType->setBody(types);
     vector<Field*> fields;
     ExpressionList fieldArguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", fieldArguments));
+    fields.back()->setIndex(1u);
     mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
 

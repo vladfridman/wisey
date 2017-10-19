@@ -39,13 +39,12 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     fields.push_back(new Field(RECEIVED_FIELD,
                                PrimitiveTypes::INT_TYPE,
                                "left",
-                               0,
                                fieldArguments));
     fields.push_back(new Field(RECEIVED_FIELD,
                                PrimitiveTypes::INT_TYPE,
                                "right",
-                               1,
-                               fieldArguments));
+                                fieldArguments));
+    fields.back()->setIndex(1u);
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

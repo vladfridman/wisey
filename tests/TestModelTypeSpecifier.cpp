@@ -36,8 +36,9 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     structType->setBody(types);
     vector<Field*> fields;
     ExpressionList fieldArguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", 0, fieldArguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", 1, fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", fieldArguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", fieldArguments));
+    fields.back()->setIndex(1u);
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;

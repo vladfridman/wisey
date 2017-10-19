@@ -88,13 +88,12 @@ struct IConcreteObjectTypeTest : public Test {
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
                                    "mBrightness",
-                                   0,
                                    fieldArguments));
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
                                    "mWeight",
-                                   1,
                                    fieldArguments));
+    starFields.back()->setIndex(1u);
     mStarModel = Model::newModel(starFullName, starStructType);
     mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);
@@ -108,7 +107,6 @@ struct IConcreteObjectTypeTest : public Test {
     galaxyFields.push_back(new Field(FIXED_FIELD,
                                      mStarModel->getOwner(),
                                      "mStar",
-                                     0,
                                      fieldArguments));
     mGalaxyModel = Model::newModel(galaxyFullName, galaxyStructType);
     mGalaxyModel->setFields(galaxyFields);
@@ -135,7 +133,6 @@ struct IConcreteObjectTypeTest : public Test {
     carFields.push_back(new Field(FIXED_FIELD,
                                   mCanNavigate->getOwner(),
                                   "mNavigator",
-                                  0,
                                   fieldArguments));
     mCarModel = Model::newModel(carFullName, carStructType);
     mCarModel->setFields(carFields);

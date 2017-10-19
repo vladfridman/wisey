@@ -62,8 +62,9 @@ struct ObjectBuilderTest : Test {
     structType->setBody(types);
     vector<Field*> fields;
     ExpressionList arguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", 0, arguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", 1, arguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", arguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", arguments));
+    fields.back()->setIndex(1u);
     mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields);
     mContext.addModel(mModel);

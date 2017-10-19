@@ -74,8 +74,9 @@ struct ModelOwnerTest : public Test {
     mStructType->setBody(types);
     vector<Field*> fields;
     ExpressionList arguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", 0, arguments));
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", 1, arguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
+    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
+    fields.back()->setIndex(1u);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     IMethod* method = new Method("foo",
@@ -197,13 +198,12 @@ struct ModelOwnerTest : public Test {
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
                                    "mBrightness",
-                                   0,
                                    arguments));
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
                                    "mWeight",
-                                   1,
                                    arguments));
+    starFields.back()->setIndex(1u);
     mStarModel = Model::newModel(starFullName, starStructType);
     mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);

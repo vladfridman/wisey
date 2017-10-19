@@ -13,6 +13,7 @@
 
 #include "wisey/FieldKind.hpp"
 #include "wisey/IExpression.hpp"
+#include "wisey/IObjectElement.hpp"
 #include "wisey/IPrintable.hpp"
 #include "wisey/IType.hpp"
 
@@ -21,7 +22,7 @@ namespace wisey {
 /**
  * Represents a field in a concrete object
  */
-class Field : public IPrintable {
+class Field : public IPrintable, public IObjectElement {
   const FieldKind mFieldKind;
   const IType* mType;
   std::string mName;
@@ -33,7 +34,6 @@ public:
   Field(FieldKind fieldKind,
         const IType* type,
         std::string name,
-        unsigned long index,
         ExpressionList arguments);
   
   ~Field();
@@ -67,6 +67,11 @@ public:
    * Tells whether this field is assignable
    */
   bool isAssignable() const;
+  
+  /**
+   * Sets field index in the list of fields
+   */
+  void setIndex(unsigned long index);
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   

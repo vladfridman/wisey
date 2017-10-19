@@ -83,8 +83,9 @@ struct ModelTest : public Test {
     mStructType->setBody(types);
     vector<Field*> fields;
     ExpressionList arguments;
-    mWidthField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", 0, arguments);
-    mHeightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", 1, arguments);
+    mWidthField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", arguments);
+    mHeightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", arguments);
+    mHeightField->setIndex(1u);
     fields.push_back(mWidthField);
     fields.push_back(mHeightField);
     vector<MethodArgument*> methodArguments;
@@ -208,13 +209,12 @@ struct ModelTest : public Test {
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
                                    "mBrightness",
-                                   0,
                                    arguments));
     starFields.push_back(new Field(FIXED_FIELD,
                                    PrimitiveTypes::INT_TYPE,
                                    "mWeight",
-                                   1,
                                    arguments));
+    starFields.back()->setIndex(1u);
     mStarModel = Model::newModel(starFullName, starStructType);
     mStarModel->setFields(starFields);
     mContext.addModel(mStarModel);

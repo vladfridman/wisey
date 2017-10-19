@@ -119,8 +119,9 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   structType->setBody(types);
   vector<Field*> fields;
   ExpressionList arguments;
-  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldA", 0, arguments));
-  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldB", 0, arguments));
+  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldA", arguments));
+  fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldB", arguments));
+  fields.back()->setIndex(1u);
   Model* model = Model::newModel(modelFullName, structType);
   model->setFields(fields);
 

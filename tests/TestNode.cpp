@@ -133,8 +133,9 @@ struct NodeTest : public Test {
     mStructType->setBody(types);
     vector<Field*> fields;
     ExpressionList arguments;
-    mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mLeft", 0, arguments);
-    mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mRight", 1, arguments);
+    mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mLeft", arguments);
+    mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mRight", arguments);
+    mRightField->setIndex(1u);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -175,13 +176,12 @@ struct NodeTest : public Test {
     simpleNodeFields.push_back(new Field(FIXED_FIELD,
                                          PrimitiveTypes::INT_TYPE,
                                          "mLeft",
-                                         0,
-                                         arguments));
+                                        arguments));
     simpleNodeFields.push_back(new Field(FIXED_FIELD,
                                          PrimitiveTypes::INT_TYPE,
                                          "mRight",
-                                         1,
                                          arguments));
+    simpleNodeFields.back()->setIndex(1u);
     mSimpleNode = Node::newNode(simpleNodeFullName, simpleNodeStructType);
     mSimpleNode->setFields(simpleNodeFields);
     mContext.addNode(mSimpleNode);
@@ -196,13 +196,12 @@ struct NodeTest : public Test {
     simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
                                           "mLeft",
-                                          0,
                                           arguments));
     simplerNodeFields.push_back(new Field(FIXED_FIELD,
                                           PrimitiveTypes::INT_TYPE,
                                           "mRight",
-                                          1,
                                           arguments));
+    simplerNodeFields.back()->setIndex(1u);
     mSimplerNode = Node::newNode(simplerNodeFullName, simplerNodeStructType);
     mSimplerNode->setFields(simplerNodeFields);
     mContext.addNode(mSimplerNode);
