@@ -126,19 +126,17 @@
   wisey::ControllerTypeSpecifier* controller_type_specifier;
   wisey::InterfaceTypeSpecifier* interface_type_specifier;
   wisey::IInjectableObjectTypeSpecifier* injectable_object_type_specifier;
-  wisey::FieldDeclaration* object_field;
+  wisey::IObjectElementDeclaration* object_element;
   wisey::NodeTypeSpecifier* node_type_specifier;
   wisey::AccessLevel access_specifier;
-  wisey::IMethodDeclaration* method_declaration;
   wisey::MethodSignatureDeclaration* method_signature;
   wisey::Catch* catch_clause;
   wisey::ProgramFile* program_file;
   std::vector<wisey::Catch*>* catch_vector;
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<wisey::IExpression*>* expression_vector;
-  std::vector<wisey::IMethodDeclaration*>* method_declaration_vector;
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
-  std::vector<wisey::FieldDeclaration*>* object_field_vector;
+  std::vector<wisey::IObjectElementDeclaration*>* object_element_list;
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
   std::vector<wisey::ModelTypeSpecifier*>* model_type_specifier_list;
   std::vector<wisey::InterfaceTypeSpecifier*>* interface_list;
@@ -192,8 +190,10 @@
 %type <case_statement> case_statement
 %type <default_case_statement> default_case_statement
 %type <switch_cases> case_statement_list case_statement_list_with_default
-%type <object_field_vector> field_declaration_list 
-%type <object_field> field_declaration
+%type <object_element> object_element_declaration external_object_element_declaration
+%type <object_element> field_declaration method_definition external_method_declaration
+%type <object_element_list> object_element_declaration_list 
+%type <object_element_list> external_object_element_declaration_list
 %type <type_specifier> type_specifier primitive_type_specifier
 %type <buildable_concrete_object_type_specifier> buildable_concrete_object_type_specifier
 %type <injectable_object_type_specifier> injectable_object_type_specifier
@@ -205,10 +205,6 @@
 %type <interface_type_specifier> interface_type_specifier
 %type <node_type_specifier> node_type_specifier
 %type <access_specifier> access_specifier
-%type <method_declaration> method_definition external_method_declaration
-%type <method_declaration_vector> method_definition_list method_definition_list_optional
-%type <method_declaration_vector> external_method_declaration_list 
-%type <method_declaration_vector> external_method_declaration_list_optional
 %type <method_signature> method_signature
 %type <method_signature_vector> method_signature_list method_signature_list_optional
 %type <identifier_list> identifier_chain
@@ -330,42 +326,16 @@ method_signature
   ;
 
 controller_definition
-  : TCONTROLLER controller_type_specifier 
-      '{' field_declaration_list method_definition_list_optional '}'
+  : TCONTROLLER controller_type_specifier '{' object_element_declaration_list '}'
     {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$4), std::end(*$4));
-      elements.insert(std::end(elements), std::begin(*$5), std::end(*$5));
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ControllerDefinition($2, elements, interfaces);
-      delete $4;
-      delete $5;
-    }
-  | TCONTROLLER controller_type_specifier '{' method_definition_list_optional '}'
-    {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$4), std::end(*$4));
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ControllerDefinition($2, elements, interfaces);
+      $$ = new ControllerDefinition($2, *$4, interfaces);
       delete $4;
     }
   | TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list 
-      '{' field_declaration_list method_definition_list_optional '}'
+      '{' object_element_declaration_list '}'
     {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$6), std::end(*$6));
-      elements.insert(std::end(elements), std::begin(*$7), std::end(*$7));
-      $$ = new ControllerDefinition($2, elements, *$4);
-      delete $6;
-      delete $7;
-      delete $4;
-    }
-  | TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list 
-      '{' method_definition_list_optional '}'
-    {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$6), std::end(*$6));
-      $$ = new ControllerDefinition($2, elements, *$4);
+      $$ = new ControllerDefinition($2, *$6, *$4);
       delete $6;
       delete $4;
     }
@@ -373,225 +343,83 @@ controller_definition
 
 external_controller_definition
   : TEXTERNAL TCONTROLLER controller_type_specifier
-      '{' field_declaration_list external_method_declaration_list_optional '}'
+      '{' external_object_element_declaration_list '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$5), std::end(*$5));
-      elements.insert(std::end(elements), std::begin(*$6), std::end(*$6));
-      $$ = new ExternalControllerDefinition($3, elements, interfaces);
-      delete $5;
-      delete $6;
-    }
-  | TEXTERNAL TCONTROLLER controller_type_specifier 
-      '{' external_method_declaration_list_optional '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$5), std::end(*$5));
-      $$ = new ExternalControllerDefinition($3, elements, interfaces);
+      $$ = new ExternalControllerDefinition($3, *$5, interfaces);
       delete $5;
     }
   | TEXTERNAL TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
-    '{' field_declaration_list external_method_declaration_list_optional '}'
+    '{' external_object_element_declaration_list '}'
     {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$7), std::end(*$7));
-      elements.insert(std::end(elements), std::begin(*$8), std::end(*$8));
-      $$ = new ExternalControllerDefinition($3, elements, *$5);
-      delete $7;
-      delete $8;
-      delete $5;
-    }
-  | TEXTERNAL TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
-    '{' external_method_declaration_list_optional '}'
-    {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$7), std::end(*$7));
-      $$ = new ExternalControllerDefinition($3, elements, *$5);
+      $$ = new ExternalControllerDefinition($3, *$7, *$5);
       delete $7;
       delete $5;
     }
   ;
 
 node_definition
-  : TNODE node_type_specifier '{' field_declaration_list method_definition_list_optional '}'
+  : TNODE node_type_specifier '{' object_element_declaration_list '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$4), std::end(*$4));
-      elements.insert(std::end(elements), std::begin(*$5), std::end(*$5));
-      $$ = new NodeDefinition($2, elements, interfaces);
-      delete $4;
-      delete $5;
-    }
-  | TNODE node_type_specifier '{' method_definition_list_optional '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$4), std::end(*$4));
-      $$ = new NodeDefinition($2, elements, interfaces);
+      $$ = new NodeDefinition($2, *$4, interfaces);
       delete $4;
     }
   | TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' field_declaration_list method_definition_list_optional '}'
+      '{' object_element_declaration_list '}'
     {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$6), std::end(*$6));
-      elements.insert(std::end(elements), std::begin(*$7), std::end(*$7));
-      $$ = new NodeDefinition($2, elements, *$4);
-      delete $6;
-      delete $7;
-      delete $4;
-    }
-  | TNODE node_type_specifier TIMPLEMENTS interface_list '{' method_definition_list_optional '}'
-    {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$6), std::end(*$6));
-      $$ = new NodeDefinition($2, elements, *$4);
+      $$ = new NodeDefinition($2, *$6, *$4);
       delete $6;
       delete $4;
     }
   ;
 
 external_node_definition
-  : TEXTERNAL TNODE node_type_specifier '{' field_declaration_list 
-      external_method_declaration_list_optional '}'
+  : TEXTERNAL TNODE node_type_specifier '{' external_object_element_declaration_list '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$5), std::end(*$5));
-      elements.insert(std::end(elements), std::begin(*$6), std::end(*$6));
-      $$ = new ExternalNodeDefinition($3, elements, interfaces);
-      delete $5;
-      delete $6;
-    }
-  | TEXTERNAL TNODE node_type_specifier '{' external_method_declaration_list_optional '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$5), std::end(*$5));
-      $$ = new ExternalNodeDefinition($3, elements, interfaces);
+      $$ = new ExternalNodeDefinition($3, *$5, interfaces);
       delete $5;
     }
   | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' field_declaration_list external_method_declaration_list_optional '}'
+      '{' external_object_element_declaration_list '}'
     {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$7), std::end(*$7));
-      elements.insert(std::end(elements), std::begin(*$8), std::end(*$8));
-      $$ = new ExternalNodeDefinition($3, elements, *$5);
+      $$ = new ExternalNodeDefinition($3, *$7, *$5);
       delete $7;
-      delete $8;
       delete $5;
-    }
-  | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
-      '{' external_method_declaration_list_optional '}'
-    {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$7), std::end(*$7));
-      $$ = new ExternalNodeDefinition($3, elements, *$5);
-      delete $5;
-      delete $7;
     }
   ;
 
 model_definition
-  : TMODEL model_type_specifier '{' field_declaration_list method_definition_list_optional '}'
+  : TMODEL model_type_specifier '{' object_element_declaration_list '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$4), std::end(*$4));
-      elements.insert(std::end(elements), std::begin(*$5), std::end(*$5));
-      $$ = new ModelDefinition($2, elements, interfaces);
-      delete $4;
-      delete $5;
-    }
-  | TMODEL model_type_specifier '{' method_definition_list_optional '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$4), std::end(*$4));
-      $$ = new ModelDefinition($2, elements, interfaces);
+      $$ = new ModelDefinition($2, *$4, interfaces);
       delete $4;
     }
   | TMODEL model_type_specifier TIMPLEMENTS interface_list
-      '{' field_declaration_list method_definition_list_optional '}'
+      '{' object_element_declaration_list '}'
     {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$6), std::end(*$6));
-      elements.insert(std::end(elements), std::begin(*$7), std::end(*$7));
-      $$ = new ModelDefinition($2, elements, *$4);
-      delete $6;
-      delete $7;
-      delete $4;
-    }
-  | TMODEL model_type_specifier TIMPLEMENTS interface_list '{' method_definition_list_optional '}'
-    {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$6), std::end(*$6));
-      std::vector<FieldDeclaration*> fields;
-      $$ = new ModelDefinition($2, elements, *$4);
+      $$ = new ModelDefinition($2, *$6, *$4);
       delete $6;
       delete $4;
     }
   ;
 
 external_model_definition
-  : TEXTERNAL TMODEL model_type_specifier '{' field_declaration_list 
-      external_method_declaration_list_optional '}'
-    {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$5), std::end(*$5));
-      elements.insert(std::end(elements), std::begin(*$6), std::end(*$6));
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ExternalModelDefinition($3, elements, interfaces);
-      delete $5;
-      delete $6;
-    }
-  | TEXTERNAL TMODEL model_type_specifier '{' external_method_declaration_list_optional '}'
+  : TEXTERNAL TMODEL model_type_specifier '{' external_object_element_declaration_list '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaces;
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$5), std::end(*$5));
-      $$ = new ExternalModelDefinition($3, elements, interfaces);
+      $$ = new ExternalModelDefinition($3, *$5, interfaces);
       delete $5;
     }
   | TEXTERNAL TMODEL model_type_specifier TIMPLEMENTS interface_list 
-      '{' field_declaration_list external_method_declaration_list_optional '}'
+      '{' external_object_element_declaration_list '}'
     {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$7), std::end(*$7));
-      elements.insert(std::end(elements), std::begin(*$8), std::end(*$8));
-      $$ = new ExternalModelDefinition($3, elements, *$5);
-      delete $7;
-      delete $8;
-      delete $5;
-    }
-  | TEXTERNAL TMODEL model_type_specifier TIMPLEMENTS interface_list
-      '{' external_method_declaration_list_optional '}'
-    {
-      std::vector<IObjectElementDeclaration*> elements;
-      elements.insert(std::end(elements), std::begin(*$7), std::end(*$7));
-      $$ = new ExternalModelDefinition($3, elements, *$5);
+      $$ = new ExternalModelDefinition($3, *$7, *$5);
       delete $7;
       delete $5;
     }
-  ;
-
-external_method_declaration_list_optional
-  : /* blank */ { $$ = new std::vector<IMethodDeclaration *>(); }
-  | external_method_declaration_list
-  ;
-
-external_method_declaration_list
-  : external_method_declaration 
-      { 
-        $$ = new std::vector<IMethodDeclaration *>(); 
-        $$->push_back($1); 
-      }
-  | external_method_declaration_list external_method_declaration 
-      { $1->push_back($2); }
   ;
 
 external_method_declaration
@@ -617,11 +445,26 @@ interface_list
   | interface_list ',' interface_type_specifier { $$ = $1; $$->push_back($3); }
   ;
 
-field_declaration_list
-  : field_declaration
-    { $$ = new std::vector<FieldDeclaration*>(); $$->push_back($1); }
-  | field_declaration_list field_declaration
+object_element_declaration_list
+  : /* blank */  { $$ = new std::vector<IObjectElementDeclaration*>(); }
+  | object_element_declaration_list object_element_declaration
     { $1->push_back($2); }
+  ;
+
+object_element_declaration
+  : field_declaration
+  | method_definition
+  ;
+
+external_object_element_declaration_list
+  : /* blank */  { $$ = new std::vector<IObjectElementDeclaration*>(); }
+  | external_object_element_declaration_list external_object_element_declaration
+    { $1->push_back($2); }
+  ;
+
+external_object_element_declaration
+  : field_declaration
+  | external_method_declaration
   ;
 
 field_declaration
@@ -661,16 +504,6 @@ field_declaration
       $$ = new FieldDeclaration(STATE_FIELD, $2, *$3, arguments);
       delete $3;
     }
-  ;
-
-method_definition_list_optional
-  : /* blank */ { $$ = new std::vector<IMethodDeclaration*>(); }
-  | method_definition_list
-  ;
-
-method_definition_list
-  : method_definition { $$ = new std::vector<IMethodDeclaration*>(); $$->push_back($1); }
-  | method_definition_list method_definition { $1->push_back($2); }
   ;
 
 compound_statement
