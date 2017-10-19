@@ -16,7 +16,9 @@
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -41,8 +43,7 @@ struct ModelDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   MethodDeclaration *mMethodDeclaration;
-  vector<FieldDeclaration*> mFields;
-  vector<IMethodDeclaration*> mMethodDeclarations;
+  vector<IObjectElementDeclaration*> mObjectElements;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
  
@@ -73,7 +74,6 @@ struct ModelDefinitionTest : public Test {
                                                methodArguments,
                                                thrownExceptions,
                                                compoundStatement);
-    mMethodDeclarations.push_back(mMethodDeclaration);
   }
 };
 
@@ -83,13 +83,14 @@ TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFields.push_back(field1);
-  mFields.push_back(field2);
-  
+  mObjectElements.push_back(field1);
+  mObjectElements.push_back(field2);
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
-  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
+  ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
 
@@ -106,13 +107,14 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFields.push_back(field1);
-  mFields.push_back(field2);
-  
+  mObjectElements.push_back(field1);
+  mObjectElements.push_back(field2);
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
-  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
+  ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);
@@ -128,13 +130,14 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFields.push_back(field1);
-  mFields.push_back(field2);
-  
+  mObjectElements.push_back(field1);
+  mObjectElements.push_back(field2);
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
-  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
+  ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
@@ -195,9 +198,11 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> emptyPackage;
   interfaces.push_back(new InterfaceTypeSpecifier(emptyPackage, "IMyInterface"));
-  
+
+  mObjectElements.push_back(mMethodDeclaration);
+
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(emptyPackage, "MModel");
-  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
+  ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
@@ -229,9 +234,11 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   package.push_back("tests");
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<string> packageSpecifier;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(packageSpecifier, "MModel");
-  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
+  ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
@@ -243,12 +250,14 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(INJECTED_FIELD, longType, "field1", arguments);
-  mFields.push_back(field1);
+  mObjectElements.push_back(field1);
   
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
-  ModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
+  ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),

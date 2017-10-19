@@ -10,6 +10,14 @@
 #define IObjectElement_h
 
 namespace wisey {
+  
+/**
+ * An object element can be either a field or a method
+ */
+typedef enum ObjectElementTypeEnum {
+  OBJECT_ELEMENT_FIELD,
+  OBJECT_ELEMENT_METHOD,
+} ObjectElementType;
 
 /**
  * Represents a an object element such as a method or a field
@@ -20,6 +28,8 @@ public:
   
   virtual ~IObjectElement() { }
   
+  virtual ObjectElementType getObjectElementType() const = 0;
+
 };
 
 } /* namespace wisey */

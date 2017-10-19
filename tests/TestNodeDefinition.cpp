@@ -16,7 +16,9 @@
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -40,8 +42,7 @@ struct NodeDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   MethodDeclaration *mMethodDeclaration;
-  vector<FieldDeclaration*> mFieldDeclarations;
-  vector<IMethodDeclaration*> mMethodDeclarations;
+  vector<IObjectElementDeclaration*> mObjectElements;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
   
@@ -72,7 +73,6 @@ struct NodeDefinitionTest : public Test {
                                                methodArguments,
                                                thrownExceptions,
                                                compoundStatement);
-    mMethodDeclarations.push_back(mMethodDeclaration);
   }
   
   ~NodeDefinitionTest() {
@@ -85,13 +85,14 @@ TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFieldDeclarations.push_back(field1);
-  mFieldDeclarations.push_back(field2);
-  
+  mObjectElements.push_back(field1);
+  mObjectElements.push_back(field2);
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
   
@@ -108,13 +109,14 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFieldDeclarations.push_back(field1);
-  mFieldDeclarations.push_back(field2);
-  
+  mObjectElements.push_back(field1);
+  mObjectElements.push_back(field2);
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
@@ -130,13 +132,14 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFieldDeclarations.push_back(field1);
-  mFieldDeclarations.push_back(field2);
-  
+  mObjectElements.push_back(field1);
+  mObjectElements.push_back(field2);
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
@@ -197,9 +200,11 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> emptyPackage;
   interfaces.push_back(new InterfaceTypeSpecifier(emptyPackage, "IMyInterface"));
-  
+
+  mObjectElements.push_back(mMethodDeclaration);
+
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(emptyPackage, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
   nodeDefinition.generateIR(mContext);
@@ -231,9 +236,11 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
   package.push_back("tests");
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<string> packageSpecifier;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(packageSpecifier, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),
@@ -247,13 +254,14 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(INJECTED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFieldDeclarations.push_back(field1);
-  mFieldDeclarations.push_back(field2);
-  
+  mObjectElements.push_back(field1);
+  mObjectElements.push_back(field2);
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mFieldDeclarations, mMethodDeclarations, interfaces);
+  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),

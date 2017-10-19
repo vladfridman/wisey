@@ -19,6 +19,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ControllerDefinition.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -44,8 +45,7 @@ struct ControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   NiceMock<MockStatement>* mMockStatement;
-  vector<FieldDeclaration*> mFieldDeclarations;
-  vector<IMethodDeclaration*> mMethodDeclarations;
+  vector<IObjectElementDeclaration*> mElementDeclarations;
   vector<InterfaceTypeSpecifier*> mInterfaces;
   
   ControllerDefinitionTest() :
@@ -79,15 +79,15 @@ struct ControllerDefinitionTest : public Test {
                                               methodArguments,
                                               thrownExceptions,
                                               compoundStatement);
-    mMethodDeclarations.push_back(methodDeclaration);
 
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     ExpressionList arguments;
     FieldDeclaration* field1 = new FieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
     FieldDeclaration* field2 = new FieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
-    mFieldDeclarations.push_back(field1);
-    mFieldDeclarations.push_back(field2);
+    mElementDeclarations.push_back(field1);
+    mElementDeclarations.push_back(field2);
+    mElementDeclarations.push_back(methodDeclaration);
   }
   
   ~ControllerDefinitionTest() {
@@ -97,10 +97,7 @@ struct ControllerDefinitionTest : public Test {
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
   vector<string> package;
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
-  ControllerDefinition controllerDefinition(typeSpecifier,
-                                            mFieldDeclarations,
-                                            mMethodDeclarations,
-                                            mInterfaces);
+  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
 
@@ -118,10 +115,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
   vector<string> package;
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
-  ControllerDefinition controllerDefinition(typeSpecifier,
-                                            mFieldDeclarations,
-                                            mMethodDeclarations,
-                                            mInterfaces);
+  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
   
@@ -135,10 +129,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   vector<string> package;
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
-  ControllerDefinition controllerDefinition(typeSpecifier,
-                                            mFieldDeclarations,
-                                            mMethodDeclarations,
-                                            mInterfaces);
+  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
@@ -167,11 +158,9 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   ExpressionList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
-  mFieldDeclarations.push_back(field);
-  ControllerDefinition controllerDefinition(typeSpecifier,
-                                            mFieldDeclarations,
-                                            mMethodDeclarations,
-                                            mInterfaces);
+  mElementDeclarations.clear();
+  mElementDeclarations.push_back(field);
+  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
   controllerDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),

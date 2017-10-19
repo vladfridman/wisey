@@ -19,24 +19,18 @@ using namespace std;
 using namespace wisey;
 
 ModelDefinition::ModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
-                                 vector<FieldDeclaration*> fieldDeclarations,
-                                 vector<IMethodDeclaration *> methodDeclarations,
+                                 vector<IObjectElementDeclaration*> objectElementDeclarations,
                                  vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
 mModelTypeSpecifier(modelTypeSpecifier),
-mFieldDeclarations(fieldDeclarations),
-mMethodDeclarations(methodDeclarations),
+mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 ModelDefinition::~ModelDefinition() {
   delete mModelTypeSpecifier;
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    delete fieldDeclaration;
+  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+    delete objectElementDeclaration;
   }
-  mFieldDeclarations.clear();
-  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    delete methodDeclaration;
-  }
-  mMethodDeclarations.clear();
+  mObjectElementDeclarations.clear();
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -54,7 +48,7 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
 
-  configureObject(context, model, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
+  configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {

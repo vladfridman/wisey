@@ -58,6 +58,10 @@ vector<const Model*> ExternalStaticMethod::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
+ObjectElementType ExternalStaticMethod::getObjectElementType() const {
+  return OBJECT_ELEMENT_METHOD;
+}
+
 void ExternalStaticMethod::printToStream(IRGenerationContext& context, iostream& stream) const {
 }
 

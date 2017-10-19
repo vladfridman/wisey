@@ -14,25 +14,20 @@ using namespace llvm;
 using namespace wisey;
 
 ExternalModelDefinition::ExternalModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
-                                                 vector<FieldDeclaration*> fieldDeclarations,
-                                                 vector<IMethodDeclaration *> methodDeclarations,
+                                                 vector<IObjectElementDeclaration*>
+                                                   objectElementDeclarations,
                                                  vector<InterfaceTypeSpecifier*>
                                                  interfaceSpecifiers) :
 mModelTypeSpecifier(modelTypeSpecifier),
-mFieldDeclarations(fieldDeclarations),
-mMethodDeclarations(methodDeclarations),
+mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 ExternalModelDefinition::~ExternalModelDefinition() {
   delete mModelTypeSpecifier;
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    delete fieldDeclaration;
+  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+    delete objectElementDeclaration;
   }
-  mFieldDeclarations.clear();
-  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    delete methodDeclaration;
-  }
-  mMethodDeclarations.clear();
+  mObjectElementDeclarations.clear();
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -50,7 +45,7 @@ void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) con
 void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
   
-  configureObject(context, model, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
+  configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
 }
 
 Value* ExternalModelDefinition::generateIR(IRGenerationContext& context) const {

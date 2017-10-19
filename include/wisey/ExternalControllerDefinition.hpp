@@ -13,9 +13,8 @@
 #include <vector>
 
 #include "wisey/ControllerTypeSpecifier.hpp"
-#include "wisey/ExternalMethodDeclaration.hpp"
-#include "wisey/FieldDeclaration.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 
 namespace wisey {
@@ -25,15 +24,13 @@ namespace wisey {
  */
 class ExternalControllerDefinition : public IConcreteObjectDefinition {
   ControllerTypeSpecifier* mControllerTypeSpecifier;
-  std::vector<FieldDeclaration*> mFieldDeclarations;
-  std::vector<IMethodDeclaration*> mMethodDeclarations;
+  std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ExternalControllerDefinition(ControllerTypeSpecifier* controllerTypeSpecifier,
-                               std::vector<FieldDeclaration*> fieldDeclarations,
-                               std::vector<IMethodDeclaration*> methodDeclarations,
+                               std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                                std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
   
   ~ExternalControllerDefinition();

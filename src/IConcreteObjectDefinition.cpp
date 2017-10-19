@@ -15,18 +15,16 @@ using namespace wisey;
 
 void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                 IConcreteObjectType* object,
-                                                vector<FieldDeclaration*> fieldDeclarations,
-                                                vector<IMethodDeclaration*> methodDeclarations,
+                                                vector<IObjectElementDeclaration*>
+                                                  elementDeclarations,
                                                 vector<InterfaceTypeSpecifier*>
                                                   interfaceSpecifiers) {
-  vector<Field*> fields = createFields(context, fieldDeclarations);
-  object->setFields(fields, interfaceSpecifiers.size());
-
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
-  vector<IMethod*> methods = createMethods(context, methodDeclarations);
+  tuple<vector<Field*>, vector<IMethod*>> elements = createElements(context, elementDeclarations);
+  object->setFields(get<0>(elements), interfaces.size());
   
   object->setInterfaces(interfaces);
-  object->setMethods(methods);
+  object->setMethods(get<1>(elements));
   
   vector<Type*> types;
   for (Interface* interface : object->getInterfaces()) {
@@ -34,23 +32,29 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                     ->getPointerElementType()->getPointerElementType());
   }
   
-  collectFieldTypes(context, types, fields);
+  collectFieldTypes(context, types, get<0>(elements));
   object->setStructBodyTypes(types);
   
   IConcreteObjectType::generateNameGlobal(context, object);
   IConcreteObjectType::generateVTable(context, object);
 }
 
-vector<Field*> IConcreteObjectDefinition::createFields(IRGenerationContext& context,
-                                                       vector<FieldDeclaration*>
-                                                       fieldDeclarations) {
+tuple<vector<Field*>, vector<IMethod*>>
+IConcreteObjectDefinition::createElements(IRGenerationContext& context,
+                                          vector<IObjectElementDeclaration*>
+                                          elementDeclarations) {
   vector<Field*> fields;
-  for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
-    Field* field = fieldDeclaration->declare(context);
-    fields.push_back(field);
+  vector<IMethod*> methods;
+  for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
+    IObjectElement* element = elementDeclaration->declare(context);
+    if (element->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
+      fields.push_back((Field*) element);
+    } else {
+      methods.push_back((IMethod*) element);
+    }
   }
   
-  return fields;
+  return make_tuple(fields, methods);
 }
 
 vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationContext& context,
@@ -65,17 +69,6 @@ vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationCont
     interfaces.push_back(interface);
   }
   return interfaces;
-}
-
-vector<IMethod*> IConcreteObjectDefinition::createMethods(IRGenerationContext& context,
-                                                          vector<IMethodDeclaration*>
-                                                          methodDeclarations) {
-  vector<IMethod*> methods;
-  for (IMethodDeclaration* methodDeclaration : methodDeclarations) {
-    IMethod* method = methodDeclaration->declare(context);
-    methods.push_back(method);
-  }
-  return methods;
 }
 
 void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
@@ -100,3 +93,4 @@ void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
     }
   }
 }
+

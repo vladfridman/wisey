@@ -9,10 +9,9 @@
 #ifndef NodeDefinition_h
 #define NodeDefinition_h
 
-#include "wisey/FieldDeclaration.hpp"
 #include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
-#include "wisey/IMethodDeclaration.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
 
@@ -24,15 +23,13 @@ namespace wisey {
  */
 class NodeDefinition : public IConcreteObjectDefinition {
   NodeTypeSpecifier* mNodeTypeSpecifier;
-  std::vector<FieldDeclaration*> mFieldDeclarations;
-  std::vector<IMethodDeclaration*> mMethodDeclarations;
+  std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   NodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
-                 std::vector<FieldDeclaration*> fieldDeclarations,
-                 std::vector<IMethodDeclaration *> methodDeclarations,
+                 std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                  std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
   
   ~NodeDefinition();

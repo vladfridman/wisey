@@ -57,6 +57,8 @@ public:
   
   std::vector<const Model*> getThrownExceptions() const override;
   
+  ObjectElementType getObjectElementType() const override;
+
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   
 };

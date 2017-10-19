@@ -14,24 +14,18 @@ using namespace std;
 using namespace wisey;
 
 NodeDefinition::NodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
-                               vector<FieldDeclaration*> fieldDeclarations,
-                               vector<IMethodDeclaration *> methodDeclarations,
+                               vector<IObjectElementDeclaration*> objectElementDeclarations,
                                vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
 mNodeTypeSpecifier(nodeTypeSpecifier),
-mFieldDeclarations(fieldDeclarations),
-mMethodDeclarations(methodDeclarations),
+mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 NodeDefinition::~NodeDefinition() {
   delete mNodeTypeSpecifier;
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    delete fieldDeclaration;
+  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+    delete objectElementDeclaration;
   }
-  mFieldDeclarations.clear();
-  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    delete methodDeclaration;
-  }
-  mMethodDeclarations.clear();
+  mObjectElementDeclarations.clear();
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -49,7 +43,7 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
 
-  configureObject(context, node, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
+  configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers);
 }
 
 Value* NodeDefinition::generateIR(IRGenerationContext& context) const {

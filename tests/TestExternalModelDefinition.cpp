@@ -16,6 +16,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/ExternalModelDefinition.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/Names.hpp"
@@ -32,8 +33,7 @@ struct ExternalModelDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   ExternalMethodDeclaration* mMethodDeclaration;
-  vector<FieldDeclaration*> mFields;
-  vector<IMethodDeclaration*> mMethodDeclarations;
+  vector<IObjectElementDeclaration*> mElementDeclarations;
   
   ExternalModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::run(mContext);
@@ -52,7 +52,6 @@ struct ExternalModelDefinitionTest : public Test {
                                                        "foo",
                                                        methodArguments,
                                                        thrownExceptions);
-    mMethodDeclarations.push_back(mMethodDeclaration);
   }
 };
 
@@ -62,13 +61,14 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFields.push_back(field1);
-  mFields.push_back(field2);
-  
+  mElementDeclarations.push_back(field1);
+  mElementDeclarations.push_back(field2);
+  mElementDeclarations.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
-  ExternalModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
+  ExternalModelDefinition modelDefinition(typeSpecifier, mElementDeclarations, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
   
@@ -85,13 +85,14 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFields.push_back(field1);
-  mFields.push_back(field2);
-  
+  mElementDeclarations.push_back(field1);
+  mElementDeclarations.push_back(field2);
+  mElementDeclarations.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
-  ExternalModelDefinition modelDefinition(typeSpecifier, mFields, mMethodDeclarations, interfaces);
+  ExternalModelDefinition modelDefinition(typeSpecifier, mElementDeclarations, interfaces);
 
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);

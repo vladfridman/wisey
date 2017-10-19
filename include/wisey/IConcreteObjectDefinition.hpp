@@ -9,9 +9,9 @@
 #ifndef IConcreteObjectDefinition_h
 #define IConcreteObjectDefinition_h
 
-#include "wisey/FieldDeclaration.hpp"
-#include "wisey/IMethodDeclaration.hpp"
 #include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IObjectElement.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/IObjectDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 
@@ -31,18 +31,15 @@ public:
    */
   static void configureObject(IRGenerationContext& context,
                               IConcreteObjectType* object,
-                              std::vector<FieldDeclaration*> fieldDeclarations,
-                              std::vector<IMethodDeclaration*> methodDeclarations,
+                              std::vector<IObjectElementDeclaration*> elementDeclarations,
                               std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
   
 private:
 
-  static std::vector<Field*> createFields(IRGenerationContext& context,
-                                          std::vector<FieldDeclaration*> fieldDeclarations);
-  
-  static std::vector<IMethod*> createMethods(IRGenerationContext& context,
-                                             std::vector<IMethodDeclaration*> methodDeclarations);
-  
+  static std::tuple<std::vector<Field*>, std::vector<IMethod*>>
+  createElements(IRGenerationContext& context,
+                 std::vector<IObjectElementDeclaration*>
+                 elementDeclarations);
 
   static std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                                    std::vector<InterfaceTypeSpecifier*>

@@ -18,24 +18,19 @@ using namespace std;
 using namespace wisey;
 
 ControllerDefinition::ControllerDefinition(ControllerTypeSpecifier* controllerTypeSpecifier,
-                                           vector<FieldDeclaration*> fieldDeclarations,
-                                           vector<IMethodDeclaration*> methodDeclarations,
+                                           vector<IObjectElementDeclaration*>
+                                             objectElementDeclarations,
                                            vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
 mControllerTypeSpecifier(controllerTypeSpecifier),
-mFieldDeclarations(fieldDeclarations),
-mMethodDeclarations(methodDeclarations),
+mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 ControllerDefinition::~ControllerDefinition() {
   delete mControllerTypeSpecifier;
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    delete fieldDeclaration;
+  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+    delete objectElementDeclaration;
   }
-  mFieldDeclarations.clear();
-  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    delete methodDeclaration;
-  }
-  mMethodDeclarations.clear();
+  mObjectElementDeclarations.clear();
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -53,11 +48,7 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
 
-  configureObject(context,
-                  controller,
-                  mFieldDeclarations,
-                  mMethodDeclarations,
-                  mInterfaceSpecifiers);
+  configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {

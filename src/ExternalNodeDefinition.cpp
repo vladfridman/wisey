@@ -14,25 +14,20 @@ using namespace std;
 using namespace wisey;
 
 ExternalNodeDefinition::ExternalNodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
-                                               vector<FieldDeclaration*> fieldDeclarations,
-                                               vector<IMethodDeclaration *> methodDeclarations,
+                                               vector<IObjectElementDeclaration*>
+                                               objectElementDeclarations,
                                                vector<InterfaceTypeSpecifier*>
                                                interfaceSpecifiers) :
 mNodeTypeSpecifier(nodeTypeSpecifier),
-mFieldDeclarations(fieldDeclarations),
-mMethodDeclarations(methodDeclarations),
+mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 ExternalNodeDefinition::~ExternalNodeDefinition() {
   delete mNodeTypeSpecifier;
-  for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
-    delete fieldDeclaration;
+  for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
+    delete objectElementDeclaration;
   }
-  mFieldDeclarations.clear();
-  for (IMethodDeclaration* methodDeclaration : mMethodDeclarations) {
-    delete methodDeclaration;
-  }
-  mMethodDeclarations.clear();
+  mObjectElementDeclarations.clear();
   for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -50,7 +45,7 @@ void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) cons
 void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
   
-  configureObject(context, node, mFieldDeclarations, mMethodDeclarations, mInterfaceSpecifiers);
+  configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers);
 }
 
 Value* ExternalNodeDefinition::generateIR(IRGenerationContext& context) const {

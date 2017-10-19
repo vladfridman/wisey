@@ -18,6 +18,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ExternalControllerDefinition.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -35,8 +36,7 @@ using ::testing::Test;
 struct ExternalControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  vector<FieldDeclaration*> mFieldDeclarations;
-  vector<IMethodDeclaration*> mMethodDeclarations;
+  vector<IObjectElementDeclaration*> mElementDeclarations;
   vector<InterfaceTypeSpecifier*> mInterfaces;
   
   ExternalControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
@@ -59,7 +59,6 @@ struct ExternalControllerDefinitionTest : public Test {
                                                       "foo",
                                                       methodArguments,
                                                       thrownExceptions);
-    mMethodDeclarations.push_back(methodDeclaration);
     
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
@@ -67,8 +66,9 @@ struct ExternalControllerDefinitionTest : public Test {
     FieldDeclaration* field1 = new FieldDeclaration(RECEIVED_FIELD, longType, "mField1", arguments);
     FieldDeclaration* field2 =
       new FieldDeclaration(RECEIVED_FIELD, floatType, "mField2", arguments);
-    mFieldDeclarations.push_back(field1);
-    mFieldDeclarations.push_back(field2);
+    mElementDeclarations.push_back(field1);
+    mElementDeclarations.push_back(field2);
+    mElementDeclarations.push_back(methodDeclaration);
   }
   
   ~ExternalControllerDefinitionTest() {
@@ -79,8 +79,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
   vector<string> package;
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
-                                                    mFieldDeclarations,
-                                                    mMethodDeclarations,
+                                                    mElementDeclarations,
                                                     mInterfaces);
 
   controllerDefinition.prototypeObjects(mContext);
@@ -98,8 +97,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
   vector<string> package;
   ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
-                                                    mFieldDeclarations,
-                                                    mMethodDeclarations,
+                                                    mElementDeclarations,
                                                     mInterfaces);
 
   controllerDefinition.prototypeObjects(mContext);

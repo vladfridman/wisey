@@ -8,8 +8,7 @@
 
 #include "TestPrefix.hpp"
 #include "wisey/ControllerDefinition.hpp"
-#include "wisey/FieldDeclaration.hpp"
-#include "wisey/IMethodDeclaration.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
@@ -27,18 +26,14 @@ void TestPrefix::run(IRGenerationContext& context) {
 }
 
 void TestPrefix::defineNPEModel(IRGenerationContext& context) {
-  vector<FieldDeclaration*> npeFields;
-  vector<IMethodDeclaration*> npeMethods;
+  vector<IObjectElementDeclaration*> npeElements;
   vector<InterfaceTypeSpecifier*> npeParentInterfaces;
   vector<string> package;
   package.push_back("wisey");
   package.push_back("lang");
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
                                                                   Names::getNPEModelName());
-  ModelDefinition npeModelDefinition(modelTypeSpecifier,
-                                     npeFields,
-                                     npeMethods,
-                                     npeParentInterfaces);
+  ModelDefinition npeModelDefinition(modelTypeSpecifier, npeElements, npeParentInterfaces);
   npeModelDefinition.prototypeObjects(context);
   npeModelDefinition.prototypeMethods(context);
 }
@@ -49,8 +44,7 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   package.push_back("lang");
   ControllerTypeSpecifier* controllerTypeSpecifier =
     new ControllerTypeSpecifier(package, Names::getThreadControllerName());
-  vector<FieldDeclaration*> fieldDeclarations;
-  vector<IMethodDeclaration*> methodDeclarations;
+  vector<IObjectElementDeclaration*> elementDeclarations;
   vector<InterfaceTypeSpecifier*> interfaceSpecifiers;
   
   PrimitiveTypeSpecifier* stringTypeSpecifier;
@@ -85,12 +79,11 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
                                                             exceptions,
                                                             compoundStatement);
 
-  methodDeclarations.push_back(pushStackMethod);
-  methodDeclarations.push_back(popStackMethod);
+  elementDeclarations.push_back(pushStackMethod);
+  elementDeclarations.push_back(popStackMethod);
 
   ControllerDefinition threadControllerDefinition(controllerTypeSpecifier,
-                                                  fieldDeclarations,
-                                                  methodDeclarations,
+                                                  elementDeclarations,
                                                   interfaceSpecifiers);
   threadControllerDefinition.prototypeObjects(context);
   threadControllerDefinition.prototypeMethods(context);

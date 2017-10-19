@@ -42,6 +42,10 @@ bool Field::isAssignable() const {
   return mFieldKind == FieldKind::STATE_FIELD || mFieldKind == FieldKind::RECEIVED_FIELD;
 }
 
+ObjectElementType Field::getObjectElementType() const {
+  return OBJECT_ELEMENT_FIELD;
+}
+
 void Field::printToStream(IRGenerationContext& context, iostream& stream) const {
   switch (mFieldKind) {
     case FieldKind::FIXED_FIELD:

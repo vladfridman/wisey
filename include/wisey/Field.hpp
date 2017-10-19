@@ -64,6 +64,8 @@ public:
    */
   bool isAssignable() const;
   
+  ObjectElementType getObjectElementType() const override;
+  
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   
 };

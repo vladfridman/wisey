@@ -9,9 +9,8 @@
 #ifndef ExternalModelDefinition_h
 #define ExternalModelDefinition_h
 
-#include "wisey/ExternalMethodDeclaration.hpp"
-#include "wisey/FieldDeclaration.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
@@ -22,15 +21,13 @@ namespace wisey {
  */
 class ExternalModelDefinition : public IConcreteObjectDefinition {
   ModelTypeSpecifier* mModelTypeSpecifier;
-  std::vector<FieldDeclaration*> mFieldDeclarations;
-  std::vector<IMethodDeclaration*> mMethodDeclarations;
+  std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
   ExternalModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
-                          std::vector<FieldDeclaration*> fieldDeclarations,
-                          std::vector<IMethodDeclaration *> methodDeclarations,
+                          std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                           std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
   
   ~ExternalModelDefinition();

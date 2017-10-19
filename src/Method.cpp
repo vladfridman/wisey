@@ -128,6 +128,10 @@ void Method::createArguments(IRGenerationContext& context,
   }
 }
 
+ObjectElementType Method::getObjectElementType() const {
+  return OBJECT_ELEMENT_METHOD;
+}
+
 void Method::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }

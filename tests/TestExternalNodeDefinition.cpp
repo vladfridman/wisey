@@ -14,9 +14,11 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/ExternalNodeDefinition.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
+#include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -32,8 +34,7 @@ struct ExternalNodeDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   ExternalMethodDeclaration* mMethodDeclaration;
-  vector<FieldDeclaration*> mFieldDeclarations;
-  vector<IMethodDeclaration*> mMethodDeclarations;
+  vector<IObjectElementDeclaration*> mObjectElements;
   
   ExternalNodeDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::run(mContext);
@@ -52,7 +53,6 @@ struct ExternalNodeDefinitionTest : public Test {
                                                        "foo",
                                                        methodArguments,
                                                        thrownExceptions);
-    mMethodDeclarations.push_back(mMethodDeclaration);
   }
   
   ~ExternalNodeDefinitionTest() {
@@ -65,16 +65,14 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFieldDeclarations.push_back(field1);
-  mFieldDeclarations.push_back(field2);
-  
+  mObjectElements.push_back(field1);
+  mObjectElements.push_back(field2);
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  ExternalNodeDefinition nodeDefinition(typeSpecifier,
-                                        mFieldDeclarations,
-                                        mMethodDeclarations,
-                                        interfaces);
+  ExternalNodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
   
@@ -91,16 +89,14 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   vector<IExpression*> arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
-  mFieldDeclarations.push_back(field1);
-  mFieldDeclarations.push_back(field2);
-  
+  mObjectElements.push_back(field1);
+  mObjectElements.push_back(field2);
+  mObjectElements.push_back(mMethodDeclaration);
+
   vector<InterfaceTypeSpecifier*> interfaces;
   vector<string> package;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
-  ExternalNodeDefinition nodeDefinition(typeSpecifier,
-                                        mFieldDeclarations,
-                                        mMethodDeclarations,
-                                        interfaces);
+  ExternalNodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
