@@ -36,9 +36,6 @@ public:
   
   ~FieldDeclaration();
   
-  /**
-   * Creates the Field object based on the declaration
-   */
   Field* declare(IRGenerationContext& context) const override;
   
 };
