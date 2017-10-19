@@ -14,7 +14,6 @@
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IField.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
