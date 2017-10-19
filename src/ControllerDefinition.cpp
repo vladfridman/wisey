@@ -17,6 +17,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ControllerDefinition::ControllerDefinition(ControllerTypeSpecifier* controllerTypeSpecifier,
+                                           vector<FieldDeclaration*> fieldDeclarations,
+                                           vector<IMethodDeclaration*> methodDeclarations,
+                                           vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
+mControllerTypeSpecifier(controllerTypeSpecifier),
+mFieldDeclarations(fieldDeclarations),
+mMethodDeclarations(methodDeclarations),
+mInterfaceSpecifiers(interfaceSpecifiers) { }
+
 ControllerDefinition::~ControllerDefinition() {
   delete mControllerTypeSpecifier;
   for (FieldDeclaration* fieldDeclaration : mFieldDeclarations) {
