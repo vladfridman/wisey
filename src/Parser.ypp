@@ -211,7 +211,7 @@
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
 %type <model_type_specifier_list> method_exceptions exception_type_specifier_list
-%type <interface_list> interface_list
+%type <interface_list> interface_list implmeneted_interfaces
 
 %left '+' '-'
 %left '*' '/'
@@ -325,100 +325,68 @@ method_signature
       }
   ;
 
+implmeneted_interfaces
+  : /* blank */ { $$ = new std::vector<InterfaceTypeSpecifier*>(); }
+  | TIMPLEMENTS interface_list { $$ = $2; }
+  ;
+
 controller_definition
-  : TCONTROLLER controller_type_specifier '{' object_element_declaration_list '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ControllerDefinition($2, *$4, interfaces);
-      delete $4;
-    }
-  | TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list 
+  : TCONTROLLER controller_type_specifier implmeneted_interfaces 
       '{' object_element_declaration_list '}'
     {
-      $$ = new ControllerDefinition($2, *$6, *$4);
-      delete $6;
-      delete $4;
+      $$ = new ControllerDefinition($2, *$5, *$3);
+      delete $5;
+      delete $3;
     }
   ;
 
 external_controller_definition
-  : TEXTERNAL TCONTROLLER controller_type_specifier
+  : TEXTERNAL TCONTROLLER controller_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ExternalControllerDefinition($3, *$5, interfaces);
-      delete $5;
-    }
-  | TEXTERNAL TCONTROLLER controller_type_specifier TIMPLEMENTS interface_list
-    '{' external_object_element_declaration_list '}'
-    {
-      $$ = new ExternalControllerDefinition($3, *$7, *$5);
-      delete $7;
-      delete $5;
+      $$ = new ExternalControllerDefinition($3, *$6, *$4);
+      delete $6;
+      delete $4;
     }
   ;
 
 node_definition
-  : TNODE node_type_specifier '{' object_element_declaration_list '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new NodeDefinition($2, *$4, interfaces);
-      delete $4;
-    }
-  | TNODE node_type_specifier TIMPLEMENTS interface_list
+  : TNODE node_type_specifier implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
-      $$ = new NodeDefinition($2, *$6, *$4);
-      delete $6;
-      delete $4;
+      $$ = new NodeDefinition($2, *$5, *$3);
+      delete $5;
+      delete $3;
     }
   ;
 
 external_node_definition
-  : TEXTERNAL TNODE node_type_specifier '{' external_object_element_declaration_list '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ExternalNodeDefinition($3, *$5, interfaces);
-      delete $5;
-    }
-  | TEXTERNAL TNODE node_type_specifier TIMPLEMENTS interface_list
+  : TEXTERNAL TNODE node_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
-      $$ = new ExternalNodeDefinition($3, *$7, *$5);
-      delete $7;
-      delete $5;
-    }
-  ;
-
-model_definition
-  : TMODEL model_type_specifier '{' object_element_declaration_list '}'
-    {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ModelDefinition($2, *$4, interfaces);
-      delete $4;
-    }
-  | TMODEL model_type_specifier TIMPLEMENTS interface_list
-      '{' object_element_declaration_list '}'
-    {
-      $$ = new ModelDefinition($2, *$6, *$4);
+      $$ = new ExternalNodeDefinition($3, *$6, *$4);
       delete $6;
       delete $4;
     }
   ;
 
-external_model_definition
-  : TEXTERNAL TMODEL model_type_specifier '{' external_object_element_declaration_list '}'
+model_definition
+  : TMODEL model_type_specifier implmeneted_interfaces
+      '{' object_element_declaration_list '}'
     {
-      std::vector<InterfaceTypeSpecifier*> interfaces;
-      $$ = new ExternalModelDefinition($3, *$5, interfaces);
+      $$ = new ModelDefinition($2, *$5, *$3);
       delete $5;
+      delete $3;
     }
-  | TEXTERNAL TMODEL model_type_specifier TIMPLEMENTS interface_list 
+  ;
+
+external_model_definition
+  : TEXTERNAL TMODEL model_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
-      $$ = new ExternalModelDefinition($3, *$7, *$5);
-      delete $7;
-      delete $5;
+      $$ = new ExternalModelDefinition($3, *$6, *$4);
+      delete $6;
+      delete $4;
     }
   ;
 
