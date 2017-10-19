@@ -41,14 +41,6 @@ public:
    */
   Field* declare(IRGenerationContext& context) const override;
   
-  FieldKind getFieldKind() const;
-  
-  ITypeSpecifier* getTypeSpecifier() const;
-  
-  std::string getName() const;
-  
-  ExpressionList getArguments() const;
-  
 };
   
 } /* namespace wisey */

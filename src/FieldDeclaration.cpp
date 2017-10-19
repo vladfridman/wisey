@@ -41,18 +41,3 @@ Field* FieldDeclaration::declare(IRGenerationContext& context) const {
   return new Field(mFieldKind, fieldType, mName, mArguments);
 }
 
-FieldKind FieldDeclaration::getFieldKind() const {
-  return mFieldKind;
-}
-
-ITypeSpecifier* FieldDeclaration::getTypeSpecifier() const {
-  return mTypeSpecifier;
-}
-
-string FieldDeclaration::getName() const {
-  return mName;
-}
-
-ExpressionList FieldDeclaration::getArguments() const {
-  return mArguments;
-}

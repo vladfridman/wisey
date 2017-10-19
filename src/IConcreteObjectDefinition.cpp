@@ -34,7 +34,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                     ->getPointerElementType()->getPointerElementType());
   }
   
-  collectFieldTypes(context, types, fieldDeclarations);
+  collectFieldTypes(context, types, fields);
   object->setStructBodyTypes(types);
   
   IConcreteObjectType::generateNameGlobal(context, object);
@@ -81,13 +81,13 @@ vector<IMethod*> IConcreteObjectDefinition::createMethods(IRGenerationContext& c
 
 void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
                                                   vector<Type*>& types,
-                                                  vector<FieldDeclaration*> fieldDeclarations) {
+                                                  vector<Field*> fields) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
-    const IType* fieldType = fieldDeclaration->getTypeSpecifier()->getType(context);
+  for (Field* field : fields) {
+    const IType* fieldType = field->getType();
     
-    if (fieldDeclaration->getFieldKind() == INJECTED_FIELD &&
+    if (field->getFieldKind() == INJECTED_FIELD &&
         fieldType->getTypeKind() == INTERFACE_OWNER_TYPE) {
       Interface* interface = (Interface*) ((IObjectOwnerType*) fieldType)->getObject();
       fieldType = context.getBoundController(interface);

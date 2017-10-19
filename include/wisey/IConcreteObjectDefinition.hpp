@@ -54,7 +54,7 @@ public:
    */
   static void collectFieldTypes(IRGenerationContext& context,
                                 std::vector<llvm::Type*>& types,
-                                std::vector<FieldDeclaration*> fieldDeclarations);
+                                std::vector<Field*> fields);
   
 private:
 
