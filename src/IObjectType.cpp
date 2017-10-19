@@ -15,8 +15,8 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-Constant* IObjectType::getObjectNamePointer(const IObjectType *object,
-                                            IRGenerationContext& context) {
+llvm::Constant* IObjectType::getObjectNamePointer(const IObjectType *object,
+                                                  IRGenerationContext& context) {
   GlobalVariable* nameGlobal =
     context.getModule()->getNamedGlobal(object->getObjectNameGlobalVariableName());
   ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);

@@ -23,7 +23,7 @@ CallInst* InstanceOf::call(IRGenerationContext& context,
                            const IObjectType* callableObjectType) {
   Function* function = getOrCreateFunction(context, interface);
   
-  Constant* namePointer = IObjectType::getObjectNamePointer(callableObjectType, context);
+  llvm::Constant* namePointer = IObjectType::getObjectNamePointer(callableObjectType, context);
   
   vector<Value*> arguments;
   arguments.push_back(interfaceObject);

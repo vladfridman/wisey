@@ -146,7 +146,7 @@ void TryCatchStatement::generateResumeAndFail(IRGenerationContext& context,
                                               FinallyBlock* finallyBlock) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getBasicBlock()->getParent();
-  Constant* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  llvm::Constant* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, exceptionTypeId, zero, "");
   BasicBlock* unexpectedBlock = BasicBlock::Create(llvmContext, "unexpected", function);
   BasicBlock* resumeBlock = BasicBlock::Create(llvmContext, "resume", function);

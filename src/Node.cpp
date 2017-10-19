@@ -261,7 +261,7 @@ Instruction* Node::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* structType = getLLVMType(llvmContext)->getPointerElementType()->getPointerElementType();
-  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "buildervar");
   
   return malloc;
@@ -273,7 +273,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
-  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);
@@ -303,7 +303,7 @@ void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* mallo
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value *index[2];
-  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   
   for (Field* field : mStateFields) {
     const IType* fieldType = field->getType();

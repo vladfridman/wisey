@@ -148,7 +148,7 @@ Instruction* Controller::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* structType = getLLVMType(llvmContext)->getPointerElementType()->getPointerElementType();
-  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "injectvar");
   
   return malloc;
@@ -237,7 +237,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
-  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   unsigned int fieldIndex = 0;
   for (IExpression* argument : controllerInjectorArguments) {
     Value* fieldValue = argument->generateIR(context);
@@ -264,7 +264,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
   LLVMContext& llvmContext = context.getLLVMContext();
 
   Value *index[2];
-  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (Field* field : mInjectedFields) {
     const IType* fieldType = field->getType();
     if (fieldType->getTypeKind() == CONTROLLER_TYPE) {
@@ -287,7 +287,7 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value *index[2];
-  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (Field* field : mStateFields) {
     const IType* fieldType = field->getType();
     Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);

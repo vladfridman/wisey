@@ -112,7 +112,8 @@ Function* IMethod::defineFunction(IRGenerationContext& context,
   
   string functionNameConstantName = MethodCall::getMethodNameConstantName(methodName);
   if (!context.getModule()->getNamedGlobal(functionNameConstantName)) {
-    Constant* stringConstant = ConstantDataArray::getString(context.getLLVMContext(), methodName);
+    llvm::Constant* stringConstant =
+      ConstantDataArray::getString(context.getLLVMContext(), methodName);
     new GlobalVariable(*context.getModule(),
                        stringConstant->getType(),
                        true,

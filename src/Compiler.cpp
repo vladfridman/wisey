@@ -198,7 +198,7 @@ void Compiler::deleteProgramFiles(vector<ProgramFile*> programFiles) {
 Value* Compiler::defineSourceFileConstant(string sourceFile) {
   LLVMContext& llvmContext = mContext.getLLVMContext();
 
-  Constant* stringConstant = ConstantDataArray::getString(llvmContext, sourceFile);
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, sourceFile);
   GlobalVariable* global = new GlobalVariable(*mContext.getModule(),
                             stringConstant->getType(),
                             true,

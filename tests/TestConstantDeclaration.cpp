@@ -56,6 +56,10 @@ TEST_F(ConstantDeclarationTest, declareTest) {
   EXPECT_NE(mConstantDeclaration->declare(mContext), nullptr);
 }
 
-TEST_F(TestFileSampleRunner, constantDeclarationRunTest) {
-  runFile("tests/samples/test_constant_declaration.yz", "1");
+TEST_F(TestFileSampleRunner, constantDeclarationInObjectRunTest) {
+  runFile("tests/samples/test_constant_declaration_in_object.yz", "1");
+}
+
+TEST_F(TestFileSampleRunner, constantDeclarationInInterfaceRunTest) {
+  runFile("tests/samples/test_constant_declaration_in_interface.yz", "1");
 }

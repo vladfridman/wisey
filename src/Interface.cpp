@@ -48,6 +48,10 @@ Interface::~Interface() {
   mMethodSignatures.clear();
   mAllMethodSignatures.clear();
   mNameToMethodSignatureMap.clear();
+  for (Constant* constant : mConstants) {
+    delete constant;
+  }
+  mConstants.clear();
 }
 
 Interface* Interface::newInterface(string name,
@@ -82,7 +86,11 @@ void Interface::buildMethods(IRGenerationContext& context) {
 
   LLVMContext& llvmContext = context.getLLVMContext();
 
-  mMethodSignatures = createElements(context, mElementDeclarations);
+  tuple<vector<MethodSignature*>, vector<wisey::Constant*>> elements =
+  createElements(context, mElementDeclarations);
+
+  mMethodSignatures = get<0>(elements);
+  mConstants = get<1>(elements);
   
   for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
@@ -180,13 +188,15 @@ MethodSignature* Interface::findMethod(std::string methodName) const {
   return mNameToMethodSignatureMap.at(methodName);
 }
 
-vector<list<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& context,
-                                                          const IObjectType* object,
-                                                          map<string, Function*>& methodFunctionMap,
-                                                          unsigned long interfaceIndex) const {
+vector<list<llvm::Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& context,
+                                                                const IObjectType* object,
+                                                                map<string, Function*>&
+                                                                methodFunctionMap,
+                                                                unsigned long
+                                                                interfaceIndex) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
-  list<Constant*> vTableArrayProtion;
+  list<llvm::Constant*> vTableArrayProtion;
   for (MethodSignature* methodSignature : mAllMethodSignatures) {
     Function* concreteObjectFunction = methodFunctionMap.count(methodSignature->getName())
       ? methodFunctionMap.at(methodSignature->getName()) : NULL;
@@ -195,18 +205,18 @@ vector<list<Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& c
                                                       concreteObjectFunction,
                                                       interfaceIndex,
                                                       methodSignature);
-    Constant* bitCast = ConstantExpr::getBitCast(function, int8Pointer);
+    llvm::Constant* bitCast = ConstantExpr::getBitCast(function, int8Pointer);
     vTableArrayProtion.push_back(bitCast);
   }
-  vector<list<Constant*>> vSubTable;
+  vector<list<llvm::Constant*>> vSubTable;
   vSubTable.push_back(vTableArrayProtion);
   for (Interface* parentInterface : mParentInterfaces) {
-    vector<list<Constant*>> parentInterfaceTables =
+    vector<list<llvm::Constant*>> parentInterfaceTables =
       parentInterface->generateMapFunctionsIR(context,
                                               object,
                                               methodFunctionMap,
                                               interfaceIndex + vSubTable.size());
-    for (list<Constant*> parentInterfaceTable : parentInterfaceTables) {
+    for (list<llvm::Constant*> parentInterfaceTable : parentInterfaceTables) {
       vSubTable.push_back(parentInterfaceTable);
     }
   }
@@ -560,7 +570,7 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
 
 void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Constant* stringConstant = ConstantDataArray::getString(llvmContext, getName());
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, getName());
   new GlobalVariable(*context.getModule(),
                      stringConstant->getType(),
                      true,
@@ -574,10 +584,11 @@ Instruction* Interface::inject(IRGenerationContext& context, ExpressionList expr
   return controller->inject(context, expressionList);
 }
 
-vector<MethodSignature*> Interface::createElements(IRGenerationContext& context,
-                                                   vector<IObjectElementDeclaration*>
-                                                   elementDeclarations) {
+tuple<vector<MethodSignature*>, vector<wisey::Constant*>>
+Interface::createElements(IRGenerationContext& context,
+                          vector<IObjectElementDeclaration*> elementDeclarations) {
   vector<MethodSignature*> methodSignatures;
+  vector<wisey::Constant*> constants;
   for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
     IObjectElement* objectElement = elementDeclaration->declare(context);
     if (objectElement->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
@@ -588,7 +599,18 @@ vector<MethodSignature*> Interface::createElements(IRGenerationContext& context,
       Log::e("Interfaces can not contain method implmentations");
       exit(1);
     }
-    methodSignatures.push_back((MethodSignature*) objectElement);
+    if (objectElement->getObjectElementType() == OBJECT_ELEMENT_CONSTANT) {
+      if (methodSignatures.size()) {
+        Log::e("In interfaces constants should be declared before method signatures");
+        exit(1);
+      }
+      constants.push_back((wisey::Constant*) objectElement);
+    } else if (objectElement->getObjectElementType() == OBJECT_ELEMENT_METHOD_SIGNATURE) {
+      methodSignatures.push_back((MethodSignature*) objectElement);
+    } else {
+      Log::e("Unexpected element in interface definition");
+      exit(1);
+    }
   }
-  return methodSignatures;
+  return make_tuple(methodSignatures, constants);
 }

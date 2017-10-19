@@ -32,7 +32,7 @@ using namespace wisey;
 void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
                                              const IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Constant* stringConstant = ConstantDataArray::getString(llvmContext, object->getName());
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, object->getName());
   new GlobalVariable(*context.getModule(),
                      stringConstant->getType(),
                      true,
@@ -124,7 +124,7 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
 void IConcreteObjectType::generateVTable(IRGenerationContext& context,
                                          const IConcreteObjectType* object) {
 
-  vector<vector<Constant*>> vTables;
+  vector<vector<llvm::Constant*>> vTables;
 
   addTypeListInfo(context, object, vTables);
   addDestructorInfo(context, object, vTables);
@@ -150,11 +150,11 @@ map<string, Function*> IConcreteObjectType::generateMethodFunctions(IRGeneration
 
 void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
                                           const IConcreteObjectType* object,
-                                          vector<vector<Constant*>>& vTables) {
+                                          vector<vector<llvm::Constant*>>& vTables) {
   GlobalVariable* typeListGlobal = createTypeListGlobal(context, object);
   
   PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  vector<Constant*> vTablePortion;
+  vector<llvm::Constant*> vTablePortion;
 
   vTablePortion.push_back(ConstantExpr::getNullValue(int8Pointer));
   vTablePortion.push_back(ConstantExpr::getBitCast(typeListGlobal, int8Pointer));
@@ -164,7 +164,7 @@ void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
 
 void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
                                             const IConcreteObjectType* object,
-                                            vector<vector<Constant*>>& vTables) {
+                                            vector<vector<llvm::Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(object->getLLVMType(llvmContext));
@@ -185,13 +185,13 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
 
 void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
                                          const IConcreteObjectType* object,
-                                         vector<vector<Constant*>>& vTables) {
+                                         vector<vector<llvm::Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   unsigned long vTableSize = object->getVTableSize();
   
   for (unsigned long i = 1; i < vTableSize; i++) {
-    vector<Constant*> vTablePortion;
+    vector<llvm::Constant*> vTablePortion;
     
     long unthunkBy = -Environment::getAddressSizeInBytes() * i;
     ConstantInt* unthunk = ConstantInt::get(Type::getInt64Ty(llvmContext), unthunkBy);
@@ -205,18 +205,18 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
 
 void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& context,
                                                         const IConcreteObjectType* object,
-                                                        vector<vector<Constant*>>& vTables) {
+                                                        vector<vector<llvm::Constant*>>& vTables) {
   map<string, Function*> methodFunctionMap = generateMethodFunctions(context, object);
   
-  vector<list<Constant*>> interfaceMapFunctions;
+  vector<list<llvm::Constant*>> interfaceMapFunctions;
   
   for (Interface* interface : object->getInterfaces()) {
-    vector<list<Constant*>> vSubTable =
+    vector<list<llvm::Constant*>> vSubTable =
     interface->generateMapFunctionsIR(context,
                                       object,
                                       methodFunctionMap,
                                       interfaceMapFunctions.size());
-    for (list<Constant*> vTablePortion : vSubTable) {
+    for (list<llvm::Constant*> vTablePortion : vSubTable) {
       interfaceMapFunctions.push_back(vTablePortion);
     }
   }
@@ -224,8 +224,8 @@ void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& con
   assert(interfaceMapFunctions.size() == 0 || interfaceMapFunctions.size() == vTables.size());
   
   int vTablesIndex = 0;
-  for (list<Constant*> interfaceMapFunctionsPortion : interfaceMapFunctions) {
-    for (Constant* constant : interfaceMapFunctionsPortion) {
+  for (list<llvm::Constant*> interfaceMapFunctionsPortion : interfaceMapFunctions) {
+    for (llvm::Constant* constant : interfaceMapFunctionsPortion) {
       vTables.at(vTablesIndex).push_back(constant);
     }
     vTablesIndex++;
@@ -234,23 +234,23 @@ void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& con
 
 void IConcreteObjectType::createVTableGlobal(IRGenerationContext& context,
                                              const IConcreteObjectType* object,
-                                             vector<vector<Constant*>> interfaceVTables) {
+                                             vector<vector<llvm::Constant*>> interfaceVTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
-  vector<Constant*> vTableArray;
+  vector<llvm::Constant*> vTableArray;
   vector<Type*> vTableTypes;
-  for (vector<Constant*> vTablePortionVector : interfaceVTables) {
-    ArrayRef<Constant*> arrayRef(vTablePortionVector);
+  for (vector<llvm::Constant*> vTablePortionVector : interfaceVTables) {
+    ArrayRef<llvm::Constant*> arrayRef(vTablePortionVector);
     ArrayType* arrayType = ArrayType::get(int8Pointer, vTablePortionVector.size());
-    Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
+    llvm::Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
     
     vTableArray.push_back(constantArray);
     vTableTypes.push_back(arrayType);
   }
   
   StructType* vTableGlobalType = StructType::get(llvmContext, vTableTypes);
-  Constant* vTableGlobalConstantStruct = ConstantStruct::get(vTableGlobalType, vTableArray);
+  llvm::Constant* vTableGlobalConstantStruct = ConstantStruct::get(vTableGlobalType, vTableArray);
   
   new GlobalVariable(*context.getModule(),
                      vTableGlobalType,
@@ -266,19 +266,19 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
   vector<Interface*> interfaces = object->getFlattenedInterfaceHierarchy();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
-  Constant* controllerNamePointer = IObjectType::getObjectNamePointer(object, context);
+  llvm::Constant* controllerNamePointer = IObjectType::getObjectNamePointer(object, context);
   
-  vector<Constant*> typeNames;
+  vector<llvm::Constant*> typeNames;
   typeNames.push_back(controllerNamePointer);
   
   for (Interface* interface : interfaces) {
-    Constant* interfaceNamePointer = IObjectType::getObjectNamePointer(interface, context);
+    llvm::Constant* interfaceNamePointer = IObjectType::getObjectNamePointer(interface, context);
     typeNames.push_back(interfaceNamePointer);
   }
   typeNames.push_back(ConstantExpr::getNullValue(int8Pointer));
-  ArrayRef<Constant*> arrayRef(typeNames);
+  ArrayRef<llvm::Constant*> arrayRef(typeNames);
   ArrayType* arrayType = ArrayType::get(int8Pointer, typeNames.size());
-  Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
+  llvm::Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
   
   return new GlobalVariable(*context.getModule(),
                             arrayType,
@@ -350,7 +350,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) fieldType;
     
     Value* index[2];
-    index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+    index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
     
     Value* fieldPointer = IRWriter::createGetElementPtrInst(context, thisLoaded, index);

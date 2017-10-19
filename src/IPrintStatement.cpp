@@ -37,7 +37,7 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
   }
   
   LLVMContext& llvmContext = context.getLLVMContext();
-  Constant* stringConstant = ConstantDataArray::getString(llvmContext, formatString);
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, formatString);
   GlobalVariable* globalVariableString =
   new GlobalVariable(*context.getModule(),
                      stringConstant->getType(),
@@ -46,8 +46,8 @@ Value* IPrintStatement::getFormatString(IRGenerationContext& context,
                      stringConstant,
                      ".format.str");
   
-  Constant* zero = Constant::getNullValue(IntegerType::getInt32Ty(llvmContext));
-  Constant* indices[] = {zero, zero};
+  llvm::Constant* zero = llvm::Constant::getNullValue(IntegerType::getInt32Ty(llvmContext));
+  llvm::Constant* indices[] = {zero, zero};
   
   return ConstantExpr::getGetElementPtr(NULL, globalVariableString, indices, true);
 }

@@ -310,6 +310,7 @@ interface_element_delcaration_list
 
 interface_element_declaration
   : method_signature
+  | constant_declaration
   ;
 
 method_signature

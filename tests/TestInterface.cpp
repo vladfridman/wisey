@@ -14,8 +14,10 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/ConstantDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
@@ -31,6 +33,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::NiceMock;
 using ::testing::Test;
 
 struct InterfaceTest : public Test {
@@ -93,8 +96,8 @@ struct InterfaceTest : public Test {
                                                    shapeParentInterfaces,
                                                    shapeElements);
     
-    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
-                                                            mShapeInterface->getName());
+    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                  mShapeInterface->getName());
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,
@@ -266,6 +269,27 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Interfaces can not contain method implmentations");
+}
+
+TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
+  NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
+  PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+  ConstantDeclaration* constantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS,
+                                                                     intSpecifier,
+                                                                     "MY_CONSTANT",
+                                                                     mockExpression);
+
+  string name = "systems.vos.wisey.compiler.tests.IInterface";
+  StructType* structType = StructType::create(mLLVMContext, name);
+  vector<IObjectElementDeclaration*> elements;
+  elements.push_back(mBarMethod);
+  elements.push_back(constantDeclaration);
+  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
+  
+  EXPECT_EXIT(interface->buildMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: In interfaces constants should be declared before method signatures");
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {

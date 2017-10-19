@@ -15,6 +15,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/Constant.hpp"
 #include "wisey/IInjectable.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/MethodSignature.hpp"
@@ -41,6 +42,7 @@ class Interface : public IObjectType, public IInjectable {
   std::vector<MethodSignature*> mAllMethodSignatures;
   std::map<IMethodDescriptor*, unsigned long> mMethodIndexes;
   std::map<std::string, MethodSignature*> mNameToMethodSignatureMap;
+  std::vector<wisey::Constant*> mConstants;
   bool mIsComplete;
   
 public:
@@ -186,9 +188,9 @@ private:
                                           IMethodDescriptor* objectMethodDescriptor,
                                           std::string objectName) const;
   
-  static std::vector<MethodSignature*> createElements(IRGenerationContext& context,
-                                                      std::vector<IObjectElementDeclaration*>
-                                                      elementDeclarations);
+  static std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>>
+  createElements(IRGenerationContext& context,
+                 std::vector<IObjectElementDeclaration*> elementDeclarations);
 
 };
   

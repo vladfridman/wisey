@@ -226,20 +226,20 @@ void Model::createRTTI(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
  
-  Constant* modelNamePointer = IObjectType::getObjectNamePointer(this, context);
+  llvm::Constant* modelNamePointer = IObjectType::getObjectNamePointer(this, context);
 
-  Constant* cxxabiv117ClassType =
+  llvm::Constant* cxxabiv117ClassType =
     context.getModule()->getOrInsertGlobal("_ZTVN10__cxxabiv117__class_type_infoE",
                                            int8PointerType);
   Value* Idx[1];
   Idx[0] = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 2);
   Type* elementType = cxxabiv117ClassType->getType()->getPointerElementType();
-  Constant* cxxabiv117ClassTypeElement =
+  llvm::Constant* cxxabiv117ClassTypeElement =
     ConstantExpr::getGetElementPtr(elementType, cxxabiv117ClassType, Idx);
-  Constant* cxxabiv117ClassTypeElementBitcast =
+  llvm::Constant* cxxabiv117ClassTypeElementBitcast =
     ConstantExpr::getTruncOrBitCast(cxxabiv117ClassTypeElement, int8PointerType);
   
-  vector<Constant*> rttiArray;
+  vector<llvm::Constant*> rttiArray;
   vector<Type*> types;
   rttiArray.push_back(cxxabiv117ClassTypeElementBitcast);
   rttiArray.push_back(modelNamePointer);
@@ -247,7 +247,7 @@ void Model::createRTTI(IRGenerationContext& context) const {
   types.push_back(int8PointerType);
   
   StructType* rttiGlobalType = StructType::get(llvmContext, types);
-  Constant* rttiGlobalConstantStruct = ConstantStruct::get(rttiGlobalType, rttiArray);
+  llvm::Constant* rttiGlobalConstantStruct = ConstantStruct::get(rttiGlobalType, rttiArray);
 
   new GlobalVariable(*context.getModule(),
                      rttiGlobalType,
@@ -298,7 +298,7 @@ Instruction* Model::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Type* structType = getLLVMType(llvmContext)->getPointerElementType()->getPointerElementType();
-  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "buildervar");
   
   return malloc;
@@ -310,7 +310,7 @@ void Model::initializeFields(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
-  index[0] = Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
     Value* argumentValue = argument->getValue(context);

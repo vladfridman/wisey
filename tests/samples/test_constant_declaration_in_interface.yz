@@ -1,0 +1,17 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IInterface {
+  public constant int MY_PUBLIC_CONSTANT = 2;
+  private constant int MY_PRIVATE_CONSTANT = 3;
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);

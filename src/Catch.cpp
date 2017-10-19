@@ -49,7 +49,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   arguments.push_back(wrappedException);
   CallInst* exceptionPointer = IRWriter::createCallInst(context, beginCatchFunction, arguments, "");
   
-  Constant* allocSize = ConstantExpr::getSizeOf(exceptionStructLLVMType);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(exceptionStructLLVMType);
   Instruction* malloc = IRWriter::createMalloc(context, exceptionStructLLVMType, allocSize, "");
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   BitCastInst* mallocBitcast = IRWriter::newBitCastInst(context, malloc, int8PointerType);
