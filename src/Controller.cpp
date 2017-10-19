@@ -35,6 +35,7 @@ Controller::~Controller() {
     delete field;
   }
   mFieldsOrdered.clear();
+  mFieldIndexes.clear();
   mFields.clear();
   mReceivedFields.clear();
   mInjectedFields.clear();
@@ -56,10 +57,12 @@ Controller* Controller::newExternalController(string name, StructType* structTyp
   return new Controller(name, structType, true);
 }
 
-void Controller::setFields(vector<Field*> fields) {
+void Controller::setFields(vector<Field*> fields, unsigned long startIndex) {
+  unsigned long index = startIndex;
   for (Field* field : fields) {
     mFields[field->getName()] = field;
     mFieldsOrdered.push_back(field);
+    mFieldIndexes[field] = index;
     switch (field->getFieldKind()) {
       case FieldKind::RECEIVED_FIELD :
         mReceivedFields.push_back(field);
@@ -75,6 +78,7 @@ void Controller::setFields(vector<Field*> fields) {
         exit(1);
         break;
     }
+    index++;
   }
 }
 
@@ -158,6 +162,10 @@ Field* Controller::findField(string fieldName) const {
   return mFields.at(fieldName);
 }
 
+unsigned long Controller::getFieldIndex(Field* field) const {
+  return mFieldIndexes.at(field);
+}
+
 vector<Field*> Controller::getFields() const {
   return mFieldsOrdered;
 }
@@ -235,7 +243,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
     Value* fieldValue = argument->generateIR(context);
     const IType* fieldType = argument->getType(context);
     Field* field = mReceivedFields[fieldIndex];
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     if (field->getType() != fieldType) {
       Log::e("Controller injector argumet value for field '" + field->getName() +
@@ -269,7 +277,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
     }
     Controller* controller = (Controller*) ((IObjectOwnerType*) fieldType)->getObject();
     Value* fieldValue = controller->inject(context, field->getArguments());
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
@@ -309,7 +317,7 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
       exit(1);
     }
     
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }

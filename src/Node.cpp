@@ -32,6 +32,7 @@ Node::~Node() {
     delete field;
   }
   mFieldsOrdered.clear();
+  mFieldIndexes.clear();
   mFields.clear();
   mFixedFields.clear();
   mStateFields.clear();
@@ -52,10 +53,12 @@ Node* Node::newExternalNode(string name, StructType* structType) {
   return new Node(name, structType, true);
 }
 
-void Node::setFields(vector<Field*> fields) {
+void Node::setFields(vector<Field*> fields, unsigned long startIndex) {
   mFieldsOrdered = fields;
+  unsigned long index = startIndex;
   for (Field* field : fields) {
     mFields[field->getName()] = field;
+    mFieldIndexes[field] = index;
     TypeKind typeKind = field->getType()->getTypeKind();
     switch (field->getFieldKind()) {
       case FieldKind::FIXED_FIELD :
@@ -73,6 +76,7 @@ void Node::setFields(vector<Field*> fields) {
         exit(1);
         break;
     }
+    index++;
   }
 }
 
@@ -109,6 +113,10 @@ Field* Node::findField(string fieldName) const {
   }
   
   return mFields.at(fieldName);
+}
+
+unsigned long Node::getFieldIndex(Field* field) const {
+  return mFieldIndexes.at(field);
 }
 
 vector<Field*> Node::getFields() const {
@@ -271,7 +279,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context);
     const IType* argumentType = argument->getType(context);
     Field* field = findField(argumentName);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     if (!argumentType->canAutoCastTo(field->getType())) {
       Log::e("Node builder argument value for field " + argumentName +
@@ -326,7 +334,7 @@ void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* mallo
       exit(1);
     }
     
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }

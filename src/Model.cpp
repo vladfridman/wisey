@@ -33,6 +33,7 @@ Model::~Model() {
     delete field;
   }
   mFieldsOrdered.clear();
+  mFieldIndexes.clear();
   mFields.clear();
   for (IMethod* method : mMethods) {
     delete method;
@@ -51,14 +52,17 @@ Model* Model::newExternalModel(string name, StructType* structType) {
   return new Model(name, structType, true);
 }
 
-void Model::setFields(vector<Field*> fields) {
+void Model::setFields(vector<Field*> fields, unsigned long startIndex) {
   mFieldsOrdered = fields;
+  unsigned long index = startIndex;
   for (Field* field : fields) {
     mFields[field->getName()] = field;
+    mFieldIndexes[field] = index;
     if (field->getFieldKind() != FIXED_FIELD) {
       Log::e("Models can only have fixed fields");
       exit(1);
     }
+    index++;
   }
 }
 
@@ -97,6 +101,10 @@ Field* Model::findField(string fieldName) const {
   }
   
   return mFields.at(fieldName);
+}
+
+unsigned long Model::getFieldIndex(Field* field) const {
+  return mFieldIndexes.at(field);
 }
 
 vector<Field*> Model::getFields() const {
@@ -308,7 +316,7 @@ void Model::initializeFields(IRGenerationContext& context,
     Value* argumentValue = argument->getValue(context);
     const IType* argumentType = argument->getType(context);
     Field* field = findField(argumentName);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), field->getIndex());
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     if (!argumentType->canAutoCastTo(field->getType())) {
       Log::e("Model builder argument value for field " + argumentName +

@@ -36,6 +36,7 @@ class Controller : public IConcreteObjectType, public IInjectable {
   std::vector<IMethod*> mMethods;
   std::map<std::string, Field*> mFields;
   std::vector<Field*> mFieldsOrdered;
+  std::map<Field*, unsigned long> mFieldIndexes;
   std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
@@ -57,7 +58,7 @@ public:
   llvm::Instruction* inject(IRGenerationContext& context,
                             ExpressionList expressionList) const override;
   
-  void setFields(std::vector<Field*> fields) override;
+  void setFields(std::vector<Field*> fields, unsigned long startIndex) override;
   
   void setInterfaces(std::vector<Interface*> interfaces) override;
   
@@ -66,6 +67,8 @@ public:
   void setStructBodyTypes(std::vector<llvm::Type*> types) override;
   
   Field* findField(std::string fieldName) const override;
+  
+  unsigned long getFieldIndex(Field* field) const override;
   
   std::vector<Field*> getFields() const override;
   

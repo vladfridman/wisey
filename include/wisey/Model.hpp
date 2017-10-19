@@ -33,6 +33,7 @@ class Model : public IBuildableConcreteObjectType {
   ModelOwner* mModelOwner;
   std::map<std::string, Field*> mFields;
   std::vector<Field*> mFieldsOrdered;
+  std::map<Field*, unsigned long> mFieldIndexes;
   std::vector<IMethod*> mMethods;
   std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
@@ -77,7 +78,7 @@ public:
    */
   llvm::Value* getSize(IRGenerationContext& context) const;
   
-  void setFields(std::vector<Field*> fields) override;
+  void setFields(std::vector<Field*> fields, unsigned long startIndex) override;
   
   void setInterfaces(std::vector<Interface*> interfaces) override;
   
@@ -91,6 +92,8 @@ public:
   
   Field* findField(std::string fieldName) const override;
   
+  unsigned long getFieldIndex(Field* field) const override;
+
   std::vector<Field*> getFields() const override;
   
   IMethod* findMethod(std::string methodName) const override;

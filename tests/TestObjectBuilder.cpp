@@ -64,9 +64,8 @@ struct ObjectBuilderTest : Test {
     ExpressionList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", arguments));
-    fields.back()->setIndex(1u);
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields);
+    mModel->setFields(fields, 0u);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(fieldValue1));

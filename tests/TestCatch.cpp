@@ -50,7 +50,6 @@ public:
     ExpressionList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
-    fields.back()->setIndex(1);
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
@@ -63,7 +62,7 @@ public:
     methods.push_back(fooMethod);
     mModel = Model::newModel(modelFullName, structType);
     mModel->setMethods(methods);
-    mModel->setFields(fields);
+    mModel->setFields(fields, 0u);
     mContext.addModel(mModel);
 
     vector<string> package;

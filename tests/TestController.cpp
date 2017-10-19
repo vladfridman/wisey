@@ -129,7 +129,6 @@ struct ControllerTest : public Test {
     ExpressionList fieldArguments;
     mLeftField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "left", fieldArguments);
     mRightField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "right", fieldArguments);
-    mRightField->setIndex(1u);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -155,7 +154,7 @@ struct ControllerTest : public Test {
     interfaces.push_back(mObjectInterface);
     
     mMultiplierController = Controller::newController(multiplierFullName, mStructType);
-    mMultiplierController->setFields(fields);
+    mMultiplierController->setFields(fields, interfaces.size());
     mMultiplierController->setMethods(methods);
     mMultiplierController->setInterfaces(interfaces);
     
@@ -174,9 +173,8 @@ struct ControllerTest : public Test {
                                       PrimitiveTypes::INT_TYPE,
                                       "right",
                                       fieldArguments));
-    additorFields.back()->setIndex(1u);
     mAdditorController = Controller::newController(additorFullName, additorStructType);
-    mAdditorController->setFields(additorFields);
+    mAdditorController->setFields(additorFields, 0u);
     mContext.addController(mMultiplierController);
 
     vector<Type*> doublerTypes;
@@ -191,7 +189,7 @@ struct ControllerTest : public Test {
                                       "left",
                                       fieldArguments));
     mDoublerController = Controller::newController(doublerFullName, doublerStructType);
-    mDoublerController->setFields(doublerFields);
+    mDoublerController->setFields(doublerFields, 0u);
     mContext.addController(mDoublerController);
 
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
@@ -265,6 +263,11 @@ TEST_F(ControllerTest, getFieldsTest) {
 TEST_F(ControllerTest, getOwnerTest) {
   ASSERT_NE(mMultiplierController->getOwner(), nullptr);
   EXPECT_EQ(mMultiplierController->getOwner()->getObject(), mMultiplierController);
+}
+
+TEST_F(ControllerTest, getFieldIndexTest) {
+  EXPECT_EQ(mMultiplierController->getFieldIndex(mLeftField), 2u);
+  EXPECT_EQ(mMultiplierController->getFieldIndex(mRightField), 3u);
 }
 
 TEST_F(ControllerTest, findFeildTest) {
@@ -451,7 +454,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   childStructType->setBody(childTypes);
   vector<Field*> childFields;
   Controller* childController = Controller::newController(childFullName, childStructType);
-  childController->setFields(childFields);
+  childController->setFields(childFields, 0u);
   mContext.addController(childController);
 
   vector<Type*> parentTypes;
@@ -465,7 +468,7 @@ TEST_F(ControllerTest, injectFieldTest) {
                                    "mChild",
                                    fieldArguments));
   Controller* parentController = Controller::newController(parentFullName, parentStructType);
-  parentController->setFields(parentFields);
+  parentController->setFields(parentFields, 0u);
   mContext.addController(parentController);
 
   ExpressionList injectionArguments;

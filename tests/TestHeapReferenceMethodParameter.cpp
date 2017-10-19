@@ -66,12 +66,11 @@ public:
     ExpressionList fieldArguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", fieldArguments));
-    fields.back()->setIndex(1u);
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields);
+    mModel->setFields(fields, 0u);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
-}
+  }
 };
 
 TEST_F(HeapReferenceMethodParameterTest, heapReferenceMethodParameterVariableAssignmentDeathTest) {

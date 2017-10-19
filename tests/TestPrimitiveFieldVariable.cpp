@@ -54,7 +54,7 @@ struct PrimitiveFieldVariableTest : Test {
     ExpressionList arguments;
     fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "foo", arguments));
     mObject = Controller::newController(objectFullName, objectStructType);
-    mObject->setFields(fields);
+    mObject->setFields(fields, 0u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

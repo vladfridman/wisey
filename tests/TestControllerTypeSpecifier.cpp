@@ -44,7 +44,6 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
                                PrimitiveTypes::INT_TYPE,
                                "right",
                                 fieldArguments));
-    fields.back()->setIndex(1u);
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
@@ -56,7 +55,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
                                          NULL);
     methods.push_back(multiplyMethod);
     mController = Controller::newController(controllerFullName, structType);
-    mController->setFields(fields);
+    mController->setFields(fields, 0u);
     mController->setMethods(methods);
     mContext.addController(mController);
 

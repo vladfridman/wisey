@@ -60,9 +60,8 @@ public:
     ExpressionList fieldArguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments));
-    fields.back()->setIndex(1u);
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields);
+    mModel->setFields(fields, 0u);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

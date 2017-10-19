@@ -121,9 +121,8 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   ExpressionList arguments;
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldA", arguments));
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldB", arguments));
-  fields.back()->setIndex(1u);
   Model* model = Model::newModel(modelFullName, structType);
-  model->setFields(fields);
+  model->setFields(fields, 0u);
 
   mContext.addModel(model);
   VariableDeclaration declaration(typeSpecifier, mIdentifier);

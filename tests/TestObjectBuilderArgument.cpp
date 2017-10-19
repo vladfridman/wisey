@@ -47,7 +47,7 @@ struct ObjectBuilderArgumentTest : Test {
     ExpressionList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", arguments));
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields);
+    mModel->setFields(fields, 0u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));

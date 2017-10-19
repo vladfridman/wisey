@@ -76,7 +76,6 @@ struct ModelOwnerTest : public Test {
     ExpressionList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
-    fields.back()->setIndex(1u);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
     IMethod* method = new Method("foo",
@@ -171,7 +170,7 @@ struct ModelOwnerTest : public Test {
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
     mModel = Model::newModel(modelFullName, mStructType);
-    mModel->setFields(fields);
+    mModel->setFields(fields, interfaces.size());
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
     
@@ -203,9 +202,8 @@ struct ModelOwnerTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    "mWeight",
                                    arguments));
-    starFields.back()->setIndex(1u);
     mStarModel = Model::newModel(starFullName, starStructType);
-    mStarModel->setFields(starFields);
+    mStarModel->setFields(starFields, 0u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));

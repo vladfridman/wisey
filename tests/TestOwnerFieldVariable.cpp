@@ -77,9 +77,8 @@ struct OwnerFieldVariableTest : Test {
     ExpressionList fieldArguments;
     fields.push_back(new Field(STATE_FIELD, mNode->getOwner(), "foo", fieldArguments));
     fields.push_back(new Field(STATE_FIELD, mInterface->getOwner(), "bar", fieldArguments));
-    fields.back()->setIndex(1u);
     mObject = Node::newNode(objectFullName, objectStructType);
-    mObject->setFields(fields);
+    mObject->setFields(fields, 0u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

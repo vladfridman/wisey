@@ -19,8 +19,8 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                 vector<IMethodDeclaration*> methodDeclarations,
                                                 vector<InterfaceTypeSpecifier*>
                                                   interfaceSpecifiers) {
-  vector<Field*> fields = createFields(context, fieldDeclarations, interfaceSpecifiers.size());
-  object->setFields(fields);
+  vector<Field*> fields = createFields(context, fieldDeclarations);
+  object->setFields(fields, interfaceSpecifiers.size());
 
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
   vector<IMethod*> methods = createMethods(context, methodDeclarations);
@@ -42,12 +42,11 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
 }
 
 vector<Field*> IConcreteObjectDefinition::createFields(IRGenerationContext& context,
-                                                       vector<FieldDeclaration*> fieldDeclarations,
-                                                       unsigned long startIndex) {
+                                                       vector<FieldDeclaration*>
+                                                       fieldDeclarations) {
   vector<Field*> fields;
   for (FieldDeclaration* fieldDeclaration : fieldDeclarations) {
     Field* field = fieldDeclaration->declare(context);
-    field->setIndex(startIndex + fields.size());
     fields.push_back(field);
   }
   

@@ -133,7 +133,6 @@ struct NodeOwnerTest : public Test {
     ExpressionList fieldArguments;
     mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mLeft", fieldArguments);
     mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mRight", fieldArguments);
-    mRightField->setIndex(1u);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
@@ -159,7 +158,7 @@ struct NodeOwnerTest : public Test {
     interfaces.push_back(mObjectInterface);
     
     mComplicatedNode = Node::newNode(complicatedNodeFullName, mStructType);
-    mComplicatedNode->setFields(fields);
+    mComplicatedNode->setFields(fields, interfaces.size());
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
     
@@ -179,12 +178,10 @@ struct NodeOwnerTest : public Test {
                                          PrimitiveTypes::INT_TYPE,
                                          "mRight",
                                          fieldArguments));
-    simpleNodeFields.back()->setIndex(1u);
     mAreaField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mArea", fieldArguments);
-    mAreaField->setIndex(2u);
     simpleNodeFields.push_back(mAreaField);
     mSimpleNode = Node::newNode(simpleNodeFullName, simpleNodeStructType);
-    mSimpleNode->setFields(simpleNodeFields);
+    mSimpleNode->setFields(simpleNodeFields, 0u);
     mContext.addNode(mSimpleNode);
     
     vector<Type*> simplerNodeTypes;
@@ -202,9 +199,8 @@ struct NodeOwnerTest : public Test {
                                           PrimitiveTypes::INT_TYPE,
                                           "mRight",
                                           fieldArguments));
-    simplerNodeFields.back()->setIndex(1);
     mSimplerNode = Node::newNode(simplerNodeFullName, simplerNodeStructType);
-    mSimplerNode->setFields(simplerNodeFields);
+    mSimplerNode->setFields(simplerNodeFields, 0u);
     mContext.addNode(mSimplerNode);
     
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";

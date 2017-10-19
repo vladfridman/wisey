@@ -31,7 +31,6 @@ struct FieldTest : public Test {
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
-  unsigned long mIndex;
   ExpressionList mArguments;
   
 public:
@@ -39,8 +38,7 @@ public:
   FieldTest() :
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
-  mName("mField"),
-  mIndex(3u) {
+  mName("mField") {
     mArguments.push_back(mExpression);
     ON_CALL(*mType, getName()).WillByDefault(Return("MObject*"));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
@@ -58,11 +56,9 @@ public:
 
 TEST_F(FieldTest, injectedFieldObjectCreationTest) {
   Field field(FieldKind::INJECTED_FIELD, mType, mName, mArguments);
-  field.setIndex(mIndex);
   
   EXPECT_EQ(field.getType(), mType);
   EXPECT_STREQ(field.getName().c_str(), "mField");
-  EXPECT_EQ(field.getIndex(), mIndex);
   EXPECT_EQ(field.getArguments().size(), 1u);
   EXPECT_EQ(field.getArguments().at(0), mExpression);
   EXPECT_FALSE(field.isAssignable());
@@ -71,7 +67,6 @@ TEST_F(FieldTest, injectedFieldObjectCreationTest) {
 
 TEST_F(FieldTest, injectedFieldPrintToStreamTest) {
   Field field(FieldKind::INJECTED_FIELD, mType, mName, mArguments);
-  field.setIndex(mIndex);
   
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
@@ -82,7 +77,6 @@ TEST_F(FieldTest, injectedFieldPrintToStreamTest) {
 TEST_F(FieldTest, receivedFieldPrintToStreamTest) {
   ExpressionList arguments;
   Field field(FieldKind::RECEIVED_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, arguments);
-  field.setIndex(mIndex);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
@@ -93,7 +87,6 @@ TEST_F(FieldTest, receivedFieldPrintToStreamTest) {
 TEST_F(FieldTest, stateFieldPrintToStreamTest) {
   ExpressionList arguments;
   Field field(FieldKind::STATE_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, arguments);
-  field.setIndex(mIndex);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);
@@ -104,7 +97,6 @@ TEST_F(FieldTest, stateFieldPrintToStreamTest) {
 TEST_F(FieldTest, fixedFieldPrintToStreamTest) {
   ExpressionList arguments;
   Field field(FieldKind::FIXED_FIELD, PrimitiveTypes::DOUBLE_TYPE, mName, arguments);
-  field.setIndex(mIndex);
 
   stringstream stringStream;
   field.printToStream(mContext, stringStream);

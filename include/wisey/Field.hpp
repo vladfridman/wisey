@@ -26,15 +26,11 @@ class Field : public IPrintable, public IObjectElement {
   const FieldKind mFieldKind;
   const IType* mType;
   std::string mName;
-  unsigned long mIndex;
   ExpressionList mArguments;
   
 public:
   
-  Field(FieldKind fieldKind,
-        const IType* type,
-        std::string name,
-        ExpressionList arguments);
+  Field(FieldKind fieldKind, const IType* type, std::string name, ExpressionList arguments);
   
   ~Field();
   
@@ -67,11 +63,6 @@ public:
    * Tells whether this field is assignable
    */
   bool isAssignable() const;
-  
-  /**
-   * Sets field index in the list of fields
-   */
-  void setIndex(unsigned long index);
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   

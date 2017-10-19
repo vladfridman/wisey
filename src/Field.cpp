@@ -11,14 +11,10 @@
 using namespace std;
 using namespace wisey;
 
-Field::Field(FieldKind fieldKind,
-             const IType* type,
-             std::string name,
-             ExpressionList arguments) :
+Field::Field(FieldKind fieldKind, const IType* type, std::string name, ExpressionList arguments) :
 mFieldKind(fieldKind),
 mType(type),
 mName(name),
-mIndex(0),
 mArguments(arguments) { }
 
 Field::~Field() {
@@ -36,10 +32,6 @@ const IType* Field::getType() const {
 
 string Field::getName() const {
   return mName;
-}
-
-unsigned long Field::getIndex() const {
-  return mIndex;
 }
 
 ExpressionList Field::getArguments() const {
@@ -83,6 +75,3 @@ void Field::printToStream(IRGenerationContext& context, iostream& stream) const 
   stream << ");" << endl;
 }
 
-void Field::setIndex(unsigned long index) {
-  mIndex = index;
-}

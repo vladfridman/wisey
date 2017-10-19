@@ -62,11 +62,10 @@ struct InjectorTest : Test {
     ExpressionList arguments;
     Field* fieldLeft = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "left", arguments);
     Field* fieldRight = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "right", arguments);
-    fieldRight->setIndex(1u);
-    controllerFields.push_back(fieldLeft);
+     controllerFields.push_back(fieldLeft);
     controllerFields.push_back(fieldRight);
     mController = Controller::newController(controllerFullName, controllerStructType);
-    mController->setFields(controllerFields);
+    mController->setFields(controllerFields, 0u);
     mContext.addController(mController);
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";

@@ -49,13 +49,11 @@ struct IFieldVariableTest : Test {
     controllerStructType->setBody(types);
     vector<Field*> controllerFields;
     mInjectedField = new Field(INJECTED_FIELD, PrimitiveTypes::INT_TYPE, "foo", fieldArguments);
-    mInjectedField->setIndex(0u);
     mStateField = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments);
-    mStateField->setIndex(1u);
     controllerFields.push_back(mInjectedField);
     controllerFields.push_back(mStateField);
     mController = Controller::newController(controllerFullName, controllerStructType);
-    mController->setFields(controllerFields);
+    mController->setFields(controllerFields, 0u);
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);

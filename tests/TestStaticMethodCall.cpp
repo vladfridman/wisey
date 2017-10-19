@@ -80,7 +80,6 @@ public:
     ExpressionList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
-    fields.back()->setIndex(1u);
     MethodArgument* fooMethodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> fooMethodArguments;
     fooMethodArguments.push_back(fooMethodArgument);
@@ -108,7 +107,7 @@ public:
                                           NULL);
     methods.push_back(barMethod);
     mModel = Model::newModel(modelFullName, mStructType);
-    mModel->setFields(fields);
+    mModel->setFields(fields, 0u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);
     vector<string> package;

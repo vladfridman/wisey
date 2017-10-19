@@ -93,9 +93,8 @@ struct IConcreteObjectTypeTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    "mWeight",
                                    fieldArguments));
-    starFields.back()->setIndex(1u);
     mStarModel = Model::newModel(starFullName, starStructType);
-    mStarModel->setFields(starFields);
+    mStarModel->setFields(starFields, 0u);
     mContext.addModel(mStarModel);
     
     vector<Type*> galaxyTypes;
@@ -109,7 +108,7 @@ struct IConcreteObjectTypeTest : public Test {
                                      "mStar",
                                      fieldArguments));
     mGalaxyModel = Model::newModel(galaxyFullName, galaxyStructType);
-    mGalaxyModel->setFields(galaxyFields);
+    mGalaxyModel->setFields(galaxyFields, 0u);
     mContext.addModel(mGalaxyModel);
 
     
@@ -135,7 +134,7 @@ struct IConcreteObjectTypeTest : public Test {
                                   "mNavigator",
                                   fieldArguments));
     mCarModel = Model::newModel(carFullName, carStructType);
-    mCarModel->setFields(carFields);
+    mCarModel->setFields(carFields, 0u);
     mContext.addModel(mCarModel);
 
     mStringStream = new raw_string_ostream(mStringBuffer);

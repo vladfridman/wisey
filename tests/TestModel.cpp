@@ -85,7 +85,6 @@ struct ModelTest : public Test {
     ExpressionList arguments;
     mWidthField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", arguments);
     mHeightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", arguments);
-    mHeightField->setIndex(1u);
     fields.push_back(mWidthField);
     fields.push_back(mHeightField);
     vector<MethodArgument*> methodArguments;
@@ -182,7 +181,7 @@ struct ModelTest : public Test {
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
     mModel = Model::newModel(modelFullName, mStructType);
-    mModel->setFields(fields);
+    mModel->setFields(fields, interfaces.size());
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
 
@@ -214,9 +213,8 @@ struct ModelTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    "mWeight",
                                    arguments));
-    starFields.back()->setIndex(1u);
     mStarModel = Model::newModel(starFullName, starStructType);
-    mStarModel->setFields(starFields);
+    mStarModel->setFields(starFields, 0u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
@@ -339,6 +337,11 @@ TEST_F(ModelTest, findFeildTest) {
   EXPECT_EQ(mModel->findField("mWidth"), mWidthField);
   EXPECT_EQ(mModel->findField("mHeight"), mHeightField);
   EXPECT_EQ(mModel->findField("mDepth"), nullptr);
+}
+
+TEST_F(ModelTest, getFieldIndexTest) {
+  EXPECT_EQ(mModel->getFieldIndex(mWidthField), 2u);
+  EXPECT_EQ(mModel->getFieldIndex(mHeightField), 3u);
 }
 
 TEST_F(ModelTest, findMethodTest) {

@@ -45,7 +45,7 @@ struct BindActionTest : public Test {
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
     mController = Controller::newController(controllerFullName, controllerStructType);
-    mController->setFields(controllerFields);
+    mController->setFields(controllerFields, controllerInterfaces.size());
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
     

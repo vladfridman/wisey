@@ -74,6 +74,11 @@ public:
    * Looks for a field with a given name in the object
    */
   virtual Field* findField(std::string fieldName) const = 0;
+  
+  /**
+   * Returns field index in the struct data type representing this object
+   */
+  virtual unsigned long getFieldIndex(Field* field) const = 0;
 
   /**
    * Returns a list of all fields
@@ -118,7 +123,7 @@ public:
   /**
    * Set fields to the given map of fields
    */
-  virtual void setFields(std::vector<Field*> fields) = 0;
+  virtual void setFields(std::vector<Field*> fields, unsigned long startIndex) = 0;
   
   /**
    * Set interfaces for this object
