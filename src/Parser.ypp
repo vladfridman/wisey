@@ -214,7 +214,7 @@
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
 %type <model_type_specifier_list> method_exceptions exception_type_specifier_list
-%type <interface_list> interface_list implmeneted_interfaces
+%type <interface_list> interface_list implmeneted_interfaces extends_interfaces
 
 %left '+' '-'
 %left '*' '/'
@@ -285,27 +285,21 @@ bind_action
   ;
 
 interface_definition
-  : TINTERFACE interface_type_specifier '{' method_signature_list '}'
+  : TINTERFACE interface_type_specifier extends_interfaces '{' method_signature_list '}'
     {
-      std::vector<InterfaceTypeSpecifier*> interfaceList;
-      $$ = new InterfaceDefinition($2, interfaceList, *$4);
-      delete $4;
+      $$ = new InterfaceDefinition($2, *$3, *$5);
+      delete $3;
+      delete $5;
     }
-  | TINTERFACE interface_type_specifier TEXTENDS interface_list
-      '{' method_signature_list '}'
-    { $$ = new InterfaceDefinition($2, *$4, *$6); delete $4; delete $6; }
   ;
 
 external_interface_definition
-  : TEXTERNAL TINTERFACE interface_type_specifier '{' method_signature_list '}'
+  : TEXTERNAL TINTERFACE interface_type_specifier extends_interfaces '{' method_signature_list '}'
     {
-      std::vector<InterfaceTypeSpecifier*> interfaceList;
-      $$ = new ExternalInterfaceDefinition($3, interfaceList, *$5);
-      delete $5;
+      $$ = new ExternalInterfaceDefinition($3, *$4, *$6);
+      delete $4;
+      delete $6;
     }
-  | TEXTERNAL TINTERFACE interface_type_specifier TEXTENDS interface_list
-      '{' method_signature_list '}'
-    { $$ = new ExternalInterfaceDefinition($3, *$5, *$7); delete $5; delete $7; }
   ;
 
 method_signature_list
@@ -403,6 +397,11 @@ external_method_declaration
 implmeneted_interfaces
   : /* blank */ { $$ = new std::vector<InterfaceTypeSpecifier*>(); }
   | TIMPLEMENTS interface_list { $$ = $2; }
+  ;
+
+extends_interfaces
+  : /* blank */ { $$ = new std::vector<InterfaceTypeSpecifier*>(); }
+  | TEXTENDS interface_list { $$ = $2; }
   ;
 
 interface_list
