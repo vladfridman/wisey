@@ -206,7 +206,7 @@
 %type <node_type_specifier> node_type_specifier
 %type <access_specifier> access_specifier
 %type <method_signature> method_signature
-%type <method_signature_vector> method_signature_list method_signature_list_optional
+%type <method_signature_vector> method_signature_list
 %type <identifier_list> identifier_chain
 %type <catch_clause> catch_clause
 %type <catch_vector> catch_block
@@ -282,36 +282,31 @@ bind_action
   ;
 
 interface_definition
-  : TINTERFACE interface_type_specifier '{' method_signature_list_optional '}'
+  : TINTERFACE interface_type_specifier '{' method_signature_list '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaceList;
       $$ = new InterfaceDefinition($2, interfaceList, *$4);
       delete $4;
     }
   | TINTERFACE interface_type_specifier TEXTENDS interface_list
-      '{' method_signature_list_optional '}'
+      '{' method_signature_list '}'
     { $$ = new InterfaceDefinition($2, *$4, *$6); delete $4; delete $6; }
   ;
 
 external_interface_definition
-  : TEXTERNAL TINTERFACE interface_type_specifier '{' method_signature_list_optional '}'
+  : TEXTERNAL TINTERFACE interface_type_specifier '{' method_signature_list '}'
     {
       std::vector<InterfaceTypeSpecifier*> interfaceList;
       $$ = new ExternalInterfaceDefinition($3, interfaceList, *$5);
       delete $5;
     }
   | TEXTERNAL TINTERFACE interface_type_specifier TEXTENDS interface_list
-      '{' method_signature_list_optional '}'
+      '{' method_signature_list '}'
     { $$ = new ExternalInterfaceDefinition($3, *$5, *$7); delete $5; delete $7; }
   ;
 
-method_signature_list_optional
-  : /* blank */ { $$ = new std::vector<MethodSignatureDeclaration *>(); }
-  | method_signature_list
-  ;
-
 method_signature_list
-  : method_signature { $$ = new std::vector<MethodSignatureDeclaration *>(); $$->push_back($1); }
+  : /* blank */ { $$ = new std::vector<MethodSignatureDeclaration *>(); }
   | method_signature_list method_signature { $1->push_back($2); }
   ;
 
@@ -323,11 +318,6 @@ method_signature
         delete $4;
         delete $6;
       }
-  ;
-
-implmeneted_interfaces
-  : /* blank */ { $$ = new std::vector<InterfaceTypeSpecifier*>(); }
-  | TIMPLEMENTS interface_list { $$ = $2; }
   ;
 
 controller_definition
@@ -405,6 +395,11 @@ external_method_declaration
         delete $5;
         delete $7;
       }
+  ;
+
+implmeneted_interfaces
+  : /* blank */ { $$ = new std::vector<InterfaceTypeSpecifier*>(); }
+  | TIMPLEMENTS interface_list { $$ = $2; }
   ;
 
 interface_list
