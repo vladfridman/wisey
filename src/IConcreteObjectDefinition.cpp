@@ -11,7 +11,6 @@
 #include "wisey/Log.hpp"
 
 using namespace std;
-using namespace llvm;
 using namespace wisey;
 
 void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
@@ -21,34 +20,42 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                 vector<InterfaceTypeSpecifier*>
                                                   interfaceSpecifiers) {
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
-  tuple<vector<Field*>, vector<IMethod*>> elements = createElements(context, elementDeclarations);
-  object->setFields(get<0>(elements), interfaces.size());
+  tuple<vector<Constant*>, vector<Field*>, vector<IMethod*>> elements =
+    createElements(context, elementDeclarations);
+  object->setFields(get<1>(elements), interfaces.size());
   
   object->setInterfaces(interfaces);
-  object->setMethods(get<1>(elements));
+  object->setMethods(get<2>(elements));
   
-  vector<Type*> types;
+  vector<llvm::Type*> types;
   for (Interface* interface : object->getInterfaces()) {
     types.push_back(interface->getLLVMType(context.getLLVMContext())
                     ->getPointerElementType()->getPointerElementType());
   }
   
-  collectFieldTypes(context, types, get<0>(elements));
+  collectFieldTypes(context, types, get<1>(elements));
   object->setStructBodyTypes(types);
   
   IConcreteObjectType::generateNameGlobal(context, object);
   IConcreteObjectType::generateVTable(context, object);
 }
 
-tuple<vector<Field*>, vector<IMethod*>>
+tuple<vector<Constant*>, vector<Field*>, vector<IMethod*>>
 IConcreteObjectDefinition::createElements(IRGenerationContext& context,
                                           vector<IObjectElementDeclaration*>
                                           elementDeclarations) {
   vector<Field*> fields;
   vector<IMethod*> methods;
+  vector<Constant*> constants;
   for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
     IObjectElement* element = elementDeclaration->declare(context);
-    if (element->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
+    if (element->getObjectElementType() == OBJECT_ELEMENT_CONSTANT) {
+      if (methods.size() || fields.size()) {
+        Log::e("Constants should be declared before fields and methods");
+        exit(1);
+      }
+      constants.push_back((Constant*) element);
+    } else if (element->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
       if (methods.size()) {
         Log::e("Fields should be declared before methods");
         exit(1);
@@ -59,7 +66,7 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
     }
   }
   
-  return make_tuple(fields, methods);
+  return make_tuple(constants, fields, methods);
 }
 
 vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationContext& context,
@@ -77,9 +84,9 @@ vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationCont
 }
 
 void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
-                                                  vector<Type*>& types,
+                                                  vector<llvm::Type*>& types,
                                                   vector<Field*> fields) {
-  LLVMContext& llvmContext = context.getLLVMContext();
+  llvm::LLVMContext& llvmContext = context.getLLVMContext();
   
   for (Field* field : fields) {
     const IType* fieldType = field->getType();
@@ -90,7 +97,7 @@ void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
       fieldType = context.getBoundController(interface);
     }
     
-    Type* llvmType = fieldType->getLLVMType(llvmContext);
+    llvm::Type* llvmType = fieldType->getLLVMType(llvmContext);
     if (IType::isReferenceType(fieldType)) {
       types.push_back(llvmType->getPointerElementType());
     } else {

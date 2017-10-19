@@ -53,6 +53,7 @@ WS  [ \t\v\n\f]
 "case"                        return TOKEN(TCASE);
 "catch"                       return TOKEN(TCATCH);
 "char"                        return TOKEN(TTYPECHAR);
+"constant"                    return TOKEN(TCONSTANT);
 "continue"                    return TOKEN(TCONTINUE);
 "controller"                  return TOKEN(TCONTROLLER);
 "do"                          return TOKEN(TDO);
@@ -123,6 +124,7 @@ WS  [ \t\v\n\f]
 "!"                           return TOKEN('!');
 "&&"                          return TOKEN(TANDOP);
 "||"                          return TOKEN(TOROP);
+[A-Z][A-Z0-9_]*               SAVE_TOKEN; return TCONSTANTIDENTIFIER;
 M[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TMODELIDENTIFIER;
 I[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TINTERFACEIDENTIFIER;
 C[A-Z][a-zA-Z0-9_]*           SAVE_TOKEN; return TCONTROLLERIDENTIFIER;

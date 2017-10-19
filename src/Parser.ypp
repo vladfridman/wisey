@@ -13,6 +13,7 @@
   #include "wisey/CharConstant.hpp"
   #include "wisey/CompoundStatement.hpp"
   #include "wisey/ConditionalExpression.hpp"
+  #include "wisey/ConstantDeclaration.hpp"
   #include "wisey/ContinueStatement.hpp"
   #include "wisey/ControllerDefinition.hpp"
   #include "wisey/ControllerTypeSpecifier.hpp"
@@ -150,11 +151,12 @@
  */
 %token <string> TIDENTIFIER TCHAR TINTEGER TLONG TFLOAT TDOUBLE STRING_LITERAL TMODELIDENTIFIER
 %token <string> TFIELDIDENTIFIER TINTERFACEIDENTIFIER TCONTROLLERIDENTIFIER TNODEIDENTIFIER
+%token <string> TCONSTANTIDENTIFIER
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
-%token <token> TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXIT TEXTENDS TEXTERNAL TDEFAULT
-%token <token> TFALLTHROUGH TFALSE TFINALLY TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECT TINSTANCEOF
-%token <token> TINTERFACE TMODEL TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
+%token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXIT TEXTENDS TEXTERNAL
+%token <token> TDEFAULT TFALLTHROUGH TFALSE TFINALLY TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECT
+%token <token> TINSTANCEOF TINTERFACE TMODEL TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
 %token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPECHAR TTYPEDOUBLE 
 %token <token> TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
@@ -192,6 +194,7 @@
 %type <switch_cases> case_statement_list case_statement_list_with_default
 %type <object_element> object_element_declaration external_object_element_declaration
 %type <object_element> field_declaration method_definition external_method_declaration
+%type <object_element> constant_declaration
 %type <object_element_list> object_element_declaration_list 
 %type <object_element_list> external_object_element_declaration_list
 %type <type_specifier> type_specifier primitive_type_specifier
@@ -415,7 +418,8 @@ object_element_declaration_list
   ;
 
 object_element_declaration
-  : field_declaration
+  : constant_declaration
+  | field_declaration
   | method_definition
   ;
 
@@ -426,8 +430,14 @@ external_object_element_declaration_list
   ;
 
 external_object_element_declaration
-  : field_declaration
+  : constant_declaration
+  | field_declaration
   | external_method_declaration
+  ;
+
+constant_declaration
+  : access_specifier TCONSTANT type_specifier TCONSTANTIDENTIFIER '=' expression ';'
+    { $$ = new ConstantDeclaration($1, $3, *$4, $6); delete $4; }
   ;
 
 field_declaration

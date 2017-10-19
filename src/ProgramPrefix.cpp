@@ -131,7 +131,7 @@ void ProgramPrefix::defineStderr(IRGenerationContext& context, StructType* fileS
 
 void ProgramPrefix::defineEmptyString(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Constant* stringConstant = ConstantDataArray::getString(llvmContext, "");
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, "");
   new GlobalVariable(*context.getModule(),
                      stringConstant->getType(),
                      true,

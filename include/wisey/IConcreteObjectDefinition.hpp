@@ -9,6 +9,7 @@
 #ifndef IConcreteObjectDefinition_h
 #define IConcreteObjectDefinition_h
 
+#include "wisey/Constant.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IObjectElement.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
@@ -36,7 +37,7 @@ public:
   
 private:
 
-  static std::tuple<std::vector<Field*>, std::vector<IMethod*>>
+  static std::tuple<std::vector<Constant*>, std::vector<Field*>, std::vector<IMethod*>>
   createElements(IRGenerationContext& context,
                  std::vector<IObjectElementDeclaration*>
                  elementDeclarations);

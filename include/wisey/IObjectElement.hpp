@@ -15,6 +15,7 @@ namespace wisey {
  * An object element can be either a field or a method
  */
 typedef enum ObjectElementTypeEnum {
+  OBJECT_ELEMENT_CONSTANT,
   OBJECT_ELEMENT_FIELD,
   OBJECT_ELEMENT_METHOD,
 } ObjectElementType;

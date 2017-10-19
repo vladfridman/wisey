@@ -189,7 +189,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   mContext.addInterface(interface);
   interface->buildMethods(mContext);
   
-  Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());
+  llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());
   new GlobalVariable(*mContext.getModule(),
                      stringConstant->getType(),
                      true,
@@ -215,7 +215,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   ASSERT_NE(vTablePointer, nullptr);
   ASSERT_TRUE(vTablePointer->getType()->getPointerElementType()->isStructTy());
   EXPECT_EQ(vTablePointer->getType()->getPointerElementType()->getStructNumElements(), 1u);
-  Constant* vTableInitializer = vTablePointer->getInitializer();
+  llvm::Constant* vTableInitializer = vTablePointer->getInitializer();
   ASSERT_TRUE(vTableInitializer->getType()->isStructTy());
   EXPECT_EQ(vTableInitializer->getType()->getStructNumElements(), 1u);
   

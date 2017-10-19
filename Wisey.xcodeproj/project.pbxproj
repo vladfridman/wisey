@@ -344,6 +344,7 @@
 		F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FE1DE5ED0700074D66 /* libcurses.dylib */; };
 		F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
 		F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626021DE5ED3500074D66 /* libm.dylib */; };
+		F55173D61F99025400613993 /* TestConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55173D51F99025400613993 /* TestConstantDeclaration.cpp */; };
 		F55496F41E061F8E00DDA2AF /* libLLVMTarget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625E61DE5EB4400074D66 /* libLLVMTarget.a */; };
 		F55496F71E06280900DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
 		F55496F81E06281D00DDA2AF /* libLLVMGlobalISel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */; };
@@ -649,6 +650,11 @@
 		F5E2092D1E077C1400E1A147 /* TestVariableDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */; };
 		F5E209301E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */; };
 		F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */; };
+		F5E270701F98F4AA008D2EB7 /* ConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2706F1F98F4AA008D2EB7 /* ConstantDeclaration.cpp */; };
+		F5E270731F98F6A4008D2EB7 /* Constant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E270721F98F6A4008D2EB7 /* Constant.cpp */; };
+		F5E270741F98F6A4008D2EB7 /* Constant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E270721F98F6A4008D2EB7 /* Constant.cpp */; };
+		F5E270751F98FFA9008D2EB7 /* ConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E2706F1F98F4AA008D2EB7 /* ConstantDeclaration.cpp */; };
+		F5E270771F990024008D2EB7 /* TestConstant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E270761F990024008D2EB7 /* TestConstant.cpp */; };
 		F5E39A3E1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E39A3D1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp */; };
 		F5E3D64A1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */; };
 		F5E3D64B1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */; };
@@ -1101,6 +1107,7 @@
 		F54625FE1DE5ED0700074D66 /* libcurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurses.dylib; path = /usr/lib/libcurses.dylib; sourceTree = "<absolute>"; };
 		F54626001DE5ED1B00074D66 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
+		F55173D51F99025400613993 /* TestConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantDeclaration.cpp; path = tests/TestConstantDeclaration.cpp; sourceTree = "<group>"; };
 		F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = /usr/local/lib/libLLVMGlobalISel.a; sourceTree = "<absolute>"; };
 		F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifier.cpp; path = tests/TestIdentifier.cpp; sourceTree = "<group>"; };
 		F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IConcreteObjectType.hpp; path = include/wisey/IConcreteObjectType.hpp; sourceTree = "<group>"; };
@@ -1274,6 +1281,11 @@
 		F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableDeclaration.cpp; path = src/VariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestVariableDeclaration.cpp; path = tests/TestVariableDeclaration.cpp; sourceTree = "<group>"; };
 		F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrimitiveTypeSpecifier.cpp; path = src/PrimitiveTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5E2706D1F98F44F008D2EB7 /* ConstantDeclaration.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ConstantDeclaration.hpp; path = include/wisey/ConstantDeclaration.hpp; sourceTree = "<group>"; };
+		F5E2706F1F98F4AA008D2EB7 /* ConstantDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstantDeclaration.cpp; path = src/ConstantDeclaration.cpp; sourceTree = "<group>"; };
+		F5E270711F98F5C6008D2EB7 /* Constant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Constant.hpp; path = include/wisey/Constant.hpp; sourceTree = "<group>"; };
+		F5E270721F98F6A4008D2EB7 /* Constant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Constant.cpp; path = src/Constant.cpp; sourceTree = "<group>"; };
+		F5E270761F990024008D2EB7 /* TestConstant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstant.cpp; path = tests/TestConstant.cpp; sourceTree = "<group>"; };
 		F5E39A3D1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestExternalControllerDefinition.cpp; path = tests/TestExternalControllerDefinition.cpp; sourceTree = "<group>"; };
 		F5E3D6481F6C00DC00FC37CB /* PrintOutStatement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PrintOutStatement.hpp; path = include/wisey/PrintOutStatement.hpp; sourceTree = "<group>"; };
 		F5E3D6491F6C01CE00FC37CB /* PrintOutStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PrintOutStatement.cpp; path = src/PrintOutStatement.cpp; sourceTree = "<group>"; };
@@ -1729,6 +1741,8 @@
 				F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */,
 				F50FA2A01E269B4700435EEA /* TestCompoundStatement.cpp */,
 				F534010B1DFF09D30002BF7E /* TestConditionalExpression.cpp */,
+				F5E270761F990024008D2EB7 /* TestConstant.cpp */,
+				F55173D51F99025400613993 /* TestConstantDeclaration.cpp */,
 				F58B32871E1637F50001CC15 /* TestContinueStatement.cpp */,
 				F51581311E8AB1A9009CE419 /* TestController.cpp */,
 				F515812A1E89BFB6009CE419 /* TestControllerDefinition.cpp */,
@@ -2101,6 +2115,8 @@
 			children = (
 				F5089C4F1ECD01D9004A1223 /* BooleanConstant.hpp */,
 				F5089C581ECD01D9004A1223 /* CharConstant.hpp */,
+				F5E270711F98F5C6008D2EB7 /* Constant.hpp */,
+				F5E2706D1F98F44F008D2EB7 /* ConstantDeclaration.hpp */,
 				F5089C631ECD01D9004A1223 /* DoubleConstant.hpp */,
 				F5089C6B1ECD01D9004A1223 /* FloatConstant.hpp */,
 				F5089C761ECD01D9004A1223 /* IntConstant.hpp */,
@@ -2115,6 +2131,8 @@
 			children = (
 				F50FA3041E325E5400435EEA /* BooleanConstant.cpp */,
 				F531B6591E0DE52F008304F3 /* CharConstant.cpp */,
+				F5E270721F98F6A4008D2EB7 /* Constant.cpp */,
+				F5E2706F1F98F4AA008D2EB7 /* ConstantDeclaration.cpp */,
 				F50FA2E11E2E3B0900435EEA /* DoubleConstant.cpp */,
 				F50FA2E21E2E3B0900435EEA /* FloatConstant.cpp */,
 				F50FA2E31E2E3B0900435EEA /* IntConstant.cpp */,
@@ -2644,6 +2662,7 @@
 				F5E3D64B1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */,
 				F5CB180F1EB0C24D007E2E43 /* TestIntrinsicFunctions.cpp in Sources */,
 				F50FA2D71E2D12E000435EEA /* TestModelDefinition.cpp in Sources */,
+				F5E270741F98F6A4008D2EB7 /* Constant.cpp in Sources */,
 				F53400DE1DFBE6F60002BF7E /* Tokens.lpp in Sources */,
 				F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */,
 				F53A2C371EFFFCEE00E76A9E /* TestNode.cpp in Sources */,
@@ -2693,6 +2712,7 @@
 				F5E3D64D1F6C19D900FC37CB /* TestPrintOutStatement.cpp in Sources */,
 				F50FA2E91E2E3B0F00435EEA /* DoubleConstant.cpp in Sources */,
 				F53A2C4C1F029DC800E76A9E /* TestNullType.cpp in Sources */,
+				F55173D61F99025400613993 /* TestConstantDeclaration.cpp in Sources */,
 				F53A2C001EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp in Sources */,
 				F531B6451E0A4A7D008304F3 /* TestBlock.cpp in Sources */,
 				F5E39A3E1F7C1F2000B2ABD5 /* TestExternalControllerDefinition.cpp in Sources */,
@@ -2700,6 +2720,7 @@
 				F5A3634A1F373FFE005880B3 /* TestHeapOwnerMethodParameter.cpp in Sources */,
 				F509E7621F7D22CD00F96C14 /* TestField.cpp in Sources */,
 				F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */,
+				F5E270751F98FFA9008D2EB7 /* ConstantDeclaration.cpp in Sources */,
 				F5A363441F33D08F005880B3 /* TestHeapOwnerVariable.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
 				F5C6FD7C1E48B64C0054209D /* FloatType.cpp in Sources */,
@@ -2800,6 +2821,7 @@
 				F55CF1761F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */,
 				F58A83571F798B6300369388 /* ExternalNodeDefinition.cpp in Sources */,
 				F5C6FD881E48B7DE0054209D /* TestLongType.cpp in Sources */,
+				F5E270771F990024008D2EB7 /* TestConstant.cpp in Sources */,
 				F531B6551E0DDD96008304F3 /* StringLiteral.cpp in Sources */,
 				F5FCAE3B1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp in Sources */,
 				F509E7601F7D131C00F96C14 /* Field.cpp in Sources */,
@@ -2820,6 +2842,7 @@
 				F53401111DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F58725621F70143100FA25E6 /* IPrintStatement.cpp in Sources */,
+				F5E270701F98F4AA008D2EB7 /* ConstantDeclaration.cpp in Sources */,
 				F5FCAE331ED5C38B00C69899 /* Compiler.cpp in Sources */,
 				F50427AC1E4D2747001CB148 /* HeapReferenceVariable.cpp in Sources */,
 				F50FA2B71E28BA5600435EEA /* DoStatement.cpp in Sources */,
@@ -2933,6 +2956,7 @@
 				F58A834E1F7988D600369388 /* ExternalControllerDefinition.cpp in Sources */,
 				F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
+				F5E270731F98F6A4008D2EB7 /* Constant.cpp in Sources */,
 				F50FA2B31E27DD9400435EEA /* DefaultCaseStatement.cpp in Sources */,
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F5FE0A231F7DA00B000621CA /* ExternalStaticMethodDeclaration.cpp in Sources */,
