@@ -31,7 +31,7 @@ MethodDeclaration::~MethodDeclaration() {
   delete mCompoundStatement;
 }
 
-IMethod* MethodDeclaration::createMethod(IRGenerationContext& context) const {
+IMethod* MethodDeclaration::declare(IRGenerationContext& context) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
 
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);

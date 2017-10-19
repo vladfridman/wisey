@@ -10,6 +10,7 @@
 #define IMethod_h
 
 #include "wisey/IMethodDescriptor.hpp"
+#include "wisey/IObjectElement.hpp"
 #include "wisey/IObjectType.hpp"
 
 namespace wisey {
@@ -17,7 +18,7 @@ namespace wisey {
 /**
  * Represents a method implementation that could either be static or non-static
  */
-class IMethod : public IMethodDescriptor {
+class IMethod : public IMethodDescriptor, public IObjectElement {
 
 public:
 

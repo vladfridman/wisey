@@ -1164,6 +1164,8 @@
 		F57780B81ECA81750049542D /* ProgramSuffix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramSuffix.cpp; path = src/ProgramSuffix.cpp; sourceTree = "<group>"; };
 		F57E2E271E82D6E300FE1DB9 /* BooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BooleanNotExpression.cpp; path = src/BooleanNotExpression.cpp; sourceTree = "<group>"; };
 		F57E2E2A1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBooleanNotExpression.cpp; path = tests/TestBooleanNotExpression.cpp; sourceTree = "<group>"; };
+		F585C7671F97B68000F0FC5E /* IObjectElementDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectElementDeclaration.hpp; path = include/wisey/IObjectElementDeclaration.hpp; sourceTree = "<group>"; };
+		F585C7681F97B73100F0FC5E /* IObjectElement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IObjectElement.hpp; path = include/wisey/IObjectElement.hpp; sourceTree = "<group>"; };
 		F58725501F6D744600FA25E6 /* StringType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StringType.hpp; path = include/wisey/StringType.hpp; sourceTree = "<group>"; };
 		F58725511F6D749100FA25E6 /* StringType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringType.cpp; path = src/StringType.cpp; sourceTree = "<group>"; };
 		F58725541F6DB97C00FA25E6 /* TestStringType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestStringType.cpp; path = tests/TestStringType.cpp; sourceTree = "<group>"; };
@@ -2059,6 +2061,8 @@
 				F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */,
 				F5089C751ECD01D9004A1223 /* INode.hpp */,
 				F592A7B61F7D609D0026BD2F /* IObjectDefinition.hpp */,
+				F585C7681F97B73100F0FC5E /* IObjectElement.hpp */,
+				F585C7671F97B68000F0FC5E /* IObjectElementDeclaration.hpp */,
 				F53A2C0E1EED4CFE00E76A9E /* IObjectOwnerType.hpp */,
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F53A2C0F1EED58BD00E76A9E /* IObjectTypeSpecifier.hpp */,

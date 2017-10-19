@@ -63,7 +63,7 @@ TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
                                       mArguments,
                                       thrownExceptions,
                                       mCompoundStatement);
-  IMethod* method = methodDeclaration.createMethod(mContext);
+  IMethod* method = methodDeclaration.declare(mContext);
   vector<MethodArgument*> arguments = method->getArguments();
   
   EXPECT_FALSE(method->isStatic());

@@ -31,7 +31,7 @@ StaticMethodDeclaration::~StaticMethodDeclaration() {
   delete mCompoundStatement;
 }
 
-IMethod* StaticMethodDeclaration::createMethod(IRGenerationContext& context) const {
+IMethod* StaticMethodDeclaration::declare(IRGenerationContext& context) const {
   const IType* returnType = mReturnTypeSpecifier->getType(context);
   
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);

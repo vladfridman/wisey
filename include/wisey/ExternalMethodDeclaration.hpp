@@ -42,7 +42,7 @@ public:
   
   ~ExternalMethodDeclaration();
   
-  ExternalMethod* createMethod(IRGenerationContext& context) const override;
+  ExternalMethod* declare(IRGenerationContext& context) const override;
   
 };
 

@@ -48,7 +48,7 @@ public:
   
   ~StaticMethodDeclaration();
   
-  IMethod* createMethod(IRGenerationContext& context) const override;
+  IMethod* declare(IRGenerationContext& context) const override;
   
 };
   

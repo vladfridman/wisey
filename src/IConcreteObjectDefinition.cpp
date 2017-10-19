@@ -72,7 +72,7 @@ vector<IMethod*> IConcreteObjectDefinition::createMethods(IRGenerationContext& c
                                                           methodDeclarations) {
   vector<IMethod*> methods;
   for (IMethodDeclaration* methodDeclaration : methodDeclarations) {
-    IMethod* method = methodDeclaration->createMethod(context);
+    IMethod* method = methodDeclaration->declare(context);
     methods.push_back(method);
   }
   return methods;
