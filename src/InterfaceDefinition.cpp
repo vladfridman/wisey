@@ -51,6 +51,7 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName(context));
   interface->buildMethods(context);
+  interface->generateConstantsIR(context);
 }
 
 Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {

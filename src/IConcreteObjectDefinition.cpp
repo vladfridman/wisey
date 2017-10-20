@@ -39,6 +39,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   
   IConcreteObjectType::generateNameGlobal(context, object);
   IConcreteObjectType::generateVTable(context, object);
+  IConcreteObjectType::generateConstantsIR(context, object);
 }
 
 tuple<vector<Constant*>, vector<Field*>, vector<IMethod*>>

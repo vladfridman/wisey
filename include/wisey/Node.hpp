@@ -41,6 +41,7 @@ class Node : public IBuildableConcreteObjectType {
   std::vector<Interface*> mInterfaces;
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
   std::vector<Constant*> mConstants;
+  std::map<std::string, Constant*> mNameToConstantMap;
 
 public:
   
@@ -85,6 +86,8 @@ public:
   
   IMethod* findMethod(std::string methodName) const override;
   
+  Constant* findConstant(std::string constantName) const override;
+
   std::vector<IMethod*> getMethods() const override;
   
   std::string getObjectNameGlobalVariableName() const override;

@@ -1,0 +1,16 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+  private constant int MY_PRIVATE_CONSTANT = 2;
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return systems.vos.wisey.compiler.tests.MCar.MY_PRIVATE_CONSTANT;
+  }
+}
+
+bind(CProgram).to(IProgram);

@@ -42,6 +42,11 @@ Model::~Model() {
   mNameToMethodMap.clear();
   mInterfaces.clear();
   mFlattenedInterfaceHierarchy.clear();
+  for (Constant* constant : mConstants) {
+    delete constant;
+  }
+  mConstants.clear();
+  mNameToConstantMap.clear();
 }
 
 Model* Model::newModel(string name, StructType* structType) {
@@ -86,6 +91,17 @@ void Model::setStructBodyTypes(vector<Type *> types) {
 
 void Model::setConstants(vector<Constant*> constants) {
   mConstants = constants;
+  for (Constant* constant : constants) {
+    mNameToConstantMap[constant->getName()] = constant;
+  }
+}
+
+wisey::Constant* Model::findConstant(string constantName) const {
+  if (!mNameToConstantMap.count(constantName)) {
+    Log::e("Model " + mName + " does not have constant named " + constantName);
+    exit(1);
+  }
+  return mNameToConstantMap.at(constantName);
 }
 
 vector<wisey::Constant*> Model::getConstants() const {

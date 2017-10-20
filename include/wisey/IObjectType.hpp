@@ -17,6 +17,8 @@
 #include "wisey/IPrintable.hpp"
 
 namespace wisey {
+
+class Constant;
   
 /**
  * Represents an IType that is either model, controller or interface
@@ -34,7 +36,12 @@ public:
    * Finds a method with a given name.
    */
   virtual IMethodDescriptor* findMethod(std::string methodName) const = 0;
-  
+
+  /**
+   * Finds a method with a given name.
+   */
+  virtual Constant* findConstant(std::string constantName) const = 0;
+
   /**
    * Returns name of the global variable containing name of this Callable Object in string format
    */

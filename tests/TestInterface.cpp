@@ -48,6 +48,7 @@ struct InterfaceTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
+  ConstantDeclaration* mConstantDeclaration;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -80,7 +81,16 @@ struct InterfaceTest : public Test {
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);
     vector<IObjectElementDeclaration*> shapeElements;
+
+    NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
+    intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    mConstantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS,
+                                                   intSpecifier,
+                                                   "MYCONSTANT",
+                                                   mockExpression);
+    shapeElements.push_back(mConstantDeclaration);
     shapeElements.push_back(mFooMethod);
+
     vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterfaceSpecifier);
     mShapeInterface = Interface::newInterface(shapeFullName,
@@ -137,6 +147,17 @@ TEST_F(InterfaceTest, findMethodTest) {
   EXPECT_STREQ(mShapeInterface->findMethod("foo")->getName().c_str(), "foo");
   EXPECT_NE(mShapeInterface->findMethod("bar"), nullptr);
   EXPECT_EQ(mShapeInterface->findMethod("zzz"), nullptr);
+}
+
+TEST_F(InterfaceTest, findConstantTest) {
+  ASSERT_NE(mShapeInterface->findConstant("MYCONSTANT"), nullptr);
+}
+
+TEST_F(InterfaceTest, findConstantDeathTest) {
+  EXPECT_EXIT(mShapeInterface->findConstant("MYCONSTANT2"),
+              ::testing::ExitedWithCode(1),
+              "Error: Interface systems.vos.wisey.compiler.tests.IShape "
+              "does not have constant named MYCONSTANT2");
 }
 
 TEST_F(InterfaceTest, getMethodIndexTest) {
@@ -272,18 +293,11 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
 }
 
 TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
-  NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
-  PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  ConstantDeclaration* constantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS,
-                                                                     intSpecifier,
-                                                                     "MY_CONSTANT",
-                                                                     mockExpression);
-
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
   vector<IObjectElementDeclaration*> elements;
   elements.push_back(mBarMethod);
-  elements.push_back(constantDeclaration);
+  elements.push_back(mConstantDeclaration);
   vector<InterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
   

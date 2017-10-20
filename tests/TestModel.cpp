@@ -20,7 +20,9 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/Constant.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
@@ -60,6 +62,7 @@ struct ModelTest : public Test {
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   NiceMock<MockExpression>* mField3Expression;
+  wisey::Constant* mConstant;
   BasicBlock *mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -177,6 +180,14 @@ struct ModelTest : public Test {
     mContext.addInterface(mCarInterface);
     mCarInterface->buildMethods(mContext);
 
+    IntConstant* intConstant = new IntConstant(5);
+    mConstant = new wisey::Constant(PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    "MYCONSTANT",
+                                    intConstant);
+    vector<wisey::Constant*> constants;
+    constants.push_back(mConstant);
+
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
@@ -184,6 +195,7 @@ struct ModelTest : public Test {
     mModel->setFields(fields, interfaces.size());
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
+    mModel->setConstants(constants);
 
     string cirlceFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
@@ -348,6 +360,21 @@ TEST_F(ModelTest, getFieldIndexTest) {
 TEST_F(ModelTest, findMethodTest) {
   EXPECT_EQ(mModel->findMethod("foo"), mMethod);
   EXPECT_EQ(mModel->findMethod("get"), nullptr);
+}
+
+TEST_F(ModelTest, findConstantTest) {
+  EXPECT_EQ(mModel->findConstant("MYCONSTANT"), mConstant);
+}
+
+TEST_F(ModelTest, findConstantDeathTest) {
+  Mock::AllowLeak(mField1Expression);
+  Mock::AllowLeak(mField2Expression);
+  Mock::AllowLeak(mField3Expression);
+
+  EXPECT_EXIT(mModel->findConstant("MYCONSTANT2"),
+              ::testing::ExitedWithCode(1),
+              "Error: Model systems.vos.wisey.compiler.tests.MSquare "
+              "does not have constant named MYCONSTANT2");
 }
 
 TEST_F(ModelTest, getMissingFieldsTest) {

@@ -47,6 +47,11 @@ Controller::~Controller() {
   mNameToMethodMap.clear();
   mInterfaces.clear();
   mFlattenedInterfaceHierarchy.clear();
+  for (Constant* constant : mConstants) {
+    delete constant;
+  }
+  mConstants.clear();
+  mNameToConstantMap.clear();
 }
 
 Controller* Controller::newController(string name, StructType* structType) {
@@ -103,10 +108,21 @@ void Controller::setStructBodyTypes(vector<Type*> types) {
 
 void Controller::setConstants(vector<Constant*> constants) {
   mConstants = constants;
+  for (Constant* constant : constants) {
+    mNameToConstantMap[constant->getName()] = constant;
+  }
 }
 
 vector<wisey::Constant*> Controller::getConstants() const {
   return mConstants;
+}
+
+wisey::Constant* Controller::findConstant(string constantName) const {
+  if (!mNameToConstantMap.count(constantName)) {
+    Log::e("Controller " + mName + " does not have constant named " + constantName);
+    exit(1);
+  }
+  return mNameToConstantMap.at(constantName);
 }
 
 Instruction* Controller::inject(IRGenerationContext& context, ExpressionList received) const {

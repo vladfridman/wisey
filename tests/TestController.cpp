@@ -17,7 +17,9 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/Constant.hpp"
 #include "wisey/Controller.hpp"
+#include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -53,6 +55,7 @@ struct ControllerTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock *mBasicBlock;
+  wisey::Constant* mConstant;
   string mStringBuffer;
   Function* mFunction;
   raw_string_ostream* mStringStream;
@@ -153,10 +156,19 @@ struct ControllerTest : public Test {
     interfaces.push_back(mScienceCalculatorInterface);
     interfaces.push_back(mObjectInterface);
     
+    IntConstant* intConstant = new IntConstant(5);
+    mConstant = new wisey::Constant(PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    "MYCONSTANT",
+                                    intConstant);
+    vector<wisey::Constant*> constants;
+    constants.push_back(mConstant);
+    
     mMultiplierController = Controller::newController(multiplierFullName, mStructType);
     mMultiplierController->setFields(fields, interfaces.size());
     mMultiplierController->setMethods(methods);
     mMultiplierController->setInterfaces(interfaces);
+    mMultiplierController->setConstants(constants);
     
     vector<Type*> additorTypes;
     additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -229,7 +241,7 @@ TEST_F(ControllerTest, getNameTest) {
                "systems.vos.wisey.compiler.tests.CMultiplier");
 }
 
-TEST_F(ControllerTest, ) {
+TEST_F(ControllerTest, getShortNameTest) {
   EXPECT_STREQ(mMultiplierController->getShortName().c_str(),
                "CMultiplier");
 }
@@ -279,6 +291,17 @@ TEST_F(ControllerTest, findFeildTest) {
 TEST_F(ControllerTest, findMethodTest) {
   EXPECT_EQ(mMultiplierController->findMethod("calculate"), mMethod);
   EXPECT_EQ(mMultiplierController->findMethod("bar"), nullptr);
+}
+
+TEST_F(ControllerTest, findConstantTest) {
+  EXPECT_EQ(mMultiplierController->findConstant("MYCONSTANT"), mConstant);
+}
+
+TEST_F(ControllerTest, findConstantDeathTest) {
+  EXPECT_EXIT(mMultiplierController->findConstant("MYCONSTANT2"),
+              ::testing::ExitedWithCode(1),
+              "Error: Controller systems.vos.wisey.compiler.tests.CMultiplier "
+              "does not have constant named MYCONSTANT2");
 }
 
 TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {

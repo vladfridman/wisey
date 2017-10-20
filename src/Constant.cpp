@@ -27,6 +27,18 @@ mExpression(expression) { }
 
 Constant::~Constant() { }
 
+AccessLevel Constant::getAccessLevel() const {
+  return mAccessLevel;
+}
+
+string Constant::getName() const {
+  return mName;
+}
+
+const IType* Constant::getType() const {
+  return mType;
+}
+
 ObjectElementType Constant::getObjectElementType() const {
   return OBJECT_ELEMENT_CONSTANT;
 }

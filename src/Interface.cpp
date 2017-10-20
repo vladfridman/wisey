@@ -52,6 +52,7 @@ Interface::~Interface() {
     delete constant;
   }
   mConstants.clear();
+  mNameToConstantMap.clear();
 }
 
 Interface* Interface::newInterface(string name,
@@ -91,7 +92,10 @@ void Interface::buildMethods(IRGenerationContext& context) {
 
   mMethodSignatures = get<0>(elements);
   mConstants = get<1>(elements);
-  
+  for (Constant* constant : mConstants) {
+    mNameToConstantMap[constant->getName()] = constant;
+  }
+
   for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
     if (!parentInterface->isComplete()) {
@@ -127,6 +131,14 @@ void Interface::buildMethods(IRGenerationContext& context) {
   mElementDeclarations.clear();
   mParentInterfaceSpecifiers.clear();
   mIsComplete = true;
+}
+
+wisey::Constant* Interface::findConstant(string constantName) const {
+  if (!mNameToConstantMap.count(constantName)) {
+    Log::e("Interface " + mName + " does not have constant named " + constantName);
+    exit(1);
+  }
+  return mNameToConstantMap.at(constantName);
 }
 
 bool Interface::isComplete() const {
@@ -186,6 +198,12 @@ MethodSignature* Interface::findMethod(std::string methodName) const {
   }
   
   return mNameToMethodSignatureMap.at(methodName);
+}
+
+void Interface::generateConstantsIR(IRGenerationContext& context) const {
+  for (Constant* constant : mConstants) {
+    constant->generateIR(context, this);
+  }
 }
 
 vector<list<llvm::Constant*>> Interface::generateMapFunctionsIR(IRGenerationContext& context,

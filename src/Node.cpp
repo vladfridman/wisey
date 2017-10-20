@@ -43,6 +43,11 @@ Node::~Node() {
   mNameToMethodMap.clear();
   mInterfaces.clear();
   mFlattenedInterfaceHierarchy.clear();
+  for (Constant* constant : mConstants) {
+    delete constant;
+  }
+  mConstants.clear();
+  mNameToConstantMap.clear();
 }
 
 Node* Node::newNode(string name, StructType* structType) {
@@ -109,6 +114,17 @@ void Node::setStructBodyTypes(vector<Type*> types) {
 
 void Node::setConstants(vector<Constant*> constants) {
   mConstants = constants;
+  for (Constant* constant : constants) {
+    mNameToConstantMap[constant->getName()] = constant;
+  }
+}
+
+wisey::Constant* Node::findConstant(string constantName) const {
+  if (!mNameToConstantMap.count(constantName)) {
+    Log::e("Node " + mName + " does not have constant named " + constantName);
+    exit(1);
+  }
+  return mNameToConstantMap.at(constantName);
 }
 
 vector<wisey::Constant*> Node::getConstants() const {

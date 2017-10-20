@@ -41,6 +41,7 @@ class Controller : public IConcreteObjectType, public IInjectable {
   std::vector<Interface*> mInterfaces;
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
   std::vector<Constant*> mConstants;
+  std::map<std::string, Constant*> mNameToConstantMap;
   
 public:
   
@@ -78,6 +79,8 @@ public:
   std::vector<Field*> getFields() const override;
   
   IMethod* findMethod(std::string methodName) const override;
+  
+  Constant* findConstant(std::string constantName) const override;
   
   std::vector<IMethod*> getMethods() const override;
   

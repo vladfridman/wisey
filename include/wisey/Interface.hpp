@@ -43,6 +43,7 @@ class Interface : public IObjectType, public IInjectable {
   std::map<IMethodDescriptor*, unsigned long> mMethodIndexes;
   std::map<std::string, MethodSignature*> mNameToMethodSignatureMap;
   std::vector<wisey::Constant*> mConstants;
+  std::map<std::string, Constant*> mNameToConstantMap;
   bool mIsComplete;
   
 public:
@@ -117,10 +118,17 @@ public:
    */
   static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
 
+  /**
+   * Generate IR for constants defined in this interface
+   */
+  void generateConstantsIR(IRGenerationContext& context) const;
+  
   llvm::Instruction* inject(IRGenerationContext& context,
                             ExpressionList expressionList) const override;
 
   MethodSignature* findMethod(std::string methodName) const override;
+  
+  Constant* findConstant(std::string constantName) const override;
 
   std::string getObjectNameGlobalVariableName() const override;
   

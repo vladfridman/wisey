@@ -17,7 +17,9 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/Constant.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodSignature.hpp"
@@ -57,6 +59,7 @@ struct NodeTest : public Test {
   BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
+  wisey::Constant* mConstant;
   string mStringBuffer;
   Function* mFunction;
   raw_string_ostream* mStringStream;
@@ -159,10 +162,19 @@ struct NodeTest : public Test {
     interfaces.push_back(mComplicatedElementInterface);
     interfaces.push_back(mObjectInterface);
     
+    IntConstant* intConstant = new IntConstant(5);
+    mConstant = new wisey::Constant(PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    "MYCONSTANT",
+                                    intConstant);
+    vector<wisey::Constant*> constants;
+    constants.push_back(mConstant);
+    
     mComplicatedNode = Node::newNode(complicatedNodeFullName, mStructType);
     mComplicatedNode->setFields(fields, interfaces.size());
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
+    mComplicatedNode->setConstants(constants);
     
     vector<Type*> simpleNodeTypes;
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -288,6 +300,20 @@ TEST_F(NodeTest, findFeildTest) {
   EXPECT_EQ(mComplicatedNode->findField("mLeft"), mLeftField);
   EXPECT_EQ(mComplicatedNode->findField("mRight"), mRightField);
   EXPECT_EQ(mComplicatedNode->findField("mDepth"), nullptr);
+}
+
+TEST_F(NodeTest, findConstantTest) {
+  EXPECT_EQ(mComplicatedNode->findConstant("MYCONSTANT"), mConstant);
+}
+
+TEST_F(NodeTest, findConstantDeathTest) {
+  Mock::AllowLeak(mField1Expression);
+  Mock::AllowLeak(mField2Expression);
+  
+  EXPECT_EXIT(mComplicatedNode->findConstant("MYCONSTANT2"),
+              ::testing::ExitedWithCode(1),
+              "Error: Node systems.vos.wisey.compiler.tests.NComplicatedNode "
+              "does not have constant named MYCONSTANT2");
 }
 
 TEST_F(NodeTest, getFieldIndexTest) {

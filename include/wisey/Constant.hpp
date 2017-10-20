@@ -35,19 +35,25 @@ public:
   
   ~Constant();
   
-  ObjectElementType getObjectElementType() const override;
-  
-  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-  
   /**
    * Generates IR defining a global llvm constant for this constant
    */
   llvm::Value* generateIR(IRGenerationContext& context, const IObjectType* objectType) const;
   
+  std::string getName() const;
+  
+  const IType* getType() const;
+  
+  AccessLevel getAccessLevel() const;
+
   /**
    * Returns global llvm constant name for this constant
    */
   std::string getConstantGlobalName(const IObjectType* objectType) const;
+  
+  ObjectElementType getObjectElementType() const override;
+  
+  void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 };
 
 } /* namespace wisey */

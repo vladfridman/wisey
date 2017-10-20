@@ -69,7 +69,7 @@ struct InstanceOfTest : public Test {
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
-}
+  }
 };
 
 TEST_F(InstanceOfTest, callTest) {
