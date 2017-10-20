@@ -21,7 +21,7 @@ IVariable* NullExpression::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-Value* NullExpression::generateIR(IRGenerationContext& context) const {
+llvm::Constant* NullExpression::generateIR(IRGenerationContext& context) const {
   return ConstantExpr::getNullValue(getType(context)->getLLVMType(context.getLLVMContext()));
 }
 

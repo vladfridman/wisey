@@ -27,7 +27,7 @@ IVariable* wisey::StringLiteral::getVariable(IRGenerationContext& context) const
   return NULL;
 }
 
-Value* wisey::StringLiteral::generateIR(IRGenerationContext& context) const {
+llvm::Constant* wisey::StringLiteral::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, mValue);
   GlobalVariable* globalVariableString =
