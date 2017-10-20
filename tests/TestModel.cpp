@@ -587,6 +587,8 @@ TEST_F(ModelTest, printToStreamTest) {
                "  fixed int mWidth;\n"
                "  fixed int mHeight;\n"
                "\n"
+               "  public constant int MYCONSTANT = 5;\n"
+               "\n"
                "  int foo();\n"
                 "}\n",
                stringStream.str().c_str());

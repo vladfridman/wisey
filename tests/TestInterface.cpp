@@ -33,6 +33,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::Invoke;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Test;
 
@@ -48,11 +51,14 @@ struct InterfaceTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
+  NiceMock<MockExpression>* mMockExpression;
   ConstantDeclaration* mConstantDeclaration;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  InterfaceTest() : mLLVMContext(mContext.getLLVMContext()) {
+  InterfaceTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mMockExpression(new NiceMock<MockExpression>()) {
     TestPrefix::run(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
@@ -82,12 +88,13 @@ struct InterfaceTest : public Test {
     mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);
     vector<IObjectElementDeclaration*> shapeElements;
 
-    NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
+    mMockExpression = new NiceMock<MockExpression>();
+    ON_CALL(*mMockExpression, printToStream(_,_)).WillByDefault(Invoke(printExpression));
     intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     mConstantDeclaration = new ConstantDeclaration(PUBLIC_ACCESS,
                                                    intSpecifier,
                                                    "MYCONSTANT",
-                                                   mockExpression);
+                                                   mMockExpression);
     shapeElements.push_back(mConstantDeclaration);
     shapeElements.push_back(mFooMethod);
 
@@ -125,10 +132,15 @@ struct InterfaceTest : public Test {
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
-}
+  }
   
   ~InterfaceTest() {
+    delete mMockExpression;
     delete mStringStream;
+  }
+
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
+    stream << "5";
   }
 };
 
@@ -154,6 +166,8 @@ TEST_F(InterfaceTest, findConstantTest) {
 }
 
 TEST_F(InterfaceTest, findConstantDeathTest) {
+  ::Mock::AllowLeak(mMockExpression);
+  
   EXPECT_EXIT(mShapeInterface->findConstant("MYCONSTANT2"),
               ::testing::ExitedWithCode(1),
               "Error: Interface systems.vos.wisey.compiler.tests.IShape "
@@ -166,6 +180,8 @@ TEST_F(InterfaceTest, getMethodIndexTest) {
 }
 
 TEST_F(InterfaceTest, getMethodIndexDeathTest) {
+  ::Mock::AllowLeak(mMockExpression);
+
   EXPECT_EXIT(mObjectInterface->getMethodIndex(mShapeInterface->findMethod("foo")),
               ::testing::ExitedWithCode(1),
               "Error: Method foo not found in interface systems.vos.wisey.compiler.tests.IObject");
@@ -240,12 +256,17 @@ TEST_F(InterfaceTest, printToStreamTest) {
   EXPECT_STREQ("external interface systems.vos.wisey.compiler.tests.IShape\n"
                "  extends\n"
                "    systems.vos.wisey.compiler.tests.IObject {\n"
+               "\n"
+               "  public constant int MYCONSTANT = 5;\n"
+               "\n"
                "  int foo();\n"
                "}\n",
                stringStream.str().c_str());
 }
 
 TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
+  ::Mock::AllowLeak(mMockExpression);
+
   PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   ExpressionList arguments;
   FieldDeclaration* fieldDeclaration = new FieldDeclaration(FieldKind::FIXED_FIELD,
@@ -267,6 +288,8 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
 }
 
 TEST_F(InterfaceTest, methodDeclarationDeathTest) {
+  ::Mock::AllowLeak(mMockExpression);
+
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableList arguments;
   vector<ModelTypeSpecifier*> thrownExceptions;
@@ -293,6 +316,8 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
 }
 
 TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
+  ::Mock::AllowLeak(mMockExpression);
+
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
   vector<IObjectElementDeclaration*> elements;

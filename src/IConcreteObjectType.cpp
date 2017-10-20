@@ -434,6 +434,14 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     field->printToStream(context, stream);
   }
   
+  if (object->getConstants().size()) {
+    stream << endl;
+  }
+  
+  for (Constant* constant : object->getConstants()) {
+    constant->printToStream(context, stream);
+  }
+  
   if (object->getMethods().size()) {
     stream << endl;
   }

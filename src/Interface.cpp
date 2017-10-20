@@ -580,6 +580,17 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
     }
   }
   stream << " {" << endl;
+  
+  if (mConstants.size()) {
+    stream << endl;
+  }
+  for (Constant* constant : mConstants) {
+    constant->printToStream(context, stream);
+  }
+
+  if (mMethodSignatures.size()) {
+    stream << endl;
+  }
   for (MethodSignature* methodSignature : mMethodSignatures) {
     methodSignature->printToStream(context, stream);
   }

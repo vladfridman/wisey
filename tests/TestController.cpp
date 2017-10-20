@@ -161,9 +161,14 @@ struct ControllerTest : public Test {
                                     PrimitiveTypes::INT_TYPE,
                                     "MYCONSTANT",
                                     intConstant);
+    wisey::Constant* privateConstant = new wisey::Constant(PRIVATE_ACCESS,
+                                                           PrimitiveTypes::INT_TYPE,
+                                                           "MYCONSTANT3",
+                                                           intConstant);
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
-    
+    constants.push_back(privateConstant);
+
     mMultiplierController = Controller::newController(multiplierFullName, mStructType);
     mMultiplierController->setFields(fields, interfaces.size());
     mMultiplierController->setMethods(methods);
@@ -528,6 +533,8 @@ TEST_F(ControllerTest, printToStreamTest) {
                "\n"
                "  receive int left;\n"
                "  receive int right;\n"
+               "\n"
+               "  public constant int MYCONSTANT = 5;\n"
                "\n"
                "  int calculate();\n"
                "  int foo();\n"

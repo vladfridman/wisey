@@ -519,6 +519,8 @@ TEST_F(NodeTest, printToStreamTest) {
                "  fixed int mLeft;\n"
                "  fixed int mRight;\n"
                "\n"
+               "  public constant int MYCONSTANT = 5;\n"
+               "\n"
                "  int getElement();\n"
                "}\n",
                stringStream.str().c_str());
