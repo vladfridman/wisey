@@ -91,6 +91,12 @@ TEST_F(BooleanConstantTest, addReferenceToOwnerDeathTest) {
               "Error: Can not add a reference to non owner type boolean constant expression");
 }
 
+TEST_F(BooleanConstantTest, isConstantTest) {
+  BooleanConstant trueConstant(true);
+
+  EXPECT_TRUE(trueConstant.isConstant());
+}
+
 TEST_F(BooleanConstantTest, printToStreamTest) {
   BooleanConstant trueConstant(true);
   BooleanConstant falseConstant(false);

@@ -59,6 +59,10 @@ bool Assignment::existsInOuterScope(IRGenerationContext& context) const {
   return mIdentifier->existsInOuterScope(context);
 }
 
+bool Assignment::isConstant() const {
+  return false;
+}
+
 void Assignment::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   mIdentifier->printToStream(context, stream);
   stream << " = ";

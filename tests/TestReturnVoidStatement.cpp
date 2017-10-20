@@ -94,7 +94,7 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   
   Type* structType = mModel->getLLVMType(mLLVMContext)
     ->getPointerElementType()->getPointerElementType();
-  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
@@ -145,7 +145,7 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreNotClearedTest) {
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
   
   Type* structType = Type::getInt8Ty(mLLVMContext);
-  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   IVariable* foo = new HeapReferenceVariable("foo", mModel, fooMalloc);
   mContext.getScopes().setVariable(foo);

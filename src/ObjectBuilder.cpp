@@ -72,6 +72,10 @@ bool ObjectBuilder::existsInOuterScope(IRGenerationContext& context) const {
   return variable->existsInOuterScope();
 }
 
+bool ObjectBuilder::isConstant() const {
+  return false;
+}
+
 void ObjectBuilder::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "builder(";
   mTypeSpecifier->printToStream(context, stream);

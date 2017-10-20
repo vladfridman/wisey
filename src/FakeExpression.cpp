@@ -41,5 +41,9 @@ bool FakeExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
+bool FakeExpression::isConstant() const {
+  return false;
+}
+
 void FakeExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
 }

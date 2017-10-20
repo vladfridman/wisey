@@ -44,6 +44,11 @@ public:
    * Add reference variable to owner object that this expression referes to
    */
   virtual void addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const = 0;
+  
+  /**
+   * Tells whether this expression returns a constant
+   */
+  virtual bool isConstant() const = 0;
 
 };
   

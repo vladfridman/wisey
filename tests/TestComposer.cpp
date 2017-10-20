@@ -64,7 +64,7 @@ public:
     mContext.getScopes().pushScope();
 
     string sourceFile = "test.yz";
-    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, sourceFile);
+    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, sourceFile);
     GlobalVariable* global = new GlobalVariable(*mContext.getModule(),
                                                 stringConstant->getType(),
                                                 true,

@@ -73,6 +73,13 @@ public:
   }
 };
 
+TEST_F(AssignmentTest, isConstantTest) {
+  Identifier* identifier = new Identifier("foo", "bar");
+  Assignment assignment(identifier, mExpression);
+
+  EXPECT_FALSE(assignment.isConstant());
+}
+
 TEST_F(AssignmentTest, getVariableTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));

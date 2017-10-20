@@ -51,6 +51,10 @@ TEST_F(NullExpressionTest, existsInOuterScopeTest) {
   ASSERT_FALSE(mNullExpression.existsInOuterScope(mContext));
 }
 
+TEST_F(NullExpressionTest, isConstantTest) {
+  EXPECT_TRUE(mNullExpression.isConstant());
+}
+
 TEST_F(NullExpressionTest, printToStreamTest) {
   stringstream stringStream;
   mNullExpression.printToStream(mContext, stringStream);

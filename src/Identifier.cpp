@@ -60,6 +60,10 @@ bool Identifier::existsInOuterScope(IRGenerationContext& context) const {
   return IVariable::getVariable(context, mName)->existsInOuterScope();
 }
 
+bool Identifier::isConstant() const {
+  return false;
+}
+
 void Identifier::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << mName;
 }

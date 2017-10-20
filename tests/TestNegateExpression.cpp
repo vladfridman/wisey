@@ -102,6 +102,12 @@ TEST_F(NegateExpressionTest, existsInOuterScopeTest) {
   EXPECT_FALSE(negateExpression.existsInOuterScope(mContext));
 }
 
+TEST_F(NegateExpressionTest, isConstantTest) {
+  NegateExpression negateExpression(mExpression);
+
+  EXPECT_FALSE(negateExpression.isConstant());
+}
+
 TEST_F(NegateExpressionTest, printToStreamTest) {
   NegateExpression negateExpression(mExpression);
 

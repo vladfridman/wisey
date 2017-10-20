@@ -112,6 +112,10 @@ bool TypeComparisionExpression::existsInOuterScope(IRGenerationContext& context)
   return false;
 }
 
+bool TypeComparisionExpression::isConstant() const {
+  return false;
+}
+
 void TypeComparisionExpression::printToStream(IRGenerationContext& context,
                                               std::iostream& stream) const {
   mExpression->printToStream(context, stream);

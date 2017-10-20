@@ -111,6 +111,10 @@ bool AdditiveMultiplicativeExpression::existsInOuterScope(IRGenerationContext& c
   return false;
 }
 
+bool AdditiveMultiplicativeExpression::isConstant() const {
+  return false;
+}
+
 void AdditiveMultiplicativeExpression::printToStream(IRGenerationContext& context,
                                                      std::iostream& stream) const {
   mLeftExpression->printToStream(context, stream);

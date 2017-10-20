@@ -206,6 +206,10 @@ bool StaticMethodCall::existsInOuterScope(IRGenerationContext& context) const {
   return true;
 }
 
+bool StaticMethodCall::isConstant() const {
+  return false;
+}
+
 void StaticMethodCall::printToStream(IRGenerationContext& context,
                                      std::iostream& stream) const {
   mObjectTypeSpecifier->printToStream(context, stream);

@@ -190,7 +190,8 @@ struct ModelTest : public Test {
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
     mCircleModel = Model::newModel(cirlceFullName, circleStructType);
-    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, cirlceFullName + ".name");
+    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                  cirlceFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,

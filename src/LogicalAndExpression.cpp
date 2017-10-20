@@ -74,6 +74,10 @@ bool LogicalAndExpression::existsInOuterScope(IRGenerationContext& context) cons
   return false;
 }
 
+bool LogicalAndExpression::isConstant() const {
+  return false;
+}
+
 void LogicalAndExpression::printToStream(IRGenerationContext& context,
                                          std::iostream& stream) const {
   mLeftExpression->printToStream(context, stream);

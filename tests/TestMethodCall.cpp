@@ -145,7 +145,7 @@ public:
     mContext.getScopes().setVariable(threadVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();
-    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getName());
+    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getName());
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,
@@ -302,6 +302,12 @@ TEST_F(MethodCallTest, existsInOuterScopeTest) {
   
   ON_CALL(*mExpression, existsInOuterScope(_)).WillByDefault(Return(true));
   EXPECT_TRUE(methodCall.existsInOuterScope(mContext));
+}
+
+TEST_F(MethodCallTest, isConstantTest) {
+  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
+
+  EXPECT_FALSE(methodCall.isConstant());
 }
 
 TEST_F(MethodCallTest, printToStreamTest) {

@@ -121,6 +121,12 @@ TEST_F(IdentifierTest, addReferenceToOwnerTest) {
   EXPECT_EQ(owners.begin()->second, &mockVariable);
 }
 
+TEST_F(IdentifierTest, isConstantTest) {
+  Identifier* identifier = new Identifier("foo", "foo");
+
+  EXPECT_FALSE(identifier->isConstant());
+}
+
 TEST_F(IdentifierTest, printToStreamTest) {
   Identifier identifier("foo", "bar");
 

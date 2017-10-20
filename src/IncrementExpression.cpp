@@ -77,6 +77,10 @@ bool IncrementExpression::existsInOuterScope(IRGenerationContext& context) const
   return false;
 }
 
+bool IncrementExpression::isConstant() const {
+  return false;
+}
+
 void IncrementExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   mExpression->printToStream(context, stream);
   if (mIncrementBy > 0) {

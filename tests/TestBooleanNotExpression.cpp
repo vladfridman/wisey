@@ -64,8 +64,15 @@ struct BooleanNotExpressionTest : Test {
   }
 };
 
+TEST_F(BooleanNotExpressionTest, isConstantTest) {
+  BooleanNotExpression booleanNotExpression(mExpression);
+
+  EXPECT_FALSE(booleanNotExpression.isConstant());
+}
+
 TEST_F(BooleanNotExpressionTest, getVariableTest) {
   BooleanNotExpression booleanNotExpression(mExpression);
+
   EXPECT_EQ(booleanNotExpression.getVariable(mContext), nullptr);
 }
 

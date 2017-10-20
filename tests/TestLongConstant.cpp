@@ -52,6 +52,10 @@ TEST_F(LongConstantTest, existsInOuterScopeTest) {
   EXPECT_FALSE(mLongConstant.existsInOuterScope(mContext));
 }
 
+TEST_F(LongConstantTest, isConstantTest) {
+  EXPECT_TRUE(mLongConstant.isConstant());
+}
+
 TEST_F(LongConstantTest, printToStreamTest) {
   stringstream stringStream;
   mLongConstant.printToStream(mContext, stringStream);

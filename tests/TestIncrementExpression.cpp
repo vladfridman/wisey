@@ -159,6 +159,12 @@ TEST_F(IncrementExpressionTest, incrementExpressionTypeTest) {
   EXPECT_EQ(expression->getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
+TEST_F(IncrementExpressionTest, isConstantTest) {
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
+
+  EXPECT_FALSE(expression->isConstant());
+}
+
 TEST_F(IncrementExpressionTest, printToStreamTest) {
   IncrementExpression* incrementExpression = IncrementExpression::newIncrementByOne(mIdentifier);
   stringstream stringStreamIncrement;

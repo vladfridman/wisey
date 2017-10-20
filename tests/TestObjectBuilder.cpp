@@ -161,6 +161,10 @@ TEST_F(ObjectBuilderTest, existsInOuterScopeTest) {
   EXPECT_FALSE(mObjectBuilder->existsInOuterScope(mContext));
 }
 
+TEST_F(ObjectBuilderTest, isConstantTest) {
+  EXPECT_FALSE(mObjectBuilder->isConstant());
+}
+
 TEST_F(ObjectBuilderTest, printToStreamTest) {
   stringstream stringStream;
   mObjectBuilder->printToStream(mContext, stringStream);

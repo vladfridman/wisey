@@ -55,6 +55,10 @@ TEST_F(FakeExpressionTest, fakeExpressionTest) {
               "Error: Can not release ownership of a fake epxression");
 }
 
+TEST_F(FakeExpressionTest, isConstantTest) {
+  EXPECT_FALSE(mFakeExpression->isConstant());
+}
+
 TEST_F(FakeExpressionTest, printToStreamTest) {
   std::stringstream stringStream;
   mFakeExpression->printToStream(mContext, stringStream);

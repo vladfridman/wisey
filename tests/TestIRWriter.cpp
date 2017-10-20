@@ -157,7 +157,7 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
 
 TEST_F(IRWriterTest, createMallocTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
-  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* instruction = IRWriter::createMalloc(mContext, structType, allocSize, "");
 
   EXPECT_EQ(mBasicBlock->size(), 1u);
@@ -323,7 +323,7 @@ TEST_F(IRWriterTest, newTruncInstTest) {
 }
 
 TEST_F(IRWriterTest, newFPTruncInstTest) {
-  Constant* value = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 0);
+  llvm::Constant* value = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 0);
   Type* type = Type::getFloatTy(mLLVMContext);
   CastInst* castInst = IRWriter::newFPTruncInst(mContext, value, type);
   
@@ -341,7 +341,7 @@ TEST_F(IRWriterTest, newFPTruncInstTest) {
 }
 
 TEST_F(IRWriterTest, newFPExtInstTest) {
-  Constant* value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 0);
+  llvm::Constant* value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 0);
   Type* type = Type::getDoubleTy(mLLVMContext);
   CastInst* castInst = IRWriter::newFPExtInst(mContext, value, type);
   
@@ -377,7 +377,7 @@ TEST_F(IRWriterTest, newSIToFPInstTest) {
 }
 
 TEST_F(IRWriterTest, newFPToSIInstTest) {
-  Constant* value = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 0);
+  llvm::Constant* value = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 0);
   Type* type = Type::getInt16Ty(mLLVMContext);
   CastInst* castInst = IRWriter::newFPToSIInst(mContext, value, type);
   
@@ -454,7 +454,7 @@ TEST_F(IRWriterTest, newICmpInstTest) {
 }
 
 TEST_F(IRWriterTest, newFCmpInstTest) {
-  Constant* value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 0.0);
+  llvm::Constant* value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 0.0);
   FCmpInst* fCmpInst = IRWriter::newFCmpInst(mContext, FCmpInst::FCMP_UEQ, value, value, "cmp");
   
   EXPECT_EQ(mBasicBlock->size(), 1u);

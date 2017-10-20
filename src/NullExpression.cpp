@@ -41,6 +41,10 @@ bool NullExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
+bool NullExpression::isConstant() const {
+  return true;
+}
+
 void NullExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "null";
 }

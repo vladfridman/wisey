@@ -96,6 +96,10 @@ TEST_F(ThreadExpressionTest, addReferenceToOwnerDeathTest) {
               "Error: Can not store a reference to the current thread");
 }
 
+TEST_F(ThreadExpressionTest, isConstantTest) {
+  EXPECT_FALSE(mThreadExpression.isConstant());
+}
+
 TEST_F(ThreadExpressionTest, printToStreamTest) {
   stringstream stringStream;
   mThreadExpression.printToStream(mContext, stringStream);

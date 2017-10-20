@@ -57,7 +57,8 @@ struct ThrowStatementTest : public Test {
     vector<Type*> circleTypes;
     circleStructType->setBody(circleTypes);
     mCircleModel = Model::newModel(circleFullName, circleStructType);
-    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, circleFullName + ".name");
+    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                  circleFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,
@@ -99,7 +100,7 @@ TEST_F(ThrowStatementTest, wrongExpressionTypeDeathTest) {
 }
 
 TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
-  Constant* exceptionObject =
+  llvm::Constant* exceptionObject =
     ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
@@ -129,7 +130,7 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
 TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   Type* structType = mCircleModel->getLLVMType(mLLVMContext)
     ->getPointerElementType()->getPointerElementType();
-  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
@@ -143,7 +144,7 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   IVariable* bar = new HeapOwnerVariable("bar", mCircleModel->getOwner(), barPointer);
   mContext.getScopes().setVariable(bar);
   
-  Constant* exceptionObject =
+  llvm::Constant* exceptionObject =
     ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
@@ -187,7 +188,7 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
 
 TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
-  Constant* allocSize = ConstantExpr::getSizeOf(structType);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   IVariable* foo = new HeapReferenceVariable("foo", mCircleModel, fooMalloc);
   mContext.getScopes().setVariable(foo);
@@ -197,8 +198,8 @@ TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
   IVariable* bar = new HeapReferenceVariable("bar", mCircleModel, barMalloc);
   mContext.getScopes().setVariable(bar);
   
-  Constant* exceptionObject =
-  ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
+  llvm::Constant* exceptionObject =
+    ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression);

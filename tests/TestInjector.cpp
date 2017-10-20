@@ -149,6 +149,12 @@ TEST_F(InjectorTest, existsInOuterScopeTest) {
   EXPECT_FALSE(injector.existsInOuterScope(mContext));
 }
 
+TEST_F(InjectorTest, isConstantTest) {
+  Injector injector(mInterfaceTypeSpecifier);
+
+  EXPECT_FALSE(injector.isConstant());
+}
+
 TEST_F(InjectorTest, printToStreamTest) {
   Injector injector(mInterfaceTypeSpecifier);
 

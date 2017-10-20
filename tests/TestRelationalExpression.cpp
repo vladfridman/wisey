@@ -148,6 +148,12 @@ TEST_F(RelationalExpressionTest, floatLessThanTest) {
                "  %cmp = fcmp olt float 0x40099999A0000000, 0x4016666660000000");
 }
 
+TEST_F(RelationalExpressionTest, isConstantTest) {
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LE, mRightExpression);
+
+  EXPECT_FALSE(expression.isConstant());
+}
+
 TEST_F(RelationalExpressionTest, printToStreamTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LE, mRightExpression);
 

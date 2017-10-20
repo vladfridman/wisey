@@ -361,6 +361,10 @@ bool MethodCall::existsInOuterScope(IRGenerationContext& context) const {
   return mExpression->existsInOuterScope(context);
 }
 
+bool MethodCall::isConstant() const {
+  return false;
+}
+
 void MethodCall::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   mExpression->printToStream(context, stream);
   stream << "." << mMethodName << "(";

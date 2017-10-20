@@ -57,6 +57,10 @@ bool BooleanNotExpression::existsInOuterScope(IRGenerationContext& context) cons
   return false;
 }
 
+bool BooleanNotExpression::isConstant() const {
+  return false;
+}
+
 void BooleanNotExpression::printToStream(IRGenerationContext& context,
                                          std::iostream& stream) const {
   stream << "!";

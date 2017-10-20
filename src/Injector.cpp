@@ -68,6 +68,10 @@ bool Injector::existsInOuterScope(IRGenerationContext& context) const {
   return context.getScopes().getVariable(variableName)->existsInOuterScope();
 }
 
+bool Injector::isConstant() const {
+  return false;
+}
+
 void Injector::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "inject(";
   mInjectableObjectTypeSpecifier->printToStream(context, stream);

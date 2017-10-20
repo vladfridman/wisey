@@ -255,6 +255,12 @@ TEST_F(ConditionalExpressionTest, addReferenceToOwnersTest) {
   expression.addReferenceToOwner(mContext, mVariable);
 }
 
+TEST_F(ConditionalExpressionTest, isConstantTest) {
+  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
+
+  EXPECT_FALSE(expression.isConstant());
+}
+
 TEST_F(ConditionalExpressionTest, printToStreamTest) {
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
 

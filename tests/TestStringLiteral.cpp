@@ -75,6 +75,12 @@ TEST_F(StringLiteralTest, existsInOuterScopeTest) {
   EXPECT_FALSE(stringLiteral.existsInOuterScope(mContext));
 }
 
+TEST_F(StringLiteralTest, isConstantTest) {
+  StringLiteral stringLiteral("test");
+
+  EXPECT_TRUE(stringLiteral.isConstant());
+}
+
 TEST_F(StringLiteralTest, printToStreamTest) {
   StringLiteral stringLiteral("test");
 

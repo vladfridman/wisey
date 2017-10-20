@@ -52,6 +52,10 @@ TEST_F(DoubleConstantTest, existsInOuterScopeTest) {
   EXPECT_FALSE(mDoubleConstant.existsInOuterScope(mContext));
 }
 
+TEST_F(DoubleConstantTest, isConstantTest) {
+  EXPECT_TRUE(mDoubleConstant.isConstant());
+}
+
 TEST_F(DoubleConstantTest, printToStreamTest) {
   stringstream stringStream;
   mDoubleConstant.printToStream(mContext, stringStream);

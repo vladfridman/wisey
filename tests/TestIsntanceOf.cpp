@@ -49,8 +49,8 @@ struct InstanceOfTest : public Test {
                                                parentInterfaces,
                                                interfaceElements);
 
-    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
-                                                            mShapeInterface->getName());
+    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                  mShapeInterface->getName());
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,

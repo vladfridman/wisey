@@ -87,6 +87,12 @@ public:
   }
 };
 
+TEST_F(CastExpressionTest, isConstantTest) {
+  CastExpression castExpression(mTypeSpecifier, mExpression);
+
+  EXPECT_FALSE(castExpression.isConstant());
+}
+
 TEST_F(CastExpressionTest, getVariableTest) {
   CastExpression castExpression(mTypeSpecifier, mExpression);
   EXPECT_EQ(castExpression.getVariable(mContext), nullptr);

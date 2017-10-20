@@ -296,6 +296,13 @@ TEST_F(TypeComparisionExpressionTest, existsInOuterScopeTest) {
   EXPECT_FALSE(typeComparision.existsInOuterScope(mContext));
 }
 
+TEST_F(TypeComparisionExpressionTest, isConstantTest) {
+  NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
+  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
+
+  EXPECT_FALSE(typeComparision.isConstant());
+}
+
 TEST_F(TypeComparisionExpressionTest, printToStreamTest) {
   NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);

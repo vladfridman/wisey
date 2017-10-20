@@ -36,7 +36,7 @@ struct IObjectTypeTest : public Test {
   IObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     ON_CALL(mMockObject, getObjectNameGlobalVariableName()).WillByDefault(Return("test"));
     
-    Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, "test");
+    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, "test");
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,
@@ -49,7 +49,7 @@ struct IObjectTypeTest : public Test {
 };
 
 TEST_F(IObjectTypeTest, getObjectNamePointerTest) {
-  Constant* constant = IObjectType::getObjectNamePointer(&mMockObject, mContext);
+  llvm::Constant* constant = IObjectType::getObjectNamePointer(&mMockObject, mContext);
   
   *mStringStream << *constant;
   string expected = "i8* getelementptr inbounds ([5 x i8], [5 x i8]* @test, i32 0, i32 0)";

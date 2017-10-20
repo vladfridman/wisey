@@ -42,6 +42,10 @@ bool IntConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
+bool IntConstant::isConstant() const {
+  return true;
+}
+
 void IntConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << mValue;
 }

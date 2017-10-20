@@ -151,6 +151,12 @@ TEST_F(LogicalAndExpressionTest, existsInOuterScopeTest) {
   EXPECT_FALSE(expression.existsInOuterScope(mContext));
 }
 
+TEST_F(LogicalAndExpressionTest, isConstantTest) {
+  LogicalAndExpression expression(mLeftExpression, mRightExpression);
+  
+  EXPECT_FALSE(expression.isConstant());
+}
+
 TEST_F(LogicalAndExpressionTest, printToStreamTest) {
   LogicalAndExpression expression(mLeftExpression, mRightExpression);
   

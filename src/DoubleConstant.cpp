@@ -42,6 +42,10 @@ bool DoubleConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
+bool DoubleConstant::isConstant() const {
+  return true;
+}
+
 void DoubleConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << mValue << "d";
 }

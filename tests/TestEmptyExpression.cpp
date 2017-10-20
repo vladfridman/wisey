@@ -40,6 +40,10 @@ TEST_F(EmptyExpressionTest, existsInOuterScopeTest) {
   EXPECT_FALSE(mEmptyExpression.existsInOuterScope(mContext));
 }
 
+TEST_F(EmptyExpressionTest, isConstantTest) {
+  EXPECT_FALSE(mEmptyExpression.isConstant());
+}
+
 TEST_F(EmptyExpressionTest, printToStreamTest) {
   std::stringstream stringStream;
   mEmptyExpression.printToStream(mContext, stringStream);

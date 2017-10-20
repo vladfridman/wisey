@@ -42,6 +42,10 @@ bool CharConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
+bool CharConstant::isConstant() const {
+  return true;
+}
+
 void CharConstant::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "'" << mValue << "'";
 }

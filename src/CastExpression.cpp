@@ -56,6 +56,10 @@ bool CastExpression::existsInOuterScope(IRGenerationContext& context) const {
   return mExpression->existsInOuterScope(context);
 }
 
+bool CastExpression::isConstant() const {
+  return false;
+}
+
 void CastExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "(";
   mTypeSpecifier->printToStream(context, stream);

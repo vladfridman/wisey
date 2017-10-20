@@ -42,6 +42,10 @@ bool ThreadExpression::existsInOuterScope(IRGenerationContext& context) const {
   return IVariable::getVariable(context, THREAD)->existsInOuterScope();
 }
 
+bool ThreadExpression::isConstant() const {
+  return false;
+}
+
 void ThreadExpression::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << THREAD;
 }
