@@ -1,10 +1,12 @@
 /* Interfaces */
 
 external interface wisey.lang.IException {
+
   string getName();
 }
 
 external interface wisey.lang.IProgram {
+
   int run();
 }
 
