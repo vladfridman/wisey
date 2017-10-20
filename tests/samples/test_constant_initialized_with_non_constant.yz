@@ -1,0 +1,5 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  public constant int MY_PUBLIC_CONSTANT = 2 * 3;
+}

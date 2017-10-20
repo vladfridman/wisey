@@ -15,6 +15,7 @@
 
 #include "MockExpression.hpp"
 #include "MockObjectType.hpp"
+#include "TestFileSampleRunner.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -23,6 +24,7 @@ using namespace wisey;
 
 using ::testing::_;
 using ::testing::Invoke;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -78,6 +80,16 @@ TEST_F(ConstantTest, generateIRTest) {
   EXPECT_NE(mContext.getModule()->getNamedGlobal("constant.MObject.MYCONSTANT"), nullptr);
 }
 
+TEST_F(ConstantTest, generateIRForNonConstantExpressionDeathTest) {
+  Mock::AllowLeak(mExpression);
+  Mock::AllowLeak(mObject);
+  ON_CALL(*mExpression, isConstant()).WillByDefault(Return(false));
+
+  EXPECT_EXIT(mConstant->generateIR(mContext, mObject),
+              ::testing::ExitedWithCode(1),
+              "Error: Constant is initialized with a non-constant expression");
+}
+
 TEST_F(ConstantTest, printPublicConstantToStreamTest) {
   stringstream stringStream;
   mConstant->printToStream(mContext, stringStream);
@@ -91,4 +103,10 @@ TEST_F(ConstantTest, printPrivateConstantToStreamTest) {
   constant->printToStream(mContext, stringStream);
 
   EXPECT_EQ(stringStream.str().size(), 0u);
+}
+
+TEST_F(TestFileSampleRunner, constantInitializedWithNonConstantDeathRunTest) {
+  expectFailCompile("tests/samples/test_constant_initialized_with_non_constant.yz",
+                    1,
+                    "Error: Constant is initialized with a non-constant expression");
 }
