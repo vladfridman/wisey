@@ -32,6 +32,7 @@ public:
   MOCK_CONST_METHOD0(getTypeTableName, std::string ());
   MOCK_CONST_METHOD1(findMethod, wisey::IMethod* (std::string));
   MOCK_CONST_METHOD0(getMethods, std::vector<wisey::IMethod*> ());
+  MOCK_CONST_METHOD0(getConstants, std::vector<wisey::Constant*> ());
 
   MOCK_CONST_METHOD0(getObjectNameGlobalVariableName, std::string ());
   MOCK_CONST_METHOD0(getOwner, const wisey::IObjectOwnerType* ());
@@ -50,6 +51,7 @@ public:
   MOCK_METHOD1(setInterfaces, void (std::vector<wisey::Interface*>));
   MOCK_METHOD1(setMethods, void (std::vector<wisey::IMethod*>));
   MOCK_METHOD1(setStructBodyTypes, void (std::vector<llvm::Type*>));
+  MOCK_METHOD1(setConstants, void (std::vector<wisey::Constant*>));
 };
 
 #endif /* MockConcreteObjectType_h */

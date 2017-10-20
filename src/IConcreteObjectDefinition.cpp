@@ -26,6 +26,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   
   object->setInterfaces(interfaces);
   object->setMethods(get<2>(elements));
+  object->setConstants(get<0>(elements));
   
   vector<llvm::Type*> types;
   for (Interface* interface : object->getInterfaces()) {

@@ -40,6 +40,7 @@ class Controller : public IConcreteObjectType, public IInjectable {
   std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
+  std::vector<Constant*> mConstants;
   
 public:
   
@@ -65,7 +66,11 @@ public:
   void setMethods(std::vector<IMethod*> methods) override;
   
   void setStructBodyTypes(std::vector<llvm::Type*> types) override;
+
+  void setConstants(std::vector<Constant*> constants) override;
   
+  std::vector<Constant*> getConstants() const override;
+
   Field* findField(std::string fieldName) const override;
   
   unsigned long getFieldIndex(Field* field) const override;

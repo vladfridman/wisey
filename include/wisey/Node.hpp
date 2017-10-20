@@ -40,7 +40,8 @@ class Node : public IBuildableConcreteObjectType {
   std::map<std::string, IMethod*> mNameToMethodMap;
   std::vector<Interface*> mInterfaces;
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
-  
+  std::vector<Constant*> mConstants;
+
 public:
   
   ~Node();
@@ -68,6 +69,10 @@ public:
   
   void setStructBodyTypes(std::vector<llvm::Type*> types) override;
   
+  void setConstants(std::vector<Constant*> constants) override;
+  
+  std::vector<Constant*> getConstants() const override;
+
   llvm::Instruction* build(IRGenerationContext& context,
                            const ObjectBuilderArgumentList&
                            ObjectBuilderArgumentList) const override;

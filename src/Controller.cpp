@@ -101,6 +101,14 @@ void Controller::setStructBodyTypes(vector<Type*> types) {
   mStructType->setBody(types);
 }
 
+void Controller::setConstants(vector<Constant*> constants) {
+  mConstants = constants;
+}
+
+vector<wisey::Constant*> Controller::getConstants() const {
+  return mConstants;
+}
+
 Instruction* Controller::inject(IRGenerationContext& context, ExpressionList received) const {
   checkArguments(received);
   Instruction* malloc = createMalloc(context);

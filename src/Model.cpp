@@ -84,6 +84,14 @@ void Model::setStructBodyTypes(vector<Type *> types) {
   mStructType->setBody(types);
 }
 
+void Model::setConstants(vector<Constant*> constants) {
+  mConstants = constants;
+}
+
+vector<wisey::Constant*> Model::getConstants() const {
+  return mConstants;
+}
+
 Value* Model::getSize(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   

@@ -395,6 +395,13 @@ void IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
   }
 }
 
+void IConcreteObjectType::generateConstantsIR(IRGenerationContext& context,
+                                              const IConcreteObjectType* object) {
+  for (Constant* constant : object->getConstants()) {
+    constant->generateIR(context, object);
+  }
+}
+
 void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
                                               const IConcreteObjectType* object,
                                               iostream& stream) {

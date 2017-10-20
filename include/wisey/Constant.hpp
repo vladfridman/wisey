@@ -12,6 +12,7 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectElement.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IPrintable.hpp"
 
 namespace wisey {
@@ -38,6 +39,15 @@ public:
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   
+  /**
+   * Generates IR defining a global llvm constant for this constant
+   */
+  llvm::Value* generateIR(IRGenerationContext& context, const IObjectType* objectType) const;
+  
+  /**
+   * Returns global llvm constant name for this constant
+   */
+  std::string getConstantGlobalName(const IObjectType* objectType) const;
 };
 
 } /* namespace wisey */

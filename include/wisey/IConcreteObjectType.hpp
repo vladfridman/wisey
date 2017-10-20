@@ -11,6 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/Constant.hpp"
 #include "wisey/Field.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/IMethodDescriptor.hpp"
@@ -139,6 +140,16 @@ public:
    * Set body types of the struct that represents this object
    */
   virtual void setStructBodyTypes(std::vector<llvm::Type*> types) = 0;
+  
+  /**
+   * Sets constants defined within this object
+   */
+  virtual void setConstants(std::vector<Constant*> constants) = 0;
+  
+  /**
+   * Returns constants defined within this object
+   */
+  virtual std::vector<Constant*> getConstants() const = 0;
 
   /**
    * Generate global variable with the name of the given object
@@ -202,6 +213,11 @@ public:
    */
   static void generateMethodsIR(IRGenerationContext& context, const IConcreteObjectType* object);
   
+  /**
+   * Generates IR for constants defined in the object
+   */
+  static void generateConstantsIR(IRGenerationContext& context, const IConcreteObjectType* object);
+
   /**
    * Print the given object to the given stream
    */

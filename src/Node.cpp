@@ -107,6 +107,14 @@ void Node::setStructBodyTypes(vector<Type*> types) {
   mStructType->setBody(types);
 }
 
+void Node::setConstants(vector<Constant*> constants) {
+  mConstants = constants;
+}
+
+vector<wisey::Constant*> Node::getConstants() const {
+  return mConstants;
+}
+
 Field* Node::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;
