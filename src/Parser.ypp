@@ -199,7 +199,7 @@
 %type <object_element_list> object_element_declaration_list 
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
-%type <type_specifier> type_specifier primitive_type_specifier
+%type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier
 %type <buildable_concrete_object_type_specifier> buildable_concrete_object_type_specifier
 %type <injectable_object_type_specifier> injectable_object_type_specifier
 %type <object_type_specifier> object_type_specifier
@@ -862,8 +862,12 @@ call_arguments
 
 type_specifier
   : primitive_type_specifier
-  | object_type_specifier '*' { $$ = new OwnerTypeSpecifier($1); }
   | object_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | object_owner_type_specifier
+  ;
+
+object_owner_type_specifier
+  : object_type_specifier '*' { $$ = new OwnerTypeSpecifier($1); }
   ;
 
 object_type_specifier
