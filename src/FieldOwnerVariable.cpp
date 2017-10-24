@@ -1,5 +1,5 @@
 //
-//  OwnerFieldVariable.cpp
+//  FieldOwnerVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/6/17.
@@ -11,29 +11,29 @@
 
 #include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
+#include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/OwnerFieldVariable.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-string OwnerFieldVariable::getName() const {
+string FieldOwnerVariable::getName() const {
   return mName;
 }
 
-const IType* OwnerFieldVariable::getType() const {
+const IType* FieldOwnerVariable::getType() const {
   return mObject->findField(mName)->getType();
 }
 
-Value* OwnerFieldVariable::getValue() const {
+Value* FieldOwnerVariable::getValue() const {
   return mValue;
 }
 
-Value* OwnerFieldVariable::generateIdentifierIR(IRGenerationContext& context,
+Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
                                                       string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
@@ -44,7 +44,7 @@ Value* OwnerFieldVariable::generateIdentifierIR(IRGenerationContext& context,
   return fieldPointer;
 }
 
-Value* OwnerFieldVariable::generateAssignmentIR(IRGenerationContext& context,
+Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 IExpression* assignToExpression) {
   Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
 
@@ -65,17 +65,17 @@ Value* OwnerFieldVariable::generateAssignmentIR(IRGenerationContext& context,
   return IRWriter::newStoreInst(context, loadedCast, fieldPointer);
 }
 
-void OwnerFieldVariable::setToNull(IRGenerationContext& context) {
+void FieldOwnerVariable::setToNull(IRGenerationContext& context) {
   PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
   Value* null = ConstantPointerNull::get(type);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   IRWriter::newStoreInst(context, null, fieldPointer);
 }
 
-void OwnerFieldVariable::free(IRGenerationContext& context) const {
+void FieldOwnerVariable::free(IRGenerationContext& context) const {
   /** Freed using object destructor */
 }
 
-bool OwnerFieldVariable::existsInOuterScope() const {
+bool FieldOwnerVariable::existsInOuterScope() const {
   return true;
 }

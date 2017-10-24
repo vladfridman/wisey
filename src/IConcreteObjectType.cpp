@@ -13,11 +13,11 @@
 #include "wisey/Cast.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/OwnerFieldVariable.hpp"
 #include "wisey/PrimitiveFieldVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
@@ -294,7 +294,7 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
     const IType* type = field->getType();
     IFieldVariable* fieldVariable = NULL;
     if (IType::isOwnerType(type)) {
-      fieldVariable = new OwnerFieldVariable(field->getName(), NULL, object);
+      fieldVariable = new FieldOwnerVariable(field->getName(), NULL, object);
     } else if (IType::isReferenceType(type)) {
       fieldVariable = new ReferenceFieldVariable(field->getName(), NULL, object);
     } else {

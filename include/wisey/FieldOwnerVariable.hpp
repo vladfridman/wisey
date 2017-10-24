@@ -1,13 +1,13 @@
 //
-//  OwnerFieldVariable.hpp
+//  FieldOwnerVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/6/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef OwnerFieldVariable_h
-#define OwnerFieldVariable_h
+#ifndef FieldOwnerVariable_h
+#define FieldOwnerVariable_h
 
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IFieldVariable.hpp"
@@ -17,7 +17,7 @@ namespace wisey {
 /**
  * Represents an object field that is of owner type
  */
-class OwnerFieldVariable : public IFieldVariable {
+class FieldOwnerVariable : public IFieldVariable {
     
   std::string mName;
   llvm::Value* mValue;
@@ -25,10 +25,10 @@ class OwnerFieldVariable : public IFieldVariable {
   
 public:
   
-  OwnerFieldVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object)
+  FieldOwnerVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object)
   : mName(name), mValue(value), mObject(object) { }
   
-  ~OwnerFieldVariable() {}
+  ~FieldOwnerVariable() {}
   
   std::string getName() const override;
   
@@ -52,4 +52,4 @@ public:
   
 } /* namespace wisey */
 
-#endif /* OwnerFieldVariable_h */
+#endif /* FieldOwnerVariable_h */

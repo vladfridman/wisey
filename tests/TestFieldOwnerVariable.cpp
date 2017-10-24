@@ -1,11 +1,11 @@
 //
-//  TestOwnerFieldVariable.cpp
+//  TestFieldOwnerVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/6/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link OwnerFieldVariable}
+//  Tests {@link FieldOwnerVariable}
 //
 
 #include <gtest/gtest.h>
@@ -17,11 +17,11 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/OwnerFieldVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -35,7 +35,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct OwnerFieldVariableTest : Test {
+struct FieldOwnerVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Node* mObject;
@@ -43,11 +43,11 @@ struct OwnerFieldVariableTest : Test {
   Interface* mInterface;
   BasicBlock* mBasicBlock;
   Value* mOwnerFieldValue;
-  OwnerFieldVariable* mOwnerFieldVariable;
+  FieldOwnerVariable* mFieldOwnerVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  OwnerFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  FieldOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
@@ -95,7 +95,7 @@ struct OwnerFieldVariableTest : Test {
     mContext.getScopes().setVariable(thisVariable);
     
     mOwnerFieldValue = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));
-    mOwnerFieldVariable = new OwnerFieldVariable("foo", mOwnerFieldValue, mObject);
+    mFieldOwnerVariable = new FieldOwnerVariable("foo", mOwnerFieldValue, mObject);
     
     vector<Type*> argumentTypes;
     argumentTypes.push_back(mNode->getLLVMType(mLLVMContext));
@@ -111,20 +111,20 @@ struct OwnerFieldVariableTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~OwnerFieldVariableTest() {
+  ~FieldOwnerVariableTest() {
     delete mStringStream;
     delete mObject;
   }
 };
 
-TEST_F(OwnerFieldVariableTest, basicFieldsTest) {
-  EXPECT_STREQ(mOwnerFieldVariable->getName().c_str(), "foo");
-  EXPECT_EQ(mOwnerFieldVariable->getType(), mNode->getOwner());
-  EXPECT_EQ(mOwnerFieldVariable->getValue(), mOwnerFieldValue);
+TEST_F(FieldOwnerVariableTest, basicFieldsTest) {
+  EXPECT_STREQ(mFieldOwnerVariable->getName().c_str(), "foo");
+  EXPECT_EQ(mFieldOwnerVariable->getType(), mNode->getOwner());
+  EXPECT_EQ(mFieldOwnerVariable->getValue(), mOwnerFieldValue);
 }
 
-TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {
-  mOwnerFieldVariable->generateIdentifierIR(mContext, "test");
+TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {
+  mFieldOwnerVariable->generateIdentifierIR(mContext, "test");
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -137,7 +137,7 @@ TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
+TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   PointerType* llvmType = (PointerType*) mNode->getOwner()->getLLVMType(mLLVMContext)
@@ -146,7 +146,7 @@ TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
-  mOwnerFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
+  mFieldOwnerVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -165,7 +165,7 @@ TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTest) {
+TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   PointerType* llvmType = mNode->getOwner()->getLLVMType(mLLVMContext)->getPointerTo();
@@ -175,8 +175,8 @@ TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTes
   
   Value* ownerFieldValue =
     ConstantPointerNull::get(mInterface->getOwner()->getLLVMType(mLLVMContext));
-  OwnerFieldVariable* ownerFieldVariable =
-    new OwnerFieldVariable("bar", ownerFieldValue, mObject);
+  FieldOwnerVariable* ownerFieldVariable =
+    new FieldOwnerVariable("bar", ownerFieldValue, mObject);
   ownerFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
@@ -198,8 +198,8 @@ TEST_F(OwnerFieldVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTes
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(OwnerFieldVariableTest, setToNullTest) {
-  mOwnerFieldVariable->setToNull(mContext);
+TEST_F(FieldOwnerVariableTest, setToNullTest) {
+  mFieldOwnerVariable->setToNull(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -214,8 +214,8 @@ TEST_F(OwnerFieldVariableTest, setToNullTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(OwnerFieldVariableTest, existsInOuterScopeTest) {
-  EXPECT_TRUE(mOwnerFieldVariable->existsInOuterScope());
+TEST_F(FieldOwnerVariableTest, existsInOuterScopeTest) {
+  EXPECT_TRUE(mFieldOwnerVariable->existsInOuterScope());
 }
 
 TEST_F(TestFileSampleRunner, objectFieldVariableSetToNullTest) {
