@@ -1,11 +1,11 @@
 //
-//  TestReferenceFieldVariable.cpp
+//  TestFieldReferenceVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/13/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ReferenceFieldVariable}
+//  Tests {@link FieldReferenceVariable}
 //
 
 #include <gtest/gtest.h>
@@ -22,7 +22,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/ReferenceFieldVariable.hpp"
+#include "wisey/FieldReferenceVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -34,7 +34,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct ReferenceFieldVariableTest : Test {
+struct FieldReferenceVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Node* mObject;
@@ -42,11 +42,11 @@ struct ReferenceFieldVariableTest : Test {
   Interface* mInterface;
   BasicBlock* mBasicBlock;
   Value* mReferenceFieldValue;
-  ReferenceFieldVariable* mReferenceFieldVariable;
+  FieldReferenceVariable* mFieldReferenceVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  ReferenceFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  FieldReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
@@ -91,25 +91,25 @@ struct ReferenceFieldVariableTest : Test {
     mContext.getScopes().setVariable(thisVariable);
    
     mReferenceFieldValue = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));
-    mReferenceFieldVariable = new ReferenceFieldVariable("foo", mReferenceFieldValue, mObject);
+    mFieldReferenceVariable = new FieldReferenceVariable("foo", mReferenceFieldValue, mObject);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~ReferenceFieldVariableTest() {
+  ~FieldReferenceVariableTest() {
     delete mStringStream;
     delete mObject;
   }
 };
 
-TEST_F(ReferenceFieldVariableTest, basicFieldsTest) {
-  EXPECT_STREQ(mReferenceFieldVariable->getName().c_str(), "foo");
-  EXPECT_EQ(mReferenceFieldVariable->getType(), mNode->getOwner());
-  EXPECT_EQ(mReferenceFieldVariable->getValue(), mReferenceFieldValue);
+TEST_F(FieldReferenceVariableTest, basicFieldsTest) {
+  EXPECT_STREQ(mFieldReferenceVariable->getName().c_str(), "foo");
+  EXPECT_EQ(mFieldReferenceVariable->getType(), mNode->getOwner());
+  EXPECT_EQ(mFieldReferenceVariable->getValue(), mReferenceFieldValue);
 }
 
-TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateIdentifierIRTest) {
-  mReferenceFieldVariable->generateIdentifierIR(mContext, "test");
+TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateIdentifierIRTest) {
+  mFieldReferenceVariable->generateIdentifierIR(mContext, "test");
 
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -122,7 +122,7 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateIdentifierIRTes
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentIRTest) {
+TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   PointerType* llvmType = (PointerType*) mNode->getLLVMType(mLLVMContext);
@@ -130,7 +130,7 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
-  mReferenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
+  mFieldReferenceVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -147,7 +147,7 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentWithCastIRTest) {
+TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   PointerType* llvmType = mNode->getLLVMType(mLLVMContext);
@@ -156,8 +156,8 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentWithC
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
   Value* referenceFieldValue = ConstantPointerNull::get(mInterface->getLLVMType(mLLVMContext));
-  ReferenceFieldVariable* referenceFieldVariable =
-    new ReferenceFieldVariable("bar", referenceFieldValue, mObject);
+  FieldReferenceVariable* referenceFieldVariable =
+    new FieldReferenceVariable("bar", referenceFieldValue, mObject);
   referenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
@@ -177,8 +177,8 @@ TEST_F(ReferenceFieldVariableTest, referenceFieldVariableGenerateAssignmentWithC
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ReferenceFieldVariableTest, existsInOuterScopeTest) {
-  EXPECT_TRUE(mReferenceFieldVariable->existsInOuterScope());
+TEST_F(FieldReferenceVariableTest, existsInOuterScopeTest) {
+  EXPECT_TRUE(mFieldReferenceVariable->existsInOuterScope());
 }
 
 TEST_F(TestFileSampleRunner, compareTwoNullsRunTest) {

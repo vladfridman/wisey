@@ -14,6 +14,7 @@
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
+#include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -21,7 +22,6 @@
 #include "wisey/PrimitiveFieldVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
-#include "wisey/ReferenceFieldVariable.hpp"
 #include "wisey/StackVariable.hpp"
 #include "wisey/StringLiteral.hpp"
 
@@ -296,7 +296,7 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
     if (IType::isOwnerType(type)) {
       fieldVariable = new FieldOwnerVariable(field->getName(), NULL, object);
     } else if (IType::isReferenceType(type)) {
-      fieldVariable = new ReferenceFieldVariable(field->getName(), NULL, object);
+      fieldVariable = new FieldReferenceVariable(field->getName(), NULL, object);
     } else {
       fieldVariable = new PrimitiveFieldVariable(field->getName(), NULL, object);
     }

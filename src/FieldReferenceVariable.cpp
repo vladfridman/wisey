@@ -9,28 +9,28 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ReferenceFieldVariable.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-string ReferenceFieldVariable::getName() const {
+string FieldReferenceVariable::getName() const {
   return mName;
 }
 
-const IType* ReferenceFieldVariable::getType() const {
+const IType* FieldReferenceVariable::getType() const {
   return mObject->findField(mName)->getType();
 }
 
-Value* ReferenceFieldVariable::getValue() const {
+Value* FieldReferenceVariable::getValue() const {
   return mValue;
 }
 
-Value* ReferenceFieldVariable::generateIdentifierIR(IRGenerationContext& context,
+Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
                                                  string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
@@ -41,7 +41,7 @@ Value* ReferenceFieldVariable::generateIdentifierIR(IRGenerationContext& context
   return fieldPointer;
 }
 
-Value* ReferenceFieldVariable::generateAssignmentIR(IRGenerationContext& context,
+Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
                                                           IExpression* assignToExpression) {
   Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
 
@@ -65,13 +65,13 @@ Value* ReferenceFieldVariable::generateAssignmentIR(IRGenerationContext& context
   return IRWriter::newStoreInst(context, castLoaded, fieldPointer);
 }
 
-void ReferenceFieldVariable::setToNull(IRGenerationContext& context) {
+void FieldReferenceVariable::setToNull(IRGenerationContext& context) {
 }
 
-void ReferenceFieldVariable::free(IRGenerationContext& context) const {
+void FieldReferenceVariable::free(IRGenerationContext& context) const {
   /** Not implmeneted yet */
 }
 
-bool ReferenceFieldVariable::existsInOuterScope() const {
+bool FieldReferenceVariable::existsInOuterScope() const {
   return true;
 }

@@ -1,13 +1,13 @@
 //
-//  ReferenceFieldVariable.hpp
+//  FieldReferenceVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ReferenceFieldVariable_h
-#define ReferenceFieldVariable_h
+#ifndef FieldReferenceVariable_h
+#define FieldReferenceVariable_h
 
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IFieldVariable.hpp"
@@ -17,7 +17,7 @@ namespace wisey {
 /**
  * Represents an object field that is of reference type
  */
-class ReferenceFieldVariable : public IFieldVariable {
+class FieldReferenceVariable : public IFieldVariable {
   
   std::string mName;
   llvm::Value* mValue;
@@ -25,14 +25,14 @@ class ReferenceFieldVariable : public IFieldVariable {
   
 public:
   
-  ReferenceFieldVariable(std::string name,
+  FieldReferenceVariable(std::string name,
                          llvm::Value* value,
                          const IConcreteObjectType* object) :
   mName(name),
   mValue(value),
   mObject(object) { }
   
-  ~ReferenceFieldVariable() {}
+  ~FieldReferenceVariable() {}
   
   std::string getName() const override;
   
@@ -56,4 +56,4 @@ public:
 
 } /* namespace wisey */
 
-#endif /* ReferenceFieldVariable_h */
+#endif /* FieldReferenceVariable_h */
