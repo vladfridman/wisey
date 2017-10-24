@@ -17,7 +17,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ReturnVoidStatement.hpp"
@@ -147,12 +147,12 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreNotClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  IVariable* foo = new HeapReferenceVariable("foo", mModel, fooMalloc);
+  IVariable* foo = new LocalReferenceVariable("foo", mModel, fooMalloc);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  IVariable* bar = new HeapReferenceVariable("bar", mModel, barMalloc);
+  IVariable* bar = new LocalReferenceVariable("bar", mModel, barMalloc);
   mContext.getScopes().setVariable(bar);
   
   ReturnVoidStatement returnStatement;

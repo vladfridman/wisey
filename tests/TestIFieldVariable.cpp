@@ -14,10 +14,10 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/Field.hpp"
 #include "wisey/IFieldVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -66,7 +66,7 @@ struct IFieldVariableTest : Test {
     mContext.getScopes().pushScope();
     
     Value* thisPointer = ConstantPointerNull::get(mController->getLLVMType(mLLVMContext));
-    IVariable* thisVariable = new HeapReferenceVariable("this", mController, thisPointer);
+    IVariable* thisVariable = new LocalReferenceVariable("this", mController, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
     mStringStream = new raw_string_ostream(mStringBuffer);

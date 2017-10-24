@@ -20,7 +20,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ReferenceFieldVariable.hpp"
 
@@ -87,7 +87,7 @@ struct ReferenceFieldVariableTest : Test {
     mContext.getScopes().pushScope();
     
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mLLVMContext));
-    IVariable* thisVariable = new HeapReferenceVariable("this", mObject, thisPointer);
+    IVariable* thisVariable = new LocalReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
    
     mReferenceFieldValue = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));

@@ -22,8 +22,8 @@
 #include "wisey/Catch.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FinallyBlock.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -225,7 +225,7 @@ TEST_F(ScopesTest, setHeapVariableTest) {
   mScopes.pushScope();
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   IVariable* heapVariable =
-    new HeapReferenceVariable("foo", mInterface, fooValue);
+    new LocalReferenceVariable("foo", mInterface, fooValue);
   mScopes.setVariable(heapVariable);
   
   ASSERT_NE(mScopes.getVariable("foo"), nullptr);
@@ -236,7 +236,7 @@ TEST_F(ScopesTest, setUnitializedHeapVariableTest) {
   mScopes.pushScope();
   
   IVariable* unitializedHeapVariable =
-    new HeapReferenceVariable("foo", mInterface, NULL);
+    new LocalReferenceVariable("foo", mInterface, NULL);
   mScopes.setVariable(unitializedHeapVariable);
   
   ASSERT_NE(mScopes.getVariable("foo"), nullptr);

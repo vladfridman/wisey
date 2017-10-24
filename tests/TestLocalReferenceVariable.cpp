@@ -1,11 +1,11 @@
 //
-//  TestHeapReferenceVariable.cpp
+//  TestLocalReferenceVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link HeapReferenceVariable}
+//  Tests {@link LocalReferenceVariable}
 //
 
 #include <gtest/gtest.h>
@@ -19,7 +19,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -33,7 +33,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct HeapReferenceVariableTest : public Test {
+struct LocalReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -43,7 +43,7 @@ struct HeapReferenceVariableTest : public Test {
  
 public:
   
-  HeapReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  LocalReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
@@ -74,14 +74,14 @@ public:
   }
 };
 
-TEST_F(HeapReferenceVariableTest, heapReferenceVariableAssignmentTest) {
+TEST_F(LocalReferenceVariableTest, heapReferenceVariableAssignmentTest) {
   Type* llvmType = mModel->getLLVMType(mLLVMContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   
-  IVariable* uninitializedHeapVariable = new HeapReferenceVariable("foo", mModel, fooValue);
+  IVariable* uninitializedHeapVariable = new LocalReferenceVariable("foo", mModel, fooValue);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   Value* barValue = ConstantPointerNull::get((PointerType*) llvmType);
-  HeapReferenceVariable heapReferenceVariable("bar", mModel, NULL);
+  LocalReferenceVariable heapReferenceVariable("bar", mModel, NULL);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
@@ -97,10 +97,10 @@ TEST_F(HeapReferenceVariableTest, heapReferenceVariableAssignmentTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(HeapReferenceVariableTest, heapReferenceVariableIdentifierTest) {
+TEST_F(LocalReferenceVariableTest, heapReferenceVariableIdentifierTest) {
   Type* llvmType = mModel->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
+  LocalReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
 
   heapReferenceVariable.setToNull(mContext);
   heapReferenceVariable.generateIdentifierIR(mContext, "fooVal");
@@ -116,18 +116,18 @@ TEST_F(HeapReferenceVariableTest, heapReferenceVariableIdentifierTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(HeapReferenceVariableTest, heapReferenceVariableIdentifierUninitializedDeathTest) {
+TEST_F(LocalReferenceVariableTest, heapReferenceVariableIdentifierUninitializedDeathTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
+  LocalReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
   
   EXPECT_EXIT(heapReferenceVariable.generateIdentifierIR(mContext, "fooVal"),
               ::testing::ExitedWithCode(1),
               "Error: Variable 'foo' is used before it is initialized");
 }
 
-TEST_F(HeapReferenceVariableTest, existsInOuterScopeTest) {
-  HeapReferenceVariable heapReferenceVariable("foo", mModel, NULL);
+TEST_F(LocalReferenceVariableTest, existsInOuterScopeTest) {
+  LocalReferenceVariable heapReferenceVariable("foo", mModel, NULL);
 
   EXPECT_FALSE(heapReferenceVariable.existsInOuterScope());
 }
@@ -156,7 +156,7 @@ TEST_F(TestFileSampleRunner, assignLocalReferenceToLocalReferenceCompileTest) {
   compileFile("tests/samples/test_assign_local_reference_to_local_reference.yz");
 }
 
-TEST_F(TestFileSampleRunner, usingUninitializedHeapReferenceVariableRunDeathTest) {
+TEST_F(TestFileSampleRunner, usingUninitializedLocalReferenceVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_heap_reference_variable_not_initialized.yz",
                     1,
                     "Error: Variable 'color' is used before it is initialized");

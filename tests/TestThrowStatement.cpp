@@ -20,7 +20,7 @@
 #include "wisey/Block.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThrowStatement.hpp"
 
@@ -190,12 +190,12 @@ TEST_F(ThrowStatementTest, heapVariablesAreNotClearedTest) {
   Type* structType = Type::getInt8Ty(mLLVMContext);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  IVariable* foo = new HeapReferenceVariable("foo", mCircleModel, fooMalloc);
+  IVariable* foo = new LocalReferenceVariable("foo", mCircleModel, fooMalloc);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  IVariable* bar = new HeapReferenceVariable("bar", mCircleModel, barMalloc);
+  IVariable* bar = new LocalReferenceVariable("bar", mCircleModel, barMalloc);
   mContext.getScopes().setVariable(bar);
   
   llvm::Constant* exceptionObject =

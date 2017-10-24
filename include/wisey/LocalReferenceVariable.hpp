@@ -1,13 +1,13 @@
 //
-//  HeapReferenceVariable.hpp
+//  LocalReferenceVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef HeapReferenceVariable_h
-#define HeapReferenceVariable_h
+#ifndef LocalReferenceVariable_h
+#define LocalReferenceVariable_h
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectType.hpp"
@@ -16,9 +16,9 @@
 namespace wisey {
 
 /**
- * Represents a variable that is a reference to a heap object
+ * Represents a variable that is a reference to an owner object
  */
-class HeapReferenceVariable : public IVariable {
+class LocalReferenceVariable : public IVariable {
   
   std::string mName;
   const IObjectType* mType;
@@ -27,10 +27,10 @@ class HeapReferenceVariable : public IVariable {
   
 public:
   
-  HeapReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value)
+  LocalReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value), mIsInitialized(false) { }
   
-  ~HeapReferenceVariable() {
+  ~LocalReferenceVariable() {
   }
   
   std::string getName() const override;
@@ -55,4 +55,4 @@ public:
 
 } /* namespace wisey */
 
-#endif /* HeapReferenceVariable_h */
+#endif /* LocalReferenceVariable_h */

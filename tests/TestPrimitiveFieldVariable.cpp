@@ -20,7 +20,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/PrimitiveFieldVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -67,7 +67,7 @@ struct PrimitiveFieldVariableTest : Test {
     mContext.getScopes().pushScope();
     
     Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mLLVMContext));
-    IVariable* thisVariable = new HeapReferenceVariable("this", mObject, thisPointer);
+    IVariable* thisVariable = new LocalReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
     mPrimitiveFieldValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);

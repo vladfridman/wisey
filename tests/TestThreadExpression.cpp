@@ -21,7 +21,7 @@
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -39,7 +39,7 @@ struct ThreadExpressionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Controller* mThreadController;
-  HeapReferenceVariable* mThreadVariable;
+  LocalReferenceVariable* mThreadVariable;
   ThreadExpression mThreadExpression;
   BasicBlock* mBasicBlock;
   string mStringBuffer;
@@ -60,7 +60,7 @@ struct ThreadExpressionTest : public Test {
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
     Type* controllerType = mThreadController->getLLVMType(mLLVMContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, controllerType, "threadStore");
-    mThreadVariable = new HeapReferenceVariable(ThreadExpression::THREAD,
+    mThreadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
                                                 mThreadController,
                                                 threadStore);
     mThreadVariable->setToNull(mContext);

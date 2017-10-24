@@ -11,9 +11,9 @@
 
 #include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Scopes.hpp"
 
@@ -21,19 +21,19 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-string HeapReferenceVariable::getName() const {
+string LocalReferenceVariable::getName() const {
   return mName;
 }
 
-const IObjectType* HeapReferenceVariable::getType() const {
+const IObjectType* LocalReferenceVariable::getType() const {
   return mType;
 }
 
-Value* HeapReferenceVariable::getValue() const {
+Value* LocalReferenceVariable::getValue() const {
   return mValue;
 }
 
-Value* HeapReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
+Value* LocalReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
                                                    string llvmVariableName) const {
   if (!mIsInitialized) {
     Log::e("Variable '" + mName + "' is used before it is initialized");
@@ -43,7 +43,7 @@ Value* HeapReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
   return IRWriter::newLoadInst(context, mValue, "");
 }
 
-Value* HeapReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
+Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
                                                    IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
@@ -56,16 +56,16 @@ Value* HeapReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
   return mValue;
 }
 
-void HeapReferenceVariable::setToNull(IRGenerationContext& context) {
+void LocalReferenceVariable::setToNull(IRGenerationContext& context) {
   PointerType* llvmType = mType->getLLVMType(context.getLLVMContext());
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), mValue);
 
   mIsInitialized = true;
 }
 
-void HeapReferenceVariable::free(IRGenerationContext& context) const {
+void LocalReferenceVariable::free(IRGenerationContext& context) const {
 }
 
-bool HeapReferenceVariable::existsInOuterScope() const {
+bool LocalReferenceVariable::existsInOuterScope() const {
   return false;
 }

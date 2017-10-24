@@ -21,11 +21,11 @@
 #include "TestPrefix.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FinallyBlock.hpp"
-#include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
@@ -138,7 +138,7 @@ public:
     Value* threadStore = IRWriter::newAllocaInst(mContext,
                                                  mThreadController->getLLVMType(mLLVMContext),
                                                  "threadStore");
-    IVariable* threadVariable = new HeapReferenceVariable(ThreadExpression::THREAD,
+    IVariable* threadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
                                                           mThreadController,
                                                           threadStore);
     threadVariable->setToNull(mContext);
