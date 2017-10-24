@@ -34,7 +34,7 @@ Value* LocalOwnerVariable::getValue() const {
 }
 
 Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
-                                               string llvmVariableName) const {
+                                                string llvmVariableName) const {
   if (!mIsInitialized) {
     Log::e("Variable '" + mName + "' is used before it is initialized");
     exit(1);
@@ -44,7 +44,7 @@ Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
 }
 
 Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
-                                               IExpression* assignToExpression) {
+                                                IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);

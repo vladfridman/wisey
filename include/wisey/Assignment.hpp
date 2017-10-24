@@ -49,7 +49,7 @@ private:
   
   llvm::Value* generateIRForHeapVariable(IRGenerationContext& context) const;
   
-  llvm::Value* generateIRForStackVariable(IRGenerationContext& context) const;
+  llvm::Value* generateIRForLocalPrimitiveVariable(IRGenerationContext& context) const;
 };
   
 }

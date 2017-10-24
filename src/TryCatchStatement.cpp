@@ -14,7 +14,6 @@
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ModelOwner.hpp"
-#include "wisey/StackVariable.hpp"
 #include "wisey/TryCatchInfo.hpp"
 #include "wisey/TryCatchStatement.hpp"
 

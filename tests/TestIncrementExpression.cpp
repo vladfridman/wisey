@@ -19,7 +19,7 @@
 #include "wisey/IncrementExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/StackVariable.hpp"
+#include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -34,7 +34,7 @@ struct IncrementExpressionTest : public Test {
   BasicBlock* mBlock = BasicBlock::Create(mLLVMContext, "entry");
   string mName = "foo";
   Identifier* mIdentifier;
-  StackVariable* mVariable;
+  LocalPrimitiveVariable* mVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
@@ -45,7 +45,7 @@ public:
     mContext.getScopes().pushScope();
     AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), mName);
     
-    mVariable = new StackVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
+    mVariable = new LocalPrimitiveVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
     mContext.getScopes().setVariable(mVariable);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -126,7 +126,9 @@ TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   Identifier* identifier = new Identifier("bar", "bar");
   
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier);
-  StackVariable* variable = new StackVariable("bar", PrimitiveTypes::FLOAT_TYPE, NULL);
+  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("bar",
+                                                                PrimitiveTypes::FLOAT_TYPE,
+                                                                NULL);
   mContext.getScopes().setVariable(variable);
   string expected = "Error: Expression is of a type that is incompatible with "
     "increment/decrement operation";

@@ -1,5 +1,5 @@
 //
-//  StackVariable.cpp
+//  LocalPrimitiveVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
@@ -12,46 +12,46 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/StackVariable.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-string StackVariable::getName() const {
+string LocalPrimitiveVariable::getName() const {
   return mName;
 }
 
-const IType* StackVariable::getType() const {
+const IType* LocalPrimitiveVariable::getType() const {
   return mType;
 }
 
-Value* StackVariable::getValue() const {
+Value* LocalPrimitiveVariable::getValue() const {
   return mValue;
 }
 
-Value* StackVariable::generateIdentifierIR(IRGenerationContext& context,
-                                           string llvmVariableName) const {
+Value* LocalPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context,
+                                                    string llvmVariableName) const {
   return IRWriter::newLoadInst(context, mValue, llvmVariableName);
 }
 
-Value* StackVariable::generateAssignmentIR(IRGenerationContext& context,
-                                           IExpression* assignToExpression) {
+Value* LocalPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context,
+                                                    IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
   Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   return IRWriter::newStoreInst(context, castAssignToValue, mValue);
 }
 
-void StackVariable::setToNull(IRGenerationContext& context) {
+void LocalPrimitiveVariable::setToNull(IRGenerationContext& context) {
   Log::e("Stack Variables should not be set to null");
   exit(1);
 }
 
-void StackVariable::free(IRGenerationContext& context) const {
+void LocalPrimitiveVariable::free(IRGenerationContext& context) const {
 }
 
-bool StackVariable::existsInOuterScope() const {
+bool LocalPrimitiveVariable::existsInOuterScope() const {
   return false;
 }

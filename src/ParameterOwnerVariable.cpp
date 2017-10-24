@@ -34,12 +34,12 @@ Value* ParameterOwnerVariable::getValue() const {
 }
 
 Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                      string llvmVariableName) const {
+                                                    string llvmVariableName) const {
   return mValue;
 }
 
 Value* ParameterOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                      IExpression* assignToExpression) {
+                                                    IExpression* assignToExpression) {
   Log::e("Assignment to method parameters is not allowed");
   exit(1);
 }

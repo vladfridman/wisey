@@ -14,10 +14,10 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
+#include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/StackVariable.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -66,7 +66,7 @@ void VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId->getName());
 
-  StackVariable* variable = new StackVariable(mId->getName(), type, alloc);
+  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(mId->getName(), type, alloc);
   context.getScopes().setVariable(variable);
 
   if (mAssignmentExpression != NULL) {

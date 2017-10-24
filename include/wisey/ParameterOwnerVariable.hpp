@@ -17,7 +17,7 @@ namespace wisey {
 /**
  * Represents a method parameter that is an object owner.
  *
- * This is the same as HeapOwnerVariable only returns true on existsInOuterScope()
+ * This is the same as LocalOwnerVariable only returns true on existsInOuterScope()
  */
 class ParameterOwnerVariable : public IVariable {
     

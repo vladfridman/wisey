@@ -34,7 +34,7 @@ Value* FieldOwnerVariable::getValue() const {
 }
 
 Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                      string llvmVariableName) const {
+                                                string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
   if (getType()->getTypeKind() == PRIMITIVE_TYPE) {

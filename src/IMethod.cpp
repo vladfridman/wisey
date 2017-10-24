@@ -11,12 +11,12 @@
 #include "wisey/IMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StackVariable.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -32,7 +32,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
     string newName = variableName + ".param";
     AllocaInst *alloc = IRWriter::newAllocaInst(context, llvmType, newName);
     IRWriter::newStoreInst(context, variableValue, alloc);
-    IVariable* variable = new StackVariable(variableName, variableType, alloc);
+    IVariable* variable = new LocalPrimitiveVariable(variableName, variableType, alloc);
     context.getScopes().setVariable(variable);
     return;
   }
@@ -136,7 +136,7 @@ void IMethod::defineCurrentMethodNameVariable(IRGenerationContext& context, stri
   
   Value* value = ConstantExpr::getGetElementPtr(elementType, constant, Idx);
   
-  StackVariable* methodNameVariable = new StackVariable("currentMethod",
+  LocalPrimitiveVariable* methodNameVariable = new LocalPrimitiveVariable("currentMethod",
                                                         PrimitiveTypes::STRING_TYPE,
                                                         value);
   context.getScopes().setVariable(methodNameVariable);

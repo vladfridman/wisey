@@ -18,7 +18,7 @@ namespace wisey {
 /**
  * Represents a method parameter that is a reference to an object owner.
  *
- * This is the same as HeapReferenceVariable only returns true on existsInOuterScope()
+ * This is the same as LocalReferenceVariable only returns true on existsInOuterScope()
  */
 class ParameterReferenceVariable : public IVariable {
   

@@ -23,11 +23,11 @@
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FinallyBlock.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StackVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -60,10 +60,10 @@ TEST_F(ScopesTest, scopesTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   Value* barValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
-  StackVariable* fooVariable =
-  new StackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
-  StackVariable* barVariable =
-  new StackVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
+  LocalPrimitiveVariable* fooVariable =
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  LocalPrimitiveVariable* barVariable =
+  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
   mScopes.setVariable(fooVariable);
   mScopes.pushScope();
   mScopes.setVariable(barVariable);
@@ -75,7 +75,7 @@ TEST_F(ScopesTest, scopesTest) {
   EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
   EXPECT_EQ(mScopes.getVariable("bar"), nullptr);
   
-  barVariable = new StackVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
+  barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
   mScopes.setVariable(barVariable);
   EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
   EXPECT_EQ(mScopes.getVariable("bar")->getValue(), barValue);
@@ -90,10 +90,10 @@ TEST_F(ScopesTest, scopesCorrectlyOrderedTest) {
   Value* outerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   Value* innerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
-  StackVariable* outerVariable =
-  new StackVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
-  StackVariable* innerVariable =
-  new StackVariable("bar", PrimitiveTypes::INT_TYPE, innerValue);
+  LocalPrimitiveVariable* outerVariable =
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
+  LocalPrimitiveVariable* innerVariable =
+  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, innerValue);
   
   mScopes.setVariable(outerVariable);
   mScopes.pushScope();
@@ -132,7 +132,7 @@ TEST_F(ScopesTest, getScopeTest) {
 TEST_F(ScopesTest, clearVariableTest) {
   mScopes.pushScope();
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  StackVariable* fooVariable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  LocalPrimitiveVariable* fooVariable = new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   mScopes.setVariable(fooVariable);
   
   EXPECT_EQ(mScopes.getVariable("foo"), fooVariable);
@@ -146,8 +146,8 @@ TEST_F(ScopesTest, clearVariableTest) {
 TEST_F(ScopesTest, getClearedVariablesTest) {
   mScopes.pushScope();
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  StackVariable* fooVariable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, value);
-  StackVariable* barVariable = new StackVariable("bar", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* fooVariable = new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
   mScopes.setVariable(fooVariable);
   mScopes.setVariable(barVariable);
 
@@ -170,8 +170,8 @@ TEST_F(ScopesTest, getClearedVariablesTest) {
 TEST_F(ScopesTest, setClearedVariablesTest) {
   mScopes.pushScope();
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  StackVariable* fooVariable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, value);
-  StackVariable* barVariable = new StackVariable("bar", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* fooVariable = new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
   mScopes.setVariable(fooVariable);
   mScopes.setVariable(barVariable);
   
@@ -192,8 +192,8 @@ TEST_F(ScopesTest, setClearedVariablesTest) {
 TEST_F(ScopesTest, eraseFromClearedVariablesTest) {
   mScopes.pushScope();
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  StackVariable* fooVariable = new StackVariable("foo", PrimitiveTypes::INT_TYPE, value);
-  StackVariable* barVariable = new StackVariable("bar", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* fooVariable = new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
   mScopes.setVariable(fooVariable);
   mScopes.setVariable(barVariable);
   
@@ -393,10 +393,10 @@ TEST_F(ScopesTest, variableHidingDeathTest) {
   Value* outerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   Value* innerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   
-  StackVariable* outerVariable =
-  new StackVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
-  StackVariable* innerVariable =
-  new StackVariable("foo", PrimitiveTypes::INT_TYPE, innerValue);
+  LocalPrimitiveVariable* outerVariable =
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, outerValue);
+  LocalPrimitiveVariable* innerVariable =
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, innerValue);
   
   mScopes.setVariable(outerVariable);
   mScopes.pushScope();

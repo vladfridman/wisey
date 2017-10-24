@@ -31,7 +31,7 @@ Value* FieldReferenceVariable::getValue() const {
 }
 
 Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                 string llvmVariableName) const {
+                                                    string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
   if (getType()->getTypeKind() == PRIMITIVE_TYPE) {
@@ -42,7 +42,7 @@ Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context
 }
 
 Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                          IExpression* assignToExpression) {
+                                                    IExpression* assignToExpression) {
   Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
 
   const IType* expressionType = assignToExpression->getType(context);

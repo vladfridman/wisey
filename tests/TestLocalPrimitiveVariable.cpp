@@ -1,11 +1,11 @@
 //
-//  TestStackVariable.cpp
+//  TestLocalPrimitiveVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 2/10/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link StackVariable}
+//  Tests {@link LocalPrimitiveVariable}
 //
 
 #include <gtest/gtest.h>
@@ -20,7 +20,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/StackVariable.hpp"
+#include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -33,7 +33,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct StackVariableTest : public Test {
+struct LocalPrimitiveVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -42,29 +42,29 @@ struct StackVariableTest : public Test {
   
 public:
   
-  StackVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  LocalPrimitiveVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     mBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~StackVariableTest() {
+  ~LocalPrimitiveVariableTest() {
     delete mBlock;
     delete mStringStream;
   }
 };
 
-TEST_F(StackVariableTest, generateAssignmentIRTest) {
+TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
 
-  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
   Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
   
-  stackVariable.generateAssignmentIR(mContext, &expression);
+  variable.generateAssignmentIR(mContext, &expression);
   
   ASSERT_EQ(2ul, mBlock->size());
   BasicBlock::iterator iterator = mBlock->begin();
@@ -78,15 +78,15 @@ TEST_F(StackVariableTest, generateAssignmentIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(StackVariableTest, generateAssignmentIRWithCastTest) {
+TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
   Value* assignValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
   
-  stackVariable.generateAssignmentIR(mContext, &expression);
+  variable.generateAssignmentIR(mContext, &expression);
   
   ASSERT_EQ(3ul, mBlock->size());
   BasicBlock::iterator iterator = mBlock->begin();
@@ -105,11 +105,11 @@ TEST_F(StackVariableTest, generateAssignmentIRWithCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(StackVariableTest, generateIdentifierIRTest) {
+TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
-  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, alloc);
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
   
-  stackVariable.generateIdentifierIR(mContext, "bar");
+  variable.generateIdentifierIR(mContext, "bar");
 
   ASSERT_EQ(2ul, mBlock->size());
   
@@ -124,24 +124,24 @@ TEST_F(StackVariableTest, generateIdentifierIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(StackVariableTest, freeTest) {
-  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+TEST_F(LocalPrimitiveVariableTest, freeTest) {
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, NULL);
 
-  stackVariable.free(mContext);
+  variable.free(mContext);
   
   ASSERT_EQ(mBlock->size(), 0u);
 }
 
-TEST_F(StackVariableTest, existsInOuterScopeTest) {
-  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+TEST_F(LocalPrimitiveVariableTest, existsInOuterScopeTest) {
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, NULL);
   
-  EXPECT_FALSE(stackVariable.existsInOuterScope());
+  EXPECT_FALSE(variable.existsInOuterScope());
 }
 
-TEST_F(StackVariableTest, setToNullDeathTest) {
-  StackVariable stackVariable("foo", PrimitiveTypes::INT_TYPE, NULL);
+TEST_F(LocalPrimitiveVariableTest, setToNullDeathTest) {
+  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, NULL);
   
-  EXPECT_EXIT(stackVariable.setToNull(mContext),
+  EXPECT_EXIT(variable.setToNull(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Stack Variables should not be set to null");
 }

@@ -34,12 +34,12 @@ Value* ParameterReferenceVariable::getValue() const {
 }
 
 Value* ParameterReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                          string llvmVariableName) const {
+                                                        string llvmVariableName) const {
   return mValue;
 }
 
 Value* ParameterReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                          IExpression* assignToExpression) {
+                                                        IExpression* assignToExpression) {
   Log::e("Assignment to method parameters is not allowed");
   exit(1);
 }

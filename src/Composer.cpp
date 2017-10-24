@@ -13,7 +13,6 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/StackVariable.hpp"
 
 using namespace std;
 using namespace llvm;
