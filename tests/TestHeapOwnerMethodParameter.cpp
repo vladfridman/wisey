@@ -114,3 +114,11 @@ TEST_F(HeapOwnerMethodParameterTest, setToNullTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
+
+TEST_F(TestFileSampleRunner, assignParameterOwnerToLocalOwnerCompileTest) {
+  compileFile("tests/samples/test_assign_parameter_owner_to_local_owner.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignParameterOwnerToNullCompileTest) {
+  compileFile("tests/samples/test_assign_parameter_owner_to_null.yz");
+}

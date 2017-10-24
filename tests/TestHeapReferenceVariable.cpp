@@ -140,6 +140,22 @@ TEST_F(TestFileSampleRunner, interfaceVariableAssignmentRunTest) {
   runFile("tests/samples/test_interface_variable_assignment.yz", "25");
 }
 
+TEST_F(TestFileSampleRunner, assignLocalReferenceToFieldOwnerCompileTest) {
+  compileFile("tests/samples/test_assign_local_reference_to_field_owner.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignLocalReferenceToFieldReferenceCompileTest) {
+  compileFile("tests/samples/test_assign_local_reference_to_field_reference.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignLocalReferenceToLocalOwnerCompileTest) {
+  compileFile("tests/samples/test_assign_local_reference_to_local_owner.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignLocalReferenceToLocalReferenceCompileTest) {
+  compileFile("tests/samples/test_assign_local_reference_to_local_reference.yz");
+}
+
 TEST_F(TestFileSampleRunner, usingUninitializedHeapReferenceVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_heap_reference_variable_not_initialized.yz",
                     1,

@@ -1,0 +1,15 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  int mValue;
+}
+
+model MRunner {
+  public static void getCar(MCar* owner) {
+
+  }
+
+  public static void run() {
+    getCar(null);
+  }
+}

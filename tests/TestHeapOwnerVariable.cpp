@@ -175,6 +175,18 @@ TEST_F(HeapOwnerVariableTest, setToNullTest) {
   
 }
 
+TEST_F(TestFileSampleRunner, assignLocalOwnerToFieldOwnerCompileTest) {
+  compileFile("tests/samples/test_assign_local_owner_to_field_owner.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignLocalOwnerToLocalOwnerCompileTest) {
+  compileFile("tests/samples/test_assign_local_owner_to_local_owner.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignLocalOwnerToNullCompileTest) {
+  compileFile("tests/samples/test_assign_local_owner_to_null.yz");
+}
+
 TEST_F(TestFileSampleRunner, usingUninitializedHeapOwnerVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_heap_owner_variable_not_initialized.yz",
                     1,

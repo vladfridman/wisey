@@ -1,0 +1,13 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  int mValue;
+}
+
+controller CGarage {
+  state MCar* mCar;
+
+  public void setNull() {
+    mCar = null;
+  }
+}

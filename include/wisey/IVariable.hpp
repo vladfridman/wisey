@@ -23,8 +23,22 @@ class IExpression;
  * Interface representing all variables
  *
  * Variables could have a different storage type: stack or heap
- * They could be allocated at different levels: model or local
+ * They could be allocated at different levels: object or local
  * The could be used in situations such as assignment or reference
+ *
+ * Primitve variables are pretty simple to deal with. It is more diffucult to deal with object
+ * type variables of which there are two kinds: owner and reference.
+ *
+ * An owner variable is a pointer to a struct where the struct represents the object.
+ * Owner variable is stored somewhere. If owner variable is local then it is stored in on a stack
+ * allocated memory that was allocated using alloc command. If an owner variable is stored in an
+ * object then it is stored in a field that has a type Struct*. Either way the variable that
+ * represents an object owner has type Struct**.
+ *
+ * Reference variables refer to an object owner. Thus local reference would be a pointer to owner.
+ * This translates into a type Struct**. The local reference is stored in a variable created using
+ * alloc command. That variable has type Struct***.
+ *
  */
 class IVariable {
   

@@ -188,3 +188,14 @@ TEST_F(TestFileSampleRunner, compareTwoNullsRunTest) {
 TEST_F(TestFileSampleRunner, compareToNullRunTest) {
   runFile("tests/samples/test_compare_to_null.yz", "1");
 }
+
+TEST_F(TestFileSampleRunner, assignFieldReferenceToParameterOwnerCompileTest) {
+  compileFile("tests/samples/test_assign_field_reference_to_parameter_owner.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignFieldReferenceToParameterReferenceCompileTest) {
+  expectFailCompile("tests/samples/test_assign_field_reference_to_parameter_reference.yz",
+                    1,
+                    "Error: Can not store a reference because its owner "
+                    "does not exist in the current scope");
+}

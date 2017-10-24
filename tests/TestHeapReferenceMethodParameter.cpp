@@ -87,3 +87,15 @@ TEST_F(HeapReferenceMethodParameterTest, heapReferenceMethodParameterVariableIde
   
   EXPECT_EQ(heapMethodParameter.generateIdentifierIR(mContext, "bar"), fooValue);
 }
+
+TEST_F(TestFileSampleRunner, assignParameterReferenceToLocalOwnerCompileTest) {
+  compileFile("tests/samples/test_assign_parameter_reference_local_owner.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignParameterReferenceToLocalReferenceCompileTest) {
+  compileFile("tests/samples/test_assign_parameter_reference_to_local_reference.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignParameterReferenceToNullCompileTest) {
+  compileFile("tests/samples/test_assign_parameter_reference_to_null.yz");
+}

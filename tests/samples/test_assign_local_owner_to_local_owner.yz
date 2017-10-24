@@ -1,0 +1,12 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  int mValue;
+}
+
+model MRunner {
+  public static void run() {
+    MCar* owner = builder(MCar).withValue(5).build();
+    MCar* anotherOwner = owner;
+  }
+}

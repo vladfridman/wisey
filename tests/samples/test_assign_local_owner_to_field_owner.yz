@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  int mValue;
+}
+
+controller CGarage {
+  state MCar* mCar;
+
+  public MCar* getCar() {
+    return mCar;
+  }
+}
+
+model MRunner {
+
+  public static void run() {
+    CGarage* garage = inject(CGarage);
+
+    MCar* owner = garage.getCar();
+  }
+}

@@ -232,6 +232,14 @@ TEST_F(TestFileSampleRunner, objectFieldVariableSetToAnotherTest) {
   runFile("tests/samples/test_object_field_variable_set_to_another.yz", "7");
 }
 
+TEST_F(TestFileSampleRunner, assignFieldOwnerToParameterOwnerCompileTest) {
+  compileFile("tests/samples/test_assign_field_owner_to_parameter_owner.yz");
+}
+
+TEST_F(TestFileSampleRunner, assignFieldOwnerToNullCompileTest) {
+  compileFile("tests/samples/test_assign_field_owner_to_null.yz");
+}
+
 TEST_F(TestFileSampleRunner, objectFieldVariableNullComplicatedTest) {
   compileAndRunFileCheckOutput("tests/samples/test_object_field_variable_null_complicated.yz",
                                1,
