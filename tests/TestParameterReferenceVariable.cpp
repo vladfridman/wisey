@@ -1,11 +1,11 @@
 //
-//  TestHeapReferenceMethodParameter.cpp
+//  TestParameterReferenceVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 6/20/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link HeapReferenceMethodParameter}
+//  Tests {@link ParameterReferenceVariable}
 //
 
 #include <gtest/gtest.h>
@@ -16,9 +16,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "wisey/HeapReferenceMethodParameter.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -32,7 +32,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct HeapReferenceMethodParameterTest : public Test {
+struct ParameterReferenceVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -42,7 +42,7 @@ struct HeapReferenceMethodParameterTest : public Test {
   
 public:
   
-  HeapReferenceMethodParameterTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ParameterReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
@@ -73,17 +73,17 @@ public:
   }
 };
 
-TEST_F(HeapReferenceMethodParameterTest, heapReferenceMethodParameterVariableAssignmentDeathTest) {
-  HeapReferenceMethodParameter heapMethodParameter("foo", mModel, NULL);
+TEST_F(ParameterReferenceVariableTest, heapReferenceMethodParameterVariableAssignmentDeathTest) {
+  ParameterReferenceVariable heapMethodParameter("foo", mModel, NULL);
   
   EXPECT_EXIT(heapMethodParameter.generateAssignmentIR(mContext, NULL),
               ::testing::ExitedWithCode(1),
               "Assignment to method parameters is not allowed");
 }
 
-TEST_F(HeapReferenceMethodParameterTest, heapReferenceMethodParameterVariableIdentifierTest) {
+TEST_F(ParameterReferenceVariableTest, heapReferenceMethodParameterVariableIdentifierTest) {
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  HeapReferenceMethodParameter heapMethodParameter("foo", mModel, fooValue);
+  ParameterReferenceVariable heapMethodParameter("foo", mModel, fooValue);
   
   EXPECT_EQ(heapMethodParameter.generateIdentifierIR(mContext, "bar"), fooValue);
 }

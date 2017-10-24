@@ -282,9 +282,9 @@
 		F53A2C121EEEC56700E76A9E /* TestControllerOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C111EEEC56700E76A9E /* TestControllerOwner.cpp */; };
 		F53A2C141EF018EE00E76A9E /* TestInterfaceOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C131EF018EE00E76A9E /* TestInterfaceOwner.cpp */; };
 		F53A2C161EF020B400E76A9E /* TestModelOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C151EF020B400E76A9E /* TestModelOwner.cpp */; };
-		F53A2C191EF85DF000E76A9E /* HeapReferenceMethodParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C181EF85DF000E76A9E /* HeapReferenceMethodParameter.cpp */; };
-		F53A2C1A1EF85DF000E76A9E /* HeapReferenceMethodParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C181EF85DF000E76A9E /* HeapReferenceMethodParameter.cpp */; };
-		F53A2C1C1EF92D8300E76A9E /* TestHeapReferenceMethodParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C1B1EF92D8300E76A9E /* TestHeapReferenceMethodParameter.cpp */; };
+		F53A2C191EF85DF000E76A9E /* ParameterReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */; };
+		F53A2C1A1EF85DF000E76A9E /* ParameterReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */; };
+		F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */; };
 		F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C1D1EF96C0200E76A9E /* IVariable.cpp */; };
 		F53A2C1F1EF96C0200E76A9E /* IVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C1D1EF96C0200E76A9E /* IVariable.cpp */; };
 		F53A2C211EF96FEA00E76A9E /* TestIVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */; };
@@ -1019,9 +1019,9 @@
 		F53A2C111EEEC56700E76A9E /* TestControllerOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerOwner.cpp; path = tests/TestControllerOwner.cpp; sourceTree = "<group>"; };
 		F53A2C131EF018EE00E76A9E /* TestInterfaceOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceOwner.cpp; path = tests/TestInterfaceOwner.cpp; sourceTree = "<group>"; };
 		F53A2C151EF020B400E76A9E /* TestModelOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestModelOwner.cpp; path = tests/TestModelOwner.cpp; sourceTree = "<group>"; };
-		F53A2C171EF85D5B00E76A9E /* HeapReferenceMethodParameter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = HeapReferenceMethodParameter.hpp; path = include/wisey/HeapReferenceMethodParameter.hpp; sourceTree = "<group>"; };
-		F53A2C181EF85DF000E76A9E /* HeapReferenceMethodParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HeapReferenceMethodParameter.cpp; path = src/HeapReferenceMethodParameter.cpp; sourceTree = "<group>"; };
-		F53A2C1B1EF92D8300E76A9E /* TestHeapReferenceMethodParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestHeapReferenceMethodParameter.cpp; path = tests/TestHeapReferenceMethodParameter.cpp; sourceTree = "<group>"; };
+		F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterReferenceVariable.hpp; path = include/wisey/ParameterReferenceVariable.hpp; sourceTree = "<group>"; };
+		F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterReferenceVariable.cpp; path = src/ParameterReferenceVariable.cpp; sourceTree = "<group>"; };
+		F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterReferenceVariable.cpp; path = tests/TestParameterReferenceVariable.cpp; sourceTree = "<group>"; };
 		F53A2C1D1EF96C0200E76A9E /* IVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IVariable.cpp; path = src/IVariable.cpp; sourceTree = "<group>"; };
 		F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIVariable.cpp; path = tests/TestIVariable.cpp; sourceTree = "<group>"; };
 		F53A2C221EFFCFFD00E76A9E /* NodeDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NodeDefinition.hpp; path = include/wisey/NodeDefinition.hpp; sourceTree = "<group>"; };
@@ -1780,7 +1780,6 @@
 				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
 				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
 				F5A363431F33D08F005880B3 /* TestHeapOwnerVariable.cpp */,
-				F53A2C1B1EF92D8300E76A9E /* TestHeapReferenceMethodParameter.cpp */,
 				F50427B01E4DD621001CB148 /* TestHeapReferenceVariable.cpp */,
 				F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
@@ -1830,6 +1829,7 @@
 				F5A3634F1F374DCB005880B3 /* TestOwnerFieldVariable.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */,
 				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
+				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
 				F55CF1871F850EEB00A11426 /* TestPrefix.cpp */,
 				F5A363591F376F1C005880B3 /* TestPrimitiveFieldVariable.cpp */,
 				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
@@ -2278,11 +2278,11 @@
 		F58725411F6D6BDD00FA25E6 /* variables */ = {
 			isa = PBXGroup;
 			children = (
-				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
 				F5A3633F1F33C091005880B3 /* HeapOwnerVariable.hpp */,
-				F53A2C171EF85D5B00E76A9E /* HeapReferenceMethodParameter.hpp */,
 				F5089C851ECD01D9004A1223 /* HeapReferenceVariable.hpp */,
 				F5A3634B1F374586005880B3 /* OwnerFieldVariable.hpp */,
+				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
+				F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */,
 				F5A363511F37699B005880B3 /* PrimitiveFieldVariable.hpp */,
 				F5089C991ECD01D9004A1223 /* ReferenceFieldVariable.hpp */,
 				F5089C861ECD01D9004A1223 /* StackVariable.hpp */,
@@ -2295,10 +2295,10 @@
 			isa = PBXGroup;
 			children = (
 				F5A363401F33C1A8005880B3 /* HeapOwnerVariable.cpp */,
-				F53A2C181EF85DF000E76A9E /* HeapReferenceMethodParameter.cpp */,
 				F50427AB1E4D2747001CB148 /* HeapReferenceVariable.cpp */,
 				F5A3634C1F374680005880B3 /* OwnerFieldVariable.cpp */,
 				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
+				F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */,
 				F5A363521F376A23005880B3 /* PrimitiveFieldVariable.cpp */,
 				F50427B31E4E3FA7001CB148 /* ReferenceFieldVariable.cpp */,
 				F50427A71E4D226C001CB148 /* StackVariable.cpp */,
@@ -2693,7 +2693,7 @@
 				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
 				F53A2C4E1F02A4EC00E76A9E /* TestNullExpression.cpp in Sources */,
-				F53A2C1A1EF85DF000E76A9E /* HeapReferenceMethodParameter.cpp in Sources */,
+				F53A2C1A1EF85DF000E76A9E /* ParameterReferenceVariable.cpp in Sources */,
 				F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
 				F53A2C501F02D55A00E76A9E /* TestPrimitiveTypes.cpp in Sources */,
 				F59D820E1E0F25DF00057FB5 /* TestWhileStatement.cpp in Sources */,
@@ -2754,7 +2754,7 @@
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
-				F53A2C1C1EF92D8300E76A9E /* TestHeapReferenceMethodParameter.cpp in Sources */,
+				F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
 				F53A2C4A1F029BA500E76A9E /* NullExpression.cpp in Sources */,
 				F51581291E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */,
@@ -2905,7 +2905,7 @@
 				F5C6FD761E48B50A0054209D /* DoubleType.cpp in Sources */,
 				F50FA2A81E269E5700435EEA /* CaseStatement.cpp in Sources */,
 				F50FA2FF1E323AAD00435EEA /* Scopes.cpp in Sources */,
-				F53A2C191EF85DF000E76A9E /* HeapReferenceMethodParameter.cpp in Sources */,
+				F53A2C191EF85DF000E76A9E /* ParameterReferenceVariable.cpp in Sources */,
 				F5A363471F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */,
 				F58748301F921F6B0088F1E3 /* Injector.cpp in Sources */,
 				F531B6481E0A4F76008304F3 /* Assignment.cpp in Sources */,

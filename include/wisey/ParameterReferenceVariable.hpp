@@ -1,13 +1,13 @@
 //
-//  HeapReferenceMethodParameter.hpp
+//  ParameterReferenceVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 6/19/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef HeapReferenceMethodParameter_h
-#define HeapReferenceMethodParameter_h
+#ifndef ParameterReferenceVariable_h
+#define ParameterReferenceVariable_h
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectType.hpp"
@@ -16,11 +16,11 @@
 namespace wisey {
   
 /**
- * Represents a method parameter that is a reference to a heap object.
+ * Represents a method parameter that is a reference to an object owner.
  *
  * This is the same as HeapReferenceVariable only returns true on existsInOuterScope()
  */
-class HeapReferenceMethodParameter : public IVariable {
+class ParameterReferenceVariable : public IVariable {
   
   std::string mName;
   const IObjectType* mType;
@@ -28,10 +28,10 @@ class HeapReferenceMethodParameter : public IVariable {
   
 public:
   
-  HeapReferenceMethodParameter(std::string name, const IObjectType* type, llvm::Value* value)
+  ParameterReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value) { }
   
-  ~HeapReferenceMethodParameter() {
+  ~ParameterReferenceVariable() {
   }
   
   std::string getName() const override;
@@ -56,4 +56,4 @@ public:
   
 } /* namespace wisey */
 
-#endif /* HeapReferenceMethodParameter_h */
+#endif /* ParameterReferenceVariable_h */

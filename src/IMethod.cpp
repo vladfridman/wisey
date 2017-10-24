@@ -8,13 +8,13 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/HeapReferenceMethodParameter.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
+#include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StackVariable.hpp"
 
@@ -47,7 +47,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
     return;
   }
   
-  IVariable* variable = new HeapReferenceMethodParameter(variableName,
+  IVariable* variable = new ParameterReferenceVariable(variableName,
                                                          (IObjectType*) variableType,
                                                          variableValue);
   context.getScopes().setVariable(variable);
