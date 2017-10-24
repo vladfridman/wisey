@@ -1,0 +1,11 @@
+package systems.vos.wisey.compiler.tests;
+
+model MCar {
+  int mValue;
+}
+
+model MRunner {
+  public static void run() {
+    MCar reference = null;
+  }
+}

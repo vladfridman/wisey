@@ -193,6 +193,10 @@ TEST_F(TestFileSampleRunner, assignFieldReferenceToParameterOwnerCompileTest) {
   compileFile("tests/samples/test_assign_field_reference_to_parameter_owner.yz");
 }
 
+TEST_F(TestFileSampleRunner, assignFieldReferenceToNullCompileTest) {
+  compileFile("tests/samples/test_assign_field_reference_to_null.yz");
+}
+
 TEST_F(TestFileSampleRunner, assignFieldReferenceToParameterReferenceCompileTest) {
   expectFailCompile("tests/samples/test_assign_field_reference_to_parameter_reference.yz",
                     1,

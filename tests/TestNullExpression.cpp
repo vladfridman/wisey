@@ -62,8 +62,3 @@ TEST_F(NullExpressionTest, printToStreamTest) {
   EXPECT_STREQ("null", stringStream.str().c_str());
 }
 
-TEST_F(NullExpressionTest, addReferenceToOwnerDeathTest) {
-  EXPECT_EXIT(mNullExpression.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to a null expression");
-}

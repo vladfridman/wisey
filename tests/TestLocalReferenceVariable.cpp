@@ -156,6 +156,10 @@ TEST_F(TestFileSampleRunner, assignLocalReferenceToLocalReferenceCompileTest) {
   compileFile("tests/samples/test_assign_local_reference_to_local_reference.yz");
 }
 
+TEST_F(TestFileSampleRunner, assignLocalReferenceToNullCompileTest) {
+  compileFile("tests/samples/test_assign_local_reference_to_null.yz");
+}
+
 TEST_F(TestFileSampleRunner, usingUninitializedLocalReferenceVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_heap_reference_variable_not_initialized.yz",
                     1,
