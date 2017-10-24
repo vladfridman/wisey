@@ -8,13 +8,13 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/HeapOwnerMethodParameter.hpp"
 #include "wisey/HeapReferenceMethodParameter.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodCall.hpp"
+#include "wisey/ParameterOwnerVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StackVariable.hpp"
 
@@ -42,7 +42,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
     Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterObjectPointer");
     IRWriter::newStoreInst(context, variableValue, alloc);
     IObjectOwnerType* objectOwnerType = (IObjectOwnerType*) variableType;
-    IVariable* variable = new HeapOwnerMethodParameter(variableName, objectOwnerType, alloc);
+    IVariable* variable = new ParameterOwnerVariable(variableName, objectOwnerType, alloc);
     context.getScopes().setVariable(variable);
     return;
   }

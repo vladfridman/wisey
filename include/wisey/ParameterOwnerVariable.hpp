@@ -1,13 +1,13 @@
 //
-//  HeapOwnerMethodParameter.hpp
+//  ParameterOwnerVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/6/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef HeapOwnerMethodParameter_h
-#define HeapOwnerMethodParameter_h
+#ifndef ParameterOwnerVariable_h
+#define ParameterOwnerVariable_h
 
 #include "wisey/IObjectOwnerType.hpp"
 #include "wisey/IVariable.hpp"
@@ -15,11 +15,11 @@
 namespace wisey {
   
 /**
- * Represents a method parameter that is an owner of a heap object.
+ * Represents a method parameter that is an object owner.
  *
  * This is the same as HeapOwnerVariable only returns true on existsInOuterScope()
  */
-class HeapOwnerMethodParameter : public IVariable {
+class ParameterOwnerVariable : public IVariable {
     
   std::string mName;
   const IObjectOwnerType* mType;
@@ -27,10 +27,10 @@ class HeapOwnerMethodParameter : public IVariable {
   
 public:
   
-  HeapOwnerMethodParameter(std::string name, const IObjectOwnerType* type, llvm::Value* value)
+  ParameterOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value) { }
   
-  ~HeapOwnerMethodParameter() {
+  ~ParameterOwnerVariable() {
   }
   
   std::string getName() const override;
@@ -56,4 +56,4 @@ public:
 } /* namespace wisey */
 
 
-#endif /* HeapOwnerMethodParameter_h */
+#endif /* ParameterOwnerVariable_h */

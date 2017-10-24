@@ -9,7 +9,6 @@
 #include "wisey/Cleanup.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
-#include "wisey/HeapOwnerMethodParameter.hpp"
 #include "wisey/HeapReferenceMethodParameter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"

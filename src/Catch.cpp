@@ -10,10 +10,10 @@
 
 #include "wisey/Catch.hpp"
 #include "wisey/Environment.hpp"
-#include "wisey/HeapOwnerMethodParameter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ModelOwner.hpp"
+#include "wisey/ParameterOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -70,7 +70,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   Value* pointer = IRWriter::newAllocaInst(context, malloc->getType(), "exceptionPointer");
   IRWriter::newStoreInst(context, malloc, pointer);
   
-  IVariable* exceptionVariable = new HeapOwnerMethodParameter(mIdentifier, exceptionType, pointer);
+  IVariable* exceptionVariable = new ParameterOwnerVariable(mIdentifier, exceptionType, pointer);
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);
   mStatement->generateIR(context);
   context.getScopes().popScope(context);

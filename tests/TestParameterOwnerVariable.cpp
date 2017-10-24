@@ -1,11 +1,11 @@
 //
-//  TestHeapOwnerMethodParameter.cpp
+//  TestParameterOwnerVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/6/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link HeapOwnerMethodParameter}
+//  Tests {@link ParameterOwnerVariable}
 //
 
 #include <gtest/gtest.h>
@@ -16,9 +16,9 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "wisey/HeapOwnerMethodParameter.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/ParameterOwnerVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -32,7 +32,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct HeapOwnerMethodParameterTest : public Test {
+struct ParameterOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -42,7 +42,7 @@ struct HeapOwnerMethodParameterTest : public Test {
   
 public:
   
-  HeapOwnerMethodParameterTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ParameterOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
@@ -77,10 +77,10 @@ public:
   }
 };
 
-TEST_F(HeapOwnerMethodParameterTest, freeTest) {
+TEST_F(ParameterOwnerVariableTest, freeTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapOwnerMethodParameter heapMethodParameter("foo", mModel->getOwner(), fooValue);
+  ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue);
   
   heapMethodParameter.free(mContext);
   
@@ -96,10 +96,10 @@ TEST_F(HeapOwnerMethodParameterTest, freeTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(HeapOwnerMethodParameterTest, setToNullTest) {
+TEST_F(ParameterOwnerVariableTest, setToNullTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapOwnerMethodParameter heapMethodParameter("foo", mModel->getOwner(), fooValue);
+  ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue);
   
   heapMethodParameter.setToNull(mContext);
   

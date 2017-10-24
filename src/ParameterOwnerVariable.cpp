@@ -1,5 +1,5 @@
 //
-//  HeapOwnerMethodParameter.cpp
+//  ParameterOwnerVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/6/17.
@@ -11,49 +11,49 @@
 
 #include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
-#include "wisey/HeapOwnerMethodParameter.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/ParameterOwnerVariable.hpp"
 #include "wisey/Scopes.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-string HeapOwnerMethodParameter::getName() const {
+string ParameterOwnerVariable::getName() const {
   return mName;
 }
 
-const IType* HeapOwnerMethodParameter::getType() const {
+const IType* ParameterOwnerVariable::getType() const {
   return mType;
 }
 
-Value* HeapOwnerMethodParameter::getValue() const {
+Value* ParameterOwnerVariable::getValue() const {
   return mValue;
 }
 
-Value* HeapOwnerMethodParameter::generateIdentifierIR(IRGenerationContext& context,
+Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
                                                       string llvmVariableName) const {
   return mValue;
 }
 
-Value* HeapOwnerMethodParameter::generateAssignmentIR(IRGenerationContext& context,
+Value* ParameterOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                       IExpression* assignToExpression) {
   Log::e("Assignment to method parameters is not allowed");
   exit(1);
 }
 
-void HeapOwnerMethodParameter::setToNull(IRGenerationContext& context) {
+void ParameterOwnerVariable::setToNull(IRGenerationContext& context) {
   PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
   Value* null = ConstantPointerNull::get(type);
   IRWriter::newStoreInst(context, null, mValue);
 }
 
-void HeapOwnerMethodParameter::free(IRGenerationContext& context) const {
+void ParameterOwnerVariable::free(IRGenerationContext& context) const {
   mType->free(context, mValue);
 }
 
-bool HeapOwnerMethodParameter::existsInOuterScope() const {
+bool ParameterOwnerVariable::existsInOuterScope() const {
   return true;
 }
