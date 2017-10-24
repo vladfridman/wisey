@@ -13,11 +13,11 @@
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapOwnerVariable.hpp"
 #include "wisey/HeapReferenceVariable.hpp"
-#include "wisey/StackVariable.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/StackVariable.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -103,7 +103,7 @@ void VariableDeclaration::allocateOwnerOnHeap(IRGenerationContext& context) cons
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
   
-  IVariable* uninitializedVariable = new HeapOwnerVariable(variableName, type, alloca);
+  IVariable* uninitializedVariable = new LocalOwnerVariable(variableName, type, alloca);
   context.getScopes().setVariable(uninitializedVariable);
 }
 

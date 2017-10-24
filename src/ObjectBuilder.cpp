@@ -9,9 +9,9 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Environment.hpp"
-#include "wisey/HeapOwnerVariable.hpp"
 #include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ObjectBuilder.hpp"
 
@@ -43,7 +43,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context) const {
   Value* alloc = IRWriter::newAllocaInst(context, malloc->getType(), "");
   IRWriter::newStoreInst(context, malloc, alloc);
 
-  IVariable* heapVariable = new HeapOwnerVariable(IVariable::getTemporaryVariableName(this),
+  IVariable* heapVariable = new LocalOwnerVariable(IVariable::getTemporaryVariableName(this),
                                                   object->getOwner(),
                                                   alloc);
   context.getScopes().setVariable(heapVariable);

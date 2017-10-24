@@ -1,13 +1,13 @@
 //
-//  HeapOwnerVariable.hpp
+//  LocalOwnerVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/3/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef HeapOwnerVariable_h
-#define HeapOwnerVariable_h
+#ifndef LocalOwnerVariable_h
+#define LocalOwnerVariable_h
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectOwnerType.hpp"
@@ -16,9 +16,9 @@
 namespace wisey {
   
 /**
- * Represents a variable that is a owner of a heap object
+ * Represents a variable that is an object owner
  */
-class HeapOwnerVariable : public IVariable {
+class LocalOwnerVariable : public IVariable {
     
   std::string mName;
   const IObjectOwnerType* mType;
@@ -27,10 +27,10 @@ class HeapOwnerVariable : public IVariable {
   
 public:
   
-  HeapOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value)
+  LocalOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value)
   : mName(name), mType(type), mValue(value), mIsInitialized(false) { }
   
-  ~HeapOwnerVariable() {
+  ~LocalOwnerVariable() {
   }
   
   std::string getName() const override;
@@ -55,4 +55,4 @@ public:
   
 } /* namespace wisey */
 
-#endif /* HeapOwnerVariable_h */
+#endif /* LocalOwnerVariable_h */

@@ -1,5 +1,5 @@
 //
-//  HeapOwnerVariable.cpp
+//  LocalOwnerVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/3/17.
@@ -11,9 +11,9 @@
 
 #include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
-#include "wisey/HeapOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Scopes.hpp"
 
@@ -21,19 +21,19 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-string HeapOwnerVariable::getName() const {
+string LocalOwnerVariable::getName() const {
   return mName;
 }
 
-const IObjectOwnerType* HeapOwnerVariable::getType() const {
+const IObjectOwnerType* LocalOwnerVariable::getType() const {
   return mType;
 }
 
-Value* HeapOwnerVariable::getValue() const {
+Value* LocalOwnerVariable::getValue() const {
   return mValue;
 }
 
-Value* HeapOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
+Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
                                                string llvmVariableName) const {
   if (!mIsInitialized) {
     Log::e("Variable '" + mName + "' is used before it is initialized");
@@ -43,7 +43,7 @@ Value* HeapOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
   return mValue;
 }
 
-Value* HeapOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
+Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                IExpression* assignToExpression) {
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
@@ -59,17 +59,17 @@ Value* HeapOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   return mValue;
 }
 
-void HeapOwnerVariable::setToNull(IRGenerationContext& context) {
+void LocalOwnerVariable::setToNull(IRGenerationContext& context) {
   PointerType* type = getType()->getLLVMType(context.getLLVMContext());
   Value* null = ConstantPointerNull::get(type);
   IRWriter::newStoreInst(context, null, mValue);
   mIsInitialized = true;
 }
 
-void HeapOwnerVariable::free(IRGenerationContext& context) const {
+void LocalOwnerVariable::free(IRGenerationContext& context) const {
   mType->free(context, mValue);
 }
 
-bool HeapOwnerVariable::existsInOuterScope() const {
+bool LocalOwnerVariable::existsInOuterScope() const {
   return false;
 }

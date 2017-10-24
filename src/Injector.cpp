@@ -9,7 +9,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/Injector.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapOwnerVariable.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -36,7 +36,7 @@ Value* Injector::generateIR(IRGenerationContext& context) const {
   Value* pointer = IRWriter::newAllocaInst(context, malloc->getType(), "pointer");
   IRWriter::newStoreInst(context, malloc, pointer);
   
-  IVariable* heapVariable = new HeapOwnerVariable(IVariable::getTemporaryVariableName(this),
+  IVariable* heapVariable = new LocalOwnerVariable(IVariable::getTemporaryVariableName(this),
                                                   getType(context),
                                                   pointer);
   context.getScopes().setVariable(heapVariable);

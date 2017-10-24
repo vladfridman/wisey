@@ -12,7 +12,6 @@
 #include "wisey/Controller.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/Environment.hpp"
-#include "wisey/HeapOwnerVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"

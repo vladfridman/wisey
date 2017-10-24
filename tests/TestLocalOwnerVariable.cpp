@@ -1,11 +1,11 @@
 //
-//  TestHeapOwnerVariable.cpp
+//  TestLocalOwnerVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/4/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link HeapOwnerVariable}
+//  Tests {@link LocalOwnerVariable}
 //
 
 #include <gtest/gtest.h>
@@ -19,7 +19,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapOwnerVariable.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -33,7 +33,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct HeapOwnerVariableTest : public Test {
+struct LocalOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -43,7 +43,7 @@ struct HeapOwnerVariableTest : public Test {
   
 public:
   
-  HeapOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  LocalOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
@@ -78,15 +78,15 @@ public:
   }
 };
 
-TEST_F(HeapOwnerVariableTest, heapVariableAssignmentTest) {
+TEST_F(LocalOwnerVariableTest, heapVariableAssignmentTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
 
   IVariable* uninitializedHeapVariable =
-    new HeapOwnerVariable("foo", mModel->getOwner(), fooValue);
+    new LocalOwnerVariable("foo", mModel->getOwner(), fooValue);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   Value* barValue = ConstantPointerNull::get((PointerType*) llvmType->getPointerTo());
-  HeapOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), NULL);
+  LocalOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), NULL);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel->getOwner()));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
@@ -109,37 +109,37 @@ TEST_F(HeapOwnerVariableTest, heapVariableAssignmentTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(HeapOwnerVariableTest, heapOwnerVariableIdentifierTest) {
+TEST_F(LocalOwnerVariableTest, heapOwnerVariableIdentifierTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
   heapOwnerVariable.setToNull(mContext);
 
   EXPECT_EQ(heapOwnerVariable.generateIdentifierIR(mContext, "fooVal"), fooValue);
 }
 
-TEST_F(HeapOwnerVariableTest, heapOwnerVariableIdentifierUninitializedDeathTest) {
+TEST_F(LocalOwnerVariableTest, heapOwnerVariableIdentifierUninitializedDeathTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
   EXPECT_EXIT(heapOwnerVariable.generateIdentifierIR(mContext, "fooVal"),
               ::testing::ExitedWithCode(1),
               "Error: Variable 'foo' is used before it is initialized");
 }
 
-TEST_F(HeapOwnerVariableTest, existsInOuterScopeTest) {
+TEST_F(LocalOwnerVariableTest, existsInOuterScopeTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mLLVMContext));
-  HeapOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
   EXPECT_FALSE(heapOwnerVariable.existsInOuterScope());
 }
 
-TEST_F(HeapOwnerVariableTest, freeTest) {
+TEST_F(LocalOwnerVariableTest, freeTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
   heapOwnerVariable.free(mContext);
   
@@ -155,10 +155,10 @@ TEST_F(HeapOwnerVariableTest, freeTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(HeapOwnerVariableTest, setToNullTest) {
+TEST_F(LocalOwnerVariableTest, setToNullTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  HeapOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
+  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
   heapOwnerVariable.setToNull(mContext);
   
@@ -187,13 +187,13 @@ TEST_F(TestFileSampleRunner, assignLocalOwnerToNullCompileTest) {
   compileFile("tests/samples/test_assign_local_owner_to_null.yz");
 }
 
-TEST_F(TestFileSampleRunner, usingUninitializedHeapOwnerVariableRunDeathTest) {
+TEST_F(TestFileSampleRunner, usingUninitializedLocalOwnerVariableRunDeathTest) {
   expectFailCompile("tests/samples/test_heap_owner_variable_not_initialized.yz",
                     1,
                     "Error: Variable 'color' is used before it is initialized");
 }
 
-TEST_F(TestFileSampleRunner, destructorCalledOnAssignHeapOwnerVariableRunTest) {
+TEST_F(TestFileSampleRunner, destructorCalledOnAssignLocalOwnerVariableRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_destructor_called_on_assign_heap_owner_variable.yz",
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "car is destoyed\n"

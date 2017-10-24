@@ -13,13 +13,13 @@
 #include "wisey/ControllerTypeSpecifier.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/HeapOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IfStatement.hpp"
 #include "wisey/Injector.hpp"
 #include "wisey/IntConstant.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
@@ -111,7 +111,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
   Value* threadTemp = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadTemp");
   IRWriter::newStoreInst(context, injectedThread, threadTemp);
-  IVariable* threadVariable = new HeapOwnerVariable(ThreadExpression::THREAD,
+  IVariable* threadVariable = new LocalOwnerVariable(ThreadExpression::THREAD,
                                                     threadController->getOwner(),
                                                     threadStore);
   context.getScopes().setVariable(threadVariable);

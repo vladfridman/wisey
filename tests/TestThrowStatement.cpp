@@ -19,7 +19,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Block.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/HeapOwnerVariable.hpp"
+#include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/HeapReferenceVariable.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThrowStatement.hpp"
@@ -134,14 +134,14 @@ TEST_F(ThrowStatementTest, heapVariablesAreClearedTest) {
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, fooMalloc, fooPointer);
-  IVariable* foo = new HeapOwnerVariable("foo", mCircleModel->getOwner(), fooPointer);
+  IVariable* foo = new LocalOwnerVariable("foo", mCircleModel->getOwner(), fooPointer);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* barPointer = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "pointer");
   IRWriter::newStoreInst(mContext, barMalloc, barPointer);
-  IVariable* bar = new HeapOwnerVariable("bar", mCircleModel->getOwner(), barPointer);
+  IVariable* bar = new LocalOwnerVariable("bar", mCircleModel->getOwner(), barPointer);
   mContext.getScopes().setVariable(bar);
   
   llvm::Constant* exceptionObject =
