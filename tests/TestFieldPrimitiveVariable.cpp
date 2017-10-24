@@ -1,11 +1,11 @@
 //
-//  TestPrimitiveFieldVariable.cpp
+//  TestFieldPrimitiveVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/6/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link PrimitiveFieldVariable}
+//  Tests {@link FieldPrimitiveVariable}
 //
 
 #include <gtest/gtest.h>
@@ -17,11 +17,11 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
-#include "wisey/PrimitiveFieldVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -34,17 +34,17 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct PrimitiveFieldVariableTest : Test {
+struct FieldPrimitiveVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Controller* mObject;
   BasicBlock* mBasicBlock;
   Value* mPrimitiveFieldValue;
-  PrimitiveFieldVariable* mPrimitiveFieldVariable;
+  FieldPrimitiveVariable* mFieldPrimitiveVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  PrimitiveFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  FieldPrimitiveVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> types;
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mLLVMContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.CController";
@@ -71,25 +71,25 @@ struct PrimitiveFieldVariableTest : Test {
     mContext.getScopes().setVariable(thisVariable);
     
     mPrimitiveFieldValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-    mPrimitiveFieldVariable = new PrimitiveFieldVariable("foo", mPrimitiveFieldValue, mObject);
+    mFieldPrimitiveVariable = new FieldPrimitiveVariable("foo", mPrimitiveFieldValue, mObject);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~PrimitiveFieldVariableTest() {
+  ~FieldPrimitiveVariableTest() {
     delete mStringStream;
     delete mObject;
   }
 };
 
-TEST_F(PrimitiveFieldVariableTest, basicFieldsTest) {
-  EXPECT_STREQ(mPrimitiveFieldVariable->getName().c_str(), "foo");
-  EXPECT_EQ(mPrimitiveFieldVariable->getType(), PrimitiveTypes::INT_TYPE);
-  EXPECT_EQ(mPrimitiveFieldVariable->getValue(), mPrimitiveFieldValue);
+TEST_F(FieldPrimitiveVariableTest, basicFieldsTest) {
+  EXPECT_STREQ(mFieldPrimitiveVariable->getName().c_str(), "foo");
+  EXPECT_EQ(mFieldPrimitiveVariable->getType(), PrimitiveTypes::INT_TYPE);
+  EXPECT_EQ(mFieldPrimitiveVariable->getValue(), mPrimitiveFieldValue);
 }
 
-TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateIdentifierIRTest) {
-  mPrimitiveFieldVariable->generateIdentifierIR(mContext, "test");
+TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateIdentifierIRTest) {
+  mFieldPrimitiveVariable->generateIdentifierIR(mContext, "test");
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -103,14 +103,14 @@ TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateIdentifierIRTes
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentIRTest) {
+TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   Value* assignToValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
-  mPrimitiveFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
+  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -124,14 +124,14 @@ TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentIRTes
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentWithCastIRTest) {
+TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   Value* assignToValue = ConstantInt::get(PrimitiveTypes::CHAR_TYPE->getLLVMType(mLLVMContext), 3);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
-  mPrimitiveFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
+  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -146,8 +146,8 @@ TEST_F(PrimitiveFieldVariableTest, primitiveFieldVariableGenerateAssignmentWithC
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(PrimitiveFieldVariableTest, existsInOuterScopeTest) {
-  EXPECT_TRUE(mPrimitiveFieldVariable->existsInOuterScope());
+TEST_F(FieldPrimitiveVariableTest, existsInOuterScopeTest) {
+  EXPECT_TRUE(mFieldPrimitiveVariable->existsInOuterScope());
 }
 
 TEST_F(TestFileSampleRunner, objectFieldSetRunTest) {
