@@ -149,9 +149,11 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
     ->getPointerElementType()->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
-  EXPECT_TRUE(structType->getNumElements() == 2);
+  EXPECT_EQ(structType->getNumElements(), 3u);
+  // reference counter
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
-  EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(model->getName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
   EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
   EXPECT_NE(model->findMethod("foo"), nullptr);

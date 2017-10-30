@@ -29,6 +29,16 @@ public:
   
   /**
    * Fill up concrete object prototype with methods, fields, types and other data
+   *
+   * The llvm struct representing the object consists of
+   * {
+   *    int8* imlemented interface1 vtable pointer,
+   *    int8* imlemented interface2 vtable pointer,
+   *    ...
+   *    int64 reference pointer counter,
+   *    <field1 type> field1,
+   *    <field2 type> field2,
+   * }
    */
   static void configureObject(IRGenerationContext& context,
                               IConcreteObjectType* object,

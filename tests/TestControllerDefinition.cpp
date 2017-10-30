@@ -144,9 +144,11 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   ->getPointerElementType()->getPointerElementType();
 
   ASSERT_NE(structType, nullptr);
-  ASSERT_EQ(structType->getNumElements(), 2u);
+  EXPECT_EQ(structType->getNumElements(), 3u);
+  // reference counter
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
-  EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
   EXPECT_STREQ(controller->getName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
   EXPECT_NE(controller->findMethod("foo"), nullptr);

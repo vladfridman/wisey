@@ -151,9 +151,11 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   ->getPointerElementType()->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
-  EXPECT_TRUE(structType->getNumElements() == 2);
+  EXPECT_EQ(structType->getNumElements(), 3u);
+  // reference counter
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
-  EXPECT_EQ(structType->getElementType(1), Type::getFloatTy(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
+  EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(node->getName().c_str(), "systems.vos.wisey.compiler.tests.NMyNode");
   EXPECT_STREQ(node->getShortName().c_str(), "NMyNode");
   EXPECT_NE(node->findMethod("foo"), nullptr);

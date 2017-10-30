@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Environment.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
@@ -22,8 +23,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
   tuple<vector<Constant*>, vector<Field*>, vector<IMethod*>> elements =
     createElements(context, elementDeclarations);
-  object->setFields(get<1>(elements), interfaces.size());
-  
+  object->setFields(get<1>(elements), interfaces.size() + 1);
   object->setInterfaces(interfaces);
   object->setMethods(get<2>(elements));
   object->setConstants(get<0>(elements));
@@ -34,6 +34,10 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                     ->getPointerElementType()->getPointerElementType());
   }
   
+  // reference counter type
+  llvm::Type* referenceCounterType = llvm::Type::getInt64Ty(context.getLLVMContext());
+  types.push_back(referenceCounterType);
+
   collectFieldTypes(context, types, get<1>(elements));
   object->setStructBodyTypes(types);
   
