@@ -74,7 +74,7 @@ void Model::setFields(vector<Field*> fields, unsigned long startIndex) {
 void Model::setInterfaces(vector<Interface*> interfaces) {
   mInterfaces = interfaces;
   for (Interface* interface : mInterfaces) {
-    addInterfaceAndItsParents(mFlattenedInterfaceHierarchy, interface);
+    IConcreteObjectType::addInterfaceAndItsParents(interface, mFlattenedInterfaceHierarchy);
   }
 }
 
@@ -189,14 +189,6 @@ vector<Interface*> Model::getFlattenedInterfaceHierarchy() const {
 bool Model::doesImplmentInterface(Interface* interface) const {
   // TODO: optimize this
   return getInterfaceIndex((IConcreteObjectType*) this, interface) >= 0;
-}
-
-void Model::addInterfaceAndItsParents(vector<Interface*>& result, Interface* interface) const {
-  result.push_back(interface);
-  vector<Interface*> parentInterfaces = interface->getParentInterfaces();
-  for (Interface* interface : parentInterfaces) {
-    addInterfaceAndItsParents(result, interface);
-  }
 }
 
 string Model::getName() const {

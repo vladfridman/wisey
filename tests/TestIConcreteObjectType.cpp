@@ -18,6 +18,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -82,7 +83,7 @@ struct IConcreteObjectTypeTest : public Test {
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
-    StructType *starStructType = StructType::create(mLLVMContext, starFullName);
+    StructType* starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     vector<Field*> starFields;
     starFields.push_back(new Field(FIXED_FIELD,
@@ -291,6 +292,59 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+}
+
+TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
+  mContext.setPackage("some.package");
+  
+  vector<InterfaceTypeSpecifier*> interfaceTypeSpecifiers;
+  vector<IObjectElementDeclaration *> objectElements;
+
+  vector<Interface*> flattenedInterfaces;
+
+  vector<string> package;
+  package.push_back("some");
+  package.push_back("package");
+  StructType* grandChildStructType = StructType::create(mLLVMContext, "some.package.IGrandChild");
+  Interface* grandChild = Interface::newInterface("some.package.IGrandChild",
+                                                  grandChildStructType,
+                                                  interfaceTypeSpecifiers,
+                                                  objectElements);
+
+  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(package, "IGrandChild"));
+  StructType* child1StructType = StructType::create(mLLVMContext, "some.package.IChild1");
+  Interface* child1 = Interface::newInterface("some.package.IChild1",
+                                             child1StructType,
+                                             interfaceTypeSpecifiers,
+                                             objectElements);
+  interfaceTypeSpecifiers.clear();
+  StructType* child2StructType = StructType::create(mLLVMContext, "some.package.IChild2");
+  Interface* child2 = Interface::newInterface("some.package.IChild2",
+                                              child2StructType,
+                                              interfaceTypeSpecifiers,
+                                              objectElements);
+
+  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(package, "IChild1"));
+  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(package, "IChild2"));
+  StructType* parentStructType = StructType::create(mLLVMContext, "some.package.IParent");
+  Interface* parent = Interface::newInterface("some.package.IParent",
+                                              parentStructType,
+                                              interfaceTypeSpecifiers,
+                                              objectElements);
+  mContext.addInterface(parent);
+  mContext.addInterface(child1);
+  mContext.addInterface(child2);
+  mContext.addInterface(grandChild);
+
+  parent->buildMethods(mContext);
+
+  IConcreteObjectType::addInterfaceAndItsParents(parent, flattenedInterfaces);
+  
+  EXPECT_EQ(flattenedInterfaces.size(), 4u);
+  EXPECT_EQ(flattenedInterfaces.at(0), parent);
+  EXPECT_EQ(flattenedInterfaces.at(1), child1);
+  EXPECT_EQ(flattenedInterfaces.at(2), grandChild);
+  EXPECT_EQ(flattenedInterfaces.at(3), child2);
 }
 
 TEST_F(TestFileSampleRunner, freeingFieldVariablesRunTest) {

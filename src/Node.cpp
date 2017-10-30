@@ -89,15 +89,7 @@ void Node::setInterfaces(vector<Interface *> interfaces) {
   mInterfaces = interfaces;
   
   for (Interface* interface : mInterfaces) {
-    addInterfaceAndItsParents(mFlattenedInterfaceHierarchy, interface);
-  }
-}
-
-void Node::addInterfaceAndItsParents(vector<Interface*>& result, Interface* interface) const {
-  result.push_back(interface);
-  vector<Interface*> parentInterfaces = interface->getParentInterfaces();
-  for (Interface* interface : parentInterfaces) {
-    addInterfaceAndItsParents(result, interface);
+    IConcreteObjectType::addInterfaceAndItsParents(interface, mFlattenedInterfaceHierarchy);
   }
 }
 

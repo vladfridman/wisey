@@ -462,3 +462,12 @@ void IConcreteObjectType::defineCurrentObjectNameVariable(IRGenerationContext& c
                                                         objectName);
   context.getScopes().setVariable(objectNameVariable);
 }
+
+void IConcreteObjectType::addInterfaceAndItsParents(Interface* interface,
+                                                    vector<Interface *> &result) {
+  result.push_back(interface);
+  vector<Interface*> parentInterfaces = interface->getParentInterfaces();
+  for (Interface* interface : parentInterfaces) {
+    addInterfaceAndItsParents(interface, result);
+  }
+}

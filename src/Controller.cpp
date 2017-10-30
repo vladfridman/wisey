@@ -90,7 +90,7 @@ void Controller::setInterfaces(vector<Interface *> interfaces) {
   mInterfaces = interfaces;
   
   for (Interface* interface : mInterfaces) {
-    addInterfaceAndItsParents(mFlattenedInterfaceHierarchy, interface);
+    IConcreteObjectType::addInterfaceAndItsParents(interface, mFlattenedInterfaceHierarchy);
   }
 }
 
@@ -244,14 +244,6 @@ Value* Controller::castTo(IRGenerationContext& context,
                           Value* fromValue,
                           const IType* toType) const {
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
-}
-
-void Controller::addInterfaceAndItsParents(vector<Interface*>& result, Interface* interface) const {
-  result.push_back(interface);
-  vector<Interface*> parentInterfaces = interface->getParentInterfaces();
-  for (Interface* interface : parentInterfaces) {
-    addInterfaceAndItsParents(result, interface);
-  }
 }
 
 void Controller::initializeReceivedFields(IRGenerationContext& context,

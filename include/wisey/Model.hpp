@@ -145,8 +145,6 @@ public:
 private:
   
   Model(std::string name, llvm::StructType* structType, bool isExternal);
-
-  void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
   
   void checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
   

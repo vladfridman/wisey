@@ -123,8 +123,6 @@ private:
   Controller(std::string name, llvm::StructType* structType, bool isExternal);
 
   void checkArguments(ExpressionList received) const;
-  
-  void addInterfaceAndItsParents(std::vector<Interface*>& result, Interface* interface) const;
 
   llvm::Instruction* createMalloc(IRGenerationContext& context) const;
   
