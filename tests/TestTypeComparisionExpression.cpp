@@ -79,6 +79,7 @@ struct TypeComparisionExpressionTest : public Test {
     mFalseValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 0);
     
     vector<Type*> squareTypes;
+    squareTypes.push_back(Type::getInt64Ty(mLLVMContext));
     squareTypes.push_back(Type::getInt32Ty(mLLVMContext));
     squareTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string squareFullName = "systems.vos.wisey.compiler.tests.MSquare";
@@ -182,13 +183,14 @@ struct TypeComparisionExpressionTest : public Test {
     sqaureInterfaces.push_back(mShapeInterface);
     sqaureInterfaces.push_back(mObjectInterface);
     mSquareModel = Model::newModel(squareFullName, squareStructType);
-    mSquareModel->setFields(squareFields, sqaureInterfaces.size());
+    mSquareModel->setFields(squareFields, sqaureInterfaces.size() + 1);
     mSquareModel->setMethods(squareMethods);
     mSquareModel->setInterfaces(sqaureInterfaces);
     
     string circleFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, "MCircle");
     vector<Type*> circleTypes;
+    circleTypes.push_back(Type::getInt64Ty(mLLVMContext));
     circleStructType->setBody(circleTypes);
     mCircleModel = Model::newModel(circleFullName, circleStructType);
   }

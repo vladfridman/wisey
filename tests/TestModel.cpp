@@ -79,6 +79,7 @@ struct ModelTest : public Test {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
@@ -192,7 +193,7 @@ struct ModelTest : public Test {
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
     mModel = Model::newModel(modelFullName, mStructType);
-    mModel->setFields(fields, interfaces.size());
+    mModel->setFields(fields, interfaces.size() + 1);
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
     mModel->setConstants(constants);
@@ -200,6 +201,7 @@ struct ModelTest : public Test {
     string cirlceFullName = "systems.vos.wisey.compiler.tests.MCircle";
     StructType* circleStructType = StructType::create(mLLVMContext, cirlceFullName);
     vector<Type*> circleTypes;
+    circleTypes.push_back(Type::getInt64Ty(mLLVMContext));
     circleStructType->setBody(circleTypes);
     mCircleModel = Model::newModel(cirlceFullName, circleStructType);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
@@ -212,6 +214,7 @@ struct ModelTest : public Test {
                        cirlceFullName + ".name");
 
     vector<Type*> starTypes;
+    starTypes.push_back(Type::getInt64Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
@@ -227,7 +230,7 @@ struct ModelTest : public Test {
                                    "mWeight",
                                    arguments));
     mStarModel = Model::newModel(starFullName, starStructType);
-    mStarModel->setFields(starFields, 0u);
+    mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
@@ -310,6 +313,7 @@ TEST(ModelGetSizeTest, getSizeTest) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   vector<Type*> types;
+  types.push_back(Type::getInt64Ty(llvmContext));
   types.push_back(Type::getInt32Ty(llvmContext));
   types.push_back(Type::getInt32Ty(llvmContext));
   string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
@@ -334,7 +338,7 @@ TEST(ModelGetSizeTest, getSizeTest) {
   IRWriter::createReturnInst(context, value);
   GenericValue result = context.runCode();
   
-  EXPECT_EQ(result.IntVal, 8);
+  EXPECT_EQ(result.IntVal, 16);
 }
 
 TEST_F(ModelTest, createRTTITest) {
@@ -353,8 +357,8 @@ TEST_F(ModelTest, findFeildTest) {
 }
 
 TEST_F(ModelTest, getFieldIndexTest) {
-  EXPECT_EQ(mModel->getFieldIndex(mWidthField), 2u);
-  EXPECT_EQ(mModel->getFieldIndex(mHeightField), 3u);
+  EXPECT_EQ(mModel->getFieldIndex(mWidthField), 3u);
+  EXPECT_EQ(mModel->getFieldIndex(mHeightField), 4u);
 }
 
 TEST_F(ModelTest, findMethodTest) {
@@ -496,22 +500,27 @@ TEST_F(ModelTest, buildTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
   
-  ASSERT_EQ(6ul, mBasicBlock->size());
+  EXPECT_EQ(8ul, mBasicBlock->size());
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
-  "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint ("
+  "%systems.vos.wisey.compiler.tests.MStar* getelementptr ("
+  "%systems.vos.wisey.compiler.tests.MStar, %systems.vos.wisey.compiler.tests.MStar* null, i32 1) "
+  "to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MStar*"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
     "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 0"
-  "\n  store i32 3, i32* %0"
+  "\n  store i64 0, i64* %0"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
     "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 1"
-  "\n  store i32 5, i32* %1\n";
-  
-  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  "\n  store i32 3, i32* %1"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
+  "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 2"
+  "\n  store i32 5, i32* %2\n";
+
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 

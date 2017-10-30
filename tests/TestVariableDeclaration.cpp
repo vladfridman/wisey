@@ -114,6 +114,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   vector<Type*> types;
+  types.push_back(Type::getInt64Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
@@ -122,7 +123,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldA", arguments));
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldB", arguments));
   Model* model = Model::newModel(modelFullName, structType);
-  model->setFields(fields, 0u);
+  model->setFields(fields, 1u);
 
   mContext.addModel(model);
   VariableDeclaration declaration(typeSpecifier, mIdentifier);

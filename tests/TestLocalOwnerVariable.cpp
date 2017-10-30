@@ -49,6 +49,7 @@ public:
     
     vector<Type*> types;
     LLVMContext& llvmContext = mContext.getLLVMContext();
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
@@ -59,7 +60,7 @@ public:
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", fieldArguments));
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields, 0u);
+    mModel->setFields(fields, 1u);
     
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateVTable(mContext, mModel);

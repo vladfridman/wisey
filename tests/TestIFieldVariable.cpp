@@ -43,6 +43,7 @@ struct IFieldVariableTest : Test {
   IFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ExpressionList fieldArguments;
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mLLVMContext));
     string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
@@ -53,7 +54,7 @@ struct IFieldVariableTest : Test {
     controllerFields.push_back(mInjectedField);
     controllerFields.push_back(mStateField);
     mController = Controller::newController(controllerFullName, controllerStructType);
-    mController->setFields(controllerFields, 0u);
+    mController->setFields(controllerFields, 1u);
     
     FunctionType* functionType =
       FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -92,7 +93,7 @@ TEST_F(IFieldVariableTest, getFieldPointerTest) {
   "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
   "%systems.vos.wisey.compiler.tests.CController** null"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
-  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 0\n";
+  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

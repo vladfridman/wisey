@@ -80,6 +80,7 @@ struct IConcreteObjectTypeTest : public Test {
     ExpressionList fieldArguments;
     
     vector<Type*> starTypes;
+    starTypes.push_back(Type::getInt64Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
@@ -95,10 +96,11 @@ struct IConcreteObjectTypeTest : public Test {
                                    "mWeight",
                                    fieldArguments));
     mStarModel = Model::newModel(starFullName, starStructType);
-    mStarModel->setFields(starFields, 0u);
+    mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
     
     vector<Type*> galaxyTypes;
+    galaxyTypes.push_back(Type::getInt64Ty(mLLVMContext));
     galaxyTypes.push_back(mStarModel->getLLVMType(mLLVMContext)->getPointerElementType());
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
@@ -109,7 +111,7 @@ struct IConcreteObjectTypeTest : public Test {
                                      "mStar",
                                      fieldArguments));
     mGalaxyModel = Model::newModel(galaxyFullName, galaxyStructType);
-    mGalaxyModel->setFields(galaxyFields, 0u);
+    mGalaxyModel->setFields(galaxyFields, 1u);
     mContext.addModel(mGalaxyModel);
 
     
@@ -125,6 +127,7 @@ struct IConcreteObjectTypeTest : public Test {
                                            canNavigateElements);
 
     vector<Type*> carTypes;
+    carTypes.push_back(Type::getInt64Ty(mLLVMContext));
     carTypes.push_back(mCanNavigate->getLLVMType(mLLVMContext)->getPointerElementType());
     string carFullName = "systems.vos.wisey.compiler.tests.MCar";
     StructType* carStructType = StructType::create(mLLVMContext, carFullName);
@@ -135,7 +138,7 @@ struct IConcreteObjectTypeTest : public Test {
                                   "mNavigator",
                                   fieldArguments));
     mCarModel = Model::newModel(carFullName, carStructType);
-    mCarModel->setFields(carFields, 0u);
+    mCarModel->setFields(carFields, 1u);
     mContext.addModel(mCarModel);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -219,7 +222,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldsT
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MGalaxy, "
-  "%systems.vos.wisey.compiler.tests.MGalaxy* %0, i32 0, i32 0"
+  "%systems.vos.wisey.compiler.tests.MGalaxy* %0, i32 0, i32 1"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MStar("
   "%systems.vos.wisey.compiler.tests.MStar** %2)"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %0 to i8*"
@@ -253,7 +256,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCar, "
-  "%systems.vos.wisey.compiler.tests.MCar* %0, i32 0, i32 0"
+  "%systems.vos.wisey.compiler.tests.MCar* %0, i32 0, i32 1"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.ICanNavigate("
   "%systems.vos.wisey.compiler.tests.ICanNavigate** %2)"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MCar* %0 to i8*"

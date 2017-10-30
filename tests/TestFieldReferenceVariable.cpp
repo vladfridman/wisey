@@ -64,6 +64,7 @@ struct FieldReferenceVariableTest : Test {
     mNode->setInterfaces(interfaces);
   
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(mNode->getLLVMType(mLLVMContext)->getPointerElementType());
     types.push_back(mInterface->getLLVMType(mLLVMContext)->getPointerElementType());
     string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
@@ -74,7 +75,7 @@ struct FieldReferenceVariableTest : Test {
     fields.push_back(new Field(STATE_FIELD, mNode->getOwner(), "foo", fieldArguments));
     fields.push_back(new Field(STATE_FIELD, mInterface->getOwner(), "bar", fieldArguments));
     mObject = Node::newNode(objectFullName, objectStructType);
-    mObject->setFields(fields, 0u);
+    mObject->setFields(fields, 1u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -117,7 +118,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateIdentifierIRTes
   "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
   "%systems.vos.wisey.compiler.tests.NObject** null"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0\n";
+  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -138,7 +139,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
   "%systems.vos.wisey.compiler.tests.NObject** null"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 0"
+  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 1"
   "\n  %2 = load %systems.vos.wisey.compiler.tests.NNode*, "
   "%systems.vos.wisey.compiler.tests.NNode** null"
   "\n  store %systems.vos.wisey.compiler.tests.NNode* %2, "
@@ -168,7 +169,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithC
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NObject*, "
   "%systems.vos.wisey.compiler.tests.NObject** null"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %1, i32 0, i32 1"
+  "%systems.vos.wisey.compiler.tests.NObject* %1, i32 0, i32 2"
   "\n  %3 = load %systems.vos.wisey.compiler.tests.IInterface*, "
   "%systems.vos.wisey.compiler.tests.IInterface** %0"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %3, "

@@ -29,6 +29,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     string controllerFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
@@ -55,7 +56,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
                                          NULL);
     methods.push_back(multiplyMethod);
     mController = Controller::newController(controllerFullName, structType);
-    mController->setFields(fields, 0u);
+    mController->setFields(fields, 1u);
     mController->setMethods(methods);
     mContext.addController(mController);
 

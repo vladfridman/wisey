@@ -129,6 +129,7 @@ struct NodeTest : public Test {
     mObjectInterface->buildMethods(mContext);
 
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string complicatedNodeFullName = "systems.vos.wisey.compiler.tests.NComplicatedNode";
@@ -171,12 +172,13 @@ struct NodeTest : public Test {
     constants.push_back(mConstant);
     
     mComplicatedNode = Node::newNode(complicatedNodeFullName, mStructType);
-    mComplicatedNode->setFields(fields, interfaces.size());
+    mComplicatedNode->setFields(fields, interfaces.size() + 1);
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
     mComplicatedNode->setConstants(constants);
     
     vector<Type*> simpleNodeTypes;
+    simpleNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -193,10 +195,11 @@ struct NodeTest : public Test {
                                          "mRight",
                                          arguments));
     mSimpleNode = Node::newNode(simpleNodeFullName, simpleNodeStructType);
-    mSimpleNode->setFields(simpleNodeFields, 0u);
+    mSimpleNode->setFields(simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
     
     vector<Type*> simplerNodeTypes;
+    simplerNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
     simplerNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simplerNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string simplerNodeFullName = "systems.vos.wisey.compiler.tests.NSimplerNode";
@@ -212,7 +215,7 @@ struct NodeTest : public Test {
                                           "mRight",
                                           arguments));
     mSimplerNode = Node::newNode(simplerNodeFullName, simplerNodeStructType);
-    mSimplerNode->setFields(simplerNodeFields, 0u);
+    mSimplerNode->setFields(simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
     
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
@@ -317,8 +320,8 @@ TEST_F(NodeTest, findConstantDeathTest) {
 }
 
 TEST_F(NodeTest, getFieldIndexTest) {
-  EXPECT_EQ(mComplicatedNode->getFieldIndex(mLeftField), 2u);
-  EXPECT_EQ(mComplicatedNode->getFieldIndex(mRightField), 3u);
+  EXPECT_EQ(mComplicatedNode->getFieldIndex(mLeftField), 3u);
+  EXPECT_EQ(mComplicatedNode->getFieldIndex(mRightField), 4u);
 }
 
 TEST_F(NodeTest, findMethodTest) {
@@ -426,15 +429,20 @@ TEST_F(NodeTest, buildTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
-  "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 3))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint ("
+  "%systems.vos.wisey.compiler.tests.NSimpleNode* getelementptr ("
+  "%systems.vos.wisey.compiler.tests.NSimpleNode, "
+  "%systems.vos.wisey.compiler.tests.NSimpleNode* null, i32 1) to i64))"
   "\n  %buildervar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.NSimpleNode*"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
   "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 0"
-  "\n  store i32 3, i32* %0"
+  "\n  store i64 0, i64* %0"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
   "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 1"
-  "\n  store i32 5, i32* %1\n";
+  "\n  store i32 3, i32* %1"
+  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
+  "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 2"
+  "\n  store i32 5, i32* %2\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

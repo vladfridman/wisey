@@ -223,6 +223,7 @@ Instruction* Node::build(IRGenerationContext& context,
                         const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
   checkArguments(ObjectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
+  IConcreteObjectType::initializeReferenceCounter(context, malloc, mInterfaces.size());
   setStateFieldsToNull(context, malloc);
   initializePresetFields(context, ObjectBuilderArgumentList, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);

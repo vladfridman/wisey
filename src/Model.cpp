@@ -225,6 +225,7 @@ Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
   checkArguments(ObjectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
+  IConcreteObjectType::initializeReferenceCounter(context, malloc, mInterfaces.size());
   initializeFields(context, ObjectBuilderArgumentList, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   

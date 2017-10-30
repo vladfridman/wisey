@@ -55,6 +55,7 @@ struct ObjectBuilderTest : Test {
     vector<string> package;
     mModelTypeSpecifier = new ModelTypeSpecifier(package, "MShape");
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
@@ -65,7 +66,7 @@ struct ObjectBuilderTest : Test {
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", arguments));
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields, 0u);
+    mModel->setFields(fields, 1u);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
     ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(fieldValue1));

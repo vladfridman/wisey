@@ -46,6 +46,7 @@ struct ReturnVoidStatementTest : public Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MShape";
@@ -56,7 +57,7 @@ struct ReturnVoidStatementTest : public Test {
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", fieldArguments));
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields, 0u);
+    mModel->setFields(fields, 1u);
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateVTable(mContext, mModel);
@@ -116,13 +117,13 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
-    "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr ("
+  "%MShape, %MShape* null, i32 1) to i64))"
   "\n  %0 = bitcast i8* %malloccall to %MShape*"
   "\n  %pointer = alloca %MShape*"
   "\n  store %MShape* %0, %MShape** %pointer"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 mul nuw (i64 ptrtoint "
-    "(i32* getelementptr (i32, i32* null, i32 1) to i64), i64 2))"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MShape* getelementptr "
+  "(%MShape, %MShape* null, i32 1) to i64))"
   "\n  %1 = bitcast i8* %malloccall1 to %MShape*"
   "\n  %pointer2 = alloca %MShape*"
   "\n  store %MShape* %1, %MShape** %pointer2"

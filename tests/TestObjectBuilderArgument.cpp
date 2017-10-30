@@ -39,6 +39,7 @@ struct ObjectBuilderArgumentTest : Test {
   ObjectBuilderArgumentTest() : mFieldExpression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
     StructType *structType = StructType::create(llvmContext, modelFullName);
@@ -47,7 +48,7 @@ struct ObjectBuilderArgumentTest : Test {
     ExpressionList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", arguments));
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields, 0u);
+    mModel->setFields(fields, 1u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));

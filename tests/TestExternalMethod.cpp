@@ -51,6 +51,7 @@ public:
                                  thrownExceptions);
 
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
@@ -61,7 +62,7 @@ public:
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments));
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields, 0u);
+    mModel->setFields(fields, 1u);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

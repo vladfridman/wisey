@@ -29,6 +29,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
@@ -49,7 +50,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
                                     NULL);
     methods.push_back(fooMethod);
     mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields, 0u);
+    mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);
 

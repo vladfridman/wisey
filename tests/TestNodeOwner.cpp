@@ -124,6 +124,7 @@ struct NodeOwnerTest : public Test {
     mObjectInterface->buildMethods(mContext);
 
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string complicatedNodeFullName = "systems.vos.wisey.compiler.tests.NComplicatedNode";
@@ -158,11 +159,12 @@ struct NodeOwnerTest : public Test {
     interfaces.push_back(mObjectInterface);
     
     mComplicatedNode = Node::newNode(complicatedNodeFullName, mStructType);
-    mComplicatedNode->setFields(fields, interfaces.size());
+    mComplicatedNode->setFields(fields, interfaces.size() + 1);
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
     
     vector<Type*> simpleNodeTypes;
+    simpleNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -181,10 +183,11 @@ struct NodeOwnerTest : public Test {
     mAreaField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mArea", fieldArguments);
     simpleNodeFields.push_back(mAreaField);
     mSimpleNode = Node::newNode(simpleNodeFullName, simpleNodeStructType);
-    mSimpleNode->setFields(simpleNodeFields, 0u);
+    mSimpleNode->setFields(simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
     
     vector<Type*> simplerNodeTypes;
+    simplerNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
     simplerNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     simplerNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
     string simplerNodeFullName = "systems.vos.wisey.compiler.tests.NSimplerNode";
@@ -200,7 +203,7 @@ struct NodeOwnerTest : public Test {
                                           "mRight",
                                           fieldArguments));
     mSimplerNode = Node::newNode(simplerNodeFullName, simplerNodeStructType);
-    mSimplerNode->setFields(simplerNodeFields, 0u);
+    mSimplerNode->setFields(simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
     
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";

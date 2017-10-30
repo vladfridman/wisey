@@ -483,3 +483,16 @@ bool IConcreteObjectType::canCast(const IType* fromType, const IType* toType) {
   return false;
 }
 
+void IConcreteObjectType::initializeReferenceCounter(IRGenerationContext& context,
+                                                     Instruction* malloc,
+                                                     unsigned long fieldsOffset) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Value *index[2];
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), fieldsOffset);
+  GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+
+  Value* value = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  IRWriter::newStoreInst(context, value, fieldPointer);
+}

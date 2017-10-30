@@ -46,6 +46,7 @@ struct FieldPrimitiveVariableTest : Test {
   
   FieldPrimitiveVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mLLVMContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
@@ -54,7 +55,7 @@ struct FieldPrimitiveVariableTest : Test {
     ExpressionList arguments;
     fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "foo", arguments));
     mObject = Controller::newController(objectFullName, objectStructType);
-    mObject->setFields(fields, 0u);
+    mObject->setFields(fields, 1u);
     
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -97,7 +98,7 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateIdentifierIRTes
   "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
   "%systems.vos.wisey.compiler.tests.CController** null"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
-  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 0"
+  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 1"
   "\n  %2 = load i32, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -118,7 +119,7 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentIRTes
   "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
   "%systems.vos.wisey.compiler.tests.CController** null"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
-  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 0"
+  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 1"
   "\n  store i32 3, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -140,7 +141,7 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentWithC
   "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
   "%systems.vos.wisey.compiler.tests.CController** null"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
-  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 0"
+  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 1"
   "\n  store i32 %conv, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

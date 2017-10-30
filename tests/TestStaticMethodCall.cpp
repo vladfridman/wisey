@@ -71,6 +71,7 @@ public:
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
@@ -107,7 +108,7 @@ public:
                                           NULL);
     methods.push_back(barMethod);
     mModel = Model::newModel(modelFullName, mStructType);
-    mModel->setFields(fields, 0u);
+    mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);
     vector<string> package;
