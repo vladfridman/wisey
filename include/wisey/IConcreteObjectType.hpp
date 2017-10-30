@@ -235,6 +235,11 @@ public:
    * Add the given interface and all of its parents to the given vector of interfaces
    */
   static void addInterfaceAndItsParents(Interface* interface, std::vector<Interface*>& result);
+  
+  /**
+   * Tells whether one can cast fromType to toType
+   */
+  static bool canCast(const IType* fromType, const IType* toType);
 
 private:
   

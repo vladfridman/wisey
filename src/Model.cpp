@@ -208,14 +208,7 @@ TypeKind Model::getTypeKind() const {
 }
 
 bool Model::canCastTo(const IType* toType) const {
-  if (toType == this) {
-    return true;
-  }
-  if (toType->getTypeKind() == INTERFACE_TYPE &&
-      getInterfaceIndex((IConcreteObjectType*) this, (Interface*) toType) >= 0) {
-    return true;
-  }
-  return false;
+  return IConcreteObjectType::canCast(this, toType);
 }
 
 bool Model::canAutoCastTo(const IType* toType) const {

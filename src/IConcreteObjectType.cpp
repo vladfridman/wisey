@@ -471,3 +471,15 @@ void IConcreteObjectType::addInterfaceAndItsParents(Interface* interface,
     addInterfaceAndItsParents(interface, result);
   }
 }
+
+bool IConcreteObjectType::canCast(const IType* fromType, const IType* toType) {
+  if (fromType == toType) {
+    return true;
+  }
+  if (toType->getTypeKind() == INTERFACE_TYPE &&
+      getInterfaceIndex((IConcreteObjectType*) fromType, (Interface*) toType) >= 0) {
+    return true;
+  }
+  return false;
+}
+
