@@ -275,10 +275,6 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
     exit(1);
   }
   
-  if (interfaceIndex == 0) {
-    return concreteObjectFunction;
-  }
-
   string functionName =
     MethodCall::translateInterfaceMethodToLLVMFunctionName(object,
                                                            this,
@@ -363,7 +359,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   Value* castedInterfaceThis = IRWriter::newBitCastInst(context, interfaceThisLoaded, pointerType);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                              -interfaceIndex * Environment::getAddressSizeInBytes());
+                              -(interfaceIndex + 1) * Environment::getAddressSizeInBytes());
   Value* concreteOjbectThis =
     IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
   Value* castedObjectThis = IRWriter::newBitCastInst(context,
@@ -492,8 +488,8 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
   BasicBlock* lessThanZero = BasicBlock::Create(llvmContext, "less.than.zero", function);
   BasicBlock* notLessThanZero = BasicBlock::Create(llvmContext, "not.less.than.zero", function);
-  BasicBlock* moreThanOne = BasicBlock::Create(llvmContext, "more.than.one", function);
-  BasicBlock* zeroOrOne = BasicBlock::Create(llvmContext, "zero.or.one", function);
+  BasicBlock* moreThanZero = BasicBlock::Create(llvmContext, "more.than.zero", function);
+  BasicBlock* zeroExactly = BasicBlock::Create(llvmContext, "zero.exactly", function);
   
   BasicBlock* lastBasicBlock = context.getBasicBlock();
 
@@ -501,10 +497,9 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   Value* instanceof = InstanceOf::call(context, this, thisArgument, toType);
   Value* originalObject = getOriginalObject(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
-  ConstantInt* one = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  ICmpInst* compareToZero =
+  ICmpInst* compareLessThanZero =
     IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
-  IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareToZero);
+  IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareLessThanZero);
   
   context.setBasicBlock(lessThanZero);
   // TODO: throw a cast exception here once exceptions are implemented
@@ -512,24 +507,23 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   IRWriter::createReturnInst(context, nullPointer);
 
   context.setBasicBlock(notLessThanZero);
-  ICmpInst* compareToOne =
-    IRWriter::newICmpInst(context, ICmpInst::ICMP_SGT, instanceof, one, "cmp");
-  IRWriter::createConditionalBranch(context, moreThanOne, zeroOrOne, compareToOne);
+  ICmpInst* compareGreaterThanZero =
+    IRWriter::newICmpInst(context, ICmpInst::ICMP_SGT, instanceof, zero, "cmp");
+  IRWriter::createConditionalBranch(context, moreThanZero, zeroExactly, compareGreaterThanZero);
 
-  context.setBasicBlock(moreThanOne);
+  context.setBasicBlock(moreThanZero);
   ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),
                                         Environment::getAddressSizeInBytes());
   BitCastInst* bitcast =
   IRWriter::newBitCastInst(context, originalObject, int8Type->getPointerTo());
-  Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, instanceof, one, "");
-  Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, offset, bytes, "");
+  Value* thunkBy = IRWriter::createBinaryOperator(context, Instruction::Mul, instanceof, bytes, "");
   Value* index[1];
   index[0] = thunkBy;
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
   Value* castValue = IRWriter::newBitCastInst(context, thunk, llvmReturnType);
   IRWriter::createReturnInst(context, castValue);
 
-  context.setBasicBlock(zeroOrOne);
+  context.setBasicBlock(zeroExactly);
   castValue = IRWriter::newBitCastInst(context, originalObject, llvmReturnType);
   IRWriter::createReturnInst(context, castValue);
   
@@ -538,27 +532,52 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   return function;
 }
 
+Value* Interface::getOriginalObjectVTable(IRGenerationContext& context, Value* value) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Value* valueLoaded = IRWriter::newLoadInst(context, value, "");
+  Value* unthunkBy = getUnthunkBy(context, valueLoaded);
+
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, valueLoaded, int8Type->getPointerTo());
+  Value* index[1];
+  index[0] = unthunkBy;
+  return IRWriter::createGetElementPtrInst(context, bitcast, index);
+}
+
 Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
+  Value* valueLoaded = IRWriter::newLoadInst(context, value, "");
+  Value* unthunkBy = getUnthunkBy(context, valueLoaded);
+  ConstantInt* bytes = ConstantInt::get(Type::getInt64Ty(llvmContext),
+                                        Environment::getAddressSizeInBytes());
+  Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, unthunkBy, bytes, "");
+
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, valueLoaded, int8Type->getPointerTo());
+  Value* index[1];
+  index[0] = offset;
+  return IRWriter::createGetElementPtrInst(context, bitcast, index);
+}
+
+Value* Interface::getUnthunkBy(IRGenerationContext& context, Value* valueLoaded) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  Value* valueLoaded = IRWriter::newLoadInst(context, value, "");
   BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, valueLoaded, pointerType);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
   GetElementPtrInst* unthunkPointer = IRWriter::createGetElementPtrInst(context, vTable, index);
-
+  
   LoadInst* pointerToVal = IRWriter::newLoadInst(context, unthunkPointer, "unthunkbypointer");
   Value* unthunkBy = IRWriter::newPtrToIntInst(context,
                                                pointerToVal,
                                                Type::getInt64Ty(llvmContext),
                                                "unthunkby");
-
-  BitCastInst* bitcast = IRWriter::newBitCastInst(context, valueLoaded, int8Type->getPointerTo());
-  index[0] = unthunkBy;
-  return IRWriter::createGetElementPtrInst(context, bitcast, index);
+  return unthunkBy;
 }
 
 const IObjectOwnerType* Interface::getOwner() const {

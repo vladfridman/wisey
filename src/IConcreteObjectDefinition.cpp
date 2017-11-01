@@ -29,15 +29,16 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   object->setConstants(get<0>(elements));
   
   vector<llvm::Type*> types;
+
+  // reference counter type
+  llvm::Type* referenceCounterType = llvm::Type::getInt64Ty(context.getLLVMContext());
+  types.push_back(referenceCounterType);
+  
   for (Interface* interface : object->getInterfaces()) {
     types.push_back(interface->getLLVMType(context.getLLVMContext())
                     ->getPointerElementType()->getPointerElementType());
   }
   
-  // reference counter type
-  llvm::Type* referenceCounterType = llvm::Type::getInt64Ty(context.getLLVMContext());
-  types.push_back(referenceCounterType);
-
   collectFieldTypes(context, types, get<1>(elements));
   object->setStructBodyTypes(types);
   

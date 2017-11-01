@@ -209,10 +209,10 @@ TEST_F(InterfaceTest, isCompleteTest) {
   EXPECT_TRUE(mIncompleteInterface->isComplete());
 }
 
-TEST_F(InterfaceTest, getOriginalObjectTest) {
+TEST_F(InterfaceTest, getOriginalObjectVTableTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)
                                                      ->getPointerTo()->getPointerTo());
-  Interface::getOriginalObject(mContext, nullPointerValue);
+  Interface::getOriginalObjectVTable(mContext, nullPointerValue);
 
   *mStringStream << *mBlock;
   string expected =

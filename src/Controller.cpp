@@ -127,7 +127,7 @@ wisey::Constant* Controller::findConstant(string constantName) const {
 Instruction* Controller::inject(IRGenerationContext& context, ExpressionList received) const {
   checkArguments(received);
   Instruction* malloc = createMalloc(context);
-  IConcreteObjectType::initializeReferenceCounter(context, malloc, mInterfaces.size());
+  IConcreteObjectType::initializeReferenceCounter(context, malloc);
   initializeReceivedFields(context, received, malloc);
   initializeInjectedFields(context, malloc);
   initializeStateFields(context, malloc);

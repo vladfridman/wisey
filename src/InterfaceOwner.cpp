@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/Environment.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -117,16 +118,25 @@ Function* InterfaceOwner::composeDestructorFunction(IRGenerationContext& context
   
   context.setBasicBlock(ifNotNullBlock);
 
-  Value* thisPointer = Interface::getOriginalObject(context, thisArgument);
+  Value* originalObjectVTable = Interface::getOriginalObjectVTable(context, thisArgument);
   
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
-  IRWriter::newBitCastInst(context, thisPointer, pointerToVTablePointer);
+  IRWriter::newBitCastInst(context, originalObjectVTable, pointerToVTablePointer);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 2);
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   Function* objectDestructor = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
+  
+  ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),
+                                        -Environment::getAddressSizeInBytes());
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  BitCastInst* pointerToVTable = IRWriter::newBitCastInst(context,
+                                                          originalObjectVTable,
+                                                          int8Type->getPointerTo());
+  index[0] = bytes;
+  Value* thisPointer = IRWriter::createGetElementPtrInst(context, pointerToVTable, index);
   
   Type* argumentType = getLLVMType(llvmContext);
   Value* bitcast = IRWriter::newBitCastInst(context, thisPointer, argumentType);

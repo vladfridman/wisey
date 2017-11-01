@@ -294,12 +294,20 @@ TEST_F(NodeOwnerTest, castToFirstInterfaceTest) {
   PointerType* type = mComplicatedNode->getOwner()->getLLVMType(mLLVMContext)->getPointerTo();
   ConstantPointerNull* pointer = ConstantPointerNull::get(type);
   mComplicatedNode->getOwner()->castTo(mContext, pointer, mComplicatedElementInterface->getOwner());
-  EXPECT_EQ(mBasicBlock->size(), 1u);
+
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.NComplicatedNode*, "
+  "%systems.vos.wisey.compiler.tests.NComplicatedNode** null"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* %0 to i8*"
+  "\n  %2 = getelementptr i8, i8* %1, i64 8"
+  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IComplicatedElement*"
+  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IComplicatedElement*"
+  "\n  store %systems.vos.wisey.compiler.tests.IComplicatedElement* %4, "
+  "%systems.vos.wisey.compiler.tests.IComplicatedElement** %3\n";
   
-  *mStringStream << *mBasicBlock->begin();
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode** null to "
-               "%systems.vos.wisey.compiler.tests.IComplicatedElement**");
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -315,7 +323,7 @@ TEST_F(NodeOwnerTest, castToSecondInterfaceTest) {
   "\n  %0 = load %systems.vos.wisey.compiler.tests.NComplicatedNode*, "
   "%systems.vos.wisey.compiler.tests.NComplicatedNode** null"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 8"
+  "\n  %2 = getelementptr i8, i8* %1, i64 16"
   "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IElement*"
   "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IElement*"
   "\n  store %systems.vos.wisey.compiler.tests.IElement* %4, "

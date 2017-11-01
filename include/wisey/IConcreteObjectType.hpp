@@ -244,9 +244,7 @@ public:
   /**
    * Initializes the reference counter of a concrete object to 0
    */
-  static void initializeReferenceCounter(IRGenerationContext& context,
-                                         llvm::Instruction* malloc,
-                                         unsigned long fieldsOffset);
+  static void initializeReferenceCounter(IRGenerationContext& context, llvm::Instruction* malloc);
 
 private:
   

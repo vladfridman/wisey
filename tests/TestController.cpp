@@ -344,12 +344,20 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mLLVMContext));
   mMultiplierController->castTo(mContext, pointer, mScienceCalculatorInterface);
-  EXPECT_EQ(mBasicBlock->size(), 1u);
+
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.CMultiplier*, "
+  "%systems.vos.wisey.compiler.tests.CMultiplier** null"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* %0 to i8*"
+  "\n  %2 = getelementptr i8, i8* %1, i64 8"
+  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IScienceCalculator*"
+  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IScienceCalculator*"
+  "\n  store %systems.vos.wisey.compiler.tests.IScienceCalculator* %4, "
+  "%systems.vos.wisey.compiler.tests.IScienceCalculator** %3\n";
   
-  *mStringStream << *mBasicBlock->begin();
-  EXPECT_STREQ(mStringStream->str().c_str(),
-              "  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier** null to "
-               "%systems.vos.wisey.compiler.tests.IScienceCalculator**");
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -364,13 +372,13 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   "\n  %0 = load %systems.vos.wisey.compiler.tests.CMultiplier*, "
   "%systems.vos.wisey.compiler.tests.CMultiplier** null"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 8"
+  "\n  %2 = getelementptr i8, i8* %1, i64 16"
   "\n  %3 = alloca %systems.vos.wisey.compiler.tests.ICalculator*"
   "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.ICalculator*"
   "\n  store %systems.vos.wisey.compiler.tests.ICalculator* %4, "
   "%systems.vos.wisey.compiler.tests.ICalculator** %3\n";
   
-  EXPECT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 

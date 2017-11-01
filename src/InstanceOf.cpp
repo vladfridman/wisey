@@ -123,12 +123,12 @@ BitCastInst* InstanceOf::composeEntryBlock(IRGenerationContext& context,
   
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
-  Value* originalObject = Interface::getOriginalObject(context, thisArgument);
+  Value* originalObjectVTable = Interface::getOriginalObjectVTable(context, thisArgument);
   
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   
   BitCastInst* vTablePointer =
-  IRWriter::newBitCastInst(context, originalObject, pointerToArrayOfStrings);
+  IRWriter::newBitCastInst(context, originalObjectVTable, pointerToArrayOfStrings);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);

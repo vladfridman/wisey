@@ -114,9 +114,9 @@ public:
   void defineInterfaceTypeName(IRGenerationContext& context);
 
   /**
-   * Given a value of type interface get the pointer back to the original object that implements it
+   * Given a value of type interface get the pointer back to the original concrete object's vtable
    */
-  static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
+  static llvm::Value* getOriginalObjectVTable(IRGenerationContext& context, llvm::Value* value);
 
   /**
    * Generate IR for constants defined in this interface
@@ -199,6 +199,10 @@ private:
   static std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>>
   createElements(IRGenerationContext& context,
                  std::vector<IObjectElementDeclaration*> elementDeclarations);
+
+  static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
+
+  static llvm::Value* getUnthunkBy(IRGenerationContext& context, llvm::Value* valueLoaded);
 
 };
   

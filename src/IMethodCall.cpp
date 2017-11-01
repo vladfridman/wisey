@@ -39,11 +39,11 @@ Value* IMethodCall::getObjectNamePointer(IRGenerationContext& context,
   }
   
   const Interface* interface = (const Interface*) object;
-  Value* originalObject = interface->getOriginalObject(context, expressionValue);
+  Value* originalObjectVTable = interface->getOriginalObjectVTable(context, expressionValue);
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, originalObject, pointerType);
+  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, originalObjectVTable, pointerType);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);

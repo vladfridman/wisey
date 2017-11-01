@@ -292,12 +292,20 @@ TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mLLVMContext)->getPointerTo());
   mModel->getOwner()->castTo(mContext, pointer, mShapeInterface->getOwner());
-  EXPECT_EQ(mBasicBlock->size(), 1u);
   
-  *mStringStream << *mBasicBlock->begin();
-  EXPECT_STREQ(mStringStream->str().c_str(),
-               "  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare** null "
-               "to %systems.vos.wisey.compiler.tests.IShape**");
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = load %systems.vos.wisey.compiler.tests.MSquare*, "
+  "%systems.vos.wisey.compiler.tests.MSquare** null"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* %0 to i8*"
+  "\n  %2 = getelementptr i8, i8* %1, i64 8"
+  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IShape*"
+  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.IShape* %4, "
+  "%systems.vos.wisey.compiler.tests.IShape** %3\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -312,7 +320,7 @@ TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   "\n  %0 = load %systems.vos.wisey.compiler.tests.MSquare*, "
   "%systems.vos.wisey.compiler.tests.MSquare** null"
   "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 8"
+  "\n  %2 = getelementptr i8, i8* %1, i64 16"
   "\n  %3 = alloca %systems.vos.wisey.compiler.tests.ISubShape*"
   "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.ISubShape*"
   "\n  store %systems.vos.wisey.compiler.tests.ISubShape* %4, "

@@ -45,12 +45,12 @@ void Composer::pushCallStack(IRGenerationContext& context,
     // avoid inifinite recursion in wisey.lang.CThread.pushStack()
     return;
   }
-  
+
   Value* sourceFileNamePointer = context.getSourceFileNamePointer();
   if (sourceFileNamePointer == NULL) {
     return;
   }
-  
+
   IVariable* currentObjectVariable = context.getScopes().getVariable("currentObject");
   IVariable* currentMethodVariable = context.getScopes().getVariable("currentMethod");
 
@@ -77,11 +77,11 @@ Value* Composer::getObjectNamePointer(IRGenerationContext& context,
   }
   
   const Interface* interface = (const Interface*) objectType;
-  Value* originalObject = interface->getOriginalObject(context, objectValue);
+  Value* originalObjectVTable = interface->getOriginalObjectVTable(context, objectValue);
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, originalObject, pointerType);
+  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, originalObjectVTable, pointerType);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
@@ -105,7 +105,7 @@ void Composer::popCallStack(IRGenerationContext& context,
     // avoid inifinite recursion in wisey.lang.CThread.popStack()
     return;
   }
-  
+
   vector<Value*> arguments;
   arguments.push_back(threadObject);
   arguments.push_back(threadObject);
