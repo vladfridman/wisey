@@ -61,12 +61,50 @@ public:
    * Override method from IType because ObjectOwner llvm type is always a PointerType
    */
   virtual llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override = 0;
+  
+  /**
+   * Increments reference counter for this object
+   */
+  virtual void incremenetReferenceCount(IRGenerationContext& context,
+                                        llvm::Value* object) const = 0;
+  
+  /**
+   * Decrements reference counter for this object
+   */
+  virtual void decremenetReferenceCount(IRGenerationContext& context,
+                                        llvm::Value* object) const = 0;
+
+  /**
+   * Returns pointer reference counter value for this object
+   */
+  virtual llvm::Value* getReferenceCount(IRGenerationContext& context,
+                                         llvm::Value* object) const = 0;
 
   /**
    * Returns an i8* constant pointer to the name of the collable object
    */
   static llvm::Constant* getObjectNamePointer(const IObjectType* object,
                                               IRGenerationContext& context);
+
+  /**
+   * Returns a pointer to reference counter field for the given object
+   */
+  static llvm::Value* getReferenceCounterPointer(IRGenerationContext& context, llvm::Value* object);
+  
+  /**
+   * Increments reference counter for the given object in a thread unsafe way
+   */
+  static void incrementReferenceCounterForObject(IRGenerationContext& context, llvm::Value* object);
+
+  /**
+   * Decrements reference counter for the given object in a thread unsafe way
+   */
+  static void decrementReferenceCounterForObject(IRGenerationContext& context, llvm::Value* object);
+
+  /**
+   * Returns the reference count value for the given object
+   */
+  static llvm::Value* getReferenceCountForObject(IRGenerationContext& context, llvm::Value* object);
 
 };
   

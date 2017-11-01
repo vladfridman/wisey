@@ -118,6 +118,12 @@ public:
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
+  void incremenetReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+
+  void decremenetReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+
+  llvm::Value* getReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+  
 private:
 
   Controller(std::string name, llvm::StructType* structType, bool isExternal);

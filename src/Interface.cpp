@@ -663,3 +663,24 @@ Interface::createElements(IRGenerationContext& context,
   }
   return make_tuple(methodSignatures, constants);
 }
+
+void Interface::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+  Value* originalObject = getOriginalObject(context, object);
+  Value* originalObjectStore = IRWriter::newAllocaInst(context, originalObject->getType(), "");
+  IRWriter::newStoreInst(context, originalObject, originalObjectStore);
+  incrementReferenceCounterForObject(context, originalObjectStore);
+}
+
+void Interface::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+  Value* originalObject = getOriginalObject(context, object);
+  Value* originalObjectStore = IRWriter::newAllocaInst(context, originalObject->getType(), "");
+  IRWriter::newStoreInst(context, originalObject, originalObjectStore);
+  decrementReferenceCounterForObject(context, originalObjectStore);
+}
+
+Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
+  Value* originalObject = getOriginalObject(context, object);
+  Value* originalObjectStore = IRWriter::newAllocaInst(context, originalObject->getType(), "");
+  IRWriter::newStoreInst(context, originalObject, originalObjectStore);
+  return getReferenceCountForObject(context, originalObjectStore);
+}

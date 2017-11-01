@@ -488,3 +488,4 @@ void IConcreteObjectType::initializeReferenceCounter(IRGenerationContext& contex
   Value* value = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
   IRWriter::newStoreInst(context, value, fieldPointer);
 }
+

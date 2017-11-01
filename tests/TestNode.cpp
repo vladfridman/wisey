@@ -399,6 +399,58 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(NodeTest, incremenetReferenceCountTest) {
+  ConstantPointerNull* pointer =
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  mComplicatedNode->incremenetReferenceCount(mContext, pointer);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode** null to i64**"
+  "\n  %refCounterPointer = load i64*, i64** %0"
+  "\n  %refCounter = load i64, i64* %refCounterPointer"
+  "\n  %1 = add i64 %refCounter, 1"
+  "\n  store i64 %1, i64* %refCounterPointer\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(NodeTest, decremenetReferenceCountTest) {
+  ConstantPointerNull* pointer =
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  mComplicatedNode->decremenetReferenceCount(mContext, pointer);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode** null to i64**"
+  "\n  %refCounterPointer = load i64*, i64** %0"
+  "\n  %refCounter = load i64, i64* %refCounterPointer"
+  "\n  %1 = sub i64 %refCounter, 1"
+  "\n  store i64 %1, i64* %refCounterPointer\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
+TEST_F(NodeTest, getReferenceCountTest) {
+  ConstantPointerNull* pointer =
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  mComplicatedNode->getReferenceCount(mContext, pointer);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode** null to i64**"
+  "\n  %refCounterPointer = load i64*, i64** %0"
+  "\n  %refCounter = load i64, i64* %refCounterPointer\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 TEST_F(NodeTest, getFlattenedInterfaceHierarchyTest) {
   vector<Interface*> allInterfaces = mComplicatedNode->getFlattenedInterfaceHierarchy();
   

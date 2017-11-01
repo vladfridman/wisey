@@ -361,3 +361,16 @@ bool Model::isExternal() const {
 void Model::printToStream(IRGenerationContext& context, iostream& stream) const {
 	IConcreteObjectType::printObjectToStream(context, this, stream);
 }
+
+void Model::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+  incrementReferenceCounterForObject(context, object);
+}
+
+void Model::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+  decrementReferenceCounterForObject(context, object);
+}
+
+Value* Model::getReferenceCount(IRGenerationContext& context, Value* object) const {
+  return getReferenceCountForObject(context, object);
+}
+

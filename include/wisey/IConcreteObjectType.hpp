@@ -35,7 +35,7 @@ class Interface;
  *   ...
  * ]
  *
- * vTable portion for the concrete object  and first implemented interface consists of
+ * vTable portion for the concrete object and first implemented interface consists of
  * [
  *   i8* null,
  *   i8* <pointer to type table array>,

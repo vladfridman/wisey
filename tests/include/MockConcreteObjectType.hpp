@@ -53,6 +53,9 @@ public:
   MOCK_METHOD1(setMethods, void (std::vector<wisey::IMethod*>));
   MOCK_METHOD1(setStructBodyTypes, void (std::vector<llvm::Type*>));
   MOCK_METHOD1(setConstants, void (std::vector<wisey::Constant*>));
+  MOCK_CONST_METHOD2(incremenetReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
+  MOCK_CONST_METHOD2(decremenetReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
+  MOCK_CONST_METHOD2(getReferenceCount, llvm::Value* (wisey::IRGenerationContext&, llvm::Value*));
 };
 
 #endif /* MockConcreteObjectType_h */

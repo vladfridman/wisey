@@ -343,3 +343,16 @@ bool Controller::isExternal() const {
 void Controller::printToStream(IRGenerationContext& context, iostream& stream) const {
   IConcreteObjectType::printObjectToStream(context, this, stream);
 }
+
+void Controller::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+  incrementReferenceCounterForObject(context, object);
+}
+
+void Controller::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+  decrementReferenceCounterForObject(context, object);
+}
+
+Value* Controller::getReferenceCount(IRGenerationContext& context, Value* object) const {
+  return getReferenceCountForObject(context, object);
+}
+

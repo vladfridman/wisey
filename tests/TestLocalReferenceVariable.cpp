@@ -75,14 +75,14 @@ public:
   }
 };
 
-TEST_F(LocalReferenceVariableTest, heapReferenceVariableAssignmentTest) {
+TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   Type* llvmType = mModel->getLLVMType(mLLVMContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   
   IVariable* uninitializedHeapVariable = new LocalReferenceVariable("foo", mModel, fooValue);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   Value* barValue = ConstantPointerNull::get((PointerType*) llvmType);
-  LocalReferenceVariable heapReferenceVariable("bar", mModel, NULL);
+  LocalReferenceVariable localReferenceVariable("bar", mModel, NULL);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
@@ -93,18 +93,23 @@ TEST_F(LocalReferenceVariableTest, heapReferenceVariableAssignmentTest) {
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape**"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape** null to i64**"
+  "\n  %refCounterPointer = load i64*, i64** %1"
+  "\n  %refCounter = load i64, i64* %refCounterPointer"
+  "\n  %2 = add i64 %refCounter, 1"
+  "\n  store i64 %2, i64* %refCounterPointer"
   "\n  store %systems.vos.wisey.compiler.tests.MShape** null, "
     "%systems.vos.wisey.compiler.tests.MShape*** %0\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(LocalReferenceVariableTest, heapReferenceVariableIdentifierTest) {
+TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
   Type* llvmType = mModel->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
+  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
 
-  heapReferenceVariable.setToNull(mContext);
-  heapReferenceVariable.generateIdentifierIR(mContext, "fooVal");
+  localReferenceVariable.setToNull(mContext);
+  localReferenceVariable.generateIdentifierIR(mContext, "fooVal");
 
   *mStringStream << *mBlock;
   string expected =
@@ -117,20 +122,20 @@ TEST_F(LocalReferenceVariableTest, heapReferenceVariableIdentifierTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(LocalReferenceVariableTest, heapReferenceVariableIdentifierUninitializedDeathTest) {
+TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitializedDeathTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalReferenceVariable heapReferenceVariable("foo", mModel, fooValue);
+  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
   
-  EXPECT_EXIT(heapReferenceVariable.generateIdentifierIR(mContext, "fooVal"),
+  EXPECT_EXIT(localReferenceVariable.generateIdentifierIR(mContext, "fooVal"),
               ::testing::ExitedWithCode(1),
               "Error: Variable 'foo' is used before it is initialized");
 }
 
 TEST_F(LocalReferenceVariableTest, existsInOuterScopeTest) {
-  LocalReferenceVariable heapReferenceVariable("foo", mModel, NULL);
+  LocalReferenceVariable localReferenceVariable("foo", mModel, NULL);
 
-  EXPECT_FALSE(heapReferenceVariable.existsInOuterScope());
+  EXPECT_FALSE(localReferenceVariable.existsInOuterScope());
 }
 
 TEST_F(TestFileSampleRunner, headReferenceVariableAssignmentRunTest) {
