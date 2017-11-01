@@ -21,6 +21,13 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+LocalReferenceVariable::LocalReferenceVariable(string name, const IObjectType* type, Value* value) :
+mName(name), mType(type), mValue(value), mIsInitialized(false) { }
+
+LocalReferenceVariable::~LocalReferenceVariable() {
+}
+
+
 string LocalReferenceVariable::getName() const {
   return mName;
 }

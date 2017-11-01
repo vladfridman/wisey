@@ -24,13 +24,11 @@ class VariableDeclaration : public IStatement {
   IExpression* mAssignmentExpression;
 
 public:
-  VariableDeclaration(const ITypeSpecifier* typeSpecifier, Identifier* id) :
-    mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(NULL) { }
+  VariableDeclaration(const ITypeSpecifier* typeSpecifier, Identifier* id);
 
   VariableDeclaration(const ITypeSpecifier* typeSpecifier,
                       Identifier* id,
-                      IExpression* assignmentExpression) :
-    mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(assignmentExpression) { }
+                      IExpression* assignmentExpression);
 
   ~VariableDeclaration();
   

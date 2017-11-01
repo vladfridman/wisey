@@ -27,11 +27,9 @@ class LocalReferenceVariable : public IVariable {
   
 public:
   
-  LocalReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value)
-  : mName(name), mType(type), mValue(value), mIsInitialized(false) { }
+  LocalReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value);
   
-  ~LocalReferenceVariable() {
-  }
+  ~LocalReferenceVariable();
   
   std::string getName() const override;
   

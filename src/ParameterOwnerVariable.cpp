@@ -21,6 +21,14 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+ParameterOwnerVariable::ParameterOwnerVariable(string name,
+                                               const IObjectOwnerType* type,
+                                               Value* value) :
+mName(name), mType(type), mValue(value) { }
+
+ParameterOwnerVariable::~ParameterOwnerVariable() {
+}
+
 string ParameterOwnerVariable::getName() const {
   return mName;
 }

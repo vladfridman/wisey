@@ -19,6 +19,11 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+LocalPrimitiveVariable::LocalPrimitiveVariable(string name, const IType* type, Value* value) :
+mName(name), mType(type), mValue(value) { }
+
+LocalPrimitiveVariable::~LocalPrimitiveVariable() {}
+
 string LocalPrimitiveVariable::getName() const {
   return mName;
 }

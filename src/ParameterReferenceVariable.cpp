@@ -21,6 +21,14 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+ParameterReferenceVariable::ParameterReferenceVariable(string name,
+                                                       const IObjectType* type,
+                                                       Value* value) :
+mName(name), mType(type), mValue(value) { }
+
+ParameterReferenceVariable::~ParameterReferenceVariable() {
+}
+
 string ParameterReferenceVariable::getName() const {
   return mName;
 }

@@ -28,11 +28,9 @@ class ParameterReferenceVariable : public IVariable {
   
 public:
   
-  ParameterReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value)
-  : mName(name), mType(type), mValue(value) { }
+  ParameterReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value);
   
-  ~ParameterReferenceVariable() {
-  }
+  ~ParameterReferenceVariable();
   
   std::string getName() const override;
   

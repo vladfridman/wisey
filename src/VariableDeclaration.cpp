@@ -24,6 +24,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+VariableDeclaration::VariableDeclaration(const ITypeSpecifier* typeSpecifier,
+                                         Identifier* id) :
+mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(NULL) { }
+
+VariableDeclaration::VariableDeclaration(const ITypeSpecifier* typeSpecifier,
+                                         Identifier* id,
+                                         IExpression* assignmentExpression) :
+mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(assignmentExpression) { }
+
 VariableDeclaration::~VariableDeclaration() {
   delete mId;
   delete mTypeSpecifier;

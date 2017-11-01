@@ -21,6 +21,13 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+FieldOwnerVariable::FieldOwnerVariable(string name,
+                                       Value* value,
+                                       const IConcreteObjectType* object) :
+mName(name), mValue(value), mObject(object) { }
+
+FieldOwnerVariable::~FieldOwnerVariable() {}
+
 string FieldOwnerVariable::getName() const {
   return mName;
 }

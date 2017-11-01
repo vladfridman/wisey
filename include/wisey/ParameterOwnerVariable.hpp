@@ -27,11 +27,9 @@ class ParameterOwnerVariable : public IVariable {
   
 public:
   
-  ParameterOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value)
-  : mName(name), mType(type), mValue(value) { }
+  ParameterOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value);
   
-  ~ParameterOwnerVariable() {
-  }
+  ~ParameterOwnerVariable();
   
   std::string getName() const override;
   

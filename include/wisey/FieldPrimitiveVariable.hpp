@@ -25,12 +25,9 @@ class FieldPrimitiveVariable : public IFieldVariable {
   
 public:
   
-  FieldPrimitiveVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object) :
-  mName(name),
-  mValue(value),
-  mObject(object) { }
+  FieldPrimitiveVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object);
   
-  ~FieldPrimitiveVariable() {}
+  ~FieldPrimitiveVariable();
   
   std::string getName() const override;
   

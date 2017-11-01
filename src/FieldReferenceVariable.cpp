@@ -18,6 +18,15 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+FieldReferenceVariable::FieldReferenceVariable(string name,
+                                               Value* value,
+                                               const IConcreteObjectType* object) :
+mName(name),
+mValue(value),
+mObject(object) { }
+
+FieldReferenceVariable::~FieldReferenceVariable() {}
+
 string FieldReferenceVariable::getName() const {
   return mName;
 }

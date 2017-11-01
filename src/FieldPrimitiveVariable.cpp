@@ -18,6 +18,15 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+FieldPrimitiveVariable::FieldPrimitiveVariable(string name,
+                                               Value* value,
+                                               const IConcreteObjectType* object) :
+mName(name),
+mValue(value),
+mObject(object) { }
+
+FieldPrimitiveVariable::~FieldPrimitiveVariable() {}
+
 string FieldPrimitiveVariable::getName() const {
   return mName;
 }

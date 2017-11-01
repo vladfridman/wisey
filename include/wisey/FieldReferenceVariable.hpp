@@ -25,14 +25,9 @@ class FieldReferenceVariable : public IFieldVariable {
   
 public:
   
-  FieldReferenceVariable(std::string name,
-                         llvm::Value* value,
-                         const IConcreteObjectType* object) :
-  mName(name),
-  mValue(value),
-  mObject(object) { }
+  FieldReferenceVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object);
   
-  ~FieldReferenceVariable() {}
+  ~FieldReferenceVariable();
   
   std::string getName() const override;
   

@@ -24,10 +24,9 @@ class LocalPrimitiveVariable : public IVariable {
   
 public:
 
-  LocalPrimitiveVariable(std::string name, const IType* type, llvm::Value* value)
-  : mName(name), mType(type), mValue(value) { }
+  LocalPrimitiveVariable(std::string name, const IType* type, llvm::Value* value);
   
-  ~LocalPrimitiveVariable() {}
+  ~LocalPrimitiveVariable();
   
   std::string getName() const override;
   

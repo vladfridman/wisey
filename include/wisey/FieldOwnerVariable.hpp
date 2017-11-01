@@ -25,10 +25,9 @@ class FieldOwnerVariable : public IFieldVariable {
   
 public:
   
-  FieldOwnerVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object)
-  : mName(name), mValue(value), mObject(object) { }
+  FieldOwnerVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object);
   
-  ~FieldOwnerVariable() {}
+  ~FieldOwnerVariable();
   
   std::string getName() const override;
   

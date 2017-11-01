@@ -21,6 +21,12 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+LocalOwnerVariable::LocalOwnerVariable(string name, const IObjectOwnerType* type, Value* value) :
+mName(name), mType(type), mValue(value), mIsInitialized(false) { }
+
+LocalOwnerVariable::~LocalOwnerVariable() {
+}
+
 string LocalOwnerVariable::getName() const {
   return mName;
 }

@@ -27,11 +27,9 @@ class LocalOwnerVariable : public IVariable {
   
 public:
   
-  LocalOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value)
-  : mName(name), mType(type), mValue(value), mIsInitialized(false) { }
+  LocalOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value);
   
-  ~LocalOwnerVariable() {
-  }
+  ~LocalOwnerVariable();
   
   std::string getName() const override;
   
