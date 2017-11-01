@@ -289,8 +289,9 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
                                         context.getModule());
   Function::arg_iterator arguments = function->arg_begin();
   llvm::Argument *argument = &*arguments;
-  argument->setName("this");
+  argument->setName("thisLoaded");
   arguments++;
+  argument = &*arguments;
   argument->setName(ThreadExpression::THREAD);
   arguments++;
   vector<MethodArgument*> methodArguments = interfaceMethodSignature->getArguments();
