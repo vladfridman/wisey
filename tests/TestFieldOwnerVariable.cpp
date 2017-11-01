@@ -130,10 +130,10 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 1\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, "
+  "%systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -141,8 +141,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {
 TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = (PointerType*) mNode->getOwner()->getLLVMType(mLLVMContext)
-    ->getPointerTo();
+  PointerType* llvmType = (PointerType*) mNode->getOwner()->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
@@ -152,16 +151,14 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, "
+  "%systems.vos.wisey.compiler.tests.NNode** %0"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.NNode("
-  "%systems.vos.wisey.compiler.tests.NNode** %1)"
-  "\n  %2 = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** null"
-  "\n  store %systems.vos.wisey.compiler.tests.NNode* %2, "
-  "%systems.vos.wisey.compiler.tests.NNode** %1\n";
+  "%systems.vos.wisey.compiler.tests.NNode* %1)"
+  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
+  "%systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -169,7 +166,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
 TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = mNode->getOwner()->getLLVMType(mLLVMContext)->getPointerTo();
+  PointerType* llvmType = mNode->getOwner()->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
@@ -183,24 +180,17 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NNode* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 8"
-  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IInterface*"
-  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IInterface*"
-  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %4, "
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
+  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, "
   "%systems.vos.wisey.compiler.tests.IInterface** %3"
-  "\n  %5 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %6 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %5, i32 0, i32 2"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.IInterface("
-  "%systems.vos.wisey.compiler.tests.IInterface** %6)"
-  "\n  %7 = load %systems.vos.wisey.compiler.tests.IInterface*, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %3"
-  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %7, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %6\n";
+  "%systems.vos.wisey.compiler.tests.IInterface* %4)"
+  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, "
+  "%systems.vos.wisey.compiler.tests.IInterface** %3\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -211,12 +201,10 @@ TEST_F(FieldOwnerVariableTest, setToNullTest) {
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 1"
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
-  "%systems.vos.wisey.compiler.tests.NNode** %1\n";
+  "%systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

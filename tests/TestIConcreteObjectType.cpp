@@ -101,7 +101,7 @@ struct IConcreteObjectTypeTest : public Test {
     
     vector<Type*> galaxyTypes;
     galaxyTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    galaxyTypes.push_back(mStarModel->getLLVMType(mLLVMContext)->getPointerElementType());
+    galaxyTypes.push_back(mStarModel->getLLVMType(mLLVMContext));
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
@@ -128,7 +128,7 @@ struct IConcreteObjectTypeTest : public Test {
 
     vector<Type*> carTypes;
     carTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    carTypes.push_back(mCanNavigate->getLLVMType(mLLVMContext)->getPointerElementType());
+    carTypes.push_back(mCanNavigate->getLLVMType(mLLVMContext));
     string carFullName = "systems.vos.wisey.compiler.tests.MCar";
     StructType* carStructType = StructType::create(mLLVMContext, carFullName);
     carStructType->setBody(carTypes);
@@ -177,19 +177,17 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MStar("
-  "%systems.vos.wisey.compiler.tests.MStar** %this) {"
+  "%systems.vos.wisey.compiler.tests.MStar* %this) {"
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MStar*, "
-  "%systems.vos.wisey.compiler.tests.MStar** %this"
-  "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.MStar* %0, null"
-  "\n  br i1 %1, label %if.this.null, label %if.this.notnull"
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MStar* %this, null"
+  "\n  br i1 %0, label %if.this.null, label %if.this.notnull"
   "\n"
   "\nif.this.null:                                     ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MStar* %0 to i8*"
-  "\n  tail call void @free(i8* %2)"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MStar* %this to i8*"
+  "\n  tail call void @free(i8* %1)"
   "\n  ret void"
   "\n}\n";
   
@@ -210,22 +208,22 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldsT
   *mStringStream << *function;
   string expected =
   "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MGalaxy("
-  "%systems.vos.wisey.compiler.tests.MGalaxy** %this) {"
+  "%systems.vos.wisey.compiler.tests.MGalaxy* %this) {"
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MGalaxy*, "
-  "%systems.vos.wisey.compiler.tests.MGalaxy** %this"
-  "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.MGalaxy* %0, null"
-  "\n  br i1 %1, label %if.this.null, label %if.this.notnull"
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MGalaxy* %this, null"
+  "\n  br i1 %0, label %if.this.null, label %if.this.notnull"
   "\n"
   "\nif.this.null:                                     ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MGalaxy, "
-  "%systems.vos.wisey.compiler.tests.MGalaxy* %0, i32 0, i32 1"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MGalaxy, "
+  "%systems.vos.wisey.compiler.tests.MGalaxy* %this, i32 0, i32 1"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.MStar*, "
+  "%systems.vos.wisey.compiler.tests.MStar** %1"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MStar("
-  "%systems.vos.wisey.compiler.tests.MStar** %2)"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %0 to i8*"
+  "%systems.vos.wisey.compiler.tests.MStar* %2)"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %this to i8*"
   "\n  tail call void @free(i8* %3)"
   "\n  ret void"
   "\n}\n";
@@ -244,22 +242,22 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   *mStringStream << *function;
   string expected =
   "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MCar("
-  "%systems.vos.wisey.compiler.tests.MCar** %this) {"
+  "%systems.vos.wisey.compiler.tests.MCar* %this) {"
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MCar*, "
-  "%systems.vos.wisey.compiler.tests.MCar** %this"
-  "\n  %1 = icmp eq %systems.vos.wisey.compiler.tests.MCar* %0, null"
-  "\n  br i1 %1, label %if.this.null, label %if.this.notnull"
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MCar* %this, null"
+  "\n  br i1 %0, label %if.this.null, label %if.this.notnull"
   "\n"
   "\nif.this.null:                                     ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCar, "
-  "%systems.vos.wisey.compiler.tests.MCar* %0, i32 0, i32 1"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MCar, "
+  "%systems.vos.wisey.compiler.tests.MCar* %this, i32 0, i32 1"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.ICanNavigate*, "
+  "%systems.vos.wisey.compiler.tests.ICanNavigate** %1"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.ICanNavigate("
-  "%systems.vos.wisey.compiler.tests.ICanNavigate** %2)"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MCar* %0 to i8*"
+  "%systems.vos.wisey.compiler.tests.ICanNavigate* %2)"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MCar* %this to i8*"
   "\n  tail call void @free(i8* %3)"
   "\n  ret void"
   "\n}\n";
@@ -291,7 +289,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   string expected =
   "\nentry:"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MStar("
-  "%systems.vos.wisey.compiler.tests.MStar** null)\n";
+  "%systems.vos.wisey.compiler.tests.MStar* null)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

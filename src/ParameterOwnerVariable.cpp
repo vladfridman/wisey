@@ -43,7 +43,7 @@ Value* ParameterOwnerVariable::getValue() const {
 
 Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
                                                     string llvmVariableName) const {
-  return mValue;
+  return IRWriter::newLoadInst(context, mValue, "");
 }
 
 Value* ParameterOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -59,7 +59,8 @@ void ParameterOwnerVariable::setToNull(IRGenerationContext& context) {
 }
 
 void ParameterOwnerVariable::free(IRGenerationContext& context) const {
-  mType->free(context, mValue);
+  Value* valueLoaded = IRWriter::newLoadInst(context, mValue, "");
+  mType->free(context, valueLoaded);
 }
 
 bool ParameterOwnerVariable::existsInOuterScope() const {

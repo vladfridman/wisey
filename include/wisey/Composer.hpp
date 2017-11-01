@@ -45,12 +45,6 @@ public:
                            llvm::Value* threadObject,
                            const IObjectType* objectType);
 
-private:
- 
-  static llvm::Value* getObjectNamePointer(IRGenerationContext& context,
-                                           const IObjectType* object,
-                                           llvm::Value* expressionValue);
-  
 };
 
 } /* namespace wisey */

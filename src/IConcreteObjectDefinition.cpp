@@ -35,8 +35,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   types.push_back(referenceCounterType);
   
   for (Interface* interface : object->getInterfaces()) {
-    types.push_back(interface->getLLVMType(context.getLLVMContext())
-                    ->getPointerElementType()->getPointerElementType());
+    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
   }
   
   collectFieldTypes(context, types, get<1>(elements));
@@ -105,11 +104,7 @@ void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
     }
     
     llvm::Type* llvmType = fieldType->getLLVMType(llvmContext);
-    if (IType::isReferenceType(fieldType)) {
-      types.push_back(llvmType->getPointerElementType());
-    } else {
-      types.push_back(llvmType);
-    }
+    types.push_back(llvmType);
   }
 }
 

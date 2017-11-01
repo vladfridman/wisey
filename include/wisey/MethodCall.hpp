@@ -94,8 +94,7 @@ private:
                                   llvm::Value* threadObject,
                                   llvm::Function* function,
                                   IMethodDescriptor* methodDescriptor,
-                                  std::vector<llvm::Value*> arguments,
-                                  llvm::Value* expressionValue) const;
+                                  std::vector<llvm::Value*> arguments) const;
 
 };
 

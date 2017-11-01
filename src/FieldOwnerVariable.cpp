@@ -44,11 +44,7 @@ Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
                                                 string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
-  if (getType()->getTypeKind() == PRIMITIVE_TYPE) {
-    return IRWriter::newLoadInst(context, fieldPointer, "ownerFieldIdentifier");
-  }
-  
-  return fieldPointer;
+  return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
 Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -65,11 +61,11 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* expressionValue = assignToExpression->generateIR(context);
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
   
-  ((IObjectOwnerType*) field->getType())->free(context, fieldPointer);
+  ((IObjectOwnerType*) field->getType())->free(context, fieldPointerLoaded);
   
-  Value* loadedCast = IRWriter::newLoadInst(context, cast, "");
-  return IRWriter::newStoreInst(context, loadedCast, fieldPointer);
+  return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
 
 void FieldOwnerVariable::setToNull(IRGenerationContext& context) {

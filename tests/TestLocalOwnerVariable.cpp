@@ -79,15 +79,16 @@ public:
   }
 };
 
-TEST_F(LocalOwnerVariableTest, heapVariableAssignmentTest) {
+TEST_F(LocalOwnerVariableTest, localOwnerVariableAssignmentTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
 
   IVariable* uninitializedHeapVariable =
     new LocalOwnerVariable("foo", mModel->getOwner(), fooValue);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
-  Value* barValue = ConstantPointerNull::get((PointerType*) llvmType->getPointerTo());
-  LocalOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), NULL);
+  Value* barValue = ConstantPointerNull::get((PointerType*) llvmType);
+  Value* ownerStore = IRWriter::newAllocaInst(mContext, llvmType, "");
+  LocalOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), ownerStore);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel->getOwner()));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
@@ -99,28 +100,38 @@ TEST_F(LocalOwnerVariableTest, heapVariableAssignmentTest) {
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape("
-  "%systems.vos.wisey.compiler.tests.MShape** %0)"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, "
-  "%systems.vos.wisey.compiler.tests.MShape** null"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* %1, "
+  "%systems.vos.wisey.compiler.tests.MShape* %2)"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
   "%systems.vos.wisey.compiler.tests.MShape** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
-TEST_F(LocalOwnerVariableTest, heapOwnerVariableIdentifierTest) {
+TEST_F(LocalOwnerVariableTest, localOwnerVariableIdentifierTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
   heapOwnerVariable.setToNull(mContext);
 
-  EXPECT_EQ(heapOwnerVariable.generateIdentifierIR(mContext, "fooVal"), fooValue);
+  *mStringStream << *mBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }
 
-TEST_F(LocalOwnerVariableTest, heapOwnerVariableIdentifierUninitializedDeathTest) {
+TEST_F(LocalOwnerVariableTest, localOwnerVariableIdentifierUninitializedDeathTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
@@ -131,7 +142,8 @@ TEST_F(LocalOwnerVariableTest, heapOwnerVariableIdentifierUninitializedDeathTest
 }
 
 TEST_F(LocalOwnerVariableTest, existsInOuterScopeTest) {
-  Value* fooValue = ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mLLVMContext));
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
   EXPECT_FALSE(heapOwnerVariable.existsInOuterScope());
@@ -149,8 +161,10 @@ TEST_F(LocalOwnerVariableTest, freeTest) {
   string expected =
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape("
-  "%systems.vos.wisey.compiler.tests.MShape** %0)\n";
+  "%systems.vos.wisey.compiler.tests.MShape* %1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

@@ -82,7 +82,7 @@ TEST_F(InstanceOfTest, callTest) {
   string expected =
   "\nentry:"
   "\n  %instanceof = call i32 @systems.vos.wisey.compiler.tests.IObject.instanceof("
-  "%systems.vos.wisey.compiler.tests.IObject** null, "
+  "%systems.vos.wisey.compiler.tests.IObject* null, "
   "i8* getelementptr inbounds ([40 x i8], [40 x i8]* "
   "@systems.vos.wisey.compiler.tests.IShape.name, i32 0, i32 0))\n";
   

@@ -208,7 +208,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
-               "%wisey.lang.CThread** %0, float 0x4014CCCCC0000000)",
+               "%wisey.lang.CThread* %0, float 0x4014CCCCC0000000)",
                mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
@@ -246,7 +246,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodInvokeTest) {
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
-               "%wisey.lang.CThread** %0, float 0x4014CCCCC0000000)\n"
+               "%wisey.lang.CThread* %0, float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue unwind label %eh.landing.pad",
                mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT_TYPE);

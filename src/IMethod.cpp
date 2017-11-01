@@ -48,8 +48,8 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
   }
   
   IVariable* variable = new ParameterReferenceVariable(variableName,
-                                                         (IObjectType*) variableType,
-                                                         variableValue);
+                                                       (IObjectType*) variableType,
+                                                       variableValue);
   context.getScopes().setVariable(variable);
 }
 

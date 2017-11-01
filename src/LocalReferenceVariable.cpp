@@ -22,7 +22,9 @@ using namespace llvm;
 using namespace wisey;
 
 LocalReferenceVariable::LocalReferenceVariable(string name, const IObjectType* type, Value* value) :
-mName(name), mType(type), mValue(value), mIsInitialized(false) { }
+mName(name), mType(type), mValue(value), mIsInitialized(false) {
+  assert(value->getType()->isPointerTy());
+}
 
 LocalReferenceVariable::~LocalReferenceVariable() {
 }
@@ -55,8 +57,6 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
-  
-  mType->incremenetReferenceCount(context, newValue);
   
   IRWriter::newStoreInst(context, newValue, mValue);
 

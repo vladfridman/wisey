@@ -82,7 +82,8 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   IVariable* uninitializedHeapVariable = new LocalReferenceVariable("foo", mModel, fooValue);
   mContext.getScopes().setVariable(uninitializedHeapVariable);
   Value* barValue = ConstantPointerNull::get((PointerType*) llvmType);
-  LocalReferenceVariable localReferenceVariable("bar", mModel, NULL);
+  Value* referenceStore = IRWriter::newAllocaInst(mContext, llvmType, "");
+  LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
@@ -92,14 +93,10 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape**"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MShape** null to i64**"
-  "\n  %refCounterPointer = load i64*, i64** %1"
-  "\n  %refCounter = load i64, i64* %refCounterPointer"
-  "\n  %2 = add i64 %refCounter, 1"
-  "\n  store i64 %2, i64* %refCounterPointer"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape** null, "
-    "%systems.vos.wisey.compiler.tests.MShape*** %0\n";
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -114,11 +111,11 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape**"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape** null, "
-  "%systems.vos.wisey.compiler.tests.MShape*** %0"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape**, "
-    "%systems.vos.wisey.compiler.tests.MShape*** %0\n";
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, "
+    "%systems.vos.wisey.compiler.tests.MShape** %0\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -133,7 +130,9 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitialized
 }
 
 TEST_F(LocalReferenceVariableTest, existsInOuterScopeTest) {
-  LocalReferenceVariable localReferenceVariable("foo", mModel, NULL);
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
+  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
 
   EXPECT_FALSE(localReferenceVariable.existsInOuterScope());
 }

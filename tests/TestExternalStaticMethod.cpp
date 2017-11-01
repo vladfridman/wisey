@@ -89,7 +89,7 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%wisey.lang.CThread**, i32)\n";
+  "%wisey.lang.CThread*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }

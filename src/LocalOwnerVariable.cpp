@@ -22,7 +22,11 @@ using namespace llvm;
 using namespace wisey;
 
 LocalOwnerVariable::LocalOwnerVariable(string name, const IObjectOwnerType* type, Value* value) :
-mName(name), mType(type), mValue(value), mIsInitialized(false) { }
+mName(name), mType(type), mValue(value), mIsInitialized(false) {
+  assert(value->getType()->isPointerTy());
+  assert(value->getType()->getPointerElementType()->isPointerTy());
+  assert(value->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+}
 
 LocalOwnerVariable::~LocalOwnerVariable() {
 }
@@ -46,7 +50,7 @@ Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
     exit(1);
   }
   
-  return mValue;
+  return IRWriter::newLoadInst(context, mValue, "");
 }
 
 Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -57,8 +61,7 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   
   free(context);
   
-  Value* newValueLoaded = IRWriter::newLoadInst(context, newValue, "");
-  IRWriter::newStoreInst(context, newValueLoaded, mValue);
+  IRWriter::newStoreInst(context, newValue, mValue);
   
   mIsInitialized = true;
   
@@ -73,7 +76,8 @@ void LocalOwnerVariable::setToNull(IRGenerationContext& context) {
 }
 
 void LocalOwnerVariable::free(IRGenerationContext& context) const {
-  mType->free(context, mValue);
+  Value* valueLoaded = IRWriter::newLoadInst(context, mValue, "");
+  mType->free(context, valueLoaded);
 }
 
 bool LocalOwnerVariable::existsInOuterScope() const {

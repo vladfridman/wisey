@@ -65,8 +65,8 @@ struct FieldReferenceVariableTest : Test {
   
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
-    types.push_back(mNode->getLLVMType(mLLVMContext)->getPointerElementType());
-    types.push_back(mInterface->getLLVMType(mLLVMContext)->getPointerElementType());
+    types.push_back(mNode->getLLVMType(mLLVMContext));
+    types.push_back(mInterface->getLLVMType(mLLVMContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
@@ -115,10 +115,10 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateIdentifierIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 1\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
+  "\n  %referenceFieldIdentifier = load %systems.vos.wisey.compiler.tests.NNode*, "
+  "%systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -136,14 +136,10 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %0, i32 0, i32 1"
-  "\n  %2 = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** null"
-  "\n  store %systems.vos.wisey.compiler.tests.NNode* %2, "
-  "%systems.vos.wisey.compiler.tests.NNode** %1\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
+  "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
+  "%systems.vos.wisey.compiler.tests.NNode** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -164,22 +160,13 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithC
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NNode* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 8"
-  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IInterface*"
-  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IInterface*"
-  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %4, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %3"
-  "\n  %5 = load %systems.vos.wisey.compiler.tests.NObject*, "
-  "%systems.vos.wisey.compiler.tests.NObject** null"
-  "\n  %6 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* %5, i32 0, i32 2"
-  "\n  %7 = load %systems.vos.wisey.compiler.tests.IInterface*, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %3"
-  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %7, "
-  "%systems.vos.wisey.compiler.tests.IInterface** %6\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
+  "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
+  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
+  "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, "
+  "%systems.vos.wisey.compiler.tests.IInterface** %3\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

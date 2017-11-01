@@ -69,34 +69,6 @@ void Composer::pushCallStack(IRGenerationContext& context,
   IRWriter::createCallInst(context, pushStackFunction, arguments, "");
 }
 
-Value* Composer::getObjectNamePointer(IRGenerationContext& context,
-                                      const IObjectType* objectType,
-                                      Value* objectValue) {
-  if (IType::isConcreteObjectType(objectType)) {
-    return IObjectType::getObjectNamePointer(objectType, context);
-  }
-  
-  const Interface* interface = (const Interface*) objectType;
-  Value* originalObjectVTable = interface->getOriginalObjectVTable(context, objectValue);
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* int8Type = Type::getInt8Ty(llvmContext);
-  Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, originalObjectVTable, pointerType);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
-  Value* index[1];
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
-  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
-  BitCastInst* arrayOfStrings =
-  IRWriter::newBitCastInst(context, typeArrayI8, int8Type->getPointerTo()->getPointerTo());
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
-  
-  LoadInst* stringPointer = IRWriter::newLoadInst(context, stringPointerPointer, "stringPointer");
-  
-  return stringPointer;
-}
-
 void Composer::popCallStack(IRGenerationContext& context,
                             Value* threadObject,
                             const IObjectType* objectType) {

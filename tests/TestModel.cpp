@@ -285,7 +285,7 @@ TEST_F(ModelTest, getTypeKindTest) {
 }
 
 TEST_F(ModelTest, getLLVMTypeTest) {
-  EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo()->getPointerTo());
+  EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
 }
 
 TEST_F(ModelTest, getInterfacesTest) {
@@ -417,15 +417,10 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MSquare*, "
-  "%systems.vos.wisey.compiler.tests.MSquare** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 8"
-  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IShape*"
-  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IShape*"
-  "\n  store %systems.vos.wisey.compiler.tests.IShape* %4, "
-  "%systems.vos.wisey.compiler.tests.IShape** %3\n";
-  
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IShape*\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -438,22 +433,17 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.MSquare*, "
-  "%systems.vos.wisey.compiler.tests.MSquare** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MSquare* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 16"
-  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.ISubShape*"
-  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.ISubShape*"
-  "\n  store %systems.vos.wisey.compiler.tests.ISubShape* %4, "
-  "%systems.vos.wisey.compiler.tests.ISubShape** %3\n";
-  
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MSquare* null to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 16"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ISubShape*\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
 TEST_F(ModelTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext)->getPointerTo());
   mModel->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -471,7 +461,7 @@ TEST_F(ModelTest, incremenetReferenceCountTest) {
 
 TEST_F(ModelTest, decremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext)->getPointerTo());
   mModel->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -489,7 +479,7 @@ TEST_F(ModelTest, decremenetReferenceCountTest) {
 
 TEST_F(ModelTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext)->getPointerTo());
   mModel->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;

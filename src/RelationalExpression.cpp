@@ -84,38 +84,18 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context) 
   Value* leftValue = mLeftExpression->generateIR(context);
   Value* rightValue = mRightExpression->generateIR(context);
   
-  if (IType::isReferenceType(leftType)) {
-    leftValue = IRWriter::newLoadInst(context, leftValue, "");
-  } else if (IType::isOwnerType(leftType)) {
-    IType* objectType = ((IObjectOwnerType*) leftType)->getObject();
-    leftValue = leftType->castTo(context, leftValue, objectType);
-    leftValue = IRWriter::newLoadInst(context, leftValue, "");
-    leftType = objectType;
-  }
-  
-  if (IType::isReferenceType(rightType)) {
-    rightValue = IRWriter::newLoadInst(context, rightValue, "");
-  } else if (IType::isOwnerType(rightType)) {
-    IType* objectType = ((IObjectOwnerType*) rightType)->getObject();
-    rightValue = rightType->castTo(context, rightValue, objectType);
-    rightValue = IRWriter::newLoadInst(context, rightValue, "");
-    rightType = objectType;
-  }
-  
   if (leftType == rightType) {
     return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
   }
   
   if (leftType->canAutoCastTo(rightType)) {
     Value* castedLeftValue = leftType->castTo(context, leftValue, rightType);
-    Value* loadedCastedLeftValue = IRWriter::newLoadInst(context, castedLeftValue, "");
-    return IRWriter::newICmpInst(context, predicate, castedLeftValue, loadedCastedLeftValue, "cmp");
+    return IRWriter::newICmpInst(context, predicate, castedLeftValue, castedLeftValue, "cmp");
   }
   
   if (rightType->canAutoCastTo(leftType)) {
     Value* castedRightValue = rightType->castTo(context, rightValue, leftType);
-    Value* loadedCastedRightValue = IRWriter::newLoadInst(context, castedRightValue, "");
-    return IRWriter::newICmpInst(context, predicate, leftValue, loadedCastedRightValue, "cmp");
+    return IRWriter::newICmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }
   
   reportIncompatableTypes(leftType, rightType);

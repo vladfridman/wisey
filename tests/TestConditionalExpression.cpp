@@ -199,7 +199,7 @@ TEST_F(ConditionalExpressionTest, existsInOuterScopeTest) {
 }
 
 TEST_F(ConditionalExpressionTest, releaseOwnershipTest) {
-  Type* type = mModel->getOwner()->getLLVMType(mLLVMContext);
+  Type* type = mModel->getOwner()->getLLVMType(mLLVMContext)->getPointerElementType();
   Value* ifTrueValue = IRWriter::newAllocaInst(mContext, type, "ifTrueValue");
   Value* ifFalseValue = IRWriter::newAllocaInst(mContext, type, "ifFalseValue");
   ON_CALL(*mIfTrueExpression, generateIR(_)).WillByDefault(Return(ifTrueValue));
@@ -216,18 +216,18 @@ TEST_F(ConditionalExpressionTest, releaseOwnershipTest) {
   string expected = string() +
   "\ndefine internal i32 @test() {"
   "\nentry:"
-  "\n  %ifTrueValue = alloca %systems.vos.wisey.compiler.tests.MModel*"
-  "\n  %ifFalseValue = alloca %systems.vos.wisey.compiler.tests.MModel*"
+  "\n  %ifTrueValue = alloca %systems.vos.wisey.compiler.tests.MModel"
+  "\n  %ifFalseValue = alloca %systems.vos.wisey.compiler.tests.MModel"
   "\n  br i1 true, label %cond.release.true, label %cond.release.false"
   "\n"
   "\ncond.release.true:                                ; preds = %entry"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MModel("
-  "%systems.vos.wisey.compiler.tests.MModel** %ifFalseValue)"
+  "%systems.vos.wisey.compiler.tests.MModel* %ifFalseValue)"
   "\n  br label %cond.release.end"
   "\n"
   "\ncond.release.false:                               ; preds = %entry"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MModel("
-  "%systems.vos.wisey.compiler.tests.MModel** %ifTrueValue)"
+  "%systems.vos.wisey.compiler.tests.MModel* %ifTrueValue)"
   "\n  br label %cond.release.end"
   "\n"
   "\ncond.release.end:                                 "

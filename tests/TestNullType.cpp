@@ -94,17 +94,9 @@ TEST_F(NullTypeTest, castToModelTest) {
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = Model::newModel(modelFullName, structType);
   
-  NullType::NULL_TYPE->castTo(mContext, NULL, model);
+  Value* cast = NullType::NULL_TYPE->castTo(mContext, NULL, model);
 
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MSquare*"
-  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, "
-  "%systems.vos.wisey.compiler.tests.MSquare** %0\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  mStringBuffer.clear();
+  EXPECT_EQ(cast, ConstantPointerNull::get(structType->getPointerTo()));
 }
 
 TEST_F(NullTypeTest, castToModelOwnerTest) {
@@ -112,17 +104,9 @@ TEST_F(NullTypeTest, castToModelOwnerTest) {
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = Model::newModel(modelFullName, structType);
 
-  NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner());
-
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MSquare*"
-  "\n  store %systems.vos.wisey.compiler.tests.MSquare* null, "
-  "%systems.vos.wisey.compiler.tests.MSquare** %0\n";
+  Value* cast = NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner());
   
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-  mStringBuffer.clear();
+  EXPECT_EQ(cast, ConstantPointerNull::get(structType->getPointerTo()));
 }
 
 TEST_F(NullTypeTest, castToModelTwoNullsAreEqualRunTest) {

@@ -60,7 +60,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   context.getScopes().getScope()->addExceptions(thrownExceptions);
   
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context, "threadLoaded");
+  Value* threadObject = threadVariable->generateIdentifierIR(context, "");
 
   if (methodDescriptor->isStatic()) {
     return generateStaticMethodCallIR(context,
@@ -104,14 +104,13 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  Value* threadObject,
                                                  const Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
-  Value* expressionValueStore = generateExpressionIR(context);
-  Value* expressionValueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
+  Value* expressionValue = generateExpressionIR(context);
 
   FunctionType* functionType =
     IMethod::getLLVMFunctionType(methodDescriptor, context, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
-  IRWriter::newBitCastInst(context, expressionValueLoaded, pointerToVTablePointer);
+  IRWriter::newBitCastInst(context, expressionValue, pointerToVTablePointer);
   LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
@@ -120,48 +119,45 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   LoadInst* function = IRWriter::newLoadInst(context, virtualFunction, "");
   
   Composer::checkNullAndThrowNPE(context,
-                                 expressionValueLoaded,
+                                 expressionValue,
                                  threadObject,
                                  interface,
                                  mLine);
   
   vector<Value*> arguments;
-  arguments.push_back(expressionValueStore);
+  arguments.push_back(expressionValue);
 
   return createFunctionCall(context,
                             interface,
                             threadObject,
                             (Function*) function,
                             methodDescriptor,
-                            arguments,
-                            expressionValueStore);
+                            arguments);
 }
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
                                               Value* threadObject,
                                               const IObjectType* objectType,
                                               IMethodDescriptor* methodDescriptor) const {
-  Value* expressionValueStore = generateExpressionIR(context);
-  Value* expressionValueLoaded = IRWriter::newLoadInst(context, expressionValueStore, "");
+  Value* expressionValue = generateExpressionIR(context);
   
   Function* function = getMethodFunction(context, objectType);
 
   Composer::checkNullAndThrowNPE(context,
-                                 expressionValueLoaded,
+                                 expressionValue,
                                  threadObject,
                                  objectType,
                                  mLine);
   
   vector<Value*> arguments;
-  arguments.push_back(expressionValueStore);
+  arguments.push_back(expressionValue);
   
   return createFunctionCall(context,
                             objectType,
                             threadObject,
                             function,
                             methodDescriptor,
-                            arguments,
-                            expressionValueStore);
+                            arguments);
 }
 
 Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
@@ -176,8 +172,7 @@ Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
                             threadObject,
                             function,
                             methodDescriptor,
-                            arguments,
-                            NULL);
+                            arguments);
 }
 
 Function* MethodCall::getMethodFunction(IRGenerationContext& context,
@@ -205,8 +200,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       Value* threadObject,
                                       Function* function,
                                       IMethodDescriptor* methodDescriptor,
-                                      vector<Value*> arguments,
-                                      Value* expressionValue) const {
+                                      vector<Value*> arguments) const {
 
   arguments.push_back(threadObject);
   
@@ -222,12 +216,9 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                                          callArgumentValue,
                                                          methodArgumentType);
     if (IType::isOwnerType(methodArgument->getType())) {
-      Value* loadedCasted = IRWriter::newLoadInst(context, callArgumentValueCasted, "");
-      arguments.push_back(loadedCasted);
       callArgument->releaseOwnership(context);
-    } else {
-      arguments.push_back(callArgumentValueCasted);
     }
+    arguments.push_back(callArgumentValueCasted);
     methodArgumentIterator++;
   }
   
@@ -257,7 +248,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     : (IVariable*) new LocalReferenceVariable(variableName, (IObjectType*) returnType, pointer);
   
   context.getScopes().setVariable(tempVariable);
-  return IType::isOwnerType(returnType) ? pointer : result;
+  return result;
 }
 
 const IType* MethodCall::getType(IRGenerationContext& context) const {

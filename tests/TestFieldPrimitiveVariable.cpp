@@ -95,11 +95,9 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateIdentifierIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
-  "%systems.vos.wisey.compiler.tests.CController** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
-  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 1"
-  "\n  %2 = load i32, i32* %1\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
+  "%systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
+  "\n  %1 = load i32, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -116,11 +114,9 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentIRTes
   *mStringStream << *mBasicBlock;
   string expected = string() +
   "\nentry:" +
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
-  "%systems.vos.wisey.compiler.tests.CController** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
-  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 1"
-  "\n  store i32 3, i32* %1\n";
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
+  "%systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
+  "\n  store i32 3, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -138,12 +134,10 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentWithC
   string expected = string() +
   "\nentry:" +
   "\n  %conv = zext i16 3 to i32"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.CController*, "
-  "%systems.vos.wisey.compiler.tests.CController** null"
-  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
-  "%systems.vos.wisey.compiler.tests.CController* %0, i32 0, i32 1"
-  "\n  store i32 %conv, i32* %1\n";
-  
+  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CController, "
+  "%systems.vos.wisey.compiler.tests.CController* null, i32 0, i32 1"
+  "\n  store i32 %conv, i32* %0\n";
+ 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

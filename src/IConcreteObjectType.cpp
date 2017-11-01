@@ -58,17 +58,12 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   int interfaceIndex = getInterfaceIndex(object, interface);
 
   Type* int8Type = Type::getInt8Ty(llvmContext);
-  Value* loadedValue = IRWriter::newLoadInst(context, fromValue, "");
-  BitCastInst* bitcast = IRWriter::newBitCastInst(context, loadedValue, int8Type->getPointerTo());
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, fromValue, int8Type->getPointerTo());
   Value* index[1];
   unsigned long thunkBy = (interfaceIndex + 1) * Environment::getAddressSizeInBytes();
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
   Value* thunk = IRWriter::createGetElementPtrInst(context, bitcast, index);
-  Value* store = IRWriter::newAllocaInst(context, llvmType->getPointerElementType(), "");
-  Value* result = IRWriter::newBitCastInst(context, thunk, llvmType->getPointerElementType());
-  IRWriter::newStoreInst(context, result, store);
-  
-  return store;
+  return IRWriter::newBitCastInst(context, thunk, llvmType);
 }
 
 int IConcreteObjectType::getInterfaceIndex(const IConcreteObjectType* object,
@@ -309,12 +304,11 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
   thisArgument->setName("this");
-  Value* thisLoaded = IRWriter::newLoadInst(context, thisArgument, "");
 
-  Value* nullValue = ConstantPointerNull::get((PointerType*) thisLoaded->getType());
+  Value* nullValue = ConstantPointerNull::get((PointerType*) thisArgument->getType());
   Value* condition = IRWriter::newICmpInst(context,
                                            ICmpInst::ICMP_EQ,
-                                           thisLoaded,
+                                           thisArgument,
                                            nullValue,
                                            "");
 
@@ -346,12 +340,12 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
     
-    Value* fieldPointer = IRWriter::createGetElementPtrInst(context, thisLoaded, index);
-    
-    objectOwnerType->free(context, fieldPointer);
+    Value* fieldPointer = IRWriter::createGetElementPtrInst(context, thisArgument, index);
+    Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
+    objectOwnerType->free(context, fieldPointerLoaded);
   }
   
-  IRWriter::createFree(context, thisLoaded);
+  IRWriter::createFree(context, thisArgument);
   IRWriter::createReturnInst(context, NULL);
 }
 

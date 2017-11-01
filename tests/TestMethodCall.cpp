@@ -128,9 +128,7 @@ public:
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     Value* nullPointer = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
-    Value* bitcast = IRWriter::newBitCastInst(mContext,
-                                              nullPointer,
-                                              mStructType->getPointerTo()->getPointerTo());
+    Value* bitcast = IRWriter::newBitCastInst(mContext, nullPointer, mStructType->getPointerTo());
     ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(bitcast));
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mModel));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
@@ -217,7 +215,7 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
 
 TEST_F(MethodCallTest, modelMethodCallTest) {
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(mStructType->getPointerTo()->getPointerTo());
+  argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(mThreadController->getLLVMType(mLLVMContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
@@ -239,9 +237,9 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   Value* irValue = methodCall.generateIR(mContext);
 
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %4 = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
-               "%systems.vos.wisey.compiler.tests.MSquare** %0, "
-               "%wisey.lang.CThread** %1, "
+  EXPECT_STREQ("  %3 = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
+               "%systems.vos.wisey.compiler.tests.MSquare* %0, "
+               "%wisey.lang.CThread* %1, "
                "float 0x4014CCCCC0000000)",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
@@ -249,7 +247,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
 
 TEST_F(MethodCallTest, modelMethodInvokeTest) {
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(mStructType->getPointerTo()->getPointerTo());
+  argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(mThreadController->getLLVMType(mLLVMContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
@@ -280,9 +278,9 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   Value* irValue = methodCall.generateIR(mContext);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %4 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
-               "%systems.vos.wisey.compiler.tests.MSquare** %0, "
-               "%wisey.lang.CThread** %1, "
+  EXPECT_STREQ("  %3 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
+               "%systems.vos.wisey.compiler.tests.MSquare* %0, "
+               "%wisey.lang.CThread* %1, "
                "float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());

@@ -100,7 +100,7 @@ TEST_F(InterfaceDefinitionTest, generateIRTest) {
   ASSERT_NE(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"), nullptr);
 
   Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
-  Type* type = interface->getLLVMType(mLLVMContext)->getPointerElementType();
+  Type* type = interface->getLLVMType(mLLVMContext);
   
   ASSERT_NE(type, nullptr);
   EXPECT_TRUE(type->isPointerTy());

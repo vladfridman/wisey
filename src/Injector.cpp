@@ -41,7 +41,7 @@ Value* Injector::generateIR(IRGenerationContext& context) const {
                                                   pointer);
   context.getScopes().setVariable(heapVariable);
   
-  return pointer;
+  return malloc;
 }
 
 const IObjectOwnerType* Injector::getType(IRGenerationContext& context) const {

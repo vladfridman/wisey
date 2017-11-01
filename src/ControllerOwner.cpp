@@ -26,7 +26,7 @@ string ControllerOwner::getName() const {
 }
 
 PointerType* ControllerOwner::getLLVMType(LLVMContext& llvmContext) const {
-  return (PointerType*) mController->getLLVMType(llvmContext)->getPointerElementType();
+  return mController->getLLVMType(llvmContext);
 }
 
 TypeKind ControllerOwner::getTypeKind() const {

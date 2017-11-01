@@ -200,7 +200,7 @@ string Model::getShortName() const {
 }
 
 llvm::PointerType* Model::getLLVMType(LLVMContext& llvmContext) const {
-  return mStructType->getPointerTo()->getPointerTo();
+  return mStructType->getPointerTo();
 }
 
 TypeKind Model::getTypeKind() const {
@@ -307,7 +307,7 @@ void Model::checkAllFieldsAreSet(const ObjectBuilderArgumentList& ObjectBuilderA
 Instruction* Model::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  Type* structType = getLLVMType(llvmContext)->getPointerElementType()->getPointerElementType();
+  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "buildervar");
   
@@ -334,12 +334,7 @@ void Model::initializeFields(IRGenerationContext& context,
       exit(1);
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, field->getType());
-    if (argumentType->getTypeKind() == PRIMITIVE_TYPE) {
-      IRWriter::newStoreInst(context, castValue, fieldPointer);
-    } else {
-      Value* argumentValueLoaded = IRWriter::newLoadInst(context, castValue, "");
-      IRWriter::newStoreInst(context, argumentValueLoaded, fieldPointer);
-    }
+    IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (IType::isOwnerType(field->getType())) {
       argument->releaseOwnership(context);
     }

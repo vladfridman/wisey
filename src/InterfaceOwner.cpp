@@ -29,7 +29,7 @@ string InterfaceOwner::getName() const {
 }
 
 PointerType* InterfaceOwner::getLLVMType(LLVMContext& llvmContext) const {
-  return (PointerType*) mInterface->getLLVMType(llvmContext)->getPointerElementType();
+  return mInterface->getLLVMType(llvmContext);
 }
 
 TypeKind InterfaceOwner::getTypeKind() const {
@@ -87,7 +87,7 @@ Function* InterfaceOwner::composeDestructorFunction(IRGenerationContext& context
   LLVMContext& llvmContext = context.getLLVMContext();
 
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(getLLVMType(llvmContext)->getPointerTo());
+  argumentTypes.push_back(getLLVMType(llvmContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* voidType = Type::getVoidTy(llvmContext);
   FunctionType* functionType = FunctionType::get(voidType, argTypesArray, false);
@@ -108,9 +108,8 @@ Function* InterfaceOwner::composeDestructorFunction(IRGenerationContext& context
   
   context.setBasicBlock(entryBlock);
 
-  Value* thisLoaded = IRWriter::newLoadInst(context, thisArgument, "");
   Value* nullValue = ConstantPointerNull::get(getLLVMType(llvmContext));
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisLoaded, nullValue, "");
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisArgument, nullValue, "");
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
 
   context.setBasicBlock(ifNullBlock);
@@ -140,11 +139,9 @@ Function* InterfaceOwner::composeDestructorFunction(IRGenerationContext& context
   
   Type* argumentType = getLLVMType(llvmContext);
   Value* bitcast = IRWriter::newBitCastInst(context, thisPointer, argumentType);
-  Value* bitcastStore = IRWriter::newAllocaInst(context, bitcast->getType(), "");
-  IRWriter::newStoreInst(context, bitcast, bitcastStore);
   
   vector<Value*> arguments;
-  arguments.push_back(bitcastStore);
+  arguments.push_back(bitcast);
   
   IRWriter::createCallInst(context, objectDestructor, arguments, "");
   IRWriter::createReturnInst(context, NULL);

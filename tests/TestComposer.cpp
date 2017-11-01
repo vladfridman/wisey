@@ -116,8 +116,7 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, finallyBlock, catchList);
   mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 
-  Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext)
-                                          ->getPointerElementType());
+  Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
   
   Composer::checkNullAndThrowNPE(mContext,
                                  value,
@@ -130,8 +129,8 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   "\ndefine internal i32 @main() {"
   "\nentry:"
   "\n  call void @wisey.lang.CThread.pushStack("
-    "%wisey.lang.CThread** null, "
-    "%wisey.lang.CThread** null, "
+    "%wisey.lang.CThread* null, "
+    "%wisey.lang.CThread* null, "
     "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
     "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
     "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), "
@@ -145,8 +144,8 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
   "\n  call void @wisey.lang.CThread.popStack("
-  "%wisey.lang.CThread** null, "
-  "%wisey.lang.CThread** null)"
+  "%wisey.lang.CThread* null, "
+  "%wisey.lang.CThread* null)"
   "\n}\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 
@@ -160,8 +159,8 @@ TEST_F(ComposerTest, pushCallStackTest) {
   string expected =
   "\nentry:"
   "\n  call void @wisey.lang.CThread.pushStack("
-    "%wisey.lang.CThread** null, "
-    "%wisey.lang.CThread** null, "
+    "%wisey.lang.CThread* null, "
+    "%wisey.lang.CThread* null, "
     "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
     "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
     "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), "
@@ -179,8 +178,8 @@ TEST_F(ComposerTest, popCallStackTest) {
   string expected =
   "\nentry:"
   "\n  call void @wisey.lang.CThread.popStack("
-  "%wisey.lang.CThread** null, "
-  "%wisey.lang.CThread** null)\n";
+  "%wisey.lang.CThread* null, "
+  "%wisey.lang.CThread* null)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
   
   mStringBuffer.clear();

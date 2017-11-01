@@ -123,8 +123,7 @@ void Interface::buildMethods(IRGenerationContext& context) {
   types.push_back(vtableType);
   
   for (Interface* parentInterface : mParentInterfaces) {
-    types.push_back(parentInterface->getLLVMType(llvmContext)
-                    ->getPointerElementType()->getPointerElementType());
+    types.push_back(parentInterface->getLLVMType(llvmContext)->getPointerElementType());
   }
   
   mStructType->setBody(types);
@@ -353,10 +352,9 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
     arguments++;
   }
   
-  Value* interfaceThisLoaded = IRWriter::newLoadInst(context, interfaceThis, "this");
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* pointerType = int8Type->getPointerTo();
-  Value* castedInterfaceThis = IRWriter::newBitCastInst(context, interfaceThisLoaded, pointerType);
+  Value* castedInterfaceThis = IRWriter::newBitCastInst(context, interfaceThis, pointerType);
   Value* index[1];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext),
                               -(interfaceIndex + 1) * Environment::getAddressSizeInBytes());
@@ -364,12 +362,10 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
     IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
   Value* castedObjectThis = IRWriter::newBitCastInst(context,
                                                      concreteOjbectThis,
-                                                     interfaceThisLoaded->getType());
-  Value* castedObjectThisStore = IRWriter::newAllocaInst(context, castedObjectThis->getType(), "");
-  IRWriter::newStoreInst(context, castedObjectThis, castedObjectThisStore);
+                                                     interfaceThis->getType());
   
   vector<Value*> callArguments;
-  callArguments.push_back(castedObjectThisStore);
+  callArguments.push_back(castedObjectThis);
   callArguments.push_back(threadReference);
   for (Value* argumentPointer : argumentPointers) {
     Value* loadedCallArgument = IRWriter::newLoadInst(context, argumentPointer, "");
@@ -408,7 +404,7 @@ string Interface::getShortName() const {
 }
 
 llvm::PointerType* Interface::getLLVMType(LLVMContext& llvmContext) const {
-  return mStructType->getPointerTo()->getPointerTo();
+  return mStructType->getPointerTo();
 }
 
 TypeKind Interface::getTypeKind() const {
@@ -456,11 +452,7 @@ Value* Interface::castTo(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(fromValue);
   
-  Value* result = IRWriter::createCallInst(context, castFunction, arguments, "castTo");
-  Value* resultStore = IRWriter::newAllocaInst(context, result->getType(), "");
-  IRWriter::newStoreInst(context, result, resultStore);
-
-  return resultStore;
+  return IRWriter::createCallInst(context, castFunction, arguments, "castTo");
 }
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
@@ -472,8 +464,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(llvmContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  PointerType* llvmReturnType = (PointerType*) toType->getLLVMType(llvmContext)
-    ->getPointerElementType();
+  PointerType* llvmReturnType = (PointerType*) toType->getLLVMType(llvmContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::ExternalLinkage,
@@ -535,11 +526,10 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
 Value* Interface::getOriginalObjectVTable(IRGenerationContext& context, Value* value) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  Value* valueLoaded = IRWriter::newLoadInst(context, value, "");
-  Value* unthunkBy = getUnthunkBy(context, valueLoaded);
+  Value* unthunkBy = getUnthunkBy(context, value);
 
   Type* int8Type = Type::getInt8Ty(llvmContext);
-  BitCastInst* bitcast = IRWriter::newBitCastInst(context, valueLoaded, int8Type->getPointerTo());
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, value, int8Type->getPointerTo());
   Value* index[1];
   index[0] = unthunkBy;
   return IRWriter::createGetElementPtrInst(context, bitcast, index);
@@ -548,14 +538,13 @@ Value* Interface::getOriginalObjectVTable(IRGenerationContext& context, Value* v
 Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
-  Value* valueLoaded = IRWriter::newLoadInst(context, value, "");
-  Value* unthunkBy = getUnthunkBy(context, valueLoaded);
+  Value* unthunkBy = getUnthunkBy(context, value);
   ConstantInt* bytes = ConstantInt::get(Type::getInt64Ty(llvmContext),
                                         Environment::getAddressSizeInBytes());
   Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, unthunkBy, bytes, "");
 
   Type* int8Type = Type::getInt8Ty(llvmContext);
-  BitCastInst* bitcast = IRWriter::newBitCastInst(context, valueLoaded, int8Type->getPointerTo());
+  BitCastInst* bitcast = IRWriter::newBitCastInst(context, value, int8Type->getPointerTo());
   Value* index[1];
   index[0] = offset;
   return IRWriter::createGetElementPtrInst(context, bitcast, index);
@@ -665,21 +654,24 @@ Interface::createElements(IRGenerationContext& context,
 }
 
 void Interface::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* originalObject = getOriginalObject(context, object);
+  Value* objectLoaded = IRWriter::newLoadInst(context, object, "");
+  Value* originalObject = getOriginalObject(context, objectLoaded);
   Value* originalObjectStore = IRWriter::newAllocaInst(context, originalObject->getType(), "");
   IRWriter::newStoreInst(context, originalObject, originalObjectStore);
   incrementReferenceCounterForObject(context, originalObjectStore);
 }
 
 void Interface::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* originalObject = getOriginalObject(context, object);
+  Value* objectLoaded = IRWriter::newLoadInst(context, object, "");
+  Value* originalObject = getOriginalObject(context, objectLoaded);
   Value* originalObjectStore = IRWriter::newAllocaInst(context, originalObject->getType(), "");
   IRWriter::newStoreInst(context, originalObject, originalObjectStore);
   decrementReferenceCounterForObject(context, originalObjectStore);
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* originalObject = getOriginalObject(context, object);
+  Value* objectLoaded = IRWriter::newLoadInst(context, object, "");
+  Value* originalObject = getOriginalObject(context, objectLoaded);
   Value* originalObjectStore = IRWriter::newAllocaInst(context, originalObject->getType(), "");
   IRWriter::newStoreInst(context, originalObject, originalObjectStore);
   return getReferenceCountForObject(context, originalObjectStore);

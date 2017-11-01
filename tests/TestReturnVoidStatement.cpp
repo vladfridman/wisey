@@ -82,7 +82,7 @@ TEST_F(ReturnVoidStatementTest, returnVoidTest) {
   ASSERT_STREQ(mStringStream->str().c_str(), "  ret void");
 }
 
-TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
+TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,
@@ -93,8 +93,7 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
   
-  Type* structType = mModel->getLLVMType(mLLVMContext)
-    ->getPointerElementType()->getPointerElementType();
+  Type* structType = mModel->getLLVMType(mLLVMContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
@@ -113,7 +112,6 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   
   returnStatement.generateIR(mContext);
   
-  EXPECT_EQ(basicBlock->size(), 11u);
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
@@ -127,14 +125,16 @@ TEST_F(ReturnVoidStatementTest, heapVariablesAreClearedTest) {
   "\n  %1 = bitcast i8* %malloccall1 to %MShape*"
   "\n  %pointer2 = alloca %MShape*"
   "\n  store %MShape* %1, %MShape** %pointer2"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape** %pointer2)"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape** %pointer)"
+  "\n  %2 = load %MShape*, %MShape** %pointer2"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape* %2)"
+  "\n  %3 = load %MShape*, %MShape** %pointer"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape* %3)"
   "\n  ret void\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ReturnVoidStatementTest, heapVariablesAreNotClearedTest) {
+TEST_F(ReturnVoidStatementTest, referenceVariablesAreNotClearedTest) {
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,

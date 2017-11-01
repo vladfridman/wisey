@@ -283,8 +283,7 @@ TEST_F(NodeTest, getTypeKindTest) {
 }
 
 TEST_F(NodeTest, getLLVMTypeTest) {
-  EXPECT_EQ(mComplicatedNode->getLLVMType(mLLVMContext),
-            mStructType->getPointerTo()->getPointerTo());
+  EXPECT_EQ(mComplicatedNode->getLLVMType(mLLVMContext), mStructType->getPointerTo());
 }
 
 TEST_F(NodeTest, getInterfacesTest) {
@@ -365,14 +364,9 @@ TEST_F(NodeTest, castToFirstInterfaceTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NComplicatedNode*, "
-  "%systems.vos.wisey.compiler.tests.NComplicatedNode** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 8"
-  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IComplicatedElement*"
-  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IComplicatedElement*"
-  "\n  store %systems.vos.wisey.compiler.tests.IComplicatedElement* %4, "
-  "%systems.vos.wisey.compiler.tests.IComplicatedElement** %3\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IComplicatedElement*\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -386,14 +380,9 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.NComplicatedNode*, "
-  "%systems.vos.wisey.compiler.tests.NComplicatedNode** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 16"
-  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IElement*"
-  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IElement*"
-  "\n  store %systems.vos.wisey.compiler.tests.IElement* %4, "
-  "%systems.vos.wisey.compiler.tests.IElement** %3\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 16"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IElement*\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -401,7 +390,7 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
 
 TEST_F(NodeTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext)->getPointerTo());
   mComplicatedNode->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -412,14 +401,14 @@ TEST_F(NodeTest, incremenetReferenceCountTest) {
   "\n  %refCounter = load i64, i64* %refCounterPointer"
   "\n  %1 = add i64 %refCounter, 1"
   "\n  store i64 %1, i64* %refCounterPointer\n";
-  
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
 TEST_F(NodeTest, decremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext)->getPointerTo());
   mComplicatedNode->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -437,7 +426,7 @@ TEST_F(NodeTest, decremenetReferenceCountTest) {
 
 TEST_F(NodeTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext)->getPointerTo());
   mComplicatedNode->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;

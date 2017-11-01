@@ -101,7 +101,7 @@ TEST_F(MethodTest, definePublicFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject**, %wisey.lang.CThread**, i32)\n";
+  "%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.CThread*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -121,7 +121,7 @@ TEST_F(MethodTest, definePrivateFunctionTest) {
   
   *mStringStream << *function;
   string expected = "\ndeclare internal float @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject**, %wisey.lang.CThread**, i32)\n";
+  "%systems.vos.wisey.compiler.tests.MObject*, %wisey.lang.CThread*, i32)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
@@ -143,7 +143,7 @@ TEST_F(MethodTest, generateIRTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo("
-  "%systems.vos.wisey.compiler.tests.MObject** %this, %wisey.lang.CThread** %thread, "
+  "%systems.vos.wisey.compiler.tests.MObject* %this, %wisey.lang.CThread* %thread, "
   "i32 %intargument) {"
   "\nentry:"
   "\n  %intargument.param = alloca i32"

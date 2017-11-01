@@ -98,12 +98,9 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
                                                          callArgumentValue,
                                                          methodArgumentType);
     if (IType::isOwnerType(methodArgument->getType())) {
-      Value* loadedCasted = IRWriter::newLoadInst(context, callArgumentValueCasted, "");
-      arguments.push_back(loadedCasted);
       callArgument->releaseOwnership(context);
-    } else {
-      arguments.push_back(callArgumentValueCasted);
     }
+    arguments.push_back(callArgumentValueCasted);
     methodArgumentIterator++;
   }
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
@@ -134,7 +131,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
     : (IVariable*) new LocalReferenceVariable(variableName, (IObjectType*) returnType, pointer);
 
   context.getScopes().setVariable(tempVariable);
-  return IType::isOwnerType(returnType) ? pointer : result;
+  return result;
 }
 
 const IType* StaticMethodCall::getType(IRGenerationContext& context) const {

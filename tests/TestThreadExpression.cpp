@@ -85,7 +85,7 @@ TEST_F(ThreadExpressionTest, generateIRTest) {
   Value* instruction = mThreadExpression.generateIR(mContext);
 
   *mStringStream << *instruction;
-  string expected = "  %0 = load %wisey.lang.CThread**, %wisey.lang.CThread*** %threadStore";
+  string expected = "  %0 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

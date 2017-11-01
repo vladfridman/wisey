@@ -171,7 +171,7 @@ unsigned long Controller::getVTableSize() const {
 Instruction* Controller::createMalloc(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
-  Type* structType = getLLVMType(llvmContext)->getPointerElementType()->getPointerElementType();
+  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "injectvar");
   
@@ -219,7 +219,7 @@ string Controller::getShortName() const {
 }
 
 llvm::PointerType* Controller::getLLVMType(LLVMContext& llvmContext) const {
-  return mStructType->getPointerTo()->getPointerTo();
+  return mStructType->getPointerTo();
 }
 
 TypeKind Controller::getTypeKind() const {
@@ -302,11 +302,8 @@ void Controller::initializeStateFields(IRGenerationContext& context, Instruction
     Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);
     
     Value* fieldValue;
-    if (IType::isOwnerType(fieldType)) {
+    if (IType::isOwnerType(fieldType) || IType::isReferenceType(fieldType)) {
       fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(llvmContext));
-    } else if (IType::isReferenceType(fieldType)) {
-      fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(llvmContext)
-                                            ->getPointerElementType());
     } else if (fieldLLVMType->isFloatTy() || fieldLLVMType->isDoubleTy()) {
       fieldValue = ConstantFP::get(fieldLLVMType, 0.0);
     } else if (fieldLLVMType->isIntegerTy()) {

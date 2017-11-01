@@ -148,8 +148,7 @@ TEST_F(InterfaceTest, interfaceInstantiationTest) {
   EXPECT_STREQ(mShapeInterface->getName().c_str(), "systems.vos.wisey.compiler.tests.IShape");
   EXPECT_STREQ(mShapeInterface->getShortName().c_str(), "IShape");
   EXPECT_EQ(mShapeInterface->getTypeKind(), INTERFACE_TYPE);
-  EXPECT_EQ(mShapeInterface->getLLVMType(mLLVMContext),
-            mShapeStructType->getPointerTo()->getPointerTo());
+  EXPECT_EQ(mShapeInterface->getLLVMType(mLLVMContext), mShapeStructType->getPointerTo());
   ASSERT_NE(mShapeInterface->getOwner(), nullptr);
   EXPECT_EQ(mShapeInterface->getOwner()->getObject(), mShapeInterface);
 }
@@ -210,21 +209,19 @@ TEST_F(InterfaceTest, isCompleteTest) {
 }
 
 TEST_F(InterfaceTest, getOriginalObjectVTableTest) {
-  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)
-                                                     ->getPointerTo()->getPointerTo());
+  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   Interface::getOriginalObjectVTable(mContext, nullPointerValue);
 
   *mStringStream << *mBlock;
   string expected =
     "\nentry:"
-    "\n  %0 = load i8*, i8** null"
-    "\n  %1 = bitcast i8* %0 to i8***"
-    "\n  %vtable = load i8**, i8*** %1"
-    "\n  %2 = getelementptr i8*, i8** %vtable, i64 0"
-    "\n  %unthunkbypointer = load i8*, i8** %2"
+    "\n  %0 = bitcast i8* null to i8***"
+    "\n  %vtable = load i8**, i8*** %0"
+    "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
+    "\n  %unthunkbypointer = load i8*, i8** %1"
     "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-    "\n  %3 = bitcast i8* %0 to i8*"
-    "\n  %4 = getelementptr i8, i8* %3, i64 %unthunkby\n";
+    "\n  %2 = bitcast i8* null to i8*"
+    "\n  %3 = getelementptr i8, i8* %2, i64 %unthunkby\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -333,7 +330,7 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
 
 TEST_F(InterfaceTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext)->getPointerTo());
   mShapeInterface->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBlock;
@@ -363,7 +360,7 @@ TEST_F(InterfaceTest, incremenetReferenceCountTest) {
 
 TEST_F(InterfaceTest, decremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext)->getPointerTo());
   mShapeInterface->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBlock;
@@ -393,7 +390,7 @@ TEST_F(InterfaceTest, decremenetReferenceCountTest) {
 
 TEST_F(InterfaceTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext)->getPointerTo());
   mShapeInterface->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBlock;

@@ -109,14 +109,12 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   ExpressionList injectionArguments;
   Value* injectedThread = threadController->inject(context, injectionArguments);
   Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
-  Value* threadTemp = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadTemp");
-  IRWriter::newStoreInst(context, injectedThread, threadTemp);
   IVariable* threadVariable = new LocalOwnerVariable(ThreadExpression::THREAD,
                                                     threadController->getOwner(),
                                                     threadStore);
   context.getScopes().setVariable(threadVariable);
   threadVariable->setToNull(context);
-  FakeExpression* threadExpression = new FakeExpression(threadTemp,
+  FakeExpression* threadExpression = new FakeExpression(injectedThread,
                                                         threadController->getOwner());
   threadVariable->generateAssignmentIR(context, threadExpression);
 

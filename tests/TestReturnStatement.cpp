@@ -130,7 +130,7 @@ TEST_F(ReturnStatementTest, parentFunctionIntTest) {
   delete function;
 }
 
-TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
+TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,
@@ -141,8 +141,7 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
 
-  Type* structType = mModel->getLLVMType(mLLVMContext)
-    ->getPointerElementType()->getPointerElementType();
+  Type* structType = mModel->getLLVMType(mLLVMContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
@@ -161,7 +160,6 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
   
   returnStatement.generateIR(mContext);
   
-  EXPECT_EQ(12ul, basicBlock->size());
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
@@ -176,13 +174,15 @@ TEST_F(ReturnStatementTest, heapVariablesAreClearedTest) {
   "\n  %pointer2 = alloca %MShape*"
   "\n  store %MShape* %1, %MShape** %pointer2"
   "\n  %conv = zext i32 3 to i64"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape** %pointer2)"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape** %pointer)"
+  "\n  %2 = load %MShape*, %MShape** %pointer2"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape* %2)"
+  "\n  %3 = load %MShape*, %MShape** %pointer"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MShape(%MShape* %3)"
   "\n  ret i64 %conv\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ReturnStatementTest, heapVariablesAreNotClearedTest) {
+TEST_F(ReturnStatementTest, referenceVariablesAreNotClearedTest) {
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,

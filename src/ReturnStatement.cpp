@@ -34,7 +34,6 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                       mExpression->generateIR(context),
                                       returnType);
   if (IType::isOwnerType(returnType)) {
-    result = IRWriter::newLoadInst(context, result, "");
     mExpression->releaseOwnership(context);
   } else if (returnType->getTypeKind() != PRIMITIVE_TYPE &&
              !mExpression->existsInOuterScope(context)) {

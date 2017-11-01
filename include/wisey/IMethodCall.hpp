@@ -32,12 +32,6 @@ public:
    */
   static std::string getMethodNameConstantName(std::string methodName);
 
-private:
-  
-  static llvm::Value* getObjectNamePointer(IRGenerationContext& context,
-                                           const IObjectType* object,
-                                           llvm::Value* expressionValue);
-
 };
   
 } /* namespace wisey */

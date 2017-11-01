@@ -43,11 +43,7 @@ Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context
                                                     string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
-  if (getType()->getTypeKind() == PRIMITIVE_TYPE) {
-    return IRWriter::newLoadInst(context, fieldPointer, "referenceFieldIdentifier");
-  }
-  
-  return fieldPointer;
+  return IRWriter::newLoadInst(context, fieldPointer, "referenceFieldIdentifier");
 }
 
 Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -65,13 +61,7 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
 
-  if (fieldType->getTypeKind() == PRIMITIVE_TYPE) {
-    return IRWriter::newStoreInst(context, cast, fieldPointer);
-  }
-  
-  Value* castLoaded = IRWriter::newLoadInst(context, cast, "");
-  
-  return IRWriter::newStoreInst(context, castLoaded, fieldPointer);
+  return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
 
 void FieldReferenceVariable::setToNull(IRGenerationContext& context) {

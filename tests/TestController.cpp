@@ -264,8 +264,7 @@ TEST_F(ControllerTest, getTypeKindTest) {
 }
 
 TEST_F(ControllerTest, getLLVMTypeTest) {
-  EXPECT_EQ(mMultiplierController->getLLVMType(mLLVMContext),
-            mStructType->getPointerTo()->getPointerTo());
+  EXPECT_EQ(mMultiplierController->getLLVMType(mLLVMContext), mStructType->getPointerTo());
 }
 
 TEST_F(ControllerTest, getInterfacesTest) {
@@ -348,15 +347,10 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.CMultiplier*, "
-  "%systems.vos.wisey.compiler.tests.CMultiplier** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 8"
-  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.IScienceCalculator*"
-  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.IScienceCalculator*"
-  "\n  store %systems.vos.wisey.compiler.tests.IScienceCalculator* %4, "
-  "%systems.vos.wisey.compiler.tests.IScienceCalculator** %3\n";
-  
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 8"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IScienceCalculator*\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -369,22 +363,17 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.CMultiplier*, "
-  "%systems.vos.wisey.compiler.tests.CMultiplier** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* %0 to i8*"
-  "\n  %2 = getelementptr i8, i8* %1, i64 16"
-  "\n  %3 = alloca %systems.vos.wisey.compiler.tests.ICalculator*"
-  "\n  %4 = bitcast i8* %2 to %systems.vos.wisey.compiler.tests.ICalculator*"
-  "\n  store %systems.vos.wisey.compiler.tests.ICalculator* %4, "
-  "%systems.vos.wisey.compiler.tests.ICalculator** %3\n";
-  
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
+  "\n  %1 = getelementptr i8, i8* %0, i64 16"
+  "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.ICalculator*\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
 TEST_F(ControllerTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext)->getPointerTo());
   mMultiplierController->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -402,7 +391,7 @@ TEST_F(ControllerTest, incremenetReferenceCountTest) {
 
 TEST_F(ControllerTest, decremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext)->getPointerTo());
   mMultiplierController->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -420,7 +409,7 @@ TEST_F(ControllerTest, decremenetReferenceCountTest) {
 
 TEST_F(ControllerTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext)->getPointerTo());
   mMultiplierController->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -557,7 +546,7 @@ TEST_F(ControllerTest, injectFieldTest) {
 
   vector<Type*> parentTypes;
   parentTypes.push_back(Type::getInt64Ty(mLLVMContext));
-  parentTypes.push_back(childController->getLLVMType(mLLVMContext)->getPointerElementType());
+  parentTypes.push_back(childController->getLLVMType(mLLVMContext));
   string parentFullName = "systems.vos.wisey.compiler.tests.CParent";
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
   parentStructType->setBody(parentTypes);
