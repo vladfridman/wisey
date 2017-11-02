@@ -330,29 +330,24 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
 
 TEST_F(InterfaceTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext)->getPointerTo());
+  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
   mShapeInterface->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape*, "
-  "%systems.vos.wisey.compiler.tests.IShape** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.IShape* %0 to i8***"
-  "\n  %vtable = load i8**, i8*** %1"
-  "\n  %2 = getelementptr i8*, i8** %vtable, i64 0"
-  "\n  %unthunkbypointer = load i8*, i8** %2"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8***"
+  "\n  %vtable = load i8**, i8*** %0"
+  "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
+  "\n  %unthunkbypointer = load i8*, i8** %1"
   "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-  "\n  %3 = sub i64 %unthunkby, 8"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.IShape* %0 to i8*"
-  "\n  %5 = getelementptr i8, i8* %4, i64 %3"
-  "\n  %6 = alloca i8*"
-  "\n  store i8* %5, i8** %6"
-  "\n  %7 = bitcast i8** %6 to i64**"
-  "\n  %refCounterPointer = load i64*, i64** %7"
-  "\n  %refCounter = load i64, i64* %refCounterPointer"
-  "\n  %8 = add i64 %refCounter, 1"
-  "\n  store i64 %8, i64* %refCounterPointer\n";
+  "\n  %2 = sub i64 %unthunkby, 8"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
+  "\n  %4 = getelementptr i8, i8* %3, i64 %2"
+  "\n  %5 = bitcast i8* %4 to i64*"
+  "\n  %refCounter = load i64, i64* %5"
+  "\n  %6 = add i64 %refCounter, 1"
+  "\n  store i64 %6, i64* %5\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -360,58 +355,48 @@ TEST_F(InterfaceTest, incremenetReferenceCountTest) {
 
 TEST_F(InterfaceTest, decremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext)->getPointerTo());
+  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
   mShapeInterface->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape*, "
-  "%systems.vos.wisey.compiler.tests.IShape** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.IShape* %0 to i8***"
-  "\n  %vtable = load i8**, i8*** %1"
-  "\n  %2 = getelementptr i8*, i8** %vtable, i64 0"
-  "\n  %unthunkbypointer = load i8*, i8** %2"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8***"
+  "\n  %vtable = load i8**, i8*** %0"
+  "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
+  "\n  %unthunkbypointer = load i8*, i8** %1"
   "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-  "\n  %3 = sub i64 %unthunkby, 8"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.IShape* %0 to i8*"
-  "\n  %5 = getelementptr i8, i8* %4, i64 %3"
-  "\n  %6 = alloca i8*"
-  "\n  store i8* %5, i8** %6"
-  "\n  %7 = bitcast i8** %6 to i64**"
-  "\n  %refCounterPointer = load i64*, i64** %7"
-  "\n  %refCounter = load i64, i64* %refCounterPointer"
-  "\n  %8 = sub i64 %refCounter, 1"
-  "\n  store i64 %8, i64* %refCounterPointer\n";
-  
+  "\n  %2 = sub i64 %unthunkby, 8"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
+  "\n  %4 = getelementptr i8, i8* %3, i64 %2"
+  "\n  %5 = bitcast i8* %4 to i64*"
+  "\n  %refCounter = load i64, i64* %5"
+  "\n  %6 = sub i64 %refCounter, 1"
+  "\n  store i64 %6, i64* %5\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
 TEST_F(InterfaceTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext)->getPointerTo());
+  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
   mShapeInterface->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = load %systems.vos.wisey.compiler.tests.IShape*, "
-  "%systems.vos.wisey.compiler.tests.IShape** null"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.IShape* %0 to i8***"
-  "\n  %vtable = load i8**, i8*** %1"
-  "\n  %2 = getelementptr i8*, i8** %vtable, i64 0"
-  "\n  %unthunkbypointer = load i8*, i8** %2"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8***"
+  "\n  %vtable = load i8**, i8*** %0"
+  "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
+  "\n  %unthunkbypointer = load i8*, i8** %1"
   "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-  "\n  %3 = sub i64 %unthunkby, 8"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.IShape* %0 to i8*"
-  "\n  %5 = getelementptr i8, i8* %4, i64 %3"
-  "\n  %6 = alloca i8*"
-  "\n  store i8* %5, i8** %6"
-  "\n  %7 = bitcast i8** %6 to i64**"
-  "\n  %refCounterPointer = load i64*, i64** %7"
-  "\n  %refCounter = load i64, i64* %refCounterPointer\n";
-  
+  "\n  %2 = sub i64 %unthunkby, 8"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
+  "\n  %4 = getelementptr i8, i8* %3, i64 %2"
+  "\n  %5 = bitcast i8* %4 to i64*"
+  "\n  %refCounter = load i64, i64* %5\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }

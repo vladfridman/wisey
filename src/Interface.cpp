@@ -654,25 +654,16 @@ Interface::createElements(IRGenerationContext& context,
 }
 
 void Interface::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* objectLoaded = IRWriter::newLoadInst(context, object, "");
-  Value* originalObject = getOriginalObject(context, objectLoaded);
-  Value* originalObjectStore = IRWriter::newAllocaInst(context, originalObject->getType(), "");
-  IRWriter::newStoreInst(context, originalObject, originalObjectStore);
-  incrementReferenceCounterForObject(context, originalObjectStore);
+  Value* originalObject = getOriginalObject(context, object);
+  incrementReferenceCounterForObject(context, originalObject);
 }
 
 void Interface::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* objectLoaded = IRWriter::newLoadInst(context, object, "");
-  Value* originalObject = getOriginalObject(context, objectLoaded);
-  Value* originalObjectStore = IRWriter::newAllocaInst(context, originalObject->getType(), "");
-  IRWriter::newStoreInst(context, originalObject, originalObjectStore);
-  decrementReferenceCounterForObject(context, originalObjectStore);
+  Value* originalObject = getOriginalObject(context, object);
+  decrementReferenceCounterForObject(context, originalObject);
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* objectLoaded = IRWriter::newLoadInst(context, object, "");
-  Value* originalObject = getOriginalObject(context, objectLoaded);
-  Value* originalObjectStore = IRWriter::newAllocaInst(context, originalObject->getType(), "");
-  IRWriter::newStoreInst(context, originalObject, originalObjectStore);
-  return getReferenceCountForObject(context, originalObjectStore);
+  Value* originalObject = getOriginalObject(context, object);
+  return getReferenceCountForObject(context, originalObject);
 }

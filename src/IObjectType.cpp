@@ -30,10 +30,12 @@ llvm::Constant* IObjectType::getObjectNamePointer(const IObjectType *object,
 }
 
 Value* IObjectType::getReferenceCounterPointer(IRGenerationContext& context, Value* object) {
+  assert(object->getType()->isPointerTy());
+  assert(!object->getType()->getPointerElementType()->isPointerTy());
+  
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* type = Type::getInt64Ty(llvmContext)->getPointerTo()->getPointerTo();
-  Value* genericPointer = IRWriter::newBitCastInst(context, object, type);
-  return IRWriter::newLoadInst(context, genericPointer, "refCounterPointer");
+  Type* type = Type::getInt64Ty(llvmContext)->getPointerTo();
+  return IRWriter::newBitCastInst(context, object, type);
 }
 
 void IObjectType::incrementReferenceCounterForObject(IRGenerationContext& context, Value* object) {

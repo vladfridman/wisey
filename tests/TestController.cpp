@@ -373,17 +373,16 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
 
 TEST_F(ControllerTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext)->getPointerTo());
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
   mMultiplierController->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier** null to i64**"
-  "\n  %refCounterPointer = load i64*, i64** %0"
-  "\n  %refCounter = load i64, i64* %refCounterPointer"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
+  "\n  %refCounter = load i64, i64* %0"
   "\n  %1 = add i64 %refCounter, 1"
-  "\n  store i64 %1, i64* %refCounterPointer\n";
+  "\n  store i64 %1, i64* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -391,33 +390,31 @@ TEST_F(ControllerTest, incremenetReferenceCountTest) {
 
 TEST_F(ControllerTest, decremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext)->getPointerTo());
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
   mMultiplierController->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier** null to i64**"
-  "\n  %refCounterPointer = load i64*, i64** %0"
-  "\n  %refCounter = load i64, i64* %refCounterPointer"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
+  "\n  %refCounter = load i64, i64* %0"
   "\n  %1 = sub i64 %refCounter, 1"
-  "\n  store i64 %1, i64* %refCounterPointer\n";
-  
+  "\n  store i64 %1, i64* %0\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
 TEST_F(ControllerTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext)->getPointerTo());
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
   mMultiplierController->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier** null to i64**"
-  "\n  %refCounterPointer = load i64*, i64** %0"
-  "\n  %refCounter = load i64, i64* %refCounterPointer\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
+  "\n  %refCounter = load i64, i64* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
