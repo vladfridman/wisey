@@ -113,7 +113,7 @@ void Method::createArguments(IRGenerationContext& context,
   IMethod::storeArgumentValue(context, "this", objectType, &*llvmFunctionArguments);
   llvmFunctionArguments++;
   IMethod::storeArgumentValue(context,
-                              "thread",
+                              ThreadExpression::THREAD,
                               context.getController(Names::getThreadControllerFullName()),
                               &*llvmFunctionArguments);
   llvmFunctionArguments++;
