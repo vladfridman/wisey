@@ -14,6 +14,7 @@
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/MethodCall.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -136,8 +137,9 @@ void IMethod::defineCurrentMethodNameVariable(IRGenerationContext& context, stri
   
   Value* value = ConstantExpr::getGetElementPtr(elementType, constant, Idx);
   
-  LocalPrimitiveVariable* methodNameVariable = new LocalPrimitiveVariable("currentMethod",
-                                                        PrimitiveTypes::STRING_TYPE,
-                                                        value);
+  LocalPrimitiveVariable* methodNameVariable =
+  new LocalPrimitiveVariable(Names::getCurrentMethodVariableName(),
+                             PrimitiveTypes::STRING_TYPE,
+                             value);
   context.getScopes().setVariable(methodNameVariable);
 }

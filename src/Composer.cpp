@@ -51,8 +51,10 @@ void Composer::pushCallStack(IRGenerationContext& context,
     return;
   }
 
-  IVariable* currentObjectVariable = context.getScopes().getVariable("currentObject");
-  IVariable* currentMethodVariable = context.getScopes().getVariable("currentMethod");
+  IVariable* currentObjectVariable = context.getScopes()
+    .getVariable(Names::getCurrentObjectVariableName());
+  IVariable* currentMethodVariable = context.getScopes()
+    .getVariable(Names::getCurrentMethodVariableName());
 
   vector<Value*> arguments;
   arguments.push_back(threadObject);

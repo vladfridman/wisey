@@ -85,6 +85,17 @@ public:
    * Get the method for popping the call stack
    */
   static std::string getThreadPopStack();
+  
+  /**
+   * Variable name containing current object name
+   */
+  static std::string getCurrentObjectVariableName();
+  
+  /**
+   * Variable name containing current method name
+   */
+  static std::string getCurrentMethodVariableName();
+
 };
 
 } /* namespace wisey */

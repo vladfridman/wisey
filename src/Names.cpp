@@ -62,3 +62,11 @@ string Names::getThreadPushStack() {
 string Names::getThreadPopStack() {
   return "popStack";
 }
+
+string Names::getCurrentObjectVariableName() {
+  return "__currentObject";
+}
+
+string Names::getCurrentMethodVariableName() {
+  return "__currentMethod";
+}

@@ -21,6 +21,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
@@ -444,9 +445,10 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
 void IConcreteObjectType::defineCurrentObjectNameVariable(IRGenerationContext& context,
                                                           const IConcreteObjectType* objectType) {
   Value* objectName = IObjectType::getObjectNamePointer(objectType, context);
-  LocalPrimitiveVariable* objectNameVariable = new LocalPrimitiveVariable("currentObject",
-                                                        PrimitiveTypes::STRING_TYPE,
-                                                        objectName);
+  LocalPrimitiveVariable* objectNameVariable =
+  new LocalPrimitiveVariable(Names::getCurrentObjectVariableName(),
+                             PrimitiveTypes::STRING_TYPE,
+                             objectName);
   context.getScopes().setVariable(objectNameVariable);
 }
 
