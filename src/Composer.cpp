@@ -21,9 +21,8 @@ using namespace wisey;
 void Composer::checkNullAndThrowNPE(IRGenerationContext& context,
                                     Value* value,
                                     Value* threadObject,
-                                    const IObjectType* objectType,
                                     int line) {
-  pushCallStack(context, threadObject, objectType, line);
+  pushCallStack(context, threadObject, line);
   
   PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
@@ -34,15 +33,13 @@ void Composer::checkNullAndThrowNPE(IRGenerationContext& context,
 
   IRWriter::createInvokeInst(context, function, arguments, "");
 
-  popCallStack(context, threadObject, objectType);
+  popCallStack(context, threadObject);
 }
 
-void Composer::pushCallStack(IRGenerationContext& context,
-                             Value* threadObject,
-                             const IObjectType* objectType,
-                             int line) {
-  if (!Names::getThreadStackNodeName().compare(objectType->getName())) {
-    // avoid inifinite recursion in wisey.lang.CThread.pushStack()
+void Composer::pushCallStack(IRGenerationContext& context, Value* threadObject, int line) {
+  const IObjectType* objectType = context.getScopes().getObjectType();
+  if (objectType != NULL && !Names::getThreadControllerFullName().compare(objectType->getName())) {
+    // avoid inifinite recursion in wisey.lang.CThread
     return;
   }
 
@@ -55,7 +52,7 @@ void Composer::pushCallStack(IRGenerationContext& context,
     .getVariable(Names::getCurrentObjectVariableName());
   IVariable* currentMethodVariable = context.getScopes()
     .getVariable(Names::getCurrentMethodVariableName());
-
+  
   vector<Value*> arguments;
   arguments.push_back(threadObject);
   arguments.push_back(threadObject);
@@ -71,15 +68,14 @@ void Composer::pushCallStack(IRGenerationContext& context,
   IRWriter::createCallInst(context, pushStackFunction, arguments, "");
 }
 
-void Composer::popCallStack(IRGenerationContext& context,
-                            Value* threadObject,
-                            const IObjectType* objectType) {
-  Controller* threadController = context.getController(Names::getThreadControllerFullName());
-  if (!Names::getThreadStackNodeName().compare(objectType->getName())) {
-    // avoid inifinite recursion in wisey.lang.CThread.popStack()
+void Composer::popCallStack(IRGenerationContext& context, Value* threadObject) {
+  const IObjectType* objectType = context.getScopes().getObjectType();
+  if (objectType != NULL && !Names::getThreadControllerFullName().compare(objectType->getName())) {
+    // avoid inifinite recursion in wisey.lang.CThread
     return;
   }
 
+  Controller* threadController = context.getController(Names::getThreadControllerFullName());
   vector<Value*> arguments;
   arguments.push_back(threadObject);
   arguments.push_back(threadObject);

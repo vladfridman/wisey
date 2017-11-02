@@ -47,10 +47,6 @@ string Names::getThreadControllerFullName() {
   return getLangPackageName() + "." + getThreadControllerName();
 }
 
-string Names::getThreadStackNodeName() {
-  return "wisey.lang.NProgramStackNode";
-}
-
 string Names::getThreadSetObjectAndMethod() {
   return "setObjectAndMethod";
 }

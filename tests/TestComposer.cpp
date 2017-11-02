@@ -118,11 +118,7 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
 
   Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
   
-  Composer::checkNullAndThrowNPE(mContext,
-                                 value,
-                                 mThreadObject,
-                                 mModel,
-                                 5);
+  Composer::checkNullAndThrowNPE(mContext, value, mThreadObject, 5);
 
   *mStringStream << *mMainFunction;
   string expected =
@@ -153,7 +149,7 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
 }
 
 TEST_F(ComposerTest, pushCallStackTest) {
-  Composer::pushCallStack(mContext, mThreadObject, mModel, 5);
+  Composer::pushCallStack(mContext, mThreadObject, 5);
 
   *mStringStream << *mBasicBlock;
   string expected =
@@ -172,7 +168,7 @@ TEST_F(ComposerTest, pushCallStackTest) {
 }
 
 TEST_F(ComposerTest, popCallStackTest) {
-  Composer::popCallStack(mContext, mThreadObject, mModel);
+  Composer::popCallStack(mContext, mThreadObject);
   
   *mStringStream << *mBasicBlock;
   string expected =

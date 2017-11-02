@@ -118,11 +118,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   LoadInst* function = IRWriter::newLoadInst(context, virtualFunction, "");
   
-  Composer::checkNullAndThrowNPE(context,
-                                 expressionValue,
-                                 threadObject,
-                                 interface,
-                                 mLine);
+  Composer::checkNullAndThrowNPE(context, expressionValue, threadObject, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
@@ -143,11 +139,7 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   
   Function* function = getMethodFunction(context, objectType);
 
-  Composer::checkNullAndThrowNPE(context,
-                                 expressionValue,
-                                 threadObject,
-                                 objectType,
-                                 mLine);
+  Composer::checkNullAndThrowNPE(context, expressionValue, threadObject, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
@@ -222,7 +214,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     methodArgumentIterator++;
   }
   
-  Composer::pushCallStack(context, threadObject, object, mLine);
+  Composer::pushCallStack(context, threadObject, mLine);
 
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {
@@ -231,7 +223,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     result = IRWriter::createInvokeInst(context, function, arguments, "");
   }
   
-  Composer::popCallStack(context, threadObject, object);
+  Composer::popCallStack(context, threadObject);
 
   const IType* returnType = methodDescriptor->getReturnType();
   if (returnType->getTypeKind() == PRIMITIVE_TYPE) {

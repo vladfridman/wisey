@@ -27,23 +27,17 @@ public:
   static void checkNullAndThrowNPE(IRGenerationContext& context,
                                    llvm::Value* value,
                                    llvm::Value* threadObject,
-                                   const IObjectType* objectType,
                                    int line);
 
   /**
    * Push new entry on call stack
    */
-  static void pushCallStack(IRGenerationContext& context,
-                            llvm::Value* threadObject,
-                            const IObjectType* objectType,
-                            int line);
+  static void pushCallStack(IRGenerationContext& context, llvm::Value* threadObject, int line);
 
   /**
    * Pop an entry from call stack
    */
-  static void popCallStack(IRGenerationContext& context,
-                           llvm::Value* threadObject,
-                           const IObjectType* objectType);
+  static void popCallStack(IRGenerationContext& context, llvm::Value* threadObject);
 
 };
 

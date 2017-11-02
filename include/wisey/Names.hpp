@@ -65,11 +65,6 @@ public:
    * Thread controller name
    */
   static std::string getThreadControllerFullName();
-
-  /**
-   * Get name of the thread call stack node
-   */
-  static std::string getThreadStackNodeName();
   
   /**
    * Get the method for setting call stack's current object and method
