@@ -14,6 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockVariable.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/EmptyStatement.hpp"
@@ -23,11 +24,15 @@
 #include "wisey/Names.hpp"
 #include "wisey/ProgramFile.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+using ::testing::_;
+using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct ComposerTest : public Test {
@@ -40,7 +45,7 @@ struct ComposerTest : public Test {
   Function* mMainFunction;
   string mMethodName;
   Controller* mThreadController;
-  Value* mThreadObject;
+  NiceMock<MockVariable>* mThreadVariable;
 
 public:
   
@@ -97,13 +102,20 @@ public:
     IMethod::defineCurrentMethodNameVariable(mContext, mMethodName);
 
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
-    mThreadObject = ConstantPointerNull::get(mThreadController->getLLVMType(mLLVMContext));
+    Value* threadObject = ConstantPointerNull::get(mThreadController->getLLVMType(mLLVMContext));
+    mThreadVariable = new NiceMock<MockVariable>();
+    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(mThreadController));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
+    mContext.getScopes().pushScope();
+    mContext.getScopes().setVariable(mThreadVariable);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   
   ~ComposerTest() {
     delete mStringStream;
+    delete mThreadVariable;
   }
 };
 
@@ -118,7 +130,7 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
 
   Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
   
-  Composer::checkNullAndThrowNPE(mContext, value, mThreadObject, 5);
+  Composer::checkNullAndThrowNPE(mContext, value, 5);
 
   *mStringStream << *mMainFunction;
   string expected =
@@ -149,7 +161,7 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
 }
 
 TEST_F(ComposerTest, pushCallStackTest) {
-  Composer::pushCallStack(mContext, mThreadObject, 5);
+  Composer::pushCallStack(mContext, 5);
 
   *mStringStream << *mBasicBlock;
   string expected =
@@ -168,7 +180,7 @@ TEST_F(ComposerTest, pushCallStackTest) {
 }
 
 TEST_F(ComposerTest, popCallStackTest) {
-  Composer::popCallStack(mContext, mThreadObject);
+  Composer::popCallStack(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected =

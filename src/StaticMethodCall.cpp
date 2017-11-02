@@ -105,7 +105,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   }
   string resultName = function->getReturnType()->isVoidTy() ? "" : "call";
   
-  Composer::pushCallStack(context, threadObject, mLine);
+  Composer::pushCallStack(context, mLine);
 
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {
@@ -114,7 +114,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
     result = IRWriter::createInvokeInst(context, function, arguments, resultName);
   }
   
-  Composer::popCallStack(context, threadObject);
+  Composer::popCallStack(context);
 
   const IType* returnType = methodDescriptor->getReturnType();
   if (returnType->getTypeKind() == PRIMITIVE_TYPE) {

@@ -59,24 +59,18 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions);
   
-  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context, "");
-
   if (methodDescriptor->isStatic()) {
     return generateStaticMethodCallIR(context,
-                                      threadObject,
                                       objectWithMethodsType,
                                       methodDescriptor);
   }
   if (IType::isConcreteObjectType(objectWithMethodsType)) {
     return generateObjectMethodCallIR(context,
-                                      threadObject,
                                       (IObjectType*) objectWithMethodsType,
                                       methodDescriptor);
   }
   if (objectWithMethodsType->getTypeKind() == INTERFACE_TYPE) {
     return generateInterfaceMethodCallIR(context,
-                                         threadObject,
                                          (Interface*) objectWithMethodsType,
                                          methodDescriptor);
   }
@@ -101,7 +95,6 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
 }
 
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
-                                                 Value* threadObject,
                                                  const Interface* interface,
                                                  IMethodDescriptor* methodDescriptor) const {
   Value* expressionValue = generateExpressionIR(context);
@@ -118,42 +111,38 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   LoadInst* function = IRWriter::newLoadInst(context, virtualFunction, "");
   
-  Composer::checkNullAndThrowNPE(context, expressionValue, threadObject, mLine);
+  Composer::checkNullAndThrowNPE(context, expressionValue, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
 
   return createFunctionCall(context,
                             interface,
-                            threadObject,
                             (Function*) function,
                             methodDescriptor,
                             arguments);
 }
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
-                                              Value* threadObject,
                                               const IObjectType* objectType,
                                               IMethodDescriptor* methodDescriptor) const {
   Value* expressionValue = generateExpressionIR(context);
   
   Function* function = getMethodFunction(context, objectType);
 
-  Composer::checkNullAndThrowNPE(context, expressionValue, threadObject, mLine);
+  Composer::checkNullAndThrowNPE(context, expressionValue, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
   
   return createFunctionCall(context,
                             objectType,
-                            threadObject,
                             function,
                             methodDescriptor,
                             arguments);
 }
 
 Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
-                                              Value* threadObject,
                                               const IObjectType* objectType,
                                               IMethodDescriptor* methodDescriptor) const {
   Function* function = getMethodFunction(context, objectType);
@@ -161,7 +150,6 @@ Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
   
   return createFunctionCall(context,
                             objectType,
-                            threadObject,
                             function,
                             methodDescriptor,
                             arguments);
@@ -189,10 +177,12 @@ Value* MethodCall::generateExpressionIR(IRGenerationContext& context) const {
 
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       const IObjectType* object,
-                                      Value* threadObject,
                                       Function* function,
                                       IMethodDescriptor* methodDescriptor,
                                       vector<Value*> arguments) const {
+
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, "");
 
   arguments.push_back(threadObject);
   
@@ -214,7 +204,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     methodArgumentIterator++;
   }
   
-  Composer::pushCallStack(context, threadObject, mLine);
+  Composer::pushCallStack(context, mLine);
 
   Value* result;
   if (!methodDescriptor->getThrownExceptions().size()) {
@@ -223,7 +213,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     result = IRWriter::createInvokeInst(context, function, arguments, "");
   }
   
-  Composer::popCallStack(context, threadObject);
+  Composer::popCallStack(context);
 
   const IType* returnType = methodDescriptor->getReturnType();
   if (returnType->getTypeKind() == PRIMITIVE_TYPE) {

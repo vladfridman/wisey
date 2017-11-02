@@ -13,16 +13,14 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-void Composer::checkNullAndThrowNPE(IRGenerationContext& context,
-                                    Value* value,
-                                    Value* threadObject,
-                                    int line) {
-  pushCallStack(context, threadObject, line);
+void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value, int line) {
+  pushCallStack(context, line);
   
   PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
@@ -33,10 +31,10 @@ void Composer::checkNullAndThrowNPE(IRGenerationContext& context,
 
   IRWriter::createInvokeInst(context, function, arguments, "");
 
-  popCallStack(context, threadObject);
+  popCallStack(context);
 }
 
-void Composer::pushCallStack(IRGenerationContext& context, Value* threadObject, int line) {
+void Composer::pushCallStack(IRGenerationContext& context, int line) {
   const IObjectType* objectType = context.getScopes().getObjectType();
   if (objectType != NULL && !Names::getThreadControllerFullName().compare(objectType->getName())) {
     // avoid inifinite recursion in wisey.lang.CThread
@@ -48,6 +46,9 @@ void Composer::pushCallStack(IRGenerationContext& context, Value* threadObject, 
     return;
   }
 
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, "");
+  
   IVariable* currentObjectVariable = context.getScopes()
     .getVariable(Names::getCurrentObjectVariableName());
   IVariable* currentMethodVariable = context.getScopes()
@@ -68,12 +69,15 @@ void Composer::pushCallStack(IRGenerationContext& context, Value* threadObject, 
   IRWriter::createCallInst(context, pushStackFunction, arguments, "");
 }
 
-void Composer::popCallStack(IRGenerationContext& context, Value* threadObject) {
+void Composer::popCallStack(IRGenerationContext& context) {
   const IObjectType* objectType = context.getScopes().getObjectType();
   if (objectType != NULL && !Names::getThreadControllerFullName().compare(objectType->getName())) {
     // avoid inifinite recursion in wisey.lang.CThread
     return;
   }
+
+  IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
+  Value* threadObject = threadVariable->generateIdentifierIR(context, "");
 
   Controller* threadController = context.getController(Names::getThreadControllerFullName());
   vector<Value*> arguments;
