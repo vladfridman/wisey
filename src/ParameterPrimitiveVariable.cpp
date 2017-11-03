@@ -17,7 +17,7 @@ using namespace llvm;
 using namespace wisey;
 
 ParameterPrimitiveVariable::ParameterPrimitiveVariable(string name,
-                                                       const IType* type,
+                                                       const IPrimitiveType* type,
                                                        Value* value) :
 mName(name), mType(type), mValue(value) { }
 
@@ -28,7 +28,7 @@ string ParameterPrimitiveVariable::getName() const {
   return mName;
 }
 
-const IType* ParameterPrimitiveVariable::getType() const {
+const IPrimitiveType* ParameterPrimitiveVariable::getType() const {
   return mType;
 }
 

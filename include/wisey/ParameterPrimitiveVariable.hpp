@@ -10,6 +10,7 @@
 #define ParameterPrimitiveVariable_h
 
 #include "wisey/IExpression.hpp"
+#include "wisey/IPrimitiveType.hpp"
 #include "wisey/IVariable.hpp"
 
 namespace wisey {
@@ -20,18 +21,18 @@ namespace wisey {
 class ParameterPrimitiveVariable : public IVariable {
     
   std::string mName;
-  const IType* mType;
+  const IPrimitiveType* mType;
   llvm::Value* mValue;
   
 public:
   
-  ParameterPrimitiveVariable(std::string name, const IType* type, llvm::Value* value);
+  ParameterPrimitiveVariable(std::string name, const IPrimitiveType* type, llvm::Value* value);
   
   ~ParameterPrimitiveVariable();
   
   std::string getName() const override;
   
-  const IType* getType() const override;
+  const IPrimitiveType* getType() const override;
   
   llvm::Value* getValue() const override;
   

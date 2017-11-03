@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/IMethod.hpp"
+#include "wisey/IPrimitiveType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
@@ -29,7 +30,10 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
                                  const IType* variableType,
                                  Value* variableValue) {
   if (variableType->getTypeKind() == PRIMITIVE_TYPE) {
-    IVariable* variable = new ParameterPrimitiveVariable(variableName, variableType, variableValue);
+    const IPrimitiveType* primitiveType = (const IPrimitiveType*) variableType;
+    IVariable* variable = new ParameterPrimitiveVariable(variableName,
+                                                         primitiveType,
+                                                         variableValue);
     context.getScopes().setVariable(variable);
     return;
   }
@@ -133,9 +137,9 @@ void IMethod::defineCurrentMethodNameVariable(IRGenerationContext& context, stri
   
   Value* value = ConstantExpr::getGetElementPtr(elementType, constant, Idx);
   
-  LocalPrimitiveVariable* methodNameVariable =
-  new LocalPrimitiveVariable(Names::getCurrentMethodVariableName(),
-                             PrimitiveTypes::STRING_TYPE,
-                             value);
+  ParameterPrimitiveVariable* methodNameVariable =
+  new ParameterPrimitiveVariable(Names::getCurrentMethodVariableName(),
+                                 PrimitiveTypes::STRING_TYPE,
+                                 value);
   context.getScopes().setVariable(methodNameVariable);
 }
