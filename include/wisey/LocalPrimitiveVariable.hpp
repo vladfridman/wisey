@@ -9,6 +9,7 @@
 #ifndef LocalPrimitiveVariable_h
 #define LocalPrimitiveVariable_h
 
+#include "wisey/IPrimitiveType.hpp"
 #include "wisey/IVariable.hpp"
 
 namespace wisey {
@@ -19,18 +20,18 @@ namespace wisey {
 class LocalPrimitiveVariable : public IVariable {
 
   std::string mName;
-  const IType* mType;
+  const IPrimitiveType* mType;
   llvm::Value* mValue;
   
 public:
 
-  LocalPrimitiveVariable(std::string name, const IType* type, llvm::Value* value);
+  LocalPrimitiveVariable(std::string name, const IPrimitiveType* type, llvm::Value* value);
   
   ~LocalPrimitiveVariable();
   
   std::string getName() const override;
   
-  const IType* getType() const override;
+  const IPrimitiveType* getType() const override;
   
   llvm::Value* getValue() const override;
   

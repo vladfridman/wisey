@@ -42,13 +42,14 @@ VariableDeclaration::~VariableDeclaration() {
 }
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
-  TypeKind typeKind = mTypeSpecifier->getType(context)->getTypeKind();
+  const IType* type = mTypeSpecifier->getType(context);
+  TypeKind typeKind = type->getTypeKind();
   if (typeKind == PRIMITIVE_TYPE) {
-    allocateOnStack(context);
-  } else if (IType::isOwnerType(mTypeSpecifier->getType(context))) {
-    allocateOwnerOnHeap(context);
+    allocatePrimitive(context, (const IPrimitiveType*) type);
+  } else if (IType::isOwnerType(type)) {
+    allocateOwner(context, (const IObjectOwnerType*) type);
   } else {
-    allocateReferenceOnHeap(context);
+    allocateReference(context, (const IObjectType*) type);
   }
   
   if (mAssignmentExpression == NULL) {
@@ -70,8 +71,8 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   return NULL;
 }
 
-void VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
-  const IType* type = mTypeSpecifier->getType(context);
+void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
+                                            const IPrimitiveType* type) const {
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId->getName());
 
@@ -104,9 +105,9 @@ void VariableDeclaration::allocateOnStack(IRGenerationContext& context) const {
   IRWriter::newStoreInst(context, value, alloc);
 }
 
-void VariableDeclaration::allocateOwnerOnHeap(IRGenerationContext& context) const {
+void VariableDeclaration::allocateOwner(IRGenerationContext& context,
+                                        const IObjectOwnerType* type) const {
   string variableName = mId->getName();
-  const IObjectOwnerType* type = (IObjectOwnerType*) mTypeSpecifier->getType(context);
   PointerType* llvmType = type->getLLVMType(context.getLLVMContext());
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
@@ -116,9 +117,9 @@ void VariableDeclaration::allocateOwnerOnHeap(IRGenerationContext& context) cons
   context.getScopes().setVariable(uninitializedVariable);
 }
 
-void VariableDeclaration::allocateReferenceOnHeap(IRGenerationContext& context) const {
+void VariableDeclaration::allocateReference(IRGenerationContext& context,
+                                            const IObjectType* type) const {
   string variableName = mId->getName();
-  const IObjectType* type = (IObjectType*) mTypeSpecifier->getType(context);
   PointerType* llvmType = (PointerType*) type->getLLVMType(context.getLLVMContext());
 
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");

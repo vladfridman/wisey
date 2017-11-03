@@ -9,9 +9,12 @@
 #ifndef VariableDeclaration_h
 #define VariableDeclaration_h
 
-#include "wisey/Identifier.hpp"
+#include "wisey/IObjectOwnerType.hpp"
+#include "wisey/IObjectType.hpp"
+#include "wisey/IPrimitiveType.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
+#include "wisey/Identifier.hpp"
 
 namespace wisey {
   
@@ -40,11 +43,14 @@ public:
   
 private:
   
-  void allocateOnStack(IRGenerationContext& context) const;
+  void allocatePrimitive(IRGenerationContext& context,
+                         const IPrimitiveType* type) const;
   
-  void allocateOwnerOnHeap(IRGenerationContext& context) const;
+  void allocateOwner(IRGenerationContext& context,
+                     const IObjectOwnerType* type) const;
   
-  void allocateReferenceOnHeap(IRGenerationContext& context) const;
+  void allocateReference(IRGenerationContext& context,
+                         const IObjectType* type) const;
 };
 
 /**
