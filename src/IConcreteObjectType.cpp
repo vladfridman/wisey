@@ -285,9 +285,9 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
     if (IType::isOwnerType(type)) {
       fieldVariable = new FieldOwnerVariable(field->getName(), object);
     } else if (IType::isReferenceType(type)) {
-      fieldVariable = new FieldReferenceVariable(field->getName(), NULL, object);
+      fieldVariable = new FieldReferenceVariable(field->getName(), object);
     } else {
-      fieldVariable = new FieldPrimitiveVariable(field->getName(), NULL, object);
+      fieldVariable = new FieldPrimitiveVariable(field->getName(), object);
     }
 
     context.getScopes().setVariable(fieldVariable);

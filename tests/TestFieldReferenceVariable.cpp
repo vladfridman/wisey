@@ -41,7 +41,6 @@ struct FieldReferenceVariableTest : Test {
   Node* mNode;
   Interface* mInterface;
   BasicBlock* mBasicBlock;
-  Value* mReferenceFieldValue;
   FieldReferenceVariable* mFieldReferenceVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -91,8 +90,7 @@ struct FieldReferenceVariableTest : Test {
     IVariable* thisVariable = new ParameterReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
    
-    mReferenceFieldValue = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));
-    mFieldReferenceVariable = new FieldReferenceVariable("foo", mReferenceFieldValue, mObject);
+    mFieldReferenceVariable = new FieldReferenceVariable("foo", mObject);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -106,7 +104,6 @@ struct FieldReferenceVariableTest : Test {
 TEST_F(FieldReferenceVariableTest, basicFieldsTest) {
   EXPECT_STREQ(mFieldReferenceVariable->getName().c_str(), "foo");
   EXPECT_EQ(mFieldReferenceVariable->getType(), mNode->getOwner());
-  EXPECT_EQ(mFieldReferenceVariable->getValue(), mReferenceFieldValue);
 }
 
 TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateIdentifierIRTest) {
@@ -152,9 +149,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithC
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
-  Value* referenceFieldValue = ConstantPointerNull::get(mInterface->getLLVMType(mLLVMContext));
-  FieldReferenceVariable* referenceFieldVariable =
-    new FieldReferenceVariable("bar", referenceFieldValue, mObject);
+  FieldReferenceVariable* referenceFieldVariable = new FieldReferenceVariable("bar", mObject);
   referenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;

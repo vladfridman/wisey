@@ -20,12 +20,11 @@ namespace wisey {
 class FieldReferenceVariable : public IFieldVariable {
   
   std::string mName;
-  llvm::Value* mValue;
   const IConcreteObjectType* mObject;
   
 public:
   
-  FieldReferenceVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object);
+  FieldReferenceVariable(std::string name, const IConcreteObjectType* object);
   
   ~FieldReferenceVariable();
   

@@ -20,12 +20,11 @@ namespace wisey {
 class FieldPrimitiveVariable : public IFieldVariable {
     
   std::string mName;
-  llvm::Value* mValue;
   const IConcreteObjectType* mObject;
   
 public:
   
-  FieldPrimitiveVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object);
+  FieldPrimitiveVariable(std::string name, const IConcreteObjectType* object);
   
   ~FieldPrimitiveVariable();
   

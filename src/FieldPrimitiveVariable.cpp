@@ -18,11 +18,8 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-FieldPrimitiveVariable::FieldPrimitiveVariable(string name,
-                                               Value* value,
-                                               const IConcreteObjectType* object) :
+FieldPrimitiveVariable::FieldPrimitiveVariable(string name, const IConcreteObjectType* object) :
 mName(name),
-mValue(value),
 mObject(object) { }
 
 FieldPrimitiveVariable::~FieldPrimitiveVariable() {}
@@ -36,7 +33,7 @@ const IType* FieldPrimitiveVariable::getType() const {
 }
 
 Value* FieldPrimitiveVariable::getValue() const {
-  return mValue;
+  return NULL;
 }
 
 Value* FieldPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context,

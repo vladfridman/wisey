@@ -18,11 +18,8 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-FieldReferenceVariable::FieldReferenceVariable(string name,
-                                               Value* value,
-                                               const IConcreteObjectType* object) :
+FieldReferenceVariable::FieldReferenceVariable(string name, const IConcreteObjectType* object) :
 mName(name),
-mValue(value),
 mObject(object) { }
 
 FieldReferenceVariable::~FieldReferenceVariable() {}
@@ -36,7 +33,7 @@ const IType* FieldReferenceVariable::getType() const {
 }
 
 Value* FieldReferenceVariable::getValue() const {
-  return mValue;
+  return NULL;
 }
 
 Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context,

@@ -39,7 +39,6 @@ struct FieldPrimitiveVariableTest : Test {
   LLVMContext& mLLVMContext;
   Controller* mObject;
   BasicBlock* mBasicBlock;
-  Value* mPrimitiveFieldValue;
   FieldPrimitiveVariable* mFieldPrimitiveVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -71,8 +70,7 @@ struct FieldPrimitiveVariableTest : Test {
     IVariable* thisVariable = new ParameterReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
-    mPrimitiveFieldValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-    mFieldPrimitiveVariable = new FieldPrimitiveVariable("foo", mPrimitiveFieldValue, mObject);
+    mFieldPrimitiveVariable = new FieldPrimitiveVariable("foo", mObject);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -86,7 +84,6 @@ struct FieldPrimitiveVariableTest : Test {
 TEST_F(FieldPrimitiveVariableTest, basicFieldsTest) {
   EXPECT_STREQ(mFieldPrimitiveVariable->getName().c_str(), "foo");
   EXPECT_EQ(mFieldPrimitiveVariable->getType(), PrimitiveTypes::INT_TYPE);
-  EXPECT_EQ(mFieldPrimitiveVariable->getValue(), mPrimitiveFieldValue);
 }
 
 TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateIdentifierIRTest) {
