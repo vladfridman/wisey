@@ -393,6 +393,7 @@ TEST_F(ModelTest, findConstantDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mField3Expression);
+  Mock::AllowLeak(mThreadVariable);
 
   EXPECT_EXIT(mModel->findConstant("MYCONSTANT2"),
               ::testing::ExitedWithCode(1),
@@ -526,6 +527,7 @@ TEST_F(ModelTest, castToDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mField3Expression);
+  Mock::AllowLeak(mThreadVariable);
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
   EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
@@ -592,7 +594,8 @@ TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mField3Expression);
-  
+  Mock::AllowLeak(mThreadVariable);
+
   string argumentSpecifier1("width");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withWeight");
@@ -615,7 +618,8 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mField3Expression);
-  
+  Mock::AllowLeak(mThreadVariable);
+
   string argumentSpecifier1("withBrightness");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
   string argumentSpecifier2("withWeight");
@@ -633,7 +637,8 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mField3Expression);
-  
+  Mock::AllowLeak(mThreadVariable);
+
   string argumentSpecifier1("withBrightness");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
   ObjectBuilderArgumentList argumentList;

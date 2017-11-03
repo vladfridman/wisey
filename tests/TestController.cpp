@@ -328,6 +328,8 @@ TEST_F(ControllerTest, findConstantTest) {
 }
 
 TEST_F(ControllerTest, findConstantDeathTest) {
+  Mock::AllowLeak(mThreadVariable);
+  
   EXPECT_EXIT(mMultiplierController->findConstant("MYCONSTANT2"),
               ::testing::ExitedWithCode(1),
               "Error: Controller systems.vos.wisey.compiler.tests.CMultiplier "
@@ -505,7 +507,8 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
   ON_CALL(injectArgument2, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   injectionArguments.push_back(&injectArgument1);
   injectionArguments.push_back(&injectArgument2);
-  
+  Mock::AllowLeak(mThreadVariable);
+
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
               "Error: Controller injector argumet value for field 'right' does not match its type");
@@ -513,7 +516,8 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
 
 TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
   ExpressionList injectionArguments;
-  
+  Mock::AllowLeak(mThreadVariable);
+
   EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
               "Error: Attempt to inject a variable that is not a Controller or an Interface");
@@ -523,8 +527,9 @@ TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
   ExpressionList injectionArguments;
   NiceMock<MockExpression> injectArgument1;
   Mock::AllowLeak(&injectArgument1);
+  Mock::AllowLeak(mThreadVariable);
   injectionArguments.push_back(&injectArgument1);
-  
+
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
               "Error: Not all received fields of controller "
@@ -539,6 +544,7 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
   Mock::AllowLeak(&injectArgument1);
   Mock::AllowLeak(&injectArgument2);
   Mock::AllowLeak(&injectArgument3);
+  Mock::AllowLeak(mThreadVariable);
   injectionArguments.push_back(&injectArgument1);
   injectionArguments.push_back(&injectArgument2);
   injectionArguments.push_back(&injectArgument3);

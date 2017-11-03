@@ -15,19 +15,24 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/ConstantDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
+#include "wisey/FinallyBlock.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -37,6 +42,7 @@ using ::testing::_;
 using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
+using ::testing::Return;
 using ::testing::Test;
 
 struct InterfaceTest : public Test {
@@ -50,9 +56,10 @@ struct InterfaceTest : public Test {
   StructType* mIncompleteInterfaceStructType;
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  BasicBlock* mBlock;
+  BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mMockExpression;
   ConstantDeclaration* mConstantDeclaration;
+  NiceMock<MockVariable>* mThreadVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -60,7 +67,9 @@ struct InterfaceTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression(new NiceMock<MockExpression>()) {
     TestPrefix::run(mContext);
-    
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<ModelTypeSpecifier*> exceptions;
 
@@ -128,14 +137,29 @@ struct InterfaceTest : public Test {
                                           "main",
                                           mContext.getModule());
     
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
-    mContext.setBasicBlock(mBlock);
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
+
+    Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    mThreadVariable = new NiceMock<MockVariable>();
+    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
+    mContext.getScopes().setVariable(mThreadVariable);
+    
+    vector<Catch*> catchList;
+    FinallyBlock* emptyBlock = new FinallyBlock();
+    TryCatchInfo* tryCatchInfo = new TryCatchInfo(mBasicBlock, mBasicBlock, emptyBlock, catchList);
+    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~InterfaceTest() {
     delete mMockExpression;
+    delete mThreadVariable;
     delete mStringStream;
   }
 
@@ -165,8 +189,9 @@ TEST_F(InterfaceTest, findConstantTest) {
 }
 
 TEST_F(InterfaceTest, findConstantDeathTest) {
-  ::Mock::AllowLeak(mMockExpression);
-  
+  Mock::AllowLeak(mMockExpression);
+  Mock::AllowLeak(mThreadVariable);
+
   EXPECT_EXIT(mShapeInterface->findConstant("MYCONSTANT2"),
               ::testing::ExitedWithCode(1),
               "Error: Interface systems.vos.wisey.compiler.tests.IShape "
@@ -179,7 +204,8 @@ TEST_F(InterfaceTest, getMethodIndexTest) {
 }
 
 TEST_F(InterfaceTest, getMethodIndexDeathTest) {
-  ::Mock::AllowLeak(mMockExpression);
+  Mock::AllowLeak(mMockExpression);
+  Mock::AllowLeak(mThreadVariable);
 
   EXPECT_EXIT(mObjectInterface->getMethodIndex(mShapeInterface->findMethod("foo")),
               ::testing::ExitedWithCode(1),
@@ -212,7 +238,7 @@ TEST_F(InterfaceTest, getOriginalObjectVTableTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
   Interface::getOriginalObjectVTable(mContext, nullPointerValue);
 
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   string expected =
     "\nentry:"
     "\n  %0 = bitcast i8* null to i8***"
@@ -262,7 +288,8 @@ TEST_F(InterfaceTest, printToStreamTest) {
 }
 
 TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
-  ::Mock::AllowLeak(mMockExpression);
+  Mock::AllowLeak(mMockExpression);
+  Mock::AllowLeak(mThreadVariable);
 
   PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   ExpressionList arguments;
@@ -285,7 +312,8 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
 }
 
 TEST_F(InterfaceTest, methodDeclarationDeathTest) {
-  ::Mock::AllowLeak(mMockExpression);
+  Mock::AllowLeak(mMockExpression);
+  Mock::AllowLeak(mThreadVariable);
 
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableList arguments;
@@ -313,7 +341,8 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
 }
 
 TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
-  ::Mock::AllowLeak(mMockExpression);
+  Mock::AllowLeak(mMockExpression);
+  Mock::AllowLeak(mThreadVariable);
 
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);
@@ -333,7 +362,7 @@ TEST_F(InterfaceTest, incremenetReferenceCountTest) {
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
   mShapeInterface->incremenetReferenceCount(mContext, pointer);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8***"
@@ -345,9 +374,8 @@ TEST_F(InterfaceTest, incremenetReferenceCountTest) {
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  %4 = getelementptr i8, i8* %3, i64 %2"
   "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  %refCounter = load i64, i64* %5"
-  "\n  %6 = add i64 %refCounter, 1"
-  "\n  store i64 %6, i64* %5\n";
+  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 1)"
+  "\n          to label %invoke.continue unwind label %entry\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -358,7 +386,7 @@ TEST_F(InterfaceTest, decremenetReferenceCountTest) {
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
   mShapeInterface->decremenetReferenceCount(mContext, pointer);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8***"
@@ -370,9 +398,8 @@ TEST_F(InterfaceTest, decremenetReferenceCountTest) {
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  %4 = getelementptr i8, i8* %3, i64 %2"
   "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  %refCounter = load i64, i64* %5"
-  "\n  %6 = sub i64 %refCounter, 1"
-  "\n  store i64 %6, i64* %5\n";
+  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 -1)"
+  "\n          to label %invoke.continue unwind label %entry\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -383,7 +410,7 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
   mShapeInterface->getReferenceCount(mContext, pointer);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8***"

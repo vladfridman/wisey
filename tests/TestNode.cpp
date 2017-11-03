@@ -333,6 +333,7 @@ TEST_F(NodeTest, findConstantTest) {
 TEST_F(NodeTest, findConstantDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
+  Mock::AllowLeak(mThreadVariable);
   
   EXPECT_EXIT(mComplicatedNode->findConstant("MYCONSTANT2"),
               ::testing::ExitedWithCode(1),
@@ -517,7 +518,8 @@ TEST_F(NodeTest, buildTest) {
 TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  
+  Mock::AllowLeak(mThreadVariable);
+
   string argumentSpecifier1("left");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
@@ -541,7 +543,8 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
 TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  
+  Mock::AllowLeak(mThreadVariable);
+
   Value* fieldValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
   ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(fieldValue));
   ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
@@ -564,7 +567,8 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
 TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  
+  Mock::AllowLeak(mThreadVariable);
+
   string argumentSpecifier1("withRight");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
