@@ -73,19 +73,20 @@ public:
   }
 };
 
-TEST_F(ParameterReferenceVariableTest, heapReferenceMethodParameterVariableAssignmentDeathTest) {
-  ParameterReferenceVariable heapMethodParameter("foo", mModel, NULL);
+TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableAssignmentDeathTest) {
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
   
-  EXPECT_EXIT(heapMethodParameter.generateAssignmentIR(mContext, NULL),
+  EXPECT_EXIT(parameterReferenceVariable.generateAssignmentIR(mContext, NULL),
               ::testing::ExitedWithCode(1),
               "Assignment to method parameters is not allowed");
 }
 
-TEST_F(ParameterReferenceVariableTest, heapReferenceMethodParameterVariableIdentifierTest) {
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  ParameterReferenceVariable heapMethodParameter("foo", mModel, fooValue);
+TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableIdentifierTest) {
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
   
-  EXPECT_EQ(heapMethodParameter.generateIdentifierIR(mContext, "bar"), fooValue);
+  EXPECT_EQ(parameterReferenceVariable.generateIdentifierIR(mContext, "bar"), fooValue);
 }
 
 TEST_F(TestFileSampleRunner, assignParameterReferenceToLocalOwnerCompileTest) {

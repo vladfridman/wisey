@@ -24,7 +24,10 @@ using namespace wisey;
 ParameterReferenceVariable::ParameterReferenceVariable(string name,
                                                        const IObjectType* type,
                                                        Value* value) :
-mName(name), mType(type), mValue(value) { }
+mName(name), mType(type), mValue(value) {
+  assert(value->getType()->isPointerTy());
+  assert(value->getType()->getPointerElementType()->isStructTy());
+}
 
 ParameterReferenceVariable::~ParameterReferenceVariable() {
 }

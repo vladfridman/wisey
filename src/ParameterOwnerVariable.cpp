@@ -24,7 +24,11 @@ using namespace wisey;
 ParameterOwnerVariable::ParameterOwnerVariable(string name,
                                                const IObjectOwnerType* type,
                                                Value* value) :
-mName(name), mType(type), mValue(value) { }
+mName(name), mType(type), mValue(value) {
+  assert(value->getType()->isPointerTy());
+  assert(value->getType()->getPointerElementType()->isPointerTy());
+  assert(value->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+}
 
 ParameterOwnerVariable::~ParameterOwnerVariable() {
 }
