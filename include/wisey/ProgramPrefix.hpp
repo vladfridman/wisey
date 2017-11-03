@@ -28,6 +28,9 @@ private:
   
   void defineNPEFunction(IRGenerationContext& context) const;
   
+  void defineAddjustReferenceCounterForConcreteObjectUnsafelyFunction(IRGenerationContext&
+                                                                      context) const;
+  
   llvm::StructType* defineFileStruct(IRGenerationContext& context) const;
 
   void defineStderr(IRGenerationContext& context, llvm::StructType* fileStructType) const;

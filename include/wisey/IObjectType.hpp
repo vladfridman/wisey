@@ -87,11 +87,6 @@ public:
                                               IRGenerationContext& context);
 
   /**
-   * Returns a pointer to reference counter field for the given object
-   */
-  static llvm::Value* getReferenceCounterPointer(IRGenerationContext& context, llvm::Value* object);
-  
-  /**
    * Increments reference counter for the given object in a thread unsafe way
    */
   static void incrementReferenceCounterForObject(IRGenerationContext& context, llvm::Value* object);
@@ -105,6 +100,14 @@ public:
    * Returns the reference count value for the given object
    */
   static llvm::Value* getReferenceCountForObject(IRGenerationContext& context, llvm::Value* object);
+
+private:
+  
+  static llvm::Value* getReferenceCounterPointer(IRGenerationContext& context, llvm::Value* object);
+
+  static void addjustReferenceCounterForObject(IRGenerationContext& context,
+                                               llvm::Value* object,
+                                               int adjustment);
 
 };
   

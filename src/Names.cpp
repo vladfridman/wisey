@@ -15,6 +15,10 @@ string Names::getNPECheckFunctionName() {
   return "__checkForNullAndThrow";
 }
 
+string Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName() {
+  return "__adjustReferenceCounterForConcreteObjectUnsafely";
+}
+
 string Names::getNPEModelName() {
   return "MNullPointerException";
 }

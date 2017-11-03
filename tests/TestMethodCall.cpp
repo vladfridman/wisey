@@ -138,8 +138,8 @@ public:
                                                  mThreadController->getLLVMType(mLLVMContext),
                                                  "threadStore");
     IVariable* threadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
-                                                          mThreadController,
-                                                          threadStore);
+                                                           mThreadController,
+                                                           threadStore);
     threadVariable->setToNull(mContext);
     mContext.getScopes().setVariable(threadVariable);
 

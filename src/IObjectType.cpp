@@ -8,9 +8,12 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/Composer.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Names.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -38,28 +41,35 @@ Value* IObjectType::getReferenceCounterPointer(IRGenerationContext& context, Val
   return IRWriter::newBitCastInst(context, object, type);
 }
 
-void IObjectType::incrementReferenceCounterForObject(IRGenerationContext& context, Value* object) {
+void IObjectType::addjustReferenceCounterForObject(IRGenerationContext& context,
+                                                   Value* object,
+                                                   int adjustment) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* counterPointer = getReferenceCounterPointer(context, object);
-  Value* value = IRWriter::newLoadInst(context, counterPointer, "refCounter");
   
-  llvm::Constant* one = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
-  Value* addition = IRWriter::createBinaryOperator(context, Instruction::Add, value, one, "");
-  IRWriter::newStoreInst(context, addition, counterPointer);
+  // TODO: put a real line number here
+  Composer::pushCallStack(context, 0);
+  
+  Function* function = context.getModule()->
+    getFunction(Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName());
+  vector<Value*> arguments;
+  arguments.push_back(counterPointer);
+  llvm::Constant* one = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext), adjustment);
+  arguments.push_back(one);
+
+  IRWriter::createInvokeInst(context, function, arguments, "");
+  
+  Composer::popCallStack(context);
+}
+
+void IObjectType::incrementReferenceCounterForObject(IRGenerationContext& context, Value* object) {
+  addjustReferenceCounterForObject(context, object, 1);
 }
 
 void IObjectType::decrementReferenceCounterForObject(IRGenerationContext& context, Value* object) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value* counterPointer = getReferenceCounterPointer(context, object);
-  Value* value = IRWriter::newLoadInst(context, counterPointer, "refCounter");
-  
-  llvm::Constant* one = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext), 1);
-  Value* addition = IRWriter::createBinaryOperator(context, Instruction::Sub, value, one, "");
-  IRWriter::newStoreInst(context, addition, counterPointer);
+  addjustReferenceCounterForObject(context, object, -1);
 }
-
 
 Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Value* object) {
   Value* counterPointer = getReferenceCounterPointer(context, object);

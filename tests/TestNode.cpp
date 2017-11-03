@@ -15,9 +15,11 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/Constant.hpp"
+#include "wisey/FinallyBlock.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -25,11 +27,14 @@
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/Node.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
 #include "wisey/NullType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
+#include "wisey/ProgramPrefix.hpp"
+#include "wisey/ThreadExpression.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 using namespace llvm;
@@ -60,6 +65,7 @@ struct NodeTest : public Test {
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
   wisey::Constant* mConstant;
+  NiceMock<MockVariable>* mThreadVariable;
   string mStringBuffer;
   Function* mFunction;
   raw_string_ostream* mStringStream;
@@ -69,6 +75,8 @@ struct NodeTest : public Test {
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()) {
     TestPrefix::run(mContext);
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
      string elementInterfaceFullName = "systems.vos.wisey.compiler.tests.IElement";
@@ -249,6 +257,19 @@ struct NodeTest : public Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
+    Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    mThreadVariable = new NiceMock<MockVariable>();
+    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_, _)).WillByDefault(Return(threadObject));
+    mContext.getScopes().setVariable(mThreadVariable);
+    
+    vector<Catch*> catchList;
+    FinallyBlock* emptyBlock = new FinallyBlock();
+    TryCatchInfo* tryCatchInfo = new TryCatchInfo(mBasicBlock, mBasicBlock, emptyBlock, catchList);
+    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -256,6 +277,7 @@ struct NodeTest : public Test {
     delete mStringStream;
     delete mField1Expression;
     delete mField2Expression;
+    delete mThreadVariable;
   }
 };
 
@@ -397,9 +419,8 @@ TEST_F(NodeTest, incremenetReferenceCountTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
-  "\n  %refCounter = load i64, i64* %0"
-  "\n  %1 = add i64 %refCounter, 1"
-  "\n  store i64 %1, i64* %0\n";
+  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 1)"
+  "\n          to label %invoke.continue unwind label %entry\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -414,9 +435,8 @@ TEST_F(NodeTest, decremenetReferenceCountTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
-  "\n  %refCounter = load i64, i64* %0"
-  "\n  %1 = sub i64 %refCounter, 1"
-  "\n  store i64 %1, i64* %0\n";
+  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 -1)"
+  "\n          to label %invoke.continue unwind label %entry\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

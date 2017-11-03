@@ -25,6 +25,9 @@ public:
 private:
 
   void composeNPEFunctionBody(IRGenerationContext& context) const;
+  
+  void composeAddjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(IRGenerationContext&
+                                                                           context) const;
 
   llvm::Value* generateMain(IRGenerationContext& context,
                             InterfaceTypeSpecifier* programInterfaceSpecifier) const;

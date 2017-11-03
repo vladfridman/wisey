@@ -27,6 +27,11 @@ public:
   static std::string getNPECheckFunctionName();
   
   /**
+   * Returns function that addjust reference count of a concrete object in thread unsafe fasion
+   */
+  static std::string getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName();
+  
+  /**
    * Returns name of the model representing the null pointer exception
    */
   static std::string getNPEModelName();
