@@ -676,6 +676,9 @@
 		F5F396DC1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */; };
 		F5F396DE1E3F898900F34296 /* TestObjectBuilderArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */; };
 		F5F396E01E3F8C5700F34296 /* TestObjectBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */; };
+		F5F435C91FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */; };
+		F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */; };
+		F5F435CC1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */; };
 		F5FA52931F7437A8001BBE67 /* wiseyrun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FA52921F7437A7001BBE67 /* wiseyrun.cpp */; };
 		F5FCAE331ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
 		F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5FCAE321ED5C38B00C69899 /* Compiler.cpp */; };
@@ -1315,6 +1318,9 @@
 		F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectBuilderArgument.cpp; path = src/ObjectBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectBuilderArgument.cpp; path = tests/TestObjectBuilderArgument.cpp; sourceTree = "<group>"; };
 		F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestObjectBuilder.cpp; path = tests/TestObjectBuilder.cpp; sourceTree = "<group>"; };
+		F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterPrimitiveVariable.hpp; path = include/wisey/ParameterPrimitiveVariable.hpp; sourceTree = "<group>"; };
+		F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterPrimitiveVariable.cpp; path = src/ParameterPrimitiveVariable.cpp; sourceTree = "<group>"; };
+		F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterPrimitiveVariable.cpp; path = tests/TestParameterPrimitiveVariable.cpp; sourceTree = "<group>"; };
 		F5FA52921F7437A7001BBE67 /* wiseyrun.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wiseyrun.cpp; path = src/wiseyrun.cpp; sourceTree = "<group>"; };
 		F5FCAE2F1ED5BC3C00C69899 /* Compiler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Compiler.hpp; path = include/wisey/Compiler.hpp; sourceTree = "<group>"; };
 		F5FCAE311ED5C31D00C69899 /* CompilerArguments.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CompilerArguments.hpp; path = include/wisey/CompilerArguments.hpp; sourceTree = "<group>"; };
@@ -1828,6 +1834,7 @@
 				F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */,
 				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
+				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
 				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
 				F55CF1871F850EEB00A11426 /* TestPrefix.cpp */,
 				F53A2C4F1F02D55A00E76A9E /* TestPrimitiveTypes.cpp */,
@@ -2281,6 +2288,7 @@
 				F5089C861ECD01D9004A1223 /* LocalPrimitiveVariable.hpp */,
 				F5089C851ECD01D9004A1223 /* LocalReferenceVariable.hpp */,
 				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
+				F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */,
 				F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */,
 				F5089CAA1ECD01D9004A1223 /* VariableDeclaration.hpp */,
 			);
@@ -2297,6 +2305,7 @@
 				F50427A71E4D226C001CB148 /* LocalPrimitiveVariable.cpp */,
 				F50427AB1E4D2747001CB148 /* LocalReferenceVariable.cpp */,
 				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
+				F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */,
 				F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */,
 				F5E209271E0779D100E1A147 /* VariableDeclaration.cpp */,
 			);
@@ -2746,8 +2755,10 @@
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
 				F50FA2DA1E2D328100435EEA /* ModelDefinition.cpp in Sources */,
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
+				F5F435CC1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp in Sources */,
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
+				F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */,
@@ -2991,6 +3002,7 @@
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F5C6FD801E48B6E80054209D /* IntType.cpp in Sources */,
+				F5F435C91FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

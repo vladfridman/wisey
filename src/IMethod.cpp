@@ -16,6 +16,7 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
+#include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -28,12 +29,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
                                  const IType* variableType,
                                  Value* variableValue) {
   if (variableType->getTypeKind() == PRIMITIVE_TYPE) {
-    LLVMContext& llvmContext = context.getLLVMContext();
-    Type* llvmType = variableType->getLLVMType(llvmContext);
-    string newName = variableName + ".param";
-    AllocaInst *alloc = IRWriter::newAllocaInst(context, llvmType, newName);
-    IRWriter::newStoreInst(context, variableValue, alloc);
-    IVariable* variable = new LocalPrimitiveVariable(variableName, variableType, alloc);
+    IVariable* variable = new ParameterPrimitiveVariable(variableName, variableType, variableValue);
     context.getScopes().setVariable(variable);
     return;
   }

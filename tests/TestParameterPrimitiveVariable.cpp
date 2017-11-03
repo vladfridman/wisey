@@ -1,11 +1,11 @@
 //
-//  TestParameterReferenceVariable.cpp
-//  Wisey
+//  TestParameterPrimitiveVariable.cpp
+//  runtests
 //
-//  Created by Vladimir Fridman on 6/20/17.
+//  Created by Vladimir Fridman on 11/3/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ParameterReferenceVariable}
+//  Tests {@link ParameterPrimitiveVariable}
 //
 
 #include <gtest/gtest.h>
@@ -17,8 +17,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/IRWriter.hpp"
-#include "wisey/ParameterReferenceVariable.hpp"
+#include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -32,7 +31,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct ParameterReferenceVariableTest : public Test {
+struct ParameterPrimitiveVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -42,10 +41,10 @@ struct ParameterReferenceVariableTest : public Test {
   
 public:
   
-  ParameterReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  ParameterPrimitiveVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-
+    
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
                                           GlobalValue::InternalLinkage,
@@ -68,35 +67,30 @@ public:
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", fieldArguments));
     mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields, 1u);
-
+    
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 };
 
-TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableAssignmentDeathTest) {
-  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
-  ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
+TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableAssignmentDeathTest) {
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   
-  EXPECT_EXIT(parameterReferenceVariable.generateAssignmentIR(mContext, NULL),
+  EXPECT_EXIT(variable.generateAssignmentIR(mContext, NULL),
               ::testing::ExitedWithCode(1),
               "Error: Assignment to method parameters is not allowed");
 }
 
-TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableIdentifierTest) {
-  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
-  ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
-  
-  EXPECT_EQ(parameterReferenceVariable.generateIdentifierIR(mContext, "bar"), fooValue);
+TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableIdentifierTest) {
+  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
+  ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+
+  EXPECT_EQ(variable.generateIdentifierIR(mContext, "bar"), fooValue);
 }
 
-TEST_F(TestFileSampleRunner, assignParameterReferenceToLocalOwnerCompileTest) {
-  compileFile("tests/samples/test_assign_parameter_reference_local_owner.yz");
+TEST_F(TestFileSampleRunner, methodAssignToPrimitiveArgumentDeathRunTest) {
+  expectFailCompile("tests/samples/test_method_assign_to_primitive_argument.yz",
+                    1,
+                    "Error: Assignment to method parameters is not allowed");
 }
 
-TEST_F(TestFileSampleRunner, assignParameterReferenceToLocalReferenceCompileTest) {
-  compileFile("tests/samples/test_assign_parameter_reference_to_local_reference.yz");
-}
-
-TEST_F(TestFileSampleRunner, assignParameterReferenceToNullCompileTest) {
-  compileFile("tests/samples/test_assign_parameter_reference_to_null.yz");
-}

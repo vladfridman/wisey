@@ -145,8 +145,6 @@ TEST_F(StaticMethodTest, generateIRTest) {
   "\ndefine void @systems.vos.wisey.compiler.tests.MObject.foo("
   "%wisey.lang.CThread* %thread, i32 %intargument) {"
   "\nentry:"
-  "\n  %intargument.param = alloca i32"
-  "\n  store i32 %intargument, i32* %intargument.param"
   "\n  ret void"
   "\n}"
   "\n";
