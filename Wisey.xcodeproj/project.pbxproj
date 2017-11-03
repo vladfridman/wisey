@@ -168,7 +168,6 @@
 		F53061401F794B8D0098D637 /* libLLVMHexagonInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F530613B1F794B8D0098D637 /* libLLVMHexagonInfo.a */; };
 		F53061411F794B8D0098D637 /* libLLVMHexagonDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F530613C1F794B8D0098D637 /* libLLVMHexagonDisassembler.a */; };
 		F53061471F794BB20098D637 /* libLLVMBPFCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061421F794BB20098D637 /* libLLVMBPFCodeGen.a */; };
-		F53061481F794BB20098D637 /* libLLVMBPFDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061431F794BB20098D637 /* libLLVMBPFDisassembler.a */; };
 		F53061491F794BB20098D637 /* libLLVMBPFAsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061441F794BB20098D637 /* libLLVMBPFAsmPrinter.a */; };
 		F530614A1F794BB20098D637 /* libLLVMBPFDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061451F794BB20098D637 /* libLLVMBPFDesc.a */; };
 		F530614B1F794BB20098D637 /* libLLVMBPFInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061461F794BB20098D637 /* libLLVMBPFInfo.a */; };
@@ -1505,7 +1504,6 @@
 				F54625F51DE5EBBB00074D66 /* libLLVMBitReader.a in Frameworks */,
 				F54625D71DE5EAC200074D66 /* libLLVMBitWriter.a in Frameworks */,
 				F53061471F794BB20098D637 /* libLLVMBPFCodeGen.a in Frameworks */,
-				F53061481F794BB20098D637 /* libLLVMBPFDisassembler.a in Frameworks */,
 				F53061491F794BB20098D637 /* libLLVMBPFAsmPrinter.a in Frameworks */,
 				F530614A1F794BB20098D637 /* libLLVMBPFDesc.a in Frameworks */,
 				F530614B1F794BB20098D637 /* libLLVMBPFInfo.a in Frameworks */,

@@ -20,12 +20,11 @@ namespace wisey {
 class FieldOwnerVariable : public IFieldVariable {
     
   std::string mName;
-  llvm::Value* mValue;
   const IConcreteObjectType* mObject;
   
 public:
   
-  FieldOwnerVariable(std::string name, llvm::Value* value, const IConcreteObjectType* object);
+  FieldOwnerVariable(std::string name, const IConcreteObjectType* object);
   
   ~FieldOwnerVariable();
   

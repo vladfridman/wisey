@@ -22,9 +22,8 @@ using namespace llvm;
 using namespace wisey;
 
 FieldOwnerVariable::FieldOwnerVariable(string name,
-                                       Value* value,
                                        const IConcreteObjectType* object) :
-mName(name), mValue(value), mObject(object) { }
+mName(name), mObject(object) { }
 
 FieldOwnerVariable::~FieldOwnerVariable() {}
 
@@ -37,7 +36,7 @@ const IType* FieldOwnerVariable::getType() const {
 }
 
 Value* FieldOwnerVariable::getValue() const {
-  return mValue;
+  return NULL;
 }
 
 Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context,

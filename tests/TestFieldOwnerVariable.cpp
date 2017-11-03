@@ -42,7 +42,6 @@ struct FieldOwnerVariableTest : Test {
   Node* mNode;
   Interface* mInterface;
   BasicBlock* mBasicBlock;
-  Value* mOwnerFieldValue;
   FieldOwnerVariable* mFieldOwnerVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -95,8 +94,7 @@ struct FieldOwnerVariableTest : Test {
     IVariable* thisVariable = new ParameterReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
-    mOwnerFieldValue = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));
-    mFieldOwnerVariable = new FieldOwnerVariable("foo", mOwnerFieldValue, mObject);
+    mFieldOwnerVariable = new FieldOwnerVariable("foo", mObject);
     
     vector<Type*> argumentTypes;
     argumentTypes.push_back(mNode->getLLVMType(mLLVMContext));
@@ -121,7 +119,6 @@ struct FieldOwnerVariableTest : Test {
 TEST_F(FieldOwnerVariableTest, basicFieldsTest) {
   EXPECT_STREQ(mFieldOwnerVariable->getName().c_str(), "foo");
   EXPECT_EQ(mFieldOwnerVariable->getType(), mNode->getOwner());
-  EXPECT_EQ(mFieldOwnerVariable->getValue(), mOwnerFieldValue);
 }
 
 TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {
@@ -171,10 +168,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTes
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
   
-  Value* ownerFieldValue =
-    ConstantPointerNull::get(mInterface->getOwner()->getLLVMType(mLLVMContext));
-  FieldOwnerVariable* ownerFieldVariable =
-    new FieldOwnerVariable("bar", ownerFieldValue, mObject);
+  FieldOwnerVariable* ownerFieldVariable = new FieldOwnerVariable("bar", mObject);
   ownerFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
   
   *mStringStream << *mBasicBlock;
