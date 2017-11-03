@@ -11,6 +11,7 @@
 
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IFieldVariable.hpp"
+#include "wisey/IObjectOwnerType.hpp"
 
 namespace wisey {
   
@@ -30,7 +31,7 @@ public:
   
   std::string getName() const override;
   
-  const IType* getType() const override;
+  const IObjectOwnerType* getType() const override;
   
   llvm::Value* getValue() const override;
   

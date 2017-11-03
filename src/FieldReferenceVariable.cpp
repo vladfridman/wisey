@@ -28,8 +28,11 @@ string FieldReferenceVariable::getName() const {
   return mName;
 }
 
-const IType* FieldReferenceVariable::getType() const {
-  return mObject->findField(mName)->getType();
+const IObjectType* FieldReferenceVariable::getType() const {
+  const IType* type = mObject->findField(mName)->getType();
+  assert(IType::isReferenceType(type));
+  
+  return (const IObjectType*) type;
 }
 
 Value* FieldReferenceVariable::getValue() const {

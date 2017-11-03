@@ -37,7 +37,7 @@ using ::testing::Test;
 struct FieldReferenceVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  Node* mObject;
+  Controller* mObject;
   Node* mNode;
   Interface* mInterface;
   BasicBlock* mBasicBlock;
@@ -71,9 +71,9 @@ struct FieldReferenceVariableTest : Test {
     objectStructType->setBody(types);
     vector<Field*> fields;
     ExpressionList fieldArguments;
-    fields.push_back(new Field(STATE_FIELD, mNode->getOwner(), "foo", fieldArguments));
-    fields.push_back(new Field(STATE_FIELD, mInterface->getOwner(), "bar", fieldArguments));
-    mObject = Node::newNode(objectFullName, objectStructType);
+    fields.push_back(new Field(STATE_FIELD, mNode, "foo", fieldArguments));
+    fields.push_back(new Field(STATE_FIELD, mInterface, "bar", fieldArguments));
+    mObject = Controller::newController(objectFullName, objectStructType);
     mObject->setFields(fields, 1u);
     
     FunctionType* functionType =
@@ -103,7 +103,7 @@ struct FieldReferenceVariableTest : Test {
 
 TEST_F(FieldReferenceVariableTest, basicFieldsTest) {
   EXPECT_STREQ(mFieldReferenceVariable->getName().c_str(), "foo");
-  EXPECT_EQ(mFieldReferenceVariable->getType(), mNode->getOwner());
+  EXPECT_EQ(mFieldReferenceVariable->getType(), mNode);
 }
 
 TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateIdentifierIRTest) {
