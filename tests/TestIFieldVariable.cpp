@@ -17,7 +17,7 @@
 #include "wisey/Field.hpp"
 #include "wisey/IFieldVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/LocalReferenceVariable.hpp"
+#include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -67,7 +67,7 @@ struct IFieldVariableTest : Test {
     mContext.getScopes().pushScope();
     
     Value* thisPointer = ConstantPointerNull::get(mController->getLLVMType(mLLVMContext));
-    IVariable* thisVariable = new LocalReferenceVariable("this", mController, thisPointer);
+    IVariable* thisVariable = new ParameterReferenceVariable("this", mController, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
     mStringStream = new raw_string_ostream(mStringBuffer);

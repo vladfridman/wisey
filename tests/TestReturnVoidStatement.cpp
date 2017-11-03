@@ -145,29 +145,42 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesAreNotClearedTest) {
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
   
-  Type* structType = Type::getInt8Ty(mLLVMContext);
+  StructType* structType = StructType::create(mLLVMContext, "MModel");
+  vector<Type*> types;
+  types.push_back(Type::getInt64Ty(mLLVMContext));
+  types.push_back(Type::getInt32Ty(mLLVMContext));
+  structType->setBody(types);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  IVariable* foo = new LocalReferenceVariable("foo", mModel, fooMalloc);
+  Value* fooStore = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "");
+  IRWriter::newStoreInst(mContext, fooMalloc, fooStore);
+  IVariable* foo = new LocalReferenceVariable("foo", mModel, fooStore);
   mContext.getScopes().setVariable(foo);
   
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  IVariable* bar = new LocalReferenceVariable("bar", mModel, barMalloc);
+  Value* barStore = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "");
+  IRWriter::newStoreInst(mContext, barMalloc, barStore);
+  IVariable* bar = new LocalReferenceVariable("bar", mModel, barStore);
   mContext.getScopes().setVariable(bar);
-  
+
   ReturnVoidStatement returnStatement;
   
   returnStatement.generateIR(mContext);
   
-  ASSERT_EQ(3ul, basicBlock->size());
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
-  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
-  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MModel* "
+  "getelementptr (%MModel, %MModel* null, i32 1) to i64))"
+  "\n  %0 = bitcast i8* %malloccall to %MModel*"
+  "\n  %1 = alloca %MModel*"
+  "\n  store %MModel* %0, %MModel** %1"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MModel* "
+  "getelementptr (%MModel, %MModel* null, i32 1) to i64))"
+  "\n  %2 = bitcast i8* %malloccall1 to %MModel*"
+  "\n  %3 = alloca %MModel*"
+  "\n  store %MModel* %2, %MModel** %3"
   "\n  ret void\n";
   ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
 }

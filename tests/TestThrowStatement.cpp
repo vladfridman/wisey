@@ -186,17 +186,25 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
 }
 
 TEST_F(ThrowStatementTest, referenceVariablesAreNotClearedTest) {
-  Type* structType = Type::getInt8Ty(mLLVMContext);
+  StructType* structType = StructType::create(mLLVMContext, "MModel");
+  vector<Type*> types;
+  types.push_back(Type::getInt64Ty(mLLVMContext));
+  types.push_back(Type::getInt32Ty(mLLVMContext));
+  structType->setBody(types);
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  IVariable* foo = new LocalReferenceVariable("foo", mCircleModel, fooMalloc);
+  Value* fooStore = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "");
+  IRWriter::newStoreInst(mContext, fooMalloc, fooStore);
+  IVariable* foo = new LocalReferenceVariable("foo", mCircleModel, fooStore);
   mContext.getScopes().setVariable(foo);
-  
+
   mContext.getScopes().pushScope();
   Instruction* barMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
-  IVariable* bar = new LocalReferenceVariable("bar", mCircleModel, barMalloc);
+  Value* barStore = IRWriter::newAllocaInst(mContext, barMalloc->getType(), "");
+  IRWriter::newStoreInst(mContext, barMalloc, barStore);
+  IVariable* bar = new LocalReferenceVariable("bar", mCircleModel, barStore);
   mContext.getScopes().setVariable(bar);
-  
+
   llvm::Constant* exceptionObject =
     ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
@@ -210,18 +218,24 @@ TEST_F(ThrowStatementTest, referenceVariablesAreNotClearedTest) {
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint "
-  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint "
-  "(i8* getelementptr (i8, i8* null, i32 1) to i64))"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
-  "\n  %1 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
-  "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MModel* "
+  "getelementptr (%MModel, %MModel* null, i32 1) to i64))"
+  "\n  %0 = bitcast i8* %malloccall to %MModel*"
+  "\n  %1 = alloca %MModel*"
+  "\n  store %MModel* %0, %MModel** %1"
+  "\n  %malloccall1 = tail call i8* @malloc(i64 ptrtoint (%MModel* "
+  "getelementptr (%MModel, %MModel* null, i32 1) to i64))"
+  "\n  %2 = bitcast i8* %malloccall1 to %MModel*"
+  "\n  %3 = alloca %MModel*"
+  "\n  store %MModel* %2, %MModel** %3"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
+  "\n  %5 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
+  "\n  %6 = getelementptr %systems.vos.wisey.compiler.tests.MCircle, "
   "%systems.vos.wisey.compiler.tests.MCircle* null, i32 1"
-  "\n  %3 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %2 to i64"
-  "\n  %4 = call i8* @__cxa_allocate_exception(i64 %3)"
-  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %4, i8* %0, i64 %3, i32 4, i1 false)"
-  "\n  call void @__cxa_throw(i8* %4, i8* %1, i8* null)"
+  "\n  %7 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %6 to i64"
+  "\n  %8 = call i8* @__cxa_allocate_exception(i64 %7)"
+  "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %8, i8* %4, i64 %7, i32 4, i1 false)"
+  "\n  call void @__cxa_throw(i8* %8, i8* %5, i8* null)"
   "\n  unreachable\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

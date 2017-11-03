@@ -462,7 +462,6 @@
 		F58A83001F7965DE00369388 /* libLLVMBPFAsmPrinter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061441F794BB20098D637 /* libLLVMBPFAsmPrinter.a */; };
 		F58A83011F7965DE00369388 /* libLLVMBPFCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061421F794BB20098D637 /* libLLVMBPFCodeGen.a */; };
 		F58A83021F7965DE00369388 /* libLLVMBPFDesc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061451F794BB20098D637 /* libLLVMBPFDesc.a */; };
-		F58A83031F7965DE00369388 /* libLLVMBPFDisassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061431F794BB20098D637 /* libLLVMBPFDisassembler.a */; };
 		F58A83041F7965DE00369388 /* libLLVMBPFInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53061461F794BB20098D637 /* libLLVMBPFInfo.a */; };
 		F58A83051F7965F300369388 /* libLLVMCoroutines.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F530617E1F794CBE0098D637 /* libLLVMCoroutines.a */; };
 		F58A83061F7965FB00369388 /* libLLVMCoverage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F53060D61F7948AC0098D637 /* libLLVMCoverage.a */; };
@@ -1369,7 +1368,6 @@
 				F58A83001F7965DE00369388 /* libLLVMBPFAsmPrinter.a in Frameworks */,
 				F58A83011F7965DE00369388 /* libLLVMBPFCodeGen.a in Frameworks */,
 				F58A83021F7965DE00369388 /* libLLVMBPFDesc.a in Frameworks */,
-				F58A83031F7965DE00369388 /* libLLVMBPFDisassembler.a in Frameworks */,
 				F58A83041F7965DE00369388 /* libLLVMBPFInfo.a in Frameworks */,
 				F53400CB1DFBE3370002BF7E /* libLLVMCodeGen.a in Frameworks */,
 				F53400CC1DFBE3370002BF7E /* libLLVMCore.a in Frameworks */,

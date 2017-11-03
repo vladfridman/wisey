@@ -24,6 +24,8 @@ using namespace wisey;
 LocalReferenceVariable::LocalReferenceVariable(string name, const IObjectType* type, Value* value) :
 mName(name), mType(type), mValue(value), mIsInitialized(false) {
   assert(value->getType()->isPointerTy());
+  assert(value->getType()->getPointerElementType()->isPointerTy());
+  assert(value->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
 }
 
 LocalReferenceVariable::~LocalReferenceVariable() {
