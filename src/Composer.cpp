@@ -57,8 +57,8 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   vector<Value*> arguments;
   arguments.push_back(threadObject);
   arguments.push_back(threadObject);
-  arguments.push_back(currentObjectVariable->getValue());
-  arguments.push_back(currentMethodVariable->getValue());
+  arguments.push_back(currentObjectVariable->generateIdentifierIR(context, ""));
+  arguments.push_back(currentMethodVariable->generateIdentifierIR(context, ""));
   arguments.push_back(sourceFileNamePointer);
   arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
   Controller* threadController = context.getController(Names::getThreadControllerFullName());
