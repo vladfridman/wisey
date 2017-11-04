@@ -83,7 +83,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   
   vector<Value*> arguments;
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context, "threadLoaded");
+  Value* threadObject = threadVariable->generateIdentifierIR(context);
   arguments.push_back(threadObject);
 
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();

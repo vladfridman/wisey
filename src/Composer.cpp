@@ -47,7 +47,7 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   }
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context, "");
+  Value* threadObject = threadVariable->generateIdentifierIR(context);
   
   IVariable* currentObjectVariable = context.getScopes()
     .getVariable(Names::getCurrentObjectVariableName());
@@ -57,8 +57,8 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
   vector<Value*> arguments;
   arguments.push_back(threadObject);
   arguments.push_back(threadObject);
-  arguments.push_back(currentObjectVariable->generateIdentifierIR(context, ""));
-  arguments.push_back(currentMethodVariable->generateIdentifierIR(context, ""));
+  arguments.push_back(currentObjectVariable->generateIdentifierIR(context));
+  arguments.push_back(currentMethodVariable->generateIdentifierIR(context));
   arguments.push_back(sourceFileNamePointer);
   arguments.push_back(ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), line));
   Controller* threadController = context.getController(Names::getThreadControllerFullName());
@@ -77,7 +77,7 @@ void Composer::popCallStack(IRGenerationContext& context) {
   }
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context, "");
+  Value* threadObject = threadVariable->generateIdentifierIR(context);
 
   Controller* threadController = context.getController(Names::getThreadControllerFullName());
   vector<Value*> arguments;

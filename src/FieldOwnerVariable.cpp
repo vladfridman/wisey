@@ -38,8 +38,7 @@ const IObjectOwnerType* FieldOwnerVariable::getType() const {
   return (const IObjectOwnerType*) type;
 }
 
-Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                string llvmVariableName) const {
+Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
   return IRWriter::newLoadInst(context, fieldPointer, "");

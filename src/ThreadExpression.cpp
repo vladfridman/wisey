@@ -21,7 +21,7 @@ IVariable* ThreadExpression::getVariable(IRGenerationContext& context) const {
 }
 
 Value* ThreadExpression::generateIR(IRGenerationContext& context) const {
-  return IVariable::getVariable(context, THREAD)->generateIdentifierIR(context, "");
+  return IVariable::getVariable(context, THREAD)->generateIdentifierIR(context);
 }
 
 const IType* ThreadExpression::getType(IRGenerationContext& context) const {

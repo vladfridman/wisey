@@ -41,8 +41,7 @@ const IObjectOwnerType* LocalOwnerVariable::getType() const {
   return mType;
 }
 
-Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                string llvmVariableName) const {
+Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   if (!mIsInitialized) {
     Log::e("Variable '" + mName + "' is used before it is initialized");
     exit(1);

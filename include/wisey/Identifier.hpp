@@ -22,15 +22,11 @@ namespace wisey {
 class Identifier : public IExpression {
   
   const std::string mName;
-  std::string mLLVMVariableName;
   
 public:
-  Identifier(const std::string& name) : mName(name), mLLVMVariableName("") { }
+  Identifier(const std::string& name);
   
-  Identifier(const std::string& name, const std::string& llvmVariableName) :
-    mName(name), mLLVMVariableName(llvmVariableName) { }
-  
-  ~Identifier() { }
+  ~Identifier();
   
   IVariable* getVariable(IRGenerationContext& context) const override;
 

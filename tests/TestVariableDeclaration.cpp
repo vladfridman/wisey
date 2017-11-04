@@ -45,7 +45,7 @@ struct VariableDeclarationTest : public Test {
   
   VariableDeclarationTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mIdentifier(new Identifier("foo", "bar")) {
+  mIdentifier(new Identifier("foo")) {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

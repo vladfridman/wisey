@@ -34,9 +34,8 @@ const IPrimitiveType* LocalPrimitiveVariable::getType() const {
   return mType;
 }
 
-Value* LocalPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                    string llvmVariableName) const {
-  return IRWriter::newLoadInst(context, mValueStore, llvmVariableName);
+Value* LocalPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context) const {
+  return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
 Value* LocalPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context,

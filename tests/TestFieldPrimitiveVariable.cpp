@@ -87,7 +87,7 @@ TEST_F(FieldPrimitiveVariableTest, basicFieldsTest) {
 }
 
 TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateIdentifierIRTest) {
-  mFieldPrimitiveVariable->generateIdentifierIR(mContext, "test");
+  mFieldPrimitiveVariable->generateIdentifierIR(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

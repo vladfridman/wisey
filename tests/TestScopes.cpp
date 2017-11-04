@@ -242,7 +242,7 @@ TEST_F(ScopesTest, setUnitializedLocalReferenceVariableTest) {
   IVariable* variable = mScopes.getVariable("foo");
   
   ASSERT_NE(variable, nullptr);
-  EXPECT_EXIT(variable->generateIdentifierIR(mContext, ""),
+  EXPECT_EXIT(variable->generateIdentifierIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Variable 'foo' is used before it is initialized");
               

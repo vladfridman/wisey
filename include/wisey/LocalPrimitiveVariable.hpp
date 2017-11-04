@@ -33,8 +33,7 @@ public:
   
   const IPrimitiveType* getType() const override;
   
-  llvm::Value* generateIdentifierIR(IRGenerationContext& context,
-                                    std::string llvmVariableName) const override;
+  llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                     IExpression* assignToExpression) override;

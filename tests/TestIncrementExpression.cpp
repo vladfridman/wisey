@@ -30,7 +30,7 @@ using ::testing::Test;
 
 struct IncrementExpressionTest : public Test {
   IRGenerationContext mContext;
-  LLVMContext& mLLVMContext = mContext.getLLVMContext();
+  LLVMContext& mLLVMContext;
   BasicBlock* mBlock = BasicBlock::Create(mLLVMContext, "entry");
   string mName = "foo";
   Identifier* mIdentifier;
@@ -40,18 +40,25 @@ struct IncrementExpressionTest : public Test {
 
 public:
   
-  IncrementExpressionTest() : mIdentifier(new Identifier(mName, "bar")) {
+  IncrementExpressionTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mIdentifier(new Identifier(mName)) {
+    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
+    Function* function = Function::Create(functionType,
+                                          GlobalValue::InternalLinkage,
+                                          "test",
+                                          mContext.getModule());
+    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
+
     AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), mName);
-    
     mVariable = new LocalPrimitiveVariable(mName, PrimitiveTypes::INT_TYPE, alloc);
     mContext.getScopes().setVariable(mVariable);
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
 
   ~IncrementExpressionTest() {
-    delete mBlock;
     delete mStringStream;
   }
 };
@@ -66,26 +73,16 @@ TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
   expression->generateIR(mContext);
  
-  ASSERT_EQ(4ul, mBlock->size());
+  *mStringStream << *mBlock;
 
-  BasicBlock::iterator iterator = mBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
-  mStringBuffer.clear();
+  string expected =
+  "\nentry:"
+  "\n  %foo = alloca i32"
+  "\n  %0 = load i32, i32* %foo"
+  "\n  %inc = add i32 %0, 1"
+  "\n  store i32 %inc, i32* %foo\n";
   
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %bar = load i32, i32* %foo");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %inc = add i32 %bar, 1");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 %inc, i32* %foo");
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -93,26 +90,16 @@ TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newDecrementByOne(mIdentifier);
   expression->generateIR(mContext);
   
-  ASSERT_EQ(4ul, mBlock->size());
+  *mStringStream << *mBlock;
   
-  BasicBlock::iterator iterator = mBlock->begin();
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
-  mStringBuffer.clear();
+  string expected =
+  "\nentry:"
+  "\n  %foo = alloca i32"
+  "\n  %0 = load i32, i32* %foo"
+  "\n  %dec = add i32 %0, -1"
+  "\n  store i32 %dec, i32* %foo\n";
   
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %bar = load i32, i32* %foo");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %dec = add i32 %bar, -1");
-  mStringBuffer.clear();
-  
-  iterator++;
-  *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 %dec, i32* %foo");
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
 
@@ -123,7 +110,7 @@ TEST_F(IncrementExpressionTest, existsInOuterScopeTest) {
 }
 
 TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
-  Identifier* identifier = new Identifier("bar", "bar");
+  Identifier* identifier = new Identifier("bar");
   
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier);
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("bar",

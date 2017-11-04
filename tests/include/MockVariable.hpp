@@ -23,7 +23,7 @@ public:
   MOCK_CONST_METHOD0(getName, std::string ());
   MOCK_CONST_METHOD0(getType, const wisey::IType* ());
   MOCK_CONST_METHOD0(getValue, llvm::Value* ());
-  MOCK_CONST_METHOD2(generateIdentifierIR, llvm::Value* (wisey::IRGenerationContext&, std::string));
+  MOCK_CONST_METHOD1(generateIdentifierIR, llvm::Value* (wisey::IRGenerationContext&));
   MOCK_METHOD2(generateAssignmentIR, llvm::Value* (wisey::IRGenerationContext&,
                                                    wisey::IExpression*));
   MOCK_CONST_METHOD1(free, void (wisey::IRGenerationContext&));

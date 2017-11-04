@@ -59,8 +59,7 @@ public:
   /**
    * Generated LLVM IR for the variable when it used in an identifier
    */
-  virtual llvm::Value* generateIdentifierIR(IRGenerationContext& context,
-                                            std::string llvmVariableName) const = 0;
+  virtual llvm::Value* generateIdentifierIR(IRGenerationContext& context) const = 0;
 
   /**
    * Generate LLVM IR for when it is assigned to a given value

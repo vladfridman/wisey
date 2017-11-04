@@ -32,8 +32,7 @@ const IPrimitiveType* ParameterPrimitiveVariable::getType() const {
   return mType;
 }
 
-Value* ParameterPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                        string llvmVariableName) const {
+Value* ParameterPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return mValue;
 }
 

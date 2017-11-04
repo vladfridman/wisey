@@ -136,7 +136,7 @@ TEST_F(LocalOwnerVariableTest, localOwnerVariableIdentifierUninitializedDeathTes
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
-  EXPECT_EXIT(heapOwnerVariable.generateIdentifierIR(mContext, "fooVal"),
+  EXPECT_EXIT(heapOwnerVariable.generateIdentifierIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Variable 'foo' is used before it is initialized");
 }

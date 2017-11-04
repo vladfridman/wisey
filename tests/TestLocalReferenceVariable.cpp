@@ -106,7 +106,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
 
   localReferenceVariable.setToNull(mContext);
-  localReferenceVariable.generateIdentifierIR(mContext, "fooVal");
+  localReferenceVariable.generateIdentifierIR(mContext);
 
   *mStringStream << *mBlock;
   string expected =
@@ -124,7 +124,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitialized
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
   
-  EXPECT_EXIT(localReferenceVariable.generateIdentifierIR(mContext, "fooVal"),
+  EXPECT_EXIT(localReferenceVariable.generateIdentifierIR(mContext),
               ::testing::ExitedWithCode(1),
               "Error: Variable 'foo' is used before it is initialized");
 }

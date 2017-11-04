@@ -122,7 +122,7 @@ TEST_F(FieldOwnerVariableTest, basicFieldsTest) {
 }
 
 TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {
-  mFieldOwnerVariable->generateIdentifierIR(mContext, "test");
+  mFieldOwnerVariable->generateIdentifierIR(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

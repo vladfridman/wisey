@@ -43,14 +43,19 @@ struct LocalPrimitiveVariableTest : public Test {
 public:
   
   LocalPrimitiveVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    mBlock = BasicBlock::Create(mContext.getLLVMContext(), "entry");
+    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
+    Function* function = Function::Create(functionType,
+                                          GlobalValue::InternalLinkage,
+                                          "test",
+                                          mContext.getModule());
+    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
   ~LocalPrimitiveVariableTest() {
-    delete mBlock;
     delete mStringStream;
   }
 };
@@ -109,7 +114,7 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, Type::getInt32Ty(mLLVMContext), "foo");
   LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, alloc);
   
-  variable.generateIdentifierIR(mContext, "bar");
+  variable.generateIdentifierIR(mContext);
 
   ASSERT_EQ(2ul, mBlock->size());
   
@@ -120,7 +125,7 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   
   iterator++;
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %bar = load i32, i32* %foo");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = load i32, i32* %foo");
   mStringBuffer.clear();
 }
 

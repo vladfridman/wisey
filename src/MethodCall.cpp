@@ -172,7 +172,7 @@ Function* MethodCall::getMethodFunction(IRGenerationContext& context,
 Value* MethodCall::generateExpressionIR(IRGenerationContext& context) const {
   return mExpression != NULL
   ? mExpression->generateIR(context)
-  : context.getThis()->generateIdentifierIR(context, "");
+  : context.getThis()->generateIdentifierIR(context);
 }
 
 Value* MethodCall::createFunctionCall(IRGenerationContext& context,
@@ -182,7 +182,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       vector<Value*> arguments) const {
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
-  Value* threadObject = threadVariable->generateIdentifierIR(context, "");
+  Value* threadObject = threadVariable->generateIdentifierIR(context);
 
   arguments.push_back(threadObject);
   

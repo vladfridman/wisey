@@ -159,7 +159,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   package.push_back("lang");
 
   Injector* injector = new Injector(programInterfaceSpecifier);
-  Identifier* programIdentifier = new Identifier("program", "program");
+  Identifier* programIdentifier = new Identifier("program");
   programInterfaceSpecifier = new InterfaceTypeSpecifier(package, Names::getIProgramName());
   OwnerTypeSpecifier* programOwnerTypeSpecifier = new OwnerTypeSpecifier(programInterfaceSpecifier);
   VariableDeclaration programVariableDeclaration(programOwnerTypeSpecifier,
@@ -168,7 +168,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   programVariableDeclaration.generateIR(context);
 
   ExpressionList argumentList;
-  programIdentifier = new Identifier("program", "program");
+  programIdentifier = new Identifier("program");
   argumentList.push_back(programIdentifier);
   ControllerTypeSpecifier* programRunnerControllerSpecifier =
     new ControllerTypeSpecifier(package, "CProgramRunner");

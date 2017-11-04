@@ -41,8 +41,7 @@ const IType* ParameterOwnerVariable::getType() const {
   return mType;
 }
 
-Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
-                                                    string llvmVariableName) const {
+Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return IRWriter::newLoadInst(context, mValueStore, "");
 }
 

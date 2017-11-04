@@ -55,13 +55,13 @@ TEST_F(IdentifierTest, getVariableTest) {
                                                                 PrimitiveTypes::INT_TYPE,
                                                                 NULL);
   mContext.getScopes().setVariable(variable);
-  Identifier identifier("foo", "bar");
+  Identifier identifier("foo");
 
   EXPECT_EQ(identifier.getVariable(mContext), variable);
 }
 
 TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
-  Identifier identifier("foo", "bar");
+  Identifier identifier("foo");
 
   EXPECT_EXIT(identifier.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -73,7 +73,7 @@ TEST_F(IdentifierTest, getTypeTest) {
                                                                 PrimitiveTypes::INT_TYPE,
                                                                 NULL);
   mContext.getScopes().setVariable(variable);
-  Identifier identifier("foo", "bar");
+  Identifier identifier("foo");
 
   EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
@@ -84,9 +84,9 @@ TEST_F(IdentifierTest, generateIRTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   
-  Identifier identifier("foo", "bar");
+  Identifier identifier("foo");
   
-  EXPECT_CALL(mockVariable, generateIdentifierIR(_, "bar")).Times(1);
+  EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(1);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(0);
   
   identifier.generateIR(mContext);
@@ -97,7 +97,7 @@ TEST_F(IdentifierTest, releaseOwnershipTest) {
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
-  Identifier identifier("foo", "bar");
+  Identifier identifier("foo");
   
   EXPECT_EQ(mContext.getScopes().getVariable("foo"), &mockVariable);
 
@@ -116,7 +116,7 @@ TEST_F(IdentifierTest, addReferenceToOwnerTest) {
   ON_CALL(referenceVariable, getType()).WillByDefault(Return(mInterface));
   mContext.getScopes().setVariable(&referenceVariable);
   
-  Identifier* identifier = new Identifier("foo", "foo");
+  Identifier* identifier = new Identifier("foo");
   
   identifier->addReferenceToOwner(mContext, &referenceVariable);
   
@@ -126,13 +126,13 @@ TEST_F(IdentifierTest, addReferenceToOwnerTest) {
 }
 
 TEST_F(IdentifierTest, isConstantTest) {
-  Identifier* identifier = new Identifier("foo", "foo");
+  Identifier* identifier = new Identifier("foo");
 
   EXPECT_FALSE(identifier->isConstant());
 }
 
 TEST_F(IdentifierTest, printToStreamTest) {
-  Identifier identifier("foo", "bar");
+  Identifier identifier("foo");
 
   stringstream stringStream;
   identifier.printToStream(mContext, stringStream);
