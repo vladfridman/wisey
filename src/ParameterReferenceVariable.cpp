@@ -35,10 +35,6 @@ const IObjectType* ParameterReferenceVariable::getType() const {
   return mType;
 }
 
-Value* ParameterReferenceVariable::getValue() const {
-  return mValue;
-}
-
 Value* ParameterReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
                                                         string llvmVariableName) const {
   return mValue;

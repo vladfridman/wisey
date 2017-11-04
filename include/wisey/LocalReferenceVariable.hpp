@@ -22,20 +22,18 @@ class LocalReferenceVariable : public IVariable {
   
   std::string mName;
   const IObjectType* mType;
-  llvm::Value* mValue;
+  llvm::Value* mValueStore;
   bool mIsInitialized;
   
 public:
   
-  LocalReferenceVariable(std::string name, const IObjectType* type, llvm::Value* value);
+  LocalReferenceVariable(std::string name, const IObjectType* type, llvm::Value* valueStore);
   
   ~LocalReferenceVariable();
   
   std::string getName() const override;
   
   const IObjectType* getType() const override;
-  
-  llvm::Value* getValue() const override;
   
   llvm::Value* generateIdentifierIR(IRGenerationContext& context,
                                     std::string llvmVariableName) const override;

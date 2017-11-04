@@ -21,11 +21,13 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-LocalReferenceVariable::LocalReferenceVariable(string name, const IObjectType* type, Value* value) :
-mName(name), mType(type), mValue(value), mIsInitialized(false) {
-  assert(value->getType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+LocalReferenceVariable::LocalReferenceVariable(string name,
+                                               const IObjectType* type,
+                                               Value* valueStore) :
+mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false) {
+  assert(valueStore->getType()->isPointerTy());
+  assert(valueStore->getType()->getPointerElementType()->isPointerTy());
+  assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
 }
 
 LocalReferenceVariable::~LocalReferenceVariable() {
@@ -40,10 +42,6 @@ const IObjectType* LocalReferenceVariable::getType() const {
   return mType;
 }
 
-Value* LocalReferenceVariable::getValue() const {
-  return mValue;
-}
-
 Value* LocalReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
                                                     string llvmVariableName) const {
   if (!mIsInitialized) {
@@ -51,7 +49,7 @@ Value* LocalReferenceVariable::generateIdentifierIR(IRGenerationContext& context
     exit(1);
   }
   
-  return IRWriter::newLoadInst(context, mValue, "");
+  return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
 Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -60,16 +58,16 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   
-  IRWriter::newStoreInst(context, newValue, mValue);
+  IRWriter::newStoreInst(context, newValue, mValueStore);
 
   mIsInitialized = true;
   
-  return mValue;
+  return newValue;
 }
 
 void LocalReferenceVariable::setToNull(IRGenerationContext& context) {
   PointerType* llvmType = mType->getLLVMType(context.getLLVMContext());
-  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), mValue);
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), mValueStore);
 
   mIsInitialized = true;
 }

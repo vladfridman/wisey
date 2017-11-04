@@ -21,8 +21,8 @@ using namespace wisey;
 
 LocalPrimitiveVariable::LocalPrimitiveVariable(string name,
                                                const IPrimitiveType* type,
-                                               Value* value) :
-mName(name), mType(type), mValue(value) { }
+                                               Value* valueStore) :
+mName(name), mType(type), mValueStore(valueStore) { }
 
 LocalPrimitiveVariable::~LocalPrimitiveVariable() {}
 
@@ -34,13 +34,9 @@ const IPrimitiveType* LocalPrimitiveVariable::getType() const {
   return mType;
 }
 
-Value* LocalPrimitiveVariable::getValue() const {
-  return mValue;
-}
-
 Value* LocalPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context,
                                                     string llvmVariableName) const {
-  return IRWriter::newLoadInst(context, mValue, llvmVariableName);
+  return IRWriter::newLoadInst(context, mValueStore, llvmVariableName);
 }
 
 Value* LocalPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -48,7 +44,9 @@ Value* LocalPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context
   Value* assignToValue = assignToExpression->generateIR(context);
   const IType* assignToType = assignToExpression->getType(context);
   Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
-  return IRWriter::newStoreInst(context, castAssignToValue, mValue);
+  IRWriter::newStoreInst(context, castAssignToValue, mValueStore);
+  
+  return castAssignToValue;
 }
 
 void LocalPrimitiveVariable::setToNull(IRGenerationContext& context) {

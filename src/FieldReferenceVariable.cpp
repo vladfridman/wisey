@@ -35,10 +35,6 @@ const IObjectType* FieldReferenceVariable::getType() const {
   return (const IObjectType*) type;
 }
 
-Value* FieldReferenceVariable::getValue() const {
-  return NULL;
-}
-
 Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context,
                                                     string llvmVariableName) const {
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);

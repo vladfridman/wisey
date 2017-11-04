@@ -57,11 +57,6 @@ public:
   virtual const IType* getType() const = 0;
 
   /**
-   * Returns variable's value
-   */
-  virtual llvm::Value* getValue() const = 0;
-
-  /**
    * Generated LLVM IR for the variable when it used in an identifier
    */
   virtual llvm::Value* generateIdentifierIR(IRGenerationContext& context,

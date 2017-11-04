@@ -53,6 +53,8 @@ GetElementPtrInst* IFieldVariable::getFieldPointer(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
   
-  return IRWriter::createGetElementPtrInst(context, thisVariable->getValue(), index);
+  Value* thisObject = thisVariable->generateIdentifierIR(context, "");
+  
+  return IRWriter::createGetElementPtrInst(context, thisObject, index);
 }
 

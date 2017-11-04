@@ -68,17 +68,17 @@ TEST_F(ScopesTest, scopesTest) {
   mScopes.pushScope();
   mScopes.setVariable(barVariable);
   
-  EXPECT_EQ(mScopes.getVariable("bar")->getValue(), barValue);
-  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
+  EXPECT_NE(mScopes.getVariable("bar"), nullptr);
+  EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   
   mScopes.popScope(mContext);
-  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
+  EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   EXPECT_EQ(mScopes.getVariable("bar"), nullptr);
   
   barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, barValue);
   mScopes.setVariable(barVariable);
-  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
-  EXPECT_EQ(mScopes.getVariable("bar")->getValue(), barValue);
+  EXPECT_NE(mScopes.getVariable("foo"), nullptr);
+  EXPECT_NE(mScopes.getVariable("bar"), nullptr);
   
   mScopes.popScope(mContext);
   EXPECT_EQ(mScopes.getVariable("foo"), nullptr);
@@ -99,11 +99,11 @@ TEST_F(ScopesTest, scopesCorrectlyOrderedTest) {
   mScopes.pushScope();
   mScopes.setVariable(innerVariable);
   
-  EXPECT_EQ(mScopes.getVariable("bar")->getValue(), innerValue);
+  EXPECT_NE(mScopes.getVariable("bar"), nullptr);
   
   mScopes.popScope(mContext);
   
-  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), outerValue);
+  EXPECT_NE(mScopes.getVariable("foo"), nullptr);
 }
 
 TEST_F(ScopesTest, returnTypeTest) {
@@ -221,15 +221,14 @@ TEST_F(ScopesTest, clearVariableDeathTest) {
               "Error: Could not clear variable 'foo': it was not found");
 }
 
-TEST_F(ScopesTest, setHeapVariableTest) {
+TEST_F(ScopesTest, setLocalReferenceVariableTest) {
   mScopes.pushScope();
   Value* fooValue = ConstantPointerNull::get(mInterface->getLLVMType(mLLVMContext)->getPointerTo());
-  IVariable* heapVariable =
+  IVariable* variable =
     new LocalReferenceVariable("foo", mInterface, fooValue);
-  mScopes.setVariable(heapVariable);
+  mScopes.setVariable(variable);
   
-  ASSERT_NE(mScopes.getVariable("foo"), nullptr);
-  EXPECT_EQ(mScopes.getVariable("foo")->getValue(), fooValue);
+  EXPECT_NE(mScopes.getVariable("foo"), nullptr);
 }
 
 TEST_F(ScopesTest, setUnitializedLocalReferenceVariableTest) {

@@ -23,19 +23,17 @@ class ParameterOwnerVariable : public IVariable {
     
   std::string mName;
   const IObjectOwnerType* mType;
-  llvm::Value* mValue;
+  llvm::Value* mValueStore;
   
 public:
   
-  ParameterOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value);
+  ParameterOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* valueStore);
   
   ~ParameterOwnerVariable();
   
   std::string getName() const override;
   
   const IType* getType() const override;
-  
-  llvm::Value* getValue() const override;
   
   llvm::Value* generateIdentifierIR(IRGenerationContext& context,
                                     std::string llvmVariableName) const override;

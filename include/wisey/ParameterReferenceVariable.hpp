@@ -36,8 +36,6 @@ public:
   
   const IObjectType* getType() const override;
   
-  llvm::Value* getValue() const override;
-  
   llvm::Value* generateIdentifierIR(IRGenerationContext& context,
                                     std::string llvmVariableName) const override;
   

@@ -23,11 +23,11 @@ using namespace wisey;
 
 ParameterOwnerVariable::ParameterOwnerVariable(string name,
                                                const IObjectOwnerType* type,
-                                               Value* value) :
-mName(name), mType(type), mValue(value) {
-  assert(value->getType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+                                               Value* valueStore) :
+mName(name), mType(type), mValueStore(valueStore) {
+  assert(valueStore->getType()->isPointerTy());
+  assert(valueStore->getType()->getPointerElementType()->isPointerTy());
+  assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
 }
 
 ParameterOwnerVariable::~ParameterOwnerVariable() {
@@ -41,13 +41,9 @@ const IType* ParameterOwnerVariable::getType() const {
   return mType;
 }
 
-Value* ParameterOwnerVariable::getValue() const {
-  return mValue;
-}
-
 Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
                                                     string llvmVariableName) const {
-  return IRWriter::newLoadInst(context, mValue, "");
+  return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
 Value* ParameterOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -59,11 +55,11 @@ Value* ParameterOwnerVariable::generateAssignmentIR(IRGenerationContext& context
 void ParameterOwnerVariable::setToNull(IRGenerationContext& context) {
   PointerType* type = (PointerType*) getType()->getLLVMType(context.getLLVMContext());
   Value* null = ConstantPointerNull::get(type);
-  IRWriter::newStoreInst(context, null, mValue);
+  IRWriter::newStoreInst(context, null, mValueStore);
 }
 
 void ParameterOwnerVariable::free(IRGenerationContext& context) const {
-  Value* valueLoaded = IRWriter::newLoadInst(context, mValue, "");
+  Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
   mType->free(context, valueLoaded);
 }
 

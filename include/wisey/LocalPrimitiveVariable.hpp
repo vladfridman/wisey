@@ -21,19 +21,17 @@ class LocalPrimitiveVariable : public IVariable {
 
   std::string mName;
   const IPrimitiveType* mType;
-  llvm::Value* mValue;
+  llvm::Value* mValueStore;
   
 public:
 
-  LocalPrimitiveVariable(std::string name, const IPrimitiveType* type, llvm::Value* value);
+  LocalPrimitiveVariable(std::string name, const IPrimitiveType* type, llvm::Value* valueStore);
   
   ~LocalPrimitiveVariable();
   
   std::string getName() const override;
   
   const IPrimitiveType* getType() const override;
-  
-  llvm::Value* getValue() const override;
   
   llvm::Value* generateIdentifierIR(IRGenerationContext& context,
                                     std::string llvmVariableName) const override;

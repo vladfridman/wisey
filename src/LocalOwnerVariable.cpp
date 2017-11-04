@@ -21,11 +21,13 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-LocalOwnerVariable::LocalOwnerVariable(string name, const IObjectOwnerType* type, Value* value) :
-mName(name), mType(type), mValue(value), mIsInitialized(false) {
-  assert(value->getType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->isPointerTy());
-  assert(value->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
+LocalOwnerVariable::LocalOwnerVariable(string name,
+                                       const IObjectOwnerType* type,
+                                       Value* valueStore) :
+mName(name), mType(type), mValueStore(valueStore), mIsInitialized(false) {
+  assert(valueStore->getType()->isPointerTy());
+  assert(valueStore->getType()->getPointerElementType()->isPointerTy());
+  assert(valueStore->getType()->getPointerElementType()->getPointerElementType()->isStructTy());
 }
 
 LocalOwnerVariable::~LocalOwnerVariable() {
@@ -39,10 +41,6 @@ const IObjectOwnerType* LocalOwnerVariable::getType() const {
   return mType;
 }
 
-Value* LocalOwnerVariable::getValue() const {
-  return mValue;
-}
-
 Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
                                                 string llvmVariableName) const {
   if (!mIsInitialized) {
@@ -50,7 +48,7 @@ Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context,
     exit(1);
   }
   
-  return IRWriter::newLoadInst(context, mValue, "");
+  return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
 Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -61,22 +59,22 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   
   free(context);
   
-  IRWriter::newStoreInst(context, newValue, mValue);
+  IRWriter::newStoreInst(context, newValue, mValueStore);
   
   mIsInitialized = true;
   
-  return mValue;
+  return newValue;
 }
 
 void LocalOwnerVariable::setToNull(IRGenerationContext& context) {
   PointerType* type = getType()->getLLVMType(context.getLLVMContext());
   Value* null = ConstantPointerNull::get(type);
-  IRWriter::newStoreInst(context, null, mValue);
+  IRWriter::newStoreInst(context, null, mValueStore);
   mIsInitialized = true;
 }
 
 void LocalOwnerVariable::free(IRGenerationContext& context) const {
-  Value* valueLoaded = IRWriter::newLoadInst(context, mValue, "");
+  Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
   mType->free(context, valueLoaded);
 }
 

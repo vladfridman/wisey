@@ -22,21 +22,19 @@ class LocalOwnerVariable : public IVariable {
     
   std::string mName;
   const IObjectOwnerType* mType;
-  llvm::Value* mValue;
+  llvm::Value* mValueStore;
   bool mIsInitialized;
   
 public:
   
-  LocalOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* value);
+  LocalOwnerVariable(std::string name, const IObjectOwnerType* type, llvm::Value* valueStore);
   
   ~LocalOwnerVariable();
   
   std::string getName() const override;
   
   const IObjectOwnerType* getType() const override;
-  
-  llvm::Value* getValue() const override;
-  
+ 
   llvm::Value* generateIdentifierIR(IRGenerationContext& context,
                                     std::string llvmVariableName) const override;
   
