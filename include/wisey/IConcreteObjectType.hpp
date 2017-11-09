@@ -27,6 +27,9 @@ class Interface;
  * Only objects implementing at least one interface have a vTable. Objects that do not implement
  * any interfaces do not use a vTable, methods are called directly.
  *
+ * vTable is placed at 8th byte of the object
+ * 0th byte is reserved for reference counter which is a 64 bit integer number
+ *
  * vTable is an array of arrays of i8* pointers:
  * [
  *   [vTable portion for the concrete object and first implemented interface],
