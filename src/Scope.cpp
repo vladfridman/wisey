@@ -8,7 +8,6 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
@@ -44,7 +43,7 @@ void Scope::setVariable(string name, IVariable* variable) {
   if (IType::isReferenceType(variable->getType())) {
     mReferenceVariables.push_back(variable);
   } else if (IType::isOwnerType(variable->getType())) {
-    mOwnerVariables.push_back(variable);
+    mOwnerVariables.push_back((IOwnerVariable*) variable);
   }
 }
 
@@ -65,7 +64,7 @@ vector<IVariable*> Scope::getReferenceVariables() {
   return mReferenceVariables;
 }
 
-vector<IVariable*> Scope::getOwnerVariables() {
+vector<IOwnerVariable*> Scope::getOwnerVariables() {
   return mOwnerVariables;
 }
 
