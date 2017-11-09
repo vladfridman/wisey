@@ -17,12 +17,14 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
+#include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
-#include "wisey/FieldReferenceVariable.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -46,6 +48,11 @@ struct FieldReferenceVariableTest : Test {
   raw_string_ostream* mStringStream;
   
   FieldReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix testPrefix;
+    testPrefix.run(mContext);
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
+    
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<InterfaceTypeSpecifier*> parentInterfaces;
@@ -135,6 +142,12 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
   "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, "
+  "%systems.vos.wisey.compiler.tests.NNode** %0"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %2, i64 -1)"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.NNode* null to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %3, i64 1)"
   "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
   "%systems.vos.wisey.compiler.tests.NNode** %0\n";
   
@@ -160,6 +173,12 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithC
   "\n  %2 = bitcast i8* %1 to %systems.vos.wisey.compiler.tests.IInterface*"
   "\n  %3 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
   "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
+  "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, "
+  "%systems.vos.wisey.compiler.tests.IInterface** %3"
+  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
+  "\n  call void @__adjustReferenceCounterForInterface(i8* %5, i64 -1)"
+  "\n  %6 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %2 to i8*"
+  "\n  call void @__adjustReferenceCounterForInterface(i8* %6, i64 1)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, "
   "%systems.vos.wisey.compiler.tests.IInterface** %3\n";
   
