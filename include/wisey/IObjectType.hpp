@@ -87,27 +87,14 @@ public:
                                               IRGenerationContext& context);
 
   /**
-   * Increments reference counter for the given object in a thread unsafe way
-   */
-  static void incrementReferenceCounterForObject(IRGenerationContext& context, llvm::Value* object);
-
-  /**
-   * Decrements reference counter for the given object in a thread unsafe way
-   */
-  static void decrementReferenceCounterForObject(IRGenerationContext& context, llvm::Value* object);
-
-  /**
    * Returns the reference count value for the given object
    */
   static llvm::Value* getReferenceCountForObject(IRGenerationContext& context, llvm::Value* object);
-
-private:
   
+  /**
+   * Checks type of the object value, casts it to int64* type and returns it
+   */
   static llvm::Value* getReferenceCounterPointer(IRGenerationContext& context, llvm::Value* object);
-
-  static void adjustReferenceCounterForObject(IRGenerationContext& context,
-                                              llvm::Value* object,
-                                              int adjustment);
 
 };
   

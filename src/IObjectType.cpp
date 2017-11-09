@@ -41,31 +41,6 @@ Value* IObjectType::getReferenceCounterPointer(IRGenerationContext& context, Val
   return IRWriter::newBitCastInst(context, object, type);
 }
 
-void IObjectType::adjustReferenceCounterForObject(IRGenerationContext& context,
-                                                  Value* object,
-                                                  int adjustment) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value* counterPointer = getReferenceCounterPointer(context, object);
-  
-  Function* function = context.getModule()->
-    getFunction(Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName());
-  vector<Value*> arguments;
-  arguments.push_back(counterPointer);
-  llvm::Constant* one = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext), adjustment);
-  arguments.push_back(one);
-
-  IRWriter::createCallInst(context, function, arguments, "");
-}
-
-void IObjectType::incrementReferenceCounterForObject(IRGenerationContext& context, Value* object) {
-  adjustReferenceCounterForObject(context, object, 1);
-}
-
-void IObjectType::decrementReferenceCounterForObject(IRGenerationContext& context, Value* object) {
-  adjustReferenceCounterForObject(context, object, -1);
-}
-
 Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Value* object) {
   Value* counterPointer = getReferenceCounterPointer(context, object);
   return IRWriter::newLoadInst(context, counterPointer, "refCounter");

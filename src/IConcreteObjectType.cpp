@@ -485,3 +485,30 @@ void IConcreteObjectType::initializeReferenceCounter(IRGenerationContext& contex
   IRWriter::newStoreInst(context, value, fieldPointer);
 }
 
+void IConcreteObjectType::adjustReferenceCounterForObject(IRGenerationContext& context,
+                                                          Value* object,
+                                                          int adjustment) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Value* counterPointer = getReferenceCounterPointer(context, object);
+  
+  Function* function = context.getModule()->
+  getFunction(Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName());
+  vector<Value*> arguments;
+  arguments.push_back(counterPointer);
+  llvm::Constant* one = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext), adjustment);
+  arguments.push_back(one);
+  
+  IRWriter::createCallInst(context, function, arguments, "");
+}
+
+void IConcreteObjectType::incrementReferenceCounterForObject(IRGenerationContext& context,
+                                                             Value* object) {
+  adjustReferenceCounterForObject(context, object, 1);
+}
+
+void IConcreteObjectType::decrementReferenceCounterForObject(IRGenerationContext& context,
+                                                             Value* object) {
+  adjustReferenceCounterForObject(context, object, -1);
+}
+
