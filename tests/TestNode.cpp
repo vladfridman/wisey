@@ -420,8 +420,7 @@ TEST_F(NodeTest, incremenetReferenceCountTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
-  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 1)"
-  "\n          to label %invoke.continue unwind label %entry\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -436,8 +435,7 @@ TEST_F(NodeTest, decremenetReferenceCountTest) {
   string expected =
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.NComplicatedNode* null to i64*"
-  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 -1)"
-  "\n          to label %invoke.continue unwind label %entry\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 -1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

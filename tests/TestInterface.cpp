@@ -374,8 +374,7 @@ TEST_F(InterfaceTest, incremenetReferenceCountTest) {
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  %4 = getelementptr i8, i8* %3, i64 %2"
   "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 1)"
-  "\n          to label %invoke.continue unwind label %entry\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -398,8 +397,7 @@ TEST_F(InterfaceTest, decremenetReferenceCountTest) {
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
   "\n  %4 = getelementptr i8, i8* %3, i64 %2"
   "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 -1)"
-  "\n          to label %invoke.continue unwind label %entry\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 -1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

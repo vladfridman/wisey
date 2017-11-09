@@ -86,11 +86,6 @@ public:
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
 
-    vector<Catch*> catchList;
-    FinallyBlock* emptyBlock = new FinallyBlock();
-    TryCatchInfo* tryCatchInfo = new TryCatchInfo(mBlock, mBlock, emptyBlock, catchList);
-    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
-
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -119,11 +114,10 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0"
   "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
-  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %2, i64 1)"
-  "\n          to label %invoke.continue unwind label %entry\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %2, i64 1)"
+  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

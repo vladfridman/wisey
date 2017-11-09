@@ -48,9 +48,6 @@ void IObjectType::addjustReferenceCounterForObject(IRGenerationContext& context,
   
   Value* counterPointer = getReferenceCounterPointer(context, object);
   
-  // TODO: put a real line number here
-  Composer::pushCallStack(context, 0);
-  
   Function* function = context.getModule()->
     getFunction(Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName());
   vector<Value*> arguments;
@@ -58,9 +55,7 @@ void IObjectType::addjustReferenceCounterForObject(IRGenerationContext& context,
   llvm::Constant* one = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext), adjustment);
   arguments.push_back(one);
 
-  IRWriter::createInvokeInst(context, function, arguments, "");
-  
-  Composer::popCallStack(context);
+  IRWriter::createCallInst(context, function, arguments, "");
 }
 
 void IObjectType::incrementReferenceCounterForObject(IRGenerationContext& context, Value* object) {
