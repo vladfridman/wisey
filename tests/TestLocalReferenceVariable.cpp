@@ -114,8 +114,12 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   "\nentry:"
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %2, i64 1)"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MShape* %2 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %3, i64 -1)"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %4, i64 1)"
   "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
   "%systems.vos.wisey.compiler.tests.MShape** %0\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

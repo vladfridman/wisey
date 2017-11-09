@@ -57,6 +57,8 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   
+  Value* previousValue = IRWriter::newLoadInst(context, mValueStore, "");
+  mType->decremenetReferenceCount(context, previousValue);
   mType->incremenetReferenceCount(context, newValue);
   IRWriter::newStoreInst(context, newValue, mValueStore);
 
