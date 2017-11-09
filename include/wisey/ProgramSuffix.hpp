@@ -28,7 +28,10 @@ private:
   
   void composeAddjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(IRGenerationContext&
                                                                            context) const;
-
+  
+  void composeAdjustReferenceCounterForInterfaceFunctionBody(IRGenerationContext&
+                                                                      context) const;
+  
   llvm::Value* generateMain(IRGenerationContext& context,
                             InterfaceTypeSpecifier* programInterfaceSpecifier) const;
 };

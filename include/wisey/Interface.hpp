@@ -119,6 +119,11 @@ public:
   static llvm::Value* getOriginalObjectVTable(IRGenerationContext& context, llvm::Value* value);
 
   /**
+   * Given a value of type interface get the pointer back to the original concrete object
+   */
+  static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
+
+  /**
    * Generate IR for constants defined in this interface
    */
   void generateConstantsIR(IRGenerationContext& context) const;
@@ -201,15 +206,17 @@ private:
   bool doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
                                           IMethodDescriptor* objectMethodDescriptor,
                                           std::string objectName) const;
-  
+
+  void adjustReferenceCounter(IRGenerationContext& context,
+                              llvm::Value* object,
+                              int adjustment) const;
+
   static std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>>
   createElements(IRGenerationContext& context,
                  std::vector<IObjectElementDeclaration*> elementDeclarations);
 
-  static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
-
   static llvm::Value* getUnthunkBy(IRGenerationContext& context, llvm::Value* valueLoaded);
-
+  
 };
   
 } /* namespace wisey */

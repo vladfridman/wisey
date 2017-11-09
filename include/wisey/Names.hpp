@@ -32,6 +32,11 @@ public:
   static std::string getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName();
   
   /**
+   * Returns function that addjust reference count of an interface
+   */
+  static std::string getAdjustReferenceCounterForInterfaceFunctionName();
+
+  /**
    * Returns name of the model representing the null pointer exception
    */
   static std::string getNPEModelName();

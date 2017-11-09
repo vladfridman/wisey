@@ -252,6 +252,25 @@ TEST_F(InterfaceTest, getOriginalObjectVTableTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
+TEST_F(InterfaceTest, getOriginalObjectTest) {
+  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  Interface::getOriginalObject(mContext, nullPointerValue);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast i8* null to i8***"
+  "\n  %vtable = load i8**, i8*** %0"
+  "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
+  "\n  %unthunkbypointer = load i8*, i8** %1"
+  "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
+  "\n  %2 = sub i64 %unthunkby, 8"
+  "\n  %3 = bitcast i8* null to i8*"
+  "\n  %4 = getelementptr i8, i8* %3, i64 %2\n";
+  
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
 TEST_F(InterfaceTest, getCastFunctionNameTest) {
   EXPECT_STREQ(mObjectInterface->getCastFunctionName(mShapeInterface).c_str(),
                "cast.systems.vos.wisey.compiler.tests.IObject."
@@ -365,16 +384,8 @@ TEST_F(InterfaceTest, incremenetReferenceCountTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8***"
-  "\n  %vtable = load i8**, i8*** %0"
-  "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
-  "\n  %unthunkbypointer = load i8*, i8** %1"
-  "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-  "\n  %2 = sub i64 %unthunkby, 8"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  %4 = getelementptr i8, i8* %3, i64 %2"
-  "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 1)\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
+  "\n  call void @__adjustReferenceCounterForInterface(i8* %0, i64 1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -388,16 +399,8 @@ TEST_F(InterfaceTest, decremenetReferenceCountTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8***"
-  "\n  %vtable = load i8**, i8*** %0"
-  "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
-  "\n  %unthunkbypointer = load i8*, i8** %1"
-  "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-  "\n  %2 = sub i64 %unthunkby, 8"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  %4 = getelementptr i8, i8* %3, i64 %2"
-  "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 -1)\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
+  "\n  call void @__adjustReferenceCounterForInterface(i8* %0, i64 -1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

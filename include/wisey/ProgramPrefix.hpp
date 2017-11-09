@@ -31,6 +31,8 @@ private:
   void defineAddjustReferenceCounterForConcreteObjectUnsafelyFunction(IRGenerationContext&
                                                                       context) const;
   
+  void defineAdjustReferenceCounterForInterfaceFunction(IRGenerationContext& context) const;
+  
   llvm::StructType* defineFileStruct(IRGenerationContext& context) const;
 
   void defineStderr(IRGenerationContext& context, llvm::StructType* fileStructType) const;

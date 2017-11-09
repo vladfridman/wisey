@@ -19,6 +19,10 @@ string Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName() {
   return "__adjustReferenceCounterForConcreteObjectUnsafely";
 }
 
+string Names::getAdjustReferenceCounterForInterfaceFunctionName() {
+  return "__adjustReferenceCounterForInterface";
+}
+
 string Names::getNPEModelName() {
   return "MNullPointerException";
 }

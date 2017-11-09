@@ -21,6 +21,7 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -654,16 +655,32 @@ Interface::createElements(IRGenerationContext& context,
 }
 
 void Interface::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* originalObject = getOriginalObject(context, object);
-  incrementReferenceCounterForObject(context, originalObject);
+  adjustReferenceCounter(context, object, 1);
 }
 
 void Interface::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* originalObject = getOriginalObject(context, object);
-  decrementReferenceCounterForObject(context, originalObject);
+  adjustReferenceCounter(context, object, -1);
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
   Value* originalObject = getOriginalObject(context, object);
   return getReferenceCountForObject(context, originalObject);
+}
+
+void Interface::adjustReferenceCounter(IRGenerationContext& context,
+                                       Value* object,
+                                       int adjustment) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Value* castObject = IRWriter::newBitCastInst(context, object, int8PointerType);
+  Function* function = context.getModule()->
+    getFunction(Names::getAdjustReferenceCounterForInterfaceFunctionName());
+  vector<Value*> arguments;
+  arguments.push_back(castObject);
+  llvm::Constant* adjustmentValue = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext),
+                                                           adjustment);
+  arguments.push_back(adjustmentValue);
+  
+  IRWriter::createCallInst(context, function, arguments, "");
 }
