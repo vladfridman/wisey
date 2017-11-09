@@ -14,7 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "MockVariable.hpp"
+#include "MockOwnerVariable.hpp"
 #include "wisey/Scope.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -33,8 +33,8 @@ struct ScopeTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Scope mScope;
-  NiceMock<MockVariable>* mFooVariable;
-  NiceMock<MockVariable>* mBarVariable;
+  NiceMock<MockOwnerVariable>* mFooVariable;
+  NiceMock<MockOwnerVariable>* mBarVariable;
   Model* mExceptionModel;
   Interface* mInterface;
 
@@ -42,8 +42,8 @@ public:
 
   ScopeTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mFooVariable(new NiceMock<MockVariable>()),
-  mBarVariable(new NiceMock<MockVariable>()) {
+  mFooVariable(new NiceMock<MockOwnerVariable>()),
+  mBarVariable(new NiceMock<MockOwnerVariable>()) {
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
@@ -54,8 +54,8 @@ public:
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");
     mExceptionModel = Model::newModel("MExceptionA", exceptionModelStructType);
     
-    ON_CALL(*mFooVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(*mBarVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mFooVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
+    ON_CALL(*mBarVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
   }
 };
 

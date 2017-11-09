@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/IOwnerVariable.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
@@ -130,8 +131,12 @@ void Scope::freeOwnedMemory(IRGenerationContext& context,
   for (map<string, IVariable*>::iterator iterator = mVariables.begin();
        iterator != mVariables.end();
        iterator++) {
-    if (!clearedVariables.count(iterator->first)) {
-      iterator->second->free(context);
+    if (clearedVariables.count(iterator->first)) {
+      continue;
+    }
+    IVariable* variable = iterator->second;
+    if (IType::isOwnerType(variable->getType())) {
+      ((IOwnerVariable*) variable)->free(context);
     }
   }
   

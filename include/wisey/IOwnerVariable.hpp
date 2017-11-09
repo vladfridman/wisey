@@ -24,6 +24,11 @@ public:
    * Sets variable to null
    */
   virtual void setToNull(IRGenerationContext& context) = 0;
+  
+  /**
+   * Free any allocated space associated with this variable
+   */
+  virtual void free(IRGenerationContext& context) const = 0;
 
 };
   

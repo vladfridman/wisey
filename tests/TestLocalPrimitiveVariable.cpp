@@ -129,14 +129,6 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LocalPrimitiveVariableTest, freeTest) {
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, NULL);
-
-  variable.free(mContext);
-  
-  ASSERT_EQ(mBlock->size(), 0u);
-}
-
 TEST_F(LocalPrimitiveVariableTest, existsInOuterScopeTest) {
   LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, NULL);
   

@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockStatement.hpp"
+#include "MockOwnerVariable.hpp"
 #include "MockType.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
@@ -132,7 +133,8 @@ TEST_F(ScopesTest, getScopeTest) {
 TEST_F(ScopesTest, clearVariableTest) {
   mScopes.pushScope();
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalPrimitiveVariable* fooVariable = new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
+  LocalPrimitiveVariable* fooVariable =
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   mScopes.setVariable(fooVariable);
   
   EXPECT_EQ(mScopes.getVariable("foo"), fooVariable);
@@ -146,8 +148,10 @@ TEST_F(ScopesTest, clearVariableTest) {
 TEST_F(ScopesTest, getClearedVariablesTest) {
   mScopes.pushScope();
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalPrimitiveVariable* fooVariable = new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
-  LocalPrimitiveVariable* barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* fooVariable =
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* barVariable =
+  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
   mScopes.setVariable(fooVariable);
   mScopes.setVariable(barVariable);
 
@@ -170,8 +174,10 @@ TEST_F(ScopesTest, getClearedVariablesTest) {
 TEST_F(ScopesTest, setClearedVariablesTest) {
   mScopes.pushScope();
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalPrimitiveVariable* fooVariable = new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
-  LocalPrimitiveVariable* barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* fooVariable =
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* barVariable =
+  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
   mScopes.setVariable(fooVariable);
   mScopes.setVariable(barVariable);
   
@@ -192,8 +198,10 @@ TEST_F(ScopesTest, setClearedVariablesTest) {
 TEST_F(ScopesTest, eraseFromClearedVariablesTest) {
   mScopes.pushScope();
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalPrimitiveVariable* fooVariable = new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
-  LocalPrimitiveVariable* barVariable = new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* fooVariable =
+  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
+  LocalPrimitiveVariable* barVariable =
+  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
   mScopes.setVariable(fooVariable);
   mScopes.setVariable(barVariable);
   
@@ -360,13 +368,13 @@ TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
 }
 
 TEST_F(ScopesTest, freeOwnedMemoryTest) {
-  NiceMock<MockVariable> foo;
-  NiceMock<MockVariable> bar;
+  NiceMock<MockOwnerVariable> foo;
+  NiceMock<MockOwnerVariable> bar;
 
   ON_CALL(foo, getName()).WillByDefault(Return("foo"));
-  ON_CALL(foo, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(foo, getType()).WillByDefault(Return(mInterface->getOwner()));
   ON_CALL(bar, getName()).WillByDefault(Return("bar"));
-  ON_CALL(bar, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(bar, getType()).WillByDefault(Return(mInterface->getOwner()));
   
   mScopes.pushScope();
   mScopes.setVariable(&foo);

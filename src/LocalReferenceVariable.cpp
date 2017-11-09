@@ -67,9 +67,6 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   return newValue;
 }
 
-void LocalReferenceVariable::free(IRGenerationContext& context) const {
-}
-
 bool LocalReferenceVariable::existsInOuterScope() const {
   return false;
 }

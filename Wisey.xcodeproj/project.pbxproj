@@ -1197,6 +1197,7 @@
 		F58748331F95143A0088F1E3 /* ThreadExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThreadExpression.cpp; path = src/ThreadExpression.cpp; sourceTree = "<group>"; };
 		F58748361F951E580088F1E3 /* TestThreadExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThreadExpression.cpp; path = tests/TestThreadExpression.cpp; sourceTree = "<group>"; };
 		F5885F621FB4DB4A00E69D17 /* IOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IOwnerVariable.hpp; path = include/wisey/IOwnerVariable.hpp; sourceTree = "<group>"; };
+		F5885F631FB4E4F400E69D17 /* MockOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockOwnerVariable.hpp; path = tests/include/MockOwnerVariable.hpp; sourceTree = "<group>"; };
 		F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalControllerDefinition.hpp; path = include/wisey/ExternalControllerDefinition.hpp; sourceTree = "<group>"; };
 		F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalControllerDefinition.cpp; path = src/ExternalControllerDefinition.cpp; sourceTree = "<group>"; };
 		F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalModelDefinition.hpp; path = include/wisey/ExternalModelDefinition.hpp; sourceTree = "<group>"; };
@@ -1911,6 +1912,7 @@
 				F53A2C101EEE9EFD00E76A9E /* MockObjectOwnerType.hpp */,
 				F51BA8FD1EA689440038C98B /* MockObjectType.hpp */,
 				F53A2C011EEC174800E76A9E /* MockObjectTypeSpecifier.hpp */,
+				F5885F631FB4E4F400E69D17 /* MockOwnerVariable.hpp */,
 				F5E48B901E87122E0087CC70 /* MockStatement.hpp */,
 				F5E48B921E8713F00087CC70 /* MockType.hpp */,
 				F5E48B911E8713630087CC70 /* MockTypeSpecifier.hpp */,

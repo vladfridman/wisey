@@ -59,10 +59,6 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
 
-void FieldReferenceVariable::free(IRGenerationContext& context) const {
-  /** Not implmeneted yet */
-}
-
 bool FieldReferenceVariable::existsInOuterScope() const {
   return true;
 }

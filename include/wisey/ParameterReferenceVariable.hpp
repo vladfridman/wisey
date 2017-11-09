@@ -41,8 +41,6 @@ public:
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                     IExpression* assignToExpression) override;
   
-  void free(IRGenerationContext& context) const override;
-  
   bool existsInOuterScope() const override;
   
 };
