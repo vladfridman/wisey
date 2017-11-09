@@ -19,6 +19,7 @@
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ProgramPrefix.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -43,6 +44,8 @@ public:
   mBlock(new Block()),
   mCompoundStatement(CompoundStatement(mBlock)) {
     TestPrefix::run(mContext);
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
@@ -146,6 +149,10 @@ TEST_F(MethodTest, generateIRTest) {
   "%systems.vos.wisey.compiler.tests.MObject* %this, %wisey.lang.CThread* %thread, "
   "i32 %intargument) {"
   "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MObject* %this to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 1)"
+  "\n  %1 = bitcast %wisey.lang.CThread* %thread to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %1, i64 1)"
   "\n  ret void"
   "\n}"
   "\n";

@@ -48,9 +48,9 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
     return;
   }
   
-  IVariable* variable = new ParameterReferenceVariable(variableName,
-                                                       (IObjectType*) variableType,
-                                                       variableValue);
+  IObjectType* referenceType = (IObjectType*) variableType;
+  IVariable* variable = new ParameterReferenceVariable(variableName, referenceType, variableValue);
+  referenceType->incremenetReferenceCount(context, variableValue);
   context.getScopes().setVariable(variable);
 }
 
