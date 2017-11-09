@@ -28,8 +28,8 @@ private:
   
   void defineNPEFunction(IRGenerationContext& context) const;
   
-  void defineAddjustReferenceCounterForConcreteObjectUnsafelyFunction(IRGenerationContext&
-                                                                      context) const;
+  void defineAdjustReferenceCounterForConcreteObjectUnsafelyFunction(IRGenerationContext&
+                                                                    context) const;
   
   void defineAdjustReferenceCounterForInterfaceFunction(IRGenerationContext& context) const;
   

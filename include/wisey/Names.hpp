@@ -27,12 +27,12 @@ public:
   static std::string getNPECheckFunctionName();
   
   /**
-   * Returns function that addjust reference count of a concrete object in thread unsafe fasion
+   * Returns function that adjust reference count of a concrete object in thread unsafe fasion
    */
   static std::string getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName();
   
   /**
-   * Returns function that addjust reference count of an interface
+   * Returns function that adjust reference count of an interface
    */
   static std::string getAdjustReferenceCounterForInterfaceFunctionName();
 

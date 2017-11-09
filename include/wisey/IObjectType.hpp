@@ -105,9 +105,9 @@ private:
   
   static llvm::Value* getReferenceCounterPointer(IRGenerationContext& context, llvm::Value* object);
 
-  static void addjustReferenceCounterForObject(IRGenerationContext& context,
-                                               llvm::Value* object,
-                                               int adjustment);
+  static void adjustReferenceCounterForObject(IRGenerationContext& context,
+                                              llvm::Value* object,
+                                              int adjustment);
 
 };
   

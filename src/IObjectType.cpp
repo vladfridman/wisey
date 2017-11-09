@@ -41,9 +41,9 @@ Value* IObjectType::getReferenceCounterPointer(IRGenerationContext& context, Val
   return IRWriter::newBitCastInst(context, object, type);
 }
 
-void IObjectType::addjustReferenceCounterForObject(IRGenerationContext& context,
-                                                   Value* object,
-                                                   int adjustment) {
+void IObjectType::adjustReferenceCounterForObject(IRGenerationContext& context,
+                                                  Value* object,
+                                                  int adjustment) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* counterPointer = getReferenceCounterPointer(context, object);
@@ -59,11 +59,11 @@ void IObjectType::addjustReferenceCounterForObject(IRGenerationContext& context,
 }
 
 void IObjectType::incrementReferenceCounterForObject(IRGenerationContext& context, Value* object) {
-  addjustReferenceCounterForObject(context, object, 1);
+  adjustReferenceCounterForObject(context, object, 1);
 }
 
 void IObjectType::decrementReferenceCounterForObject(IRGenerationContext& context, Value* object) {
-  addjustReferenceCounterForObject(context, object, -1);
+  adjustReferenceCounterForObject(context, object, -1);
 }
 
 Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Value* object) {

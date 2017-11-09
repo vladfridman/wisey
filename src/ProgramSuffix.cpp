@@ -40,7 +40,7 @@ using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   composeNPEFunctionBody(context);
-  composeAddjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(context);
+  composeAdjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(context);
   composeAdjustReferenceCounterForInterfaceFunctionBody(context);
 
   vector<string> package;
@@ -93,8 +93,8 @@ void ProgramSuffix::composeNPEFunctionBody(IRGenerationContext& context) const {
 }
 
 void ProgramSuffix::
-composeAddjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(IRGenerationContext&
-                                                                    context) const {
+composeAdjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(IRGenerationContext&
+                                                                  context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getModule()->
   getFunction(Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName());

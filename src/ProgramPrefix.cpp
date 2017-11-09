@@ -33,7 +33,7 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage(Names::getLangPackageName());
 
   defineNPEFunction(context);
-  defineAddjustReferenceCounterForConcreteObjectUnsafelyFunction(context);
+  defineAdjustReferenceCounterForConcreteObjectUnsafelyFunction(context);
   defineAdjustReferenceCounterForInterfaceFunction(context);
   StructType* fileStructType = defineFileStruct(context);
   defineStderr(context, fileStructType);
@@ -57,7 +57,7 @@ void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
 }
 
 void ProgramPrefix::
-defineAddjustReferenceCounterForConcreteObjectUnsafelyFunction(IRGenerationContext& context) const {
+defineAdjustReferenceCounterForConcreteObjectUnsafelyFunction(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt64Ty(llvmContext)->getPointerTo());
