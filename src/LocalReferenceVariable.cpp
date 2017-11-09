@@ -58,6 +58,7 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
   
   IRWriter::newStoreInst(context, newValue, mValueStore);
+  mType->incremenetReferenceCount(context, newValue);
 
   mIsInitialized = true;
   

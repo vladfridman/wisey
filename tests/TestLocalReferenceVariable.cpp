@@ -15,13 +15,18 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockVariable.hpp"
+#include "TestPrefix.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/FinallyBlock.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -38,12 +43,14 @@ struct LocalReferenceVariableTest : public Test {
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
   Model* mModel;
+  NiceMock<MockVariable>* mThreadVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
  
 public:
   
   LocalReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
@@ -71,7 +78,24 @@ public:
     mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields, 1u);
     
+    Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    mThreadVariable = new NiceMock<MockVariable>();
+    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
+    mContext.getScopes().setVariable(mThreadVariable);
+
+    vector<Catch*> catchList;
+    FinallyBlock* emptyBlock = new FinallyBlock();
+    TryCatchInfo* tryCatchInfo = new TryCatchInfo(mBlock, mBlock, emptyBlock, catchList);
+    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
+  }
+  
+  ~LocalReferenceVariableTest() {
+    delete mThreadVariable;
   }
 };
 
@@ -96,7 +120,10 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  %1 = alloca %systems.vos.wisey.compiler.tests.MShape*"
   "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0\n";
+  "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
+  "\n  invoke void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %2, i64 1)"
+  "\n          to label %invoke.continue unwind label %entry\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -120,6 +147,8 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
 }
 
 TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitializedDeathTest) {
+  Mock::AllowLeak(mThreadVariable);
+  
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
