@@ -41,7 +41,7 @@ IVariable* Scope::findVariable(string name) {
 void Scope::setVariable(string name, IVariable* variable) {
   mVariables[name] = variable;
   if (IType::isReferenceType(variable->getType())) {
-    mReferenceVariables.push_back(variable);
+    mReferenceVariables.push_back((IReferenceVariable*) variable);
   } else if (IType::isOwnerType(variable->getType())) {
     mOwnerVariables.push_back((IOwnerVariable*) variable);
   }
@@ -60,7 +60,7 @@ vector<string> Scope::getClearedVariables(map<string, IVariable *> allClearedVar
   return variables;
 }
 
-vector<IVariable*> Scope::getReferenceVariables() {
+vector<IReferenceVariable*> Scope::getReferenceVariables() {
   return mReferenceVariables;
 }
 

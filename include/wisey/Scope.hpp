@@ -12,6 +12,7 @@
 #include <map>
 
 #include "wisey/IOwnerVariable.hpp"
+#include "wisey/IReferenceVariable.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/IVariable.hpp"
 #include "wisey/TryCatchInfo.hpp"
@@ -27,7 +28,7 @@ class Model;
  */
 class Scope {
   std::map<std::string, IVariable*> mVariables;
-  std::vector<IVariable*> mReferenceVariables;
+  std::vector<IReferenceVariable*> mReferenceVariables;
   std::vector<IOwnerVariable*> mOwnerVariables;
   llvm::BasicBlock* mBreakToBlock;
   llvm::BasicBlock* mContinueToBlock;
@@ -68,7 +69,7 @@ public:
   /**
    * Returns a list of reference variables from this scope
    */
-  std::vector<IVariable*> getReferenceVariables();
+  std::vector<IReferenceVariable*> getReferenceVariables();
   
   /**
    * Returns a list of owner variables from this scope

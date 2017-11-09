@@ -67,3 +67,14 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
 bool FieldReferenceVariable::existsInOuterScope() const {
   return true;
 }
+
+void FieldReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
+  Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
+  assert(IType::isReferenceType(field->getType()));
+  const IObjectType* fieldType = (IObjectType*) field->getType();
+  
+  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
+  
+  Value* value = IRWriter::newLoadInst(context, fieldPointer, "");
+  fieldType->decremenetReferenceCount(context, value);
+}

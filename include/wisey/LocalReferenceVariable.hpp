@@ -11,14 +11,14 @@
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectType.hpp"
-#include "wisey/IVariable.hpp"
+#include "wisey/IReferenceVariable.hpp"
 
 namespace wisey {
 
 /**
  * Represents a variable that is a reference to an owner object
  */
-class LocalReferenceVariable : public IVariable {
+class LocalReferenceVariable : public IReferenceVariable {
   
   std::string mName;
   const IObjectType* mType;
@@ -41,6 +41,8 @@ public:
                                     IExpression* assignToExpression) override;
   
   bool existsInOuterScope() const override;
+  
+  void decrementReferenceCounter(IRGenerationContext& context) const override;
 
 };
 

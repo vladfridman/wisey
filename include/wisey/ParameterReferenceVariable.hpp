@@ -11,7 +11,7 @@
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectType.hpp"
-#include "wisey/IVariable.hpp"
+#include "wisey/IReferenceVariable.hpp"
 
 namespace wisey {
   
@@ -20,7 +20,7 @@ namespace wisey {
  *
  * This is the same as LocalReferenceVariable only returns true on existsInOuterScope()
  */
-class ParameterReferenceVariable : public IVariable {
+class ParameterReferenceVariable : public IReferenceVariable {
   
   std::string mName;
   const IObjectType* mType;
@@ -43,6 +43,8 @@ public:
   
   bool existsInOuterScope() const override;
   
+  void decrementReferenceCounter(IRGenerationContext& context) const override;
+
 };
   
 } /* namespace wisey */

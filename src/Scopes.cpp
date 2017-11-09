@@ -11,6 +11,7 @@
 #include "wisey/Catch.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IOwnerVariable.hpp"
+#include "wisey/IReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ModelOwner.hpp"
 #include "wisey/Scopes.hpp"
@@ -104,7 +105,7 @@ void Scopes::popScope(IRGenerationContext& context) {
   for (string variableName : top->getClearedVariables(mClearedVariables)) {
     mClearedVariables.erase(variableName);
   }
-  for (IVariable* owner : top->getOwnerVariables()) {
+  for (IOwnerVariable* owner : top->getOwnerVariables()) {
     map<string, IVariable*> references = mOwnerToReferencesMap[owner->getName()];
     for (map<string, IVariable*>::iterator iterator = references.begin();
          iterator != references.end();
@@ -114,7 +115,7 @@ void Scopes::popScope(IRGenerationContext& context) {
     }
     mOwnerToReferencesMap.erase(owner->getName());
   }
-  for (IVariable* variable : top->getReferenceVariables()) {
+  for (IReferenceVariable* variable : top->getReferenceVariables()) {
     if (!mRererenceToOwnersMap.count(variable->getName())) {
       continue;
     }

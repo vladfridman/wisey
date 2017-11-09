@@ -143,6 +143,25 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
+TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
+  Type* llvmType = mModel->getLLVMType(mLLVMContext);
+  
+  Value* referenceStore = IRWriter::newAllocaInst(mContext, llvmType, "");
+  LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore);
+  
+  localReferenceVariable.decrementReferenceCounter(mContext);
+  
+  *mStringStream << *mBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
+  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.MShape* %1 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %2, i64 -1)\n";
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
 TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitializedDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   

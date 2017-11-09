@@ -89,6 +89,20 @@ TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableIdentifierTest)
   EXPECT_EQ(parameterReferenceVariable.generateIdentifierIR(mContext), fooValue);
 }
 
+TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
+  
+  parameterReferenceVariable.decrementReferenceCounter(mContext);
+
+  *mStringStream << *mBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 -1)\n";
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
+}
+
 TEST_F(TestFileSampleRunner, assignParameterReferenceToLocalOwnerCompileTest) {
   compileFile("tests/samples/test_assign_parameter_reference_local_owner.yz");
 }

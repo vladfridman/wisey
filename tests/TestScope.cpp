@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "MockOwnerVariable.hpp"
+#include "MockReferenceVariable.hpp"
 #include "wisey/Scope.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -33,7 +34,7 @@ struct ScopeTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Scope mScope;
-  NiceMock<MockOwnerVariable>* mFooVariable;
+  NiceMock<MockReferenceVariable>* mFooVariable;
   NiceMock<MockOwnerVariable>* mBarVariable;
   Model* mExceptionModel;
   Interface* mInterface;
@@ -42,7 +43,7 @@ public:
 
   ScopeTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mFooVariable(new NiceMock<MockOwnerVariable>()),
+  mFooVariable(new NiceMock<MockReferenceVariable>()),
   mBarVariable(new NiceMock<MockOwnerVariable>()) {
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
@@ -54,7 +55,7 @@ public:
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");
     mExceptionModel = Model::newModel("MExceptionA", exceptionModelStructType);
     
-    ON_CALL(*mFooVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
+    ON_CALL(*mFooVariable, getType()).WillByDefault(Return(mInterface));
     ON_CALL(*mBarVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
   }
 };
@@ -72,14 +73,14 @@ TEST_F(ScopeTest, localsTest) {
 }
 
 TEST_F(ScopeTest, freeOwnedMemoryTest) {
-  mScope.setVariable("foo", mFooVariable);
+  mScope.setVariable("bar", mBarVariable);
   
-  EXPECT_CALL(*mFooVariable, free(_));
+  EXPECT_CALL(*mBarVariable, free(_));
   
   map<string, IVariable*> clearedVariables;
   mScope.freeOwnedMemory(mContext, clearedVariables);
 
-  delete mBarVariable;
+  delete mFooVariable;
 }
 
 TEST_F(ScopeTest, addExceptionTest) {
@@ -132,7 +133,6 @@ TEST_F(ScopeTest, getClearedVariablesTest) {
 }
 
 TEST_F(ScopeTest, getReferenceVariablesTest) {
-  ON_CALL(*mFooVariable, getType()).WillByDefault(Return(mInterface));
   mScope.setVariable("foo", mFooVariable);
   
   EXPECT_EQ(mScope.getReferenceVariables().size(), 1u);
@@ -143,12 +143,11 @@ TEST_F(ScopeTest, getReferenceVariablesTest) {
 }
 
 TEST_F(ScopeTest, getOwnerVariablesTest) {
-  ON_CALL(*mFooVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
-  mScope.setVariable("foo", mFooVariable);
+  mScope.setVariable("bar", mBarVariable);
   
   EXPECT_EQ(mScope.getReferenceVariables().size(), 0u);
   EXPECT_EQ(mScope.getOwnerVariables().size(), 1u);
-  EXPECT_EQ(mScope.getOwnerVariables().front(), mFooVariable);
+  EXPECT_EQ(mScope.getOwnerVariables().front(), mBarVariable);
   
-  delete mBarVariable;
+  delete mFooVariable;
 }
