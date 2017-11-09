@@ -55,6 +55,8 @@ struct ModelTest : public Test {
   Model* mModel;
   Model* mCircleModel;
   Model* mStarModel;
+  Model* mGalaxyModel;
+  Model* mBirthdateModel;
   Interface* mSubShapeInterface;
   Interface* mShapeInterface;
   Interface* mObjectInterface;
@@ -65,7 +67,6 @@ struct ModelTest : public Test {
   Field* mHeightField;
   NiceMock<MockExpression>* mField1Expression;
   NiceMock<MockExpression>* mField2Expression;
-  NiceMock<MockExpression>* mField3Expression;
   wisey::Constant* mConstant;
   BasicBlock *mBasicBlock;
   NiceMock<MockVariable>* mThreadVariable;
@@ -75,8 +76,7 @@ struct ModelTest : public Test {
   ModelTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mField1Expression(new NiceMock<MockExpression>()),
-  mField2Expression(new NiceMock<MockExpression>()),
-  mField3Expression(new NiceMock<MockExpression>()) {
+  mField2Expression(new NiceMock<MockExpression>()) {
     TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
@@ -218,35 +218,50 @@ struct ModelTest : public Test {
                        stringConstant,
                        cirlceFullName + ".name");
 
+    vector<Type*> galaxyTypes;
+    galaxyTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
+    StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
+    galaxyStructType->setBody(galaxyTypes);
+    mGalaxyModel = Model::newModel(galaxyFullName, galaxyStructType);
+    mContext.addModel(mGalaxyModel);
+
+    vector<Type*> birthdateTypes;
+    birthdateTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    string birthdateFullName = "systems.vos.wisey.compiler.tests.MBirthdate";
+    StructType* birthdateStructType = StructType::create(mLLVMContext, birthdateFullName);
+    birthdateStructType->setBody(birthdateTypes);
+    mBirthdateModel = Model::newModel(birthdateFullName, birthdateStructType);
+    mContext.addModel(mBirthdateModel);
+    
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    starTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    starTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    starTypes.push_back(mBirthdateModel->getLLVMType(mLLVMContext));
+    starTypes.push_back(mGalaxyModel->getLLVMType(mLLVMContext));
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
     vector<Field*> starFields;
     starFields.push_back(new Field(FIXED_FIELD,
-                                   PrimitiveTypes::INT_TYPE,
-                                   "mBrightness",
+                                   mBirthdateModel->getOwner(),
+                                   "mBirthdate",
                                    arguments));
-    starFields.push_back(new Field(FIXED_FIELD,
-                                   PrimitiveTypes::INT_TYPE,
-                                   "mWeight",
-                                   arguments));
+    starFields.push_back(new Field(FIXED_FIELD, mGalaxyModel, "mGalaxy", arguments));
     mStarModel = Model::newModel(starFullName, starStructType);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
-    Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+    Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
+                                                  ->getLLVMType(mLLVMContext));
     ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
-    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(mBirthdateModel->getOwner()));
+    Value* field2Value = ConstantPointerNull::get(mGalaxyModel->getLLVMType(mLLVMContext));
     ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
-    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    Value* field3Value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
-    ON_CALL(*mField3Expression, generateIR(_)).WillByDefault(Return(field3Value));
-    ON_CALL(*mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(mGalaxyModel));
     
+    IConcreteObjectType::generateNameGlobal(mContext, mBirthdateModel);
+    IConcreteObjectType::generateVTable(mContext, mBirthdateModel);
+    IConcreteObjectType::composeDestructorBody(mContext, mBirthdateModel);
+
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateVTable(mContext, mStarModel);
     IConcreteObjectType::composeDestructorBody(mContext, mStarModel);
@@ -282,7 +297,6 @@ struct ModelTest : public Test {
     delete mStringStream;
     delete mField1Expression;
     delete mField2Expression;
-    delete mField3Expression;
     delete mThreadVariable;
   }
 };
@@ -392,7 +406,6 @@ TEST_F(ModelTest, findConstantTest) {
 TEST_F(ModelTest, findConstantDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mField3Expression);
   Mock::AllowLeak(mThreadVariable);
 
   EXPECT_EXIT(mModel->findConstant("MYCONSTANT2"),
@@ -524,7 +537,6 @@ TEST_F(ModelTest, getRTTIVariableNameTest) {
 TEST_F(ModelTest, castToDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mField3Expression);
   Mock::AllowLeak(mThreadVariable);
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
@@ -551,20 +563,22 @@ TEST_F(ModelTest, doesImplmentInterfaceTest) {
 }
 
 TEST_F(ModelTest, buildTest) {
-  string argumentSpecifier1("withBrightness");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
-  string argumentSpecifier2("withWeight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2, mField2Expression);
+  string argumentSpecifier1("withBirthdate");
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
+  string argumentSpecifier2("withGalaxy");
+  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+                                                               mField2Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
+  
+  EXPECT_CALL(*mField1Expression, releaseOwnership(_)).Times(1);
   
   Value* result = mStarModel->build(mContext, argumentList);
   
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
-  
-  EXPECT_EQ(8ul, mBasicBlock->size());
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -579,10 +593,14 @@ TEST_F(ModelTest, buildTest) {
   "\n  store i64 0, i64* %0"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
     "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 1"
-  "\n  store i32 3, i32* %1"
+  "\n  store %systems.vos.wisey.compiler.tests.MBirthdate* null, "
+  "%systems.vos.wisey.compiler.tests.MBirthdate** %1"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.MStar, "
   "%systems.vos.wisey.compiler.tests.MStar* %buildervar, i32 0, i32 2"
-  "\n  store i32 5, i32* %2\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MGalaxy* null, "
+  "%systems.vos.wisey.compiler.tests.MGalaxy** %2"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* null to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %3, i64 1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -591,13 +609,14 @@ TEST_F(ModelTest, buildTest) {
 TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mField3Expression);
   Mock::AllowLeak(mThreadVariable);
 
   string argumentSpecifier1("width");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
-  string argumentSpecifier2("withWeight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2, mField2Expression);
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
+  string argumentSpecifier2("withGalaxy");
+  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+                                                               mField2Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
@@ -615,35 +634,36 @@ TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
 TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mField3Expression);
   Mock::AllowLeak(mThreadVariable);
 
-  string argumentSpecifier1("withBrightness");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
-  string argumentSpecifier2("withWeight");
-  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2, mField3Expression);
+  string argumentSpecifier1("withBirthdate");
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField2Expression);
+  string argumentSpecifier2("withGalaxy");
+  ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
+                                                               mField1Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
   EXPECT_EXIT(mStarModel->build(mContext, argumentList),
               ::testing::ExitedWithCode(1),
-              "Error: Model builder argument value for field mWeight does not match its type");
+              "Error: Model builder argument value for field mBirthdate does not match its type");
 }
 
 TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(mField1Expression);
   Mock::AllowLeak(mField2Expression);
-  Mock::AllowLeak(mField3Expression);
   Mock::AllowLeak(mThreadVariable);
 
-  string argumentSpecifier1("withBrightness");
-  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1, mField1Expression);
+  string argumentSpecifier1("withBirthdate");
+  ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
+                                                               mField1Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   
   const char *expected =
-  "Error: Field mWeight is not initialized"
+  "Error: Field mGalaxy is not initialized"
   "\nError: Some fields of the model systems.vos.wisey.compiler.tests.MStar are not initialized.";
   
   EXPECT_EXIT(mStarModel->build(mContext, argumentList),

@@ -53,6 +53,8 @@ struct NodeTest : public Test {
   Node* mComplicatedNode;
   Node* mSimpleNode;
   Node* mSimplerNode;
+  Node* mOwnerNode;
+  Model* mReferenceModel;
   Interface* mComplicatedElementInterface;
   Interface* mElementInterface;
   Interface* mObjectInterface;
@@ -185,23 +187,35 @@ struct NodeTest : public Test {
     mComplicatedNode->setInterfaces(interfaces);
     mComplicatedNode->setConstants(constants);
     
+    vector<Type*> ownerTypes;
+    ownerTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
+    StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
+    ownerStructType->setBody(ownerTypes);
+    mOwnerNode = Node::newNode(ownerFullName, ownerStructType);
+    mContext.addNode(mOwnerNode);
+    
+    vector<Type*> referenceTypes;
+    referenceTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    string referenceFullName = "systems.vos.wisey.compiler.tests.MReference";
+    StructType* referenceStructType = StructType::create(mLLVMContext, referenceFullName);
+    referenceStructType->setBody(referenceTypes);
+    mReferenceModel = Model::newModel(referenceFullName, referenceStructType);
+    mContext.addModel(mReferenceModel);
+    
     vector<Type*> simpleNodeTypes;
     simpleNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    simpleNodeTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    simpleNodeTypes.push_back(mOwnerNode->getLLVMType(mLLVMContext));
+    simpleNodeTypes.push_back(mReferenceModel->getLLVMType(mLLVMContext));
     string simpleNodeFullName = "systems.vos.wisey.compiler.tests.NSimpleNode";
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
     vector<Field*> simpleNodeFields;
     simpleNodeFields.push_back(new Field(FIXED_FIELD,
-                                         PrimitiveTypes::INT_TYPE,
-                                         "mLeft",
+                                         mOwnerNode->getOwner(),
+                                         "mOwner",
                                         arguments));
-    simpleNodeFields.push_back(new Field(FIXED_FIELD,
-                                         PrimitiveTypes::INT_TYPE,
-                                         "mRight",
-                                         arguments));
+    simpleNodeFields.push_back(new Field(FIXED_FIELD, mReferenceModel, "mReference", arguments));
     mSimpleNode = Node::newNode(simpleNodeFullName, simpleNodeStructType);
     mSimpleNode->setFields(simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
@@ -237,15 +251,19 @@ struct NodeTest : public Test {
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);
 
+    IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
+    IConcreteObjectType::generateVTable(mContext, mOwnerNode);
+
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateVTable(mContext, mSimpleNode);
     
-    Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+    Value* field1Value = ConstantPointerNull::get(mOwnerNode->getOwner()
+                                                  ->getLLVMType(mLLVMContext));
     ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
-    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
+    ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(mOwnerNode->getOwner()));
+    Value* field2Value = ConstantPointerNull::get(mReferenceModel->getLLVMType(mLLVMContext));
     ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
-    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+    ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(mReferenceModel));
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -476,16 +494,18 @@ TEST_F(NodeTest, getMissingFieldsTest) {
 }
 
 TEST_F(NodeTest, buildTest) {
-  string argumentSpecifier1("withLeft");
+  string argumentSpecifier1("withOwner");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
-  string argumentSpecifier2("withRight");
+  string argumentSpecifier2("withReference");
   ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
                                                                mField2Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
+  EXPECT_CALL(*mField1Expression, releaseOwnership(_)).Times(1);
+
   Value* result = mSimpleNode->build(mContext, argumentList);
   
   EXPECT_NE(result, nullptr);
@@ -504,10 +524,14 @@ TEST_F(NodeTest, buildTest) {
   "\n  store i64 0, i64* %0"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
   "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 1"
-  "\n  store i32 3, i32* %1"
+  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, "
+  "%systems.vos.wisey.compiler.tests.NOwner** %1"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.NSimpleNode, "
   "%systems.vos.wisey.compiler.tests.NSimpleNode* %buildervar, i32 0, i32 2"
-  "\n  store i32 5, i32* %2\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, "
+  "%systems.vos.wisey.compiler.tests.MReference** %2"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %3, i64 1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -518,10 +542,10 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mThreadVariable);
 
-  string argumentSpecifier1("left");
+  string argumentSpecifier1("owner");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
-  string argumentSpecifier2("withRight");
+  string argumentSpecifier2("withReference");
   ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
                                                                mField2Expression);
   ObjectBuilderArgumentList argumentList;
@@ -547,10 +571,10 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
   ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(fieldValue));
   ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
-  string argumentSpecifier1("withLeft");
+  string argumentSpecifier1("withOwner");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
-  string argumentSpecifier2("withRight");
+  string argumentSpecifier2("withReference");
   ObjectBuilderArgument *argument2 = new ObjectBuilderArgument(argumentSpecifier2,
                                                                mField2Expression);
   ObjectBuilderArgumentList argumentList;
@@ -559,7 +583,7 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
   
   EXPECT_EXIT(mSimpleNode->build(mContext, argumentList),
               ::testing::ExitedWithCode(1),
-              "Error: Node builder argument value for field mRight does not match its type");
+              "Error: Node builder argument value for field mReference does not match its type");
 }
 
 TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
@@ -567,14 +591,14 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   Mock::AllowLeak(mField2Expression);
   Mock::AllowLeak(mThreadVariable);
 
-  string argumentSpecifier1("withRight");
+  string argumentSpecifier1("withReference");
   ObjectBuilderArgument *argument1 = new ObjectBuilderArgument(argumentSpecifier1,
                                                                mField1Expression);
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   
   const char *expected =
-  "Error: Field mLeft of the node systems.vos.wisey.compiler.tests.NSimpleNode is not initialized."
+  "Error: Field mOwner of the node systems.vos.wisey.compiler.tests.NSimpleNode is not initialized."
   "\nError: Some fields of the node systems.vos.wisey.compiler.tests.NSimpleNode "
   "are not initialized.";
   

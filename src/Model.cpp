@@ -335,8 +335,11 @@ void Model::initializeFields(IRGenerationContext& context,
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, field->getType());
     IRWriter::newStoreInst(context, castValue, fieldPointer);
-    if (IType::isOwnerType(field->getType())) {
+    const IType* fieldType = field->getType();
+    if (IType::isOwnerType(fieldType)) {
       argument->releaseOwnership(context);
+    } else if (IType::isReferenceType(fieldType)) {
+      ((IObjectType*) fieldType)->incremenetReferenceCount(context, castValue);
     }
   }
 }
