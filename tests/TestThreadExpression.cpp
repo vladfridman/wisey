@@ -23,6 +23,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -47,6 +48,8 @@ struct ThreadExpressionTest : public Test {
 
   ThreadExpressionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::run(mContext);
+    ProgramPrefix programPrefix;
+    programPrefix.generateIR(mContext);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -58,12 +61,15 @@ struct ThreadExpressionTest : public Test {
     mContext.getScopes().pushScope();
 
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
-    Type* controllerType = mThreadController->getLLVMType(mLLVMContext);
+    PointerType* controllerType = mThreadController->getLLVMType(mLLVMContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, controllerType, "threadStore");
+    llvm::Constant* null = ConstantPointerNull::get(controllerType);
+    IRWriter::newStoreInst(mContext, null, threadStore);
     mThreadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
                                                 mThreadController,
                                                 threadStore);
-    mThreadVariable->setToNull(mContext);
+    FakeExpression* fakeExpression = new FakeExpression(null, mThreadController);
+    mThreadVariable->generateAssignmentIR(mContext, fakeExpression);
     
     mContext.getScopes().setVariable(mThreadVariable);
 
@@ -85,7 +91,7 @@ TEST_F(ThreadExpressionTest, generateIRTest) {
   Value* instruction = mThreadExpression.generateIR(mContext);
 
   *mStringStream << *instruction;
-  string expected = "  %0 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore";
+  string expected = "  %3 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

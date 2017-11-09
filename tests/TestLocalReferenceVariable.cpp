@@ -18,6 +18,7 @@
 #include "MockVariable.hpp"
 #include "TestPrefix.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FinallyBlock.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -126,21 +127,19 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
 }
 
 TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
-  Type* llvmType = mModel->getLLVMType(mContext.getLLVMContext());
+  PointerType* llvmType = mModel->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
+  llvm::Constant* null = ConstantPointerNull::get(llvmType);
+  FakeExpression* fakeExpression = new FakeExpression(null, mModel);
+  localReferenceVariable.generateAssignmentIR(mContext, fakeExpression);
 
-  localReferenceVariable.setToNull(mContext);
-  localReferenceVariable.generateIdentifierIR(mContext);
+  Value* instruction = localReferenceVariable.generateIdentifierIR(mContext);
 
-  *mStringStream << *mBlock;
+  *mStringStream << *instruction;
   string expected =
-  "\nentry:"
-  "\n  %0 = alloca %systems.vos.wisey.compiler.tests.MShape*"
-  "\n  store %systems.vos.wisey.compiler.tests.MShape* null, "
-  "%systems.vos.wisey.compiler.tests.MShape** %0"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.MShape*, "
-    "%systems.vos.wisey.compiler.tests.MShape** %0\n";
+  "  %4 = load %systems.vos.wisey.compiler.tests.MShape*, "
+  "%systems.vos.wisey.compiler.tests.MShape** %0";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

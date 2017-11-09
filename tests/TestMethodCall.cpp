@@ -20,6 +20,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/EmptyStatement.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FinallyBlock.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/Interface.hpp"
@@ -134,13 +135,15 @@ public:
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadStore = IRWriter::newAllocaInst(mContext,
-                                                 mThreadController->getLLVMType(mLLVMContext),
-                                                 "threadStore");
+    PointerType* llvmType = mThreadController->getLLVMType(mLLVMContext);
+    Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
+    llvm::Constant* null = ConstantPointerNull::get(llvmType);
+    IRWriter::newStoreInst(mContext, null, threadStore);
     IVariable* threadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
                                                            mThreadController,
                                                            threadStore);
-    threadVariable->setToNull(mContext);
+    FakeExpression* fakeExpression = new FakeExpression(null, mThreadController);
+    threadVariable->generateAssignmentIR(mContext, fakeExpression);
     mContext.getScopes().setVariable(threadVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();
@@ -237,9 +240,9 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   Value* irValue = methodCall.generateIR(mContext);
 
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %4 = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
+  EXPECT_STREQ("  %7 = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
                "%systems.vos.wisey.compiler.tests.MSquare* %0, "
-               "%wisey.lang.CThread* %3, "
+               "%wisey.lang.CThread* %6, "
                "float 0x4014CCCCC0000000)",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
@@ -278,9 +281,9 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   Value* irValue = methodCall.generateIR(mContext);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %4 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
+  EXPECT_STREQ("  %7 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
                "%systems.vos.wisey.compiler.tests.MSquare* %0, "
-               "%wisey.lang.CThread* %3, "
+               "%wisey.lang.CThread* %6, "
                "float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());
