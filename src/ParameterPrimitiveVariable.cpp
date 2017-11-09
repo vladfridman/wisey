@@ -42,10 +42,6 @@ Value* ParameterPrimitiveVariable::generateAssignmentIR(IRGenerationContext& con
   exit(1);
 }
 
-void ParameterPrimitiveVariable::setToNull(IRGenerationContext& context) {
-  return;
-}
-
 void ParameterPrimitiveVariable::free(IRGenerationContext& context) const {
   return;
 }

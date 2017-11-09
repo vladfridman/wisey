@@ -18,7 +18,7 @@ namespace wisey {
 /**
  * Represents an object field that is of reference type
  */
-class FieldReferenceVariable : public IFieldVariable {
+class FieldReferenceVariable : public IFieldVariable, public IVariable {
   
   std::string mName;
   const IConcreteObjectType* mObject;
@@ -41,8 +41,6 @@ public:
   void free(IRGenerationContext& context) const override;
   
   bool existsInOuterScope() const override;
-  
-  void setToNull(IRGenerationContext& context) override;
   
 };
 

@@ -10,6 +10,7 @@
 
 #include "wisey/Catch.hpp"
 #include "wisey/EmptyStatement.hpp"
+#include "wisey/IOwnerVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ModelOwner.hpp"
 #include "wisey/Scopes.hpp"
@@ -55,7 +56,7 @@ void Scopes::clearVariable(IRGenerationContext& context, string name) {
     }
     if (IType::isOwnerType(variable->getType())) {
       clearReferencesToOwnerTypeVariable(variable);
-      variable->setToNull(context);
+      ((IOwnerVariable*) variable)->setToNull(context);
     }
     mClearedVariables[name] = variable;
     return;

@@ -12,13 +12,14 @@
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IFieldVariable.hpp"
 #include "wisey/IObjectOwnerType.hpp"
+#include "wisey/IOwnerVariable.hpp"
 
 namespace wisey {
   
 /**
  * Represents an object field that is of owner type
  */
-class FieldOwnerVariable : public IFieldVariable {
+class FieldOwnerVariable : public IFieldVariable, public IOwnerVariable {
     
   std::string mName;
   const IConcreteObjectType* mObject;

@@ -76,11 +76,6 @@ public:
    * Tells whether this variable exists in the scope outside the method where this variable is used
    */
   virtual bool existsInOuterScope() const = 0;
-  
-  /**
-   * Sets variable to null if it is an owner type variable
-   */
-  virtual void setToNull(IRGenerationContext& context) = 0;
 
   /**
    * Creates a name for naming temporary heap variables in the scope

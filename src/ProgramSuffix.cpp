@@ -183,9 +183,9 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   ExpressionList injectionArguments;
   Value* injectedThread = threadController->inject(context, injectionArguments);
   Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
-  IVariable* threadVariable = new LocalOwnerVariable(ThreadExpression::THREAD,
-                                                    threadController->getOwner(),
-                                                    threadStore);
+  IOwnerVariable* threadVariable = new LocalOwnerVariable(ThreadExpression::THREAD,
+                                                          threadController->getOwner(),
+                                                          threadStore);
   context.getScopes().setVariable(threadVariable);
   threadVariable->setToNull(context);
   FakeExpression* threadExpression = new FakeExpression(injectedThread,

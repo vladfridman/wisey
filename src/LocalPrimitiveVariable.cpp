@@ -48,11 +48,6 @@ Value* LocalPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context
   return castAssignToValue;
 }
 
-void LocalPrimitiveVariable::setToNull(IRGenerationContext& context) {
-  Log::e("Stack Variables should not be set to null");
-  exit(1);
-}
-
 void LocalPrimitiveVariable::free(IRGenerationContext& context) const {
 }
 

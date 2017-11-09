@@ -11,14 +11,14 @@
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectOwnerType.hpp"
-#include "wisey/IVariable.hpp"
+#include "wisey/IOwnerVariable.hpp"
 
 namespace wisey {
   
 /**
  * Represents a variable that is an object owner
  */
-class LocalOwnerVariable : public IVariable {
+class LocalOwnerVariable : public IOwnerVariable {
     
   std::string mName;
   const IObjectOwnerType* mType;

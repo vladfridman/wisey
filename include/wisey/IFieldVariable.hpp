@@ -11,14 +11,13 @@
 
 #include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectType.hpp"
-#include "wisey/IVariable.hpp"
 
 namespace wisey {
   
 /**
- * Represents an object field variable
+ * Contains helper methods for dealing with field variables
  */
-class IFieldVariable : public IVariable {
+class IFieldVariable {
   
 public:
   

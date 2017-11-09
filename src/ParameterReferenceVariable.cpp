@@ -45,12 +45,7 @@ Value* ParameterReferenceVariable::generateAssignmentIR(IRGenerationContext& con
   exit(1);
 }
 
-void ParameterReferenceVariable::setToNull(IRGenerationContext& context) {
-  return;
-}
-
 void ParameterReferenceVariable::free(IRGenerationContext& context) const {
-  return;
 }
 
 bool ParameterReferenceVariable::existsInOuterScope() const {

@@ -67,13 +67,6 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   return newValue;
 }
 
-void LocalReferenceVariable::setToNull(IRGenerationContext& context) {
-  PointerType* llvmType = mType->getLLVMType(context.getLLVMContext());
-  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), mValueStore);
-
-  mIsInitialized = true;
-}
-
 void LocalReferenceVariable::free(IRGenerationContext& context) const {
 }
 

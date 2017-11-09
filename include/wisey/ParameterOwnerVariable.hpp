@@ -10,7 +10,7 @@
 #define ParameterOwnerVariable_h
 
 #include "wisey/IObjectOwnerType.hpp"
-#include "wisey/IVariable.hpp"
+#include "wisey/IOwnerVariable.hpp"
 
 namespace wisey {
   
@@ -19,7 +19,7 @@ namespace wisey {
  *
  * This is the same as LocalOwnerVariable only returns true on existsInOuterScope()
  */
-class ParameterOwnerVariable : public IVariable {
+class ParameterOwnerVariable : public IOwnerVariable {
     
   std::string mName;
   const IObjectOwnerType* mType;

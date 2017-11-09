@@ -281,7 +281,7 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
                                                 const IConcreteObjectType* object) {
   for (Field* field : object->getFields()) {
     const IType* type = field->getType();
-    IFieldVariable* fieldVariable = NULL;
+    IVariable* fieldVariable = NULL;
     if (IType::isOwnerType(type)) {
       fieldVariable = new FieldOwnerVariable(field->getName(), object);
     } else if (IType::isReferenceType(type)) {

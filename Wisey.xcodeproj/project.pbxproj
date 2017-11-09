@@ -1196,6 +1196,7 @@
 		F58748321F9513B00088F1E3 /* ThreadExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThreadExpression.hpp; path = include/wisey/ThreadExpression.hpp; sourceTree = "<group>"; };
 		F58748331F95143A0088F1E3 /* ThreadExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThreadExpression.cpp; path = src/ThreadExpression.cpp; sourceTree = "<group>"; };
 		F58748361F951E580088F1E3 /* TestThreadExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThreadExpression.cpp; path = tests/TestThreadExpression.cpp; sourceTree = "<group>"; };
+		F5885F621FB4DB4A00E69D17 /* IOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IOwnerVariable.hpp; path = include/wisey/IOwnerVariable.hpp; sourceTree = "<group>"; };
 		F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalControllerDefinition.hpp; path = include/wisey/ExternalControllerDefinition.hpp; sourceTree = "<group>"; };
 		F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalControllerDefinition.cpp; path = src/ExternalControllerDefinition.cpp; sourceTree = "<group>"; };
 		F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ExternalModelDefinition.hpp; path = include/wisey/ExternalModelDefinition.hpp; sourceTree = "<group>"; };
@@ -2093,6 +2094,7 @@
 				F53A2C0E1EED4CFE00E76A9E /* IObjectOwnerType.hpp */,
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F53A2C0F1EED58BD00E76A9E /* IObjectTypeSpecifier.hpp */,
+				F5885F621FB4DB4A00E69D17 /* IOwnerVariable.hpp */,
 				F587255B1F6FEF6D00FA25E6 /* IPrimitiveType.hpp */,
 				F55DB05D1F7911320009942C /* IPrintable.hpp */,
 				F58725601F70131D00FA25E6 /* IPrintStatement.hpp */,

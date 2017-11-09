@@ -143,14 +143,6 @@ TEST_F(LocalPrimitiveVariableTest, existsInOuterScopeTest) {
   EXPECT_FALSE(variable.existsInOuterScope());
 }
 
-TEST_F(LocalPrimitiveVariableTest, setToNullDeathTest) {
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, NULL);
-  
-  EXPECT_EXIT(variable.setToNull(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Stack Variables should not be set to null");
-}
-
 TEST_F(TestFileSampleRunner, assignmentWithAutocastRunTest) {
   runFile("tests/samples/test_assignment_with_autocast.yz", "1");
 }

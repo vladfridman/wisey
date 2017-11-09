@@ -17,7 +17,7 @@ namespace wisey {
 /**
  * Represents an object field that is of primitive type
  */
-class FieldPrimitiveVariable : public IFieldVariable {
+class FieldPrimitiveVariable : public IFieldVariable, public IVariable {
     
   std::string mName;
   const IConcreteObjectType* mObject;
@@ -40,8 +40,6 @@ public:
   void free(IRGenerationContext& context) const override;
   
   bool existsInOuterScope() const override;
-  
-  void setToNull(IRGenerationContext& context) override;
   
 };
   
