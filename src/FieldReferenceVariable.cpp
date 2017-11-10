@@ -69,13 +69,5 @@ bool FieldReferenceVariable::existsInOuterScope() const {
 }
 
 void FieldReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
-  Field* field = mObject->findField(mName);
-  assert(field != NULL);
-  assert(IType::isReferenceType(field->getType()));
-  const IObjectType* fieldType = (IObjectType*) field->getType();
-  
-  GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
-  
-  Value* value = IRWriter::newLoadInst(context, fieldPointer, "");
-  fieldType->decremenetReferenceCount(context, value);
+  /** Decremented using object destructor */
 }

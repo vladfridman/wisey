@@ -188,17 +188,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithC
 TEST_F(FieldReferenceVariableTest, decrementReferenceCounterTest) {
   mFieldReferenceVariable->decrementReferenceCounter(mContext);
   
-  *mStringStream << *mBasicBlock;
-  string expected = string() +
-  "\nentry:" +
-  "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.NObject, "
-  "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
-  "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, "
-  "%systems.vos.wisey.compiler.tests.NNode** %0"
-  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %2, i64 -1)\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  EXPECT_EQ(mBasicBlock->getInstList().size(), 0u);
 }
 
 TEST_F(FieldReferenceVariableTest, existsInOuterScopeTest) {
