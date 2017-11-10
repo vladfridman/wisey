@@ -332,10 +332,9 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
 
   for (Field* field : object->getFields()) {
     const IType* fieldType = field->getType();
-    if (!IType::isOwnerType(fieldType)) {
+    if (fieldType->getTypeKind() == PRIMITIVE_TYPE) {
       continue;
     }
-    const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) fieldType;
     
     Value* index[2];
     index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
@@ -343,7 +342,14 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     
     Value* fieldPointer = IRWriter::createGetElementPtrInst(context, thisArgument, index);
     Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
-    objectOwnerType->free(context, fieldPointerLoaded);
+
+    if (IType::isOwnerType(fieldType)) {
+      const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) fieldType;
+      objectOwnerType->free(context, fieldPointerLoaded);
+    } else {
+      const IObjectType* objectType = (const IObjectType*) fieldType;
+      objectType->decremenetReferenceCount(context, fieldPointerLoaded);
+    }
   }
   
   IRWriter::createFree(context, thisArgument);

@@ -40,6 +40,7 @@ struct IConcreteObjectTypeTest : public Test {
   Interface* mCanNavigate;
   Model* mStarModel;
   Model* mGalaxyModel;
+  Model* mConstellationModel;
   Model* mCarModel;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
@@ -101,7 +102,7 @@ struct IConcreteObjectTypeTest : public Test {
     
     vector<Type*> galaxyTypes;
     galaxyTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    galaxyTypes.push_back(mStarModel->getLLVMType(mLLVMContext));
+    galaxyTypes.push_back(mStarModel->getOwner()->getLLVMType(mLLVMContext));
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
@@ -114,6 +115,17 @@ struct IConcreteObjectTypeTest : public Test {
     mGalaxyModel->setFields(galaxyFields, 1u);
     mContext.addModel(mGalaxyModel);
 
+    vector<Type*> constellationTypes;
+    constellationTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    constellationTypes.push_back(mStarModel->getLLVMType(mLLVMContext));
+    string constellationFullName = "systems.vos.wisey.compiler.tests.MConstellation";
+    StructType* constellationStructType = StructType::create(mLLVMContext, constellationFullName);
+    constellationStructType->setBody(constellationTypes);
+    vector<Field*> constellationFields;
+    constellationFields.push_back(new Field(FIXED_FIELD, mStarModel, "mStar", fieldArguments));
+    mConstellationModel = Model::newModel(constellationFullName, constellationStructType);
+    mConstellationModel->setFields(constellationFields, 1u);
+    mContext.addModel(mConstellationModel);
     
     vector<Type*> canNavigateTypes;
     canNavigateTypes.push_back(Type::getInt32Ty(mLLVMContext)->getPointerTo()->getPointerTo());
@@ -195,7 +207,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldsTest) {
+TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
   IConcreteObjectType::generateVTable(mContext, mStarModel);
   
@@ -231,6 +243,42 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldsT
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
+
+TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFieldTest) {
+  IConcreteObjectType::generateNameGlobal(mContext, mConstellationModel);
+  IConcreteObjectType::generateVTable(mContext, mConstellationModel);
+  IConcreteObjectType::composeDestructorBody(mContext, mConstellationModel);
+  
+  Function* function = mContext.getModule()->getFunction("destructor." +
+                                                         mConstellationModel->getName());
+  
+  *mStringStream << *function;
+  string expected =
+  "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MConstellation("
+  "%systems.vos.wisey.compiler.tests.MConstellation* %this) {"
+  "\nentry:"
+  "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MConstellation* %this, null"
+  "\n  br i1 %0, label %if.this.null, label %if.this.notnull"
+  "\n"
+  "\nif.this.null:                                     ; preds = %entry"
+  "\n  ret void"
+  "\n"
+  "\nif.this.notnull:                                  ; preds = %entry"
+  "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.MConstellation, "
+  "%systems.vos.wisey.compiler.tests.MConstellation* %this, i32 0, i32 1"
+  "\n  %2 = load %systems.vos.wisey.compiler.tests.MStar*, "
+  "%systems.vos.wisey.compiler.tests.MStar** %1"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MStar* %2 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %3, i64 -1)"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MConstellation* %this to i8*"
+  "\n  tail call void @free(i8* %4)"
+  "\n  ret void"
+  "\n}\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
+}
+
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFieldsTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mCarModel);
