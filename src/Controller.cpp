@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/ControllerOwner.hpp"
@@ -249,22 +250,25 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   unsigned int fieldIndex = 0;
   for (IExpression* argument : controllerInjectorArguments) {
-    Value* fieldValue = argument->generateIR(context);
-    const IType* fieldType = argument->getType(context);
+    Value* argumentValue = argument->generateIR(context);
+    const IType* argumentType = argument->getType(context);
     Field* field = mReceivedFields[fieldIndex];
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    if (field->getType() != fieldType) {
+    const IType* fieldType = field->getType();
+    if (!argumentType->canAutoCastTo(fieldType)) {
       Log::e("Controller injector argumet value for field '" + field->getName() +
              "' does not match its type");
       exit(1);
     }
-    if (fieldType->getTypeKind() == PRIMITIVE_TYPE) {
-      IRWriter::newStoreInst(context, fieldValue, fieldPointer);
-    } else {
-      Value* fieldValueLoaded = IRWriter::newLoadInst(context, fieldValue, "");
-      IRWriter::newStoreInst(context, fieldValueLoaded, fieldPointer);
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType);
+    IRWriter::newStoreInst(context, castValue, fieldPointer);
+    if (IType::isOwnerType(fieldType)) {
+      argument->releaseOwnership(context);
+    } else if (IType::isReferenceType(fieldType)) {
+      ((IObjectType*) fieldType)->incremenetReferenceCount(context, castValue);
     }
+
     fieldIndex++;
   }
 }

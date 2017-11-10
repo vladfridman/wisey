@@ -44,7 +44,6 @@ void ProgramFile::prototypeMethods(IRGenerationContext& context) const {
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {
   context.setPackage(mPackage);
   
-  
   for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->generateIR(context);
   }

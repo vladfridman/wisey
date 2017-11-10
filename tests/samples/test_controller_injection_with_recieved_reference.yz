@@ -1,0 +1,30 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MIntNumber {
+  int mNumber;
+
+  public int getNumber() {
+    return mNumber;
+  }
+}
+
+controller CService {
+
+  receive MIntNumber mIntNumber;
+
+  public MIntNumber getIntNumber() {
+    return mIntNumber;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService(builder(systems.vos.wisey.compiler.tests.MIntNumber).withNumber(7).build());
+
+  public int run() {
+    return mService.getIntNumber().getNumber();
+  }
+}
+
+bind(CProgram).to(IProgram);

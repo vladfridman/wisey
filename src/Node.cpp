@@ -291,14 +291,14 @@ void Node::initializePresetFields(IRGenerationContext& context,
     Field* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    if (!argumentType->canAutoCastTo(field->getType())) {
+    const IType* fieldType = field->getType();
+    if (!argumentType->canAutoCastTo(fieldType)) {
       Log::e("Node builder argument value for field " + argumentName +
              " does not match its type");
       exit(1);
     }
-    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, field->getType());
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
-    const IType* fieldType = field->getType();
     if (IType::isOwnerType(fieldType)) {
       argument->releaseOwnership(context);
     } else if (IType::isReferenceType(fieldType)) {

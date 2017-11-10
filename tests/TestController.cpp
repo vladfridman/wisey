@@ -54,6 +54,8 @@ struct ControllerTest : public Test {
   Interface* mScienceCalculatorInterface;
   Interface* mObjectInterface;
   Interface* mVehicleInterface;
+  Node* mOwnerNode;
+  Model* mReferenceModel;
   IMethod* mMethod;
   StructType* mStructType;
   Field* mLeftField;
@@ -185,21 +187,37 @@ struct ControllerTest : public Test {
     mMultiplierController->setInterfaces(interfaces);
     mMultiplierController->setConstants(constants);
     
+    vector<Type*> ownerTypes;
+    ownerTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
+    StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
+    ownerStructType->setBody(ownerTypes);
+    mOwnerNode = Node::newNode(ownerFullName, ownerStructType);
+    mContext.addNode(mOwnerNode);
+    
+    vector<Type*> referenceTypes;
+    referenceTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    string referenceFullName = "systems.vos.wisey.compiler.tests.MReference";
+    StructType* referenceStructType = StructType::create(mLLVMContext, referenceFullName);
+    referenceStructType->setBody(referenceTypes);
+    mReferenceModel = Model::newModel(referenceFullName, referenceStructType);
+    mContext.addModel(mReferenceModel);
+    
     vector<Type*> additorTypes;
     additorTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
-    additorTypes.push_back(Type::getInt32Ty(mLLVMContext));
+    additorTypes.push_back(mOwnerNode->getOwner()->getLLVMType(mLLVMContext));
+    additorTypes.push_back(mReferenceModel->getLLVMType(mLLVMContext));
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
-    StructType *additorStructType = StructType::create(mLLVMContext, additorFullName);
+    StructType* additorStructType = StructType::create(mLLVMContext, additorFullName);
     additorStructType->setBody(additorTypes);
     vector<Field*> additorFields;
     additorFields.push_back(new Field(RECEIVED_FIELD,
-                                      PrimitiveTypes::INT_TYPE,
-                                      "left",
+                                      mOwnerNode->getOwner(),
+                                      "mOwner",
                                       fieldArguments));
     additorFields.push_back(new Field(RECEIVED_FIELD,
-                                      PrimitiveTypes::INT_TYPE,
-                                      "right",
+                                      mReferenceModel,
+                                      "mReference",
                                       fieldArguments));
     mAdditorController = Controller::newController(additorFullName, additorStructType);
     mAdditorController->setFields(additorFields, 1u);
@@ -232,9 +250,11 @@ struct ControllerTest : public Test {
     mContext.addInterface(mVehicleInterface);
     mVehicleInterface->buildMethods(mContext);
 
+    IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
+    IConcreteObjectType::generateVTable(mContext, mOwnerNode);
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateVTable(mContext, mAdditorController);
-    
+
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,
                                  GlobalValue::InternalLinkage,
@@ -452,24 +472,26 @@ TEST_F(ControllerTest, getFlattenedInterfaceHierarchyTest) {
 
 TEST_F(ControllerTest, injectTest) {
   ExpressionList injectionArguments;
-  NiceMock<MockExpression> injectArgument1;
-  NiceMock<MockExpression> injectArgument2;
-  Value* field1Value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-  ON_CALL(injectArgument1, generateIR(_)).WillByDefault(Return(field1Value));
-  ON_CALL(injectArgument1, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  Value* field2Value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
-  ON_CALL(injectArgument2, generateIR(_)).WillByDefault(Return(field2Value));
-  ON_CALL(injectArgument2, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  injectionArguments.push_back(&injectArgument1);
-  injectionArguments.push_back(&injectArgument2);
+
+  NiceMock<MockExpression> ownerExpression;
+  Value* ownerValue = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mLLVMContext));
+  ON_CALL(ownerExpression, generateIR(_)).WillByDefault(Return(ownerValue));
+  ON_CALL(ownerExpression, getType(_)).WillByDefault(Return(mOwnerNode->getOwner()));
+  NiceMock<MockExpression> referenceExpression;
+  Value* referenceValue = ConstantPointerNull::get(mReferenceModel->getLLVMType(mLLVMContext));
+  ON_CALL(referenceExpression, generateIR(_)).WillByDefault(Return(referenceValue));
+  ON_CALL(referenceExpression, getType(_)).WillByDefault(Return(mReferenceModel));
+
+  injectionArguments.push_back(&ownerExpression);
+  injectionArguments.push_back(&referenceExpression);
+  
+  EXPECT_CALL(ownerExpression, releaseOwnership(_)).Times(1);
 
   Value* result = mAdditorController->inject(mContext, injectionArguments);
   
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
-  
-  EXPECT_EQ(8ul, mBasicBlock->size());
-  
+
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
@@ -482,10 +504,14 @@ TEST_F(ControllerTest, injectTest) {
   "\n  store i64 0, i64* %0"
   "\n  %1 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, "
   "%systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 1"
-  "\n  store i32 3, i32* %1"
+  "\n  store %systems.vos.wisey.compiler.tests.NOwner* null, "
+  "%systems.vos.wisey.compiler.tests.NOwner** %1"
   "\n  %2 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, "
   "%systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 2"
-  "\n  store i32 5, i32* %2\n";
+  "\n  store %systems.vos.wisey.compiler.tests.MReference* null, "
+  "%systems.vos.wisey.compiler.tests.MReference** %2"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %3, i64 1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -509,7 +535,8 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
 
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
               ::testing::ExitedWithCode(1),
-              "Error: Controller injector argumet value for field 'right' does not match its type");
+              "Error: Controller injector argumet value for field 'mOwner' "
+              "does not match its type");
 }
 
 TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
@@ -554,8 +581,6 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
 }
 
 TEST_F(ControllerTest, injectFieldTest) {
-  ExpressionList fieldArguments;
-
   vector<Type*> childTypes;
   string childFullName = "systems.vos.wisey.compiler.tests.CChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
@@ -573,6 +598,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
   parentStructType->setBody(parentTypes);
   vector<Field*> parentFields;
+  ExpressionList fieldArguments;
   parentFields.push_back(new Field(INJECTED_FIELD,
                                    childController->getOwner(),
                                    "mChild",
@@ -580,7 +606,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   Controller* parentController = Controller::newController(parentFullName, parentStructType);
   parentController->setFields(parentFields, 1u);
   mContext.addController(parentController);
-
+  
   ExpressionList injectionArguments;
   Value* result = parentController->inject(mContext, injectionArguments);
   
@@ -639,6 +665,14 @@ TEST_F(TestFileSampleRunner, controllerInjectionChainRunTest) {
 
 TEST_F(TestFileSampleRunner, controllerWithUninitializedStateFieldRunTest) {
   runFile("tests/samples/test_controller_with_unitilized_state_field.yz", "0");
+}
+
+TEST_F(TestFileSampleRunner, controllerInjectionWithRecievedOwnerRunTest) {
+  runFile("tests/samples/test_controller_injection_with_recieved_owner.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, controllerInjectionWithRecievedReferenceRunTest) {
+  runFile("tests/samples/test_controller_injection_with_recieved_reference.yz", "7");
 }
 
 TEST_F(TestFileSampleRunner, injectNonOwnerRunDeathTest) {
