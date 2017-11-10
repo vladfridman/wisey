@@ -132,7 +132,7 @@ public:
   const IType* getReturnType();
 
   /**
-   * Free memory owned by this scope
+   * Free memory owner variables and decrement reference count for reference variables
    */
   void freeOwnedMemory(IRGenerationContext& context,
                        std::map<std::string, IVariable*>& clearedVariables);

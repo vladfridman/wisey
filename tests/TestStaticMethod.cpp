@@ -150,6 +150,8 @@ TEST_F(StaticMethodTest, generateIRTest) {
   "\nentry:"
   "\n  %0 = bitcast %wisey.lang.CThread* %thread to i64*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 1)"
+  "\n  %1 = bitcast %wisey.lang.CThread* %thread to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %1, i64 -1)"
   "\n  ret void"
   "\n}"
   "\n";

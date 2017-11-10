@@ -136,6 +136,8 @@ void Scope::freeOwnedMemory(IRGenerationContext& context,
     IVariable* variable = iterator->second;
     if (IType::isOwnerType(variable->getType())) {
       ((IOwnerVariable*) variable)->free(context);
+    } else if (IType::isReferenceType(variable->getType())) {
+      ((IReferenceVariable*) variable)->decrementReferenceCounter(context);
     }
   }
   

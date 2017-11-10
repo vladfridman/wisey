@@ -134,7 +134,7 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ReturnVoidStatementTest, referenceVariablesAreNotClearedTest) {
+TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::InternalLinkage,
@@ -181,6 +181,12 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesAreNotClearedTest) {
   "\n  %2 = bitcast i8* %malloccall1 to %MModel*"
   "\n  %3 = alloca %MModel*"
   "\n  store %MModel* %2, %MModel** %3"
+  "\n  %4 = load %MModel*, %MModel** %3"
+  "\n  %5 = bitcast %MModel* %4 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 -1)"
+  "\n  %6 = load %MModel*, %MModel** %1"
+  "\n  %7 = bitcast %MModel* %6 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %7, i64 -1)"
   "\n  ret void\n";
-  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

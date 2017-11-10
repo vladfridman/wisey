@@ -34,8 +34,8 @@ struct ScopeTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Scope mScope;
-  NiceMock<MockReferenceVariable>* mFooVariable;
-  NiceMock<MockOwnerVariable>* mBarVariable;
+  NiceMock<MockReferenceVariable>* mReferenceVariable;
+  NiceMock<MockOwnerVariable>* mOwnerVariable;
   Model* mExceptionModel;
   Interface* mInterface;
 
@@ -43,8 +43,8 @@ public:
 
   ScopeTest() :
   mLLVMContext(mContext.getLLVMContext()),
-  mFooVariable(new NiceMock<MockReferenceVariable>()),
-  mBarVariable(new NiceMock<MockOwnerVariable>()) {
+  mReferenceVariable(new NiceMock<MockReferenceVariable>()),
+  mOwnerVariable(new NiceMock<MockOwnerVariable>()) {
     vector<InterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
@@ -55,32 +55,32 @@ public:
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");
     mExceptionModel = Model::newModel("MExceptionA", exceptionModelStructType);
     
-    ON_CALL(*mFooVariable, getType()).WillByDefault(Return(mInterface));
-    ON_CALL(*mBarVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
+    ON_CALL(*mReferenceVariable, getType()).WillByDefault(Return(mInterface));
+    ON_CALL(*mOwnerVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
   }
 };
 
 TEST_F(ScopeTest, localsTest) {
-  mScope.setVariable("foo", mFooVariable);
+  mScope.setVariable("foo", mReferenceVariable);
   
-  EXPECT_EQ(mScope.findVariable("foo"), mFooVariable);
+  EXPECT_EQ(mScope.findVariable("foo"), mReferenceVariable);
   EXPECT_EQ(mScope.findVariable("bar"), nullptr);
   
-  mScope.setVariable("bar", mBarVariable);
+  mScope.setVariable("bar", mOwnerVariable);
   
-  EXPECT_EQ(mScope.findVariable("foo"), mFooVariable);
-  EXPECT_EQ(mScope.findVariable("bar"), mBarVariable);
+  EXPECT_EQ(mScope.findVariable("foo"), mReferenceVariable);
+  EXPECT_EQ(mScope.findVariable("bar"), mOwnerVariable);
 }
 
 TEST_F(ScopeTest, freeOwnedMemoryTest) {
-  mScope.setVariable("bar", mBarVariable);
-  
-  EXPECT_CALL(*mBarVariable, free(_));
+  mScope.setVariable("bar", mOwnerVariable);
+  mScope.setVariable("foo", mReferenceVariable);
+
+  EXPECT_CALL(*mOwnerVariable, free(_));
+  EXPECT_CALL(*mReferenceVariable, decrementReferenceCounter(_));
   
   map<string, IVariable*> clearedVariables;
   mScope.freeOwnedMemory(mContext, clearedVariables);
-
-  delete mFooVariable;
 }
 
 TEST_F(ScopeTest, addExceptionTest) {
@@ -94,8 +94,8 @@ TEST_F(ScopeTest, addExceptionTest) {
   
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
 
-  delete mFooVariable;
-  delete mBarVariable;
+  delete mReferenceVariable;
+  delete mOwnerVariable;
 }
 
 TEST_F(ScopeTest, addExceptionsTest) {
@@ -117,15 +117,15 @@ TEST_F(ScopeTest, addExceptionsTest) {
   
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   
-  delete mFooVariable;
-  delete mBarVariable;
+  delete mReferenceVariable;
+  delete mOwnerVariable;
 }
 
 TEST_F(ScopeTest, getClearedVariablesTest) {
-  mScope.setVariable("foo", mFooVariable);
-  mScope.setVariable("bar", mBarVariable);
+  mScope.setVariable("foo", mReferenceVariable);
+  mScope.setVariable("bar", mOwnerVariable);
   map<string, IVariable*> allClearedVariables;
-  allClearedVariables["foo"] = mFooVariable;
+  allClearedVariables["foo"] = mReferenceVariable;
 
   vector<string> clearedVariables = mScope.getClearedVariables(allClearedVariables);
   EXPECT_EQ(clearedVariables.size(), 1u);
@@ -133,21 +133,21 @@ TEST_F(ScopeTest, getClearedVariablesTest) {
 }
 
 TEST_F(ScopeTest, getReferenceVariablesTest) {
-  mScope.setVariable("foo", mFooVariable);
+  mScope.setVariable("foo", mReferenceVariable);
   
   EXPECT_EQ(mScope.getReferenceVariables().size(), 1u);
   EXPECT_EQ(mScope.getOwnerVariables().size(), 0u);
-  EXPECT_EQ(mScope.getReferenceVariables().front(), mFooVariable);
+  EXPECT_EQ(mScope.getReferenceVariables().front(), mReferenceVariable);
   
-  delete mBarVariable;
+  delete mOwnerVariable;
 }
 
 TEST_F(ScopeTest, getOwnerVariablesTest) {
-  mScope.setVariable("bar", mBarVariable);
+  mScope.setVariable("bar", mOwnerVariable);
   
   EXPECT_EQ(mScope.getReferenceVariables().size(), 0u);
   EXPECT_EQ(mScope.getOwnerVariables().size(), 1u);
-  EXPECT_EQ(mScope.getOwnerVariables().front(), mBarVariable);
+  EXPECT_EQ(mScope.getOwnerVariables().front(), mOwnerVariable);
   
-  delete mFooVariable;
+  delete mReferenceVariable;
 }

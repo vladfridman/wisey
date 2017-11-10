@@ -185,7 +185,7 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ThrowStatementTest, referenceVariablesAreNotClearedTest) {
+TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   StructType* structType = StructType::create(mLLVMContext, "MModel");
   vector<Type*> types;
   types.push_back(Type::getInt64Ty(mLLVMContext));
@@ -235,6 +235,12 @@ TEST_F(ThrowStatementTest, referenceVariablesAreNotClearedTest) {
   "\n  %7 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %6 to i64"
   "\n  %8 = call i8* @__cxa_allocate_exception(i64 %7)"
   "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %8, i8* %4, i64 %7, i32 4, i1 false)"
+  "\n  %9 = load %MModel*, %MModel** %3"
+  "\n  %10 = bitcast %MModel* %9 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %10, i64 -1)"
+  "\n  %11 = load %MModel*, %MModel** %1"
+  "\n  %12 = bitcast %MModel* %11 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %12, i64 -1)"
   "\n  call void @__cxa_throw(i8* %8, i8* %5, i8* null)"
   "\n  unreachable\n";
   
