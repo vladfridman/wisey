@@ -7,6 +7,7 @@
 //
 
 #include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/Log.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -14,18 +15,24 @@ using namespace wisey;
 std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
                                               string shortName,
                                               vector<string> package) {
-  if (package.size() == 0 && context.getImport(shortName) != NULL) {
+  if (package.size() > 0) {
+    string fullName = "";
+    for (string part : package) {
+      fullName.append(part + ".");
+    }
+    fullName.append(shortName);
+    
+    return fullName;
+  }
+  
+  if (context.getImport(shortName) != NULL) {
     return context.getImport(shortName)->getName();
   }
-  if (package.size() == 0 && context.getPackage().size() != 0) {
+  if (context.getPackage().size() != 0) {
     return context.getPackage() + "." + shortName;
   }
   
-  string fullName = "";
-  for (string part : package) {
-    fullName.append(part + ".");
-  }
-  fullName.append(shortName);
-  
-  return fullName;
+  Log::e("Could not identify packge for object " + shortName);
+  exit(1);
 }
+
