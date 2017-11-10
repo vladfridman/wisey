@@ -330,30 +330,55 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     printOutStatement.generateIR(context);
   }
 
+  decrementReferenceFields(context, thisArgument, object);
+  freeOwnerFields(context, thisArgument, object);
+
+  IRWriter::createFree(context, thisArgument);
+  IRWriter::createReturnInst(context, NULL);
+}
+
+void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
+                                                   Argument* thisArgument,
+                                                   const IConcreteObjectType* object) {
   for (Field* field : object->getFields()) {
     const IType* fieldType = field->getType();
-    if (fieldType->getTypeKind() == PRIMITIVE_TYPE) {
+    if (!IType::isReferenceType(fieldType)) {
       continue;
     }
     
-    Value* index[2];
-    index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
-    
-    Value* fieldPointer = IRWriter::createGetElementPtrInst(context, thisArgument, index);
-    Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
-
-    if (IType::isOwnerType(fieldType)) {
-      const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) fieldType;
-      objectOwnerType->free(context, fieldPointerLoaded);
-    } else {
-      const IObjectType* objectType = (const IObjectType*) fieldType;
-      objectType->decremenetReferenceCount(context, fieldPointerLoaded);
-    }
+    Value* fieldValuePointer = getFieldValuePointer(context, thisArgument, object, field);
+    const IObjectType* objectType = (const IObjectType*) fieldType;
+    objectType->decremenetReferenceCount(context, fieldValuePointer);
   }
+}
+
+void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
+                                          Argument* thisArgument,
+                                          const IConcreteObjectType* object) {
+  for (Field* field : object->getFields()) {
+    const IType* fieldType = field->getType();
+    if (!IType::isOwnerType(fieldType)) {
+      continue;
+    }
+    
+    Value* fieldValuePointer = getFieldValuePointer(context, thisArgument, object, field);
+    const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) fieldType;
+    objectOwnerType->free(context, fieldValuePointer);
+  }
+}
+
+Value* IConcreteObjectType::getFieldValuePointer(IRGenerationContext& context,
+                                                 Argument* thisArgument,
+                                                 const IConcreteObjectType* object,
+                                                 Field* field) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+
+  Value* index[2];
+  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
   
-  IRWriter::createFree(context, thisArgument);
-  IRWriter::createReturnInst(context, NULL);
+  Value* fieldPointer = IRWriter::createGetElementPtrInst(context, thisArgument, index);
+  return IRWriter::newLoadInst(context, fieldPointer, "");
 }
 
 string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjectType* object) {
