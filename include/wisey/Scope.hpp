@@ -33,20 +33,13 @@ class Scope {
   llvm::BasicBlock* mBreakToBlock;
   llvm::BasicBlock* mContinueToBlock;
   TryCatchInfo* mTryCatchInfo;
-  bool mHasOwnedMemoryBeenFreed;
   const IType* mReturnType;
   const IObjectType* mObjectType;
   std::map<std::string, const Model*> mExceptions;
 
 public:
 
-  Scope() :
-  mBreakToBlock(NULL),
-  mContinueToBlock(NULL),
-  mTryCatchInfo(NULL),
-  mHasOwnedMemoryBeenFreed(false),
-  mReturnType(NULL),
-  mObjectType(NULL) { }
+  Scope();
   
   ~Scope();
 

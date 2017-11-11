@@ -17,6 +17,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+Scope::Scope() :
+mBreakToBlock(NULL),
+mContinueToBlock(NULL),
+mTryCatchInfo(NULL),
+mReturnType(NULL),
+mObjectType(NULL) { }
+
 Scope::~Scope() {
   for (map<string, IVariable*>::const_iterator iterator = mVariables.begin();
        iterator != mVariables.end();
@@ -116,14 +123,10 @@ const IType* Scope::getReturnType() {
 
 void Scope::freeOwnedMemory(IRGenerationContext& context,
                             map<string, IVariable*>& clearedVariables) {
-  if (mHasOwnedMemoryBeenFreed) {
-    return;
-  }
-  
   BasicBlock* currentBlock = context.getBasicBlock();
   if(currentBlock != NULL &&
      currentBlock->size() > 0 &&
-     UnreachableInst::classof(&currentBlock->back())) {
+     TerminatorInst::classof(&currentBlock->back())) {
     return;
   }
   
@@ -140,8 +143,6 @@ void Scope::freeOwnedMemory(IRGenerationContext& context,
       ((IReferenceVariable*) variable)->decrementReferenceCounter(context);
     }
   }
-  
-  mHasOwnedMemoryBeenFreed = true;
 }
 
 void Scope::addException(const Model* exception) {
