@@ -59,13 +59,12 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   
   IConcreteObjectType::defineCurrentObjectNameVariable(context, model);
   IConcreteObjectType::generateStaticMethodsIR(context, model);
-  IConcreteObjectType::composeDestructorBody(context, model);
   IConcreteObjectType::declareFieldVariables(context, model);
   IConcreteObjectType::generateMethodsIR(context, model);
-  
-  context.getScopes().popScope(context);
-
   model->createRTTI(context);
+  IConcreteObjectType::composeDestructorBody(context, model);
+
+  context.getScopes().popScope(context);
   
   return NULL;
 }
