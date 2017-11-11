@@ -33,6 +33,7 @@ MethodSignature* MethodSignatureDeclaration::declare(IRGenerationContext& contex
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,
                                                                             mThrownExceptions);
   exceptions.push_back(context.getModel(Names::getNPEModelFullName()));
+  exceptions.push_back(context.getModel(Names::getDestroyedObjectStillInUseFullName()));
 
   return new MethodSignature(mMethodName, returnType, arguments, exceptions);
 }

@@ -21,21 +21,21 @@ using namespace std;
 using namespace wisey;
 
 void TestPrefix::run(IRGenerationContext& context) {
-  defineNPEModel(context);
+  defineModel(context, Names::getNPEModelName());
+  defineModel(context, Names::getDestroyedObjectStillInUseName());
   defineThreadController(context);
 }
 
-void TestPrefix::defineNPEModel(IRGenerationContext& context) {
-  vector<IObjectElementDeclaration*> npeElements;
-  vector<InterfaceTypeSpecifier*> npeParentInterfaces;
+void TestPrefix::defineModel(IRGenerationContext& context, string modelName) {
+  vector<IObjectElementDeclaration*> modelElements;
+  vector<InterfaceTypeSpecifier*> modelParentInterfaces;
   vector<string> package;
   package.push_back("wisey");
   package.push_back("lang");
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
-                                                                  Names::getNPEModelName());
-  ModelDefinition npeModelDefinition(modelTypeSpecifier, npeElements, npeParentInterfaces);
-  npeModelDefinition.prototypeObjects(context);
-  npeModelDefinition.prototypeMethods(context);
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package, modelName);
+  ModelDefinition modelDefinition(modelTypeSpecifier, modelElements, modelParentInterfaces);
+  modelDefinition.prototypeObjects(context);
+  modelDefinition.prototypeMethods(context);
 }
 
 void TestPrefix::defineThreadController(IRGenerationContext& context) {

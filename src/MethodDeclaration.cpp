@@ -37,6 +37,7 @@ IMethod* MethodDeclaration::declare(IRGenerationContext& context) const {
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context, mExceptions);
   exceptions.push_back(context.getModel(Names::getNPEModelFullName()));
+  exceptions.push_back(context.getModel(Names::getDestroyedObjectStillInUseFullName()));
 
   return new Method(mName, mAccessLevel, returnType, arguments, exceptions, mCompoundStatement);
 }

@@ -22,8 +22,8 @@ public:
   
 private:
   
-  static void defineNPEModel(wisey::IRGenerationContext& context);
-
+  static void defineModel(wisey::IRGenerationContext& context, std::string modelName);
+  
   static void defineThreadController(wisey::IRGenerationContext& context);
 
 };

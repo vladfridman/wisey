@@ -1,0 +1,11 @@
+package wisey.lang;
+
+import wisey.lang.IException;
+
+model MDestroyedObjectStillInUseException implements IException {
+
+  public string getName() {
+    return "wisey.lang.MDestroyedObjectStillInUseException";
+  }
+
+}
