@@ -133,14 +133,17 @@ void Scope::freeOwnedMemory(IRGenerationContext& context,
   for (map<string, IVariable*>::iterator iterator = mVariables.begin();
        iterator != mVariables.end();
        iterator++) {
-    if (clearedVariables.count(iterator->first)) {
-      continue;
+    if (IType::isReferenceType(iterator->second->getType())) {
+      ((IReferenceVariable*) iterator->second)->decrementReferenceCounter(context);
     }
-    IVariable* variable = iterator->second;
-    if (IType::isOwnerType(variable->getType())) {
-      ((IOwnerVariable*) variable)->free(context);
-    } else if (IType::isReferenceType(variable->getType())) {
-      ((IReferenceVariable*) variable)->decrementReferenceCounter(context);
+  }
+  
+  for (map<string, IVariable*>::iterator iterator = mVariables.begin();
+       iterator != mVariables.end();
+       iterator++) {
+    if (!clearedVariables.count(iterator->first) &&
+        IType::isOwnerType(iterator->second->getType())) {
+      ((IOwnerVariable*) iterator->second)->free(context);
     }
   }
 }
