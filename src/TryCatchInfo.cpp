@@ -22,10 +22,6 @@ BasicBlock* TryCatchInfo::getLandingPadBlock() {
   return mLandingPadBlock;
 }
 
-BasicBlock* TryCatchInfo::getContinueBlock() {
-  return mContinueBlock;
-}
-
 FinallyBlock* TryCatchInfo::getFinallyBlock() {
   return mFinallyBlock;
 }

@@ -132,7 +132,7 @@ public:
     BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
     vector<Catch*> catchList;
     FinallyBlock* emptyBlock = new FinallyBlock();
-    TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, emptyBlock, catchList);
+    TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, emptyBlock, catchList);
     mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -290,11 +290,9 @@ TEST_F(MethodCallTest, modelMethodInvokeTest) {
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "bar", mArgumentList, 0);
   BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext, "eh.landing.pad");
-  BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
   vector<Catch*> catchList;
   FinallyBlock* emptyBlock = new FinallyBlock();
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock,
-                                                continueBlock,
                                                 emptyBlock,
                                                 catchList);
   mContext.getScopes().setTryCatchInfo(tryCatchInfo);

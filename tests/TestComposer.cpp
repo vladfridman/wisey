@@ -125,7 +125,7 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
                                                    mMainFunction);
   FinallyBlock* finallyBlock = new FinallyBlock();
   vector<Catch*> catchList;
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, finallyBlock, catchList);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, finallyBlock, catchList);
   mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 
   Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));

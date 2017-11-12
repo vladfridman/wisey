@@ -138,7 +138,7 @@ public:
     BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
     vector<Catch*> catchList;
     FinallyBlock* emptyBlock = new FinallyBlock();
-    TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, emptyBlock, catchList);
+    TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, emptyBlock, catchList);
     mContext.getScopes().setTryCatchInfo(tryCatchInfo);
 
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
@@ -263,11 +263,9 @@ TEST_F(StaticMethodCallTest, modelStaticMethodInvokeTest) {
   mArgumentList.push_back(argumentExpression);
   StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList, 0);
   BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext, "eh.landing.pad");
-  BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
   vector<Catch*> catchList;
   FinallyBlock* emptyBlock = new FinallyBlock();
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock,
-                                                continueBlock,
                                                 emptyBlock,
                                                 catchList);
   mContext.getScopes().setTryCatchInfo(tryCatchInfo);

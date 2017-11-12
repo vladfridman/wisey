@@ -23,18 +23,15 @@ class FinallyBlock;
  */
 class TryCatchInfo {
   llvm::BasicBlock* mLandingPadBlock;
-  llvm::BasicBlock* mContinueBlock;
   FinallyBlock* mFinallyBlock;
   std::vector<Catch*> mCatchList;
   
 public:
   
   TryCatchInfo(llvm::BasicBlock* landingPadBlock,
-               llvm::BasicBlock* continueBlock,
                FinallyBlock* finallyBlock,
                std::vector<Catch*> catchList) :
   mLandingPadBlock(landingPadBlock),
-  mContinueBlock(continueBlock),
   mFinallyBlock(finallyBlock),
   mCatchList(catchList) { }
   
@@ -44,11 +41,6 @@ public:
    * Returns the landing pad basic block for exception handling 
    */
   llvm::BasicBlock* getLandingPadBlock();
-  
-  /**
-   * Returns the basic block for instructions after the try/catch
-   */
-  llvm::BasicBlock* getContinueBlock();
   
   /**
    * Returns the list of statement that should always by executed for a try/catch block

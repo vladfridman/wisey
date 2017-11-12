@@ -49,7 +49,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
                                          outerFinallyBlock->getStatements().begin(),
                                          outerFinallyBlock->getStatements().end());
   }
-  TryCatchInfo tryCatchInfo(landingPadBlock, continueBlock, finallyBlock, mCatchList);
+  TryCatchInfo tryCatchInfo(landingPadBlock, finallyBlock, mCatchList);
   context.getScopes().setTryCatchInfo(&tryCatchInfo);
 
   bool doAllBlocksTerminate = true;

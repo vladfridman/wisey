@@ -261,7 +261,7 @@ TEST_F(ScopesTest, setTryCatchInfoTest) {
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
   vector<Catch*> catchList;
   FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, emptyBlock, catchList);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, emptyBlock, catchList);
   
   mScopes.setTryCatchInfo(tryCatchInfo);
   mScopes.pushScope();
@@ -274,7 +274,7 @@ TEST_F(ScopesTest, clearTryCatchInfoTest) {
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
   vector<Catch*> catchList;
   FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, basicBlock, emptyBlock, catchList);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, emptyBlock, catchList);
   
   mScopes.setTryCatchInfo(tryCatchInfo);
   mScopes.pushScope();
@@ -328,16 +328,16 @@ TEST_F(ScopesTest, mergeNestedCatchListsTest) {
   vector<Catch*> catchList1;
   catchList1.push_back(catch1);
   FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo* tryCatchInfo1 = new TryCatchInfo(basicBlock, basicBlock, emptyBlock, catchList1);
+  TryCatchInfo* tryCatchInfo1 = new TryCatchInfo(basicBlock, emptyBlock, catchList1);
 
   vector<Catch*> catchList2;
   catchList2.push_back(catch2);
-  TryCatchInfo* tryCatchInfo2 = new TryCatchInfo(basicBlock, basicBlock, emptyBlock, catchList2);
+  TryCatchInfo* tryCatchInfo2 = new TryCatchInfo(basicBlock, emptyBlock, catchList2);
 
   vector<Catch*> catchList3;
   catchList3.push_back(catch3);
   catchList3.push_back(catch4);
-  TryCatchInfo* tryCatchInfo3 = new TryCatchInfo(basicBlock, basicBlock, emptyBlock, catchList3);
+  TryCatchInfo* tryCatchInfo3 = new TryCatchInfo(basicBlock, emptyBlock, catchList3);
   
   mScopes.pushScope();
   mScopes.setTryCatchInfo(tryCatchInfo1);

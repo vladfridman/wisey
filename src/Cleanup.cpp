@@ -21,7 +21,7 @@ void Cleanup::generateCleanupTryCatchInfo(IRGenerationContext& context, string l
   BasicBlock* landingPadBlock = BasicBlock::Create(context.getLLVMContext(), label, function);
   FinallyBlock* emtpyBlock = new FinallyBlock();
   vector<Catch*> catchList;
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, NULL, emtpyBlock, catchList);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, emtpyBlock, catchList);
   context.getScopes().setTryCatchInfo(tryCatchInfo);
 }
 

@@ -137,9 +137,8 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   vector<Value*> arguments;
   vector<Catch*> catchList;
   BasicBlock* landingpadBlock = BasicBlock::Create(mLLVMContext, "eh.lpad", mMainFunction);
-  BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue", mMainFunction);
   FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo tryCatchInfo(landingpadBlock, continueBlock, emptyBlock, catchList);
+  TryCatchInfo tryCatchInfo(landingpadBlock, emptyBlock, catchList);
   
   mContext.getScopes().setTryCatchInfo(&tryCatchInfo);
   InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
