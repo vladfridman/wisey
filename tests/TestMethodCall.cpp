@@ -56,8 +56,10 @@ struct MethodCallTest : public Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Model* mModel;
+  Model* mReturnedModel;
   StructType* mStructType;
   Controller* mThreadController;
+  Function* mMainFunction;
   
 public:
   
@@ -66,11 +68,18 @@ public:
   mExpression(new NiceMock<MockExpression>()),
   mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
     TestPrefix::run(mContext);
-    
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-
+    
     mContext.setPackage("systems.vos.wisey.compiler.tests");
+
+    vector<Type*> returnedModelTypes;
+    returnedModelTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    string returnedModelFullName = "systems.vos.wisey.compiler.tests.MReturnedModel";
+    StructType* returnedModelStructType = StructType::create(mLLVMContext, returnedModelFullName);
+    mReturnedModel = Model::newModel(returnedModelFullName, returnedModelStructType);
+    mContext.addModel(mReturnedModel);
+    
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -87,11 +96,11 @@ public:
     methodArguments.push_back(methodArgument);
     vector<const Model*> fooThrownExceptions;
     IMethod* fooMethod = new Method("foo",
-                                 AccessLevel::PUBLIC_ACCESS,
-                                 PrimitiveTypes::INT_TYPE,
-                                 methodArguments,
-                                 fooThrownExceptions,
-                                 NULL);
+                                    AccessLevel::PUBLIC_ACCESS,
+                                    mReturnedModel,
+                                    methodArguments,
+                                    fooThrownExceptions,
+                                    NULL);
     vector<IMethod*> methods;
     methods.push_back(fooMethod);
     vector<const Model*> barThrownExceptions;
@@ -110,15 +119,15 @@ public:
     mModel->setMethods(methods);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
-    Function* mainFunction = Function::Create(functionType,
-                                              GlobalValue::InternalLinkage,
-                                              "main",
-                                              mContext.getModule());
-    
-    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mainFunction);
+    mMainFunction = Function::Create(functionType,
+                                     GlobalValue::InternalLinkage,
+                                     "main",
+                                     mContext.getModule());
+
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", mMainFunction);
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
-    mContext.setMainFunction(mainFunction);
+    mContext.setMainFunction(mMainFunction);
 
     BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
     vector<Catch*> catchList;
@@ -222,7 +231,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   argumentTypes.push_back(mThreadController->getLLVMType(mLLVMContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
+  FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mLLVMContext),
                                                  argTypesArray,
                                                  false);
   Function::Create(functionType,
@@ -237,15 +246,27 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   
-  Value* irValue = methodCall.generateIR(mContext);
+  methodCall.generateIR(mContext);
 
-  *mStringStream << *irValue;
-  EXPECT_STREQ("  %7 = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
-               "%systems.vos.wisey.compiler.tests.MSquare* %0, "
-               "%wisey.lang.CThread* %6, "
-               "float 0x4014CCCCC0000000)",
-               mStringStream->str().c_str());
-  EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
+  *mStringStream << *mContext.getBasicBlock();
+  string expected =
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  %5 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
+  "\n  call void @wisey.lang.CThread.popStack(%wisey.lang.CThread* %5, %wisey.lang.CThread* %5)"
+  "\n  %6 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
+  "\n  %7 = call %systems.vos.wisey.compiler.tests.MReturnedModel* "
+  "@systems.vos.wisey.compiler.tests.MSquare.foo("
+  "%systems.vos.wisey.compiler.tests.MSquare* %0, "
+  "%wisey.lang.CThread* %6, float 0x4014CCCCC0000000)"
+  "\n  %8 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
+  "\n  call void @wisey.lang.CThread.popStack(%wisey.lang.CThread* %8, %wisey.lang.CThread* %8)"
+  "\n  %returnedObjectPointer = alloca %systems.vos.wisey.compiler.tests.MReturnedModel*"
+  "\n  store %systems.vos.wisey.compiler.tests.MReturnedModel* %7, "
+  "%systems.vos.wisey.compiler.tests.MReturnedModel** %returnedObjectPointer"
+  "\n  %9 = bitcast %systems.vos.wisey.compiler.tests.MReturnedModel* %7 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %9, i64 1)\n";
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);
 }
 
 TEST_F(MethodCallTest, modelMethodInvokeTest) {
@@ -377,7 +398,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
+  FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mLLVMContext),
                                                  argTypesArray,
                                                  false);
   Function::Create(functionType,

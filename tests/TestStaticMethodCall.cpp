@@ -56,6 +56,7 @@ struct StaticMethodCallTest : public Test {
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Model* mModel;
+  Model* mReturnedModel;
   ModelTypeSpecifier* mModelSpecifier;
   StructType* mStructType;
   Controller* mThreadController;
@@ -71,6 +72,14 @@ public:
     programPrefix.generateIR(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
+    
+    vector<Type*> returnedModelTypes;
+    returnedModelTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    string returnedModelFullName = "systems.vos.wisey.compiler.tests.MReturnedModel";
+    StructType* returnedModelStructType = StructType::create(mLLVMContext, returnedModelFullName);
+    mReturnedModel = Model::newModel(returnedModelFullName, returnedModelStructType);
+    mContext.addModel(mReturnedModel);
+
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -88,7 +97,7 @@ public:
     vector<const Model*> fooThrownExceptions;
     IMethod* fooMethod = new StaticMethod("foo",
                                           AccessLevel::PUBLIC_ACCESS,
-                                          PrimitiveTypes::INT_TYPE,
+                                          mReturnedModel,
                                           fooMethodArguments,
                                           fooThrownExceptions,
                                           NULL);
@@ -192,7 +201,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   argumentTypes.push_back(mThreadController->getLLVMType(mLLVMContext));
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
+  FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mLLVMContext),
                                                  argTypesArray,
                                                  false);
   Function::Create(functionType,
@@ -207,13 +216,31 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   mArgumentList.push_back(argumentExpression);
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   
-  Value* irValue = staticMethodCall.generateIR(mContext);
+  staticMethodCall.generateIR(mContext);
   
-  *mStringStream << *irValue;
-  EXPECT_STREQ("  %call = call i32 @systems.vos.wisey.compiler.tests.MSquare.foo("
-               "%wisey.lang.CThread* %3, float 0x4014CCCCC0000000)",
-               mStringStream->str().c_str());
-  EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
+  *mStringStream << *mContext.getBasicBlock();
+  string expected =
+  "\nentry:"
+  "\n  %threadStore = alloca %wisey.lang.CThread*"
+  "\n  store %wisey.lang.CThread* null, %wisey.lang.CThread** %threadStore"
+  "\n  %0 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
+  "\n  %1 = bitcast %wisey.lang.CThread* %0 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %1, i64 -1)"
+  "\n  %2 = bitcast %wisey.lang.CThread* null to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %2, i64 1)"
+  "\n  store %wisey.lang.CThread* null, %wisey.lang.CThread** %threadStore"
+  "\n  %3 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
+  "\n  %call = call %systems.vos.wisey.compiler.tests.MReturnedModel* "
+  "@systems.vos.wisey.compiler.tests.MSquare.foo(%wisey.lang.CThread* %3, float 0x4014CCCCC0000000)"
+  "\n  %4 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
+  "\n  call void @wisey.lang.CThread.popStack(%wisey.lang.CThread* %4, %wisey.lang.CThread* %4)"
+  "\n  %returnedObjectPointer = alloca %systems.vos.wisey.compiler.tests.MReturnedModel*"
+  "\n  store %systems.vos.wisey.compiler.tests.MReturnedModel* %call, "
+  "%systems.vos.wisey.compiler.tests.MReturnedModel** %returnedObjectPointer"
+  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MReturnedModel* %call to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 1)\n";
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  EXPECT_EQ(staticMethodCall.getType(mContext), mReturnedModel);
 }
 
 TEST_F(StaticMethodCallTest, modelStaticMethodInvokeTest) {
@@ -326,7 +353,7 @@ TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
+  FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mLLVMContext),
                                                  argTypesArray,
                                                  false);
   Function::Create(functionType,

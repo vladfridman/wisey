@@ -229,6 +229,10 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
     ? (IVariable*) new LocalOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer)
     : (IVariable*) new LocalReferenceVariable(variableName, (IObjectType*) returnType, pointer);
   
+  if (IType::isReferenceType(returnType)) {
+    ((IObjectType*) returnType)->incremenetReferenceCount(context, result);
+  }
+  
   context.getScopes().setVariable(tempVariable);
   return result;
 }
