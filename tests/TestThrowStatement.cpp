@@ -43,6 +43,7 @@ struct ThrowStatementTest : public Test {
   BasicBlock* mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
+  Function* mFunction;
   
   ThrowStatementTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -72,11 +73,11 @@ struct ThrowStatementTest : public Test {
     IConcreteObjectType::composeDestructorBody(mContext, mCircleModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "main",
-                                          mContext.getModule());
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "main",
+                                 mContext.getModule());
+    mBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
   }
@@ -110,8 +111,9 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
 
-  *mStringStream << *mBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCircle* null to i8*"
   "\n  %1 = bitcast { i8*, i8* }* @systems.vos.wisey.compiler.tests.MCircle.rtti to i8*"
@@ -120,8 +122,17 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   "\n  %3 = ptrtoint %systems.vos.wisey.compiler.tests.MCircle* %2 to i64"
   "\n  %4 = call i8* @__cxa_allocate_exception(i64 %3)"
   "\n  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %4, i8* %0, i64 %3, i32 4, i1 false)"
-  "\n  call void @__cxa_throw(i8* %4, i8* %1, i8* null)"
-  "\n  unreachable\n";
+  "\n  invoke void @__cxa_throw(i8* %4, i8* %1, i8* null)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %5 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %5"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  unreachable"
+  "\n}\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -151,8 +162,9 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %malloccall = tail call i8* @malloc(i64 0)"
   "\n  %0 = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.MCircle*"
@@ -179,9 +191,18 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   "%systems.vos.wisey.compiler.tests.MCircle** %pointer"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MCircle("
     "%systems.vos.wisey.compiler.tests.MCircle* %8)"
-  "\n  call void @__cxa_throw(i8* %6, i8* %3, i8* null)"
-  "\n  unreachable\n";
-  
+  "\n  invoke void @__cxa_throw(i8* %6, i8* %3, i8* null)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %9 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %9"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  unreachable"
+  "\n}\n";
+
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -215,8 +236,9 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   EXPECT_NE(result, nullptr);
   EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
   
-  *mStringStream << *mBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%MModel* "
   "getelementptr (%MModel, %MModel* null, i32 1) to i64))"
@@ -241,8 +263,17 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   "\n  %11 = load %MModel*, %MModel** %1"
   "\n  %12 = bitcast %MModel* %11 to i64*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %12, i64 -1)"
-  "\n  call void @__cxa_throw(i8* %8, i8* %5, i8* null)"
-  "\n  unreachable\n";
-  
+  "\n  invoke void @__cxa_throw(i8* %8, i8* %5, i8* null)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %13 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %13"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  unreachable"
+  "\n}\n";
+
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

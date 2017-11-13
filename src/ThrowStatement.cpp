@@ -74,9 +74,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
 
   Function* throwFunction = IntrinsicFunctions::getThrowFunction(context);
   
-  Value* result = context.getScopes().getTryCatchInfo()
-    ? (Value*) IRWriter::createInvokeInst(context, throwFunction, throwArguments, "")
-    : (Value*) IRWriter::createCallInst(context, throwFunction, throwArguments, "");
+  Value* result = IRWriter::createInvokeInst(context, throwFunction, throwArguments, "");
 
   IRWriter::newUnreachableInst(context);
 
