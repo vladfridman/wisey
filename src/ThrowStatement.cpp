@@ -65,8 +65,6 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   Function* memCopyFunction = IntrinsicFunctions::getMemCopyFunction(context);
   IRWriter::createCallInst(context, memCopyFunction, memCopyArguments, "");
 
-  context.getScopes().freeOwnedMemory(context);
-
   vector<Value*> throwArguments;
   throwArguments.push_back(exceptionAlloca);
   throwArguments.push_back(rttiBitcast);

@@ -42,6 +42,9 @@ BasicBlock* Cleanup::generate(IRGenerationContext& context, FinallyBlock* finall
   if (finallyBlock) {
     finallyBlock->generateIR(context);
   }
+
+  context.getScopes().freeOwnedMemory(context);
+  
   IRWriter::createResumeInst(context, landingPad);
 
   return landingPadBlock;
