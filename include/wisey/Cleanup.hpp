@@ -22,14 +22,11 @@ class Cleanup {
 public:
   
   /**
-   * Generate landing pad information for code that might throw an exception
-   */
-  static void generateCleanupTryCatchInfo(IRGenerationContext& context, std::string label);
-  
-  /**
    * Generate landing pad code that is executed once an exception is thrown
+   *
+   * Returns the cleanup landing pad basic block
    */
-  static void generateCleanupLandingPad(IRGenerationContext& context, FinallyBlock* finallyBlock);
+  static llvm::BasicBlock* generate(IRGenerationContext& context, FinallyBlock* finallyBlock);
 
 };
   

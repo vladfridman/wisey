@@ -16,21 +16,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-void Cleanup::generateCleanupTryCatchInfo(IRGenerationContext& context, string label) {
-  Function* function = context.getBasicBlock()->getParent();
-  BasicBlock* landingPadBlock = BasicBlock::Create(context.getLLVMContext(), label, function);
-  FinallyBlock* emtpyBlock = new FinallyBlock();
-  vector<Catch*> catchList;
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, emtpyBlock, catchList);
-  context.getScopes().setTryCatchInfo(tryCatchInfo);
-}
+BasicBlock* Cleanup::generate(IRGenerationContext& context, FinallyBlock* finallyBlock) {
+  BasicBlock* lastBasicBlock = context.getBasicBlock();
+  Function* function = lastBasicBlock->getParent();
 
-void Cleanup::generateCleanupLandingPad(IRGenerationContext& context, FinallyBlock* finallyBlock) {
-  TryCatchInfo* tryCatchInfo = context.getScopes().getTryCatchInfo();
-  context.setBasicBlock(tryCatchInfo->getLandingPadBlock());
-  
+  BasicBlock* landingPadBlock = BasicBlock::Create(context.getLLVMContext(), "cleanup", function);
+  context.setBasicBlock(landingPadBlock);
+
   LLVMContext& llvmContext = context.getLLVMContext();
-  Function* function = context.getBasicBlock()->getParent();
   if (!function->hasPersonalityFn()) {
     function->setPersonalityFn(IntrinsicFunctions::getPersonalityFunction(context));
   }
@@ -50,7 +43,6 @@ void Cleanup::generateCleanupLandingPad(IRGenerationContext& context, FinallyBlo
     finallyBlock->generateIR(context);
   }
   IRWriter::createResumeInst(context, landingPad);
-  
-  context.getScopes().clearTryCatchInfo();
-  delete tryCatchInfo;
+
+  return landingPadBlock;
 }

@@ -76,18 +76,11 @@ void Method::generateIR(IRGenerationContext& context, const IObjectType* objectT
 
   defineCurrentMethodNameVariable(context, mName);
   
-  if (mThrownExceptions.size()) {
-    Cleanup::generateCleanupTryCatchInfo(context, "cleanup.landing.pad");
-  }
-  
   createArguments(context, mFunction, objectType);
   mCompoundStatement->generateIR(context);
   
   IMethod::maybeAddImpliedVoidReturn(context, this);
   IMethod::checkForUnhandledExceptions(context, this);
-  if (mThrownExceptions.size()) {
-    Cleanup::generateCleanupLandingPad(context, NULL);
-  }
 
   scopes.popScope(context);
   scopes.setClearedVariables(clearedVariablesBefore);

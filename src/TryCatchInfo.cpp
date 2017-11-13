@@ -15,7 +15,6 @@ using namespace std;
 using namespace wisey;
 
 TryCatchInfo::~TryCatchInfo() {
-  delete mFinallyBlock;
 }
 
 BasicBlock* TryCatchInfo::getLandingPadBlock() {

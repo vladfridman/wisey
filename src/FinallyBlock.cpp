@@ -26,13 +26,15 @@ Value* FinallyBlock::generateIR(IRGenerationContext& context) const {
     }
   }
 
-  assert(tryCatchInfo);
-  
-  scopeWithTryCatchInfo->clearTryCatchInfo();
+  if (scopeWithTryCatchInfo) {
+    scopeWithTryCatchInfo->clearTryCatchInfo();
+  }
   for (IStatement* statement : mStatements) {
     statement->generateIR(context);
   }
-  scopeWithTryCatchInfo->setTryCatchInfo(tryCatchInfo);
+  if (scopeWithTryCatchInfo) {
+    scopeWithTryCatchInfo->setTryCatchInfo(tryCatchInfo);
+  }
 
   return NULL;
 }

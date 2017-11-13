@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/Cleanup.hpp"
 #include "wisey/FinallyBlock.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -93,17 +94,18 @@ InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
     return NULL;
   }
   
+  TryCatchInfo* tryCatchInfo = context.getScopes().getTryCatchInfo();
+  FinallyBlock* finallyBlock = tryCatchInfo ? tryCatchInfo->getFinallyBlock() : NULL;
+  BasicBlock* landingPadBlock = tryCatchInfo && tryCatchInfo->getLandingPadBlock()
+    ? tryCatchInfo->getLandingPadBlock()
+    : Cleanup::generate(context, finallyBlock);
+
   BasicBlock* invokeContinueBlock = BasicBlock::Create(context.getLLVMContext(),
                                                        "invoke.continue",
                                                        currentBlock->getParent());
-  if (!context.getScopes().getTryCatchInfo()) {
-    Log::e("Try is missing for a method call that throws an exception");
-    return NULL;
-  }
-  BasicBlock* landingPad = context.getScopes().getTryCatchInfo()->getLandingPadBlock();
   InvokeInst* invokeInst = InvokeInst::Create(function,
                                               invokeContinueBlock,
-                                              landingPad,
+                                              landingPadBlock,
                                               arguments,
                                               resultName,
                                               currentBlock);
