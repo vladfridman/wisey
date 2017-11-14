@@ -13,7 +13,7 @@ model MEngine {
 }
 
 model MCar {
-  fixed MEngine mEngine;
+  fixed MEngine* mEngine;
 
   public int getEngineVolume() {
     return mEngine.getVolume();

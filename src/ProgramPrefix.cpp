@@ -33,6 +33,7 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage(Names::getLangPackageName());
 
   defineNPEFunction(context);
+  defineDestroyedObjectStillInUseFunction(context);
   defineAdjustReferenceCounterForConcreteObjectUnsafelyFunction(context);
   defineAdjustReferenceCounterForInterfaceFunction(context);
   StructType* fileStructType = defineFileStruct(context);
@@ -53,6 +54,19 @@ void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
   Function::Create(ftype,
                    GlobalValue::InternalLinkage,
                    Names::getNPECheckFunctionName(),
+                   context.getModule());
+}
+
+void ProgramPrefix::defineDestroyedObjectStillInUseFunction(IRGenerationContext& context) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  vector<Type*> argumentTypes;
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(llvmContext);
+  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
+  
+  Function::Create(ftype,
+                   GlobalValue::InternalLinkage,
+                   Names::getDestroyedObjectStillInUseFunctionName(),
                    context.getModule());
 }
 

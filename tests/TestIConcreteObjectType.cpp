@@ -189,7 +189,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   *mStringStream << *function;
   string expected =
   "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MStar("
-  "%systems.vos.wisey.compiler.tests.MStar* %this) {"
+  "%systems.vos.wisey.compiler.tests.MStar* %this) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MStar* %this, null"
   "\n  br i1 %0, label %if.this.null, label %if.this.notnull"
@@ -198,9 +198,27 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   "\n  ret void"
   "\n"
   "\nif.this.notnull:                                  ; preds = %entry"
-  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MStar* %this to i8*"
-  "\n  tail call void @free(i8* %1)"
+  "\n  %1 = bitcast %systems.vos.wisey.compiler.tests.MStar* %this to i64*"
+  "\n  %refCounter = load i64, i64* %1"
+  "\n  %2 = icmp eq i64 %refCounter, 0"
+  "\n  br i1 %2, label %ref.count.zero, label %ref.count.notzero"
+  "\n"
+  "\nref.count.zero:                                   ; preds = %if.this.notnull"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MStar* %this to i8*"
+  "\n  tail call void @free(i8* %3)"
   "\n  ret void"
+  "\n"
+  "\nref.count.notzero:                                ; preds = %if.this.notnull"
+  "\n  invoke void @__throwDestroyedObjectStillInUse()"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %ref.count.notzero"
+  "\n  %4 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %4"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
+  "\n  unreachable"
   "\n}\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -220,7 +238,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   *mStringStream << *function;
   string expected =
   "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MGalaxy("
-  "%systems.vos.wisey.compiler.tests.MGalaxy* %this) {"
+  "%systems.vos.wisey.compiler.tests.MGalaxy* %this) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MGalaxy* %this, null"
   "\n  br i1 %0, label %if.this.null, label %if.this.notnull"
@@ -235,11 +253,29 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   "%systems.vos.wisey.compiler.tests.MStar** %1"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.MStar("
   "%systems.vos.wisey.compiler.tests.MStar* %2)"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %this to i8*"
-  "\n  tail call void @free(i8* %3)"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %this to i64*"
+  "\n  %refCounter = load i64, i64* %3"
+  "\n  %4 = icmp eq i64 %refCounter, 0"
+  "\n  br i1 %4, label %ref.count.zero, label %ref.count.notzero"
+  "\n"
+  "\nref.count.zero:                                   ; preds = %if.this.notnull"
+  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MGalaxy* %this to i8*"
+  "\n  tail call void @free(i8* %5)"
   "\n  ret void"
+  "\n"
+  "\nref.count.notzero:                                ; preds = %if.this.notnull"
+  "\n  invoke void @__throwDestroyedObjectStillInUse()"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %ref.count.notzero"
+  "\n  %6 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %6"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
+  "\n  unreachable"
   "\n}\n";
-  
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -255,7 +291,8 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   *mStringStream << *function;
   string expected =
   "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MConstellation("
-  "%systems.vos.wisey.compiler.tests.MConstellation* %this) {"
+  "%systems.vos.wisey.compiler.tests.MConstellation* %this) "
+  "personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MConstellation* %this, null"
   "\n  br i1 %0, label %if.this.null, label %if.this.notnull"
@@ -270,11 +307,29 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   "%systems.vos.wisey.compiler.tests.MStar** %1"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MStar* %2 to i64*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %3, i64 -1)"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MConstellation* %this to i8*"
-  "\n  tail call void @free(i8* %4)"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MConstellation* %this to i64*"
+  "\n  %refCounter = load i64, i64* %4"
+  "\n  %5 = icmp eq i64 %refCounter, 0"
+  "\n  br i1 %5, label %ref.count.zero, label %ref.count.notzero"
+  "\n"
+  "\nref.count.zero:                                   ; preds = %if.this.notnull"
+  "\n  %6 = bitcast %systems.vos.wisey.compiler.tests.MConstellation* %this to i8*"
+  "\n  tail call void @free(i8* %6)"
   "\n  ret void"
+  "\n"
+  "\nref.count.notzero:                                ; preds = %if.this.notnull"
+  "\n  invoke void @__throwDestroyedObjectStillInUse()"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %ref.count.notzero"
+  "\n  %7 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %7"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
+  "\n  unreachable"
   "\n}\n";
-  
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
@@ -290,7 +345,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   *mStringStream << *function;
   string expected =
   "\ndefine void @destructor.systems.vos.wisey.compiler.tests.MCar("
-  "%systems.vos.wisey.compiler.tests.MCar* %this) {"
+  "%systems.vos.wisey.compiler.tests.MCar* %this) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq %systems.vos.wisey.compiler.tests.MCar* %this, null"
   "\n  br i1 %0, label %if.this.null, label %if.this.notnull"
@@ -305,11 +360,29 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   "%systems.vos.wisey.compiler.tests.ICanNavigate** %1"
   "\n  call void @destructor.systems.vos.wisey.compiler.tests.ICanNavigate("
   "%systems.vos.wisey.compiler.tests.ICanNavigate* %2)"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MCar* %this to i8*"
-  "\n  tail call void @free(i8* %3)"
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MCar* %this to i64*"
+  "\n  %refCounter = load i64, i64* %3"
+  "\n  %4 = icmp eq i64 %refCounter, 0"
+  "\n  br i1 %4, label %ref.count.zero, label %ref.count.notzero"
+  "\n"
+  "\nref.count.zero:                                   ; preds = %if.this.notnull"
+  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MCar* %this to i8*"
+  "\n  tail call void @free(i8* %5)"
   "\n  ret void"
+  "\n"
+  "\nref.count.notzero:                                ; preds = %if.this.notnull"
+  "\n  invoke void @__throwDestroyedObjectStillInUse()"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %ref.count.notzero"
+  "\n  %6 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %6"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
+  "\n  unreachable"
   "\n}\n";
-  
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }

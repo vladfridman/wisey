@@ -39,8 +39,6 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
     function->setPersonalityFn(IntrinsicFunctions::getPersonalityFunction(context));
   }
   
-  BasicBlock* landingPadBlock = BasicBlock::Create(llvmContext, "eh.landing.pad", function);
-  BasicBlock* continueBlock = BasicBlock::Create(llvmContext, "eh.continue", function);
   FinallyBlock finallyBlock;
   finallyBlock.getStatements().push_back(mFinallyStatement);
   if (context.getScopes().getTryCatchInfo()) {
@@ -49,6 +47,13 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
                                         outerFinallyBlock->getStatements().begin(),
                                         outerFinallyBlock->getStatements().end());
   }
+  
+  vector<Catch*> allCatches = context.getScopes().mergeNestedCatchLists(context, mCatchList);
+
+  BasicBlock* landingPadBlock = allCatches.size()
+    ? BasicBlock::Create(llvmContext, "eh.landing.pad", function) : NULL;
+  BasicBlock* continueBlock = BasicBlock::Create(llvmContext, "eh.continue", function);
+
   TryCatchInfo tryCatchInfo(landingPadBlock, &finallyBlock, mCatchList);
   context.getScopes().setTryCatchInfo(&tryCatchInfo);
 
@@ -58,29 +63,29 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   finallyBlock.generateIR(context);
 
   IRWriter::createBranch(context, continueBlock);
-
-  vector<Catch*> allCatches = context.getScopes().mergeNestedCatchLists(context);
   
-  tuple<LandingPadInst*, Value*, Value*>
-  landingPadIR = generateLandingPad(context, landingPadBlock, allCatches);
-  LandingPadInst* landingPadInst = get<0>(landingPadIR);
-  Value* wrappedException = get<1>(landingPadIR);
-  Value* exceptionTypeId = get<2>(landingPadIR);
-  
-  vector<tuple<Catch*, BasicBlock*>>
-  catchesAndBlocks = generateSelectCatchByExceptionType(context,
-                                                        exceptionTypeId,
-                                                        allCatches,
-                                                        landingPadBlock);
-  generateResumeAndFail(context, landingPadInst, exceptionTypeId, wrappedException, &finallyBlock);
+  if (allCatches.size()) {
+    tuple<LandingPadInst*, Value*, Value*>
+    landingPadIR = generateLandingPad(context, landingPadBlock, allCatches);
+    LandingPadInst* landingPadInst = get<0>(landingPadIR);
+    Value* wrappedException = get<1>(landingPadIR);
+    Value* exceptionTypeId = get<2>(landingPadIR);
+    
+    vector<tuple<Catch*, BasicBlock*>>
+    catchesAndBlocks = generateSelectCatchByExceptionType(context,
+                                                          exceptionTypeId,
+                                                          allCatches,
+                                                          landingPadBlock);
+    generateResumeAndFail(context, landingPadInst, exceptionTypeId, wrappedException, &finallyBlock);
+    context.getScopes().clearTryCatchInfo();
+    doAllBlocksTerminate &= generateCatches(context,
+                                            wrappedException,
+                                            catchesAndBlocks,
+                                            continueBlock,
+                                            &finallyBlock);
+  }
   context.getScopes().clearTryCatchInfo();
-  doAllBlocksTerminate &= generateCatches(context,
-                                          wrappedException,
-                                          catchesAndBlocks,
-                                          continueBlock,
-                                          &finallyBlock);
 
-  
   context.setBasicBlock(continueBlock);
   
   if (doAllBlocksTerminate) {
@@ -115,10 +120,6 @@ TryCatchStatement::generateLandingPad(IRGenerationContext& context,
   }
   for (Catch* catchClause : mCatchList) {
     context.getScopes().getScope()->removeException(catchClause->getType(context)->getObject());
-  }
-  
-  if (allCatches.size() == 0) {
-    landingPad->setCleanup(true);
   }
   
   Value* landingPadReturnValueAlloca = IRWriter::newAllocaInst(context, landingPadReturnType, "");
@@ -222,7 +223,6 @@ bool TryCatchStatement::generateCatches(IRGenerationContext& context,
                                                      exceptionContinueBlock,
                                                      finallyBlock);
   }
-  context.getScopes().clearTryCatchInfo();
   
   return doAllCatchesTerminate;
 }

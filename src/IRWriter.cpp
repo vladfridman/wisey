@@ -356,6 +356,7 @@ ResumeInst* IRWriter::createResumeInst(IRGenerationContext& context,
 UnreachableInst* IRWriter::newUnreachableInst(IRGenerationContext& context) {
 
   BasicBlock* currentBlock = context.getBasicBlock();
+  string test = currentBlock->getName();
   
   if(currentBlock->getTerminator()) {
     return NULL;

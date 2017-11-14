@@ -11,8 +11,10 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/Cast.hpp"
+#include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
@@ -21,10 +23,13 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/ObjectBuilder.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
+#include "wisey/ThrowStatement.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -301,22 +306,21 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
 
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   context.setBasicBlock(basicBlock);
-  
+
+  context.getScopes().pushScope();
+  context.setBasicBlock(basicBlock);
+
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
   thisArgument->setName("this");
 
   Value* nullValue = ConstantPointerNull::get((PointerType*) thisArgument->getType());
-  Value* condition = IRWriter::newICmpInst(context,
-                                           ICmpInst::ICMP_EQ,
-                                           thisArgument,
-                                           nullValue,
-                                           "");
+  Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisArgument, nullValue, "");
 
   BasicBlock* ifThisIsNullBlock = BasicBlock::Create(llvmContext, "if.this.null", function);
   BasicBlock* ifThisIsNotNullBlock = BasicBlock::Create(llvmContext, "if.this.notnull", function);
 
-  IRWriter::createConditionalBranch(context, ifThisIsNullBlock, ifThisIsNotNullBlock, condition);
+  IRWriter::createConditionalBranch(context, ifThisIsNullBlock, ifThisIsNotNullBlock, isNull);
 
   context.setBasicBlock(ifThisIsNullBlock);
   IRWriter::createReturnInst(context, NULL);
@@ -329,12 +333,32 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
     PrintOutStatement printOutStatement(printOutArguments);
     printOutStatement.generateIR(context);
   }
-
+  
   decrementReferenceFields(context, thisArgument, object);
   freeOwnerFields(context, thisArgument, object);
+  
+  Value* referenceCount = object->getReferenceCount(context, thisArgument);
+  BasicBlock* refCountZeroBlock = BasicBlock::Create(llvmContext, "ref.count.zero", function);
+  BasicBlock* refCountNotZeroBlock = BasicBlock::Create(llvmContext, "ref.count.notzero", function);
+  llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "");
+  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
+  
+  context.setBasicBlock(refCountNotZeroBlock);
+
+  Function* throwFunction = context.getModule()
+  ->getFunction(Names::getDestroyedObjectStillInUseFunctionName());
+  vector<Value*> arguments;
+  
+  IRWriter::createInvokeInst(context, throwFunction, arguments, "");
+  IRWriter::newUnreachableInst(context);
+
+  context.setBasicBlock(refCountZeroBlock);
 
   IRWriter::createFree(context, thisArgument);
   IRWriter::createReturnInst(context, NULL);
+
+  context.getScopes().popScope(context);
 }
 
 void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,

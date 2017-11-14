@@ -337,16 +337,14 @@ TEST_F(ScopesTest, mergeNestedCatchListsTest) {
   vector<Catch*> catchList3;
   catchList3.push_back(catch3);
   catchList3.push_back(catch4);
-  TryCatchInfo* tryCatchInfo3 = new TryCatchInfo(basicBlock, emptyBlock, catchList3);
   
   mScopes.pushScope();
   mScopes.setTryCatchInfo(tryCatchInfo1);
   mScopes.pushScope();
   mScopes.setTryCatchInfo(tryCatchInfo2);
   mScopes.pushScope();
-  mScopes.setTryCatchInfo(tryCatchInfo3);
   
-  vector<Catch*> mergedCatches = mScopes.mergeNestedCatchLists(mContext);
+  vector<Catch*> mergedCatches = mScopes.mergeNestedCatchLists(mContext, catchList3);
   
   EXPECT_EQ(mergedCatches.size(), 3u);
   EXPECT_EQ(mergedCatches.at(0), catch3);
@@ -452,12 +450,12 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerReuseRefere
           "5");
 }
 
-TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullTest) {
-  // TODO: this should throw reference count exception
+//TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullTest) {
 //  compileAndRunFileCheckOutput("tests/samples/test_reference_memory_deallocated_by_setting_null.yz",
 //                               1,
 //                               "",
 //                               "Unhandled exception wisey.lang.MNullPointerException\n"
 //                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_setting_null.yz:33)\n"
 //                               "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n");
-}
+//}
+

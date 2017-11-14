@@ -27,6 +27,11 @@ public:
   static std::string getNPECheckFunctionName();
   
   /**
+   * Function that throw MDestroyedObjectStillInUse exception
+   */
+  static std::string getDestroyedObjectStillInUseFunctionName();
+  
+  /**
    * Returns function that adjust reference count of a concrete object in thread unsafe fasion
    */
   static std::string getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName();

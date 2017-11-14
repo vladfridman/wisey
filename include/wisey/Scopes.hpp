@@ -178,7 +178,8 @@ public:
   /**
    * Merge catches from scopes above with catches in the current scope
    */
-  std::vector<Catch*> mergeNestedCatchLists(IRGenerationContext& context);
+  std::vector<Catch*> mergeNestedCatchLists(IRGenerationContext& context,
+                                            std::vector<Catch*> catchList);
   
 private:
 

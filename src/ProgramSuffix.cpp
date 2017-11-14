@@ -40,6 +40,7 @@ using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   composeNPEFunctionBody(context);
+  composeDestroyedObjectStillUseFunctionBody(context);
   composeAdjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(context);
   composeAdjustReferenceCounterForInterfaceFunctionBody(context);
 
@@ -87,6 +88,31 @@ void ProgramSuffix::composeNPEFunctionBody(IRGenerationContext& context) const {
   context.getScopes().pushScope();
   ifStatement.generateIR(context);
   context.getScopes().getScope()->removeException(context.getModel(Names::getNPEModelName()));
+  context.getScopes().popScope(context);
+  
+  IRWriter::createReturnInst(context, NULL);
+}
+
+void ProgramSuffix::composeDestroyedObjectStillUseFunctionBody(IRGenerationContext& context) const {
+  Function* function = context.getModule()
+  ->getFunction(Names::getDestroyedObjectStillInUseFunctionName());
+  
+  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
+  context.setBasicBlock(basicBlock);
+  
+  vector<string> package;
+  package.push_back("wisey");
+  package.push_back("lang");
+  ModelTypeSpecifier* modelTypeSpecifier =
+  new ModelTypeSpecifier(package, Names::getDestroyedObjectStillInUseName());
+  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
+  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder);
+
+  context.getScopes().pushScope();
+  throwStatement->generateIR(context);
+  context.getScopes().getScope()
+   ->removeException(context.getModel(Names::getDestroyedObjectStillInUseName()));
   context.getScopes().popScope(context);
   
   IRWriter::createReturnInst(context, NULL);

@@ -247,9 +247,15 @@ const IObjectType* Scopes::getObjectType() const {
   return NULL;
 }
 
-vector<Catch*> Scopes::mergeNestedCatchLists(IRGenerationContext& context) {
+vector<Catch*> Scopes::mergeNestedCatchLists(IRGenerationContext& context,
+                                             vector<Catch*> catchList) {
   vector<Catch*> result;
   set<string> processedCatches;
+  
+  for(Catch* catchClause : catchList) {
+    result.push_back(catchClause);
+    processedCatches.insert(catchClause->getType(context)->getName());
+  }
   
   for (Scope* scope : mScopes) {
     TryCatchInfo* info = scope->getTryCatchInfo();
