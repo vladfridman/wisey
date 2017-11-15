@@ -20,6 +20,7 @@
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ConditionalExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -55,6 +56,8 @@ struct ConditionalExpressionTest : Test {
   mIfTrueExpression(new NiceMock<MockExpression>()),
   mIfFalseExpression(new NiceMock<MockExpression>()),
   mVariable(new NiceMock<MockVariable>()) {
+    TestPrefix::run(mContext);
+    
     LLVMContext &llvmContext = mContext.getLLVMContext();
     
     string modelFullName = "systems.vos.wisey.compiler.tests.MModel";

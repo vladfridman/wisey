@@ -17,6 +17,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -47,6 +48,7 @@ struct FieldOwnerVariableTest : Test {
   raw_string_ostream* mStringStream;
   
   FieldOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

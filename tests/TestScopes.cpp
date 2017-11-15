@@ -450,12 +450,21 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerReuseRefere
           "5");
 }
 
-//TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullTest) {
-//  compileAndRunFileCheckOutput("tests/samples/test_reference_memory_deallocated_by_setting_null.yz",
-//                               1,
-//                               "",
-//                               "Unhandled exception wisey.lang.MNullPointerException\n"
-//                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_setting_null.yz:33)\n"
-//                               "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n");
-//}
+TEST_F(TestFileSampleRunner, destroyedObjectStillInUseRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_destroyed_object_still_in_use.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_destroyed_object_still_in_use.yz:31)\n"
+                               "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n");
+}
 
+TEST_F(TestFileSampleRunner, nullPointerExceptionRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_null_pointer_exception.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CService.getValue(tests/samples/test_null_pointer_exception.yz:25)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_null_pointer_exception.yz:36)\n"
+                               "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n");
+}

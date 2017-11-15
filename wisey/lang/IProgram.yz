@@ -1,5 +1,9 @@
 package wisey.lang;
 
+import wisey.lang.IProgram;
+import wisey.lang.MNullPointerException;
+import wisey.lang.MDestroyedObjectStillInUseException;
+
 interface IProgram {
-  int run();
+  int run() throws MDestroyedObjectStillInUseException, MNullPointerException;
 }

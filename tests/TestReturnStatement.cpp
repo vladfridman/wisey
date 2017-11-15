@@ -16,6 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
@@ -49,6 +50,7 @@ public:
   ReturnStatementTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

@@ -14,6 +14,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
@@ -40,6 +41,7 @@ struct ReturnVoidStatementTest : public Test {
 
   ReturnVoidStatementTest() :
   mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

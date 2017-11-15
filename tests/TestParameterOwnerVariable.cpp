@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
@@ -43,6 +44,7 @@ struct ParameterOwnerVariableTest : public Test {
 public:
   
   ParameterOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     

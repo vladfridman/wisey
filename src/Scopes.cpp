@@ -14,6 +14,7 @@
 #include "wisey/IReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/ModelOwner.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/Scopes.hpp"
 
 using namespace llvm;
@@ -139,6 +140,7 @@ void Scopes::popScope(IRGenerationContext& context) {
   
   if (mScopes.size() == 0) {
     reportUnhandledExceptions(exceptions);
+    return;
   }
   
   top = mScopes.front();
@@ -297,9 +299,12 @@ void Scopes::reportUnhandledExceptions(map<string, const Model*> exceptions) {
   for (map<string, const Model*>::iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
+    if (!iterator->first.find(Names::getLangPackageName())) {
+      continue;
+    }
     Log::e("Exception " + iterator->first + " is not handled");
+    exit(1);
   }
-  exit(1);
 }
 
 void Scopes::clearReferencesToOwnerTypeVariable(IVariable* ownerVariable) {

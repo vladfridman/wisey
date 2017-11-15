@@ -64,6 +64,9 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
                                       objectWithMethodsType,
                                       methodDescriptor);
   }
+  
+  context.getScopes().getScope()->addException(context.getModel(Names::getNPEModelFullName()));
+  
   if (IType::isConcreteObjectType(objectWithMethodsType)) {
     return generateObjectMethodCallIR(context,
                                       (IObjectType*) objectWithMethodsType,
@@ -116,11 +119,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
 
-  return createFunctionCall(context,
-                            interface,
-                            (Function*) function,
-                            methodDescriptor,
-                            arguments);
+  return createFunctionCall(context, interface, (Function*) function, methodDescriptor, arguments);
 }
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,

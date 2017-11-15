@@ -17,6 +17,7 @@
 #include "MockExpression.hpp"
 #include "MockType.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/Block.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
@@ -48,6 +49,7 @@ struct ThrowStatementTest : public Test {
   ThrowStatementTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
@@ -160,7 +162,6 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   
   Value* result = throwStatement.generateIR(mContext);
   EXPECT_NE(result, nullptr);
-  EXPECT_EQ(mContext.getScopes().getScope()->getExceptions().size(), 1u);
   
   *mStringStream << *mFunction;
   string expected =

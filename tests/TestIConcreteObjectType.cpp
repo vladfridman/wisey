@@ -16,6 +16,7 @@
 
 #include "MockConcreteObjectType.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -46,6 +47,7 @@ struct IConcreteObjectTypeTest : public Test {
   raw_string_ostream* mStringStream;
   
   IConcreteObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

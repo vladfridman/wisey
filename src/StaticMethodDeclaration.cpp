@@ -9,7 +9,6 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/MethodArgument.hpp"
-#include "wisey/Names.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/StaticMethod.hpp"
 #include "wisey/StaticMethodDeclaration.hpp"
@@ -36,9 +35,6 @@ IMethod* StaticMethodDeclaration::declare(IRGenerationContext& context) const {
   
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context, mExceptions);
-  exceptions.push_back(context.getModel(Names::getNPEModelFullName()));
-  exceptions.push_back(context.getModel(Names::getDestroyedObjectStillInUseFullName()));
-
   return new StaticMethod(mName,
                           mAccessLevel,
                           returnType,

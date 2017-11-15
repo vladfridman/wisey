@@ -70,6 +70,9 @@ void IMethod::checkForUnhandledExceptions(IRGenerationContext& context, const IM
   for (map<string, const Model*>::const_iterator iterator = exceptions.begin();
        iterator != exceptions.end();
        iterator++) {
+    if (!iterator->first.find(Names::getLangPackageName())) {
+      continue;
+    }
     Log::e((method->isStatic() ? "Static method " : "Method ") + method->getName() +
            " neither handles the exception " + iterator->first + " nor throws it");
     hasUnhandledExceptions = true;

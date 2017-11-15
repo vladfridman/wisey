@@ -412,6 +412,8 @@ string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjec
 void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
                                                 const IConcreteObjectType* object,
                                                 Value* value) {
+  context.getScopes().getScope()
+  ->addException(context.getModel(Names::getDestroyedObjectStillInUseFullName()));
   string destructorFunctionName = getObjectDestructorFunctionName(object);
   Function* function = context.getModule()->getFunction(destructorFunctionName);
   vector<Value*> arguments;

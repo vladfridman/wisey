@@ -87,7 +87,6 @@ void ProgramSuffix::composeNPEFunctionBody(IRGenerationContext& context) const {
   
   context.getScopes().pushScope();
   ifStatement.generateIR(context);
-  context.getScopes().getScope()->removeException(context.getModel(Names::getNPEModelName()));
   context.getScopes().popScope(context);
   
   IRWriter::createReturnInst(context, NULL);
@@ -111,8 +110,6 @@ void ProgramSuffix::composeDestroyedObjectStillUseFunctionBody(IRGenerationConte
 
   context.getScopes().pushScope();
   throwStatement->generateIR(context);
-  context.getScopes().getScope()
-   ->removeException(context.getModel(Names::getDestroyedObjectStillInUseName()));
   context.getScopes().popScope(context);
   
   IRWriter::createReturnInst(context, NULL);

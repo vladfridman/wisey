@@ -62,7 +62,6 @@ public:
    * Get pointer to the method name constant
    */
   static void defineCurrentMethodNameVariable(IRGenerationContext& context, std::string methodName);
-  
 
 };
   

@@ -16,6 +16,7 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -44,6 +45,7 @@ struct LocalOwnerVariableTest : public Test {
 public:
   
   LocalOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+    TestPrefix::run(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
