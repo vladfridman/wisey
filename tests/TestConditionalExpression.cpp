@@ -56,7 +56,7 @@ struct ConditionalExpressionTest : Test {
   mIfTrueExpression(new NiceMock<MockExpression>()),
   mIfFalseExpression(new NiceMock<MockExpression>()),
   mVariable(new NiceMock<MockVariable>()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     LLVMContext &llvmContext = mContext.getLLVMContext();
     

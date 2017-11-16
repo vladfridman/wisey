@@ -39,7 +39,7 @@ struct ExternalMethodDeclarationTest : Test {
   mFloatArgumentIdentifier(new Identifier("floatargument")),
   mIntArgument(new VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
   mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
   }
 };
 

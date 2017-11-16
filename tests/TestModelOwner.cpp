@@ -63,7 +63,7 @@ struct ModelOwnerTest : public Test {
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()),
   mField3Expression(new NiceMock<MockExpression>()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;

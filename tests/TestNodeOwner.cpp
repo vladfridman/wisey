@@ -63,7 +63,7 @@ struct NodeOwnerTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     string elementInterfaceFullName = "systems.vos.wisey.compiler.tests.IElement";

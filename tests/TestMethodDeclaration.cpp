@@ -49,7 +49,7 @@ struct MethodDeclarationTest : Test {
   mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
   mBlock(new Block()),
   mCompoundStatement(new CompoundStatement(mBlock)) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
   }
 };
 

@@ -40,7 +40,7 @@ struct InterfaceDefinitionTest : public Test {
   InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
 
   InterfaceDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
 
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     

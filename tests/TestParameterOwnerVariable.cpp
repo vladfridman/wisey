@@ -44,7 +44,7 @@ struct ParameterOwnerVariableTest : public Test {
 public:
   
   ParameterOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     

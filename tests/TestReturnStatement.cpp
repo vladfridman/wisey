@@ -50,7 +50,7 @@ public:
   ReturnStatementTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

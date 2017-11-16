@@ -38,7 +38,7 @@ public:
   
   ExternalStaticMethodTest() :
   mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
     MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");

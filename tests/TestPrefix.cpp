@@ -20,7 +20,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-void TestPrefix::run(IRGenerationContext& context) {
+void TestPrefix::generateIR(IRGenerationContext& context) {
   defineModel(context, Names::getNPEModelName());
   defineModel(context, Names::getDestroyedObjectStillInUseName());
   defineThreadController(context);

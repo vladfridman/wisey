@@ -48,8 +48,7 @@ struct FieldReferenceVariableTest : Test {
   raw_string_ostream* mStringStream;
   
   FieldReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix testPrefix;
-    testPrefix.run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     

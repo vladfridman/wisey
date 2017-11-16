@@ -18,7 +18,12 @@ class TestPrefix {
   
 public:
   
-  static void run(wisey::IRGenerationContext& context);
+  /**
+   * Generate IR that defines system exceptions and thread controller.
+   *
+   * This is needed for running some tests
+   */
+  static void generateIR(wisey::IRGenerationContext& context);
   
 private:
   

@@ -36,7 +36,7 @@ struct ExternalModelDefinitionTest : public Test {
   vector<IObjectElementDeclaration*> mElementDeclarations;
   
   ExternalModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);

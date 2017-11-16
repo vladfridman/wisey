@@ -44,7 +44,7 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mBlock(new Block()),
   mCompoundStatement(CompoundStatement(mBlock)) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     

@@ -50,7 +50,7 @@ struct NodeDefinitionTest : public Test {
   mLLVMContext(mContext.getLLVMContext()),
   mBlock(new Block()),
   mMockStatement(new NiceMock<MockStatement>()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

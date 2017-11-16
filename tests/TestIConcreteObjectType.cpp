@@ -47,7 +47,7 @@ struct IConcreteObjectTypeTest : public Test {
   raw_string_ostream* mStringStream;
   
   IConcreteObjectTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

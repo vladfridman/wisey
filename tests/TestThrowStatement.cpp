@@ -49,7 +49,7 @@ struct ThrowStatementTest : public Test {
   ThrowStatementTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression(new NiceMock<MockExpression>()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

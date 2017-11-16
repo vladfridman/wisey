@@ -52,7 +52,7 @@ public:
   ComposerTest() : mLLVMContext(mContext.getLLVMContext()), mMethodName("foo") {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);

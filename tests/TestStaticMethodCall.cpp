@@ -66,7 +66,7 @@ public:
   StaticMethodCallTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mIntType(Type::getInt32Ty(mContext.getLLVMContext())) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);

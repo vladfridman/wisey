@@ -264,7 +264,7 @@ TEST_F(IRGenerationContextTest, getImportDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, clearAndAddDefaultImportsDeathTest) {
-  TestPrefix::run(mContext);
+  TestPrefix::generateIR(mContext);
   
   mContext.addImport(mController);
   mContext.clearAndAddDefaultImports();

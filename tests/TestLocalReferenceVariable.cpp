@@ -51,7 +51,7 @@ struct LocalReferenceVariableTest : public Test {
 public:
   
   LocalReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     

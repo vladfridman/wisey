@@ -37,7 +37,7 @@ struct ExternalNodeDefinitionTest : public Test {
   vector<IObjectElementDeclaration*> mObjectElements;
   
   ExternalNodeDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);

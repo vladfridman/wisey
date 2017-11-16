@@ -45,7 +45,7 @@ struct LocalOwnerVariableTest : public Test {
 public:
   
   LocalOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     

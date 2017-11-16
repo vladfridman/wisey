@@ -51,7 +51,7 @@ struct ControllerDefinitionTest : public Test {
   ControllerDefinitionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mMockStatement(new NiceMock<MockStatement>()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);

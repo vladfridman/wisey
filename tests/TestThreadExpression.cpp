@@ -47,7 +47,7 @@ struct ThreadExpressionTest : public Test {
   raw_string_ostream* mStringStream;
 
   ThreadExpressionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     

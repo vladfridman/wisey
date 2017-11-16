@@ -41,7 +41,7 @@ struct ReturnVoidStatementTest : public Test {
 
   ReturnVoidStatementTest() :
   mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

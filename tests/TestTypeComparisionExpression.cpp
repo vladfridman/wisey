@@ -61,7 +61,7 @@ struct TypeComparisionExpressionTest : public Test {
   TypeComparisionExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

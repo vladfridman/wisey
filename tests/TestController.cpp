@@ -70,7 +70,7 @@ struct ControllerTest : public Test {
   raw_string_ostream* mStringStream;
   
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 

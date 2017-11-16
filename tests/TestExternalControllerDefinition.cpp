@@ -40,7 +40,7 @@ struct ExternalControllerDefinitionTest : public Test {
   vector<InterfaceTypeSpecifier*> mInterfaces;
   
   ExternalControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::run(mContext);
+    TestPrefix::generateIR(mContext);
     
     ExternalMethodDeclaration* methodDeclaration;
     
