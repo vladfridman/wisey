@@ -67,9 +67,23 @@ void IMethodDescriptor::printDescriptorToStream(const IMethodDescriptor* method,
   vector<MethodArgument*> arguments = method->getArguments();
   for (MethodArgument* argument : arguments) {
     stream << endl << "    " << argument->getType()->getName() << " " << argument->getName();
-    if (argument != arguments.at(arguments.size()-1)) {
+    if (argument != arguments.at(arguments.size() - 1)) {
       stream << ",";
     }
   }
-  stream << ");" << endl;
+  stream << ")";
+  
+  vector<const Model*> exceptions = method->getThrownExceptions();
+  
+  if (exceptions.size()) {
+    stream << " throws ";
+  }
+  for (const Model* exception : exceptions) {
+    if (exception != exceptions.front()) {
+      stream << ", ";
+    }
+    stream << exception->getName();
+  }
+
+  stream << ";" << endl;
 }

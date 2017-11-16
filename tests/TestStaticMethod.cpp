@@ -17,6 +17,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/StaticMethod.hpp"
@@ -53,6 +54,7 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
+    thrownExceptions.push_back(mContext.getModel(Names::getDestroyedObjectStillInUseFullName()));
     mStaticMethod = new StaticMethod("mymethod",
                                      AccessLevel::PUBLIC_ACCESS,
                                      PrimitiveTypes::BOOLEAN_TYPE,
@@ -165,7 +167,7 @@ TEST_F(StaticMethodTest, printToStreamTest) {
   
   EXPECT_STREQ("  static boolean mymethod(\n"
                "    double argDouble,\n"
-               "    char argChar);\n",
+               "    char argChar) throws wisey.lang.MDestroyedObjectStillInUseException;\n",
                stringStream.str().c_str());
 }
 

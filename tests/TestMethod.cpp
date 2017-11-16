@@ -18,6 +18,7 @@
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -53,6 +54,7 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
+    thrownExceptions.push_back(mContext.getModel(Names::getDestroyedObjectStillInUseFullName()));
     mMethod = new Method("mymethod",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::BOOLEAN_TYPE,
@@ -170,7 +172,7 @@ TEST_F(MethodTest, printToStreamTest) {
   
   EXPECT_STREQ("  boolean mymethod(\n"
                "    double argDouble,\n"
-               "    char argChar);\n",
+               "    char argChar) throws wisey.lang.MDestroyedObjectStillInUseException;\n",
                stringStream.str().c_str());
 }
 
