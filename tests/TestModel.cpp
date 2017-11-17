@@ -285,11 +285,6 @@ struct ModelTest : public Test {
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
     
-    vector<Catch*> catchList;
-    FinallyBlock* emptyBlock = new FinallyBlock();
-    TryCatchInfo* tryCatchInfo = new TryCatchInfo(mBasicBlock, emptyBlock, catchList);
-    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
-
     mStringStream = new raw_string_ostream(mStringBuffer);
 }
   

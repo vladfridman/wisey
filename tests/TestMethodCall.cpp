@@ -129,12 +129,6 @@ public:
     mContext.getScopes().pushScope();
     mContext.setMainFunction(mMainFunction);
 
-    BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
-    vector<Catch*> catchList;
-    FinallyBlock* emptyBlock = new FinallyBlock();
-    TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, emptyBlock, catchList);
-    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
-
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     Value* nullPointer = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
@@ -251,20 +245,20 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   *mStringStream << *mContext.getBasicBlock();
   string expected =
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  %5 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
-  "\n  call void @wisey.lang.CThread.popStack(%wisey.lang.CThread* %5, %wisey.lang.CThread* %5)"
-  "\n  %6 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
-  "\n  %7 = call %systems.vos.wisey.compiler.tests.MReturnedModel* "
-  "@systems.vos.wisey.compiler.tests.MSquare.foo("
-  "%systems.vos.wisey.compiler.tests.MSquare* %0, "
-  "%wisey.lang.CThread* %6, float 0x4014CCCCC0000000)"
   "\n  %8 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
   "\n  call void @wisey.lang.CThread.popStack(%wisey.lang.CThread* %8, %wisey.lang.CThread* %8)"
+  "\n  %9 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
+  "\n  %10 = call %systems.vos.wisey.compiler.tests.MReturnedModel* "
+  "@systems.vos.wisey.compiler.tests.MSquare.foo("
+  "%systems.vos.wisey.compiler.tests.MSquare* %0, "
+  "%wisey.lang.CThread* %9, float 0x4014CCCCC0000000)"
+  "\n  %11 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
+  "\n  call void @wisey.lang.CThread.popStack(%wisey.lang.CThread* %11, %wisey.lang.CThread* %11)"
   "\n  %returnedObjectPointer = alloca %systems.vos.wisey.compiler.tests.MReturnedModel*"
-  "\n  store %systems.vos.wisey.compiler.tests.MReturnedModel* %7, "
+  "\n  store %systems.vos.wisey.compiler.tests.MReturnedModel* %10, "
   "%systems.vos.wisey.compiler.tests.MReturnedModel** %returnedObjectPointer"
-  "\n  %9 = bitcast %systems.vos.wisey.compiler.tests.MReturnedModel* %7 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %9, i64 1)\n";
+  "\n  %12 = bitcast %systems.vos.wisey.compiler.tests.MReturnedModel* %10 to i64*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %12, i64 1)\n";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);
 }

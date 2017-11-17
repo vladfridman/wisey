@@ -135,12 +135,6 @@ public:
     mContext.getScopes().pushScope();
     mContext.setMainFunction(mainFunction);
     
-    BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
-    vector<Catch*> catchList;
-    FinallyBlock* emptyBlock = new FinallyBlock();
-    TryCatchInfo* tryCatchInfo = new TryCatchInfo(basicBlock, emptyBlock, catchList);
-    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
-
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
     PointerType* llvmType = mThreadController->getLLVMType(mLLVMContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");

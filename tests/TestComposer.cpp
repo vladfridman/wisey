@@ -14,7 +14,7 @@
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include "MockVariable.hpp"
+#include "MockReferenceVariable.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/EmptyStatement.hpp"
@@ -45,7 +45,7 @@ struct ComposerTest : public Test {
   Function* mMainFunction;
   string mMethodName;
   Controller* mThreadController;
-  NiceMock<MockVariable>* mThreadVariable;
+  NiceMock<MockReferenceVariable>* mThreadVariable;
 
 public:
   
@@ -103,7 +103,7 @@ public:
 
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
     Value* threadObject = ConstantPointerNull::get(mThreadController->getLLVMType(mLLVMContext));
-    mThreadVariable = new NiceMock<MockVariable>();
+    mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(mThreadController));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
@@ -120,21 +120,13 @@ public:
 };
 
 TEST_F(ComposerTest, checkNullAndThrowNPETest) {
-  BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext,
-                                                   "cleanup.landing.pad",
-                                                   mMainFunction);
-  FinallyBlock* finallyBlock = new FinallyBlock();
-  vector<Catch*> catchList;
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock, finallyBlock, catchList);
-  mContext.getScopes().setTryCatchInfo(tryCatchInfo);
-
   Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
   
   Composer::checkNullAndThrowNPE(mContext, value, 5);
 
   *mStringStream << *mMainFunction;
   string expected =
-  "\ndefine internal i32 @main() {"
+  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  call void @wisey.lang.CThread.pushStack("
     "%wisey.lang.CThread* null, "
@@ -146,9 +138,12 @@ TEST_F(ComposerTest, checkNullAndThrowNPETest) {
     "i32 5)"
   "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MMyModel* null to i8*"
   "\n  invoke void @__checkForNullAndThrow(i8* %0)"
-  "\n          to label %invoke.continue unwind label %cleanup.landing.pad"
+  "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
-  "\ncleanup.landing.pad:                              ; preds = %entry"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %1 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %1"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
   "\n  call void @wisey.lang.CThread.popStack("
