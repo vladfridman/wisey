@@ -366,3 +366,17 @@ void IRGenerationContext::setSourceFileNamePointer(Value* sourceFileConstantPoin
 Value* IRGenerationContext::getSourceFileNamePointer() const {
   return mSourceFileConstantPointer;
 }
+
+void IRGenerationContext::addComposingCallback(ComposingFunction callback,
+                                               const IObjectType* objectType) {
+  mComposingCallbacks.push_back(make_tuple(callback, objectType));
+}
+
+void IRGenerationContext::runComposingCallbacks() {
+  for (tuple<ComposingFunction, const IObjectType*> callback : mComposingCallbacks) {
+    ComposingFunction function = get<0>(callback);
+    const IObjectType* objectType = get<1>(callback);
+    function(*this, objectType);
+  }
+}
+

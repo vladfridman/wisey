@@ -34,25 +34,29 @@ CallInst* InstanceOf::call(IRGenerationContext& context,
 
 Function* InstanceOf::getOrCreateFunction(IRGenerationContext& context,
                                           const Interface* interface) {
-  string instanceOfFunctionName = InstanceOf::getFunctionName(interface);
-  Function* function = context.getModule()->getFunction(instanceOfFunctionName);
+  Function* function = context.getModule()->getFunction(InstanceOf::getFunctionName(interface));
   
   if (function != NULL) {
     return function;
   }
   
-  return define(context, interface);
+  function = createFunction(context, interface);
+  context.addComposingCallback(compose, interface);
+
+  return function;
 }
 
 string InstanceOf::getFunctionName(const Interface* interface) {
   return interface->getName() + ".instanceof";
 }
 
-Function* InstanceOf::define(IRGenerationContext& context, const Interface* interface) {
+Function* InstanceOf::compose(IRGenerationContext& context, const IObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Function* function = createFunction(context, interface);
-  
+  const Interface* interface = (const Interface*) object;
+
+  Function* function = context.getModule()->getFunction(InstanceOf::getFunctionName(interface));
+  assert(function);
+
   BasicBlock* lastBasicBlock = context.getBasicBlock();
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   BasicBlock* whileCond = BasicBlock::Create(llvmContext, "while.cond", function);

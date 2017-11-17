@@ -58,6 +58,7 @@ void Compiler::compile() {
   generateIR(programFiles, mContext);
   mContext.setSourceFileNamePointer(NULL);
   programSuffix.generateIR(mContext);
+  mContext.runComposingCallbacks();
   
   verifyModule(*mContext.getModule());
   

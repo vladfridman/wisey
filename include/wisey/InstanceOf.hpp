@@ -41,7 +41,7 @@ private:
   static llvm::Function* getOrCreateFunction(IRGenerationContext& context,
                                              const Interface* interface);
   
-  static llvm::Function* define(IRGenerationContext& context, const Interface* interface);
+  static llvm::Function* compose(IRGenerationContext& context, const IObjectType* object);
   
   static llvm::Function* createFunction(IRGenerationContext& context, const Interface* interface);
   
