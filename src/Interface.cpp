@@ -756,6 +756,6 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   vector<Value*> arguments;
   arguments.push_back(bitcast);
   
-  IRWriter::createCallInst(context, objectDestructor, arguments, "");
+  IRWriter::createInvokeInst(context, objectDestructor, arguments, "");
   IRWriter::createReturnInst(context, NULL);
 }

@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockReferenceVariable.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
@@ -59,7 +60,7 @@ struct InterfaceTest : public Test {
   BasicBlock* mBasicBlock;
   NiceMock<MockExpression>* mMockExpression;
   ConstantDeclaration* mConstantDeclaration;
-  NiceMock<MockVariable>* mThreadVariable;
+  NiceMock<MockReferenceVariable>* mThreadVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
@@ -143,16 +144,11 @@ struct InterfaceTest : public Test {
 
     Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
     Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
-    mThreadVariable = new NiceMock<MockVariable>();
+    mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().setVariable(mThreadVariable);
-    
-    vector<Catch*> catchList;
-    FinallyBlock* emptyBlock = new FinallyBlock();
-    TryCatchInfo* tryCatchInfo = new TryCatchInfo(mBasicBlock, emptyBlock, catchList);
-    mContext.getScopes().setTryCatchInfo(tryCatchInfo);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -453,6 +449,9 @@ TEST_F(InterfaceTest, composeDestructorFunctionBodyTest) {
   mShapeInterface->composeDestructorFunctionBody(mContext);
   
   EXPECT_GT(destructor->getBasicBlockList().size(), 0u);
+  *mStringStream << *destructor;
+  
+  cout << mStringStream->str();
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
