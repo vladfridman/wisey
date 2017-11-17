@@ -21,11 +21,6 @@ class Names {
 public:
     
   /**
-   * Returns function that adjust reference count of a concrete object in thread unsafe fasion
-   */
-  static std::string getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName();
-  
-  /**
    * Returns function that adjust reference count of an interface
    */
   static std::string getAdjustReferenceCounterForInterfaceFunctionName();

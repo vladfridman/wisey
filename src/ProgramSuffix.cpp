@@ -39,7 +39,6 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
-  composeAdjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(context);
   composeAdjustReferenceCounterForInterfaceFunctionBody(context);
 
   vector<string> package;
@@ -53,41 +52,6 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   }
   
   return generateMain(context, programInterfaceSpecifier);
-}
-
-void ProgramSuffix::
-composeAdjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(IRGenerationContext&
-                                                                  context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Function* function = context.getModule()->
-  getFunction(Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName());
-  
-  Function::arg_iterator llvmArguments = function->arg_begin();
-  llvm::Argument *llvmArgument = &*llvmArguments;
-  llvmArgument->setName("counter");
-  Value* counter = llvmArgument;
-  llvmArguments++;
-  llvmArgument = &*llvmArguments;
-  llvmArgument->setName("adjustment");
-  Value* adjustment = llvmArgument;
-
-  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
-  BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
-  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
-  
-  context.setBasicBlock(entryBlock);
-  Value* null = ConstantPointerNull::get(Type::getInt64Ty(llvmContext)->getPointerTo());
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, counter, null, "");
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
-  
-  context.setBasicBlock(ifNullBlock);
-  IRWriter::createReturnInst(context, NULL);
-  
-  context.setBasicBlock(ifNotNullBlock);
-  Value* count = IRWriter::newLoadInst(context, counter, "count");
-  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
-  IRWriter::newStoreInst(context, sum, counter);
-  IRWriter::createReturnInst(context, NULL);
 }
 
 void ProgramSuffix::

@@ -10,6 +10,7 @@
 #include <llvm/IR/GlobalValue.h>
 #include <llvm/IR/DerivedTypes.h>
 
+#include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
@@ -549,8 +550,7 @@ void IConcreteObjectType::adjustReferenceCounterForObject(IRGenerationContext& c
   
   Value* counterPointer = getReferenceCounterPointer(context, object);
   
-  Function* function = context.getModule()->
-  getFunction(Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName());
+  Function* function = AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
   vector<Value*> arguments;
   arguments.push_back(counterPointer);
   llvm::Constant* one = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext), adjustment);

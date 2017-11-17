@@ -32,29 +32,12 @@ using namespace wisey;
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage(Names::getLangPackageName());
 
-  defineAdjustReferenceCounterForConcreteObjectUnsafelyFunction(context);
   defineAdjustReferenceCounterForInterfaceFunction(context);
   StructType* fileStructType = defineFileStruct(context);
   defineStderr(context, fileStructType);
   defineEmptyString(context);
   
   return NULL;
-}
-
-void ProgramPrefix::
-defineAdjustReferenceCounterForConcreteObjectUnsafelyFunction(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext)->getPointerTo());
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
-  
-  Function::Create(ftype,
-                   GlobalValue::InternalLinkage,
-                   Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName(),
-                   context.getModule());
 }
 
 void ProgramPrefix::

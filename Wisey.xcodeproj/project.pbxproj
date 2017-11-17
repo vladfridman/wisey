@@ -105,6 +105,8 @@
 		F52C665B1FBF348D00E89B04 /* DestroyedObjectStillInUseFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C66591FBF348D00E89B04 /* DestroyedObjectStillInUseFunction.cpp */; };
 		F52C665E1FBF38CC00E89B04 /* NullPointerExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C665D1FBF38CC00E89B04 /* NullPointerExceptionFunction.cpp */; };
 		F52C665F1FBF38CC00E89B04 /* NullPointerExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C665D1FBF38CC00E89B04 /* NullPointerExceptionFunction.cpp */; };
+		F52C66621FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C66611FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */; };
+		F52C66631FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C66611FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */; };
 		F52F2C991EA95C7B0081DE38 /* TestTryCatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */; };
 		F52FF1811F1B8729003F4D37 /* Composer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E6BD061F190B4700D59444 /* Composer.cpp */; };
 		F52FF1821F1B8731003F4D37 /* FakeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5E6BD091F190B8500D59444 /* FakeExpression.cpp */; };
@@ -884,6 +886,8 @@
 		F52C66591FBF348D00E89B04 /* DestroyedObjectStillInUseFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyedObjectStillInUseFunction.cpp; path = src/DestroyedObjectStillInUseFunction.cpp; sourceTree = "<group>"; };
 		F52C665C1FBF387900E89B04 /* NullPointerExceptionFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NullPointerExceptionFunction.hpp; path = include/wisey/NullPointerExceptionFunction.hpp; sourceTree = "<group>"; };
 		F52C665D1FBF38CC00E89B04 /* NullPointerExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = NullPointerExceptionFunction.cpp; path = src/NullPointerExceptionFunction.cpp; sourceTree = "<group>"; };
+		F52C66601FBF415700E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp; path = include/wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp; sourceTree = "<group>"; };
+		F52C66611FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp; path = src/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp; sourceTree = "<group>"; };
 		F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestTryCatch.cpp; path = tests/TestTryCatch.cpp; sourceTree = "<group>"; };
 		F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethodDeclaration.hpp; path = include/wisey/IMethodDeclaration.hpp; sourceTree = "<group>"; };
 		F52FF1831F1C565D003F4D37 /* Names.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Names.hpp; path = include/wisey/Names.hpp; sourceTree = "<group>"; };
@@ -1633,6 +1637,7 @@
 		F52C66541FBF320C00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
+				F52C66611FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
 				F52C66591FBF348D00E89B04 /* DestroyedObjectStillInUseFunction.cpp */,
 				F52C665D1FBF38CC00E89B04 /* NullPointerExceptionFunction.cpp */,
@@ -1643,6 +1648,7 @@
 		F52C66551FBF322A00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
+				F52C66601FBF415700E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp */,
 				F5E6BD051F190B3900D59444 /* Composer.hpp */,
 				F52C66581FBF33C000E89B04 /* DestroyedObjectStillInUseFunction.hpp */,
 				F52C665C1FBF387900E89B04 /* NullPointerExceptionFunction.hpp */,
@@ -2861,6 +2867,7 @@
 				F59D822A1E1089E700057FB5 /* BreakStatement.cpp in Sources */,
 				F56AD49F1E9F50FD0020868C /* TestThrowStatement.cpp in Sources */,
 				F57780B41ECA384B0049542D /* TestBindAction.cpp in Sources */,
+				F52C66631FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */,
 				F508E06C1E72DC7D005D6115 /* TestIMethodDescriptor.cpp in Sources */,
 				F5676E2D1F5F212500740278 /* FinallyBlock.cpp in Sources */,
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
@@ -3042,6 +3049,7 @@
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F5C6FD801E48B6E80054209D /* IntType.cpp in Sources */,
+				F52C66621FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */,
 				F5F435C91FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

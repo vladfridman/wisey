@@ -24,9 +24,6 @@ public:
 
 private:
 
-  void composeAdjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(IRGenerationContext&
-                                                                          context) const;
-  
   void composeAdjustReferenceCounterForInterfaceFunctionBody(IRGenerationContext&
                                                                       context) const;
   

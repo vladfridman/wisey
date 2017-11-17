@@ -11,10 +11,6 @@
 using namespace std;
 using namespace wisey;
 
-string Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName() {
-  return "__adjustReferenceCounterForConcreteObjectUnsafely";
-}
-
 string Names::getAdjustReferenceCounterForInterfaceFunctionName() {
   return "__adjustReferenceCounterForInterface";
 }
