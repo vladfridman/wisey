@@ -23,18 +23,16 @@ class DestroyedObjectStillInUseFunction {
 public:
   
   /**
-   * Returns the llvm function name
+   * Returns the function
    */
+  static llvm::Function* get(IRGenerationContext& context);
+
+private:
+  
   static std::string getName();
   
-  /**
-   * Defines this function
-   */
   static llvm::Function* define(IRGenerationContext& context);
   
-  /**
-   * Composes function's body
-   */
   static void compose(IRGenerationContext& context, const IObjectType* objectType);
   
 };

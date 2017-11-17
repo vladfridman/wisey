@@ -26,7 +26,7 @@ void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value, 
   PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
   
-  Function* function = context.getModule()->getFunction(NullPointerExceptionFunction::getName());
+  Function* function = NullPointerExceptionFunction::get(context);
   vector<Value*> arguments;
   arguments.push_back(bitcast);
 

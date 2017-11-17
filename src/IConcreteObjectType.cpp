@@ -347,8 +347,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   
   context.setBasicBlock(refCountNotZeroBlock);
 
-  Function* throwFunction = context.getModule()
-  ->getFunction(DestroyedObjectStillInUseFunction::getName());
+  Function* throwFunction = DestroyedObjectStillInUseFunction::get(context);
   vector<Value*> arguments;
   
   IRWriter::createInvokeInst(context, throwFunction, arguments, "");

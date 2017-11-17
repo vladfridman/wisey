@@ -17,6 +17,19 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+Function* DestroyedObjectStillInUseFunction::get(IRGenerationContext& context) {
+  Function* function = context.getModule()->getFunction(getName());
+  
+  if (function) {
+    return function;
+  }
+  
+  function = define(context);
+  context.addComposingCallback(compose, NULL);
+  
+  return function;
+}
+
 string DestroyedObjectStillInUseFunction::getName() {
   return "__throwDestroyedObjectStillInUse";
 }

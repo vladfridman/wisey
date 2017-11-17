@@ -8,7 +8,6 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/DestroyedObjectStillInUseFunction.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IfStatement.hpp"
 #include "wisey/InterfaceDefinition.hpp"
@@ -20,7 +19,6 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NullExpression.hpp"
-#include "wisey/NullPointerExceptionFunction.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -34,12 +32,6 @@ using namespace wisey;
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage(Names::getLangPackageName());
 
-  NullPointerExceptionFunction::define(context);
-  DestroyedObjectStillInUseFunction::define(context);
-  
-  context.addComposingCallback(DestroyedObjectStillInUseFunction::compose, NULL);
-  context.addComposingCallback(NullPointerExceptionFunction::compose, NULL);
-  
   defineAdjustReferenceCounterForConcreteObjectUnsafelyFunction(context);
   defineAdjustReferenceCounterForInterfaceFunction(context);
   StructType* fileStructType = defineFileStruct(context);
