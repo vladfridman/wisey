@@ -44,12 +44,6 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType) const override;
 
-private:
-  
-  std::string getDestructorFunctionName() const;
-  
-  llvm::Function* composeDestructorFunction(IRGenerationContext& context) const;
-  
 };
   
 } /* namespace wisey */

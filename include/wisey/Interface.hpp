@@ -128,6 +128,21 @@ public:
    */
   void generateConstantsIR(IRGenerationContext& context) const;
   
+  /**
+   * Returns name of the function that destroys an object of this interface type
+   */
+  std::string getDestructorFunctionName() const;
+
+  /**
+   * Defines destructor function
+   */
+  llvm::Function* defineDestructorFunction(IRGenerationContext& context) const;
+
+  /**
+   * Fills destructor function body
+   */
+  void composeDestructorFunctionBody(IRGenerationContext& context) const;
+
   llvm::Instruction* inject(IRGenerationContext& context,
                             ExpressionList expressionList) const override;
 

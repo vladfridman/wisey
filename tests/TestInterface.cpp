@@ -429,6 +429,32 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(InterfaceTest, getDestructorFunctionNameTest) {
+  EXPECT_STREQ("destructor.systems.vos.wisey.compiler.tests.IShape",
+               mShapeInterface->getDestructorFunctionName().c_str());
+}
+
+TEST_F(InterfaceTest, defineDestructorFunctionTest) {
+  string functionName = mShapeInterface->getDestructorFunctionName();
+  EXPECT_EQ(mContext.getModule()->getFunction(functionName), nullptr);
+  
+  mShapeInterface->defineDestructorFunction(mContext);
+  
+  EXPECT_NE(mContext.getModule()->getFunction(functionName), nullptr);
+}
+
+TEST_F(InterfaceTest, composeDestructorFunctionBodyTest) {
+  string functionName = mShapeInterface->getDestructorFunctionName();
+  mShapeInterface->defineDestructorFunction(mContext);
+  Function* destructor = mContext.getModule()->getFunction(functionName);
+  
+  EXPECT_EQ(destructor->getBasicBlockList().size(), 0u);
+  
+  mShapeInterface->composeDestructorFunctionBody(mContext);
+  
+  EXPECT_GT(destructor->getBasicBlockList().size(), 0u);
+}
+
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
                     1,
