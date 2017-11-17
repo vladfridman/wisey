@@ -19,13 +19,7 @@ namespace wisey {
 class Names {
   
 public:
-  
-  /**
-   * Returns the name of the function that checks whether the given parameter is null
-   * and throws an null pointer exception
-   */
-  static std::string getNPECheckFunctionName();
-  
+    
   /**
    * Returns function that adjust reference count of a concrete object in thread unsafe fasion
    */

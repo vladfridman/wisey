@@ -39,7 +39,6 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
-  composeNPEFunctionBody(context);
   composeAdjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(context);
   composeAdjustReferenceCounterForInterfaceFunctionBody(context);
 
@@ -54,41 +53,6 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   }
   
   return generateMain(context, programInterfaceSpecifier);
-}
-
-void ProgramSuffix::composeNPEFunctionBody(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Function* function = context.getModule()->getFunction(Names::getNPECheckFunctionName());
-  
-  Function::arg_iterator llvmArguments = function->arg_begin();
-  llvm::Argument *llvmArgument = &*llvmArguments;
-  llvmArgument->setName("pointer");
-  
-  BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
-  context.setBasicBlock(basicBlock);
-  
-  Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
-  Value* compare = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, llvmArgument, null, "cmp");
-  FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
-  
-  Block* thenBlock = new Block();
-  vector<string> package;
-  package.push_back("wisey");
-  package.push_back("lang");
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
-                                                                  Names::getNPEModelName());
-  ObjectBuilderArgumentList objectBuilderArgumnetList;
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
-  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder);
-  thenBlock->getStatements().push_back(throwStatement);
-  CompoundStatement* thenStatement = new CompoundStatement(thenBlock);
-  IfStatement ifStatement(fakeExpression, thenStatement);
-  
-  context.getScopes().pushScope();
-  ifStatement.generateIR(context);
-  context.getScopes().popScope(context);
-  
-  IRWriter::createReturnInst(context, NULL);
 }
 
 void ProgramSuffix::

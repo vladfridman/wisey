@@ -26,8 +26,6 @@ public:
 
 private:
   
-  void defineNPEFunction(IRGenerationContext& context) const;
-
   void defineAdjustReferenceCounterForConcreteObjectUnsafelyFunction(IRGenerationContext&
                                                                     context) const;
   

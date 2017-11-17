@@ -24,8 +24,6 @@ public:
 
 private:
 
-  void composeNPEFunctionBody(IRGenerationContext& context) const;
-  
   void composeAdjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(IRGenerationContext&
                                                                           context) const;
   

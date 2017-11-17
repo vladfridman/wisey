@@ -20,6 +20,7 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NullExpression.hpp"
+#include "wisey/NullPointerExceptionFunction.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -33,10 +34,12 @@ using namespace wisey;
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   context.setPackage(Names::getLangPackageName());
 
+  NullPointerExceptionFunction::define(context);
   DestroyedObjectStillInUseFunction::define(context);
-  context.addComposingCallback(DestroyedObjectStillInUseFunction::compose, NULL);
   
-  defineNPEFunction(context);
+  context.addComposingCallback(DestroyedObjectStillInUseFunction::compose, NULL);
+  context.addComposingCallback(NullPointerExceptionFunction::compose, NULL);
+  
   defineAdjustReferenceCounterForConcreteObjectUnsafelyFunction(context);
   defineAdjustReferenceCounterForInterfaceFunction(context);
   StructType* fileStructType = defineFileStruct(context);
@@ -44,20 +47,6 @@ Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
   defineEmptyString(context);
   
   return NULL;
-}
-
-void ProgramPrefix::defineNPEFunction(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
-
-  Function::Create(ftype,
-                   GlobalValue::InternalLinkage,
-                   Names::getNPECheckFunctionName(),
-                   context.getModule());
 }
 
 void ProgramPrefix::

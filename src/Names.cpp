@@ -11,10 +11,6 @@
 using namespace std;
 using namespace wisey;
 
-string Names::getNPECheckFunctionName() {
-  return "__checkForNullAndThrow";
-}
-
 string Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName() {
   return "__adjustReferenceCounterForConcreteObjectUnsafely";
 }
