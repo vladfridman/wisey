@@ -15,10 +15,6 @@ string Names::getNPECheckFunctionName() {
   return "__checkForNullAndThrow";
 }
 
-string Names::getDestroyedObjectStillInUseFunctionName() {
-  return "__throwDestroyedObjectStillInUse";
-}
-
 string Names::getAdjustReferenceCounterForConcreteObjectUnsafelyFunctionName() {
   return "__adjustReferenceCounterForConcreteObjectUnsafely";
 }

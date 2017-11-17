@@ -14,6 +14,7 @@
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/DestroyedObjectStillInUseFunction.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
@@ -347,7 +348,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   context.setBasicBlock(refCountNotZeroBlock);
 
   Function* throwFunction = context.getModule()
-  ->getFunction(Names::getDestroyedObjectStillInUseFunctionName());
+  ->getFunction(DestroyedObjectStillInUseFunction::getName());
   vector<Value*> arguments;
   
   IRWriter::createInvokeInst(context, throwFunction, arguments, "");

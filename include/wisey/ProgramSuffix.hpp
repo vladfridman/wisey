@@ -26,8 +26,6 @@ private:
 
   void composeNPEFunctionBody(IRGenerationContext& context) const;
   
-  void composeDestroyedObjectStillUseFunctionBody(IRGenerationContext& context) const;
-  
   void composeAdjustReferenceCounterForConcreteObjectUnsafelyFunctionBody(IRGenerationContext&
                                                                           context) const;
   
