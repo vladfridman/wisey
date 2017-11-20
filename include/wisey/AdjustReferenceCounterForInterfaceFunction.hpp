@@ -1,13 +1,13 @@
 //
-//  AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp
+//  AdjustReferenceCounterForInterfaceFunction.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 11/17/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef AdjustReferenceCounterForConcreteObjectUnsafelyFunction_h
-#define AdjustReferenceCounterForConcreteObjectUnsafelyFunction_h
+#ifndef AdjustReferenceCounterForInterfaceFunction_h
+#define AdjustReferenceCounterForInterfaceFunction_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -16,9 +16,9 @@
 namespace wisey {
   
 /**
- * Global function that increments reference count for controllers and nodes
+ * Global function that increments reference count for objects of type interface
  */
-class AdjustReferenceCounterForConcreteObjectUnsafelyFunction {
+class AdjustReferenceCounterForInterfaceFunction {
     
 public:
   
@@ -39,4 +39,4 @@ private:
 
 } /* namespace wisey */
 
-#endif /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction_h */
+#endif /* AdjustReferenceCounterForInterfaceFunction_h */

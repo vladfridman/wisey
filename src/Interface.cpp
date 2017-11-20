@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/InstanceOf.hpp"
@@ -674,8 +675,7 @@ void Interface::adjustReferenceCounter(IRGenerationContext& context,
   
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
   Value* castObject = IRWriter::newBitCastInst(context, object, int8PointerType);
-  Function* function = context.getModule()->
-    getFunction(Names::getAdjustReferenceCounterForInterfaceFunctionName());
+  Function* function = AdjustReferenceCounterForInterfaceFunction::get(context);
   vector<Value*> arguments;
   arguments.push_back(castObject);
   llvm::Constant* adjustmentValue = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext),

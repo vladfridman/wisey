@@ -11,10 +11,6 @@
 using namespace std;
 using namespace wisey;
 
-string Names::getAdjustReferenceCounterForInterfaceFunctionName() {
-  return "__adjustReferenceCounterForInterface";
-}
-
 string Names::getNPEModelName() {
   return "MNullPointerException";
 }

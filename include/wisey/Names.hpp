@@ -21,11 +21,6 @@ class Names {
 public:
     
   /**
-   * Returns function that adjust reference count of an interface
-   */
-  static std::string getAdjustReferenceCounterForInterfaceFunctionName();
-
-  /**
    * Returns name of the model representing the null pointer exception
    */
   static std::string getNPEModelName();

@@ -24,9 +24,6 @@ public:
 
 private:
 
-  void composeAdjustReferenceCounterForInterfaceFunctionBody(IRGenerationContext&
-                                                                      context) const;
-  
   llvm::Value* generateMain(IRGenerationContext& context,
                             InterfaceTypeSpecifier* programInterfaceSpecifier) const;
 };

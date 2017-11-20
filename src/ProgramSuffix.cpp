@@ -39,8 +39,6 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
-  composeAdjustReferenceCounterForInterfaceFunctionBody(context);
-
   vector<string> package;
   package.push_back("wisey");
   package.push_back("lang");
@@ -52,43 +50,6 @@ Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
   }
   
   return generateMain(context, programInterfaceSpecifier);
-}
-
-void ProgramSuffix::
-composeAdjustReferenceCounterForInterfaceFunctionBody(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Function* function = context.getModule()->
-  getFunction(Names::getAdjustReferenceCounterForInterfaceFunctionName());
-  
-  Function::arg_iterator llvmArguments = function->arg_begin();
-  llvm::Argument* llvmArgument = &*llvmArguments;
-  llvmArgument->setName("object");
-  Value* object = llvmArgument;
-  llvmArguments++;
-  llvmArgument = &*llvmArguments;
-  llvmArgument->setName("adjustment");
-  Value* adjustment = llvmArgument;
-  
-  BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
-  BasicBlock* ifNullBlock = BasicBlock::Create(llvmContext, "if.null", function);
-  BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
-  
-  context.setBasicBlock(entryBlock);
-  Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, object, null, "");
-  IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
-  
-  context.setBasicBlock(ifNullBlock);
-  IRWriter::createReturnInst(context, NULL);
-  
-  context.setBasicBlock(ifNotNullBlock);
-  Value* original = Interface::getOriginalObject(context, object);
-  Type* int64PointerType = Type::getInt64Ty(llvmContext)->getPointerTo();
-  Value* counter = IRWriter::newBitCastInst(context, original, int64PointerType);
-  Value* count = IRWriter::newLoadInst(context, counter, "count");
-  Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
-  IRWriter::newStoreInst(context, sum, counter);
-  IRWriter::createReturnInst(context, NULL);
 }
 
 Value* ProgramSuffix::generateMain(IRGenerationContext& context,
