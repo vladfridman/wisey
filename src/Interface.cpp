@@ -375,11 +375,11 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   }
   
   if (concreteObjectFunction->getReturnType()->isVoidTy()) {
-    IRWriter::createCallInst(context, concreteObjectFunction, callArguments, "");
+    IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "");
     IRWriter::createReturnInst(context, NULL);
   } else {
     Value* result =
-      IRWriter::createCallInst(context, concreteObjectFunction, callArguments, "call");
+      IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "call");
     IRWriter::createReturnInst(context, result);
   }
 }
