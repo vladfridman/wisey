@@ -436,19 +436,19 @@ bool Interface::canAutoCastTo(const IType* toType) const {
   return false;
 }
 
-string Interface::getCastFunctionName(IObjectType* toType) const {
+string Interface::getCastFunctionName(const IObjectType* toType) const {
   return "cast." + getName() + ".to." + toType->getName();
 }
 
 Value* Interface::castTo(IRGenerationContext& context,
                          Value* fromValue,
                          const IType* toType) const {
-  IObjectType* toObjectWithMethodsType = (IObjectType*) (toType);
+  const IObjectType* toObjectWithMethodsType = (const IObjectType*) (toType);
   Function* castFunction =
     context.getModule()->getFunction(getCastFunctionName(toObjectWithMethodsType));
   
   if (castFunction == NULL) {
-    castFunction = defineCastFunction(context, fromValue, toObjectWithMethodsType);
+    castFunction = defineCastFunction(context, toObjectWithMethodsType);
   }
   
   vector<Value*> arguments;
@@ -458,8 +458,7 @@ Value* Interface::castTo(IRGenerationContext& context,
 }
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
-                                        Value* fromValue,
-                                        IObjectType* toType) const {
+                                        const IObjectType* toType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Type = Type::getInt8Ty(llvmContext);
   

@@ -96,7 +96,7 @@ public:
   /**
    * Return function name that casts this interface into a given ICallableObject type
    */
-  std::string getCastFunctionName(IObjectType* toType) const;
+  std::string getCastFunctionName(const IObjectType* toType) const;
   
   /**
    * Returns method index in the list of all methods that this interface has or inherits
@@ -214,9 +214,7 @@ private:
                                   const IType* variableType,
                                   llvm::Value* variableValue) const;
   
-  llvm::Function* defineCastFunction(IRGenerationContext& context,
-                                     llvm::Value* fromValue,
-                                     IObjectType* toType) const;
+  llvm::Function* defineCastFunction(IRGenerationContext& context, const IObjectType* toType) const;
   
   bool doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
                                           IMethodDescriptor* objectMethodDescriptor,
