@@ -17,10 +17,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-CallInst* InstanceOf::call(IRGenerationContext& context,
-                           const Interface* interface,
-                           Value* interfaceObject,
-                           const IObjectType* callableObjectType) {
+Value* InstanceOf::call(IRGenerationContext& context,
+                        const Interface* interface,
+                        Value* interfaceObject,
+                        const IObjectType* callableObjectType) {
   Function* function = getOrCreateFunction(context, interface);
   
   llvm::Constant* namePointer = IObjectType::getObjectNamePointer(callableObjectType, context);
@@ -29,7 +29,7 @@ CallInst* InstanceOf::call(IRGenerationContext& context,
   arguments.push_back(interfaceObject);
   arguments.push_back(namePointer);
   
-  return IRWriter::createCallInst(context, function, arguments, "instanceof");
+  return IRWriter::createInvokeInst(context, function, arguments, "instanceof");
 }
 
 Function* InstanceOf::getOrCreateFunction(IRGenerationContext& context,

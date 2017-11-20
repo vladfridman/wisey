@@ -560,7 +560,7 @@
 		F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F592C9951ED323F7007FB2D0 /* TestMain.cpp */; };
 		F59496FE1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
 		F59496FF1F5469900002F14F /* InstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59496FD1F5469900002F14F /* InstanceOf.cpp */; };
-		F59497011F546CED0002F14F /* TestIsntanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59497001F546CED0002F14F /* TestIsntanceOf.cpp */; };
+		F59497011F546CED0002F14F /* TestInstanceOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59497001F546CED0002F14F /* TestInstanceOf.cpp */; };
 		F59D82081E0F102000057FB5 /* TestEmptyStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */; };
 		F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
 		F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */; };
@@ -1234,7 +1234,7 @@
 		F592C9951ED323F7007FB2D0 /* TestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMain.cpp; path = tests/TestMain.cpp; sourceTree = "<group>"; };
 		F59496FC1F5467540002F14F /* InstanceOf.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InstanceOf.hpp; path = include/wisey/InstanceOf.hpp; sourceTree = "<group>"; };
 		F59496FD1F5469900002F14F /* InstanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InstanceOf.cpp; path = src/InstanceOf.cpp; sourceTree = "<group>"; };
-		F59497001F546CED0002F14F /* TestIsntanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIsntanceOf.cpp; path = tests/TestIsntanceOf.cpp; sourceTree = "<group>"; };
+		F59497001F546CED0002F14F /* TestInstanceOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInstanceOf.cpp; path = tests/TestInstanceOf.cpp; sourceTree = "<group>"; };
 		F59D82071E0F102000057FB5 /* TestEmptyStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestEmptyStatement.cpp; path = tests/TestEmptyStatement.cpp; sourceTree = "<group>"; };
 		F59D820A1E0F157E00057FB5 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WhileStatement.cpp; path = src/WhileStatement.cpp; sourceTree = "<group>"; };
 		F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestWhileStatement.cpp; path = tests/TestWhileStatement.cpp; sourceTree = "<group>"; };
@@ -1836,6 +1836,7 @@
 				F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
 				F57780B51ECA6B460049542D /* TestInjector.cpp */,
+				F59497001F546CED0002F14F /* TestInstanceOf.cpp */,
 				F50FA2EF1E2E3B2A00435EEA /* TestIntConstant.cpp */,
 				F5ADB6251E67075400FFC941 /* TestInterface.cpp */,
 				F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */,
@@ -1847,7 +1848,6 @@
 				F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */,
 				F57411671E02CE96009809FF /* TestIRGenerationContext.cpp */,
 				F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */,
-				F59497001F546CED0002F14F /* TestIsntanceOf.cpp */,
 				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
 				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
 				F5A363431F33D08F005880B3 /* TestLocalOwnerVariable.cpp */,
@@ -2828,7 +2828,7 @@
 				F5C6FD8A1E48D08F0054209D /* TestModel.cpp in Sources */,
 				F574115A1E01A09B009809FF /* LogicalOrExpression.cpp in Sources */,
 				F58748311F921F6B0088F1E3 /* Injector.cpp in Sources */,
-				F59497011F546CED0002F14F /* TestIsntanceOf.cpp in Sources */,
+				F59497011F546CED0002F14F /* TestInstanceOf.cpp in Sources */,
 				F52C66671FBF446400E89B04 /* AdjustReferenceCounterForInterfaceFunction.cpp in Sources */,
 				F5C6FD791E48B59C0054209D /* TestDoubleType.cpp in Sources */,
 				F53401061DFEDB620002BF7E /* TestFileSampleRunner.cpp in Sources */,

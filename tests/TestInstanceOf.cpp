@@ -1,5 +1,5 @@
 //
-//  TestIsntanceOf.cpp
+//  TestInstanceOf.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 8/28/17.
@@ -31,6 +31,7 @@ struct InstanceOfTest : public Test {
   BasicBlock* mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
+  Function* mFunction;
 
   InstanceOfTest() : mLLVMContext(mContext.getLLVMContext()) {
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -60,12 +61,12 @@ struct InstanceOfTest : public Test {
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
-    Function* function = Function::Create(functionType,
-                                          GlobalValue::InternalLinkage,
-                                          "main",
-                                          mContext.getModule());
-    
-    mBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mFunction = Function::Create(functionType,
+                                 GlobalValue::InternalLinkage,
+                                 "main",
+                                 mContext.getModule());
+
+    mBlock = BasicBlock::Create(mLLVMContext, "entry", mFunction);
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -78,13 +79,23 @@ TEST_F(InstanceOfTest, callTest) {
   InstanceOf::call(mContext, mObjectInterface, nullPointerValue, mShapeInterface);
   
   ASSERT_EQ(1ul, mBlock->size());
-  *mStringStream << *mBlock;
+  *mStringStream << *mFunction;
   string expected =
+  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %instanceof = call i32 @systems.vos.wisey.compiler.tests.IObject.instanceof("
+  "\n  %instanceof = invoke i32 @systems.vos.wisey.compiler.tests.IObject.instanceof("
   "%systems.vos.wisey.compiler.tests.IObject* null, "
   "i8* getelementptr inbounds ([40 x i8], [40 x i8]* "
-  "@systems.vos.wisey.compiler.tests.IShape.name, i32 0, i32 0))\n";
+  "@systems.vos.wisey.compiler.tests.IShape.name, i32 0, i32 0))"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %0 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %0"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n}\n";
   
-  ASSERT_STREQ(mStringStream->str().c_str(), expected.c_str());
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

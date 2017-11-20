@@ -29,10 +29,10 @@ public:
   /**
    * Call instanceof function and check whether interfaceObject is of type callableObjectType
    */
-  static llvm::CallInst* call(IRGenerationContext& context,
-                              const Interface* interface,
-                              llvm::Value* interfaceObject,
-                              const IObjectType* object);
+  static llvm::Value* call(IRGenerationContext& context,
+                           const Interface* interface,
+                           llvm::Value* interfaceObject,
+                           const IObjectType* object);
 
   /**
    * Creates instanceof function for the given interface
