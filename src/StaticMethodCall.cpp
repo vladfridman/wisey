@@ -107,12 +107,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   
   Composer::pushCallStack(context, mLine);
 
-  Value* result;
-  if (!methodDescriptor->getThrownExceptions().size()) {
-    result = IRWriter::createCallInst(context, function, arguments, resultName);
-  } else {
-    result = IRWriter::createInvokeInst(context, function, arguments, resultName);
-  }
+  Value* result = IRWriter::createInvokeInst(context, function, arguments, resultName);
   
   Composer::popCallStack(context);
 
