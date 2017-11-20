@@ -448,7 +448,13 @@ Value* Interface::castTo(IRGenerationContext& context,
     context.getModule()->getFunction(getCastFunctionName(toObjectWithMethodsType));
   
   if (castFunction == NULL) {
+    InstanceOf::getOrCreateFunction(context, this);
+
     castFunction = defineCastFunction(context, toObjectWithMethodsType);
+    std::vector<const IObjectType*> objectTypes;
+    objectTypes.push_back(this);
+    objectTypes.push_back(toObjectWithMethodsType);
+    context.addComposingCallback(composeCastFunction, castFunction, objectTypes);
   }
   
   vector<Value*> arguments;
@@ -460,18 +466,27 @@ Value* Interface::castTo(IRGenerationContext& context,
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* int8Type = Type::getInt8Ty(llvmContext);
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(llvmContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   PointerType* llvmReturnType = (PointerType*) toType->getLLVMType(llvmContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
-  Function* function = Function::Create(functionType,
-                                        GlobalValue::ExternalLinkage,
-                                        getCastFunctionName(toType),
-                                        context.getModule());
+  return Function::Create(functionType,
+                          GlobalValue::ExternalLinkage,
+                          getCastFunctionName(toType),
+                          context.getModule());
+}
+
+void Interface::composeCastFunction(IRGenerationContext& context,
+                                    llvm::Function* function,
+                                    std::vector<const IObjectType*> objectTypes) {
+  assert(objectTypes.size() == 2);
   
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+  Type* llvmReturnType = function->getReturnType();
+
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
   thisArgument->setName("this");
@@ -486,7 +501,10 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   BasicBlock* lastBasicBlock = context.getBasicBlock();
 
   context.setBasicBlock(entryBlock);
-  Value* instanceof = InstanceOf::call(context, this, thisArgument, toType);
+  Value* instanceof = InstanceOf::call(context,
+                                       (const Interface*) objectTypes.front(),
+                                       thisArgument,
+                                       objectTypes.back());
   Value* originalObject = getOriginalObject(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compareLessThanZero =
@@ -495,7 +513,7 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   
   context.setBasicBlock(lessThanZero);
   // TODO: throw a cast exception here once exceptions are implemented
-  Value* nullPointer = ConstantPointerNull::get(llvmReturnType);
+  Value* nullPointer = ConstantPointerNull::get((PointerType*) llvmReturnType);
   IRWriter::createReturnInst(context, nullPointer);
 
   context.setBasicBlock(notLessThanZero);
@@ -520,8 +538,6 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
   IRWriter::createReturnInst(context, castValue);
   
   context.setBasicBlock(lastBasicBlock);
-  
-  return function;
 }
 
 Value* Interface::getOriginalObjectVTable(IRGenerationContext& context, Value* value) {

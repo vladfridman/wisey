@@ -34,12 +34,15 @@ public:
                               llvm::Value* interfaceObject,
                               const IObjectType* object);
 
+  /**
+   * Creates instanceof function for the given interface
+   */
+  static llvm::Function* getOrCreateFunction(IRGenerationContext& context,
+                                             const Interface* interface);
+  
 private:
   
   static std::string getFunctionName(const Interface* interface);
-  
-  static llvm::Function* getOrCreateFunction(IRGenerationContext& context,
-                                             const Interface* interface);
   
   static llvm::Function* compose(IRGenerationContext& context,
                                  llvm::Function* function,

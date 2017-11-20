@@ -215,7 +215,7 @@ private:
                                   llvm::Value* variableValue) const;
   
   llvm::Function* defineCastFunction(IRGenerationContext& context, const IObjectType* toType) const;
-  
+
   bool doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
                                           IMethodDescriptor* objectMethodDescriptor,
                                           std::string objectName) const;
@@ -223,6 +223,10 @@ private:
   void adjustReferenceCounter(IRGenerationContext& context,
                               llvm::Value* object,
                               int adjustment) const;
+  
+  static void composeCastFunction(IRGenerationContext& context,
+                                  llvm::Function* function,
+                                  std::vector<const IObjectType*> objectTypes);
 
   static std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>>
   createElements(IRGenerationContext& context,
