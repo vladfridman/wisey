@@ -25,7 +25,7 @@ Function* DestroyedObjectStillInUseFunction::get(IRGenerationContext& context) {
   }
   
   function = define(context);
-  context.addComposingCallback(compose, NULL);
+  context.addComposingCallback(compose, function, NULL);
   
   return function;
 }
@@ -48,10 +48,8 @@ Function* DestroyedObjectStillInUseFunction::define(IRGenerationContext& context
 }
 
 void DestroyedObjectStillInUseFunction::compose(IRGenerationContext& context,
+                                                llvm::Function* function,
                                                 const IObjectType* objectType) {
-  Function* function = context.getModule()->getFunction(getName());
-  assert(function);
-  
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
   context.setBasicBlock(basicBlock);
   

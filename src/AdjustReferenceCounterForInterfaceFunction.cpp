@@ -23,7 +23,7 @@ Function* AdjustReferenceCounterForInterfaceFunction::get(IRGenerationContext& c
   }
   
   function = define(context);
-  context.addComposingCallback(compose, NULL);
+  context.addComposingCallback(compose, function, NULL);
   
   return function;
 }
@@ -45,9 +45,9 @@ Function* AdjustReferenceCounterForInterfaceFunction::define(IRGenerationContext
 }
 
 void AdjustReferenceCounterForInterfaceFunction::compose(IRGenerationContext& context,
+                                                         llvm::Function* function,
                                                          const IObjectType* objectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Function* function = context.getModule()->getFunction(getName());
   
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument* llvmArgument = &*llvmArguments;

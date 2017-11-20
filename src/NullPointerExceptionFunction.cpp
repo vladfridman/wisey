@@ -32,7 +32,7 @@ Function* NullPointerExceptionFunction::get(IRGenerationContext& context) {
   }
   
   function = define(context);
-  context.addComposingCallback(compose, NULL);
+  context.addComposingCallback(compose, function, NULL);
 
   return function;
 }
@@ -53,9 +53,9 @@ Function* NullPointerExceptionFunction::define(IRGenerationContext& context) {
 }
 
 void NullPointerExceptionFunction::compose(IRGenerationContext& context,
+                                           Function* function,
                                            const IObjectType* objectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Function* function = context.getModule()->getFunction(getName());
   
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;

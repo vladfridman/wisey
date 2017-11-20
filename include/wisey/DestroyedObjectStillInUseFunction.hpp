@@ -33,7 +33,9 @@ private:
   
   static llvm::Function* define(IRGenerationContext& context);
   
-  static void compose(IRGenerationContext& context, const IObjectType* objectType);
+  static void compose(IRGenerationContext& context,
+                      llvm::Function* function,
+                      const IObjectType* objectType);
   
 };
   

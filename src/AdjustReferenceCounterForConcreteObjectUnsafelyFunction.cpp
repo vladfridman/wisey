@@ -23,7 +23,7 @@ Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(IRGenerat
   }
   
   function = define(context);
-  context.addComposingCallback(compose, NULL);
+  context.addComposingCallback(compose, function, NULL);
   
   return function;
 }
@@ -32,7 +32,8 @@ string AdjustReferenceCounterForConcreteObjectUnsafelyFunction::getName() {
   return "__adjustReferenceCounterForConcreteObjectUnsafely";
 }
 
-Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::define(IRGenerationContext& context) {
+Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::define(IRGenerationContext&
+                                                                          context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt64Ty(llvmContext)->getPointerTo());
@@ -45,9 +46,10 @@ Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::define(IRGene
 }
 
 void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::compose(IRGenerationContext& context,
-                                                const IObjectType* objectType) {
+                                                                      Function* function,
+                                                                      const IObjectType*
+                                                                      objectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Function* function = context.getModule()->getFunction(getName());
   
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
