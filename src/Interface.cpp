@@ -460,7 +460,7 @@ Value* Interface::castTo(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(fromValue);
   
-  return IRWriter::createCallInst(context, castFunction, arguments, "castTo");
+  return IRWriter::createInvokeInst(context, castFunction, arguments, "castTo");
 }
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
