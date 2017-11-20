@@ -32,7 +32,8 @@ Function* NullPointerExceptionFunction::get(IRGenerationContext& context) {
   }
   
   function = define(context);
-  context.addComposingCallback(compose, function, NULL);
+  vector<const IObjectType*> objectTypes;
+  context.addComposingCallback(compose, function, objectTypes);
 
   return function;
 }
@@ -54,7 +55,7 @@ Function* NullPointerExceptionFunction::define(IRGenerationContext& context) {
 
 void NullPointerExceptionFunction::compose(IRGenerationContext& context,
                                            Function* function,
-                                           const IObjectType* objectType) {
+                                           vector<const IObjectType*> objectTypes) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function::arg_iterator llvmArguments = function->arg_begin();

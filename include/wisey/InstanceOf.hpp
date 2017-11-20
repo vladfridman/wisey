@@ -43,7 +43,7 @@ private:
   
   static llvm::Function* compose(IRGenerationContext& context,
                                  llvm::Function* function,
-                                 const IObjectType* object);
+                                 std::vector<const IObjectType*> objectTypes);
   
   static llvm::Function* createFunction(IRGenerationContext& context, const Interface* interface);
   

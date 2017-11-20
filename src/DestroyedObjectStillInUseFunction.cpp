@@ -25,7 +25,8 @@ Function* DestroyedObjectStillInUseFunction::get(IRGenerationContext& context) {
   }
   
   function = define(context);
-  context.addComposingCallback(compose, function, NULL);
+  vector<const IObjectType*> objectTypes;
+  context.addComposingCallback(compose, function, objectTypes);
   
   return function;
 }
@@ -49,7 +50,7 @@ Function* DestroyedObjectStillInUseFunction::define(IRGenerationContext& context
 
 void DestroyedObjectStillInUseFunction::compose(IRGenerationContext& context,
                                                 llvm::Function* function,
-                                                const IObjectType* objectType) {
+                                                vector<const IObjectType*> objectTypes) {
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
   context.setBasicBlock(basicBlock);
   

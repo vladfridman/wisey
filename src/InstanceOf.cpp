@@ -41,7 +41,8 @@ Function* InstanceOf::getOrCreateFunction(IRGenerationContext& context,
   }
   
   function = createFunction(context, interface);
-  context.addComposingCallback(compose, function, interface);
+  vector<const IObjectType*> objectTypes;
+  context.addComposingCallback(compose, function, objectTypes);
 
   return function;
 }
@@ -52,10 +53,10 @@ string InstanceOf::getFunctionName(const Interface* interface) {
 
 Function* InstanceOf::compose(IRGenerationContext& context,
                               Function* function,
-                              const IObjectType* object) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  const Interface* interface = (const Interface*) object;
+                              vector<const IObjectType*> objectTypes) {
+  assert(objectTypes.size() == 0);
 
+  LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock* lastBasicBlock = context.getBasicBlock();
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   BasicBlock* whileCond = BasicBlock::Create(llvmContext, "while.cond", function);

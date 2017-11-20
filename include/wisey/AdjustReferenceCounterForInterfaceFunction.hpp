@@ -35,7 +35,7 @@ private:
   
   static void compose(IRGenerationContext& context,
                       llvm::Function* function,
-                      const IObjectType* objectType);
+                      std::vector<const IObjectType*> objectTypes);
   
 };
 

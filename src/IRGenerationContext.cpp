@@ -369,16 +369,17 @@ Value* IRGenerationContext::getSourceFileNamePointer() const {
 
 void IRGenerationContext::addComposingCallback(ComposingFunction callback,
                                                Function* function,
-                                               const IObjectType* objectType) {
-  mComposingCallbacks.push_back(make_tuple(callback, function, objectType));
+                                               vector<const IObjectType*> objectTypes) {
+  mComposingCallbacks.push_back(make_tuple(callback, function, objectTypes));
 }
 
 void IRGenerationContext::runComposingCallbacks() {
-  for (tuple<ComposingFunction, Function*, const IObjectType*> callback : mComposingCallbacks) {
+  for (tuple<ComposingFunction, Function*, vector<const IObjectType*>> callback :
+       mComposingCallbacks) {
     ComposingFunction composingFunction = get<0>(callback);
     Function* function = get<1>(callback);
-    const IObjectType* objectType = get<2>(callback);
-    composingFunction(*this, function, objectType);
+    vector<const IObjectType*> objectTypes = get<2>(callback);
+    composingFunction(*this, function, objectTypes);
   }
 }
 
