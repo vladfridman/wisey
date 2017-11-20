@@ -205,12 +205,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   
   Composer::pushCallStack(context, mLine);
 
-  Value* result;
-  if (!methodDescriptor->getThrownExceptions().size()) {
-    result = IRWriter::createCallInst(context, function, arguments, "");
-  } else {
-    result = IRWriter::createInvokeInst(context, function, arguments, "");
-  }
+  Value* result = IRWriter::createInvokeInst(context, function, arguments, "");
   
   Composer::popCallStack(context);
 

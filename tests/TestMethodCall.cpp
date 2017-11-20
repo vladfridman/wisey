@@ -240,30 +240,19 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   
-  methodCall.generateIR(mContext);
+  Value* irValue = methodCall.generateIR(mContext);
 
-  *mStringStream << *mContext.getBasicBlock();
+  *mStringStream << *irValue;
   string expected =
-  "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  %8 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
-  "\n  call void @wisey.lang.CThread.popStack(%wisey.lang.CThread* %8, %wisey.lang.CThread* %8)"
-  "\n  %9 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
-  "\n  %10 = call %systems.vos.wisey.compiler.tests.MReturnedModel* "
-  "@systems.vos.wisey.compiler.tests.MSquare.foo("
-  "%systems.vos.wisey.compiler.tests.MSquare* %0, "
+  "  %10 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
+  "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, "
   "%wisey.lang.CThread* %9, float 0x4014CCCCC0000000)"
-  "\n  %11 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore"
-  "\n  call void @wisey.lang.CThread.popStack(%wisey.lang.CThread* %11, %wisey.lang.CThread* %11)"
-  "\n  %returnedObjectPointer = alloca %systems.vos.wisey.compiler.tests.MReturnedModel*"
-  "\n  store %systems.vos.wisey.compiler.tests.MReturnedModel* %10, "
-  "%systems.vos.wisey.compiler.tests.MReturnedModel** %returnedObjectPointer"
-  "\n  %12 = bitcast %systems.vos.wisey.compiler.tests.MReturnedModel* %10 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %12, i64 1)\n";
+  "\n          to label %invoke.continue2 unwind label %cleanup1";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);
 }
 
-TEST_F(MethodCallTest, modelMethodInvokeTest) {
+TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
   argumentTypes.push_back(mThreadController->getLLVMType(mLLVMContext));
