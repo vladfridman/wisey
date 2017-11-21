@@ -66,8 +66,8 @@ struct ThreadExpressionTest : public Test {
     llvm::Constant* null = ConstantPointerNull::get(controllerType);
     IRWriter::newStoreInst(mContext, null, threadStore);
     mThreadVariable = new LocalReferenceVariable(ThreadExpression::THREAD,
-                                                mThreadController,
-                                                threadStore);
+                                                 mThreadController,
+                                                 threadStore);
     FakeExpression* fakeExpression = new FakeExpression(null, mThreadController);
     mThreadVariable->generateAssignmentIR(mContext, fakeExpression);
     

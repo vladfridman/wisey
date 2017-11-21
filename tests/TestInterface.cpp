@@ -450,8 +450,6 @@ TEST_F(InterfaceTest, composeDestructorFunctionBodyTest) {
   
   EXPECT_GT(destructor->getBasicBlockList().size(), 0u);
   *mStringStream << *destructor;
-  
-  cout << mStringStream->str();
 }
 
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {

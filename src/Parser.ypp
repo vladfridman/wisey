@@ -826,7 +826,7 @@ expression
   ;
 
 assignment
-  : identifier '=' expression { $$ = new Assignment($<identifier>1, $3); }
+  : identifier '=' expression { $$ = new Assignment($<identifier>1, $3, yylineno); }
   ;
 
 thread_expression

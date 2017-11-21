@@ -7,6 +7,7 @@
 //
 
 #include "wisey/Assignment.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
 
@@ -32,6 +33,8 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
   
   const IType* identifierType = getType(context);
   
+  Composer::pushCallStack(context, mLine);
+  
   Value* result = variable->generateAssignmentIR(context, mExpression);
   
   if (IType::isOwnerType(identifierType)) {
@@ -40,6 +43,8 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
     mExpression->addReferenceToOwner(context, variable);
   }
   
+  Composer::popCallStack(context);
+
   return result;
 }
 

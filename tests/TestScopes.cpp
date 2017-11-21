@@ -455,6 +455,7 @@ TEST_F(TestFileSampleRunner, destroyedObjectStillInUseRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CService.clear(tests/samples/test_destroyed_object_still_in_use.yz:22)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_destroyed_object_still_in_use.yz:31)\n"
                                "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n");
 }

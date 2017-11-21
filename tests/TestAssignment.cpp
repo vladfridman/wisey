@@ -17,10 +17,16 @@
 #include "MockExpression.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/Assignment.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IRWriter.hpp"
+#include "wisey/LocalReferenceVariable.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -41,12 +47,15 @@ struct AssignmentTest : public Test {
   BasicBlock* mBlock;
   Interface* mInterface;
   Controller* mController;
+  NiceMock<MockVariable>* mThreadVariable;
 
 public:
   
   AssignmentTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
+    TestPrefix::generateIR(mContext);
+    
     mBlock = BasicBlock::Create(mLLVMContext, "entry");
     mContext.setBasicBlock(mBlock);
     mContext.getScopes().pushScope();
@@ -62,10 +71,19 @@ public:
                                          parentInterfaces,
                                          interfaceElements);
     mController = Controller::newController("systems.vos.wisey.compiler.tests.CController", NULL);
+
+    Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    mThreadVariable = new NiceMock<MockVariable>();
+    ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
+    ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
+    ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
+    mContext.getScopes().setVariable(mThreadVariable);
   }
   
   ~AssignmentTest() {
     delete mBlock;
+    delete mThreadVariable;
   }
 
   static void printExpression(IRGenerationContext& context, iostream& stream) {
@@ -75,7 +93,7 @@ public:
 
 TEST_F(AssignmentTest, isConstantTest) {
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
 
   EXPECT_FALSE(assignment.isConstant());
 }
@@ -86,15 +104,16 @@ TEST_F(AssignmentTest, getVariableTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
 
   EXPECT_EQ(identifier->getVariable(mContext), &mockVariable);
 }
 
 TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
   Mock::AllowLeak(mExpression);
+  Mock::AllowLeak(mThreadVariable);
 
   EXPECT_EXIT(assignment.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -106,7 +125,7 @@ TEST_F(AssignmentTest, assignmentExpressionTypeTest) {
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
   mContext.getScopes().setVariable(&mockVariable);
 
   EXPECT_EQ(assignment.getType(mContext), PrimitiveTypes::DOUBLE_TYPE);
@@ -119,7 +138,7 @@ TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(1);
@@ -135,7 +154,7 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(1);
@@ -151,7 +170,7 @@ TEST_F(AssignmentTest, releaseOwnershipTest) {
   mContext.getScopes().setVariable(&mockVariable);
   
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
   
   assignment.releaseOwnership(mContext);
   
@@ -169,7 +188,7 @@ TEST_F(AssignmentTest, addReferenceToOwnerTest) {
   mContext.getScopes().setVariable(&referenceVariable);
   
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
   
   assignment.addReferenceToOwner(mContext, &referenceVariable);
   
@@ -183,7 +202,7 @@ TEST_F(AssignmentTest, existsInOuterScopeTest) {
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
   mContext.getScopes().setVariable(&mockVariable);
 
   ON_CALL(mockVariable, existsInOuterScope()).WillByDefault(Return(true));
@@ -199,7 +218,7 @@ TEST_F(AssignmentTest, printToStreamTest) {
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::DOUBLE_TYPE));
   mContext.getScopes().setVariable(&mockVariable);
   Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression);
+  Assignment assignment(identifier, mExpression, 0);
 
   stringstream stringStream;
   assignment.printToStream(mContext, stringStream);

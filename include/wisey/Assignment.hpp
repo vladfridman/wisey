@@ -21,11 +21,12 @@ namespace wisey {
 class Assignment : public IExpression {
   Identifier* mIdentifier;
   IExpression* mExpression;
+  int mLine;
   
 public:
 
-  Assignment(Identifier* identifier, IExpression* expression)
-    : mIdentifier(identifier), mExpression(expression) { }
+  Assignment(Identifier* identifier, IExpression* expression, int line)
+    : mIdentifier(identifier), mExpression(expression), mLine(line) { }
 
   ~Assignment();
   
