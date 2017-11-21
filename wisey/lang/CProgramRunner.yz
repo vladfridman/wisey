@@ -13,9 +13,12 @@ controller CProgramRunner {
       return runnable.run();
     } catch (MNullPointerException* exception) {
       thread.reportException(exception);
+      exit(1);
     } catch (MDestroyedObjectStillInUseException* exception) {
       thread.reportException(exception);
+      printerr("Details: Object referenced by expression still has " + exception.getReferenceCount() + 
+        " active references\n");
+      exit(1);
     }
-    return 1;
   }
 }

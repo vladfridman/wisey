@@ -16,7 +16,10 @@ external model wisey.lang.MDestroyedObjectStillInUseException
   implements
     wisey.lang.IException {
 
+  fixed long mReferenceCount;
+
   string getName();
+  long getReferenceCount();
 }
 
 external model wisey.lang.MNullPointerException

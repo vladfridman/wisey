@@ -350,6 +350,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
 
   Function* throwFunction = DestroyedObjectStillInUseFunction::get(context);
   vector<Value*> arguments;
+  arguments.push_back(referenceCount);
   
   IRWriter::createInvokeInst(context, throwFunction, arguments, "");
   IRWriter::newUnreachableInst(context);

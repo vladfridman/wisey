@@ -7,10 +7,13 @@
 //
 
 #include "wisey/DestroyedObjectStillInUseFunction.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ObjectBuilder.hpp"
+#include "wisey/ObjectBuilderArgument.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
@@ -38,6 +41,7 @@ string DestroyedObjectStillInUseFunction::getName() {
 Function* DestroyedObjectStillInUseFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
+  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
@@ -51,6 +55,11 @@ Function* DestroyedObjectStillInUseFunction::define(IRGenerationContext& context
 void DestroyedObjectStillInUseFunction::compose(IRGenerationContext& context,
                                                 llvm::Function* function,
                                                 vector<const IObjectType*> objectTypes) {
+  Function::arg_iterator llvmArguments = function->arg_begin();
+  llvm::Argument *llvmArgument = &*llvmArguments;
+  llvmArgument->setName("referenceCount");
+  Value* referenceCount = llvmArgument;
+
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
   context.setBasicBlock(basicBlock);
   
@@ -60,11 +69,14 @@ void DestroyedObjectStillInUseFunction::compose(IRGenerationContext& context,
   ModelTypeSpecifier* modelTypeSpecifier =
   new ModelTypeSpecifier(package, Names::getDestroyedObjectStillInUseName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
+  FakeExpression* fakeExpression = new FakeExpression(referenceCount, PrimitiveTypes::LONG_TYPE);
+  ObjectBuilderArgument* argument = new ObjectBuilderArgument("withReferenceCount", fakeExpression);
+  objectBuilderArgumnetList.push_back(argument);
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
-  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder);
+  ThrowStatement throwStatement(objectBuilder);
   
   context.getScopes().pushScope();
-  throwStatement->generateIR(context);
+  throwStatement.generateIR(context);
   context.getScopes().popScope(context);
   
   IRWriter::createReturnInst(context, NULL);

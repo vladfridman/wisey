@@ -120,6 +120,5 @@ controller CThread {
         iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
       iterator = iterator.getPrevious();
     }
-    exit(1);
   }
 }

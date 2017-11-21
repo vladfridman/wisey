@@ -3,9 +3,13 @@ package wisey.lang;
 import wisey.lang.IException;
 
 model MDestroyedObjectStillInUseException implements IException {
+  long mReferenceCount;
 
   public string getName() {
     return "wisey.lang.MDestroyedObjectStillInUseException";
   }
 
+  public long getReferenceCount() {
+    return mReferenceCount;
+  }
 }
