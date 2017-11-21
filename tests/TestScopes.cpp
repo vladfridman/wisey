@@ -460,6 +460,25 @@ TEST_F(TestFileSampleRunner, destroyedObjectStillInUseRunDeathTest) {
                                "Details: Object referenced by expression still has 1 active references\n");
 }
 
+TEST_F(TestFileSampleRunner, throwDosiuFromCleanupRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_throw_dosiu_from_cleanup.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_dosiu_from_cleanup.yz:20)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_dosiu_from_cleanup.yz:32)\n"
+                               "Details: Object referenced by expression still has 2 active references\n");
+}
+
+TEST_F(TestFileSampleRunner, throwDosiuFromFreeOwnedMemoryRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_throw_dosiu_from_free_owned_memory.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_dosiu_from_free_owned_memory.yz:30)\n"
+                               "Details: Object referenced by expression still has 2 active references\n");
+}
+
 TEST_F(TestFileSampleRunner, nullPointerExceptionRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_null_pointer_exception.yz",
                                1,

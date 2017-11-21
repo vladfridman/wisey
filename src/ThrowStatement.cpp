@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
@@ -37,6 +38,10 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   context.getScopes().getScope()->addException(model);
 
+  if (mLine) {
+    Composer::pushCallStack(context, mLine);
+  }
+  
   GlobalVariable* rtti = context.getModule()->getNamedGlobal(model->getRTTIVariableName());
 
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -76,5 +81,9 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
 
   IRWriter::newUnreachableInst(context);
 
+  if (mLine) {
+    Composer::popCallStack(context);
+  }
+  
   return result;
 }

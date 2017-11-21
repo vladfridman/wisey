@@ -22,10 +22,11 @@ namespace wisey {
  */
 class ThrowStatement : public IStatement {
   IExpression* mExpression;
+  int mLine;
   
 public:
   
-  ThrowStatement(IExpression* expression) : mExpression(expression) { }
+  ThrowStatement(IExpression* expression, int line) : mExpression(expression), mLine(line) { }
   
   ~ThrowStatement();
 

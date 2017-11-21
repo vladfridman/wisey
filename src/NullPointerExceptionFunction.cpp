@@ -77,7 +77,7 @@ void NullPointerExceptionFunction::compose(IRGenerationContext& context,
                                                                   Names::getNPEModelName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
-  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder);
+  ThrowStatement* throwStatement = new ThrowStatement(objectBuilder, 0);
   thenBlock->getStatements().push_back(throwStatement);
   CompoundStatement* thenStatement = new CompoundStatement(thenBlock);
   IfStatement ifStatement(fakeExpression, thenStatement);

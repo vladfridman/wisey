@@ -95,7 +95,7 @@ TEST_F(ThrowStatementTest, wrongExpressionTypeDeathTest) {
   
   ON_CALL(mMockType, getTypeKind()).WillByDefault(Return(CONTROLLER_TYPE));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(&mMockType));
-  ThrowStatement throwStatement(mMockExpression);
+  ThrowStatement throwStatement(mMockExpression, 0);
   
   EXPECT_EXIT(throwStatement.generateIR(mContext),
               ::testing::ExitedWithCode(1),
@@ -107,7 +107,7 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
     ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
-  ThrowStatement throwStatement(mMockExpression);
+  ThrowStatement throwStatement(mMockExpression, 0);
   
   Value* result = throwStatement.generateIR(mContext);
   EXPECT_NE(result, nullptr);
@@ -158,7 +158,7 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
     ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
-  ThrowStatement throwStatement(mMockExpression);
+  ThrowStatement throwStatement(mMockExpression, 0);
   
   Value* result = throwStatement.generateIR(mContext);
   EXPECT_NE(result, nullptr);
@@ -231,7 +231,7 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
     ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
-  ThrowStatement throwStatement(mMockExpression);
+  ThrowStatement throwStatement(mMockExpression, 0);
   
   Value* result = throwStatement.generateIR(mContext);
   EXPECT_NE(result, nullptr);

@@ -1,0 +1,41 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MData {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+model MMyException {
+
+}
+
+controller CService {
+  public void throwException(MData* data) throws MMyException {
+    MMyException* myException = builder(MMyException).build();
+    throw myException;
+  }
+}
+
+controller CProgram implements IProgram {
+  inject CService* mService;
+
+  public int run() {
+    try {
+      MData* data = builder(MData).withValue(1).build();
+      MData dataRef = data;
+      MData dataRef2 = data;
+      mService.throwException(data);
+    } catch (MMyException* exception) {
+      printout("cought exception\n");
+    }
+
+    return 1;
+  }
+} 
+
+bind(CProgram).to(IProgram);

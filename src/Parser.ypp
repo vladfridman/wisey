@@ -581,7 +581,7 @@ jump_statement
   ;
 
 throw_statement
-  : TTHROW expression ';' { $$ = new ThrowStatement($2); }
+  : TTHROW expression ';' { $$ = new ThrowStatement($2, yylineno); }
   ;
 
 exit_statement

@@ -73,7 +73,7 @@ void DestroyedObjectStillInUseFunction::compose(IRGenerationContext& context,
   ObjectBuilderArgument* argument = new ObjectBuilderArgument("withReferenceCount", fakeExpression);
   objectBuilderArgumnetList.push_back(argument);
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
-  ThrowStatement throwStatement(objectBuilder);
+  ThrowStatement throwStatement(objectBuilder, 0);
   
   context.getScopes().pushScope();
   throwStatement.generateIR(context);
