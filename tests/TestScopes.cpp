@@ -457,7 +457,7 @@ TEST_F(TestFileSampleRunner, destroyedObjectStillInUseRunDeathTest) {
                                "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.clear(tests/samples/test_destroyed_object_still_in_use.yz:22)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_destroyed_object_still_in_use.yz:31)\n"
-                               "Details: Object referenced by expression still has 2 active references\n");
+                               "Details: Object referenced by expression still has 1 active references\n");
 }
 
 TEST_F(TestFileSampleRunner, nullPointerExceptionRunDeathTest) {

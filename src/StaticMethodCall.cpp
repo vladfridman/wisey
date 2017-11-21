@@ -121,15 +121,13 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
   IRWriter::newStoreInst(context, result, pointer);
 
-  IVariable* tempVariable = IType::isOwnerType(returnType)
-    ? (IVariable*) new LocalOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer)
-    : (IVariable*) new LocalReferenceVariable(variableName, (IObjectType*) returnType, pointer);
-  
-  if (IType::isReferenceType(returnType)) {
-    ((IObjectType*) returnType)->incremenetReferenceCount(context, result);
+  if (IType::isOwnerType(returnType)) {
+    IOwnerVariable* tempVariable = new LocalOwnerVariable(variableName,
+                                                          (IObjectOwnerType*) returnType,
+                                                          pointer);
+    context.getScopes().setVariable(tempVariable);
   }
 
-  context.getScopes().setVariable(tempVariable);
   return result;
 }
 
@@ -146,10 +144,11 @@ void StaticMethodCall::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(context, variableName);
 }
 
-void StaticMethodCall::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
+void StaticMethodCall::addReferenceToOwner(IRGenerationContext& context,
+                                           IVariable* reference) const {
   string variableName = IVariable::getTemporaryVariableName(this);
   IVariable* variable = context.getScopes().getVariable(variableName);
-  if (IType::isOwnerType(variable->getType())) {
+  if (variable && IType::isOwnerType(variable->getType())) {
     context.getScopes().addReferenceToOwnerVariable(variable, reference);
   }
 }
