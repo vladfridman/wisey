@@ -75,10 +75,18 @@ bool Catch::generateIR(IRGenerationContext& context,
   mStatement->generateIR(context);
   context.getScopes().popScope(context);
   
+  vector<Catch*> emptyCatchList;
+  context.getScopes().pushScope();
+  FinallyBlock subFinallyBlock;
+  TryCatchInfo* cleaupTryCatchInfo = new TryCatchInfo(&subFinallyBlock, emptyCatchList, NULL);
+  context.getScopes().setTryCatchInfo(cleaupTryCatchInfo);
+
   finallyBlock->generateIR(context);
   
   bool hasTerminator = context.getBasicBlock()->getTerminator() != NULL;
-  
+
+  context.getScopes().popScope(context);
+
   IRWriter::createBranch(context, exceptionContinueBlock);
   
   return hasTerminator;

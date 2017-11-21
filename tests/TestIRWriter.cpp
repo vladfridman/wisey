@@ -136,9 +136,9 @@ TEST_F(IRWriterTest, createCallInstTest) {
 TEST_F(IRWriterTest, createInvokeInstTest) {
   vector<Value*> arguments;
   vector<Catch*> catchList;
-  BasicBlock* landingpadBlock = BasicBlock::Create(mLLVMContext, "eh.lpad", mMainFunction);
+  BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue", mMainFunction);
   FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo tryCatchInfo(landingpadBlock, emptyBlock, catchList);
+  TryCatchInfo tryCatchInfo(emptyBlock, catchList, continueBlock);
   
   mContext.getScopes().setTryCatchInfo(&tryCatchInfo);
   InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
@@ -147,7 +147,7 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   *mStringStream << *invokeInst;
   ASSERT_STREQ(mStringStream->str().c_str(),
                "  %0 = invoke i64 @main()\n"
-               "          to label %invoke.continue unwind label %eh.lpad");
+               "          to label %invoke.continue unwind label %cleanup");
   
   IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
   

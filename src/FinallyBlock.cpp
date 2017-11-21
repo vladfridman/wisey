@@ -15,25 +15,8 @@ using namespace std;
 using namespace wisey;
 
 Value* FinallyBlock::generateIR(IRGenerationContext& context) const {
-  Scope* scopeWithTryCatchInfo = NULL;
-  TryCatchInfo* tryCatchInfo = NULL;
-  for (Scope* scope : context.getScopes().getScopesList()) {
-    TryCatchInfo* info = scope->getTryCatchInfo();
-    if (info != NULL) {
-      scopeWithTryCatchInfo = scope;
-      tryCatchInfo = info;
-      break;
-    }
-  }
-
-  if (scopeWithTryCatchInfo) {
-    scopeWithTryCatchInfo->clearTryCatchInfo();
-  }
   for (IStatement* statement : mStatements) {
     statement->generateIR(context);
-  }
-  if (scopeWithTryCatchInfo) {
-    scopeWithTryCatchInfo->setTryCatchInfo(tryCatchInfo);
   }
 
   return NULL;

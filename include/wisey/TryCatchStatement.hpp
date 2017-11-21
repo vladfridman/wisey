@@ -40,31 +40,6 @@ public:
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
-private:
-  
-  std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
-  generateSelectCatchByExceptionType(IRGenerationContext& context,
-                                     llvm::Value* exceptionTypeId,
-                                     std::vector<Catch*> allCatches,
-                                     llvm::BasicBlock* landingPadBlock) const;
-
-  std::tuple<llvm::LandingPadInst*, llvm::Value*, llvm::Value*>
-  generateLandingPad(IRGenerationContext& context,
-                     llvm::BasicBlock* landingPadBlock,
-                     std::vector<Catch*> allCatches) const;
-  
-  void generateResumeAndFail(IRGenerationContext& context,
-                             llvm::LandingPadInst* landingPadInst,
-                             llvm::Value* exceptionTypeId,
-                             llvm::Value* wrappedException,
-                             FinallyBlock* finallyBlock) const;
-  
-  bool generateCatches(IRGenerationContext& context,
-                       llvm::Value* wrappedException,
-                       std::vector<std::tuple<Catch*, llvm::BasicBlock*>> catchesAndBlocks,
-                       llvm::BasicBlock* exceptionContinueBlock,
-                       FinallyBlock* finallyBlock) const;
-
 };
   
 } /* namespace wisey */

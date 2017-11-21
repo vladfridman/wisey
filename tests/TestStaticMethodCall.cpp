@@ -240,12 +240,10 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
   StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList, 0);
-  BasicBlock* landingPadBlock = BasicBlock::Create(mLLVMContext, "eh.landing.pad");
+  BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
   vector<Catch*> catchList;
   FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(landingPadBlock,
-                                                emptyBlock,
-                                                catchList);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(emptyBlock, catchList, continueBlock);
   mContext.getScopes().setTryCatchInfo(tryCatchInfo);
   
   Value* irValue = staticMethodCall.generateIR(mContext);
@@ -253,7 +251,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
                "%wisey.lang.CThread* %3, float 0x4014CCCCC0000000)\n"
-               "          to label %invoke.continue unwind label %eh.landing.pad",
+               "          to label %invoke.continue unwind label %cleanup",
                mStringStream->str().c_str());
   EXPECT_EQ(staticMethodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
