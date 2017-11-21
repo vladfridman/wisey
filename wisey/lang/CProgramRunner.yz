@@ -16,8 +16,9 @@ controller CProgramRunner {
       exit(1);
     } catch (MDestroyedObjectStillInUseException* exception) {
       thread.reportException(exception);
+      string ending = exception.getReferenceCount() > 1 ? "s" : "";
       printerr("Details: Object referenced by expression still has " + exception.getReferenceCount() + 
-        " active references\n");
+        " active reference" + ending + "\n");
       exit(1);
     }
   }
