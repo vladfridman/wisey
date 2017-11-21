@@ -456,8 +456,7 @@ TEST_F(TestFileSampleRunner, destroyedObjectStillInUseRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.clear(tests/samples/test_destroyed_object_still_in_use.yz:22)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_destroyed_object_still_in_use.yz:31)\n"
-                               "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_destroyed_object_still_in_use.yz:31)\n");
 }
 
 TEST_F(TestFileSampleRunner, nullPointerExceptionRunDeathTest) {
@@ -466,6 +465,5 @@ TEST_F(TestFileSampleRunner, nullPointerExceptionRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CService.getValue(tests/samples/test_null_pointer_exception.yz:25)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_null_pointer_exception.yz:36)\n"
-                               "  at wisey.lang.CProgramRunner.run(wisey/lang/CProgramRunner.yz:13)\n");
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_null_pointer_exception.yz:36)\n");
 }

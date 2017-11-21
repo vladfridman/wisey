@@ -115,9 +115,6 @@ controller CThread {
   public void reportException(IException exception) {
     printerr("Unhandled exception " + exception.getName() + "\n");
     NProgramStackNode iterator = mProgramStackTail;
-    if (iterator != null) {
-      iterator = iterator.getPrevious();
-    }
     while (iterator != null) {
       printerr("  at " + iterator.getObjectName() + "." + iterator.getMethodName() + "(" +
         iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
