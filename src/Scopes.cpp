@@ -22,7 +22,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Scopes::Scopes() : mCachedLandingPadBlock(NULL) {
+Scopes::Scopes() : mCachedLandingPadBlock(NULL), mFinallyBlock(NULL) {
 }
 
 Scopes::~Scopes() {
@@ -242,8 +242,19 @@ TryCatchInfo* Scopes::getTryCatchInfo() {
   return NULL;
 }
 
-void Scopes::endTryCatch() {
+bool Scopes::endTryCatch(IRGenerationContext& context) {
+  TryCatchInfo* tryCatchInfo = getScope()->getTryCatchInfo();
   getScope()->clearTryCatchInfo();
+  tryCatchInfo->getFinallyBlock();
+  return tryCatchInfo->runComposingCallbacks(context);
+}
+
+void Scopes::setFinallyBlock(FinallyBlock* finallyBlock) {
+  mFinallyBlock = finallyBlock;
+}
+
+void Scopes::clearFinallyBlock() {
+  mFinallyBlock = NULL;
 }
 
 void Scopes::setObjectType(const IObjectType* objectType) {
@@ -352,11 +363,10 @@ BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context) {
   }
   
   TryCatchInfo* tryCatchInfo = getTryCatchInfo();
-  FinallyBlock* finallyBlock = tryCatchInfo ? tryCatchInfo->getFinallyBlock() : NULL;
   
   mCachedLandingPadBlock = tryCatchInfo
-  ? tryCatchInfo->defineLandingPadBlock(context)
-  : Cleanup::generate(context, finallyBlock);
+    ? tryCatchInfo->defineLandingPadBlock(context)
+    : Cleanup::generate(context, mFinallyBlock);
   
   return mCachedLandingPadBlock;
 }

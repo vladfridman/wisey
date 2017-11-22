@@ -36,7 +36,7 @@ class Scopes {
    */
   std::map<std::string, std::map<std::string, IVariable*>> mOwnerToReferencesMap;
   llvm::BasicBlock* mCachedLandingPadBlock;
-
+  FinallyBlock* mFinallyBlock;
 
 public:
   
@@ -165,7 +165,17 @@ public:
   /**
    * Finishes try/catch processing by genereating catches and finally
    */
-  void endTryCatch();
+  bool endTryCatch(IRGenerationContext& context);
+  
+  /**
+   * This is used to process finally in catches within try/catch
+   */
+  void setFinallyBlock(FinallyBlock* finallyBlock);
+  
+  /**
+   * Clears finally block. This is called in from the finally block itself so not to get a recursion
+   */
+  void clearFinallyBlock();
   
   /**
    * When processing object definition this keeps track which object type is being processed

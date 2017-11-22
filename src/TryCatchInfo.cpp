@@ -22,6 +22,7 @@ using namespace std;
 using namespace wisey;
 
 TryCatchInfo::~TryCatchInfo() {
+  mComposingCallbacks.clear();
 }
 
 FinallyBlock* TryCatchInfo::getFinallyBlock() {
@@ -33,12 +34,6 @@ vector<Catch*> TryCatchInfo::getCatchList() {
 }
 
 BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context) {
-  if (!mCatchList.size()) {
-    return Cleanup::generate(context, mFinallyBlock);
-  }
-  
-  BasicBlock* lastBasicBlock = context.getBasicBlock();
-  
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getBasicBlock()->getParent();
   if (!function->hasPersonalityFn()) {
@@ -47,24 +42,32 @@ BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context) {
   
   vector<Catch*> allCatches = context.getScopes().mergeNestedCatchLists(context, mCatchList);
 
-  if (!allCatches.size()) {
-    return NULL;
-  }
-
   for (Catch* catchClause : mCatchList) {
     context.getScopes().getScope()->removeException(catchClause->getType(context)->getObject());
   }
 
   BasicBlock* landingPadBlock = BasicBlock::Create(llvmContext, "eh.landing.pad", function);
   
-  mDoAllCatchesTerminate = composeLandingPadBlock(context,
-                                                  landingPadBlock,
-                                                  allCatches,
-                                                  mFinallyBlock,
-                                                  mContinueBlock);
-  context.setBasicBlock(lastBasicBlock);
+  mComposingCallbacks.push_back(make_tuple(composeLandingPadBlock, landingPadBlock));
   
   return landingPadBlock;
+}
+
+bool TryCatchInfo::runComposingCallbacks(IRGenerationContext& context) {
+  BasicBlock* lastBasicBlock = context.getBasicBlock();
+  
+  vector<Catch*> allCatches = context.getScopes().mergeNestedCatchLists(context, mCatchList);
+  bool result = true;
+
+  for (tuple<LandingPadComposingFunction, BasicBlock*> callbackTuple : mComposingCallbacks) {
+    LandingPadComposingFunction function = get<0>(callbackTuple);
+    BasicBlock* landingPadBlock = get<1>(callbackTuple);
+    
+    result &= function(context, landingPadBlock, allCatches, mFinallyBlock, mContinueBlock);
+  }
+  
+  context.setBasicBlock(lastBasicBlock);
+  return result;
 }
 
 bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
@@ -72,6 +75,9 @@ bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
                                           vector<Catch*> allCatches,
                                           FinallyBlock* finallyBlock,
                                           BasicBlock* continueBlock) {
+  if (allCatches.size() == 0) {
+    return composeFinallyOnlyLandingPad(context, landingPadBlock, finallyBlock);
+  }
   tuple<LandingPadInst*, Value*, Value*>
   landingPadIR = generateLandingPad(context, landingPadBlock, allCatches);
   LandingPadInst* landingPadInst = get<0>(landingPadIR);
@@ -90,6 +96,33 @@ bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
                          catchesAndBlocks,
                          continueBlock,
                          finallyBlock);
+}
+
+bool TryCatchInfo::composeFinallyOnlyLandingPad(IRGenerationContext& context,
+                                                BasicBlock* landingPadBlock,
+                                                FinallyBlock* finallyBlock) {
+  context.setBasicBlock(landingPadBlock);
+  
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  vector<Type*> landingPadReturnTypes;
+  landingPadReturnTypes.push_back(int8PointerType);
+  landingPadReturnTypes.push_back(Type::getInt32Ty(llvmContext));
+  StructType* landingPadReturnType = StructType::get(llvmContext, landingPadReturnTypes);
+  LandingPadInst* landingPad = LandingPadInst::Create(landingPadReturnType,
+                                                      0,
+                                                      "",
+                                                      context.getBasicBlock());
+  
+  landingPad->setCleanup(true);
+  finallyBlock->generateIR(context);
+
+  context.getScopes().freeOwnedMemory(context);
+  
+  IRWriter::createResumeInst(context, landingPad);
+
+  return true;
 }
 
 tuple<LandingPadInst*, Value*, Value*>
@@ -149,12 +182,6 @@ void TryCatchInfo::generateResumeAndFail(IRGenerationContext& context,
   arguments.push_back(wrappedException);
   context.setBasicBlock(unexpectedBlock);
 
-  vector<Catch*> emptyCatchList;
-  context.getScopes().pushScope();
-  FinallyBlock subFinallyBlock;
-  TryCatchInfo* cleaupTryCatchInfo = new TryCatchInfo(&subFinallyBlock, emptyCatchList, NULL);
-  context.getScopes().beginTryCatch(cleaupTryCatchInfo);
-
   finallyBlock->generateIR(context);
 
   IRWriter::createCallInst(context, unexpectedFunction, arguments, "");
@@ -162,8 +189,6 @@ void TryCatchInfo::generateResumeAndFail(IRGenerationContext& context,
   
   context.setBasicBlock(resumeBlock);
   finallyBlock->generateIR(context);
-
-  context.getScopes().popScope(context);
   
   IRWriter::createResumeInst(context, landingPadInst);
 }
@@ -212,13 +237,9 @@ bool TryCatchInfo::generateCatches(IRGenerationContext& context,
                                    vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks,
                                    BasicBlock* exceptionContinueBlock,
                                    FinallyBlock* finallyBlock) {
-  vector<Catch*> emptyCatchList;
-  context.getScopes().pushScope();
-  TryCatchInfo* cleaupTryCatchInfo = new TryCatchInfo(finallyBlock, emptyCatchList, NULL);
-  context.getScopes().beginTryCatch(cleaupTryCatchInfo);
-  
   bool doAllCatchesTerminate = true;
   for (tuple<Catch*, BasicBlock*> catchAndBlock : catchesAndBlocks) {
+    context.getScopes().setFinallyBlock(finallyBlock);
     Catch* catchClause = get<0>(catchAndBlock);
     BasicBlock* catchBlock = get<1>(catchAndBlock);
     doAllCatchesTerminate &= catchClause->generateIR(context,
@@ -227,11 +248,7 @@ bool TryCatchInfo::generateCatches(IRGenerationContext& context,
                                                      exceptionContinueBlock,
                                                      finallyBlock);
   }
-  context.getScopes().popScope(context);
   
   return doAllCatchesTerminate;
 }
 
-bool TryCatchInfo::doAllCatchesTerminate() {
-  return mDoAllCatchesTerminate;
-}

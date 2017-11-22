@@ -279,7 +279,7 @@ TEST_F(ScopesTest, endTryCatchTest) {
   mScopes.beginTryCatch(tryCatchInfo);
   mScopes.pushScope();
   mScopes.popScope(mContext);
-  mScopes.endTryCatch();
+  mScopes.endTryCatch(mContext);
   
   ASSERT_EQ(mScopes.getTryCatchInfo(), nullptr);
 }

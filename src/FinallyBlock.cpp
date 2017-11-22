@@ -15,6 +15,7 @@ using namespace std;
 using namespace wisey;
 
 Value* FinallyBlock::generateIR(IRGenerationContext& context) const {
+  context.getScopes().clearFinallyBlock();
   for (IStatement* statement : mStatements) {
     statement->generateIR(context);
   }

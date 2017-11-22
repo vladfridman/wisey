@@ -40,15 +40,7 @@ BasicBlock* Cleanup::generate(IRGenerationContext& context, FinallyBlock* finall
   
   landingPad->setCleanup(true);
   if (finallyBlock) {
-    vector<Catch*> emptyCatchList;
-    context.getScopes().pushScope();
-    FinallyBlock subFinallyBlock;
-    TryCatchInfo* cleaupTryCatchInfo = new TryCatchInfo(&subFinallyBlock, emptyCatchList, NULL);
-    context.getScopes().beginTryCatch(cleaupTryCatchInfo);
-
     finallyBlock->generateIR(context);
-    
-    context.getScopes().popScope(context);
   }
 
   context.getScopes().freeOwnedMemory(context);

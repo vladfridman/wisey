@@ -143,11 +143,11 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   mContext.getScopes().beginTryCatch(&tryCatchInfo);
   InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
   
-  EXPECT_EQ(mBasicBlock->size(), 1u);
+  string expexted =
+  "  %0 = invoke i64 @main()\n"
+  "          to label %invoke.continue unwind label %eh.landing.pad";
   *mStringStream << *invokeInst;
-  ASSERT_STREQ(mStringStream->str().c_str(),
-               "  %0 = invoke i64 @main()\n"
-               "          to label %invoke.continue unwind label %cleanup");
+  ASSERT_STREQ(expexted.c_str(), mStringStream->str().c_str());
   
   IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
   

@@ -47,7 +47,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   context.getScopes().beginTryCatch(&tryCatchInfo);
   mTryBlock->generateIR(context);
   bool doesTryBlockTerminate = context.getBasicBlock()->getTerminator() != NULL;
-  context.getScopes().endTryCatch();
+  bool doAllCatchesTerminate = context.getScopes().endTryCatch(context);
   finallyBlock.generateIR(context);
 
   IRWriter::createBranch(context, continueBlock);
@@ -55,7 +55,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   context.getScopes().popScope(context);
   
   context.setBasicBlock(continueBlock);
-  if (doesTryBlockTerminate && tryCatchInfo.doAllCatchesTerminate()) {
+  if (doesTryBlockTerminate && doAllCatchesTerminate) {
     IRWriter::newUnreachableInst(context);
   }
   

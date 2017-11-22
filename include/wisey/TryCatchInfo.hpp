@@ -18,6 +18,9 @@ namespace wisey {
 class Catch;
 class FinallyBlock;
   
+typedef std::function<bool(IRGenerationContext&, llvm::BasicBlock*, std::vector<Catch*>,
+  FinallyBlock*, llvm::BasicBlock*)> LandingPadComposingFunction;
+
 /**
  * Information needed for IR generation of a try catch sequence
  */
@@ -25,8 +28,8 @@ class TryCatchInfo {
   FinallyBlock* mFinallyBlock;
   std::vector<Catch*> mCatchList;
   llvm::BasicBlock* mContinueBlock;
-  bool mDoAllCatchesTerminate;
-  
+  std::vector<std::tuple<LandingPadComposingFunction, llvm::BasicBlock*>> mComposingCallbacks;
+
 public:
   
   TryCatchInfo(FinallyBlock* finallyBlock,
@@ -34,8 +37,7 @@ public:
                llvm::BasicBlock* continueBlock) :
   mFinallyBlock(finallyBlock),
   mCatchList(catchList),
-  mContinueBlock(continueBlock),
-  mDoAllCatchesTerminate(false) { }
+  mContinueBlock(continueBlock) { }
   
   ~TryCatchInfo();
   
@@ -55,10 +57,10 @@ public:
   llvm::BasicBlock* defineLandingPadBlock(IRGenerationContext& context);
   
   /**
-   * Tells whether all catches end with a terminator
+   * Run callbacks composing landing pads
    */
-  bool doAllCatchesTerminate();
-
+  bool runComposingCallbacks(IRGenerationContext& context);
+  
 private:
   
   static bool composeLandingPadBlock(IRGenerationContext& context,
@@ -66,6 +68,10 @@ private:
                                      std::vector<Catch*> allCatches,
                                      FinallyBlock* finallyBlock,
                                      llvm::BasicBlock* continueBlock);
+  
+  static bool composeFinallyOnlyLandingPad(IRGenerationContext& context,
+                                           llvm::BasicBlock* landingPadBlock,
+                                           FinallyBlock* finallyBlock);
 
   static std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
   generateSelectCatchByExceptionType(IRGenerationContext& context,
