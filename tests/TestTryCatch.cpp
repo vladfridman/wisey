@@ -72,3 +72,9 @@ TEST_F(TestFileSampleRunner, tryCatchNestedUnmatchedThrowDeathTest) {
                     "Error: Method doTryCatch neither handles the exception "
                     "systems.vos.wisey.compiler.tests.MAnotherException nor throws it");
 }
+
+TEST_F(TestFileSampleRunner, tryCatchAccessTryVariableDeathTest) {
+  expectFailCompile("tests/samples/test_try_catch_access_try_variable.yz",
+                    1,
+                    "Error: Undeclared variable 'a'");
+}
