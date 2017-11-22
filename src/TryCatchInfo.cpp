@@ -47,29 +47,30 @@ BasicBlock* TryCatchInfo::generateLandingPad(IRGenerationContext& context) {
   
   vector<Catch*> allCatches = context.getScopes().mergeNestedCatchLists(context, mCatchList);
 
-  BasicBlock* landingPadBlock = allCatches.size()
-  ? BasicBlock::Create(llvmContext, "eh.landing.pad", function) : NULL;
-
-  if (allCatches.size()) {
-    tuple<LandingPadInst*, Value*, Value*>
-    landingPadIR = generateLandingPad(context, landingPadBlock, allCatches);
-    LandingPadInst* landingPadInst = get<0>(landingPadIR);
-    Value* wrappedException = get<1>(landingPadIR);
-    Value* exceptionTypeId = get<2>(landingPadIR);
-    
-    vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks =
-    generateSelectCatchByExceptionType(context, exceptionTypeId, allCatches, landingPadBlock);
-    generateResumeAndFail(context,
-                          landingPadInst,
-                          exceptionTypeId,
-                          wrappedException,
-                          mFinallyBlock);
-    mDoAllCatchesTerminate = generateCatches(context,
-                                             wrappedException,
-                                             catchesAndBlocks,
-                                             mContinueBlock,
-                                             mFinallyBlock);
+  if (!allCatches.size()) {
+    return NULL;
   }
+
+  BasicBlock* landingPadBlock = BasicBlock::Create(llvmContext, "eh.landing.pad", function);
+  
+  tuple<LandingPadInst*, Value*, Value*>
+  landingPadIR = generateLandingPad(context, landingPadBlock, allCatches);
+  LandingPadInst* landingPadInst = get<0>(landingPadIR);
+  Value* wrappedException = get<1>(landingPadIR);
+  Value* exceptionTypeId = get<2>(landingPadIR);
+  
+  vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks =
+  generateSelectCatchByExceptionType(context, exceptionTypeId, allCatches, landingPadBlock);
+  generateResumeAndFail(context,
+                        landingPadInst,
+                        exceptionTypeId,
+                        wrappedException,
+                        mFinallyBlock);
+  mDoAllCatchesTerminate = generateCatches(context,
+                                           wrappedException,
+                                           catchesAndBlocks,
+                                           mContinueBlock,
+                                           mFinallyBlock);
 
   context.setBasicBlock(lastBasicBlock);
   return landingPadBlock;
