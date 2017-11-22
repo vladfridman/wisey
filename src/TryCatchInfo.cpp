@@ -140,7 +140,7 @@ void TryCatchInfo::generateResumeAndFail(IRGenerationContext& context,
   context.getScopes().pushScope();
   FinallyBlock subFinallyBlock;
   TryCatchInfo* cleaupTryCatchInfo = new TryCatchInfo(&subFinallyBlock, emptyCatchList, NULL);
-  context.getScopes().setTryCatchInfo(cleaupTryCatchInfo);
+  context.getScopes().beginTryCatch(cleaupTryCatchInfo);
 
   finallyBlock->generateIR(context);
 
@@ -202,7 +202,7 @@ bool TryCatchInfo::generateCatches(IRGenerationContext& context,
   vector<Catch*> emptyCatchList;
   context.getScopes().pushScope();
   TryCatchInfo* cleaupTryCatchInfo = new TryCatchInfo(finallyBlock, emptyCatchList, NULL);
-  context.getScopes().setTryCatchInfo(cleaupTryCatchInfo);
+  context.getScopes().beginTryCatch(cleaupTryCatchInfo);
   
   bool doAllCatchesTerminate = true;
   for (tuple<Catch*, BasicBlock*> catchAndBlock : catchesAndBlocks) {

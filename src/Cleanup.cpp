@@ -44,7 +44,7 @@ BasicBlock* Cleanup::generate(IRGenerationContext& context, FinallyBlock* finall
     context.getScopes().pushScope();
     FinallyBlock subFinallyBlock;
     TryCatchInfo* cleaupTryCatchInfo = new TryCatchInfo(&subFinallyBlock, emptyCatchList, NULL);
-    context.getScopes().setTryCatchInfo(cleaupTryCatchInfo);
+    context.getScopes().beginTryCatch(cleaupTryCatchInfo);
 
     finallyBlock->generateIR(context);
     

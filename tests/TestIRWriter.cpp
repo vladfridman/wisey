@@ -140,7 +140,7 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   FinallyBlock* emptyBlock = new FinallyBlock();
   TryCatchInfo tryCatchInfo(emptyBlock, catchList, continueBlock);
   
-  mContext.getScopes().setTryCatchInfo(&tryCatchInfo);
+  mContext.getScopes().beginTryCatch(&tryCatchInfo);
   InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
   
   EXPECT_EQ(mBasicBlock->size(), 1u);

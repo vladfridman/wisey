@@ -256,30 +256,30 @@ TEST_F(ScopesTest, setUnitializedLocalReferenceVariableTest) {
               
 }
 
-TEST_F(ScopesTest, setTryCatchInfoTest) {
+TEST_F(ScopesTest, beginTryCatchTest) {
   mScopes.pushScope();
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
   vector<Catch*> catchList;
   FinallyBlock* emptyBlock = new FinallyBlock();
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(emptyBlock, catchList, basicBlock);
   
-  mScopes.setTryCatchInfo(tryCatchInfo);
+  mScopes.beginTryCatch(tryCatchInfo);
   mScopes.pushScope();
   
   ASSERT_EQ(mScopes.getTryCatchInfo(), tryCatchInfo);
 }
 
-TEST_F(ScopesTest, clearTryCatchInfoTest) {
+TEST_F(ScopesTest, endTryCatchTest) {
   mScopes.pushScope();
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
   vector<Catch*> catchList;
   FinallyBlock* emptyBlock = new FinallyBlock();
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(emptyBlock, catchList, basicBlock);
   
-  mScopes.setTryCatchInfo(tryCatchInfo);
+  mScopes.beginTryCatch(tryCatchInfo);
   mScopes.pushScope();
   mScopes.popScope(mContext);
-  mScopes.clearTryCatchInfo();
+  mScopes.endTryCatch();
   
   ASSERT_EQ(mScopes.getTryCatchInfo(), nullptr);
 }
@@ -339,9 +339,9 @@ TEST_F(ScopesTest, mergeNestedCatchListsTest) {
   catchList3.push_back(catch4);
   
   mScopes.pushScope();
-  mScopes.setTryCatchInfo(tryCatchInfo1);
+  mScopes.beginTryCatch(tryCatchInfo1);
   mScopes.pushScope();
-  mScopes.setTryCatchInfo(tryCatchInfo2);
+  mScopes.beginTryCatch(tryCatchInfo2);
   mScopes.pushScope();
   
   vector<Catch*> mergedCatches = mScopes.mergeNestedCatchLists(mContext, catchList3);

@@ -222,7 +222,7 @@ BasicBlock* Scopes::getContinueToBlock() {
   return NULL;
 }
 
-void Scopes::setTryCatchInfo(TryCatchInfo* tryCatchInfo) {
+void Scopes::beginTryCatch(TryCatchInfo* tryCatchInfo) {
   getScope()->setTryCatchInfo(tryCatchInfo);
   clearCachedLandingPadBlock();
 }
@@ -242,7 +242,7 @@ TryCatchInfo* Scopes::getTryCatchInfo() {
   return NULL;
 }
 
-void Scopes::clearTryCatchInfo() {
+void Scopes::endTryCatch() {
   getScope()->clearTryCatchInfo();
 }
 

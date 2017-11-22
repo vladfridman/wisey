@@ -276,7 +276,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   vector<Catch*> catchList;
   FinallyBlock* emptyBlock = new FinallyBlock();
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(emptyBlock, catchList, continueBlock);
-  mContext.getScopes().setTryCatchInfo(tryCatchInfo);
+  mContext.getScopes().beginTryCatch(tryCatchInfo);
 
   Value* irValue = methodCall.generateIR(mContext);
   

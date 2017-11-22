@@ -155,7 +155,7 @@ public:
   /**
    * Sets information for exception handling
    */
-  void setTryCatchInfo(TryCatchInfo* tryCatchInfo);
+  void beginTryCatch(TryCatchInfo* tryCatchInfo);
 
   /**
    * Returns the exception handling info
@@ -163,9 +163,9 @@ public:
   TryCatchInfo* getTryCatchInfo();
   
   /**
-   * Clear information about exception handling
+   * Finishes try/catch processing by genereating catches and finally
    */
-  void clearTryCatchInfo();
+  void endTryCatch();
   
   /**
    * When processing object definition this keeps track which object type is being processed

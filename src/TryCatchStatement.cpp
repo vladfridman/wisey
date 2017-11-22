@@ -44,10 +44,10 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* continueBlock = BasicBlock::Create(llvmContext, "eh.continue", function);
 
   TryCatchInfo tryCatchInfo(&finallyBlock, mCatchList, continueBlock);
-  context.getScopes().setTryCatchInfo(&tryCatchInfo);
+  context.getScopes().beginTryCatch(&tryCatchInfo);
   mTryBlock->generateIR(context);
   bool doesTryBlockTerminate = context.getBasicBlock()->getTerminator() != NULL;
-  context.getScopes().clearTryCatchInfo();
+  context.getScopes().endTryCatch();
   finallyBlock.generateIR(context);
 
   IRWriter::createBranch(context, continueBlock);
