@@ -355,7 +355,7 @@ BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context) {
   FinallyBlock* finallyBlock = tryCatchInfo ? tryCatchInfo->getFinallyBlock() : NULL;
   
   mCachedLandingPadBlock = tryCatchInfo
-  ? tryCatchInfo->generateLandingPad(context)
+  ? tryCatchInfo->defineLandingPadBlock(context)
   : Cleanup::generate(context, finallyBlock);
   
   return mCachedLandingPadBlock;

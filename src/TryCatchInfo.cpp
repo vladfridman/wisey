@@ -32,7 +32,7 @@ vector<Catch*> TryCatchInfo::getCatchList() {
   return mCatchList;
 }
 
-BasicBlock* TryCatchInfo::generateLandingPad(IRGenerationContext& context) {
+BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context) {
   if (!mCatchList.size()) {
     return Cleanup::generate(context, mFinallyBlock);
   }

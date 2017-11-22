@@ -50,9 +50,9 @@ public:
   std::vector<Catch*> getCatchList();
   
   /**
-   * Generates landing pad based on try/catch statement that created this TryCatchInfo
+   * Defines landing pad based block on try/catch statement that created this TryCatchInfo
    */
-  llvm::BasicBlock* generateLandingPad(IRGenerationContext& context);
+  llvm::BasicBlock* defineLandingPadBlock(IRGenerationContext& context);
   
   /**
    * Tells whether all catches end with a terminator
