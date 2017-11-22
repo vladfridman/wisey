@@ -382,4 +382,3 @@ void IRGenerationContext::runComposingCallbacks() {
     composingFunction(*this, function, objectTypes);
   }
 }
-

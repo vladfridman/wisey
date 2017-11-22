@@ -9,6 +9,7 @@
 #include <set>
 
 #include "wisey/Catch.hpp"
+#include "wisey/Cleanup.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/IOwnerVariable.hpp"
 #include "wisey/IReferenceVariable.hpp"
@@ -20,6 +21,12 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
+
+Scopes::Scopes() : mCachedLandingPadBlock(NULL) {
+}
+
+Scopes::~Scopes() {
+}
 
 IVariable* Scopes::getVariable(string name) {
   if (mClearedVariables.count(name)) {
@@ -50,7 +57,9 @@ void Scopes::clearVariable(IRGenerationContext& context, string name) {
     exit(1);
     return;
   }
-  
+
+  clearCachedLandingPadBlock();
+
   for (Scope* scope : mScopes) {
     IVariable* variable = scope->findVariable(name);
     if (variable == NULL) {
@@ -76,6 +85,9 @@ void Scopes::setVariable(IVariable* variable) {
     exit(1);
   }
   getScope()->setVariable(variable->getName(), variable);
+  if (variable->getType()->getTypeKind() != PRIMITIVE_TYPE) {
+    clearCachedLandingPadBlock();
+  }
 }
 
 map<string, IVariable*> Scopes::getClearedVariables() {
@@ -84,10 +96,12 @@ map<string, IVariable*> Scopes::getClearedVariables() {
 
 void Scopes::setClearedVariables(map<string, IVariable*> clearedVariables) {
   mClearedVariables = clearedVariables;
+  clearCachedLandingPadBlock();
 }
 
 void Scopes::eraseFromClearedVariables(IVariable* variable) {
   mClearedVariables.erase(variable->getName());
+  clearCachedLandingPadBlock();
 }
 
 bool Scopes::isVariableCleared(string name) {
@@ -102,6 +116,7 @@ void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
 
   top->freeOwnedMemory(context, mClearedVariables);
+  clearCachedLandingPadBlock();
 
   for (string variableName : top->getClearedVariables(mClearedVariables)) {
     mClearedVariables.erase(variableName);
@@ -209,6 +224,7 @@ BasicBlock* Scopes::getContinueToBlock() {
 
 void Scopes::setTryCatchInfo(TryCatchInfo* tryCatchInfo) {
   getScope()->setTryCatchInfo(tryCatchInfo);
+  clearCachedLandingPadBlock();
 }
 
 TryCatchInfo* Scopes::getTryCatchInfo() {
@@ -328,4 +344,23 @@ void Scopes::addReferenceToOwnerVariable(IVariable* ownerVariable, IVariable* re
 
 map<string, IVariable*> Scopes::getOwnersForReference(IVariable* reference) {
   return mRererenceToOwnersMap[reference->getName()];
+}
+
+BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context) {
+  if (mCachedLandingPadBlock) {
+    return mCachedLandingPadBlock;
+  }
+  
+  TryCatchInfo* tryCatchInfo = getTryCatchInfo();
+  FinallyBlock* finallyBlock = tryCatchInfo ? tryCatchInfo->getFinallyBlock() : NULL;
+  
+  mCachedLandingPadBlock = tryCatchInfo
+  ? tryCatchInfo->generateLandingPad(context)
+  : Cleanup::generate(context, finallyBlock);
+  
+  return mCachedLandingPadBlock;
+}
+
+void Scopes::clearCachedLandingPadBlock() {
+  mCachedLandingPadBlock = NULL;
 }

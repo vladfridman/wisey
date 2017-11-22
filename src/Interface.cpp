@@ -337,6 +337,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock *basicBlock = BasicBlock::Create(llvmContext, "entry", mapFunction, 0);
   context.setBasicBlock(basicBlock);
+  context.getScopes().pushScope();
   
   Function::arg_iterator arguments = mapFunction->arg_begin();
   Value* interfaceThis = &*arguments;
@@ -382,6 +383,8 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
       IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "call");
     IRWriter::createReturnInst(context, result);
   }
+
+  context.getScopes().popScope(context);
 }
 
 llvm::Value* Interface::storeArgumentValue(IRGenerationContext& context,
@@ -486,6 +489,7 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* llvmReturnType = function->getReturnType();
+  context.getScopes().pushScope();
 
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
@@ -498,8 +502,6 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   BasicBlock* moreThanZero = BasicBlock::Create(llvmContext, "more.than.zero", function);
   BasicBlock* zeroExactly = BasicBlock::Create(llvmContext, "zero.exactly", function);
   
-  BasicBlock* lastBasicBlock = context.getBasicBlock();
-
   context.setBasicBlock(entryBlock);
   Value* instanceof = InstanceOf::call(context,
                                        (const Interface*) objectTypes.front(),
@@ -537,7 +539,7 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   castValue = IRWriter::newBitCastInst(context, originalObject, llvmReturnType);
   IRWriter::createReturnInst(context, castValue);
   
-  context.setBasicBlock(lastBasicBlock);
+  context.getScopes().popScope(context);
 }
 
 Value* Interface::getOriginalObjectVTable(IRGenerationContext& context, Value* value) {
@@ -723,7 +725,8 @@ Function* Interface::defineDestructorFunction(IRGenerationContext& context) cons
 void Interface::composeDestructorFunctionBody(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getModule()->getFunction(getDestructorFunctionName());
-
+  context.getScopes().pushScope();
+  
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
   thisArgument->setName("this");
@@ -773,4 +776,6 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   
   IRWriter::createInvokeInst(context, objectDestructor, arguments, "");
   IRWriter::createReturnInst(context, NULL);
+  
+  context.getScopes().popScope(context);
 }

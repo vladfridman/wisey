@@ -94,12 +94,8 @@ InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
     return NULL;
   }
   
-  TryCatchInfo* tryCatchInfo = context.getScopes().getTryCatchInfo();
-  FinallyBlock* finallyBlock = tryCatchInfo ? tryCatchInfo->getFinallyBlock() : NULL;
-  BasicBlock* landingPadBlock = tryCatchInfo
-    ? tryCatchInfo->generateLandingPad(context)
-    : Cleanup::generate(context, finallyBlock);
-
+  BasicBlock* landingPadBlock = context.getScopes().getLandingPadBlock(context);
+  
   BasicBlock* invokeContinueBlock = BasicBlock::Create(context.getLLVMContext(),
                                                        "invoke.continue",
                                                        currentBlock->getParent());

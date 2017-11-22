@@ -247,7 +247,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   "  %10 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
   "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, "
   "%wisey.lang.CThread* %9, float 0x4014CCCCC0000000)"
-  "\n          to label %invoke.continue2 unwind label %cleanup1";
+  "\n          to label %invoke.continue1 unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);
 }
@@ -285,7 +285,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
                "%systems.vos.wisey.compiler.tests.MSquare* %0, "
                "%wisey.lang.CThread* %9, "
                "float 0x4014CCCCC0000000)\n"
-               "          to label %invoke.continue2 unwind label %cleanup1",
+               "          to label %invoke.continue1 unwind label %cleanup",
                mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), PrimitiveTypes::INT_TYPE);
 }

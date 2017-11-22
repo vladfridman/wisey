@@ -35,12 +35,14 @@ class Scopes {
    * that all references that refer to that owner are also cleared. That is why this map is needed.
    */
   std::map<std::string, std::map<std::string, IVariable*>> mOwnerToReferencesMap;
+  llvm::BasicBlock* mCachedLandingPadBlock;
+
 
 public:
   
-  Scopes() {}
+  Scopes();
 
-  ~Scopes() {}
+  ~Scopes();
 
   /**
    * Returns scoped variable which could be defined either in the current scope or one of
@@ -181,12 +183,18 @@ public:
   std::vector<Catch*> mergeNestedCatchLists(IRGenerationContext& context,
                                             std::vector<Catch*> catchList);
   
+  /**
+   * Get the landing pad for invoke call. This may generate a new ladning pad or return a cached one
+   */
+  llvm::BasicBlock* getLandingPadBlock(IRGenerationContext& context);
+
 private:
 
   void reportUnhandledExceptions(std::map<std::string, const Model*> exceptions);
   
   void clearReferencesToOwnerTypeVariable(IVariable* variable);
   
+  void clearCachedLandingPadBlock();
 };
   
 } /* namespace wisey */
