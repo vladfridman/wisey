@@ -42,7 +42,7 @@ BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context) {
   
   vector<Catch*> allCatches = context.getScopes().mergeNestedCatchLists(context, mCatchList);
 
-  for (Catch* catchClause : mCatchList) {
+  for (Catch* catchClause : allCatches) {
     context.getScopes().getScope()->removeException(catchClause->getType(context)->getObject());
   }
 
