@@ -177,12 +177,6 @@ public:
   const IObjectType* getObjectType() const;
   
   /**
-   * Merge catches from scopes above with catches in the current scope
-   */
-  std::vector<Catch*> mergeNestedCatchLists(IRGenerationContext& context,
-                                            std::vector<Catch*> catchList);
-  
-  /**
    * Get the landing pad for invoke call. This may generate a new ladning pad or return a cached one
    */
   llvm::BasicBlock* getLandingPadBlock(IRGenerationContext& context);

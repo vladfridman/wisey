@@ -35,9 +35,7 @@ BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context) {
     function->setPersonalityFn(IntrinsicFunctions::getPersonalityFunction(context));
   }
   
-  vector<Catch*> allCatches = context.getScopes().mergeNestedCatchLists(context, mCatchList);
-
-  for (Catch* catchClause : allCatches) {
+  for (Catch* catchClause : mCatchList) {
     context.getScopes().getScope()->removeException(catchClause->getType(context)->getObject());
   }
 
@@ -51,14 +49,13 @@ BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context) {
 bool TryCatchInfo::runComposingCallbacks(IRGenerationContext& context) {
   BasicBlock* lastBasicBlock = context.getBasicBlock();
   
-  vector<Catch*> allCatches = context.getScopes().mergeNestedCatchLists(context, mCatchList);
   bool result = true;
 
   for (tuple<LandingPadComposingFunction, BasicBlock*> callbackTuple : mComposingCallbacks) {
     LandingPadComposingFunction function = get<0>(callbackTuple);
     BasicBlock* landingPadBlock = get<1>(callbackTuple);
     
-    result &= function(context, landingPadBlock, allCatches, mContinueBlock);
+    result &= function(context, landingPadBlock, mCatchList, mContinueBlock);
   }
   
   context.setBasicBlock(lastBasicBlock);
@@ -67,19 +64,19 @@ bool TryCatchInfo::runComposingCallbacks(IRGenerationContext& context) {
 
 bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
                                           BasicBlock* landingPadBlock,
-                                          vector<Catch*> allCatches,
+                                          vector<Catch*> catchList,
                                           BasicBlock* continueBlock) {
-  if (allCatches.size() == 0) {
+  if (catchList.size() == 0) {
     return composeFinallyOnlyLandingPad(context, landingPadBlock);
   }
   tuple<LandingPadInst*, Value*, Value*>
-  landingPadIR = generateLandingPad(context, landingPadBlock, allCatches);
+  landingPadIR = generateLandingPad(context, landingPadBlock, catchList);
   LandingPadInst* landingPadInst = get<0>(landingPadIR);
   Value* wrappedException = get<1>(landingPadIR);
   Value* exceptionTypeId = get<2>(landingPadIR);
   
   vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks =
-  generateSelectCatchByExceptionType(context, exceptionTypeId, allCatches, landingPadBlock);
+  generateSelectCatchByExceptionType(context, exceptionTypeId, catchList, landingPadBlock);
   generateResumeAndFail(context,
                         landingPadInst,
                         exceptionTypeId,
@@ -118,7 +115,7 @@ bool TryCatchInfo::composeFinallyOnlyLandingPad(IRGenerationContext& context,
 tuple<LandingPadInst*, Value*, Value*>
 TryCatchInfo::generateLandingPad(IRGenerationContext& context,
                                  BasicBlock* landingPadBlock,
-                                 vector<Catch*> allCatches) {
+                                 vector<Catch*> catchList) {
   LLVMContext& llvmContext = context.getLLVMContext();
   context.setBasicBlock(landingPadBlock);
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -127,11 +124,11 @@ TryCatchInfo::generateLandingPad(IRGenerationContext& context,
   landingPadReturnTypes.push_back(Type::getInt32Ty(llvmContext));
   StructType* landingPadReturnType = StructType::get(llvmContext, landingPadReturnTypes);
   LandingPadInst* landingPad = LandingPadInst::Create(landingPadReturnType,
-                                                      (int) allCatches.size(),
+                                                      (int) catchList.size(),
                                                       "",
                                                       landingPadBlock);
   
-  for (Catch* catchClause : allCatches) {
+  for (Catch* catchClause : catchList) {
     ModelOwner* exceptionType = catchClause->getType(context);
     landingPad->addClause(context.getModule()->
                           getNamedGlobal(exceptionType->getObject()->getRTTIVariableName()));
@@ -181,7 +178,7 @@ void TryCatchInfo::generateResumeAndFail(IRGenerationContext& context,
 vector<tuple<Catch*, BasicBlock*>>
 TryCatchInfo::generateSelectCatchByExceptionType(IRGenerationContext& context,
                                                  Value* exceptionTypeId,
-                                                 vector<Catch*> allCatches,
+                                                 vector<Catch*> catchList,
                                                  BasicBlock* landingPadBlock) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -191,7 +188,7 @@ TryCatchInfo::generateSelectCatchByExceptionType(IRGenerationContext& context,
   vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks;
   BasicBlock* currentBlock = landingPadBlock;
   
-  for (Catch* catchClause : allCatches) {
+  for (Catch* catchClause : catchList) {
     context.setBasicBlock(currentBlock);
     ModelOwner* exceptionType = catchClause->getType(context);
     Value* rtti = context.getModule()->

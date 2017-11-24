@@ -267,33 +267,6 @@ const IObjectType* Scopes::getObjectType() const {
   return NULL;
 }
 
-vector<Catch*> Scopes::mergeNestedCatchLists(IRGenerationContext& context,
-                                             vector<Catch*> catchList) {
-  vector<Catch*> result;
-  set<string> processedCatches;
-  
-  for(Catch* catchClause : catchList) {
-    result.push_back(catchClause);
-    processedCatches.insert(catchClause->getType(context)->getName());
-  }
-  
-  for (Scope* scope : mScopes) {
-    TryCatchInfo* info = scope->getTryCatchInfo();
-    if (info == NULL) {
-      continue;
-    }
-    for (Catch* catchClause : info->getCatchList()) {
-      string typeName = catchClause->getType(context)->getName();
-      if (processedCatches.find(typeName) == processedCatches.end()) {
-        result.push_back(catchClause);
-        processedCatches.insert(typeName);
-      }
-    }
-  }
-  
-  return result;
-}
-
 void Scopes::setReturnType(const IType* type) {
   getScope()->setReturnType(type);
 }

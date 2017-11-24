@@ -60,3 +60,8 @@ TEST_F(TestFileSampleRunner, tryCatchAccessTryVariableDeathRunTest) {
                     "Error: Undeclared variable 'a'");
 }
 
+TEST_F(TestFileSampleRunner, tryCatchNestedDeathRunTest) {
+  expectFailCompile("tests/samples/test_try_catch_nested.yz",
+                    1,
+                    "Error: Nested try/catch is not allowed. Extract inner try/catch into a method.");
+}

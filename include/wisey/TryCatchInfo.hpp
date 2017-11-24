@@ -56,7 +56,7 @@ private:
   
   static bool composeLandingPadBlock(IRGenerationContext& context,
                                      llvm::BasicBlock* landingPadBlock,
-                                     std::vector<Catch*> allCatches,
+                                     std::vector<Catch*> catchList,
                                      llvm::BasicBlock* continueBlock);
   
   static bool composeFinallyOnlyLandingPad(IRGenerationContext& context,
@@ -65,13 +65,13 @@ private:
   static std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
   generateSelectCatchByExceptionType(IRGenerationContext& context,
                                      llvm::Value* exceptionTypeId,
-                                     std::vector<Catch*> allCatches,
+                                     std::vector<Catch*> catchList,
                                      llvm::BasicBlock* landingPadBlock);
   
   static std::tuple<llvm::LandingPadInst*, llvm::Value*, llvm::Value*>
   generateLandingPad(IRGenerationContext& context,
                      llvm::BasicBlock* landingPadBlock,
-                     std::vector<Catch*> allCatches);
+                     std::vector<Catch*> catchList);
   
   static void generateResumeAndFail(IRGenerationContext& context,
                                     llvm::LandingPadInst* landingPadInst,
