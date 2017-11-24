@@ -12,6 +12,7 @@
 #include "wisey/Cleanup.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/TryCatchInfo.hpp"
 #include "wisey/TryCatchStatement.hpp"
 
@@ -29,6 +30,11 @@ TryCatchStatement::~TryCatchStatement() {
 
 Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   context.getScopes().pushScope();
+  
+  if (context.getScopes().getTryCatchInfo()) {
+    Log::e("Nested try/catch is not allowed. Extract inner try/catch into a method");
+    exit(1);
+  }
   
   Function* function = context.getBasicBlock()->getParent();
   LLVMContext& llvmContext = context.getLLVMContext();

@@ -50,23 +50,8 @@ TEST_F(TestFileSampleRunner, tryCatchTwoThrowsRunTest) {
   compileAndRunFile("tests/samples/test_try_catch_two_throws.yz", 45);
 }
 
-TEST_F(TestFileSampleRunner, tryCatchNestedCatchInOuterTryRunTest) {
-  compileAndRunFile("tests/samples/test_try_catch_nested_catch_in_outer_try.yz", 65);
-}
-
 TEST_F(TestFileSampleRunner, tryCatchNestedInCatchTryRunTest) {
   compileAndRunFile("tests/samples/test_try_catch_nested_in_catch.yz", 5);
-}
-
-TEST_F(TestFileSampleRunner, tryCatchNestedThrowFromCatchRunTest) {
-  compileAndRunFile("tests/samples/test_try_catch_nested_throw_from_catch.yz", 9);
-}
-
-TEST_F(TestFileSampleRunner, tryCatchNestedUnmatchedThrowDeathRunTest) {
-  expectFailCompile("tests/samples/test_try_catch_nested_unmatched_throw.yz",
-                    1,
-                    "Error: Method doTryCatch neither handles the exception "
-                    "systems.vos.wisey.compiler.tests.MAnotherException nor throws it");
 }
 
 TEST_F(TestFileSampleRunner, tryCatchAccessTryVariableDeathRunTest) {
