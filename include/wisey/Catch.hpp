@@ -9,7 +9,6 @@
 #ifndef Catch_h
 #define Catch_h
 
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
@@ -42,8 +41,7 @@ public:
   bool generateIR(IRGenerationContext& context,
                   llvm::Value* wrappedException,
                   llvm::BasicBlock* catchBlock,
-                  llvm::BasicBlock* exceptionContinueBlock,
-                  FinallyBlock* finallyBlock) const;
+                  llvm::BasicBlock* exceptionContinueBlock) const;
 };
   
 } /* namespace wisey */

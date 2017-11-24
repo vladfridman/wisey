@@ -13,7 +13,6 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/EmptyStatement.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IRWriter.hpp"
 
 using namespace llvm;
@@ -137,8 +136,7 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   vector<Value*> arguments;
   vector<Catch*> catchList;
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue", mMainFunction);
-  FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo tryCatchInfo(emptyBlock, catchList, continueBlock);
+  TryCatchInfo tryCatchInfo(catchList, continueBlock);
   
   mContext.getScopes().beginTryCatch(&tryCatchInfo);
   InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");

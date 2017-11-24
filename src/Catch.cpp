@@ -32,8 +32,7 @@ ModelOwner* Catch::getType(IRGenerationContext& context) const {
 bool Catch::generateIR(IRGenerationContext& context,
                        Value* wrappedException,
                        BasicBlock* catchBlock,
-                       BasicBlock* exceptionContinueBlock,
-                       FinallyBlock* finallyBlock) const {
+                       BasicBlock* exceptionContinueBlock) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function* beginCatchFunction = IntrinsicFunctions::getBeginCatchFunction(context);
@@ -74,8 +73,6 @@ bool Catch::generateIR(IRGenerationContext& context,
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);
   mStatement->generateIR(context);
   context.getScopes().popScope(context);
-  
-  finallyBlock->generateIR(context);
   
   bool hasTerminator = context.getBasicBlock()->getTerminator() != NULL;
 

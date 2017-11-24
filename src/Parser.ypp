@@ -156,7 +156,7 @@
 
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXIT TEXTENDS TEXTERNAL
-%token <token> TDEFAULT TFALLTHROUGH TFALSE TFINALLY TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECT
+%token <token> TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECT
 %token <token> TINSTANCEOF TINTERFACE TMODEL TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
 %token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPECHAR TTYPEDOUBLE 
@@ -182,7 +182,7 @@
 %type <statement> method_argument_declaration jump_statement block_item
 %type <statement> declaration expression_statement iteration_statement
 %type <statement> print_statement selection_statement 
-%type <statement> throw_statement try_catch_statement finally_clause
+%type <statement> throw_statement try_catch_statement
 %type <global_statement> controller_definition interface_definition model_definition
 %type <global_statement> node_definition bind_action import_statement global_statement
 %type <global_statement> object_definition external_object_definition external_model_definition
@@ -590,12 +590,8 @@ exit_statement
 
 try_catch_statement
   : TTRY compound_statement catch_block { 
-    $$ = new TryCatchStatement($2, *$3, new EmptyStatement()); delete $3; 
+    $$ = new TryCatchStatement($2, *$3); delete $3; 
   }
-  | TTRY compound_statement finally_clause
-    { std::vector<Catch *> catchBlock; $$ = new TryCatchStatement($2, catchBlock, $3); }
-  | TTRY compound_statement catch_block finally_clause
-    { $$ = new TryCatchStatement($2, *$3, $4); delete $3; }
   ;
 
 catch_block
@@ -606,10 +602,6 @@ catch_block
 catch_clause
   : TCATCH '(' exception_type_specifier '*' TIDENTIFIER ')' compound_statement
     { $$ = new Catch($3, *$5, $7); delete $5; }
-  ;
-
-finally_clause
-  : TFINALLY compound_statement { $$ = $2; }
   ;
 
 variable_declaration

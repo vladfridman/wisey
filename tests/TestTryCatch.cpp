@@ -30,14 +30,6 @@ TEST_F(TestFileSampleRunner, tryCatchReturnNoThrowRunTest) {
   compileAndRunFile("tests/samples/test_try_catch_return_no_throw.yz", 3);
 }
 
-TEST_F(TestFileSampleRunner, tryCatchFinallyRunTest) {
-  compileAndRunFile("tests/samples/test_try_catch_finally.yz", 7);
-}
-
-TEST_F(TestFileSampleRunner, tryFinallyRunTest) {
-  compileAndRunFile("tests/samples/test_try_finally.yz", 5);
-}
-
 TEST_F(TestFileSampleRunner, tryCatchRethrowRunTest) {
   compileAndRunFile("tests/samples/test_try_catch_rethrow.yz", 127);
 }
@@ -50,20 +42,12 @@ TEST_F(TestFileSampleRunner, tryCatchThroughMiddlemanRunTest) {
   compileAndRunFile("tests/samples/test_try_catch_through_middleman.yz", 63);
 }
 
-TEST_F(TestFileSampleRunner, tryCatchNestedFinallyRunTest) {
-  compileAndRunFile("tests/samples/test_try_catch_nested_finally.yz", 45);
-}
-
 TEST_F(TestFileSampleRunner, tryThrowFromInsideCatchRunTest) {
-  compileAndRunFile("tests/samples/test_throw_from_inside_catch.yz", 45);
-}
-
-TEST_F(TestFileSampleRunner, tryThrowFromInsideFinallyRunTest) {
-  compileAndRunFile("tests/samples/test_throw_from_inside_finally.yz", 45);
+  compileAndRunFile("tests/samples/test_throw_from_inside_catch.yz", 37);
 }
 
 TEST_F(TestFileSampleRunner, tryCatchTwoThrowsRunTest) {
-  compileAndRunFile("tests/samples/test_try_catch_two_throws.yz", 61);
+  compileAndRunFile("tests/samples/test_try_catch_two_throws.yz", 45);
 }
 
 TEST_F(TestFileSampleRunner, tryCatchNestedCatchInOuterTryRunTest) {
@@ -87,12 +71,6 @@ TEST_F(TestFileSampleRunner, tryCatchNestedUnmatchedThrowDeathRunTest) {
 
 TEST_F(TestFileSampleRunner, tryCatchAccessTryVariableDeathRunTest) {
   expectFailCompile("tests/samples/test_try_catch_access_try_variable.yz",
-                    1,
-                    "Error: Undeclared variable 'a'");
-}
-
-TEST_F(TestFileSampleRunner, tryFinallyAccessVariableFromTryInFinallyDeathRunTest) {
-  expectFailCompile("tests/samples/test_try_finally_access_variable_from_try_in_finally.yz",
                     1,
                     "Error: Undeclared variable 'a'");
 }

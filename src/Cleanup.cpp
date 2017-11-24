@@ -7,7 +7,6 @@
 //
 
 #include "wisey/Cleanup.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/TryCatchInfo.hpp"
@@ -16,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-BasicBlock* Cleanup::generate(IRGenerationContext& context, FinallyBlock* finallyBlock) {
+BasicBlock* Cleanup::generate(IRGenerationContext& context) {
   BasicBlock* lastBasicBlock = context.getBasicBlock();
   Function* function = lastBasicBlock->getParent();
 
@@ -39,9 +38,6 @@ BasicBlock* Cleanup::generate(IRGenerationContext& context, FinallyBlock* finall
                                                       context.getBasicBlock());
   
   landingPad->setCleanup(true);
-  if (finallyBlock) {
-    finallyBlock->generateIR(context);
-  }
 
   context.getScopes().freeOwnedMemory(context);
   

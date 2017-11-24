@@ -7,7 +7,6 @@
 //
 
 #include "wisey/Cleanup.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 
@@ -22,9 +21,6 @@ ReturnInst* IRWriter::createReturnInst(IRGenerationContext& context, Value* retu
     return NULL;
   }
   
-  if (context.getScopes().getTryCatchInfo()) {
-    context.getScopes().getTryCatchInfo()->getFinallyBlock()->generateIR(context);
-  }
   currentBlock = context.getBasicBlock();
   
   if (currentBlock->getTerminator()) {

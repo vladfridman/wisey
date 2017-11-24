@@ -22,7 +22,6 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Catch.hpp"
 #include "wisey/EmptyStatement.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
@@ -260,8 +259,7 @@ TEST_F(ScopesTest, beginTryCatchTest) {
   mScopes.pushScope();
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
   vector<Catch*> catchList;
-  FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(emptyBlock, catchList, basicBlock);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, basicBlock);
   
   mScopes.beginTryCatch(tryCatchInfo);
   mScopes.pushScope();
@@ -273,8 +271,7 @@ TEST_F(ScopesTest, endTryCatchTest) {
   mScopes.pushScope();
   BasicBlock* basicBlock = BasicBlock::Create(mLLVMContext);
   vector<Catch*> catchList;
-  FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(emptyBlock, catchList, basicBlock);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, basicBlock);
   
   mScopes.beginTryCatch(tryCatchInfo);
   mScopes.pushScope();
@@ -327,12 +324,11 @@ TEST_F(ScopesTest, mergeNestedCatchListsTest) {
   
   vector<Catch*> catchList1;
   catchList1.push_back(catch1);
-  FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo* tryCatchInfo1 = new TryCatchInfo(emptyBlock, catchList1, basicBlock);
+  TryCatchInfo* tryCatchInfo1 = new TryCatchInfo(catchList1, basicBlock);
 
   vector<Catch*> catchList2;
   catchList2.push_back(catch2);
-  TryCatchInfo* tryCatchInfo2 = new TryCatchInfo(emptyBlock, catchList2, basicBlock);
+  TryCatchInfo* tryCatchInfo2 = new TryCatchInfo(catchList2, basicBlock);
 
   vector<Catch*> catchList3;
   catchList3.push_back(catch3);

@@ -21,7 +21,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/Controller.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"

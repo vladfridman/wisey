@@ -19,7 +19,6 @@
 #include "TestPrefix.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"

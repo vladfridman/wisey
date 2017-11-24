@@ -377,8 +377,6 @@
 		F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
 		F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
 		F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */; };
-		F5676E2C1F5F212500740278 /* FinallyBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5676E2B1F5F212500740278 /* FinallyBlock.cpp */; };
-		F5676E2D1F5F212500740278 /* FinallyBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5676E2B1F5F212500740278 /* FinallyBlock.cpp */; };
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
@@ -1154,8 +1152,6 @@
 		F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIObjectTypeSpecifier.cpp; path = tests/TestIObjectTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRWriter.cpp; path = src/IRWriter.cpp; sourceTree = "<group>"; };
 		F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRWriter.cpp; path = tests/TestIRWriter.cpp; sourceTree = "<group>"; };
-		F5676E2A1F5F207700740278 /* FinallyBlock.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FinallyBlock.hpp; path = include/wisey/FinallyBlock.hpp; sourceTree = "<group>"; };
-		F5676E2B1F5F212500740278 /* FinallyBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FinallyBlock.cpp; path = src/FinallyBlock.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
@@ -2429,7 +2425,6 @@
 			children = (
 				F5089C571ECD01D9004A1223 /* Catch.hpp */,
 				F56C21481F5EA851002510FC /* Cleanup.hpp */,
-				F5676E2A1F5F207700740278 /* FinallyBlock.hpp */,
 				F5089CA71ECD01D9004A1223 /* ThrowStatement.hpp */,
 				F5CE2D4D1F1809EE002ABB85 /* TryCatchInfo.hpp */,
 				F5089CA81ECD01D9004A1223 /* TryCatchStatement.hpp */,
@@ -2442,7 +2437,6 @@
 			children = (
 				F5CB18121EB0D96A007E2E43 /* Catch.cpp */,
 				F56C21491F5EA91A002510FC /* Cleanup.cpp */,
-				F5676E2B1F5F212500740278 /* FinallyBlock.cpp */,
 				F56AD49B1E9F4E400020868C /* ThrowStatement.cpp */,
 				F5CE2D4E1F180B89002ABB85 /* TryCatchInfo.cpp */,
 				F5CB18101EB0C615007E2E43 /* TryCatchStatement.cpp */,
@@ -2876,7 +2870,6 @@
 				F57780B41ECA384B0049542D /* TestBindAction.cpp in Sources */,
 				F52C66631FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */,
 				F508E06C1E72DC7D005D6115 /* TestIMethodDescriptor.cpp in Sources */,
-				F5676E2D1F5F212500740278 /* FinallyBlock.cpp in Sources */,
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F50FA3061E325E5400435EEA /* BooleanConstant.cpp in Sources */,
@@ -2923,7 +2916,6 @@
 				F51D2BAA1F68436C00510784 /* StaticMethodDeclaration.cpp in Sources */,
 				F53A2C301EFFD91200E76A9E /* NodeOwner.cpp in Sources */,
 				F57086021E5317E8007D627E /* AutoCast.cpp in Sources */,
-				F5676E2C1F5F212500740278 /* FinallyBlock.cpp in Sources */,
 				F517970E1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
 				F5A363531F376A23005880B3 /* FieldPrimitiveVariable.cpp in Sources */,
 				F5CE2D4F1F180B89002ABB85 /* TryCatchInfo.cpp in Sources */,

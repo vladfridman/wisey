@@ -12,7 +12,6 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/Catch.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IStatement.hpp"
@@ -25,16 +24,13 @@ namespace wisey {
 class TryCatchStatement : public IStatement {
   IStatement* mTryBlock;
   std::vector<Catch*> mCatchList;
-  IStatement* mFinallyStatement;
   
 public:
   
   TryCatchStatement(IStatement* tryBlock,
-                    std::vector<Catch*> catchList,
-                    IStatement* finallyStatement) :
+                    std::vector<Catch*> catchList) :
   mTryBlock(tryBlock), 
-  mCatchList(catchList), 
-  mFinallyStatement(finallyStatement) { }
+  mCatchList(catchList) { }
   
   ~TryCatchStatement();
   

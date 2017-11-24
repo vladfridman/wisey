@@ -9,7 +9,6 @@
 #ifndef Cleanup_h
 #define Cleanup_h
 
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 namespace wisey {
@@ -26,7 +25,7 @@ public:
    *
    * Returns the cleanup landing pad basic block
    */
-  static llvm::BasicBlock* generate(IRGenerationContext& context, FinallyBlock* finallyBlock);
+  static llvm::BasicBlock* generate(IRGenerationContext& context);
 
 };
   

@@ -21,7 +21,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/EmptyStatement.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/Identifier.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -274,8 +273,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   MethodCall methodCall(mExpression, "bar", mArgumentList, 0);
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
   vector<Catch*> catchList;
-  FinallyBlock* emptyBlock = new FinallyBlock();
-  TryCatchInfo* tryCatchInfo = new TryCatchInfo(emptyBlock, catchList, continueBlock);
+  TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, continueBlock);
   mContext.getScopes().beginTryCatch(tryCatchInfo);
 
   Value* irValue = methodCall.generateIR(mContext);

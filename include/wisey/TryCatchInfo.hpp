@@ -16,35 +16,26 @@
 namespace wisey {
 
 class Catch;
-class FinallyBlock;
   
 typedef std::function<bool(IRGenerationContext&, llvm::BasicBlock*, std::vector<Catch*>,
-  FinallyBlock*, llvm::BasicBlock*)> LandingPadComposingFunction;
+  llvm::BasicBlock*)> LandingPadComposingFunction;
 
 /**
  * Information needed for IR generation of a try catch sequence
  */
 class TryCatchInfo {
-  FinallyBlock* mFinallyBlock;
   std::vector<Catch*> mCatchList;
   llvm::BasicBlock* mContinueBlock;
   std::vector<std::tuple<LandingPadComposingFunction, llvm::BasicBlock*>> mComposingCallbacks;
 
 public:
   
-  TryCatchInfo(FinallyBlock* finallyBlock,
-               std::vector<Catch*> catchList,
+  TryCatchInfo(std::vector<Catch*> catchList,
                llvm::BasicBlock* continueBlock) :
-  mFinallyBlock(finallyBlock),
   mCatchList(catchList),
   mContinueBlock(continueBlock) { }
   
   ~TryCatchInfo();
-  
-  /**
-   * Returns the list of statement that should always by executed for a try/catch block
-   */
-  FinallyBlock* getFinallyBlock();
   
   /**
    * Returns the list of catch statements for this try/catch block
@@ -66,12 +57,10 @@ private:
   static bool composeLandingPadBlock(IRGenerationContext& context,
                                      llvm::BasicBlock* landingPadBlock,
                                      std::vector<Catch*> allCatches,
-                                     FinallyBlock* finallyBlock,
                                      llvm::BasicBlock* continueBlock);
   
   static bool composeFinallyOnlyLandingPad(IRGenerationContext& context,
-                                           llvm::BasicBlock* landingPadBlock,
-                                           FinallyBlock* finallyBlock);
+                                           llvm::BasicBlock* landingPadBlock);
 
   static std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
   generateSelectCatchByExceptionType(IRGenerationContext& context,
@@ -87,14 +76,12 @@ private:
   static void generateResumeAndFail(IRGenerationContext& context,
                                     llvm::LandingPadInst* landingPadInst,
                                     llvm::Value* exceptionTypeId,
-                                    llvm::Value* wrappedException,
-                                    FinallyBlock* finallyBlock);
+                                    llvm::Value* wrappedException);
   
   static bool generateCatches(IRGenerationContext& context,
                               llvm::Value* wrappedException,
                               std::vector<std::tuple<Catch*, llvm::BasicBlock*>> catchesAndBlocks,
-                              llvm::BasicBlock* exceptionContinueBlock,
-                              FinallyBlock* finallyBlock);
+                              llvm::BasicBlock* exceptionContinueBlock);
 
 };
 

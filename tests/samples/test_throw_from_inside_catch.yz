@@ -35,8 +35,6 @@ controller CCatcher {
     } catch (MException* exception) {
       result.setValue(result.getValue() + 4);
       mThrower.doThrow();
-    } finally {
-      result.setValue(result.getValue() + 8);
     }
     result.setValue(result.getValue() + 16);
   }

@@ -25,30 +25,20 @@ TryCatchStatement::~TryCatchStatement() {
     delete catchClause;
   }
   mCatchList.clear();
-  delete mFinallyStatement;
 }
 
 Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   context.getScopes().pushScope();
   
-  FinallyBlock finallyBlock;
-  finallyBlock.getStatements().push_back(mFinallyStatement);
-  if (context.getScopes().getTryCatchInfo()) {
-    FinallyBlock* outerFinallyBlock = context.getScopes().getTryCatchInfo()->getFinallyBlock();
-    finallyBlock.getStatements().insert(finallyBlock.getStatements().end(),
-                                        outerFinallyBlock->getStatements().begin(),
-                                        outerFinallyBlock->getStatements().end());
-  }
   Function* function = context.getBasicBlock()->getParent();
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock* continueBlock = BasicBlock::Create(llvmContext, "eh.continue", function);
 
-  TryCatchInfo tryCatchInfo(&finallyBlock, mCatchList, continueBlock);
+  TryCatchInfo tryCatchInfo(mCatchList, continueBlock);
   context.getScopes().beginTryCatch(&tryCatchInfo);
   mTryBlock->generateIR(context);
   bool doesTryBlockTerminate = context.getBasicBlock()->getTerminator() != NULL;
   bool doAllCatchesTerminate = context.getScopes().endTryCatch(context);
-  finallyBlock.generateIR(context);
 
   IRWriter::createBranch(context, continueBlock);
 

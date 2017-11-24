@@ -22,7 +22,6 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/Constant.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"

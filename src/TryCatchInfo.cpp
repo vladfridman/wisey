@@ -10,7 +10,6 @@
 
 #include "wisey/Catch.hpp"
 #include "wisey/Cleanup.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
@@ -23,10 +22,6 @@ using namespace wisey;
 
 TryCatchInfo::~TryCatchInfo() {
   mComposingCallbacks.clear();
-}
-
-FinallyBlock* TryCatchInfo::getFinallyBlock() {
-  return mFinallyBlock;
 }
 
 vector<Catch*> TryCatchInfo::getCatchList() {
@@ -63,7 +58,7 @@ bool TryCatchInfo::runComposingCallbacks(IRGenerationContext& context) {
     LandingPadComposingFunction function = get<0>(callbackTuple);
     BasicBlock* landingPadBlock = get<1>(callbackTuple);
     
-    result &= function(context, landingPadBlock, allCatches, mFinallyBlock, mContinueBlock);
+    result &= function(context, landingPadBlock, allCatches, mContinueBlock);
   }
   
   context.setBasicBlock(lastBasicBlock);
@@ -73,10 +68,9 @@ bool TryCatchInfo::runComposingCallbacks(IRGenerationContext& context) {
 bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
                                           BasicBlock* landingPadBlock,
                                           vector<Catch*> allCatches,
-                                          FinallyBlock* finallyBlock,
                                           BasicBlock* continueBlock) {
   if (allCatches.size() == 0) {
-    return composeFinallyOnlyLandingPad(context, landingPadBlock, finallyBlock);
+    return composeFinallyOnlyLandingPad(context, landingPadBlock);
   }
   tuple<LandingPadInst*, Value*, Value*>
   landingPadIR = generateLandingPad(context, landingPadBlock, allCatches);
@@ -89,18 +83,15 @@ bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
   generateResumeAndFail(context,
                         landingPadInst,
                         exceptionTypeId,
-                        wrappedException,
-                        finallyBlock);
+                        wrappedException);
   return generateCatches(context,
                          wrappedException,
                          catchesAndBlocks,
-                         continueBlock,
-                         finallyBlock);
+                         continueBlock);
 }
 
 bool TryCatchInfo::composeFinallyOnlyLandingPad(IRGenerationContext& context,
-                                                BasicBlock* landingPadBlock,
-                                                FinallyBlock* finallyBlock) {
+                                                BasicBlock* landingPadBlock) {
   context.setBasicBlock(landingPadBlock);
   
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -116,7 +107,6 @@ bool TryCatchInfo::composeFinallyOnlyLandingPad(IRGenerationContext& context,
                                                       context.getBasicBlock());
   
   landingPad->setCleanup(true);
-  finallyBlock->generateIR(context);
 
   context.getScopes().freeOwnedMemory(context);
   
@@ -167,8 +157,7 @@ TryCatchInfo::generateLandingPad(IRGenerationContext& context,
 void TryCatchInfo::generateResumeAndFail(IRGenerationContext& context,
                                               LandingPadInst* landingPadInst,
                                               Value* exceptionTypeId,
-                                              Value* wrappedException,
-                                              FinallyBlock* finallyBlock) {
+                                              Value* wrappedException) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getBasicBlock()->getParent();
   llvm::Constant* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
@@ -182,14 +171,10 @@ void TryCatchInfo::generateResumeAndFail(IRGenerationContext& context,
   arguments.push_back(wrappedException);
   context.setBasicBlock(unexpectedBlock);
 
-  finallyBlock->generateIR(context);
-
   IRWriter::createCallInst(context, unexpectedFunction, arguments, "");
   IRWriter::newUnreachableInst(context);
   
   context.setBasicBlock(resumeBlock);
-  finallyBlock->generateIR(context);
-  
   IRWriter::createResumeInst(context, landingPadInst);
 }
 
@@ -235,18 +220,15 @@ TryCatchInfo::generateSelectCatchByExceptionType(IRGenerationContext& context,
 bool TryCatchInfo::generateCatches(IRGenerationContext& context,
                                    Value* wrappedException,
                                    vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks,
-                                   BasicBlock* exceptionContinueBlock,
-                                   FinallyBlock* finallyBlock) {
+                                   BasicBlock* exceptionContinueBlock) {
   bool doAllCatchesTerminate = true;
   for (tuple<Catch*, BasicBlock*> catchAndBlock : catchesAndBlocks) {
-    context.getScopes().setFinallyBlock(finallyBlock);
     Catch* catchClause = get<0>(catchAndBlock);
     BasicBlock* catchBlock = get<1>(catchAndBlock);
     doAllCatchesTerminate &= catchClause->generateIR(context,
                                                      wrappedException,
                                                      catchBlock,
-                                                     exceptionContinueBlock,
-                                                     finallyBlock);
+                                                     exceptionContinueBlock);
   }
   
   return doAllCatchesTerminate;

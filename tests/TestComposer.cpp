@@ -18,7 +18,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/EmptyStatement.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/IMethod.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/Names.hpp"

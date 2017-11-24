@@ -21,7 +21,6 @@
 #include "TestPrefix.hpp"
 #include "wisey/ConstantDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
-#include "wisey/FinallyBlock.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
