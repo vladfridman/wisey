@@ -90,3 +90,10 @@ TEST_F(TestFileSampleRunner, tryCatchAccessTryVariableDeathRunTest) {
                     1,
                     "Error: Undeclared variable 'a'");
 }
+
+TEST_F(TestFileSampleRunner, tryFinallyAccessVariableFromTryInFinallyDeathRunTest) {
+  expectFailCompile("tests/samples/test_try_finally_access_variable_from_try_in_finally.yz",
+                    1,
+                    "Error: Undeclared variable 'a'");
+}
+
