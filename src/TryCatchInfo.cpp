@@ -66,9 +66,6 @@ bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
                                           BasicBlock* landingPadBlock,
                                           vector<Catch*> catchList,
                                           BasicBlock* continueBlock) {
-  if (catchList.size() == 0) {
-    return composeFinallyOnlyLandingPad(context, landingPadBlock);
-  }
   tuple<LandingPadInst*, Value*, Value*>
   landingPadIR = generateLandingPad(context, landingPadBlock, catchList);
   LandingPadInst* landingPadInst = get<0>(landingPadIR);
@@ -85,31 +82,6 @@ bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
                          wrappedException,
                          catchesAndBlocks,
                          continueBlock);
-}
-
-bool TryCatchInfo::composeFinallyOnlyLandingPad(IRGenerationContext& context,
-                                                BasicBlock* landingPadBlock) {
-  context.setBasicBlock(landingPadBlock);
-  
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  vector<Type*> landingPadReturnTypes;
-  landingPadReturnTypes.push_back(int8PointerType);
-  landingPadReturnTypes.push_back(Type::getInt32Ty(llvmContext));
-  StructType* landingPadReturnType = StructType::get(llvmContext, landingPadReturnTypes);
-  LandingPadInst* landingPad = LandingPadInst::Create(landingPadReturnType,
-                                                      0,
-                                                      "",
-                                                      context.getBasicBlock());
-  
-  landingPad->setCleanup(true);
-
-  context.getScopes().freeOwnedMemory(context);
-  
-  IRWriter::createResumeInst(context, landingPad);
-
-  return true;
 }
 
 tuple<LandingPadInst*, Value*, Value*>

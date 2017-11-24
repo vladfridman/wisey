@@ -59,9 +59,6 @@ private:
                                      std::vector<Catch*> catchList,
                                      llvm::BasicBlock* continueBlock);
   
-  static bool composeFinallyOnlyLandingPad(IRGenerationContext& context,
-                                           llvm::BasicBlock* landingPadBlock);
-
   static std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
   generateSelectCatchByExceptionType(IRGenerationContext& context,
                                      llvm::Value* exceptionTypeId,
