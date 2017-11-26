@@ -54,6 +54,14 @@ TEST_F(TestFileSampleRunner, tryCatchNestedInCatchTryRunTest) {
   compileAndRunFile("tests/samples/test_try_catch_nested_in_catch.yz", 5);
 }
 
+TEST_F(TestFileSampleRunner, tryCatchNestedInCatchWithCleanupOwnerTryRunTest) {
+  compileAndRunFile("tests/samples/test_try_catch_nested_in_catch_with_cleanup_owner.yz", 5);
+}
+
+TEST_F(TestFileSampleRunner, tryCatchNestedInCatchWithCleanupReferenceTryRunTest) {
+  compileAndRunFile("tests/samples/test_try_catch_nested_in_catch_with_cleanup_reference.yz", 5);
+}
+
 TEST_F(TestFileSampleRunner, tryCatchWithCleanupReferenceFromTryRunTest) {
   compileAndRunFile("tests/samples/test_try_catch_with_cleanup_reference_from_try.yz", 255);
 }
@@ -71,5 +79,6 @@ TEST_F(TestFileSampleRunner, tryCatchAccessTryVariableDeathRunTest) {
 TEST_F(TestFileSampleRunner, tryCatchNestedDeathRunTest) {
   expectFailCompile("tests/samples/test_try_catch_nested.yz",
                     1,
-                    "Error: Nested try/catch is not allowed. Extract inner try/catch into a method.");
+                    "Error: Nested try blocks are not allowed. "
+                    "Extract inner try/catch into a method.");
 }
