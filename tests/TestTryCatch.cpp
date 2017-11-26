@@ -54,6 +54,14 @@ TEST_F(TestFileSampleRunner, tryCatchNestedInCatchTryRunTest) {
   compileAndRunFile("tests/samples/test_try_catch_nested_in_catch.yz", 5);
 }
 
+TEST_F(TestFileSampleRunner, tryCatchWithCleanupReferenceFromTryRunTest) {
+  compileAndRunFile("tests/samples/test_try_catch_with_cleanup_reference_from_try.yz", 255);
+}
+
+TEST_F(TestFileSampleRunner, tryCatchWithCleanupOwnerFromTryRunTest) {
+  compileAndRunFile("tests/samples/test_try_catch_with_cleanup_owner_from_try.yz", 255);
+}
+
 TEST_F(TestFileSampleRunner, tryCatchAccessTryVariableDeathRunTest) {
   expectFailCompile("tests/samples/test_try_catch_access_try_variable.yz",
                     1,

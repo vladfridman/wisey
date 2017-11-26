@@ -28,7 +28,8 @@ vector<Catch*> TryCatchInfo::getCatchList() {
   return mCatchList;
 }
 
-BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context) {
+BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context,
+                                                BasicBlock* freeMemoryBlock) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Function* function = context.getBasicBlock()->getParent();
   if (!function->hasPersonalityFn()) {
@@ -41,7 +42,9 @@ BasicBlock* TryCatchInfo::defineLandingPadBlock(IRGenerationContext& context) {
 
   BasicBlock* landingPadBlock = BasicBlock::Create(llvmContext, "eh.landing.pad", function);
   
-  mComposingCallbacks.push_back(make_tuple(composeLandingPadBlock, landingPadBlock));
+  mComposingCallbacks.push_back(make_tuple(composeLandingPadBlock,
+                                           landingPadBlock,
+                                           freeMemoryBlock));
   
   return landingPadBlock;
 }
@@ -51,11 +54,13 @@ bool TryCatchInfo::runComposingCallbacks(IRGenerationContext& context) {
   
   bool result = true;
 
-  for (tuple<LandingPadComposingFunction, BasicBlock*> callbackTuple : mComposingCallbacks) {
+  for (tuple<LandingPadComposingFunction, BasicBlock*, BasicBlock*> callbackTuple :
+       mComposingCallbacks) {
     LandingPadComposingFunction function = get<0>(callbackTuple);
     BasicBlock* landingPadBlock = get<1>(callbackTuple);
+    BasicBlock* freeTryMemoryBlock = get<2>(callbackTuple);
     
-    result &= function(context, landingPadBlock, mCatchList, mContinueBlock);
+    result &= function(context, landingPadBlock, mCatchList, mContinueBlock, freeTryMemoryBlock);
   }
   
   context.setBasicBlock(lastBasicBlock);
@@ -65,15 +70,23 @@ bool TryCatchInfo::runComposingCallbacks(IRGenerationContext& context) {
 bool TryCatchInfo::composeLandingPadBlock(IRGenerationContext& context,
                                           BasicBlock* landingPadBlock,
                                           vector<Catch*> catchList,
-                                          BasicBlock* continueBlock) {
+                                          BasicBlock* continueBlock,
+                                          BasicBlock* freeTryMemoryBlock) {
   tuple<LandingPadInst*, Value*, Value*>
   landingPadIR = generateLandingPad(context, landingPadBlock, catchList);
   LandingPadInst* landingPadInst = get<0>(landingPadIR);
   Value* wrappedException = get<1>(landingPadIR);
   Value* exceptionTypeId = get<2>(landingPadIR);
   
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Function* function = landingPadBlock->getParent();
+  BasicBlock* landingPadContinue = BasicBlock::Create(llvmContext, "eh.landing.pad.cont", function);
+  IRWriter::createBranch(context, freeTryMemoryBlock);
+  context.setBasicBlock(freeTryMemoryBlock);
+  IRWriter::createBranch(context, landingPadContinue);
+  
   vector<tuple<Catch*, BasicBlock*>> catchesAndBlocks =
-  generateSelectCatchByExceptionType(context, exceptionTypeId, catchList, landingPadBlock);
+  generateSelectCatchByExceptionType(context, exceptionTypeId, catchList, landingPadContinue);
   generateResumeAndFail(context,
                         landingPadInst,
                         exceptionTypeId,

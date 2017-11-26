@@ -18,7 +18,7 @@ namespace wisey {
 class Catch;
   
 typedef std::function<bool(IRGenerationContext&, llvm::BasicBlock*, std::vector<Catch*>,
-  llvm::BasicBlock*)> LandingPadComposingFunction;
+  llvm::BasicBlock*, llvm::BasicBlock*)> LandingPadComposingFunction;
 
 /**
  * Information needed for IR generation of a try catch sequence
@@ -26,12 +26,12 @@ typedef std::function<bool(IRGenerationContext&, llvm::BasicBlock*, std::vector<
 class TryCatchInfo {
   std::vector<Catch*> mCatchList;
   llvm::BasicBlock* mContinueBlock;
-  std::vector<std::tuple<LandingPadComposingFunction, llvm::BasicBlock*>> mComposingCallbacks;
+  std::vector<std::tuple<LandingPadComposingFunction, llvm::BasicBlock*, llvm::BasicBlock*>>
+    mComposingCallbacks;
 
 public:
   
-  TryCatchInfo(std::vector<Catch*> catchList,
-               llvm::BasicBlock* continueBlock) :
+  TryCatchInfo(std::vector<Catch*> catchList, llvm::BasicBlock* continueBlock) :
   mCatchList(catchList),
   mContinueBlock(continueBlock) { }
   
@@ -45,7 +45,8 @@ public:
   /**
    * Defines landing pad based block on try/catch statement that created this TryCatchInfo
    */
-  llvm::BasicBlock* defineLandingPadBlock(IRGenerationContext& context);
+  llvm::BasicBlock* defineLandingPadBlock(IRGenerationContext& context,
+                                          llvm::BasicBlock* freeMemoryBlock);
   
   /**
    * Run callbacks composing landing pads
@@ -57,7 +58,8 @@ private:
   static bool composeLandingPadBlock(IRGenerationContext& context,
                                      llvm::BasicBlock* landingPadBlock,
                                      std::vector<Catch*> catchList,
-                                     llvm::BasicBlock* continueBlock);
+                                     llvm::BasicBlock* continueBlock,
+                                     llvm::BasicBlock* freeTryMemoryBlock);
   
   static std::vector<std::tuple<Catch*, llvm::BasicBlock*>>
   generateSelectCatchByExceptionType(IRGenerationContext& context,

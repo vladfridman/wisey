@@ -327,14 +327,34 @@ BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context) {
   }
   
   TryCatchInfo* tryCatchInfo = getTryCatchInfo();
-  
-  mCachedLandingPadBlock = tryCatchInfo
-    ? tryCatchInfo->defineLandingPadBlock(context)
-    : Cleanup::generate(context);
+  if (tryCatchInfo) {
+    BasicBlock* freeMemoryBlock = freeMemoryAllocatedInTry(context);
+    mCachedLandingPadBlock = tryCatchInfo->defineLandingPadBlock(context, freeMemoryBlock);
+  } else {
+    mCachedLandingPadBlock = Cleanup::generate(context);
+  }
   
   return mCachedLandingPadBlock;
 }
 
 void Scopes::clearCachedLandingPadBlock() {
   mCachedLandingPadBlock = NULL;
+}
+
+llvm::BasicBlock* Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context) {
+  Function* function = context.getBasicBlock()->getParent();
+  BasicBlock* freeMemoryBlock = BasicBlock::Create(context.getLLVMContext(), "freeMem", function);
+  BasicBlock* lastBasicBlock = context.getBasicBlock();
+  context.setBasicBlock(freeMemoryBlock);
+  
+  for (Scope* scope : mScopes) {
+    scope->freeOwnedMemory(context, mClearedVariables);
+    if (scope->getTryCatchInfo()) {
+      break;
+    }
+  }
+
+  context.setBasicBlock(lastBasicBlock);
+  
+  return freeMemoryBlock;
 }

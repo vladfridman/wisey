@@ -188,6 +188,9 @@ private:
   void clearReferencesToOwnerTypeVariable(IVariable* variable);
   
   void clearCachedLandingPadBlock();
+  
+  llvm::BasicBlock* freeMemoryAllocatedInTry(IRGenerationContext& context);
+  
 };
   
 } /* namespace wisey */
