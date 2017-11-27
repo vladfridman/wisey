@@ -122,10 +122,6 @@ TEST_F(ScopeTest, addExceptionsTest) {
 }
 
 TEST_F(TestFileSampleRunner, destroyDependencyRunDeathTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_destroy_dependency.yz",
-                               1,
-                               "",
-                               "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
+  runFile("tests/samples/test_destroy_dependency.yz", "5");
 }
 

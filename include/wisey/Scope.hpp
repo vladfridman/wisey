@@ -28,8 +28,8 @@ class Model;
  */
 class Scope {
   std::map<std::string, IVariable*> mVariables;
-  std::vector<IReferenceVariable*> mReferenceVariables;
-  std::vector<IOwnerVariable*> mOwnerVariables;
+  std::list<IReferenceVariable*> mReferenceVariables;
+  std::list<IOwnerVariable*> mOwnerVariables;
   llvm::BasicBlock* mBreakToBlock;
   llvm::BasicBlock* mContinueToBlock;
   TryCatchInfo* mTryCatchInfo;

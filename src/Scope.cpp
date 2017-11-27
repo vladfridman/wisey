@@ -48,9 +48,9 @@ IVariable* Scope::findVariable(string name) {
 void Scope::setVariable(string name, IVariable* variable) {
   mVariables[name] = variable;
   if (IType::isReferenceType(variable->getType())) {
-    mReferenceVariables.push_back((IReferenceVariable*) variable);
+    mReferenceVariables.push_front((IReferenceVariable*) variable);
   } else if (IType::isOwnerType(variable->getType())) {
-    mOwnerVariables.push_back((IOwnerVariable*) variable);
+    mOwnerVariables.push_front((IOwnerVariable*) variable);
   }
 }
 
