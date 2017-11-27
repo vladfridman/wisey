@@ -1,0 +1,23 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MPallete {
+  MColor mColor;
+}
+
+model MColor {
+  int mValue;
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MColor* color = builder(MColor).withValue(2).build();
+    MPallete* pallete = builder(MPallete).withColor(color).build();
+
+    return 5;
+  }
+}
+
+bind(CProgram).to(IProgram);

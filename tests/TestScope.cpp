@@ -16,6 +16,7 @@
 
 #include "MockOwnerVariable.hpp"
 #include "MockReferenceVariable.hpp"
+#include "TestFileSampleRunner.hpp"
 #include "wisey/Scope.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -120,22 +121,11 @@ TEST_F(ScopeTest, addExceptionsTest) {
   delete mOwnerVariable;
 }
 
-TEST_F(ScopeTest, getReferenceVariablesTest) {
-  mScope.setVariable("foo", mReferenceVariable);
-  
-  EXPECT_EQ(mScope.getReferenceVariables().size(), 1u);
-  EXPECT_EQ(mScope.getOwnerVariables().size(), 0u);
-  EXPECT_EQ(mScope.getReferenceVariables().front(), mReferenceVariable);
-  
-  delete mOwnerVariable;
+TEST_F(TestFileSampleRunner, destroyDependencyRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_destroy_dependency.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "Details: Object referenced by expression still has 1 active reference\n");
 }
 
-TEST_F(ScopeTest, getOwnerVariablesTest) {
-  mScope.setVariable("bar", mOwnerVariable);
-  
-  EXPECT_EQ(mScope.getReferenceVariables().size(), 0u);
-  EXPECT_EQ(mScope.getOwnerVariables().size(), 1u);
-  EXPECT_EQ(mScope.getOwnerVariables().front(), mOwnerVariable);
-  
-  delete mReferenceVariable;
-}

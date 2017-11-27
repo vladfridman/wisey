@@ -52,16 +52,6 @@ public:
    * Sets a given variable
    */
   void setVariable(std::string name, IVariable* variable);
-
-  /**
-   * Returns a list of reference variables from this scope
-   */
-  std::vector<IReferenceVariable*> getReferenceVariables();
-  
-  /**
-   * Returns a list of owner variables from this scope
-   */
-  std::vector<IOwnerVariable*> getOwnerVariables();
   
   /**
    * Set block to break to out of a loop or a switch statement

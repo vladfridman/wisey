@@ -54,14 +54,6 @@ void Scope::setVariable(string name, IVariable* variable) {
   }
 }
 
-vector<IReferenceVariable*> Scope::getReferenceVariables() {
-  return mReferenceVariables;
-}
-
-vector<IOwnerVariable*> Scope::getOwnerVariables() {
-  return mOwnerVariables;
-}
-
 void Scope::setBreakToBlock(BasicBlock* block) {
   mBreakToBlock = block;
 }
@@ -116,20 +108,12 @@ void Scope::freeOwnedMemory(IRGenerationContext& context) {
     return;
   }
   
-  for (map<string, IVariable*>::iterator iterator = mVariables.begin();
-       iterator != mVariables.end();
-       iterator++) {
-    if (IType::isReferenceType(iterator->second->getType())) {
-      ((IReferenceVariable*) iterator->second)->decrementReferenceCounter(context);
-    }
+  for (IReferenceVariable* referenceVariable : mReferenceVariables) {
+    referenceVariable->decrementReferenceCounter(context);
   }
   
-  for (map<string, IVariable*>::iterator iterator = mVariables.begin();
-       iterator != mVariables.end();
-       iterator++) {
-    if (IType::isOwnerType(iterator->second->getType())) {
-      ((IOwnerVariable*) iterator->second)->free(context);
-    }
+  for (IOwnerVariable* ownerVariable : mOwnerVariables) {
+    ownerVariable->free(context);
   }
 }
 
