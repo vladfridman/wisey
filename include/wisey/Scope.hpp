@@ -54,12 +54,6 @@ public:
   void setVariable(std::string name, IVariable* variable);
 
   /**
-   * Get list of scope's cleared variables given the map of all cleared variables
-   */
-  std::vector<std::string> getClearedVariables(std::map<std::string, IVariable*>
-                                               allClearedVariables);
-
-  /**
    * Returns a list of reference variables from this scope
    */
   std::vector<IReferenceVariable*> getReferenceVariables();

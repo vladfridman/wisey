@@ -54,19 +54,6 @@ void Scope::setVariable(string name, IVariable* variable) {
   }
 }
 
-vector<string> Scope::getClearedVariables(map<string, IVariable *> allClearedVariables) {
-  vector<string> variables;
-  for (map<string, IVariable*>::iterator iterator = mVariables.begin();
-       iterator != mVariables.end();
-       iterator++) {
-    string name = iterator->first;
-    if (allClearedVariables.count(name)) {
-      variables.push_back(name);
-    }
-  }
-  return variables;
-}
-
 vector<IReferenceVariable*> Scope::getReferenceVariables() {
   return mReferenceVariables;
 }

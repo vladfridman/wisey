@@ -120,17 +120,6 @@ TEST_F(ScopeTest, addExceptionsTest) {
   delete mOwnerVariable;
 }
 
-TEST_F(ScopeTest, getClearedVariablesTest) {
-  mScope.setVariable("foo", mReferenceVariable);
-  mScope.setVariable("bar", mOwnerVariable);
-  map<string, IVariable*> allClearedVariables;
-  allClearedVariables["foo"] = mReferenceVariable;
-
-  vector<string> clearedVariables = mScope.getClearedVariables(allClearedVariables);
-  EXPECT_EQ(clearedVariables.size(), 1u);
-  EXPECT_STREQ(clearedVariables.at(0).c_str(), "foo");
-}
-
 TEST_F(ScopeTest, getReferenceVariablesTest) {
   mScope.setVariable("foo", mReferenceVariable);
   
