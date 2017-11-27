@@ -39,11 +39,6 @@ public:
   IVariable* getVariable(std::string name);
 
   /**
-   * Remove reference to a variable
-   */
-  void clearVariable(IRGenerationContext& context, std::string name);
-
-  /**
    * Add a variable to the scope
    */
   void setVariable(IVariable* variable);

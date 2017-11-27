@@ -129,18 +129,6 @@ TEST_F(ScopesTest, getScopeTest) {
   EXPECT_NE(scope, nullptr);
 }
 
-TEST_F(ScopesTest, clearVariableDeathTest) {
-  EXPECT_EXIT(mScopes.clearVariable(mContext, "foo"),
-              ::testing::ExitedWithCode(1),
-              "Error: Could not clear variable 'foo': the Scopes stack is empty");
-  
-  mScopes.pushScope();
-  
-  EXPECT_EXIT(mScopes.clearVariable(mContext, "foo"),
-              ::testing::ExitedWithCode(1),
-              "Error: Could not clear variable 'foo': it was not found");
-}
-
 TEST_F(ScopesTest, setLocalReferenceVariableTest) {
   mScopes.pushScope();
   Value* fooValue = ConstantPointerNull::get(mInterface->getLLVMType(mLLVMContext)->getPointerTo());

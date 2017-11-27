@@ -8,13 +8,8 @@
 
 #include <set>
 
-#include "wisey/Catch.hpp"
 #include "wisey/Cleanup.hpp"
-#include "wisey/EmptyStatement.hpp"
-#include "wisey/IOwnerVariable.hpp"
-#include "wisey/IReferenceVariable.hpp"
 #include "wisey/Log.hpp"
-#include "wisey/ModelOwner.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/Scopes.hpp"
 
@@ -41,31 +36,6 @@ IVariable* Scopes::getVariable(string name) {
   }
   
   return NULL;
-}
-
-void Scopes::clearVariable(IRGenerationContext& context, string name) {
-  if (mScopes.size() == 0) {
-    Log::e("Could not clear variable '" + name + "': the Scopes stack is empty");
-    exit(1);
-    return;
-  }
-
-  clearCachedLandingPadBlock();
-
-  for (Scope* scope : mScopes) {
-    IVariable* variable = scope->findVariable(name);
-    if (variable == NULL) {
-      continue;
-    }
-    if (IType::isOwnerType(variable->getType())) {
-      ((IOwnerVariable*) variable)->setToNull(context);
-    }
-    return;
-  }
-  
-  Log::e("Could not clear variable '" + name + "': it was not found");
-  exit(1);
-  return;
 }
 
 void Scopes::setVariable(IVariable* variable) {
