@@ -177,26 +177,6 @@ TEST_F(AssignmentTest, releaseOwnershipTest) {
   EXPECT_EQ(mContext.getScopes().getVariable("foo"), nullptr);
 }
 
-TEST_F(AssignmentTest, addReferenceToOwnerTest) {
-  NiceMock<MockVariable> mockVariable;
-  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
-  mContext.getScopes().setVariable(&mockVariable);
-  NiceMock<MockVariable> referenceVariable;
-  ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
-  ON_CALL(referenceVariable, getType()).WillByDefault(Return(mInterface));
-  mContext.getScopes().setVariable(&referenceVariable);
-  
-  Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression, 0);
-  
-  assignment.addReferenceToOwner(mContext, &referenceVariable);
-  
-  map<string, IVariable*> owners = mContext.getScopes().getOwnersForReference(&referenceVariable);
-  EXPECT_EQ(owners.size(), 1u);
-  EXPECT_EQ(owners.begin()->second, &mockVariable);
-}
-
 TEST_F(AssignmentTest, existsInOuterScopeTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));

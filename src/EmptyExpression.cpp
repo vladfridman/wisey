@@ -34,12 +34,6 @@ void EmptyExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-void EmptyExpression::addReferenceToOwner(IRGenerationContext& context,
-                                          IVariable* reference) const {
-  Log::e("Can not add a reference to non owner type empty expression");
-  exit(1);
-}
-
 bool EmptyExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

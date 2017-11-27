@@ -325,20 +325,6 @@ TEST_F(ScopesTest, freeOwnedMemoryTest) {
   mScopes.freeOwnedMemory(mContext);
 }
 
-TEST_F(ScopesTest, addReferenceToOwnerVariableTest) {
-  NiceMock<MockVariable> foo;
-  NiceMock<MockVariable> bar;
-  
-  ON_CALL(foo, getName()).WillByDefault(Return("foo"));
-  ON_CALL(foo, getType()).WillByDefault(Return(mInterface->getOwner()));
-  ON_CALL(bar, getName()).WillByDefault(Return("bar"));
-  ON_CALL(bar, getType()).WillByDefault(Return(mInterface));
-  
-  mScopes.addReferenceToOwnerVariable(&foo, &bar);
-  
-  EXPECT_EQ(mScopes.getOwnersForReference(&bar).begin()->second, &foo);
-}
-
 TEST_F(ScopesTest, variableHidingDeathTest) {
   mScopes.pushScope();
   Value* outerValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
@@ -364,18 +350,22 @@ TEST_F(TestFileSampleRunner, variableHidingRunDeathTest) {
 }
 
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTest) {
-  expectFailCompile("tests/samples/test_reference_memory_deallocated_by_passing_owner.yz",
-                    1,
-                    "Error: Variable 'anotherRef' was previously cleared and can not be used");
+  compileAndRunFileCheckOutput("tests/samples/test_reference_memory_deallocated_by_passing_owner.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_passing_owner.yz:26)\n"
+                               "Details: Object referenced by expression still has 2 active references\n");
 }
 
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullOutsideObjectRunDeathTest) {
-  expectFailCompile("tests/samples/test_reference_memory_deallocated_by_setting_null_outside_object.yz",
-                    1,
-                    "Error: Can not store a reference because its owner does not exist in "
-                    "the current scope");
+  compileAndRunFileCheckOutput("tests/samples/test_reference_memory_deallocated_by_setting_null_outside_object.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_setting_null_outside_object.yz:31)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n");
 }
-
 
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThenElseRunDeathTest) {
   expectFailCompile("tests/samples/"

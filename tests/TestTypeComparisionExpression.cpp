@@ -329,18 +329,6 @@ TEST_F(TypeComparisionExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(TypeComparisionExpressionTest, addReferenceToOwnerDeathTest) {
-  NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  
-  Mock::AllowLeak(mExpression);
-  Mock::AllowLeak(typeSpecifier);
-  
-  EXPECT_EXIT(typeComparision.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to an instanceof expression");
-}
-
 TEST_F(TestFileSampleRunner, instanceOfTrivialMatchRunTest) {
   runFile("tests/samples/test_instanceof_trivial_match.yz", "2");
 }

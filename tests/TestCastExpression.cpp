@@ -145,17 +145,6 @@ TEST_F(CastExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(CastExpressionTest, addReferenceToOwnerTest) {
-  NiceMock<MockVariable> referenceVariable;
-  ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
-  ON_CALL(referenceVariable, getType()).WillByDefault(Return(mCarInterface));
-  CastExpression castExpression(mTypeSpecifier, mExpression);
-  
-  EXPECT_CALL(*mExpression, addReferenceToOwner(_, &referenceVariable));
-  
-  castExpression.addReferenceToOwner(mContext, &referenceVariable);
-}
-
 TEST_F(CastExpressionTest, printToStreamTest) {
   CastExpression castExpression(mTypeSpecifier, mExpression);
   ON_CALL(*mTypeSpecifier, printToStream(_, _)).WillByDefault(Invoke(printTypeSpecifier));

@@ -70,12 +70,6 @@ TEST_F(CharConstantTest, releaseOwnershipDeathTest) {
               "Error: Can not release ownership of a char constant, it is not a heap pointer");
 }
 
-TEST_F(CharConstantTest, addReferenceToOwnerDeathTest) {
-  EXPECT_EXIT(mCharConstant.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to non owner type char constant expression");
-}
-
 TEST_F(TestFileSampleRunner, charVariableRunTest) {
   runFile("tests/samples/test_char_variable.yz", "7");
 }

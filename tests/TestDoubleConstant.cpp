@@ -69,8 +69,3 @@ TEST_F(DoubleConstantTest, releaseOwnershipDeathTest) {
               "Error: Can not release ownership of a double constant, it is not a heap pointer");
 }
 
-TEST_F(DoubleConstantTest, addReferenceToOwnerDeathTest) {
-  EXPECT_EXIT(mDoubleConstant.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to non owner type double constant expression");
-}

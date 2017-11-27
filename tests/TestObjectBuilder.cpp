@@ -134,21 +134,6 @@ TEST_F(ObjectBuilderTest, releaseOwnershipTest) {
   EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
 }
 
-TEST_F(ObjectBuilderTest, addReferenceToOwnerTest) {
-  mObjectBuilder->generateIR(mContext);
-  string temporaryVariableName = IVariable::getTemporaryVariableName(mObjectBuilder);
-
-  NiceMock<MockVariable> referenceVariable;
-  ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
-  ON_CALL(referenceVariable, getType()).WillByDefault(Return(mModel));
-  mContext.getScopes().setVariable(&referenceVariable);
-  
-  mObjectBuilder->addReferenceToOwner(mContext, &referenceVariable);
-  map<string, IVariable*> owners = mContext.getScopes().getOwnersForReference(&referenceVariable);
-  EXPECT_EQ(owners.size(), 1u);
-  EXPECT_EQ(owners.begin()->second, mContext.getScopes().getVariable(temporaryVariableName));
-}
-
 TEST_F(ObjectBuilderTest, testGetType) {
   ObjectBuilderArgumentList argumentList;
   ObjectBuilder objectBuilder(mModelTypeSpecifier, argumentList);

@@ -240,24 +240,6 @@ TEST_F(ConditionalExpressionTest, releaseOwnershipTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ConditionalExpressionTest, addReferenceToOwnersTest) {
-  Type* type = mModel->getOwner()->getLLVMType(mLLVMContext);
-  Value* ifTrueValue = IRWriter::newAllocaInst(mContext, type, "ifTrueValue");
-  Value* ifFalseValue = IRWriter::newAllocaInst(mContext, type, "ifFalseValue");
-  ON_CALL(*mIfTrueExpression, generateIR(_)).WillByDefault(Return(ifTrueValue));
-  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(mModel->getOwner()));
-  ON_CALL(*mIfFalseExpression, generateIR(_)).WillByDefault(Return(ifFalseValue));
-  ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(mModel->getOwner()));
-  Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
-  ON_CALL(*mConditionExpression, generateIR(_)).WillByDefault(testing::Return(conditionValue));
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
-
-  EXPECT_CALL(*mIfTrueExpression, addReferenceToOwner(_, mVariable));
-  EXPECT_CALL(*mIfFalseExpression, addReferenceToOwner(_, mVariable));
-  
-  expression.addReferenceToOwner(mContext, mVariable);
-}
-
 TEST_F(ConditionalExpressionTest, isConstantTest) {
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
 
@@ -337,8 +319,6 @@ TEST_F(TestFileSampleRunner, conditionalExpressionReleaseOwnershipRunTest) {
   runFile("tests/samples/test_conditional_expression_release_ownership.yz", "1");
 }
 
-TEST_F(TestFileSampleRunner, conditionalExpressionAddReferenceToOwnerDeathRunTest) {
-  expectFailCompile("tests/samples/test_conditional_expression_add_reference_to_owner.yz",
-                    1,
-                    "Error: Variable 'car' was previously cleared and can not be used");
+TEST_F(TestFileSampleRunner, conditionalExpressionAddReferenceToOwnerRunTest) {
+  runFile("tests/samples/test_conditional_expression_add_reference_to_owner.yz", "3");
 }

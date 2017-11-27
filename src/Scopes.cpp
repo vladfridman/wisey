@@ -312,11 +312,6 @@ void Scopes::clearReferencesToOwnerTypeVariable(IVariable* ownerVariable) {
   }
 }
 
-void Scopes::addReferenceToOwnerVariable(IVariable* ownerVariable, IVariable* referenceVariable) {
-  mOwnerToReferencesMap[ownerVariable->getName()][referenceVariable->getName()] = referenceVariable;
-  mRererenceToOwnersMap[referenceVariable->getName()][ownerVariable->getName()] = ownerVariable;
-}
-
 map<string, IVariable*> Scopes::getOwnersForReference(IVariable* reference) {
   return mRererenceToOwnersMap[reference->getName()];
 }

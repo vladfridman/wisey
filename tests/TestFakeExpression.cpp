@@ -72,8 +72,3 @@ TEST_F(FakeExpressionTest, releaseOwnershipOwnerDeathTest) {
               "Error: Can not release ownership of a fake epxression");
 }
 
-TEST_F(FakeExpressionTest, addReferenceToOwnerDeathTest) {
-  EXPECT_EXIT(mFakeExpression->addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to non owner type fake expression");
-}

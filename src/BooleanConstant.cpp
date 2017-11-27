@@ -37,12 +37,6 @@ bool BooleanConstant::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }
 
-void BooleanConstant::addReferenceToOwner(IRGenerationContext& context,
-                                                           IVariable* reference) const {
-  Log::e("Can not add a reference to non owner type boolean constant expression");
-  exit(1);
-}
-
 bool BooleanConstant::isConstant() const {
   return true;
 }

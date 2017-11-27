@@ -38,28 +38,6 @@ void Identifier::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(context, mName);
 }
 
-void Identifier::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
-  IVariable* variable = IVariable::getVariable(context, mName);
-
-  if (IType::isOwnerType(variable->getType())) {
-    context.getScopes().addReferenceToOwnerVariable(variable, reference);
-    return;
-  }
-  
-  map<string, IVariable*> owners = context.getScopes().getOwnersForReference(variable);
-
-  if (!owners.size()) {
-    Log::e("Can not store a reference because its owner does not exist in the current scope");
-    exit(1);
-  }
-
-  for (map<string, IVariable*>::iterator iterator = owners.begin();
-       iterator != owners.end();
-       iterator++) {
-    context.getScopes().addReferenceToOwnerVariable(iterator->second, reference);
-  }
-}
-
 bool Identifier::existsInOuterScope(IRGenerationContext& context) const {
   return IVariable::getVariable(context, mName)->existsInOuterScope();
 }

@@ -134,14 +134,6 @@ TEST_F(IncrementExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(IncrementExpressionTest, addReferenceToOwnerDeathTest) {
-  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
-
-  EXPECT_EXIT(expression->addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to non owner type increment operation expression");
-}
-
 TEST_F(IncrementExpressionTest, incrementExpressionTypeTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
 

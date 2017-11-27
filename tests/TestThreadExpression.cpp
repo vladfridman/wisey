@@ -95,13 +95,6 @@ TEST_F(ThreadExpressionTest, generateIRTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(ThreadExpressionTest, addReferenceToOwnerDeathTest) {
-  MockVariable variable;
-  EXPECT_EXIT(mThreadExpression.addReferenceToOwner(mContext, &variable),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not store a reference to the current thread");
-}
-
 TEST_F(ThreadExpressionTest, isConstantTest) {
   EXPECT_FALSE(mThreadExpression.isConstant());
 }

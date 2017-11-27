@@ -144,15 +144,6 @@ void StaticMethodCall::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(context, variableName);
 }
 
-void StaticMethodCall::addReferenceToOwner(IRGenerationContext& context,
-                                           IVariable* reference) const {
-  string variableName = IVariable::getTemporaryVariableName(this);
-  IVariable* variable = context.getScopes().getVariable(variableName);
-  if (variable && IType::isOwnerType(variable->getType())) {
-    context.getScopes().addReferenceToOwnerVariable(variable, reference);
-  }
-}
-
 IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   IMethodDescriptor* methodDescriptor = objectType->findMethod(mMethodName);

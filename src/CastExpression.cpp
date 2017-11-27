@@ -48,10 +48,6 @@ void CastExpression::releaseOwnership(IRGenerationContext& context) const {
   mExpression->releaseOwnership(context);
 }
 
-void CastExpression::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
-  mExpression->addReferenceToOwner(context, reference);
-}
-
 bool CastExpression::existsInOuterScope(IRGenerationContext& context) const {
   return mExpression->existsInOuterScope(context);
 }

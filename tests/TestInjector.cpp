@@ -120,23 +120,6 @@ TEST_F(InjectorTest, releaseOwnershipTest) {
   EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
 }
 
-TEST_F(InjectorTest, addReferenceToOwnerDeathTest) {
-  Injector injector(mInterfaceTypeSpecifier);
-  injector.generateIR(mContext);
-  
-  NiceMock<MockVariable> referenceVariable;
-  ON_CALL(referenceVariable, getName()).WillByDefault(Return("bar"));
-  ON_CALL(referenceVariable, getType()).WillByDefault(Return(mInterface));
-
-  string temporaryVariableName = IVariable::getTemporaryVariableName(&injector);
-
-  injector.addReferenceToOwner(mContext, &referenceVariable);
-  
-  map<string, IVariable*> owners = mContext.getScopes().getOwnersForReference(&referenceVariable);
-  EXPECT_EQ(owners.size(), 1u);
-  EXPECT_EQ(owners.begin()->second, mContext.getScopes().getVariable(temporaryVariableName));
-}
-
 TEST_F(InjectorTest, getTypeTest) {
   Injector injector(mInterfaceTypeSpecifier);
   

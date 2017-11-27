@@ -102,12 +102,6 @@ void TypeComparisionExpression::releaseOwnership(IRGenerationContext& context) c
   exit(1);
 }
 
-void TypeComparisionExpression::addReferenceToOwner(IRGenerationContext& context,
-                                                    IVariable* reference) const {
-  Log::e("Can not add a reference to an instanceof expression");
-  exit(1);
-}
-
 bool TypeComparisionExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

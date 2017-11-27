@@ -76,12 +76,6 @@ void AdditiveMultiplicativeExpression::releaseOwnership(IRGenerationContext& con
   exit(1);
 }
 
-void AdditiveMultiplicativeExpression::addReferenceToOwner(IRGenerationContext& context,
-                                                           IVariable* reference) const {
-  Log::e("Can not add a reference to non owner type additive/multiplicative expression");
-  exit(1);
-}
-
 // TODO: implement a more sensible type checking/casting
 void AdditiveMultiplicativeExpression::checkTypes(const IType* leftType,
                                                   const IType* rightType) const {

@@ -97,10 +97,3 @@ TEST_F(StringLiteralTest, releaseOwnershipDeathTest) {
               "Error: Can not release ownership of a string literal, it is not a heap pointer");
 }
 
-TEST_F(StringLiteralTest, addReferenceToOwnerDeathTest) {
-  StringLiteral stringLiteral("test\ntest");
-  
-  EXPECT_EXIT(stringLiteral.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to a string literal expression");
-}

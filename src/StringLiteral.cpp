@@ -77,11 +77,6 @@ void wisey::StringLiteral::releaseOwnership(IRGenerationContext& context) const 
   exit(1);
 }
 
-void wisey::StringLiteral::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
-  Log::e("Can not add a reference to a string literal expression");
-  exit(1);
-}
-
 bool wisey::StringLiteral::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

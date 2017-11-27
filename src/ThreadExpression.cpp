@@ -32,12 +32,6 @@ void ThreadExpression::releaseOwnership(IRGenerationContext& context) const {
   // thread expression is always avialible, it is neither freed nor cleared
 }
 
-void ThreadExpression::addReferenceToOwner(IRGenerationContext& context,
-                                           IVariable* reference) const {
-  Log::e("Can not store a reference to the current thread");
-  exit(1);
-}
-
 bool ThreadExpression::existsInOuterScope(IRGenerationContext& context) const {
   return IVariable::getVariable(context, THREAD)->existsInOuterScope();
 }

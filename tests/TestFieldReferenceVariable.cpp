@@ -211,8 +211,5 @@ TEST_F(TestFileSampleRunner, assignFieldReferenceToNullCompileTest) {
 }
 
 TEST_F(TestFileSampleRunner, assignFieldReferenceToParameterReferenceCompileTest) {
-  expectFailCompile("tests/samples/test_assign_field_reference_to_parameter_reference.yz",
-                    1,
-                    "Error: Can not store a reference because its owner "
-                    "does not exist in the current scope");
+  compileFile("tests/samples/test_assign_field_reference_to_parameter_reference.yz");
 }

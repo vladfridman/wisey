@@ -64,12 +64,6 @@ void LogicalOrExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-void LogicalOrExpression::addReferenceToOwner(IRGenerationContext& context,
-                                               IVariable* reference) const {
-  Log::e("Can not add a reference to non owner type logical OR operation expression");
-  exit(1);
-}
-
 bool LogicalOrExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

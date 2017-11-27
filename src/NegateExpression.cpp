@@ -59,12 +59,6 @@ void NegateExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-void NegateExpression::addReferenceToOwner(IRGenerationContext& context,
-                                           IVariable* reference) const {
-  Log::e("Can not add a reference to non owner type negate expression");
-  exit(1);
-}
-
 bool NegateExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

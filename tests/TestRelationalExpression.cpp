@@ -239,16 +239,6 @@ TEST_F(RelationalExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(RelationalExpressionTest, addReferenceToOwnerDeathTest) {
-  Mock::AllowLeak(mLeftExpression);
-  Mock::AllowLeak(mRightExpression);
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
-  
-  EXPECT_EXIT(expression.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to a relational expression");
-}
-
 TEST_F(TestFileSampleRunner, lessThanRunTest) {
   runFile("tests/samples/test_less_than.yz", "1");
 }

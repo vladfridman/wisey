@@ -102,12 +102,6 @@ void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const
   context.setBasicBlock(blockEnd);
 }
 
-void ConditionalExpression::addReferenceToOwner(IRGenerationContext& context,
-                                                IVariable* reference) const {
-  mIfFalseExpression->addReferenceToOwner(context, reference);
-  mIfTrueExpression->addReferenceToOwner(context, reference);
-}
-
 // TODO: implement a more sensible type checking/casting
 void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   const IType* ifTrueExpressionType = mIfTrueExpression->getType(context);

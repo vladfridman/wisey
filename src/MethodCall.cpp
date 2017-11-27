@@ -242,14 +242,6 @@ void MethodCall::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(context, variableName);
 }
 
-void MethodCall::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
-  string variableName = IVariable::getTemporaryVariableName(this);
-  IVariable* variable = context.getScopes().getVariable(variableName);
-  if (variable && IType::isOwnerType(variable->getType())) {
-    context.getScopes().addReferenceToOwnerVariable(variable, reference);
-  }
-}
-
 const IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
   if (mExpression == NULL && context.getThis()) {
     return (IObjectType*) context.getThis()->getType();

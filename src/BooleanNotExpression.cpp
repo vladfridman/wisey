@@ -47,12 +47,6 @@ void BooleanNotExpression::releaseOwnership(IRGenerationContext& context) const 
   exit(1);
 }
 
-void BooleanNotExpression::addReferenceToOwner(IRGenerationContext& context,
-                                          IVariable* reference) const {
-  Log::e("Can not add a reference to non owner type boolean NOT expression");
-  exit(1);
-}
-
 bool BooleanNotExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

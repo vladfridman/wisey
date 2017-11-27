@@ -51,9 +51,6 @@ const IType* ConstantReference::getType(IRGenerationContext& context) const {
 void ConstantReference::releaseOwnership(IRGenerationContext& context) const {
 }
 
-void ConstantReference::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
-}
-
 bool ConstantReference::existsInOuterScope(IRGenerationContext& context) const {
   return true;
 }

@@ -180,17 +180,6 @@ TEST_F(LogicalOrExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(LogicalOrExpressionTest, addReferenceToOwnerDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
-  
-  LogicalOrExpression expression(mLeftExpression, mRightExpression);
-  
-  EXPECT_EXIT(expression.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to non owner type logical OR operation expression");
-}
-
 TEST_F(TestFileSampleRunner, LogicalOrExpressionResultFalseRunTest) {
   runFile("tests/samples/test_logical_or_result_false.yz", "0");
 }

@@ -32,11 +32,6 @@ void FakeExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-void FakeExpression::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
-  Log::e("Can not add a reference to non owner type fake expression");
-  exit(1);
-}
-
 bool FakeExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

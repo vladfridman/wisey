@@ -67,12 +67,6 @@ void IncrementExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-void IncrementExpression::addReferenceToOwner(IRGenerationContext& context,
-                                              IVariable* reference) const {
-  Log::e("Can not add a reference to non owner type increment operation expression");
-  exit(1);
-}
-
 bool IncrementExpression::existsInOuterScope(IRGenerationContext& context) const {
   return false;
 }

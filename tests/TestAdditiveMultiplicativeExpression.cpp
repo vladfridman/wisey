@@ -208,18 +208,6 @@ TEST_F(AdditiveMultiplicativeExpressionTest, releaseOwnershipDeathTest) {
               "it is not a heap pointer");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, addReferenceToOwnerDeathTest) {
-  Mock::AllowLeak(mLeftExpression);
-  Mock::AllowLeak(mRightExpression);
-  
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
-  
-  EXPECT_EXIT(expression.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to non owner type "
-              "additive/multiplicative expression");
-}
-
 TEST_F(TestFileSampleRunner, additionRunTest) {
   runFile("tests/samples/test_addition.yz", "7");
 }

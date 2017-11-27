@@ -57,8 +57,3 @@ TEST_F(EmptyExpressionTest, releaseOwnershipDeathTest) {
               "Error: Can not release ownership of an empty epxression, it is not a heap pointer");
 }
 
-TEST_F(EmptyExpressionTest, addReferenceToOwnerDeathTest) {
-  EXPECT_EXIT(mEmptyExpression.addReferenceToOwner(mContext, NULL),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not add a reference to non owner type empty expression");
-}

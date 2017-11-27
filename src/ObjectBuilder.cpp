@@ -56,13 +56,6 @@ void ObjectBuilder::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(context, variableName);
 }
 
-void ObjectBuilder::addReferenceToOwner(IRGenerationContext& context, IVariable* reference) const {
-  string variableName = IVariable::getTemporaryVariableName(this);
-  IVariable* variable = context.getScopes().getVariable(variableName);
-  
-  context.getScopes().addReferenceToOwnerVariable(variable, reference);
-}
-
 const IType* ObjectBuilder::getType(IRGenerationContext& context) const {
   return mTypeSpecifier->getType(context)->getOwner();
 }
