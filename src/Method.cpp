@@ -68,7 +68,6 @@ void Method::generateIR(IRGenerationContext& context, const IObjectType* objectT
   
   Scopes& scopes = context.getScopes();
 
-  map<string, IVariable*> clearedVariablesBefore = scopes.getClearedVariables();
   scopes.pushScope();
   scopes.setReturnType(mReturnType);
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", mFunction, 0);
@@ -83,7 +82,6 @@ void Method::generateIR(IRGenerationContext& context, const IObjectType* objectT
   IMethod::checkForUnhandledExceptions(context, this);
 
   scopes.popScope(context);
-  scopes.setClearedVariables(clearedVariablesBefore);
 }
 
 void Method::createArguments(IRGenerationContext& context,

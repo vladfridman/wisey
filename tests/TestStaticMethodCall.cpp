@@ -404,7 +404,9 @@ TEST_F(TestFileSampleRunner, staticMethodExceptionNotHandledDeathTest) {
 }
 
 TEST_F(TestFileSampleRunner, passOwnerAsParameterToStaticMethodAndThenUseItRunDeathTest) {
-  expectFailCompile("tests/samples/test_pass_owner_as_parameter_to_static_method_and_then_use_it.yz",
-                    1,
-                    "Error: Variable 'data' was previously cleared and can not be used");
+  compileAndRunFileCheckOutput("tests/samples/test_pass_owner_as_parameter_to_static_method_and_then_use_it.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_pass_owner_as_parameter_to_static_method_and_then_use_it.yz:22)\n");
 }

@@ -116,8 +116,13 @@ TEST_F(InjectorTest, releaseOwnershipTest) {
   EXPECT_NE(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
   
   injector.releaseOwnership(mContext);
+ 
+  *mStringStream << mBlock->getInstList().back();
+  string expected = string() +
+  "  store %systems.vos.wisey.compiler.tests.CMultiplier* null, "
+  "%systems.vos.wisey.compiler.tests.CMultiplier** %pointer";
   
-  EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(InjectorTest, getTypeTest) {

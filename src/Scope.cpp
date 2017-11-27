@@ -121,8 +121,7 @@ const IType* Scope::getReturnType() {
   return mReturnType;
 }
 
-void Scope::freeOwnedMemory(IRGenerationContext& context,
-                            map<string, IVariable*>& clearedVariables) {
+void Scope::freeOwnedMemory(IRGenerationContext& context) {
   BasicBlock* currentBlock = context.getBasicBlock();
   if(currentBlock != NULL &&
      currentBlock->size() > 0 &&
@@ -141,8 +140,7 @@ void Scope::freeOwnedMemory(IRGenerationContext& context,
   for (map<string, IVariable*>::iterator iterator = mVariables.begin();
        iterator != mVariables.end();
        iterator++) {
-    if (!clearedVariables.count(iterator->first) &&
-        IType::isOwnerType(iterator->second->getType())) {
+    if (IType::isOwnerType(iterator->second->getType())) {
       ((IOwnerVariable*) iterator->second)->free(context);
     }
   }

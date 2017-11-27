@@ -81,22 +81,14 @@ void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const
   BasicBlock* blockFalse = BasicBlock::Create(llvmContext, "cond.release.false", function);
   BasicBlock* blockEnd = BasicBlock::Create(llvmContext, "cond.release.end", function);
 
-  Value* ifTrueValue = mIfTrueExpression->generateIR(context);
-  const IType* ifTrueType = mIfTrueExpression->getType(context);
-  Value* ifFalseValue = mIfFalseExpression->generateIR(context);
-  const IType* ifFalseType = mIfFalseExpression->getType(context);
   IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValue);
 
   context.setBasicBlock(blockTrue);
   mIfTrueExpression->releaseOwnership(context);
-  assert(IType::isOwnerType(ifFalseType));
-  ((IObjectOwnerType*) ifFalseType)->free(context, ifFalseValue);
   IRWriter::createBranch(context, blockEnd);
   
   context.setBasicBlock(blockFalse);
   mIfFalseExpression->releaseOwnership(context);
-  assert(IType::isOwnerType(ifTrueType));
-  ((IObjectOwnerType*) ifTrueType)->free(context, ifTrueValue);
   IRWriter::createBranch(context, blockEnd);
 
   context.setBasicBlock(blockEnd);

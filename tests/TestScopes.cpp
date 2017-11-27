@@ -129,93 +129,6 @@ TEST_F(ScopesTest, getScopeTest) {
   EXPECT_NE(scope, nullptr);
 }
 
-TEST_F(ScopesTest, clearVariableTest) {
-  mScopes.pushScope();
-  Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalPrimitiveVariable* fooVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, fooValue);
-  mScopes.setVariable(fooVariable);
-  
-  EXPECT_EQ(mScopes.getVariable("foo"), fooVariable);
-  
-  mScopes.clearVariable(mContext, "foo");
-  
-  EXPECT_EQ(mScopes.getVariable("foo"), nullptr);
-  EXPECT_EQ(mScopes.getVariableForAssignement("foo"), fooVariable);
-}
-
-TEST_F(ScopesTest, getClearedVariablesTest) {
-  mScopes.pushScope();
-  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalPrimitiveVariable* fooVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
-  LocalPrimitiveVariable* barVariable =
-  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
-  mScopes.setVariable(fooVariable);
-  mScopes.setVariable(barVariable);
-
-  mScopes.clearVariable(mContext, "foo");
-  
-  map<string, IVariable*> clearedVariables = mScopes.getClearedVariables();
-  EXPECT_EQ(clearedVariables.size(), 1u);
-  EXPECT_EQ(clearedVariables.count("foo"), 1u);
-  EXPECT_EQ(clearedVariables.at("foo"), fooVariable);
-
-  mScopes.clearVariable(mContext, "bar");
-  clearedVariables = mScopes.getClearedVariables();
-  EXPECT_EQ(clearedVariables.size(), 2u);
-  EXPECT_EQ(clearedVariables.count("foo"), 1u);
-  EXPECT_EQ(clearedVariables.count("bar"), 1u);
-  EXPECT_EQ(clearedVariables.at("foo"), fooVariable);
-  EXPECT_EQ(clearedVariables.at("bar"), barVariable);
-}
-
-TEST_F(ScopesTest, setClearedVariablesTest) {
-  mScopes.pushScope();
-  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalPrimitiveVariable* fooVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
-  LocalPrimitiveVariable* barVariable =
-  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
-  mScopes.setVariable(fooVariable);
-  mScopes.setVariable(barVariable);
-  
-  map<string, IVariable*> clearedVariables;
-  clearedVariables["foo"] = fooVariable;
-  clearedVariables["bar"] = barVariable;
-  mScopes.setClearedVariables(clearedVariables);
-  clearedVariables.clear();
-  
-  clearedVariables = mScopes.getClearedVariables();
-  EXPECT_EQ(clearedVariables.size(), 2u);
-  EXPECT_EQ(clearedVariables.count("foo"), 1u);
-  EXPECT_EQ(clearedVariables.count("bar"), 1u);
-  EXPECT_EQ(clearedVariables.at("foo"), fooVariable);
-  EXPECT_EQ(clearedVariables.at("bar"), barVariable);
-}
-
-TEST_F(ScopesTest, eraseFromClearedVariablesTest) {
-  mScopes.pushScope();
-  Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  LocalPrimitiveVariable* fooVariable =
-  new LocalPrimitiveVariable("foo", PrimitiveTypes::INT_TYPE, value);
-  LocalPrimitiveVariable* barVariable =
-  new LocalPrimitiveVariable("bar", PrimitiveTypes::INT_TYPE, value);
-  mScopes.setVariable(fooVariable);
-  mScopes.setVariable(barVariable);
-  
-  mScopes.clearVariable(mContext, "foo");
-  
-  map<string, IVariable*> clearedVariables = mScopes.getClearedVariables();
-  EXPECT_EQ(clearedVariables.size(), 1u);
-  EXPECT_EQ(clearedVariables.count("foo"), 1u);
-  EXPECT_EQ(clearedVariables.at("foo"), fooVariable);
-  
-  mScopes.eraseFromClearedVariables(fooVariable);
-  EXPECT_EQ(mScopes.getClearedVariables().size(), 0u);
-}
-
-
 TEST_F(ScopesTest, clearVariableDeathTest) {
   EXPECT_EXIT(mScopes.clearVariable(mContext, "foo"),
               ::testing::ExitedWithCode(1),
@@ -368,10 +281,12 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedBySettingNullOutsideObjec
 }
 
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThenElseRunDeathTest) {
-  expectFailCompile("tests/samples/"
-                    "test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz",
-                    1,
-                    "Error: Variable 'data' was previously cleared and can not be used");
+  compileAndRunFileCheckOutput("tests/samples/test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz:27)\n"
+                               "Details: Object referenced by expression still has 2 active references\n");
 }
 
 TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerReuseReferenceRunTest) {

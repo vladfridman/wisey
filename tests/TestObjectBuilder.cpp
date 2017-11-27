@@ -131,7 +131,12 @@ TEST_F(ObjectBuilderTest, releaseOwnershipTest) {
   
   mObjectBuilder->releaseOwnership(mContext);
 
-  EXPECT_EQ(mContext.getScopes().getVariable(temporaryVariableName), nullptr);
+  *mStringStream << mBlock->getInstList().back();
+  string expected = string() +
+  "  store %systems.vos.wisey.compiler.tests.MShape* null, "
+  "%systems.vos.wisey.compiler.tests.MShape** %3";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(ObjectBuilderTest, testGetType) {

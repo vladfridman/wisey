@@ -465,7 +465,9 @@ TEST_F(TestFileSampleRunner, methodIdentifierChainDeathTest) {
 }
 
 TEST_F(TestFileSampleRunner, passOwnerAsParameterToMethodAndThenUseItRunDeathTest) {
-  expectFailCompile("tests/samples/test_pass_owner_as_parameter_to_method_and_then_use_it.yz",
-                    1,
-                    "Error: Variable 'data' was previously cleared and can not be used");
+  compileAndRunFileCheckOutput("tests/samples/test_pass_owner_as_parameter_to_method_and_then_use_it.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_pass_owner_as_parameter_to_method_and_then_use_it.yz:24)\n");
 }

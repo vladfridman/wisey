@@ -60,12 +60,3 @@ TEST_F(IVariableTest, getVariableDoesNotExistDeathTest) {
               "Error: Undeclared variable 'bar'");
 }
 
-TEST_F(IVariableTest, getVariableWasClearedDeathTest) {
-  Mock::AllowLeak(mVariable);
-  
-  mContext.getScopes().clearVariable(mContext, "foo");
-  
-  EXPECT_EXIT(IVariable::getVariable(mContext, "foo"),
-              ::testing::ExitedWithCode(1),
-              "Error: Variable 'foo' was previously cleared and can not be used");
-}

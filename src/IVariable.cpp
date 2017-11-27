@@ -27,11 +27,6 @@ IVariable* IVariable::getVariable(IRGenerationContext& context, std::string name
     return variable;
   }
   
-  if (context.getScopes().isVariableCleared(name)) {
-    Log::e("Variable '" + name + "' was previously cleared and can not be used");
-    exit(1);
-  }
-  
   Log::e("Undeclared variable '" + name + "'");
   exit(1);
 

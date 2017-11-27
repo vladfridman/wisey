@@ -29,7 +29,6 @@ Value* Assignment::generateIR(IRGenerationContext& context) const {
     Log::e("Undeclared variable '" + mIdentifier->getName() + "'");
     exit(1);
   }
-  context.getScopes().eraseFromClearedVariables(variable);
   
   const IType* identifierType = getType(context);
   

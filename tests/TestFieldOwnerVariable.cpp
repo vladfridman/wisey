@@ -209,10 +209,12 @@ TEST_F(FieldOwnerVariableTest, existsInOuterScopeTest) {
   EXPECT_TRUE(mFieldOwnerVariable->existsInOuterScope());
 }
 
-TEST_F(TestFileSampleRunner, objectFieldVariableSetToNullTest) {
-  expectFailCompile("tests/samples/test_object_field_variable_set_to_null.yz",
-                    1,
-                    "Error: Variable 'mModel' was previously cleared and can not be used");
+TEST_F(TestFileSampleRunner, objectFieldVariableSetToNullRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_object_field_variable_set_to_null.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_object_field_variable_set_to_null.yz:20)\n");
 }
 
 TEST_F(TestFileSampleRunner, stateOwnerFieldSetToNullTest) {

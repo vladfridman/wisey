@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "MockExpression.hpp"
+#include "MockOwnerVariable.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
@@ -164,17 +165,15 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
 }
 
 TEST_F(AssignmentTest, releaseOwnershipTest) {
-  NiceMock<MockVariable> mockVariable;
+  NiceMock<MockOwnerVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
   mContext.getScopes().setVariable(&mockVariable);
-  
   Identifier* identifier = new Identifier("foo");
   Assignment assignment(identifier, mExpression, 0);
+  EXPECT_CALL(mockVariable, setToNull(_));
   
   assignment.releaseOwnership(mContext);
-  
-  EXPECT_EQ(mContext.getScopes().getVariable("foo"), nullptr);
 }
 
 TEST_F(AssignmentTest, existsInOuterScopeTest) {

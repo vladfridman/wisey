@@ -79,8 +79,7 @@ TEST_F(ScopeTest, freeOwnedMemoryTest) {
   EXPECT_CALL(*mOwnerVariable, free(_));
   EXPECT_CALL(*mReferenceVariable, decrementReferenceCounter(_));
   
-  map<string, IVariable*> clearedVariables;
-  mScope.freeOwnedMemory(mContext, clearedVariables);
+  mScope.freeOwnedMemory(mContext);
 }
 
 TEST_F(ScopeTest, addExceptionTest) {

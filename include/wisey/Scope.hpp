@@ -127,8 +127,7 @@ public:
   /**
    * Free memory owner variables and decrement reference count for reference variables
    */
-  void freeOwnedMemory(IRGenerationContext& context,
-                       std::map<std::string, IVariable*>& clearedVariables);
+  void freeOwnedMemory(IRGenerationContext& context);
 
   /**
    * Add an exception type that maybe thrown in this scope

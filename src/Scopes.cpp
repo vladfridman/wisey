@@ -29,10 +29,6 @@ Scopes::~Scopes() {
 }
 
 IVariable* Scopes::getVariable(string name) {
-  if (mClearedVariables.count(name)) {
-    return NULL;
-  }
-  
   return getVariableForAssignement(name);
 }
 
@@ -66,10 +62,8 @@ void Scopes::clearVariable(IRGenerationContext& context, string name) {
       continue;
     }
     if (IType::isOwnerType(variable->getType())) {
-      clearReferencesToOwnerTypeVariable(variable);
       ((IOwnerVariable*) variable)->setToNull(context);
     }
-    mClearedVariables[name] = variable;
     return;
   }
   
@@ -90,24 +84,6 @@ void Scopes::setVariable(IVariable* variable) {
   }
 }
 
-map<string, IVariable*> Scopes::getClearedVariables() {
-  return mClearedVariables;
-}
-
-void Scopes::setClearedVariables(map<string, IVariable*> clearedVariables) {
-  mClearedVariables = clearedVariables;
-  clearCachedLandingPadBlock();
-}
-
-void Scopes::eraseFromClearedVariables(IVariable* variable) {
-  mClearedVariables.erase(variable->getName());
-  clearCachedLandingPadBlock();
-}
-
-bool Scopes::isVariableCleared(string name) {
-  return mClearedVariables.count(name);
-}
-
 void Scopes::pushScope() {
   mScopes.push_front(new Scope());
 }
@@ -115,17 +91,9 @@ void Scopes::pushScope() {
 void Scopes::popScope(IRGenerationContext& context) {
   Scope* top = mScopes.front();
 
-  top->freeOwnedMemory(context, mClearedVariables);
+  top->freeOwnedMemory(context);
   clearCachedLandingPadBlock();
 
-  for (string variableName : top->getClearedVariables(mClearedVariables)) {
-    mClearedVariables.erase(variableName);
-  }
-  for (IOwnerVariable* owner : top->getOwnerVariables()) {
-    map<string, IVariable*> references = mOwnerToReferencesMap[owner->getName()];
-    mOwnerToReferencesMap.erase(owner->getName());
-  }
-  
   map<string, const Model*> exceptions = top->getExceptions();
   mScopes.pop_front();
   delete top;
@@ -161,7 +129,7 @@ list<Scope*> Scopes::getScopesList() {
 
 void Scopes::freeOwnedMemory(IRGenerationContext& context) {
   for (Scope* scope : mScopes) {
-    scope->freeOwnedMemory(context, mClearedVariables);
+    scope->freeOwnedMemory(context);
   }
 }
 
@@ -279,20 +247,6 @@ void Scopes::reportUnhandledExceptions(map<string, const Model*> exceptions) {
   }
 }
 
-void Scopes::clearReferencesToOwnerTypeVariable(IVariable* ownerVariable) {
-  if (!mOwnerToReferencesMap.count(ownerVariable->getName())) {
-    return;
-  }
-
-  map<string, IVariable*> referencedVariables = mOwnerToReferencesMap.at(ownerVariable->getName());
-  for (map<string, IVariable*>::iterator iterator = referencedVariables.begin();
-       iterator != referencedVariables.end();
-       iterator++) {
-    IVariable* referenceVariable = iterator->second;
-    mClearedVariables[referenceVariable->getName()] = referenceVariable;
-  }
-}
-
 BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context) {
   if (mCachedLandingPadBlock) {
     return mCachedLandingPadBlock;
@@ -320,7 +274,7 @@ llvm::BasicBlock* Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context)
   context.setBasicBlock(freeMemoryBlock);
   
   for (Scope* scope : mScopes) {
-    scope->freeOwnedMemory(context, mClearedVariables);
+    scope->freeOwnedMemory(context);
     if (scope->getTryCatchInfo()) {
       break;
     }

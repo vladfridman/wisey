@@ -24,12 +24,6 @@ namespace wisey {
  */
 class Scopes {
   std::list<Scope *> mScopes;
-  std::map<std::string, IVariable*> mClearedVariables;
-  /**
-   * When owner is cleared, e.g. when assigned to another owner variable, we need to make sure
-   * that all references that refer to that owner are also cleared. That is why this map is needed.
-   */
-  std::map<std::string, std::map<std::string, IVariable*>> mOwnerToReferencesMap;
   llvm::BasicBlock* mCachedLandingPadBlock;
 
 public:
@@ -58,26 +52,6 @@ public:
    * Add a variable to the scope
    */
   void setVariable(IVariable* variable);
-
-  /**
-   * Returns the map of cleared variables
-   */
-  std::map<std::string, IVariable*> getClearedVariables();
-  
-  /**
-   * Sets the map of cleared variables to the given one
-   */
-  void setClearedVariables(std::map<std::string, IVariable*> clearedVariables);
-  
-  /**
-   * Erase from cleared variables the given variable
-   */
-  void eraseFromClearedVariables(IVariable* variable);
-  
-  /**
-   * Tells whether a variable with the given name was cleared
-   */
-  bool isVariableCleared(std::string name);
   
   /**
    * Pushes a new program scope on the stack of program scopes
@@ -169,8 +143,6 @@ public:
 private:
 
   void reportUnhandledExceptions(std::map<std::string, const Model*> exceptions);
-  
-  void clearReferencesToOwnerTypeVariable(IVariable* variable);
   
   void clearCachedLandingPadBlock();
   

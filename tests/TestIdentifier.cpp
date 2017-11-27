@@ -15,6 +15,7 @@
 #include <llvm/IR/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
+#include "MockOwnerVariable.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Identifier.hpp"
@@ -93,17 +94,16 @@ TEST_F(IdentifierTest, generateIRTest) {
 }
 
 TEST_F(IdentifierTest, releaseOwnershipTest) {
-  NiceMock<MockVariable> mockVariable;
+  NiceMock<MockOwnerVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
   mContext.getScopes().setVariable(&mockVariable);
   Identifier identifier("foo");
   
   EXPECT_EQ(mContext.getScopes().getVariable("foo"), &mockVariable);
+  EXPECT_CALL(mockVariable, setToNull(_));
 
   identifier.releaseOwnership(mContext);
-  
-  EXPECT_EQ(mContext.getScopes().getVariable("foo"), nullptr);
 }
 
 TEST_F(IdentifierTest, isConstantTest) {
