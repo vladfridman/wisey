@@ -55,11 +55,6 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, IRGenerationFlag 
   return malloc;
 }
 
-void ObjectBuilder::releaseOwnership(IRGenerationContext& context) const {
-  string variableName = IVariable::getTemporaryVariableName(this);
-  context.getScopes().clearVariable(context, variableName);
-}
-
 const IType* ObjectBuilder::getType(IRGenerationContext& context) const {
   return mTypeSpecifier->getType(context)->getOwner();
 }

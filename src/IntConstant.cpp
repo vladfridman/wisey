@@ -28,11 +28,6 @@ const IType* IntConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::INT_TYPE;
 }
 
-void IntConstant::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of an int constant, it is not a heap pointer");
-  exit(1);
-}
-
 bool IntConstant::isConstant() const {
   return true;
 }

@@ -60,12 +60,6 @@ TEST_F(CharConstantTest, isConstantTest) {
   EXPECT_TRUE(mCharConstant.isConstant());
 }
 
-TEST_F(CharConstantTest, releaseOwnershipDeathTest) {
-  EXPECT_EXIT(mCharConstant.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a char constant, it is not a heap pointer");
-}
-
 TEST_F(TestFileSampleRunner, charVariableRunTest) {
   runFile("tests/samples/test_char_variable.yz", "7");
 }

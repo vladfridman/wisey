@@ -38,16 +38,6 @@ const IType* CastExpression::getType(IRGenerationContext& context) const {
   return mTypeSpecifier->getType(context);
 }
 
-void CastExpression::releaseOwnership(IRGenerationContext& context) const {
-  const IType* toType = mTypeSpecifier->getType(context);
-  if (toType->getTypeKind() == PRIMITIVE_TYPE) {
-    Log::e("Can not release ownership of a cast to primitive type, it is not a heap pointer");
-    exit(1);
-  }
-  
-  mExpression->releaseOwnership(context);
-}
-
 bool CastExpression::isConstant() const {
   return false;
 }

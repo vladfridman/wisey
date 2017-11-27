@@ -29,9 +29,6 @@ const IType* NullExpression::getType(IRGenerationContext& context) const {
   return NullType::NULL_TYPE;
 }
 
-void NullExpression::releaseOwnership(IRGenerationContext& context) const {
-}
-
 bool NullExpression::isConstant() const {
   return true;
 }

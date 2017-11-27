@@ -109,16 +109,6 @@ TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
               "Error: Boolean NOT operator '!' can only be applied to boolean types");
 }
 
-TEST_F(BooleanNotExpressionTest, releaseOwnershipDeathTest) {
-  BooleanNotExpression booleanNotExpression(mExpression);
-  Mock::AllowLeak(mExpression);
-  
-  EXPECT_EXIT(booleanNotExpression.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a boolean NOT expression, "
-              "it is not a heap pointer");
-}
-
 TEST_F(TestFileSampleRunner, booleanNotRunTest) {
   runFile("tests/samples/test_boolean_not.yz", "1");
 }

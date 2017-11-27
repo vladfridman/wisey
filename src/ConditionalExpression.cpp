@@ -72,29 +72,6 @@ const IType* ConditionalExpression::getType(IRGenerationContext& context) const 
   return mIfTrueExpression->getType(context);
 }
 
-void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const {
-  Function* function = context.getBasicBlock()->getParent();
-
-  Value* conditionValue = mConditionExpression->generateIR(context, IR_GENERATION_NORMAL);
-
-  LLVMContext& llvmContext = context.getLLVMContext();
-  BasicBlock* blockTrue = BasicBlock::Create(llvmContext, "cond.release.true", function);
-  BasicBlock* blockFalse = BasicBlock::Create(llvmContext, "cond.release.false", function);
-  BasicBlock* blockEnd = BasicBlock::Create(llvmContext, "cond.release.end", function);
-
-  IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValue);
-
-  context.setBasicBlock(blockTrue);
-  mIfTrueExpression->releaseOwnership(context);
-  IRWriter::createBranch(context, blockEnd);
-  
-  context.setBasicBlock(blockFalse);
-  mIfFalseExpression->releaseOwnership(context);
-  IRWriter::createBranch(context, blockEnd);
-
-  context.setBasicBlock(blockEnd);
-}
-
 // TODO: implement a more sensible type checking/casting
 void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   const IType* ifTrueExpressionType = mIfTrueExpression->getType(context);

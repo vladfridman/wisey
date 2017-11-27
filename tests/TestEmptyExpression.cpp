@@ -47,9 +47,3 @@ TEST_F(EmptyExpressionTest, printToStreamTest) {
   EXPECT_EQ(0u, stringStream.str().size());
 }
 
-TEST_F(EmptyExpressionTest, releaseOwnershipDeathTest) {
-  EXPECT_EXIT(mEmptyExpression.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of an empty epxression, it is not a heap pointer");
-}
-

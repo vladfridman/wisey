@@ -228,15 +228,6 @@ const IType* MethodCall::getType(IRGenerationContext& context) const {
   return getMethodDescriptor(context)->getReturnType();
 }
 
-void MethodCall::releaseOwnership(IRGenerationContext& context) const {
-  if (getMethodDescriptor(context)->getReturnType()->getTypeKind() == PRIMITIVE_TYPE) {
-    return;
-  }
-  
-  string variableName = IVariable::getTemporaryVariableName(this);
-  context.getScopes().clearVariable(context, variableName);
-}
-
 const IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context) const {
   if (mExpression == NULL && context.getThis()) {
     return (IObjectType*) context.getThis()->getType();

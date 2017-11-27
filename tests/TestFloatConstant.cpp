@@ -60,9 +60,3 @@ TEST_F(FloatConstantTest, printToStreamTest) {
   EXPECT_STREQ("3.5", stringStream.str().c_str());
 }
 
-TEST_F(FloatConstantTest, releaseOwnershipDeathTest) {
-  EXPECT_EXIT(mFloatConstant.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a float constant, it is not a heap pointer");
-}
-

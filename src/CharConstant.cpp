@@ -29,11 +29,6 @@ const IType* CharConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::CHAR_TYPE;
 }
 
-void CharConstant::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a char constant, it is not a heap pointer");
-  exit(1);
-}
-
 bool CharConstant::isConstant() const {
   return true;
 }

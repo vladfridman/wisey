@@ -56,10 +56,6 @@ const IObjectOwnerType* Injector::getType(IRGenerationContext& context) const {
   return type->getOwner();
 }
 
-void Injector::releaseOwnership(IRGenerationContext& context) const {
-  context.getScopes().clearVariable(context, IVariable::getTemporaryVariableName(this));
-}
-
 bool Injector::isConstant() const {
   return false;
 }

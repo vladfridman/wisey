@@ -52,10 +52,6 @@ const IType* ObjectBuilderArgument::getType(IRGenerationContext& context) const 
   return mFieldExpression->getType(context);
 }
 
-void ObjectBuilderArgument::releaseOwnership(IRGenerationContext& context) const {
-  mFieldExpression->releaseOwnership(context);
-}
-
 void ObjectBuilderArgument::printToStream(IRGenerationContext& context,
                                           iostream &stream) const {
   stream << mFieldSpecifier << "(";

@@ -27,11 +27,6 @@ const IType* FakeExpression::getType(IRGenerationContext& context) const {
   return mType;
 }
 
-void FakeExpression::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a fake epxression");
-  exit(1);
-}
-
 bool FakeExpression::isConstant() const {
   return false;
 }

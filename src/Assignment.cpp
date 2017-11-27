@@ -35,16 +35,17 @@ Value* Assignment::generateIR(IRGenerationContext& context, IRGenerationFlag fla
   Value* result = variable->generateAssignmentIR(context, mExpression);
   
   Composer::popCallStack(context);
+  
+  if (flag == IR_GENERATION_RELEASE) {
+    assert(IType::isOwnerType(variable->getType()));
+    ((IOwnerVariable*) variable)->setToNull(context);
+  }
 
   return result;
 }
 
 const IType* Assignment::getType(IRGenerationContext& context) const {
   return mIdentifier->getType(context);
-}
-
-void Assignment::releaseOwnership(IRGenerationContext& context) const {
-  mIdentifier->releaseOwnership(context);
 }
 
 bool Assignment::isConstant() const {

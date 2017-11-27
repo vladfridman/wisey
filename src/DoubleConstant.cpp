@@ -29,11 +29,6 @@ const IType* DoubleConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::DOUBLE_TYPE;
 }
 
-void DoubleConstant::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a double constant, it is not a heap pointer");
-  exit(1);
-}
-
 bool DoubleConstant::isConstant() const {
   return true;
 }

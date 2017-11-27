@@ -190,18 +190,6 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTes
               "Error: Incompatible types in '\\+' operation that require an explicit cast");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(mLeftExpression);
-  Mock::AllowLeak(mRightExpression);
-
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
-  
-  EXPECT_EXIT(expression.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of an additive/multiplicative expression, "
-              "it is not a heap pointer");
-}
-
 TEST_F(TestFileSampleRunner, additionRunTest) {
   runFile("tests/samples/test_addition.yz", "7");
 }

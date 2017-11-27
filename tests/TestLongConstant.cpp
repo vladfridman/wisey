@@ -59,9 +59,3 @@ TEST_F(LongConstantTest, printToStreamTest) {
   EXPECT_STREQ("5l", stringStream.str().c_str());
 }
 
-TEST_F(LongConstantTest, releaseOwnershipDeathTest) {
-  EXPECT_EXIT(mLongConstant.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a long constant, it is not a heap pointer");
-}
-

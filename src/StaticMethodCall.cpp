@@ -133,15 +133,6 @@ const IType* StaticMethodCall::getType(IRGenerationContext& context) const {
   return getMethodDescriptor(context)->getReturnType();
 }
 
-void StaticMethodCall::releaseOwnership(IRGenerationContext& context) const {
-  if (getMethodDescriptor(context)->getReturnType()->getTypeKind() == PRIMITIVE_TYPE) {
-    return;
-  }
-  
-  string variableName = IVariable::getTemporaryVariableName(this);
-  context.getScopes().clearVariable(context, variableName);
-}
-
 IMethodDescriptor* StaticMethodCall::getMethodDescriptor(IRGenerationContext& context) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   IMethodDescriptor* methodDescriptor = objectType->findMethod(mMethodName);

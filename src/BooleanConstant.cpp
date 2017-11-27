@@ -29,11 +29,6 @@ IType* BooleanConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
 }
 
-void BooleanConstant::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a boolean constant, it is not a heap pointer");
-  exit(1);
-}
-
 bool BooleanConstant::isConstant() const {
   return true;
 }

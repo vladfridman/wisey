@@ -59,9 +59,3 @@ TEST_F(DoubleConstantTest, printToStreamTest) {
   EXPECT_STREQ("5.7d", stringStream.str().c_str());
 }
 
-TEST_F(DoubleConstantTest, releaseOwnershipDeathTest) {
-  EXPECT_EXIT(mDoubleConstant.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a double constant, it is not a heap pointer");
-}
-

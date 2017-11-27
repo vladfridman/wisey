@@ -29,11 +29,6 @@ const IType* EmptyExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::VOID_TYPE;
 }
 
-void EmptyExpression::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of an empty epxression, it is not a heap pointer");
-  exit(1);
-}
-
 bool EmptyExpression::isConstant() const {
   return false;
 }

@@ -31,8 +31,6 @@ public:
   llvm::Constant* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   
   const IType* getType(IRGenerationContext& context) const override;
-
-  void releaseOwnership(IRGenerationContext& context) const override;
   
   bool isConstant() const override;
 

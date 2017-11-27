@@ -73,11 +73,6 @@ const IType* wisey::StringLiteral::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::STRING_TYPE;
 }
 
-void wisey::StringLiteral::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a string literal, it is not a heap pointer");
-  exit(1);
-}
-
 bool wisey::StringLiteral::isConstant() const {
   return true;
 }

@@ -40,10 +40,6 @@ const IType* Identifier::getType(IRGenerationContext& context) const {
   return IVariable::getVariable(context, mName)->getType();
 }
 
-void Identifier::releaseOwnership(IRGenerationContext& context) const {
-  context.getScopes().clearVariable(context, mName);
-}
-
 bool Identifier::isConstant() const {
   return false;
 }

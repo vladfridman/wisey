@@ -181,41 +181,6 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithTrue) {
                "  %cond = phi i32 [ 3, %cond.true ], [ 5, %cond.false ]");
 }
 
-TEST_F(ConditionalExpressionTest, releaseOwnershipTest) {
-  Type* type = mModel->getOwner()->getLLVMType(mLLVMContext)->getPointerElementType();
-  Value* ifTrueValue = IRWriter::newAllocaInst(mContext, type, "ifTrueValue");
-  Value* ifFalseValue = IRWriter::newAllocaInst(mContext, type, "ifFalseValue");
-  ON_CALL(*mIfTrueExpression, generateIR(_, _)).WillByDefault(Return(ifTrueValue));
-  ON_CALL(*mIfTrueExpression, getType(_)).WillByDefault(Return(mModel->getOwner()));
-  ON_CALL(*mIfFalseExpression, generateIR(_, _)).WillByDefault(Return(ifFalseValue));
-  ON_CALL(*mIfFalseExpression, getType(_)).WillByDefault(Return(mModel->getOwner()));
-  Value * conditionValue = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
-  ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
-  ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
-  
-  expression.releaseOwnership(mContext);
-
-  *mStringStream << *mFunction;
-  string expected = string() +
-  "\ndefine internal i32 @test() {"
-  "\nentry:"
-  "\n  %ifTrueValue = alloca %systems.vos.wisey.compiler.tests.MModel"
-  "\n  %ifFalseValue = alloca %systems.vos.wisey.compiler.tests.MModel"
-  "\n  br i1 true, label %cond.release.true, label %cond.release.false"
-  "\n"
-  "\ncond.release.true:                                ; preds = %entry"
-  "\n  br label %cond.release.end"
-  "\n"
-  "\ncond.release.false:                               ; preds = %entry"
-  "\n  br label %cond.release.end"
-  "\n"
-  "\ncond.release.end:                                 "
-  "; preds = %cond.release.false, %cond.release.true"
-  "\n}\n";
-  
-  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}
-
 TEST_F(ConditionalExpressionTest, isConstantTest) {
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
 

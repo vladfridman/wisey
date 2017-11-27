@@ -45,15 +45,6 @@ TEST_F(FakeExpressionTest, getVariableTest) {
   EXPECT_EQ(mFakeExpression->getVariable(mContext), nullptr);
 }
 
-TEST_F(FakeExpressionTest, fakeExpressionTest) {
-  EXPECT_EQ(mFakeExpression->getType(mContext), mType);
-  EXPECT_EQ(mFakeExpression->generateIR(mContext, IR_GENERATION_NORMAL), mValue);
-
-  EXPECT_EXIT(mFakeExpression->releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a fake epxression");
-}
-
 TEST_F(FakeExpressionTest, isConstantTest) {
   EXPECT_FALSE(mFakeExpression->isConstant());
 }
@@ -63,11 +54,5 @@ TEST_F(FakeExpressionTest, printToStreamTest) {
   mFakeExpression->printToStream(mContext, stringStream);
   
   EXPECT_EQ(0u, stringStream.str().size());
-}
-
-TEST_F(FakeExpressionTest, releaseOwnershipOwnerDeathTest) {
-  EXPECT_EXIT(mFakeExpression->releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a fake epxression");
 }
 

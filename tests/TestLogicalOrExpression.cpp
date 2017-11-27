@@ -162,18 +162,6 @@ TEST_F(LogicalOrExpressionTest, printToStreamTest) {
   EXPECT_STREQ("a || b", stringStream.str().c_str());
 }
 
-TEST_F(LogicalOrExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
-  
-  LogicalOrExpression expression(mLeftExpression, mRightExpression);
-  
-  EXPECT_EXIT(expression.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a logical OR operation result, "
-              "it is not a heap pointer");
-}
-
 TEST_F(TestFileSampleRunner, LogicalOrExpressionResultFalseRunTest) {
   runFile("tests/samples/test_logical_or_result_false.yz", "0");
 }

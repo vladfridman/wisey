@@ -100,11 +100,6 @@ const IType* TypeComparisionExpression::getType(IRGenerationContext& context) co
   return PrimitiveTypes::BOOLEAN_TYPE;
 }
 
-void TypeComparisionExpression::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of an instanceof operation result, it is not a heap pointer");
-  exit(1);
-}
-
 bool TypeComparisionExpression::isConstant() const {
   return false;
 }

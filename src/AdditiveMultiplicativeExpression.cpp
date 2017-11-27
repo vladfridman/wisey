@@ -72,12 +72,6 @@ const IType* AdditiveMultiplicativeExpression::getType(IRGenerationContext& cont
   return leftType;
 }
 
-void AdditiveMultiplicativeExpression::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of an additive/multiplicative expression, "
-         "it is not a heap pointer");
-  exit(1);
-}
-
 // TODO: implement a more sensible type checking/casting
 void AdditiveMultiplicativeExpression::checkTypes(const IType* leftType,
                                                   const IType* rightType) const {

@@ -93,7 +93,7 @@ TEST_F(IdentifierTest, generateIRTest) {
   identifier.generateIR(mContext, IR_GENERATION_NORMAL);
 }
 
-TEST_F(IdentifierTest, releaseOwnershipTest) {
+TEST_F(IdentifierTest, generateIRWithOwnershipReleaseTest) {
   NiceMock<MockOwnerVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
@@ -103,7 +103,7 @@ TEST_F(IdentifierTest, releaseOwnershipTest) {
   EXPECT_EQ(mContext.getScopes().getVariable("foo"), &mockVariable);
   EXPECT_CALL(mockVariable, setToNull(_));
 
-  identifier.releaseOwnership(mContext);
+  identifier.generateIR(mContext, IR_GENERATION_RELEASE);
 }
 
 TEST_F(IdentifierTest, isConstantTest) {

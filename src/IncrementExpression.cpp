@@ -64,11 +64,6 @@ const IType* IncrementExpression::getType(IRGenerationContext& context) const {
   return mExpression->getType(context);
 }
 
-void IncrementExpression::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of an increment operation result, it is not a heap pointer");
-  exit(1);
-}
-
 bool IncrementExpression::isConstant() const {
   return false;
 }

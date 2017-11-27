@@ -59,11 +59,6 @@ public:
    */
   const IType* getType(IRGenerationContext& context) const;
   
-  /**
-   * Releases ownership of objects referred to by argument expression
-   */
-  void releaseOwnership(IRGenerationContext& context) const;
-  
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 };

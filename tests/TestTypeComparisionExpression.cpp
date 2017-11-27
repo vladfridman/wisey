@@ -309,19 +309,6 @@ TEST_F(TypeComparisionExpressionTest, printToStreamTest) {
   EXPECT_STREQ("object instanceof type", stringStream.str().c_str());
 }
 
-TEST_F(TypeComparisionExpressionTest, releaseOwnershipDeathTest) {
-  NiceMock<MockTypeSpecifier>* typeSpecifier = new NiceMock<MockTypeSpecifier>();
-  TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  
-  Mock::AllowLeak(mExpression);
-  Mock::AllowLeak(typeSpecifier);
-  
-  EXPECT_EXIT(typeComparision.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Can not release ownership of an instanceof operation result, "
-              "it is not a heap pointer");
-}
-
 TEST_F(TestFileSampleRunner, instanceOfTrivialMatchRunTest) {
   runFile("tests/samples/test_instanceof_trivial_match.yz", "2");
 }

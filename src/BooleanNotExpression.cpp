@@ -44,11 +44,6 @@ const IType* BooleanNotExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
 }
 
-void BooleanNotExpression::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a boolean NOT expression, it is not a heap pointer");
-  exit(1);
-}
-
 bool BooleanNotExpression::isConstant() const {
   return false;
 }

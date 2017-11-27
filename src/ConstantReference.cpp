@@ -48,9 +48,6 @@ const IType* ConstantReference::getType(IRGenerationContext& context) const {
   return objectType->findConstant(mConstantName)->getType();
 }
 
-void ConstantReference::releaseOwnership(IRGenerationContext& context) const {
-}
-
 bool ConstantReference::isConstant() const {
   return true;
 }

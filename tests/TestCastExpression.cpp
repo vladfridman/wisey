@@ -104,6 +104,7 @@ TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(expressionValue));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  EXPECT_CALL(*mExpression, generateIR(_, IR_GENERATION_NORMAL));
 
   CastExpression castExpression(mTypeSpecifier, mExpression);
   
@@ -114,25 +115,14 @@ TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(CastExpressionTest, releaseOwnershipTest) {
+TEST_F(CastExpressionTest, generateIRWithReleaseTest) {
   ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
   CastExpression castExpression(mTypeSpecifier, mExpression);
-  
-  EXPECT_CALL(*mExpression, releaseOwnership(_)).Times(1);
-  
-  castExpression.releaseOwnership(mContext);
-}
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mCarInterface->getOwner()));
 
-TEST_F(CastExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(mExpression);
-  Mock::AllowLeak(mTypeSpecifier);
-  ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
-  CastExpression castExpression(mTypeSpecifier, mExpression);
+  EXPECT_CALL(*mExpression, generateIR(_, IR_GENERATION_RELEASE));
   
-  EXPECT_EXIT(castExpression.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a cast to primitive type, "
-              "it is not a heap pointer");
+  castExpression.generateIR(mContext, IR_GENERATION_RELEASE);
 }
 
 TEST_F(CastExpressionTest, printToStreamTest) {

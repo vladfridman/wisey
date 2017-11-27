@@ -158,12 +158,11 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(1);
-  EXPECT_CALL(*mExpression, releaseOwnership(_)).Times(0);
   
   assignment.generateIR(mContext, IR_GENERATION_NORMAL);
 }
 
-TEST_F(AssignmentTest, releaseOwnershipTest) {
+TEST_F(AssignmentTest, generateIRWithOwnerTypeTest) {
   NiceMock<MockOwnerVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
@@ -172,7 +171,7 @@ TEST_F(AssignmentTest, releaseOwnershipTest) {
   Assignment assignment(identifier, mExpression, 0);
   EXPECT_CALL(mockVariable, setToNull(_));
   
-  assignment.releaseOwnership(mContext);
+  assignment.generateIR(mContext, IR_GENERATION_RELEASE);
 }
 
 TEST_F(AssignmentTest, printToStreamTest) {

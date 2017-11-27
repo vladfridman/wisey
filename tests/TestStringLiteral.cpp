@@ -83,11 +83,3 @@ TEST_F(StringLiteralTest, printToStreamTest) {
   EXPECT_STREQ("\"test\"", stringStream.str().c_str());
 }
 
-TEST_F(StringLiteralTest, releaseOwnershipDeathTest) {
-  StringLiteral stringLiteral("test\ntest");
-  
-  EXPECT_EXIT(stringLiteral.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a string literal, it is not a heap pointer");
-}
-

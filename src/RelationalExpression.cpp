@@ -55,11 +55,6 @@ const IType* RelationalExpression::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::BOOLEAN_TYPE;
 }
 
-void RelationalExpression::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a relational expression result, it is not a heap pointer");
-  exit(1);
-}
-
 Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context) const {
   ICmpInst::Predicate predicate;
   switch (mOperation) {

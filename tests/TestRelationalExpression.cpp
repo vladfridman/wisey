@@ -222,17 +222,6 @@ TEST_F(RelationalExpressionTest, incompatablePrimitiveTypesDeathTest) {
               "Error: Can not compare types float and int");
 }
 
-TEST_F(RelationalExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(mLeftExpression);
-  Mock::AllowLeak(mRightExpression);
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
-
-  EXPECT_EXIT(expression.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a relational expression result, "
-              "it is not a heap pointer");
-}
-
 TEST_F(TestFileSampleRunner, lessThanRunTest) {
   runFile("tests/samples/test_less_than.yz", "1");
 }

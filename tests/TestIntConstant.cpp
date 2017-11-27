@@ -61,9 +61,3 @@ TEST_F(IntConstantTest, printToStreamTest) {
   EXPECT_STREQ("5", stringStream.str().c_str());
 }
 
-TEST_F(IntConstantTest, releaseOwnershipDeathTest) {
-  EXPECT_EXIT(mIntConstant.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of an int constant, it is not a heap pointer");
-}
-

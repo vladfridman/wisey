@@ -37,9 +37,7 @@ public:
   llvm::Value* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   
   const IType* getType(IRGenerationContext& context) const override;
-  
-  void releaseOwnership(IRGenerationContext& context) const override;
-  
+
   bool isConstant() const override;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;

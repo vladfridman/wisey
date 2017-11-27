@@ -162,18 +162,6 @@ TEST_F(LogicalAndExpressionTest, printToStreamTest) {
   EXPECT_STREQ("a && b", stringStream.str().c_str());
 }
 
-TEST_F(LogicalAndExpressionTest, releaseOwnershipDeathTest) {
-  Mock::AllowLeak(&mLeftExpression);
-  Mock::AllowLeak(&mRightExpression);
-  
-  LogicalAndExpression expression(mLeftExpression, mRightExpression);
-  
-  EXPECT_EXIT(expression.releaseOwnership(mContext),
-              ::testing::ExitedWithCode(1),
-              "Error: Can not release ownership of a logical AND operation result, "
-              "it is not a heap pointer");
-}
-
 TEST_F(TestFileSampleRunner, logicalAndExpressionResultFalseRunTest) {
   runFile("tests/samples/test_logical_and_result_false.yz", "0");
 }

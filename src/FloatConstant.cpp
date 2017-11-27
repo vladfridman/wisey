@@ -29,11 +29,6 @@ const IType* FloatConstant::getType(IRGenerationContext& context) const {
   return PrimitiveTypes::FLOAT_TYPE;
 }
 
-void FloatConstant::releaseOwnership(IRGenerationContext& context) const {
-  Log::e("Can not release ownership of a float constant, it is not a heap pointer");
-  exit(1);
-}
-
 bool FloatConstant::isConstant() const {
   return true;
 }
