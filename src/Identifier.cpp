@@ -19,7 +19,7 @@ Identifier::Identifier(const string& name) : mName(name) { }
 Identifier::~Identifier() { }
 
 IVariable* Identifier::getVariable(IRGenerationContext& context) const {
-  return context.getScopes().getVariableForAssignement(mName);
+  return context.getScopes().getVariable(mName);
 }
 
 const string& Identifier::getName() const {

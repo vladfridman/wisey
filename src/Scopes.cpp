@@ -29,10 +29,6 @@ Scopes::~Scopes() {
 }
 
 IVariable* Scopes::getVariable(string name) {
-  return getVariableForAssignement(name);
-}
-
-IVariable* Scopes::getVariableForAssignement(string name) {
   if (mScopes.size() == 0) {
     return NULL;
   }

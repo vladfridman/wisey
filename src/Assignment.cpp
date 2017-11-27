@@ -20,11 +20,11 @@ Assignment::~Assignment() {
 }
 
 IVariable* Assignment::getVariable(IRGenerationContext& context) const {
-  return context.getScopes().getVariableForAssignement(mIdentifier->getName());
+  return context.getScopes().getVariable(mIdentifier->getName());
 }
 
 Value* Assignment::generateIR(IRGenerationContext& context) const {
-  IVariable* variable = context.getScopes().getVariableForAssignement(mIdentifier->getName());
+  IVariable* variable = context.getScopes().getVariable(mIdentifier->getName());
   if (variable == NULL) {
     Log::e("Undeclared variable '" + mIdentifier->getName() + "'");
     exit(1);

@@ -37,11 +37,6 @@ public:
    * the parent scopes.
    */
   IVariable* getVariable(std::string name);
-  
-  /**
-   * Same as getVariable() but also returns cleared variables
-   */
-  IVariable* getVariableForAssignement(std::string name);
 
   /**
    * Remove reference to a variable
