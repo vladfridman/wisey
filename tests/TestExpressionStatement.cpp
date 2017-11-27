@@ -38,7 +38,7 @@ struct ExpressionStatementTest : public Test {
 
 TEST_F(ExpressionStatementTest, generateIRTest) {
   ExpressionStatement expressionStatement(mExpression);
-  EXPECT_CALL(*mExpression, generateIR(_));
+  EXPECT_CALL(*mExpression, generateIR(_, _));
   
   expressionStatement.generateIR(mContext);
 }

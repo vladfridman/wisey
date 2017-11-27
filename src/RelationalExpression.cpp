@@ -27,7 +27,9 @@ IVariable* RelationalExpression::getVariable(IRGenerationContext& context) const
   return NULL;
 }
 
-Value* RelationalExpression::generateIR(IRGenerationContext& context) const {
+Value* RelationalExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+  assert(flag == IR_GENERATION_NORMAL);
+  
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
   TypeKind leftTypeKind = leftType->getTypeKind();
@@ -71,8 +73,8 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context) 
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
   
-  Value* leftValue = mLeftExpression->generateIR(context);
-  Value* rightValue = mRightExpression->generateIR(context);
+  Value* leftValue = mLeftExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* rightValue = mRightExpression->generateIR(context, IR_GENERATION_NORMAL);
   
   if (leftType == rightType) {
     return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");
@@ -106,8 +108,8 @@ Value* RelationalExpression::generateIRForFloats(IRGenerationContext& context) c
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
   
-  Value* leftValue = mLeftExpression->generateIR(context);
-  Value* rightValue = mRightExpression->generateIR(context);
+  Value* leftValue = mLeftExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* rightValue = mRightExpression->generateIR(context, IR_GENERATION_NORMAL);
   
   if (leftType == rightType) {
     return IRWriter::newFCmpInst(context, predicate, leftValue, rightValue, "cmp");
@@ -141,8 +143,8 @@ Value* RelationalExpression::generateIRForInts(IRGenerationContext& context) con
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
 
-  Value* leftValue = mLeftExpression->generateIR(context);
-  Value* rightValue = mRightExpression->generateIR(context);
+  Value* leftValue = mLeftExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* rightValue = mRightExpression->generateIR(context, IR_GENERATION_NORMAL);
   
   if (leftType == rightType) {
     return IRWriter::newICmpInst(context, predicate, leftValue, rightValue, "cmp");

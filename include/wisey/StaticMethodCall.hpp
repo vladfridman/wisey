@@ -34,7 +34,7 @@ public:
   
   IVariable* getVariable(IRGenerationContext& context) const override;
   
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
+  llvm::Value* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   
   const IType* getType(IRGenerationContext& context) const override;
   
@@ -53,7 +53,8 @@ private:
   void checkArgumentType(IMethodDescriptor* methodDescriptor, IRGenerationContext& context) const;
   
   llvm::Value* generateMethodCallIR(IRGenerationContext& context,
-                                    IMethodDescriptor* methodDescriptor) const;
+                                    IMethodDescriptor* methodDescriptor,
+                                    IRGenerationFlag flag) const;
 };
   
 } /* namespace wisey */

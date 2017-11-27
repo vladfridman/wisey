@@ -43,7 +43,7 @@ IVariable* StaticMethodCall::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-Value* StaticMethodCall::generateIR(IRGenerationContext& context) const {
+Value* StaticMethodCall::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   if (!checkAccess(context, methodDescriptor)) {
@@ -55,7 +55,7 @@ Value* StaticMethodCall::generateIR(IRGenerationContext& context) const {
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions);
   
-  return generateMethodCallIR(context, methodDescriptor);
+  return generateMethodCallIR(context, methodDescriptor, flag);
 }
 
 bool StaticMethodCall::checkAccess(IRGenerationContext& context,
@@ -70,7 +70,8 @@ bool StaticMethodCall::checkAccess(IRGenerationContext& context,
 }
 
 Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
-                                              IMethodDescriptor* methodDescriptor) const {
+                                              IMethodDescriptor* methodDescriptor,
+                                              IRGenerationFlag flag) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   string llvmFunctionName = objectType->getName() + "." + mMethodName;
   
@@ -89,17 +90,16 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {
-    Value* callArgumentValue = callArgument->generateIR(context);
-    const IType* callArgumentType = callArgument->getType(context);
     MethodArgument* methodArgument = *methodArgumentIterator;
+    IRGenerationFlag irGenerationFlag = IType::isOwnerType(methodArgument->getType())
+      ? IR_GENERATION_RELEASE : IR_GENERATION_NORMAL;
+    Value* callArgumentValue = callArgument->generateIR(context, irGenerationFlag);
+    const IType* callArgumentType = callArgument->getType(context);
     const IType* methodArgumentType = methodArgument->getType();
     Value* callArgumentValueCasted = AutoCast::maybeCast(context,
                                                          callArgumentType,
                                                          callArgumentValue,
                                                          methodArgumentType);
-    if (IType::isOwnerType(methodArgument->getType())) {
-      callArgument->releaseOwnership(context);
-    }
     arguments.push_back(callArgumentValueCasted);
     methodArgumentIterator++;
   }
@@ -112,7 +112,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   Composer::popCallStack(context);
 
   const IType* returnType = methodDescriptor->getReturnType();
-  if (returnType->getTypeKind() == PRIMITIVE_TYPE) {
+  if (!IType::isOwnerType(returnType) || flag == IR_GENERATION_RELEASE) {
     return result;
   }
   
@@ -121,12 +121,10 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
   IRWriter::newStoreInst(context, result, pointer);
 
-  if (IType::isOwnerType(returnType)) {
-    IOwnerVariable* tempVariable = new LocalOwnerVariable(variableName,
-                                                          (IObjectOwnerType*) returnType,
-                                                          pointer);
-    context.getScopes().setVariable(tempVariable);
-  }
+  IOwnerVariable* tempVariable = new LocalOwnerVariable(variableName,
+                                                        (IObjectOwnerType*) returnType,
+                                                        pointer);
+  context.getScopes().setVariable(tempVariable);
 
   return result;
 }

@@ -78,11 +78,11 @@ TEST_F(LogicalOrExpressionTest, getVariableTest) {
 }
 
 TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
-  ON_CALL(*mLeftExpression, generateIR(_)).WillByDefault(Return(mTrueValue));
-  ON_CALL(*mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
+  ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(mTrueValue));
+  ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
   
   LogicalOrExpression expression(mLeftExpression, mRightExpression);
-  expression.generateIR(mContext);
+  expression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   ASSERT_EQ(3ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();
@@ -109,11 +109,11 @@ TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {
 }
 
 TEST_F(LogicalOrExpressionTest, logicalAndFalseValueTest) {
-  ON_CALL(*mLeftExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
-  ON_CALL(*mRightExpression, generateIR(_)).WillByDefault(Return(mFalseValue));
+  ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
+  ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
   
   LogicalOrExpression expression(mLeftExpression, mRightExpression);
-  expression.generateIR(mContext);
+  expression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   ASSERT_EQ(3ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();

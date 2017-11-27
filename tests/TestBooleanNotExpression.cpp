@@ -78,11 +78,11 @@ TEST_F(BooleanNotExpressionTest, getVariableTest) {
 
 TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
   Value* one = ConstantInt::get(Type::getInt1Ty(mContext.getLLVMContext()), 1);
-  ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(one));
+  ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(one));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   BooleanNotExpression booleanNotExpression(mExpression);
   
-  Value* result = booleanNotExpression.generateIR(mContext);
+  Value* result = booleanNotExpression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *result;
   EXPECT_STREQ("  %lnot = xor i1 true, true", mStringStream->str().c_str());
@@ -104,7 +104,7 @@ TEST_F(BooleanNotExpressionTest, negateIncompatibleTypeDeathTest) {
   BooleanNotExpression booleanNotExpression(mExpression);
   Mock::AllowLeak(mExpression);
   
-  EXPECT_EXIT(booleanNotExpression.generateIR(mContext),
+  EXPECT_EXIT(booleanNotExpression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Error: Boolean NOT operator '!' can only be applied to boolean types");
 }

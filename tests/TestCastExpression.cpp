@@ -101,13 +101,13 @@ TEST_F(CastExpressionTest, getVariableTest) {
 TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
-  ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(expressionValue));
+  ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(expressionValue));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
 
   CastExpression castExpression(mTypeSpecifier, mExpression);
   
-  result = castExpression.generateIR(mContext);
+  result = castExpression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = zext i1 true to i32", mStringStream->str().c_str());

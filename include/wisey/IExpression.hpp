@@ -17,6 +17,11 @@
 
 namespace wisey {
 
+typedef enum IRGenerationFlagEnum {
+  IR_GENERATION_NORMAL,
+  IR_GENERATION_RELEASE,
+} IRGenerationFlag;
+
 class IRGenerationContext;
 
 /**
@@ -31,7 +36,7 @@ public:
   /**
    * Generate LLVM Intermediate Reprentation code
    */
-  virtual llvm::Value* generateIR(IRGenerationContext& context) const = 0;
+  virtual llvm::Value* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const = 0;
 
   /**
    * If this expression resolves to a vairable returns the variable otherwise returns NULL

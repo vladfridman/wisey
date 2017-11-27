@@ -21,7 +21,7 @@ IVariable* EmptyExpression::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-Value* EmptyExpression::generateIR(IRGenerationContext& context) const {
+Value* EmptyExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   return NULL;
 }
 

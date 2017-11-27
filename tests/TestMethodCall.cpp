@@ -132,7 +132,7 @@ public:
     
     Value* nullPointer = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
     Value* bitcast = IRWriter::newBitCastInst(mContext, nullPointer, mStructType->getPointerTo());
-    ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(bitcast));
+    ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(bitcast));
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mModel));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     
@@ -234,12 +234,12 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
-  ON_CALL(*argumentExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   
-  Value* irValue = methodCall.generateIR(mContext);
+  Value* irValue = methodCall.generateIR(mContext, IR_GENERATION_NORMAL);
 
   *mStringStream << *irValue;
   string expected =
@@ -267,7 +267,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
-  ON_CALL(*argumentExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, "bar", mArgumentList, 0);
@@ -276,7 +276,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, continueBlock);
   mContext.getScopes().beginTryCatch(tryCatchInfo);
 
-  Value* irValue = methodCall.generateIR(mContext);
+  Value* irValue = methodCall.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %9 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
@@ -320,7 +320,7 @@ TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
   MethodCall methodCall(mExpression, "lorem", mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext),
+  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Error: Method 'lorem' is not found in object "
               "'systems.vos.wisey.compiler.tests.MSquare'");
@@ -331,7 +331,7 @@ TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
   MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext),
+  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Attempt to call a method 'foo' on a primitive type expression");
 }
@@ -340,7 +340,7 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext),
+  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Error: Number of arguments for method call 'foo' of the object type "
               "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
@@ -354,7 +354,7 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext),
+  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
               "method 'bar' was not found");
@@ -380,7 +380,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext),
+  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Error: Call argument types do not match for a call to method 'foo' "
               "of the object type 'systems.vos.wisey.compiler.tests.MSquare");

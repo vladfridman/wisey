@@ -46,7 +46,7 @@ TEST_F(StringLiteralTest, getVariableTest) {
 TEST_F(StringLiteralTest, stringLiteralTest) {
   StringLiteral stringLiteral("test");
   
-  llvm::Value* irValue = stringLiteral.generateIR(mContext);
+  llvm::Value* irValue = stringLiteral.generateIR(mContext, IR_GENERATION_NORMAL);
 
   *mStringStream << *mContext.getModule();
   *mStringStream << *irValue;
@@ -60,7 +60,7 @@ TEST_F(StringLiteralTest, stringLiteralTest) {
 TEST_F(StringLiteralTest, stringLiteralEscapeNewlineTest) {
   StringLiteral stringLiteral("test\ntest");
   
-  stringLiteral.generateIR(mContext);
+  stringLiteral.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *mContext.getModule();
   std::string expected = std::string() +

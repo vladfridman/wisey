@@ -62,7 +62,7 @@ public:
     ON_CALL(*mMockObject, getName()).WillByDefault(Return("MMyObject"));
     ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     llvm::Constant* intConstant = llvm::ConstantInt::get(llvm::Type::getInt32Ty(mLLVMContext), 5);
-    ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(intConstant));
+    ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(intConstant));
     ON_CALL(*mMockExpression, isConstant()).WillByDefault(Return(true));
     constant->generateIR(mContext, mMockObject);
 
@@ -97,7 +97,7 @@ TEST_F(ConstantReferenceTest, isConstantTest) {
 }
 
 TEST_F(ConstantReferenceTest, generateIRTest) {
-  mConstantReference->generateIR(mContext);
+  mConstantReference->generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *mBasicBlock;
   string expected =

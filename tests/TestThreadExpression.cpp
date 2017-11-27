@@ -88,7 +88,7 @@ TEST_F(ThreadExpressionTest, getTypeTest) {
 }
 
 TEST_F(ThreadExpressionTest, generateIRTest) {
-  Value* instruction = mThreadExpression.generateIR(mContext);
+  Value* instruction = mThreadExpression.generateIR(mContext, IR_GENERATION_NORMAL);
 
   *mStringStream << *instruction;
   string expected = "  %3 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore";

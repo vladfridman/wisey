@@ -36,9 +36,13 @@ IVariable* ObjectBuilder::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-Value* ObjectBuilder::generateIR(IRGenerationContext& context) const {
+Value* ObjectBuilder::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   const IBuildableConcreteObjectType* object = mTypeSpecifier->getType(context);
   Instruction* malloc = object->build(context, mObjectBuilderArgumentList);
+  
+  if (flag == IR_GENERATION_RELEASE) {
+    return malloc;
+  }
   
   Value* alloc = IRWriter::newAllocaInst(context, malloc->getType(), "");
   IRWriter::newStoreInst(context, malloc, alloc);

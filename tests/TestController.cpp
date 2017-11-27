@@ -469,18 +469,16 @@ TEST_F(ControllerTest, injectTest) {
 
   NiceMock<MockExpression> ownerExpression;
   Value* ownerValue = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mLLVMContext));
-  ON_CALL(ownerExpression, generateIR(_)).WillByDefault(Return(ownerValue));
+  ON_CALL(ownerExpression, generateIR(_, _)).WillByDefault(Return(ownerValue));
   ON_CALL(ownerExpression, getType(_)).WillByDefault(Return(mOwnerNode->getOwner()));
   NiceMock<MockExpression> referenceExpression;
   Value* referenceValue = ConstantPointerNull::get(mReferenceModel->getLLVMType(mLLVMContext));
-  ON_CALL(referenceExpression, generateIR(_)).WillByDefault(Return(referenceValue));
+  ON_CALL(referenceExpression, generateIR(_, _)).WillByDefault(Return(referenceValue));
   ON_CALL(referenceExpression, getType(_)).WillByDefault(Return(mReferenceModel));
 
   injectionArguments.push_back(&ownerExpression);
   injectionArguments.push_back(&referenceExpression);
   
-  EXPECT_CALL(ownerExpression, releaseOwnership(_)).Times(1);
-
   Value* result = mAdditorController->inject(mContext, injectionArguments);
   
   EXPECT_NE(result, nullptr);
@@ -518,10 +516,10 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
   Mock::AllowLeak(&injectArgument1);
   Mock::AllowLeak(&injectArgument2);
   Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  ON_CALL(injectArgument1, generateIR(_)).WillByDefault(Return(field1Value));
+  ON_CALL(injectArgument1, generateIR(_, _)).WillByDefault(Return(field1Value));
   ON_CALL(injectArgument1, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   Value* field2Value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 5.5);
-  ON_CALL(injectArgument2, generateIR(_)).WillByDefault(Return(field2Value));
+  ON_CALL(injectArgument2, generateIR(_, _)).WillByDefault(Return(field2Value));
   ON_CALL(injectArgument2, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   injectionArguments.push_back(&injectArgument1);
   injectionArguments.push_back(&injectArgument2);

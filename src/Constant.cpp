@@ -67,11 +67,17 @@ llvm::Value* Constant::generateIR(IRGenerationContext& context,
     ? llvm::GlobalValue::ExternalLinkage
     : llvm::GlobalValue::InternalLinkage;
   
+  IRGenerationFlag irGenerationFlag = IType::isOwnerType(type)
+  ? IR_GENERATION_RELEASE : IR_GENERATION_NORMAL;
+  
+  llvm::Constant* expressionValue = (llvm::Constant*) mExpression->generateIR(context,
+                                                                              irGenerationFlag);
+
   return new llvm::GlobalVariable(*context.getModule(),
                                   llvmType,
                                   true,
                                   linkageType,
-                                  (llvm::Constant*) mExpression->generateIR(context),
+                                  expressionValue,
                                   getConstantGlobalName(objectType));
 }
 

@@ -26,8 +26,14 @@ const string& Identifier::getName() const {
   return mName;
 }
 
-Value* Identifier::generateIR(IRGenerationContext& context) const {
-  return IVariable::getVariable(context, mName)->generateIdentifierIR(context);
+Value* Identifier::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+  IVariable* variable = IVariable::getVariable(context, mName);
+  Value* value = variable->generateIdentifierIR(context);
+  if (flag == IR_GENERATION_RELEASE) {
+    assert(IType::isOwnerType(variable->getType()));
+    ((IOwnerVariable*) variable)->setToNull(context);
+  }
+  return value;
 }
 
 const IType* Identifier::getType(IRGenerationContext& context) const {

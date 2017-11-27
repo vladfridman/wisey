@@ -34,7 +34,7 @@ public:
   
   IVariable* getVariable(IRGenerationContext& context) const override;
 
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
+  llvm::Value* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   
   const IType* getType(IRGenerationContext& context) const override;
   
@@ -59,15 +59,18 @@ private:
   
   llvm::Value* generateStaticMethodCallIR(IRGenerationContext& context,
                                           const IObjectType* objectType,
-                                          IMethodDescriptor* methodDescriptor) const;
+                                          IMethodDescriptor* methodDescriptor,
+                                          IRGenerationFlag flag) const;
   
   llvm::Value* generateObjectMethodCallIR(IRGenerationContext& context,
                                           const IObjectType* objectType,
-                                          IMethodDescriptor* methodDescriptor) const;
+                                          IMethodDescriptor* methodDescriptor,
+                                          IRGenerationFlag flag) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
                                              const Interface* interface,
-                                             IMethodDescriptor* methodDescriptor) const;
+                                             IMethodDescriptor* methodDescriptor,
+                                             IRGenerationFlag flag) const;
   
   llvm::Function* getMethodFunction(IRGenerationContext& context,
                                     const IObjectType* object) const;
@@ -86,7 +89,8 @@ private:
                                   const IObjectType* object,
                                   llvm::Function* function,
                                   IMethodDescriptor* methodDescriptor,
-                                  std::vector<llvm::Value*> arguments) const;
+                                  std::vector<llvm::Value*> arguments,
+                                  IRGenerationFlag flag) const;
 
 };
 

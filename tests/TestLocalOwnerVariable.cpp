@@ -93,7 +93,7 @@ TEST_F(LocalOwnerVariableTest, localOwnerVariableAssignmentTest) {
   LocalOwnerVariable heapOwnerVariable("bar", mModel->getOwner(), ownerStore);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel->getOwner()));
-  ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
+  ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(barValue));
   
   uninitializedHeapVariable->generateAssignmentIR(mContext, &expression);
   

@@ -26,12 +26,16 @@ IVariable* Injector::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-Value* Injector::generateIR(IRGenerationContext& context) const {
+Value* Injector::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   const IObjectType* type = mInjectableObjectTypeSpecifier->getType(context);
   ExpressionList arguments;
   Instruction* malloc = type->getTypeKind() == INTERFACE_TYPE
     ? ((Interface*) type)->inject(context, arguments)
     : ((Controller*) type)->inject(context, arguments);
+  
+  if (flag == IR_GENERATION_RELEASE) {
+    return malloc;
+  }
   
   Value* pointer = IRWriter::newAllocaInst(context, malloc->getType(), "pointer");
   IRWriter::newStoreInst(context, malloc, pointer);

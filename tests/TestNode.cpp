@@ -258,10 +258,10 @@ struct NodeTest : public Test {
     
     Value* field1Value = ConstantPointerNull::get(mOwnerNode->getOwner()
                                                   ->getLLVMType(mLLVMContext));
-    ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
+    ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(mOwnerNode->getOwner()));
     Value* field2Value = ConstantPointerNull::get(mReferenceModel->getLLVMType(mLLVMContext));
-    ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
+    ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(mReferenceModel));
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
@@ -498,8 +498,6 @@ TEST_F(NodeTest, buildTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  EXPECT_CALL(*mField1Expression, releaseOwnership(_)).Times(1);
-
   Value* result = mSimpleNode->build(mContext, argumentList);
   
   EXPECT_NE(result, nullptr);
@@ -562,7 +560,7 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
   Mock::AllowLeak(mThreadVariable);
 
   Value* fieldValue = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
-  ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(fieldValue));
+  ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(fieldValue));
   ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
   string argumentSpecifier1("withOwner");

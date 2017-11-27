@@ -69,11 +69,11 @@ struct ObjectBuilderTest : Test {
     mModel->setFields(fields, 1u);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-    ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(fieldValue1));
+    ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(fieldValue1));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(*mField1Expression, printToStream(_, _)).WillByDefault(Invoke(printBuilderArgument1));
     Value* fieldValue2 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
-    ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(fieldValue2));
+    ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(fieldValue2));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     ON_CALL(*mField2Expression, printToStream(_, _)).WillByDefault(Invoke(printBuilderArgument2));
 
@@ -124,7 +124,7 @@ TEST_F(ObjectBuilderTest, getVariableTest) {
 }
 
 TEST_F(ObjectBuilderTest, releaseOwnershipTest) {
-  mObjectBuilder->generateIR(mContext);
+  mObjectBuilder->generateIR(mContext, IR_GENERATION_NORMAL);
   string temporaryVariableName = IVariable::getTemporaryVariableName(mObjectBuilder);
   
   EXPECT_NE(mContext.getScopes().getVariable(temporaryVariableName), nullptr);

@@ -71,7 +71,7 @@ TEST_F(IncrementExpressionTest, getVariableTest) {
 
 TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
-  expression->generateIR(mContext);
+  expression->generateIR(mContext, IR_GENERATION_NORMAL);
  
   *mStringStream << *mBlock;
 
@@ -88,7 +88,7 @@ TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
 
 TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
   IncrementExpression* expression = IncrementExpression::newDecrementByOne(mIdentifier);
-  expression->generateIR(mContext);
+  expression->generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *mBlock;
   
@@ -114,7 +114,7 @@ TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   string expected = "Error: Expression is of a type that is incompatible with "
     "increment/decrement operation";
   
-  EXPECT_EXIT(expression->generateIR(mContext),
+  EXPECT_EXIT(expression->generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               expected);
 }

@@ -20,7 +20,7 @@ IVariable* IntConstant::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-llvm::Constant* IntConstant::generateIR(IRGenerationContext& context) const {
+llvm::Constant* IntConstant::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   return ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), mValue, true);
 }
 

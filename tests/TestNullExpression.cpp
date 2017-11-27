@@ -40,7 +40,7 @@ TEST_F(NullExpressionTest, getVariableTest) {
 
 TEST_F(NullExpressionTest, generateIRTest) {
   Value* expexted = ConstantExpr::getNullValue(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  ASSERT_EQ(mNullExpression.generateIR(mContext), expexted);
+  ASSERT_EQ(mNullExpression.generateIR(mContext, IR_GENERATION_NORMAL), expexted);
 }
 
 TEST_F(NullExpressionTest, getTypeTest) {

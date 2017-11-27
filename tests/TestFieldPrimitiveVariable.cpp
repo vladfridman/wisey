@@ -104,7 +104,7 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentIRTes
   
   Value* assignToValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
+  ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
   mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression);
   
@@ -123,7 +123,7 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentWithC
   
   Value* assignToValue = ConstantInt::get(PrimitiveTypes::CHAR_TYPE->getLLVMType(mLLVMContext), 3);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
-  ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
+  ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
   mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression);
   

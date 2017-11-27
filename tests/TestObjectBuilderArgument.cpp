@@ -51,7 +51,7 @@ struct ObjectBuilderArgumentTest : Test {
     mModel->setFields(fields, 1u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
-    ON_CALL(*mFieldExpression, generateIR(_)).WillByDefault(Return(mValue));
+    ON_CALL(*mFieldExpression, generateIR(_, _)).WillByDefault(Return(mValue));
     ON_CALL(*mFieldExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
     ON_CALL(*mFieldExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   }
@@ -103,7 +103,7 @@ TEST_F(ObjectBuilderArgumentTest, getValueTest) {
   string argumentSpecifier("withFieldA");
   ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
   
-  EXPECT_EQ(argument.getValue(mContext), mValue);
+  EXPECT_EQ(argument.getValue(mContext, IR_GENERATION_NORMAL), mValue);
 }
 
 TEST_F(ObjectBuilderArgumentTest, getTypeTest) {

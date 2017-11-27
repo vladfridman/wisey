@@ -47,7 +47,7 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
 
   IRWriter::createBranch(context, forInc);
   context.setBasicBlock(forInc);
-  mIncrementExpression->generateIR(context);
+  mIncrementExpression->generateIR(context, IR_GENERATION_NORMAL);
 
   IRWriter::createBranch(context, forCond);
   context.setBasicBlock(forEnd);

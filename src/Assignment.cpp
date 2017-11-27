@@ -23,22 +23,16 @@ IVariable* Assignment::getVariable(IRGenerationContext& context) const {
   return context.getScopes().getVariable(mIdentifier->getName());
 }
 
-Value* Assignment::generateIR(IRGenerationContext& context) const {
+Value* Assignment::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   IVariable* variable = context.getScopes().getVariable(mIdentifier->getName());
   if (variable == NULL) {
     Log::e("Undeclared variable '" + mIdentifier->getName() + "'");
     exit(1);
   }
   
-  const IType* identifierType = getType(context);
-  
   Composer::pushCallStack(context, mLine);
   
   Value* result = variable->generateAssignmentIR(context, mExpression);
-  
-  if (IType::isOwnerType(identifierType)) {
-    mExpression->releaseOwnership(context);
-  }
   
   Composer::popCallStack(context);
 

@@ -219,10 +219,10 @@ struct NodeOwnerTest : public Test {
     IConcreteObjectType::generateVTable(mContext, mSimpleNode);
     
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-    ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
+    ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-    ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
+    ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     
     mVehicleInterface->buildMethods(mContext);

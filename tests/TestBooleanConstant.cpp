@@ -47,7 +47,7 @@ TEST_F(BooleanConstantTest, getVariableTest) {
 
 TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
   BooleanConstant booleanTrue(true);
-  Value* irValue = booleanTrue.generateIR(mContext);
+  Value* irValue = booleanTrue.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 true", mStringStream->str().c_str());
@@ -55,7 +55,7 @@ TEST_F(BooleanConstantTest, booleanTrueConstantTest) {
 
 TEST_F(BooleanConstantTest, booleanFalseConstantTest) {
   BooleanConstant booleanFalse(false);
-  Value* irValue = booleanFalse.generateIR(mContext);
+  Value* irValue = booleanFalse.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("i1 false", mStringStream->str().c_str());

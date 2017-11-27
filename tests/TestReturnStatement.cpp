@@ -56,7 +56,7 @@ public:
 
     Value * value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-    ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(value));
+    ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
 
     mStringStream = new raw_string_ostream(mStringBuffer);
     

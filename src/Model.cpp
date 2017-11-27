@@ -222,11 +222,11 @@ Value* Model::castTo(IRGenerationContext& context,
 }
 
 Instruction* Model::build(IRGenerationContext& context,
-                          const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
-  checkArguments(ObjectBuilderArgumentList);
+                          const ObjectBuilderArgumentList& objectBuilderArgumentList) const {
+  checkArguments(objectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
   IConcreteObjectType::initializeReferenceCounter(context, malloc);
-  initializeFields(context, ObjectBuilderArgumentList, malloc);
+  initializeFields(context, objectBuilderArgumentList, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   return malloc;
@@ -267,16 +267,16 @@ void Model::createRTTI(IRGenerationContext& context) const {
                      getRTTIVariableName());
 }
 
-void Model::checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
-  checkArgumentsAreWellFormed(ObjectBuilderArgumentList);
-  checkAllFieldsAreSet(ObjectBuilderArgumentList);
+void Model::checkArguments(const ObjectBuilderArgumentList& objectBuilderArgumentList) const {
+  checkArgumentsAreWellFormed(objectBuilderArgumentList);
+  checkAllFieldsAreSet(objectBuilderArgumentList);
 }
 
 void Model::checkArgumentsAreWellFormed(const ObjectBuilderArgumentList&
-                                        ObjectBuilderArgumentList) const {
+                                        objectBuilderArgumentList) const {
   bool areArgumentsWellFormed = true;
   
-  for (ObjectBuilderArgument* argument : ObjectBuilderArgumentList) {
+  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     areArgumentsWellFormed &= argument->checkArgument(this);
   }
   
@@ -286,9 +286,9 @@ void Model::checkArgumentsAreWellFormed(const ObjectBuilderArgumentList&
   }
 }
 
-void Model::checkAllFieldsAreSet(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
+void Model::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderArgumentList) const {
   set<string> allFieldsThatAreSet;
-  for (ObjectBuilderArgument* argument : ObjectBuilderArgumentList) {
+  for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     allFieldsThatAreSet.insert(argument->deriveFieldName());
   }
   
@@ -323,12 +323,15 @@ void Model::initializeFields(IRGenerationContext& context,
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   for (ObjectBuilderArgument* argument : objectBuilderArgumentList) {
     string argumentName = argument->deriveFieldName();
-    Value* argumentValue = argument->getValue(context);
-    const IType* argumentType = argument->getType(context);
     Field* field = findField(argumentName);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     const IType* fieldType = field->getType();
+    
+    IRGenerationFlag irGenerationFlag = IType::isOwnerType(fieldType)
+    ? IR_GENERATION_RELEASE : IR_GENERATION_NORMAL;
+    Value* argumentValue = argument->getValue(context, irGenerationFlag);
+    const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(fieldType)) {
       Log::e("Model builder argument value for field " + argumentName +
              " does not match its type");
@@ -336,9 +339,7 @@ void Model::initializeFields(IRGenerationContext& context,
     }
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
-    if (IType::isOwnerType(fieldType)) {
-      argument->releaseOwnership(context);
-    } else if (IType::isReferenceType(fieldType)) {
+    if (IType::isReferenceType(fieldType)) {
       ((IObjectType*) fieldType)->incremenetReferenceCount(context, castValue);
     }
   }

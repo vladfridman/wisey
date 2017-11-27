@@ -72,11 +72,11 @@ TEST_F(NegateExpressionTest, getVariableTest) {
 
 TEST_F(NegateExpressionTest, negateIntExpressionTest) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);
-  ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   NegateExpression negateExpression(mExpression);
   
-  Value* result = negateExpression.generateIR(mContext);
+  Value* result = negateExpression.generateIR(mContext, IR_GENERATION_NORMAL);
 
   *mStringStream << *result;
   EXPECT_STREQ("  %sub = sub i32 0, 3", mStringStream->str().c_str());
@@ -85,11 +85,11 @@ TEST_F(NegateExpressionTest, negateIntExpressionTest) {
 
 TEST_F(NegateExpressionTest, negateFloatExpressionTest) {
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.5);
-  ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(value));
+  ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   NegateExpression negateExpression(mExpression);
   
-  Value* result = negateExpression.generateIR(mContext);
+  Value* result = negateExpression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *result;
   EXPECT_STREQ("  %fsub = fsub float 0.000000e+00, 2.500000e+00", mStringStream->str().c_str());
@@ -117,7 +117,7 @@ TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {
   NegateExpression negateExpression(mExpression);
   Mock::AllowLeak(mExpression);
 
-  EXPECT_EXIT(negateExpression.generateIR(mContext),
+  EXPECT_EXIT(negateExpression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Can not apply negate operation to type 'void'");
 }

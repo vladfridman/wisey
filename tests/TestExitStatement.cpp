@@ -45,7 +45,7 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mMockExpression(new NiceMock<MockExpression>()) {
     Value* intValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-    ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(intValue));
+    ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(intValue));
     ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
 
     mExitStatement = new ExitStatement(mMockExpression);
@@ -80,7 +80,7 @@ TEST_F(ExitStatementTest, exitStatementTest) {
 TEST_F(ExitStatementTest, exitStatementDeathTest) {
   Mock::AllowLeak(mMockExpression);
   Value* floatValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 3.5);
-  ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(floatValue));
+  ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(floatValue));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
   EXPECT_EXIT(mExitStatement->generateIR(mContext),

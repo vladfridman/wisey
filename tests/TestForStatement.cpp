@@ -53,7 +53,7 @@ struct ForStatementTest : Test {
     Value* conditionStatementValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
     ON_CALL(*mConditionStatement, generateIR(_)).WillByDefault(Return(conditionStatementValue));
     Value* incrementExpressionValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
-    ON_CALL(*mIncrementExpression, generateIR(_)).WillByDefault(Return(incrementExpressionValue));
+    ON_CALL(*mIncrementExpression, generateIR(_, _)).WillByDefault(Return(incrementExpressionValue));
     Value* bodyStatementValue = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
     ON_CALL(*mBodyStatement, generateIR(_)).WillByDefault(Return(bodyStatementValue));
     

@@ -26,7 +26,9 @@ IVariable* BooleanNotExpression::getVariable(IRGenerationContext& context) const
   return NULL;
 }
 
-Value* BooleanNotExpression::generateIR(IRGenerationContext& context) const {
+Value* BooleanNotExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+  assert(flag == IR_GENERATION_NORMAL);
+  
   const IType* expressionType = mExpression->getType(context);
   if (expressionType != PrimitiveTypes::BOOLEAN_TYPE) {
     Log::e("Boolean NOT operator '!' can only be applied to boolean types");
@@ -34,7 +36,7 @@ Value* BooleanNotExpression::generateIR(IRGenerationContext& context) const {
   }
   
   Value* one = ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), 1);
-  Value* expressionValue = mExpression->generateIR(context);
+  Value* expressionValue = mExpression->generateIR(context, flag);
   return IRWriter::createBinaryOperator(context, Instruction::Xor, expressionValue, one, "lnot");
 }
 

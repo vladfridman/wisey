@@ -29,13 +29,14 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
+  IRGenerationFlag irGenerationFlag = IType::isOwnerType(returnType)
+  ? IR_GENERATION_RELEASE : IR_GENERATION_NORMAL;
+  
   Value* result = AutoCast::maybeCast(context,
                                       mExpression->getType(context),
-                                      mExpression->generateIR(context),
+                                      mExpression->generateIR(context, irGenerationFlag),
                                       returnType);
-  if (IType::isOwnerType(returnType)) {
-    mExpression->releaseOwnership(context);
-  } else if (IType::isReferenceType(returnType)) {
+  if (IType::isReferenceType(returnType)) {
     ((IObjectType*) returnType)->incremenetReferenceCount(context, result);
   }
   

@@ -29,7 +29,7 @@ TEST_F(EmptyExpressionTest, getVariableTest) {
 }
 
 TEST_F(EmptyExpressionTest, simpleEmptyExpressionTest) {
-  EXPECT_EQ(mEmptyExpression.generateIR(mContext), nullptr);
+  EXPECT_EQ(mEmptyExpression.generateIR(mContext, IR_GENERATION_NORMAL), nullptr);
 }
 
 TEST_F(EmptyExpressionTest, emptyExpressionTypeTest) {

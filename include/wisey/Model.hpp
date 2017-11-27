@@ -152,11 +152,11 @@ private:
   
   Model(std::string name, llvm::StructType* structType, bool isExternal);
   
-  void checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
+  void checkArguments(const ObjectBuilderArgumentList& objectBuilderArgumentList) const;
   
-  void checkArgumentsAreWellFormed(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
+  void checkArgumentsAreWellFormed(const ObjectBuilderArgumentList& objectBuilderArgumentList) const;
   
-  void checkAllFieldsAreSet(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
+  void checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderArgumentList) const;
   
   llvm::Instruction* createMalloc(IRGenerationContext& context) const;
 

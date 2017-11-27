@@ -16,5 +16,5 @@ ExpressionStatement::~ExpressionStatement() {
 }
 
 Value* ExpressionStatement::generateIR(IRGenerationContext& context) const {
-  return mExpression->generateIR(context);
+  return mExpression->generateIR(context, IR_GENERATION_NORMAL);
 }

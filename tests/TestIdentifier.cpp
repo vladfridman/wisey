@@ -64,7 +64,7 @@ TEST_F(IdentifierTest, getVariableTest) {
 TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
   Identifier identifier("foo");
 
-  EXPECT_EXIT(identifier.generateIR(mContext),
+  EXPECT_EXIT(identifier.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Undeclared variable 'foo'");
 }
@@ -90,7 +90,7 @@ TEST_F(IdentifierTest, generateIRTest) {
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(1);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(0);
   
-  identifier.generateIR(mContext);
+  identifier.generateIR(mContext, IR_GENERATION_NORMAL);
 }
 
 TEST_F(IdentifierTest, releaseOwnershipTest) {

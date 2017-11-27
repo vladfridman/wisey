@@ -57,14 +57,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   }
   
   IVariable* variable = IVariable::getVariable(context, mId->getName());
-  
-  const IType* declarationType = variable->getType();
-  
   variable->generateAssignmentIR(context, mAssignmentExpression);
-  
-  if (IType::isOwnerType(declarationType)) {
-    mAssignmentExpression->releaseOwnership(context);
-  }
   
   return NULL;
 }

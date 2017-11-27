@@ -220,7 +220,7 @@ TEST_F(TypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  Value* value = typeComparision.generateIR(mContext);
+  Value* value = typeComparision.generateIR(mContext, IR_GENERATION_NORMAL);
   
   EXPECT_EQ(value, mTrueValue);
 }
@@ -231,7 +231,7 @@ TEST_F(TypeComparisionExpressionTest, compareDifferntPrimiteveTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  Value* value = typeComparision.generateIR(mContext);
+  Value* value = typeComparision.generateIR(mContext, IR_GENERATION_NORMAL);
   
   EXPECT_EQ(value, mFalseValue);
 }
@@ -242,7 +242,7 @@ TEST_F(TypeComparisionExpressionTest, compareIdenticalModelTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mCircleModel));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  Value* value = typeComparision.generateIR(mContext);
+  Value* value = typeComparision.generateIR(mContext, IR_GENERATION_NORMAL);
   
   EXPECT_EQ(value, mTrueValue);
 }
@@ -253,7 +253,7 @@ TEST_F(TypeComparisionExpressionTest, compareDifferentModelTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSquareModel));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  Value* value = typeComparision.generateIR(mContext);
+  Value* value = typeComparision.generateIR(mContext, IR_GENERATION_NORMAL);
   
   EXPECT_EQ(value, mFalseValue);
 }
@@ -264,7 +264,7 @@ TEST_F(TypeComparisionExpressionTest, compareModelAndInterfaceTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSubShapeInterface));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  Value* value = typeComparision.generateIR(mContext);
+  Value* value = typeComparision.generateIR(mContext, IR_GENERATION_NORMAL);
   
   EXPECT_EQ(value, mTrueValue);
 }
@@ -275,7 +275,7 @@ TEST_F(TypeComparisionExpressionTest, compareModelAndInterfaceTypesNotMatchTest)
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  Value* value = typeComparision.generateIR(mContext);
+  Value* value = typeComparision.generateIR(mContext, IR_GENERATION_NORMAL);
   
   EXPECT_EQ(value, mFalseValue);
 }
@@ -286,7 +286,7 @@ TEST_F(TypeComparisionExpressionTest, compareInterfaceAndInterfaceTypesTest) {
   ON_CALL(*typeSpecifier, getType(_)).WillByDefault(Return(mSubShapeInterface));
   
   TypeComparisionExpression typeComparision(mExpression, typeSpecifier);
-  Value* value = typeComparision.generateIR(mContext);
+  Value* value = typeComparision.generateIR(mContext, IR_GENERATION_NORMAL);
   
   EXPECT_EQ(value, mTrueValue);
 }

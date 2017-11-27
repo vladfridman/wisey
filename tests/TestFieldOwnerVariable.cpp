@@ -143,7 +143,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   PointerType* llvmType = (PointerType*) mNode->getOwner()->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
-  ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
+  ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
   mFieldOwnerVariable->generateAssignmentIR(mContext, &assignToExpression);
   
@@ -168,7 +168,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTes
   PointerType* llvmType = mNode->getOwner()->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
-  ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
+  ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
   FieldOwnerVariable* ownerFieldVariable = new FieldOwnerVariable("bar", mObject);
   ownerFieldVariable->generateAssignmentIR(mContext, &assignToExpression);

@@ -28,7 +28,7 @@ public:
   
   IVariable* getVariable(IRGenerationContext& context) const override;
 
-  llvm::Constant* generateIR(IRGenerationContext& context) const override;
+  llvm::Constant* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   
   const IType* getType(IRGenerationContext& context) const override;
 

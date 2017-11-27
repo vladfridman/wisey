@@ -34,7 +34,7 @@ Value* DoStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, doCond);
   
   context.setBasicBlock(doCond);
-  Value* conditionValue = mConditionExpression->generateIR(context);
+  Value* conditionValue = mConditionExpression->generateIR(context, IR_GENERATION_NORMAL);
   IRWriter::createConditionalBranch(context, doBody, doEnd, conditionValue);
   
   scopes.setBreakToBlock(NULL);

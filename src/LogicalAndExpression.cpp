@@ -27,8 +27,10 @@ IVariable* LogicalAndExpression::getVariable(IRGenerationContext& context) const
   return NULL;
 }
 
-Value* LogicalAndExpression::generateIR(IRGenerationContext& context) const {
-  Value* leftValue = mLeftExpression->generateIR(context);
+Value* LogicalAndExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+  assert(flag == IR_GENERATION_NORMAL);
+  
+  Value* leftValue = mLeftExpression->generateIR(context, flag);
   BasicBlock* entryBlock = context.getBasicBlock();
   
   Function* function = context.getBasicBlock()->getParent();
@@ -38,7 +40,7 @@ Value* LogicalAndExpression::generateIR(IRGenerationContext& context) const {
   IRWriter::createConditionalBranch(context, basicBlockRight, basicBlockEnd, leftValue);
   
   context.setBasicBlock(basicBlockRight);
-  Value* rightValue = mRightExpression->generateIR(context);
+  Value* rightValue = mRightExpression->generateIR(context, flag);
   BasicBlock* lastRightBlock = context.getBasicBlock();
   IRWriter::createBranch(context, basicBlockEnd);
   

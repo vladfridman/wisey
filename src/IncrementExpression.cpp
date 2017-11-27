@@ -27,7 +27,9 @@ IVariable* IncrementExpression::getVariable(IRGenerationContext& context) const 
   return mExpression->getVariable(context);
 }
 
-Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
+Value* IncrementExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+  assert(flag == IR_GENERATION_NORMAL);
+  
   const IType* expressionType = mExpression->getType(context);
   if (!mExpression->getVariable(context)) {
     Log::e("Increment/decrement operation may only be applied to variables");
@@ -40,7 +42,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  Value* originalValue = mExpression->generateIR(context);
+  Value* originalValue = mExpression->generateIR(context, flag);
   Value* increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
                                       mIncrementBy,
                                       true);

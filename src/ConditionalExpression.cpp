@@ -28,10 +28,11 @@ IVariable* ConditionalExpression::getVariable(IRGenerationContext& context) cons
   return NULL;
 }
 
-Value* ConditionalExpression::generateIR(IRGenerationContext& context) const {
+Value* ConditionalExpression::generateIR(IRGenerationContext& context,
+                                         IRGenerationFlag flag) const {
   checkTypes(context);
   
-  Value* conditionValue = mConditionExpression->generateIR(context);
+  Value* conditionValue = mConditionExpression->generateIR(context, IR_GENERATION_NORMAL);
   
   Function* function = context.getBasicBlock()->getParent();
   
@@ -42,12 +43,12 @@ Value* ConditionalExpression::generateIR(IRGenerationContext& context) const {
   IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValue);
   
   context.setBasicBlock(blockTrue);
-  Value* ifTrueValue = mIfTrueExpression->generateIR(context);
+  Value* ifTrueValue = mIfTrueExpression->generateIR(context, flag);
   Type* ifTrueResultType = ifTrueValue->getType();
   IRWriter::createBranch(context, blockEnd);
 
   context.setBasicBlock(blockFalse);
-  Value* ifFalseValue = mIfFalseExpression->generateIR(context);
+  Value* ifFalseValue = mIfFalseExpression->generateIR(context, flag);
   Type* ifFalseResultType = ifFalseValue->getType();
   IRWriter::createBranch(context, blockEnd);
 
@@ -74,7 +75,7 @@ const IType* ConditionalExpression::getType(IRGenerationContext& context) const 
 void ConditionalExpression::releaseOwnership(IRGenerationContext& context) const {
   Function* function = context.getBasicBlock()->getParent();
 
-  Value* conditionValue = mConditionExpression->generateIR(context);
+  Value* conditionValue = mConditionExpression->generateIR(context, IR_GENERATION_NORMAL);
 
   LLVMContext& llvmContext = context.getLLVMContext();
   BasicBlock* blockTrue = BasicBlock::Create(llvmContext, "cond.release.true", function);

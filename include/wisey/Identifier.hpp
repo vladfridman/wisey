@@ -32,7 +32,7 @@ public:
 
   const std::string& getName() const;
   
-  llvm::Value* generateIR(IRGenerationContext& context) const override;
+  llvm::Value* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   
   const IType* getType(IRGenerationContext& context) const override;
   

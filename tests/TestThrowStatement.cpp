@@ -106,7 +106,7 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   llvm::Constant* exceptionObject =
     ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
-  ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
+  ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression, 0);
   
   Value* result = throwStatement.generateIR(mContext);
@@ -157,7 +157,7 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   llvm::Constant* exceptionObject =
     ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
-  ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
+  ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression, 0);
   
   Value* result = throwStatement.generateIR(mContext);
@@ -230,7 +230,7 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   llvm::Constant* exceptionObject =
     ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
-  ON_CALL(*mMockExpression, generateIR(_)).WillByDefault(Return(exceptionObject));
+  ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression, 0);
   
   Value* result = throwStatement.generateIR(mContext);

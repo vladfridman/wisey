@@ -39,7 +39,7 @@ TEST_F(IntConstantTest, intConstantTest) {
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
   
-  Value* irValue = mIntConstant.generateIR(mContext);
+  Value* irValue = mIntConstant.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *stringStream << *irValue;
   EXPECT_STREQ("i32 5", stringStream->str().c_str());

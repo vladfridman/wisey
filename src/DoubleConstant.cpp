@@ -20,7 +20,8 @@ IVariable* DoubleConstant::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-llvm::Constant* DoubleConstant::generateIR(IRGenerationContext& context) const {
+llvm::Constant* DoubleConstant::generateIR(IRGenerationContext& context,
+                                           IRGenerationFlag flag) const {
   return ConstantFP::get(Type::getDoubleTy(context.getLLVMContext()), mValue);
 }
 

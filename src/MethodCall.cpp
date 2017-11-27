@@ -47,7 +47,7 @@ IVariable* MethodCall::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-Value* MethodCall::generateIR(IRGenerationContext& context) const {
+Value* MethodCall::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   const IObjectType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   if (!checkAccess(context, objectWithMethodsType, methodDescriptor)) {
@@ -62,7 +62,8 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   if (methodDescriptor->isStatic()) {
     return generateStaticMethodCallIR(context,
                                       objectWithMethodsType,
-                                      methodDescriptor);
+                                      methodDescriptor,
+                                      flag);
   }
   
   context.getScopes().getScope()->addException(context.getModel(Names::getNPEModelFullName()));
@@ -70,12 +71,14 @@ Value* MethodCall::generateIR(IRGenerationContext& context) const {
   if (IType::isConcreteObjectType(objectWithMethodsType)) {
     return generateObjectMethodCallIR(context,
                                       (IObjectType*) objectWithMethodsType,
-                                      methodDescriptor);
+                                      methodDescriptor,
+                                      flag);
   }
   if (objectWithMethodsType->getTypeKind() == INTERFACE_TYPE) {
     return generateInterfaceMethodCallIR(context,
                                          (Interface*) objectWithMethodsType,
-                                         methodDescriptor);
+                                         methodDescriptor,
+                                         flag);
   }
   Log::e("Method '" + mMethodName + "()' call on an unknown object type '" +
          objectWithMethodsType->getName() + "'");
@@ -99,7 +102,8 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
 
 Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  const Interface* interface,
-                                                 IMethodDescriptor* methodDescriptor) const {
+                                                 IMethodDescriptor* methodDescriptor,
+                                                 IRGenerationFlag flag) const {
   Value* expressionValue = generateExpressionIR(context);
 
   FunctionType* functionType =
@@ -112,19 +116,20 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()),
                               interface->getMethodIndex(methodDescriptor) + VTABLE_METHODS_OFFSET);
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
-  LoadInst* function = IRWriter::newLoadInst(context, virtualFunction, "");
+  Function* function = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
   
   Composer::checkNullAndThrowNPE(context, expressionValue, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
 
-  return createFunctionCall(context, interface, (Function*) function, methodDescriptor, arguments);
+  return createFunctionCall(context, interface, function, methodDescriptor, arguments, flag);
 }
 
 Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
                                               const IObjectType* objectType,
-                                              IMethodDescriptor* methodDescriptor) const {
+                                              IMethodDescriptor* methodDescriptor,
+                                              IRGenerationFlag flag) const {
   Value* expressionValue = generateExpressionIR(context);
   
   Function* function = getMethodFunction(context, objectType);
@@ -134,24 +139,17 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
   
-  return createFunctionCall(context,
-                            objectType,
-                            function,
-                            methodDescriptor,
-                            arguments);
+  return createFunctionCall(context, objectType, function, methodDescriptor, arguments, flag);
 }
 
 Value* MethodCall::generateStaticMethodCallIR(IRGenerationContext& context,
                                               const IObjectType* objectType,
-                                              IMethodDescriptor* methodDescriptor) const {
+                                              IMethodDescriptor* methodDescriptor,
+                                              IRGenerationFlag flag) const {
   Function* function = getMethodFunction(context, objectType);
   vector<Value*> arguments;
   
-  return createFunctionCall(context,
-                            objectType,
-                            function,
-                            methodDescriptor,
-                            arguments);
+  return createFunctionCall(context, objectType, function, methodDescriptor, arguments, flag);
 }
 
 Function* MethodCall::getMethodFunction(IRGenerationContext& context,
@@ -170,7 +168,7 @@ Function* MethodCall::getMethodFunction(IRGenerationContext& context,
 
 Value* MethodCall::generateExpressionIR(IRGenerationContext& context) const {
   return mExpression != NULL
-  ? mExpression->generateIR(context)
+  ? mExpression->generateIR(context, IR_GENERATION_NORMAL)
   : context.getThis()->generateIdentifierIR(context);
 }
 
@@ -178,7 +176,8 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
                                       const IObjectType* object,
                                       Function* function,
                                       IMethodDescriptor* methodDescriptor,
-                                      vector<Value*> arguments) const {
+                                      vector<Value*> arguments,
+                                      IRGenerationFlag flag) const {
 
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context);
@@ -188,17 +187,16 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {
-    Value* callArgumentValue = callArgument->generateIR(context);
-    const IType* callArgumentType = callArgument->getType(context);
     MethodArgument* methodArgument = *methodArgumentIterator;
+    IRGenerationFlag irGenerationFlag = IType::isOwnerType(methodArgument->getType())
+      ? IR_GENERATION_RELEASE : IR_GENERATION_NORMAL;
+    Value* callArgumentValue = callArgument->generateIR(context, irGenerationFlag);
+    const IType* callArgumentType = callArgument->getType(context);
     const IType* methodArgumentType = methodArgument->getType();
     Value* callArgumentValueCasted = AutoCast::maybeCast(context,
                                                          callArgumentType,
                                                          callArgumentValue,
                                                          methodArgumentType);
-    if (IType::isOwnerType(methodArgument->getType())) {
-      callArgument->releaseOwnership(context);
-    }
     arguments.push_back(callArgumentValueCasted);
     methodArgumentIterator++;
   }
@@ -210,21 +208,18 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   Composer::popCallStack(context);
 
   const IType* returnType = methodDescriptor->getReturnType();
-  if (returnType->getTypeKind() == PRIMITIVE_TYPE) {
+  if (!IType::isOwnerType(returnType) || flag == IR_GENERATION_RELEASE) {
     return result;
   }
   
   string variableName = IVariable::getTemporaryVariableName(this);
-
   Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
   IRWriter::newStoreInst(context, result, pointer);
 
-  if (IType::isOwnerType(returnType)) {
-    IOwnerVariable* tempVariable = new LocalOwnerVariable(variableName,
-                                                          (IObjectOwnerType*) returnType,
-                                                          pointer);
-    context.getScopes().setVariable(tempVariable);
-  }
+  IOwnerVariable* tempVariable = new LocalOwnerVariable(variableName,
+                                                        (IObjectOwnerType*) returnType,
+                                                        pointer);
+  context.getScopes().setVariable(tempVariable);
 
   return result;
 }

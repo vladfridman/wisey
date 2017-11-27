@@ -19,7 +19,7 @@ IVariable* FakeExpression::getVariable(IRGenerationContext& context) const {
   return NULL;
 }
 
-Value* FakeExpression::generateIR(IRGenerationContext& context) const {
+Value* FakeExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   return mValue;
 }
 

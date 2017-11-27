@@ -55,7 +55,7 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
            "' because of incompatable types");
     exit(1);
   }
-  Value* expressionValue = assignToExpression->generateIR(context);
+  Value* expressionValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");

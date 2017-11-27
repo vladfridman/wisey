@@ -67,7 +67,7 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRTest) {
   Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
+  ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(assignValue));
   
   variable.generateAssignmentIR(mContext, &expression);
   
@@ -89,7 +89,7 @@ TEST_F(LocalPrimitiveVariableTest, generateAssignmentIRWithCastTest) {
   Value* assignValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
-  ON_CALL(expression, generateIR(_)).WillByDefault(Return(assignValue));
+  ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(assignValue));
   
   variable.generateAssignmentIR(mContext, &expression);
   

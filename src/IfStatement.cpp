@@ -23,7 +23,7 @@ Value* IfStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* ifThen = BasicBlock::Create(context.getLLVMContext(), "if.then", function);
   BasicBlock* ifEnd = BasicBlock::Create(context.getLLVMContext(), "if.end", function);
   
-  Value* conditionValue = mCondition->generateIR(context);
+  Value* conditionValue = mCondition->generateIR(context, IR_GENERATION_NORMAL);
   IRWriter::createConditionalBranch(context, ifThen, ifEnd, conditionValue);
   
   context.setBasicBlock(ifThen);

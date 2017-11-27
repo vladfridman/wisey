@@ -210,13 +210,13 @@ struct ModelOwnerTest : public Test {
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-    ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
+    ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     Value* field2Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-    ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
+    ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     Value* field3Value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 2.0f);
-    ON_CALL(*mField3Expression, generateIR(_)).WillByDefault(Return(field3Value));
+    ON_CALL(*mField3Expression, generateIR(_, _)).WillByDefault(Return(field3Value));
     ON_CALL(*mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
     
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);

@@ -28,7 +28,7 @@ Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   
   IRWriter::createBranch(context, whileCond);
   context.setBasicBlock(whileCond);
-  Value* conditionValue = mConditionExpression->generateIR(context);
+  Value* conditionValue = mConditionExpression->generateIR(context, IR_GENERATION_NORMAL);
   IRWriter::createConditionalBranch(context, whileBody, whileEnd, conditionValue);
   
   context.setBasicBlock(whileBody);

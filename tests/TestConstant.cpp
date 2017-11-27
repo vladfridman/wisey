@@ -48,7 +48,7 @@ public:
     ON_CALL(*mExpression, isConstant()).WillByDefault(Return(true));
     ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     llvm::Constant* constantInt = llvm::ConstantInt::get(llvm::Type::getInt32Ty(mLLVMContext), 5);
-    ON_CALL(*mExpression, generateIR(_)).WillByDefault(Return(constantInt));
+    ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(constantInt));
     ON_CALL(*mObject, getName()).WillByDefault(Return("MObject"));
 
     mConstant = new Constant(PUBLIC_ACCESS, PrimitiveTypes::INT_TYPE, mName, mExpression);

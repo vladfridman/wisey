@@ -132,7 +132,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   PointerType* llvmType = (PointerType*) mNode->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
-  ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
+  ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
   mFieldReferenceVariable->generateAssignmentIR(mContext, &assignToExpression);
   
@@ -159,7 +159,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithC
   PointerType* llvmType = mNode->getLLVMType(mLLVMContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
-  ON_CALL(assignToExpression, generateIR(_)).WillByDefault(Return(assignToValue));
+  ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
   FieldReferenceVariable* referenceFieldVariable = new FieldReferenceVariable("bar", mObject);
   referenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression);

@@ -251,10 +251,10 @@ struct ModelTest : public Test {
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
                                                   ->getLLVMType(mLLVMContext));
-    ON_CALL(*mField1Expression, generateIR(_)).WillByDefault(Return(field1Value));
+    ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(mBirthdateModel->getOwner()));
     Value* field2Value = ConstantPointerNull::get(mGalaxyModel->getLLVMType(mLLVMContext));
-    ON_CALL(*mField2Expression, generateIR(_)).WillByDefault(Return(field2Value));
+    ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(mGalaxyModel));
     
     IConcreteObjectType::generateNameGlobal(mContext, mBirthdateModel);
@@ -566,8 +566,6 @@ TEST_F(ModelTest, buildTest) {
   ObjectBuilderArgumentList argumentList;
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
-  
-  EXPECT_CALL(*mField1Expression, releaseOwnership(_)).Times(1);
   
   Value* result = mStarModel->build(mContext, argumentList);
   

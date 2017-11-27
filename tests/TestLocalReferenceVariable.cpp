@@ -105,7 +105,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore);
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
-  ON_CALL(expression, generateIR(_)).WillByDefault(Return(barValue));
+  ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(barValue));
   
   uninitializedHeapVariable->generateAssignmentIR(mContext, &expression);
 

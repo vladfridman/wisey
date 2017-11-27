@@ -39,7 +39,7 @@ TEST_F(CharConstantTest, charConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   
-  Value* irValue = mCharConstant.generateIR(mContext);
+  Value* irValue = mCharConstant.generateIR(mContext, IR_GENERATION_NORMAL);
 
   *stringStream << *irValue;
   EXPECT_STREQ("i16 121", stringStream->str().c_str());

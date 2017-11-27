@@ -38,7 +38,7 @@ Value* PrintErrStatement::generateIR(IRGenerationContext& context) const {
   arguments.push_back(stderrLoaded);
   arguments.push_back(formatPointer);
   for (IExpression* expression : mExpressionList) {
-    arguments.push_back(expression->generateIR(context));
+    arguments.push_back(expression->generateIR(context, IR_GENERATION_NORMAL));
   }
   
   Value* pointer = IRWriter::newAllocaInst(context, stderrLoaded->getType(), "");

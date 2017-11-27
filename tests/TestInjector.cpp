@@ -109,7 +109,7 @@ TEST_F(InjectorTest, getVariableTest) {
 
 TEST_F(InjectorTest, releaseOwnershipTest) {
   Injector injector(mInterfaceTypeSpecifier);
-  injector.generateIR(mContext);
+  injector.generateIR(mContext, IR_GENERATION_NORMAL);
   
   string temporaryVariableName = IVariable::getTemporaryVariableName(&injector);
   
