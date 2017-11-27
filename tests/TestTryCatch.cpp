@@ -82,3 +82,13 @@ TEST_F(TestFileSampleRunner, tryCatchNestedDeathRunTest) {
                     "Error: Nested try blocks are not allowed. "
                     "Extract inner try/catch into a method.");
 }
+
+TEST_F(TestFileSampleRunner, tryCatchWithNpeDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_try_catch_with_npe.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CThrower.doThrow(tests/samples/test_try_catch_with_npe.yz:17)\n"
+                               "  at systems.vos.wisey.compiler.tests.CCatcher.doTryCatch(tests/samples/test_try_catch_with_npe.yz:27)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_try_catch_with_npe.yz:39)\n");
+}
