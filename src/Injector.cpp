@@ -56,11 +56,6 @@ void Injector::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(context, IVariable::getTemporaryVariableName(this));
 }
 
-bool Injector::existsInOuterScope(IRGenerationContext& context) const {
-  string variableName = IVariable::getTemporaryVariableName(this);
-  return context.getScopes().getVariable(variableName)->existsInOuterScope();
-}
-
 bool Injector::isConstant() const {
   return false;
 }

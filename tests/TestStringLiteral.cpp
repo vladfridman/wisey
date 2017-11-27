@@ -69,12 +69,6 @@ TEST_F(StringLiteralTest, stringLiteralEscapeNewlineTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(StringLiteralTest, existsInOuterScopeTest) {
-  StringLiteral stringLiteral("test");
-  
-  EXPECT_FALSE(stringLiteral.existsInOuterScope(mContext));
-}
-
 TEST_F(StringLiteralTest, isConstantTest) {
   StringLiteral stringLiteral("test");
 

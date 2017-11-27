@@ -17,8 +17,6 @@ namespace wisey {
   
 /**
  * Represents a method parameter that is a reference to an object owner.
- *
- * This is the same as LocalReferenceVariable only returns true on existsInOuterScope()
  */
 class ParameterReferenceVariable : public IReferenceVariable {
   
@@ -40,8 +38,6 @@ public:
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                     IExpression* assignToExpression) override;
-  
-  bool existsInOuterScope() const override;
   
   void decrementReferenceCounter(IRGenerationContext& context) const override;
 

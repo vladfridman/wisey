@@ -76,6 +76,3 @@ void FieldOwnerVariable::free(IRGenerationContext& context) const {
   /** Freed using object destructor */
 }
 
-bool FieldOwnerVariable::existsInOuterScope() const {
-  return true;
-}

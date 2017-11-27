@@ -45,10 +45,6 @@ Value* ParameterReferenceVariable::generateAssignmentIR(IRGenerationContext& con
   exit(1);
 }
 
-bool ParameterReferenceVariable::existsInOuterScope() const {
-  return true;
-}
-
 void ParameterReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
   mType->decremenetReferenceCount(context, mValue);
 }

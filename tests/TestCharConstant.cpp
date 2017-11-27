@@ -49,10 +49,6 @@ TEST_F(CharConstantTest, charConstantTypeTest) {
   EXPECT_EQ(mCharConstant.getType(mContext), PrimitiveTypes::CHAR_TYPE);
 }
 
-TEST_F(CharConstantTest, existsInOuterScopeTest) {
-  EXPECT_FALSE(mCharConstant.existsInOuterScope(mContext));
-}
-
 TEST_F(CharConstantTest, printToStreamTest) {
   stringstream stringStream;
   mCharConstant.printToStream(mContext, stringStream);

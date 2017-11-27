@@ -143,14 +143,6 @@ TEST_F(LocalOwnerVariableTest, localOwnerVariableIdentifierUninitializedDeathTes
               "Error: Variable 'foo' is used before it is initialized");
 }
 
-TEST_F(LocalOwnerVariableTest, existsInOuterScopeTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
-  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
-  
-  EXPECT_FALSE(heapOwnerVariable.existsInOuterScope());
-}
-
 TEST_F(LocalOwnerVariableTest, freeTest) {
   Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");

@@ -222,12 +222,6 @@ TEST_F(RelationalExpressionTest, incompatablePrimitiveTypesDeathTest) {
               "Error: Can not compare types float and int");
 }
 
-TEST_F(RelationalExpressionTest, existsInOuterScopeTest) {
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
-
-  EXPECT_FALSE(expression.existsInOuterScope(mContext));
-}
-
 TEST_F(RelationalExpressionTest, releaseOwnershipDeathTest) {
   Mock::AllowLeak(mLeftExpression);
   Mock::AllowLeak(mRightExpression);

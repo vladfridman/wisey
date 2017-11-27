@@ -102,10 +102,6 @@ void TypeComparisionExpression::releaseOwnership(IRGenerationContext& context) c
   exit(1);
 }
 
-bool TypeComparisionExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool TypeComparisionExpression::isConstant() const {
   return false;
 }

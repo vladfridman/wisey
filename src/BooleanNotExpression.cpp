@@ -47,10 +47,6 @@ void BooleanNotExpression::releaseOwnership(IRGenerationContext& context) const 
   exit(1);
 }
 
-bool BooleanNotExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool BooleanNotExpression::isConstant() const {
   return false;
 }

@@ -48,10 +48,6 @@ TEST_F(LongConstantTest, longConstantTypeTest) {
   EXPECT_EQ(mLongConstant.getType(mContext), PrimitiveTypes::LONG_TYPE);
 }
 
-TEST_F(LongConstantTest, existsInOuterScopeTest) {
-  EXPECT_FALSE(mLongConstant.existsInOuterScope(mContext));
-}
-
 TEST_F(LongConstantTest, isConstantTest) {
   EXPECT_TRUE(mLongConstant.isConstant());
 }

@@ -312,16 +312,6 @@ string MethodCall::translateInterfaceMethodToLLVMFunctionName(const IObjectType*
   return object->getName() + ".interface." + interface->getName() + "." + methodName;
 }
 
-bool MethodCall::existsInOuterScope(IRGenerationContext& context) const {
-  if (mExpression == NULL && context.getThis()) {
-    return context.getThis()->existsInOuterScope();
-  }
-  if (mExpression == NULL) {
-    return true;
-  }
-  return mExpression->existsInOuterScope(context);
-}
-
 bool MethodCall::isConstant() const {
   return false;
 }

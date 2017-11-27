@@ -36,10 +36,6 @@ TEST_F(EmptyExpressionTest, emptyExpressionTypeTest) {
   EXPECT_EQ(mEmptyExpression.getType(mContext), PrimitiveTypes::VOID_TYPE);
 }
 
-TEST_F(EmptyExpressionTest, existsInOuterScopeTest) {
-  EXPECT_FALSE(mEmptyExpression.existsInOuterScope(mContext));
-}
-
 TEST_F(EmptyExpressionTest, isConstantTest) {
   EXPECT_FALSE(mEmptyExpression.isConstant());
 }

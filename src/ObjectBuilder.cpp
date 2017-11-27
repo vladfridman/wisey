@@ -60,11 +60,6 @@ const IType* ObjectBuilder::getType(IRGenerationContext& context) const {
   return mTypeSpecifier->getType(context)->getOwner();
 }
 
-bool ObjectBuilder::existsInOuterScope(IRGenerationContext& context) const {
-  IVariable* variable = context.getScopes().getVariable(IVariable::getTemporaryVariableName(this));
-  return variable->existsInOuterScope();
-}
-
 bool ObjectBuilder::isConstant() const {
   return false;
 }

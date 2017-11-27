@@ -176,21 +176,6 @@ TEST_F(AssignmentTest, releaseOwnershipTest) {
   assignment.releaseOwnership(mContext);
 }
 
-TEST_F(AssignmentTest, existsInOuterScopeTest) {
-  NiceMock<MockVariable> mockVariable;
-  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  Identifier* identifier = new Identifier("foo");
-  Assignment assignment(identifier, mExpression, 0);
-  mContext.getScopes().setVariable(&mockVariable);
-
-  ON_CALL(mockVariable, existsInOuterScope()).WillByDefault(Return(true));
-  EXPECT_TRUE(assignment.existsInOuterScope(mContext));
-  
-  ON_CALL(mockVariable, existsInOuterScope()).WillByDefault(Return(false));
-  EXPECT_FALSE(assignment.existsInOuterScope(mContext));
-}
-
 TEST_F(AssignmentTest, printToStreamTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));

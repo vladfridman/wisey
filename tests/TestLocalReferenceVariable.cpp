@@ -173,14 +173,6 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitialized
               "Error: Variable 'foo' is used before it is initialized");
 }
 
-TEST_F(LocalReferenceVariableTest, existsInOuterScopeTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
-  Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
-  LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
-
-  EXPECT_FALSE(localReferenceVariable.existsInOuterScope());
-}
-
 TEST_F(TestFileSampleRunner, headReferenceVariableAssignmentRunTest) {
   runFile("tests/samples/test_assignment_model_variable.yz", "0");
 }

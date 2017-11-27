@@ -51,10 +51,6 @@ const IType* ConstantReference::getType(IRGenerationContext& context) const {
 void ConstantReference::releaseOwnership(IRGenerationContext& context) const {
 }
 
-bool ConstantReference::existsInOuterScope(IRGenerationContext& context) const {
-  return true;
-}
-
 bool ConstantReference::isConstant() const {
   return true;
 }

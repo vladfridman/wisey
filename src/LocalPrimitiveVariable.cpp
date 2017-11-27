@@ -48,6 +48,3 @@ Value* LocalPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context
   return castAssignToValue;
 }
 
-bool LocalPrimitiveVariable::existsInOuterScope() const {
-  return false;
-}

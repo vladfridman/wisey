@@ -33,10 +33,6 @@ void CharConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool CharConstant::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool CharConstant::isConstant() const {
   return true;
 }

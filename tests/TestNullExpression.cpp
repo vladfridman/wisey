@@ -47,10 +47,6 @@ TEST_F(NullExpressionTest, getTypeTest) {
   ASSERT_EQ(mNullExpression.getType(mContext), NullType::NULL_TYPE);
 }
 
-TEST_F(NullExpressionTest, existsInOuterScopeTest) {
-  ASSERT_FALSE(mNullExpression.existsInOuterScope(mContext));
-}
-
 TEST_F(NullExpressionTest, isConstantTest) {
   EXPECT_TRUE(mNullExpression.isConstant());
 }

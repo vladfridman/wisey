@@ -89,12 +89,6 @@ TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(BooleanNotExpressionTest, existsInOuterScopeTest) {
-  BooleanNotExpression booleanNotExpression(mExpression);
-  
-  EXPECT_FALSE(booleanNotExpression.existsInOuterScope(mContext));
-}
-
 TEST_F(BooleanNotExpressionTest, printToStreamTest) {
   BooleanNotExpression booleanNotExpression(mExpression);
   ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));

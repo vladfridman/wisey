@@ -96,12 +96,6 @@ TEST_F(NegateExpressionTest, negateFloatExpressionTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(NegateExpressionTest, existsInOuterScopeTest) {
-  NegateExpression negateExpression(mExpression);
-
-  EXPECT_FALSE(negateExpression.existsInOuterScope(mContext));
-}
-
 TEST_F(NegateExpressionTest, isConstantTest) {
   NegateExpression negateExpression(mExpression);
 

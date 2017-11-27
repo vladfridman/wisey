@@ -101,10 +101,6 @@ void AdditiveMultiplicativeExpression::checkTypes(const IType* leftType,
   }
 }
 
-bool AdditiveMultiplicativeExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool AdditiveMultiplicativeExpression::isConstant() const {
   return false;
 }

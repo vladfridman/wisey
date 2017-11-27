@@ -35,13 +35,15 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                       returnType);
   if (IType::isOwnerType(returnType)) {
     mExpression->releaseOwnership(context);
-  } else if (returnType->getTypeKind() != PRIMITIVE_TYPE &&
-             !mExpression->existsInOuterScope(context)) {
-    Log::e("Returning a reference to a value that does not exist in caller's scope.");
-    exit(1);
+  } else if (IType::isReferenceType(returnType)) {
+    ((IObjectType*) returnType)->incremenetReferenceCount(context, result);
   }
   
   context.getScopes().freeOwnedMemory(context);
+  
+  if (IType::isReferenceType(returnType)) {
+    ((IObjectType*) returnType)->decremenetReferenceCount(context, result);
+  }
   
   return IRWriter::createReturnInst(context, result);
 }

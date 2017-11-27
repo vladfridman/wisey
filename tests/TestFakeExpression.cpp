@@ -48,7 +48,6 @@ TEST_F(FakeExpressionTest, getVariableTest) {
 TEST_F(FakeExpressionTest, fakeExpressionTest) {
   EXPECT_EQ(mFakeExpression->getType(mContext), mType);
   EXPECT_EQ(mFakeExpression->generateIR(mContext), mValue);
-  EXPECT_FALSE(mFakeExpression->existsInOuterScope(mContext));
 
   EXPECT_EXIT(mFakeExpression->releaseOwnership(mContext),
               ::testing::ExitedWithCode(1),

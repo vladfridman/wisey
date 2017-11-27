@@ -64,10 +64,6 @@ void LogicalOrExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool LogicalOrExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool LogicalOrExpression::isConstant() const {
   return false;
 }

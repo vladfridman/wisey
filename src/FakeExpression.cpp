@@ -32,10 +32,6 @@ void FakeExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool FakeExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool FakeExpression::isConstant() const {
   return false;
 }

@@ -104,12 +104,6 @@ TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
   ASSERT_STREQ(mStringStream->str().c_str(), "  %sub = sub i32 3, 5");
 }
 
-TEST_F(AdditiveMultiplicativeExpressionTest, existsInOuterScopeTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
-  
-  EXPECT_FALSE(expression.existsInOuterScope(mContext));
-}
-
 TEST_F(AdditiveMultiplicativeExpressionTest, printToStreamTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
   

@@ -66,10 +66,6 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   return newValue;
 }
 
-bool LocalReferenceVariable::existsInOuterScope() const {
-  return false;
-}
-
 void LocalReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
   mType->decremenetReferenceCount(context, value);

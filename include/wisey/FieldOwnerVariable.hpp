@@ -40,9 +40,7 @@ public:
                                     IExpression* assignToExpression) override;
   
   void free(IRGenerationContext& context) const override;
-  
-  bool existsInOuterScope() const override;
-  
+   
   void setToNull(IRGenerationContext& context) override;
   
 };

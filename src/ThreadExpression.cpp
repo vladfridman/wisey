@@ -32,10 +32,6 @@ void ThreadExpression::releaseOwnership(IRGenerationContext& context) const {
   // thread expression is always avialible, it is neither freed nor cleared
 }
 
-bool ThreadExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return IVariable::getVariable(context, THREAD)->existsInOuterScope();
-}
-
 bool ThreadExpression::isConstant() const {
   return false;
 }

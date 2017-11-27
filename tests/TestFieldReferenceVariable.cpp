@@ -190,10 +190,6 @@ TEST_F(FieldReferenceVariableTest, decrementReferenceCounterTest) {
   EXPECT_EQ(mBasicBlock->getInstList().size(), 0u);
 }
 
-TEST_F(FieldReferenceVariableTest, existsInOuterScopeTest) {
-  EXPECT_TRUE(mFieldReferenceVariable->existsInOuterScope());
-}
-
 TEST_F(TestFileSampleRunner, compareTwoNullsRunTest) {
   runFile("tests/samples/test_compare_two_nulls.yz", "1");
 }

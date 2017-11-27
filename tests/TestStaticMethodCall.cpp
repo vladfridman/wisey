@@ -260,12 +260,6 @@ TEST_F(StaticMethodCallTest, getVariableTest) {
   EXPECT_EQ(staticMethodCall.getVariable(mContext), nullptr);
 }
 
-TEST_F(StaticMethodCallTest, existsInOuterScopeTest) {
-  StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
-
-  EXPECT_TRUE(staticMethodCall.existsInOuterScope(mContext));
-}
-
 TEST_F(StaticMethodCallTest, isConstantTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
 

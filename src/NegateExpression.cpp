@@ -59,10 +59,6 @@ void NegateExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool NegateExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool NegateExpression::isConstant() const {
   return false;
 }

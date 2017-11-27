@@ -62,6 +62,3 @@ void ParameterOwnerVariable::free(IRGenerationContext& context) const {
   mType->free(context, valueLoaded);
 }
 
-bool ParameterOwnerVariable::existsInOuterScope() const {
-  return true;
-}

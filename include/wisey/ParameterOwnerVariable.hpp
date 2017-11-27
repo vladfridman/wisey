@@ -16,8 +16,6 @@ namespace wisey {
   
 /**
  * Represents a method parameter that is an object owner.
- *
- * This is the same as LocalOwnerVariable only returns true on existsInOuterScope()
  */
 class ParameterOwnerVariable : public IOwnerVariable {
     
@@ -41,8 +39,6 @@ public:
                                     IExpression* assignToExpression) override;
   
   void free(IRGenerationContext& context) const override;
-  
-  bool existsInOuterScope() const override;
   
   void setToNull(IRGenerationContext& context) override;
   

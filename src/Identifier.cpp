@@ -38,10 +38,6 @@ void Identifier::releaseOwnership(IRGenerationContext& context) const {
   context.getScopes().clearVariable(context, mName);
 }
 
-bool Identifier::existsInOuterScope(IRGenerationContext& context) const {
-  return IVariable::getVariable(context, mName)->existsInOuterScope();
-}
-
 bool Identifier::isConstant() const {
   return false;
 }

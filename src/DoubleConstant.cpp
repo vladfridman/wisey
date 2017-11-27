@@ -33,10 +33,6 @@ void DoubleConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool DoubleConstant::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool DoubleConstant::isConstant() const {
   return true;
 }

@@ -146,12 +146,6 @@ TEST_F(ObjectBuilderTest, testGetType) {
   EXPECT_EQ(objectBuilder.getType(mContext), mModel->getOwner());
 }
 
-TEST_F(ObjectBuilderTest, existsInOuterScopeTest) {
-  mObjectBuilder->generateIR(mContext);
-
-  EXPECT_FALSE(mObjectBuilder->existsInOuterScope(mContext));
-}
-
 TEST_F(ObjectBuilderTest, isConstantTest) {
   EXPECT_FALSE(mObjectBuilder->isConstant());
 }

@@ -33,10 +33,6 @@ void IntConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool IntConstant::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool IntConstant::isConstant() const {
   return true;
 }

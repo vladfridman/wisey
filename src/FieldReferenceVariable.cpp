@@ -64,10 +64,6 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
 
-bool FieldReferenceVariable::existsInOuterScope() const {
-  return true;
-}
-
 void FieldReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
   /** Decremented using object destructor */
 }

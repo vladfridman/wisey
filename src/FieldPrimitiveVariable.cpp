@@ -56,6 +56,3 @@ Value* FieldPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
 
-bool FieldPrimitiveVariable::existsInOuterScope() const {
-  return true;
-}

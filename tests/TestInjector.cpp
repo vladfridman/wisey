@@ -131,13 +131,6 @@ TEST_F(InjectorTest, getTypeTest) {
   EXPECT_EQ(injector.getType(mContext), mController->getOwner());
 }
 
-TEST_F(InjectorTest, existsInOuterScopeTest) {
-  Injector injector(mInterfaceTypeSpecifier);
-  injector.generateIR(mContext);
-  
-  EXPECT_FALSE(injector.existsInOuterScope(mContext));
-}
-
 TEST_F(InjectorTest, isConstantTest) {
   Injector injector(mInterfaceTypeSpecifier);
 

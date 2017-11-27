@@ -58,10 +58,6 @@ void RelationalExpression::releaseOwnership(IRGenerationContext& context) const 
   exit(1);
 }
 
-bool RelationalExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context) const {
   ICmpInst::Predicate predicate;
   switch (mOperation) {

@@ -205,10 +205,6 @@ TEST_F(FieldOwnerVariableTest, setToNullTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(FieldOwnerVariableTest, existsInOuterScopeTest) {
-  EXPECT_TRUE(mFieldOwnerVariable->existsInOuterScope());
-}
-
 TEST_F(TestFileSampleRunner, objectFieldVariableSetToNullRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_object_field_variable_set_to_null.yz",
                                1,

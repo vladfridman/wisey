@@ -138,10 +138,6 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentWithC
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(FieldPrimitiveVariableTest, existsInOuterScopeTest) {
-  EXPECT_TRUE(mFieldPrimitiveVariable->existsInOuterScope());
-}
-
 TEST_F(TestFileSampleRunner, objectFieldSetRunTest) {
   runFile("tests/samples/test_object_field_set.yz", "7");
 }

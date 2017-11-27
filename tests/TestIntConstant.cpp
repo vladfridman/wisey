@@ -50,10 +50,6 @@ TEST_F(IntConstantTest, intConstantTypeTest) {
   EXPECT_EQ(mIntConstant.getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
-TEST_F(IntConstantTest, existsInOuterScopeTest) {
-  EXPECT_FALSE(mIntConstant.existsInOuterScope(mContext));
-}
-
 TEST_F(IntConstantTest, isConstantTest) {
   EXPECT_TRUE(mIntConstant.isConstant());
 }

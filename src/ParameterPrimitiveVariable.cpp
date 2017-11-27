@@ -42,7 +42,3 @@ Value* ParameterPrimitiveVariable::generateAssignmentIR(IRGenerationContext& con
   exit(1);
 }
 
-bool ParameterPrimitiveVariable::existsInOuterScope() const {
-  return true;
-}
-

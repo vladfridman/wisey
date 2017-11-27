@@ -33,10 +33,6 @@ void LongConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool LongConstant::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool LongConstant::isConstant() const {
   return true;
 }

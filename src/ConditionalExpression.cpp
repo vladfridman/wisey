@@ -115,11 +115,6 @@ void ConditionalExpression::checkTypes(IRGenerationContext& context) const {
   }
 }
 
-bool ConditionalExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return mIfTrueExpression->existsInOuterScope(context) &&
-  mIfFalseExpression->existsInOuterScope(context);
-}
-
 bool ConditionalExpression::isConstant() const {
   return false;
 }

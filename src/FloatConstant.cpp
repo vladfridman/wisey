@@ -33,10 +33,6 @@ void FloatConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool FloatConstant::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool FloatConstant::isConstant() const {
   return true;
 }

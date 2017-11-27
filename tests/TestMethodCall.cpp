@@ -294,16 +294,6 @@ TEST_F(MethodCallTest, getVariableTest) {
   EXPECT_EQ(methodCall.getVariable(mContext), nullptr);
 }
 
-TEST_F(MethodCallTest, existsInOuterScopeTest) {
-  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
-  
-  ON_CALL(*mExpression, existsInOuterScope(_)).WillByDefault(Return(false));
-  EXPECT_FALSE(methodCall.existsInOuterScope(mContext));
-  
-  ON_CALL(*mExpression, existsInOuterScope(_)).WillByDefault(Return(true));
-  EXPECT_TRUE(methodCall.existsInOuterScope(mContext));
-}
-
 TEST_F(MethodCallTest, isConstantTest) {
   MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
 

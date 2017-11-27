@@ -77,6 +77,3 @@ void LocalOwnerVariable::free(IRGenerationContext& context) const {
   mType->free(context, valueLoaded);
 }
 
-bool LocalOwnerVariable::existsInOuterScope() const {
-  return false;
-}

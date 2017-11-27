@@ -24,7 +24,6 @@ public:
   MOCK_CONST_METHOD1(generateIR, llvm::Value* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(getType, const wisey::IType* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(releaseOwnership, void (wisey::IRGenerationContext&));
-  MOCK_CONST_METHOD1(existsInOuterScope, bool (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD0(isConstant, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream&));
 };

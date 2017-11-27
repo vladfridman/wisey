@@ -32,10 +32,6 @@ const IType* NullExpression::getType(IRGenerationContext& context) const {
 void NullExpression::releaseOwnership(IRGenerationContext& context) const {
 }
 
-bool NullExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool NullExpression::isConstant() const {
   return true;
 }

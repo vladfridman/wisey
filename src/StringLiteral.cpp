@@ -77,10 +77,6 @@ void wisey::StringLiteral::releaseOwnership(IRGenerationContext& context) const 
   exit(1);
 }
 
-bool wisey::StringLiteral::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool wisey::StringLiteral::isConstant() const {
   return true;
 }

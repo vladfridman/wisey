@@ -129,12 +129,6 @@ TEST_F(LocalPrimitiveVariableTest, generateIdentifierIRTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(LocalPrimitiveVariableTest, existsInOuterScopeTest) {
-  LocalPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, NULL);
-  
-  EXPECT_FALSE(variable.existsInOuterScope());
-}
-
 TEST_F(TestFileSampleRunner, assignmentWithAutocastRunTest) {
   runFile("tests/samples/test_assignment_with_autocast.yz", "1");
 }

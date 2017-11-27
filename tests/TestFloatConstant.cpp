@@ -49,10 +49,6 @@ TEST_F(FloatConstantTest, floatConstantTypeTest) {
   EXPECT_EQ(mFloatConstant.getType(mContext), PrimitiveTypes::FLOAT_TYPE);
 }
 
-TEST_F(FloatConstantTest, existsInOuterScopeTest) {
-  EXPECT_FALSE(mFloatConstant.existsInOuterScope(mContext));
-}
-
 TEST_F(FloatConstantTest, isConstantTest) {
   EXPECT_TRUE(mFloatConstant.isConstant());
 }

@@ -26,7 +26,6 @@ public:
   MOCK_CONST_METHOD1(generateIdentifierIR, llvm::Value* (wisey::IRGenerationContext&));
   MOCK_METHOD2(generateAssignmentIR, llvm::Value* (wisey::IRGenerationContext&,
                                                    wisey::IExpression*));
-  MOCK_CONST_METHOD0(existsInOuterScope, bool ());
   MOCK_CONST_METHOD1(free, void (wisey::IRGenerationContext&));
   MOCK_METHOD1(setToNull, void (wisey::IRGenerationContext&));
 };

@@ -48,10 +48,6 @@ TEST_F(DoubleConstantTest, doubleConstantTypeTest) {
   EXPECT_EQ(mDoubleConstant.getType(mContext), PrimitiveTypes::DOUBLE_TYPE);
 }
 
-TEST_F(DoubleConstantTest, existsInOuterScopeTest) {
-  EXPECT_FALSE(mDoubleConstant.existsInOuterScope(mContext));
-}
-
 TEST_F(DoubleConstantTest, isConstantTest) {
   EXPECT_TRUE(mDoubleConstant.isConstant());
 }

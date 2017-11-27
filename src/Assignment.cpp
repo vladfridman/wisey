@@ -53,10 +53,6 @@ void Assignment::releaseOwnership(IRGenerationContext& context) const {
   mIdentifier->releaseOwnership(context);
 }
 
-bool Assignment::existsInOuterScope(IRGenerationContext& context) const {
-  return mIdentifier->existsInOuterScope(context);
-}
-
 bool Assignment::isConstant() const {
   return false;
 }

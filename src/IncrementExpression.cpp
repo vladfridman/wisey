@@ -67,10 +67,6 @@ void IncrementExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool IncrementExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool IncrementExpression::isConstant() const {
   return false;
 }

@@ -34,10 +34,6 @@ void EmptyExpression::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool EmptyExpression::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool EmptyExpression::isConstant() const {
   return false;
 }

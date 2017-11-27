@@ -255,7 +255,10 @@ TEST_F(TestFileSampleRunner, earlyReturnRunTest) {
 }
 
 TEST_F(TestFileSampleRunner, returnReferenceToFreedObjectRunDeathTest) {
-  expectFailCompile("tests/samples/test_return_reference_to_freed_object.yz",
-          1,
-          "Error: Returning a reference to a value that does not exist in caller's scope.");
+  compileAndRunFileCheckOutput("tests/samples/test_return_reference_to_freed_object.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_return_reference_to_freed_object.yz:23)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n");
 }

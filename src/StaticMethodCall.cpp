@@ -188,10 +188,6 @@ void StaticMethodCall::checkArgumentType(IMethodDescriptor* methodDescriptor,
   }
 }
 
-bool StaticMethodCall::existsInOuterScope(IRGenerationContext& context) const {
-  return true;
-}
-
 bool StaticMethodCall::isConstant() const {
   return false;
 }

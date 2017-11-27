@@ -33,10 +33,6 @@ void BooleanConstant::releaseOwnership(IRGenerationContext& context) const {
   exit(1);
 }
 
-bool BooleanConstant::existsInOuterScope(IRGenerationContext& context) const {
-  return false;
-}
-
 bool BooleanConstant::isConstant() const {
   return true;
 }

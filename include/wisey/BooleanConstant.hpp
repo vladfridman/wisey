@@ -34,8 +34,6 @@ public:
   
   void releaseOwnership(IRGenerationContext& context) const override;
   
-  bool existsInOuterScope(IRGenerationContext& context) const override;
-  
   bool isConstant() const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
