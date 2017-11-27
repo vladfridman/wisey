@@ -26,11 +26,6 @@ class Scopes {
   std::list<Scope *> mScopes;
   std::map<std::string, IVariable*> mClearedVariables;
   /**
-   * When A is assigned to B where A and B are references we need to make sure that
-   * B refers to some owner. That is why we keep a map of reference to owners.
-   */
-  std::map<std::string, std::map<std::string, IVariable*>> mRererenceToOwnersMap;
-  /**
    * When owner is cleared, e.g. when assigned to another owner variable, we need to make sure
    * that all references that refer to that owner are also cleared. That is why this map is needed.
    */
@@ -83,11 +78,6 @@ public:
    * Tells whether a variable with the given name was cleared
    */
   bool isVariableCleared(std::string name);
-  
-  /**
-   * Returns a map of owner variable for the given reference variable
-   */
-  std::map<std::string, IVariable*> getOwnersForReference(IVariable* reference);
   
   /**
    * Pushes a new program scope on the stack of program scopes

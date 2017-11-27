@@ -123,26 +123,7 @@ void Scopes::popScope(IRGenerationContext& context) {
   }
   for (IOwnerVariable* owner : top->getOwnerVariables()) {
     map<string, IVariable*> references = mOwnerToReferencesMap[owner->getName()];
-    for (map<string, IVariable*>::iterator iterator = references.begin();
-         iterator != references.end();
-         iterator++) {
-      IVariable* reference = iterator->second;
-      mRererenceToOwnersMap[reference->getName()].erase(owner->getName());
-    }
     mOwnerToReferencesMap.erase(owner->getName());
-  }
-  for (IReferenceVariable* variable : top->getReferenceVariables()) {
-    if (!mRererenceToOwnersMap.count(variable->getName())) {
-      continue;
-    }
-    map<string, IVariable*> owners = mRererenceToOwnersMap.at(variable->getName());
-    for (map<string, IVariable*>::iterator iterator = owners.begin();
-         iterator != owners.end();
-         iterator++) {
-      IVariable* owner = iterator->second;
-      mOwnerToReferencesMap[owner->getName()].erase(variable->getName());
-    }
-    mRererenceToOwnersMap.erase(variable->getName());
   }
   
   map<string, const Model*> exceptions = top->getExceptions();
@@ -310,10 +291,6 @@ void Scopes::clearReferencesToOwnerTypeVariable(IVariable* ownerVariable) {
     IVariable* referenceVariable = iterator->second;
     mClearedVariables[referenceVariable->getName()] = referenceVariable;
   }
-}
-
-map<string, IVariable*> Scopes::getOwnersForReference(IVariable* reference) {
-  return mRererenceToOwnersMap[reference->getName()];
 }
 
 BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context) {
