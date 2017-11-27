@@ -9,14 +9,25 @@
 #ifndef IStatement_h
 #define IStatement_h
 
-#include "wisey/INode.hpp"
+#include <llvm/IR/Value.h>
 
 namespace wisey {
 
+class IRGenerationContext;
+  
 /**
  * Interface representing a wisey language statement
  */
-class IStatement : public INode {
+class IStatement {
+
+public:
+  
+  virtual ~IStatement() { }
+
+  /**
+   * Generate LLVM Intermediate Reprentation code
+   */
+  virtual llvm::Value* generateIR(IRGenerationContext& context) const = 0;
 
 };
 

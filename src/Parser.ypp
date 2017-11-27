@@ -107,7 +107,6 @@
  * Data types used for parsing
  */
 %union {
-  wisey::INode *node;
   wisey::IExpression* expression;
   wisey::IStatement* statement;
   wisey::IGlobalStatement* global_statement;

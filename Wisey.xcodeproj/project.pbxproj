@@ -769,7 +769,6 @@
 		F5089C721ECD01D9004A1223 /* IHasType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IHasType.hpp; path = include/wisey/IHasType.hpp; sourceTree = "<group>"; };
 		F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IMethodDescriptor.hpp; path = include/wisey/IMethodDescriptor.hpp; sourceTree = "<group>"; };
 		F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IncrementExpression.hpp; path = include/wisey/IncrementExpression.hpp; sourceTree = "<group>"; };
-		F5089C751ECD01D9004A1223 /* INode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = INode.hpp; path = include/wisey/INode.hpp; sourceTree = "<group>"; };
 		F5089C761ECD01D9004A1223 /* IntConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IntConstant.hpp; path = include/wisey/IntConstant.hpp; sourceTree = "<group>"; };
 		F5089C771ECD01D9004A1223 /* Interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Interface.hpp; path = include/wisey/Interface.hpp; sourceTree = "<group>"; };
 		F5089C781ECD01D9004A1223 /* InterfaceDefinition.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = InterfaceDefinition.hpp; path = include/wisey/InterfaceDefinition.hpp; sourceTree = "<group>"; };
@@ -2130,7 +2129,6 @@
 				F5B3DCE31F91156C00FC76D3 /* IMethodCall.hpp */,
 				F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */,
 				F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */,
-				F5089C751ECD01D9004A1223 /* INode.hpp */,
 				F592A7B61F7D609D0026BD2F /* IObjectDefinition.hpp */,
 				F585C7681F97B73100F0FC5E /* IObjectElement.hpp */,
 				F585C7671F97B68000F0FC5E /* IObjectElementDeclaration.hpp */,

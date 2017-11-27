@@ -9,19 +9,29 @@
 #ifndef IExpression_h
 #define IExpression_h
 
+#include <llvm/IR/Value.h>
+
 #include "wisey/IHasType.hpp"
-#include "wisey/INode.hpp"
 #include "wisey/IPrintable.hpp"
 #include "wisey/IVariable.hpp"
 
 namespace wisey {
 
+class IRGenerationContext;
+
 /**
  * Interface representing a wisey language expression
  */
-class IExpression : public INode, public IHasType, public IPrintable {
+class IExpression : public IHasType, public IPrintable {
 
 public:
+
+  virtual ~IExpression() { }
+
+  /**
+   * Generate LLVM Intermediate Reprentation code
+   */
+  virtual llvm::Value* generateIR(IRGenerationContext& context) const = 0;
 
   /**
    * If this expression resolves to a vairable returns the variable otherwise returns NULL
