@@ -612,7 +612,7 @@ method_definition
   : access_specifier type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
       method_exceptions compound_statement
     {
-      $$ = new MethodDeclaration($1, $2, *$3, *$5, *$7, $8);
+      $$ = new MethodDeclaration($1, $2, *$3, *$5, *$7, $8, yylineno);
       delete $3;
       delete $5;
       delete $7;
@@ -620,7 +620,7 @@ method_definition
   | access_specifier TSTATIC type_specifier TIDENTIFIER '(' method_declaration_arguments ')'
       method_exceptions compound_statement
     {
-      $$ = new StaticMethodDeclaration($1, $3, *$4, *$6, *$8, $9);
+      $$ = new StaticMethodDeclaration($1, $3, *$4, *$6, *$8, $9, yylineno);
       delete $4;
       delete $6;
       delete $8;

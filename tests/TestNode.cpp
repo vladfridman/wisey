@@ -157,7 +157,8 @@ struct NodeTest : public Test {
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
                          thrownExceptions,
-                         NULL);
+                         NULL,
+                         0);
     vector<IMethod*> methods;
     methods.push_back(mMethod);
     Method* fooMethod = new Method("foo",
@@ -165,7 +166,8 @@ struct NodeTest : public Test {
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
                                    thrownExceptions,
-                                   NULL);
+                                   NULL,
+                                   0);
     methods.push_back(fooMethod);
     
     vector<Interface*> interfaces;

@@ -30,14 +30,16 @@ Method::Method(string name,
                const IType* returnType,
                vector<MethodArgument*> arguments,
                vector<const Model*> thrownExceptions,
-               CompoundStatement* compoundStatement) :
+               CompoundStatement* compoundStatement,
+               int line) :
 mName(name),
 mAccessLevel(accessLevel),
 mReturnType(returnType),
 mArguments(arguments),
 mThrownExceptions(thrownExceptions),
 mCompoundStatement(compoundStatement),
-mFunction(NULL) { }
+mFunction(NULL),
+mLine(line) { }
 
 Method::~Method() {
   for (MethodArgument* argument : mArguments) {

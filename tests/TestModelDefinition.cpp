@@ -73,7 +73,8 @@ struct ModelDefinitionTest : public Test {
                                                "foo",
                                                methodArguments,
                                                thrownExceptions,
-                                               compoundStatement);
+                                               compoundStatement,
+                                               0);
   }
 };
 

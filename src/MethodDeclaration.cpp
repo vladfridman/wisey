@@ -22,13 +22,15 @@ MethodDeclaration::MethodDeclaration(const AccessLevel AccessLevel,
                                      string name,
                                      VariableList arguments,
                                      vector<ModelTypeSpecifier*> exceptions,
-                                     CompoundStatement* compoundStatement) :
+                                     CompoundStatement* compoundStatement,
+                                     int line) :
 mAccessLevel(AccessLevel),
 mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
 mArguments(arguments),
 mExceptions(exceptions),
-mCompoundStatement(compoundStatement) { }
+mCompoundStatement(compoundStatement),
+mLine(line) { }
 
 MethodDeclaration::~MethodDeclaration() {
   delete mReturnTypeSpecifier;
@@ -49,5 +51,11 @@ IMethod* MethodDeclaration::declare(IRGenerationContext& context) const {
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context, mExceptions);
 
-  return new Method(mName, mAccessLevel, returnType, arguments, exceptions, mCompoundStatement);
+  return new Method(mName,
+                    mAccessLevel,
+                    returnType,
+                    arguments,
+                    exceptions,
+                    mCompoundStatement,
+                    mLine);
 }

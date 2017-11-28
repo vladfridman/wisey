@@ -143,15 +143,17 @@ struct NodeOwnerTest : public Test {
                                  PrimitiveTypes::INT_TYPE,
                                  methodArguments,
                                  thrownExceptions,
-                                 NULL);
+                                 NULL,
+                                 0);
     vector<IMethod*> methods;
     methods.push_back(method);
     IMethod* fooMethod = new Method("foo",
-                                   AccessLevel::PUBLIC_ACCESS,
-                                   PrimitiveTypes::INT_TYPE,
-                                   methodArguments,
-                                   thrownExceptions,
-                                   NULL);
+                                    AccessLevel::PUBLIC_ACCESS,
+                                    PrimitiveTypes::INT_TYPE,
+                                    methodArguments,
+                                    thrownExceptions,
+                                    NULL,
+                                    0);
     methods.push_back(fooMethod);
     
     vector<Interface*> interfaces;

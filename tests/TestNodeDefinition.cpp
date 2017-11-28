@@ -72,7 +72,8 @@ struct NodeDefinitionTest : public Test {
                                                "foo",
                                                methodArguments,
                                                thrownExceptions,
-                                               compoundStatement);
+                                               compoundStatement,
+                                               0);
   }
   
   ~NodeDefinitionTest() {

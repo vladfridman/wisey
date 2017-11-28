@@ -60,7 +60,8 @@ public:
                                      PrimitiveTypes::BOOLEAN_TYPE,
                                      arguments,
                                      thrownExceptions,
-                                     NULL);
+                                     NULL,
+                                     0);
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
@@ -101,7 +102,8 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
                             PrimitiveTypes::FLOAT_TYPE,
                             arguments,
                             thrownExceptions,
-                            &mCompoundStatement);
+                            &mCompoundStatement,
+                            0);
   Function* function = staticMethod.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
@@ -121,7 +123,8 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
                             PrimitiveTypes::FLOAT_TYPE,
                             arguments,
                             thrownExceptions,
-                            &mCompoundStatement);
+                            &mCompoundStatement,
+                            0);
   Function* function = staticMethod.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
@@ -141,7 +144,8 @@ TEST_F(StaticMethodTest, generateIRTest) {
                             PrimitiveTypes::VOID_TYPE,
                             arguments,
                             thrownExceptions,
-                            &mCompoundStatement);
+                            &mCompoundStatement,
+                            0);
   Function* function = staticMethod.defineFunction(mContext, mModel);
   staticMethod.generateIR(mContext, mModel);
   

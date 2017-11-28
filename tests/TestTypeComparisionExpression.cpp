@@ -97,13 +97,15 @@ struct TypeComparisionExpressionTest : public Test {
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
-                                    NULL);
+                                    NULL,
+                                    0);
     IMethod* barMethod = new Method("bar",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
-                                    NULL);
+                                    NULL,
+                                    0);
     squareMethods.push_back(fooMethod);
     squareMethods.push_back(barMethod);
     

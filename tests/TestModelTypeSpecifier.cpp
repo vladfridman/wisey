@@ -47,7 +47,8 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
-                                    NULL);
+                                    NULL,
+                                    0);
     methods.push_back(fooMethod);
     mModel = Model::newModel(modelFullName, structType);
     mModel->setFields(fields, 1u);

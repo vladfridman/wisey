@@ -340,7 +340,8 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
                         "foo",
                         arguments,
                         thrownExceptions,
-                        compoundStatement);
+                        compoundStatement,
+                        0);
 
   string name = "systems.vos.wisey.compiler.tests.IInterface";
   StructType* structType = StructType::create(mLLVMContext, name);

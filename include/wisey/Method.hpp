@@ -30,6 +30,7 @@ class Method : public IMethod {
   std::vector<const Model*> mThrownExceptions;
   CompoundStatement* mCompoundStatement;
   llvm::Function* mFunction;
+  int mLine;
   
 public:
   
@@ -38,7 +39,8 @@ public:
          const IType* returnType,
          std::vector<MethodArgument*> arguments,
          std::vector<const Model*> thrownExceptions,
-         CompoundStatement* compoundStatement);
+         CompoundStatement* compoundStatement,
+         int line);
   
   ~Method();
   

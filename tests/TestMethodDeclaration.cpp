@@ -62,7 +62,8 @@ TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
                                       "foo",
                                       mArguments,
                                       thrownExceptions,
-                                      mCompoundStatement);
+                                      mCompoundStatement,
+                                      0);
   IMethod* method = methodDeclaration.declare(mContext);
   vector<MethodArgument*> arguments = method->getArguments();
   

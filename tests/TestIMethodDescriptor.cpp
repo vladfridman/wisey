@@ -49,7 +49,8 @@ public:
                          PrimitiveTypes::BOOLEAN_TYPE,
                          arguments,
                          thrownExceptions,
-                         NULL);
+                         NULL,
+                         0);
 
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
@@ -81,7 +82,8 @@ TEST_F(IMethodDescriptorTest, compareTest) {
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                NULL);
+                NULL,
+                0);
   
   ASSERT_TRUE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -98,7 +100,8 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                NULL);
+                NULL,
+                0);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -113,7 +116,8 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                NULL);
+                NULL,
+                0);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }
@@ -130,7 +134,8 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
                 thrownExceptions,
-                NULL);
+                NULL,
+                0);
   
   ASSERT_FALSE(IMethodDescriptor::compare(&method, mMethod));
 }

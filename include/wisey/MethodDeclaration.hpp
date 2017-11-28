@@ -30,6 +30,7 @@ class MethodDeclaration : public IMethodDeclaration {
   VariableList mArguments;
   std::vector<ModelTypeSpecifier*> mExceptions;
   CompoundStatement* mCompoundStatement;
+  int mLine;
   
 public:
   
@@ -38,7 +39,8 @@ public:
                     std::string name,
                     VariableList arguments,
                     std::vector<ModelTypeSpecifier*> exceptions,
-                    CompoundStatement* compoundStatement);
+                    CompoundStatement* compoundStatement,
+                    int line);
   
   ~MethodDeclaration();
   

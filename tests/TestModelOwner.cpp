@@ -84,7 +84,8 @@ struct ModelOwnerTest : public Test {
                                  PrimitiveTypes::INT_TYPE,
                                  methodArguments,
                                  thrownExceptions,
-                                 NULL);
+                                 NULL,
+                                 0);
     vector<IMethod*> methods;
     methods.push_back(method);
     IMethod* barMethod = new Method("bar",
@@ -92,7 +93,8 @@ struct ModelOwnerTest : public Test {
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
-                                    NULL);
+                                    NULL,
+                                    0);
     methods.push_back(barMethod);
     
     string subShapeFullName = "systems.vos.wisey.compiler.tests.ISubShape";

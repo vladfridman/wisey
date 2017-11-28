@@ -66,7 +66,8 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
                                                              "pushStack",
                                                              arguments,
                                                              exceptions,
-                                                             compoundStatement);
+                                                             compoundStatement,
+                                                             0);
 
   arguments.clear();
   voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
@@ -77,7 +78,8 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
                                                             "popStack",
                                                             arguments,
                                                             exceptions,
-                                                            compoundStatement);
+                                                            compoundStatement,
+                                                            0);
 
   elementDeclarations.push_back(pushStackMethod);
   elementDeclarations.push_back(popStackMethod);

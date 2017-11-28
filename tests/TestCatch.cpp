@@ -58,7 +58,8 @@ public:
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
-                                    NULL);
+                                    NULL,
+                                    0);
     methods.push_back(fooMethod);
     mModel = Model::newModel(modelFullName, structType);
     mModel->setMethods(methods);

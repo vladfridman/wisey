@@ -78,7 +78,8 @@ struct ControllerDefinitionTest : public Test {
                                               "foo",
                                               methodArguments,
                                               thrownExceptions,
-                                              compoundStatement);
+                                              compoundStatement,
+                                              0);
 
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);

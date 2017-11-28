@@ -99,7 +99,8 @@ public:
                                     mReturnedModel,
                                     methodArguments,
                                     fooThrownExceptions,
-                                    NULL);
+                                    NULL,
+                                    0);
     vector<IMethod*> methods;
     methods.push_back(fooMethod);
     vector<const Model*> barThrownExceptions;
@@ -111,7 +112,8 @@ public:
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     barThrownExceptions,
-                                    NULL);
+                                    NULL,
+                                    0);
     methods.push_back(barMethod);
     mModel = Model::newModel(modelFullName, mStructType);
     mModel->setFields(fields, 1u);
