@@ -46,7 +46,8 @@ Value* ParameterOwnerVariable::generateIdentifierIR(IRGenerationContext& context
 }
 
 Value* ParameterOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                    IExpression* assignToExpression) {
+                                                    IExpression* assignToExpression,
+                                                    int line) {
   Log::e("Assignment to method parameters is not allowed");
   exit(1);
 }

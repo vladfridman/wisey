@@ -65,7 +65,8 @@ public:
    * Generate LLVM IR for when it is assigned to a given value
    */
   virtual llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                            IExpression* assignToExpression) = 0;
+                                            IExpression* assignToExpression,
+                                            int line) = 0;
 
   /**
    * Creates a name for naming temporary heap variables in the scope

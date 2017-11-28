@@ -70,7 +70,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   }
   
   IVariable* variable = IVariable::getVariable(context, mIdentifier->getName());
-  variable->generateAssignmentIR(context, mAssignmentExpression);
+  variable->generateAssignmentIR(context, mAssignmentExpression, mLine);
   
   return NULL;
 }

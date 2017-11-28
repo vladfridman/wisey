@@ -107,7 +107,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(barValue));
   
-  uninitializedHeapVariable->generateAssignmentIR(mContext, &expression);
+  uninitializedHeapVariable->generateAssignmentIR(mContext, &expression, 0);
 
   *mStringStream << *mBlock;
   string expected =
@@ -131,7 +131,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
   llvm::Constant* null = ConstantPointerNull::get(llvmType);
   FakeExpression* fakeExpression = new FakeExpression(null, mModel);
-  localReferenceVariable.generateAssignmentIR(mContext, fakeExpression);
+  localReferenceVariable.generateAssignmentIR(mContext, fakeExpression, 0);
 
   Value* instruction = localReferenceVariable.generateIdentifierIR(mContext);
 

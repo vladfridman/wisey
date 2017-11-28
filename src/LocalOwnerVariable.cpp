@@ -51,7 +51,10 @@ Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context) co
 }
 
 Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                IExpression* assignToExpression) {
+                                                IExpression* assignToExpression,
+                                                int line) {
+  Composer::pushCallStack(context, line);
+  
   Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
@@ -61,6 +64,8 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   IRWriter::newStoreInst(context, newValue, mValueStore);
   
   mIsInitialized = true;
+  
+  Composer::popCallStack(context);
   
   return newValue;
 }

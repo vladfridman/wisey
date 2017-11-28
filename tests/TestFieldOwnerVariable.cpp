@@ -145,7 +145,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
-  mFieldOwnerVariable->generateAssignmentIR(mContext, &assignToExpression);
+  mFieldOwnerVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -171,7 +171,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTes
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
   FieldOwnerVariable* ownerFieldVariable = new FieldOwnerVariable("bar", mObject);
-  ownerFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
+  ownerFieldVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

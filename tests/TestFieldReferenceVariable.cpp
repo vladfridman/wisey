@@ -134,7 +134,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
-  mFieldReferenceVariable->generateAssignmentIR(mContext, &assignToExpression);
+  mFieldReferenceVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -162,7 +162,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithC
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
   FieldReferenceVariable* referenceFieldVariable = new FieldReferenceVariable("bar", mObject);
-  referenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression);
+  referenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

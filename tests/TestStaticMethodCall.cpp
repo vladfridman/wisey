@@ -145,7 +145,7 @@ public:
                                                           mThreadController,
                                                           threadStore);
     FakeExpression* fakeExpression = new FakeExpression(null, mThreadController);
-    threadVariable->generateAssignmentIR(mContext, fakeExpression);
+    threadVariable->generateAssignmentIR(mContext, fakeExpression, 0);
     mContext.getScopes().setVariable(threadVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();

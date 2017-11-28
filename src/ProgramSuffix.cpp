@@ -78,7 +78,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   threadVariable->setToNull(context);
   FakeExpression* threadExpression = new FakeExpression(injectedThread,
                                                         threadController->getOwner());
-  threadVariable->generateAssignmentIR(context, threadExpression);
+  threadVariable->generateAssignmentIR(context, threadExpression, 0);
 
   vector<string> package;
   package.push_back("wisey");

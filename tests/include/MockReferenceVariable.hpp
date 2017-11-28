@@ -24,8 +24,9 @@ public:
   MOCK_CONST_METHOD0(getType, const wisey::IType* ());
   MOCK_CONST_METHOD0(getValue, llvm::Value* ());
   MOCK_CONST_METHOD1(generateIdentifierIR, llvm::Value* (wisey::IRGenerationContext&));
-  MOCK_METHOD2(generateAssignmentIR, llvm::Value* (wisey::IRGenerationContext&,
-                                                   wisey::IExpression*));
+  MOCK_METHOD3(generateAssignmentIR, llvm::Value* (wisey::IRGenerationContext&,
+                                                   wisey::IExpression*,
+                                                   int));
   MOCK_CONST_METHOD1(decrementReferenceCounter, void (wisey::IRGenerationContext&));
 };
 

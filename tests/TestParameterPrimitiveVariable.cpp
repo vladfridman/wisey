@@ -76,7 +76,7 @@ TEST_F(ParameterPrimitiveVariableTest, parameterReferenceVariableAssignmentDeath
   Value* fooValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   ParameterPrimitiveVariable variable("foo", PrimitiveTypes::INT_TYPE, fooValue);
   
-  EXPECT_EXIT(variable.generateAssignmentIR(mContext, NULL),
+  EXPECT_EXIT(variable.generateAssignmentIR(mContext, NULL, 0),
               ::testing::ExitedWithCode(1),
               "Error: Assignment to method parameters is not allowed");
 }

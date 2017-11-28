@@ -88,7 +88,7 @@ TEST_F(IdentifierTest, generateIRTest) {
   Identifier identifier("foo");
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(1);
-  EXPECT_CALL(mockVariable, generateAssignmentIR(_, _)).Times(0);
+  EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _)).Times(0);
   
   identifier.generateIR(mContext, IR_GENERATION_NORMAL);
 }

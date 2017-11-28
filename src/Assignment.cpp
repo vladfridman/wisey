@@ -33,11 +33,7 @@ Value* Assignment::generateIR(IRGenerationContext& context, IRGenerationFlag fla
     exit(1);
   }
   
-  Composer::pushCallStack(context, mLine);
-  
-  Value* result = variable->generateAssignmentIR(context, mExpression);
-  
-  Composer::popCallStack(context);
+  Value* result = variable->generateAssignmentIR(context, mExpression, mLine);
   
   if (flag == IR_GENERATION_RELEASE) {
     assert(IType::isOwnerType(variable->getType()));

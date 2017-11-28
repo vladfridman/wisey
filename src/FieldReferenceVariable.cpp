@@ -42,7 +42,8 @@ Value* FieldReferenceVariable::generateIdentifierIR(IRGenerationContext& context
 }
 
 Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                    IExpression* assignToExpression) {
+                                                    IExpression* assignToExpression,
+                                                    int line) {
   Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
 
   const IType* expressionType = assignToExpression->getType(context);

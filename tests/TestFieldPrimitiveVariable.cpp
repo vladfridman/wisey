@@ -106,7 +106,7 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentIRTes
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
-  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression);
+  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -125,7 +125,7 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentWithC
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   
-  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression);
+  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

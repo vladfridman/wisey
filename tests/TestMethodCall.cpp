@@ -147,7 +147,7 @@ public:
                                                            mThreadController,
                                                            threadStore);
     FakeExpression* fakeExpression = new FakeExpression(null, mThreadController);
-    threadVariable->generateAssignmentIR(mContext, fakeExpression);
+    threadVariable->generateAssignmentIR(mContext, fakeExpression, 0);
     mContext.getScopes().setVariable(threadVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();
@@ -245,9 +245,9 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
 
   *mStringStream << *irValue;
   string expected =
-  "  %10 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
+  "  %9 = invoke %systems.vos.wisey.compiler.tests.MReturnedModel* "
   "@systems.vos.wisey.compiler.tests.MSquare.foo(%systems.vos.wisey.compiler.tests.MSquare* %0, "
-  "%wisey.lang.CThread* %9, float 0x4014CCCCC0000000)"
+  "%wisey.lang.CThread* %8, float 0x4014CCCCC0000000)"
   "\n          to label %invoke.continue1 unwind label %cleanup";
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(methodCall.getType(mContext), mReturnedModel);
@@ -281,9 +281,9 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   Value* irValue = methodCall.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %7 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
+  EXPECT_STREQ("  %6 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
                "%systems.vos.wisey.compiler.tests.MSquare* %0, "
-               "%wisey.lang.CThread* %6, "
+               "%wisey.lang.CThread* %5, "
                "float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());

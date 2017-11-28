@@ -36,7 +36,8 @@ public:
   llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
-                                    IExpression* assignToExpression) override;
+                                    IExpression* assignToExpression,
+                                    int line) override;
 
 };
 

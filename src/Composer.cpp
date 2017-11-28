@@ -77,6 +77,11 @@ void Composer::popCallStack(IRGenerationContext& context) {
     return;
   }
 
+  Value* sourceFileNamePointer = context.getSourceFileNamePointer();
+  if (sourceFileNamePointer == NULL) {
+    return;
+  }
+
   IVariable* threadVariable = context.getScopes().getVariable(ThreadExpression::THREAD);
   Value* threadObject = threadVariable->generateIdentifierIR(context);
 
