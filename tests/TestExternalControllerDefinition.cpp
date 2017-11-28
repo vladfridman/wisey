@@ -51,7 +51,7 @@ struct ExternalControllerDefinitionTest : public Test {
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     Identifier* intArgumentIdentifier = new Identifier("intargument");
     VariableDeclaration* intArgument =
-    new VariableDeclaration(intTypeSpecifier, intArgumentIdentifier);
+    VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ModelTypeSpecifier*> thrownExceptions;

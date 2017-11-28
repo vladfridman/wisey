@@ -23,26 +23,37 @@ namespace wisey {
  */
 class VariableDeclaration : public IStatement {
   const ITypeSpecifier* mTypeSpecifier;
-  Identifier* mId;
+  Identifier* mIdentifier;
   IExpression* mAssignmentExpression;
 
 public:
-  VariableDeclaration(const ITypeSpecifier* typeSpecifier, Identifier* id);
-
-  VariableDeclaration(const ITypeSpecifier* typeSpecifier,
-                      Identifier* id,
-                      IExpression* assignmentExpression);
-
+  
   ~VariableDeclaration();
+  
+  /**
+   * Create and instance of VariableDeclaration
+   */
+  static VariableDeclaration* create(const ITypeSpecifier* typeSpecifier, Identifier* identifier);
+  
+  /**
+   * Create and instance of VariableDeclaration with assignment to the given expression
+   */
+  static VariableDeclaration* createWithAssignment(const ITypeSpecifier* typeSpecifier,
+                                                   Identifier* identifier,
+                                                   IExpression* assignmentExpression);
   
   const ITypeSpecifier* getTypeSpecifier() const;
   
-  const Identifier* getId() const;
+  const Identifier* getIdentifier() const;
 
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   
 private:
   
+  VariableDeclaration(const ITypeSpecifier* typeSpecifier,
+                      Identifier* identifier,
+                      IExpression* assignmentExpression);
+
   void allocatePrimitive(IRGenerationContext& context,
                          const IPrimitiveType* type) const;
   

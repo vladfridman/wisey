@@ -88,10 +88,12 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   Identifier* programIdentifier = new Identifier("program");
   programInterfaceSpecifier = new InterfaceTypeSpecifier(package, Names::getIProgramName());
   OwnerTypeSpecifier* programOwnerTypeSpecifier = new OwnerTypeSpecifier(programInterfaceSpecifier);
-  VariableDeclaration programVariableDeclaration(programOwnerTypeSpecifier,
-                                                 programIdentifier,
-                                                 injector);
-  programVariableDeclaration.generateIR(context);
+  VariableDeclaration* programVariableDeclaration =
+  VariableDeclaration::createWithAssignment(programOwnerTypeSpecifier,
+                                            programIdentifier,
+                                            injector);
+  programVariableDeclaration->generateIR(context);
+  delete programVariableDeclaration;
 
   ExpressionList argumentList;
   programIdentifier = new Identifier("program");

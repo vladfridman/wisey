@@ -25,20 +25,29 @@ using namespace std;
 using namespace wisey;
 
 VariableDeclaration::VariableDeclaration(const ITypeSpecifier* typeSpecifier,
-                                         Identifier* id) :
-mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(NULL) { }
-
-VariableDeclaration::VariableDeclaration(const ITypeSpecifier* typeSpecifier,
-                                         Identifier* id,
+                                         Identifier* identifier,
                                          IExpression* assignmentExpression) :
-mTypeSpecifier(typeSpecifier), mId(id), mAssignmentExpression(assignmentExpression) { }
+mTypeSpecifier(typeSpecifier),
+mIdentifier(identifier),
+mAssignmentExpression(assignmentExpression) { }
 
 VariableDeclaration::~VariableDeclaration() {
-  delete mId;
+  delete mIdentifier;
   delete mTypeSpecifier;
   if (mAssignmentExpression != NULL) {
     delete mAssignmentExpression;
   }
+}
+
+VariableDeclaration* VariableDeclaration::create(const ITypeSpecifier *typeSpecifier,
+                                                 Identifier* identifier) {
+  return new VariableDeclaration(typeSpecifier, identifier, NULL);
+}
+
+VariableDeclaration* VariableDeclaration::createWithAssignment(const ITypeSpecifier *typeSpecifier,
+                                                               Identifier* identifier,
+                                                               IExpression* assignmentExpression) {
+  return new VariableDeclaration(typeSpecifier, identifier, assignmentExpression);
 }
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
@@ -56,7 +65,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     return NULL;
   }
   
-  IVariable* variable = IVariable::getVariable(context, mId->getName());
+  IVariable* variable = IVariable::getVariable(context, mIdentifier->getName());
   variable->generateAssignmentIR(context, mAssignmentExpression);
   
   return NULL;
@@ -65,9 +74,11 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
                                             const IPrimitiveType* type) const {
   Type* llvmType = type->getLLVMType(context.getLLVMContext());
-  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mId->getName());
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mIdentifier->getName());
 
-  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(mId->getName(), type, alloc);
+  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(mIdentifier->getName(),
+                                                                type,
+                                                                alloc);
   context.getScopes().setVariable(variable);
 
   if (mAssignmentExpression != NULL) {
@@ -98,7 +109,7 @@ void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
 
 void VariableDeclaration::allocateOwner(IRGenerationContext& context,
                                         const IObjectOwnerType* type) const {
-  string variableName = mId->getName();
+  string variableName = mIdentifier->getName();
   PointerType* llvmType = type->getLLVMType(context.getLLVMContext());
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
@@ -110,7 +121,7 @@ void VariableDeclaration::allocateOwner(IRGenerationContext& context,
 
 void VariableDeclaration::allocateReference(IRGenerationContext& context,
                                             const IObjectType* type) const {
-  string variableName = mId->getName();
+  string variableName = mIdentifier->getName();
   PointerType* llvmType = (PointerType*) type->getLLVMType(context.getLLVMContext());
 
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
@@ -124,6 +135,6 @@ const ITypeSpecifier* VariableDeclaration::getTypeSpecifier() const {
   return mTypeSpecifier;
 }
 
-const Identifier* VariableDeclaration::getId() const {
-  return mId;
+const Identifier* VariableDeclaration::getIdentifier() const {
+  return mIdentifier;
 }

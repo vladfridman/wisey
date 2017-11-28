@@ -67,9 +67,9 @@ struct VariableDeclarationTest : public Test {
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   PrimitiveTypeSpecifier* typeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  VariableDeclaration declaration(typeSpecifier, mIdentifier);
+  VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier);
 
-  declaration.generateIR(mContext);
+  declaration->generateIR(mContext);
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
   ASSERT_EQ(2ul, mBlock->size());
@@ -81,6 +81,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+  delete declaration;
 }
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
@@ -89,9 +90,10 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   Value * value = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 5);
   ON_CALL(*expression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  VariableDeclaration declaration(typeSpecifier, mIdentifier, expression);
+  VariableDeclaration* declaration =
+  VariableDeclaration::createWithAssignment(typeSpecifier, mIdentifier, expression);
   
-  declaration.generateIR(mContext);
+  declaration->generateIR(mContext);
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
   ASSERT_EQ(2ul, mBlock->size());
@@ -105,6 +107,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   *mStringStream << *iterator;
   EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %foo");
   mStringBuffer.clear();
+  delete declaration;
 }
 
 TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
@@ -126,9 +129,9 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   model->setFields(fields, 1u);
 
   mContext.addModel(model);
-  VariableDeclaration declaration(typeSpecifier, mIdentifier);
+  VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier);
   
-  declaration.generateIR(mContext);
+  declaration->generateIR(mContext);
   
   EXPECT_NE(mContext.getScopes().getVariable("foo"), nullptr);
 
@@ -142,6 +145,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
+  delete declaration;
 }
 
 TEST_F(TestFileSampleRunner, variableDeclarationRunTest) {
