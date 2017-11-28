@@ -76,7 +76,7 @@ TEST_F(ReturnVoidStatementTest, returnVoidTest) {
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
   
-  ReturnVoidStatement returnVoidStatement;
+  ReturnVoidStatement returnVoidStatement(0);
   returnVoidStatement.generateIR(mContext);
   
   ASSERT_EQ(1ul, basicBlock->size());
@@ -110,7 +110,7 @@ TEST_F(ReturnVoidStatementTest, ownerVariablesAreClearedTest) {
   IVariable* bar = new LocalOwnerVariable("bar", mModel->getOwner(), barPointer);
   mContext.getScopes().setVariable(bar);
   
-  ReturnVoidStatement returnStatement;
+  ReturnVoidStatement returnStatement(0);
   
   returnStatement.generateIR(mContext);
   
@@ -166,7 +166,7 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTes
   IVariable* bar = new LocalReferenceVariable("bar", mModel, barStore);
   mContext.getScopes().setVariable(bar);
 
-  ReturnVoidStatement returnStatement;
+  ReturnVoidStatement returnStatement(0);
   
   returnStatement.generateIR(mContext);
   

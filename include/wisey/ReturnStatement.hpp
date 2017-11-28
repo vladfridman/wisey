@@ -20,10 +20,11 @@ namespace wisey {
 class ReturnStatement : public IStatement {
 
   IExpression* mExpression;
+  int mLine;
   
 public:
   
-  ReturnStatement(IExpression* expression);
+  ReturnStatement(IExpression* expression, int line);
 
   ~ReturnStatement();
   

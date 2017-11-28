@@ -15,7 +15,7 @@
 using namespace llvm;
 using namespace wisey;
 
-ReturnVoidStatement::ReturnVoidStatement() { }
+ReturnVoidStatement::ReturnVoidStatement(int line) : mLine(line) { }
 
 ReturnVoidStatement::~ReturnVoidStatement() { }
 

@@ -102,7 +102,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
                                                       "run",
                                                       argumentList,
                                                       0);
-  ReturnStatement* returnStatement = new ReturnStatement(runnerCall);
+  ReturnStatement* returnStatement = new ReturnStatement(runnerCall, 0);
   returnStatement->generateIR(context);
 
   context.getScopes().popScope(context);

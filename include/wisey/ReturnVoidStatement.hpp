@@ -18,9 +18,11 @@ namespace wisey {
  */
 class ReturnVoidStatement : public IStatement {
 
+  int mLine;
+  
 public:
 
-  ReturnVoidStatement();
+  ReturnVoidStatement(int line);
   
   ~ReturnVoidStatement();
   

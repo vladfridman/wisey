@@ -87,7 +87,7 @@ public:
 TEST_F(ReturnStatementTest, parentFunctionIsNullDeathTest) {
   mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry"));
   mContext.getScopes().pushScope();
-  ReturnStatement returnStatement(mExpression);
+  ReturnStatement returnStatement(mExpression, 0);
 
   Mock::AllowLeak(mExpression);
   EXPECT_EXIT(returnStatement.generateIR(mContext),
@@ -102,7 +102,7 @@ TEST_F(ReturnStatementTest, parentFunctionIsIncopatableTypeDeathTest) {
   mContext.setBasicBlock(BasicBlock::Create(mLLVMContext, "entry", function));
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::VOID_TYPE);
-  ReturnStatement returnStatement(mExpression);
+  ReturnStatement returnStatement(mExpression, 0);
   
   Mock::AllowLeak(mExpression);
   EXPECT_EXIT(returnStatement.generateIR(mContext),
@@ -117,7 +117,7 @@ TEST_F(ReturnStatementTest, parentFunctionIntTest) {
   mContext.setBasicBlock(basicBlock);
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
-  ReturnStatement returnStatement(mExpression);
+  ReturnStatement returnStatement(mExpression, 0);
 
   returnStatement.generateIR(mContext);
   
@@ -158,7 +158,7 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   IVariable* bar = new LocalOwnerVariable("bar", mModel->getOwner(), barPointer);
   mContext.getScopes().setVariable(bar);
 
-  ReturnStatement returnStatement(mExpression);
+  ReturnStatement returnStatement(mExpression, 0);
   
   returnStatement.generateIR(mContext);
   
@@ -214,7 +214,7 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   IVariable* bar = new LocalReferenceVariable("bar", mModel, barStore);
   mContext.getScopes().setVariable(bar);
   
-  ReturnStatement returnStatement(mExpression);
+  ReturnStatement returnStatement(mExpression, 0);
   
   returnStatement.generateIR(mContext);
   

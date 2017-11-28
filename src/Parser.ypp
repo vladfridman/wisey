@@ -575,8 +575,8 @@ iteration_statement
 jump_statement
   : TCONTINUE ';' { $$ = new ContinueStatement(); }
   | TBREAK ';' { $$ = new BreakStatement(); }
-  | TRETURN ';' { $$ =  new ReturnVoidStatement(); }
-  | TRETURN expression ';' { $$ = new ReturnStatement($2); }
+  | TRETURN ';' { $$ =  new ReturnVoidStatement(yylineno); }
+  | TRETURN expression ';' { $$ = new ReturnStatement($2, yylineno); }
   ;
 
 throw_statement
