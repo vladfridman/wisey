@@ -64,7 +64,7 @@ struct ModelDefinitionTest : public Test {
       new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     Identifier* intArgumentIdentifier = new Identifier("intargument");
     VariableDeclaration* intArgument =
-    VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier);
+    VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ModelTypeSpecifier*> thrownExceptions;
@@ -172,8 +172,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                                   Names::getNPEModelName());
   methodThrownExceptions.push_back(modelTypeSpecifier);
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  VariableDeclaration* methodArgument = VariableDeclaration::create(intSpecifier,
-                                                                    new Identifier("intargument"));
+  VariableDeclaration* methodArgument =
+  VariableDeclaration::create(intSpecifier, new Identifier("intargument"), 0);
   methodArguments.push_back(methodArgument);
   PrimitiveTypeSpecifier* floatSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   IObjectElementDeclaration* methodSignature =

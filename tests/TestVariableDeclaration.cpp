@@ -67,7 +67,7 @@ struct VariableDeclarationTest : public Test {
 
 TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   PrimitiveTypeSpecifier* typeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier);
+  VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier, 0);
 
   declaration->generateIR(mContext);
   
@@ -91,7 +91,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
   ON_CALL(*expression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   VariableDeclaration* declaration =
-  VariableDeclaration::createWithAssignment(typeSpecifier, mIdentifier, expression);
+  VariableDeclaration::createWithAssignment(typeSpecifier, mIdentifier, expression, 0);
   
   declaration->generateIR(mContext);
   
@@ -129,7 +129,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   model->setFields(fields, 1u);
 
   mContext.addModel(model);
-  VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier);
+  VariableDeclaration* declaration = VariableDeclaration::create(typeSpecifier, mIdentifier, 0);
   
   declaration->generateIR(mContext);
   

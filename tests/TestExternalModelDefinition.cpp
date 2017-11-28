@@ -44,7 +44,7 @@ struct ExternalModelDefinitionTest : public Test {
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
     Identifier* intArgumentIdentifier = new Identifier("intargument");
     VariableDeclaration* intArgument =
-    VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier);
+    VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
     vector<ModelTypeSpecifier*> thrownExceptions;

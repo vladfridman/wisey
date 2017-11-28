@@ -26,10 +26,12 @@ using namespace wisey;
 
 VariableDeclaration::VariableDeclaration(const ITypeSpecifier* typeSpecifier,
                                          Identifier* identifier,
-                                         IExpression* assignmentExpression) :
+                                         IExpression* assignmentExpression,
+                                         int line) :
 mTypeSpecifier(typeSpecifier),
 mIdentifier(identifier),
-mAssignmentExpression(assignmentExpression) { }
+mAssignmentExpression(assignmentExpression),
+mLine(line) { }
 
 VariableDeclaration::~VariableDeclaration() {
   delete mIdentifier;
@@ -40,14 +42,16 @@ VariableDeclaration::~VariableDeclaration() {
 }
 
 VariableDeclaration* VariableDeclaration::create(const ITypeSpecifier *typeSpecifier,
-                                                 Identifier* identifier) {
-  return new VariableDeclaration(typeSpecifier, identifier, NULL);
+                                                 Identifier* identifier,
+                                                 int line) {
+  return new VariableDeclaration(typeSpecifier, identifier, NULL, line);
 }
 
 VariableDeclaration* VariableDeclaration::createWithAssignment(const ITypeSpecifier *typeSpecifier,
                                                                Identifier* identifier,
-                                                               IExpression* assignmentExpression) {
-  return new VariableDeclaration(typeSpecifier, identifier, assignmentExpression);
+                                                               IExpression* assignmentExpression,
+                                                               int line) {
+  return new VariableDeclaration(typeSpecifier, identifier, assignmentExpression, line);
 }
 
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {

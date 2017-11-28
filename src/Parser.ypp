@@ -604,9 +604,9 @@ catch_clause
   ;
 
 variable_declaration
-  : type_specifier identifier ';' { $$ = VariableDeclaration::create($1, $2); }
+  : type_specifier identifier ';' { $$ = VariableDeclaration::create($1, $2, yylineno); }
   | type_specifier identifier '=' expression ';'
-    { $$ = VariableDeclaration::createWithAssignment($1, $2, $4); }
+    { $$ = VariableDeclaration::createWithAssignment($1, $2, $4, yylineno); }
   ;
 
 method_definition
@@ -639,7 +639,7 @@ exception_type_specifier_list
   ;
 
 method_argument_declaration
-  : type_specifier identifier { $$ = VariableDeclaration::create($1, $2); }
+  : type_specifier identifier { $$ = VariableDeclaration::create($1, $2, yylineno); }
   ;
 
 method_declaration_arguments

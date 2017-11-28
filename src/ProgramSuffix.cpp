@@ -91,7 +91,8 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   VariableDeclaration* programVariableDeclaration =
   VariableDeclaration::createWithAssignment(programOwnerTypeSpecifier,
                                             programIdentifier,
-                                            injector);
+                                            injector,
+                                            0);
   programVariableDeclaration->generateIR(context);
   delete programVariableDeclaration;
 

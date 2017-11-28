@@ -45,8 +45,8 @@ struct MethodSignatureDeclarationTest : Test {
   mIntTypeSpecifier(new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE)),
   mIntArgumentIdentifier(new Identifier("intargument")),
   mFloatArgumentIdentifier(new Identifier("floatargument")),
-  mIntArgument(VariableDeclaration::create(mIntTypeSpecifier, mIntArgumentIdentifier)),
-  mFloatArgument(VariableDeclaration::create(mFloatTypeSpecifier, mFloatArgumentIdentifier)) {
+  mIntArgument(VariableDeclaration::create(mIntTypeSpecifier, mIntArgumentIdentifier, 0)),
+  mFloatArgument(VariableDeclaration::create(mFloatTypeSpecifier, mFloatArgumentIdentifier, 0)) {
     TestPrefix::generateIR(mContext);
 
     LLVMContext& llvmContext = mContext.getLLVMContext();

@@ -25,6 +25,7 @@ class VariableDeclaration : public IStatement {
   const ITypeSpecifier* mTypeSpecifier;
   Identifier* mIdentifier;
   IExpression* mAssignmentExpression;
+  int mLine;
 
 public:
   
@@ -33,14 +34,17 @@ public:
   /**
    * Create and instance of VariableDeclaration
    */
-  static VariableDeclaration* create(const ITypeSpecifier* typeSpecifier, Identifier* identifier);
+  static VariableDeclaration* create(const ITypeSpecifier* typeSpecifier,
+                                     Identifier* identifier,
+                                     int line);
   
   /**
    * Create and instance of VariableDeclaration with assignment to the given expression
    */
   static VariableDeclaration* createWithAssignment(const ITypeSpecifier* typeSpecifier,
                                                    Identifier* identifier,
-                                                   IExpression* assignmentExpression);
+                                                   IExpression* assignmentExpression,
+                                                   int line);
   
   const ITypeSpecifier* getTypeSpecifier() const;
   
@@ -52,7 +56,8 @@ private:
   
   VariableDeclaration(const ITypeSpecifier* typeSpecifier,
                       Identifier* identifier,
-                      IExpression* assignmentExpression);
+                      IExpression* assignmentExpression,
+                      int line);
 
   void allocatePrimitive(IRGenerationContext& context,
                          const IPrimitiveType* type) const;
