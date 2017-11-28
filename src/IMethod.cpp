@@ -83,7 +83,9 @@ void IMethod::checkForUnhandledExceptions(IRGenerationContext& context, const IM
   }
 }
 
-void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context, const IMethod* method) {
+void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context,
+                                        const IMethod* method,
+                                        int line) {
   if (context.getBasicBlock()->getTerminator()) {
     return;
   }
@@ -95,7 +97,7 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context, const IMet
     exit(1);
   }
   
-  context.getScopes().freeOwnedMemory(context);
+  context.getScopes().freeOwnedMemory(context, line);
   IRWriter::createReturnInst(context, NULL);
 }
 

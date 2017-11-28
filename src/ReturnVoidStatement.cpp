@@ -20,7 +20,7 @@ ReturnVoidStatement::ReturnVoidStatement(int line) : mLine(line) { }
 ReturnVoidStatement::~ReturnVoidStatement() { }
 
 Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
-  context.getScopes().freeOwnedMemory(context);
+  context.getScopes().freeOwnedMemory(context, mLine);
 
   return IRWriter::createReturnInst(context, NULL);
 }

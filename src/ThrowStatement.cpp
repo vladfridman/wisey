@@ -41,10 +41,6 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   context.getScopes().getScope()->addException(model);
 
-  if (mLine) {
-    Composer::pushCallStack(context, mLine);
-  }
-  
   GlobalVariable* rtti = context.getModule()->getNamedGlobal(model->getRTTIVariableName());
 
   PointerType* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
@@ -83,10 +79,6 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
   Value* result = IRWriter::createInvokeInst(context, throwFunction, throwArguments, "", mLine);
 
   IRWriter::newUnreachableInst(context);
-
-  if (mLine) {
-    Composer::popCallStack(context);
-  }
   
   return result;
 }

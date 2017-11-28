@@ -57,7 +57,7 @@ void Scopes::pushScope() {
 void Scopes::popScope(IRGenerationContext& context, int line) {
   Scope* top = mScopes.front();
 
-  top->freeOwnedMemory(context);
+  top->freeOwnedMemory(context, line);
   clearCachedLandingPadBlock();
 
   map<string, const Model*> exceptions = top->getExceptions();
@@ -93,9 +93,9 @@ list<Scope*> Scopes::getScopesList() {
   return mScopes;
 }
 
-void Scopes::freeOwnedMemory(IRGenerationContext& context) {
+void Scopes::freeOwnedMemory(IRGenerationContext& context, int line) {
   for (Scope* scope : mScopes) {
-    scope->freeOwnedMemory(context);
+    scope->freeOwnedMemory(context, line);
   }
 }
 
@@ -223,7 +223,7 @@ BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context, int line) {
     BasicBlock* freeMemoryBlock = freeMemoryAllocatedInTry(context, line);
     mCachedLandingPadBlock = tryCatchInfo->defineLandingPadBlock(context, freeMemoryBlock);
   } else {
-    mCachedLandingPadBlock = Cleanup::generate(context);
+    mCachedLandingPadBlock = Cleanup::generate(context, line);
   }
   
   return mCachedLandingPadBlock;
@@ -243,7 +243,7 @@ llvm::BasicBlock* Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context,
     if (scope->getTryCatchInfo()) {
       break;
     }
-    scope->freeOwnedMemory(context);
+    scope->freeOwnedMemory(context, line);
   }
 
   context.setBasicBlock(lastBasicBlock);

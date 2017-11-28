@@ -25,7 +25,7 @@ public:
    *
    * Returns the cleanup landing pad basic block
    */
-  static llvm::BasicBlock* generate(IRGenerationContext& context);
+  static llvm::BasicBlock* generate(IRGenerationContext& context, int line);
 
 };
   

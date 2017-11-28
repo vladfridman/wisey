@@ -111,7 +111,7 @@ public:
   /**
    * Free memory owner variables and decrement reference count for reference variables
    */
-  void freeOwnedMemory(IRGenerationContext& context);
+  void freeOwnedMemory(IRGenerationContext& context, int line);
 
   /**
    * Add an exception type that maybe thrown in this scope

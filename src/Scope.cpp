@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
@@ -100,7 +101,7 @@ const IType* Scope::getReturnType() {
   return mReturnType;
 }
 
-void Scope::freeOwnedMemory(IRGenerationContext& context) {
+void Scope::freeOwnedMemory(IRGenerationContext& context, int line) {
   BasicBlock* currentBlock = context.getBasicBlock();
   if(currentBlock != NULL &&
      currentBlock->size() > 0 &&
@@ -112,8 +113,18 @@ void Scope::freeOwnedMemory(IRGenerationContext& context) {
     referenceVariable->decrementReferenceCounter(context);
   }
   
+  if (!mOwnerVariables.size()) {
+    return;
+  }
+  
+  if (line) {
+    Composer::pushCallStack(context, line);
+  }
   for (IOwnerVariable* ownerVariable : mOwnerVariables) {
     ownerVariable->free(context);
+  }
+  if (line) {
+    Composer::popCallStack(context);
   }
 }
 

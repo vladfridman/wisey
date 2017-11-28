@@ -49,7 +49,9 @@ public:
   /**
    * Add a return void if there is no explicit return is in the wisey code
    */
-  static void maybeAddImpliedVoidReturn(IRGenerationContext& context, const IMethod* method);
+  static void maybeAddImpliedVoidReturn(IRGenerationContext& context,
+                                        const IMethod* method,
+                                        int line);
   
   /**
    * Define llvm function for the given method

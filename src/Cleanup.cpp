@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-BasicBlock* Cleanup::generate(IRGenerationContext& context) {
+BasicBlock* Cleanup::generate(IRGenerationContext& context, int line) {
   BasicBlock* lastBasicBlock = context.getBasicBlock();
   Function* function = lastBasicBlock->getParent();
 
@@ -39,7 +39,7 @@ BasicBlock* Cleanup::generate(IRGenerationContext& context) {
   
   landingPad->setCleanup(true);
 
-  context.getScopes().freeOwnedMemory(context);
+  context.getScopes().freeOwnedMemory(context, line);
   
   IRWriter::createResumeInst(context, landingPad);
 

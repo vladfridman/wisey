@@ -223,7 +223,7 @@ TEST_F(ScopesTest, freeOwnedMemoryTest) {
   EXPECT_CALL(foo, free(_));
   EXPECT_CALL(bar, free(_));
   
-  mScopes.freeOwnedMemory(mContext);
+  mScopes.freeOwnedMemory(mContext, 0);
 }
 
 TEST_F(ScopesTest, variableHidingDeathTest) {
@@ -255,6 +255,7 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerRunDeathTes
                                1,
                                "",
                                "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CService.capture(tests/samples/test_reference_memory_deallocated_by_passing_owner.yz:16)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_passing_owner.yz:26)\n"
                                "Details: Object referenced by expression still has 2 active references\n");
 }
@@ -273,6 +274,7 @@ TEST_F(TestFileSampleRunner, referenceMemoryDeallocatedByPassingOwnerInsideIfThe
                                1,
                                "",
                                "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CService.capture(tests/samples/test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz:16)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_memory_deallocated_by_passing_owner_inside_if_then_else.yz:27)\n"
                                "Details: Object referenced by expression still has 2 active references\n");
 }
@@ -308,6 +310,7 @@ TEST_F(TestFileSampleRunner, throwDosiuFromFreeOwnedMemoryRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MDestroyedObjectStillInUseException\n"
+                               "  at systems.vos.wisey.compiler.tests.CService.throwException(tests/samples/test_throw_dosiu_from_free_owned_memory.yz:19)\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_throw_dosiu_from_free_owned_memory.yz:30)\n"
                                "Details: Object referenced by expression still has 2 active references\n");
 }

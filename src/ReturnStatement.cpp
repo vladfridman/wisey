@@ -43,7 +43,7 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
     ((IObjectType*) returnType)->incremenetReferenceCount(context, result);
   }
   
-  context.getScopes().freeOwnedMemory(context);
+  context.getScopes().freeOwnedMemory(context, mLine);
   
   if (IType::isReferenceType(returnType)) {
     ((IObjectType*) returnType)->decremenetReferenceCount(context, result);

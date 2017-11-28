@@ -94,7 +94,7 @@ void Method::generateIR(IRGenerationContext& context, const IObjectType* objectT
   createArguments(context, mFunction, objectType);
   mCompoundStatement->generateIR(context);
   
-  IMethod::maybeAddImpliedVoidReturn(context, this);
+  IMethod::maybeAddImpliedVoidReturn(context, this, mLine);
   IMethod::checkForUnhandledExceptions(context, this);
 
   scopes.popScope(context, mLine);
