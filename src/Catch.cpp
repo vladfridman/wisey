@@ -81,7 +81,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   IVariable* exceptionVariable = new ParameterOwnerVariable(mIdentifier, exceptionType, pointer);
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);
   mCompoundStatement->generateIR(context);
-  context.getScopes().popScope(context);
+  context.getScopes().popScope(context, mLine);
   
   bool hasTerminator = context.getBasicBlock()->getTerminator() != NULL;
 

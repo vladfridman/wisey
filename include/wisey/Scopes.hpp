@@ -51,7 +51,7 @@ public:
   /**
    * Pops a program scope out of the stack
    */
-  void popScope(IRGenerationContext& context);
+  void popScope(IRGenerationContext& context, int line);
 
   /**
    * Returns current Scope

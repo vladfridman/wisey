@@ -63,7 +63,7 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, forCond);
   context.setBasicBlock(forEnd);
   
-  scopes.popScope(context);
+  scopes.popScope(context, mLine);
   
   return conditionValue;
 }

@@ -84,7 +84,7 @@ void NullPointerExceptionFunction::compose(IRGenerationContext& context,
   
   context.getScopes().pushScope();
   ifStatement.generateIR(context);
-  context.getScopes().popScope(context);
+  context.getScopes().popScope(context, 0);
   
   IRWriter::createReturnInst(context, NULL);
 }

@@ -54,7 +54,7 @@ void Scopes::pushScope() {
   mScopes.push_front(new Scope());
 }
 
-void Scopes::popScope(IRGenerationContext& context) {
+void Scopes::popScope(IRGenerationContext& context, int line) {
   Scope* top = mScopes.front();
 
   top->freeOwnedMemory(context);

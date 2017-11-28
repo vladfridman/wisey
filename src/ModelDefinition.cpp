@@ -64,7 +64,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   model->createRTTI(context);
   IConcreteObjectType::composeDestructorBody(context, model);
 
-  context.getScopes().popScope(context);
+  context.getScopes().popScope(context, 0);
   
   return NULL;
 }

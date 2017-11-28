@@ -58,7 +58,7 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::declareFieldVariables(context, node);
   IConcreteObjectType::generateMethodsIR(context, node);
   
-  context.getScopes().popScope(context);
+  context.getScopes().popScope(context, 0);
   
   return NULL;
 }

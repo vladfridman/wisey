@@ -95,7 +95,7 @@ void StaticMethod::generateIR(IRGenerationContext& context, const IObjectType* o
   IMethod::maybeAddImpliedVoidReturn(context, this);
   IMethod::checkForUnhandledExceptions(context, this);
   
-  scopes.popScope(context);
+  scopes.popScope(context, mLine);
 }
 
 void StaticMethod::createArguments(IRGenerationContext& context,

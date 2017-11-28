@@ -71,7 +71,7 @@ TEST_F(ScopesTest, scopesTest) {
   EXPECT_NE(mScopes.getVariable("bar"), nullptr);
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   
-  mScopes.popScope(mContext);
+  mScopes.popScope(mContext, 0);
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   EXPECT_EQ(mScopes.getVariable("bar"), nullptr);
   
@@ -80,7 +80,7 @@ TEST_F(ScopesTest, scopesTest) {
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
   EXPECT_NE(mScopes.getVariable("bar"), nullptr);
   
-  mScopes.popScope(mContext);
+  mScopes.popScope(mContext, 0);
   EXPECT_EQ(mScopes.getVariable("foo"), nullptr);
   EXPECT_EQ(mScopes.getVariable("bar"), nullptr);
 }
@@ -101,7 +101,7 @@ TEST_F(ScopesTest, scopesCorrectlyOrderedTest) {
   
   EXPECT_NE(mScopes.getVariable("bar"), nullptr);
   
-  mScopes.popScope(mContext);
+  mScopes.popScope(mContext, 0);
   
   EXPECT_NE(mScopes.getVariable("foo"), nullptr);
 }
@@ -176,7 +176,7 @@ TEST_F(ScopesTest, endTryCatchTest) {
   
   mScopes.beginTryCatch(tryCatchInfo);
   mScopes.pushScope();
-  mScopes.popScope(mContext);
+  mScopes.popScope(mContext, 0);
   mScopes.endTryCatch(mContext);
   
   ASSERT_EQ(mScopes.getTryCatchInfo(), nullptr);
@@ -201,7 +201,7 @@ TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
 
   mScopes.getScope()->addException(exceptionModel);
   
-  EXPECT_EXIT(mScopes.popScope(mContext),
+  EXPECT_EXIT(mScopes.popScope(mContext, 0),
               ::testing::ExitedWithCode(1),
               "Error: Exception MException is not handled");
 }

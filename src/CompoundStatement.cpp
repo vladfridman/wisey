@@ -22,7 +22,7 @@ Value* CompoundStatement::generateIR(IRGenerationContext& context) const {
   
   scopes.pushScope();
   mBlock->generateIR(context);
-  scopes.popScope(context);
+  scopes.popScope(context, mLine);
   
   return NULL;
 }

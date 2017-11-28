@@ -360,7 +360,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   IRWriter::createFree(context, thisArgument);
   IRWriter::createReturnInst(context, NULL);
 
-  context.getScopes().popScope(context);
+  context.getScopes().popScope(context, 0);
 }
 
 void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,

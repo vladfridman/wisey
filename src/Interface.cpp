@@ -384,7 +384,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
     IRWriter::createReturnInst(context, result);
   }
 
-  context.getScopes().popScope(context);
+  context.getScopes().popScope(context, 0);
 }
 
 llvm::Value* Interface::storeArgumentValue(IRGenerationContext& context,
@@ -539,7 +539,7 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   castValue = IRWriter::newBitCastInst(context, originalObject, llvmReturnType);
   IRWriter::createReturnInst(context, castValue);
   
-  context.getScopes().popScope(context);
+  context.getScopes().popScope(context, 0);
 }
 
 Value* Interface::getOriginalObjectVTable(IRGenerationContext& context, Value* value) {
@@ -777,5 +777,5 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   IRWriter::createInvokeInst(context, objectDestructor, arguments, "");
   IRWriter::createReturnInst(context, NULL);
   
-  context.getScopes().popScope(context);
+  context.getScopes().popScope(context, 0);
 }
