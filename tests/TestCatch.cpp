@@ -66,7 +66,7 @@ public:
     ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MSquare");
     Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
-    mCatch = new Catch(typeSpecifier, "mycatch", compoundStatement);
+    mCatch = new Catch(typeSpecifier, "mycatch", compoundStatement, 0);
   }
 
   ~CatchTest() {

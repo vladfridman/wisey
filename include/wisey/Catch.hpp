@@ -21,12 +21,14 @@ class Catch {
   ModelTypeSpecifier* mModelTypeSpecifier;
   std::string mIdentifier;
   CompoundStatement* mCompoundStatement;
+  int mLine;
   
 public:
   
   Catch(ModelTypeSpecifier* modelTypeSpecifier,
         std::string identifier,
-        CompoundStatement* compoundStatement);
+        CompoundStatement* compoundStatement,
+        int line);
   
   ~Catch();
   

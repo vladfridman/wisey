@@ -21,10 +21,12 @@ using namespace wisey;
 
 Catch::Catch(ModelTypeSpecifier* modelTypeSpecifier,
              string identifier,
-             CompoundStatement* compoundStatement) :
+             CompoundStatement* compoundStatement,
+             int line) :
 mModelTypeSpecifier(modelTypeSpecifier),
 mIdentifier(identifier),
-mCompoundStatement(compoundStatement) { }
+mCompoundStatement(compoundStatement),
+mLine(line) { }
 
 Catch::~Catch() {
   delete mModelTypeSpecifier;

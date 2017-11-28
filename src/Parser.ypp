@@ -600,7 +600,7 @@ catch_block
 
 catch_clause
   : TCATCH '(' exception_type_specifier '*' TIDENTIFIER ')' compound_statement
-    { $$ = new Catch($3, *$5, $7); delete $5; }
+    { $$ = new Catch($3, *$5, $7, yylineno); delete $5; }
   ;
 
 variable_declaration
