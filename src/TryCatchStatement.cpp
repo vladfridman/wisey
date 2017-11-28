@@ -34,8 +34,6 @@ TryCatchStatement::~TryCatchStatement() {
 }
 
 Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
-  context.getScopes().pushScope();
-  
   if (context.getScopes().getTryCatchInfo()) {
     Log::e("Nested try blocks are not allowed. Extract inner try/catch into a method.");
     exit(1);
@@ -52,8 +50,6 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
   bool doAllCatchesTerminate = context.getScopes().endTryCatch(context);
 
   IRWriter::createBranch(context, continueBlock);
-
-  context.getScopes().popScope(context);
   
   context.setBasicBlock(continueBlock);
   if (doesTryBlockTerminate && doAllCatchesTerminate) {

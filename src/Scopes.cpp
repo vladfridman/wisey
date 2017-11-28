@@ -240,10 +240,10 @@ llvm::BasicBlock* Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context)
   context.setBasicBlock(freeMemoryBlock);
   
   for (Scope* scope : mScopes) {
-    scope->freeOwnedMemory(context);
     if (scope->getTryCatchInfo()) {
       break;
     }
+    scope->freeOwnedMemory(context);
   }
 
   context.setBasicBlock(lastBasicBlock);

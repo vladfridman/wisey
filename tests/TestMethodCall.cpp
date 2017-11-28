@@ -281,9 +281,9 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   Value* irValue = methodCall.generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *irValue;
-  EXPECT_STREQ("  %9 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
+  EXPECT_STREQ("  %7 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
                "%systems.vos.wisey.compiler.tests.MSquare* %0, "
-               "%wisey.lang.CThread* %8, "
+               "%wisey.lang.CThread* %6, "
                "float 0x4014CCCCC0000000)\n"
                "          to label %invoke.continue1 unwind label %eh.landing.pad",
                mStringStream->str().c_str());
