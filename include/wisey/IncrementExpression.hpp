@@ -23,11 +23,13 @@ class IncrementExpression : public IExpression {
   long long mIncrementBy;
   std::string mVariableName;
   bool mIsPrefix;
+  int mLine;
   
   IncrementExpression(IExpression* expression,
                       long long incrementBy,
                       std::string variableName,
-                      bool isPrefix);
+                      bool isPrefix,
+                      int line);
   
   ~IncrementExpression();
   
@@ -46,16 +48,13 @@ public:
   /**
    * Create increment by one expression
    */
-  static IncrementExpression * newIncrementByOne(IExpression* expression) {
-    return new IncrementExpression(expression, 1, "inc", false);
-  }
+  static IncrementExpression* newIncrementByOne(IExpression* expression, int line);
   
   /**
    * Create decrement by one expression
    */
-  static IncrementExpression * newDecrementByOne(IExpression* expression) {
-    return new IncrementExpression(expression, -1, "dec", false);
-  }
+  static IncrementExpression* newDecrementByOne(IExpression* expression, int line);
+  
 };
   
 } /* namespace wisey */

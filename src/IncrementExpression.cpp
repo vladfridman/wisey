@@ -23,14 +23,24 @@ using namespace wisey;
 IncrementExpression::IncrementExpression(IExpression* expression,
                                          long long incrementBy,
                                          string variableName,
-                                         bool isPrefix) :
+                                         bool isPrefix,
+                                         int line) :
 mExpression(expression),
 mIncrementBy(incrementBy),
 mVariableName(variableName),
-mIsPrefix(isPrefix) { }
+mIsPrefix(isPrefix),
+mLine(line) { }
 
 IncrementExpression::~IncrementExpression() {
   delete mExpression;
+}
+
+IncrementExpression* IncrementExpression::newIncrementByOne(IExpression* expression, int line) {
+  return new IncrementExpression(expression, 1, "inc", false, line);
+}
+
+IncrementExpression* IncrementExpression::newDecrementByOne(IExpression* expression, int line) {
+  return new IncrementExpression(expression, -1, "dec", false, line);
 }
 
 IVariable* IncrementExpression::getVariable(IRGenerationContext& context) const {

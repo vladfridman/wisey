@@ -64,13 +64,13 @@ public:
 };
 
 TEST_F(IncrementExpressionTest, getVariableTest) {
-  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
 
   EXPECT_EQ(expression->getVariable(mContext), mVariable);
 }
 
 TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
-  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
   expression->generateIR(mContext, IR_GENERATION_NORMAL);
  
   *mStringStream << *mBlock;
@@ -87,7 +87,7 @@ TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {
 }
 
 TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
-  IncrementExpression* expression = IncrementExpression::newDecrementByOne(mIdentifier);
+  IncrementExpression* expression = IncrementExpression::newDecrementByOne(mIdentifier, 0);
   expression->generateIR(mContext, IR_GENERATION_NORMAL);
   
   *mStringStream << *mBlock;
@@ -106,7 +106,7 @@ TEST_F(IncrementExpressionTest, decrementByOneExpressionTest) {
 TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
   Identifier* identifier = new Identifier("bar");
   
-  IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier);
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(identifier, 0);
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("bar",
                                                                 PrimitiveTypes::FLOAT_TYPE,
                                                                 NULL);
@@ -120,24 +120,24 @@ TEST_F(IncrementExpressionTest, incorrectIdentifierTypeDeathTest) {
 }
 
 TEST_F(IncrementExpressionTest, incrementExpressionTypeTest) {
-  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
 
   EXPECT_EQ(expression->getType(mContext), PrimitiveTypes::INT_TYPE);
 }
 
 TEST_F(IncrementExpressionTest, isConstantTest) {
-  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier);
+  IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
 
   EXPECT_FALSE(expression->isConstant());
 }
 
 TEST_F(IncrementExpressionTest, printToStreamTest) {
-  IncrementExpression* incrementExpression = IncrementExpression::newIncrementByOne(mIdentifier);
+  IncrementExpression* incrementExpression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
   stringstream stringStreamIncrement;
   incrementExpression->printToStream(mContext, stringStreamIncrement);
   EXPECT_STREQ("foo++", stringStreamIncrement.str().c_str());
 
-  IncrementExpression* decrementExpression = IncrementExpression::newDecrementByOne(mIdentifier);
+  IncrementExpression* decrementExpression = IncrementExpression::newDecrementByOne(mIdentifier, 0);
   stringstream stringStreamDecrement;
   decrementExpression->printToStream(mContext, stringStreamDecrement);
   EXPECT_STREQ("foo--", stringStreamDecrement.str().c_str());
