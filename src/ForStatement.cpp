@@ -12,6 +12,15 @@
 using namespace llvm;
 using namespace wisey;
 
+ForStatement::ForStatement(IStatement* startStatement,
+                           IStatement* conditionStatement,
+                           IExpression* incrementExpression,
+                           IStatement* bodyStatement) :
+mStartStatement(startStatement),
+mConditionStatement(conditionStatement),
+mIncrementExpression(incrementExpression),
+mBodyStatement(bodyStatement) { }
+
 ForStatement::~ForStatement() {
   delete mStartStatement;
   delete mConditionStatement;

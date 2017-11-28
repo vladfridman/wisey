@@ -13,6 +13,9 @@
 using namespace llvm;
 using namespace wisey;
 
+SwitchStatement::SwitchStatement(IExpression* condition, SwitchCases* switchCases)
+: mCondition(condition), mSwitchCases(switchCases) { }
+
 SwitchStatement::~SwitchStatement() {
   delete mCondition;
   for (CaseStatement* caseStatement : mSwitchCases->caseStatements) {

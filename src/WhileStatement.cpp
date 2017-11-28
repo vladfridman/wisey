@@ -12,6 +12,9 @@
 using namespace llvm;
 using namespace wisey;
 
+WhileStatement::WhileStatement(IExpression* conditionExpression, IStatement* statement)
+: mConditionExpression(conditionExpression), mStatement(statement) { }
+
 WhileStatement::~WhileStatement() {
   delete mConditionExpression;
   delete mStatement;

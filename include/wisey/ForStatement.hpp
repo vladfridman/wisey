@@ -36,11 +36,7 @@ public:
   ForStatement(IStatement* startStatement,
                IStatement* conditionStatement,
                IExpression* incrementExpression,
-               IStatement* bodyStatement) :
-    mStartStatement(startStatement),
-    mConditionStatement(conditionStatement),
-    mIncrementExpression(incrementExpression),
-    mBodyStatement(bodyStatement) { }
+               IStatement* bodyStatement);
   
   ~ForStatement();
   

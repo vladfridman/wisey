@@ -11,6 +11,8 @@
 using namespace llvm;
 using namespace wisey;
 
+DefaultCaseStatement::DefaultCaseStatement(Block* block) : mBlock(block) { }
+
 DefaultCaseStatement::~DefaultCaseStatement() {
   delete mBlock;
 }

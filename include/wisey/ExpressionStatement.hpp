@@ -22,7 +22,7 @@ class ExpressionStatement : public IStatement {
   
 public:
 
-  ExpressionStatement(IExpression* expression) : mExpression(expression) { }
+  ExpressionStatement(IExpression* expression);
 
   ~ExpressionStatement();
 

@@ -27,8 +27,7 @@ class IfStatement : public IStatement {
   
 public:
   
-  IfStatement(IExpression* condition, CompoundStatement* thenStatement) :
-    mCondition(condition), mThenStatement(thenStatement) { }
+  IfStatement(IExpression* condition, CompoundStatement* thenStatement);
   
   ~IfStatement();
   

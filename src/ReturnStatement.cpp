@@ -18,6 +18,8 @@
 using namespace llvm;
 using namespace wisey;
 
+ReturnStatement::ReturnStatement(IExpression* expression) : mExpression(expression) { }
+
 ReturnStatement::~ReturnStatement() {
   delete mExpression;
 }

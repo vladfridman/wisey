@@ -21,9 +21,10 @@ namespace wisey {
 class ContinueStatement : public IStatement {
   
 public:
-  ContinueStatement() { }
   
-  ~ContinueStatement() { }
+  ContinueStatement();
+  
+  ~ContinueStatement();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

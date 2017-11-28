@@ -11,6 +11,8 @@
 using namespace llvm;
 using namespace wisey;
 
+ExpressionStatement::ExpressionStatement(IExpression* expression) : mExpression(expression) { }
+
 ExpressionStatement::~ExpressionStatement() {
   delete mExpression;
 }

@@ -12,6 +12,9 @@
 using namespace llvm;
 using namespace wisey;
 
+DoStatement::DoStatement(IStatement* statement, IExpression* conditionExpression)
+: mStatement(statement), mConditionExpression(conditionExpression) { }
+
 DoStatement::~DoStatement() {
   delete mStatement;
   delete mConditionExpression;

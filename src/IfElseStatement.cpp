@@ -13,6 +13,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+IfElseStatement::IfElseStatement(IExpression* condition,
+                                 CompoundStatement* thenStatement,
+                                 IStatement* elseStatement) :
+mCondition(condition),
+mThenStatement(thenStatement),
+mElseStatement(elseStatement) { }
+
 IfElseStatement::~IfElseStatement() {
   delete mCondition;
   delete mThenStatement;

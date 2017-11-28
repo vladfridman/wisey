@@ -30,10 +30,7 @@ public:
   
   IfElseStatement(IExpression* condition,
                   CompoundStatement* thenStatement,
-                  IStatement* elseStatement) :
-    mCondition(condition),
-    mThenStatement(thenStatement),
-    mElseStatement(elseStatement) { }
+                  IStatement* elseStatement);
   
   ~IfElseStatement();
   

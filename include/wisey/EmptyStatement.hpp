@@ -22,9 +22,9 @@ public:
 
   const static EmptyStatement EMPTY_STATEMENT;
   
-  EmptyStatement() { }
+  EmptyStatement();
   
-  ~EmptyStatement() { }
+  ~EmptyStatement();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
   

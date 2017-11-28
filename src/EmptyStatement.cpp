@@ -13,6 +13,10 @@ using namespace wisey;
 
 const EmptyStatement EmptyStatement::EMPTY_STATEMENT = EmptyStatement();
 
+EmptyStatement::EmptyStatement() { }
+
+EmptyStatement::~EmptyStatement() { }
+
 Value* EmptyStatement::generateIR(IRGenerationContext& context) const {
   return NULL;
 }

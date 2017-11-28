@@ -27,9 +27,7 @@ class BindAction : public IGlobalStatement {
 public:
   
   BindAction(ControllerTypeSpecifier* controllerTypeSpecifier,
-             InterfaceTypeSpecifier* interfaceTypeSpecifier)
-  : mContreollerTypeSpecifier(controllerTypeSpecifier),
-  mInterfaceTypeSpecifier(interfaceTypeSpecifier) { }
+             InterfaceTypeSpecifier* interfaceTypeSpecifier);
   
   ~BindAction();
 

@@ -23,7 +23,7 @@ class ReturnStatement : public IStatement {
   
 public:
   
-  ReturnStatement(IExpression* expression) : mExpression(expression) { }
+  ReturnStatement(IExpression* expression);
 
   ~ReturnStatement();
   

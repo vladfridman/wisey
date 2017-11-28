@@ -12,6 +12,9 @@
 using namespace llvm;
 using namespace wisey;
 
+CaseStatement::CaseStatement(IExpression* expression, Block* block, bool isFallThrough)
+: mExpression(expression), mBlock(block), mIsFallThrough(isFallThrough) { }
+
 CaseStatement::~CaseStatement() {
   delete mExpression;
   delete mBlock;

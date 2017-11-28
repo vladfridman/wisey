@@ -26,8 +26,7 @@ class DoStatement : public IStatement {
   
 public:
   
-  DoStatement(IStatement* statement, IExpression* conditionExpression)
-    : mStatement(statement), mConditionExpression(conditionExpression) { }
+  DoStatement(IStatement* statement, IExpression* conditionExpression);
   
   ~DoStatement();
     

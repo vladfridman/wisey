@@ -13,6 +13,8 @@
 using namespace llvm;
 using namespace wisey;
 
+Block::Block() { }
+
 Block::~Block() {
   for (IStatement* statement : mStatements) {
     delete statement;

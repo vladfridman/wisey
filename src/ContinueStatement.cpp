@@ -13,6 +13,10 @@
 using namespace llvm;
 using namespace wisey;
 
+ContinueStatement::ContinueStatement() { }
+
+ContinueStatement::~ContinueStatement() { }
+
 Value* ContinueStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* continueToBlock = context.getScopes().getContinueToBlock();
   

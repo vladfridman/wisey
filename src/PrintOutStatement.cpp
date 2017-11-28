@@ -19,6 +19,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+PrintOutStatement::PrintOutStatement(std::vector<IExpression*> expressionList) :
+mExpressionList(expressionList) { }
+
 PrintOutStatement::~PrintOutStatement() {
   for (IExpression* expression : mExpressionList) {
     delete expression;

@@ -25,8 +25,7 @@ class CaseStatement : public IStatement {
   Block* mBlock;
   bool mIsFallThrough;
   
-  CaseStatement(IExpression* expression, Block* block, bool isFallThrough)
-    : mExpression(expression), mBlock(block), mIsFallThrough(isFallThrough) { }
+  CaseStatement(IExpression* expression, Block* block, bool isFallThrough);
   
 public:
   

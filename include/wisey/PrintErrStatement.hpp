@@ -25,7 +25,7 @@ class PrintErrStatement : public IPrintStatement {
   
 public:
   
-  PrintErrStatement(std::vector<IExpression*> expressionList) : mExpressionList(expressionList) { }
+  PrintErrStatement(std::vector<IExpression*> expressionList);
   
   ~PrintErrStatement();
   

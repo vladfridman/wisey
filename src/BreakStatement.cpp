@@ -13,6 +13,10 @@
 using namespace llvm;
 using namespace wisey;
 
+BreakStatement::BreakStatement() { }
+
+BreakStatement::~BreakStatement() { }
+
 Value* BreakStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* breackToBlock = context.getScopes().getBreakToBlock();
   

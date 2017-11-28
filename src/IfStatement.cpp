@@ -12,6 +12,9 @@
 using namespace llvm;
 using namespace wisey;
 
+IfStatement::IfStatement(IExpression* condition, CompoundStatement* thenStatement) :
+mCondition(condition), mThenStatement(thenStatement) { }
+
 IfStatement::~IfStatement() {
   delete mCondition;
   delete mThenStatement;

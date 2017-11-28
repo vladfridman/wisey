@@ -26,8 +26,7 @@ class WhileStatement : public IStatement {
   
 public:
   
-  WhileStatement(IExpression* conditionExpression, IStatement* statement)
-    : mConditionExpression(conditionExpression), mStatement(statement) { }
+  WhileStatement(IExpression* conditionExpression, IStatement* statement);
   
   ~WhileStatement();
 

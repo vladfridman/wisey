@@ -38,8 +38,7 @@ class SwitchStatement : public IStatement {
   
 public:
   
-  SwitchStatement(IExpression* condition, SwitchCases* switchCases)
-    : mCondition(condition), mSwitchCases(switchCases) { }
+  SwitchStatement(IExpression* condition, SwitchCases* switchCases);
   
   ~SwitchStatement();
   

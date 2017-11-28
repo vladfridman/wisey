@@ -15,6 +15,10 @@
 using namespace llvm;
 using namespace wisey;
 
+ReturnVoidStatement::ReturnVoidStatement() { }
+
+ReturnVoidStatement::~ReturnVoidStatement() { }
+
 Value* ReturnVoidStatement::generateIR(IRGenerationContext& context) const {
   context.getScopes().freeOwnedMemory(context);
 

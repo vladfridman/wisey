@@ -20,9 +20,9 @@ class ReturnVoidStatement : public IStatement {
 
 public:
 
-  ReturnVoidStatement() { }
+  ReturnVoidStatement();
   
-  ~ReturnVoidStatement() { }
+  ~ReturnVoidStatement();
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

@@ -21,9 +21,10 @@ namespace wisey {
 class BreakStatement : public IStatement {
   
 public:
-  BreakStatement() { }
+
+  BreakStatement();
   
-  ~BreakStatement() { }
+  ~BreakStatement();
 
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

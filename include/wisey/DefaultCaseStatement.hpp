@@ -26,7 +26,7 @@ class DefaultCaseStatement : public IStatement {
   
 public:
   
-  DefaultCaseStatement(Block* block) : mBlock(block) { }
+  DefaultCaseStatement(Block* block);
   
   ~DefaultCaseStatement();
   

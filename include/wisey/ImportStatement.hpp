@@ -25,7 +25,7 @@ class ImportStatement : public IGlobalStatement {
   
 public:
   
-  ImportStatement(ITypeSpecifier* typeSpecifier) : mTypeSpecifier(typeSpecifier) { }
+  ImportStatement(ITypeSpecifier* typeSpecifier);
   
   ~ImportStatement();
   

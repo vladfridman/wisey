@@ -24,7 +24,7 @@ class CompoundStatement : public IStatement {
   
 public:
   
-  CompoundStatement(Block* block) : mBlock(block) { }
+  CompoundStatement(Block* block);
   
   ~CompoundStatement();
   
