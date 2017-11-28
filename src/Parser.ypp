@@ -485,8 +485,8 @@ field_declaration
   ;
 
 compound_statement
-  : '{' '}' { Block* block = new Block(); $$ = new CompoundStatement(block); }
-  | '{'  block_item_list '}' { $$ = new CompoundStatement($2); }
+  : '{' '}' { Block* block = new Block(); $$ = new CompoundStatement(block, yylineno); }
+  | '{'  block_item_list '}' { $$ = new CompoundStatement($2, yylineno); }
   ;
 
 block_item_list

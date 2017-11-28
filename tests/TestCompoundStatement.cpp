@@ -38,7 +38,7 @@ struct TestCompoundStatement : public Test {
 TEST_F(TestCompoundStatement, generateIRTest) {
   mBlock->getStatements().push_back(mStatement1);
   mBlock->getStatements().push_back(mStatement2);
-  CompoundStatement compoundStatement(mBlock);
+  CompoundStatement compoundStatement(mBlock, 0);
   
   EXPECT_CALL(*mStatement1, generateIR(_));
   EXPECT_CALL(*mStatement2, generateIR(_));

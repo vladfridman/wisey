@@ -21,10 +21,11 @@ namespace wisey {
 class CompoundStatement : public IStatement {
   
   Block* mBlock;
+  int mLine;
   
 public:
   
-  CompoundStatement(Block* block);
+  CompoundStatement(Block* block, int line);
   
   ~CompoundStatement();
   

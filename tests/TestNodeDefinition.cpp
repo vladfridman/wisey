@@ -57,7 +57,7 @@ struct NodeDefinitionTest : public Test {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     mBlock->getStatements().push_back(mMockStatement);
     mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
-    CompoundStatement* compoundStatement = new CompoundStatement(mBlock);
+    CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
       new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);

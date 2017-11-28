@@ -49,7 +49,7 @@ struct IfStatementTest : Test {
   mCondition(new NiceMock<MockExpression>()),
   mThenStatement(new NiceMock<MockStatement>()),
   mThenBlock(new Block()),
-  mThenCompoundStatement(new CompoundStatement(mThenBlock)) {
+  mThenCompoundStatement(new CompoundStatement(mThenBlock, 0)) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
     ON_CALL(*mCondition, generateIR(_, _)).WillByDefault(Return(conditionValue));

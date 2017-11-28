@@ -43,7 +43,7 @@ public:
   StaticMethodTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mBlock(new Block()),
-  mCompoundStatement(CompoundStatement(mBlock)) {
+  mCompoundStatement(CompoundStatement(mBlock, 0)) {
     TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);

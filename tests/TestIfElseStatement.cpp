@@ -55,8 +55,8 @@ struct IfElseStatementTest : Test {
   mCondition(new NiceMock<MockExpression>()),
   mThenStatement(new NiceMock<MockStatement>()),
   mElseStatement(new NiceMock<MockStatement>()),
-  mThenCompoundStatement(new CompoundStatement(mThenBlock)),
-  mElseCompoundStatement(new CompoundStatement(mElseBlock)) {
+  mThenCompoundStatement(new CompoundStatement(mThenBlock, 0)),
+  mElseCompoundStatement(new CompoundStatement(mElseBlock, 0)) {
     LLVMContext &llvmContext = mContext.getLLVMContext();
     Value* conditionValue = ConstantInt::get(Type::getInt1Ty(llvmContext), 1);
     ON_CALL(*mCondition, generateIR(_, _)).WillByDefault(Return(conditionValue));

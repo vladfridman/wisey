@@ -60,7 +60,7 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   arguments.push_back(new VariableDeclaration(intTypeSpecifier, new Identifier("lineNumber")));
   PrimitiveTypeSpecifier* voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
   Block* block = new Block();
-  CompoundStatement* compoundStatement = new CompoundStatement(block);
+  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* pushStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                              voidTypeSpecifier,
                                                              "pushStack",
@@ -72,7 +72,7 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   arguments.clear();
   voidTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::VOID_TYPE);
   block = new Block();
-  compoundStatement = new CompoundStatement(block);
+  compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* popStackMethod = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                             voidTypeSpecifier,
                                                             "popStack",

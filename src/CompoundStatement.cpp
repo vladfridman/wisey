@@ -11,7 +11,7 @@
 using namespace llvm;
 using namespace wisey;
 
-CompoundStatement::CompoundStatement(Block* block) : mBlock(block) { }
+CompoundStatement::CompoundStatement(Block* block, int line) : mBlock(block), mLine(line) { }
 
 CompoundStatement::~CompoundStatement() {
   delete mBlock;

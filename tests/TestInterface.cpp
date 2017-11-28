@@ -333,7 +333,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   VariableList arguments;
   vector<ModelTypeSpecifier*> thrownExceptions;
   Block* block = new Block();
-  CompoundStatement* compoundStatement = new CompoundStatement(block);
+  CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* methodDeclaration =
   new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                         intSpecifier,

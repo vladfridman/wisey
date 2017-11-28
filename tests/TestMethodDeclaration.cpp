@@ -48,7 +48,7 @@ struct MethodDeclarationTest : Test {
   mIntArgument(new VariableDeclaration(mIntTypeSpecifier, mIntArgumentIdentifier)),
   mFloatArgument(new VariableDeclaration(mFloatTypeSpecifier, mFloatArgumentIdentifier)),
   mBlock(new Block()),
-  mCompoundStatement(new CompoundStatement(mBlock)) {
+  mCompoundStatement(new CompoundStatement(mBlock, 0)) {
     TestPrefix::generateIR(mContext);
   }
 };

@@ -62,7 +62,7 @@ struct ControllerDefinitionTest : public Test {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     block->getStatements().push_back(mMockStatement);
     block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
-    CompoundStatement* compoundStatement = new CompoundStatement(block);
+    CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     PrimitiveTypeSpecifier* intTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =

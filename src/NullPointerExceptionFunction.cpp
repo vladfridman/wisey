@@ -79,7 +79,7 @@ void NullPointerExceptionFunction::compose(IRGenerationContext& context,
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
   ThrowStatement* throwStatement = new ThrowStatement(objectBuilder, 0);
   thenBlock->getStatements().push_back(throwStatement);
-  CompoundStatement* thenStatement = new CompoundStatement(thenBlock);
+  CompoundStatement* thenStatement = new CompoundStatement(thenBlock, 0);
   IfStatement ifStatement(fakeExpression, thenStatement);
   
   context.getScopes().pushScope();
