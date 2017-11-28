@@ -24,9 +24,7 @@ class TypeComparisionExpression : public IExpression {
   
 public:
   
-  TypeComparisionExpression(IExpression* expression, ITypeSpecifier* typeSpecifier) :
-  mExpression(expression), mTypeSpecifier(typeSpecifier) { }
-  
+  TypeComparisionExpression(IExpression* expression, ITypeSpecifier* typeSpecifier);
   
   ~TypeComparisionExpression();
   

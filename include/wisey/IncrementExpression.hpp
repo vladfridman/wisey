@@ -27,11 +27,7 @@ class IncrementExpression : public IExpression {
   IncrementExpression(IExpression* expression,
                       long long incrementBy,
                       std::string variableName,
-                      bool isPrefix) :
-    mExpression(expression),
-    mIncrementBy(incrementBy),
-    mVariableName(variableName),
-    mIsPrefix(isPrefix) { }
+                      bool isPrefix);
   
   ~IncrementExpression();
   

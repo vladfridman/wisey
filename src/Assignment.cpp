@@ -14,6 +14,9 @@
 using namespace llvm;
 using namespace wisey;
 
+Assignment::Assignment(Identifier* identifier, IExpression* expression, int line)
+: mIdentifier(identifier), mExpression(expression), mLine(line) { }
+
 Assignment::~Assignment() {
   delete mIdentifier;
   delete mExpression;

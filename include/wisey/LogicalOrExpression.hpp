@@ -22,9 +22,8 @@ class LogicalOrExpression : public IExpression {
   IExpression* mRightExpression;
   
 public:
-  LogicalOrExpression(IExpression* leftExpression, IExpression* rightExpression) :
-    mLeftExpression(leftExpression),
-    mRightExpression(rightExpression) { }
+
+  LogicalOrExpression(IExpression* leftExpression, IExpression* rightExpression);
   
   ~LogicalOrExpression();
   

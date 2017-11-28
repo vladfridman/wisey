@@ -22,7 +22,7 @@ class BooleanNotExpression : public IExpression {
   
 public:
   
-  BooleanNotExpression(IExpression* expression) : mExpression(expression) { }
+  BooleanNotExpression(IExpression* expression);
   
   ~BooleanNotExpression();
   

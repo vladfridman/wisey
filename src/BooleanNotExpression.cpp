@@ -18,6 +18,8 @@
 using namespace llvm;
 using namespace wisey;
 
+BooleanNotExpression::BooleanNotExpression(IExpression* expression) : mExpression(expression) { }
+
 BooleanNotExpression::~BooleanNotExpression() {
   delete mExpression;
 }

@@ -23,9 +23,9 @@ public:
 
   const static EmptyExpression EMPTY_EXPRESSION;
 
-  EmptyExpression() { }
+  EmptyExpression();
   
-  ~EmptyExpression() { }
+  ~EmptyExpression();
   
   IVariable* getVariable(IRGenerationContext& context) const override;
  

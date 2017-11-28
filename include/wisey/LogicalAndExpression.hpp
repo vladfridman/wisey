@@ -22,9 +22,8 @@ class LogicalAndExpression : public IExpression {
   IExpression* mRightExpression;
   
 public:
-  LogicalAndExpression(IExpression* leftExpression, IExpression* rightExpression) :
-    mLeftExpression(leftExpression),
-    mRightExpression(rightExpression) { }
+
+  LogicalAndExpression(IExpression* leftExpression, IExpression* rightExpression);
   
   ~LogicalAndExpression();
   

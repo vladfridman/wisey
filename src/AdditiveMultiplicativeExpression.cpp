@@ -19,6 +19,14 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+AdditiveMultiplicativeExpression::
+AdditiveMultiplicativeExpression(IExpression* leftExpression,
+                                 int operation,
+                                 IExpression* rightExpression) :
+mLeftExpression(leftExpression),
+mRightExpression(rightExpression),
+mOperation(operation) { }
+
 AdditiveMultiplicativeExpression::~AdditiveMultiplicativeExpression() {
   delete mLeftExpression;
   delete mRightExpression;

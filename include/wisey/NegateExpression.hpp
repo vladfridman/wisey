@@ -22,7 +22,7 @@ class NegateExpression : public IExpression {
   
 public:
   
-  NegateExpression(IExpression* expression) : mExpression(expression) { }
+  NegateExpression(IExpression* expression);
   
   ~NegateExpression();
   

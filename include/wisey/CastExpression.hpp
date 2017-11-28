@@ -23,8 +23,7 @@ class CastExpression : public IExpression {
   
 public:
   
-  CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression)
-  : mTypeSpecifier(typeSpecifier), mExpression(expression) { }
+  CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression);
   
   ~CastExpression();
   

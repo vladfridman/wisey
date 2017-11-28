@@ -15,6 +15,11 @@
 using namespace llvm;
 using namespace wisey;
 
+FakeExpression::FakeExpression(llvm::Value* value, const IType* type) :
+mValue(value), mType(type) { }
+
+FakeExpression::~FakeExpression() { }
+
 IVariable* FakeExpression::getVariable(IRGenerationContext& context) const {
   return NULL;
 }

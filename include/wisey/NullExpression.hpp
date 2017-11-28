@@ -20,9 +20,9 @@ class NullExpression : public IExpression {
   
 public:
   
-  NullExpression() { }
+  NullExpression();
   
-  ~NullExpression() { }
+  ~NullExpression();
   
   IVariable* getVariable(IRGenerationContext& context) const override;
 

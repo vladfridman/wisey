@@ -18,6 +18,11 @@
 using namespace llvm;
 using namespace wisey;
 
+LogicalAndExpression::LogicalAndExpression(IExpression* leftExpression,
+                                           IExpression* rightExpression) :
+mLeftExpression(leftExpression),
+mRightExpression(rightExpression) { }
+
 LogicalAndExpression::~LogicalAndExpression() {
   delete mLeftExpression;
   delete mRightExpression;

@@ -21,9 +21,9 @@ class ThreadExpression : public IExpression {
   
 public:
   
-  ThreadExpression() { }
+  ThreadExpression();
   
-  ~ThreadExpression() { }
+  ~ThreadExpression();
   
   static std::string THREAD;
   

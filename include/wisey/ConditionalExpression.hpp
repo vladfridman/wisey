@@ -26,12 +26,10 @@ class ConditionalExpression : public IExpression {
   IExpression* mIfFalseExpression;
   
 public:
+
   ConditionalExpression(IExpression* conditionExpression,
                         IExpression* ifTrueExpression,
-                        IExpression* ifFalseExpression)
-  : mConditionExpression(conditionExpression),
-    mIfTrueExpression(ifTrueExpression),
-    mIfFalseExpression(ifFalseExpression) {  }
+                        IExpression* ifFalseExpression);
   
   ~ConditionalExpression();
   

@@ -18,6 +18,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+TypeComparisionExpression::TypeComparisionExpression(IExpression* expression,
+                                                     ITypeSpecifier* typeSpecifier) :
+mExpression(expression), mTypeSpecifier(typeSpecifier) { }
+
 TypeComparisionExpression::~TypeComparisionExpression() {
   delete mExpression;
   delete mTypeSpecifier;

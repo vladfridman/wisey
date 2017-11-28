@@ -17,6 +17,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+NullExpression::NullExpression() { }
+
+NullExpression::~NullExpression() { }
+
 IVariable* NullExpression::getVariable(IRGenerationContext& context) const {
   return NULL;
 }

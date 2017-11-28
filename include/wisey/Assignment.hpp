@@ -25,8 +25,7 @@ class Assignment : public IExpression {
   
 public:
 
-  Assignment(Identifier* identifier, IExpression* expression, int line)
-    : mIdentifier(identifier), mExpression(expression), mLine(line) { }
+  Assignment(Identifier* identifier, IExpression* expression, int line);
 
   ~Assignment();
   

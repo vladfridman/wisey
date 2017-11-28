@@ -16,6 +16,10 @@ using namespace wisey;
 
 string ThreadExpression::THREAD = "thread";
 
+ThreadExpression::ThreadExpression() { }
+
+ThreadExpression::~ThreadExpression() { }
+
 IVariable* ThreadExpression::getVariable(IRGenerationContext& context) const {
   return context.getScopes().getVariable(THREAD);
 }

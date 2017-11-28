@@ -23,9 +23,9 @@ class FakeExpression : public IExpression {
   
 public:
   
-  FakeExpression(llvm::Value* value, const IType* type) : mValue(value), mType(type) { }
+  FakeExpression(llvm::Value* value, const IType* type);
   
-  ~FakeExpression() { }
+  ~FakeExpression();
   
   IVariable* getVariable(IRGenerationContext& context) const override;
  

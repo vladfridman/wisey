@@ -18,6 +18,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ConditionalExpression::ConditionalExpression(IExpression* conditionExpression,
+                                             IExpression* ifTrueExpression,
+                                             IExpression* ifFalseExpression) :
+mConditionExpression(conditionExpression),
+mIfTrueExpression(ifTrueExpression),
+mIfFalseExpression(ifFalseExpression) {  }
+
 ConditionalExpression::~ConditionalExpression() {
   delete mConditionExpression;
   delete mIfTrueExpression;

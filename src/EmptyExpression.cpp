@@ -17,6 +17,10 @@ using namespace wisey;
 
 const EmptyExpression EmptyExpression::EMPTY_EXPRESSION = EmptyExpression();
 
+EmptyExpression::EmptyExpression() { }
+
+EmptyExpression::~EmptyExpression() { }
+
 IVariable* EmptyExpression::getVariable(IRGenerationContext& context) const {
   return NULL;
 }

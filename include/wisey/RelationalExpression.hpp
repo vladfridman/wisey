@@ -27,8 +27,7 @@ public:
 
   RelationalExpression(IExpression* leftExpression,
                        RelationalOperation operation,
-                       IExpression* rightExpression) :
-    mLeftExpression(leftExpression), mRightExpression(rightExpression), mOperation(operation) { }
+                       IExpression* rightExpression);
 
   ~RelationalExpression();
   

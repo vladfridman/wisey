@@ -25,8 +25,7 @@ public:
 
   AdditiveMultiplicativeExpression(IExpression* leftExpression,
                                    int operation,
-                                   IExpression* rightExpression) :
-    mLeftExpression(leftExpression), mRightExpression(rightExpression), mOperation(operation) { }
+                                   IExpression* rightExpression);
   
   ~AdditiveMultiplicativeExpression();
   

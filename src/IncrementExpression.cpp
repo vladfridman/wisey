@@ -17,7 +17,17 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
+
+IncrementExpression::IncrementExpression(IExpression* expression,
+                                         long long incrementBy,
+                                         string variableName,
+                                         bool isPrefix) :
+mExpression(expression),
+mIncrementBy(incrementBy),
+mVariableName(variableName),
+mIsPrefix(isPrefix) { }
 
 IncrementExpression::~IncrementExpression() {
   delete mExpression;

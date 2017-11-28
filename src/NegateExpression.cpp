@@ -18,6 +18,8 @@
 using namespace llvm;
 using namespace wisey;
 
+NegateExpression::NegateExpression(IExpression* expression) : mExpression(expression) { }
+
 NegateExpression::~NegateExpression() {
   delete mExpression;
 }

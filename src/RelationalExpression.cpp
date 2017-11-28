@@ -18,6 +18,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+RelationalExpression::RelationalExpression(IExpression* leftExpression,
+                                           RelationalOperation operation,
+                                           IExpression* rightExpression) :
+mLeftExpression(leftExpression),
+mRightExpression(rightExpression),
+mOperation(operation) { }
+
 RelationalExpression::~RelationalExpression() {
   delete mLeftExpression;
   delete mRightExpression;
