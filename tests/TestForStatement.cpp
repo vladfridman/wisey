@@ -75,7 +75,8 @@ TEST_F(ForStatementTest, forStatementSimpleTest) {
   ForStatement forStatement(mStartStatement,
                             mConditionStatement,
                             mIncrementExpression,
-                            mBodyStatement);
+                            mBodyStatement,
+                            0);
   forStatement.generateIR(mContext);
   
   ASSERT_EQ(5ul, mFunction->size());

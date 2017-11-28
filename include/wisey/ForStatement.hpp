@@ -26,6 +26,7 @@ class ForStatement : public IStatement {
   IStatement* mConditionStatement;
   IExpression* mIncrementExpression;
   IStatement* mBodyStatement;
+  int mLine;
   
 public:
   
@@ -36,7 +37,8 @@ public:
   ForStatement(IStatement* startStatement,
                IStatement* conditionStatement,
                IExpression* incrementExpression,
-               IStatement* bodyStatement);
+               IStatement* bodyStatement,
+               int line);
   
   ~ForStatement();
   
@@ -46,12 +48,8 @@ public:
    */
   static ForStatement* newWithNoIncrement(IStatement* startStatement,
                                           IStatement* conditionStatement,
-                                          IStatement* bodyStatement) {
-    return new ForStatement(startStatement,
-                            conditionStatement,
-                            new EmptyExpression(),
-                            bodyStatement);
-  }
+                                          IStatement* bodyStatement,
+                                          int line);
   
   llvm::Value* generateIR(IRGenerationContext& context) const override;
 };

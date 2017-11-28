@@ -15,11 +15,13 @@ using namespace wisey;
 ForStatement::ForStatement(IStatement* startStatement,
                            IStatement* conditionStatement,
                            IExpression* incrementExpression,
-                           IStatement* bodyStatement) :
+                           IStatement* bodyStatement,
+                           int line) :
 mStartStatement(startStatement),
 mConditionStatement(conditionStatement),
 mIncrementExpression(incrementExpression),
-mBodyStatement(bodyStatement) { }
+mBodyStatement(bodyStatement),
+mLine(line) { }
 
 ForStatement::~ForStatement() {
   delete mStartStatement;
@@ -64,4 +66,15 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
   scopes.popScope(context);
   
   return conditionValue;
+}
+
+ForStatement* ForStatement::newWithNoIncrement(IStatement* startStatement,
+                                               IStatement* conditionStatement,
+                                               IStatement* bodyStatement,
+                                               int line) {
+  return new ForStatement(startStatement,
+                          conditionStatement,
+                          new EmptyExpression(),
+                          bodyStatement,
+                          line);
 }
