@@ -29,7 +29,7 @@ Value* InstanceOf::call(IRGenerationContext& context,
   arguments.push_back(interfaceObject);
   arguments.push_back(namePointer);
   
-  return IRWriter::createInvokeInst(context, function, arguments, "instanceof");
+  return IRWriter::createInvokeInst(context, function, arguments, "instanceof", 0);
 }
 
 Function* InstanceOf::getOrCreateFunction(IRGenerationContext& context,

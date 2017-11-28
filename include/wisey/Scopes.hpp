@@ -128,7 +128,7 @@ public:
   /**
    * Get the landing pad for invoke call. This may generate a new ladning pad or return a cached one
    */
-  llvm::BasicBlock* getLandingPadBlock(IRGenerationContext& context);
+  llvm::BasicBlock* getLandingPadBlock(IRGenerationContext& context, int line);
 
 private:
 
@@ -136,7 +136,7 @@ private:
   
   void clearCachedLandingPadBlock();
   
-  llvm::BasicBlock* freeMemoryAllocatedInTry(IRGenerationContext& context);
+  llvm::BasicBlock* freeMemoryAllocatedInTry(IRGenerationContext& context, int line);
   
 };
   

@@ -376,11 +376,11 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
   }
   
   if (concreteObjectFunction->getReturnType()->isVoidTy()) {
-    IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "");
+    IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "", 0);
     IRWriter::createReturnInst(context, NULL);
   } else {
     Value* result =
-      IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "call");
+      IRWriter::createInvokeInst(context, concreteObjectFunction, callArguments, "call", 0);
     IRWriter::createReturnInst(context, result);
   }
 
@@ -463,7 +463,7 @@ Value* Interface::castTo(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(fromValue);
   
-  return IRWriter::createInvokeInst(context, castFunction, arguments, "castTo");
+  return IRWriter::createInvokeInst(context, castFunction, arguments, "castTo", 0);
 }
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
@@ -774,7 +774,7 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   vector<Value*> arguments;
   arguments.push_back(bitcast);
   
-  IRWriter::createInvokeInst(context, objectDestructor, arguments, "");
+  IRWriter::createInvokeInst(context, objectDestructor, arguments, "", 0);
   IRWriter::createReturnInst(context, NULL);
   
   context.getScopes().popScope(context, 0);

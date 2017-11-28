@@ -80,7 +80,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
 
   Function* throwFunction = IntrinsicFunctions::getThrowFunction(context);
   
-  Value* result = IRWriter::createInvokeInst(context, throwFunction, throwArguments, "");
+  Value* result = IRWriter::createInvokeInst(context, throwFunction, throwArguments, "", mLine);
 
   IRWriter::newUnreachableInst(context);
 

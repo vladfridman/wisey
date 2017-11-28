@@ -30,7 +30,7 @@ void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value, 
   vector<Value*> arguments;
   arguments.push_back(bitcast);
 
-  IRWriter::createInvokeInst(context, function, arguments, "");
+  IRWriter::createInvokeInst(context, function, arguments, "", 0);
 
   popCallStack(context);
 }

@@ -139,7 +139,7 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   TryCatchInfo tryCatchInfo(catchList, continueBlock);
   
   mContext.getScopes().beginTryCatch(&tryCatchInfo);
-  InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
+  InvokeInst* invokeInst = IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "", 0);
   
   string expexted =
   "  %0 = invoke i64 @main()\n"
@@ -147,7 +147,7 @@ TEST_F(IRWriterTest, createInvokeInstTest) {
   *mStringStream << *invokeInst;
   ASSERT_STREQ(expexted.c_str(), mStringStream->str().c_str());
   
-  IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "");
+  IRWriter::createInvokeInst(mContext, mMainFunction, arguments, "", 0);
   
   EXPECT_EQ(mBasicBlock->size(), 1u);
 }

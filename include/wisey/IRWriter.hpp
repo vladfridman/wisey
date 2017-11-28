@@ -67,7 +67,8 @@ public:
   static llvm::InvokeInst* createInvokeInst(IRGenerationContext& context,
                                             llvm::Function* function,
                                             std::vector<llvm::Value*> arguments,
-                                            std::string resultName);
+                                            std::string resultName,
+                                            int line);
 
   /**
    * Create a call to malloc function that allocates memory on heap

@@ -203,7 +203,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   
   Composer::pushCallStack(context, mLine);
 
-  Value* result = IRWriter::createInvokeInst(context, function, arguments, "");
+  Value* result = IRWriter::createInvokeInst(context, function, arguments, "", mLine);
   
   Composer::popCallStack(context);
 

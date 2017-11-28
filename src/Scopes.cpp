@@ -213,14 +213,14 @@ void Scopes::reportUnhandledExceptions(map<string, const Model*> exceptions) {
   }
 }
 
-BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context) {
+BasicBlock* Scopes::getLandingPadBlock(IRGenerationContext& context, int line) {
   if (mCachedLandingPadBlock) {
     return mCachedLandingPadBlock;
   }
   
   TryCatchInfo* tryCatchInfo = getTryCatchInfo();
   if (tryCatchInfo) {
-    BasicBlock* freeMemoryBlock = freeMemoryAllocatedInTry(context);
+    BasicBlock* freeMemoryBlock = freeMemoryAllocatedInTry(context, line);
     mCachedLandingPadBlock = tryCatchInfo->defineLandingPadBlock(context, freeMemoryBlock);
   } else {
     mCachedLandingPadBlock = Cleanup::generate(context);
@@ -233,7 +233,7 @@ void Scopes::clearCachedLandingPadBlock() {
   mCachedLandingPadBlock = NULL;
 }
 
-llvm::BasicBlock* Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context) {
+llvm::BasicBlock* Scopes::freeMemoryAllocatedInTry(IRGenerationContext& context, int line) {
   Function* function = context.getBasicBlock()->getParent();
   BasicBlock* freeMemoryBlock = BasicBlock::Create(context.getLLVMContext(), "freeMem", function);
   BasicBlock* lastBasicBlock = context.getBasicBlock();

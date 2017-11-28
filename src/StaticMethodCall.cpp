@@ -107,7 +107,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   
   Composer::pushCallStack(context, mLine);
 
-  Value* result = IRWriter::createInvokeInst(context, function, arguments, resultName);
+  Value* result = IRWriter::createInvokeInst(context, function, arguments, resultName, mLine);
   
   Composer::popCallStack(context);
 

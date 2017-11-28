@@ -83,14 +83,15 @@ CallInst* IRWriter::createCallInst(IRGenerationContext& context,
 InvokeInst* IRWriter::createInvokeInst(IRGenerationContext& context,
                                        Function* function,
                                        vector<Value*> arguments,
-                                       string resultName) {
+                                       string resultName,
+                                       int line) {
   BasicBlock* currentBlock = context.getBasicBlock();
   
   if(currentBlock->getTerminator()) {
     return NULL;
   }
   
-  BasicBlock* landingPadBlock = context.getScopes().getLandingPadBlock(context);
+  BasicBlock* landingPadBlock = context.getScopes().getLandingPadBlock(context, line);
   
   BasicBlock* invokeContinueBlock = BasicBlock::Create(context.getLLVMContext(),
                                                        "invoke.continue",
