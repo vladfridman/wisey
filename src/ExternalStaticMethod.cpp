@@ -18,6 +18,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ExternalStaticMethod::ExternalStaticMethod(string name,
+                                           const IType* returnType,
+                                           vector<MethodArgument*> arguments,
+                                           vector<const Model*> thrownExceptions) :
+mName(name),
+mReturnType(returnType),
+mArguments(arguments),
+mThrownExceptions(thrownExceptions) { }
+
 ExternalStaticMethod::~ExternalStaticMethod() {
   for (MethodArgument* argument : mArguments) {
     delete argument;

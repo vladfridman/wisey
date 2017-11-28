@@ -14,6 +14,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+ExternalStaticMethodDeclaration::
+ExternalStaticMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
+                                string name,
+                                const VariableList& arguments,
+                                vector<ModelTypeSpecifier*> thrownExceptions) :
+mReturnTypeSpecifier(returnTypeSpecifier),
+mName(name),
+mArguments(arguments),
+mThrownExceptions(thrownExceptions) { }
+
 ExternalStaticMethodDeclaration::~ExternalStaticMethodDeclaration() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {

@@ -33,11 +33,7 @@ public:
   MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                              std::string methodName,
                              const VariableList& arguments,
-                             std::vector<ModelTypeSpecifier*> thrownExceptions) :
-  mReturnTypeSpecifier(returnTypeSpecifier),
-  mMethodName(methodName),
-  mArguments(arguments),
-  mThrownExceptions(thrownExceptions) { }
+                             std::vector<ModelTypeSpecifier*> thrownExceptions);
   
   ~MethodSignatureDeclaration();
   

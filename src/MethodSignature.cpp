@@ -14,6 +14,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+MethodSignature::MethodSignature(std::string name,
+                                 const IType* returnType,
+                                 vector<MethodArgument*> arguments,
+                                 vector<const Model*> thrownExceptions) :
+mName(name),
+mReturnType(returnType),
+mArguments(arguments),
+mThrownExceptions(thrownExceptions) { }
+
 MethodSignature::~MethodSignature() {
   for (MethodArgument* argument : mArguments) {
     delete argument;

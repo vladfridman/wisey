@@ -38,13 +38,7 @@ public:
                           std::string name,
                           VariableList arguments,
                           std::vector<ModelTypeSpecifier*> exceptions,
-                          CompoundStatement* compoundStatement) :
-  mAccessLevel(AccessLevel),
-  mReturnTypeSpecifier(returnTypeSpecifier),
-  mName(name),
-  mArguments(arguments),
-  mExceptions(exceptions),
-  mCompoundStatement(compoundStatement) { }
+                          CompoundStatement* compoundStatement);
   
   ~StaticMethodDeclaration();
   

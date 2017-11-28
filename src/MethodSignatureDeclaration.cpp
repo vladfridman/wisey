@@ -15,6 +15,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+MethodSignatureDeclaration::
+MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
+                           string methodName,
+                           const VariableList& arguments,
+                           vector<ModelTypeSpecifier*> thrownExceptions) :
+mReturnTypeSpecifier(returnTypeSpecifier),
+mMethodName(methodName),
+mArguments(arguments),
+mThrownExceptions(thrownExceptions) { }
+
 MethodSignatureDeclaration::~MethodSignatureDeclaration() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {

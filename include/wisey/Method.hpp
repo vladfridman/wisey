@@ -38,14 +38,7 @@ public:
          const IType* returnType,
          std::vector<MethodArgument*> arguments,
          std::vector<const Model*> thrownExceptions,
-         CompoundStatement* compoundStatement) :
-  mName(name),
-  mAccessLevel(accessLevel),
-  mReturnType(returnType),
-  mArguments(arguments),
-  mThrownExceptions(thrownExceptions),
-  mCompoundStatement(compoundStatement),
-  mFunction(NULL) { }
+         CompoundStatement* compoundStatement);
   
   ~Method();
   

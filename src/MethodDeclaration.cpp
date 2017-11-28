@@ -17,6 +17,19 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+MethodDeclaration::MethodDeclaration(const AccessLevel AccessLevel,
+                                     const ITypeSpecifier* returnTypeSpecifier,
+                                     string name,
+                                     VariableList arguments,
+                                     vector<ModelTypeSpecifier*> exceptions,
+                                     CompoundStatement* compoundStatement) :
+mAccessLevel(AccessLevel),
+mReturnTypeSpecifier(returnTypeSpecifier),
+mName(name),
+mArguments(arguments),
+mExceptions(exceptions),
+mCompoundStatement(compoundStatement) { }
+
 MethodDeclaration::~MethodDeclaration() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {

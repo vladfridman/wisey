@@ -32,14 +32,10 @@ class ExternalStaticMethodDeclaration : public IMethodDeclaration {
 public:
   
   ExternalStaticMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
-                            std::string name,
-                            const VariableList& arguments,
-                            std::vector<ModelTypeSpecifier*> thrownExceptions) :
-  mReturnTypeSpecifier(returnTypeSpecifier),
-  mName(name),
-  mArguments(arguments),
-  mThrownExceptions(thrownExceptions) { }
-  
+                                  std::string name,
+                                  const VariableList& arguments,
+                                  std::vector<ModelTypeSpecifier*> thrownExceptions);
+
   ~ExternalStaticMethodDeclaration();
   
   ExternalStaticMethod* declare(IRGenerationContext& context) const override;

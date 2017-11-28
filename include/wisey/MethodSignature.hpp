@@ -27,11 +27,7 @@ public:
   MethodSignature(std::string name,
                   const IType* returnType,
                   std::vector<MethodArgument*> arguments,
-                  std::vector<const Model*> thrownExceptions) :
-  mName(name),
-  mReturnType(returnType),
-  mArguments(arguments),
-  mThrownExceptions(thrownExceptions) { }
+                  std::vector<const Model*> thrownExceptions);
   
   ~MethodSignature();
   

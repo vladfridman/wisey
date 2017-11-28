@@ -17,6 +17,20 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+StaticMethodDeclaration::
+StaticMethodDeclaration(const AccessLevel AccessLevel,
+                        const ITypeSpecifier* returnTypeSpecifier,
+                        string name,
+                        VariableList arguments,
+                        vector<ModelTypeSpecifier*> exceptions,
+                        CompoundStatement* compoundStatement) :
+mAccessLevel(AccessLevel),
+mReturnTypeSpecifier(returnTypeSpecifier),
+mName(name),
+mArguments(arguments),
+mExceptions(exceptions),
+mCompoundStatement(compoundStatement) { }
+
 StaticMethodDeclaration::~StaticMethodDeclaration() {
   delete mReturnTypeSpecifier;
   for (VariableDeclaration* argument : mArguments) {

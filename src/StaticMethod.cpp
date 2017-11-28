@@ -23,6 +23,20 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+StaticMethod::StaticMethod(string name,
+                           AccessLevel accessLevel,
+                           const IType* returnType,
+                           vector<MethodArgument*> arguments,
+                           vector<const Model*> thrownExceptions,
+                           CompoundStatement* compoundStatement) :
+mName(name),
+mAccessLevel(accessLevel),
+mReturnType(returnType),
+mArguments(arguments),
+mThrownExceptions(thrownExceptions),
+mCompoundStatement(compoundStatement),
+mFunction(NULL) { }
+
 StaticMethod::~StaticMethod() {
   for (MethodArgument* argument : mArguments) {
     delete argument;

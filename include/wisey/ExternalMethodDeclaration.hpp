@@ -34,11 +34,7 @@ public:
   ExternalMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                             std::string name,
                             const VariableList& arguments,
-                            std::vector<ModelTypeSpecifier*> thrownExceptions) :
-  mReturnTypeSpecifier(returnTypeSpecifier),
-  mName(name),
-  mArguments(arguments),
-  mThrownExceptions(thrownExceptions) { }
+                            std::vector<ModelTypeSpecifier*> thrownExceptions);
   
   ~ExternalMethodDeclaration();
   
