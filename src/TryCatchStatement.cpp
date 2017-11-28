@@ -20,12 +20,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-TryCatchStatement::TryCatchStatement(IStatement* tryBlock, vector<Catch*> catchList) :
-mTryBlock(tryBlock),
+TryCatchStatement::TryCatchStatement(CompoundStatement* tryCompoundStatement,
+                                     vector<Catch*> catchList) :
+mTryCompoundStatement(tryCompoundStatement),
 mCatchList(catchList) { }
 
 TryCatchStatement::~TryCatchStatement() {
-  delete mTryBlock;
+  delete mTryCompoundStatement;
   for (Catch* catchClause : mCatchList) {
     delete catchClause;
   }
@@ -46,7 +47,7 @@ Value* TryCatchStatement::generateIR(IRGenerationContext& context) const {
 
   TryCatchInfo tryCatchInfo(mCatchList, continueBlock);
   context.getScopes().beginTryCatch(&tryCatchInfo);
-  mTryBlock->generateIR(context);
+  mTryCompoundStatement->generateIR(context);
   bool doesTryBlockTerminate = context.getBasicBlock()->getTerminator() != NULL;
   bool doAllCatchesTerminate = context.getScopes().endTryCatch(context);
 

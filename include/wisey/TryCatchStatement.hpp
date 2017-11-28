@@ -12,9 +12,9 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/Catch.hpp"
+#include "wisey/CompoundStatement.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/IStatement.hpp"
 
 namespace wisey {
   
@@ -22,12 +22,12 @@ namespace wisey {
  * Represents a try/catch statement
  */
 class TryCatchStatement : public IStatement {
-  IStatement* mTryBlock;
+  CompoundStatement* mTryCompoundStatement;
   std::vector<Catch*> mCatchList;
   
 public:
   
-  TryCatchStatement(IStatement* tryBlock, std::vector<Catch*> catchList);
+  TryCatchStatement(CompoundStatement* tryCompoundStatement, std::vector<Catch*> catchList);
   
   ~TryCatchStatement();
   
