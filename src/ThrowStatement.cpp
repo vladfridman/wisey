@@ -20,6 +20,9 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
+ThrowStatement::ThrowStatement(IExpression* expression, int line) :
+mExpression(expression), mLine(line) { }
+
 ThrowStatement::~ThrowStatement() {
   delete mExpression;
 }

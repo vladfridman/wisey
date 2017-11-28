@@ -19,6 +19,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+Catch::Catch(ModelTypeSpecifier* modelTypeSpecifier, std::string identifier, IStatement* statement)
+: mModelTypeSpecifier(modelTypeSpecifier), mIdentifier(identifier), mStatement(statement) { }
+
 Catch::~Catch() {
   delete mModelTypeSpecifier;
   delete mStatement;

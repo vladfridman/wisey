@@ -24,8 +24,7 @@ class Catch {
   
 public:
   
-  Catch(ModelTypeSpecifier* modelTypeSpecifier, std::string identifier, IStatement* statement)
-  : mModelTypeSpecifier(modelTypeSpecifier), mIdentifier(identifier), mStatement(statement) { }
+  Catch(ModelTypeSpecifier* modelTypeSpecifier, std::string identifier, IStatement* statement);
   
   ~Catch();
   

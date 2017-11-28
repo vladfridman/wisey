@@ -20,6 +20,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+TryCatchStatement::TryCatchStatement(IStatement* tryBlock, vector<Catch*> catchList) :
+mTryBlock(tryBlock),
+mCatchList(catchList) { }
+
 TryCatchStatement::~TryCatchStatement() {
   delete mTryBlock;
   for (Catch* catchClause : mCatchList) {

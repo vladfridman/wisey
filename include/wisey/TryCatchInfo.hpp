@@ -31,9 +31,7 @@ class TryCatchInfo {
 
 public:
   
-  TryCatchInfo(std::vector<Catch*> catchList, llvm::BasicBlock* continueBlock) :
-  mCatchList(catchList),
-  mContinueBlock(continueBlock) { }
+  TryCatchInfo(std::vector<Catch*> catchList, llvm::BasicBlock* continueBlock);
   
   ~TryCatchInfo();
   

@@ -20,6 +20,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
+TryCatchInfo::TryCatchInfo(std::vector<Catch*> catchList, llvm::BasicBlock* continueBlock) :
+mCatchList(catchList),
+mContinueBlock(continueBlock) { }
+
 TryCatchInfo::~TryCatchInfo() {
   mComposingCallbacks.clear();
 }

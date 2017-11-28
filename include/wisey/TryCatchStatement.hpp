@@ -27,10 +27,7 @@ class TryCatchStatement : public IStatement {
   
 public:
   
-  TryCatchStatement(IStatement* tryBlock,
-                    std::vector<Catch*> catchList) :
-  mTryBlock(tryBlock), 
-  mCatchList(catchList) { }
+  TryCatchStatement(IStatement* tryBlock, std::vector<Catch*> catchList);
   
   ~TryCatchStatement();
   
