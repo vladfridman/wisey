@@ -188,6 +188,14 @@ TEST_F(AssignmentTest, printToStreamTest) {
   EXPECT_STREQ("foo = 5", stringStream.str().c_str());
 }
 
+TEST_F(TestFileSampleRunner, assignToAssignmentPrimitiveRunTest) {
+  runFile("tests/samples/test_assignment_to_assignment_primitive.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, assignToAssignmentObjectRunTest) {
+  runFile("tests/samples/test_assingment_to_assignment_object.yz", "3");
+}
+
 TEST_F(TestFileSampleRunner, assignToControllerRunDeathTest) {
   expectFailCompile("tests/samples/test_assign_to_controller.yz",
                     1,
