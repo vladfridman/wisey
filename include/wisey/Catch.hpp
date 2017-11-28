@@ -9,7 +9,7 @@
 #ifndef Catch_h
 #define Catch_h
 
-#include "wisey/IStatement.hpp"
+#include "wisey/CompoundStatement.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
 namespace wisey {
@@ -20,11 +20,13 @@ namespace wisey {
 class Catch {
   ModelTypeSpecifier* mModelTypeSpecifier;
   std::string mIdentifier;
-  IStatement* mStatement;
+  CompoundStatement* mCompoundStatement;
   
 public:
   
-  Catch(ModelTypeSpecifier* modelTypeSpecifier, std::string identifier, IStatement* statement);
+  Catch(ModelTypeSpecifier* modelTypeSpecifier,
+        std::string identifier,
+        CompoundStatement* compoundStatement);
   
   ~Catch();
   

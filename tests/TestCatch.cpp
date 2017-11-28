@@ -11,7 +11,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "MockStatement.hpp"
 #include "wisey/Catch.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -30,15 +29,12 @@ using ::testing::Test;
 struct CatchTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
-  NiceMock<MockStatement>* mMockStatement;
   Model* mModel;
   Catch* mCatch;
   
 public:
   
-  CatchTest() :
-  mLLVMContext(mContext.getLLVMContext()),
-  mMockStatement(new NiceMock<MockStatement>()) {
+  CatchTest() : mLLVMContext(mContext.getLLVMContext()) {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -68,7 +64,9 @@ public:
 
     vector<string> package;
     ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MSquare");
-    mCatch = new Catch(typeSpecifier, "mycatch", mMockStatement);
+    Block* block = new Block();
+    CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
+    mCatch = new Catch(typeSpecifier, "mycatch", compoundStatement);
   }
 
   ~CatchTest() {

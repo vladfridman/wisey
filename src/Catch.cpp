@@ -19,12 +19,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Catch::Catch(ModelTypeSpecifier* modelTypeSpecifier, std::string identifier, IStatement* statement)
-: mModelTypeSpecifier(modelTypeSpecifier), mIdentifier(identifier), mStatement(statement) { }
+Catch::Catch(ModelTypeSpecifier* modelTypeSpecifier,
+             string identifier,
+             CompoundStatement* compoundStatement) :
+mModelTypeSpecifier(modelTypeSpecifier),
+mIdentifier(identifier),
+mCompoundStatement(compoundStatement) { }
 
 Catch::~Catch() {
   delete mModelTypeSpecifier;
-  delete mStatement;
+  delete mCompoundStatement;
 }
 
 ModelOwner* Catch::getType(IRGenerationContext& context) const {
@@ -74,7 +78,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   
   IVariable* exceptionVariable = new ParameterOwnerVariable(mIdentifier, exceptionType, pointer);
   context.getScopes().getScope()->setVariable(mIdentifier, exceptionVariable);
-  mStatement->generateIR(context);
+  mCompoundStatement->generateIR(context);
   context.getScopes().popScope(context);
   
   bool hasTerminator = context.getBasicBlock()->getTerminator() != NULL;
