@@ -12,7 +12,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InterfaceTypeSpecifier::InterfaceTypeSpecifier(vector<string> package, string shortName) :
+InterfaceTypeSpecifier::InterfaceTypeSpecifier(string package, string shortName) :
 mPackage(package),
 mShortName(shortName) { }
 

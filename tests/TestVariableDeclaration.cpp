@@ -111,8 +111,7 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
 }
 
 TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
-  vector<string> package;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MModel");
   
   string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
   StructType* structType = StructType::create(mLLVMContext, modelFullName);

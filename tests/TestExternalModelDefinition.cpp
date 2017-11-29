@@ -66,8 +66,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
   mElementDeclarations.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ExternalModelDefinition modelDefinition(typeSpecifier, mElementDeclarations, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
@@ -90,8 +89,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   mElementDeclarations.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ExternalModelDefinition modelDefinition(typeSpecifier, mElementDeclarations, interfaces);
 
   modelDefinition.prototypeObjects(mContext);

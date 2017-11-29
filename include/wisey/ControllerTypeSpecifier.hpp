@@ -17,12 +17,12 @@ namespace wisey {
  * Represents controller type specifier
  */
 class ControllerTypeSpecifier : public IInjectableObjectTypeSpecifier {
-  const std::vector<std::string> mPackage;
+  const std::string mPackage;
   const std::string mShortName;
   
 public:
   
-  ControllerTypeSpecifier(std::vector<std::string> package, std::string shortName);
+  ControllerTypeSpecifier(std::string package, std::string shortName);
   
   ~ControllerTypeSpecifier();
   

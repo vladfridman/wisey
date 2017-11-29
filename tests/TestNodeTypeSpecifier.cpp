@@ -21,11 +21,11 @@ using namespace wisey;
 struct NodeTypeSpecifierTest : public ::testing::Test {
   IRGenerationContext mContext;
   Node* mNode;
-  vector<string> mPackage;
+  string mPackage = "systems.vos.wisey.compiler.tests";
   
   NodeTypeSpecifierTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mContext.setPackage(mPackage);
     
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(llvmContext));
@@ -35,18 +35,11 @@ struct NodeTypeSpecifierTest : public ::testing::Test {
     structType->setBody(types);
     mNode = Node::newNode(nodeFullName, structType);
     mContext.addNode(mNode);
-    
-    mPackage.push_back("systems");
-    mPackage.push_back("vos");
-    mPackage.push_back("wisey");
-    mPackage.push_back("compiler");
-    mPackage.push_back("tests");
   }
 };
 
 TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierCreateTest) {
-  vector<string> package;
-  NodeTypeSpecifier nodeTypeSpecifier(package, "NElement");
+  NodeTypeSpecifier nodeTypeSpecifier("", "NElement");
   
   EXPECT_EQ(nodeTypeSpecifier.getType(mContext), mNode);
 }
@@ -67,8 +60,7 @@ TEST_F(NodeTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierSamePackageDeathTest) {
-  vector<string> package;
-  NodeTypeSpecifier nodeTypeSpecifier(package, "NNode");
+  NodeTypeSpecifier nodeTypeSpecifier("", "NNode");
   
   EXPECT_EXIT(nodeTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

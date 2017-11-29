@@ -70,8 +70,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   ExternalNodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
@@ -94,8 +93,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   ExternalNodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);

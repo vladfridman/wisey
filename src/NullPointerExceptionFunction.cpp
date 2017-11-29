@@ -67,10 +67,7 @@ void NullPointerExceptionFunction::compose(IRGenerationContext& context, Functio
   FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
   
   Block* thenBlock = new Block();
-  vector<string> package;
-  package.push_back("wisey");
-  package.push_back("lang");
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package,
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(Names::getLangPackageName(),
                                                                   Names::getNPEModelName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);

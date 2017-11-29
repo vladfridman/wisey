@@ -430,9 +430,7 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
 
   vector<Interface*> flattenedInterfaces;
 
-  vector<string> package;
-  package.push_back("some");
-  package.push_back("package");
+  string package = "some.package";
   StructType* grandChildStructType = StructType::create(mLLVMContext, "some.package.IGrandChild");
   Interface* grandChild = Interface::newInterface("some.package.IGrandChild",
                                                   grandChildStructType,

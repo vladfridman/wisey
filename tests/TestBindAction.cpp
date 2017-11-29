@@ -49,11 +49,10 @@ struct BindActionTest : public Test {
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
     
-    vector<string> package;
     ControllerTypeSpecifier* controllerTypeSpecifier =
-      new ControllerTypeSpecifier(package, "CMyController");
+      new ControllerTypeSpecifier("", "CMyController");
     InterfaceTypeSpecifier* interfaceTypeSpecifier =
-      new InterfaceTypeSpecifier(package, "IMyInterface");
+      new InterfaceTypeSpecifier("", "IMyInterface");
     mBindAction = new BindAction(controllerTypeSpecifier, interfaceTypeSpecifier);
 }
   

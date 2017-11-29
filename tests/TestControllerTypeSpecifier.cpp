@@ -22,11 +22,11 @@ using namespace wisey;
 struct ControllerTypeSpecifierTest : public ::testing::Test {
   IRGenerationContext mContext;
   Controller* mController;
-  vector<string> mPackage;
+  string mPackage = "systems.vos.wisey.compiler.tests";
   
   ControllerTypeSpecifierTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mContext.setPackage(mPackage);
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));
@@ -60,18 +60,11 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     mController->setFields(fields, 1u);
     mController->setMethods(methods);
     mContext.addController(mController);
-
-    mPackage.push_back("systems");
-    mPackage.push_back("vos");
-    mPackage.push_back("wisey");
-    mPackage.push_back("compiler");
-    mPackage.push_back("tests");
   }
 };
 
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierCreateTest) {
-  vector<string> package;
-  ControllerTypeSpecifier controllerTypeSpecifier(package, "CMultiplier");
+  ControllerTypeSpecifier controllerTypeSpecifier("", "CMultiplier");
   
   EXPECT_EQ(controllerTypeSpecifier.getType(mContext), mController);
 }
@@ -92,8 +85,7 @@ TEST_F(ControllerTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierSamePackageDeathTest) {
-  vector<string> package;
-  ControllerTypeSpecifier controllerTypeSpecifier(package, "CAdder");
+  ControllerTypeSpecifier controllerTypeSpecifier("", "CAdder");
   
   EXPECT_EXIT(controllerTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

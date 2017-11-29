@@ -12,7 +12,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ControllerTypeSpecifier::ControllerTypeSpecifier(vector<string> package, string shortName) :
+ControllerTypeSpecifier::ControllerTypeSpecifier(string package, string shortName) :
 mPackage(package),
 mShortName(shortName) { }
 

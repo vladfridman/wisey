@@ -37,23 +37,18 @@ void TestPrefix::defineModel(IRGenerationContext& context,
                              string modelName,
                              vector<IObjectElementDeclaration*> modelElements) {
   vector<InterfaceTypeSpecifier*> modelParentInterfaces;
-  vector<string> package;
-  package.push_back("wisey");
-  package.push_back("lang");
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(package, modelName);
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(Names::getLangPackageName(),
+                                                                  modelName);
   ModelDefinition modelDefinition(modelTypeSpecifier, modelElements, modelParentInterfaces);
   modelDefinition.prototypeObjects(context);
   modelDefinition.prototypeMethods(context);
-  Model* model = context.getModel("wisey.lang." + modelName);
+  Model* model = context.getModel(Names::getLangPackageName() + "." + modelName);
   model->createRTTI(context);
 }
 
 void TestPrefix::defineThreadController(IRGenerationContext& context) {
-  vector<string> package;
-  package.push_back("wisey");
-  package.push_back("lang");
   ControllerTypeSpecifier* controllerTypeSpecifier =
-    new ControllerTypeSpecifier(package, Names::getThreadControllerName());
+    new ControllerTypeSpecifier(Names::getLangPackageName(), Names::getThreadControllerName());
   vector<IObjectElementDeclaration*> elementDeclarations;
   vector<InterfaceTypeSpecifier*> interfaceSpecifiers;
   

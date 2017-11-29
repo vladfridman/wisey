@@ -128,9 +128,8 @@ struct ModelOwnerTest : public Test {
                                                         shapeInterfaceThrownExceptions);
     shapeInterfaceElements.push_back(methodFooSignature);
     vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
-    vector<string> package;
     InterfaceTypeSpecifier* subShapeInterfaceTypeSpecifier =
-      new InterfaceTypeSpecifier(package, "ISubShape");
+      new InterfaceTypeSpecifier("", "ISubShape");
     shapeParentInterfaces.push_back(subShapeInterfaceTypeSpecifier);
     mShapeInterface = Interface::newInterface(shapeFullName,
                                               shapeIinterfaceStructType,

@@ -12,7 +12,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelTypeSpecifier::ModelTypeSpecifier(vector<string> package, string shortName) :
+ModelTypeSpecifier::ModelTypeSpecifier(string package, string shortName) :
 mPackage(package),
 mShortName(shortName) { }
 

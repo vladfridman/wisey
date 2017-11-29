@@ -40,7 +40,7 @@ public:
    */
   static std::string getFullName(IRGenerationContext& context,
                                  std::string shortName,
-                                 std::vector<std::string> package);
+                                 std::string package);
   
 };
   

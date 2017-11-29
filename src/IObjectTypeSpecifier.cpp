@@ -14,17 +14,10 @@ using namespace wisey;
 
 std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
                                               string shortName,
-                                              vector<string> package) {
-  if (package.size() > 0) {
-    string fullName = "";
-    for (string part : package) {
-      fullName.append(part + ".");
-    }
-    fullName.append(shortName);
-    
-    return fullName;
+                                              string package) {
+  if (package.length() > 0) {
+    return package + "." + shortName;
   }
-  
   if (context.getImport(shortName) != NULL) {
     return context.getImport(shortName)->getName();
   }

@@ -52,8 +52,7 @@ struct ObjectBuilderTest : Test {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     mContext.setPackage("systems.vos.wisey.compiler.tests");
     
-    vector<string> package;
-    mModelTypeSpecifier = new ModelTypeSpecifier(package, "MShape");
+    mModelTypeSpecifier = new ModelTypeSpecifier("", "MShape");
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));

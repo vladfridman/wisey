@@ -89,8 +89,7 @@ TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
@@ -113,8 +112,7 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
@@ -136,8 +134,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
@@ -165,10 +162,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<IObjectElementDeclaration*> interfaceElements;
   VariableList methodArguments;
   vector<ModelTypeSpecifier*> methodThrownExceptions;
-  vector<string> wiseyLangPackage;
-  wiseyLangPackage.push_back("wisey");
-  wiseyLangPackage.push_back("lang");
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(wiseyLangPackage,
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(Names::getLangPackageName(),
                                                                   Names::getNPEModelName());
   methodThrownExceptions.push_back(modelTypeSpecifier);
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
@@ -198,12 +192,11 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      interface->getObjectNameGlobalVariableName());
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> emptyPackage;
-  interfaces.push_back(new InterfaceTypeSpecifier(emptyPackage, "IMyInterface"));
+  interfaces.push_back(new InterfaceTypeSpecifier("", "IMyInterface"));
 
   mObjectElements.push_back(mMethodDeclaration);
 
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(emptyPackage, "MModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);
@@ -228,18 +221,12 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 
 TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  package.push_back("systems");
-  package.push_back("vos");
-  package.push_back("wisey");
-  package.push_back("compiler");
-  package.push_back("tests");
+  string package = "systems.vos.wisey.compiler.tests";
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<string> packageSpecifier;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(packageSpecifier, "MModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);
   
@@ -257,8 +244,7 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MMyModel");
+  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);
   

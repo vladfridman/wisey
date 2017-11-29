@@ -102,9 +102,7 @@ struct ControllerTest : public Test {
     vector<IObjectElementDeclaration*> scienceCalculatorInterfaceElements;
     scienceCalculatorInterfaceElements.push_back(calculateSignature);
     vector<InterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
-    vector<string> package;
-    InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier(package,
-                                                                             "ICalculator");
+    InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier("", "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorSpecifier);
     mScienceCalculatorInterface = Interface::newInterface(scienceCalculatorFullName,
                                                           scienceCalculatorIinterfaceStructType,

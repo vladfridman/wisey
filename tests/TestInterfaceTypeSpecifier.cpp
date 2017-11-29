@@ -24,7 +24,7 @@ using namespace wisey;
 struct InterfaceTypeSpecifierTest : public ::testing::Test {
   IRGenerationContext mContext;
   Interface* mInterface;
-  vector<string> mPackage;
+  string mPackage;
 
   InterfaceTypeSpecifierTest() {
     mContext.setPackage("systems.vos.wisey.compiler.tests");
@@ -50,17 +50,12 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
    
     mContext.addInterface(mInterface);
 
-    mPackage.push_back("systems");
-    mPackage.push_back("vos");
-    mPackage.push_back("wisey");
-    mPackage.push_back("compiler");
-    mPackage.push_back("tests");
+    mPackage = "systems.vos.wisey.compiler.tests";
   }
 };
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateTest) {
-  vector<string> package;
-  InterfaceTypeSpecifier interfaceTypeSpecifier(package, "IShape");
+  InterfaceTypeSpecifier interfaceTypeSpecifier("", "IShape");
   
   EXPECT_EQ(interfaceTypeSpecifier.getType(mContext), mInterface);
 }
@@ -81,8 +76,7 @@ TEST_F(InterfaceTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierSamePackageDeathTest) {
-  vector<string> package;
-  InterfaceTypeSpecifier interfaceTypeSpecifier(package, "IObject");
+  InterfaceTypeSpecifier interfaceTypeSpecifier("", "IObject");
   
   EXPECT_EXIT(interfaceTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

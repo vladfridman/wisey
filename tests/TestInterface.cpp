@@ -90,8 +90,7 @@ struct InterfaceTest : public Test {
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
-    vector<string> package;
-    mObjectInterfaceSpecifier = new InterfaceTypeSpecifier(package, "IObject");
+    mObjectInterfaceSpecifier = new InterfaceTypeSpecifier("", "IObject");
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);

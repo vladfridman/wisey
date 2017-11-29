@@ -19,12 +19,12 @@ namespace wisey {
  * Represents model type specifier
  */
 class ModelTypeSpecifier : public IBuildableConcreteObjectTypeSpecifier {
-  const std::vector<std::string> mPackage;
+  const std::string mPackage;
   const std::string mShortName;
 
 public:
   
-  ModelTypeSpecifier(std::vector<std::string> package, std::string shortName);
+  ModelTypeSpecifier(std::string package, std::string shortName);
   
   ~ModelTypeSpecifier();
 

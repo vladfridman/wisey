@@ -91,8 +91,7 @@ TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
@@ -115,8 +114,7 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
@@ -138,8 +136,7 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   EXPECT_CALL(*mMockStatement, generateIR(_));
@@ -167,10 +164,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<IObjectElementDeclaration*> interfaceElements;
   VariableList methodArguments;
   vector<ModelTypeSpecifier*> methodThrownExceptions;
-  vector<string> wiseyLangPackage;
-  wiseyLangPackage.push_back("wisey");
-  wiseyLangPackage.push_back("lang");
-  methodThrownExceptions.push_back(new ModelTypeSpecifier(wiseyLangPackage,
+  methodThrownExceptions.push_back(new ModelTypeSpecifier(Names::getLangPackageName(),
                                                           Names::getNPEModelName()));
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   PrimitiveTypeSpecifier* floatSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
@@ -200,12 +194,11 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      interface->getObjectNameGlobalVariableName());
   
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> emptyPackage;
-  interfaces.push_back(new InterfaceTypeSpecifier(emptyPackage, "IMyInterface"));
+  interfaces.push_back(new InterfaceTypeSpecifier("", "IMyInterface"));
 
   mObjectElements.push_back(mMethodDeclaration);
 
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(emptyPackage, "NMyNode");
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
@@ -230,18 +223,12 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
 
 TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  package.push_back("systems");
-  package.push_back("vos");
-  package.push_back("wisey");
-  package.push_back("compiler");
-  package.push_back("tests");
+  string package = "systems.vos.wisey.compiler.tests";
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<string> packageSpecifier;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(packageSpecifier, "NMyNode");
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   
@@ -261,8 +248,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<InterfaceTypeSpecifier*> interfaces;
-  vector<string> package;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier(package, "NMyNode");
+  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   

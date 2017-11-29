@@ -62,8 +62,7 @@ public:
     mModel->setFields(fields, 0u);
     mContext.addModel(mModel);
 
-    vector<string> package;
-    ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier(package, "MSquare");
+    ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MSquare");
     Block* block = new Block();
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
     mCatch = new Catch(typeSpecifier, "mycatch", compoundStatement, 0);

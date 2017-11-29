@@ -140,9 +140,7 @@ struct TypeComparisionExpressionTest : public Test {
                                                         shapeThrownExceptions);
     shapeInterfaceElements.push_back(methodFooSignature);
     vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
-    vector<string> package;
-    InterfaceTypeSpecifier* subShapeTypeSpecifier =
-      new InterfaceTypeSpecifier(package, "ISubShape");
+    InterfaceTypeSpecifier* subShapeTypeSpecifier = new InterfaceTypeSpecifier("", "ISubShape");
     shapeParentInterfaces.push_back(subShapeTypeSpecifier);
     mShapeInterface = Interface::newInterface(shapeFullName,
                                               shapeIinterfaceStructType,

@@ -19,12 +19,12 @@ namespace wisey {
  * Represents node type specifier
  */
 class NodeTypeSpecifier : public IBuildableConcreteObjectTypeSpecifier {
-  const std::vector<std::string> mPackage;
+  const std::string mPackage;
   const std::string mShortName;
   
 public:
   
-  NodeTypeSpecifier(std::vector<std::string> package, std::string shortName);
+  NodeTypeSpecifier(std::string package, std::string shortName);
   
   ~NodeTypeSpecifier();
   

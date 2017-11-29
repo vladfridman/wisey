@@ -61,11 +61,8 @@ void DestroyedObjectStillInUseFunction::compose(IRGenerationContext& context,
   BasicBlock* basicBlock = BasicBlock::Create(context.getLLVMContext(), "entry", function);
   context.setBasicBlock(basicBlock);
   
-  vector<string> package;
-  package.push_back("wisey");
-  package.push_back("lang");
   ModelTypeSpecifier* modelTypeSpecifier =
-  new ModelTypeSpecifier(package, Names::getDestroyedObjectStillInUseName());
+  new ModelTypeSpecifier(Names::getLangPackageName(), Names::getDestroyedObjectStillInUseName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   FakeExpression* fakeExpression = new FakeExpression(referenceCount, PrimitiveTypes::LONG_TYPE);
   ObjectBuilderArgument* argument = new ObjectBuilderArgument("withReferenceCount", fakeExpression);

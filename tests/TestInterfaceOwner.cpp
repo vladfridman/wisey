@@ -55,9 +55,7 @@ struct InterfaceOwnerTest : public Test {
     mShapeStructType->setBody(shapeTypes);
     vector<IObjectElementDeclaration*> shapeMethodElements;
     vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
-    vector<string> package;
-    InterfaceTypeSpecifier* objectInterfaceSpecifier = new InterfaceTypeSpecifier(package,
-                                                                                  "IObject");
+    InterfaceTypeSpecifier* objectInterfaceSpecifier = new InterfaceTypeSpecifier("", "IObject");
     shapeParentInterfaces.push_back(objectInterfaceSpecifier);
     mShapeInterface = Interface::newInterface(shapeFullName,
                                               mShapeStructType,

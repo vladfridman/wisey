@@ -83,9 +83,7 @@ struct ControllerOwnerTest : public Test {
     StructType::create(mLLVMContext, scienceCalculatorFullName);
     vector<InterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
     vector<IObjectElementDeclaration*> scienceCalculatorInterfaceElements;
-    vector<string> package;
-    InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier(package,
-                                                                                 "ICalculator");
+    InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier("", "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorTypeSpecifier);
     mScienceCalculatorInterface = Interface::newInterface(scienceCalculatorFullName,
                                                           scienceCalculatorIinterfaceStructType,

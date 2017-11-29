@@ -145,9 +145,8 @@ struct ModelTest : public Test {
                                                         shapeInterfaceMethodArguments,
                                                         shapeInterfaceThrownExceptions);
     shapeInterfaceElements.push_back(methodFooSignature);
-    vector<string> package;
     InterfaceTypeSpecifier* subShapeInterfaceSpecifier =
-      new InterfaceTypeSpecifier(package, "ISubShape");
+      new InterfaceTypeSpecifier("", "ISubShape");
     vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(subShapeInterfaceSpecifier);
     mShapeInterface = Interface::newInterface(shapeFullName,

@@ -23,12 +23,9 @@ using ::testing::Test;
 
 struct IObjectTypeSpecifierTest : public Test {
   IRGenerationContext mContext;
-  vector<string> mPackage;
+  string mPackage = "systems.vos.wisey";
   
   IObjectTypeSpecifierTest() {
-    mPackage.push_back("systems");
-    mPackage.push_back("vos");
-    mPackage.push_back("wisey");
   }
 };
 
@@ -36,15 +33,14 @@ TEST_F(IObjectTypeSpecifierTest, getFullNameNameAndPackageTest) {
   EXPECT_STREQ("systems.vos.wisey.MObject",
                IObjectTypeSpecifier::getFullName(mContext, "MObject", mPackage).c_str());
   
-  vector<string> package;
   mContext.setPackage("lang.wisey");
   EXPECT_STREQ("lang.wisey.MObject",
-               IObjectTypeSpecifier::getFullName(mContext, "MObject", package).c_str());
+               IObjectTypeSpecifier::getFullName(mContext, "MObject", "").c_str());
   
   Model* model = Model::newModel("other.wisey.MObject", NULL);
   mContext.addImport(model);
   EXPECT_STREQ("other.wisey.MObject",
-               IObjectTypeSpecifier::getFullName(mContext, "MObject", package).c_str());
+               IObjectTypeSpecifier::getFullName(mContext, "MObject", "").c_str());
 }
 
 TEST_F(TestFileSampleRunner, longObjectTypeSpecifiersRunTest) {

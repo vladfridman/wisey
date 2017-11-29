@@ -20,12 +20,12 @@ namespace wisey {
  * Represents interface type specifier
  */
 class InterfaceTypeSpecifier : public IInjectableObjectTypeSpecifier {
-  const std::vector<std::string> mPackage;
+  const std::string mPackage;
   const std::string mShortName;
   
 public:
   
-  InterfaceTypeSpecifier(std::vector<std::string> package, std::string shortName);
+  InterfaceTypeSpecifier(std::string package, std::string shortName);
   
   ~InterfaceTypeSpecifier();
   

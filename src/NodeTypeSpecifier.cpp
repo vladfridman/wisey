@@ -13,7 +13,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NodeTypeSpecifier::NodeTypeSpecifier(vector<string> package, string shortName) :
+NodeTypeSpecifier::NodeTypeSpecifier(string package, string shortName) :
 mPackage(package),
 mShortName(shortName) { }
 

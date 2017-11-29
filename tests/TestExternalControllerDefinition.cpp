@@ -76,8 +76,7 @@ struct ExternalControllerDefinitionTest : public Test {
 };
 
 TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
-  vector<string> package;
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mElementDeclarations,
                                                     mInterfaces);
@@ -94,8 +93,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
 }
 
 TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
-  vector<string> package;
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mElementDeclarations,
                                                     mInterfaces);

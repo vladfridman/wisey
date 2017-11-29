@@ -96,8 +96,7 @@ struct ControllerDefinitionTest : public Test {
 };
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
-  vector<string> package;
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
   ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
@@ -114,8 +113,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
-  vector<string> package;
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
   ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
@@ -128,8 +126,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
-  vector<string> package;
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
   ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
@@ -156,8 +153,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
-  vector<string> package;
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
   ExpressionList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
@@ -172,8 +168,7 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
 }
 
 TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
-  vector<string> package;
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier(package, "CMyController");
+  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
   ExpressionList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);

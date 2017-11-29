@@ -22,11 +22,11 @@ using namespace wisey;
 struct ModelTypeSpecifierTest : public ::testing::Test {
   IRGenerationContext mContext;
   Model* mModel;
-  vector<string> mPackage;
+  string mPackage = "systems.vos.wisey.compiler.tests";
 
   ModelTypeSpecifierTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mContext.setPackage(mPackage);
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));
@@ -54,18 +54,12 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);
-
-    mPackage.push_back("systems");
-    mPackage.push_back("vos");
-    mPackage.push_back("wisey");
-    mPackage.push_back("compiler");
-    mPackage.push_back("tests");
   }
 };
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierCreateTest) {
   vector<string> package;
-  ModelTypeSpecifier modelTypeSpecifier(package, "MSquare");
+  ModelTypeSpecifier modelTypeSpecifier("", "MSquare");
   
   EXPECT_EQ(modelTypeSpecifier.getType(mContext), mModel);
 }
@@ -86,8 +80,7 @@ TEST_F(ModelTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierSamePackageDeathTest) {
-  vector<string> package;
-  ModelTypeSpecifier modelTypeSpecifier(package, "MCircle");
+  ModelTypeSpecifier modelTypeSpecifier("", "MCircle");
   
   EXPECT_EXIT(modelTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
