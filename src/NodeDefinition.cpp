@@ -43,7 +43,9 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
 
+  context.setObjectType(node);
   configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers);
+  context.setObjectType(NULL);
 }
 
 Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
@@ -58,6 +60,7 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::generateMethodsIR(context, node);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, node);
 
+  context.setObjectType(NULL);
   context.getScopes().popScope(context, 0);
   
   return NULL;

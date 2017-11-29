@@ -45,7 +45,9 @@ void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) cons
 void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
   
+  context.setObjectType(node);
   configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers);
+  context.setObjectType(NULL);
 }
 
 Value* ExternalNodeDefinition::generateIR(IRGenerationContext& context) const {

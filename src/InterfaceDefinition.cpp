@@ -50,10 +50,12 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
 
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName(context));
+  context.setObjectType(interface);
   interface->buildMethods(context);
   interface->generateConstantsIR(context);
   interface->defineDestructorFunction(context);
   interface->composeDestructorFunctionBody(context);
+  context.setObjectType(NULL);
 }
 
 Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {

@@ -53,7 +53,9 @@ void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context)
 
 void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName(context));
+  context.setObjectType(interface);
   interface->buildMethods(context);
+  context.setObjectType(NULL);
 }
 
 Value* ExternalInterfaceDefinition::generateIR(IRGenerationContext& context) const {

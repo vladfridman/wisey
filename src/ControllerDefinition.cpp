@@ -48,7 +48,9 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
 
+  context.setObjectType(controller);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
+  context.setObjectType(NULL);
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
@@ -63,6 +65,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::generateMethodsIR(context, controller);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, controller);
   
+  context.setObjectType(NULL);
   context.getScopes().popScope(context, 0);
   
   return NULL;

@@ -46,7 +46,9 @@ void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context
 void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
   Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
   
+  context.setObjectType(controller);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
+  context.setObjectType(NULL);
 }
 
 Value* ExternalControllerDefinition::generateIR(IRGenerationContext& context) const {

@@ -45,7 +45,9 @@ void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) con
 void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
   
+  context.setObjectType(model);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
+  context.setObjectType(NULL);
 }
 
 Value* ExternalModelDefinition::generateIR(IRGenerationContext& context) const {
