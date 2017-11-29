@@ -11,14 +11,14 @@
 
 #include <string>
 
-#include "wisey/IBuildableConcreteObjectTypeSpecifier.hpp"
+#include "wisey/IObjectTypeSpecifier.hpp"
 
 namespace wisey {
   
 /**
  * Represents node type specifier
  */
-class NodeTypeSpecifier : public IBuildableConcreteObjectTypeSpecifier {
+class NodeTypeSpecifier : public IObjectTypeSpecifier {
   const std::string mPackage;
   const std::string mShortName;
   

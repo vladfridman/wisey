@@ -9,7 +9,6 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Environment.hpp"
-#include "wisey/IBuildableConcreteObjectType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/Log.hpp"
@@ -19,7 +18,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ObjectBuilder::ObjectBuilder(IBuildableConcreteObjectTypeSpecifier* typeSpecifier,
+ObjectBuilder::ObjectBuilder(IObjectTypeSpecifier* typeSpecifier,
                              ObjectBuilderArgumentList ObjectBuilderArgumentList) :
 mTypeSpecifier(typeSpecifier),
 mObjectBuilderArgumentList(ObjectBuilderArgumentList) { }
@@ -37,8 +36,10 @@ IVariable* ObjectBuilder::getVariable(IRGenerationContext& context) const {
 }
 
 Value* ObjectBuilder::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
-  const IBuildableConcreteObjectType* object = mTypeSpecifier->getType(context);
-  Instruction* malloc = object->build(context, mObjectBuilderArgumentList);
+  const IObjectType* objectType = mTypeSpecifier->getType(context);
+  assert(objectType->getTypeKind() == MODEL_TYPE || objectType->getTypeKind() == NODE_TYPE);
+  IBuildableConcreteObjectType* buildableType = (IBuildableConcreteObjectType*) objectType;
+  Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList);
   
   if (flag == IR_GENERATION_RELEASE) {
     return malloc;
@@ -48,7 +49,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, IRGenerationFlag 
   IRWriter::newStoreInst(context, malloc, alloc);
 
   IVariable* heapVariable = new LocalOwnerVariable(IVariable::getTemporaryVariableName(this),
-                                                  object->getOwner(),
+                                                  objectType->getOwner(),
                                                   alloc);
   context.getScopes().setVariable(heapVariable);
   

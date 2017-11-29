@@ -35,7 +35,6 @@
   #include "wisey/FieldKind.hpp"
   #include "wisey/FloatConstant.hpp"
   #include "wisey/ForStatement.hpp"
-  #include "wisey/IBuildableConcreteObjectTypeSpecifier.hpp"
   #include "wisey/IInjectableObjectTypeSpecifier.hpp"
   #include "wisey/Identifier.hpp"
   #include "wisey/IfElseStatement.hpp"
@@ -119,7 +118,6 @@
   wisey::DefaultCaseStatement* default_case_statement;
   wisey::SwitchCases* switch_cases;
   wisey::ITypeSpecifier* type_specifier;
-  wisey::IBuildableConcreteObjectTypeSpecifier* buildable_concrete_object_type_specifier;
   wisey::IObjectTypeSpecifier* object_type_specifier;
   wisey::Identifier* identifier;
   wisey::VariableDeclaration* variable_declaration;
@@ -201,9 +199,8 @@
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
 %type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier
-%type <buildable_concrete_object_type_specifier> buildable_concrete_object_type_specifier
 %type <injectable_object_type_specifier> injectable_object_type_specifier
-%type <object_type_specifier> object_type_specifier
+%type <object_type_specifier> object_type_specifier buildable_concrete_object_type_specifier
 %type <object_builder_argument_list> object_builder_argument_list
 %type <object_builder_argument> object_builder_argument
 %type <model_type_specifier> model_type_specifier exception_type_specifier
@@ -915,8 +912,8 @@ exception_type_specifier
   ;
 
 buildable_concrete_object_type_specifier
-  : model_type_specifier { $$ = (IBuildableConcreteObjectTypeSpecifier*) $1; }
-  | node_type_specifier { $$ = (IBuildableConcreteObjectTypeSpecifier*) $1; }
+  : model_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  | node_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   ;
 
 injectable_object_type_specifier

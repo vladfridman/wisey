@@ -1051,7 +1051,6 @@
 		F53A2C3C1F00048C00E76A9E /* TestNodeOwner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeOwner.cpp; path = tests/TestNodeOwner.cpp; sourceTree = "<group>"; };
 		F53A2C3E1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNodeTypeSpecifier.cpp; path = tests/TestNodeTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F53A2C401F01663A00E76A9E /* IBuildableConcreteObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBuildableConcreteObjectType.hpp; path = include/wisey/IBuildableConcreteObjectType.hpp; sourceTree = "<group>"; };
-		F53A2C421F016D7B00E76A9E /* IBuildableConcreteObjectTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IBuildableConcreteObjectTypeSpecifier.hpp; path = include/wisey/IBuildableConcreteObjectTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F53A2C431F02987800E76A9E /* NullType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NullType.hpp; path = include/wisey/NullType.hpp; sourceTree = "<group>"; };
 		F53A2C441F0298E800E76A9E /* NullType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NullType.cpp; path = src/NullType.cpp; sourceTree = "<group>"; };
 		F53A2C471F029AF700E76A9E /* NullExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NullExpression.hpp; path = include/wisey/NullExpression.hpp; sourceTree = "<group>"; };
@@ -2116,7 +2115,6 @@
 			isa = PBXGroup;
 			children = (
 				F53A2C401F01663A00E76A9E /* IBuildableConcreteObjectType.hpp */,
-				F53A2C421F016D7B00E76A9E /* IBuildableConcreteObjectTypeSpecifier.hpp */,
 				F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */,
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
 				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
