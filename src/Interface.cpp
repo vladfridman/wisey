@@ -446,18 +446,15 @@ string Interface::getCastFunctionName(const IObjectType* toType) const {
 Value* Interface::castTo(IRGenerationContext& context,
                          Value* fromValue,
                          const IType* toType) const {
-  const IObjectType* toObjectWithMethodsType = (const IObjectType*) (toType);
+  const IObjectType* toObjectType = (const IObjectType*) (toType);
   Function* castFunction =
-    context.getModule()->getFunction(getCastFunctionName(toObjectWithMethodsType));
+    context.getModule()->getFunction(getCastFunctionName(toObjectType));
   
   if (castFunction == NULL) {
     InstanceOf::getOrCreateFunction(context, this);
 
-    castFunction = defineCastFunction(context, toObjectWithMethodsType);
-    std::vector<const IObjectType*> objectTypes;
-    objectTypes.push_back(this);
-    objectTypes.push_back(toObjectWithMethodsType);
-    context.addComposingCallback(composeCastFunction, castFunction, objectTypes);
+    castFunction = defineCastFunction(context, toObjectType);
+    context.addComposingCallback2Objects(composeCastFunction, castFunction, this, toObjectType);
   }
   
   vector<Value*> arguments;
@@ -483,9 +480,8 @@ Function* Interface::defineCastFunction(IRGenerationContext& context,
 
 void Interface::composeCastFunction(IRGenerationContext& context,
                                     llvm::Function* function,
-                                    std::vector<const IObjectType*> objectTypes) {
-  assert(objectTypes.size() == 2);
-  
+                                    const IObjectType* interfaceType,
+                                    const IObjectType* toObjectType) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int8Type = Type::getInt8Ty(llvmContext);
   Type* llvmReturnType = function->getReturnType();
@@ -503,10 +499,8 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   BasicBlock* zeroExactly = BasicBlock::Create(llvmContext, "zero.exactly", function);
   
   context.setBasicBlock(entryBlock);
-  Value* instanceof = InstanceOf::call(context,
-                                       (const Interface*) objectTypes.front(),
-                                       thisArgument,
-                                       objectTypes.back());
+  const Interface* interface = (const Interface *) interfaceType;
+  Value* instanceof = InstanceOf::call(context, interface, thisArgument, toObjectType);
   Value* originalObject = getOriginalObject(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compareLessThanZero =

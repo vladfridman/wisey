@@ -367,18 +367,31 @@ Value* IRGenerationContext::getSourceFileNamePointer() const {
   return mSourceFileConstantPointer;
 }
 
-void IRGenerationContext::addComposingCallback(ComposingFunction callback,
-                                               Function* function,
-                                               vector<const IObjectType*> objectTypes) {
-  mComposingCallbacks.push_back(make_tuple(callback, function, objectTypes));
+void IRGenerationContext::addComposingCallback0Objects(ComposingFunction0Objects callback,
+                                                       Function* function) {
+  mComposingCallbacks0Objects.push_back(make_tuple(callback, function));
+}
+
+void IRGenerationContext::addComposingCallback2Objects(ComposingFunction2Objects callback,
+                                                       Function* function,
+                                                       const IObjectType* objectType1,
+                                                       const IObjectType* objectType2) {
+  mComposingCallbacks2Objects.push_back(make_tuple(callback, function, objectType1, objectType2));
 }
 
 void IRGenerationContext::runComposingCallbacks() {
-  for (tuple<ComposingFunction, Function*, vector<const IObjectType*>> callback :
-       mComposingCallbacks) {
-    ComposingFunction composingFunction = get<0>(callback);
+  for (tuple<ComposingFunction0Objects, Function*> callback : mComposingCallbacks0Objects) {
+    ComposingFunction0Objects composingFunction = get<0>(callback);
     Function* function = get<1>(callback);
-    vector<const IObjectType*> objectTypes = get<2>(callback);
-    composingFunction(*this, function, objectTypes);
+    composingFunction(*this, function);
+  }
+  
+  for (tuple<ComposingFunction2Objects, Function*,
+       const IObjectType*, const IObjectType*> callback : mComposingCallbacks2Objects) {
+    ComposingFunction2Objects composingFunction = get<0>(callback);
+    Function* function = get<1>(callback);
+    const IObjectType* objectType1 = get<2>(callback);
+    const IObjectType* objectType2 = get<3>(callback);
+    composingFunction(*this, function, objectType1, objectType2);
   }
 }

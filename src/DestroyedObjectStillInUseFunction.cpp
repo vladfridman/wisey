@@ -28,9 +28,8 @@ Function* DestroyedObjectStillInUseFunction::get(IRGenerationContext& context) {
   }
   
   function = define(context);
-  vector<const IObjectType*> objectTypes;
-  context.addComposingCallback(compose, function, objectTypes);
-  
+  context.addComposingCallback0Objects(compose, function);
+
   return function;
 }
 
@@ -53,8 +52,7 @@ Function* DestroyedObjectStillInUseFunction::define(IRGenerationContext& context
 }
 
 void DestroyedObjectStillInUseFunction::compose(IRGenerationContext& context,
-                                                llvm::Function* function,
-                                                vector<const IObjectType*> objectTypes) {
+                                                llvm::Function* function) {
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
   llvmArgument->setName("referenceCount");

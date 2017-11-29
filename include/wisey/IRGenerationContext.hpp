@@ -26,8 +26,9 @@
 
 namespace wisey {
   
-typedef std::function<void(IRGenerationContext&, llvm::Function*, std::vector<const IObjectType*>)>
-  ComposingFunction;
+typedef std::function<void(IRGenerationContext&, llvm::Function*)> ComposingFunction0Objects;
+typedef std::function<void(IRGenerationContext&, llvm::Function*, const IObjectType*,
+  const IObjectType*)> ComposingFunction2Objects;
   
 /**
  * Represents context for Intermidate Representation code generation
@@ -48,8 +49,9 @@ class IRGenerationContext : public IPrintable {
   llvm::Value* mSourceFileConstantPointer;
   Scopes mScopes;
   bool mIsDestructorDebugOn;
-  std::vector<std::tuple<ComposingFunction, llvm::Function*, std::vector<const IObjectType*>>>
-    mComposingCallbacks;
+  std::vector<std::tuple<ComposingFunction0Objects, llvm::Function*>> mComposingCallbacks0Objects;
+  std::vector<std::tuple<ComposingFunction2Objects, llvm::Function*, const IObjectType*,
+  const IObjectType*>> mComposingCallbacks2Objects;
 
 public:
   
@@ -216,10 +218,17 @@ public:
   /**
    * Add a IR composition function callback that will be called after code generation is finished
    */
-  void addComposingCallback(ComposingFunction callback,
-                            llvm::Function* function,
-                            std::vector<const IObjectType*> objectTypes);
+  void addComposingCallback0Objects(ComposingFunction0Objects callback,
+                                    llvm::Function* function);
   
+  /**
+   * Add a IR composition function callback that will be called after code generation is finished
+   */
+  void addComposingCallback2Objects(ComposingFunction2Objects callback,
+                                    llvm::Function* function,
+                                    const IObjectType* objectType1,
+                                    const IObjectType* objectType2);
+
   /**
    * Run composition callbacks that compose auxilary function bodies
    */

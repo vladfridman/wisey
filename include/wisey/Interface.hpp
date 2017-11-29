@@ -226,7 +226,8 @@ private:
   
   static void composeCastFunction(IRGenerationContext& context,
                                   llvm::Function* function,
-                                  std::vector<const IObjectType*> objectTypes);
+                                  const IObjectType* interfaceType,
+                                  const IObjectType* toObjectType);
 
   static std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>>
   createElements(IRGenerationContext& context,

@@ -44,9 +44,7 @@ private:
   
   static std::string getFunctionName(const Interface* interface);
   
-  static llvm::Function* compose(IRGenerationContext& context,
-                                 llvm::Function* function,
-                                 std::vector<const IObjectType*> objectTypes);
+  static llvm::Function* compose(IRGenerationContext& context, llvm::Function* function);
   
   static llvm::Function* createFunction(IRGenerationContext& context, const Interface* interface);
   

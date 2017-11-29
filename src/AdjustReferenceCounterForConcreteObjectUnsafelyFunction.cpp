@@ -23,8 +23,7 @@ Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(IRGenerat
   }
   
   function = define(context);
-  vector<const IObjectType*> objectTypes;
-  context.addComposingCallback(compose, function, objectTypes);
+  context.addComposingCallback0Objects(compose, function);
   
   return function;
 }
@@ -47,9 +46,7 @@ Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::define(IRGene
 }
 
 void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::compose(IRGenerationContext& context,
-                                                                      Function* function,
-                                                                      vector<const IObjectType*>
-                                                                      objectTypes) {
+                                                                      Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function::arg_iterator llvmArguments = function->arg_begin();
