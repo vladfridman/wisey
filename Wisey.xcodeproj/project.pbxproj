@@ -1199,7 +1199,6 @@
 		F58725611F70143100FA25E6 /* IPrintStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IPrintStatement.cpp; path = src/IPrintStatement.cpp; sourceTree = "<group>"; };
 		F58725641F70178D00FA25E6 /* TestPrintErrStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestPrintErrStatement.cpp; path = tests/TestPrintErrStatement.cpp; sourceTree = "<group>"; };
 		F58725661F7178DB00FA25E6 /* wiseyc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = wiseyc.cpp; path = src/wiseyc.cpp; sourceTree = "<group>"; };
-		F587482C1F921BE60088F1E3 /* IInjectableObjectTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IInjectableObjectTypeSpecifier.hpp; path = include/wisey/IInjectableObjectTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F587482D1F921CC60088F1E3 /* IInjectable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IInjectable.hpp; path = include/wisey/IInjectable.hpp; sourceTree = "<group>"; };
 		F587482E1F921ECB0088F1E3 /* Injector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Injector.hpp; path = include/wisey/Injector.hpp; sourceTree = "<group>"; };
 		F587482F1F921F6B0088F1E3 /* Injector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Injector.cpp; path = src/Injector.cpp; sourceTree = "<group>"; };
@@ -2122,7 +2121,6 @@
 				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
 				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
 				F587482D1F921CC60088F1E3 /* IInjectable.hpp */,
-				F587482C1F921BE60088F1E3 /* IInjectableObjectTypeSpecifier.hpp */,
 				F51D2BA71F68390200510784 /* IMethod.hpp */,
 				F5B3DCE31F91156C00FC76D3 /* IMethodCall.hpp */,
 				F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */,

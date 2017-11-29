@@ -10,8 +10,8 @@
 #ifndef InterfaceTypeSpecifier_h
 #define InterfaceTypeSpecifier_h
 
-#include "wisey/IInjectableObjectTypeSpecifier.hpp"
 #include "wisey/IInjectable.hpp"
+#include "wisey/IObjectTypeSpecifier.hpp"
 #include "wisey/Interface.hpp"
 
 namespace wisey {
@@ -19,7 +19,7 @@ namespace wisey {
 /**
  * Represents interface type specifier
  */
-class InterfaceTypeSpecifier : public IInjectableObjectTypeSpecifier {
+class InterfaceTypeSpecifier : public IObjectTypeSpecifier {
   const std::string mPackage;
   const std::string mShortName;
   

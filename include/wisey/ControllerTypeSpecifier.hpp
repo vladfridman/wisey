@@ -9,14 +9,14 @@
 #ifndef ControllerTypeSpecifier_h
 #define ControllerTypeSpecifier_h
 
-#include "wisey/IInjectableObjectTypeSpecifier.hpp"
+#include "wisey/IObjectTypeSpecifier.hpp"
 
 namespace wisey {
   
 /**
  * Represents controller type specifier
  */
-class ControllerTypeSpecifier : public IInjectableObjectTypeSpecifier {
+class ControllerTypeSpecifier : public IObjectTypeSpecifier {
   const std::string mPackage;
   const std::string mShortName;
   

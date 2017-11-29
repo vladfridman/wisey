@@ -10,7 +10,7 @@
 #define Injector_h
 
 #include "wisey/IExpression.hpp"
-#include "wisey/IInjectableObjectTypeSpecifier.hpp"
+#include "wisey/IObjectTypeSpecifier.hpp"
 
 namespace wisey {
   
@@ -19,11 +19,11 @@ namespace wisey {
  */
 class Injector : public IExpression {
     
-  IInjectableObjectTypeSpecifier* mInjectableObjectTypeSpecifier;
+  IObjectTypeSpecifier* mObjectTypeSpecifier;
   
 public:
   
-  Injector(IInjectableObjectTypeSpecifier* injectableObjectTypeSpecifier);
+  Injector(IObjectTypeSpecifier* objectTypeSpecifier);
   
   ~Injector();
   

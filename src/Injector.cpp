@@ -15,11 +15,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Injector::Injector(IInjectableObjectTypeSpecifier* injectableObjectTypeSpecifier) :
-mInjectableObjectTypeSpecifier(injectableObjectTypeSpecifier) { }
+Injector::Injector(IObjectTypeSpecifier* objectTypeSpecifier) :
+mObjectTypeSpecifier(objectTypeSpecifier) { }
 
 Injector::~Injector() {
-  delete mInjectableObjectTypeSpecifier;
+  delete mObjectTypeSpecifier;
 }
 
 IVariable* Injector::getVariable(IRGenerationContext& context) const {
@@ -27,7 +27,7 @@ IVariable* Injector::getVariable(IRGenerationContext& context) const {
 }
 
 Value* Injector::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
-  const IObjectType* type = mInjectableObjectTypeSpecifier->getType(context);
+  const IObjectType* type = mObjectTypeSpecifier->getType(context);
   ExpressionList arguments;
   Instruction* malloc = type->getTypeKind() == INTERFACE_TYPE
     ? ((Interface*) type)->inject(context, arguments)
@@ -49,7 +49,7 @@ Value* Injector::generateIR(IRGenerationContext& context, IRGenerationFlag flag)
 }
 
 const IObjectOwnerType* Injector::getType(IRGenerationContext& context) const {
-  const IObjectType* type = mInjectableObjectTypeSpecifier->getType(context);
+  const IObjectType* type = mObjectTypeSpecifier->getType(context);
   if (type->getTypeKind() == INTERFACE_TYPE) {
     return context.getBoundController((Interface*) type)->getOwner();
   }
@@ -62,7 +62,7 @@ bool Injector::isConstant() const {
 
 void Injector::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << "inject(";
-  mInjectableObjectTypeSpecifier->printToStream(context, stream);
+  mObjectTypeSpecifier->printToStream(context, stream);
   stream << ")";
 }
 
