@@ -8,7 +8,7 @@
 
 #include "TestPrefix.hpp"
 #include "wisey/ControllerDefinition.hpp"
-#include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/FieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
@@ -21,13 +21,21 @@ using namespace std;
 using namespace wisey;
 
 void TestPrefix::generateIR(IRGenerationContext& context) {
-  defineModel(context, Names::getNPEModelName());
-  defineModel(context, Names::getDestroyedObjectStillInUseName());
+  vector<IObjectElementDeclaration*> modelElements;
+  defineModel(context, Names::getNPEModelName(), modelElements);
+  ExpressionList expressionList;
+  PrimitiveTypeSpecifier* longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
+  modelElements.push_back(new FieldDeclaration(FIXED_FIELD,
+                                               longTypeSpecifier,
+                                               "mReferenceCount",
+                                               expressionList));
+  defineModel(context, Names::getDestroyedObjectStillInUseName(), modelElements);
   defineThreadController(context);
 }
 
-void TestPrefix::defineModel(IRGenerationContext& context, string modelName) {
-  vector<IObjectElementDeclaration*> modelElements;
+void TestPrefix::defineModel(IRGenerationContext& context,
+                             string modelName,
+                             vector<IObjectElementDeclaration*> modelElements) {
   vector<InterfaceTypeSpecifier*> modelParentInterfaces;
   vector<string> package;
   package.push_back("wisey");
@@ -36,6 +44,8 @@ void TestPrefix::defineModel(IRGenerationContext& context, string modelName) {
   ModelDefinition modelDefinition(modelTypeSpecifier, modelElements, modelParentInterfaces);
   modelDefinition.prototypeObjects(context);
   modelDefinition.prototypeMethods(context);
+  Model* model = context.getModel("wisey.lang." + modelName);
+  model->createRTTI(context);
 }
 
 void TestPrefix::defineThreadController(IRGenerationContext& context) {

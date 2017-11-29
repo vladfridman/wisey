@@ -179,6 +179,13 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
   vTables.at(0).push_back(ConstantExpr::getBitCast(destructor, int8Pointer));
 }
 
+void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext& context,
+                                                            const IConcreteObjectType* object) {
+  Function* function = context.getModule()->getFunction(getObjectDestructorFunctionName(object));
+  context.addComposingCallback1Objects(composeDestructorBody, function, object);
+  DestroyedObjectStillInUseFunction::get(context);
+}
+
 void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
                                          const IConcreteObjectType* object,
                                          vector<vector<llvm::Constant*>>& vTables) {
@@ -302,9 +309,10 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
 }
 
 void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
-                                                const IConcreteObjectType* object) {
+                                                Function* function,
+                                                const IObjectType* objectType) {
+  const IConcreteObjectType* object = (const IConcreteObjectType*) objectType;
   LLVMContext& llvmContext = context.getLLVMContext();
-  Function* function = context.getModule()->getFunction(getObjectDestructorFunctionName(object));
 
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   context.setBasicBlock(basicBlock);

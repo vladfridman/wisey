@@ -13,6 +13,8 @@
 
 namespace wisey {
   
+class IRGenerationContext;
+
 /**
  * Represents a declaration of an object element such as a method or a field
  */

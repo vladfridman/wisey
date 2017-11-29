@@ -184,7 +184,8 @@ TEST_F(IConcreteObjectTypeTest, declareFieldVariablesTest) {
 TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
   IConcreteObjectType::generateVTable(mContext, mStarModel);
-  IConcreteObjectType::composeDestructorBody(mContext, mStarModel);
+  IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mStarModel);
+  mContext.runComposingCallbacks();
   
   Function* function = mContext.getModule()->getFunction("destructor." + mStarModel->getName());
   
@@ -233,7 +234,8 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   
   IConcreteObjectType::generateNameGlobal(mContext, mGalaxyModel);
   IConcreteObjectType::generateVTable(mContext, mGalaxyModel);
-  IConcreteObjectType::composeDestructorBody(mContext, mGalaxyModel);
+  IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mGalaxyModel);
+  mContext.runComposingCallbacks();
 
   Function* function = mContext.getModule()->getFunction("destructor." + mGalaxyModel->getName());
   
@@ -285,8 +287,9 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFieldTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mConstellationModel);
   IConcreteObjectType::generateVTable(mContext, mConstellationModel);
-  IConcreteObjectType::composeDestructorBody(mContext, mConstellationModel);
-  
+  IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mConstellationModel);
+  mContext.runComposingCallbacks();
+
   Function* function = mContext.getModule()->getFunction("destructor." +
                                                          mConstellationModel->getName());
   
@@ -340,8 +343,9 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFieldsTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mCarModel);
   IConcreteObjectType::generateVTable(mContext, mCarModel);
-  IConcreteObjectType::composeDestructorBody(mContext, mCarModel);
-  
+  IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mCarModel);
+  mContext.runComposingCallbacks();
+
   Function* function = mContext.getModule()->getFunction("destructor." + mCarModel->getName());
   
   *mStringStream << *function;

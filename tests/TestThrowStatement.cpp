@@ -72,7 +72,6 @@ struct ThrowStatementTest : public Test {
 
     IConcreteObjectType::generateNameGlobal(mContext, mCircleModel);
     IConcreteObjectType::generateVTable(mContext, mCircleModel);
-    IConcreteObjectType::composeDestructorBody(mContext, mCircleModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,

@@ -11,6 +11,10 @@
 
 #include "wisey/IRGenerationContext.hpp"
 
+namespace wisey {
+  class IObjectElementDeclaration;
+}
+
 /**
  * Includes some object definitions that are neccessary for wisey code to run
  */
@@ -27,7 +31,9 @@ public:
   
 private:
   
-  static void defineModel(wisey::IRGenerationContext& context, std::string modelName);
+  static void defineModel(wisey::IRGenerationContext& context,
+                          std::string modelName,
+                          std::vector<wisey::IObjectElementDeclaration*> modelElements);
   
   static void defineThreadController(wisey::IRGenerationContext& context);
 

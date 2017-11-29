@@ -372,6 +372,12 @@ void IRGenerationContext::addComposingCallback0Objects(ComposingFunction0Objects
   mComposingCallbacks0Objects.push_back(make_tuple(callback, function));
 }
 
+void IRGenerationContext::addComposingCallback1Objects(ComposingFunction1Objects callback,
+                                                       Function* function,
+                                                       const IObjectType* objectType) {
+  mComposingCallbacks1Objects.push_back(make_tuple(callback, function, objectType));
+}
+
 void IRGenerationContext::addComposingCallback2Objects(ComposingFunction2Objects callback,
                                                        Function* function,
                                                        const IObjectType* objectType1,
@@ -384,6 +390,14 @@ void IRGenerationContext::runComposingCallbacks() {
     ComposingFunction0Objects composingFunction = get<0>(callback);
     Function* function = get<1>(callback);
     composingFunction(*this, function);
+  }
+  
+  for (tuple<ComposingFunction1Objects, Function*, const IObjectType*> callback :
+       mComposingCallbacks1Objects) {
+    ComposingFunction1Objects composingFunction = get<0>(callback);
+    Function* function = get<1>(callback);
+    const IObjectType* objectType = get<2>(callback);
+    composingFunction(*this, function, objectType);
   }
   
   for (tuple<ComposingFunction2Objects, Function*,

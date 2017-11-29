@@ -27,6 +27,8 @@
 namespace wisey {
   
 typedef std::function<void(IRGenerationContext&, llvm::Function*)> ComposingFunction0Objects;
+typedef std::function<void(IRGenerationContext&, llvm::Function*, const IObjectType*)>
+  ComposingFunction1Objects;
 typedef std::function<void(IRGenerationContext&, llvm::Function*, const IObjectType*,
   const IObjectType*)> ComposingFunction2Objects;
   
@@ -50,6 +52,8 @@ class IRGenerationContext : public IPrintable {
   Scopes mScopes;
   bool mIsDestructorDebugOn;
   std::vector<std::tuple<ComposingFunction0Objects, llvm::Function*>> mComposingCallbacks0Objects;
+  std::vector<std::tuple<ComposingFunction1Objects, llvm::Function*, const IObjectType*>>
+    mComposingCallbacks1Objects;
   std::vector<std::tuple<ComposingFunction2Objects, llvm::Function*, const IObjectType*,
   const IObjectType*>> mComposingCallbacks2Objects;
 
@@ -220,6 +224,13 @@ public:
    */
   void addComposingCallback0Objects(ComposingFunction0Objects callback,
                                     llvm::Function* function);
+  
+  /**
+   * Add a IR composition function callback that will be called after code generation is finished
+   */
+  void addComposingCallback1Objects(ComposingFunction1Objects callback,
+                                    llvm::Function* function,
+                                    const IObjectType* objectType);
   
   /**
    * Add a IR composition function callback that will be called after code generation is finished

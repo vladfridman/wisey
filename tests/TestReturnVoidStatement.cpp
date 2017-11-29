@@ -63,7 +63,6 @@ struct ReturnVoidStatementTest : public Test {
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
     IConcreteObjectType::generateVTable(mContext, mModel);
-    IConcreteObjectType::composeDestructorBody(mContext, mModel);
   }
   
   ~ReturnVoidStatementTest() {

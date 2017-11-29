@@ -193,10 +193,10 @@ public:
                                     const IConcreteObjectType* object);
   
   /**
-   * Composes destructor function code
+   * Adds a callback to compose destructor function code
    */
-  static void composeDestructorBody(IRGenerationContext& context,
-                                    const IConcreteObjectType* object);
+  static void scheduleDestructorBodyComposition(IRGenerationContext& context,
+                                                const IConcreteObjectType* object);
   
   /**
    * Compose a call to destroy a given concrete object
@@ -306,6 +306,10 @@ private:
                                            const IConcreteObjectType* object,
                                            Field* field);
 
+  static void composeDestructorBody(IRGenerationContext& context,
+                                    llvm::Function* function,
+                                    const IObjectType* object);
+  
 };
   
 } /* namespace wisey */

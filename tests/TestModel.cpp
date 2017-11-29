@@ -261,11 +261,9 @@ struct ModelTest : public Test {
     
     IConcreteObjectType::generateNameGlobal(mContext, mBirthdateModel);
     IConcreteObjectType::generateVTable(mContext, mBirthdateModel);
-    IConcreteObjectType::composeDestructorBody(mContext, mBirthdateModel);
 
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateVTable(mContext, mStarModel);
-    IConcreteObjectType::composeDestructorBody(mContext, mStarModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

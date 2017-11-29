@@ -60,8 +60,8 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::defineCurrentObjectNameVariable(context, controller);
   IConcreteObjectType::generateStaticMethodsIR(context, controller);
   IConcreteObjectType::declareFieldVariables(context, controller);
-  IConcreteObjectType::composeDestructorBody(context, controller);
   IConcreteObjectType::generateMethodsIR(context, controller);
+  IConcreteObjectType::scheduleDestructorBodyComposition(context, controller);
   
   context.getScopes().popScope(context, 0);
   
