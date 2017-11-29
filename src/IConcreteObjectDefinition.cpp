@@ -82,7 +82,10 @@ vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationCont
   for (InterfaceTypeSpecifier* interfaceSpecifier : interfaceSpecifiers) {
     Interface* interface = (Interface*) interfaceSpecifier->getType(context);
     if (!interface->isComplete()) {
+      const IObjectType* objectType = context.getObjectType();
+      context.setObjectType(interface);
       interface->buildMethods(context);
+      context.setObjectType(objectType);
     }
     interfaces.push_back(interface);
   }
