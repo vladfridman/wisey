@@ -30,7 +30,6 @@ const Controller* ControllerTypeSpecifier::getType(IRGenerationContext& context)
   return context.getController(getName(context));
 }
 
-void ControllerTypeSpecifier::printToStream(IRGenerationContext& context,
-                                            iostream& stream) const {
+void ControllerTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getName(context);
 }

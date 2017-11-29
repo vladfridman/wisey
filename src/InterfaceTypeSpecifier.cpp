@@ -30,7 +30,6 @@ Interface* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getInterface(getName(context));
 }
 
-void InterfaceTypeSpecifier::printToStream(IRGenerationContext& context,
-                                           iostream& stream) const {
+void InterfaceTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << getName(context);
 }
