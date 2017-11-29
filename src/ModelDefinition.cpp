@@ -49,6 +49,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
 
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
+  model->createRTTI(context);
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
@@ -62,7 +63,6 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::declareFieldVariables(context, model);
   IConcreteObjectType::generateMethodsIR(context, model);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, model);
-  model->createRTTI(context);
 
   context.getScopes().popScope(context, 0);
   
