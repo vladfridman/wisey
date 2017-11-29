@@ -116,16 +116,6 @@ public:
   bool endTryCatch(IRGenerationContext& context);
   
   /**
-   * When processing object definition this keeps track which object type is being processed
-   */
-  void setObjectType(const IObjectType* objectType);
-
-  /**
-   * Gets type of the current object definition that is being processed
-   */
-  const IObjectType* getObjectType() const;
-  
-  /**
    * Get the landing pad for invoke call. This may generate a new ladning pad or return a cached one
    */
   llvm::BasicBlock* getLandingPadBlock(IRGenerationContext& context, int line);

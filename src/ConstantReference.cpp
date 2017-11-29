@@ -33,8 +33,7 @@ IVariable* ConstantReference::getVariable(IRGenerationContext& context) const {
 Value* ConstantReference::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   const IObjectType* objectType = getObjectType(context);
   Constant* constant = objectType->findConstant(mConstantName);
-  if (constant->getAccessLevel() == PRIVATE_ACCESS &&
-      objectType != context.getScopes().getObjectType()) {
+  if (constant->getAccessLevel() == PRIVATE_ACCESS && objectType != context.getObjectType()) {
     Log::e("Trying to reference private constant not visible from the current object");
     exit(1);
   }
@@ -62,5 +61,5 @@ const IObjectType* ConstantReference::getObjectType(IRGenerationContext& context
     return mObjectTypeSpecifier->getType(context);
   }
   
-  return context.getScopes().getObjectType();
+  return context.getObjectType();
 }

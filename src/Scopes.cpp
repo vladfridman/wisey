@@ -163,25 +163,6 @@ bool Scopes::endTryCatch(IRGenerationContext& context) {
   return tryCatchInfo->runComposingCallbacks(context);
 }
 
-void Scopes::setObjectType(const IObjectType* objectType) {
-  getScope()->setObjectType(objectType);
-}
-
-const IObjectType* Scopes::getObjectType() const {
-  if (mScopes.size() == 0) {
-    return NULL;
-  }
-  
-  for (Scope* scope : mScopes) {
-    const IObjectType* objectType = scope->getObjectType();
-    if (objectType != NULL) {
-      return objectType;
-    }
-  }
-  
-  return NULL;
-}
-
 void Scopes::setReturnType(const IType* type) {
   getScope()->setReturnType(type);
 }

@@ -36,7 +36,7 @@ void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value, 
 }
 
 void Composer::pushCallStack(IRGenerationContext& context, int line) {
-  const IObjectType* objectType = context.getScopes().getObjectType();
+  const IObjectType* objectType = context.getObjectType();
   if (objectType != NULL && !objectType->getName().find(Names::getLangPackageName())) {
     // avoid inifinite recursion in wisey.lang.CThread
     return;
@@ -71,7 +71,7 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
 }
 
 void Composer::popCallStack(IRGenerationContext& context) {
-  const IObjectType* objectType = context.getScopes().getObjectType();
+  const IObjectType* objectType = context.getObjectType();
   if (objectType != NULL && !objectType->getName().find(Names::getLangPackageName())) {
     // avoid inifinite recursion in wisey.lang.CThread
     return;

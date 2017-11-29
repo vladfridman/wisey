@@ -202,6 +202,14 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
               "Redefinition of interface systems.vos.wisey.compiler.tests.IMyInterface");
 }
 
+TEST_F(IRGenerationContextTest, setObjectTypeTest) {
+  Model* model = Model::newModel("MModel", NULL);
+  
+  mContext.setObjectType(model);
+  
+  ASSERT_EQ(mContext.getObjectType(), model);
+}
+
 TEST_F(IRGenerationContextTest, getInterfaceDoesNotExistDeathTest) {
   EXPECT_EXIT(mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface"),
               ::testing::ExitedWithCode(1),

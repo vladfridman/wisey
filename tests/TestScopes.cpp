@@ -182,17 +182,6 @@ TEST_F(ScopesTest, endTryCatchTest) {
   ASSERT_EQ(mScopes.getTryCatchInfo(), nullptr);
 }
 
-TEST_F(ScopesTest, setObjectTypeTest) {
-  mScopes.pushScope();
-  Model* model = Model::newModel("MModel", NULL);
-  
-  mScopes.setObjectType(model);
-  mScopes.pushScope();
-  mScopes.pushScope();
-  
-  ASSERT_EQ(mScopes.getObjectType(), model);
-}
-
 TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
   mScopes.pushScope();
   

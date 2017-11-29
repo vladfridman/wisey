@@ -94,7 +94,7 @@ bool MethodCall::checkAccess(IRGenerationContext& context,
   }
   IVariable* thisVariable = context.getThis();
   if (thisVariable == NULL) {
-    return context.getScopes().getObjectType() == object;
+    return context.getObjectType() == object;
   }
   
   return thisVariable != NULL && thisVariable->getType() == object;
@@ -234,7 +234,7 @@ const IObjectType* MethodCall::getObjectWithMethods(IRGenerationContext& context
   }
   
   if (mExpression == NULL) {
-    return context.getScopes().getObjectType();
+    return context.getObjectType();
   }
   
   const IType* expressionType = mExpression->getType(context);

@@ -56,7 +56,8 @@ class IRGenerationContext : public IPrintable {
     mComposingCallbacks1Objects;
   std::vector<std::tuple<ComposingFunction2Objects, llvm::Function*, const IObjectType*,
   const IObjectType*>> mComposingCallbacks2Objects;
-
+  const IObjectType* mObjectType;
+  
 public:
   
   IRGenerationContext();
@@ -245,6 +246,16 @@ public:
    */
   void runComposingCallbacks();
   
+  /**
+   * When processing object definition this keeps track which object type is being processed
+   */
+  void setObjectType(const IObjectType* objectType);
+
+  /**
+   * Gets type of the current object definition that is being processed
+   */
+  const IObjectType* getObjectType() const;
+
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
 private:

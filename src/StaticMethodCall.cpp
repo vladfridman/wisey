@@ -64,7 +64,7 @@ bool StaticMethodCall::checkAccess(IRGenerationContext& context,
   if (methodDescriptor->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
     return true;
   }
-  const IObjectType* currentObjectType = context.getScopes().getObjectType();
+  const IObjectType* currentObjectType = context.getObjectType();
   
   return currentObjectType != NULL && currentObjectType == mObjectTypeSpecifier->getType(context);
 }

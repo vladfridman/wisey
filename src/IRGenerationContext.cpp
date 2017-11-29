@@ -27,7 +27,8 @@ IRGenerationContext::IRGenerationContext() :
 mMainFunction(NULL),
 mBasicBlock(NULL),
 mSourceFileConstantPointer(NULL),
-mIsDestructorDebugOn(false) {
+mIsDestructorDebugOn(false),
+mObjectType(NULL) {
   mModuleOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
   mModule = mModuleOwner.get();
 }
@@ -408,4 +409,12 @@ void IRGenerationContext::runComposingCallbacks() {
     const IObjectType* objectType2 = get<3>(callback);
     composingFunction(*this, function, objectType1, objectType2);
   }
+}
+
+void IRGenerationContext::setObjectType(const IObjectType* objectType) {
+  mObjectType = objectType;
+}
+
+const IObjectType* IRGenerationContext::getObjectType() const {
+  return mObjectType;
 }

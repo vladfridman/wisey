@@ -56,7 +56,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   Model* model = context.getModel(mModelTypeSpecifier->getName(context));
  
   context.getScopes().pushScope();
-  context.getScopes().setObjectType(model);
+  context.setObjectType(model);
   
   IConcreteObjectType::defineCurrentObjectNameVariable(context, model);
   IConcreteObjectType::generateStaticMethodsIR(context, model);

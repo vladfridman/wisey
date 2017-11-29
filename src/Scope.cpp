@@ -22,8 +22,7 @@ Scope::Scope() :
 mBreakToBlock(NULL),
 mContinueToBlock(NULL),
 mTryCatchInfo(NULL),
-mReturnType(NULL),
-mObjectType(NULL) { }
+mReturnType(NULL) { }
 
 Scope::~Scope() {
   for (map<string, IVariable*>::const_iterator iterator = mVariables.begin();
@@ -83,14 +82,6 @@ void Scope::clearTryCatchInfo() {
   assert(mTryCatchInfo != NULL);
   
   mTryCatchInfo = NULL;
-}
-
-void Scope::setObjectType(const IObjectType* objectType) {
-  mObjectType = objectType;
-}
-
-const IObjectType* Scope::getObjectType() const {
-  return mObjectType;
 }
 
 void Scope::setReturnType(const IType* type) {

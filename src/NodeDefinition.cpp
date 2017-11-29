@@ -50,7 +50,7 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
   
   context.getScopes().pushScope();
-  context.getScopes().setObjectType(node);
+  context.setObjectType(node);
   
   IConcreteObjectType::defineCurrentObjectNameVariable(context, node);
   IConcreteObjectType::generateStaticMethodsIR(context, node);
