@@ -106,6 +106,32 @@ TEST_F(CompilerTest, runMultipleFilesInterdependentModelsTest) {
   EXPECT_STREQ(resultString.c_str(), "6");
 }
 
+TEST_F(CompilerTest, runMultipleFilesUseWildcardTest) {
+  mCompilerArguments.addSourceFile("tests/samples/test_multifile_model_model/*.yz");
+  mCompilerArguments.addSourceFile(LIBWISEY);
+  mCompiler.compile();
+  GenericValue result = mCompiler.run();
+  string resultString = result.IntVal.toString(10, true);
+  
+  EXPECT_STREQ(resultString.c_str(), "6");
+}
+
+TEST_F(CompilerTest, runWildcardDirectoryDeathTest) {
+  mCompilerArguments.addSourceFile("tests/samples/*/*.yz");
+  mCompilerArguments.addSourceFile(LIBWISEY);
+  EXPECT_EXIT(mCompiler.compile(),
+              ::testing::ExitedWithCode(1),
+              "Error: Directory wildcard matching is not supported");
+}
+
+TEST_F(CompilerTest, runNonExistingDirectoryDeathTest) {
+  mCompilerArguments.addSourceFile("tests/foo/*.yz");
+  mCompilerArguments.addSourceFile(LIBWISEY);
+  EXPECT_EXIT(mCompiler.compile(),
+              ::testing::ExitedWithCode(1),
+              "Error: Could not open directory tests/foo");
+}
+
 TEST_F(TestFileSampleRunner, commentsRunTest) {
   runFile("tests/samples/test_comments.yz", "5");
 }

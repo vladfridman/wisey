@@ -51,7 +51,7 @@ private:
   
   void extractHeaders(std::string headerFile);
   
-  std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourceFiles);
+  std::vector<ProgramFile*> parseFiles(std::vector<std::string> sourcePatterns);
   
   void prototypeObjects(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
   
@@ -60,6 +60,18 @@ private:
   void generateIR(std::vector<ProgramFile*> programFiles, IRGenerationContext& context);
   
   void deleteProgramFiles(std::vector<ProgramFile*> programFiles);
+  
+private:
+  
+  std::vector<std::string> expandPatterns(std::vector<std::string> sourcePatterns);
+  
+  std::vector<std::string> listFilesInDirectory(std::string directory);
+  
+  void appendFilesFromDirectoryThatMatch(std::string directory,
+                                         std::string pattern,
+                                         std::vector<std::string>& sourceFiles);
+  
+  bool wildcardMatch(char const *needle, char const *haystack);
   
 };
   

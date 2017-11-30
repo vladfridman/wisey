@@ -8,6 +8,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <dirent.h>
 
 #include <llvm/Bitcode/BitcodeWriter.h>
 #include "llvm/IR/LegacyPassManager.h"
@@ -145,7 +146,8 @@ void Compiler::saveBinary(string outputFile) {
   destinationRawStream.flush();
 }
 
-vector<ProgramFile*> Compiler::parseFiles(vector<string> sourceFiles) {
+vector<ProgramFile*> Compiler::parseFiles(vector<string> sourcePatterns) {
+  vector<string> sourceFiles = expandPatterns(sourcePatterns);
   vector<ProgramFile*> results;
   
   for (string sourceFile : sourceFiles) {
@@ -190,5 +192,82 @@ void Compiler::deleteProgramFiles(vector<ProgramFile*> programFiles) {
   for (ProgramFile* programFile : programFiles) {
     delete programFile;
   }
+}
+
+vector<string> Compiler::expandPatterns(vector<string> sourcePatterns) {
+  vector<string> sourceFiles;
+  
+  for (string sourcePattern : sourcePatterns) {
+    if (sourcePattern.find("*") == string::npos) {
+      sourceFiles.push_back(sourcePattern);
+      continue;
+    }
+    if (sourcePattern.find_last_of("/") > sourcePattern.find("*")) {
+      Log::e("Directory wildcard matching is not supported");
+      exit(1);
+    }
+    string directory = sourcePattern.find("/") != string::npos
+    ? sourcePattern.substr(0, sourcePattern.find_last_of('/')) : ".";
+    
+    appendFilesFromDirectoryThatMatch(directory, sourcePattern, sourceFiles);
+  }
+  
+  return sourceFiles;
+}
+
+void Compiler::appendFilesFromDirectoryThatMatch(string directory,
+                                                 string pattern,
+                                                 vector<string>& sourceFiles) {
+  vector<string> directoryFiles = listFilesInDirectory(directory);
+  for (string directoryFile : directoryFiles) {
+    if (wildcardMatch(pattern.c_str(), directoryFile.c_str())) {
+      sourceFiles.push_back(directoryFile);
+    }
+  }
+}
+
+vector<string> Compiler::listFilesInDirectory(string directory) {
+  DIR* dir;
+  struct dirent* dirEntry;
+  vector<string> fileNames;
+  
+  if ((dir = opendir(directory.c_str())) != NULL) {
+    /* print all the files and directories within directory */
+    while ((dirEntry = readdir (dir)) != NULL) {
+      fileNames.push_back(directory + "/" + dirEntry->d_name);
+    }
+    closedir (dir);
+  } else {
+    Log::e("Could not open directory " + directory);
+    exit(1);
+  }
+  
+  return fileNames;
+}
+
+bool Compiler::wildcardMatch(char const *needle, char const *haystack) {
+  for (; *needle != '\0'; ++needle) {
+    switch (*needle) {
+      case '?':
+        if (*haystack == '\0')
+          return false;
+        ++haystack;
+        break;
+      case '*': {
+        if (needle[1] == '\0')
+          return true;
+        size_t max = strlen(haystack);
+        for (size_t i = 0; i < max; i++)
+          if (wildcardMatch(needle + 1, haystack + i))
+            return true;
+        return false;
+      }
+      default:
+        if (*haystack != *needle)
+          return false;
+        ++haystack;
+    }
+  }
+  return *haystack == '\0';
 }
 
