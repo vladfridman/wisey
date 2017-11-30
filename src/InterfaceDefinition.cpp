@@ -44,13 +44,15 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
                                                  mParentInterfaceSpecifiers,
                                                  mElementDeclarations);
   context.addInterface(interface);
-  
+  interface->setImportProfile(context.getImportProfile());
+
   interface->defineInterfaceTypeName(context);
 }
 
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   Interface* interface = context.getInterface(mInterfaceTypeSpecifierFull->getName(context));
   context.setObjectType(interface);
+
   interface->buildMethods(context);
   interface->generateConstantsIR(context);
   interface->defineDestructorFunction(context);

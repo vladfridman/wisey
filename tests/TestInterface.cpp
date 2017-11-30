@@ -62,6 +62,8 @@ struct InterfaceTest : public Test {
   NiceMock<MockReferenceVariable>* mThreadVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
   
   InterfaceTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -70,9 +72,10 @@ struct InterfaceTest : public Test {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
-    vector<IModelTypeSpecifier*> exceptions;
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
 
+    vector<IModelTypeSpecifier*> exceptions;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     

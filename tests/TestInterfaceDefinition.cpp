@@ -42,8 +42,6 @@ struct InterfaceDefinitionTest : public Test {
   InterfaceDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
 
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
-    
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
       new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);

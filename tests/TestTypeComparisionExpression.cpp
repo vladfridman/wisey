@@ -57,13 +57,17 @@ struct TypeComparisionExpressionTest : public Test {
   Interface* mObjectInterface;
   Interface* mCarInterface;
   NiceMock<MockExpression>* mExpression;
-  
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
+
   TypeComparisionExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mExpression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
     
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,
                                  GlobalValue::InternalLinkage,

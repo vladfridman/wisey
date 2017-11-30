@@ -45,10 +45,13 @@ struct InjectorTest : Test {
   BasicBlock *mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
   
   InjectorTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
 
     mInterfaceTypeSpecifier = new InterfaceTypeSpecifier("", "IMyInterface");
     vector<Type*> types;

@@ -67,13 +67,16 @@ struct ControllerTest : public Test {
   string mStringBuffer;
   Function* mFunction;
   raw_string_ostream* mStringStream;
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
   
   ControllerTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
 
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
@@ -102,7 +105,8 @@ struct ControllerTest : public Test {
     vector<IObjectElementDeclaration*> scienceCalculatorInterfaceElements;
     scienceCalculatorInterfaceElements.push_back(calculateSignature);
     vector<IInterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
-    InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier("", "ICalculator");
+    InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier(mPackage,
+                                                                             "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorSpecifier);
     mScienceCalculatorInterface = Interface::newInterface(scienceCalculatorFullName,
                                                           scienceCalculatorIinterfaceStructType,

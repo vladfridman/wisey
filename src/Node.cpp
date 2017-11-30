@@ -366,4 +366,10 @@ Value* Node::getReferenceCount(IRGenerationContext& context, Value* object) cons
   return getReferenceCountForObject(context, object);
 }
 
+void Node::setImportProfile(ImportProfile* importProfile) {
+  mImportProfile = importProfile;
+}
 
+ImportProfile* Node::getImportProfile() const {
+  return mImportProfile;
+}

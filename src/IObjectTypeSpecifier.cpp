@@ -18,14 +18,10 @@ std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
   if (package.length() > 0) {
     return package + "." + shortName;
   }
-  if (context.getImport(shortName) != NULL) {
-    return context.getImport(shortName)->getName();
-  }
-  if (context.getPackage().size() != 0) {
-    return context.getPackage() + "." + shortName;
-  }
   
-  Log::e("Could not identify packge for object " + shortName);
-  exit(1);
+  ImportProfile* importProfile = context.getObjectType()
+  ? context.getObjectType()->getImportProfile() : context.getImportProfile();
+  
+  return importProfile->getFullName(shortName);
 }
 

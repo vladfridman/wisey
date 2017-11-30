@@ -71,6 +71,8 @@ struct ModelTest : public Test {
   NiceMock<MockVariable>* mThreadVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
   
   ModelTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -80,8 +82,9 @@ struct ModelTest : public Test {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
-    
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));

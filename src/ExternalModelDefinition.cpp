@@ -40,6 +40,7 @@ void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) con
   
   Model* model = Model::newExternalModel(fullName, structType);
   context.addModel(model);
+  model->setImportProfile(context.getImportProfile());
 }
 
 void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) const {

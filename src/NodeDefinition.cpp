@@ -38,6 +38,7 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
   
   Node* node = Node::newNode(fullName, structType);
   context.addNode(node);
+  node->setImportProfile(context.getImportProfile());
 }
 
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {

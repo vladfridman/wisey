@@ -40,6 +40,8 @@ public:
   MOCK_CONST_METHOD2(incremenetReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
   MOCK_CONST_METHOD2(decremenetReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
   MOCK_CONST_METHOD2(getReferenceCount, llvm::Value* (wisey::IRGenerationContext&, llvm::Value*));
+  MOCK_METHOD1(setImportProfile, void (wisey::ImportProfile*));
+  MOCK_CONST_METHOD0(getImportProfile, wisey::ImportProfile* ());
 };
 
 #endif /* MockObjectType_h */

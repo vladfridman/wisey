@@ -24,10 +24,12 @@ using namespace wisey;
 struct InterfaceTypeSpecifierTest : public ::testing::Test {
   IRGenerationContext mContext;
   Interface* mInterface;
-  string mPackage;
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
 
   InterfaceTypeSpecifierTest() {
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
     
     vector<Type*> types;
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IShape";
@@ -49,8 +51,6 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
                                          objectElements);
    
     mContext.addInterface(mInterface);
-
-    mPackage = "systems.vos.wisey.compiler.tests";
   }
 };
 

@@ -30,8 +30,6 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramPrefix::generateIR(IRGenerationContext& context) const {
-  context.setPackage(Names::getLangPackageName());
-
   StructType* fileStructType = defineFileStruct(context);
   defineStderr(context, fileStructType);
   defineEmptyString(context);

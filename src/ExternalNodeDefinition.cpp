@@ -40,6 +40,7 @@ void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) cons
   
   Node* node = Node::newExternalNode(fullName, structType);
   context.addNode(node);
+  node->setImportProfile(context.getImportProfile());
 }
 
 void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) const {

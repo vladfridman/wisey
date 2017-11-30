@@ -26,6 +26,7 @@ using namespace wisey;
 IRGenerationContext::IRGenerationContext() :
 mMainFunction(NULL),
 mBasicBlock(NULL),
+mImportProfile(NULL),
 mSourceFileConstantPointer(NULL),
 mIsDestructorDebugOn(false),
 mObjectType(NULL) {
@@ -59,7 +60,6 @@ IRGenerationContext::~IRGenerationContext() {
     delete node;
   }
   mBindings.clear();
-  mImports.clear();
 }
 
 GenericValue IRGenerationContext::runCode() {
@@ -108,13 +108,7 @@ void IRGenerationContext::addModel(Model* model) {
   mModels[name] = model;
 }
 
-Model* IRGenerationContext::getModel(string name) {
-  bool isFullName = name.find('.') != string::npos;
-  if (!isFullName && mImports.count(name)) {
-    return (Model*) getImportWithFail(name);
-  }
-  
-  string fullName = isFullName ? name : mPackage + "." + name;
+Model* IRGenerationContext::getModel(string fullName) {
   if (!mModels.count(fullName)) {
     Log::e("Model " + fullName + " is not defined");
     exit(1);
@@ -133,13 +127,7 @@ void IRGenerationContext::addController(Controller* controller) {
   mControllers[name] = controller;
 }
 
-Controller* IRGenerationContext::getController(string name) {
-  bool isFullName = name.find('.') != string::npos;
-  if (!isFullName && mImports.count(name)) {
-    return (Controller*) getImportWithFail(name);
-  }
-  
-  string fullName = isFullName ? name : mPackage + "." + name;
+Controller* IRGenerationContext::getController(string fullName) {
   if (!mControllers.count(fullName)) {
     Log::e("Controller " + fullName + " is not defined");
     exit(1);
@@ -158,13 +146,7 @@ void IRGenerationContext::addNode(Node* node) {
   mNodes[name] = node;
 }
 
-Node* IRGenerationContext::getNode(string name) {
-  bool isFullName = name.find('.') != string::npos;
-  if (!isFullName && mImports.count(name)) {
-    return (Node*) getImportWithFail(name);
-  }
-  
-  string fullName = isFullName ? name : mPackage + "." + name;
+Node* IRGenerationContext::getNode(string fullName) {
   if (!mNodes.count(fullName)) {
     Log::e("Node " + fullName + " is not defined");
     exit(1);
@@ -183,13 +165,7 @@ void IRGenerationContext::addInterface(Interface* interface) {
   mInterfaces[name] = interface;
 }
 
-Interface* IRGenerationContext::getInterface(string name) {
-  bool isFullName = name.find('.') != string::npos;
-  if (!isFullName && mImports.count(name)) {
-    return (Interface*) getImportWithFail(name);
-  }
-  
-  string fullName = isFullName ? name : mPackage + "." + name;
+Interface* IRGenerationContext::getInterface(string fullName) {
   if (!mInterfaces.count(fullName)) {
     Log::e("Interface " + fullName + " is not defined");
     exit(1);
@@ -219,45 +195,18 @@ bool IRGenerationContext::hasBoundController(Interface* interface) {
   return mBindings.count(interface);
 }
 
-void IRGenerationContext::setPackage(string package) {
-  if (any_of(begin(package),
-             end(package),
-             []( char c ) { return (isupper(c)); })) {
-    Log::e("Package names should only conain lowercase characters");
-    exit(1);
-  }
-
-  mPackage = package;
+void IRGenerationContext::setImportProfile(ImportProfile* importProfile) {
+  mImportProfile = importProfile;
 }
 
-string IRGenerationContext::getPackage() const {
-  return mPackage;
-}
-
-void IRGenerationContext::addImport(IObjectType* object) {
-  mImports[object->getShortName()] = object;
-}
-
-IObjectType* IRGenerationContext::getImport(string objectName) {
-  if (!mImports.count(objectName)) {
-    return NULL;
-  }
-  return mImports[objectName];
-}
-
-IObjectType* IRGenerationContext::getImportWithFail(string objectName) {
-  IObjectType* object = getImport(objectName);
-  if (!object) {
-    Log::e("Could not find definition for " + objectName + ". Perhaps it was not imported");
-    exit(1);
-  }
-  return object;
+ImportProfile* IRGenerationContext::getImportProfile() const {
+  return mImportProfile;
 }
 
 void IRGenerationContext::clearAndAddDefaultImports() {
-  mImports.clear();
-  addImport(getModel(Names::getNPEModelFullName()));
-  addImport(getModel(Names::getDestroyedObjectStillInUseFullName()));
+  mImportProfile->addImport(Names::getNPEModelName(), Names::getNPEModelFullName());
+  mImportProfile->addImport(Names::getDestroyedObjectStillInUseName(),
+                            Names::getDestroyedObjectStillInUseFullName());
 }
 
 Scopes& IRGenerationContext::getScopes() {

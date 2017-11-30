@@ -23,10 +23,13 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
   IRGenerationContext mContext;
   Model* mModel;
   string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
 
   ModelTypeSpecifierTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    mContext.setPackage(mPackage);
+
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));

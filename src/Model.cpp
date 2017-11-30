@@ -373,3 +373,11 @@ Value* Model::getReferenceCount(IRGenerationContext& context, Value* object) con
   return getReferenceCountForObject(context, object);
 }
 
+void Model::setImportProfile(ImportProfile* importProfile) {
+  mImportProfile = importProfile;
+}
+
+ImportProfile* Model::getImportProfile() const {
+  return mImportProfile;
+}
+

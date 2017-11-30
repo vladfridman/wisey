@@ -43,6 +43,7 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
 
   Controller* controller = Controller::newController(fullName, structType);
   context.addController(controller);
+  controller->setImportProfile(context.getImportProfile());
 }
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {

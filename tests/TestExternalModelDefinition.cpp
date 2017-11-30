@@ -39,7 +39,6 @@ struct ExternalModelDefinitionTest : public Test {
   ExternalModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mContext.setPackage(mPackage);
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);

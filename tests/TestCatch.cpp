@@ -31,11 +31,15 @@ struct CatchTest : public Test {
   LLVMContext& mLLVMContext;
   Model* mModel;
   Catch* mCatch;
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
   
 public:
   
   CatchTest() : mLLVMContext(mContext.getLLVMContext()) {
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));

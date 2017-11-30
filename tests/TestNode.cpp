@@ -70,6 +70,8 @@ struct NodeTest : public Test {
   string mStringBuffer;
   Function* mFunction;
   raw_string_ostream* mStringStream;
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
 
   NodeTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -79,8 +81,10 @@ struct NodeTest : public Test {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
-     string elementInterfaceFullName = "systems.vos.wisey.compiler.tests.IElement";
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+    
+    string elementInterfaceFullName = "systems.vos.wisey.compiler.tests.IElement";
     StructType* elementInterfaceStructType = StructType::create(mLLVMContext,
                                                                 elementInterfaceFullName);
     VariableList elementInterfaceMethodArguments;

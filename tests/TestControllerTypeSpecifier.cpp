@@ -23,10 +23,12 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
   IRGenerationContext mContext;
   Controller* mController;
   string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
   
   ControllerTypeSpecifierTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    mContext.setPackage(mPackage);
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));

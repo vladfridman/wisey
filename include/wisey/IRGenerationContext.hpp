@@ -18,6 +18,7 @@
 #include <llvm/IR/Module.h>
 
 #include "wisey/Controller.hpp"
+#include "wisey/ImportProfile.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/IPrintable.hpp"
 #include "wisey/Model.hpp"
@@ -46,7 +47,7 @@ class IRGenerationContext : public IPrintable {
   std::map<std::string, Node*> mNodes;
   std::map<std::string, Interface*> mInterfaces;
   std::map<Interface*, Controller*> mBindings;
-  std::map<std::string, IObjectType*> mImports;
+  ImportProfile* mImportProfile;
   std::string mPackage;
   llvm::Value* mSourceFileConstantPointer;
   Scopes mScopes;
@@ -148,16 +149,6 @@ public:
    * Tells whether there is a controller bound to the given interface
    */
   bool hasBoundController(Interface* interface);
-
-  /**
-   * Set the package name
-   */
-  void setPackage(std::string package);
-  
-  /**
-   * Get the current package name
-   */
-  std::string getPackage() const;
   
   /**
    * Sets the current source file being processed
@@ -168,16 +159,16 @@ public:
    * Returns the current source file being processed
    */
   llvm::Value* getSourceFileNamePointer() const;
-
-  /**
-   * Add an import that adds an alias from object's short name to the object
-   */
-  void addImport(IObjectType* object);
   
   /**
-   * Returns an imported object given its short name
+   * Adds an import to the current import profile
    */
-  IObjectType* getImport(std::string objectName);
+  void setImportProfile(ImportProfile* importProfile);
+  
+  /**
+   * Returns current import profile
+   */
+  ImportProfile* getImportProfile() const;
   
   /**
    * Clears the imports map and adds default imports
@@ -257,10 +248,6 @@ public:
   const IObjectType* getObjectType() const;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-private:
-
-  IObjectType* getImportWithFail(std::string objectName);
 
 };
 

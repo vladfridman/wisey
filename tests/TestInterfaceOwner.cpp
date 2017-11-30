@@ -36,8 +36,6 @@ struct InterfaceOwnerTest : public Test {
   raw_string_ostream* mStringStream;
   
   InterfaceOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
-    
     vector<Type*> objectTypes;
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);

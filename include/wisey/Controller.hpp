@@ -42,6 +42,7 @@ class Controller : public IConcreteObjectType, public IInjectable {
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
   std::vector<Constant*> mConstants;
   std::map<std::string, Constant*> mNameToConstantMap;
+  ImportProfile* mImportProfile;
   
 public:
   
@@ -124,6 +125,10 @@ public:
 
   llvm::Value* getReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
   
+  void setImportProfile(ImportProfile* importProfile) override;
+  
+  ImportProfile* getImportProfile() const override;
+
 private:
 
   Controller(std::string name, llvm::StructType* structType, bool isExternal);

@@ -47,7 +47,8 @@ void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context)
                                                          mParentInterfaceSpecifiers,
                                                          mElementDeclarations);
   context.addInterface(interface);
-  
+  interface->setImportProfile(context.getImportProfile());
+
   interface->defineInterfaceTypeName(context);
 }
 

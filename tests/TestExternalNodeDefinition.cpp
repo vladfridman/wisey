@@ -36,11 +36,14 @@ struct ExternalNodeDefinitionTest : public Test {
   ExternalMethodDeclaration* mMethodDeclaration;
   vector<IObjectElementDeclaration*> mObjectElements;
   string mPackage = "systems.vos.wisey.compiler.tests";
-  
+  ImportProfile* mImportProfile;
+
   ExternalNodeDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mContext.setPackage(mPackage);
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);

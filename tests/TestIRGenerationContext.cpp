@@ -249,39 +249,6 @@ TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
               "and can not be bound to systems.vos.wisey.compiler.tests.CMyController");
 }
 
-TEST_F(IRGenerationContextTest, setPackageDeathTest) {
-  EXPECT_EXIT(mContext.setPackage("with.Uppercase.letters"),
-              ::testing::ExitedWithCode(1),
-              "Error: Package names should only conain lowercase characters");
-}
-
-TEST_F(IRGenerationContextTest, setPackageTest) {
-  string package = "some.wierd_name.of1package";
-  mContext.setPackage(package);
-  
-  EXPECT_EQ(mContext.getPackage(), package);
-}
-
-TEST_F(IRGenerationContextTest, addImportTest) {
-  mContext.addImport(mController);
-  
-  ASSERT_EQ(mContext.getImport("CMyController"), mController);
-}
-
-TEST_F(IRGenerationContextTest, getImportDeathTest) {
-  ASSERT_EQ(mContext.getImport("CMyController"), nullptr);
-}
-
-TEST_F(IRGenerationContextTest, clearAndAddDefaultImportsDeathTest) {
-  TestPrefix::generateIR(mContext);
-  
-  mContext.addImport(mController);
-  mContext.clearAndAddDefaultImports();
-  
-  EXPECT_NE(mContext.getImport(Names::getNPEModelName()), nullptr);
-  EXPECT_EQ(mContext.getImport("CMyController"), nullptr);
-}
-
 TEST_F(IRGenerationContextTest, getThisTest) {
   mContext.getScopes().pushScope();
   NiceMock<MockVariable> mockVariable;

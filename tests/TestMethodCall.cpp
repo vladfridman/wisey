@@ -70,8 +70,6 @@ public:
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
-
     vector<Type*> returnedModelTypes;
     returnedModelTypes.push_back(Type::getInt64Ty(mLLVMContext));
     string returnedModelFullName = "systems.vos.wisey.compiler.tests.MReturnedModel";

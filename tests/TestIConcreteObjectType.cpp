@@ -423,8 +423,6 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
 }
 
 TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
-  mContext.setPackage("some.package");
-  
   vector<IInterfaceTypeSpecifier*> interfaceTypeSpecifiers;
   vector<IObjectElementDeclaration *> objectElements;
 

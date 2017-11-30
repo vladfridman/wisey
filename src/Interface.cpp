@@ -773,3 +773,11 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   
   context.getScopes().popScope(context, 0);
 }
+
+void Interface::setImportProfile(ImportProfile* importProfile) {
+  mImportProfile = importProfile;
+}
+
+ImportProfile* Interface::getImportProfile() const {
+  return mImportProfile;
+}

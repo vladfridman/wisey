@@ -42,6 +42,7 @@ class Node : public IBuildableConcreteObjectType {
   std::vector<Interface*> mFlattenedInterfaceHierarchy;
   std::vector<Constant*> mConstants;
   std::map<std::string, Constant*> mNameToConstantMap;
+  ImportProfile* mImportProfile;
 
 public:
   
@@ -129,6 +130,10 @@ public:
   void decremenetReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
   
   llvm::Value* getReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+  
+  void setImportProfile(ImportProfile* importProfile) override;
+  
+  ImportProfile* getImportProfile() const override;
 
 private:
   

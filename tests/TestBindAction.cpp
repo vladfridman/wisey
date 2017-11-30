@@ -27,9 +27,13 @@ struct BindActionTest : public Test {
   Interface* mInterface;
   Controller* mController;
   BindAction* mBindAction;
+  ImportProfile* mImportProfile;
+  string mPackage = "systems.vos.wisey.compiler.tests";
   
   BindActionTest() : mLLVMContext(mContext.getLLVMContext()) {
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IObjectElementDeclaration*> interfaceElements;

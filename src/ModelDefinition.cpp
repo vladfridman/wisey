@@ -43,6 +43,7 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
   
   Model* model = Model::newModel(fullName, structType);
   context.addModel(model);
+  model->setImportProfile(context.getImportProfile());
 }
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {

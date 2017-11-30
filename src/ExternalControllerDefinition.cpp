@@ -41,6 +41,7 @@ void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context
 
   Controller* controller = Controller::newExternalController(fullName, structType);
   context.addController(controller);
+  controller->setImportProfile(context.getImportProfile());
 }
 
 void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context) const {

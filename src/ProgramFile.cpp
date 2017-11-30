@@ -14,27 +14,28 @@ using namespace std;
 using namespace wisey;
 
 ProgramFile::ProgramFile(std::string package, GlobalStatementList globalStatementList) :
-mPackage(package),
 mGlobalStatementList(globalStatementList),
-mSourceFile("") { }
+mSourceFile(""),
+mImportProfile(new ImportProfile(package)) { }
 
 ProgramFile::~ProgramFile() {
   for (IGlobalStatement* statement : mGlobalStatementList) {
     delete statement;
   }
   mGlobalStatementList.clear();
+  delete mImportProfile;
 }
 
 void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
-  context.setPackage(mPackage);
-
-  for (IGlobalStatement* statement : mGlobalStatementList) {
+  context.setImportProfile(mImportProfile);
+  
+ for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->prototypeObjects(context);
   }
 }
 
 void ProgramFile::prototypeMethods(IRGenerationContext& context) const {
-  context.setPackage(mPackage);
+  context.setImportProfile(mImportProfile);
   
   for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->prototypeMethods(context);
@@ -42,8 +43,8 @@ void ProgramFile::prototypeMethods(IRGenerationContext& context) const {
 }
 
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {
-  context.setPackage(mPackage);
-  
+  context.setImportProfile(mImportProfile);
+
   for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->generateIR(context);
   }

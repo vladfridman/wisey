@@ -61,7 +61,6 @@ struct ControllerDefinitionTest : public Test {
     MethodDeclaration *methodDeclaration;
     Block* block = new Block();
 
-    mContext.setPackage(mPackage);
     block->getStatements().push_back(mMockStatement);
     block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);

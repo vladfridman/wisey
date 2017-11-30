@@ -46,7 +46,6 @@ struct ExternalControllerDefinitionTest : public Test {
     
     ExternalMethodDeclaration* methodDeclaration;
     
-    mContext.setPackage(mPackage);
     PrimitiveTypeSpecifier* intTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =

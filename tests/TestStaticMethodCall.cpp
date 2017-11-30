@@ -59,7 +59,9 @@ struct StaticMethodCallTest : public Test {
   ModelTypeSpecifier* mModelSpecifier;
   StructType* mStructType;
   Controller* mThreadController;
-  
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
+
 public:
   
   StaticMethodCallTest() :
@@ -70,8 +72,9 @@ public:
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
-    
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+
     vector<Type*> returnedModelTypes;
     returnedModelTypes.push_back(Type::getInt64Ty(mLLVMContext));
     string returnedModelFullName = "systems.vos.wisey.compiler.tests.MReturnedModel";

@@ -15,6 +15,7 @@
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IObjectOwnerType.hpp"
 #include "wisey/IPrintable.hpp"
+#include "wisey/ImportProfile.hpp"
 
 namespace wisey {
 
@@ -79,7 +80,17 @@ public:
    */
   virtual llvm::Value* getReferenceCount(IRGenerationContext& context,
                                          llvm::Value* object) const = 0;
+  
+  /**
+   * Sets the import profile associated with this object
+   */
+  virtual void setImportProfile(ImportProfile* importProfile) = 0;
 
+  /**
+   * Returns the import profile associated with this object
+   */
+  virtual ImportProfile* getImportProfile() const = 0;
+  
   /**
    * Returns an i8* constant pointer to the name of the collable object
    */

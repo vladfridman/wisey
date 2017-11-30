@@ -44,6 +44,7 @@ class Interface : public IObjectType, public IInjectable {
   std::map<std::string, MethodSignature*> mNameToMethodSignatureMap;
   std::vector<wisey::Constant*> mConstants;
   std::map<std::string, Constant*> mNameToConstantMap;
+  ImportProfile* mImportProfile;
   bool mIsComplete;
   
 public:
@@ -179,6 +180,10 @@ public:
   void decremenetReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
   
   llvm::Value* getReferenceCount(IRGenerationContext& context, llvm::Value* object) const override;
+  
+  void setImportProfile(ImportProfile* importProfile) override;
+  
+  ImportProfile* getImportProfile() const override;
 
 private:
   

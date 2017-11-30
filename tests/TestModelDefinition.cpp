@@ -48,6 +48,7 @@ struct ModelDefinitionTest : public Test {
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
   string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
  
   ModelDefinitionTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -57,7 +58,9 @@ struct ModelDefinitionTest : public Test {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
-    mContext.setPackage(mPackage);
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+    
     mBlock->getStatements().push_back(mMockStatement);
     mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);

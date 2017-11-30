@@ -21,10 +21,11 @@ ImportStatement::~ImportStatement() {
 }
 
 void ImportStatement::prototypeObjects(IRGenerationContext& context) const {
+  context.getImportProfile()->addImport(mTypeSpecifier->getShortName(),
+                                        mTypeSpecifier->getName(context));
 }
 
 void ImportStatement::prototypeMethods(IRGenerationContext& context) const {
-  context.addImport((IObjectType*) mTypeSpecifier->getType(context));
 }
 
 Value* ImportStatement::generateIR(IRGenerationContext& context) const {

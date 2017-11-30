@@ -33,12 +33,12 @@ TEST_F(IObjectTypeSpecifierTest, getFullNameNameAndPackageTest) {
   EXPECT_STREQ("systems.vos.wisey.MObject",
                IObjectTypeSpecifier::getFullName(mContext, "MObject", mPackage).c_str());
   
-  mContext.setPackage("lang.wisey");
+  ImportProfile* importProfile = new ImportProfile("lang.wisey");
+  mContext.setImportProfile(importProfile);
   EXPECT_STREQ("lang.wisey.MObject",
                IObjectTypeSpecifier::getFullName(mContext, "MObject", "").c_str());
   
-  Model* model = Model::newModel("other.wisey.MObject", NULL);
-  mContext.addImport(model);
+  importProfile->addImport("MObject", "other.wisey.MObject");
   EXPECT_STREQ("other.wisey.MObject",
                IObjectTypeSpecifier::getFullName(mContext, "MObject", "").c_str());
 }

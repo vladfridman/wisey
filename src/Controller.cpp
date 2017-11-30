@@ -358,3 +358,10 @@ Value* Controller::getReferenceCount(IRGenerationContext& context, Value* object
   return getReferenceCountForObject(context, object);
 }
 
+void Controller::setImportProfile(ImportProfile* importProfile) {
+  mImportProfile = importProfile;
+}
+
+ImportProfile* Controller::getImportProfile() const {
+  return mImportProfile;
+}

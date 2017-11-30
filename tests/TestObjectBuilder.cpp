@@ -45,13 +45,17 @@ struct ObjectBuilderTest : Test {
   BasicBlock *mBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
-  
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
+
   ObjectBuilderTest() :
   mField1Expression(new NiceMock<MockExpression>()),
   mField2Expression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
-    
+
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+
     mModelTypeSpecifier = new ModelTypeSpecifier("", "MShape");
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));

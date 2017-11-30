@@ -57,6 +57,8 @@ struct ModelOwnerTest : public Test {
   BasicBlock *mBasicBlock;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
   
   ModelOwnerTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -65,7 +67,9 @@ struct ModelOwnerTest : public Test {
   mField3Expression(new NiceMock<MockExpression>()) {
     TestPrefix::generateIR(mContext);
     
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+    
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(Type::getInt32Ty(mLLVMContext));

@@ -11,6 +11,7 @@
 
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/IStatement.hpp"
+#include "wisey/ImportProfile.hpp"
 
 namespace wisey {
 
@@ -19,9 +20,9 @@ namespace wisey {
  */
 class ProgramFile : public IStatement {
 
-  std::string mPackage;
   GlobalStatementList mGlobalStatementList;
   std::string mSourceFile;
+  ImportProfile* mImportProfile;
   
 public:
   

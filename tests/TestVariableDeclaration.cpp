@@ -42,12 +42,15 @@ struct VariableDeclarationTest : public Test {
   raw_string_ostream* mStringStream;
   Function* mFunction;
   Identifier* mIdentifier;
-  
+  string mPackage = "systems.vos.wisey.compiler.tests";
+  ImportProfile* mImportProfile;
+
   VariableDeclarationTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mIdentifier(new Identifier("foo")) {
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
-    
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
+
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,
                                  GlobalValue::InternalLinkage,
