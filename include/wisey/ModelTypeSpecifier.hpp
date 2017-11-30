@@ -30,6 +30,8 @@ public:
 
   std::string getShortName() const override;
   
+  std::string getPackage() const override;
+
   std::string getName(IRGenerationContext& context) const override;
   
   Model* getType(IRGenerationContext& context) const override;

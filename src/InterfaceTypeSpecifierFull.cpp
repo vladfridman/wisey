@@ -22,6 +22,10 @@ string InterfaceTypeSpecifierFull::getShortName() const {
   return mShortName;
 }
 
+string InterfaceTypeSpecifierFull::getPackage() const {
+  return mPackage;
+}
+
 string InterfaceTypeSpecifierFull::getName(IRGenerationContext& context) const {
   return mPackage + "." + mShortName;
 }

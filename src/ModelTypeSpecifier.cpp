@@ -22,6 +22,10 @@ string ModelTypeSpecifier::getShortName() const {
   return mShortName;
 }
 
+string ModelTypeSpecifier::getPackage() const {
+  return mPackage;
+}
+
 string ModelTypeSpecifier::getName(IRGenerationContext& context) const {
   return getFullName(context, mShortName, mPackage);
 }

@@ -29,6 +29,11 @@ public:
   virtual std::string getShortName() const = 0;
   
   /**
+   * Returns the package prefix if there is one or an empty string
+   */
+  virtual std::string getPackage() const = 0;
+  
+  /**
    * Returns the full name with the package prefix
    */
   virtual std::string getName(IRGenerationContext& context) const = 0;

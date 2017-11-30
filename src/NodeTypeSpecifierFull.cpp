@@ -22,6 +22,10 @@ string NodeTypeSpecifierFull::getShortName() const {
   return mShortName;
 }
 
+string NodeTypeSpecifierFull::getPackage() const {
+  return mPackage;
+}
+
 string NodeTypeSpecifierFull::getName(IRGenerationContext& context) const {
   return mPackage + "." + mShortName;
 }

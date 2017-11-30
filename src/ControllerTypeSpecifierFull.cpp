@@ -22,6 +22,10 @@ string ControllerTypeSpecifierFull::getShortName() const {
   return mShortName;
 }
 
+string ControllerTypeSpecifierFull::getPackage() const {
+  return mPackage;
+}
+
 string ControllerTypeSpecifierFull::getName(IRGenerationContext& context) const {
   return mPackage + "." + mShortName;
 }
