@@ -13,17 +13,17 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-ExternalModelDefinition::ExternalModelDefinition(IModelTypeSpecifier* modelTypeSpecifier,
+ExternalModelDefinition::ExternalModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
                                                  vector<IObjectElementDeclaration*>
                                                    objectElementDeclarations,
                                                  vector<IInterfaceTypeSpecifier*>
                                                  interfaceSpecifiers) :
-mModelTypeSpecifier(modelTypeSpecifier),
+mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 ExternalModelDefinition::~ExternalModelDefinition() {
-  delete mModelTypeSpecifier;
+  delete mModelTypeSpecifierFull;
   for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
@@ -35,7 +35,7 @@ ExternalModelDefinition::~ExternalModelDefinition() {
 }
 
 void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mModelTypeSpecifier->getName(context);
+  string fullName = mModelTypeSpecifierFull->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Model* model = Model::newExternalModel(fullName, structType);
@@ -43,7 +43,7 @@ void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) con
 }
 
 void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Model* model = context.getModel(mModelTypeSpecifier->getName(context));
+  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context));
   
   context.setObjectType(model);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
@@ -51,7 +51,7 @@ void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) con
 }
 
 Value* ExternalModelDefinition::generateIR(IRGenerationContext& context) const {
-  Model* model = context.getModel(mModelTypeSpecifier->getName(context));
+  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context));
   model->createRTTI(context);
   
   return NULL;

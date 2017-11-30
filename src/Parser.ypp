@@ -95,6 +95,7 @@
   using namespace wisey;
   
   ProgramFile *programFile;
+  std::string filePackage;
   
   extern int yylex();
   extern int yylineno;
@@ -241,8 +242,8 @@ program
   ;
 
 package_optional
-  : /* blank */ { $$ = new std::string(""); }
-  | TPACKAGE package_name ';' { $$ = $2; }
+  : /* blank */ { filePackage = ""; $$ = new std::string(""); }
+  | TPACKAGE package_name ';' { filePackage = *$2; $$ = $2; }
   ;
 
 package_name
@@ -293,7 +294,11 @@ interface_definition
   : TINTERFACE interface_type_specifier extends_interfaces 
       '{' interface_element_delcaration_list '}'
     {
-      $$ = new InterfaceDefinition($2, *$3, *$5);
+      std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
+      InterfaceTypeSpecifierFull* fullSpecifier = 
+        new InterfaceTypeSpecifierFull(package, $2->getShortName());
+      $$ = new InterfaceDefinition(fullSpecifier, *$3, *$5);
+      delete $2;
       delete $3;
       delete $5;
     }
@@ -303,7 +308,11 @@ external_interface_definition
   : TEXTERNAL TINTERFACE interface_type_specifier extends_interfaces 
       '{' interface_element_delcaration_list '}'
     {
-      $$ = new ExternalInterfaceDefinition($3, *$4, *$6);
+      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
+      InterfaceTypeSpecifierFull* fullSpecifier = 
+        new InterfaceTypeSpecifierFull(package, $3->getShortName());
+      $$ = new ExternalInterfaceDefinition(fullSpecifier, *$4, *$6);
+      delete $3;
       delete $4;
       delete $6;
     }
@@ -333,7 +342,11 @@ controller_definition
   : TCONTROLLER controller_type_specifier implmeneted_interfaces 
       '{' object_element_declaration_list '}'
     {
-      $$ = new ControllerDefinition($2, *$5, *$3);
+      std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
+      ControllerTypeSpecifierFull* fullSpecifier = 
+        new ControllerTypeSpecifierFull(package, $2->getShortName());
+      $$ = new ControllerDefinition(fullSpecifier, *$5, *$3);
+      delete $2;
       delete $5;
       delete $3;
     }
@@ -343,7 +356,11 @@ external_controller_definition
   : TEXTERNAL TCONTROLLER controller_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
-      $$ = new ExternalControllerDefinition($3, *$6, *$4);
+      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
+      ControllerTypeSpecifierFull* fullSpecifier = 
+        new ControllerTypeSpecifierFull(package, $3->getShortName());
+      $$ = new ExternalControllerDefinition(fullSpecifier, *$6, *$4);
+      delete $3;
       delete $6;
       delete $4;
     }
@@ -353,7 +370,11 @@ node_definition
   : TNODE node_type_specifier implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
-      $$ = new NodeDefinition($2, *$5, *$3);
+      std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
+      NodeTypeSpecifierFull* fullSpecifier = 
+        new NodeTypeSpecifierFull(package, $2->getShortName());
+      $$ = new NodeDefinition(fullSpecifier, *$5, *$3);
+      delete $2;
       delete $5;
       delete $3;
     }
@@ -363,7 +384,11 @@ external_node_definition
   : TEXTERNAL TNODE node_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
-      $$ = new ExternalNodeDefinition($3, *$6, *$4);
+      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
+      NodeTypeSpecifierFull* fullSpecifier = 
+        new NodeTypeSpecifierFull(package, $3->getShortName());
+      $$ = new ExternalNodeDefinition(fullSpecifier, *$6, *$4);
+      delete $3;
       delete $6;
       delete $4;
     }
@@ -373,7 +398,11 @@ model_definition
   : TMODEL model_type_specifier implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
-      $$ = new ModelDefinition($2, *$5, *$3);
+      std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
+      ModelTypeSpecifierFull* fullSpecifier = 
+        new ModelTypeSpecifierFull(package, $2->getShortName());
+      $$ = new ModelDefinition(fullSpecifier, *$5, *$3);
+      delete $2;
       delete $5;
       delete $3;
     }
@@ -383,7 +412,11 @@ external_model_definition
   : TEXTERNAL TMODEL model_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
-      $$ = new ExternalModelDefinition($3, *$6, *$4);
+      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
+      ModelTypeSpecifierFull* fullSpecifier = 
+        new ModelTypeSpecifierFull(package, $3->getShortName());
+      $$ = new ExternalModelDefinition(fullSpecifier, *$6, *$4);
+      delete $3;
       delete $6;
       delete $4;
     }

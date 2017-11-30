@@ -16,16 +16,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InterfaceDefinition::InterfaceDefinition(IInterfaceTypeSpecifier* interfaceTypeSpecifier,
+InterfaceDefinition::InterfaceDefinition(InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
                                          vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                                          vector<IObjectElementDeclaration *>
                                          elementDeclarations) :
-mInterfaceTypeSpecifier(interfaceTypeSpecifier),
+mInterfaceTypeSpecifierFull(interfaceTypeSpecifierFull),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDeclarations) { }
 
 InterfaceDefinition::~InterfaceDefinition() {
-  delete mInterfaceTypeSpecifier;
+  delete mInterfaceTypeSpecifierFull;
   for (IInterfaceTypeSpecifier* interfaceTypeSpecifier : mParentInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
@@ -37,7 +37,7 @@ InterfaceDefinition::~InterfaceDefinition() {
 }
 
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mInterfaceTypeSpecifier->getName(context);
+  string fullName = mInterfaceTypeSpecifierFull->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Interface* interface = Interface::newInterface(fullName,
                                                  structType,
@@ -49,7 +49,7 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
 }
 
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Interface* interface = context.getInterface(mInterfaceTypeSpecifier->getName(context));
+  Interface* interface = context.getInterface(mInterfaceTypeSpecifierFull->getName(context));
   context.setObjectType(interface);
   interface->buildMethods(context);
   interface->generateConstantsIR(context);

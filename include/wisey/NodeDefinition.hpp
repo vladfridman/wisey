@@ -13,7 +13,7 @@
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
-#include "wisey/NodeTypeSpecifier.hpp"
+#include "wisey/NodeTypeSpecifierFull.hpp"
 
 namespace wisey {
   
@@ -22,13 +22,13 @@ namespace wisey {
  * and mutable fields that point to other nodes.
  */
 class NodeDefinition : public IConcreteObjectDefinition {
-  INodeTypeSpecifier* mNodeTypeSpecifier;
+  NodeTypeSpecifierFull* mNodeTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
-  NodeDefinition(INodeTypeSpecifier* nodeTypeSpecifier,
+  NodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
                  std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                  std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
   

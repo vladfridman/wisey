@@ -13,7 +13,7 @@
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/ModelTypeSpecifierFull.hpp"
 
 namespace wisey {
   
@@ -21,13 +21,13 @@ namespace wisey {
  * Represents model definition which is analogous to an immutable class in C++
  */
 class ModelDefinition : public IConcreteObjectDefinition {
-  IModelTypeSpecifier* mModelTypeSpecifier;
+  ModelTypeSpecifierFull* mModelTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
-  ModelDefinition(IModelTypeSpecifier* modelTypeSpecifier,
+  ModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
                   std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                   std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
   

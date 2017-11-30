@@ -17,7 +17,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/InterfaceDefinition.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/InterfaceTypeSpecifierFull.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -37,7 +37,7 @@ struct InterfaceDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   InterfaceDefinition* mInterfaceDefinition;
-  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
+  InterfaceTypeSpecifierFull* mInterfaceTypeSpecifier;
 
   InterfaceDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
@@ -59,7 +59,8 @@ struct InterfaceDefinitionTest : public Test {
     objectElements.push_back(methodSignatureDeclaration);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     
-    mInterfaceTypeSpecifier = new InterfaceTypeSpecifier("", "IMyInterface");
+    mInterfaceTypeSpecifier = new InterfaceTypeSpecifierFull("systems.vos.wisey.compiler.tests",
+                                                             "IMyInterface");
     mInterfaceDefinition = new InterfaceDefinition(mInterfaceTypeSpecifier,
                                                    parentInterfaces,
                                                    objectElements);

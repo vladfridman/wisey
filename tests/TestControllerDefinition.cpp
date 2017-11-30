@@ -48,6 +48,7 @@ struct ControllerDefinitionTest : public Test {
   NiceMock<MockStatement>* mMockStatement;
   vector<IObjectElementDeclaration*> mElementDeclarations;
   vector<IInterfaceTypeSpecifier*> mInterfaces;
+  string mPackage = "systems.vos.wisey.compiler.tests";
   
   ControllerDefinitionTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -60,7 +61,7 @@ struct ControllerDefinitionTest : public Test {
     MethodDeclaration *methodDeclaration;
     Block* block = new Block();
 
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mContext.setPackage(mPackage);
     block->getStatements().push_back(mMockStatement);
     block->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
@@ -97,7 +98,8 @@ struct ControllerDefinitionTest : public Test {
 };
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+                                                                               "CMyController");
   ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
@@ -114,7 +116,8 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+                                                                               "CMyController");
   ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
@@ -127,7 +130,8 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+                                                                               "CMyController");
   ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
@@ -154,7 +158,8 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+                                                                               "CMyController");
   ExpressionList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
@@ -169,7 +174,8 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
 }
 
 TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+                                                                               "CMyController");
   ExpressionList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);

@@ -39,13 +39,14 @@ struct ExternalControllerDefinitionTest : public Test {
   LLVMContext& mLLVMContext;
   vector<IObjectElementDeclaration*> mElementDeclarations;
   vector<IInterfaceTypeSpecifier*> mInterfaces;
+  string mPackage = "systems.vos.wisey.compiler.tests";
   
   ExternalControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
     ExternalMethodDeclaration* methodDeclaration;
     
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mContext.setPackage(mPackage);
     PrimitiveTypeSpecifier* intTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
@@ -77,7 +78,8 @@ struct ExternalControllerDefinitionTest : public Test {
 };
 
 TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+                                                                               "CMyController");
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mElementDeclarations,
                                                     mInterfaces);
@@ -94,7 +96,8 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
 }
 
 TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
-  ControllerTypeSpecifier* typeSpecifier = new ControllerTypeSpecifier("", "CMyController");
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+                                                                               "CMyController");
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mElementDeclarations,
                                                     mInterfaces);

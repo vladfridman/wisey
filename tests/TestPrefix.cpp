@@ -37,8 +37,8 @@ void TestPrefix::defineModel(IRGenerationContext& context,
                              string modelName,
                              vector<IObjectElementDeclaration*> modelElements) {
   vector<IInterfaceTypeSpecifier*> modelParentInterfaces;
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(Names::getLangPackageName(),
-                                                                  modelName);
+  ModelTypeSpecifierFull* modelTypeSpecifier =
+    new ModelTypeSpecifierFull(Names::getLangPackageName(), modelName);
   ModelDefinition modelDefinition(modelTypeSpecifier, modelElements, modelParentInterfaces);
   modelDefinition.prototypeObjects(context);
   modelDefinition.prototypeMethods(context);
@@ -47,8 +47,8 @@ void TestPrefix::defineModel(IRGenerationContext& context,
 }
 
 void TestPrefix::defineThreadController(IRGenerationContext& context) {
-  ControllerTypeSpecifier* controllerTypeSpecifier =
-    new ControllerTypeSpecifier(Names::getLangPackageName(), Names::getThreadControllerName());
+  ControllerTypeSpecifierFull* controllerTypeSpecifier =
+    new ControllerTypeSpecifierFull(Names::getLangPackageName(), Names::getThreadControllerName());
   vector<IObjectElementDeclaration*> elementDeclarations;
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   

@@ -17,16 +17,16 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ControllerDefinition::ControllerDefinition(IControllerTypeSpecifier* controllerTypeSpecifier,
+ControllerDefinition::ControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
                                            vector<IObjectElementDeclaration*>
                                              objectElementDeclarations,
                                            vector<IInterfaceTypeSpecifier*> interfaceSpecifiers) :
-mControllerTypeSpecifier(controllerTypeSpecifier),
+mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 ControllerDefinition::~ControllerDefinition() {
-  delete mControllerTypeSpecifier;
+  delete mControllerTypeSpecifierFull;
   for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
@@ -38,7 +38,7 @@ ControllerDefinition::~ControllerDefinition() {
 }
 
 void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mControllerTypeSpecifier->getName(context);
+  string fullName = mControllerTypeSpecifierFull->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
 
   Controller* controller = Controller::newController(fullName, structType);
@@ -46,7 +46,7 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
 }
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
+  Controller* controller = context.getController(mControllerTypeSpecifierFull->getName(context));
 
   context.setObjectType(controller);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
@@ -54,7 +54,7 @@ void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const 
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
-  Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
+  Controller* controller = context.getController(mControllerTypeSpecifierFull->getName(context));
   
   context.getScopes().pushScope();
   context.setObjectType(controller);

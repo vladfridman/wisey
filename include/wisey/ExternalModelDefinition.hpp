@@ -12,7 +12,7 @@
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/ModelTypeSpecifierFull.hpp"
 
 namespace wisey {
   
@@ -20,13 +20,13 @@ namespace wisey {
  * Represents model definition implemented in a shared library
  */
 class ExternalModelDefinition : public IConcreteObjectDefinition {
-  IModelTypeSpecifier* mModelTypeSpecifier;
+  ModelTypeSpecifierFull* mModelTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
-  ExternalModelDefinition(IModelTypeSpecifier* modelTypeSpecifier,
+  ExternalModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
                           std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                           std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
   

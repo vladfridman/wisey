@@ -13,18 +13,18 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-ExternalControllerDefinition::ExternalControllerDefinition(IControllerTypeSpecifier*
-                                                           controllerTypeSpecifier,
+ExternalControllerDefinition::ExternalControllerDefinition(ControllerTypeSpecifierFull*
+                                                           controllerTypeSpecifierFull,
                                                            vector<IObjectElementDeclaration*>
                                                              objectElementDeclarations,
                                                            vector<IInterfaceTypeSpecifier*>
                                                             interfaceSpecifiers) :
-mControllerTypeSpecifier(controllerTypeSpecifier),
+mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 ExternalControllerDefinition::~ExternalControllerDefinition() {
-  delete mControllerTypeSpecifier;
+  delete mControllerTypeSpecifierFull;
   for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
@@ -36,7 +36,7 @@ ExternalControllerDefinition::~ExternalControllerDefinition() {
 }
 
 void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mControllerTypeSpecifier->getName(context);
+  string fullName = mControllerTypeSpecifierFull->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
 
   Controller* controller = Controller::newExternalController(fullName, structType);
@@ -44,7 +44,7 @@ void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context
 }
 
 void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Controller* controller = context.getController(mControllerTypeSpecifier->getName(context));
+  Controller* controller = context.getController(mControllerTypeSpecifierFull->getName(context));
   
   context.setObjectType(controller);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);

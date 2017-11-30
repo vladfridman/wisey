@@ -18,15 +18,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelDefinition::ModelDefinition(IModelTypeSpecifier* modelTypeSpecifier,
+ModelDefinition::ModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
                                  vector<IObjectElementDeclaration*> objectElementDeclarations,
                                  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers) :
-mModelTypeSpecifier(modelTypeSpecifier),
+mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 ModelDefinition::~ModelDefinition() {
-  delete mModelTypeSpecifier;
+  delete mModelTypeSpecifierFull;
   for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
@@ -38,7 +38,7 @@ ModelDefinition::~ModelDefinition() {
 }
 
 void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mModelTypeSpecifier->getName(context);
+  string fullName = mModelTypeSpecifierFull->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Model* model = Model::newModel(fullName, structType);
@@ -46,7 +46,7 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
 }
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Model* model = context.getModel(mModelTypeSpecifier->getName(context));
+  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context));
 
   context.setObjectType(model);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
@@ -55,7 +55,7 @@ void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
-  Model* model = context.getModel(mModelTypeSpecifier->getName(context));
+  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context));
  
   context.getScopes().pushScope();
   context.setObjectType(model);

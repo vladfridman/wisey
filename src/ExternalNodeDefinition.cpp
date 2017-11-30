@@ -13,17 +13,17 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ExternalNodeDefinition::ExternalNodeDefinition(INodeTypeSpecifier* nodeTypeSpecifier,
+ExternalNodeDefinition::ExternalNodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
                                                vector<IObjectElementDeclaration*>
                                                objectElementDeclarations,
                                                vector<IInterfaceTypeSpecifier*>
                                                interfaceSpecifiers) :
-mNodeTypeSpecifier(nodeTypeSpecifier),
+mNodeTypeSpecifierFull(nodeTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 ExternalNodeDefinition::~ExternalNodeDefinition() {
-  delete mNodeTypeSpecifier;
+  delete mNodeTypeSpecifierFull;
   for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
@@ -35,7 +35,7 @@ ExternalNodeDefinition::~ExternalNodeDefinition() {
 }
 
 void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mNodeTypeSpecifier->getName(context);
+  string fullName = mNodeTypeSpecifierFull->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Node* node = Node::newExternalNode(fullName, structType);
@@ -43,7 +43,7 @@ void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) cons
 }
 
 void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
+  Node* node = context.getNode(mNodeTypeSpecifierFull->getName(context));
   
   context.setObjectType(node);
   configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers);

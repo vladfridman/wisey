@@ -34,11 +34,12 @@ struct ExternalModelDefinitionTest : public Test {
   LLVMContext& mLLVMContext;
   ExternalMethodDeclaration* mMethodDeclaration;
   vector<IObjectElementDeclaration*> mElementDeclarations;
+  string mPackage = "systems.vos.wisey.compiler.tests";
   
   ExternalModelDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mContext.setPackage(mPackage);
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
@@ -66,7 +67,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
   mElementDeclarations.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   ExternalModelDefinition modelDefinition(typeSpecifier, mElementDeclarations, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
@@ -89,7 +90,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   mElementDeclarations.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   ExternalModelDefinition modelDefinition(typeSpecifier, mElementDeclarations, interfaces);
 
   modelDefinition.prototypeObjects(mContext);

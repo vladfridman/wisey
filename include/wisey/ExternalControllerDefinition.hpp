@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-#include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/ControllerTypeSpecifierFull.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
@@ -23,13 +23,13 @@ namespace wisey {
  * Represents controller definition implemented in a shared library
  */
 class ExternalControllerDefinition : public IConcreteObjectDefinition {
-  IControllerTypeSpecifier* mControllerTypeSpecifier;
+  ControllerTypeSpecifierFull* mControllerTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
-  ExternalControllerDefinition(IControllerTypeSpecifier* controllerTypeSpecifier,
+  ExternalControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
                                std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                                std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
   

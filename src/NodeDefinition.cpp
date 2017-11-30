@@ -13,15 +13,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NodeDefinition::NodeDefinition(INodeTypeSpecifier* nodeTypeSpecifier,
+NodeDefinition::NodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
                                vector<IObjectElementDeclaration*> objectElementDeclarations,
                                vector<IInterfaceTypeSpecifier*> interfaceSpecifiers) :
-mNodeTypeSpecifier(nodeTypeSpecifier),
+mNodeTypeSpecifierFull(nodeTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
 
 NodeDefinition::~NodeDefinition() {
-  delete mNodeTypeSpecifier;
+  delete mNodeTypeSpecifierFull;
   for (IObjectElementDeclaration* objectElementDeclaration : mObjectElementDeclarations) {
     delete objectElementDeclaration;
   }
@@ -33,7 +33,7 @@ NodeDefinition::~NodeDefinition() {
 }
 
 void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mNodeTypeSpecifier->getName(context);
+  string fullName = mNodeTypeSpecifierFull->getName(context);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Node* node = Node::newNode(fullName, structType);
@@ -41,7 +41,7 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
 }
 
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
+  Node* node = context.getNode(mNodeTypeSpecifierFull->getName(context));
 
   context.setObjectType(node);
   configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers);
@@ -49,7 +49,7 @@ void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {
 }
 
 Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
-  Node* node = context.getNode(mNodeTypeSpecifier->getName(context));
+  Node* node = context.getNode(mNodeTypeSpecifierFull->getName(context));
   
   context.getScopes().pushScope();
   context.setObjectType(node);

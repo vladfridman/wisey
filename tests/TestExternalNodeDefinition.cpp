@@ -35,11 +35,12 @@ struct ExternalNodeDefinitionTest : public Test {
   LLVMContext& mLLVMContext;
   ExternalMethodDeclaration* mMethodDeclaration;
   vector<IObjectElementDeclaration*> mObjectElements;
+  string mPackage = "systems.vos.wisey.compiler.tests";
   
   ExternalNodeDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mContext.setPackage(mPackage);
     PrimitiveTypeSpecifier* intTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     PrimitiveTypeSpecifier* floatTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
@@ -70,7 +71,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
   ExternalNodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
@@ -93,7 +94,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
   ExternalNodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);

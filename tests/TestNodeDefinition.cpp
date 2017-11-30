@@ -47,6 +47,7 @@ struct NodeDefinitionTest : public Test {
   vector<IObjectElementDeclaration*> mObjectElements;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
+  string mPackge = "systems.vos.wisey.compiler.tests";
   
   NodeDefinitionTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -56,7 +57,7 @@ struct NodeDefinitionTest : public Test {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mContext.setPackage(mPackge);
     mBlock->getStatements().push_back(mMockStatement);
     mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);
@@ -93,7 +94,7 @@ TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackge, "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
@@ -116,7 +117,7 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackge, "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   nodeDefinition.prototypeObjects(mContext);
@@ -138,7 +139,7 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackge, "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
   EXPECT_CALL(*mMockStatement, generateIR(_));
@@ -200,7 +201,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
 
   mObjectElements.push_back(mMethodDeclaration);
 
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackge, "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
@@ -230,7 +231,7 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
   
   mObjectElements.push_back(mMethodDeclaration);
 
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackge, "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   
@@ -250,7 +251,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackge, "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);
   

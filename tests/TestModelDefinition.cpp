@@ -47,6 +47,7 @@ struct ModelDefinitionTest : public Test {
   vector<IObjectElementDeclaration*> mObjectElements;
   Block* mBlock;
   NiceMock<MockStatement>* mMockStatement;
+  string mPackage = "systems.vos.wisey.compiler.tests";
  
   ModelDefinitionTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -56,7 +57,7 @@ struct ModelDefinitionTest : public Test {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
 
-    mContext.setPackage("systems.vos.wisey.compiler.tests");
+    mContext.setPackage(mPackage);
     mBlock->getStatements().push_back(mMockStatement);
     mBlock->getStatements().push_back(new ReturnStatement(new FloatConstant(0.5), 0));
     CompoundStatement* compoundStatement = new CompoundStatement(mBlock, 0);
@@ -90,7 +91,7 @@ TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
@@ -113,7 +114,7 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   
   modelDefinition.prototypeObjects(mContext);
@@ -135,7 +136,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
@@ -163,8 +164,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<IObjectElementDeclaration*> interfaceElements;
   VariableList methodArguments;
   vector<IModelTypeSpecifier*> methodThrownExceptions;
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(Names::getLangPackageName(),
-                                                                  Names::getNPEModelName());
+  ModelTypeSpecifierFull* modelTypeSpecifier =
+  new ModelTypeSpecifierFull(Names::getLangPackageName(), Names::getNPEModelName());
   methodThrownExceptions.push_back(modelTypeSpecifier);
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableDeclaration* methodArgument =
@@ -197,7 +198,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 
   mObjectElements.push_back(mMethodDeclaration);
 
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MModel");
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);
   modelDefinition.prototypeMethods(mContext);
@@ -227,7 +228,7 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   
   mObjectElements.push_back(mMethodDeclaration);
 
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MModel");
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);
   
@@ -245,7 +246,7 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);
   
