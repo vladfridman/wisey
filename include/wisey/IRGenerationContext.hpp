@@ -161,7 +161,7 @@ public:
   llvm::Value* getSourceFileNamePointer() const;
   
   /**
-   * Adds an import to the current import profile
+   * Sets current import profile that keeps track of all imports
    */
   void setImportProfile(ImportProfile* importProfile);
   
