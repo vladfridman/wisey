@@ -20,6 +20,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/IExpression.hpp"
+#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
@@ -54,7 +55,7 @@ struct FieldOwnerVariableTest : Test {
 
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface(interfaceFullName,
                                          interfaceStructType,

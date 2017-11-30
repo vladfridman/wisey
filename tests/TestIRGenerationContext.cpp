@@ -18,6 +18,7 @@
 #include "MockVariable.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -43,7 +44,7 @@ struct IRGenerationContextTest : public Test {
   IRGenerationContextTest() : mLLVMContext(mContext.getLLVMContext()) {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface(interfaceFullName,
                                          interfaceStructType,
@@ -171,7 +172,7 @@ TEST_F(IRGenerationContextTest, getControllerDoesNotExistDeathTest) {
 TEST_F(IRGenerationContextTest, addInterfaceTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
-  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  vector<IInterfaceTypeSpecifier*> parentInterfaces;
   vector<IObjectElementDeclaration*> interfaceElements;
   Interface* interface = Interface::newInterface(interfaceFullName,
                                                  structType,
@@ -189,7 +190,7 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
 TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IMyInterface";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
-  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  vector<IInterfaceTypeSpecifier*> parentInterfaces;
   vector<IObjectElementDeclaration*> interfaceElements;
   Interface* interface = Interface::newInterface(interfaceFullName,
                                                  structType,

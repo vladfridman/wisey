@@ -13,12 +13,12 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-ExternalControllerDefinition::ExternalControllerDefinition(ControllerTypeSpecifier*
+ExternalControllerDefinition::ExternalControllerDefinition(IControllerTypeSpecifier*
                                                            controllerTypeSpecifier,
                                                            vector<IObjectElementDeclaration*>
                                                              objectElementDeclarations,
-                                                           vector<InterfaceTypeSpecifier*>
-                                                           interfaceSpecifiers) :
+                                                           vector<IInterfaceTypeSpecifier*>
+                                                            interfaceSpecifiers) :
 mControllerTypeSpecifier(controllerTypeSpecifier),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
@@ -29,7 +29,7 @@ ExternalControllerDefinition::~ExternalControllerDefinition() {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();
-  for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
+  for (IInterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();

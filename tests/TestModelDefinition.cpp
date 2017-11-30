@@ -19,6 +19,7 @@
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -67,7 +68,7 @@ struct ModelDefinitionTest : public Test {
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ModelTypeSpecifier*> thrownExceptions;
+    vector<IModelTypeSpecifier*> thrownExceptions;
     mMethodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                floatTypeSpecifier,
                                                "foo",
@@ -88,7 +89,7 @@ TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   
@@ -111,7 +112,7 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   
@@ -133,7 +134,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
 
@@ -161,7 +162,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   StructType *structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IObjectElementDeclaration*> interfaceElements;
   VariableList methodArguments;
-  vector<ModelTypeSpecifier*> methodThrownExceptions;
+  vector<IModelTypeSpecifier*> methodThrownExceptions;
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(Names::getLangPackageName(),
                                                                   Names::getNPEModelName());
   methodThrownExceptions.push_back(modelTypeSpecifier);
@@ -176,7 +177,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                    methodArguments,
                                    methodThrownExceptions);
   interfaceElements.push_back(methodSignature);
-  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  vector<IInterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
@@ -191,7 +192,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      stringConstant,
                      interface->getObjectNameGlobalVariableName());
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   interfaces.push_back(new InterfaceTypeSpecifier("", "IMyInterface"));
 
   mObjectElements.push_back(mMethodDeclaration);
@@ -220,7 +221,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 }
 
 TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   string package = "systems.vos.wisey.compiler.tests";
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
@@ -243,7 +244,7 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ModelDefinition modelDefinition(typeSpecifier, mObjectElements, interfaces);
   modelDefinition.prototypeObjects(mContext);

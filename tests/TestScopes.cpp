@@ -46,7 +46,7 @@ struct ScopesTest : public Test {
   Interface* mInterface;
   
   ScopesTest() : mLLVMContext(mContext.getLLVMContext()) {
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> objectElements;
     mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
                                          StructType::create(mLLVMContext, ""),

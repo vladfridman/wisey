@@ -19,6 +19,7 @@
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Identifier.hpp"
+#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -38,7 +39,7 @@ struct IdentifierTest : public Test {
   Interface* mInterface;
 
   IdentifierTest() {
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,

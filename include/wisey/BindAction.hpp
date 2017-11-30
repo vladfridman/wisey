@@ -11,7 +11,7 @@
 
 #include <string>
 
-#include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/IControllerTypeSpecifier.hpp"
 #include "wisey/IGlobalStatement.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 
@@ -21,13 +21,13 @@ namespace wisey {
  * Represents a bind action binding a controller to an interface
  */
 class BindAction : public IGlobalStatement {
-  ControllerTypeSpecifier* mContreollerTypeSpecifier;
-  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
+  IControllerTypeSpecifier* mContreollerTypeSpecifier;
+  IInterfaceTypeSpecifier* mInterfaceTypeSpecifier;
   
 public:
   
-  BindAction(ControllerTypeSpecifier* controllerTypeSpecifier,
-             InterfaceTypeSpecifier* interfaceTypeSpecifier);
+  BindAction(IControllerTypeSpecifier* controllerTypeSpecifier,
+             IInterfaceTypeSpecifier* interfaceTypeSpecifier);
   
   ~BindAction();
 

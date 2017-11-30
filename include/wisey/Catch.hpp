@@ -10,7 +10,7 @@
 #define Catch_h
 
 #include "wisey/CompoundStatement.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/IModelTypeSpecifier.hpp"
 
 namespace wisey {
 
@@ -18,14 +18,14 @@ namespace wisey {
  * Represents a single catch in a try/catch statement
  */
 class Catch {
-  ModelTypeSpecifier* mModelTypeSpecifier;
+  IModelTypeSpecifier* mModelTypeSpecifier;
   std::string mIdentifier;
   CompoundStatement* mCompoundStatement;
   int mLine;
   
 public:
   
-  Catch(ModelTypeSpecifier* modelTypeSpecifier,
+  Catch(IModelTypeSpecifier* modelTypeSpecifier,
         std::string identifier,
         CompoundStatement* compoundStatement,
         int line);

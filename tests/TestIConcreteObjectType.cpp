@@ -56,7 +56,7 @@ struct IConcreteObjectTypeTest : public Test {
     ON_CALL(mMockObject, getObjectNameGlobalVariableName()).WillByDefault(Return("Object.name"));
 
     vector<Interface*> interfaces;
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     Interface* interface1 = Interface::newInterface("Interface1",
                                                     NULL,
@@ -133,7 +133,7 @@ struct IConcreteObjectTypeTest : public Test {
     canNavigateTypes.push_back(Type::getInt32Ty(mLLVMContext)->getPointerTo()->getPointerTo());
     string canNavigateFullName = "systems.vos.wisey.compiler.tests.ICanNavigate";
     StructType* canNavigateStructType = StructType::create(mLLVMContext, canNavigateFullName);
-    vector<InterfaceTypeSpecifier*> canNavigateParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> canNavigateParentInterfaces;
     vector<IObjectElementDeclaration*> canNavigateElements;
     mCanNavigate = Interface::newInterface(canNavigateFullName,
                                            canNavigateStructType,
@@ -425,7 +425,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
 TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
   mContext.setPackage("some.package");
   
-  vector<InterfaceTypeSpecifier*> interfaceTypeSpecifiers;
+  vector<IInterfaceTypeSpecifier*> interfaceTypeSpecifiers;
   vector<IObjectElementDeclaration *> objectElements;
 
   vector<Interface*> flattenedInterfaces;

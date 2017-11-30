@@ -12,8 +12,8 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/IMethodDeclaration.hpp"
+#include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/ITypeSpecifier.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
@@ -28,7 +28,7 @@ class StaticMethodDeclaration : public IMethodDeclaration {
   const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mName;
   VariableList mArguments;
-  std::vector<ModelTypeSpecifier*> mExceptions;
+  std::vector<IModelTypeSpecifier*> mExceptions;
   CompoundStatement* mCompoundStatement;
   int mLine;
   
@@ -38,7 +38,7 @@ public:
                           const ITypeSpecifier* returnTypeSpecifier,
                           std::string name,
                           VariableList arguments,
-                          std::vector<ModelTypeSpecifier*> exceptions,
+                          std::vector<IModelTypeSpecifier*> exceptions,
                           CompoundStatement* compoundStatement,
                           int line);
   

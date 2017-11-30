@@ -14,7 +14,7 @@
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceOwner.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -32,7 +32,7 @@ using namespace wisey;
 Interface::Interface(string name,
                      StructType* structType,
                      bool isExternal,
-                     vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+                     vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                      vector<IObjectElementDeclaration *> elementDelcarations) :
 mName(name),
 mStructType(structType),
@@ -59,7 +59,7 @@ Interface::~Interface() {
 
 Interface* Interface::newInterface(string name,
                                    StructType *structType,
-                                   vector<InterfaceTypeSpecifier *> parentInterfaceSpecifiers,
+                                   vector<IInterfaceTypeSpecifier *> parentInterfaceSpecifiers,
                                    vector<IObjectElementDeclaration *>
                                    elementDeclarations) {
   return new Interface(name,
@@ -71,7 +71,7 @@ Interface* Interface::newInterface(string name,
 
 Interface* Interface::newExternalInterface(string name,
                                            StructType *structType,
-                                           vector<InterfaceTypeSpecifier *>
+                                           vector<IInterfaceTypeSpecifier *>
                                            parentInterfaceSpecifiers,
                                            vector<IObjectElementDeclaration *>
                                            elementDeclarations) {
@@ -98,7 +98,7 @@ void Interface::buildMethods(IRGenerationContext& context) {
     mNameToConstantMap[constant->getName()] = constant;
   }
 
-  for (InterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
+  for (IInterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
     if (!parentInterface->isComplete()) {
       parentInterface->buildMethods(context);

@@ -13,10 +13,10 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-ExternalModelDefinition::ExternalModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
+ExternalModelDefinition::ExternalModelDefinition(IModelTypeSpecifier* modelTypeSpecifier,
                                                  vector<IObjectElementDeclaration*>
                                                    objectElementDeclarations,
-                                                 vector<InterfaceTypeSpecifier*>
+                                                 vector<IInterfaceTypeSpecifier*>
                                                  interfaceSpecifiers) :
 mModelTypeSpecifier(modelTypeSpecifier),
 mObjectElementDeclarations(objectElementDeclarations),
@@ -28,7 +28,7 @@ ExternalModelDefinition::~ExternalModelDefinition() {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();
-  for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
+  for (IInterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();

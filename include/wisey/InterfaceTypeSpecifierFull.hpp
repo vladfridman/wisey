@@ -1,33 +1,30 @@
-
 //
-//  InterfaceTypeSpecifier.hpp
+//  InterfaceTypeSpecifierFull.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/7/17.
+//  Created by Vladimir Fridman on 11/30/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef InterfaceTypeSpecifier_h
-#define InterfaceTypeSpecifier_h
+#ifndef InterfaceTypeSpecifierFull_h
+#define InterfaceTypeSpecifierFull_h
 
-#include "wisey/IInjectable.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
-#include "wisey/Interface.hpp"
 
 namespace wisey {
   
 /**
- * Represents interface type specifier
+ * Represents a fully qualified interface type specifier
  */
-class InterfaceTypeSpecifier : public IInterfaceTypeSpecifier {
+class InterfaceTypeSpecifierFull : public IInterfaceTypeSpecifier {
   const std::string mPackage;
   const std::string mShortName;
   
 public:
   
-  InterfaceTypeSpecifier(std::string package, std::string shortName);
+  InterfaceTypeSpecifierFull(std::string package, std::string shortName);
   
-  ~InterfaceTypeSpecifier();
+  ~InterfaceTypeSpecifierFull();
   
   std::string getShortName() const override;
   
@@ -36,9 +33,9 @@ public:
   Interface* getType(IRGenerationContext& context) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-};
   
+};
+
 } /* namespace wisey */
 
-#endif /* InterfaceTypeSpecifier_h */
+#endif /* InterfaceTypeSpecifierFull_h */

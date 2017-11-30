@@ -22,6 +22,7 @@
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -37,7 +38,7 @@ struct ExternalControllerDefinitionTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   vector<IObjectElementDeclaration*> mElementDeclarations;
-  vector<InterfaceTypeSpecifier*> mInterfaces;
+  vector<IInterfaceTypeSpecifier*> mInterfaces;
   
   ExternalControllerDefinitionTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
@@ -54,7 +55,7 @@ struct ExternalControllerDefinitionTest : public Test {
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ModelTypeSpecifier*> thrownExceptions;
+    vector<IModelTypeSpecifier*> thrownExceptions;
     methodDeclaration = new ExternalMethodDeclaration(floatTypeSpecifier,
                                                       "foo",
                                                       methodArguments,

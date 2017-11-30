@@ -22,8 +22,8 @@
 
 namespace wisey {
 
+class IInterfaceTypeSpecifier;
 class InterfaceOwner;
-class InterfaceTypeSpecifier;
 class MethodSignatureDeclaration;
 class Model;
   
@@ -35,7 +35,7 @@ class Interface : public IObjectType, public IInjectable {
   llvm::StructType* mStructType;
   bool mIsExternal;
   InterfaceOwner* mInterfaceOwner;
-  std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
+  std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<IObjectElementDeclaration *> mElementDeclarations;
   std::vector<Interface*> mParentInterfaces;
   std::vector<MethodSignature*> mMethodSignatures;
@@ -55,7 +55,7 @@ public:
    */
   static Interface* newInterface(std::string name,
                                  llvm::StructType* structType,
-                                 std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+                                 std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                                  std::vector<IObjectElementDeclaration *> elementDeclarations);
 
   /**
@@ -63,7 +63,7 @@ public:
    */
   static Interface* newExternalInterface(std::string name,
                                          llvm::StructType* structType,
-                                         std::vector<InterfaceTypeSpecifier*>
+                                         std::vector<IInterfaceTypeSpecifier*>
                                          parentInterfaceSpecifiers,
                                          std::vector<IObjectElementDeclaration *>
                                          elementDeclarations);
@@ -185,7 +185,7 @@ private:
   Interface(std::string name,
             llvm::StructType* structType,
             bool isExternal,
-            std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+            std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
             std::vector<IObjectElementDeclaration *> elementDelcarations);
   
   void includeInterfaceMethods(Interface* parentInterface);

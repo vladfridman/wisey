@@ -13,6 +13,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 
@@ -46,7 +47,7 @@ struct ExternalMethodDeclarationTest : Test {
 TEST_F(ExternalMethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
-  vector<ModelTypeSpecifier*> thrownExceptions;
+  vector<IModelTypeSpecifier*> thrownExceptions;
   PrimitiveTypeSpecifier* floatTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   ExternalMethodDeclaration methodDeclaration(floatTypeSpecifier,

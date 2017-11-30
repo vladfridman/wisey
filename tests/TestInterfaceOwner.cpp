@@ -42,7 +42,7 @@ struct InterfaceOwnerTest : public Test {
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(objectTypes);
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     mObjectInterface = Interface::newInterface(objectFullName,
                                                objectStructType,
@@ -54,7 +54,7 @@ struct InterfaceOwnerTest : public Test {
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mShapeStructType->setBody(shapeTypes);
     vector<IObjectElementDeclaration*> shapeMethodElements;
-    vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     InterfaceTypeSpecifier* objectInterfaceSpecifier = new InterfaceTypeSpecifier("", "IObject");
     shapeParentInterfaces.push_back(objectInterfaceSpecifier);
     mShapeInterface = Interface::newInterface(shapeFullName,

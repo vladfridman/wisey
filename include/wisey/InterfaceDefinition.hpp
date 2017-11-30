@@ -21,14 +21,14 @@ namespace wisey {
  * Represents an interface definition which is analogous to a pure virtual class in C++
  */
 class InterfaceDefinition : public IObjectDefinition {
-  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
-  std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
+  IInterfaceTypeSpecifier* mInterfaceTypeSpecifier;
+  std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<IObjectElementDeclaration *> mElementDeclarations;
   
 public:
   
-  InterfaceDefinition(InterfaceTypeSpecifier* interfaceTypeSpecifier,
-                      std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+  InterfaceDefinition(IInterfaceTypeSpecifier* interfaceTypeSpecifier,
+                      std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                       std::vector<IObjectElementDeclaration *> elementDeclarations);
   
   ~InterfaceDefinition();

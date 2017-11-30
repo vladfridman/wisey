@@ -1,30 +1,30 @@
 //
-//  ControllerTypeSpecifier.hpp
+//  ControllerTypeSpecifierFull.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 3/28/17.
+//  Created by Vladimir Fridman on 11/30/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ControllerTypeSpecifier_h
-#define ControllerTypeSpecifier_h
+#ifndef ControllerTypeSpecifierFull_h
+#define ControllerTypeSpecifierFull_h
 
 #include "wisey/IControllerTypeSpecifier.hpp"
 
 namespace wisey {
   
 /**
- * Represents controller type specifier
+ * Represents a fully qualified controller type specifier
  */
-class ControllerTypeSpecifier : public IControllerTypeSpecifier {
+class ControllerTypeSpecifierFull : public IControllerTypeSpecifier {
   const std::string mPackage;
   const std::string mShortName;
-  
+
 public:
   
-  ControllerTypeSpecifier(std::string package, std::string shortName);
+  ControllerTypeSpecifierFull(std::string package, std::string shortName);
   
-  ~ControllerTypeSpecifier();
+  ~ControllerTypeSpecifierFull();
   
   std::string getShortName() const override;
   
@@ -33,9 +33,9 @@ public:
   const Controller* getType(IRGenerationContext& context) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-};
   
+};
+
 } /* namespace wisey */
 
-#endif /* ControllerTypeSpecifier_h */
+#endif /* ControllerTypeSpecifierFull_h */

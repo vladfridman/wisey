@@ -12,7 +12,7 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/IGlobalStatement.hpp"
-#include "wisey/ITypeSpecifier.hpp"
+#include "wisey/IObjectTypeSpecifier.hpp"
 
 namespace wisey {
 
@@ -21,11 +21,11 @@ namespace wisey {
  */
 class ImportStatement : public IGlobalStatement {
 
-  ITypeSpecifier* mTypeSpecifier;
+  IObjectTypeSpecifier* mTypeSpecifier;
   
 public:
   
-  ImportStatement(ITypeSpecifier* typeSpecifier);
+  ImportStatement(IObjectTypeSpecifier* typeSpecifier);
   
   ~ImportStatement();
   

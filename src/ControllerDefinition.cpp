@@ -17,10 +17,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ControllerDefinition::ControllerDefinition(ControllerTypeSpecifier* controllerTypeSpecifier,
+ControllerDefinition::ControllerDefinition(IControllerTypeSpecifier* controllerTypeSpecifier,
                                            vector<IObjectElementDeclaration*>
                                              objectElementDeclarations,
-                                           vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
+                                           vector<IInterfaceTypeSpecifier*> interfaceSpecifiers) :
 mControllerTypeSpecifier(controllerTypeSpecifier),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
@@ -31,7 +31,7 @@ ControllerDefinition::~ControllerDefinition() {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();
-  for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
+  for (IInterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();

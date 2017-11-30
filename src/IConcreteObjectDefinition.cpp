@@ -18,7 +18,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                 IConcreteObjectType* object,
                                                 vector<IObjectElementDeclaration*>
                                                   elementDeclarations,
-                                                vector<InterfaceTypeSpecifier*>
+                                                vector<IInterfaceTypeSpecifier*>
                                                   interfaceSpecifiers) {
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
   tuple<vector<Constant*>, vector<Field*>, vector<IMethod*>> elements =
@@ -76,10 +76,10 @@ IConcreteObjectDefinition::createElements(IRGenerationContext& context,
 }
 
 vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationContext& context,
-                                                                vector<InterfaceTypeSpecifier*>
+                                                                vector<IInterfaceTypeSpecifier*>
                                                                 interfaceSpecifiers) {
   vector<Interface*> interfaces;
-  for (InterfaceTypeSpecifier* interfaceSpecifier : interfaceSpecifiers) {
+  for (IInterfaceTypeSpecifier* interfaceSpecifier : interfaceSpecifiers) {
     Interface* interface = (Interface*) interfaceSpecifier->getType(context);
     if (!interface->isComplete()) {
       const IObjectType* objectType = context.getObjectType();

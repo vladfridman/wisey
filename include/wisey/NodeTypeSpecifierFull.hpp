@@ -1,43 +1,41 @@
 //
-//  NodeTypeSpecifier.hpp
+//  NodeTypeSpecifierFull.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 6/25/17.
+//  Created by Vladimir Fridman on 11/30/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef NodeTypeSpecifier_h
-#define NodeTypeSpecifier_h
-
-#include <string>
+#ifndef NodeTypeSpecifierFull_h
+#define NodeTypeSpecifierFull_h
 
 #include "wisey/INodeTypeSpecifier.hpp"
 
 namespace wisey {
   
 /**
- * Represents node type specifier
+ * Represents a fully qualified node type specifier
  */
-class NodeTypeSpecifier : public INodeTypeSpecifier {
+class NodeTypeSpecifierFull : public INodeTypeSpecifier {
   const std::string mPackage;
   const std::string mShortName;
   
 public:
   
-  NodeTypeSpecifier(std::string package, std::string shortName);
+  NodeTypeSpecifierFull(std::string package, std::string shortName);
   
-  ~NodeTypeSpecifier();
+  ~NodeTypeSpecifierFull();
   
   std::string getShortName() const override;
   
   std::string getName(IRGenerationContext& context) const override;
-
-  const Node* getType(IRGenerationContext& context) const override;
+  
+  Node* getType(IRGenerationContext& context) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
-};
   
+};
+
 } /* namespace wisey */
 
-#endif /* NodeTypeSpecifier_h */
+#endif /* NodeTypeSpecifierFull_h */

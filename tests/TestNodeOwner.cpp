@@ -71,7 +71,7 @@ struct NodeOwnerTest : public Test {
                                                                 elementInterfaceFullName);
     VariableList elementInterfaceMethodArguments;
     vector<IObjectElementDeclaration*> elementObjectElements;
-    vector<ModelTypeSpecifier*> elementThrownExceptions;
+    vector<IModelTypeSpecifier*> elementThrownExceptions;
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     IObjectElementDeclaration* getElementSignature =
     new MethodSignatureDeclaration(intSpecifier,
@@ -79,7 +79,7 @@ struct NodeOwnerTest : public Test {
                                    elementInterfaceMethodArguments,
                                    elementThrownExceptions);
     elementObjectElements.push_back(getElementSignature);
-    vector<InterfaceTypeSpecifier*> elementParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> elementParentInterfaces;
     mElementInterface = Interface::newInterface(elementInterfaceFullName,
                                                 elementInterfaceStructType,
                                                 elementParentInterfaces,
@@ -92,7 +92,7 @@ struct NodeOwnerTest : public Test {
     StructType::create(mLLVMContext, complicatedElementFullName);
     vector<IObjectElementDeclaration*> complicatedElementObjectElements;
     complicatedElementObjectElements.push_back(getElementSignature);
-    vector<InterfaceTypeSpecifier*> complicatedElementParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> complicatedElementParentInterfaces;
     InterfaceTypeSpecifier* elementInterfaceTypeSpecifier = new InterfaceTypeSpecifier("",
                                                                                        "IElement");
     complicatedElementParentInterfaces.push_back(elementInterfaceTypeSpecifier);
@@ -107,14 +107,14 @@ struct NodeOwnerTest : public Test {
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
     VariableList objectInterfaceMethodArguments;
     vector<IObjectElementDeclaration*> objectElements;
-    vector<ModelTypeSpecifier*> objectThrownExceptions;
+    vector<IModelTypeSpecifier*> objectThrownExceptions;
     IObjectElementDeclaration* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "foo",
                                      objectInterfaceMethodArguments,
                                      objectThrownExceptions);
     objectElements.push_back(methodBarSignature);
-    vector<InterfaceTypeSpecifier*> objectParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     mObjectInterface = Interface::newInterface(objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
@@ -209,7 +209,7 @@ struct NodeOwnerTest : public Test {
     
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
-    vector<InterfaceTypeSpecifier*> vehicleParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> vehicleParentInterfaces;
     vector<IObjectElementDeclaration*> vehicleObjectElements;
     mVehicleInterface = Interface::newInterface(vehicleFullName,
                                                 vehicleInterfaceStructType,

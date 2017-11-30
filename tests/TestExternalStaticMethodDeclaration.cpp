@@ -47,7 +47,7 @@ struct ExternalStaticMethodDeclarationTest : Test {
 TEST_F(ExternalStaticMethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
-  vector<ModelTypeSpecifier*> thrownExceptions;
+  vector<IModelTypeSpecifier*> thrownExceptions;
   PrimitiveTypeSpecifier* floatTypeSpecifier =
   new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   ExternalStaticMethodDeclaration methodDeclaration(floatTypeSpecifier,

@@ -13,10 +13,10 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ExternalNodeDefinition::ExternalNodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
+ExternalNodeDefinition::ExternalNodeDefinition(INodeTypeSpecifier* nodeTypeSpecifier,
                                                vector<IObjectElementDeclaration*>
                                                objectElementDeclarations,
-                                               vector<InterfaceTypeSpecifier*>
+                                               vector<IInterfaceTypeSpecifier*>
                                                interfaceSpecifiers) :
 mNodeTypeSpecifier(nodeTypeSpecifier),
 mObjectElementDeclarations(objectElementDeclarations),
@@ -28,7 +28,7 @@ ExternalNodeDefinition::~ExternalNodeDefinition() {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();
-  for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
+  for (IInterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();

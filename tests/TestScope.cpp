@@ -46,7 +46,7 @@ public:
   mLLVMContext(mContext.getLLVMContext()),
   mReferenceVariable(new NiceMock<MockReferenceVariable>()),
   mOwnerVariable(new NiceMock<MockOwnerVariable>()) {
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,

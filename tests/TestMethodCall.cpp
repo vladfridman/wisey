@@ -205,7 +205,7 @@ TEST_F(MethodCallTest, translateObjectMethodToLLVMFunctionNameTest) {
 TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
   string interfaceFullName = "systems.vos.wisey.compiler.tests.IShape";
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
-  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  vector<IInterfaceTypeSpecifier*> parentInterfaces;
   vector<IObjectElementDeclaration*> interfaceElements;
   Interface* interface = Interface::newInterface(interfaceFullName,
                                                  structType,

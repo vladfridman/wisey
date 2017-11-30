@@ -56,7 +56,7 @@ struct MethodSignatureDeclarationTest : Test {
     string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
     StructType* structType = StructType::create(llvmContext, interfaceFullName);
     structType->setBody(types);
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     mInterface = Interface::newInterface(interfaceFullName,
                                          structType,
@@ -71,7 +71,7 @@ struct MethodSignatureDeclarationTest : Test {
 TEST_F(MethodSignatureDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
-  vector<ModelTypeSpecifier*> thrownExceptions;
+  vector<IModelTypeSpecifier*> thrownExceptions;
   PrimitiveTypeSpecifier* floatTypeSpecifier =
     new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   MethodSignatureDeclaration methodSignatureDeclaration(floatTypeSpecifier,

@@ -52,12 +52,12 @@ struct InterfaceDefinitionTest : public Test {
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ModelTypeSpecifier*> thrownExceptions;
+    vector<IModelTypeSpecifier*> thrownExceptions;
     IObjectElementDeclaration* methodSignatureDeclaration =
       new MethodSignatureDeclaration(floatTypeSpecifier, "foo", methodArguments, thrownExceptions);
     vector<IObjectElementDeclaration *> objectElements;
     objectElements.push_back(methodSignatureDeclaration);
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     
     mInterfaceTypeSpecifier = new InterfaceTypeSpecifier("", "IMyInterface");
     mInterfaceDefinition = new InterfaceDefinition(mInterfaceTypeSpecifier,

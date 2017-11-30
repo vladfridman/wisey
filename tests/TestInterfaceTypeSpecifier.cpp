@@ -35,14 +35,14 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
     structType->setBody(types);
     VariableList methodArguments;
     vector<IObjectElementDeclaration*> objectElements;
-    vector<ModelTypeSpecifier*> methodExceptions;
+    vector<IModelTypeSpecifier*> methodExceptions;
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     IObjectElementDeclaration* methodSignature = new MethodSignatureDeclaration(intSpecifier,
                                                                                 "foo",
                                                                                 methodArguments,
                                                                                 methodExceptions);
     objectElements.push_back(methodSignature);
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     mInterface = Interface::newInterface(interfaceFullName,
                                          structType,
                                          parentInterfaces,

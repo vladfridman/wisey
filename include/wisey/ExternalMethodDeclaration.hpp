@@ -12,10 +12,10 @@
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ExternalMethod.hpp"
 #include "wisey/IMethodDeclaration.hpp"
+#include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
 #include "wisey/Identifier.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
@@ -27,14 +27,14 @@ class ExternalMethodDeclaration : public IMethodDeclaration {
   const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mName;
   VariableList mArguments;
-  std::vector<ModelTypeSpecifier*> mThrownExceptions;
+  std::vector<IModelTypeSpecifier*> mThrownExceptions;
   
 public:
   
   ExternalMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                             std::string name,
                             const VariableList& arguments,
-                            std::vector<ModelTypeSpecifier*> thrownExceptions);
+                            std::vector<IModelTypeSpecifier*> thrownExceptions);
   
   ~ExternalMethodDeclaration();
   

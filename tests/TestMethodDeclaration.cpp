@@ -15,6 +15,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
+#include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -56,7 +57,7 @@ struct MethodDeclarationTest : Test {
 TEST_F(MethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
-  vector<ModelTypeSpecifier*> thrownExceptions;
+  vector<IModelTypeSpecifier*> thrownExceptions;
   MethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                       new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE),
                                       "foo",

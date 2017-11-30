@@ -11,10 +11,10 @@
 
 #include "wisey/Constant.hpp"
 #include "wisey/IConcreteObjectType.hpp"
+#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElement.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/IObjectDefinition.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
 
 namespace wisey {
   
@@ -44,7 +44,7 @@ public:
   static void configureObject(IRGenerationContext& context,
                               IConcreteObjectType* object,
                               std::vector<IObjectElementDeclaration*> elementDeclarations,
-                              std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
+                              std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
   
 private:
 
@@ -54,7 +54,7 @@ private:
                  elementDeclarations);
 
   static std::vector<Interface*> processInterfaces(IRGenerationContext& context,
-                                                   std::vector<InterfaceTypeSpecifier*>
+                                                   std::vector<IInterfaceTypeSpecifier*>
                                                    interfaceSpecifiers);
   
   static void collectFieldTypes(IRGenerationContext& context,

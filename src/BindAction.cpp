@@ -13,9 +13,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-BindAction::BindAction(ControllerTypeSpecifier* controllerTypeSpecifier,
-           InterfaceTypeSpecifier* interfaceTypeSpecifier)
-: mContreollerTypeSpecifier(controllerTypeSpecifier),
+BindAction::BindAction(IControllerTypeSpecifier* controllerTypeSpecifier,
+                       IInterfaceTypeSpecifier* interfaceTypeSpecifier) :
+mContreollerTypeSpecifier(controllerTypeSpecifier),
 mInterfaceTypeSpecifier(interfaceTypeSpecifier) { }
 
 BindAction::~BindAction() {

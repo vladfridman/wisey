@@ -319,6 +319,14 @@
 		F53CDAD01F8BA91700D27687 /* TestThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53CDACF1F8BA91700D27687 /* TestThread.cpp */; };
 		F53CDAD31F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53CDAD21F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp */; };
 		F53CDAD41F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53CDAD21F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp */; };
+		F5436DA51FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5436DA41FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp */; };
+		F5436DA61FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5436DA41FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp */; };
+		F5436DAD1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5436DAC1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp */; };
+		F5436DAE1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5436DAC1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp */; };
+		F5436DB31FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5436DB21FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp */; };
+		F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5436DB21FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp */; };
+		F5436DB61FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5436DB51FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp */; };
+		F5436DB71FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5436DB51FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp */; };
 		F54625BF1DE5EA1900074D66 /* libLLVMX86Disassembler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */; };
 		F54625C11DE5EA2800074D66 /* libLLVMX86AsmParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625C01DE5EA2800074D66 /* libLLVMX86AsmParser.a */; };
 		F54625C31DE5EA2D00074D66 /* libLLVMX86CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625C21DE5EA2D00074D66 /* libLLVMX86CodeGen.a */; };
@@ -1088,6 +1096,18 @@
 		F5404F391E109CBD00A31543 /* test_variable_declaration_assign_to_zero.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration_assign_to_zero.yz; path = tests/samples/test_variable_declaration_assign_to_zero.yz; sourceTree = "<group>"; };
 		F5404F3A1E109CBD00A31543 /* test_variable_declaration.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_variable_declaration.yz; path = tests/samples/test_variable_declaration.yz; sourceTree = "<group>"; };
 		F5404F3B1E109CBD00A31543 /* test_while_statement.yz */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_while_statement.yz; path = tests/samples/test_while_statement.yz; sourceTree = "<group>"; };
+		F5436DA31FCF640F003ABF6F /* ControllerTypeSpecifierFull.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerTypeSpecifierFull.hpp; path = include/wisey/ControllerTypeSpecifierFull.hpp; sourceTree = "<group>"; };
+		F5436DA41FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifierFull.cpp; path = src/ControllerTypeSpecifierFull.cpp; sourceTree = "<group>"; };
+		F5436DA71FCF6643003ABF6F /* InterfaceTypeSpecifierFull.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InterfaceTypeSpecifierFull.hpp; path = include/wisey/InterfaceTypeSpecifierFull.hpp; sourceTree = "<group>"; };
+		F5436DAC1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InterfaceTypeSpecifierFull.cpp; path = src/InterfaceTypeSpecifierFull.cpp; sourceTree = "<group>"; };
+		F5436DAF1FCF7209003ABF6F /* ModelTypeSpecifierFull.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ModelTypeSpecifierFull.hpp; path = include/wisey/ModelTypeSpecifierFull.hpp; sourceTree = "<group>"; };
+		F5436DB11FCF7240003ABF6F /* NodeTypeSpecifierFull.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NodeTypeSpecifierFull.hpp; path = include/wisey/NodeTypeSpecifierFull.hpp; sourceTree = "<group>"; };
+		F5436DB21FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ModelTypeSpecifierFull.cpp; path = src/ModelTypeSpecifierFull.cpp; sourceTree = "<group>"; };
+		F5436DB51FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = NodeTypeSpecifierFull.cpp; path = src/NodeTypeSpecifierFull.cpp; sourceTree = "<group>"; };
+		F5436DB81FCF7D37003ABF6F /* IControllerTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IControllerTypeSpecifier.hpp; path = include/wisey/IControllerTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5436DB91FCF7D4A003ABF6F /* IInterfaceTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IInterfaceTypeSpecifier.hpp; path = include/wisey/IInterfaceTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5436DBA1FCF7D59003ABF6F /* IModelTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IModelTypeSpecifier.hpp; path = include/wisey/IModelTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F5436DBB1FCF7D68003ABF6F /* INodeTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = INodeTypeSpecifier.hpp; path = include/wisey/INodeTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F546258D1DE5E43A00074D66 /* wiseyrun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = wiseyrun; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54625B11DE5E53200074D66 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		F54625BE1DE5EA1800074D66 /* libLLVMX86Disassembler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Disassembler.a; path = /usr/local/lib/libLLVMX86Disassembler.a; sourceTree = "<absolute>"; };
@@ -2116,15 +2136,19 @@
 				F53A2C401F01663A00E76A9E /* IBuildableConcreteObjectType.hpp */,
 				F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */,
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,
+				F5436DB81FCF7D37003ABF6F /* IControllerTypeSpecifier.hpp */,
 				F5089C6F1ECD01D9004A1223 /* IExpression.hpp */,
 				F5A363551F376AE8005880B3 /* IFieldVariable.hpp */,
 				F50EF29B1EDB4599002E68A8 /* IGlobalStatement.hpp */,
 				F5089C721ECD01D9004A1223 /* IHasType.hpp */,
 				F587482D1F921CC60088F1E3 /* IInjectable.hpp */,
+				F5436DB91FCF7D4A003ABF6F /* IInterfaceTypeSpecifier.hpp */,
 				F51D2BA71F68390200510784 /* IMethod.hpp */,
 				F5B3DCE31F91156C00FC76D3 /* IMethodCall.hpp */,
 				F52FBDD51F67B85200339F92 /* IMethodDeclaration.hpp */,
 				F5089C731ECD01D9004A1223 /* IMethodDescriptor.hpp */,
+				F5436DBA1FCF7D59003ABF6F /* IModelTypeSpecifier.hpp */,
+				F5436DBB1FCF7D68003ABF6F /* INodeTypeSpecifier.hpp */,
 				F592A7B61F7D609D0026BD2F /* IObjectDefinition.hpp */,
 				F585C7681F97B73100F0FC5E /* IObjectElement.hpp */,
 				F585C7671F97B68000F0FC5E /* IObjectElementDeclaration.hpp */,
@@ -2205,6 +2229,7 @@
 				F5089C5E1ECD01D9004A1223 /* ControllerDefinition.hpp */,
 				F53A2C021EEC30F700E76A9E /* ControllerOwner.hpp */,
 				F5089C601ECD01D9004A1223 /* ControllerTypeSpecifier.hpp */,
+				F5436DA31FCF640F003ABF6F /* ControllerTypeSpecifierFull.hpp */,
 				F58A834C1F79882700369388 /* ExternalControllerDefinition.hpp */,
 				F53CDAD11F8BC44B00D27687 /* ExternalInterfaceDefinition.hpp */,
 				F58A83501F7989C100369388 /* ExternalModelDefinition.hpp */,
@@ -2217,14 +2242,17 @@
 				F5089C781ECD01D9004A1223 /* InterfaceDefinition.hpp */,
 				F53A2C0A1EEC36F800E76A9E /* InterfaceOwner.hpp */,
 				F5089C7A1ECD01D9004A1223 /* InterfaceTypeSpecifier.hpp */,
+				F5436DA71FCF6643003ABF6F /* InterfaceTypeSpecifierFull.hpp */,
 				F5089C921ECD01D9004A1223 /* Model.hpp */,
 				F5089C951ECD01D9004A1223 /* ModelDefinition.hpp */,
 				F53A2C061EEC343C00E76A9E /* ModelOwner.hpp */,
 				F5089C971ECD01D9004A1223 /* ModelTypeSpecifier.hpp */,
+				F5436DAF1FCF7209003ABF6F /* ModelTypeSpecifierFull.hpp */,
 				F53A2C2A1EFFD4C700E76A9E /* Node.hpp */,
 				F53A2C221EFFCFFD00E76A9E /* NodeDefinition.hpp */,
 				F53A2C2E1EFFD86F00E76A9E /* NodeOwner.hpp */,
 				F53A2C261EFFD3D700E76A9E /* NodeTypeSpecifier.hpp */,
+				F5436DB11FCF7240003ABF6F /* NodeTypeSpecifierFull.hpp */,
 				F5089C931ECD01D9004A1223 /* ObjectBuilder.hpp */,
 				F5089C941ECD01D9004A1223 /* ObjectBuilderArgument.hpp */,
 				F5F2F3751EEAFA110060CF42 /* OwnerTypeSpecifier.hpp */,
@@ -2239,6 +2267,7 @@
 				F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */,
 				F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */,
 				F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */,
+				F5436DA41FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp */,
 				F58A834D1F7988D600369388 /* ExternalControllerDefinition.cpp */,
 				F53CDAD21F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp */,
 				F58A83511F798A6C00369388 /* ExternalModelDefinition.cpp */,
@@ -2250,14 +2279,17 @@
 				F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */,
 				F53A2C0B1EEC37E900E76A9E /* InterfaceOwner.cpp */,
 				F5EEDD9F1E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp */,
+				F5436DAC1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp */,
 				F507D2641E43551900495E2D /* Model.cpp */,
 				F50FA2D01E2D0AD600435EEA /* ModelDefinition.cpp */,
 				F53A2C071EEC34E900E76A9E /* ModelOwner.cpp */,
 				F50FA2D21E2D0AD600435EEA /* ModelTypeSpecifier.cpp */,
+				F5436DB21FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp */,
 				F53A2C2B1EFFD5E800E76A9E /* Node.cpp */,
 				F53A2C231EFFD0BC00E76A9E /* NodeDefinition.cpp */,
 				F53A2C2F1EFFD91200E76A9E /* NodeOwner.cpp */,
 				F53A2C271EFFD42000E76A9E /* NodeTypeSpecifier.cpp */,
+				F5436DB51FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp */,
 				F5F396D61E34BBDD00F34296 /* ObjectBuilder.cpp */,
 				F5F396DA1E34BFE000F34296 /* ObjectBuilderArgument.cpp */,
 				F5F2F3761EEAFAF80060CF42 /* OwnerTypeSpecifier.cpp */,
@@ -2667,6 +2699,7 @@
 				F5FE0A241F7DA00B000621CA /* ExternalStaticMethodDeclaration.cpp in Sources */,
 				F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */,
 				F58B32861E1635850001CC15 /* ContinueStatement.cpp in Sources */,
+				F5436DAE1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp in Sources */,
 				F53A2C3D1F00048C00E76A9E /* TestNodeOwner.cpp in Sources */,
 				F57411701E042607009809FF /* TestIncrementExpression.cpp in Sources */,
 				F50427AD1E4D2747001CB148 /* LocalReferenceVariable.cpp in Sources */,
@@ -2693,6 +2726,7 @@
 				F5ADB62B1E69860F00FFC941 /* TestMethod.cpp in Sources */,
 				F59496FF1F5469900002F14F /* InstanceOf.cpp in Sources */,
 				F51581301E8AAB12009CE419 /* Controller.cpp in Sources */,
+				F5436DA61FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp in Sources */,
 				F531B63F1E089ED6008304F3 /* TestExpressionStatement.cpp in Sources */,
 				F5FE0A201F7D9E7C000621CA /* TestStaticMethodDeclaration.cpp in Sources */,
 				F51D2BB71F6921DB00510784 /* TestStaticMethod.cpp in Sources */,
@@ -2871,6 +2905,7 @@
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
+				F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F56AD4A21E9F66C40020868C /* IObjectType.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
@@ -2891,6 +2926,7 @@
 				F57E2E291E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F531B6391E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp in Sources */,
 				F5CE2D441EF6A4CB002ABB85 /* TestIType.cpp in Sources */,
+				F5436DB71FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2927,6 +2963,7 @@
 				F508E06F1E73076E005D6115 /* Environment.cpp in Sources */,
 				F51581281E89B9A6009CE419 /* ControllerTypeSpecifier.cpp in Sources */,
 				F59D82291E1089E700057FB5 /* BreakStatement.cpp in Sources */,
+				F5436DB31FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
 				F558057B1F96A29D004F62F2 /* ExitStatement.cpp in Sources */,
 				F53A2C041EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */,
 				F58B32851E1635850001CC15 /* ContinueStatement.cpp in Sources */,
@@ -2945,6 +2982,7 @@
 				F59496FE1F5469900002F14F /* InstanceOf.cpp in Sources */,
 				F57411601E01AC98009809FF /* IRGenerationContext.cpp in Sources */,
 				F53A2C491F029BA500E76A9E /* NullExpression.cpp in Sources */,
+				F5436DA51FCF6551003ABF6F /* ControllerTypeSpecifierFull.cpp in Sources */,
 				F5A363411F33C1A8005880B3 /* LocalOwnerVariable.cpp in Sources */,
 				F531B6541E0DDD96008304F3 /* StringLiteral.cpp in Sources */,
 				F5C6FD761E48B50A0054209D /* DoubleType.cpp in Sources */,
@@ -2969,6 +3007,7 @@
 				F5A3634D1F374680005880B3 /* FieldOwnerVariable.cpp in Sources */,
 				F556E6541EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
 				F57780AD1EC7CC7B0049542D /* BindAction.cpp in Sources */,
+				F5436DB61FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
@@ -2996,6 +3035,7 @@
 				F51D2BB41F691C8100510784 /* IMethod.cpp in Sources */,
 				F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */,
 				F53A2C0C1EEC37E900E76A9E /* InterfaceOwner.cpp in Sources */,
+				F5436DAD1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp in Sources */,
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F5E3D64A1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */,
 				F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */,

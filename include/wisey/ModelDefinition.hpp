@@ -11,8 +11,8 @@
 
 #include "wisey/Field.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
+#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
 namespace wisey {
@@ -21,15 +21,15 @@ namespace wisey {
  * Represents model definition which is analogous to an immutable class in C++
  */
 class ModelDefinition : public IConcreteObjectDefinition {
-  ModelTypeSpecifier* mModelTypeSpecifier;
+  IModelTypeSpecifier* mModelTypeSpecifier;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
-  std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
+  std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
-  ModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
+  ModelDefinition(IModelTypeSpecifier* modelTypeSpecifier,
                   std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                  std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
+                  std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
   
   ~ModelDefinition();
 

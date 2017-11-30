@@ -1,33 +1,31 @@
 //
-//  ModelTypeSpecifier.hpp
+//  ModelTypeSpecifierFull.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 1/16/17.
+//  Created by Vladimir Fridman on 11/30/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef ModelTypeSpecifier_h
-#define ModelTypeSpecifier_h
-
-#include <string>
+#ifndef ModelTypeSpecifierFull_h
+#define ModelTypeSpecifierFull_h
 
 #include "wisey/IModelTypeSpecifier.hpp"
 
 namespace wisey {
-
+  
 /**
- * Represents model type specifier
+ * Represents a fully qualified model type specifier
  */
-class ModelTypeSpecifier : public IModelTypeSpecifier {
+class ModelTypeSpecifierFull : public IModelTypeSpecifier {
   const std::string mPackage;
   const std::string mShortName;
-
+  
 public:
   
-  ModelTypeSpecifier(std::string package, std::string shortName);
+  ModelTypeSpecifierFull(std::string package, std::string shortName);
   
-  ~ModelTypeSpecifier();
-
+  ~ModelTypeSpecifierFull();
+  
   std::string getShortName() const override;
   
   std::string getName(IRGenerationContext& context) const override;
@@ -35,9 +33,9 @@ public:
   Model* getType(IRGenerationContext& context) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-
+  
 };
 
 } /* namespace wisey */
 
-#endif /* ModelTypeSpecifier_h */
+#endif /* ModelTypeSpecifierFull_h */

@@ -18,6 +18,7 @@
   #include "wisey/ContinueStatement.hpp"
   #include "wisey/ControllerDefinition.hpp"
   #include "wisey/ControllerTypeSpecifier.hpp"
+  #include "wisey/ControllerTypeSpecifierFull.hpp"
   #include "wisey/DefaultCaseStatement.hpp"
   #include "wisey/DoStatement.hpp"
   #include "wisey/DoubleConstant.hpp"
@@ -45,6 +46,11 @@
   #include "wisey/IntConstant.hpp"
   #include "wisey/InterfaceDefinition.hpp"
   #include "wisey/InterfaceTypeSpecifier.hpp"
+  #include "wisey/InterfaceTypeSpecifierFull.hpp"
+  #include "wisey/IControllerTypeSpecifier.hpp"
+  #include "wisey/IInterfaceTypeSpecifier.hpp"
+  #include "wisey/IModelTypeSpecifier.hpp"
+  #include "wisey/INodeTypeSpecifier.hpp"
   #include "wisey/IObjectElementDeclaration.hpp"
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
@@ -57,9 +63,11 @@
   #include "wisey/MethodSignatureDeclaration.hpp"
   #include "wisey/ModelDefinition.hpp"
   #include "wisey/ModelTypeSpecifier.hpp"
+  #include "wisey/ModelTypeSpecifierFull.hpp"
   #include "wisey/NegateExpression.hpp"
   #include "wisey/NodeDefinition.hpp"
   #include "wisey/NodeTypeSpecifier.hpp"
+  #include "wisey/NodeTypeSpecifierFull.hpp"
   #include "wisey/NullExpression.hpp"
   #include "wisey/ObjectBuilder.hpp"
   #include "wisey/ObjectBuilderArgument.hpp"
@@ -122,11 +130,11 @@
   wisey::VariableDeclaration* variable_declaration;
   wisey::ObjectBuilderArgument* object_builder_argument;
   wisey::ObjectBuilderArgumentList *object_builder_argument_list;
-  wisey::ModelTypeSpecifier* model_type_specifier;
-  wisey::ControllerTypeSpecifier* controller_type_specifier;
-  wisey::InterfaceTypeSpecifier* interface_type_specifier;
+  wisey::IModelTypeSpecifier* model_type_specifier;
+  wisey::IControllerTypeSpecifier* controller_type_specifier;
+  wisey::IInterfaceTypeSpecifier* interface_type_specifier;
   wisey::IObjectElementDeclaration* object_element;
-  wisey::NodeTypeSpecifier* node_type_specifier;
+  wisey::INodeTypeSpecifier* node_type_specifier;
   wisey::AccessLevel access_specifier;
   wisey::MethodSignatureDeclaration* method_signature;
   wisey::Catch* catch_clause;
@@ -137,8 +145,8 @@
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
   std::vector<wisey::IObjectElementDeclaration*>* object_element_list;
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
-  std::vector<wisey::ModelTypeSpecifier*>* model_type_specifier_list;
-  std::vector<wisey::InterfaceTypeSpecifier*>* interface_list;
+  std::vector<wisey::IModelTypeSpecifier*>* model_type_specifier_list;
+  std::vector<wisey::IInterfaceTypeSpecifier*>* interface_list;
   std::vector<std::string>* identifier_list;
   std::string* string;
   int token;
@@ -201,10 +209,11 @@
 %type <object_type_specifier> injectable_object_type_specifier
 %type <object_builder_argument_list> object_builder_argument_list
 %type <object_builder_argument> object_builder_argument
-%type <model_type_specifier> model_type_specifier exception_type_specifier
-%type <controller_type_specifier> controller_type_specifier
-%type <interface_type_specifier> interface_type_specifier
-%type <node_type_specifier> node_type_specifier
+%type <model_type_specifier> model_type_specifier exception_type_specifier 
+%type <model_type_specifier> model_type_specifier_full
+%type <controller_type_specifier> controller_type_specifier controller_type_specifier_full
+%type <interface_type_specifier> interface_type_specifier interface_type_specifier_full
+%type <node_type_specifier> node_type_specifier node_type_specifier_full
 %type <access_specifier> access_specifier
 %type <identifier_list> identifier_chain
 %type <catch_clause> catch_clause
@@ -269,10 +278,10 @@ external_object_definition
   ;
 
 import_statement
-  : TIMPORT interface_type_specifier ';' { $$ = new ImportStatement($2); }
-  | TIMPORT model_type_specifier ';' { $$ = new ImportStatement($2); }
-  | TIMPORT controller_type_specifier ';' { $$ = new ImportStatement($2); }
-  | TIMPORT node_type_specifier ';' { $$ = new ImportStatement($2); }
+  : TIMPORT interface_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  | TIMPORT model_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  | TIMPORT controller_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  | TIMPORT node_type_specifier_full ';' { $$ = new ImportStatement($2); }
   ;
 
 bind_action
@@ -398,18 +407,18 @@ external_method_declaration
   ;
 
 implmeneted_interfaces
-  : /* blank */ { $$ = new std::vector<InterfaceTypeSpecifier*>(); }
+  : /* blank */ { $$ = new std::vector<IInterfaceTypeSpecifier*>(); }
   | TIMPLEMENTS interface_list { $$ = $2; }
   ;
 
 extends_interfaces
-  : /* blank */ { $$ = new std::vector<InterfaceTypeSpecifier*>(); }
+  : /* blank */ { $$ = new std::vector<IInterfaceTypeSpecifier*>(); }
   | TEXTENDS interface_list { $$ = $2; }
   ;
 
 interface_list
   : interface_type_specifier 
-    { $$ = new std::vector<wisey::InterfaceTypeSpecifier*>; $$->push_back($1); }
+    { $$ = new std::vector<wisey::IInterfaceTypeSpecifier*>; $$->push_back($1); }
   | interface_list ',' interface_type_specifier { $$ = $1; $$->push_back($3); }
   ;
 
@@ -626,12 +635,12 @@ method_definition
   ;
 
 method_exceptions
-  : /* blank */ { $$ = new std::vector<ModelTypeSpecifier*>(); }
+  : /* blank */ { $$ = new std::vector<IModelTypeSpecifier*>(); }
   | TTHROWS exception_type_specifier_list { $$ = $2; }
   ;
 
 exception_type_specifier_list
-  : exception_type_specifier { $$ = new std::vector<ModelTypeSpecifier*>(); $$->push_back($1); }
+  : exception_type_specifier { $$ = new std::vector<IModelTypeSpecifier*>(); $$->push_back($1); }
   | exception_type_specifier_list ',' exception_type_specifier { $1->push_back($3); }
   ;
 
@@ -880,29 +889,45 @@ primitive_type_specifier
 model_type_specifier
   : TMODELIDENTIFIER
     { $$ = new ModelTypeSpecifier("", *$1); delete $1; }
-  | identifier_chain '.' TMODELIDENTIFIER 
-    { $$ = new ModelTypeSpecifier(getPackageName(*$1), *$3); delete $1; delete $3; }
+  | model_type_specifier_full
+  ;
+
+model_type_specifier_full
+  : identifier_chain '.' TMODELIDENTIFIER 
+    { $$ = new ModelTypeSpecifierFull(getPackageName(*$1), *$3); delete $1; delete $3; }
   ;
 
 controller_type_specifier
   : TCONTROLLERIDENTIFIER 
     { $$ = new ControllerTypeSpecifier("", *$1); delete $1; }
-  | identifier_chain '.' TCONTROLLERIDENTIFIER 
-      { $$ = new ControllerTypeSpecifier(getPackageName(*$1), *$3); delete $1; delete $3; }
+  | controller_type_specifier_full
+  ;
+
+controller_type_specifier_full
+  : identifier_chain '.' TCONTROLLERIDENTIFIER 
+    { $$ = new ControllerTypeSpecifierFull(getPackageName(*$1), *$3); delete $1; delete $3; }
   ;
 
 interface_type_specifier
   : TINTERFACEIDENTIFIER 
     { $$ = new InterfaceTypeSpecifier("", *$1); delete $1; }
-  | identifier_chain '.' TINTERFACEIDENTIFIER 
-      { $$ = new InterfaceTypeSpecifier(getPackageName(*$1), *$3); delete $1; delete $3; }
+  | interface_type_specifier_full
+  ;
+
+interface_type_specifier_full
+  : identifier_chain '.' TINTERFACEIDENTIFIER 
+    { $$ = new InterfaceTypeSpecifierFull(getPackageName(*$1), *$3); delete $1; delete $3; }
   ;
 
 node_type_specifier
   : TNODEIDENTIFIER
     { $$ = new NodeTypeSpecifier("", *$1); delete $1; }
-  | identifier_chain '.' TNODEIDENTIFIER 
-    { $$ = new NodeTypeSpecifier(getPackageName(*$1), *$3); delete $1; delete $3; }
+  | node_type_specifier_full
+  ;
+
+node_type_specifier_full
+  : identifier_chain '.' TNODEIDENTIFIER 
+    { $$ = new NodeTypeSpecifierFull(getPackageName(*$1), *$3); delete $1; delete $3; }
   ;
 
 exception_type_specifier

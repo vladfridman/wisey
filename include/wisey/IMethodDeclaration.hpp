@@ -11,9 +11,9 @@
 
 #include "wisey/IMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/MethodArgument.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
@@ -42,7 +42,7 @@ public:
    * Helper function for creating exception type list for different types of methods
    */
   static std::vector<const Model*> createExceptionList(IRGenerationContext& context,
-                                                       std::vector<ModelTypeSpecifier*>
+                                                       std::vector<IModelTypeSpecifier*>
                                                        thrownExceptions);
 
 };

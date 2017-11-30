@@ -18,7 +18,7 @@ ExternalStaticMethodDeclaration::
 ExternalStaticMethodDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                                 string name,
                                 const VariableList& arguments,
-                                vector<ModelTypeSpecifier*> thrownExceptions) :
+                                vector<IModelTypeSpecifier*> thrownExceptions) :
 mReturnTypeSpecifier(returnTypeSpecifier),
 mName(name),
 mArguments(arguments),

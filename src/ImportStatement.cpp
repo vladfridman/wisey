@@ -13,7 +13,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ImportStatement::ImportStatement(ITypeSpecifier* typeSpecifier) : mTypeSpecifier(typeSpecifier) { }
+ImportStatement::ImportStatement(IObjectTypeSpecifier* typeSpecifier) :
+mTypeSpecifier(typeSpecifier) { }
 
 ImportStatement::~ImportStatement() {
   delete mTypeSpecifier;

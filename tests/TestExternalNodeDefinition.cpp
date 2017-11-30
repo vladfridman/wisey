@@ -48,7 +48,7 @@ struct ExternalNodeDefinitionTest : public Test {
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ModelTypeSpecifier*> thrownExceptions;
+    vector<IModelTypeSpecifier*> thrownExceptions;
     mMethodDeclaration = new ExternalMethodDeclaration(floatTypeSpecifier,
                                                        "foo",
                                                        methodArguments,
@@ -69,7 +69,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   ExternalNodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
@@ -92,7 +92,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   ExternalNodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   

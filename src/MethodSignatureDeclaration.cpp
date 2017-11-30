@@ -19,7 +19,7 @@ MethodSignatureDeclaration::
 MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                            string methodName,
                            const VariableList& arguments,
-                           vector<ModelTypeSpecifier*> thrownExceptions) :
+                           vector<IModelTypeSpecifier*> thrownExceptions) :
 mReturnTypeSpecifier(returnTypeSpecifier),
 mMethodName(methodName),
 mArguments(arguments),

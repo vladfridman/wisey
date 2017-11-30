@@ -17,9 +17,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ExternalInterfaceDefinition::ExternalInterfaceDefinition(InterfaceTypeSpecifier*
+ExternalInterfaceDefinition::ExternalInterfaceDefinition(IInterfaceTypeSpecifier*
                                                          interfaceTypeSpecifier,
-                                                         vector<InterfaceTypeSpecifier*>
+                                                         vector<IInterfaceTypeSpecifier*>
                                                          parentInterfaceSpecifiers,
                                                          vector<IObjectElementDeclaration *>
                                                          elementDeclarations) :
@@ -29,7 +29,7 @@ mElementDeclarations(elementDeclarations) { }
 
 ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
   delete mInterfaceTypeSpecifier;
-  for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mParentInterfaceSpecifiers) {
+  for (IInterfaceTypeSpecifier* interfaceTypeSpecifier : mParentInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
   mParentInterfaceSpecifiers.clear();

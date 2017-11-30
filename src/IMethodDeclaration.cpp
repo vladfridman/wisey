@@ -30,10 +30,10 @@ vector<MethodArgument*> IMethodDeclaration::createArgumnetList(IRGenerationConte
 }
 
 vector<const Model*> IMethodDeclaration::createExceptionList(IRGenerationContext& context,
-                                                             vector<ModelTypeSpecifier*> 
+                                                             vector<IModelTypeSpecifier*>
                                                              thrownExceptions) {
   vector<const Model*> exceptions;
-  for (ModelTypeSpecifier* typeSpecifier : thrownExceptions) {
+  for (IModelTypeSpecifier* typeSpecifier : thrownExceptions) {
     exceptions.push_back(typeSpecifier->getType(context));
   }
   

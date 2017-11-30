@@ -119,7 +119,7 @@ struct ModelTest : public Test {
     StructType* subShapeIinterfaceStructType = StructType::create(mLLVMContext, subShapeFullName);
     VariableList subShapeInterfaceMethodArguments;
     vector<IObjectElementDeclaration*> subShapeInterfaceElements;
-    vector<ModelTypeSpecifier*> subShapeInterfaceThrownExceptions;
+    vector<IModelTypeSpecifier*> subShapeInterfaceThrownExceptions;
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     IObjectElementDeclaration* methodFooSignature =
       new MethodSignatureDeclaration(intSpecifier,
@@ -127,7 +127,7 @@ struct ModelTest : public Test {
                                      subShapeInterfaceMethodArguments,
                                      subShapeInterfaceThrownExceptions);
     subShapeInterfaceElements.push_back(methodFooSignature);
-    vector<InterfaceTypeSpecifier*> subShapeParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
     mSubShapeInterface = Interface::newInterface(subShapeFullName,
                                                  subShapeIinterfaceStructType,
                                                  subShapeParentInterfaces,
@@ -139,7 +139,7 @@ struct ModelTest : public Test {
     StructType* shapeIinterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
     VariableList shapeInterfaceMethodArguments;
     vector<IObjectElementDeclaration*> shapeInterfaceElements;
-    vector<ModelTypeSpecifier*> shapeInterfaceThrownExceptions;
+    vector<IModelTypeSpecifier*> shapeInterfaceThrownExceptions;
     methodFooSignature = new MethodSignatureDeclaration(intSpecifier,
                                                         "foo",
                                                         shapeInterfaceMethodArguments,
@@ -147,7 +147,7 @@ struct ModelTest : public Test {
     shapeInterfaceElements.push_back(methodFooSignature);
     InterfaceTypeSpecifier* subShapeInterfaceSpecifier =
       new InterfaceTypeSpecifier("", "ISubShape");
-    vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(subShapeInterfaceSpecifier);
     mShapeInterface = Interface::newInterface(shapeFullName,
                                               shapeIinterfaceStructType,
@@ -160,14 +160,14 @@ struct ModelTest : public Test {
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
     VariableList objectInterfaceMethodArguments;
     vector<IObjectElementDeclaration*> objectInterfaceElements;
-    vector<ModelTypeSpecifier*> objectInterfaceThrownExceptions;
+    vector<IModelTypeSpecifier*> objectInterfaceThrownExceptions;
     IObjectElementDeclaration* methodBarSignature =
       new MethodSignatureDeclaration(intSpecifier,
                                      "bar",
                                      objectInterfaceMethodArguments,
                                      objectInterfaceThrownExceptions);
     objectInterfaceElements.push_back(methodBarSignature);
-    vector<InterfaceTypeSpecifier*> objectParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     mObjectInterface = Interface::newInterface(objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
@@ -177,7 +177,7 @@ struct ModelTest : public Test {
 
     string carFullName = "systems.vos.wisey.compiler.tests.ICar";
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
-    vector<InterfaceTypeSpecifier*> carParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> carParentInterfaces;
     vector<IObjectElementDeclaration*> carInterfaceElements;
     mCarInterface = Interface::newInterface(carFullName,
                                             carInterfaceStructType,

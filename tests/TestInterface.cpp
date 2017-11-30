@@ -71,7 +71,7 @@ struct InterfaceTest : public Test {
     programPrefix.generateIR(mContext);
 
     mContext.setPackage("systems.vos.wisey.compiler.tests");
-    vector<ModelTypeSpecifier*> exceptions;
+    vector<IModelTypeSpecifier*> exceptions;
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
@@ -81,7 +81,7 @@ struct InterfaceTest : public Test {
     mBarMethod = new MethodSignatureDeclaration(intSpecifier, "bar", methodArguments, exceptions);
     vector<IObjectElementDeclaration*> objectElementDeclarations;
     objectElementDeclarations.push_back(mBarMethod);
-    vector<InterfaceTypeSpecifier*> objectParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     vector<MethodSignatureDeclaration*> methodDeclarations;
     mObjectInterface = Interface::newInterface(objectFullName,
                                                objectStructType,
@@ -106,7 +106,7 @@ struct InterfaceTest : public Test {
     shapeElements.push_back(mConstantDeclaration);
     shapeElements.push_back(mFooMethod);
 
-    vector<InterfaceTypeSpecifier*> shapeParentInterfaces;
+    vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterfaceSpecifier);
     mShapeInterface = Interface::newInterface(shapeFullName,
                                               mShapeStructType,
@@ -316,7 +316,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   StructType* structType = StructType::create(mLLVMContext, name);
   vector<IObjectElementDeclaration*> elements;
   elements.push_back(fieldDeclaration);
-  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  vector<IInterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
@@ -330,7 +330,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
 
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableList arguments;
-  vector<ModelTypeSpecifier*> thrownExceptions;
+  vector<IModelTypeSpecifier*> thrownExceptions;
   Block* block = new Block();
   CompoundStatement* compoundStatement = new CompoundStatement(block, 0);
   MethodDeclaration* methodDeclaration =
@@ -346,7 +346,7 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   StructType* structType = StructType::create(mLLVMContext, name);
   vector<IObjectElementDeclaration*> elements;
   elements.push_back(methodDeclaration);
-  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  vector<IInterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
@@ -363,7 +363,7 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
   vector<IObjectElementDeclaration*> elements;
   elements.push_back(mBarMethod);
   elements.push_back(mConstantDeclaration);
-  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  vector<IInterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
   
   EXPECT_EXIT(interface->buildMethods(mContext),

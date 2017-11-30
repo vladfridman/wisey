@@ -36,7 +36,7 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
 void TestPrefix::defineModel(IRGenerationContext& context,
                              string modelName,
                              vector<IObjectElementDeclaration*> modelElements) {
-  vector<InterfaceTypeSpecifier*> modelParentInterfaces;
+  vector<IInterfaceTypeSpecifier*> modelParentInterfaces;
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(Names::getLangPackageName(),
                                                                   modelName);
   ModelDefinition modelDefinition(modelTypeSpecifier, modelElements, modelParentInterfaces);
@@ -50,11 +50,11 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   ControllerTypeSpecifier* controllerTypeSpecifier =
     new ControllerTypeSpecifier(Names::getLangPackageName(), Names::getThreadControllerName());
   vector<IObjectElementDeclaration*> elementDeclarations;
-  vector<InterfaceTypeSpecifier*> interfaceSpecifiers;
+  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   
   PrimitiveTypeSpecifier* stringTypeSpecifier;
   VariableList arguments;
-  vector<ModelTypeSpecifier*> exceptions;
+  vector<IModelTypeSpecifier*> exceptions;
   stringTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
   VariableDeclaration* declaration;
   declaration = VariableDeclaration::create(stringTypeSpecifier, new Identifier("objectName"), 0);

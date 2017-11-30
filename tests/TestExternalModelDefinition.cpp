@@ -47,7 +47,7 @@ struct ExternalModelDefinitionTest : public Test {
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ModelTypeSpecifier*> thrownExceptions;
+    vector<IModelTypeSpecifier*> thrownExceptions;
     mMethodDeclaration = new ExternalMethodDeclaration(floatTypeSpecifier,
                                                        "foo",
                                                        methodArguments,
@@ -65,7 +65,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ExternalModelDefinition modelDefinition(typeSpecifier, mElementDeclarations, interfaces);
   
@@ -88,7 +88,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   mElementDeclarations.push_back(field2);
   mElementDeclarations.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifier* typeSpecifier = new ModelTypeSpecifier("", "MMyModel");
   ExternalModelDefinition modelDefinition(typeSpecifier, mElementDeclarations, interfaces);
 

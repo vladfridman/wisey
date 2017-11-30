@@ -19,9 +19,11 @@
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
+#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/NodeDefinition.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -66,7 +68,7 @@ struct NodeDefinitionTest : public Test {
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ModelTypeSpecifier*> thrownExceptions;
+    vector<IModelTypeSpecifier*> thrownExceptions;
     mMethodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                                floatTypeSpecifier,
                                                "foo",
@@ -90,7 +92,7 @@ TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
@@ -113,7 +115,7 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
@@ -135,7 +137,7 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   
@@ -163,7 +165,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IObjectElementDeclaration*> interfaceElements;
   VariableList methodArguments;
-  vector<ModelTypeSpecifier*> methodThrownExceptions;
+  vector<IModelTypeSpecifier*> methodThrownExceptions;
   methodThrownExceptions.push_back(new ModelTypeSpecifier(Names::getLangPackageName(),
                                                           Names::getNPEModelName()));
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
@@ -177,7 +179,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                    methodArguments,
                                    methodThrownExceptions);
   interfaceElements.push_back(methodSignature);
-  vector<InterfaceTypeSpecifier*> parentInterfaces;
+  vector<IInterfaceTypeSpecifier*> parentInterfaces;
   Interface* interface = Interface::newInterface(interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
@@ -193,7 +195,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      stringConstant,
                      interface->getObjectNameGlobalVariableName());
   
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   interfaces.push_back(new InterfaceTypeSpecifier("", "IMyInterface"));
 
   mObjectElements.push_back(mMethodDeclaration);
@@ -222,7 +224,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
 }
 
 TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   string package = "systems.vos.wisey.compiler.tests";
   interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
   
@@ -247,7 +249,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   mObjectElements.push_back(field2);
   mObjectElements.push_back(mMethodDeclaration);
 
-  vector<InterfaceTypeSpecifier*> interfaces;
+  vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifier* typeSpecifier = new NodeTypeSpecifier("", "NMyNode");
   NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
   nodeDefinition.prototypeObjects(mContext);

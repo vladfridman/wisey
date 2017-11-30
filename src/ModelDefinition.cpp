@@ -18,9 +18,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelDefinition::ModelDefinition(ModelTypeSpecifier* modelTypeSpecifier,
+ModelDefinition::ModelDefinition(IModelTypeSpecifier* modelTypeSpecifier,
                                  vector<IObjectElementDeclaration*> objectElementDeclarations,
-                                 vector<InterfaceTypeSpecifier*> interfaceSpecifiers) :
+                                 vector<IInterfaceTypeSpecifier*> interfaceSpecifiers) :
 mModelTypeSpecifier(modelTypeSpecifier),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers) { }
@@ -31,7 +31,7 @@ ModelDefinition::~ModelDefinition() {
     delete objectElementDeclaration;
   }
   mObjectElementDeclarations.clear();
-  for (InterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
+  for (IInterfaceTypeSpecifier* interfaceTypeSpecifier : mInterfaceSpecifiers) {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();

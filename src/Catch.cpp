@@ -19,7 +19,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Catch::Catch(ModelTypeSpecifier* modelTypeSpecifier,
+Catch::Catch(IModelTypeSpecifier* modelTypeSpecifier,
              string identifier,
              CompoundStatement* compoundStatement,
              int line) :

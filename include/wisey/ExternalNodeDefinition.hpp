@@ -10,8 +10,8 @@
 #define ExternalNodeDefinition_h
 
 #include "wisey/IConcreteObjectDefinition.hpp"
+#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
 
 namespace wisey {
@@ -20,15 +20,15 @@ namespace wisey {
  * Represents node definition implemented in a shared library
  */
 class ExternalNodeDefinition : public IConcreteObjectDefinition {
-  NodeTypeSpecifier* mNodeTypeSpecifier;
+  INodeTypeSpecifier* mNodeTypeSpecifier;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
-  std::vector<InterfaceTypeSpecifier*> mInterfaceSpecifiers;
+  std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
   
 public:
   
-  ExternalNodeDefinition(NodeTypeSpecifier* nodeTypeSpecifier,
+  ExternalNodeDefinition(INodeTypeSpecifier* nodeTypeSpecifier,
                          std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                         std::vector<InterfaceTypeSpecifier*> interfaceSpecifiers);
+                         std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
   
   ~ExternalNodeDefinition();
   

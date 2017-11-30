@@ -14,7 +14,7 @@
 #include "wisey/Identifier.hpp"
 #include "wisey/IStatement.hpp"
 #include "wisey/ITypeSpecifier.hpp"
-#include "wisey/ModelTypeSpecifier.hpp"
+#include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/VariableDeclaration.hpp"
 
 namespace wisey {
@@ -26,14 +26,14 @@ class MethodSignatureDeclaration : public IObjectElementDeclaration {
   const ITypeSpecifier* mReturnTypeSpecifier;
   std::string mMethodName;
   VariableList mArguments;
-  std::vector<ModelTypeSpecifier*> mThrownExceptions;
+  std::vector<IModelTypeSpecifier*> mThrownExceptions;
   
 public:
   
   MethodSignatureDeclaration(const ITypeSpecifier* returnTypeSpecifier,
                              std::string methodName,
                              const VariableList& arguments,
-                             std::vector<ModelTypeSpecifier*> thrownExceptions);
+                             std::vector<IModelTypeSpecifier*> thrownExceptions);
   
   ~MethodSignatureDeclaration();
   

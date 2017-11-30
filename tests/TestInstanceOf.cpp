@@ -14,6 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/InstanceOf.hpp"
+#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -36,7 +37,7 @@ struct InstanceOfTest : public Test {
   InstanceOfTest() : mLLVMContext(mContext.getLLVMContext()) {
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     StructType* shapeStructType = StructType::create(mLLVMContext, shapeFullName);
-    vector<InterfaceTypeSpecifier*> parentInterfaces;
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
     mShapeInterface = Interface::newInterface(shapeFullName,
                                               shapeStructType,

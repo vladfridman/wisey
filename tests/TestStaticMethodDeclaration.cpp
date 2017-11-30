@@ -56,7 +56,7 @@ struct StaticMethodDeclarationTest : Test {
 TEST_F(StaticMethodDeclarationTest, methodDescriptorExtractTest) {
   mArguments.push_back(mIntArgument);
   mArguments.push_back(mFloatArgument);
-  vector<ModelTypeSpecifier*> thrownExceptions;
+  vector<IModelTypeSpecifier*> thrownExceptions;
   StaticMethodDeclaration methodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                             new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE),
                                             "foo",

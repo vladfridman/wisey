@@ -22,7 +22,7 @@ StaticMethodDeclaration(const AccessLevel AccessLevel,
                         const ITypeSpecifier* returnTypeSpecifier,
                         string name,
                         VariableList arguments,
-                        vector<ModelTypeSpecifier*> exceptions,
+                        vector<IModelTypeSpecifier*> exceptions,
                         CompoundStatement* compoundStatement,
                         int line) :
 mAccessLevel(AccessLevel),

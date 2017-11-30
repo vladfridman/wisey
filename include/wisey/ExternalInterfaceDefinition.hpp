@@ -11,8 +11,8 @@
 
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
+#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
-#include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 
 namespace wisey {
@@ -21,14 +21,14 @@ namespace wisey {
  * Represents interface definition defined in a shared library
  */
 class ExternalInterfaceDefinition : public IConcreteObjectDefinition {
-  InterfaceTypeSpecifier* mInterfaceTypeSpecifier;
-  std::vector<InterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
+  IInterfaceTypeSpecifier* mInterfaceTypeSpecifier;
+  std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<IObjectElementDeclaration*> mElementDeclarations;
 
 public:
   
-  ExternalInterfaceDefinition(InterfaceTypeSpecifier* interfaceTypeSpecifier,
-                              std::vector<InterfaceTypeSpecifier*> parentInterfaceSpecifiers,
+  ExternalInterfaceDefinition(IInterfaceTypeSpecifier* interfaceTypeSpecifier,
+                              std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                               std::vector<IObjectElementDeclaration*> elementDeclarations);
   
   ~ExternalInterfaceDefinition();

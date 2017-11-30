@@ -23,6 +23,7 @@
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
+#include "wisey/IModelTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -46,7 +47,7 @@ struct ControllerDefinitionTest : public Test {
   LLVMContext& mLLVMContext;
   NiceMock<MockStatement>* mMockStatement;
   vector<IObjectElementDeclaration*> mElementDeclarations;
-  vector<InterfaceTypeSpecifier*> mInterfaces;
+  vector<IInterfaceTypeSpecifier*> mInterfaces;
   
   ControllerDefinitionTest() :
   mLLVMContext(mContext.getLLVMContext()),
@@ -72,7 +73,7 @@ struct ControllerDefinitionTest : public Test {
     VariableDeclaration::create(intTypeSpecifier, intArgumentIdentifier, 0);
     VariableList methodArguments;
     methodArguments.push_back(intArgument);
-    vector<ModelTypeSpecifier*> thrownExceptions;
+    vector<IModelTypeSpecifier*> thrownExceptions;
     methodDeclaration = new MethodDeclaration(AccessLevel::PUBLIC_ACCESS,
                                               floatTypeSpecifier,
                                               "foo",
