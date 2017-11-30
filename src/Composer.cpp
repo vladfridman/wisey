@@ -37,12 +37,12 @@ void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value, 
 
 void Composer::pushCallStack(IRGenerationContext& context, int line) {
   const IObjectType* objectType = context.getObjectType();
-  if (objectType != NULL && !objectType->getName().find(Names::getLangPackageName())) {
+  if (objectType == NULL || !objectType->getName().find(Names::getLangPackageName())) {
     // avoid inifinite recursion in wisey.lang.CThread
     return;
   }
 
-  Value* sourceFileNamePointer = context.getSourceFileNamePointer();
+  Value* sourceFileNamePointer = objectType->getImportProfile()->getSourceFileNamePointer();
   if (sourceFileNamePointer == NULL) {
     return;
   }
@@ -72,12 +72,12 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
 
 void Composer::popCallStack(IRGenerationContext& context) {
   const IObjectType* objectType = context.getObjectType();
-  if (objectType != NULL && !objectType->getName().find(Names::getLangPackageName())) {
+  if (objectType == NULL || !objectType->getName().find(Names::getLangPackageName())) {
     // avoid inifinite recursion in wisey.lang.CThread
     return;
   }
 
-  Value* sourceFileNamePointer = context.getSourceFileNamePointer();
+  Value* sourceFileNamePointer = objectType->getImportProfile()->getSourceFileNamePointer();
   if (sourceFileNamePointer == NULL) {
     return;
   }

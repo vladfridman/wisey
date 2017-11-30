@@ -56,7 +56,11 @@ public:
    * Returns the name of the constant containing the given source file name
    */
   static std::string getSourceFileConstantName(std::string sourceFile);
+
+private:
   
+  llvm::Value* defineSourceFileConstant(IRGenerationContext& context, std::string sourceFile) const;
+
 };
 
 } /* namespace wisey */

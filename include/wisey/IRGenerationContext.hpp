@@ -49,7 +49,6 @@ class IRGenerationContext : public IPrintable {
   std::map<Interface*, Controller*> mBindings;
   ImportProfile* mImportProfile;
   std::string mPackage;
-  llvm::Value* mSourceFileConstantPointer;
   Scopes mScopes;
   bool mIsDestructorDebugOn;
   std::vector<std::tuple<ComposingFunction0Objects, llvm::Function*>> mComposingCallbacks0Objects;
@@ -149,16 +148,6 @@ public:
    * Tells whether there is a controller bound to the given interface
    */
   bool hasBoundController(Interface* interface);
-  
-  /**
-   * Sets the current source file being processed
-   */
-  void setSourceFileNamePointer(llvm::Value* sourceFileConstantPointer);
-  
-  /**
-   * Returns the current source file being processed
-   */
-  llvm::Value* getSourceFileNamePointer() const;
   
   /**
    * Sets current import profile that keeps track of all imports

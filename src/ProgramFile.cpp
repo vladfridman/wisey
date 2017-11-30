@@ -6,6 +6,8 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ProgramFile.hpp"
 
@@ -29,7 +31,7 @@ ProgramFile::~ProgramFile() {
 void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
   context.setImportProfile(mImportProfile);
   
- for (IGlobalStatement* statement : mGlobalStatementList) {
+  for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->prototypeObjects(context);
   }
 }
@@ -44,6 +46,7 @@ void ProgramFile::prototypeMethods(IRGenerationContext& context) const {
 
 Value* ProgramFile::generateIR(IRGenerationContext& context) const {
   context.setImportProfile(mImportProfile);
+  mImportProfile->setSourceFileNamePointer(defineSourceFileConstant(context, mSourceFile));
 
   for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->generateIR(context);
@@ -62,4 +65,25 @@ string ProgramFile::getSourceFile() const {
 
 string ProgramFile::getSourceFileConstantName(string sourceFile) {
   return "sourcefile." + sourceFile;
+}
+
+Value* ProgramFile::defineSourceFileConstant(IRGenerationContext& context,
+                                             string sourceFile) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, sourceFile);
+  GlobalVariable* global = new GlobalVariable(*context.getModule(),
+                                              stringConstant->getType(),
+                                              true,
+                                              GlobalValue::InternalLinkage,
+                                              stringConstant,
+                                              ProgramFile::getSourceFileConstantName(sourceFile));
+  
+  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
+  Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  Type* elementType = global->getType()->getPointerElementType();
+  
+  return ConstantExpr::getGetElementPtr(elementType, global, Idx);
 }

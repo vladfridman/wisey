@@ -21,6 +21,7 @@ class IObjectType;
 class ImportProfile {
   std::string mPackage;
   std::map<std::string, std::string> mImports;
+  llvm::Value* mSourceFileConstantPointer;
 
 public:
   
@@ -38,6 +39,16 @@ public:
    */
   std::string getFullName(std::string shortName) const;
   
+  /**
+   * Sets the current source file being processed
+   */
+  void setSourceFileNamePointer(llvm::Value* sourceFileConstantPointer);
+  
+  /**
+   * Returns the current source file being processed
+   */
+  llvm::Value* getSourceFileNamePointer() const;
+
 };
   
 } /* namespace wisey */

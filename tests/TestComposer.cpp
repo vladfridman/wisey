@@ -45,6 +45,8 @@ struct ComposerTest : public Test {
   string mMethodName;
   Controller* mThreadController;
   NiceMock<MockReferenceVariable>* mThreadVariable;
+  ImportProfile* mImportProfile;
+  string mPackage = "systems.vos.wisey.compiler.tests";
 
 public:
   
@@ -52,10 +54,14 @@ public:
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     TestPrefix::generateIR(mContext);
+    
+    mImportProfile = new ImportProfile(mPackage);
+    mContext.setImportProfile(mImportProfile);
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
     mModel = Model::newModel(modelFullName, modelStructType);
+    mModel->setImportProfile(mImportProfile);
 
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -80,7 +86,8 @@ public:
     Idx[0] = zeroInt32;
     Idx[1] = zeroInt32;
     Type* elementType = global->getType()->getPointerElementType();
-    mContext.setSourceFileNamePointer(ConstantExpr::getGetElementPtr(elementType, global, Idx));
+    mContext.getImportProfile()->
+    setSourceFileNamePointer(ConstantExpr::getGetElementPtr(elementType, global, Idx));
 
     stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getName());
     new GlobalVariable(*mContext.getModule(),
@@ -108,6 +115,7 @@ public:
     ON_CALL(*mThreadVariable, generateIdentifierIR(_)).WillByDefault(Return(threadObject));
     mContext.getScopes().pushScope();
     mContext.getScopes().setVariable(mThreadVariable);
+    mContext.setObjectType(mModel);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
 }

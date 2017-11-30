@@ -27,7 +27,6 @@ IRGenerationContext::IRGenerationContext() :
 mMainFunction(NULL),
 mBasicBlock(NULL),
 mImportProfile(NULL),
-mSourceFileConstantPointer(NULL),
 mIsDestructorDebugOn(false),
 mObjectType(NULL) {
   mModuleOwner = llvm::make_unique<llvm::Module>("wisey", mLLVMContext);
@@ -301,14 +300,6 @@ void IRGenerationContext::turnDestructorDebugOn() {
 
 bool IRGenerationContext::isDestructorDebugOn() const {
   return mIsDestructorDebugOn;
-}
-
-void IRGenerationContext::setSourceFileNamePointer(Value* sourceFileConstantPointer) {
-  mSourceFileConstantPointer = sourceFileConstantPointer;
-}
-
-Value* IRGenerationContext::getSourceFileNamePointer() const {
-  return mSourceFileConstantPointer;
 }
 
 void IRGenerationContext::addComposingCallback0Objects(ComposingFunction0Objects callback,

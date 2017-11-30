@@ -10,10 +10,11 @@
 #include "wisey/ImportProfile.hpp"
 #include "wisey/Log.hpp"
 
+using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ImportProfile::ImportProfile(string package) : mPackage(package) {
+ImportProfile::ImportProfile(string package) : mPackage(package), mSourceFileConstantPointer(NULL) {
 }
 
 ImportProfile::~ImportProfile() {
@@ -33,5 +34,13 @@ string ImportProfile::getFullName(string shortName) const {
   
   Log::e("Could not identify packge for object " + shortName);
   exit(1);
+}
+
+void ImportProfile::setSourceFileNamePointer(Value* sourceFileConstantPointer) {
+  mSourceFileConstantPointer = sourceFileConstantPointer;
+}
+
+Value* ImportProfile::getSourceFileNamePointer() const {
+  return mSourceFileConstantPointer;
 }
 

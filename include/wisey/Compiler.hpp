@@ -61,8 +61,6 @@ private:
   
   void deleteProgramFiles(std::vector<ProgramFile*> programFiles);
   
-  llvm::Value* defineSourceFileConstant(std::string sourceFile);
-  
 };
   
 } /* namespace wisey */
