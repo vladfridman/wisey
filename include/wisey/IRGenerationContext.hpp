@@ -171,11 +171,6 @@ public:
   ImportProfile* getImportProfile() const;
   
   /**
-   * Clears the imports map and adds default imports
-   */
-  void clearAndAddDefaultImports();
-  
-  /**
    * Return Scopes controller
    */
   Scopes& getScopes();

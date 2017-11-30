@@ -183,7 +183,6 @@ void Compiler::prototypeMethods(vector<ProgramFile*> programFiles, IRGenerationC
 
 void Compiler::generateIR(vector<ProgramFile*> programFiles, IRGenerationContext& context) {
   for (ProgramFile* programFile : programFiles) {
-    context.clearAndAddDefaultImports();
     Value* sourceFileNamePointer = defineSourceFileConstant(programFile->getSourceFile());
     context.setSourceFileNamePointer(sourceFileNamePointer);
     programFile->generateIR(context);

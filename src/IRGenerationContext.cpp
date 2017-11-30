@@ -203,12 +203,6 @@ ImportProfile* IRGenerationContext::getImportProfile() const {
   return mImportProfile;
 }
 
-void IRGenerationContext::clearAndAddDefaultImports() {
-  mImportProfile->addImport(Names::getNPEModelName(), Names::getNPEModelFullName());
-  mImportProfile->addImport(Names::getDestroyedObjectStillInUseName(),
-                            Names::getDestroyedObjectStillInUseFullName());
-}
-
 Scopes& IRGenerationContext::getScopes() {
   return mScopes;
 }
