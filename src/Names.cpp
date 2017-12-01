@@ -15,8 +15,8 @@ string Names::getNPEModelName() {
   return "MNullPointerException";
 }
 
-string Names::getDestroyedObjectStillInUseName() {
-  return "MDestroyedObjectStillInUseException";
+string Names::getReferenceCountExceptionName() {
+  return "MReferenceCountException";
 }
 
 string Names::getIProgramName() {

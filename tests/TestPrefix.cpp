@@ -29,7 +29,7 @@ void TestPrefix::generateIR(IRGenerationContext& context) {
                                                longTypeSpecifier,
                                                "mReferenceCount",
                                                expressionList));
-  defineModel(context, Names::getDestroyedObjectStillInUseName(), modelElements);
+  defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   defineThreadController(context);
 }
 

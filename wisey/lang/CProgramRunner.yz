@@ -2,6 +2,7 @@ package wisey.lang;
 
 import wisey.lang.IProgram;
 import wisey.lang.MNullPointerException;
+import wisey.lang.MReferenceCountException;
 
 /**
  * Injects program controller and runs it
@@ -14,7 +15,7 @@ controller CProgramRunner {
     } catch (MNullPointerException* exception) {
       thread.reportException(exception);
       exit(1);
-    } catch (MDestroyedObjectStillInUseException* exception) {
+    } catch (MReferenceCountException* exception) {
       thread.reportException(exception);
       string ending = exception.getReferenceCount() > 1 ? "s" : "";
       printerr("Details: Object referenced by expression still has " + exception.getReferenceCount() + 

@@ -2,11 +2,11 @@ package wisey.lang;
 
 import wisey.lang.IException;
 
-model MDestroyedObjectStillInUseException implements IException {
+model MReferenceCountException implements IException {
   long mReferenceCount;
 
   public string getName() {
-    return "wisey.lang.MDestroyedObjectStillInUseException";
+    return "wisey.lang.MReferenceCountException";
   }
 
   public long getReferenceCount() {

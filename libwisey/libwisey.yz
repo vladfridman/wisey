@@ -7,12 +7,19 @@ external interface wisey.lang.IException {
 
 external interface wisey.lang.IProgram {
 
-  int run() throws wisey.lang.MDestroyedObjectStillInUseException, wisey.lang.MNullPointerException;
+  int run() throws wisey.lang.MReferenceCountException, wisey.lang.MNullPointerException;
 }
 
 /* Models */
 
-external model wisey.lang.MDestroyedObjectStillInUseException
+external model wisey.lang.MNullPointerException
+  implements
+    wisey.lang.IException {
+
+  string getName();
+}
+
+external model wisey.lang.MReferenceCountException
   implements
     wisey.lang.IException {
 
@@ -20,13 +27,6 @@ external model wisey.lang.MDestroyedObjectStillInUseException
 
   string getName();
   long getReferenceCount();
-}
-
-external model wisey.lang.MNullPointerException
-  implements
-    wisey.lang.IException {
-
-  string getName();
 }
 
 /* Controllers */

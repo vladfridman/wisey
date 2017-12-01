@@ -2,7 +2,7 @@ package wisey.lang;
 
 import wisey.lang.IProgram;
 import wisey.lang.MNullPointerException;
-import wisey.lang.MDestroyedObjectStillInUseException;
+import wisey.lang.MReferenceCountException;
 
 /**
  * Program interface that all programs have to implement.
@@ -15,5 +15,5 @@ interface IProgram {
   /**
    * Main program controller method that starts the program
    */
-  int run() throws MDestroyedObjectStillInUseException, MNullPointerException;
+  int run() throws MReferenceCountException, MNullPointerException;
 }

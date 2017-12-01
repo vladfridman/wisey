@@ -26,9 +26,9 @@ public:
   static std::string getNPEModelName();
 
   /**
-   * Returns name of the model representing the destroyed object still in use exception
+   * Returns name of the model representing the reference count exception
    */
-  static std::string getDestroyedObjectStillInUseName();
+  static std::string getReferenceCountExceptionName();
 
   /**
    * Returns name of the IProgram interface that main function calls

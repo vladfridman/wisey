@@ -1,13 +1,13 @@
 //
-//  DestroyedObjectStillInUseFunction.hpp
+//  ThrowReferenceCountExceptionFunction.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 11/17/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef DestroyedObjectStillInUseFunction_h
-#define DestroyedObjectStillInUseFunction_h
+#ifndef ThrowReferenceCountExceptionFunction_h
+#define ThrowReferenceCountExceptionFunction_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -16,9 +16,9 @@
 namespace wisey {
   
 /**
- * Represents the global function that throws DOSIU exception
+ * Represents the global function that throws Reference Count Exception
  */
-class DestroyedObjectStillInUseFunction {
+class ThrowReferenceCountExceptionFunction {
 
 public:
   
@@ -39,4 +39,4 @@ private:
   
 } /* namespace wisey */
 
-#endif /* DestroyedObjectStillInUseFunction_h */
+#endif /* ThrowReferenceCountExceptionFunction_h */

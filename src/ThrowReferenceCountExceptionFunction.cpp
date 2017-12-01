@@ -1,12 +1,11 @@
 //
-//  DestroyedObjectStillInUseFunction.cpp
+//  ThrowReferenceCountExceptionFunction.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 11/17/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/DestroyedObjectStillInUseFunction.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
@@ -14,13 +13,14 @@
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/ObjectBuilderArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
 #include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Function* DestroyedObjectStillInUseFunction::get(IRGenerationContext& context) {
+Function* ThrowReferenceCountExceptionFunction::get(IRGenerationContext& context) {
   Function* function = context.getModule()->getFunction(getName());
   
   if (function) {
@@ -33,11 +33,11 @@ Function* DestroyedObjectStillInUseFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-string DestroyedObjectStillInUseFunction::getName() {
-  return "__throwDestroyedObjectStillInUse";
+string ThrowReferenceCountExceptionFunction::getName() {
+  return "__throwReferenceCountException";
 }
 
-Function* DestroyedObjectStillInUseFunction::define(IRGenerationContext& context) {
+Function* ThrowReferenceCountExceptionFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
@@ -51,7 +51,7 @@ Function* DestroyedObjectStillInUseFunction::define(IRGenerationContext& context
                           context.getModule());
 }
 
-void DestroyedObjectStillInUseFunction::compose(IRGenerationContext& context,
+void ThrowReferenceCountExceptionFunction::compose(IRGenerationContext& context,
                                                 llvm::Function* function) {
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
@@ -62,7 +62,7 @@ void DestroyedObjectStillInUseFunction::compose(IRGenerationContext& context,
   context.setBasicBlock(basicBlock);
   
   ModelTypeSpecifier* modelTypeSpecifier =
-  new ModelTypeSpecifier(Names::getLangPackageName(), Names::getDestroyedObjectStillInUseName());
+  new ModelTypeSpecifier(Names::getLangPackageName(), Names::getReferenceCountExceptionName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   FakeExpression* fakeExpression = new FakeExpression(referenceCount, PrimitiveTypes::LONG_TYPE);
   ObjectBuilderArgument* argument = new ObjectBuilderArgument("withReferenceCount", fakeExpression);

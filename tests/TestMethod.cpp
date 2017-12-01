@@ -54,7 +54,8 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
-    string rceFullName = Names::getLangPackageName() + "." + Names::getDestroyedObjectStillInUseName();
+    string rceFullName = Names::getLangPackageName() + "." +
+    Names::getReferenceCountExceptionName();
     thrownExceptions.push_back(mContext.getModel(rceFullName));
     mMethod = new Method("mymethod",
                          AccessLevel::PUBLIC_ACCESS,
@@ -177,7 +178,7 @@ TEST_F(MethodTest, printToStreamTest) {
   
   EXPECT_STREQ("  boolean mymethod(\n"
                "    double argDouble,\n"
-               "    char argChar) throws wisey.lang.MDestroyedObjectStillInUseException;\n",
+               "    char argChar) throws wisey.lang.MReferenceCountException;\n",
                stringStream.str().c_str());
 }
 

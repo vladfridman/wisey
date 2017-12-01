@@ -15,7 +15,6 @@
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
-#include "wisey/DestroyedObjectStillInUseFunction.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
@@ -31,6 +30,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
+#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
 #include "wisey/ThrowStatement.hpp"
 
 using namespace std;
@@ -183,7 +183,7 @@ void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext&
                                                             const IConcreteObjectType* object) {
   Function* function = context.getModule()->getFunction(getObjectDestructorFunctionName(object));
   context.addComposingCallback1Objects(composeDestructorBody, function, object);
-  DestroyedObjectStillInUseFunction::get(context);
+  ThrowReferenceCountExceptionFunction::get(context);
 }
 
 void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
@@ -356,7 +356,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   
   context.setBasicBlock(refCountNotZeroBlock);
 
-  Function* throwFunction = DestroyedObjectStillInUseFunction::get(context);
+  Function* throwFunction = ThrowReferenceCountExceptionFunction::get(context);
   vector<Value*> arguments;
   arguments.push_back(referenceCount);
   
@@ -422,7 +422,7 @@ string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjec
 void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
                                                 const IConcreteObjectType* object,
                                                 Value* value) {
-  string rceFullName = Names::getLangPackageName() + "." + Names::getDestroyedObjectStillInUseName();
+  string rceFullName = Names::getLangPackageName() + "." + Names::getReferenceCountExceptionName();
   context.getScopes().getScope()->addException(context.getModel(rceFullName));
   string destructorFunctionName = getObjectDestructorFunctionName(object);
   Function* function = context.getModule()->getFunction(destructorFunctionName);
