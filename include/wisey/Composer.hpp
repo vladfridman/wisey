@@ -20,11 +20,6 @@ namespace wisey {
 class Composer {
 
 public:
-  
-  /**
-   * Check if a given expession is null and throw an NPE if it is
-   */
-  static void checkNullAndThrowNPE(IRGenerationContext& context, llvm::Value* value, int line);
 
   /**
    * Push new entry on call stack

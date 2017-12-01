@@ -20,21 +20,6 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value, int line) {
-  pushCallStack(context, line);
-  
-  PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
-  
-  Function* function = CheckForNullAndThrowFunction::get(context);
-  vector<Value*> arguments;
-  arguments.push_back(bitcast);
-
-  IRWriter::createInvokeInst(context, function, arguments, "", 0);
-
-  popCallStack(context);
-}
-
 void Composer::pushCallStack(IRGenerationContext& context, int line) {
   const IObjectType* objectType = context.getObjectType();
   if (objectType == NULL || !objectType->getName().find(Names::getLangPackageName())) {

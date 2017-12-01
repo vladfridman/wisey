@@ -126,42 +126,6 @@ public:
   }
 };
 
-TEST_F(ComposerTest, checkNullAndThrowNPETest) {
-  Value* value = ConstantPointerNull::get((PointerType*) mModel->getLLVMType(mLLVMContext));
-  
-  Composer::checkNullAndThrowNPE(mContext, value, 5);
-
-  *mStringStream << *mMainFunction;
-  string expected =
-  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
-  "\nentry:"
-  "\n  call void @wisey.lang.CThread.pushStack("
-    "%wisey.lang.CThread* null, "
-    "%wisey.lang.CThread* null, "
-    "i8* getelementptr inbounds ([42 x i8], [42 x i8]* "
-    "@systems.vos.wisey.compiler.tests.MMyModel.name, i32 0, i32 0), "
-    "i8* getelementptr inbounds ([4 x i8], [4 x i8]* @methodname.foo, i32 0, i32 0), "
-    "i8* getelementptr inbounds ([8 x i8], [8 x i8]* @sourcefile.test.yz, i32 0, i32 0), "
-    "i32 5)"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MMyModel* null to i8*"
-  "\n  invoke void @__checkForNullAndThrow(i8* %0)"
-  "\n          to label %invoke.continue unwind label %cleanup"
-  "\n"
-  "\ncleanup:                                          ; preds = %entry"
-  "\n  %1 = landingpad { i8*, i32 }"
-  "\n          cleanup"
-  "\n  resume { i8*, i32 } %1"
-  "\n"
-  "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  call void @wisey.lang.CThread.popStack("
-  "%wisey.lang.CThread* null, "
-  "%wisey.lang.CThread* null)"
-  "\n}\n";
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-
-  mStringBuffer.clear();
-}
-
 TEST_F(ComposerTest, pushCallStackTest) {
   Composer::pushCallStack(mContext, 5);
 

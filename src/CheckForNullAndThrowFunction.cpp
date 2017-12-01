@@ -11,6 +11,7 @@
 #include "wisey/Block.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/CompoundStatement.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IfStatement.hpp"
@@ -35,6 +36,21 @@ Function* CheckForNullAndThrowFunction::get(IRGenerationContext& context) {
   context.addComposingCallback0Objects(compose, function);
 
   return function;
+}
+
+void CheckForNullAndThrowFunction::call(IRGenerationContext& context, Value* value, int line) {
+  Composer::pushCallStack(context, line);
+  
+  PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
+  
+  Function* function = get(context);
+  vector<Value*> arguments;
+  arguments.push_back(bitcast);
+  
+  IRWriter::createInvokeInst(context, function, arguments, "", 0);
+  
+  Composer::popCallStack(context);
 }
 
 string CheckForNullAndThrowFunction::getName() {

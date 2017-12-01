@@ -74,6 +74,7 @@
 		F5105FB31FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */; };
 		F5105FB41FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */; };
 		F5105FB61FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */; };
+		F5105FBD1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */; };
 		F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581241E89B02F009CE419 /* FieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581231E89B02F009CE419 /* FieldDeclaration.cpp */; };
@@ -875,6 +876,7 @@
 		F5105FB11FD16CE700ACF57B /* GetOriginalObjectFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GetOriginalObjectFunction.hpp; path = include/wisey/GetOriginalObjectFunction.hpp; sourceTree = "<group>"; };
 		F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GetOriginalObjectFunction.cpp; path = src/GetOriginalObjectFunction.cpp; sourceTree = "<group>"; };
 		F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestGetOriginalObjectFunction.cpp; path = tests/TestGetOriginalObjectFunction.cpp; sourceTree = "<group>"; };
+		F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestCheckForNullAndThrowFunction.cpp; path = tests/TestCheckForNullAndThrowFunction.cpp; sourceTree = "<group>"; };
 		F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerDefinition.cpp; path = src/ControllerDefinition.cpp; sourceTree = "<group>"; };
 		F51581231E89B02F009CE419 /* FieldDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldDeclaration.cpp; path = src/FieldDeclaration.cpp; sourceTree = "<group>"; };
 		F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifier.cpp; path = src/ControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -1817,6 +1819,7 @@
 				F518B5E71EB2240C00577EEB /* TestCatch.cpp */,
 				F531B65C1E0DEB26008304F3 /* TestCharConstant.cpp */,
 				F5C6FD671E48B16F0054209D /* TestCharType.cpp */,
+				F5105FBC1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp */,
 				F5FCAE3C1ED5F67F00C69899 /* TestCompiler.cpp */,
 				F5FCAE3A1ED5CAD300C69899 /* TestCompilerArgumentParser.cpp */,
 				F5E6BD0D1F1B7DCD00D59444 /* TestComposer.cpp */,
@@ -2842,6 +2845,7 @@
 				F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */,
 				F53A2C141EF018EE00E76A9E /* TestInterfaceOwner.cpp in Sources */,
 				F56C214B1F5EA91A002510FC /* Cleanup.cpp in Sources */,
+				F5105FBD1FD1A65E00ACF57B /* TestCheckForNullAndThrowFunction.cpp in Sources */,
 				F56AD4A41E9F6D5B0020868C /* TestIObjectType.cpp in Sources */,
 				F57E2E2B1E82D9DA00FE1DB9 /* TestBooleanNotExpression.cpp in Sources */,
 				F52C665B1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */,

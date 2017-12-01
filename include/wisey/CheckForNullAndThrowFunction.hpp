@@ -27,6 +27,11 @@ public:
    */
   static llvm::Function* get(IRGenerationContext& context);
   
+  /**
+   * Calls function with a given argument
+   */
+  static void call(IRGenerationContext& context, llvm::Value* value, int line);
+
 private:
   
   static std::string getName();

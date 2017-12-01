@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
@@ -119,7 +120,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   Function* function = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
   
-  Composer::checkNullAndThrowNPE(context, expressionValue, mLine);
+  CheckForNullAndThrowFunction::call(context, expressionValue, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
@@ -135,7 +136,7 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   
   Function* function = getMethodFunction(context, objectType);
 
-  Composer::checkNullAndThrowNPE(context, expressionValue, mLine);
+  CheckForNullAndThrowFunction::call(context, expressionValue, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValue);
