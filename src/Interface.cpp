@@ -623,33 +623,16 @@ Interface::createElements(IRGenerationContext& context,
 }
 
 void Interface::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  adjustReferenceCounter(context, object, 1);
+  AdjustReferenceCounterForInterfaceFunction::call(context, object, 1);
 }
 
 void Interface::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  adjustReferenceCounter(context, object, -1);
+  AdjustReferenceCounterForInterfaceFunction::call(context, object, -1);
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
   Value* originalObject = GetOriginalObjectFunction::callGetObject(context, object);
   return getReferenceCountForObject(context, originalObject);
-}
-
-void Interface::adjustReferenceCounter(IRGenerationContext& context,
-                                       Value* object,
-                                       int adjustment) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Value* castObject = IRWriter::newBitCastInst(context, object, int8PointerType);
-  Function* function = AdjustReferenceCounterForInterfaceFunction::get(context);
-  vector<Value*> arguments;
-  arguments.push_back(castObject);
-  llvm::Constant* adjustmentValue = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext),
-                                                           adjustment);
-  arguments.push_back(adjustmentValue);
-  
-  IRWriter::createCallInst(context, function, arguments, "");
 }
 
 string Interface::getDestructorFunctionName() const {

@@ -214,10 +214,6 @@ private:
   bool doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
                                           IMethodDescriptor* objectMethodDescriptor,
                                           std::string objectName) const;
-
-  void adjustReferenceCounter(IRGenerationContext& context,
-                              llvm::Value* object,
-                              int adjustment) const;
   
   static void composeCastFunction(IRGenerationContext& context,
                                   llvm::Function* function,

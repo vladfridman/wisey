@@ -29,6 +29,23 @@ Function* AdjustReferenceCounterForInterfaceFunction::get(IRGenerationContext& c
   return function;
 }
 
+void AdjustReferenceCounterForInterfaceFunction::call(IRGenerationContext& context,
+                                                      Value* object,
+                                                      int adjustment) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  
+  Type* int8PointerType = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Value* castObject = IRWriter::newBitCastInst(context, object, int8PointerType);
+  Function* function = get(context);
+  vector<Value*> arguments;
+  arguments.push_back(castObject);
+  llvm::Constant* adjustmentValue = llvm::ConstantInt::get(Type::getInt64Ty(llvmContext),
+                                                           adjustment);
+  arguments.push_back(adjustmentValue);
+  
+  IRWriter::createCallInst(context, function, arguments, "");
+}
+
 string AdjustReferenceCounterForInterfaceFunction::getName() {
   return "__adjustReferenceCounterForInterface";
 }
