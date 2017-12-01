@@ -71,7 +71,7 @@ void AdjustReferenceCounterForInterfaceFunction::compose(IRGenerationContext& co
   IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNullBlock);
-  Value* original = GetOriginalObjectFunction::call(context, object);
+  Value* original = GetOriginalObjectFunction::callGetObject(context, object);
   Type* int64PointerType = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* counter = IRWriter::newBitCastInst(context, original, int64PointerType);
   Value* count = IRWriter::newLoadInst(context, counter, "count");

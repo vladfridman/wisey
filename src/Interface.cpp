@@ -503,7 +503,7 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   context.setBasicBlock(entryBlock);
   const Interface* interface = (const Interface *) interfaceType;
   Value* instanceof = InstanceOf::call(context, interface, thisArgument, toObjectType);
-  Value* originalObject = GetOriginalObjectFunction::call(context, thisArgument);
+  Value* originalObject = GetOriginalObjectFunction::callGetObject(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compareLessThanZero =
     IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
@@ -536,37 +536,6 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   IRWriter::createReturnInst(context, castValue);
   
   context.getScopes().popScope(context, 0);
-}
-
-Value* Interface::getOriginalObjectVTable(IRGenerationContext& context, Value* value) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value* unthunkBy = getUnthunkBy(context, value);
-
-  Type* int8Type = Type::getInt8Ty(llvmContext);
-  BitCastInst* bitcast = IRWriter::newBitCastInst(context, value, int8Type->getPointerTo());
-  Value* index[1];
-  index[0] = unthunkBy;
-  return IRWriter::createGetElementPtrInst(context, bitcast, index);
-}
-
-Value* Interface::getUnthunkBy(IRGenerationContext& context, Value* valueLoaded) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Type* int8Type = Type::getInt8Ty(llvmContext);
-  Type* pointerType = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
-  BitCastInst* vTablePointer = IRWriter::newBitCastInst(context, valueLoaded, pointerType);
-  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
-  Value* index[1];
-  index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
-  GetElementPtrInst* unthunkPointer = IRWriter::createGetElementPtrInst(context, vTable, index);
-  
-  LoadInst* pointerToVal = IRWriter::newLoadInst(context, unthunkPointer, "unthunkbypointer");
-  Value* unthunkBy = IRWriter::newPtrToIntInst(context,
-                                               pointerToVal,
-                                               Type::getInt64Ty(llvmContext),
-                                               "unthunkby");
-  return unthunkBy;
 }
 
 const IObjectOwnerType* Interface::getOwner() const {
@@ -662,7 +631,7 @@ void Interface::decremenetReferenceCount(IRGenerationContext& context, Value* ob
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* originalObject = GetOriginalObjectFunction::call(context, object);
+  Value* originalObject = GetOriginalObjectFunction::callGetObject(context, object);
   return getReferenceCountForObject(context, originalObject);
 }
 
@@ -728,7 +697,7 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   
   context.setBasicBlock(ifNotNullBlock);
   
-  Value* originalObjectVTable = Interface::getOriginalObjectVTable(context, thisArgument);
+  Value* originalObjectVTable = GetOriginalObjectFunction::callGetVTable(context, thisArgument);
   
   Type* pointerToVTablePointer = function->getFunctionType()
     ->getPointerTo()->getPointerTo()->getPointerTo();

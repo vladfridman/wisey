@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -122,7 +123,7 @@ BitCastInst* InstanceOf::composeEntryBlock(IRGenerationContext& context,
   
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisArgument = &*functionArguments;
-  Value* originalObjectVTable = Interface::getOriginalObjectVTable(context, thisArgument);
+  Value* originalObjectVTable = GetOriginalObjectFunction::callGetVTable(context, thisArgument);
   
   Type* pointerToArrayOfStrings = int8Type->getPointerTo()->getPointerTo()->getPointerTo();
   
