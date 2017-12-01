@@ -120,11 +120,6 @@ public:
   static llvm::Value* getOriginalObjectVTable(IRGenerationContext& context, llvm::Value* value);
 
   /**
-   * Given a value of type interface get the pointer back to the original concrete object
-   */
-  static llvm::Value* getOriginalObject(IRGenerationContext& context, llvm::Value* value);
-
-  /**
    * Generate IR for constants defined in this interface
    */
   void generateConstantsIR(IRGenerationContext& context) const;

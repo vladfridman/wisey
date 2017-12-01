@@ -71,6 +71,9 @@
 		F5105FAA1FD02B6200ACF57B /* ImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */; };
 		F5105FAC1FD02F6900ACF57B /* ImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */; };
 		F5105FAE1FD0553900ACF57B /* TestImportProfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */; };
+		F5105FB31FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */; };
+		F5105FB41FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */; };
+		F5105FB61FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */; };
 		F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581241E89B02F009CE419 /* FieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581231E89B02F009CE419 /* FieldDeclaration.cpp */; };
@@ -869,6 +872,9 @@
 		F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImportProfile.cpp; path = src/ImportProfile.cpp; sourceTree = "<group>"; };
 		F5105FAB1FD02B7100ACF57B /* ImportProfile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ImportProfile.hpp; path = include/wisey/ImportProfile.hpp; sourceTree = "<group>"; };
 		F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestImportProfile.cpp; path = tests/TestImportProfile.cpp; sourceTree = "<group>"; };
+		F5105FB11FD16CE700ACF57B /* GetOriginalObjectFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GetOriginalObjectFunction.hpp; path = include/wisey/GetOriginalObjectFunction.hpp; sourceTree = "<group>"; };
+		F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GetOriginalObjectFunction.cpp; path = src/GetOriginalObjectFunction.cpp; sourceTree = "<group>"; };
+		F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestGetOriginalObjectFunction.cpp; path = tests/TestGetOriginalObjectFunction.cpp; sourceTree = "<group>"; };
 		F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerDefinition.cpp; path = src/ControllerDefinition.cpp; sourceTree = "<group>"; };
 		F51581231E89B02F009CE419 /* FieldDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldDeclaration.cpp; path = src/FieldDeclaration.cpp; sourceTree = "<group>"; };
 		F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifier.cpp; path = src/ControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -1664,6 +1670,7 @@
 				F52C66651FBF446400E89B04 /* AdjustReferenceCounterForInterfaceFunction.cpp */,
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
 				F52C66591FBF348D00E89B04 /* DestroyedObjectStillInUseFunction.cpp */,
+				F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */,
 				F52C665D1FBF38CC00E89B04 /* NullPointerExceptionFunction.cpp */,
 			);
 			name = composer;
@@ -1676,6 +1683,7 @@
 				F52C66641FBF441A00E89B04 /* AdjustReferenceCounterForInterfaceFunction.hpp */,
 				F5E6BD051F190B3900D59444 /* Composer.hpp */,
 				F52C66581FBF33C000E89B04 /* DestroyedObjectStillInUseFunction.hpp */,
+				F5105FB11FD16CE700ACF57B /* GetOriginalObjectFunction.hpp */,
 				F52C665C1FBF387900E89B04 /* NullPointerExceptionFunction.hpp */,
 			);
 			name = composer;
@@ -1847,6 +1855,7 @@
 				F50FA2EE1E2E3B2A00435EEA /* TestFloatConstant.cpp */,
 				F5C6FD7D1E48B6810054209D /* TestFloatType.cpp */,
 				F59D82131E0F3BA500057FB5 /* TestForStatement.cpp */,
+				F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */,
 				F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
 				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
@@ -2828,6 +2837,7 @@
 				F5A363541F376A23005880B3 /* FieldPrimitiveVariable.cpp in Sources */,
 				F5C6FD7E1E48B6810054209D /* TestFloatType.cpp in Sources */,
 				F5C6FD701E48B40F0054209D /* BooleanType.cpp in Sources */,
+				F5105FB61FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp in Sources */,
 				F57085FF1E51F8C9007D627E /* TestMethodCall.cpp in Sources */,
 				F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */,
 				F53A2C141EF018EE00E76A9E /* TestInterfaceOwner.cpp in Sources */,
@@ -2915,6 +2925,7 @@
 				F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
+				F5105FB41FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
 				F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
@@ -3009,6 +3020,7 @@
 				F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
+				F5105FB31FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */,
 				F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,
 				F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */,

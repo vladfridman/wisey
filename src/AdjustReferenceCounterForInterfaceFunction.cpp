@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
+#include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRWriter.hpp"
 
 using namespace llvm;
@@ -17,13 +18,13 @@ using namespace wisey;
 
 Function* AdjustReferenceCounterForInterfaceFunction::get(IRGenerationContext& context) {
   Function* function = context.getModule()->getFunction(getName());
-  
   if (function) {
     return function;
   }
   
   function = define(context);
   context.addComposingCallback0Objects(compose, function);
+  GetOriginalObjectFunction::get(context);
 
   return function;
 }
@@ -70,7 +71,7 @@ void AdjustReferenceCounterForInterfaceFunction::compose(IRGenerationContext& co
   IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNullBlock);
-  Value* original = Interface::getOriginalObject(context, object);
+  Value* original = GetOriginalObjectFunction::call(context, object);
   Type* int64PointerType = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* counter = IRWriter::newBitCastInst(context, original, int64PointerType);
   Value* count = IRWriter::newLoadInst(context, counter, "count");

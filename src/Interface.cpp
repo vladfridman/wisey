@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
+#include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/InstanceOf.hpp"
@@ -466,6 +467,7 @@ Value* Interface::castTo(IRGenerationContext& context,
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
+  GetOriginalObjectFunction::get(context);
   
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(llvmContext));
@@ -501,7 +503,7 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   context.setBasicBlock(entryBlock);
   const Interface* interface = (const Interface *) interfaceType;
   Value* instanceof = InstanceOf::call(context, interface, thisArgument, toObjectType);
-  Value* originalObject = getOriginalObject(context, thisArgument);
+  Value* originalObject = GetOriginalObjectFunction::call(context, thisArgument);
   ConstantInt* zero = ConstantInt::get(Type::getInt32Ty(llvmContext), 0);
   ICmpInst* compareLessThanZero =
     IRWriter::newICmpInst(context, ICmpInst::ICMP_SLT, instanceof, zero, "cmp");
@@ -545,21 +547,6 @@ Value* Interface::getOriginalObjectVTable(IRGenerationContext& context, Value* v
   BitCastInst* bitcast = IRWriter::newBitCastInst(context, value, int8Type->getPointerTo());
   Value* index[1];
   index[0] = unthunkBy;
-  return IRWriter::createGetElementPtrInst(context, bitcast, index);
-}
-
-Value* Interface::getOriginalObject(IRGenerationContext& context, Value* value) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-
-  Value* unthunkBy = getUnthunkBy(context, value);
-  ConstantInt* bytes = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                                        Environment::getAddressSizeInBytes());
-  Value* offset = IRWriter::createBinaryOperator(context, Instruction::Sub, unthunkBy, bytes, "");
-
-  Type* int8Type = Type::getInt8Ty(llvmContext);
-  BitCastInst* bitcast = IRWriter::newBitCastInst(context, value, int8Type->getPointerTo());
-  Value* index[1];
-  index[0] = offset;
   return IRWriter::createGetElementPtrInst(context, bitcast, index);
 }
 
@@ -675,7 +662,7 @@ void Interface::decremenetReferenceCount(IRGenerationContext& context, Value* ob
 }
 
 Value* Interface::getReferenceCount(IRGenerationContext& context, Value* object) const {
-  Value* originalObject = getOriginalObject(context, object);
+  Value* originalObject = GetOriginalObjectFunction::call(context, object);
   return getReferenceCountForObject(context, originalObject);
 }
 

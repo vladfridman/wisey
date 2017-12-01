@@ -21,6 +21,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/ConstantDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
+#include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -249,25 +250,6 @@ TEST_F(InterfaceTest, getOriginalObjectVTableTest) {
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(InterfaceTest, getOriginalObjectTest) {
-  Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  Interface::getOriginalObject(mContext, nullPointerValue);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %0 = bitcast i8* null to i8***"
-  "\n  %vtable = load i8**, i8*** %0"
-  "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
-  "\n  %unthunkbypointer = load i8*, i8** %1"
-  "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-  "\n  %2 = sub i64 %unthunkby, 8"
-  "\n  %3 = bitcast i8* null to i8*"
-  "\n  %4 = getelementptr i8, i8* %3, i64 %2\n";
-  
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}
-
 TEST_F(InterfaceTest, getCastFunctionNameTest) {
   EXPECT_STREQ(mObjectInterface->getCastFunctionName(mShapeInterface).c_str(),
                "cast.systems.vos.wisey.compiler.tests.IObject."
@@ -412,16 +394,10 @@ TEST_F(InterfaceTest, getReferenceCountTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8***"
-  "\n  %vtable = load i8**, i8*** %0"
-  "\n  %1 = getelementptr i8*, i8** %vtable, i64 0"
-  "\n  %unthunkbypointer = load i8*, i8** %1"
-  "\n  %unthunkby = ptrtoint i8* %unthunkbypointer to i64"
-  "\n  %2 = sub i64 %unthunkby, 8"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
-  "\n  %4 = getelementptr i8, i8* %3, i64 %2"
-  "\n  %5 = bitcast i8* %4 to i64*"
-  "\n  %refCounter = load i64, i64* %5\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.IShape* null to i8*"
+  "\n  %1 = call i8* @__getOriginalObject(i8* %0)"
+  "\n  %2 = bitcast i8* %1 to i64*"
+  "\n  %refCounter = load i64, i64* %2\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
