@@ -288,10 +288,6 @@ private:
                                 std::vector<std::vector<llvm::Constant*>>& vTables);
 
   static std::string getObjectDestructorFunctionName(const IConcreteObjectType* object);
-  
-  static void adjustReferenceCounterForObject(IRGenerationContext& context,
-                                              llvm::Value* object,
-                                              int adjustment);
 
   static void decrementReferenceFields(IRGenerationContext& context,
                                        llvm::Argument* thisArgument,

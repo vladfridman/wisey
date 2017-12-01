@@ -28,6 +28,20 @@ Function* AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(IRGenerat
   return function;
 }
 
+void AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(IRGenerationContext& context,
+                                                                   Value* object,
+                                                                   int adjustment) {
+  Value* counterPointer = IObjectType::getReferenceCounterPointer(context, object);
+  
+  Function* function = AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
+  vector<Value*> arguments;
+  arguments.push_back(counterPointer);
+  llvm::Constant* value = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), adjustment);
+  arguments.push_back(value);
+  
+  IRWriter::createCallInst(context, function, arguments, "");
+}
+
 string AdjustReferenceCounterForConcreteObjectUnsafelyFunction::getName() {
   return "__adjustReferenceCounterForConcreteObjectUnsafely";
 }
