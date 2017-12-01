@@ -33,6 +33,15 @@ Function* ThrowReferenceCountExceptionFunction::get(IRGenerationContext& context
   return function;
 }
 
+void ThrowReferenceCountExceptionFunction::call(IRGenerationContext& context,
+                                                Value* referenceCount) {
+  Function* function = get(context);
+  vector<Value*> arguments;
+  arguments.push_back(referenceCount);
+  
+  IRWriter::createInvokeInst(context, function, arguments, "", 0);
+}
+
 string ThrowReferenceCountExceptionFunction::getName() {
   return "__throwReferenceCountException";
 }

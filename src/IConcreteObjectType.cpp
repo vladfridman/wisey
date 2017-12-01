@@ -356,11 +356,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   
   context.setBasicBlock(refCountNotZeroBlock);
 
-  Function* throwFunction = ThrowReferenceCountExceptionFunction::get(context);
-  vector<Value*> arguments;
-  arguments.push_back(referenceCount);
-  
-  IRWriter::createInvokeInst(context, throwFunction, arguments, "", 0);
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
   IRWriter::newUnreachableInst(context);
 
   context.setBasicBlock(refCountZeroBlock);

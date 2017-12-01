@@ -26,6 +26,11 @@ public:
    * Returns the function
    */
   static llvm::Function* get(IRGenerationContext& context);
+  
+  /**
+   * Call the function with given arguments
+   */
+  static void call(IRGenerationContext& context, llvm::Value* referenceCount);
 
 private:
   
