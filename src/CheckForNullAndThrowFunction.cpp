@@ -1,5 +1,5 @@
 //
-//  NullPointerExceptionFunction.cpp
+//  CheckForNullAndThrowFunction.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 11/17/17.
@@ -9,13 +9,13 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/Block.hpp"
+#include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IfStatement.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/NullPointerExceptionFunction.hpp"
 #include "wisey/ObjectBuilder.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThrowStatement.hpp"
@@ -24,7 +24,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Function* NullPointerExceptionFunction::get(IRGenerationContext& context) {
+Function* CheckForNullAndThrowFunction::get(IRGenerationContext& context) {
   Function* function = context.getModule()->getFunction(getName());
 
   if (function) {
@@ -37,11 +37,11 @@ Function* NullPointerExceptionFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-string NullPointerExceptionFunction::getName() {
+string CheckForNullAndThrowFunction::getName() {
   return "__checkForNullAndThrow";
 }
 
-Function* NullPointerExceptionFunction::define(IRGenerationContext& context) {
+Function* CheckForNullAndThrowFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
@@ -52,7 +52,7 @@ Function* NullPointerExceptionFunction::define(IRGenerationContext& context) {
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
 }
 
-void NullPointerExceptionFunction::compose(IRGenerationContext& context, Function* function) {
+void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Function::arg_iterator llvmArguments = function->arg_begin();

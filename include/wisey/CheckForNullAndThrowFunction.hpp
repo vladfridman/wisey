@@ -1,13 +1,13 @@
 //
-//  NullPointerExceptionFunction.hpp
+//  CheckForNullAndThrowFunction.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 11/17/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef NullPointerExceptionFunction_h
-#define NullPointerExceptionFunction_h
+#ifndef CheckForNullAndThrowFunction_h
+#define CheckForNullAndThrowFunction_h
 
 #include <llvm/IR/Instructions.h>
 
@@ -16,9 +16,9 @@
 namespace wisey {
   
 /**
- * Represents a global function that throws an NullPointerException if the given parameter is null
+ * Represents a global function that throws an MNullPointerException if the given parameter is null
  */
-class NullPointerExceptionFunction {
+class CheckForNullAndThrowFunction {
     
 public:
   
@@ -39,4 +39,4 @@ private:
 
 } /* namespace wisey */
 
-#endif /* NullPointerExceptionFunction_h */
+#endif /* CheckForNullAndThrowFunction_h */

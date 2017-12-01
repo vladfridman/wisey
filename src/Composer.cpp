@@ -8,11 +8,11 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/IMethodCall.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Names.hpp"
-#include "wisey/NullPointerExceptionFunction.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -26,7 +26,7 @@ void Composer::checkNullAndThrowNPE(IRGenerationContext& context, Value* value, 
   PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
   
-  Function* function = NullPointerExceptionFunction::get(context);
+  Function* function = CheckForNullAndThrowFunction::get(context);
   vector<Value*> arguments;
   arguments.push_back(bitcast);
 
