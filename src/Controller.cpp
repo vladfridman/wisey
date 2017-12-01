@@ -126,6 +126,9 @@ wisey::Constant* Controller::findConstant(string constantName) const {
 }
 
 Instruction* Controller::inject(IRGenerationContext& context, ExpressionList received) const {
+  const IObjectType* lastObjectType = context.getObjectType();
+  context.setObjectType(this);
+  
   checkArguments(received);
   Instruction* malloc = createMalloc(context);
   IConcreteObjectType::initializeReferenceCounter(context, malloc);
@@ -133,7 +136,9 @@ Instruction* Controller::inject(IRGenerationContext& context, ExpressionList rec
   initializeInjectedFields(context, malloc);
   initializeStateFields(context, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
-
+  
+  context.setObjectType(lastObjectType);
+  
   return malloc;
 }
 
