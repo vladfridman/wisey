@@ -26,19 +26,9 @@ public:
   static std::string getNPEModelName();
 
   /**
-   * Returns full name of the model representing the null pointer exception
-   */
-  static std::string getNPEModelFullName();
-
-  /**
    * Returns name of the model representing the destroyed object still in use exception
    */
   static std::string getDestroyedObjectStillInUseName();
-  
-  /**
-   * Returns full name of the model representing the destroyed object still in use exception
-   */
-  static std::string getDestroyedObjectStillInUseFullName();
 
   /**
    * Returns name of the IProgram interface that main function calls

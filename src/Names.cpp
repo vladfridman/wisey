@@ -15,16 +15,8 @@ string Names::getNPEModelName() {
   return "MNullPointerException";
 }
 
-string Names::getNPEModelFullName() {
-  return getLangPackageName() + "." + getNPEModelName();
-}
-
 string Names::getDestroyedObjectStillInUseName() {
   return "MDestroyedObjectStillInUseException";
-}
-
-string Names::getDestroyedObjectStillInUseFullName() {
-  return getLangPackageName() + "." + getDestroyedObjectStillInUseName();
 }
 
 string Names::getIProgramName() {

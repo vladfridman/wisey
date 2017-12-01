@@ -66,7 +66,8 @@ Value* MethodCall::generateIR(IRGenerationContext& context, IRGenerationFlag fla
                                       flag);
   }
   
-  context.getScopes().getScope()->addException(context.getModel(Names::getNPEModelFullName()));
+  string npeFullName = Names::getLangPackageName() + "." + Names::getNPEModelName();
+  context.getScopes().getScope()->addException(context.getModel(npeFullName));
   
   if (IType::isConcreteObjectType(objectWithMethodsType)) {
     return generateObjectMethodCallIR(context,

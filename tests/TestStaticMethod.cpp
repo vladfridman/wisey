@@ -54,7 +54,8 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
-    thrownExceptions.push_back(mContext.getModel(Names::getDestroyedObjectStillInUseFullName()));
+    string rceFullName = Names::getLangPackageName() + "." + Names::getDestroyedObjectStillInUseName();
+    thrownExceptions.push_back(mContext.getModel(rceFullName));
     mStaticMethod = new StaticMethod("mymethod",
                                      AccessLevel::PUBLIC_ACCESS,
                                      PrimitiveTypes::BOOLEAN_TYPE,
