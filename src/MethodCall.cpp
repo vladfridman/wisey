@@ -108,6 +108,8 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  IRGenerationFlag flag) const {
   Value* expressionValue = generateExpressionIR(context);
 
+  CheckForNullAndThrowFunction::call(context, expressionValue, mLine);
+  
   FunctionType* functionType =
     IMethod::getLLVMFunctionType(methodDescriptor, context, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
@@ -119,8 +121,6 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                               interface->getMethodIndex(methodDescriptor) + VTABLE_METHODS_OFFSET);
   GetElementPtrInst* virtualFunction = IRWriter::createGetElementPtrInst(context, vTable, index);
   Function* function = (Function*) IRWriter::newLoadInst(context, virtualFunction, "");
-  
-  CheckForNullAndThrowFunction::call(context, expressionValue, mLine);
   
   vector<Value*> arguments;
   arguments.push_back(expressionValue);

@@ -128,3 +128,11 @@ TEST_F(TestFileSampleRunner, interfaceOwnerCastToAnotherInterfaceOwnerRunTest) {
 TEST_F(TestFileSampleRunner, interfaceOnwerAutoCastRunTest) {
   runFile("tests/samples/test_interface_owner_autocast.yz", "5");
 }
+
+TEST_F(TestFileSampleRunner, interfaceOwnerCearedAndThrowsNpeDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_interface_owner_cleared_and_throws_npe.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_owner_cleared_and_throws_npe.yz:43)\n");
+}
