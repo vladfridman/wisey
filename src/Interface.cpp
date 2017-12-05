@@ -287,7 +287,20 @@ Function* Interface::generateMapFunctionForMethod(IRGenerationContext& context,
     MethodCall::translateInterfaceMethodToLLVMFunctionName(object,
                                                            this,
                                                            interfaceMethodSignature->getName());
-  Function* function = Function::Create(concreteObjectFunction->getFunctionType(),
+  FunctionType* concreteObjectFunctionType = concreteObjectFunction->getFunctionType();
+  
+  LLVMContext& llvmContext = context.getLLVMContext();
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(getLLVMType(llvmContext));
+  for (unsigned int i = 1; i < concreteObjectFunctionType->getNumParams(); i++) {
+    argumentTypes.push_back(concreteObjectFunctionType->getParamType(i));
+  }
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  FunctionType* functionType = FunctionType::get(concreteObjectFunctionType->getReturnType(),
+                                                 argTypesArray,
+                                                 true);
+
+  Function* function = Function::Create(functionType,
                                         GlobalValue::ExternalLinkage,
                                         functionName,
                                         context.getModule());
@@ -372,7 +385,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
     IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
   Value* castedObjectThis = IRWriter::newBitCastInst(context,
                                                      concreteOjbectThis,
-                                                     interfaceThis->getType());
+                                                     object->getLLVMType(llvmContext));
   
   vector<Value*> callArguments;
   callArguments.push_back(castedObjectThis);
