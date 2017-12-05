@@ -66,6 +66,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::declareFieldVariables(context, model);
   IConcreteObjectType::generateMethodsIR(context, model);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, model);
+  IConcreteObjectType::composeInterfaceMapFunctions(context, model);
 
   context.setObjectType(NULL);
   context.getScopes().popScope(context, 0);

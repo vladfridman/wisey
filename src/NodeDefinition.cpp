@@ -60,6 +60,7 @@ Value* NodeDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::declareFieldVariables(context, node);
   IConcreteObjectType::generateMethodsIR(context, node);
   IConcreteObjectType::scheduleDestructorBodyComposition(context, node);
+  IConcreteObjectType::composeInterfaceMapFunctions(context, node);
 
   context.setObjectType(NULL);
   context.getScopes().popScope(context, 0);

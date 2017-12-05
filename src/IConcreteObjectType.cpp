@@ -125,13 +125,13 @@ void IConcreteObjectType::generateVTable(IRGenerationContext& context,
   addTypeListInfo(context, object, vTables);
   addDestructorInfo(context, object, vTables);
   addUnthunkInfo(context, object, vTables);
-  generateInterfaceMapFunctions(context, object, vTables);
+  defineInterfaceMapFunctions(context, object, vTables);
   createVTableGlobal(context, object, vTables);
 }
 
-map<string, Function*> IConcreteObjectType::generateMethodFunctions(IRGenerationContext& context,
-                                                                    const IConcreteObjectType*
-                                                                    object) {
+map<string, Function*> IConcreteObjectType::defineMethodFunctions(IRGenerationContext& context,
+                                                                  const IConcreteObjectType*
+                                                                  object) {
   map<string, Function*> methodFunctionMap;
   vector<tuple<IMethod*, Function*>> methodsWithFunctions;
   
@@ -206,19 +206,16 @@ void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
   }
 }
 
-void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& context,
-                                                        const IConcreteObjectType* object,
-                                                        vector<vector<llvm::Constant*>>& vTables) {
-  map<string, Function*> methodFunctionMap = generateMethodFunctions(context, object);
+void IConcreteObjectType::defineInterfaceMapFunctions(IRGenerationContext& context,
+                                                      const IConcreteObjectType* object,
+                                                      vector<vector<llvm::Constant*>>& vTables) {
+  map<string, Function*> methodFunctionMap = defineMethodFunctions(context, object);
   
   vector<list<llvm::Constant*>> interfaceMapFunctions;
   
   for (Interface* interface : object->getInterfaces()) {
     vector<list<llvm::Constant*>> vSubTable =
-    interface->generateMapFunctionsIR(context,
-                                      object,
-                                      methodFunctionMap,
-                                      interfaceMapFunctions.size());
+    interface->defineMapFunctions(context, object, methodFunctionMap, interfaceMapFunctions.size());
     for (list<llvm::Constant*> vTablePortion : vSubTable) {
       interfaceMapFunctions.push_back(vTablePortion);
     }
@@ -232,6 +229,14 @@ void IConcreteObjectType::generateInterfaceMapFunctions(IRGenerationContext& con
       vTables.at(vTablesIndex).push_back(constant);
     }
     vTablesIndex++;
+  }
+}
+
+void IConcreteObjectType::composeInterfaceMapFunctions(IRGenerationContext& context,
+                                                       const IConcreteObjectType* object) {
+  unsigned long offset = 0;
+  for (Interface* interface : object->getInterfaces()) {
+    offset += interface->composeMapFunctions(context, object, offset);
   }
 }
 

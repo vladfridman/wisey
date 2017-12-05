@@ -75,15 +75,20 @@ public:
   void buildMethods(IRGenerationContext& context);
 
   /**
-   * Generate functions that map interface methods to model methods
+   * Define functions that map interface methods to model methods
    */
-  std::vector<std::list<llvm::Constant*>> generateMapFunctionsIR(IRGenerationContext& context,
-                                                                 const IObjectType* object,
-                                                                 std::map<std::string,
-                                                                 llvm::Function*>&
-                                                                 methodFunctionMap,
-                                                                 unsigned long interfaceIndex) const;
-  
+  std::vector<std::list<llvm::Constant*>> defineMapFunctions(IRGenerationContext& context,
+                                                             const IObjectType* object,
+                                                             std::map<std::string,
+                                                             llvm::Function*>& methodFunctionMap,
+                                                             unsigned long interfaceIndex) const;
+  /**
+   * Compose functions that map interface methods to model methods
+   */
+  unsigned long composeMapFunctions(IRGenerationContext& context,
+                                    const IObjectType* object,
+                                    unsigned long interfaceIndex) const;
+
   /**
    * Returns parent interfaces
    */
@@ -192,11 +197,17 @@ private:
    */
   std::vector<MethodSignature*> getAllMethodSignatures() const;
 
-  llvm::Function* generateMapFunctionForMethod(IRGenerationContext& context,
-                                               const IObjectType* object,
-                                               llvm::Function* concreteObjectFunction,
-                                               unsigned long interfaceIndex,
-                                               MethodSignature* methodSignature) const;
+  llvm::Function* defineMapFunctionForMethod(IRGenerationContext& context,
+                                             const IObjectType* object,
+                                             llvm::Function* concreteObjectFunction,
+                                             unsigned long interfaceIndex,
+                                             MethodSignature* methodSignature) const;
+  
+  void composeMapFunctionBody(IRGenerationContext& context,
+                              const IObjectType* object,
+                              llvm::Function* concreteObjectFunction,
+                              unsigned long interfaceIndex,
+                              MethodSignature* methodSignature) const;
 
   void generateMapFunctionBody(IRGenerationContext& context,
                                const IObjectType* object,

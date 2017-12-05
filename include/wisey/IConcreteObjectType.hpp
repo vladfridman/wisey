@@ -259,10 +259,16 @@ public:
    */
   static void decrementReferenceCounterForObject(IRGenerationContext& context, llvm::Value* object);
 
+  /**
+   * Compose map functions IR. This is not called for externally defined objects
+   */
+  static void composeInterfaceMapFunctions(IRGenerationContext& context,
+                                           const IConcreteObjectType* object);
+
 private:
   
   static std::map<std::string, llvm::Function*>
-  generateMethodFunctions(IRGenerationContext& context, const IConcreteObjectType* object);
+  defineMethodFunctions(IRGenerationContext& context, const IConcreteObjectType* object);
 
   static void addTypeListInfo(IRGenerationContext& context,
                               const IConcreteObjectType* object,
@@ -272,10 +278,10 @@ private:
                              const IConcreteObjectType* object,
                              std::vector<std::vector<llvm::Constant*>>& vTables);
   
-  static void generateInterfaceMapFunctions(IRGenerationContext& context,
-                                            const IConcreteObjectType* object,
-                                            std::vector<std::vector<llvm::Constant*>>& vTables);
-  
+  static void defineInterfaceMapFunctions(IRGenerationContext& context,
+                                          const IConcreteObjectType* object,
+                                          std::vector<std::vector<llvm::Constant*>>& vTables);
+
   static void createVTableGlobal(IRGenerationContext& context,
                                  const IConcreteObjectType* object,
                                  std::vector<std::vector<llvm::Constant*>> interfaceVTables);
