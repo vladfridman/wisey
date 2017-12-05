@@ -30,7 +30,8 @@ public:
   static llvm::Value* maybeCast(IRGenerationContext& context,
                                 const IType* fromType,
                                 llvm::Value* fromValue,
-                                const IType* toType);
+                                const IType* toType,
+                                int line);
   
 };
 

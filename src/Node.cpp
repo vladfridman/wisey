@@ -179,7 +179,10 @@ bool Node::canAutoCastTo(const IType* toType) const {
   return canCastTo(toType);
 }
 
-Value* Node::castTo(IRGenerationContext& context, Value* fromValue, const IType* toType) const {
+Value* Node::castTo(IRGenerationContext& context,
+                    Value* fromValue,
+                    const IType* toType,
+                    int line) const {
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
@@ -220,12 +223,13 @@ vector<string> Node::getMissingFields(set<string> givenFields) const {
 }
 
 Instruction* Node::build(IRGenerationContext& context,
-                        const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const {
-  checkArguments(ObjectBuilderArgumentList);
+                         const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                         int line) const {
+  checkArguments(objectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
   IConcreteObjectType::initializeReferenceCounter(context, malloc);
   setStateFieldsToNull(context, malloc);
-  initializePresetFields(context, ObjectBuilderArgumentList, malloc);
+  initializePresetFields(context, objectBuilderArgumentList, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   return malloc;
@@ -279,7 +283,8 @@ Instruction* Node::createMalloc(IRGenerationContext& context) const {
 
 void Node::initializePresetFields(IRGenerationContext& context,
                                   const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                                  Instruction* malloc) const {
+                                  Instruction* malloc,
+                                  int line) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
@@ -300,7 +305,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
              " does not match its type");
       exit(1);
     }
-    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType);
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (IType::isReferenceType(fieldType)) {
       ((IObjectType*) fieldType)->incremenetReferenceCount(context, castValue);

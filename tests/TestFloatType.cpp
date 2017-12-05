@@ -84,34 +84,34 @@ TEST_F(FloatTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getFloatTy(mLLVMContext), 2.5);
   
-  EXPECT_EXIT(mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'float' to 'void'");
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = fptosi float 2.500000e+00 to i1", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv1 = fptosi float 2.500000e+00 to i16", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv2 = fptosi float 2.500000e+00 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv3 = fptosi float 2.500000e+00 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
 
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 0);
   EXPECT_EQ(result, expressionValue);
   
-  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE);
+  result = mFloatType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv4 = fpext float 2.500000e+00 to double", mStringStream->str().c_str());
   mStringBuffer.clear();

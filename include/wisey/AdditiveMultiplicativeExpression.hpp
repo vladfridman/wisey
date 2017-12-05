@@ -20,12 +20,14 @@ class AdditiveMultiplicativeExpression : public IExpression {
   IExpression* mLeftExpression;
   IExpression* mRightExpression;
   int mOperation;
+  int mLine;
   
 public:
 
   AdditiveMultiplicativeExpression(IExpression* leftExpression,
                                    int operation,
-                                   IExpression* rightExpression);
+                                   IExpression* rightExpression,
+                                   int line);
   
   ~AdditiveMultiplicativeExpression();
   

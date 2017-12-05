@@ -84,30 +84,30 @@ TEST_F(VoidTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantFP::get(Type::getDoubleTy(mLLVMContext), 2.5);
   
-  result = mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE);
+  result = mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0);
   EXPECT_EQ(result, expressionValue);
 
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'void' to 'boolean'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'void' to 'char'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'void' to 'int'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'void' to 'long'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'void' to 'float'");
   
-  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE),
+  EXPECT_EXIT(mVoidType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'void' to 'double'");
   

@@ -441,7 +441,7 @@ TEST_F(ModelTest, canAutoCastToTest) {
 TEST_F(ModelTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
-  mModel->castTo(mContext, pointer, mShapeInterface);
+  mModel->castTo(mContext, pointer, mShapeInterface, 0);
 
   *mStringStream << *mBasicBlock;
   string expected =
@@ -457,7 +457,7 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
 TEST_F(ModelTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
-  mModel->castTo(mContext, pointer, mSubShapeInterface);
+  mModel->castTo(mContext, pointer, mSubShapeInterface, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -536,7 +536,7 @@ TEST_F(ModelTest, castToDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   Value* expressionValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
 
-  EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
+  EXPECT_EXIT(mModel->castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from "
               "type 'systems.vos.wisey.compiler.tests.MSquare' to 'int'");
@@ -569,7 +569,7 @@ TEST_F(ModelTest, buildTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  Value* result = mStarModel->build(mContext, argumentList);
+  Value* result = mStarModel->build(mContext, argumentList, 0);
   
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
@@ -620,7 +620,7 @@ TEST_F(ModelTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   "\nError: Some arguments for the model systems.vos.wisey.compiler.tests.MStar "
   "builder are not well formed";
   
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList),
+  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 0),
               ::testing::ExitedWithCode(1),
               expected);
 }
@@ -640,7 +640,7 @@ TEST_F(ModelTest, buildIncorrectArgumentTypeDeathTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList),
+  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 0),
               ::testing::ExitedWithCode(1),
               "Error: Model builder argument value for field mBirthdate does not match its type");
 }
@@ -660,7 +660,7 @@ TEST_F(ModelTest, buildNotAllFieldsAreSetDeathTest) {
   "Error: Field mGalaxy is not initialized"
   "\nError: Some fields of the model systems.vos.wisey.compiler.tests.MStar are not initialized.";
   
-  EXPECT_EXIT(mStarModel->build(mContext, argumentList),
+  EXPECT_EXIT(mStarModel->build(mContext, argumentList, 0),
               ::testing::ExitedWithCode(1),
               expected);
 }

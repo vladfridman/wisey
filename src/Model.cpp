@@ -217,16 +217,18 @@ bool Model::canAutoCastTo(const IType* toType) const {
 
 Value* Model::castTo(IRGenerationContext& context,
                      Value* fromValue,
-                     const IType* toType) const {
+                     const IType* toType,
+                     int line) const {
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
 Instruction* Model::build(IRGenerationContext& context,
-                          const ObjectBuilderArgumentList& objectBuilderArgumentList) const {
+                          const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                          int line) const {
   checkArguments(objectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
   IConcreteObjectType::initializeReferenceCounter(context, malloc);
-  initializeFields(context, objectBuilderArgumentList, malloc);
+  initializeFields(context, objectBuilderArgumentList, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   return malloc;
@@ -316,7 +318,8 @@ Instruction* Model::createMalloc(IRGenerationContext& context) const {
 
 void Model::initializeFields(IRGenerationContext& context,
                              const ObjectBuilderArgumentList& objectBuilderArgumentList,
-                             Instruction* malloc) const {
+                             Instruction* malloc,
+                             int line) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
@@ -337,7 +340,7 @@ void Model::initializeFields(IRGenerationContext& context,
              " does not match its type");
       exit(1);
     }
-    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType);
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (IType::isReferenceType(fieldType)) {
       ((IObjectType*) fieldType)->incremenetReferenceCount(context, castValue);

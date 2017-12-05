@@ -94,7 +94,7 @@ TEST_F(NullTypeTest, castToModelTest) {
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = Model::newModel(modelFullName, structType);
   
-  Value* cast = NullType::NULL_TYPE->castTo(mContext, NULL, model);
+  Value* cast = NullType::NULL_TYPE->castTo(mContext, NULL, model, 0);
 
   EXPECT_EQ(cast, ConstantPointerNull::get(structType->getPointerTo()));
 }
@@ -104,7 +104,7 @@ TEST_F(NullTypeTest, castToModelOwnerTest) {
   StructType* structType = StructType::create(mLLVMContext, modelFullName);
   Model* model = Model::newModel(modelFullName, structType);
 
-  Value* cast = NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner());
+  Value* cast = NullType::NULL_TYPE->castTo(mContext, NULL, model->getOwner(), 0);
   
   EXPECT_EQ(cast, ConstantPointerNull::get(structType->getPointerTo()));
 }

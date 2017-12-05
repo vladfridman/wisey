@@ -38,7 +38,8 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
   Value* result = AutoCast::maybeCast(context,
                                       mExpression->getType(context),
                                       mExpression->generateIR(context, irGenerationFlag),
-                                      returnType);
+                                      returnType,
+                                      mLine);
   if (IType::isReferenceType(returnType)) {
     ((IObjectType*) returnType)->incremenetReferenceCount(context, result);
   }

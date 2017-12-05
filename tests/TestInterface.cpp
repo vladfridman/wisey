@@ -487,7 +487,7 @@ TEST_F(TestFileSampleRunner, interfaceCastToModelCastExceptionRunDeathTest) {
                                1,
                                "",
                                "Unhandled exception wisey.lang.MCastException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_cast_to_model_cast_exception.yz:0)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_cast_to_model_cast_exception.yz:47)\n"
                                "Details: Can not cast from systems.vos.wisey.compiler.tests.IObject to systems.vos.wisey.compiler.tests.MFoo\n");
 }
 
@@ -496,6 +496,6 @@ TEST_F(TestFileSampleRunner, interfaceCastToInterfaceCastExceptionRunDeathTest) 
                                1,
                                "",
                                "Unhandled exception wisey.lang.MCastException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_cast_to_interface_cast_exception.yz:0)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_cast_to_interface_cast_exception.yz:47)\n"
                                "Details: Can not cast from systems.vos.wisey.compiler.tests.IObject to systems.vos.wisey.compiler.tests.IDevice\n");
 }

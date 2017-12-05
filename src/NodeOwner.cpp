@@ -51,16 +51,17 @@ bool NodeOwner::canAutoCastTo(const IType* toType) const {
 
 Value* NodeOwner::castTo(IRGenerationContext& context,
                          Value* fromValue,
-                         const IType* toType) const {
+                         const IType* toType,
+                         int line) const {
   if (toType == this || toType == mNode) {
     return fromValue;
   }
   
   if (IType::isOwnerType(toType)) {
-    return mNode->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+    return mNode->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject(), line);
   }
   
-  return mNode->castTo(context, fromValue, toType);
+  return mNode->castTo(context, fromValue, toType, line);
 }
 
 void NodeOwner::free(IRGenerationContext &context, Value *value) const {

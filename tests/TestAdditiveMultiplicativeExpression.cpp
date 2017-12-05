@@ -73,19 +73,19 @@ struct AdditiveMultiplicativeExpressionTest : Test {
 };
 
 TEST_F(AdditiveMultiplicativeExpressionTest, isConstantTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
 
   EXPECT_FALSE(expression.isConstant());
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, getVariableTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
   EXPECT_EQ(expression.getVariable(mContext), nullptr);
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   expression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
@@ -95,7 +95,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '-', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '-', mRightExpression, 0);
   expression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
@@ -105,7 +105,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
 }
 
 TEST_F(AdditiveMultiplicativeExpressionTest, printToStreamTest) {
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
   stringstream stringStream;
   ON_CALL(*mLeftExpression, printToStream(_, _)).WillByDefault(Invoke(printLeftExpression));
@@ -123,7 +123,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
 
   EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
@@ -141,7 +141,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(model));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(model));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
   EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
@@ -155,7 +155,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::VOID_TYPE));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
   EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
@@ -169,7 +169,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeath
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
   EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
@@ -183,7 +183,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGetTypeDeathTes
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   
-  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression);
+  AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
   EXPECT_EXIT(expression.getType(mContext),
               ::testing::ExitedWithCode(1),

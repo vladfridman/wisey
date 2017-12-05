@@ -43,7 +43,7 @@ Value* LocalPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context
                                                     int line) {
   Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
   const IType* assignToType = assignToExpression->getType(context);
-  Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
+  Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   IRWriter::newStoreInst(context, castAssignToValue, mValueStore);
   
   return castAssignToValue;

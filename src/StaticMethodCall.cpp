@@ -99,7 +99,8 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
     Value* callArgumentValueCasted = AutoCast::maybeCast(context,
                                                          callArgumentType,
                                                          callArgumentValue,
-                                                         methodArgumentType);
+                                                         methodArgumentType,
+                                                         mLine);
     arguments.push_back(callArgumentValueCasted);
     methodArgumentIterator++;
   }

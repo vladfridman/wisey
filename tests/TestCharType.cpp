@@ -84,34 +84,34 @@ TEST_F(CharTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt16Ty(mLLVMContext), 'a');
   
-  EXPECT_EXIT(mCharType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(mCharType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'char' to 'void'");
   
-  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE);
+  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = trunc i16 97 to i1", mStringStream->str().c_str());
   mStringBuffer.clear();
 
-  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE);
+  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 0);
   EXPECT_EQ(result, expressionValue);
   
-  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE);
+  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv1 = zext i16 97 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE);
+  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv2 = zext i16 97 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE);
+  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv3 = sitofp i16 97 to float", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE);
+  result = mCharType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv4 = sitofp i16 97 to double", mStringStream->str().c_str());
   mStringBuffer.clear();

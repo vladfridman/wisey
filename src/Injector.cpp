@@ -15,8 +15,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Injector::Injector(IObjectTypeSpecifier* objectTypeSpecifier) :
-mObjectTypeSpecifier(objectTypeSpecifier) { }
+Injector::Injector(IObjectTypeSpecifier* objectTypeSpecifier, int line) :
+mObjectTypeSpecifier(objectTypeSpecifier), mLine(line) { }
 
 Injector::~Injector() {
   delete mObjectTypeSpecifier;
@@ -30,8 +30,8 @@ Value* Injector::generateIR(IRGenerationContext& context, IRGenerationFlag flag)
   const IObjectType* type = mObjectTypeSpecifier->getType(context);
   ExpressionList arguments;
   Instruction* malloc = type->getTypeKind() == INTERFACE_TYPE
-    ? ((Interface*) type)->inject(context, arguments)
-    : ((Controller*) type)->inject(context, arguments);
+    ? ((Interface*) type)->inject(context, arguments, mLine)
+    : ((Controller*) type)->inject(context, arguments, mLine);
   
   if (flag == IR_GENERATION_RELEASE) {
     return malloc;

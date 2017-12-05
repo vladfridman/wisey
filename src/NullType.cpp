@@ -37,7 +37,10 @@ bool NullType::canAutoCastTo(const IType* toType) const {
   return toType->getTypeKind() != PRIMITIVE_TYPE;
 }
 
-Value* NullType::castTo(IRGenerationContext& context, Value* fromValue, const IType* toType) const {
+Value* NullType::castTo(IRGenerationContext& context,
+                        Value* fromValue,
+                        const IType* toType,
+                        int line) const {
   return ConstantExpr::getNullValue(toType->getLLVMType(context.getLLVMContext()));
 }
 

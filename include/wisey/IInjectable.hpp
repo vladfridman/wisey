@@ -27,7 +27,8 @@ public:
    * Inject an instance of this controller into LLVM code
    */
   virtual llvm::Instruction* inject(IRGenerationContext& context,
-                                    ExpressionList expressionList) const = 0;
+                                    ExpressionList expressionList,
+                                    int line) const = 0;
 
 };
 

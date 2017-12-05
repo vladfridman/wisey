@@ -385,7 +385,7 @@ TEST_F(ControllerTest, canAutoCastToTest) {
 TEST_F(ControllerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mLLVMContext));
-  mMultiplierController->castTo(mContext, pointer, mScienceCalculatorInterface);
+  mMultiplierController->castTo(mContext, pointer, mScienceCalculatorInterface, 0);
 
   *mStringStream << *mBasicBlock;
   string expected =
@@ -401,7 +401,7 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
 TEST_F(ControllerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
-  mMultiplierController->castTo(mContext, pointer, mCalculatorInterface);
+  mMultiplierController->castTo(mContext, pointer, mCalculatorInterface, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -483,7 +483,7 @@ TEST_F(ControllerTest, injectTest) {
   injectionArguments.push_back(&ownerExpression);
   injectionArguments.push_back(&referenceExpression);
   
-  Value* result = mAdditorController->inject(mContext, injectionArguments);
+  Value* result = mAdditorController->inject(mContext, injectionArguments, 0);
   
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
@@ -529,7 +529,7 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
   injectionArguments.push_back(&injectArgument2);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
+  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
               "Error: Controller injector argumet value for field 'mOwner' "
               "does not match its type");
@@ -539,7 +539,7 @@ TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
   ExpressionList injectionArguments;
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments),
+  EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
               "Error: Attempt to inject a variable that is not a Controller or an Interface");
 }
@@ -551,7 +551,7 @@ TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   injectionArguments.push_back(&injectArgument1);
 
-  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
+  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
               "Error: Not all received fields of controller "
               "systems.vos.wisey.compiler.tests.CAdditor are initialized.");
@@ -570,7 +570,7 @@ TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
   injectionArguments.push_back(&injectArgument2);
   injectionArguments.push_back(&injectArgument3);
   
-  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments),
+  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
               "Error: Too many arguments provided when injecting controller "
               "systems.vos.wisey.compiler.tests.CAdditor");
@@ -604,7 +604,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   mContext.addController(parentController);
   
   ExpressionList injectionArguments;
-  Value* result = parentController->inject(mContext, injectionArguments);
+  Value* result = parentController->inject(mContext, injectionArguments, 0);
   
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));

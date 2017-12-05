@@ -17,7 +17,8 @@ using namespace wisey;
 Value* AutoCast::maybeCast(IRGenerationContext& context,
                            const IType* fromType,
                            Value* fromValue,
-                           const IType* toType) {
+                           const IType* toType,
+                           int line) {
   if (fromType == toType) {
     return fromValue;
   }
@@ -31,5 +32,5 @@ Value* AutoCast::maybeCast(IRGenerationContext& context,
     exit(1);
   }
   
-  return fromType->castTo(context, fromValue, toType);
+  return fromType->castTo(context, fromValue, toType, line);
 }

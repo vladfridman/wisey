@@ -23,10 +23,11 @@ class IRGenerationContext;
  */
 class ExitStatement : public IStatement {
   IExpression* mExpression;
+  int mLine;
   
 public:
   
-  ExitStatement(IExpression* expression);
+  ExitStatement(IExpression* expression, int line);
   
   ~ExitStatement();
   

@@ -25,8 +25,8 @@ public:
    * Builds an instance of this object and initializes all fields
    */
   virtual llvm::Instruction* build(IRGenerationContext& context,
-                                   const ObjectBuilderArgumentList&
-                                   ObjectBuilderArgumentList) const = 0;
+                                   const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                                   int line) const = 0;
 
 };
 

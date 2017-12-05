@@ -22,10 +22,12 @@ using namespace wisey;
 AdditiveMultiplicativeExpression::
 AdditiveMultiplicativeExpression(IExpression* leftExpression,
                                  int operation,
-                                 IExpression* rightExpression) :
+                                 IExpression* rightExpression,
+                                 int line) :
 mLeftExpression(leftExpression),
 mRightExpression(rightExpression),
-mOperation(operation) { }
+mOperation(operation),
+mLine(line) { }
 
 AdditiveMultiplicativeExpression::~AdditiveMultiplicativeExpression() {
   delete mLeftExpression;
@@ -61,9 +63,9 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
   Value* rightValue = mRightExpression->generateIR(context, IR_GENERATION_NORMAL);
   
   if (leftType->canAutoCastTo(rightType)) {
-    leftValue = AutoCast::maybeCast(context, leftType, leftValue, rightType);
+    leftValue = AutoCast::maybeCast(context, leftType, leftValue, rightType, mLine);
   } else {
-    rightValue = AutoCast::maybeCast(context, rightType, rightValue, leftType);
+    rightValue = AutoCast::maybeCast(context, rightType, rightValue, leftType, mLine);
   }
   
   return IRWriter::createBinaryOperator(context, instruction, leftValue, rightValue, name);

@@ -20,10 +20,11 @@ namespace wisey {
 class Injector : public IExpression {
     
   IObjectTypeSpecifier* mObjectTypeSpecifier;
+  int mLine;
   
 public:
   
-  Injector(IObjectTypeSpecifier* objectTypeSpecifier);
+  Injector(IObjectTypeSpecifier* objectTypeSpecifier, int line);
   
   ~Injector();
   

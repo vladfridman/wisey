@@ -85,34 +85,34 @@ TEST_F(StringTypeTest, canCastTest) {
 TEST_F(StringTypeTest, castToTest) {
   Value* expressionValue = ConstantPointerNull::get(Type::getInt16Ty(mLLVMContext)->getPointerTo());
   
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'string' to 'void'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'string' to 'boolean'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'string' to 'char'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'string' to 'int'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'string' to 'long'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'string' to 'float'");
 
-  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE),
+  EXPECT_EXIT(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'string' to 'double'");
   
-  EXPECT_EQ(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::STRING_TYPE),
+  EXPECT_EQ(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::STRING_TYPE, 0),
             expressionValue);
 }

@@ -57,7 +57,7 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   
   Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
   const IType* assignToType = assignToExpression->getType(context);
-  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
+  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   
   free(context);
   

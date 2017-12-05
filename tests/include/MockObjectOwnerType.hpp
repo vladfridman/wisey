@@ -28,9 +28,10 @@ public:
   MOCK_CONST_METHOD0(getTypeKind, wisey::TypeKind ());
   MOCK_CONST_METHOD1(canCastTo, bool (const wisey::IType*));
   MOCK_CONST_METHOD1(canAutoCastTo, bool (const wisey::IType*));
-  MOCK_CONST_METHOD3(castTo, llvm::Value* (wisey::IRGenerationContext&,
+  MOCK_CONST_METHOD4(castTo, llvm::Value* (wisey::IRGenerationContext&,
                                            llvm::Value*,
-                                           const wisey::IType*));
+                                           const wisey::IType*,
+                                           int));
 };
 
 

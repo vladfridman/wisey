@@ -43,7 +43,8 @@ public:
   
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
-                      const IType* toType) const override;
+                      const IType* toType,
+                      int line) const override;
 
 };
   

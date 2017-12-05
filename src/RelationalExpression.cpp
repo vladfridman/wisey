@@ -20,10 +20,12 @@ using namespace wisey;
 
 RelationalExpression::RelationalExpression(IExpression* leftExpression,
                                            RelationalOperation operation,
-                                           IExpression* rightExpression) :
+                                           IExpression* rightExpression,
+                                           int line) :
 mLeftExpression(leftExpression),
 mRightExpression(rightExpression),
-mOperation(operation) { }
+mOperation(operation),
+mLine(line) { }
 
 RelationalExpression::~RelationalExpression() {
   delete mLeftExpression;
@@ -83,12 +85,12 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context) 
   }
   
   if (leftType->canAutoCastTo(rightType)) {
-    Value* castedLeftValue = leftType->castTo(context, leftValue, rightType);
+    Value* castedLeftValue = leftType->castTo(context, leftValue, rightType, mLine);
     return IRWriter::newICmpInst(context, predicate, castedLeftValue, castedLeftValue, "cmp");
   }
   
   if (rightType->canAutoCastTo(leftType)) {
-    Value* castedRightValue = rightType->castTo(context, rightValue, leftType);
+    Value* castedRightValue = rightType->castTo(context, rightValue, leftType, mLine);
     return IRWriter::newICmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }
   
@@ -118,12 +120,12 @@ Value* RelationalExpression::generateIRForFloats(IRGenerationContext& context) c
   }
   
   if (leftType->canAutoCastTo(rightType)) {
-    Value* castedLeftValue = leftType->castTo(context, leftValue, rightType);
+    Value* castedLeftValue = leftType->castTo(context, leftValue, rightType, mLine);
     return IRWriter::newFCmpInst(context, predicate, castedLeftValue, rightValue, "cmp");
   }
   
   if (rightType->canAutoCastTo(leftType)) {
-    Value* castedRightValue = rightType->castTo(context, rightValue, leftType);
+    Value* castedRightValue = rightType->castTo(context, rightValue, leftType, mLine);
     return IRWriter::newFCmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }
   
@@ -153,12 +155,12 @@ Value* RelationalExpression::generateIRForInts(IRGenerationContext& context) con
   }
   
   if (leftType->canAutoCastTo(rightType)) {
-    Value* castedLeftValue = leftType->castTo(context, leftValue, rightType);
+    Value* castedLeftValue = leftType->castTo(context, leftValue, rightType, mLine);
     return IRWriter::newICmpInst(context, predicate, castedLeftValue, rightValue, "cmp");
   }
   
   if (rightType->canAutoCastTo(leftType)) {
-    Value* castedRightValue = rightType->castTo(context, rightValue, leftType);
+    Value* castedRightValue = rightType->castTo(context, rightValue, leftType, mLine);
     return IRWriter::newICmpInst(context, predicate, leftValue, castedRightValue, "cmp");
   }
   

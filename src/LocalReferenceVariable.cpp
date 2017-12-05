@@ -56,7 +56,7 @@ Value* LocalReferenceVariable::generateAssignmentIR(IRGenerationContext& context
                                                     int line) {
   Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
   const IType* assignToType = assignToExpression->getType(context);
-  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType);
+  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   
   decrementReferenceCounter(context);
   mType->incremenetReferenceCount(context, newValue);

@@ -54,16 +54,17 @@ bool InterfaceOwner::canAutoCastTo(const IType* toType) const {
 
 Value* InterfaceOwner::castTo(IRGenerationContext& context,
                               Value* fromValue,
-                              const IType* toType) const {
+                              const IType* toType,
+                              int line) const {
   if (toType == this || toType == mInterface) {
     return fromValue;
   }
 
   if (IType::isOwnerType(toType)) {
-    return mInterface->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+    return mInterface->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject(), line);
   }
   
-  return mInterface->castTo(context, fromValue, toType);
+  return mInterface->castTo(context, fromValue, toType, line);
 }
 
 void InterfaceOwner::free(IRGenerationContext& context, Value* value) const {

@@ -623,7 +623,7 @@ throw_statement
   ;
 
 exit_statement
-  : TEXIT '(' expression ')' ';' { $$ = new ExitStatement($3); }
+  : TEXIT '(' expression ')' ';' { $$ = new ExitStatement($3, yylineno); }
   ;
 
 try_catch_statement
@@ -790,35 +790,35 @@ unary_expression
 
 cast_expression
   : unary_expression
-  | '(' type_specifier ')' cast_expression { $$ = new CastExpression($2, $4); }
+  | '(' type_specifier ')' cast_expression { $$ = new CastExpression($2, $4, yylineno); }
   ;
 
 multiplicative_expression
   : cast_expression
   | multiplicative_expression '*' cast_expression
-    { $$ = new AdditiveMultiplicativeExpression($1, '*', $3); }
+    { $$ = new AdditiveMultiplicativeExpression($1, '*', $3, yylineno); }
   | multiplicative_expression '/' cast_expression
-    { $$ = new AdditiveMultiplicativeExpression($1, '/', $3); }
+    { $$ = new AdditiveMultiplicativeExpression($1, '/', $3, yylineno); }
   ;
 
 additive_expression
   : multiplicative_expression
   | additive_expression '+' multiplicative_expression
-    { $$ = new AdditiveMultiplicativeExpression($1, '+', $3); }
+    { $$ = new AdditiveMultiplicativeExpression($1, '+', $3, yylineno); }
   | additive_expression '-' multiplicative_expression
-    { $$ = new AdditiveMultiplicativeExpression($1, '-', $3); }
+    { $$ = new AdditiveMultiplicativeExpression($1, '-', $3, yylineno); }
   ;
 
 relational_expression
   : additive_expression
   | relational_expression '<' additive_expression
-    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LT, $3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LT, $3, yylineno); }
   | relational_expression '>' additive_expression
-    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GT, $3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GT, $3, yylineno); }
   | relational_expression TCLE additive_expression
-    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LE, $3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_LE, $3, yylineno); }
   | relational_expression TCGE additive_expression
-    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GE, $3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_GE, $3, yylineno); }
   ;
 
 type_comparision_expression
@@ -830,9 +830,9 @@ type_comparision_expression
 equality_expression
   : type_comparision_expression
   | equality_expression TCEQ relational_expression
-    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_EQ, $3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_EQ, $3, yylineno); }
   | equality_expression TCNE relational_expression
-    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_NE, $3); }
+    { $$ = new RelationalExpression($1, RELATIONAL_OPERATION_NE, $3, yylineno); }
   ;
 
 logical_and_expression
@@ -864,15 +864,15 @@ thread_expression
   : TTHREAD { $$ = new ThreadExpression(); }
 
 injection
-  : TINJECT '(' injectable_object_type_specifier ')' { $$ = new Injector($3); }
+  : TINJECT '(' injectable_object_type_specifier ')' { $$ = new Injector($3, yylineno); }
   ;
 
 object_builder
   : TBUILDER '(' buildable_concrete_object_type_specifier ')' object_builder_argument_list
     '.' TBUILD '(' ')'
-    { $$ = new ObjectBuilder($3, *$5); delete $5; }
+    { $$ = new ObjectBuilder($3, *$5, yylineno); delete $5; }
   | TBUILDER '(' buildable_concrete_object_type_specifier ')' '.' TBUILD '(' ')'
-    { ObjectBuilderArgumentList argumentList; $$ = new ObjectBuilder($3, argumentList); }
+    { ObjectBuilderArgumentList argumentList; $$ = new ObjectBuilder($3, argumentList, yylineno); }
   ;
 
 object_builder_argument_list

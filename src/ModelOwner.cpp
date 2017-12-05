@@ -51,16 +51,17 @@ bool ModelOwner::canAutoCastTo(const IType* toType) const {
 
 Value* ModelOwner::castTo(IRGenerationContext& context,
                           Value* fromValue,
-                          const IType* toType) const {
+                          const IType* toType,
+                          int line) const {
   if (toType == this || toType == mModel) {
     return fromValue;
   }
 
   if (IType::isOwnerType(toType)) {
-    return mModel->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+    return mModel->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject(), line);
   }
 
-  return mModel->castTo(context, fromValue, toType);
+  return mModel->castTo(context, fromValue, toType, line);
 }
 
 void ModelOwner::free(IRGenerationContext &context, Value* value) const {

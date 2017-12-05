@@ -59,7 +59,8 @@ public:
   static Controller* newExternalController(std::string name, llvm::StructType* structType);
 
   llvm::Instruction* inject(IRGenerationContext& context,
-                            ExpressionList expressionList) const override;
+                            ExpressionList expressionList,
+                            int line) const override;
   
   void setFields(std::vector<Field*> fields, unsigned long startIndex) override;
   
@@ -101,7 +102,8 @@ public:
   
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
-                      const IType* toType) const override;
+                      const IType* toType,
+                      int line) const override;
 
   std::string getVTableName() const override;
 
@@ -139,10 +141,12 @@ private:
   
   void initializeReceivedFields(IRGenerationContext& context,
                                 ExpressionList& controllerInjectorArguments,
-                                llvm::Instruction* malloc) const;
+                                llvm::Instruction* malloc,
+                                int line) const;
   
   void initializeInjectedFields(IRGenerationContext& context,
-                                llvm::Instruction* malloc) const;
+                                llvm::Instruction* malloc,
+                                int line) const;
   
   void initializeStateFields(IRGenerationContext& context,
                              llvm::Instruction* malloc) const;

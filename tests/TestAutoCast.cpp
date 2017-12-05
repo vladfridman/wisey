@@ -59,20 +59,23 @@ TEST_F(AutoCastTest, castBooleanTest) {
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::BOOLEAN_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::VOID_TYPE),
+                                  PrimitiveTypes::VOID_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'boolean' to 'void'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::BOOLEAN_TYPE,
                                expressionValue,
-                               PrimitiveTypes::BOOLEAN_TYPE);
+                               PrimitiveTypes::BOOLEAN_TYPE,
+                               0);
   EXPECT_EQ(result, expressionValue);
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::BOOLEAN_TYPE,
                                expressionValue,
-                               PrimitiveTypes::CHAR_TYPE);
+                               PrimitiveTypes::CHAR_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = zext i1 true to i16", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -80,7 +83,8 @@ TEST_F(AutoCastTest, castBooleanTest) {
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::BOOLEAN_TYPE,
                                expressionValue,
-                               PrimitiveTypes::INT_TYPE);
+                               PrimitiveTypes::INT_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv1 = zext i1 true to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -88,7 +92,8 @@ TEST_F(AutoCastTest, castBooleanTest) {
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::BOOLEAN_TYPE,
                                expressionValue,
-                               PrimitiveTypes::LONG_TYPE);
+                               PrimitiveTypes::LONG_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv2 = zext i1 true to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -96,7 +101,8 @@ TEST_F(AutoCastTest, castBooleanTest) {
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::BOOLEAN_TYPE,
                                expressionValue,
-                               PrimitiveTypes::FLOAT_TYPE);
+                               PrimitiveTypes::FLOAT_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv3 = sitofp i1 true to float", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -104,7 +110,8 @@ TEST_F(AutoCastTest, castBooleanTest) {
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::BOOLEAN_TYPE,
                                expressionValue,
-                               PrimitiveTypes::DOUBLE_TYPE);
+                               PrimitiveTypes::DOUBLE_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv4 = sitofp i1 true to double", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -117,27 +124,31 @@ TEST_F(AutoCastTest, castCharTest) {
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::CHAR_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::VOID_TYPE),
+                                  PrimitiveTypes::VOID_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'char' to 'void'");
 
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::CHAR_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::BOOLEAN_TYPE),
+                                  PrimitiveTypes::BOOLEAN_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'char' to 'boolean'");
 
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::CHAR_TYPE,
                                expressionValue,
-                               PrimitiveTypes::CHAR_TYPE);
+                               PrimitiveTypes::CHAR_TYPE,
+                               0);
   EXPECT_EQ(result, expressionValue);
 
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::CHAR_TYPE,
                                expressionValue,
-                               PrimitiveTypes::INT_TYPE);
+                               PrimitiveTypes::INT_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = zext i16 97 to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -145,7 +156,8 @@ TEST_F(AutoCastTest, castCharTest) {
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::CHAR_TYPE,
                                expressionValue,
-                               PrimitiveTypes::LONG_TYPE);
+                               PrimitiveTypes::LONG_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv1 = zext i16 97 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -153,7 +165,8 @@ TEST_F(AutoCastTest, castCharTest) {
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::CHAR_TYPE,
                                expressionValue,
-                               PrimitiveTypes::FLOAT_TYPE);
+                               PrimitiveTypes::FLOAT_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv2 = sitofp i16 97 to float", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -161,7 +174,8 @@ TEST_F(AutoCastTest, castCharTest) {
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::CHAR_TYPE,
                                expressionValue,
-                               PrimitiveTypes::DOUBLE_TYPE);
+                               PrimitiveTypes::DOUBLE_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv3 = sitofp i16 97 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -174,34 +188,39 @@ TEST_F(AutoCastTest, castIntTest) {
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::INT_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::VOID_TYPE),
+                                  PrimitiveTypes::VOID_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'int' to 'void'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::INT_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::BOOLEAN_TYPE),
+                                  PrimitiveTypes::BOOLEAN_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'int' to 'boolean'");
 
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::INT_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::CHAR_TYPE),
+                                  PrimitiveTypes::CHAR_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'int' to 'char'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::INT_TYPE,
                                expressionValue,
-                               PrimitiveTypes::INT_TYPE);
+                               PrimitiveTypes::INT_TYPE,
+                               0);
   EXPECT_EQ(result, expressionValue);
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::INT_TYPE,
                                expressionValue,
-                               PrimitiveTypes::LONG_TYPE);
+                               PrimitiveTypes::LONG_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = zext i32 5 to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -209,14 +228,16 @@ TEST_F(AutoCastTest, castIntTest) {
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::INT_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::FLOAT_TYPE),
+                                  PrimitiveTypes::FLOAT_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'int' to 'float'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::INT_TYPE,
                                expressionValue,
-                               PrimitiveTypes::DOUBLE_TYPE);
+                               PrimitiveTypes::DOUBLE_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv1 = sitofp i32 5 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -229,48 +250,55 @@ TEST_F(AutoCastTest, castLongTest) {
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::VOID_TYPE),
+                                  PrimitiveTypes::VOID_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'long' to 'void'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::BOOLEAN_TYPE),
+                                  PrimitiveTypes::BOOLEAN_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'long' to 'boolean'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::CHAR_TYPE),
+                                  PrimitiveTypes::CHAR_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'long' to 'char'");
 
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::INT_TYPE),
+                                  PrimitiveTypes::INT_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'long' to 'int'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::LONG_TYPE,
                                expressionValue,
-                               PrimitiveTypes::LONG_TYPE);
+                               PrimitiveTypes::LONG_TYPE,
+                               0);
   EXPECT_EQ(result, expressionValue);
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::FLOAT_TYPE),
+                                  PrimitiveTypes::FLOAT_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'long' to 'float'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::LONG_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::DOUBLE_TYPE),
+                                  PrimitiveTypes::DOUBLE_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'long' to 'double'");
 }
@@ -282,48 +310,55 @@ TEST_F(AutoCastTest, castFloatTest) {
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::VOID_TYPE),
+                                  PrimitiveTypes::VOID_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'float' to 'void'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::BOOLEAN_TYPE),
+                                  PrimitiveTypes::BOOLEAN_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'float' to 'boolean'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::CHAR_TYPE),
+                                  PrimitiveTypes::CHAR_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'float' to 'char'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::INT_TYPE),
+                                  PrimitiveTypes::INT_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'float' to 'int'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::FLOAT_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::LONG_TYPE),
+                                  PrimitiveTypes::LONG_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'float' to 'long'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::FLOAT_TYPE,
                                expressionValue,
-                               PrimitiveTypes::FLOAT_TYPE);
+                               PrimitiveTypes::FLOAT_TYPE,
+                               0);
   EXPECT_EQ(result, expressionValue);
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::FLOAT_TYPE,
                                expressionValue,
-                               PrimitiveTypes::DOUBLE_TYPE);
+                               PrimitiveTypes::DOUBLE_TYPE,
+                               0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = fpext float 2.500000e+00 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -336,48 +371,55 @@ TEST_F(AutoCastTest, castDoubleTest) {
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::VOID_TYPE),
+                                  PrimitiveTypes::VOID_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'double' to 'void'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::BOOLEAN_TYPE),
+                                  PrimitiveTypes::BOOLEAN_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'double' to 'boolean'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::CHAR_TYPE),
+                                  PrimitiveTypes::CHAR_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'double' to 'char'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::INT_TYPE),
+                                  PrimitiveTypes::INT_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'double' to 'int'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::LONG_TYPE),
+                                  PrimitiveTypes::LONG_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'double' to 'long'");
   
   EXPECT_EXIT(AutoCast::maybeCast(mContext,
                                   PrimitiveTypes::DOUBLE_TYPE,
                                   expressionValue,
-                                  PrimitiveTypes::FLOAT_TYPE),
+                                  PrimitiveTypes::FLOAT_TYPE,
+                                  0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: need explicit cast from type 'double' to 'float'");
   
   result = AutoCast::maybeCast(mContext,
                                PrimitiveTypes::DOUBLE_TYPE,
                                expressionValue,
-                               PrimitiveTypes::DOUBLE_TYPE);
+                               PrimitiveTypes::DOUBLE_TYPE,
+                               0);
   EXPECT_EQ(result, expressionValue);
 }

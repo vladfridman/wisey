@@ -135,7 +135,8 @@ public:
   void composeDestructorFunctionBody(IRGenerationContext& context) const;
 
   llvm::Instruction* inject(IRGenerationContext& context,
-                            ExpressionList expressionList) const override;
+                            ExpressionList expressionList,
+                            int line) const override;
 
   MethodSignature* findMethod(std::string methodName) const override;
   
@@ -157,7 +158,8 @@ public:
   
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
-                      const IType* toType) const override;
+                      const IType* toType,
+                      int line) const override;
   
   const IObjectOwnerType* getOwner() const override;
   

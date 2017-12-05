@@ -22,12 +22,14 @@ class RelationalExpression : public IExpression {
   IExpression* mLeftExpression;
   IExpression* mRightExpression;
   RelationalOperation mOperation;
+  int mLine;
   
 public:
 
   RelationalExpression(IExpression* leftExpression,
                        RelationalOperation operation,
-                       IExpression* rightExpression);
+                       IExpression* rightExpression,
+                       int line);
 
   ~RelationalExpression();
   

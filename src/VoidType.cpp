@@ -45,7 +45,8 @@ bool VoidType::canAutoCastTo(const IType* toType) const {
 
 Value* VoidType::castTo(IRGenerationContext& context,
                         Value* fromValue,
-                        const IType* toType) const {
+                        const IType* toType,
+                        int line) const {
   if (toType == PrimitiveTypes::VOID_TYPE) {
     return fromValue;
   }

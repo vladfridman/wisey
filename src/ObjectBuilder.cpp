@@ -19,9 +19,11 @@ using namespace std;
 using namespace wisey;
 
 ObjectBuilder::ObjectBuilder(IObjectTypeSpecifier* typeSpecifier,
-                             ObjectBuilderArgumentList ObjectBuilderArgumentList) :
+                             ObjectBuilderArgumentList ObjectBuilderArgumentList,
+                             int line) :
 mTypeSpecifier(typeSpecifier),
-mObjectBuilderArgumentList(ObjectBuilderArgumentList) { }
+mObjectBuilderArgumentList(ObjectBuilderArgumentList),
+mLine(line) { }
 
 ObjectBuilder::~ObjectBuilder() {
   delete mTypeSpecifier;
@@ -39,7 +41,7 @@ Value* ObjectBuilder::generateIR(IRGenerationContext& context, IRGenerationFlag 
   const IObjectType* objectType = mTypeSpecifier->getType(context);
   assert(objectType->getTypeKind() == MODEL_TYPE || objectType->getTypeKind() == NODE_TYPE);
   IBuildableConcreteObjectType* buildableType = (IBuildableConcreteObjectType*) objectType;
-  Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList);
+  Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList, mLine);
   
   if (flag == IR_GENERATION_RELEASE) {
     return malloc;

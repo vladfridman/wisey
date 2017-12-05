@@ -18,7 +18,8 @@ using namespace llvm;
 using namespace wisey;
 
 
-ExitStatement::ExitStatement(IExpression* expression) : mExpression(expression) { }
+ExitStatement::ExitStatement(IExpression* expression, int line) :
+mExpression(expression), mLine(line) { }
 
 ExitStatement::~ExitStatement() {
   delete mExpression;
@@ -31,7 +32,10 @@ Value* ExitStatement::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   Value* expressionValue = mExpression->generateIR(context, IR_GENERATION_NORMAL);
-  Value* castValue = expressionType->castTo(context, expressionValue, PrimitiveTypes::INT_TYPE);
+  Value* castValue = expressionType->castTo(context,
+                                            expressionValue,
+                                            PrimitiveTypes::INT_TYPE,
+                                            mLine);
 
   Function* exitFunction = IntrinsicFunctions::getExitFunction(context);
   vector<Value*> arguments;

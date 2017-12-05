@@ -32,9 +32,10 @@ public:
   MOCK_CONST_METHOD0(getTypeKind, wisey::TypeKind ());
   MOCK_CONST_METHOD1(canCastTo, bool (const wisey::IType*));
   MOCK_CONST_METHOD1(canAutoCastTo, bool (const wisey::IType*));
-  MOCK_CONST_METHOD3(castTo, llvm::Value* (wisey::IRGenerationContext&,
+  MOCK_CONST_METHOD4(castTo, llvm::Value* (wisey::IRGenerationContext&,
                                            llvm::Value*,
-                                           const wisey::IType*));
+                                           const wisey::IType*,
+                                           int));
   MOCK_CONST_METHOD0(isExternal, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
   MOCK_CONST_METHOD2(incremenetReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));

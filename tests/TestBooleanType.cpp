@@ -84,34 +84,34 @@ TEST_F(BooleanTypeTest, castToTest) {
   Value* result;
   Value* expressionValue = ConstantInt::get(Type::getInt1Ty(mLLVMContext), 1);
   
-  EXPECT_EXIT(mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE),
+  EXPECT_EXIT(mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::VOID_TYPE, 0),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types: can not cast from type 'boolean' to 'void'");
   
-  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE);
+  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::BOOLEAN_TYPE, 0);
   EXPECT_EQ(result, expressionValue);
   
-  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE);
+  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::CHAR_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = zext i1 true to i16", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE);
+  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::INT_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv1 = zext i1 true to i32", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE);
+  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::LONG_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv2 = zext i1 true to i64", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE);
+  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::FLOAT_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv3 = sitofp i1 true to float", mStringStream->str().c_str());
   mStringBuffer.clear();
   
-  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE);
+  result = mBoleanType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 0);
   *mStringStream << *result;
   EXPECT_STREQ("  %conv4 = sitofp i1 true to double", mStringStream->str().c_str());
   mStringBuffer.clear();

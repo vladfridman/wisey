@@ -86,7 +86,9 @@ void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Functio
   ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(Names::getLangPackageName(),
                                                                   Names::getNPEModelName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
+  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
+                                                   objectBuilderArgumnetList,
+                                                   0);
   ThrowStatement* throwStatement = new ThrowStatement(objectBuilder, 0);
   thenBlock->getStatements().push_back(throwStatement);
   CompoundStatement* thenStatement = new CompoundStatement(thenBlock, 0);

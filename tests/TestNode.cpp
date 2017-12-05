@@ -398,7 +398,7 @@ TEST_F(NodeTest, canAutoCastToTest) {
 TEST_F(NodeTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
-  mComplicatedNode->castTo(mContext, pointer, mComplicatedElementInterface);
+  mComplicatedNode->castTo(mContext, pointer, mComplicatedElementInterface, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -414,7 +414,7 @@ TEST_F(NodeTest, castToFirstInterfaceTest) {
 TEST_F(NodeTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
-  mComplicatedNode->castTo(mContext, pointer, mElementInterface);
+  mComplicatedNode->castTo(mContext, pointer, mElementInterface, 0);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -502,7 +502,7 @@ TEST_F(NodeTest, buildTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  Value* result = mSimpleNode->build(mContext, argumentList);
+  Value* result = mSimpleNode->build(mContext, argumentList, 0);
   
   EXPECT_NE(result, nullptr);
   EXPECT_TRUE(BitCastInst::classof(result));
@@ -553,7 +553,7 @@ TEST_F(NodeTest, buildInvalidObjectBuilderArgumentsDeathTest) {
   "\nError: Some arguments for the node systems.vos.wisey.compiler.tests.NSimpleNode "
   "builder are not well formed";
   
-  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList),
+  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 0),
               ::testing::ExitedWithCode(1),
               expected);
 }
@@ -577,7 +577,7 @@ TEST_F(NodeTest, buildIncorrectArgumentTypeDeathTest) {
   argumentList.push_back(argument1);
   argumentList.push_back(argument2);
   
-  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList),
+  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 0),
               ::testing::ExitedWithCode(1),
               "Error: Node builder argument value for field mReference does not match its type");
 }
@@ -598,7 +598,7 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
   "\nError: Some fields of the node systems.vos.wisey.compiler.tests.NSimpleNode "
   "are not initialized.";
   
-  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList),
+  EXPECT_EXIT(mSimpleNode->build(mContext, argumentList, 0),
               ::testing::ExitedWithCode(1),
               expected);
 }

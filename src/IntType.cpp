@@ -47,7 +47,8 @@ bool IntType::canAutoCastTo(const IType* toType) const {
 
 Value* IntType::castTo(IRGenerationContext& context,
                        Value* fromValue,
-                       const IType* toType) const {
+                       const IType* toType,
+                       int line) const {
   if (toType == PrimitiveTypes::BOOLEAN_TYPE || toType == PrimitiveTypes::CHAR_TYPE) {
     return Cast::truncIntCast(context, fromValue, toType);
   } else if (toType == PrimitiveTypes::INT_TYPE) {

@@ -125,15 +125,17 @@ wisey::Constant* Controller::findConstant(string constantName) const {
   return mNameToConstantMap.at(constantName);
 }
 
-Instruction* Controller::inject(IRGenerationContext& context, ExpressionList received) const {
+Instruction* Controller::inject(IRGenerationContext& context,
+                                ExpressionList received,
+                                int line) const {
   const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(this);
   
   checkArguments(received);
   Instruction* malloc = createMalloc(context);
   IConcreteObjectType::initializeReferenceCounter(context, malloc);
-  initializeReceivedFields(context, received, malloc);
-  initializeInjectedFields(context, malloc);
+  initializeReceivedFields(context, received, malloc, line);
+  initializeInjectedFields(context, malloc, line);
   initializeStateFields(context, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
@@ -242,13 +244,15 @@ bool Controller::canAutoCastTo(const IType* toType) const {
 
 Value* Controller::castTo(IRGenerationContext& context,
                           Value* fromValue,
-                          const IType* toType) const {
+                          const IType* toType,
+                          int line) const {
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
 void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           ExpressionList& controllerInjectorArguments,
-                                          Instruction* malloc) const {
+                                          Instruction* malloc,
+                                          int line) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   
   Value* index[2];
@@ -269,7 +273,7 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
              "' does not match its type");
       exit(1);
     }
-    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType);
+    Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (IType::isReferenceType(fieldType)) {
       ((IObjectType*) fieldType)->incremenetReferenceCount(context, castValue);
@@ -279,7 +283,9 @@ void Controller::initializeReceivedFields(IRGenerationContext& context,
   }
 }
 
-void Controller::initializeInjectedFields(IRGenerationContext& context, Instruction* malloc) const {
+void Controller::initializeInjectedFields(IRGenerationContext& context,
+                                          Instruction* malloc,
+                                          int line) const {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   Value *index[2];
@@ -295,7 +301,7 @@ void Controller::initializeInjectedFields(IRGenerationContext& context, Instruct
       exit(1);
     }
     Controller* controller = (Controller*) ((IObjectOwnerType*) fieldType)->getObject();
-    Value* fieldValue = controller->inject(context, field->getArguments());
+    Value* fieldValue = controller->inject(context, field->getArguments(), line);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);

@@ -85,12 +85,12 @@ struct RelationalExpressionTest : public Test {
 };
 
 TEST_F(RelationalExpressionTest, getVariableTest) {
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
   EXPECT_EQ(expression.getVariable(mContext), nullptr);
 }
 
 TEST_F(RelationalExpressionTest, intLessThanTest) {
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
   expression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
@@ -101,7 +101,7 @@ TEST_F(RelationalExpressionTest, intLessThanTest) {
 }
 
 TEST_F(RelationalExpressionTest, intGreaterThanOrEqualTest) {
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression, 0);
   expression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
@@ -116,7 +116,7 @@ TEST_F(RelationalExpressionTest, compareIntsWithCastTest) {
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(leftValue));
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
 
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression, 0);
   expression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   ASSERT_EQ(2ul, mBasicBlock->size());
@@ -137,7 +137,7 @@ TEST_F(RelationalExpressionTest, floatLessThanTest) {
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(rightValue));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
   expression.generateIR(mContext, IR_GENERATION_NORMAL);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
@@ -149,13 +149,13 @@ TEST_F(RelationalExpressionTest, floatLessThanTest) {
 }
 
 TEST_F(RelationalExpressionTest, isConstantTest) {
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LE, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LE, mRightExpression, 0);
 
   EXPECT_FALSE(expression.isConstant());
 }
 
 TEST_F(RelationalExpressionTest, printToStreamTest) {
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LE, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LE, mRightExpression, 0);
 
   stringstream stringStream;
   ON_CALL(*mLeftExpression, printToStream(_, _)).WillByDefault(Invoke(printLeftExpression));
@@ -170,7 +170,7 @@ TEST_F(RelationalExpressionTest, objectAndNonObjectCompareDeathTest) {
   Mock::AllowLeak(mRightExpression);
 
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mModel));
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
 
   EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
@@ -189,7 +189,7 @@ TEST_F(RelationalExpressionTest, incompatableObjectsCompareDeathTest) {
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mNode));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(nodeNull));
   
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 0);
 
   EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
@@ -203,7 +203,7 @@ TEST_F(RelationalExpressionTest, compareObjectsWithNonEqualityTypePredicateDeath
   
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mModel));
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GT, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GT, mRightExpression, 0);
   
   EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
@@ -215,7 +215,7 @@ TEST_F(RelationalExpressionTest, incompatablePrimitiveTypesDeathTest) {
   Mock::AllowLeak(mRightExpression);
   
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
-  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression);
+  RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 0);
   
   EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),

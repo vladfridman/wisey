@@ -55,7 +55,7 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
     exit(1);
   }
   Value* expressionValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
-  Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType);
+  Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType, line);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
 
   Value* previousValue = IRWriter::newLoadInst(context, fieldPointer, "");

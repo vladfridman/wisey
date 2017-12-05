@@ -45,7 +45,8 @@ bool DoubleType::canAutoCastTo(const IType* toType) const {
 
 Value* DoubleType::castTo(IRGenerationContext& context,
                           Value* fromValue,
-                          const IType* toType) const {
+                          const IType* toType,
+                          int line) const {
   if (toType == PrimitiveTypes::BOOLEAN_TYPE ||
       toType == PrimitiveTypes::CHAR_TYPE ||
       toType == PrimitiveTypes::INT_TYPE ||

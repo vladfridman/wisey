@@ -17,8 +17,8 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-CastExpression::CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression)
-: mTypeSpecifier(typeSpecifier), mExpression(expression) { }
+CastExpression::CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression, int line)
+: mTypeSpecifier(typeSpecifier), mExpression(expression), mLine(line) { }
 
 CastExpression::~CastExpression() {
   delete mTypeSpecifier;
@@ -34,7 +34,7 @@ Value* CastExpression::generateIR(IRGenerationContext& context, IRGenerationFlag
   Value* fromValue = mExpression->generateIR(context, flag);
   const IType* toType = mTypeSpecifier->getType(context);
   
-  return fromType->castTo(context, fromValue, toType);
+  return fromType->castTo(context, fromValue, toType, mLine);
 }
 
 const IType* CastExpression::getType(IRGenerationContext& context) const {

@@ -20,10 +20,11 @@ namespace wisey {
 class CastExpression : public IExpression {
   ITypeSpecifier* mTypeSpecifier;
   IExpression* mExpression;
+  int mLine;
   
 public:
   
-  CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression);
+  CastExpression(ITypeSpecifier* typeSpecifier, IExpression* expression, int line);
   
   ~CastExpression();
   

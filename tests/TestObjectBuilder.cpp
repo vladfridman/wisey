@@ -92,7 +92,7 @@ struct ObjectBuilderTest : Test {
     ObjectBuilderArgumentList argumentList;
     argumentList.push_back(argument1);
     argumentList.push_back(argument2);
-    mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList);
+    mObjectBuilder = new ObjectBuilder(mModelTypeSpecifier, argumentList, 0);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(llvmContext), false);
     Function* function = Function::Create(functionType,
@@ -128,7 +128,7 @@ TEST_F(ObjectBuilderTest, getVariableTest) {
 
 TEST_F(ObjectBuilderTest, testGetType) {
   ObjectBuilderArgumentList argumentList;
-  ObjectBuilder objectBuilder(mModelTypeSpecifier, argumentList);
+  ObjectBuilder objectBuilder(mModelTypeSpecifier, argumentList, 0);
 
   EXPECT_EQ(objectBuilder.getType(mContext), mModel->getOwner());
 }

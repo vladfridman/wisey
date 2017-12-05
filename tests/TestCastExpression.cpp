@@ -88,13 +88,13 @@ public:
 };
 
 TEST_F(CastExpressionTest, isConstantTest) {
-  CastExpression castExpression(mTypeSpecifier, mExpression);
+  CastExpression castExpression(mTypeSpecifier, mExpression, 0);
 
   EXPECT_FALSE(castExpression.isConstant());
 }
 
 TEST_F(CastExpressionTest, getVariableTest) {
-  CastExpression castExpression(mTypeSpecifier, mExpression);
+  CastExpression castExpression(mTypeSpecifier, mExpression, 0);
   EXPECT_EQ(castExpression.getVariable(mContext), nullptr);
 }
 
@@ -106,7 +106,7 @@ TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   EXPECT_CALL(*mExpression, generateIR(_, IR_GENERATION_NORMAL));
 
-  CastExpression castExpression(mTypeSpecifier, mExpression);
+  CastExpression castExpression(mTypeSpecifier, mExpression, 0);
   
   result = castExpression.generateIR(mContext, IR_GENERATION_NORMAL);
   
@@ -117,7 +117,7 @@ TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
 
 TEST_F(CastExpressionTest, generateIRWithReleaseTest) {
   ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(mCarInterface));
-  CastExpression castExpression(mTypeSpecifier, mExpression);
+  CastExpression castExpression(mTypeSpecifier, mExpression, 0);
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mCarInterface->getOwner()));
 
   EXPECT_CALL(*mExpression, generateIR(_, IR_GENERATION_RELEASE));
@@ -126,7 +126,7 @@ TEST_F(CastExpressionTest, generateIRWithReleaseTest) {
 }
 
 TEST_F(CastExpressionTest, printToStreamTest) {
-  CastExpression castExpression(mTypeSpecifier, mExpression);
+  CastExpression castExpression(mTypeSpecifier, mExpression, 0);
   ON_CALL(*mTypeSpecifier, printToStream(_, _)).WillByDefault(Invoke(printTypeSpecifier));
   ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
 

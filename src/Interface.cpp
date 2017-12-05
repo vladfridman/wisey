@@ -452,7 +452,8 @@ string Interface::getCastFunctionName(const IObjectType* toType) const {
 
 Value* Interface::castTo(IRGenerationContext& context,
                          Value* fromValue,
-                         const IType* toType) const {
+                         const IType* toType,
+                         int line) const {
   const IObjectType* toObjectType = (const IObjectType*) (toType);
   Function* castFunction =
     context.getModule()->getFunction(getCastFunctionName(toObjectType));
@@ -467,8 +468,8 @@ Value* Interface::castTo(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(fromValue);
   
-  Composer::pushCallStack(context, 0);
-  Value* result = IRWriter::createInvokeInst(context, castFunction, arguments, "castTo", 0);
+  Composer::pushCallStack(context, line);
+  Value* result = IRWriter::createInvokeInst(context, castFunction, arguments, "castTo", line);
   Composer::popCallStack(context);
   
   return result;
@@ -533,7 +534,9 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   objectBuilderArgumnetList.push_back(fromTypeArgument);
   objectBuilderArgumnetList.push_back(toTypeArgument);
 
-  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
+  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,
+                                                   objectBuilderArgumnetList,
+                                                   0);
   ThrowStatement throwStatement(objectBuilder, 0);
   context.getScopes().pushScope();
   throwStatement.generateIR(context);
@@ -611,9 +614,11 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
                      getObjectNameGlobalVariableName());
 }
 
-Instruction* Interface::inject(IRGenerationContext& context, ExpressionList expressionList) const {
+Instruction* Interface::inject(IRGenerationContext& context,
+                               ExpressionList expressionList,
+                               int line) const {
   Controller* controller = context.getBoundController(context.getInterface(getName()));
-  return controller->inject(context, expressionList);
+  return controller->inject(context, expressionList, line);
 }
 
 tuple<vector<MethodSignature*>, vector<wisey::Constant*>>

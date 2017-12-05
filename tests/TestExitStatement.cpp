@@ -48,7 +48,7 @@ public:
     ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(intValue));
     ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
 
-    mExitStatement = new ExitStatement(mMockExpression);
+    mExitStatement = new ExitStatement(mMockExpression, 0);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType, GlobalValue::InternalLinkage, "test");

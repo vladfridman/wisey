@@ -171,7 +171,8 @@ TEST_F(ControllerOwnerTest, castToItselfTest) {
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
   Value* result = mMultiplierController->getOwner()->castTo(mContext,
                                                             pointer,
-                                                            mMultiplierController->getOwner());
+                                                            mMultiplierController->getOwner(),
+                                                            0);
   
   EXPECT_EQ(result, pointer);
 }
@@ -181,7 +182,8 @@ TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {
     ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
   mMultiplierController->getOwner()->castTo(mContext,
                                             pointer,
-                                            mScienceCalculatorInterface->getOwner());
+                                            mScienceCalculatorInterface->getOwner(),
+                                            0);
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
@@ -198,7 +200,8 @@ TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
   mMultiplierController->getOwner()->castTo(mContext,
                                             pointer,
-                                            mCalculatorInterface->getOwner());
+                                            mCalculatorInterface->getOwner(),
+                                            0);
   
   *mStringStream << *mBasicBlock;
   string expected =

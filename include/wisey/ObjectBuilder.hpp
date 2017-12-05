@@ -26,11 +26,13 @@ class ObjectBuilder : public IExpression {
   
   IObjectTypeSpecifier* mTypeSpecifier;
   ObjectBuilderArgumentList mObjectBuilderArgumentList;
+  int mLine;
   
 public:
   
   ObjectBuilder(IObjectTypeSpecifier* typeSpecifier,
-                ObjectBuilderArgumentList ObjectBuilderArgumentList);
+                ObjectBuilderArgumentList ObjectBuilderArgumentList,
+                int line);
   
   ~ObjectBuilder();
   

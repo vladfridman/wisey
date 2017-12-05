@@ -298,7 +298,10 @@ TEST_F(NodeOwnerTest, canAutoCastToTest) {
 TEST_F(NodeOwnerTest, castToFirstInterfaceTest) {
   PointerType* type = mComplicatedNode->getOwner()->getLLVMType(mLLVMContext);
   ConstantPointerNull* pointer = ConstantPointerNull::get(type);
-  mComplicatedNode->getOwner()->castTo(mContext, pointer, mComplicatedElementInterface->getOwner());
+  mComplicatedNode->getOwner()->castTo(mContext,
+                                       pointer,
+                                       mComplicatedElementInterface->getOwner(),
+                                       0);
 
   *mStringStream << *mBasicBlock;
   string expected =
@@ -315,7 +318,7 @@ TEST_F(NodeOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
     ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
 
-  mComplicatedNode->getOwner()->castTo(mContext, pointer, mElementInterface->getOwner());
+  mComplicatedNode->getOwner()->castTo(mContext, pointer, mElementInterface->getOwner(), 0);
   
   *mStringStream << *mBasicBlock;
   string expected =

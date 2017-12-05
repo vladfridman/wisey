@@ -104,25 +104,25 @@ struct InjectorTest : Test {
 };
 
 TEST_F(InjectorTest, getVariableTest) {
-  Injector injector(mInterfaceTypeSpecifier);
+  Injector injector(mInterfaceTypeSpecifier, 0);
   
   EXPECT_EQ(injector.getVariable(mContext), nullptr);
 }
 
 TEST_F(InjectorTest, getTypeTest) {
-  Injector injector(mInterfaceTypeSpecifier);
+  Injector injector(mInterfaceTypeSpecifier, 0);
   
   EXPECT_EQ(injector.getType(mContext), mController->getOwner());
 }
 
 TEST_F(InjectorTest, isConstantTest) {
-  Injector injector(mInterfaceTypeSpecifier);
+  Injector injector(mInterfaceTypeSpecifier, 0);
 
   EXPECT_FALSE(injector.isConstant());
 }
 
 TEST_F(InjectorTest, printToStreamTest) {
-  Injector injector(mInterfaceTypeSpecifier);
+  Injector injector(mInterfaceTypeSpecifier, 0);
 
   stringstream stringStream;
   injector.printToStream(mContext, stringStream);

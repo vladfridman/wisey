@@ -76,8 +76,8 @@ public:
   std::vector<Constant*> getConstants() const override;
 
   llvm::Instruction* build(IRGenerationContext& context,
-                           const ObjectBuilderArgumentList&
-                           ObjectBuilderArgumentList) const override;
+                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
+                           int line) const override;
   
   Field* findField(std::string fieldName) const override;
   
@@ -107,7 +107,8 @@ public:
   
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
-                      const IType* toType) const override;
+                      const IType* toType,
+                      int line) const override;
   
   std::string getVTableName() const override;
   
@@ -149,7 +150,8 @@ private:
 
   void initializePresetFields(IRGenerationContext& context,
                               const ObjectBuilderArgumentList& ObjectBuilderArgumentList,
-                              llvm::Instruction* malloc) const;
+                              llvm::Instruction* malloc,
+                              int line) const;
 
   void setStateFieldsToNull(IRGenerationContext& context, llvm::Instruction* malloc) const;
 

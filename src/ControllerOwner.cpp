@@ -51,16 +51,17 @@ bool ControllerOwner::canAutoCastTo(const IType* toType) const {
 
 Value* ControllerOwner::castTo(IRGenerationContext& context,
                                Value* fromValue,
-                               const IType* toType) const {
+                               const IType* toType,
+                               int line) const {
   if (toType == this || toType == mController) {
     return fromValue;
   }
 
   if (IType::isOwnerType(toType)) {
-    return mController->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject());
+    return mController->castTo(context, fromValue, ((IObjectOwnerType*) toType)->getObject(), line);
   }
   
-  return mController->castTo(context, fromValue, toType);
+  return mController->castTo(context, fromValue, toType, line);
 }
 
 void ControllerOwner::free(IRGenerationContext& context, Value* value) const {
