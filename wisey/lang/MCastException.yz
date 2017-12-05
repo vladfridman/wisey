@@ -1,0 +1,20 @@
+package wisey.lang;
+
+import wisey.lang.IException;
+
+model MCastException implements IException {
+  string mFromType;
+  string mToType;
+
+  public string getName() {
+    return "wisey.lang.MCastException";
+  }
+
+  public string getFromType() {
+    return mFromType;
+  }
+
+  public string getToType() {
+    return mToType;
+  }
+}

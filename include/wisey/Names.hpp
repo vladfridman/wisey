@@ -31,6 +31,11 @@ public:
   static std::string getReferenceCountExceptionName();
 
   /**
+   * Returns names of the model representing the cast exception
+   */
+  static std::string getCastExceptionName();
+  
+  /**
    * Returns name of the IProgram interface that main function calls
    */
   static std::string getIProgramName();

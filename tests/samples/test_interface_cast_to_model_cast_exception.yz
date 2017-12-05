@@ -1,0 +1,53 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IObject {
+  int getSize();
+}
+
+interface IHasFreezer extends IObject {
+}
+
+interface IHasElectricSupply {
+}
+
+interface IHasDoor {
+  void open();
+}
+
+interface ICar {
+}
+
+interface IDevice extends IHasDoor, IHasElectricSupply, IHasFreezer {
+}
+
+model MFridge implements IDevice {
+  int mSize;
+
+  public void open() {
+  }
+
+  public int getSize() {
+    return mSize;
+  }
+}
+
+model MFoo implements IObject {
+  public int getSize() {
+    return 1;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MFridge* fridge = builder(MFridge).withSize(5).build();
+    IObject object = fridge;
+    MFoo foo = (MFoo) object;
+    
+    return foo.getSize();
+  }
+} 
+
+bind(CProgram).to(IProgram);

@@ -19,6 +19,10 @@ string Names::getReferenceCountExceptionName() {
   return "MReferenceCountException";
 }
 
+string Names::getCastExceptionName() {
+  return "MCastException";
+}
+
 string Names::getIProgramName() {
   return "IProgram";
 }

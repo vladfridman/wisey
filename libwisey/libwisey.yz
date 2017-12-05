@@ -12,6 +12,18 @@ external interface wisey.lang.IProgram {
 
 /* Models */
 
+external model wisey.lang.MCastException
+  implements
+    wisey.lang.IException {
+
+  fixed string mFromType;
+  fixed string mToType;
+
+  string getName();
+  string getFromType();
+  string getToType();
+}
+
 external model wisey.lang.MNullPointerException
   implements
     wisey.lang.IException {

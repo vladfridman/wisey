@@ -11,7 +11,9 @@
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/Cast.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/InstanceOf.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/InterfaceOwner.hpp"
@@ -23,8 +25,12 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/Model.hpp"
+#include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/ObjectBuilder.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
+#include "wisey/ThrowStatement.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -461,7 +467,11 @@ Value* Interface::castTo(IRGenerationContext& context,
   vector<Value*> arguments;
   arguments.push_back(fromValue);
   
-  return IRWriter::createInvokeInst(context, castFunction, arguments, "castTo", 0);
+  Composer::pushCallStack(context, 0);
+  Value* result = IRWriter::createInvokeInst(context, castFunction, arguments, "castTo", 0);
+  Composer::popCallStack(context);
+  
+  return result;
 }
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
@@ -510,9 +520,24 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareLessThanZero);
   
   context.setBasicBlock(lessThanZero);
-  // TODO: throw a cast exception here once exceptions are implemented
-  Value* nullPointer = ConstantPointerNull::get((PointerType*) llvmReturnType);
-  IRWriter::createReturnInst(context, nullPointer);
+  ModelTypeSpecifier* modelTypeSpecifier =
+    new ModelTypeSpecifier(Names::getLangPackageName(), Names::getCastExceptionName());
+  ObjectBuilderArgumentList objectBuilderArgumnetList;
+  llvm::Constant* fromTypeName = IObjectType::getObjectNamePointer(interfaceType, context);
+  FakeExpression* fromTypeValue = new FakeExpression(fromTypeName, PrimitiveTypes::STRING_TYPE);
+  ObjectBuilderArgument* fromTypeArgument = new ObjectBuilderArgument("withFromType",
+                                                                      fromTypeValue);
+  llvm::Constant* toTypeName = IObjectType::getObjectNamePointer(toObjectType, context);
+  FakeExpression* toTypeValue = new FakeExpression(toTypeName, PrimitiveTypes::STRING_TYPE);
+  ObjectBuilderArgument* toTypeArgument = new ObjectBuilderArgument("withToType", toTypeValue);
+  objectBuilderArgumnetList.push_back(fromTypeArgument);
+  objectBuilderArgumnetList.push_back(toTypeArgument);
+
+  ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier, objectBuilderArgumnetList);
+  ThrowStatement throwStatement(objectBuilder, 0);
+  context.getScopes().pushScope();
+  throwStatement.generateIR(context);
+  context.getScopes().popScope(context, 0);
 
   context.setBasicBlock(notLessThanZero);
   ICmpInst* compareGreaterThanZero =

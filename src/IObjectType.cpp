@@ -19,7 +19,7 @@ using namespace std;
 using namespace llvm;
 using namespace wisey;
 
-llvm::Constant* IObjectType::getObjectNamePointer(const IObjectType *object,
+llvm::Constant* IObjectType::getObjectNamePointer(const IObjectType* object,
                                                   IRGenerationContext& context) {
   GlobalVariable* nameGlobal =
     context.getModule()->getNamedGlobal(object->getObjectNameGlobalVariableName());
