@@ -51,7 +51,7 @@ struct FieldPrimitiveVariableTest : Test {
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<Field*> fields;
-    ExpressionList arguments;
+    InjectionArgumentList arguments;
     fields.push_back(new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "foo", arguments));
     mObject = Controller::newController(objectFullName, objectStructType);
     mObject->setFields(fields, 1u);

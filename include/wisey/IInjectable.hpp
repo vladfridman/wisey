@@ -11,6 +11,7 @@
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectType.hpp"
+#include "wisey/InjectionArgument.hpp"
 
 namespace wisey {
   
@@ -24,10 +25,10 @@ public:
   virtual ~IInjectable() { }
   
   /**
-   * Inject an instance of this controller into LLVM code
+   * Inject an instance of this injectable object with given arguments
    */
   virtual llvm::Instruction* inject(IRGenerationContext& context,
-                                    ExpressionList expressionList,
+                                    const InjectionArgumentList injectionArgumentList,
                                     int line) const = 0;
 
 };

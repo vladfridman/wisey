@@ -13,6 +13,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/ITypeSpecifier.hpp"
+#include "wisey/InjectionArgument.hpp"
 
 namespace wisey {
 
@@ -25,14 +26,14 @@ class FieldDeclaration : public IObjectElementDeclaration {
   FieldKind mFieldKind;
   ITypeSpecifier* mTypeSpecifier;
   std::string mName;
-  ExpressionList mArguments;
+  InjectionArgumentList mInjectionArgumentList;
   
 public:
   
   FieldDeclaration(FieldKind fieldKind,
                    ITypeSpecifier* typeSpecifier,
                    std::string name,
-                   ExpressionList arguments);
+                   InjectionArgumentList injectionArguments);
   
   ~FieldDeclaration();
   

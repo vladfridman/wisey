@@ -158,7 +158,7 @@ public:
   void composeDestructorFunctionBody(IRGenerationContext& context) const;
 
   llvm::Instruction* inject(IRGenerationContext& context,
-                            ExpressionList expressionList,
+                            const InjectionArgumentList injectionArgumentList,
                             int line) const override;
 
   IMethodDescriptor* findMethod(std::string methodName) const override;

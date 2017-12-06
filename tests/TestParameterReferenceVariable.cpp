@@ -63,7 +63,7 @@ public:
     StructType* structType = StructType::create(mLLVMContext, modelFullName);
     structType->setBody(types);
     vector<Field*> fields;
-    ExpressionList fieldArguments;
+    InjectionArgumentList fieldArguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", fieldArguments));
     mModel = Model::newModel(modelFullName, structType);

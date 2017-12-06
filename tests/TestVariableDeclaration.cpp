@@ -124,7 +124,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   types.push_back(Type::getInt32Ty(mLLVMContext));
   structType->setBody(types);
   vector<Field*> fields;
-  ExpressionList arguments;
+  InjectionArgumentList arguments;
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldA", arguments));
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldB", arguments));
   Model* model = Model::newModel(modelFullName, structType);

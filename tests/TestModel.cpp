@@ -93,7 +93,7 @@ struct ModelTest : public Test {
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
     vector<Field*> fields;
-    ExpressionList arguments;
+    InjectionArgumentList arguments;
     mWidthField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", arguments);
     mHeightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", arguments);
     fields.push_back(mWidthField);

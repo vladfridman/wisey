@@ -41,7 +41,7 @@ struct IFieldVariableTest : Test {
   raw_string_ostream* mStringStream;
   
   IFieldVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    ExpressionList fieldArguments;
+    InjectionArgumentList fieldArguments;
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mLLVMContext));

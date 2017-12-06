@@ -58,7 +58,7 @@ struct ExternalModelDefinitionTest : public Test {
 TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mElementDeclarations.push_back(field1);
@@ -81,7 +81,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
 TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mElementDeclarations.push_back(field1);

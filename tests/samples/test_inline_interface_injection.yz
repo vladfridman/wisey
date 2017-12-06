@@ -18,7 +18,7 @@ bind(CService).to(IHasValue);
 controller CProgram implements IProgram {
 
   public int run() {
-    IHasValue* hasValue = inject(IHasValue);
+    IHasValue* hasValue = injector(IHasValue).inject();
     return hasValue.getValue();
   }
 }

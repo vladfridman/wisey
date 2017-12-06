@@ -29,6 +29,7 @@ using namespace std;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Invoke;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -47,6 +48,7 @@ struct InjectorTest : Test {
   raw_string_ostream* mStringStream;
   string mPackage = "systems.vos.wisey.compiler.tests";
   ImportProfile* mImportProfile;
+  InjectionArgumentList mInjectionArgumentList;
   
   InjectorTest() {
     LLVMContext& llvmContext = mContext.getLLVMContext();
@@ -62,7 +64,7 @@ struct InjectorTest : Test {
     StructType *controllerStructType = StructType::create(llvmContext, controllerFullName);
     controllerStructType->setBody(types);
     vector<Field*> controllerFields;
-    ExpressionList arguments;
+    InjectionArgumentList arguments;
     Field* fieldLeft = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "left", arguments);
     Field* fieldRight = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "right", arguments);
      controllerFields.push_back(fieldLeft);
@@ -101,33 +103,41 @@ struct InjectorTest : Test {
   ~InjectorTest() {
     delete mStringStream;
   }
+
+  static void printExpression(IRGenerationContext& context, iostream& stream) {
+    stream << "1";
+  }
 };
 
 TEST_F(InjectorTest, getVariableTest) {
-  Injector injector(mInterfaceTypeSpecifier, 0);
+  Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
   
   EXPECT_EQ(injector.getVariable(mContext), nullptr);
 }
 
 TEST_F(InjectorTest, getTypeTest) {
-  Injector injector(mInterfaceTypeSpecifier, 0);
+  Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
   
   EXPECT_EQ(injector.getType(mContext), mController->getOwner());
 }
 
 TEST_F(InjectorTest, isConstantTest) {
-  Injector injector(mInterfaceTypeSpecifier, 0);
+  Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
 
   EXPECT_FALSE(injector.isConstant());
 }
 
 TEST_F(InjectorTest, printToStreamTest) {
-  Injector injector(mInterfaceTypeSpecifier, 0);
+  NiceMock<MockExpression>* mockExpression = new NiceMock<MockExpression>();
+  ON_CALL(*mockExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
+  mInjectionArgumentList.push_back(new InjectionArgument("withFoo", mockExpression));
+  Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
 
   stringstream stringStream;
   injector.printToStream(mContext, stringStream);
   
-  EXPECT_STREQ("inject(systems.vos.wisey.compiler.tests.IMyInterface)", stringStream.str().c_str());
+  EXPECT_STREQ("injector(systems.vos.wisey.compiler.tests.IMyInterface).withFoo(1).inject()",
+               stringStream.str().c_str());
 }
 
 TEST_F(TestFileSampleRunner, inlineControllerInjectionRunTest) {

@@ -16,6 +16,7 @@
 #include "wisey/IObjectElement.hpp"
 #include "wisey/IPrintable.hpp"
 #include "wisey/IType.hpp"
+#include "wisey/InjectionArgument.hpp"
 
 namespace wisey {
   
@@ -26,11 +27,14 @@ class Field : public IPrintable, public IObjectElement {
   const FieldKind mFieldKind;
   const IType* mType;
   std::string mName;
-  ExpressionList mArguments;
+  InjectionArgumentList mInjectionArgumentList;
   
 public:
   
-  Field(FieldKind fieldKind, const IType* type, std::string name, ExpressionList arguments);
+  Field(FieldKind fieldKind,
+        const IType* type,
+        std::string name,
+        InjectionArgumentList injectionArgumentList);
   
   ~Field();
   
@@ -55,9 +59,9 @@ public:
   unsigned long getIndex() const;
   
   /**
-   * Returns field initialization arguments
+   * Returns field injection arguments for injected fields
    */
-  ExpressionList getArguments() const;
+  InjectionArgumentList getInjectionArguments() const;
   
   /**
    * Tells whether this field is assignable

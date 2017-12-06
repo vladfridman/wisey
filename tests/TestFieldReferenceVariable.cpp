@@ -77,7 +77,7 @@ struct FieldReferenceVariableTest : Test {
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
     vector<Field*> fields;
-    ExpressionList fieldArguments;
+    InjectionArgumentList fieldArguments;
     fields.push_back(new Field(STATE_FIELD, mNode, "foo", fieldArguments));
     fields.push_back(new Field(STATE_FIELD, mInterface, "bar", fieldArguments));
     mObject = Controller::newController(objectFullName, objectStructType);

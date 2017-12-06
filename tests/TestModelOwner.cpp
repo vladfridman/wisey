@@ -78,7 +78,7 @@ struct ModelOwnerTest : public Test {
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
     vector<Field*> fields;
-    ExpressionList arguments;
+    InjectionArgumentList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
     vector<MethodArgument*> methodArguments;

@@ -90,7 +90,7 @@ struct TypeComparisionExpressionTest : public Test {
     StructType* squareStructType = StructType::create(mLLVMContext, squareFullName);
     squareStructType->setBody(squareTypes);
     vector<Field*> squareFields;
-    ExpressionList arguments;
+    InjectionArgumentList arguments;
     squareFields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
     squareFields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
     vector<MethodArgument*> methodArguments;

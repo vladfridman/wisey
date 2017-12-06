@@ -38,7 +38,7 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     StructType* structType = StructType::create(llvmContext, "CMultiplier");
     structType->setBody(types);
     vector<Field*> fields;
-    ExpressionList fieldArguments;
+    InjectionArgumentList fieldArguments;
     fields.push_back(new Field(RECEIVED_FIELD,
                                PrimitiveTypes::INT_TYPE,
                                "left",

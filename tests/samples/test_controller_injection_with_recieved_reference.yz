@@ -20,7 +20,8 @@ controller CService {
 }
 
 controller CProgram implements IProgram {
-  inject CService* mService(builder(MIntNumber).withNumber(7).build());
+  inject CService* mService.withIntNumber(
+    builder(MIntNumber).withNumber(7).build());
 
   public int run() {
     return mService.getIntNumber().getNumber();

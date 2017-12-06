@@ -1,11 +1,11 @@
 //
-//  TestObjectBuilderArgument.cpp
-//  Wisey
+//  TestInjectionArgument.cpp
+//  runtests
 //
-//  Created by Vladimir Fridman on 1/30/17.
+//  Created by Vladimir Fridman on 12/6/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ObjectBuilderArgument}
+//  Tests {@link InjectionArgument}
 //
 
 #include <gtest/gtest.h>
@@ -17,7 +17,7 @@
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/Field.hpp"
-#include "wisey/ObjectBuilderArgument.hpp"
+#include "wisey/InjectionArgument.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using ::testing::_;
@@ -30,25 +30,25 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-struct ObjectBuilderArgumentTest : Test {
+struct InjectionArgumentTest : Test {
   IRGenerationContext mContext;
   NiceMock<MockExpression>* mFieldExpression;
-  Model* mModel;
+  Controller* mController;
   Value* mValue;
   
-  ObjectBuilderArgumentTest() : mFieldExpression(new NiceMock<MockExpression>()) {
+  InjectionArgumentTest() : mFieldExpression(new NiceMock<MockExpression>()) {
     LLVMContext& llvmContext = mContext.getLLVMContext();
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(llvmContext));
     types.push_back(Type::getInt32Ty(llvmContext));
-    string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
+    string modelFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     vector<Field*> fields;
     InjectionArgumentList arguments;
-    fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", arguments));
-    mModel = Model::newModel(modelFullName, structType);
-    mModel->setFields(fields, 1u);
+    fields.push_back(new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", arguments));
+    mController = Controller::newController(modelFullName, structType);
+    mController->setFields(fields, 1u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);
     ON_CALL(*mFieldExpression, generateIR(_, _)).WillByDefault(Return(mValue));
@@ -61,59 +61,59 @@ struct ObjectBuilderArgumentTest : Test {
   }
 };
 
-TEST_F(ObjectBuilderArgumentTest, validObjectBuilderArgumentTest) {
+TEST_F(InjectionArgumentTest, validObjectBuilderArgumentTest) {
   string argumentSpecifier("withFieldA");
-  ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
+  InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
-  EXPECT_TRUE(argument.checkArgument(mModel));
+  EXPECT_TRUE(argument.checkArgument(mController));
 }
 
-TEST_F(ObjectBuilderArgumentTest, invalidObjectBuilderArgumentTest) {
+TEST_F(InjectionArgumentTest, invalidObjectBuilderArgumentTest) {
   string argumentSpecifier("mFieldA");
-  ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
+  InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
   stringstream errorBuffer;
   streambuf *streamBuffer = std::cerr.rdbuf();
   cerr.rdbuf(errorBuffer.rdbuf());
   
-  EXPECT_FALSE(argument.checkArgument(mModel));
-  EXPECT_STREQ("Error: Object builder argument should start with 'with'. e.g. .withField(value).\n",
+  EXPECT_FALSE(argument.checkArgument(mController));
+  EXPECT_STREQ("Error: Injection argument should start with 'with'. e.g. .withField(value).\n",
                errorBuffer.str().c_str());
-
+  
   cerr.rdbuf(streamBuffer);
 }
 
-TEST_F(ObjectBuilderArgumentTest, misspelledObjectBuilderArgumentTest) {
+TEST_F(InjectionArgumentTest, misspelledObjectBuilderArgumentTest) {
   string argumentSpecifier("withFielda");
-  ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
+  InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
   stringstream errorBuffer;
   streambuf *streamBuffer = std::cerr.rdbuf();
   cerr.rdbuf(errorBuffer.rdbuf());
   
-  EXPECT_FALSE(argument.checkArgument(mModel));
-  EXPECT_STREQ("Error: Object builder could not find field mFielda in "
-               "object systems.vos.wisey.compiler.tests.MModel\n",
+  EXPECT_FALSE(argument.checkArgument(mController));
+  EXPECT_STREQ("Error: Injector could not find field mFielda in object "
+               "systems.vos.wisey.compiler.tests.CController\n",
                errorBuffer.str().c_str());
   
   cerr.rdbuf(streamBuffer);
 }
 
-TEST_F(ObjectBuilderArgumentTest, getValueTest) {
+TEST_F(InjectionArgumentTest, getValueTest) {
   string argumentSpecifier("withFieldA");
-  ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
+  InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
   EXPECT_EQ(argument.getValue(mContext, IR_GENERATION_NORMAL), mValue);
 }
 
-TEST_F(ObjectBuilderArgumentTest, getTypeTest) {
+TEST_F(InjectionArgumentTest, getTypeTest) {
   string argumentSpecifier("withFieldA");
-  ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
+  InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
   EXPECT_EQ(argument.getType(mContext), PrimitiveTypes::FLOAT_TYPE);
 }
 
-TEST_F(ObjectBuilderArgumentTest, printToStreamTest) {
+TEST_F(InjectionArgumentTest, printToStreamTest) {
   string argumentSpecifier("withFieldA");
   ObjectBuilderArgument argument(argumentSpecifier, mFieldExpression);
   stringstream stringStream;

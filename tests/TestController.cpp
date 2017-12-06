@@ -142,7 +142,7 @@ struct ControllerTest : public Test {
     mStructType = StructType::create(mLLVMContext, multiplierFullName);
     mStructType->setBody(types);
     vector<Field*> fields;
-    ExpressionList fieldArguments;
+    InjectionArgumentList fieldArguments;
     mLeftField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "left", fieldArguments);
     mRightField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "right", fieldArguments);
     fields.push_back(mLeftField);
@@ -469,7 +469,7 @@ TEST_F(ControllerTest, getFlattenedInterfaceHierarchyTest) {
 }
 
 TEST_F(ControllerTest, injectTest) {
-  ExpressionList injectionArguments;
+  InjectionArgumentList injectionArguments;
 
   NiceMock<MockExpression> ownerExpression;
   Value* ownerValue = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mLLVMContext));
@@ -480,8 +480,12 @@ TEST_F(ControllerTest, injectTest) {
   ON_CALL(referenceExpression, generateIR(_, _)).WillByDefault(Return(referenceValue));
   ON_CALL(referenceExpression, getType(_)).WillByDefault(Return(mReferenceModel));
 
-  injectionArguments.push_back(&ownerExpression);
-  injectionArguments.push_back(&referenceExpression);
+  InjectionArgument* ownerArgument = new InjectionArgument("withOwner", &ownerExpression);
+  InjectionArgument* referenceArgument = new InjectionArgument("withReference", 
+                                                               &referenceExpression);
+
+  injectionArguments.push_back(ownerArgument);
+  injectionArguments.push_back(referenceArgument);
   
   Value* result = mAdditorController->inject(mContext, injectionArguments, 0);
   
@@ -491,8 +495,9 @@ TEST_F(ControllerTest, injectTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint (%systems.vos.wisey.compiler.tests.CAdditor* "
-  "getelementptr (%systems.vos.wisey.compiler.tests.CAdditor, "
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint ("
+  "%systems.vos.wisey.compiler.tests.CAdditor* getelementptr ("
+  "%systems.vos.wisey.compiler.tests.CAdditor, "
   "%systems.vos.wisey.compiler.tests.CAdditor* null, i32 1) to i64))"
   "\n  %injectvar = bitcast i8* %malloccall to %systems.vos.wisey.compiler.tests.CAdditor*"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CAdditor, "
@@ -514,19 +519,24 @@ TEST_F(ControllerTest, injectTest) {
 }
 
 TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
-  ExpressionList injectionArguments;
-  NiceMock<MockExpression> injectArgument1;
-  NiceMock<MockExpression> injectArgument2;
-  Mock::AllowLeak(&injectArgument1);
-  Mock::AllowLeak(&injectArgument2);
+  InjectionArgumentList injectionArguments;
+  NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
+  NiceMock<MockExpression>* injectArgument2Expression = new NiceMock<MockExpression>();
+  Mock::AllowLeak(injectArgument1Expression);
+  Mock::AllowLeak(injectArgument2Expression);
   Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
-  ON_CALL(injectArgument1, generateIR(_, _)).WillByDefault(Return(field1Value));
-  ON_CALL(injectArgument1, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  ON_CALL(*injectArgument1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
+  ON_CALL(*injectArgument1Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   Value* field2Value = ConstantFP::get(Type::getFloatTy(mLLVMContext), 5.5);
-  ON_CALL(injectArgument2, generateIR(_, _)).WillByDefault(Return(field2Value));
-  ON_CALL(injectArgument2, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
-  injectionArguments.push_back(&injectArgument1);
-  injectionArguments.push_back(&injectArgument2);
+  ON_CALL(*injectArgument2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
+  ON_CALL(*injectArgument2Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  InjectionArgument* injectionArgument1 = new InjectionArgument("withOwner",
+                                                                injectArgument1Expression);
+  InjectionArgument* injectionArgument2 = new InjectionArgument("withReference",
+                                                                injectArgument2Expression);
+
+  injectionArguments.push_back(injectionArgument1);
+  injectionArguments.push_back(injectionArgument2);
   Mock::AllowLeak(mThreadVariable);
 
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
@@ -536,7 +546,7 @@ TEST_F(ControllerTest, injectWrongTypeOfArgumentDeathTest) {
 }
 
 TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
-  ExpressionList injectionArguments;
+  InjectionArgumentList injectionArguments;
   Mock::AllowLeak(mThreadVariable);
 
   EXPECT_EXIT(mDoublerController->inject(mContext, injectionArguments, 0),
@@ -544,35 +554,58 @@ TEST_F(ControllerTest, injectNonInjectableTypeDeathTest) {
               "Error: Attempt to inject a variable that is not a Controller or an Interface");
 }
 
-TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
-  ExpressionList injectionArguments;
-  NiceMock<MockExpression> injectArgument1;
-  Mock::AllowLeak(&injectArgument1);
+TEST_F(ControllerTest, notWellFormedInjectionArgumentsDeathTest) {
+  InjectionArgumentList injectionArguments;
+  NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
+  Mock::AllowLeak(injectArgument1Expression);
   Mock::AllowLeak(mThreadVariable);
-  injectionArguments.push_back(&injectArgument1);
+  InjectionArgument* injectionArgument = new InjectionArgument("owner",
+                                                               injectArgument1Expression);
+  injectionArguments.push_back(injectionArgument);
 
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Not all received fields of controller "
-              "systems.vos.wisey.compiler.tests.CAdditor are initialized.");
+              "Error: Injection argument should start with 'with'. e.g. .withField\\(value\\).\n"
+              "Error: Some injection arguments for controller "
+              "systems.vos.wisey.compiler.tests.CAdditor are not well formed");
 }
 
-TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
-  ExpressionList injectionArguments;
-  NiceMock<MockExpression> injectArgument1;
-  NiceMock<MockExpression> injectArgument2;
-  NiceMock<MockExpression> injectArgument3;
-  Mock::AllowLeak(&injectArgument1);
-  Mock::AllowLeak(&injectArgument2);
-  Mock::AllowLeak(&injectArgument3);
+TEST_F(ControllerTest, injectTooFewArgumentsDeathTest) {
+  InjectionArgumentList injectionArguments;
+  NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
+  Mock::AllowLeak(injectArgument1Expression);
   Mock::AllowLeak(mThreadVariable);
-  injectionArguments.push_back(&injectArgument1);
-  injectionArguments.push_back(&injectArgument2);
-  injectionArguments.push_back(&injectArgument3);
+  InjectionArgument* injectionArgument = new InjectionArgument("withOwner",
+                                                               injectArgument1Expression);
+  injectionArguments.push_back(injectionArgument);
   
   EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Too many arguments provided when injecting controller "
+              "Error: Received field mReference is not initialized");
+}
+
+TEST_F(ControllerTest, injectTooManyArgumentsDeathTest) {
+  InjectionArgumentList injectionArguments;
+  NiceMock<MockExpression>* injectArgument1Expression = new NiceMock<MockExpression>();
+  NiceMock<MockExpression>* injectArgument2Expression = new NiceMock<MockExpression>();
+  NiceMock<MockExpression>* injectArgument3Expression = new NiceMock<MockExpression>();
+  Mock::AllowLeak(injectArgument1Expression);
+  Mock::AllowLeak(injectArgument2Expression);
+  Mock::AllowLeak(injectArgument3Expression);
+  Mock::AllowLeak(mThreadVariable);
+  InjectionArgument* injectionArgument1 = new InjectionArgument("withFoo",
+                                                                injectArgument1Expression);
+  InjectionArgument* injectionArgument2 = new InjectionArgument("withOwner",
+                                                                injectArgument2Expression);
+  InjectionArgument* injectionArgument3 = new InjectionArgument("withReference",
+                                                                injectArgument3Expression);
+  injectionArguments.push_back(injectionArgument1);
+  injectionArguments.push_back(injectionArgument2);
+  injectionArguments.push_back(injectionArgument3);
+  
+  EXPECT_EXIT(mAdditorController->inject(mContext, injectionArguments, 0),
+              ::testing::ExitedWithCode(1),
+              "Error: Injector could not find field mFoo in object "
               "systems.vos.wisey.compiler.tests.CAdditor");
 }
 
@@ -594,7 +627,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
   parentStructType->setBody(parentTypes);
   vector<Field*> parentFields;
-  ExpressionList fieldArguments;
+  InjectionArgumentList fieldArguments;
   parentFields.push_back(new Field(INJECTED_FIELD,
                                    childController->getOwner(),
                                    "mChild",
@@ -603,7 +636,7 @@ TEST_F(ControllerTest, injectFieldTest) {
   parentController->setFields(parentFields, 1u);
   mContext.addController(parentController);
   
-  ExpressionList injectionArguments;
+  InjectionArgumentList injectionArguments;
   Value* result = parentController->inject(mContext, injectionArguments, 0);
   
   EXPECT_NE(result, nullptr);

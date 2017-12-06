@@ -698,10 +698,10 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
 }
 
 Instruction* Interface::inject(IRGenerationContext& context,
-                               ExpressionList expressionList,
+                               InjectionArgumentList injectionArgumentList,
                                int line) const {
   Controller* controller = context.getBoundController(context.getInterface(getName()));
-  return controller->inject(context, expressionList, line);
+  return controller->inject(context, injectionArgumentList, line);
 }
 
 tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>>

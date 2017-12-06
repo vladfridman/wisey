@@ -23,12 +23,12 @@ using namespace wisey;
 void TestPrefix::generateIR(IRGenerationContext& context) {
   vector<IObjectElementDeclaration*> modelElements;
   defineModel(context, Names::getNPEModelName(), modelElements);
-  ExpressionList expressionList;
+  InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* longTypeSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   modelElements.push_back(new FieldDeclaration(FIXED_FIELD,
                                                longTypeSpecifier,
                                                "mReferenceCount",
-                                               expressionList));
+                                               arguments));
   defineModel(context, Names::getReferenceCountExceptionName(), modelElements);
   defineThreadController(context);
 }

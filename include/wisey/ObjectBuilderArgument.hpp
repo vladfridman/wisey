@@ -42,6 +42,9 @@ public:
   
   ~ObjectBuilderArgument();
   
+  /**
+   * Checks the legality for the builder argument and prints an error if necessary
+   */
   bool checkArgument(const IConcreteObjectType* object);
   
   /**

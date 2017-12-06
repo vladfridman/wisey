@@ -86,7 +86,7 @@ struct ModelDefinitionTest : public Test {
 TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mObjectElements.push_back(field1);
@@ -109,7 +109,7 @@ TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
 TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mObjectElements.push_back(field1);
@@ -131,7 +131,7 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
 TEST_F(ModelDefinitionTest, generateIRTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mObjectElements.push_back(field1);
@@ -242,7 +242,7 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
 
 TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(INJECTED_FIELD, longType, "field1", arguments);
   mObjectElements.push_back(field1);
   

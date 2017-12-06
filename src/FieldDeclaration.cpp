@@ -16,18 +16,18 @@ using namespace wisey;
 FieldDeclaration::FieldDeclaration(FieldKind fieldKind,
                                    ITypeSpecifier* typeSpecifier,
                                    string name,
-                                   ExpressionList arguments) :
+                                   InjectionArgumentList injectionArguments) :
 mFieldKind(fieldKind),
 mTypeSpecifier(typeSpecifier),
 mName(name),
-mArguments(arguments) { }
+mInjectionArgumentList(injectionArguments) { }
 
 FieldDeclaration::~FieldDeclaration() {
   delete mTypeSpecifier;
-  for (IExpression* expression : mArguments) {
-    delete expression;
+  for (InjectionArgument* injectionArgument : mInjectionArgumentList) {
+    delete injectionArgument;
   }
-  mArguments.clear();
+  mInjectionArgumentList.clear();
 }
 
 Field* FieldDeclaration::declare(IRGenerationContext& context) const {
@@ -38,6 +38,6 @@ Field* FieldDeclaration::declare(IRGenerationContext& context) const {
     fieldType = context.getBoundController(interface)->getOwner();
   }
   
-  return new Field(mFieldKind, fieldType, mName, mArguments);
+  return new Field(mFieldKind, fieldType, mName, mInjectionArgumentList);
 }
 

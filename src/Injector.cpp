@@ -15,11 +15,19 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Injector::Injector(IObjectTypeSpecifier* objectTypeSpecifier, int line) :
-mObjectTypeSpecifier(objectTypeSpecifier), mLine(line) { }
+Injector::Injector(IObjectTypeSpecifier* objectTypeSpecifier,
+                   InjectionArgumentList injectionArgumentList,
+                   int line) :
+mObjectTypeSpecifier(objectTypeSpecifier),
+mInjectionArgumentList(injectionArgumentList),
+mLine(line) { }
 
 Injector::~Injector() {
   delete mObjectTypeSpecifier;
+  for (InjectionArgument* argument : mInjectionArgumentList) {
+    delete argument;
+  }
+  mInjectionArgumentList.clear();
 }
 
 IVariable* Injector::getVariable(IRGenerationContext& context) const {
@@ -28,10 +36,9 @@ IVariable* Injector::getVariable(IRGenerationContext& context) const {
 
 Value* Injector::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   const IObjectType* type = mObjectTypeSpecifier->getType(context);
-  ExpressionList arguments;
   Instruction* malloc = type->getTypeKind() == INTERFACE_TYPE
-    ? ((Interface*) type)->inject(context, arguments, mLine)
-    : ((Controller*) type)->inject(context, arguments, mLine);
+    ? ((Interface*) type)->inject(context, mInjectionArgumentList, mLine)
+    : ((Controller*) type)->inject(context, mInjectionArgumentList, mLine);
   
   if (flag == IR_GENERATION_RELEASE) {
     return malloc;
@@ -61,8 +68,13 @@ bool Injector::isConstant() const {
 }
 
 void Injector::printToStream(IRGenerationContext& context, std::iostream& stream) const {
-  stream << "inject(";
+  stream << "injector(";
   mObjectTypeSpecifier->printToStream(context, stream);
   stream << ")";
+  for (InjectionArgument* argument : mInjectionArgumentList) {
+    stream << ".";
+    argument->printToStream(context, stream);
+  }
+  stream << ".inject()";
 }
 

@@ -28,7 +28,7 @@ controller CFibonacciCalculator implements ICalculator {
 bind(CFibonacciCalculator).to(ICalculator);
 
 controller CProgram implements IProgram {
-  inject ICalculator* mCalculator(6);
+  inject ICalculator* mCalculator.withIndex(6);
 
   public int run() {
     return mCalculator.calculate();

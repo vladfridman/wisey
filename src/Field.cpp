@@ -11,15 +11,18 @@
 using namespace std;
 using namespace wisey;
 
-Field::Field(FieldKind fieldKind, const IType* type, std::string name, ExpressionList arguments) :
+Field::Field(FieldKind fieldKind,
+             const IType* type,
+             std::string name,
+             InjectionArgumentList injectionArgumentList) :
 mFieldKind(fieldKind),
 mType(type),
 mName(name),
-mArguments(arguments) { }
+mInjectionArgumentList(injectionArgumentList) { }
 
 Field::~Field() {
-  // Argument expressions are deleted with delcarations
-  mArguments.clear();
+  // Injection arguments are deleted with field delcarations
+  mInjectionArgumentList.clear();
 }
 
 FieldKind Field::getFieldKind() const {
@@ -34,8 +37,8 @@ string Field::getName() const {
   return mName;
 }
 
-ExpressionList Field::getArguments() const {
-  return mArguments;
+InjectionArgumentList Field::getInjectionArguments() const {
+  return mInjectionArgumentList;
 }
 
 bool Field::isAssignable() const {
@@ -64,18 +67,15 @@ void Field::printToStream(IRGenerationContext& context, iostream& stream) const 
 
   stream << getType()->getName() << " " << getName();
   
-  if (!mArguments.size()) {
+  if (!mInjectionArgumentList.size()) {
     stream << ";" << endl;
     return;
   }
   
-  stream << "(";
-  for (IExpression* expression : mArguments) {
-    expression->printToStream(context, stream);
-    if (expression != mArguments.at(mArguments.size() - 1)) {
-      stream << ", ";
-    }
+  for (InjectionArgument* argument : mInjectionArgumentList) {
+    stream << ".";
+    argument->printToStream(context, stream);
   }
-  stream << ");" << endl;
+  stream << ";" << endl;
 }
 

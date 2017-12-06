@@ -63,7 +63,7 @@ struct ExternalControllerDefinitionTest : public Test {
     
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-    ExpressionList arguments;
+    InjectionArgumentList arguments;
     FieldDeclaration* field1 = new FieldDeclaration(RECEIVED_FIELD, longType, "mField1", arguments);
     FieldDeclaration* field2 =
       new FieldDeclaration(RECEIVED_FIELD, floatType, "mField2", arguments);

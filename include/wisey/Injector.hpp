@@ -11,6 +11,7 @@
 
 #include "wisey/IExpression.hpp"
 #include "wisey/IObjectTypeSpecifier.hpp"
+#include "wisey/InjectionArgument.hpp"
 
 namespace wisey {
   
@@ -20,11 +21,14 @@ namespace wisey {
 class Injector : public IExpression {
     
   IObjectTypeSpecifier* mObjectTypeSpecifier;
+  InjectionArgumentList mInjectionArgumentList;
   int mLine;
   
 public:
   
-  Injector(IObjectTypeSpecifier* objectTypeSpecifier, int line);
+  Injector(IObjectTypeSpecifier* objectTypeSpecifier,
+           InjectionArgumentList injectionArgumentList,
+           int line);
   
   ~Injector();
   

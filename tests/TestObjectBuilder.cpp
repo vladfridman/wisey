@@ -65,7 +65,7 @@ struct ObjectBuilderTest : Test {
     StructType *structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
     vector<Field*> fields;
-    ExpressionList arguments;
+    InjectionArgumentList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", arguments));
     mModel = Model::newModel(modelFullName, structType);

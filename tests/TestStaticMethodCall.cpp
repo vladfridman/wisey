@@ -90,7 +90,7 @@ public:
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
     vector<Field*> fields;
-    ExpressionList arguments;
+    InjectionArgumentList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
     MethodArgument* fooMethodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");

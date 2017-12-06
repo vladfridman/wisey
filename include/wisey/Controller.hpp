@@ -9,6 +9,8 @@
 #ifndef Controller_h
 #define Controller_h
 
+#include <set>
+
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/Field.hpp"
@@ -59,7 +61,7 @@ public:
   static Controller* newExternalController(std::string name, llvm::StructType* structType);
 
   llvm::Instruction* inject(IRGenerationContext& context,
-                            ExpressionList expressionList,
+                            const InjectionArgumentList injectionArgumentList,
                             int line) const override;
   
   void setFields(std::vector<Field*> fields, unsigned long startIndex) override;
@@ -135,12 +137,18 @@ private:
 
   Controller(std::string name, llvm::StructType* structType, bool isExternal);
 
-  void checkArguments(ExpressionList received) const;
+  void checkArguments(const InjectionArgumentList& injectionArgumentList) const;
+
+  void checkArgumentsAreWellFormed(const InjectionArgumentList& injectionArgumentList) const;
+  
+  void checkAllFieldsAreSet(const InjectionArgumentList& injectionArgumentList) const;
+
+  std::vector<std::string> getMissingReceivedFields(std::set<std::string> givenFields) const;
 
   llvm::Instruction* createMalloc(IRGenerationContext& context) const;
   
   void initializeReceivedFields(IRGenerationContext& context,
-                                ExpressionList& controllerInjectorArguments,
+                                const InjectionArgumentList& controllerInjectorArguments,
                                 llvm::Instruction* malloc,
                                 int line) const;
   

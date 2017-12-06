@@ -289,7 +289,7 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   Mock::AllowLeak(mThreadVariable);
 
   PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  ExpressionList arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* fieldDeclaration = new FieldDeclaration(FieldKind::FIXED_FIELD,
                                                             intSpecifier,
                                                             "mField",

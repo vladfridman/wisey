@@ -84,7 +84,7 @@ struct ControllerDefinitionTest : public Test {
 
     PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
     PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-    ExpressionList arguments;
+    InjectionArgumentList arguments;
     FieldDeclaration* field1 = new FieldDeclaration(RECEIVED_FIELD, longType, "field1", arguments);
     FieldDeclaration* field2 = new FieldDeclaration(RECEIVED_FIELD, floatType, "field2", arguments);
     mElementDeclarations.push_back(field1);
@@ -159,7 +159,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
 TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
-  ExpressionList arguments;
+  InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
   mElementDeclarations.clear();
@@ -175,7 +175,7 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
 TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
-  ExpressionList arguments;
+  InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
   mElementDeclarations.push_back(field);

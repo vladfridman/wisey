@@ -15,7 +15,7 @@ controller CGarage {
 model MRunner {
 
   public static void run() {
-    CGarage* garage = inject(CGarage);
+    CGarage* garage = injector(CGarage).inject();
 
     MCar reference = garage.getCar();
   }

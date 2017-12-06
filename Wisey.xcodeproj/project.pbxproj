@@ -99,6 +99,9 @@
 		F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */; };
 		F51797141E660779009B16AA /* TestInterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */; };
 		F518B5E81EB2240C00577EEB /* TestCatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F518B5E71EB2240C00577EEB /* TestCatch.cpp */; };
+		F519ED771FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
+		F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
+		F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */; };
 		F51D2BAA1F68436C00510784 /* StaticMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BA91F68436C00510784 /* StaticMethodDeclaration.cpp */; };
 		F51D2BAB1F68436C00510784 /* StaticMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BA91F68436C00510784 /* StaticMethodDeclaration.cpp */; };
 		F51D2BAE1F68453500510784 /* StaticMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BAD1F68453500510784 /* StaticMethod.cpp */; };
@@ -897,6 +900,9 @@
 		F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignatureDeclaration.cpp; path = src/MethodSignatureDeclaration.cpp; sourceTree = "<group>"; };
 		F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceDefinition.cpp; path = tests/TestInterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F518B5E71EB2240C00577EEB /* TestCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCatch.cpp; path = tests/TestCatch.cpp; sourceTree = "<group>"; };
+		F519ED751FD845EE00BE3FED /* InjectionArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InjectionArgument.hpp; path = include/wisey/InjectionArgument.hpp; sourceTree = "<group>"; };
+		F519ED761FD8476800BE3FED /* InjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InjectionArgument.cpp; path = src/InjectionArgument.cpp; sourceTree = "<group>"; };
+		F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestInjectionArgument.cpp; path = tests/TestInjectionArgument.cpp; sourceTree = "<group>"; };
 		F51BA8FD1EA689440038C98B /* MockObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectType.hpp; path = tests/include/MockObjectType.hpp; sourceTree = "<group>"; };
 		F51D2BA71F68390200510784 /* IMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethod.hpp; path = include/wisey/IMethod.hpp; sourceTree = "<group>"; };
 		F51D2BA81F6842B400510784 /* StaticMethodDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StaticMethodDeclaration.hpp; path = include/wisey/StaticMethodDeclaration.hpp; sourceTree = "<group>"; };
@@ -1875,6 +1881,7 @@
 				F508E06B1E72DC7D005D6115 /* TestIMethodDescriptor.cpp */,
 				F5105FAD1FD0553900ACF57B /* TestImportProfile.cpp */,
 				F574116F1E042607009809FF /* TestIncrementExpression.cpp */,
+				F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */,
 				F57780B51ECA6B460049542D /* TestInjector.cpp */,
 				F59497001F546CED0002F14F /* TestInstanceOf.cpp */,
 				F50FA2EF1E2E3B2A00435EEA /* TestIntConstant.cpp */,
@@ -2266,6 +2273,7 @@
 				F5089C5F1ECD01D9004A1223 /* FieldDeclaration.hpp */,
 				F509E75C1F7D0A6E00F96C14 /* FieldKind.hpp */,
 				F5105FAB1FD02B7100ACF57B /* ImportProfile.hpp */,
+				F519ED751FD845EE00BE3FED /* InjectionArgument.hpp */,
 				F587482E1F921ECB0088F1E3 /* Injector.hpp */,
 				F5089C771ECD01D9004A1223 /* Interface.hpp */,
 				F5089C781ECD01D9004A1223 /* InterfaceDefinition.hpp */,
@@ -2304,6 +2312,7 @@
 				F509E75E1F7D131C00F96C14 /* Field.cpp */,
 				F51581231E89B02F009CE419 /* FieldDeclaration.cpp */,
 				F5105FA91FD02B6200ACF57B /* ImportProfile.cpp */,
+				F519ED761FD8476800BE3FED /* InjectionArgument.cpp */,
 				F587482F1F921F6B0088F1E3 /* Injector.cpp */,
 				F5ADB6201E66F9B400FFC941 /* Interface.cpp */,
 				F517970D1E6600BA009B16AA /* InterfaceDefinition.cpp */,
@@ -2776,6 +2785,7 @@
 				F5F396DC1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F50427B51E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
 				F5FCAE3D1ED5F67F00C69899 /* TestCompiler.cpp in Sources */,
+				F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */,
 				F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */,
 				F50FA2BA1E28C0C900435EEA /* TestDoStatement.cpp in Sources */,
 				F5B9B1581E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp in Sources */,
@@ -2948,6 +2958,7 @@
 				F56AD4A21E9F66C40020868C /* IObjectType.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F5E6BD0C1F1B7B1600D59444 /* TestFakeExpression.cpp in Sources */,
+				F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */,
 				F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F52FF1821F1B8731003F4D37 /* FakeExpression.cpp in Sources */,
 				F55CF1761F7DA11C00A11426 /* ExternalStaticMethod.cpp in Sources */,
@@ -3036,6 +3047,7 @@
 				F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
+				F519ED771FD8476800BE3FED /* InjectionArgument.cpp in Sources */,
 				F5105FB31FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */,
 				F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,
 				F59D821D1E0F66E800057FB5 /* IfElseStatement.cpp in Sources */,

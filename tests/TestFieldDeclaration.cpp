@@ -32,7 +32,8 @@ struct FieldDeclarationTest : public Test {
   NiceMock<MockType>* mType;
   NiceMock<MockExpression>* mExpression;
   string mName;
-  ExpressionList mArguments;
+  InjectionArgumentList mArguments;
+  InjectionArgument* mInjectionArgument;
   FieldDeclaration* mFieldDeclaration;
   
 public:
@@ -41,7 +42,8 @@ public:
   mType(new NiceMock<MockType>()),
   mExpression(new NiceMock<MockExpression>()),
   mName("mField") {
-    mArguments.push_back(mExpression);
+    mInjectionArgument = new InjectionArgument("withFoo", mExpression);
+    mArguments.push_back(mInjectionArgument);
     
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
     mFieldDeclaration = new FieldDeclaration(FieldKind::FIXED_FIELD,
@@ -60,8 +62,8 @@ TEST_F(FieldDeclarationTest, declareTest) {
   
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT_TYPE);
   EXPECT_STREQ(field->getName().c_str(), "mField");
-  EXPECT_EQ(field->getArguments().size(), 1u);
-  EXPECT_EQ(field->getArguments().at(0), mExpression);
+  EXPECT_EQ(field->getInjectionArguments().size(), 1u);
+  EXPECT_EQ(field->getInjectionArguments().at(0), mInjectionArgument);
   EXPECT_FALSE(field->isAssignable());
   EXPECT_EQ(field->getFieldKind(), FieldKind::FIXED_FIELD);
 }

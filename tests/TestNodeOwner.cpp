@@ -134,7 +134,7 @@ struct NodeOwnerTest : public Test {
     mStructType = StructType::create(mLLVMContext, complicatedNodeFullName);
     mStructType->setBody(types);
     vector<Field*> fields;
-    ExpressionList fieldArguments;
+    InjectionArgumentList fieldArguments;
     mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mLeft", fieldArguments);
     mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mRight", fieldArguments);
     fields.push_back(mLeftField);

@@ -66,7 +66,7 @@ struct ExternalNodeDefinitionTest : public Test {
 TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mObjectElements.push_back(field1);
@@ -89,7 +89,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
 TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mObjectElements.push_back(field1);

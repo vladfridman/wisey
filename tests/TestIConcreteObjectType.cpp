@@ -80,7 +80,7 @@ struct IConcreteObjectTypeTest : public Test {
     interfaces.push_back(interface4);
     ON_CALL(mMockObject, getFlattenedInterfaceHierarchy()).WillByDefault(Return(interfaces));
 
-    ExpressionList fieldArguments;
+    InjectionArgumentList fieldArguments;
     
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt64Ty(mLLVMContext));

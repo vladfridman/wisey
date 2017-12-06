@@ -65,7 +65,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   context.getScopes().setReturnType(PrimitiveTypes::INT_TYPE);
   
   Controller* threadController = context.getController("wisey.lang.CThread");
-  ExpressionList injectionArguments;
+  InjectionArgumentList injectionArguments;
   Value* injectedThread = threadController->inject(context, injectionArguments, 0);
   Value* threadStore = IRWriter::newAllocaInst(context, injectedThread->getType(), "threadStore");
   IOwnerVariable* threadVariable = new LocalOwnerVariable(ThreadExpression::THREAD,
@@ -77,7 +77,7 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
                                                         threadController->getOwner());
   threadVariable->generateAssignmentIR(context, threadExpression, 0);
 
-  Injector* injector = new Injector(programInterfaceSpecifier, 0);
+  Injector* injector = new Injector(programInterfaceSpecifier, injectionArguments, 0);
   Identifier* programIdentifier = new Identifier("program");
   programInterfaceSpecifier = new InterfaceTypeSpecifier(Names::getLangPackageName(),
                                                          Names::getIProgramName());

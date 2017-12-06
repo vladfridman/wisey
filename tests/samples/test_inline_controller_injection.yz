@@ -12,7 +12,7 @@ controller CService {
 controller CProgram implements IProgram {
 
   public int run() {
-    CService* service = inject(CService);
+    CService* service = injector(CService).inject();
     return service.getValue();
   }
 }

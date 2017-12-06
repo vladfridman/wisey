@@ -15,7 +15,7 @@ controller CService {
 }
 
 controller CProgram implements IProgram {
-  inject CService* mService(5);
+  inject CService* mService.withNumber(5);
 
   public int run() {
     return mService.getDouble();

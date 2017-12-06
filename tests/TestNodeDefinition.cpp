@@ -89,7 +89,7 @@ struct NodeDefinitionTest : public Test {
 TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mObjectElements.push_back(field1);
@@ -112,7 +112,7 @@ TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
 TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mObjectElements.push_back(field1);
@@ -134,7 +134,7 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
 TEST_F(NodeDefinitionTest, generateIRTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(FIXED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mObjectElements.push_back(field1);
@@ -246,7 +246,7 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
 TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  vector<IExpression*> arguments;
+  InjectionArgumentList arguments;
   FieldDeclaration* field1 = new FieldDeclaration(INJECTED_FIELD, longType, "field1", arguments);
   FieldDeclaration* field2 = new FieldDeclaration(FIXED_FIELD, floatType, "field2", arguments);
   mObjectElements.push_back(field1);
