@@ -169,7 +169,7 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: Controllers can only have fixed, injected or state fields");
+              "Error: Controllers can only have received, injected or state fields");
 }
 
 TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
@@ -202,7 +202,7 @@ TEST_F(TestFileSampleRunner, controllerDefinitionWithInjectedInterfaceFieldRunTe
 TEST_F(TestFileSampleRunner, controllerWithFixedFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_controller_with_fixed_field.yz",
                     1,
-                    "Error: Controllers can only have fixed, injected or state fields");
+                    "Error: Controllers can only have received, injected or state fields");
 }
 
 TEST_F(TestFileSampleRunner, objectFieldsAfterMethodsDeathRunTest) {
