@@ -1,0 +1,9 @@
+package systems.vos.wisey.compiler.tests;
+
+model MColor {
+}
+
+node NShape {
+  MColor mColor;
+}
+

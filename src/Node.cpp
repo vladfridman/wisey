@@ -65,6 +65,10 @@ void Node::setFields(vector<Field*> fields, unsigned long startIndex) {
     mFields[field->getName()] = field;
     mFieldIndexes[field] = index;
     TypeKind typeKind = field->getType()->getTypeKind();
+    if (typeKind == CONTROLLER_TYPE || typeKind == CONTROLLER_OWNER_TYPE) {
+      Log::e("Nodes can only have fields of primitive or model or node type");
+      exit(1);
+    }
     switch (field->getFieldKind()) {
       case FieldKind::FIXED_FIELD :
         mFixedFields.push_back(field);

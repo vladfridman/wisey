@@ -641,3 +641,13 @@ TEST_F(TestFileSampleRunner, nodeBuilderPrimitiveArgumentAutocast) {
 TEST_F(TestFileSampleRunner, nodeBuilderSetStateFieldsRunTest) {
   runFile("tests/samples/test_node_builder_set_state_fields.yz", "2018");
 }
+
+TEST_F(TestFileSampleRunner, nodeWithModelFieldCompileTest) {
+  compileFile("tests/samples/test_node_with_model_field.yz");
+}
+
+TEST_F(TestFileSampleRunner, nodeWithControllerFieldDeathRunTest) {
+  expectFailCompile("tests/samples/test_node_with_controller_field.yz",
+                    1,
+                    "Error: Nodes can only have fields of primitive or model or node type");
+}
