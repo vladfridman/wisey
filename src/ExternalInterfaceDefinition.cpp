@@ -50,13 +50,14 @@ void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context)
   interface->setImportProfile(context.getImportProfile());
 
   interface->defineInterfaceTypeName(context);
-  interface->defineStaticMethodFunctions(context);
 }
 
 void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
   Interface* interface = context.getInterface(mInterfaceTypeSpecifierFull->getName(context));
+
   context.setObjectType(interface);
   interface->buildMethods(context);
+  interface->defineStaticMethodFunctions(context);
   context.setObjectType(NULL);
 }
 

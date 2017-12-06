@@ -680,6 +680,9 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
   for (MethodSignature* methodSignature : mMethodSignatures) {
     methodSignature->printToStream(context, stream);
   }
+  for (StaticMethod* staticMethod : mStaticMethods) {
+    staticMethod->printToStream(context, stream);
+  }
   stream << "}" << endl;
 }
 

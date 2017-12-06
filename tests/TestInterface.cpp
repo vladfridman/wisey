@@ -33,6 +33,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
+#include "wisey/StaticMethodDeclaration.hpp"
 #include "wisey/ThreadExpression.hpp"
 
 using namespace llvm;
@@ -53,6 +54,7 @@ struct InterfaceTest : public Test {
   InterfaceTypeSpecifier* mObjectInterfaceSpecifier;
   IObjectElementDeclaration* mFooMethod;
   IObjectElementDeclaration* mBarMethod;
+  IObjectElementDeclaration* mStaticMethod;
   StructType* mShapeStructType;
   StructType* mIncompleteInterfaceStructType;
   IRGenerationContext mContext;
@@ -100,6 +102,19 @@ struct InterfaceTest : public Test {
     mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);
     vector<IObjectElementDeclaration*> shapeElements;
 
+    intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
+    VariableList staticMethodArguments;
+    vector<IModelTypeSpecifier*> staticMethodExceptions;
+    Block* staticMethodBlock = new Block();
+    CompoundStatement* staticMethodCompoundStatement = new CompoundStatement(staticMethodBlock, 0);
+    mStaticMethod = new StaticMethodDeclaration(AccessLevel::PUBLIC_ACCESS,
+                                                intSpecifier,
+                                                "foostatic",
+                                                staticMethodArguments,
+                                                staticMethodExceptions,
+                                                staticMethodCompoundStatement,
+                                                0);
+    
     mMockExpression = new NiceMock<MockExpression>();
     ON_CALL(*mMockExpression, printToStream(_,_)).WillByDefault(Invoke(printExpression));
     intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
@@ -109,6 +124,7 @@ struct InterfaceTest : public Test {
                                                    mMockExpression);
     shapeElements.push_back(mConstantDeclaration);
     shapeElements.push_back(mFooMethod);
+    shapeElements.push_back(mStaticMethod);
 
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterfaceSpecifier);
@@ -263,6 +279,7 @@ TEST_F(InterfaceTest, printToStreamTest) {
                "  public constant int MYCONSTANT = 5;\n"
                "\n"
                "  int foo();\n"
+               "  static int foostatic();\n"
                "}\n",
                stringStream.str().c_str());
 }

@@ -203,9 +203,11 @@
 %type <object_element> field_declaration method_definition static_method_definition
 %type <object_element> external_method_declaration interface_static_method_definition
 %type <object_element> constant_declaration interface_element_declaration method_signature
+%type <object_element> external_interface_element_declaration external_static_method_declaration
 %type <object_element_list> object_element_declaration_list 
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
+%type <object_element_list> external_interface_element_delcaration_list
 %type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier
 %type <object_type_specifier> object_type_specifier buildable_concrete_object_type_specifier
 %type <object_type_specifier> injectable_object_type_specifier
@@ -307,7 +309,7 @@ interface_definition
 
 external_interface_definition
   : TEXTERNAL TINTERFACE interface_type_specifier extends_interfaces 
-      '{' interface_element_delcaration_list '}'
+      '{' external_interface_element_delcaration_list '}'
     {
       std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
       InterfaceTypeSpecifierFull* fullSpecifier = 
@@ -317,6 +319,18 @@ external_interface_definition
       delete $4;
       delete $6;
     }
+  ;
+
+external_interface_element_delcaration_list
+  : /* blank */ { $$ = new std::vector<IObjectElementDeclaration *>(); }
+  | external_interface_element_delcaration_list external_interface_element_declaration 
+    { $1->push_back($2); }
+  ;
+
+external_interface_element_declaration
+  : method_signature
+  | constant_declaration
+  | external_static_method_declaration
   ;
 
 interface_element_delcaration_list
@@ -432,7 +446,10 @@ external_method_declaration
         delete $4;
         delete $6;
       }
-  | TSTATIC type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
+  ;
+
+external_static_method_declaration
+  : TSTATIC type_specifier TIDENTIFIER '(' method_declaration_arguments ')' method_exceptions ';'
       {
         $$ = new ExternalStaticMethodDeclaration($2, *$3, *$5, *$7);
         delete $3;
@@ -480,6 +497,7 @@ external_object_element_declaration
   : constant_declaration
   | field_declaration
   | external_method_declaration
+  | external_static_method_declaration
   ;
 
 constant_declaration
