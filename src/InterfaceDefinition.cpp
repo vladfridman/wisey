@@ -67,6 +67,7 @@ Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
   context.getScopes().pushScope();
   context.setObjectType(interface);
 
+  interface->defineCurrentObjectNameVariable(context);
   interface->generateStaticMethodsIR(context);
 
   context.setObjectType(NULL);

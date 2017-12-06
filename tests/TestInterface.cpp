@@ -486,6 +486,19 @@ TEST_F(TestFileSampleRunner, interfaceStaticMethodRunTest) {
   runFile("tests/samples/test_interface_static_method.yz", "5");
 }
 
+TEST_F(TestFileSampleRunner, interfaceStaticMethodComplicatedRunTest) {
+  runFile("tests/samples/test_interface_static_method_complicated.yz", "7");
+}
+
+TEST_F(TestFileSampleRunner, interfaceStaticMethodThrowsNpeDeathRunTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_interface_static_method_throws_npe.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.IShape.getValue(tests/samples/test_interface_static_method_throws_npe.yz:7)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_static_method_throws_npe.yz:24)\n");
+}
+
 TEST_F(TestFileSampleRunner, interfaceCastToModelCastExceptionRunDeathTest) {
   compileAndRunFileCheckOutput("tests/samples/test_interface_cast_to_model_cast_exception.yz",
                                1,

@@ -28,6 +28,7 @@
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ObjectBuilder.hpp"
+#include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ThreadExpression.hpp"
 #include "wisey/ThrowStatement.hpp"
@@ -228,6 +229,15 @@ void Interface::defineStaticMethodFunctions(IRGenerationContext& context) const 
   for (IMethod* method : mStaticMethods) {
     method->defineFunction(context, this);
   }
+}
+
+void Interface::defineCurrentObjectNameVariable(IRGenerationContext& context) const {
+  Value* objectName = IObjectType::getObjectNamePointer(this, context);
+  ParameterPrimitiveVariable* objectNameVariable =
+  new ParameterPrimitiveVariable(Names::getCurrentObjectVariableName(),
+                                 PrimitiveTypes::STRING_TYPE,
+                                 objectName);
+  context.getScopes().setVariable(objectNameVariable);
 }
 
 void Interface::generateStaticMethodsIR(IRGenerationContext& context) const {

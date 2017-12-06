@@ -131,7 +131,12 @@ public:
    * Generate IR for constants defined in this interface
    */
   void generateConstantsIR(IRGenerationContext& context) const;
-  
+
+  /**
+   * Define variable containing interface's name
+   */
+  void defineCurrentObjectNameVariable(IRGenerationContext& context) const;
+
   /**
    * Generates code for static methods defined in this interface
    */

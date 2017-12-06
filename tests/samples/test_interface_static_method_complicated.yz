@@ -1,0 +1,27 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IShape {
+  static int getValue(MValueContainer valueContainer) {
+    return valueContainer.getValue();
+  }
+}
+
+model MValueContainer {
+  int mValue;
+
+  public int getValue() {
+    return mValue;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MValueContainer* valueContainer = builder(MValueContainer).withValue(7).build();
+    return IShape.getValue(valueContainer);
+  }
+} 
+
+bind(CProgram).to(IProgram);
