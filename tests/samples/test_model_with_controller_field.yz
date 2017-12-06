@@ -1,0 +1,9 @@
+package systems.vos.wisey.compiler.tests;
+
+controller CColor {
+}
+
+model MShape {
+  CColor mColor;
+}
+

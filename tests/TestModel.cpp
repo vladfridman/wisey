@@ -691,3 +691,15 @@ TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocast) {
 TEST_F(TestFileSampleRunner, modelBuilderPrimitiveArgumentAutocast) {
   runFile("tests/samples/test_model_builder_primitive_argument_autocast.yz", "1");
 }
+
+TEST_F(TestFileSampleRunner, modelWithNodeFieldDeathRunTest) {
+  expectFailCompile("tests/samples/test_model_with_node_field.yz",
+                    1,
+                    "Error: Models can only have fields of primitive or model type");
+}
+
+TEST_F(TestFileSampleRunner, modelWithControllerFieldDeathRunTest) {
+  expectFailCompile("tests/samples/test_model_with_controller_field.yz",
+                    1,
+                    "Error: Models can only have fields of primitive or model type");
+}
