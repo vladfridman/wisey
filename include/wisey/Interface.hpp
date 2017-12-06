@@ -19,6 +19,7 @@
 #include "wisey/IInjectable.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
 #include "wisey/MethodSignature.hpp"
+#include "wisey/StaticMethod.hpp"
 
 namespace wisey {
 
@@ -40,8 +41,10 @@ class Interface : public IObjectType, public IInjectable {
   std::vector<Interface*> mParentInterfaces;
   std::vector<MethodSignature*> mMethodSignatures;
   std::vector<MethodSignature*> mAllMethodSignatures;
+  std::vector<StaticMethod*> mStaticMethods;
   std::map<IMethodDescriptor*, unsigned long> mMethodIndexes;
   std::map<std::string, MethodSignature*> mNameToMethodSignatureMap;
+  std::map<std::string, StaticMethod*> mNameToStaticMethodMap;
   std::vector<wisey::Constant*> mConstants;
   std::map<std::string, Constant*> mNameToConstantMap;
   ImportProfile* mImportProfile;
@@ -118,12 +121,22 @@ public:
    * Defines global variable with the interface name
    */
   void defineInterfaceTypeName(IRGenerationContext& context);
+  
+  /**
+   * Defines llvm functions corresponding to interface static methods
+   */
+  void defineStaticMethodFunctions(IRGenerationContext& context) const;
 
   /**
    * Generate IR for constants defined in this interface
    */
   void generateConstantsIR(IRGenerationContext& context) const;
   
+  /**
+   * Generates code for static methods defined in this interface
+   */
+  void generateStaticMethodsIR(IRGenerationContext& context) const;
+
   /**
    * Returns name of the function that destroys an object of this interface type
    */
@@ -143,7 +156,7 @@ public:
                             ExpressionList expressionList,
                             int line) const override;
 
-  MethodSignature* findMethod(std::string methodName) const override;
+  IMethodDescriptor* findMethod(std::string methodName) const override;
   
   Constant* findConstant(std::string constantName) const override;
 
@@ -233,10 +246,11 @@ private:
                                   const IObjectType* interfaceType,
                                   const IObjectType* toObjectType);
 
-  static std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>>
-  createElements(IRGenerationContext& context,
-                 std::vector<IObjectElementDeclaration*> elementDeclarations);
-  
+  static std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>,
+  std::vector<StaticMethod*>> createElements(IRGenerationContext& context,
+                                             std::vector<IObjectElementDeclaration*>
+                                             elementDeclarations);
+
 };
   
 } /* namespace wisey */

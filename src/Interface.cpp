@@ -56,7 +56,9 @@ Interface::~Interface() {
   }
   mMethodSignatures.clear();
   mAllMethodSignatures.clear();
+  mStaticMethods.clear();
   mNameToMethodSignatureMap.clear();
+  mNameToStaticMethodMap.clear();
   for (Constant* constant : mConstants) {
     delete constant;
   }
@@ -96,7 +98,7 @@ void Interface::buildMethods(IRGenerationContext& context) {
 
   LLVMContext& llvmContext = context.getLLVMContext();
 
-  tuple<vector<MethodSignature*>, vector<wisey::Constant*>> elements =
+  tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>> elements =
   createElements(context, mElementDeclarations);
 
   mMethodSignatures = get<0>(elements);
@@ -104,7 +106,11 @@ void Interface::buildMethods(IRGenerationContext& context) {
   for (Constant* constant : mConstants) {
     mNameToConstantMap[constant->getName()] = constant;
   }
-
+  mStaticMethods = get<2>(elements);
+  for (StaticMethod* staticMethod : mStaticMethods) {
+    mNameToStaticMethodMap[staticMethod->getName()] = staticMethod;
+  }
+  
   for (IInterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
     if (!parentInterface->isComplete()) {
@@ -156,7 +162,7 @@ bool Interface::isComplete() const {
 void Interface::includeInterfaceMethods(Interface* parentInterface) {
   vector<MethodSignature*> inheritedMethods = parentInterface->getAllMethodSignatures();
   for (MethodSignature* methodSignature : inheritedMethods) {
-    MethodSignature* existingMethod = findMethod(methodSignature->getName());
+    IMethodDescriptor* existingMethod = findMethod(methodSignature->getName());
     if (existingMethod && !IMethodDescriptor::compare(existingMethod, methodSignature)) {
       Log::e("Interface " + mName + " overrides method " + existingMethod->getName()
              + " of parent interface with a wrong signature.");
@@ -200,17 +206,33 @@ string Interface::getObjectNameGlobalVariableName() const {
   return mName + ".name";
 }
 
-MethodSignature* Interface::findMethod(std::string methodName) const {
-  if (!mNameToMethodSignatureMap.count(methodName)) {
-    return NULL;
+IMethodDescriptor* Interface::findMethod(std::string methodName) const {
+  if (mNameToMethodSignatureMap.count(methodName)) {
+    return mNameToMethodSignatureMap.at(methodName);
   }
   
-  return mNameToMethodSignatureMap.at(methodName);
+  if (mNameToStaticMethodMap.count(methodName)) {
+    return mNameToStaticMethodMap.at(methodName);
+  }
+  
+  return NULL;
 }
 
 void Interface::generateConstantsIR(IRGenerationContext& context) const {
   for (Constant* constant : mConstants) {
     constant->generateIR(context, this);
+  }
+}
+
+void Interface::defineStaticMethodFunctions(IRGenerationContext& context) const {
+  for (IMethod* method : mStaticMethods) {
+    method->defineFunction(context, this);
+  }
+}
+
+void Interface::generateStaticMethodsIR(IRGenerationContext& context) const {
+  for (IMethod* method : mStaticMethods) {
+    method->generateIR(context, this);
   }
 }
 
@@ -669,11 +691,12 @@ Instruction* Interface::inject(IRGenerationContext& context,
   return controller->inject(context, expressionList, line);
 }
 
-tuple<vector<MethodSignature*>, vector<wisey::Constant*>>
+tuple<vector<MethodSignature*>, vector<wisey::Constant*>, vector<StaticMethod*>>
 Interface::createElements(IRGenerationContext& context,
                           vector<IObjectElementDeclaration*> elementDeclarations) {
   vector<MethodSignature*> methodSignatures;
   vector<wisey::Constant*> constants;
+  vector<StaticMethod*> staticMethods;
   for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
     IObjectElement* objectElement = elementDeclaration->declare(context);
     if (objectElement->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
@@ -685,19 +708,21 @@ Interface::createElements(IRGenerationContext& context,
       exit(1);
     }
     if (objectElement->getObjectElementType() == OBJECT_ELEMENT_CONSTANT) {
-      if (methodSignatures.size()) {
-        Log::e("In interfaces constants should be declared before method signatures");
+      if (methodSignatures.size() || staticMethods.size()) {
+        Log::e("In interfaces constants should be declared before methods");
         exit(1);
       }
       constants.push_back((wisey::Constant*) objectElement);
     } else if (objectElement->getObjectElementType() == OBJECT_ELEMENT_METHOD_SIGNATURE) {
       methodSignatures.push_back((MethodSignature*) objectElement);
+    } else if (objectElement->getObjectElementType() == OBJECT_ELEMENT_STATIC_METHOD) {
+      staticMethods.push_back((StaticMethod*) objectElement);
     } else {
       Log::e("Unexpected element in interface definition");
       exit(1);
     }
   }
-  return make_tuple(methodSignatures, constants);
+  return make_tuple(methodSignatures, constants, staticMethods);
 }
 
 void Interface::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {

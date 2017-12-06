@@ -127,7 +127,7 @@ void StaticMethod::createArguments(IRGenerationContext& context,
 }
 
 ObjectElementType StaticMethod::getObjectElementType() const {
-  return OBJECT_ELEMENT_METHOD;
+  return OBJECT_ELEMENT_STATIC_METHOD;
 }
 
 void StaticMethod::printToStream(IRGenerationContext& context, iostream& stream) const {

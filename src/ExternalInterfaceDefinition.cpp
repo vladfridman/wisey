@@ -50,6 +50,7 @@ void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context)
   interface->setImportProfile(context.getImportProfile());
 
   interface->defineInterfaceTypeName(context);
+  interface->defineStaticMethodFunctions(context);
 }
 
 void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {

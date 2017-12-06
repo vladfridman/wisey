@@ -1,0 +1,18 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IShape {
+  static int getValue() {
+    return 5;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return IShape.getValue();
+  }
+} 
+
+bind(CProgram).to(IProgram);

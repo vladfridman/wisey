@@ -335,7 +335,7 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
-              "Error: In interfaces constants should be declared before method signatures");
+              "Error: In interfaces constants should be declared before methods");
 }
 
 TEST_F(InterfaceTest, incremenetReferenceCountTest) {
@@ -480,6 +480,10 @@ TEST_F(TestFileSampleRunner, interfaceCastToAnotherInterfaceRunTest) {
 
 TEST_F(TestFileSampleRunner, interfaceAutoCastRunTest) {
   runFile("tests/samples/test_interface_autocast.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, interfaceStaticMethodRunTest) {
+  runFile("tests/samples/test_interface_static_method.yz", "5");
 }
 
 TEST_F(TestFileSampleRunner, interfaceCastToModelCastExceptionRunDeathTest) {
