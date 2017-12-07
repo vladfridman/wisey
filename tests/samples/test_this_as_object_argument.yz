@@ -1,0 +1,24 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCaller {
+  public int makeCall(CProgram object) {
+    return object.getValue();
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MCaller* caller = builder(MCaller).build();
+
+    return caller.makeCall(this);
+  }
+
+  public int getValue() {
+    return 3;
+  }
+}
+
+bind(CProgram).to(IProgram);

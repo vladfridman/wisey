@@ -102,6 +102,7 @@
 		F519ED771FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */; };
+		F519ED7C1FD9910D00BE3FED /* TestThis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED7B1FD9910D00BE3FED /* TestThis.cpp */; };
 		F51D2BAA1F68436C00510784 /* StaticMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BA91F68436C00510784 /* StaticMethodDeclaration.cpp */; };
 		F51D2BAB1F68436C00510784 /* StaticMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BA91F68436C00510784 /* StaticMethodDeclaration.cpp */; };
 		F51D2BAE1F68453500510784 /* StaticMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51D2BAD1F68453500510784 /* StaticMethod.cpp */; };
@@ -903,6 +904,7 @@
 		F519ED751FD845EE00BE3FED /* InjectionArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InjectionArgument.hpp; path = include/wisey/InjectionArgument.hpp; sourceTree = "<group>"; };
 		F519ED761FD8476800BE3FED /* InjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InjectionArgument.cpp; path = src/InjectionArgument.cpp; sourceTree = "<group>"; };
 		F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestInjectionArgument.cpp; path = tests/TestInjectionArgument.cpp; sourceTree = "<group>"; };
+		F519ED7B1FD9910D00BE3FED /* TestThis.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThis.cpp; path = tests/TestThis.cpp; sourceTree = "<group>"; };
 		F51BA8FD1EA689440038C98B /* MockObjectType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectType.hpp; path = tests/include/MockObjectType.hpp; sourceTree = "<group>"; };
 		F51D2BA71F68390200510784 /* IMethod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IMethod.hpp; path = include/wisey/IMethod.hpp; sourceTree = "<group>"; };
 		F51D2BA81F6842B400510784 /* StaticMethodDeclaration.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = StaticMethodDeclaration.hpp; path = include/wisey/StaticMethodDeclaration.hpp; sourceTree = "<group>"; };
@@ -1945,6 +1947,7 @@
 				F531B6561E0DE040008304F3 /* TestStringLiteral.cpp */,
 				F58725541F6DB97C00FA25E6 /* TestStringType.cpp */,
 				F50FA2AB1E27ADA200435EEA /* TestSwitchStatement.cpp */,
+				F519ED7B1FD9910D00BE3FED /* TestThis.cpp */,
 				F53CDACF1F8BA91700D27687 /* TestThread.cpp */,
 				F58748361F951E580088F1E3 /* TestThreadExpression.cpp */,
 				F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */,
@@ -2702,6 +2705,7 @@
 				F59D820C1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
 				F50FA2F71E2E3B3500435EEA /* TestIntConstant.cpp in Sources */,
 				F53400FB1DFD999B0002BF7E /* TestRelationalExpression.cpp in Sources */,
+				F519ED7C1FD9910D00BE3FED /* TestThis.cpp in Sources */,
 				F53A2C461F0298E800E76A9E /* NullType.cpp in Sources */,
 				F558057C1F96A29D004F62F2 /* ExitStatement.cpp in Sources */,
 				F57085FD1E51E2ED007D627E /* MethodCall.cpp in Sources */,

@@ -1,0 +1,21 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MComparator {
+  public boolean isTheSame(MComparator pointer) {
+    return this == pointer;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MComparator* comparator1 = builder(MComparator).build();
+    MComparator* comparator2 = builder(MComparator).build();
+
+    return comparator1.isTheSame(comparator1);
+  }
+}
+
+bind(CProgram).to(IProgram);

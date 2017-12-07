@@ -1,0 +1,25 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface ICompareThis {
+  boolean isTheSame(ICompareThis object);
+}
+
+model MComparator implements ICompareThis {
+  public boolean isTheSame(ICompareThis object) {
+    return this == object;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    ICompareThis* comparator1 = builder(MComparator).build();
+    ICompareThis* comparator2 = builder(MComparator).build();
+
+    return comparator1.isTheSame(comparator1);
+  }
+}
+
+bind(CProgram).to(IProgram);

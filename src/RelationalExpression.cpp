@@ -86,7 +86,7 @@ Value* RelationalExpression::generateIRForObjects(IRGenerationContext& context) 
   
   if (leftType->canAutoCastTo(rightType)) {
     Value* castedLeftValue = leftType->castTo(context, leftValue, rightType, mLine);
-    return IRWriter::newICmpInst(context, predicate, castedLeftValue, castedLeftValue, "cmp");
+    return IRWriter::newICmpInst(context, predicate, castedLeftValue, rightValue, "cmp");
   }
   
   if (rightType->canAutoCastTo(leftType)) {

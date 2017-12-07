@@ -1,0 +1,28 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IHasValue {
+  int getValue();
+}
+
+model MCaller {
+  public int makeCall(IHasValue object) {
+    return object.getValue();
+  }
+}
+
+controller CProgram implements IProgram, IHasValue {
+
+  public int run() {
+    MCaller* caller = builder(MCaller).build();
+
+    return caller.makeCall(this);
+  }
+
+  public int getValue() {
+    return 5;
+  }
+}
+
+bind(CProgram).to(IProgram);
