@@ -86,7 +86,7 @@ struct NodeDefinitionTest : public Test {
   }
 };
 
-TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
+TEST_F(NodeDefinitionTest, prototypeObjectTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   InjectionArgumentList arguments;
@@ -104,7 +104,7 @@ TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
                                 interfaces,
                                 innerObjectDefinitions);
   
-  nodeDefinition.prototypeObjects(mContext);
+  nodeDefinition.prototypeObject(mContext);
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
   
@@ -131,7 +131,7 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
                                 interfaces,
                                 innerObjectDefinitions);
   
-  nodeDefinition.prototypeObjects(mContext);
+  nodeDefinition.prototypeObject(mContext);
   nodeDefinition.prototypeMethods(mContext);
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
@@ -159,7 +159,7 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
-  nodeDefinition.prototypeObjects(mContext);
+  nodeDefinition.prototypeObject(mContext);
   nodeDefinition.prototypeMethods(mContext);
   nodeDefinition.generateIR(mContext);
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
@@ -222,7 +222,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions);
-  nodeDefinition.prototypeObjects(mContext);
+  nodeDefinition.prototypeObject(mContext);
   nodeDefinition.prototypeMethods(mContext);
   nodeDefinition.generateIR(mContext);
   
@@ -256,7 +256,7 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions);
-  nodeDefinition.prototypeObjects(mContext);
+  nodeDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -280,7 +280,7 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions);
-  nodeDefinition.prototypeObjects(mContext);
+  nodeDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),

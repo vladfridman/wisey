@@ -34,7 +34,7 @@ public:
   
   ~ExternalNodeDefinition();
   
-  void prototypeObjects(IRGenerationContext& context) const override;
+  const Node* prototypeObject(IRGenerationContext& context) const override;
   
   void prototypeMethods(IRGenerationContext& context) const override;
   

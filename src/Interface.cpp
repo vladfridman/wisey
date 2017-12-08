@@ -65,6 +65,7 @@ Interface::~Interface() {
   }
   mConstants.clear();
   mNameToConstantMap.clear();
+  mInnerObjects.clear();
 }
 
 Interface* Interface::newInterface(string name,
@@ -835,4 +836,15 @@ void Interface::setImportProfile(ImportProfile* importProfile) {
 
 ImportProfile* Interface::getImportProfile() const {
   return mImportProfile;
+}
+
+void Interface::addInnerObject(const IObjectType* innerObject) {
+  mInnerObjects[innerObject->getShortName()] = innerObject;
+}
+
+const IObjectType* Interface::getInnerObject(string shortName) const {
+  if (mInnerObjects.count(shortName)) {
+    return mInnerObjects.at(shortName);
+  }
+  return NULL;
 }

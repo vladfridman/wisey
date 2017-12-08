@@ -42,7 +42,7 @@ InterfaceDefinition::~InterfaceDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
+const Interface* InterfaceDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Interface* interface = Interface::newInterface(fullName,
@@ -54,13 +54,11 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   interface->defineInterfaceTypeName(context);
 
   const IObjectType* lastObjectType = context.getObjectType();
-  if (lastObjectType) {
-    lastObjectType->getImportProfile()->addImport(mInterfaceTypeSpecifierFull->getShortName(),
-                                                  fullName);
-  }
   context.setObjectType(interface);
-  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  IObjectDefinition::prototypeInnerObjects(context, interface, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);
+  
+  return interface;
 }
 
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {

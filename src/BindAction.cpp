@@ -23,7 +23,8 @@ BindAction::~BindAction() {
   delete mInterfaceTypeSpecifier;
 }
 
-void BindAction::prototypeObjects(IRGenerationContext& context) const {
+const IObjectType* BindAction::prototypeObject(IRGenerationContext& context) const {
+  return NULL;
 }
 
 void BindAction::prototypeMethods(IRGenerationContext& context) const {

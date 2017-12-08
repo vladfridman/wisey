@@ -43,7 +43,7 @@ ControllerDefinition::~ControllerDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
+const Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
 
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
@@ -52,13 +52,11 @@ void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const 
   controller->setImportProfile(context.getImportProfile());
   
   const IObjectType* lastObjectType = context.getObjectType();
-  if (lastObjectType) {
-    lastObjectType->getImportProfile()->addImport(mControllerTypeSpecifierFull->getShortName(),
-                                                  fullName);
-  }
   context.setObjectType(controller);
-  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  IObjectDefinition::prototypeInnerObjects(context, controller, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);
+  
+  return controller;
 }
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {

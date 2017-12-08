@@ -47,6 +47,7 @@ Model::~Model() {
   }
   mConstants.clear();
   mNameToConstantMap.clear();
+  mInnerObjects.clear();
 }
 
 Model* Model::newModel(string name, StructType* structType) {
@@ -389,5 +390,16 @@ void Model::setImportProfile(ImportProfile* importProfile) {
 
 ImportProfile* Model::getImportProfile() const {
   return mImportProfile;
+}
+
+void Model::addInnerObject(const IObjectType* innerObject) {
+  mInnerObjects[innerObject->getShortName()] = innerObject;
+}
+
+const IObjectType* Model::getInnerObject(string shortName) const {
+  if (mInnerObjects.count(shortName)) {
+    return mInnerObjects.at(shortName);
+  }
+  return NULL;
 }
 

@@ -52,6 +52,7 @@ Controller::~Controller() {
   }
   mConstants.clear();
   mNameToConstantMap.clear();
+  mInnerObjects.clear();
 }
 
 Controller* Controller::newController(string name, StructType* structType) {
@@ -410,4 +411,15 @@ void Controller::setImportProfile(ImportProfile* importProfile) {
 
 ImportProfile* Controller::getImportProfile() const {
   return mImportProfile;
+}
+
+void Controller::addInnerObject(const IObjectType* innerObject) {
+  mInnerObjects[innerObject->getShortName()] = innerObject;
+}
+
+const IObjectType* Controller::getInnerObject(string shortName) const {
+  if (mInnerObjects.count(shortName)) {
+    return mInnerObjects.at(shortName);
+  }
+  return NULL;
 }

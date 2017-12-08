@@ -9,6 +9,7 @@
 #ifndef IGlobalStatement_h
 #define IGlobalStatement_h
 
+#include "wisey/IObjectType.hpp"
 #include "wisey/IStatement.hpp"
 
 namespace wisey {
@@ -23,10 +24,10 @@ public:
   /**
    * Generate prototypes of controllers, models and interfaces without any methods or fields
    */
-  virtual void prototypeObjects(IRGenerationContext& context) const = 0;
+  virtual const IObjectType* prototypeObject(IRGenerationContext& context) const = 0;
   
   /**
-   * Generate method prototypes for all object prototypes that were created using prototypeObjects()
+   * Generate method prototypes for all object prototypes that were created using prototypeObject()
    */
   virtual void prototypeMethods(IRGenerationContext& context) const = 0;
 

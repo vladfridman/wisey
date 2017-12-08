@@ -708,6 +708,12 @@ TEST_F(TestFileSampleRunner, innerObjectDefinedInDifferentObjectRunTest) {
   runFile("tests/samples/test_inner_object_defined_in_different_object.yz", "7");
 }
 
+TEST_F(TestFileSampleRunner, innerObjectWrongTypeSpecifierDeathRunTest) {
+  expectFailCompile("tests/samples/test_inner_object_wrong_type_specifier.yz",
+                    1,
+                    "Error: Model systems.vos.wisey.compiler.tests.MMyModel is not defined");
+}
+
 TEST_F(TestFileSampleRunner, modelWithNodeFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_node_field.yz",
                     1,

@@ -43,7 +43,7 @@ ModelDefinition::~ModelDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
+const Model* ModelDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
@@ -52,13 +52,11 @@ void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
   model->setImportProfile(context.getImportProfile());
 
   const IObjectType* lastObjectType = context.getObjectType();
-  if (lastObjectType) {
-    lastObjectType->getImportProfile()->addImport(mModelTypeSpecifierFull->getShortName(),
-                                                  fullName);
-  }
   context.setObjectType(model);
-  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  IObjectDefinition::prototypeInnerObjects(context, model, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);
+  
+  return model;
 }
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {

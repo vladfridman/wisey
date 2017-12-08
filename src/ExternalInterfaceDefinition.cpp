@@ -46,7 +46,7 @@ ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
+const Interface* ExternalInterfaceDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Interface* interface = Interface::newExternalInterface(fullName,
@@ -58,13 +58,11 @@ void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context)
   interface->defineInterfaceTypeName(context);
 
   const IObjectType* lastObjectType = context.getObjectType();
-  if (lastObjectType) {
-    lastObjectType->getImportProfile()->addImport(mInterfaceTypeSpecifierFull->getShortName(),
-                                                  fullName);
-  }
   context.setObjectType(interface);
-  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  IObjectDefinition::prototypeInnerObjects(context, interface, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);
+  
+  return interface;
 }
 
 void ExternalInterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {

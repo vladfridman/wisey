@@ -92,6 +92,16 @@ public:
   virtual ImportProfile* getImportProfile() const = 0;
   
   /**
+   * Adds an inner object defined with this object
+   */
+  virtual void addInnerObject(const IObjectType* innerObject) = 0;
+  
+  /**
+   * Finds an inner object with the given short name that is defined within this object
+   */
+  virtual const IObjectType* getInnerObject(std::string shortName) const = 0;
+  
+  /**
    * Returns an i8* constant pointer to the name of the collable object
    */
   static llvm::Constant* getObjectNamePointer(const IObjectType* object,

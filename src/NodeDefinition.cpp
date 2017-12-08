@@ -38,7 +38,7 @@ NodeDefinition::~NodeDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
+const Node* NodeDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
@@ -47,13 +47,11 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
   node->setImportProfile(context.getImportProfile());
 
   const IObjectType* lastObjectType = context.getObjectType();
-  if (lastObjectType) {
-    lastObjectType->getImportProfile()->addImport(mNodeTypeSpecifierFull->getShortName(),
-                                                  fullName);
-  }
   context.setObjectType(node);
-  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  IObjectDefinition::prototypeInnerObjects(context, node, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);
+  
+  return node;
 }
 
 void NodeDefinition::prototypeMethods(IRGenerationContext& context) const {

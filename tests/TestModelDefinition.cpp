@@ -83,7 +83,7 @@ struct ModelDefinitionTest : public Test {
   }
 };
 
-TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
+TEST_F(ModelDefinitionTest, prototypeObjectTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   InjectionArgumentList arguments;
@@ -101,7 +101,7 @@ TEST_F(ModelDefinitionTest, prototypeObjectsTest) {
                                   interfaces,
                                   innerObjectDefinitions);
   
-  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeObject(mContext);
 
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
   
@@ -128,7 +128,7 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
                                   interfaces,
                                   innerObjectDefinitions);
   
-  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeObject(mContext);
   modelDefinition.prototypeMethods(mContext);
 
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
@@ -156,7 +156,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
-  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeObject(mContext);
   modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
@@ -219,7 +219,7 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions);
-  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeObject(mContext);
   modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
   
@@ -253,7 +253,7 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions);
-  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -275,7 +275,7 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions);
-  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(modelDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),

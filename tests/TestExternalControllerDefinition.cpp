@@ -76,7 +76,7 @@ struct ExternalControllerDefinitionTest : public Test {
   }
 };
 
-TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
+TEST_F(ExternalControllerDefinitionTest, prototypeObjectTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -85,7 +85,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
                                                     mInterfaces,
                                                     innerObjectDefinitions);
 
-  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeObject(mContext);
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
   
@@ -105,7 +105,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
                                                     mInterfaces,
                                                     innerObjectDefinitions);
 
-  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeObject(mContext);
   controllerDefinition.prototypeMethods(mContext);
   
   Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");

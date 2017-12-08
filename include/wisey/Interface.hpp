@@ -47,6 +47,7 @@ class Interface : public IObjectType, public IInjectable {
   std::map<std::string, StaticMethod*> mNameToStaticMethodMap;
   std::vector<wisey::Constant*> mConstants;
   std::map<std::string, Constant*> mNameToConstantMap;
+  std::map<std::string, const IObjectType*> mInnerObjects;
   ImportProfile* mImportProfile;
   bool mIsComplete;
   
@@ -199,6 +200,10 @@ public:
   void setImportProfile(ImportProfile* importProfile) override;
   
   ImportProfile* getImportProfile() const override;
+  
+  void addInnerObject(const IObjectType* innerObject) override;
+  
+  const IObjectType* getInnerObject(std::string shortName) const override;
 
 private:
   

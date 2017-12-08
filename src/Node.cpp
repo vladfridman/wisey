@@ -48,6 +48,7 @@ Node::~Node() {
   }
   mConstants.clear();
   mNameToConstantMap.clear();
+  mInnerObjects.clear();
 }
 
 Node* Node::newNode(string name, StructType* structType) {
@@ -382,3 +383,15 @@ void Node::setImportProfile(ImportProfile* importProfile) {
 ImportProfile* Node::getImportProfile() const {
   return mImportProfile;
 }
+
+void Node::addInnerObject(const IObjectType* innerObject) {
+  mInnerObjects[innerObject->getShortName()] = innerObject;
+}
+
+const IObjectType* Node::getInnerObject(string shortName) const {
+  if (mInnerObjects.count(shortName)) {
+    return mInnerObjects.at(shortName);
+  }
+  return NULL;
+}
+

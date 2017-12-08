@@ -19,8 +19,16 @@ std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
     return package + "." + shortName;
   }
   
-  ImportProfile* importProfile = context.getObjectType()
-  ? context.getObjectType()->getImportProfile() : context.getImportProfile();
+  const IObjectType* objectType = context.getObjectType();
+  
+  const IObjectType* innerObject = objectType ? objectType->getInnerObject(shortName) : NULL;
+  if (innerObject) {
+    return innerObject->getName();
+  }
+  
+  ImportProfile* importProfile = objectType
+    ? objectType->getImportProfile()
+    : context.getImportProfile();
   
   return importProfile->getFullName(shortName);
 }

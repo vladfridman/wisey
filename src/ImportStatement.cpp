@@ -20,9 +20,10 @@ ImportStatement::~ImportStatement() {
   delete mTypeSpecifier;
 }
 
-void ImportStatement::prototypeObjects(IRGenerationContext& context) const {
+const IObjectType* ImportStatement::prototypeObject(IRGenerationContext& context) const {
   context.getImportProfile()->addImport(mTypeSpecifier->getShortName(),
                                         mTypeSpecifier->getName(context));
+  return NULL;
 }
 
 void ImportStatement::prototypeMethods(IRGenerationContext& context) const {

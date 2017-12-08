@@ -96,7 +96,7 @@ struct ControllerDefinitionTest : public Test {
   }
 };
 
-TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
+TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
@@ -107,7 +107,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
 
-  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeObject(mContext);
   
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
 
@@ -129,7 +129,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
   
-  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeObject(mContext);
   controllerDefinition.prototypeMethods(mContext);
   
   Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
@@ -147,7 +147,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
-  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeObject(mContext);
   controllerDefinition.prototypeMethods(mContext);
   controllerDefinition.generateIR(mContext);
   
@@ -181,7 +181,7 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions);
-  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -200,7 +200,7 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions);
-  controllerDefinition.prototypeObjects(mContext);
+  controllerDefinition.prototypeObject(mContext);
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
               ::testing::ExitedWithCode(1),

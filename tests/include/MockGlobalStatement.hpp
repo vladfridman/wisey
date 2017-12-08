@@ -13,6 +13,7 @@
 #include <gmock/gmock.h>
 
 #include "wisey/IGlobalStatement.hpp"
+#include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 
 /**
@@ -20,7 +21,7 @@
  */
 class MockGlobalStatement : public wisey::IGlobalStatement {
 public:
-  MOCK_CONST_METHOD1(prototypeObjects, void (wisey::IRGenerationContext&));
+  MOCK_CONST_METHOD1(prototypeObject, const wisey::IObjectType* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(prototypeMethods, void (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD1(generateIR, llvm::Value* (wisey::IRGenerationContext&));
 };

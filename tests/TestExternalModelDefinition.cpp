@@ -55,7 +55,7 @@ struct ExternalModelDefinitionTest : public Test {
   }
 };
 
-TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
+TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   InjectionArgumentList arguments;
@@ -73,7 +73,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectsTest) {
                                           interfaces,
                                           innerObjectDefinitions);
   
-  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeObject(mContext);
   
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
   
@@ -100,7 +100,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
                                           interfaces,
                                           innerObjectDefinitions);
 
-  modelDefinition.prototypeObjects(mContext);
+  modelDefinition.prototypeObject(mContext);
   modelDefinition.prototypeMethods(mContext);
   
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");

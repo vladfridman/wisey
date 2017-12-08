@@ -29,9 +29,10 @@ public:
   static std::string getFullName(IRGenerationContext& context, IObjectTypeSpecifier* typeSpecifier);
   
   /**
-   * Calls prototypeObjects() on inner objects
+   * Calls prototypeObject() on inner objects
    */
   static void prototypeInnerObjects(IRGenerationContext& context,
+                                    IObjectType* outerObject,
                                     std::vector<IObjectDefinition*> innerObjectDefinitions);
 
   

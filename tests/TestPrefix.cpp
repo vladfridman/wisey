@@ -44,7 +44,7 @@ void TestPrefix::defineModel(IRGenerationContext& context,
                                   modelElements,
                                   modelParentInterfaces,
                                   innerObjectDefinitions);
-  modelDefinition.prototypeObjects(context);
+  modelDefinition.prototypeObject(context);
   modelDefinition.prototypeMethods(context);
   Model* model = context.getModel(Names::getLangPackageName() + "." + modelName);
   model->createRTTI(context);
@@ -103,6 +103,6 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
                                                   elementDeclarations,
                                                   interfaceSpecifiers,
                                                   innerObjectDefinitions);
-  threadControllerDefinition.prototypeObjects(context);
+  threadControllerDefinition.prototypeObject(context);
   threadControllerDefinition.prototypeMethods(context);
 }

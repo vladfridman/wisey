@@ -63,7 +63,7 @@ struct ExternalNodeDefinitionTest : public Test {
   }
 };
 
-TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
+TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
   PrimitiveTypeSpecifier* longType = new PrimitiveTypeSpecifier(PrimitiveTypes::LONG_TYPE);
   PrimitiveTypeSpecifier* floatType = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   InjectionArgumentList arguments;
@@ -81,7 +81,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectsTest) {
                                         interfaces,
                                         innerObjectDefinitions);
   
-  nodeDefinition.prototypeObjects(mContext);
+  nodeDefinition.prototypeObject(mContext);
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
   
@@ -108,7 +108,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
                                         interfaces,
                                         innerObjectDefinitions);
   
-  nodeDefinition.prototypeObjects(mContext);
+  nodeDefinition.prototypeObject(mContext);
   nodeDefinition.prototypeMethods(mContext);
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
