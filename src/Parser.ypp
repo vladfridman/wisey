@@ -103,6 +103,8 @@
   extern int yylineno;
   extern std::string SourceFile;
 
+  #define YYDEBUG 1
+
   static std::string getPackageName(std::vector<std::string> identifierChain);
 
   void yyerror(const char *error_msg) {
@@ -1015,7 +1017,7 @@ object_owner_type_specifier
 inner_model_type_specifier
   : top_level_object_type_specifier '.' TMODELIDENTIFIER 
     { 
-      $$ = new ModelTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new ModelTypeSpecifier($1->getPackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1024,7 +1026,7 @@ inner_model_type_specifier
 inner_controller_type_specifier
   : top_level_object_type_specifier '.' TCONTROLLERIDENTIFIER 
     { 
-      $$ = new ControllerTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new ControllerTypeSpecifier($1->getPackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1033,7 +1035,7 @@ inner_controller_type_specifier
 inner_interface_type_specifier
   : top_level_object_type_specifier '.' TINTERFACEIDENTIFIER 
     { 
-      $$ = new InterfaceTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new InterfaceTypeSpecifier($1->getPackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1042,7 +1044,7 @@ inner_interface_type_specifier
 inner_node_type_specifier
   : top_level_object_type_specifier '.' TNODEIDENTIFIER 
     { 
-      $$ = new NodeTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new NodeTypeSpecifier($1->getPackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }

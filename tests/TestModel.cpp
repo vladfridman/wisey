@@ -700,6 +700,10 @@ TEST_F(TestFileSampleRunner, controllerWithInnerModelShortSpecifiersRunTest) {
   runFile("tests/samples/test_controller_with_inner_model_short_specifiers.yz", "5");
 }
 
+TEST_F(TestFileSampleRunner, controllerWithInnerModelMediumSpecifiersRunTest) {
+  runFile("tests/samples/test_controller_with_inner_model_medium_specifiers.yz", "7");
+}
+
 TEST_F(TestFileSampleRunner, modelWithNodeFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_node_field.yz",
                     1,
