@@ -684,12 +684,16 @@ TEST_F(ModelTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocast) {
+TEST_F(TestFileSampleRunner, modelBuilderObjectArgumentAutocastRunTest) {
   runFile("tests/samples/test_model_builder_object_argument_autocast.yz", "2017");
 }
 
-TEST_F(TestFileSampleRunner, modelBuilderPrimitiveArgumentAutocast) {
+TEST_F(TestFileSampleRunner, modelBuilderPrimitiveArgumentAutocastRunTest) {
   runFile("tests/samples/test_model_builder_primitive_argument_autocast.yz", "1");
+}
+
+TEST_F(TestFileSampleRunner, controllerWithInnerModelRunTest) {
+  runFile("tests/samples/test_controller_with_inner_model.yz", "7");
 }
 
 TEST_F(TestFileSampleRunner, modelWithNodeFieldDeathRunTest) {

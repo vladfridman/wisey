@@ -20,10 +20,12 @@ using namespace wisey;
 
 ModelDefinition::ModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
                                  vector<IObjectElementDeclaration*> objectElementDeclarations,
-                                 vector<IInterfaceTypeSpecifier*> interfaceSpecifiers) :
+                                 vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                                 vector<IObjectDefinition*> innerObjectDefinitions) :
 mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
-mInterfaceSpecifiers(interfaceSpecifiers) { }
+mInterfaceSpecifiers(interfaceSpecifiers),
+mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ModelDefinition::~ModelDefinition() {
   delete mModelTypeSpecifierFull;
@@ -35,6 +37,10 @@ ModelDefinition::~ModelDefinition() {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();
+  for (IObjectDefinition* innerObjectDefinition : mInnerObjectDefinitions) {
+    delete innerObjectDefinition;
+  }
+  mInnerObjectDefinitions.clear();
 }
 
 void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {

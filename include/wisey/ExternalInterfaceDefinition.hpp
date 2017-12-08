@@ -24,12 +24,14 @@ class ExternalInterfaceDefinition : public IConcreteObjectDefinition {
   InterfaceTypeSpecifierFull* mInterfaceTypeSpecifierFull;
   std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<IObjectElementDeclaration*> mElementDeclarations;
+  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
 
 public:
   
   ExternalInterfaceDefinition(InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
                               std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
-                              std::vector<IObjectElementDeclaration*> elementDeclarations);
+                              std::vector<IObjectElementDeclaration*> elementDeclarations,
+                              std::vector<IObjectDefinition*> innerObjectDefinitions);
   
   ~ExternalInterfaceDefinition();
   

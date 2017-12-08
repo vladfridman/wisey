@@ -23,12 +23,14 @@ class ExternalModelDefinition : public IConcreteObjectDefinition {
   ModelTypeSpecifierFull* mModelTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  
+  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+
 public:
   
   ExternalModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
                           std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                          std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
+                          std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                          std::vector<IObjectDefinition*> innerObjectDefinitions);
   
   ~ExternalModelDefinition();
   

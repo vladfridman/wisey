@@ -99,7 +99,11 @@ struct ControllerDefinitionTest : public Test {
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
-  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  ControllerDefinition controllerDefinition(typeSpecifier,
+                                            mElementDeclarations,
+                                            mInterfaces,
+                                            innerObjectDefinitions);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
 
@@ -117,7 +121,11 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectsTest) {
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
-  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  ControllerDefinition controllerDefinition(typeSpecifier,
+                                            mElementDeclarations,
+                                            mInterfaces,
+                                            innerObjectDefinitions);
 
   EXPECT_CALL(*mMockStatement, generateIR(_)).Times(0);
   
@@ -131,7 +139,11 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
-  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  ControllerDefinition controllerDefinition(typeSpecifier,
+                                            mElementDeclarations,
+                                            mInterfaces,
+                                            innerObjectDefinitions);
 
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
@@ -164,7 +176,11 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
-  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  ControllerDefinition controllerDefinition(typeSpecifier,
+                                            mElementDeclarations,
+                                            mInterfaces,
+                                            innerObjectDefinitions);
   controllerDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),
@@ -179,7 +195,11 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
   mElementDeclarations.push_back(field);
-  ControllerDefinition controllerDefinition(typeSpecifier, mElementDeclarations, mInterfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  ControllerDefinition controllerDefinition(typeSpecifier,
+                                            mElementDeclarations,
+                                            mInterfaces,
+                                            innerObjectDefinitions);
   controllerDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(controllerDefinition.prototypeMethods(mContext),

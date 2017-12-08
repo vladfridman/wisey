@@ -59,9 +59,11 @@ struct InterfaceDefinitionTest : public Test {
     
     mInterfaceTypeSpecifier = new InterfaceTypeSpecifierFull("systems.vos.wisey.compiler.tests",
                                                              "IMyInterface");
+    vector<IObjectDefinition*> innerObjectDefinitions;
     mInterfaceDefinition = new InterfaceDefinition(mInterfaceTypeSpecifier,
                                                    parentInterfaces,
-                                                   objectElements);
+                                                   objectElements,
+                                                   innerObjectDefinitions);
   }
   
   ~InterfaceDefinitionTest() {

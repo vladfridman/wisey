@@ -17,10 +17,13 @@ ExternalModelDefinition::ExternalModelDefinition(ModelTypeSpecifierFull* modelTy
                                                  vector<IObjectElementDeclaration*>
                                                    objectElementDeclarations,
                                                  vector<IInterfaceTypeSpecifier*>
-                                                 interfaceSpecifiers) :
+                                                 interfaceSpecifiers,
+                                                 vector<IObjectDefinition*>
+                                                 innerObjectDefinitions) :
 mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
-mInterfaceSpecifiers(interfaceSpecifiers) { }
+mInterfaceSpecifiers(interfaceSpecifiers),
+mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ExternalModelDefinition::~ExternalModelDefinition() {
   delete mModelTypeSpecifierFull;
@@ -32,6 +35,10 @@ ExternalModelDefinition::~ExternalModelDefinition() {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();
+  for (IObjectDefinition* innerObjectDefinition : mInnerObjectDefinitions) {
+    delete innerObjectDefinition;
+  }
+  mInnerObjectDefinitions.clear();
 }
 
 void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) const {

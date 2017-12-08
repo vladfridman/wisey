@@ -17,10 +17,12 @@ ExternalNodeDefinition::ExternalNodeDefinition(NodeTypeSpecifierFull* nodeTypeSp
                                                vector<IObjectElementDeclaration*>
                                                objectElementDeclarations,
                                                vector<IInterfaceTypeSpecifier*>
-                                               interfaceSpecifiers) :
+                                               interfaceSpecifiers,
+                                               vector<IObjectDefinition*> innerObjectDefinitions) :
 mNodeTypeSpecifierFull(nodeTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
-mInterfaceSpecifiers(interfaceSpecifiers) { }
+mInterfaceSpecifiers(interfaceSpecifiers),
+mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ExternalNodeDefinition::~ExternalNodeDefinition() {
   delete mNodeTypeSpecifierFull;
@@ -32,6 +34,10 @@ ExternalNodeDefinition::~ExternalNodeDefinition() {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();
+  for (IObjectDefinition* innerObjectDefinition : mInnerObjectDefinitions) {
+    delete innerObjectDefinition;
+  }
+  mInnerObjectDefinitions.clear();
 }
 
 void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) const {

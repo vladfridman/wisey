@@ -19,10 +19,12 @@ using namespace wisey;
 InterfaceDefinition::InterfaceDefinition(InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
                                          vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                                          vector<IObjectElementDeclaration *>
-                                         elementDeclarations) :
+                                         elementDeclarations,
+                                         vector<IObjectDefinition*> innerObjectDefinitions) :
 mInterfaceTypeSpecifierFull(interfaceTypeSpecifierFull),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
-mElementDeclarations(elementDeclarations) { }
+mElementDeclarations(elementDeclarations),
+mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 InterfaceDefinition::~InterfaceDefinition() {
   delete mInterfaceTypeSpecifierFull;
@@ -34,6 +36,10 @@ InterfaceDefinition::~InterfaceDefinition() {
     delete elementDeclaration;
   }
   mElementDeclarations.clear();
+  for (IObjectDefinition* innerObjectDefinition : mInnerObjectDefinitions) {
+    delete innerObjectDefinition;
+  }
+  mInnerObjectDefinitions.clear();
 }
 
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {

@@ -79,9 +79,11 @@ struct ExternalControllerDefinitionTest : public Test {
 TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
+  vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mElementDeclarations,
-                                                    mInterfaces);
+                                                    mInterfaces,
+                                                    innerObjectDefinitions);
 
   controllerDefinition.prototypeObjects(mContext);
   
@@ -97,9 +99,11 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectsTest) {
 TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
+  vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
                                                     mElementDeclarations,
-                                                    mInterfaces);
+                                                    mInterfaces,
+                                                    innerObjectDefinitions);
 
   controllerDefinition.prototypeObjects(mContext);
   controllerDefinition.prototypeMethods(mContext);

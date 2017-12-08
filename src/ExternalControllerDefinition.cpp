@@ -18,10 +18,13 @@ ExternalControllerDefinition::ExternalControllerDefinition(ControllerTypeSpecifi
                                                            vector<IObjectElementDeclaration*>
                                                              objectElementDeclarations,
                                                            vector<IInterfaceTypeSpecifier*>
-                                                            interfaceSpecifiers) :
+                                                           interfaceSpecifiers,
+                                                           vector<IObjectDefinition*>
+                                                           innerObjectDefinitions) :
 mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
-mInterfaceSpecifiers(interfaceSpecifiers) { }
+mInterfaceSpecifiers(interfaceSpecifiers),
+mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ExternalControllerDefinition::~ExternalControllerDefinition() {
   delete mControllerTypeSpecifierFull;
@@ -33,6 +36,10 @@ ExternalControllerDefinition::~ExternalControllerDefinition() {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();
+  for (IObjectDefinition* innerObjectDefinition : mInnerObjectDefinitions) {
+    delete innerObjectDefinition;
+  }
+  mInnerObjectDefinitions.clear();
 }
 
 void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context) const {

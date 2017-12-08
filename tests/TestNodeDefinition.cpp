@@ -98,7 +98,11 @@ TEST_F(NodeDefinitionTest, prototypeObjectsTest) {
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  NodeDefinition nodeDefinition(typeSpecifier,
+                                mObjectElements,
+                                interfaces,
+                                innerObjectDefinitions);
   
   nodeDefinition.prototypeObjects(mContext);
   
@@ -121,7 +125,11 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  NodeDefinition nodeDefinition(typeSpecifier,
+                                mObjectElements,
+                                interfaces,
+                                innerObjectDefinitions);
   
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
@@ -143,7 +151,11 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  NodeDefinition nodeDefinition(typeSpecifier,
+                                mObjectElements,
+                                interfaces,
+                                innerObjectDefinitions);
   
   EXPECT_CALL(*mMockStatement, generateIR(_));
   
@@ -205,7 +217,11 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  NodeDefinition nodeDefinition(typeSpecifier,
+                                mObjectElements,
+                                interfaces,
+                                innerObjectDefinitions);
   nodeDefinition.prototypeObjects(mContext);
   nodeDefinition.prototypeMethods(mContext);
   nodeDefinition.generateIR(mContext);
@@ -235,7 +251,11 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  NodeDefinition nodeDefinition(typeSpecifier,
+                                mObjectElements,
+                                interfaces,
+                                innerObjectDefinitions);
   nodeDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),
@@ -255,7 +275,11 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
 
   vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
-  NodeDefinition nodeDefinition(typeSpecifier, mObjectElements, interfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  NodeDefinition nodeDefinition(typeSpecifier,
+                                mObjectElements,
+                                interfaces,
+                                innerObjectDefinitions);
   nodeDefinition.prototypeObjects(mContext);
   
   EXPECT_EXIT(nodeDefinition.prototypeMethods(mContext),

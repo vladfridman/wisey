@@ -53,6 +53,7 @@
   #include "wisey/IModelTypeSpecifier.hpp"
   #include "wisey/INodeTypeSpecifier.hpp"
   #include "wisey/IObjectElementDeclaration.hpp"
+  #include "wisey/IObjectDefinition.hpp"
   #include "wisey/IObjectTypeSpecifier.hpp"
   #include "wisey/ITypeSpecifier.hpp"
   #include "wisey/Log.hpp"
@@ -127,6 +128,7 @@
   wisey::DefaultCaseStatement* default_case_statement;
   wisey::SwitchCases* switch_cases;
   wisey::ITypeSpecifier* type_specifier;
+  wisey::IObjectDefinition* object_definition;
   wisey::IObjectTypeSpecifier* object_type_specifier;
   wisey::Identifier* identifier;
   wisey::VariableDeclaration* variable_declaration;
@@ -147,7 +149,8 @@
   std::vector<wisey::VariableDeclaration*>* variable_vector;
   std::vector<wisey::IExpression*>* expression_vector;
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
-  std::vector<wisey::IObjectElementDeclaration*>* object_element_list;
+  std::tuple<std::vector<wisey::IObjectElementDeclaration*>, 
+             std::vector<wisey::IObjectDefinition*>>* object_element_list;
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
   std::vector<wisey::IModelTypeSpecifier*>* model_type_specifier_list;
   std::vector<wisey::IInterfaceTypeSpecifier*>* interface_list;
@@ -192,11 +195,12 @@
 %type <statement> declaration expression_statement iteration_statement
 %type <statement> print_statement selection_statement 
 %type <statement> throw_statement try_catch_statement
-%type <global_statement> controller_definition interface_definition model_definition
-%type <global_statement> node_definition bind_action import_statement global_statement
-%type <global_statement> object_definition external_object_definition external_model_definition
-%type <global_statement> external_node_definition external_controller_definition
-%type <global_statement> external_interface_definition
+%type <global_statement> bind_action import_statement global_statement
+%type <object_definition> controller_definition interface_definition model_definition
+%type <object_definition> node_definition
+%type <object_definition> object_definition external_object_definition external_model_definition
+%type <object_definition> external_node_definition external_controller_definition
+%type <object_definition> external_interface_definition
 %type <global_statement_list> global_statement_list
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
@@ -266,8 +270,8 @@ global_statement_list
   ;
 
 global_statement
-  : object_definition
-  | external_object_definition
+  : object_definition { $$ = (IGlobalStatement*) $1; }
+  | external_object_definition { $$ = (IGlobalStatement*) $1; }
   | bind_action
   | import_statement
   ;
@@ -305,7 +309,7 @@ interface_definition
       std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
       InterfaceTypeSpecifierFull* fullSpecifier = 
         new InterfaceTypeSpecifierFull(package, $2->getShortName());
-      $$ = new InterfaceDefinition(fullSpecifier, *$3, *$5);
+      $$ = new InterfaceDefinition(fullSpecifier, *$3, std::get<0>(*$5), std::get<1>(*$5));
       delete $2;
       delete $3;
       delete $5;
@@ -319,7 +323,7 @@ external_interface_definition
       std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
       InterfaceTypeSpecifierFull* fullSpecifier = 
         new InterfaceTypeSpecifierFull(package, $3->getShortName());
-      $$ = new ExternalInterfaceDefinition(fullSpecifier, *$4, *$6);
+      $$ = new ExternalInterfaceDefinition(fullSpecifier, *$4, std::get<0>(*$6), std::get<1>(*$6));
       delete $3;
       delete $4;
       delete $6;
@@ -327,9 +331,15 @@ external_interface_definition
   ;
 
 external_interface_element_delcaration_list
-  : /* blank */ { $$ = new std::vector<IObjectElementDeclaration *>(); }
-  | external_interface_element_delcaration_list external_interface_element_declaration 
-    { $1->push_back($2); }
+  : /* blank */ 
+    { 
+      $$ = new std::tuple<std::vector<IObjectElementDeclaration*>,
+                          std::vector<IObjectDefinition*>>();
+    }
+  | external_interface_element_delcaration_list external_interface_element_declaration
+    { std::get<0>(*$1).push_back($2); }
+  | external_interface_element_delcaration_list external_object_definition
+    { std::get<1>(*$1).push_back($2); }
   ;
 
 external_interface_element_declaration
@@ -339,8 +349,15 @@ external_interface_element_declaration
   ;
 
 interface_element_delcaration_list
-  : /* blank */ { $$ = new std::vector<IObjectElementDeclaration *>(); }
-  | interface_element_delcaration_list interface_element_declaration { $1->push_back($2); }
+  : /* blank */ 
+    { 
+      $$ = new std::tuple<std::vector<IObjectElementDeclaration*>,
+                          std::vector<IObjectDefinition*>>();
+    }
+  | interface_element_delcaration_list interface_element_declaration
+    { std::get<0>(*$1).push_back($2); }
+  | interface_element_delcaration_list object_definition
+    { std::get<1>(*$1).push_back($2); }
   ;
 
 interface_element_declaration
@@ -366,7 +383,7 @@ controller_definition
       std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
       ControllerTypeSpecifierFull* fullSpecifier = 
         new ControllerTypeSpecifierFull(package, $2->getShortName());
-      $$ = new ControllerDefinition(fullSpecifier, *$5, *$3);
+      $$ = new ControllerDefinition(fullSpecifier, std::get<0>(*$5), *$3, std::get<1>(*$5));
       delete $2;
       delete $5;
       delete $3;
@@ -380,7 +397,10 @@ external_controller_definition
       std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
       ControllerTypeSpecifierFull* fullSpecifier = 
         new ControllerTypeSpecifierFull(package, $3->getShortName());
-      $$ = new ExternalControllerDefinition(fullSpecifier, *$6, *$4);
+      $$ = new ExternalControllerDefinition(fullSpecifier, 
+                                            std::get<0>(*$6), 
+                                            *$4,
+                                            std::get<1>(*$6));
       delete $3;
       delete $6;
       delete $4;
@@ -394,7 +414,7 @@ node_definition
       std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
       NodeTypeSpecifierFull* fullSpecifier = 
         new NodeTypeSpecifierFull(package, $2->getShortName());
-      $$ = new NodeDefinition(fullSpecifier, *$5, *$3);
+      $$ = new NodeDefinition(fullSpecifier, std::get<0>(*$5), *$3, std::get<1>(*$5));
       delete $2;
       delete $5;
       delete $3;
@@ -408,7 +428,7 @@ external_node_definition
       std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
       NodeTypeSpecifierFull* fullSpecifier = 
         new NodeTypeSpecifierFull(package, $3->getShortName());
-      $$ = new ExternalNodeDefinition(fullSpecifier, *$6, *$4);
+      $$ = new ExternalNodeDefinition(fullSpecifier, std::get<0>(*$6), *$4, std::get<1>(*$6));
       delete $3;
       delete $6;
       delete $4;
@@ -422,7 +442,7 @@ model_definition
       std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
       ModelTypeSpecifierFull* fullSpecifier = 
         new ModelTypeSpecifierFull(package, $2->getShortName());
-      $$ = new ModelDefinition(fullSpecifier, *$5, *$3);
+      $$ = new ModelDefinition(fullSpecifier, std::get<0>(*$5), *$3, std::get<1>(*$5));
       delete $2;
       delete $5;
       delete $3;
@@ -436,7 +456,7 @@ external_model_definition
       std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
       ModelTypeSpecifierFull* fullSpecifier = 
         new ModelTypeSpecifierFull(package, $3->getShortName());
-      $$ = new ExternalModelDefinition(fullSpecifier, *$6, *$4);
+      $$ = new ExternalModelDefinition(fullSpecifier, std::get<0>(*$6), *$4, std::get<1>(*$6));
       delete $3;
       delete $6;
       delete $4;
@@ -480,9 +500,15 @@ interface_list
   ;
 
 object_element_declaration_list
-  : /* blank */  { $$ = new std::vector<IObjectElementDeclaration*>(); }
+  : /* blank */  
+    { 
+      $$ = new std::tuple<std::vector<IObjectElementDeclaration*>,
+                          std::vector<IObjectDefinition*>>();
+    }
   | object_element_declaration_list object_element_declaration
-    { $1->push_back($2); }
+    { std::get<0>(*$1).push_back($2); }
+  | object_element_declaration_list object_definition
+    { std::get<1>(*$1).push_back($2); }
   ;
 
 object_element_declaration
@@ -493,9 +519,15 @@ object_element_declaration
   ;
 
 external_object_element_declaration_list
-  : /* blank */  { $$ = new std::vector<IObjectElementDeclaration*>(); }
+  : /* blank */
+    { 
+      $$ = new std::tuple<std::vector<IObjectElementDeclaration*>,
+                          std::vector<IObjectDefinition*>>();
+    }
   | external_object_element_declaration_list external_object_element_declaration
-    { $1->push_back($2); }
+    { std::get<0>(*$1).push_back($2); }
+  | external_object_element_declaration_list external_object_definition
+    { std::get<1>(*$1).push_back($2); }
   ;
 
 external_object_element_declaration

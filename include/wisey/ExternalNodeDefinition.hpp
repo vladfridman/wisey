@@ -23,12 +23,14 @@ class ExternalNodeDefinition : public IConcreteObjectDefinition {
   NodeTypeSpecifierFull* mNodeTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  
+  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+
 public:
   
   ExternalNodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
                          std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                         std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
+                         std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                         std::vector<IObjectDefinition*> innerObjectDefinitions);
   
   ~ExternalNodeDefinition();
   

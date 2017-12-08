@@ -20,10 +20,12 @@ using namespace wisey;
 ControllerDefinition::ControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
                                            vector<IObjectElementDeclaration*>
                                              objectElementDeclarations,
-                                           vector<IInterfaceTypeSpecifier*> interfaceSpecifiers) :
+                                           vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                                           vector<IObjectDefinition*> innerObjectDefinitions) :
 mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
-mInterfaceSpecifiers(interfaceSpecifiers) { }
+mInterfaceSpecifiers(interfaceSpecifiers),
+mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ControllerDefinition::~ControllerDefinition() {
   delete mControllerTypeSpecifierFull;
@@ -35,6 +37,10 @@ ControllerDefinition::~ControllerDefinition() {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();
+  for (IObjectDefinition* innerObjectDefinition : mInnerObjectDefinitions) {
+    delete innerObjectDefinition;
+  }
+  mInnerObjectDefinitions.clear();
 }
 
 void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {

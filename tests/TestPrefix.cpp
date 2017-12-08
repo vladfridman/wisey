@@ -39,7 +39,11 @@ void TestPrefix::defineModel(IRGenerationContext& context,
   vector<IInterfaceTypeSpecifier*> modelParentInterfaces;
   ModelTypeSpecifierFull* modelTypeSpecifier =
     new ModelTypeSpecifierFull(Names::getLangPackageName(), modelName);
-  ModelDefinition modelDefinition(modelTypeSpecifier, modelElements, modelParentInterfaces);
+  vector<IObjectDefinition*> innerObjectDefinitions;
+  ModelDefinition modelDefinition(modelTypeSpecifier,
+                                  modelElements,
+                                  modelParentInterfaces,
+                                  innerObjectDefinitions);
   modelDefinition.prototypeObjects(context);
   modelDefinition.prototypeMethods(context);
   Model* model = context.getModel(Names::getLangPackageName() + "." + modelName);
@@ -94,9 +98,11 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   elementDeclarations.push_back(pushStackMethod);
   elementDeclarations.push_back(popStackMethod);
 
+  vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition threadControllerDefinition(controllerTypeSpecifier,
                                                   elementDeclarations,
-                                                  interfaceSpecifiers);
+                                                  interfaceSpecifiers,
+                                                  innerObjectDefinitions);
   threadControllerDefinition.prototypeObjects(context);
   threadControllerDefinition.prototypeMethods(context);
 }

@@ -24,12 +24,14 @@ class ModelDefinition : public IConcreteObjectDefinition {
   ModelTypeSpecifierFull* mModelTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  
+  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+
 public:
   
   ModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
                   std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                  std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
+                  std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                  std::vector<IObjectDefinition*> innerObjectDefinitions);
   
   ~ModelDefinition();
 

@@ -26,12 +26,14 @@ class ExternalControllerDefinition : public IConcreteObjectDefinition {
   ControllerTypeSpecifierFull* mControllerTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
-  
+  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
+
 public:
   
   ExternalControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
                                std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                               std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
+                               std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                               std::vector<IObjectDefinition*> innerObjectDefinitions);
   
   ~ExternalControllerDefinition();
   

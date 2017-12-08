@@ -26,12 +26,14 @@ class ControllerDefinition : public IConcreteObjectDefinition {
   ControllerTypeSpecifierFull* mControllerTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
+  std::vector<IObjectDefinition*> mInnerObjectDefinitions;
   
 public:
   
   ControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
                        std::vector<IObjectElementDeclaration*> objectElementDeclarations,
-                       std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers);
+                       std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                       std::vector<IObjectDefinition*> innerObjectDefinitions);
   
   ~ControllerDefinition();
 

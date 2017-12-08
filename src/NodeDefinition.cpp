@@ -15,10 +15,12 @@ using namespace wisey;
 
 NodeDefinition::NodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
                                vector<IObjectElementDeclaration*> objectElementDeclarations,
-                               vector<IInterfaceTypeSpecifier*> interfaceSpecifiers) :
+                               vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
+                               vector<IObjectDefinition*> innerObjectDefinitions) :
 mNodeTypeSpecifierFull(nodeTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
-mInterfaceSpecifiers(interfaceSpecifiers) { }
+mInterfaceSpecifiers(interfaceSpecifiers),
+mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 NodeDefinition::~NodeDefinition() {
   delete mNodeTypeSpecifierFull;
@@ -30,6 +32,10 @@ NodeDefinition::~NodeDefinition() {
     delete interfaceTypeSpecifier;
   }
   mInterfaceSpecifiers.clear();
+  for (IObjectDefinition* innerObjectDefinition : mInnerObjectDefinitions) {
+    delete innerObjectDefinition;
+  }
+  mInnerObjectDefinitions.clear();
 }
 
 void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {

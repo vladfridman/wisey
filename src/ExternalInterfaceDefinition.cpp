@@ -22,10 +22,13 @@ ExternalInterfaceDefinition::ExternalInterfaceDefinition(InterfaceTypeSpecifierF
                                                          vector<IInterfaceTypeSpecifier*>
                                                          parentInterfaceSpecifiers,
                                                          vector<IObjectElementDeclaration *>
-                                                         elementDeclarations) :
+                                                         elementDeclarations,
+                                                         vector<IObjectDefinition*>
+                                                         innerObjectDefinitions) :
 mInterfaceTypeSpecifierFull(interfaceTypeSpecifierFull),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
-mElementDeclarations(elementDeclarations) { }
+mElementDeclarations(elementDeclarations),
+mInnerObjectDefinitions(innerObjectDefinitions) { }
 
 ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
   delete mInterfaceTypeSpecifierFull;
@@ -37,6 +40,10 @@ ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
     delete elementDeclaration;
   }
   mElementDeclarations.clear();
+  for (IObjectDefinition* innerObjectDefinition : mInnerObjectDefinitions) {
+    delete innerObjectDefinition;
+  }
+  mInnerObjectDefinitions.clear();
 }
 
 void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
