@@ -52,6 +52,10 @@ bool IObjectType::checkAccess(const IObjectType* from, const IObjectType* to) {
     return true;
   }
   
+  if (from == to) {
+    return true;
+  }
+  
   if (from->getInnerObject(to->getShortName()) == to) {
     return true;
   }
