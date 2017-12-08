@@ -18,10 +18,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelDefinition::ModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
+ModelDefinition::ModelDefinition(AccessLevel accessLevel,
+                                 ModelTypeSpecifierFull* modelTypeSpecifierFull,
                                  vector<IObjectElementDeclaration*> objectElementDeclarations,
                                  vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                  vector<IObjectDefinition*> innerObjectDefinitions) :
+mAccessLevel(accessLevel),
 mModelTypeSpecifierFull(modelTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
@@ -47,7 +49,7 @@ const Model* ModelDefinition::prototypeObject(IRGenerationContext& context) cons
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Model* model = Model::newModel(fullName, structType);
+  Model* model = Model::newModel(mAccessLevel, fullName, structType);
   context.addModel(model);
   model->setImportProfile(context.getImportProfile());
 

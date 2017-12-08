@@ -13,10 +13,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NodeDefinition::NodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
+NodeDefinition::NodeDefinition(AccessLevel accessLevel,
+                               NodeTypeSpecifierFull* nodeTypeSpecifierFull,
                                vector<IObjectElementDeclaration*> objectElementDeclarations,
                                vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                vector<IObjectDefinition*> innerObjectDefinitions) :
+mAccessLevel(accessLevel),
 mNodeTypeSpecifierFull(nodeTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
@@ -42,7 +44,7 @@ const Node* NodeDefinition::prototypeObject(IRGenerationContext& context) const 
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
-  Node* node = Node::newNode(fullName, structType);
+  Node* node = Node::newNode(mAccessLevel, fullName, structType);
   context.addNode(node);
   node->setImportProfile(context.getImportProfile());
 

@@ -20,7 +20,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Node::Node(string name, StructType* structType, bool isExternal) :
+Node::Node(AccessLevel accessLevel, string name, StructType* structType, bool isExternal) :
+mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal) {
@@ -51,12 +52,12 @@ Node::~Node() {
   mInnerObjects.clear();
 }
 
-Node* Node::newNode(string name, StructType* structType) {
-  return new Node(name, structType, false);
+Node* Node::newNode(AccessLevel accessLevel, string name, StructType* structType) {
+  return new Node(accessLevel, name, structType, false);
 }
 
 Node* Node::newExternalNode(string name, StructType* structType) {
-  return new Node(name, structType, true);
+  return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, true);
 }
 
 void Node::setFields(vector<Field*> fields, unsigned long startIndex) {

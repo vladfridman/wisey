@@ -99,7 +99,8 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  NodeDefinition nodeDefinition(typeSpecifier,
+  NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
+                                typeSpecifier,
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions);
@@ -126,7 +127,8 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  NodeDefinition nodeDefinition(typeSpecifier,
+  NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
+                                typeSpecifier,
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions);
@@ -152,7 +154,8 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  NodeDefinition nodeDefinition(typeSpecifier,
+  NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
+                                typeSpecifier,
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions);
@@ -196,7 +199,8 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                    methodThrownExceptions);
   interfaceElements.push_back(methodSignature);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = Interface::newInterface(interfaceFullName,
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
                                                  interfaceElements);
@@ -218,7 +222,8 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
 
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  NodeDefinition nodeDefinition(typeSpecifier,
+  NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
+                                typeSpecifier,
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions);
@@ -252,7 +257,8 @@ TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
 
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  NodeDefinition nodeDefinition(typeSpecifier,
+  NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
+                                typeSpecifier,
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions);
@@ -276,7 +282,8 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  NodeDefinition nodeDefinition(typeSpecifier,
+  NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
+                                typeSpecifier,
                                 mObjectElements,
                                 interfaces,
                                 innerObjectDefinitions);

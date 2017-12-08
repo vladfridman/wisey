@@ -53,7 +53,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
                                     NULL,
                                     0);
     methods.push_back(fooMethod);
-    mModel = Model::newModel(modelFullName, structType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);

@@ -127,7 +127,7 @@ TEST_F(VariableDeclarationTest, modelVariableDeclarationWithoutAssignmentTest) {
   InjectionArgumentList arguments;
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldA", arguments));
   fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "fieldB", arguments));
-  Model* model = Model::newModel(modelFullName, structType);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
   model->setFields(fields, 1u);
 
   mContext.addModel(model);

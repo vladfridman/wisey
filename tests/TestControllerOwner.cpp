@@ -53,19 +53,23 @@ struct ControllerOwnerTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
-    mVehicleInterface = Interface::newInterface(vehicleFullName,
+    mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                vehicleFullName,
                                                 vehicleInterfaceStructType,
                                                 parentInterfaces,
                                                 interfaceElements);
 
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType *additorStructType = StructType::create(mLLVMContext, additorFullName);
-    mAdditorController = Controller::newController(additorFullName, additorStructType);
+    mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                   additorFullName,
+                                                   additorStructType);
     
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
                                                                     calculatorFullName);
-    mCalculatorInterface = Interface::newInterface(calculatorFullName,
+    mCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                   calculatorFullName,
                                                    calculatorIinterfaceStructType,
                                                    parentInterfaces,
                                                    interfaceElements);
@@ -74,7 +78,8 @@ struct ControllerOwnerTest : public Test {
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectInterfaceStructType = StructType::create(mLLVMContext, objectFullName);
-    mObjectInterface = Interface::newInterface(objectFullName,
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
                                                objectInterfaceStructType,
                                                parentInterfaces,
                                                interfaceElements);
@@ -88,7 +93,8 @@ struct ControllerOwnerTest : public Test {
     vector<IObjectElementDeclaration*> scienceCalculatorInterfaceElements;
     InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier("", "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorTypeSpecifier);
-    mScienceCalculatorInterface = Interface::newInterface(scienceCalculatorFullName,
+    mScienceCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                          scienceCalculatorFullName,
                                                           scienceCalculatorIinterfaceStructType,
                                                           scienceCalculatorParentInterfaces,
                                                           scienceCalculatorInterfaceElements);
@@ -101,7 +107,9 @@ struct ControllerOwnerTest : public Test {
 
     string multiplierFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     StructType* structType = StructType::create(mLLVMContext, multiplierFullName);
-    mMultiplierController = Controller::newController(multiplierFullName, structType);
+    mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                      multiplierFullName,
+                                                      structType);
     mMultiplierController->setInterfaces(interfaces);
   
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);

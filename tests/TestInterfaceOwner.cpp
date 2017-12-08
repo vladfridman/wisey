@@ -42,7 +42,8 @@ struct InterfaceOwnerTest : public Test {
     objectStructType->setBody(objectTypes);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
-    mObjectInterface = Interface::newInterface(objectFullName,
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
                                                objectStructType,
                                                parentInterfaces,
                                                interfaceElements);
@@ -55,7 +56,8 @@ struct InterfaceOwnerTest : public Test {
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     InterfaceTypeSpecifier* objectInterfaceSpecifier = new InterfaceTypeSpecifier("", "IObject");
     shapeParentInterfaces.push_back(objectInterfaceSpecifier);
-    mShapeInterface = Interface::newInterface(shapeFullName,
+    mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                              shapeFullName,
                                               mShapeStructType,
                                               shapeParentInterfaces,
                                               shapeMethodElements);

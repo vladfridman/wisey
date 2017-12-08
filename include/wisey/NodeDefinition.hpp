@@ -9,7 +9,7 @@
 #ifndef NodeDefinition_h
 #define NodeDefinition_h
 
-#include "wisey/Field.hpp"
+#include "wisey/AccessLevel.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
@@ -22,6 +22,7 @@ namespace wisey {
  * and mutable fields that point to other nodes.
  */
 class NodeDefinition : public IConcreteObjectDefinition {
+  AccessLevel mAccessLevel;
   NodeTypeSpecifierFull* mNodeTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
@@ -29,7 +30,8 @@ class NodeDefinition : public IConcreteObjectDefinition {
 
 public:
   
-  NodeDefinition(NodeTypeSpecifierFull* nodeTypeSpecifierFull,
+  NodeDefinition(AccessLevel accessLevel,
+                 NodeTypeSpecifierFull* nodeTypeSpecifierFull,
                  std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                  std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                  std::vector<IObjectDefinition*> innerObjectDefinitions);

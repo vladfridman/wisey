@@ -61,11 +61,11 @@ struct RelationalExpressionTest : public Test {
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     StructType* modelStructType = StructType::create(llvmContext, modelFullName);
-    mModel = Model::newModel(modelFullName, modelStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NElement";
     StructType* nodeStructType = StructType::create(llvmContext, nodeFullName);
-    mNode = Node::newNode(nodeFullName, nodeStructType);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType);
 
     mStringStream = new raw_string_ostream(mStringBuffer);
   }

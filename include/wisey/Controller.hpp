@@ -28,6 +28,7 @@ class ControllerOwner;
  * Contains information about a Controller including its fields and methods
  */
 class Controller : public IConcreteObjectType, public IInjectable {
+  AccessLevel mAccessLevel;
   std::string mName;
   llvm::StructType* mStructType;
   bool mIsExternal;
@@ -54,7 +55,9 @@ public:
   /**
    * static method for controller instantiation
    */
-  static Controller* newController(std::string name, llvm::StructType* structType);
+  static Controller* newController(AccessLevel accessLevel,
+                                   std::string name,
+                                   llvm::StructType* structType);
   
   /**
    * static method for external controller instantiation
@@ -140,7 +143,10 @@ public:
   
 private:
 
-  Controller(std::string name, llvm::StructType* structType, bool isExternal);
+  Controller(AccessLevel accessLevel,
+             std::string name,
+             llvm::StructType* structType,
+             bool isExternal);
 
   void checkArguments(const InjectionArgumentList& injectionArgumentList) const;
 

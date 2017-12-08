@@ -48,7 +48,8 @@ struct ScopesTest : public Test {
   ScopesTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> objectElements;
-    mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         "systems.vos.wisey.compiler.tests.IInterface",
                                          StructType::create(mLLVMContext, ""),
                                          parentInterfaces,
                                          objectElements);
@@ -186,7 +187,9 @@ TEST_F(ScopesTest, reportUnhandledExceptionsDeathTest) {
   mScopes.pushScope();
   
   StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
-  Model* exceptionModel = Model::newModel("MException", exceptionModelStructType);
+  Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                          "MException",
+                                          exceptionModelStructType);
 
   mScopes.getScope()->addException(exceptionModel);
   

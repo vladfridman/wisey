@@ -16,11 +16,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InterfaceDefinition::InterfaceDefinition(InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
+InterfaceDefinition::InterfaceDefinition(AccessLevel accessLevel,
+                                         InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
                                          vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                                          vector<IObjectElementDeclaration *>
                                          elementDeclarations,
                                          vector<IObjectDefinition*> innerObjectDefinitions) :
+mAccessLevel(accessLevel),
 mInterfaceTypeSpecifierFull(interfaceTypeSpecifierFull),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDeclarations),
@@ -45,7 +47,8 @@ InterfaceDefinition::~InterfaceDefinition() {
 const Interface* InterfaceDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
-  Interface* interface = Interface::newInterface(fullName,
+  Interface* interface = Interface::newInterface(mAccessLevel,
+                                                 fullName,
                                                  structType,
                                                  mParentInterfaceSpecifiers,
                                                  mElementDeclarations);

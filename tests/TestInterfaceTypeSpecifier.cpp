@@ -45,7 +45,8 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
                                                                                 methodExceptions);
     objectElements.push_back(methodSignature);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    mInterface = Interface::newInterface(interfaceFullName,
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         interfaceFullName,
                                          structType,
                                          parentInterfaces,
                                          objectElements);

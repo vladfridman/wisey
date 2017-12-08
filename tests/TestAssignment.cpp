@@ -67,11 +67,14 @@ public:
 
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
-    mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         "systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,
                                          parentInterfaces,
                                          interfaceElements);
-    mController = Controller::newController("systems.vos.wisey.compiler.tests.CController", NULL);
+    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                            "systems.vos.wisey.compiler.tests.CController",
+                                            NULL);
 
     Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
     Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));

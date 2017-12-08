@@ -60,7 +60,8 @@ struct InterfaceDefinitionTest : public Test {
     mInterfaceTypeSpecifier = new InterfaceTypeSpecifierFull("systems.vos.wisey.compiler.tests",
                                                              "IMyInterface");
     vector<IObjectDefinition*> innerObjectDefinitions;
-    mInterfaceDefinition = new InterfaceDefinition(mInterfaceTypeSpecifier,
+    mInterfaceDefinition = new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                   mInterfaceTypeSpecifier,
                                                    parentInterfaces,
                                                    objectElements,
                                                    innerObjectDefinitions);

@@ -17,11 +17,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ControllerDefinition::ControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
+ControllerDefinition::ControllerDefinition(AccessLevel accessLevel,
+                                           ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
                                            vector<IObjectElementDeclaration*>
                                              objectElementDeclarations,
                                            vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                                            vector<IObjectDefinition*> innerObjectDefinitions) :
+mAccessLevel(accessLevel),
 mControllerTypeSpecifierFull(controllerTypeSpecifierFull),
 mObjectElementDeclarations(objectElementDeclarations),
 mInterfaceSpecifiers(interfaceSpecifiers),
@@ -47,7 +49,7 @@ const Controller* ControllerDefinition::prototypeObject(IRGenerationContext& con
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
 
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
-  Controller* controller = Controller::newController(fullName, structType);
+  Controller* controller = Controller::newController(mAccessLevel, fullName, structType);
   context.addController(controller);
   controller->setImportProfile(context.getImportProfile());
   

@@ -23,7 +23,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Controller::Controller(string name, StructType* structType, bool isExternal) :
+Controller::Controller(AccessLevel accessLevel,
+                       string name,
+                       StructType* structType,
+                       bool isExternal) :
+mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal) {
@@ -55,12 +59,14 @@ Controller::~Controller() {
   mInnerObjects.clear();
 }
 
-Controller* Controller::newController(string name, StructType* structType) {
-  return new Controller(name, structType, false);
+Controller* Controller::newController(AccessLevel accessLevel,
+                                      string name,
+                                      StructType* structType) {
+  return new Controller(accessLevel , name, structType, false);
 }
 
 Controller* Controller::newExternalController(string name, StructType* structType) {
-  return new Controller(name, structType, true);
+  return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, true);
 }
 
 void Controller::setFields(vector<Field*> fields, unsigned long startIndex) {

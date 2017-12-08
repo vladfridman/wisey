@@ -27,6 +27,7 @@ class ModelOwner;
  * Contains information about a model including the llvm::StructType and field information
  */
 class Model : public IBuildableConcreteObjectType {
+  AccessLevel mAccessLevel;
   std::string mName;
   llvm::StructType* mStructType;
   bool mIsExternal;
@@ -50,7 +51,7 @@ public:
   /**
    * static method for model instantiation
    */
-  static Model* newModel(std::string name, llvm::StructType* structType);
+  static Model* newModel(AccessLevel accessLevel, std::string name, llvm::StructType* structType);
 
   /**
    * static method for external model instantiation
@@ -161,7 +162,7 @@ public:
 
 private:
   
-  Model(std::string name, llvm::StructType* structType, bool isExternal);
+  Model(AccessLevel accessLevel, std::string name, llvm::StructType* structType, bool isExternal);
   
   void checkArguments(const ObjectBuilderArgumentList& objectBuilderArgumentList) const;
   

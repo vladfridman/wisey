@@ -68,7 +68,7 @@ struct ObjectBuilderTest : Test {
     InjectionArgumentList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mWidth", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mHeight", arguments));
-    mModel = Model::newModel(modelFullName, structType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     mContext.addModel(mModel);
     Value* fieldValue1 = ConstantInt::get(Type::getInt32Ty(mContext.getLLVMContext()), 3);

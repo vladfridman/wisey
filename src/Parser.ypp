@@ -327,7 +327,11 @@ interface_definition
       std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
       InterfaceTypeSpecifierFull* fullSpecifier = 
         new InterfaceTypeSpecifierFull(package, $2->getShortName());
-      $$ = new InterfaceDefinition(fullSpecifier, *$3, std::get<0>(*$5), std::get<1>(*$5));
+      $$ = new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,
+                                   fullSpecifier, 
+                                   *$3, 
+                                   std::get<0>(*$5), 
+                                   std::get<1>(*$5));
       delete $2;
       delete $3;
       delete $5;
@@ -401,7 +405,11 @@ controller_definition
       std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
       ControllerTypeSpecifierFull* fullSpecifier = 
         new ControllerTypeSpecifierFull(package, $2->getShortName());
-      $$ = new ControllerDefinition(fullSpecifier, std::get<0>(*$5), *$3, std::get<1>(*$5));
+      $$ = new ControllerDefinition(AccessLevel::PUBLIC_ACCESS, 
+                                    fullSpecifier, 
+                                    std::get<0>(*$5), 
+                                    *$3, 
+                                    std::get<1>(*$5));
       delete $2;
       delete $5;
       delete $3;
@@ -432,7 +440,11 @@ node_definition
       std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
       NodeTypeSpecifierFull* fullSpecifier = 
         new NodeTypeSpecifierFull(package, $2->getShortName());
-      $$ = new NodeDefinition(fullSpecifier, std::get<0>(*$5), *$3, std::get<1>(*$5));
+      $$ = new NodeDefinition(AccessLevel::PUBLIC_ACCESS, 
+                              fullSpecifier, 
+                              std::get<0>(*$5), 
+                              *$3, 
+                              std::get<1>(*$5));
       delete $2;
       delete $5;
       delete $3;
@@ -460,7 +472,11 @@ model_definition
       std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
       ModelTypeSpecifierFull* fullSpecifier = 
         new ModelTypeSpecifierFull(package, $2->getShortName());
-      $$ = new ModelDefinition(fullSpecifier, std::get<0>(*$5), *$3, std::get<1>(*$5));
+      $$ = new ModelDefinition(AccessLevel::PUBLIC_ACCESS,
+                               fullSpecifier, 
+                               std::get<0>(*$5), 
+                               *$3, 
+                               std::get<1>(*$5));
       delete $2;
       delete $5;
       delete $3;

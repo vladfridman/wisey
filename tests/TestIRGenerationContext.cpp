@@ -46,7 +46,8 @@ struct IRGenerationContextTest : public Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
-    mInterface = Interface::newInterface(interfaceFullName,
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
                                          interfaceElements);
@@ -56,18 +57,20 @@ struct IRGenerationContextTest : public Test {
     vector<Field*> controllerFields;
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    mController = Controller::newController(controllerFullName, controllerStructType);
+    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                            controllerFullName,
+                                            controllerStructType);
     mController->setFields(controllerFields, controllerInterfaces.size() + 1);
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);
 
     string modelFullName = "systems.vos.wisey.compiler.tests.MMyModel";
     StructType* modelStructType = StructType::create(mLLVMContext, "MMyModel");
-    mModel = Model::newModel(modelFullName, modelStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NMyNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, "NMyNode");
-    mNode = Node::newNode(nodeFullName, nodeStructType);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType);
   }
   
   ~IRGenerationContextTest() { }
@@ -174,7 +177,8 @@ TEST_F(IRGenerationContextTest, addInterfaceTest) {
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   vector<IObjectElementDeclaration*> interfaceElements;
-  Interface* interface = Interface::newInterface(interfaceFullName,
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
                                                  interfaceElements);
@@ -192,7 +196,8 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   vector<IObjectElementDeclaration*> interfaceElements;
-  Interface* interface = Interface::newInterface(interfaceFullName,
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
                                                  interfaceElements);
@@ -204,7 +209,7 @@ TEST_F(IRGenerationContextTest, addInterfaceAlreadyDefinedDeathTest) {
 }
 
 TEST_F(IRGenerationContextTest, setObjectTypeTest) {
-  Model* model = Model::newModel("MModel", NULL);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, "MModel", NULL);
   
   mContext.setObjectType(model);
   

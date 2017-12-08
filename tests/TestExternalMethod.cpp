@@ -61,7 +61,7 @@ public:
     InjectionArgumentList fieldArguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments));
-    mModel = Model::newModel(modelFullName, structType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     
     mStringStream = new raw_string_ostream(mStringBuffer);

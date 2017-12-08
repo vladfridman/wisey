@@ -27,6 +27,7 @@ class NodeOwner;
  * Contains information about a node including the llvm::StructType and field information
  */
 class Node : public IBuildableConcreteObjectType {
+  AccessLevel mAccessLevel;
   std::string mName;
   llvm::StructType* mStructType;
   bool mIsExternal;
@@ -52,7 +53,7 @@ public:
   /**
    * static method for node instantiation
    */
-  static Node* newNode(std::string name, llvm::StructType* structType);
+  static Node* newNode(AccessLevel accessLevel, std::string name, llvm::StructType* structType);
 
   /**
    * static method for external node instantiation
@@ -143,7 +144,7 @@ public:
 
 private:
   
-  Node(std::string name, llvm::StructType* structType, bool isExternal);
+  Node(AccessLevel accessLevel, std::string name, llvm::StructType* structType, bool isExternal);
 
   void checkArguments(const ObjectBuilderArgumentList& ObjectBuilderArgumentList) const;
 

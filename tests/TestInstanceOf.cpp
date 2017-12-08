@@ -39,14 +39,16 @@ struct InstanceOfTest : public Test {
     StructType* shapeStructType = StructType::create(mLLVMContext, shapeFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
-    mShapeInterface = Interface::newInterface(shapeFullName,
+    mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                              shapeFullName,
                                               shapeStructType,
                                               parentInterfaces,
                                               interfaceElements);
 
     string objectFullName = "systems.vos.wisey.compiler.tests.IObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
-    mObjectInterface = Interface::newInterface(objectFullName,
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
                                                objectStructType,
                                                parentInterfaces,
                                                interfaceElements);

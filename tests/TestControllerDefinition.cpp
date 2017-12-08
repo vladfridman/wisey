@@ -100,7 +100,8 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ControllerDefinition controllerDefinition(typeSpecifier,
+  ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                            typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions);
@@ -122,7 +123,8 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ControllerDefinition controllerDefinition(typeSpecifier,
+  ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                            typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions);
@@ -140,7 +142,8 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ControllerDefinition controllerDefinition(typeSpecifier,
+  ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                            typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions);
@@ -177,7 +180,8 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
   mElementDeclarations.clear();
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ControllerDefinition controllerDefinition(typeSpecifier,
+  ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                            typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions);
@@ -196,7 +200,8 @@ TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
   FieldDeclaration* field = new FieldDeclaration(FIXED_FIELD, intType, "field3", arguments);
   mElementDeclarations.push_back(field);
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ControllerDefinition controllerDefinition(typeSpecifier,
+  ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                            typeSpecifier,
                                             mElementDeclarations,
                                             mInterfaces,
                                             innerObjectDefinitions);

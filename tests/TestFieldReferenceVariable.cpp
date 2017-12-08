@@ -57,7 +57,8 @@ struct FieldReferenceVariableTest : Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
-    mInterface = Interface::newInterface(interfaceFullName,
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
                                          interfaceElements);
@@ -66,7 +67,7 @@ struct FieldReferenceVariableTest : Test {
 
     string nodeFullName = "systems.vos.wisey.compiler.tests.NNode";
     StructType* nodeStructType = StructType::create(mLLVMContext, nodeFullName);
-    mNode = Node::newNode(nodeFullName, nodeStructType);
+    mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType);
     mNode->setInterfaces(interfaces);
   
     vector<Type*> types;
@@ -80,7 +81,9 @@ struct FieldReferenceVariableTest : Test {
     InjectionArgumentList fieldArguments;
     fields.push_back(new Field(STATE_FIELD, mNode, "foo", fieldArguments));
     fields.push_back(new Field(STATE_FIELD, mInterface, "bar", fieldArguments));
-    mObject = Controller::newController(objectFullName, objectStructType);
+    mObject = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                        objectFullName,
+                                        objectStructType);
     mObject->setFields(fields, 1u);
     
     FunctionType* functionType =

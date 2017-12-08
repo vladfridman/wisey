@@ -79,7 +79,9 @@ public:
     returnedModelTypes.push_back(Type::getInt64Ty(mLLVMContext));
     string returnedModelFullName = "systems.vos.wisey.compiler.tests.MReturnedModel";
     StructType* returnedModelStructType = StructType::create(mLLVMContext, returnedModelFullName);
-    mReturnedModel = Model::newModel(returnedModelFullName, returnedModelStructType);
+    mReturnedModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                     returnedModelFullName,
+                                     returnedModelStructType);
     mContext.addModel(mReturnedModel);
 
     vector<Type*> types;
@@ -111,7 +113,9 @@ public:
     MethodArgument* barMethodArgument = new MethodArgument(PrimitiveTypes::FLOAT_TYPE, "argument");
     vector<MethodArgument*> barMethodArguments;
     barMethodArguments.push_back(barMethodArgument);
-    Model* exceptionModel = Model::newModel("MException", exceptionModelStructType);
+    Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                            "MException",
+                                            exceptionModelStructType);
     barThrownExceptions.push_back(exceptionModel);
     IMethod* barMethod = new StaticMethod("bar",
                                           AccessLevel::PUBLIC_ACCESS,
@@ -121,7 +125,7 @@ public:
                                           NULL,
                                           0);
     methods.push_back(barMethod);
-    mModel = Model::newModel(modelFullName, mStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
     mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);

@@ -58,7 +58,8 @@ struct MethodSignatureDeclarationTest : Test {
     structType->setBody(types);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
-    mInterface = Interface::newInterface(interfaceFullName,
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         interfaceFullName,
                                          structType,
                                          parentInterfaces,
                                          interfaceElements);

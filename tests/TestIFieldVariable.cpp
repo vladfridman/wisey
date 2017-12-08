@@ -53,7 +53,9 @@ struct IFieldVariableTest : Test {
     mStateField = new Field(STATE_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments);
     controllerFields.push_back(mInjectedField);
     controllerFields.push_back(mStateField);
-    mController = Controller::newController(controllerFullName, controllerStructType);
+    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                            controllerFullName,
+                                            controllerStructType);
     mController->setFields(controllerFields, 1u);
     
     FunctionType* functionType =

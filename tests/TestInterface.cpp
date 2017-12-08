@@ -89,7 +89,8 @@ struct InterfaceTest : public Test {
     objectElementDeclarations.push_back(mBarMethod);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
     vector<MethodSignatureDeclaration*> methodDeclarations;
-    mObjectInterface = Interface::newInterface(objectFullName,
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
                                                objectStructType,
                                                objectParentInterfaces,
                                                objectElementDeclarations);
@@ -128,7 +129,8 @@ struct InterfaceTest : public Test {
 
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(mObjectInterfaceSpecifier);
-    mShapeInterface = Interface::newInterface(shapeFullName,
+    mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                              shapeFullName,
                                               mShapeStructType,
                                               shapeParentInterfaces,
                                               shapeElements);
@@ -136,7 +138,8 @@ struct InterfaceTest : public Test {
     mShapeInterface->buildMethods(mContext);
 
     mIncompleteInterfaceStructType = StructType::create(mLLVMContext, shapeFullName);
-    mIncompleteInterface = Interface::newInterface(shapeFullName,
+    mIncompleteInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                   shapeFullName,
                                                    mIncompleteInterfaceStructType,
                                                    shapeParentInterfaces,
                                                    shapeElements);
@@ -301,7 +304,11 @@ TEST_F(InterfaceTest, fieldDefinitionDeathTest) {
   vector<IObjectElementDeclaration*> elements;
   elements.push_back(fieldDeclaration);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 name,
+                                                 structType,
+                                                 parentInterfaces,
+                                                 elements);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -331,7 +338,11 @@ TEST_F(InterfaceTest, methodDeclarationDeathTest) {
   vector<IObjectElementDeclaration*> elements;
   elements.push_back(methodDeclaration);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 name,
+                                                 structType,
+                                                 parentInterfaces,
+                                                 elements);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),
@@ -348,7 +359,11 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
   elements.push_back(mBarMethod);
   elements.push_back(mConstantDeclaration);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = Interface::newInterface(name, structType, parentInterfaces, elements);
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 name,
+                                                 structType,
+                                                 parentInterfaces,
+                                                 elements);
   
   EXPECT_EXIT(interface->buildMethods(mContext),
               ::testing::ExitedWithCode(1),

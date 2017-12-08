@@ -37,11 +37,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Interface::Interface(string name,
+Interface::Interface(AccessLevel accessLevel,
+                     string name,
                      StructType* structType,
                      bool isExternal,
                      vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                      vector<IObjectElementDeclaration *> elementDelcarations) :
+mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
@@ -68,12 +70,14 @@ Interface::~Interface() {
   mInnerObjects.clear();
 }
 
-Interface* Interface::newInterface(string name,
+Interface* Interface::newInterface(AccessLevel accessLevel,
+                                   string name,
                                    StructType *structType,
                                    vector<IInterfaceTypeSpecifier *> parentInterfaceSpecifiers,
                                    vector<IObjectElementDeclaration *>
                                    elementDeclarations) {
-  return new Interface(name,
+  return new Interface(accessLevel,
+                       name,
                        structType,
                        false,
                        parentInterfaceSpecifiers,
@@ -86,7 +90,8 @@ Interface* Interface::newExternalInterface(string name,
                                            parentInterfaceSpecifiers,
                                            vector<IObjectElementDeclaration *>
                                            elementDeclarations) {
-  return new Interface(name,
+  return new Interface(AccessLevel::PUBLIC_ACCESS,
+                       name,
                        structType,
                        true,
                        parentInterfaceSpecifiers,

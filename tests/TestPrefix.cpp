@@ -40,7 +40,8 @@ void TestPrefix::defineModel(IRGenerationContext& context,
   ModelTypeSpecifierFull* modelTypeSpecifier =
     new ModelTypeSpecifierFull(Names::getLangPackageName(), modelName);
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ModelDefinition modelDefinition(modelTypeSpecifier,
+  ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  modelTypeSpecifier,
                                   modelElements,
                                   modelParentInterfaces,
                                   innerObjectDefinitions);
@@ -99,7 +100,8 @@ void TestPrefix::defineThreadController(IRGenerationContext& context) {
   elementDeclarations.push_back(popStackMethod);
 
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ControllerDefinition threadControllerDefinition(controllerTypeSpecifier,
+  ControllerDefinition threadControllerDefinition(AccessLevel::PUBLIC_ACCESS,
+                                                  controllerTypeSpecifier,
                                                   elementDeclarations,
                                                   interfaceSpecifiers,
                                                   innerObjectDefinitions);

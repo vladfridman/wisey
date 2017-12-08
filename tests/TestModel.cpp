@@ -131,7 +131,8 @@ struct ModelTest : public Test {
                                      subShapeInterfaceThrownExceptions);
     subShapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
-    mSubShapeInterface = Interface::newInterface(subShapeFullName,
+    mSubShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 subShapeFullName,
                                                  subShapeIinterfaceStructType,
                                                  subShapeParentInterfaces,
                                                  subShapeInterfaceElements);
@@ -152,7 +153,8 @@ struct ModelTest : public Test {
       new InterfaceTypeSpecifier("", "ISubShape");
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     shapeParentInterfaces.push_back(subShapeInterfaceSpecifier);
-    mShapeInterface = Interface::newInterface(shapeFullName,
+    mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                              shapeFullName,
                                               shapeIinterfaceStructType,
                                               shapeParentInterfaces,
                                               shapeInterfaceElements);
@@ -171,7 +173,8 @@ struct ModelTest : public Test {
                                      objectInterfaceThrownExceptions);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = Interface::newInterface(objectFullName,
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
                                                objectInterfaceElements);
@@ -182,7 +185,8 @@ struct ModelTest : public Test {
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
     vector<IInterfaceTypeSpecifier*> carParentInterfaces;
     vector<IObjectElementDeclaration*> carInterfaceElements;
-    mCarInterface = Interface::newInterface(carFullName,
+    mCarInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                            carFullName,
                                             carInterfaceStructType,
                                             carParentInterfaces,
                                             carInterfaceElements);
@@ -200,7 +204,7 @@ struct ModelTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel = Model::newModel(modelFullName, mStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
     mModel->setFields(fields, interfaces.size() + 1);
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
@@ -211,7 +215,7 @@ struct ModelTest : public Test {
     vector<Type*> circleTypes;
     circleTypes.push_back(Type::getInt64Ty(mLLVMContext));
     circleStructType->setBody(circleTypes);
-    mCircleModel = Model::newModel(cirlceFullName, circleStructType);
+    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, cirlceFullName, circleStructType);
     llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
                                                                   cirlceFullName + ".name");
     new GlobalVariable(*mContext.getModule(),
@@ -226,7 +230,7 @@ struct ModelTest : public Test {
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
-    mGalaxyModel = Model::newModel(galaxyFullName, galaxyStructType);
+    mGalaxyModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, galaxyFullName, galaxyStructType);
     mContext.addModel(mGalaxyModel);
 
     vector<Type*> birthdateTypes;
@@ -234,7 +238,9 @@ struct ModelTest : public Test {
     string birthdateFullName = "systems.vos.wisey.compiler.tests.MBirthdate";
     StructType* birthdateStructType = StructType::create(mLLVMContext, birthdateFullName);
     birthdateStructType->setBody(birthdateTypes);
-    mBirthdateModel = Model::newModel(birthdateFullName, birthdateStructType);
+    mBirthdateModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                      birthdateFullName,
+                                      birthdateStructType);
     mContext.addModel(mBirthdateModel);
     
     vector<Type*> starTypes;
@@ -250,7 +256,7 @@ struct ModelTest : public Test {
                                    "mBirthdate",
                                    arguments));
     starFields.push_back(new Field(FIXED_FIELD, mGalaxyModel, "mGalaxy", arguments));
-    mStarModel = Model::newModel(starFullName, starStructType);
+    mStarModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, starFullName, starStructType);
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
@@ -349,7 +355,7 @@ TEST(ModelGetSizeTest, getSizeTest) {
   StructType* structType = StructType::create(llvmContext, modelFullName);
   structType->setBody(types);
 
-  Model* model = Model::newModel(modelFullName, structType);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
   context.addModel(model);
   
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(llvmContext), false);

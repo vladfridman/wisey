@@ -9,7 +9,7 @@
 #ifndef ModelDefinition_h
 #define ModelDefinition_h
 
-#include "wisey/Field.hpp"
+#include "wisey/AccessLevel.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
@@ -21,6 +21,7 @@ namespace wisey {
  * Represents model definition which is analogous to an immutable class in C++
  */
 class ModelDefinition : public IConcreteObjectDefinition {
+  AccessLevel mAccessLevel;
   ModelTypeSpecifierFull* mModelTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
@@ -28,7 +29,8 @@ class ModelDefinition : public IConcreteObjectDefinition {
 
 public:
   
-  ModelDefinition(ModelTypeSpecifierFull* modelTypeSpecifierFull,
+  ModelDefinition(AccessLevel accessLevel,
+                  ModelTypeSpecifierFull* modelTypeSpecifierFull,
                   std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                   std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                   std::vector<IObjectDefinition*> innerObjectDefinitions);

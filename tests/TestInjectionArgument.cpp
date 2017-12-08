@@ -47,7 +47,7 @@ struct InjectionArgumentTest : Test {
     vector<Field*> fields;
     InjectionArgumentList arguments;
     fields.push_back(new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "mFieldA", arguments));
-    mController = Controller::newController(modelFullName, structType);
+    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mController->setFields(fields, 1u);
     
     mValue = ConstantFP::get(Type::getFloatTy(llvmContext), 2.5);

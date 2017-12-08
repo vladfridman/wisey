@@ -9,8 +9,7 @@
 #ifndef InterfaceDefinition_h
 #define InterfaceDefinition_h
 
-#include "wisey/Block.hpp"
-#include "wisey/Identifier.hpp"
+#include "wisey/AccessLevel.hpp"
 #include "wisey/InterfaceTypeSpecifierFull.hpp"
 #include "wisey/IObjectDefinition.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
@@ -21,6 +20,7 @@ namespace wisey {
  * Represents an interface definition which is analogous to a pure virtual class in C++
  */
 class InterfaceDefinition : public IObjectDefinition {
+  AccessLevel mAccessLevel;
   InterfaceTypeSpecifierFull* mInterfaceTypeSpecifierFull;
   std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<IObjectElementDeclaration *> mElementDeclarations;
@@ -28,7 +28,8 @@ class InterfaceDefinition : public IObjectDefinition {
 
 public:
   
-  InterfaceDefinition(InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
+  InterfaceDefinition(AccessLevel accessLevel,
+                      InterfaceTypeSpecifierFull* interfaceTypeSpecifierFull,
                       std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                       std::vector<IObjectElementDeclaration *> elementDeclarations,
                       std::vector<IObjectDefinition*> innerObjectDefinitions);

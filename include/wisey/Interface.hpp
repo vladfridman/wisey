@@ -32,6 +32,7 @@ class Model;
  * Contains information about an Interface including the llvm::StructType and method information
  */
 class Interface : public IObjectType, public IInjectable {
+  AccessLevel mAccessLevel;
   std::string mName;
   llvm::StructType* mStructType;
   bool mIsExternal;
@@ -58,7 +59,8 @@ public:
   /**
    * static method for interface instantiation
    */
-  static Interface* newInterface(std::string name,
+  static Interface* newInterface(AccessLevel accessLevel,
+                                 std::string name,
                                  llvm::StructType* structType,
                                  std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,
                                  std::vector<IObjectElementDeclaration *> elementDeclarations);
@@ -207,7 +209,8 @@ public:
 
 private:
   
-  Interface(std::string name,
+  Interface(AccessLevel accessLevel,
+            std::string name,
             llvm::StructType* structType,
             bool isExternal,
             std::vector<IInterfaceTypeSpecifier*> parentInterfaceSpecifiers,

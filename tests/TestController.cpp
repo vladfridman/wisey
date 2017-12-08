@@ -92,7 +92,8 @@ struct ControllerTest : public Test {
                                      calculatorThrownExceptions);
     calculatorInterfaceElements.push_back(calculateSignature);
     vector<IInterfaceTypeSpecifier*> calculatorParentInterfaces;
-    mCalculatorInterface = Interface::newInterface(calculatorFullName,
+    mCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                   calculatorFullName,
                                                    calculatorIinterfaceStructType,
                                                    calculatorParentInterfaces,
                                                    calculatorInterfaceElements);
@@ -108,7 +109,8 @@ struct ControllerTest : public Test {
     InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier(mPackage,
                                                                              "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorSpecifier);
-    mScienceCalculatorInterface = Interface::newInterface(scienceCalculatorFullName,
+    mScienceCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                          scienceCalculatorFullName,
                                                           scienceCalculatorIinterfaceStructType,
                                                           scienceCalculatorParentInterfaces,
                                                           scienceCalculatorInterfaceElements);
@@ -127,7 +129,8 @@ struct ControllerTest : public Test {
                                      objectThrownExceptions);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = Interface::newInterface(objectFullName,
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
                                                objectInterfaceElements);
@@ -184,7 +187,9 @@ struct ControllerTest : public Test {
     constants.push_back(mConstant);
     constants.push_back(privateConstant);
 
-    mMultiplierController = Controller::newController(multiplierFullName, mStructType);
+    mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                      multiplierFullName,
+                                                      mStructType);
     mMultiplierController->setFields(fields, interfaces.size() + 1);
     mMultiplierController->setMethods(methods);
     mMultiplierController->setInterfaces(interfaces);
@@ -195,7 +200,7 @@ struct ControllerTest : public Test {
     string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
     StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
     ownerStructType->setBody(ownerTypes);
-    mOwnerNode = Node::newNode(ownerFullName, ownerStructType);
+    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, ownerFullName, ownerStructType);
     mContext.addNode(mOwnerNode);
     
     vector<Type*> referenceTypes;
@@ -203,7 +208,9 @@ struct ControllerTest : public Test {
     string referenceFullName = "systems.vos.wisey.compiler.tests.MReference";
     StructType* referenceStructType = StructType::create(mLLVMContext, referenceFullName);
     referenceStructType->setBody(referenceTypes);
-    mReferenceModel = Model::newModel(referenceFullName, referenceStructType);
+    mReferenceModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                      referenceFullName,
+                                      referenceStructType);
     mContext.addModel(mReferenceModel);
     
     vector<Type*> additorTypes;
@@ -222,7 +229,9 @@ struct ControllerTest : public Test {
                                       mReferenceModel,
                                       "mReference",
                                       fieldArguments));
-    mAdditorController = Controller::newController(additorFullName, additorStructType);
+    mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                   additorFullName,
+                                                   additorStructType);
     mAdditorController->setFields(additorFields, 1u);
     mContext.addController(mMultiplierController);
 
@@ -238,7 +247,9 @@ struct ControllerTest : public Test {
                                       PrimitiveTypes::INT_TYPE,
                                       "left",
                                       fieldArguments));
-    mDoublerController = Controller::newController(doublerFullName, doublerStructType);
+    mDoublerController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                   doublerFullName,
+                                                   doublerStructType);
     mDoublerController->setFields(doublerFields, 1u);
     mContext.addController(mDoublerController);
 
@@ -246,7 +257,8 @@ struct ControllerTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> vehicleParentInterfaces;
     vector<IObjectElementDeclaration*> vehicleElements;
-    mVehicleInterface = Interface::newInterface(vehicleFullName,
+    mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                vehicleFullName,
                                                 vehicleInterfaceStructType,
                                                 vehicleParentInterfaces,
                                                 vehicleElements);
@@ -616,7 +628,9 @@ TEST_F(ControllerTest, injectFieldTest) {
   childTypes.push_back(Type::getInt64Ty(mLLVMContext));
   childStructType->setBody(childTypes);
   vector<Field*> childFields;
-  Controller* childController = Controller::newController(childFullName, childStructType);
+  Controller* childController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                          childFullName,
+                                                          childStructType);
   childController->setFields(childFields, 1u);
   mContext.addController(childController);
 
@@ -632,7 +646,9 @@ TEST_F(ControllerTest, injectFieldTest) {
                                    childController->getOwner(),
                                    "mChild",
                                    fieldArguments));
-  Controller* parentController = Controller::newController(parentFullName, parentStructType);
+  Controller* parentController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                           parentFullName,
+                                                           parentStructType);
   parentController->setFields(parentFields, 1u);
   mContext.addController(parentController);
   

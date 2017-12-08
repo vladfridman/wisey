@@ -96,7 +96,8 @@ TEST_F(ModelDefinitionTest, prototypeObjectTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ModelDefinition modelDefinition(typeSpecifier,
+  ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  typeSpecifier,
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions);
@@ -123,7 +124,8 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ModelDefinition modelDefinition(typeSpecifier,
+  ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  typeSpecifier,
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions);
@@ -149,7 +151,8 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ModelDefinition modelDefinition(typeSpecifier,
+  ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  typeSpecifier,
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions);
@@ -194,7 +197,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                    methodThrownExceptions);
   interfaceElements.push_back(methodSignature);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
-  Interface* interface = Interface::newInterface(interfaceFullName,
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
                                                  interfaceElements);
@@ -215,7 +219,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 
   ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ModelDefinition modelDefinition(typeSpecifier,
+  ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  typeSpecifier,
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions);
@@ -249,7 +254,8 @@ TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
 
   ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ModelDefinition modelDefinition(typeSpecifier,
+  ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  typeSpecifier,
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions);
@@ -271,7 +277,8 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
-  ModelDefinition modelDefinition(typeSpecifier,
+  ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
+                                  typeSpecifier,
                                   mObjectElements,
                                   interfaces,
                                   innerObjectDefinitions);

@@ -38,7 +38,8 @@ struct BindActionTest : public Test {
     StructType* interfaceStructType = StructType::create(mLLVMContext, interfaceFullName);
     vector<IObjectElementDeclaration*> interfaceElements;
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    mInterface = Interface::newInterface(interfaceFullName,
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         interfaceFullName,
                                          interfaceStructType,
                                          parentInterfaces,
                                          interfaceElements);
@@ -48,7 +49,9 @@ struct BindActionTest : public Test {
     vector<Field*> controllerFields;
     vector<IMethod*> controllerMethods;
     vector<Interface*> controllerInterfaces;
-    mController = Controller::newController(controllerFullName, controllerStructType);
+    mController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                            controllerFullName,
+                                            controllerStructType);
     mController->setFields(controllerFields, controllerInterfaces.size());
     mController->setMethods(controllerMethods);
     mController->setInterfaces(controllerInterfaces);

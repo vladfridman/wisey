@@ -74,7 +74,9 @@ public:
     returnedModelTypes.push_back(Type::getInt64Ty(mLLVMContext));
     string returnedModelFullName = "systems.vos.wisey.compiler.tests.MReturnedModel";
     StructType* returnedModelStructType = StructType::create(mLLVMContext, returnedModelFullName);
-    mReturnedModel = Model::newModel(returnedModelFullName, returnedModelStructType);
+    mReturnedModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                     returnedModelFullName,
+                                     returnedModelStructType);
     mContext.addModel(mReturnedModel);
     
     vector<Type*> types;
@@ -103,7 +105,9 @@ public:
     methods.push_back(fooMethod);
     vector<const Model*> barThrownExceptions;
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
-    Model* exceptionModel = Model::newModel("MException", exceptionModelStructType);
+    Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                            "MException",
+                                            exceptionModelStructType);
     barThrownExceptions.push_back(exceptionModel);
     IMethod* barMethod = new Method("bar",
                                     AccessLevel::PUBLIC_ACCESS,
@@ -113,7 +117,7 @@ public:
                                     NULL,
                                     0);
     methods.push_back(barMethod);
-    mModel = Model::newModel(modelFullName, mStructType);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
     mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
 
@@ -205,7 +209,8 @@ TEST_F(MethodCallTest, translateInterfaceMethodToLLVMFunctionNameTest) {
   StructType* structType = StructType::create(mLLVMContext, interfaceFullName);
   vector<IInterfaceTypeSpecifier*> parentInterfaces;
   vector<IObjectElementDeclaration*> interfaceElements;
-  Interface* interface = Interface::newInterface(interfaceFullName,
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 interfaceFullName,
                                                  structType,
                                                  parentInterfaces,
                                                  interfaceElements);

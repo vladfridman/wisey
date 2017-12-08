@@ -126,7 +126,8 @@ struct TypeComparisionExpressionTest : public Test {
                                      subShapeThrownExceptions);
     subShapeInterfaceElements.push_back(methodFooSignature);
     vector<IInterfaceTypeSpecifier*> subShapeParentInterfaces;
-    mSubShapeInterface = Interface::newInterface(subShapeFullName,
+    mSubShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 subShapeFullName,
                                                  subShapeIinterfaceStructType,
                                                  subShapeParentInterfaces,
                                                  subShapeInterfaceElements);
@@ -146,7 +147,8 @@ struct TypeComparisionExpressionTest : public Test {
     vector<IInterfaceTypeSpecifier*> shapeParentInterfaces;
     InterfaceTypeSpecifier* subShapeTypeSpecifier = new InterfaceTypeSpecifier("", "ISubShape");
     shapeParentInterfaces.push_back(subShapeTypeSpecifier);
-    mShapeInterface = Interface::newInterface(shapeFullName,
+    mShapeInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS, 
+                                              shapeFullName,
                                               shapeIinterfaceStructType,
                                               shapeParentInterfaces,
                                               shapeInterfaceElements);
@@ -165,7 +167,8 @@ struct TypeComparisionExpressionTest : public Test {
                                      objectThrownExceptions);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = Interface::newInterface(objectFullName,
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
                                                objectInterfaceElements);
@@ -176,7 +179,8 @@ struct TypeComparisionExpressionTest : public Test {
     StructType* carInterfaceStructType = StructType::create(mLLVMContext, carFullName);
     vector<IInterfaceTypeSpecifier*> carParentInterfaces;
     vector<IObjectElementDeclaration*> carElements;
-    mCarInterface = Interface::newInterface(carFullName,
+    mCarInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                            carFullName,
                                             carInterfaceStructType,
                                             carParentInterfaces,
                                             carElements);
@@ -186,7 +190,7 @@ struct TypeComparisionExpressionTest : public Test {
     vector<Interface*> sqaureInterfaces;
     sqaureInterfaces.push_back(mShapeInterface);
     sqaureInterfaces.push_back(mObjectInterface);
-    mSquareModel = Model::newModel(squareFullName, squareStructType);
+    mSquareModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, squareFullName, squareStructType);
     mSquareModel->setFields(squareFields, sqaureInterfaces.size() + 1);
     mSquareModel->setMethods(squareMethods);
     mSquareModel->setInterfaces(sqaureInterfaces);
@@ -196,7 +200,7 @@ struct TypeComparisionExpressionTest : public Test {
     vector<Type*> circleTypes;
     circleTypes.push_back(Type::getInt64Ty(mLLVMContext));
     circleStructType->setBody(circleTypes);
-    mCircleModel = Model::newModel(circleFullName, circleStructType);
+    mCircleModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, circleFullName, circleStructType);
   }
   
   ~TypeComparisionExpressionTest() {

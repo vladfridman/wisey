@@ -21,7 +21,8 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Model::Model(string name, StructType* structType, bool isExternal) :
+Model::Model(AccessLevel accessLevel, string name, StructType* structType, bool isExternal) :
+mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal) {
@@ -50,12 +51,12 @@ Model::~Model() {
   mInnerObjects.clear();
 }
 
-Model* Model::newModel(string name, StructType* structType) {
-  return new Model(name, structType, false);
+Model* Model::newModel(AccessLevel accessLevel, string name, StructType* structType) {
+  return new Model(accessLevel, name, structType, false);
 }
 
 Model* Model::newExternalModel(string name, StructType* structType) {
-  return new Model(name, structType, true);
+  return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, true);
 }
 
 void Model::setFields(vector<Field*> fields, unsigned long startIndex) {

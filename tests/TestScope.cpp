@@ -48,13 +48,16 @@ public:
   mOwnerVariable(new NiceMock<MockOwnerVariable>()) {
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
-    mInterface = Interface::newInterface("systems.vos.wisey.compiler.tests.IInterface",
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         "systems.vos.wisey.compiler.tests.IInterface",
                                          NULL,
                                          parentInterfaces,
                                          interfaceElements);
 
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionA");
-    mExceptionModel = Model::newModel("MExceptionA", exceptionModelStructType);
+    mExceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                      "MExceptionA",
+                                      exceptionModelStructType);
     
     ON_CALL(*mReferenceVariable, getType()).WillByDefault(Return(mInterface));
     ON_CALL(*mOwnerVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
@@ -100,7 +103,9 @@ TEST_F(ScopeTest, addExceptionTest) {
 
 TEST_F(ScopeTest, addExceptionsTest) {
   StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MExceptionB");
-  Model* exceptionModel = Model::newModel("MExceptionB", exceptionModelStructType);
+  Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                          "MExceptionB",
+                                          exceptionModelStructType);
 
   ASSERT_EQ(mScope.getExceptions().size(), 0u);
   

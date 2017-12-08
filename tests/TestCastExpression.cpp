@@ -66,7 +66,8 @@ public:
     carInterfaceStructType->setBody(carInterfaceTypes);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
-    mCarInterface = Interface::newInterface(carFullName,
+    mCarInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                            carFullName,
                                             carInterfaceStructType,
                                             parentInterfaces,
                                             interfaceElements);

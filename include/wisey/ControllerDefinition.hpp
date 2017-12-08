@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "wisey/AccessLevel.hpp"
 #include "wisey/ControllerTypeSpecifierFull.hpp"
 #include "wisey/IConcreteObjectDefinition.hpp"
 #include "wisey/IInterfaceTypeSpecifier.hpp"
@@ -23,6 +24,7 @@ namespace wisey {
  * Represents controller definition which is analogous to a class in C++ with dependency injection
  */
 class ControllerDefinition : public IConcreteObjectDefinition {
+  AccessLevel mAccessLevel;
   ControllerTypeSpecifierFull* mControllerTypeSpecifierFull;
   std::vector<IObjectElementDeclaration*> mObjectElementDeclarations;
   std::vector<IInterfaceTypeSpecifier*> mInterfaceSpecifiers;
@@ -30,7 +32,8 @@ class ControllerDefinition : public IConcreteObjectDefinition {
   
 public:
   
-  ControllerDefinition(ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
+  ControllerDefinition(AccessLevel accessLevel,
+                       ControllerTypeSpecifierFull* controllerTypeSpecifierFull,
                        std::vector<IObjectElementDeclaration*> objectElementDeclarations,
                        std::vector<IInterfaceTypeSpecifier*> interfaceSpecifiers,
                        std::vector<IObjectDefinition*> innerObjectDefinitions);

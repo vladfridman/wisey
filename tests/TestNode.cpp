@@ -98,7 +98,8 @@ struct NodeTest : public Test {
                                      elementThrownExceptions);
     elementInterfaceElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> elementParentInterfaces;
-    mElementInterface = Interface::newInterface(elementInterfaceFullName,
+    mElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                elementInterfaceFullName,
                                                 elementInterfaceStructType,
                                                 elementParentInterfaces,
                                                 elementInterfaceElements);
@@ -113,7 +114,8 @@ struct NodeTest : public Test {
     vector<IInterfaceTypeSpecifier*> complicatedElementParentInterfaces;
     InterfaceTypeSpecifier* elementInterfaceSpecifier = new InterfaceTypeSpecifier("", "IElement");
     complicatedElementParentInterfaces.push_back(elementInterfaceSpecifier);
-    mComplicatedElementInterface = Interface::newInterface(complicatedElementFullName,
+    mComplicatedElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                           complicatedElementFullName,
                                                            complicatedElementIinterfaceStructType,
                                                            complicatedElementParentInterfaces,
                                                            complicatedElementInterfaceElements);
@@ -132,7 +134,8 @@ struct NodeTest : public Test {
                                      objectThrownExceptions);
     objectInterfaceElements.push_back(methodBarSignature);
     vector<IInterfaceTypeSpecifier*> objectParentInterfaces;
-    mObjectInterface = Interface::newInterface(objectFullName,
+    mObjectInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                               objectFullName,
                                                objectInterfaceStructType,
                                                objectParentInterfaces,
                                                objectInterfaceElements);
@@ -184,7 +187,9 @@ struct NodeTest : public Test {
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
     
-    mComplicatedNode = Node::newNode(complicatedNodeFullName, mStructType);
+    mComplicatedNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                                     complicatedNodeFullName,
+                                     mStructType);
     mComplicatedNode->setFields(fields, interfaces.size() + 1);
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
@@ -195,7 +200,7 @@ struct NodeTest : public Test {
     string ownerFullName = "systems.vos.wisey.compiler.tests.NOwner";
     StructType* ownerStructType = StructType::create(mLLVMContext, ownerFullName);
     ownerStructType->setBody(ownerTypes);
-    mOwnerNode = Node::newNode(ownerFullName, ownerStructType);
+    mOwnerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, ownerFullName, ownerStructType);
     mContext.addNode(mOwnerNode);
     
     vector<Type*> referenceTypes;
@@ -203,7 +208,9 @@ struct NodeTest : public Test {
     string referenceFullName = "systems.vos.wisey.compiler.tests.MReference";
     StructType* referenceStructType = StructType::create(mLLVMContext, referenceFullName);
     referenceStructType->setBody(referenceTypes);
-    mReferenceModel = Model::newModel(referenceFullName, referenceStructType);
+    mReferenceModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
+                                      referenceFullName,
+                                      referenceStructType);
     mContext.addModel(mReferenceModel);
     
     vector<Type*> simpleNodeTypes;
@@ -219,7 +226,9 @@ struct NodeTest : public Test {
                                          "mOwner",
                                         arguments));
     simpleNodeFields.push_back(new Field(FIXED_FIELD, mReferenceModel, "mReference", arguments));
-    mSimpleNode = Node::newNode(simpleNodeFullName, simpleNodeStructType);
+    mSimpleNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                                simpleNodeFullName,
+                                simpleNodeStructType);
     mSimpleNode->setFields(simpleNodeFields, 1u);
     mContext.addNode(mSimpleNode);
     
@@ -239,7 +248,9 @@ struct NodeTest : public Test {
                                           PrimitiveTypes::INT_TYPE,
                                           "mRight",
                                           arguments));
-    mSimplerNode = Node::newNode(simplerNodeFullName, simplerNodeStructType);
+    mSimplerNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                                 simplerNodeFullName,
+                                 simplerNodeStructType);
     mSimplerNode->setFields(simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
     
@@ -247,7 +258,8 @@ struct NodeTest : public Test {
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> vehicleParentInterfaces;
     vector<IObjectElementDeclaration*> vehicleElements;
-    mVehicleInterface = Interface::newInterface(vehicleFullName,
+    mVehicleInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                vehicleFullName,
                                                 vehicleInterfaceStructType,
                                                 vehicleParentInterfaces,
                                                 vehicleElements);
