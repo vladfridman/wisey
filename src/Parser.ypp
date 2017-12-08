@@ -203,6 +203,9 @@
 %type <object_definition> object_definition external_object_definition external_model_definition
 %type <object_definition> external_node_definition external_controller_definition
 %type <object_definition> external_interface_definition
+%type <object_definition> inner_controller_definition inner_interface_definition 
+%type <object_definition> inner_model_definition inner_node_definition
+%type <object_definition> inner_object_definition
 %type <global_statement_list> global_statement_list
 %type <compound_statement> compound_statement
 %type <case_statement> case_statement
@@ -284,6 +287,12 @@ global_statement
   | import_statement
   ;
 
+inner_object_definition
+  : inner_controller_definition
+  | inner_interface_definition
+  | inner_model_definition
+  | inner_node_definition
+
 object_definition
   : controller_definition
   | interface_definition
@@ -335,6 +344,24 @@ interface_definition
       delete $2;
       delete $3;
       delete $5;
+    }
+  ;
+
+inner_interface_definition
+  : access_specifier TINTERFACE interface_type_specifier extends_interfaces 
+      '{' interface_element_delcaration_list '}'
+    {
+      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
+      InterfaceTypeSpecifierFull* fullSpecifier = 
+        new InterfaceTypeSpecifierFull(package, $3->getShortName());
+      $$ = new InterfaceDefinition($1,
+                                   fullSpecifier, 
+                                   *$4, 
+                                   std::get<0>(*$6), 
+                                   std::get<1>(*$6));
+      delete $3;
+      delete $4;
+      delete $6;
     }
   ;
 
@@ -416,6 +443,24 @@ controller_definition
     }
   ;
 
+inner_controller_definition
+  : access_specifier TCONTROLLER controller_type_specifier implmeneted_interfaces 
+      '{' object_element_declaration_list '}'
+    {
+      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
+      ControllerTypeSpecifierFull* fullSpecifier = 
+        new ControllerTypeSpecifierFull(package, $3->getShortName());
+      $$ = new ControllerDefinition($1, 
+                                    fullSpecifier, 
+                                    std::get<0>(*$6), 
+                                    *$4, 
+                                    std::get<1>(*$6));
+      delete $3;
+      delete $6;
+      delete $4;
+    }
+  ;
+
 external_controller_definition
   : TEXTERNAL TCONTROLLER controller_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
@@ -451,6 +496,24 @@ node_definition
     }
   ;
 
+inner_node_definition
+  : access_specifier TNODE node_type_specifier implmeneted_interfaces
+      '{' object_element_declaration_list '}'
+    {
+      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
+      NodeTypeSpecifierFull* fullSpecifier = 
+        new NodeTypeSpecifierFull(package, $3->getShortName());
+      $$ = new NodeDefinition($1, 
+                              fullSpecifier, 
+                              std::get<0>(*$6), 
+                              *$4, 
+                              std::get<1>(*$6));
+      delete $3;
+      delete $6;
+      delete $4;
+    }
+  ;
+
 external_node_definition
   : TEXTERNAL TNODE node_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
@@ -480,6 +543,24 @@ model_definition
       delete $2;
       delete $5;
       delete $3;
+    }
+  ;
+
+inner_model_definition
+  : access_specifier TMODEL model_type_specifier implmeneted_interfaces
+      '{' object_element_declaration_list '}'
+    {
+      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
+      ModelTypeSpecifierFull* fullSpecifier = 
+        new ModelTypeSpecifierFull(package, $3->getShortName());
+      $$ = new ModelDefinition($1,
+                               fullSpecifier, 
+                               std::get<0>(*$6), 
+                               *$4, 
+                               std::get<1>(*$6));
+      delete $3;
+      delete $6;
+      delete $4;
     }
   ;
 
@@ -542,7 +623,7 @@ object_element_declaration_list
     }
   | object_element_declaration_list object_element_declaration
     { std::get<0>(*$1).push_back($2); }
-  | object_element_declaration_list object_definition
+  | object_element_declaration_list inner_object_definition
     { std::get<1>(*$1).push_back($2); }
   ;
 

@@ -10,7 +10,7 @@ controller CProgram implements IProgram {
     return object.getValue();
   }
 
-  model MMyModel {
+  public model MMyModel {
     int mValue;
 
     public int getValue() {
