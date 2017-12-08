@@ -12,6 +12,7 @@
 #include "wisey/IObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -44,4 +45,17 @@ Value* IObjectType::getReferenceCounterPointer(IRGenerationContext& context, Val
 Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Value* object) {
   Value* counterPointer = getReferenceCounterPointer(context, object);
   return IRWriter::newLoadInst(context, counterPointer, "refCounter");
+}
+
+bool IObjectType::checkAccess(const IObjectType* from, const IObjectType* to) {
+  if (to->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
+    return true;
+  }
+  
+  if (from->getInnerObject(to->getShortName()) == to) {
+    return true;
+  }
+  
+  Log::e("Object " + to->getName() + " is not accessable from object " + from->getName());
+  exit(1);
 }

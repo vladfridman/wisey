@@ -112,8 +112,11 @@ Model* IRGenerationContext::getModel(string fullName) {
     Log::e("Model " + fullName + " is not defined");
     exit(1);
   }
+
+  Model* model = mModels.at(fullName);
+  IObjectType::checkAccess(mObjectType, model);
   
-  return mModels.at(fullName);
+  return model;
 }
 
 void IRGenerationContext::addController(Controller* controller) {
@@ -132,7 +135,10 @@ Controller* IRGenerationContext::getController(string fullName) {
     exit(1);
   }
   
-  return mControllers.at(fullName);
+  Controller* controller = mControllers.at(fullName);
+  IObjectType::checkAccess(mObjectType, controller);
+  
+  return controller;
 }
 
 void IRGenerationContext::addNode(Node* node) {
@@ -151,7 +157,10 @@ Node* IRGenerationContext::getNode(string fullName) {
     exit(1);
   }
   
-  return mNodes.at(fullName);
+  Node* node = mNodes.at(fullName);
+  IObjectType::checkAccess(mObjectType, node);
+  
+  return node;
 }
 
 void IRGenerationContext::addInterface(Interface* interface) {
@@ -170,7 +179,10 @@ Interface* IRGenerationContext::getInterface(string fullName) {
     exit(1);
   }
   
-  return mInterfaces.at(fullName);
+  Interface* interface = mInterfaces.at(fullName);
+  IObjectType::checkAccess(mObjectType, interface);
+  
+  return interface;
 }
 
 void IRGenerationContext::bindInterfaceToController(Interface* interface, Controller* controller) {

@@ -718,10 +718,21 @@ TEST_F(TestFileSampleRunner, innerObjectDefinedInDifferentObjectRunTest) {
   runFile("tests/samples/test_inner_object_defined_in_different_object.yz", "7");
 }
 
+TEST_F(TestFileSampleRunner, innerObjectPrivateAccessableRunTest) {
+  runFile("tests/samples/test_inner_object_private_accessable.yz", "3");
+}
+
 TEST_F(TestFileSampleRunner, innerObjectWrongTypeSpecifierDeathRunTest) {
   expectFailCompile("tests/samples/test_inner_object_wrong_type_specifier.yz",
                     1,
                     "Error: Model systems.vos.wisey.compiler.tests.MMyModel is not defined");
+}
+
+TEST_F(TestFileSampleRunner, innerObjectPrivateInaccessableDeathRunTest) {
+  expectFailCompile("tests/samples/test_inner_object_private_inaccessable.yz",
+                    1,
+                    "Error: Object systems.vos.wisey.compiler.tests.MOuterModel.MMyModel "
+                    "is not accessable from object systems.vos.wisey.compiler.tests.CProgram");
 }
 
 TEST_F(TestFileSampleRunner, modelWithNodeFieldDeathRunTest) {
