@@ -704,6 +704,10 @@ TEST_F(TestFileSampleRunner, controllerWithInnerModelMediumSpecifiersRunTest) {
   runFile("tests/samples/test_controller_with_inner_model_medium_specifiers.yz", "7");
 }
 
+TEST_F(TestFileSampleRunner, innerObjectDefinedInDifferentObjectRunTest) {
+  runFile("tests/samples/test_inner_object_defined_in_different_object.yz", "7");
+}
+
 TEST_F(TestFileSampleRunner, modelWithNodeFieldDeathRunTest) {
   expectFailCompile("tests/samples/test_model_with_node_field.yz",
                     1,
