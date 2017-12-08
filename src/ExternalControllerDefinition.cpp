@@ -51,6 +51,10 @@ void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context
   controller->setImportProfile(context.getImportProfile());
 
   const IObjectType* lastObjectType = context.getObjectType();
+  if (lastObjectType) {
+    lastObjectType->getImportProfile()->addImport(mControllerTypeSpecifierFull->getShortName(),
+                                                  fullName);
+  }
   context.setObjectType(controller);
   IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);

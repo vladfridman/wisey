@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MMyModel* object = builder(MMyModel).withValue(5).build();
+
+    return object.getValue();
+  }
+
+  model MMyModel {
+    int mValue;
+
+    public int getValue() {
+      return mValue;
+    }
+  }
+}
+
+bind(CProgram).to(IProgram);

@@ -50,6 +50,10 @@ void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) con
   model->setImportProfile(context.getImportProfile());
 
   const IObjectType* lastObjectType = context.getObjectType();
+  if (lastObjectType) {
+    lastObjectType->getImportProfile()->addImport(mModelTypeSpecifierFull->getShortName(),
+                                                  fullName);
+  }
   context.setObjectType(model);
   IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);

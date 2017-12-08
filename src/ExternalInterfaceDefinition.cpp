@@ -58,6 +58,10 @@ void ExternalInterfaceDefinition::prototypeObjects(IRGenerationContext& context)
   interface->defineInterfaceTypeName(context);
 
   const IObjectType* lastObjectType = context.getObjectType();
+  if (lastObjectType) {
+    lastObjectType->getImportProfile()->addImport(mInterfaceTypeSpecifierFull->getShortName(),
+                                                  fullName);
+  }
   context.setObjectType(interface);
   IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);

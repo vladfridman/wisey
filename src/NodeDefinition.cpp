@@ -47,6 +47,10 @@ void NodeDefinition::prototypeObjects(IRGenerationContext& context) const {
   node->setImportProfile(context.getImportProfile());
 
   const IObjectType* lastObjectType = context.getObjectType();
+  if (lastObjectType) {
+    lastObjectType->getImportProfile()->addImport(mNodeTypeSpecifierFull->getShortName(),
+                                                  fullName);
+  }
   context.setObjectType(node);
   IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);

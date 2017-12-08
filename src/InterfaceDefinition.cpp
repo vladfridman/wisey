@@ -54,6 +54,10 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
   interface->defineInterfaceTypeName(context);
 
   const IObjectType* lastObjectType = context.getObjectType();
+  if (lastObjectType) {
+    lastObjectType->getImportProfile()->addImport(mInterfaceTypeSpecifierFull->getShortName(),
+                                                  fullName);
+  }
   context.setObjectType(interface);
   IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);

@@ -49,6 +49,10 @@ void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) cons
   node->setImportProfile(context.getImportProfile());
 
   const IObjectType* lastObjectType = context.getObjectType();
+  if (lastObjectType) {
+    lastObjectType->getImportProfile()->addImport(mNodeTypeSpecifierFull->getShortName(),
+                                                  fullName);
+  }
   context.setObjectType(node);
   IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
   context.setObjectType(lastObjectType);
