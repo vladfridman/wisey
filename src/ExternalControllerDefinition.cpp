@@ -43,20 +43,28 @@ ExternalControllerDefinition::~ExternalControllerDefinition() {
 }
 
 void ExternalControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mControllerTypeSpecifierFull->getName(context);
+  string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
 
   Controller* controller = Controller::newExternalController(fullName, structType);
   context.addController(controller);
   controller->setImportProfile(context.getImportProfile());
+
+  const IObjectType* lastObjectType = context.getObjectType();
+  context.setObjectType(controller);
+  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  context.setObjectType(lastObjectType);
 }
 
 void ExternalControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Controller* controller = context.getController(mControllerTypeSpecifierFull->getName(context));
+  string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
+  Controller* controller = context.getController(fullName);
   
+  const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
+  IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
-  context.setObjectType(NULL);
+  context.setObjectType(lastObjectType);
 }
 
 Value* ExternalControllerDefinition::generateIR(IRGenerationContext& context) const {

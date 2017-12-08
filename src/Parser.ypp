@@ -216,17 +216,23 @@
 %type <object_element_list> interface_element_delcaration_list
 %type <object_element_list> external_interface_element_delcaration_list
 %type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier
-%type <object_type_specifier> object_type_specifier buildable_concrete_object_type_specifier
-%type <object_type_specifier> injectable_object_type_specifier
+%type <object_type_specifier> top_level_object_type_specifier 
+%type <object_type_specifier> buildable_concrete_object_type_specifier
+%type <object_type_specifier> injectable_object_type_specifier inner_object_type_specifier
+%type <object_type_specifier> top_level_object_type_specifier_full
 %type <object_builder_argument_list> object_builder_argument_list
 %type <object_builder_argument> object_builder_argument
 %type <injection_argument_list> injection_argument_list
 %type <injection_argument> injection_argument
 %type <model_type_specifier> model_type_specifier exception_type_specifier 
-%type <model_type_specifier> model_type_specifier_full
+%type <model_type_specifier> model_type_specifier_full inner_model_type_specifier 
+%type <model_type_specifier> inner_model_type_specifier_full
 %type <controller_type_specifier> controller_type_specifier controller_type_specifier_full
+%type <controller_type_specifier> inner_controller_type_specifier inner_controller_type_specifier_full
 %type <interface_type_specifier> interface_type_specifier interface_type_specifier_full
+%type <interface_type_specifier> inner_interface_type_specifier inner_interface_type_specifier_full
 %type <node_type_specifier> node_type_specifier node_type_specifier_full
+%type <node_type_specifier> inner_node_type_specifier inner_node_type_specifier_full
 %type <access_specifier> access_specifier
 %type <identifier_list> identifier_chain
 %type <catch_clause> catch_clause
@@ -295,10 +301,20 @@ import_statement
   | TIMPORT model_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT controller_type_specifier_full ';' { $$ = new ImportStatement($2); }
   | TIMPORT node_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  | TIMPORT inner_interface_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  | TIMPORT inner_model_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  | TIMPORT inner_controller_type_specifier_full ';' { $$ = new ImportStatement($2); }
+  | TIMPORT inner_node_type_specifier_full ';' { $$ = new ImportStatement($2); }
   ;
 
 bind_action
   : TBIND '(' controller_type_specifier ')' '.' TTO '(' interface_type_specifier ')' ';'
+    { $$ = new BindAction($3, $8); }
+  | TBIND '(' inner_controller_type_specifier ')' '.' TTO '(' interface_type_specifier ')' ';'
+    { $$ = new BindAction($3, $8); }
+  | TBIND '(' controller_type_specifier ')' '.' TTO '(' inner_interface_type_specifier ')' ';'
+    { $$ = new BindAction($3, $8); }
+  | TBIND '(' inner_controller_type_specifier ')' '.' TTO '(' inner_interface_type_specifier ')' ';'
     { $$ = new BindAction($3, $8); }
   ;
 
@@ -497,6 +513,7 @@ interface_list
   : interface_type_specifier 
     { $$ = new std::vector<wisey::IInterfaceTypeSpecifier*>; $$->push_back($1); }
   | interface_list ',' interface_type_specifier { $$ = $1; $$->push_back($3); }
+  | interface_list ',' inner_interface_type_specifier { $$ = $1; $$->push_back($3); }
   ;
 
 object_element_declaration_list
@@ -796,7 +813,13 @@ method_call
   ;
 
 static_method_call
-  : object_type_specifier '.' TIDENTIFIER '(' call_arguments ')'
+  : top_level_object_type_specifier '.' TIDENTIFIER '(' call_arguments ')'
+    {
+      $$ = new StaticMethodCall($1, *$3, *$5, yylineno);
+      delete $3;
+      delete $5;
+    }
+  | inner_object_type_specifier '.' TIDENTIFIER '(' call_arguments ')'
     {
       $$ = new StaticMethodCall($1, *$3, *$5, yylineno);
       delete $3;
@@ -805,7 +828,9 @@ static_method_call
   ;
 
 constant_reference
-  : object_type_specifier '.' TCONSTANTIDENTIFIER
+  : top_level_object_type_specifier '.' TCONSTANTIDENTIFIER
+    { $$ = new ConstantReference($1, *$3); delete $3; }
+  | inner_object_type_specifier '.' TCONSTANTIDENTIFIER
     { $$ = new ConstantReference($1, *$3); delete $3; }
   | TCONSTANTIDENTIFIER
     { $$ = new ConstantReference(NULL, *$1); delete $1; }
@@ -977,19 +1002,107 @@ call_arguments
 
 type_specifier
   : primitive_type_specifier
-  | object_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | top_level_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | inner_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | object_owner_type_specifier
   ;
 
 object_owner_type_specifier
-  : object_type_specifier '*' { $$ = new OwnerTypeSpecifier($1); }
+  : top_level_object_type_specifier '*' { $$ = new OwnerTypeSpecifier($1); }
+  | inner_object_type_specifier '*' { $$ = new OwnerTypeSpecifier($1); }
   ;
 
-object_type_specifier
+inner_model_type_specifier
+  : top_level_object_type_specifier '.' TMODELIDENTIFIER 
+    { 
+      $$ = new ModelTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }
+  ;
+
+inner_controller_type_specifier
+  : top_level_object_type_specifier '.' TCONTROLLERIDENTIFIER 
+    { 
+      $$ = new ControllerTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }
+  ;
+
+inner_interface_type_specifier
+  : top_level_object_type_specifier '.' TINTERFACEIDENTIFIER 
+    { 
+      $$ = new InterfaceTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }
+  ;
+
+inner_node_type_specifier
+  : top_level_object_type_specifier '.' TNODEIDENTIFIER 
+    { 
+      $$ = new NodeTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }
+  ;
+
+inner_object_type_specifier
+  : inner_model_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  | inner_controller_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  | inner_interface_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  | inner_node_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  ;
+
+top_level_object_type_specifier
   : model_type_specifier { $$ = $1; }
   | controller_type_specifier { $$ = $1; }
   | interface_type_specifier { $$ = $1; }
   | node_type_specifier { $$ = $1; }
+  ;
+
+top_level_object_type_specifier_full
+  : model_type_specifier_full { $$ = (IObjectTypeSpecifier*) $1; }
+  | controller_type_specifier_full { $$ = (IObjectTypeSpecifier*) $1; }
+  | interface_type_specifier_full { $$ = (IObjectTypeSpecifier*) $1; }
+  | node_type_specifier_full { $$ = (IObjectTypeSpecifier*) $1; }
+  ;
+
+inner_model_type_specifier_full
+  : top_level_object_type_specifier_full '.' TMODELIDENTIFIER
+    { 
+      $$ = new ModelTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }  
+  ;
+
+inner_controller_type_specifier_full
+  : top_level_object_type_specifier_full '.' TCONTROLLERIDENTIFIER 
+    { 
+      $$ = new ControllerTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }
+  ;
+
+inner_interface_type_specifier_full
+  : top_level_object_type_specifier_full '.' TINTERFACEIDENTIFIER
+    { 
+      $$ = new InterfaceTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }
+  ;
+
+inner_node_type_specifier_full
+  : top_level_object_type_specifier_full '.' TNODEIDENTIFIER
+    { 
+      $$ = new NodeTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      delete $1; 
+      delete $3; 
+    }
   ;
 
 primitive_type_specifier
@@ -1049,16 +1162,21 @@ node_type_specifier_full
 
 exception_type_specifier
   : model_type_specifier { $$ = (ModelTypeSpecifier*) $1; }
+  | inner_model_type_specifier { $$ = (ModelTypeSpecifier*) $1; }
   ;
 
 buildable_concrete_object_type_specifier
   : model_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  | inner_model_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   | node_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  | inner_node_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   ;
 
 injectable_object_type_specifier
   : interface_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  | inner_interface_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   | controller_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
+  | inner_controller_type_specifier { $$ = (IObjectTypeSpecifier*) $1; }
   ;
 
 %%

@@ -33,6 +33,7 @@ void ProgramFile::prototypeObjects(IRGenerationContext& context) const {
   
   for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->prototypeObjects(context);
+    context.setObjectType(NULL);
   }
 }
 
@@ -41,6 +42,7 @@ void ProgramFile::prototypeMethods(IRGenerationContext& context) const {
   
   for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->prototypeMethods(context);
+    context.setObjectType(NULL);
   }
 }
 
@@ -50,6 +52,7 @@ Value* ProgramFile::generateIR(IRGenerationContext& context) const {
 
   for (IGlobalStatement* statement : mGlobalStatementList) {
     statement->generateIR(context);
+    context.setObjectType(NULL);
   }
   
   return NULL;

@@ -41,20 +41,28 @@ ExternalNodeDefinition::~ExternalNodeDefinition() {
 }
 
 void ExternalNodeDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mNodeTypeSpecifierFull->getName(context);
+  string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Node* node = Node::newExternalNode(fullName, structType);
   context.addNode(node);
   node->setImportProfile(context.getImportProfile());
+
+  const IObjectType* lastObjectType = context.getObjectType();
+  context.setObjectType(node);
+  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  context.setObjectType(lastObjectType);
 }
 
 void ExternalNodeDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Node* node = context.getNode(mNodeTypeSpecifierFull->getName(context));
+  string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
+  Node* node = context.getNode(fullName);
   
+  const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(node);
+  IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, node, mObjectElementDeclarations, mInterfaceSpecifiers);
-  context.setObjectType(NULL);
+  context.setObjectType(lastObjectType);
 }
 
 Value* ExternalNodeDefinition::generateIR(IRGenerationContext& context) const {

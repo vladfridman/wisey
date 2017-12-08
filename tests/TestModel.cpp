@@ -693,7 +693,7 @@ TEST_F(TestFileSampleRunner, modelBuilderPrimitiveArgumentAutocastRunTest) {
 }
 
 TEST_F(TestFileSampleRunner, controllerWithInnerModelRunTest) {
-  runFile("tests/samples/test_controller_with_inner_model.yz", "7");
+  runFile("tests/samples/test_controller_with_inner_model.yz", "3");
 }
 
 TEST_F(TestFileSampleRunner, modelWithNodeFieldDeathRunTest) {

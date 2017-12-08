@@ -44,29 +44,40 @@ ModelDefinition::~ModelDefinition() {
 }
 
 void ModelDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mModelTypeSpecifierFull->getName(context);
+  string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Model* model = Model::newModel(fullName, structType);
   context.addModel(model);
   model->setImportProfile(context.getImportProfile());
+
+  const IObjectType* lastObjectType = context.getObjectType();
+  context.setObjectType(model);
+  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  context.setObjectType(lastObjectType);
 }
 
 void ModelDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context));
+  string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
+  Model* model = context.getModel(fullName);
 
+  const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(model);
+  IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
   model->createRTTI(context);
-  context.setObjectType(NULL);
+  context.setObjectType(lastObjectType);
 }
 
 Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
-  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context));
+  string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
+  Model* model = context.getModel(fullName);
  
   context.getScopes().pushScope();
+  const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(model);
-  
+
+  IObjectDefinition::generateInnerObjectIR(context, mInnerObjectDefinitions);
   IConcreteObjectType::defineCurrentObjectNameVariable(context, model);
   IConcreteObjectType::generateStaticMethodsIR(context, model);
   IConcreteObjectType::declareFieldVariables(context, model);
@@ -74,7 +85,7 @@ Value* ModelDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::scheduleDestructorBodyComposition(context, model);
   IConcreteObjectType::composeInterfaceMapFunctions(context, model);
 
-  context.setObjectType(NULL);
+  context.setObjectType(lastObjectType);
   context.getScopes().popScope(context, 0);
   
   return NULL;

@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 //  Tests {@link IObjectType}
+//
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>

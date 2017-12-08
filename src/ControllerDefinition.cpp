@@ -44,28 +44,39 @@ ControllerDefinition::~ControllerDefinition() {
 }
 
 void ControllerDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mControllerTypeSpecifierFull->getName(context);
-  StructType* structType = StructType::create(context.getLLVMContext(), fullName);
+  string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
 
+  StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Controller* controller = Controller::newController(fullName, structType);
   context.addController(controller);
   controller->setImportProfile(context.getImportProfile());
+  
+  const IObjectType* lastObjectType = context.getObjectType();
+  context.setObjectType(controller);
+  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  context.setObjectType(lastObjectType);
 }
 
 void ControllerDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Controller* controller = context.getController(mControllerTypeSpecifierFull->getName(context));
+  string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
+  Controller* controller = context.getController(fullName);
 
+  const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
+  IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, controller, mObjectElementDeclarations, mInterfaceSpecifiers);
-  context.setObjectType(NULL);
+  context.setObjectType(lastObjectType);
 }
 
 Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
-  Controller* controller = context.getController(mControllerTypeSpecifierFull->getName(context));
+  string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
+  Controller* controller = context.getController(fullName);
   
   context.getScopes().pushScope();
+  const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(controller);
- 
+
+  IObjectDefinition::generateInnerObjectIR(context, mInnerObjectDefinitions);
   IConcreteObjectType::defineCurrentObjectNameVariable(context, controller);
   IConcreteObjectType::generateStaticMethodsIR(context, controller);
   IConcreteObjectType::declareFieldVariables(context, controller);
@@ -73,7 +84,7 @@ Value* ControllerDefinition::generateIR(IRGenerationContext& context) const {
   IConcreteObjectType::scheduleDestructorBodyComposition(context, controller);
   IConcreteObjectType::composeInterfaceMapFunctions(context, controller);
 
-  context.setObjectType(NULL);
+  context.setObjectType(lastObjectType);
   context.getScopes().popScope(context, 0);
   
   return NULL;

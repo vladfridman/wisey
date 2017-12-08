@@ -42,20 +42,28 @@ ExternalModelDefinition::~ExternalModelDefinition() {
 }
 
 void ExternalModelDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mModelTypeSpecifierFull->getName(context);
+  string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   
   Model* model = Model::newExternalModel(fullName, structType);
   context.addModel(model);
   model->setImportProfile(context.getImportProfile());
+
+  const IObjectType* lastObjectType = context.getObjectType();
+  context.setObjectType(model);
+  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  context.setObjectType(lastObjectType);
 }
 
 void ExternalModelDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Model* model = context.getModel(mModelTypeSpecifierFull->getName(context));
+  string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
+  Model* model = context.getModel(fullName);
   
+  const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(model);
+  IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
   configureObject(context, model, mObjectElementDeclarations, mInterfaceSpecifiers);
-  context.setObjectType(NULL);
+  context.setObjectType(lastObjectType);
 }
 
 Value* ExternalModelDefinition::generateIR(IRGenerationContext& context) const {

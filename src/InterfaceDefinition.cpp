@@ -43,7 +43,7 @@ InterfaceDefinition::~InterfaceDefinition() {
 }
 
 void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
-  string fullName = mInterfaceTypeSpecifierFull->getName(context);
+  string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Interface* interface = Interface::newInterface(fullName,
                                                  structType,
@@ -51,32 +51,43 @@ void InterfaceDefinition::prototypeObjects(IRGenerationContext& context) const {
                                                  mElementDeclarations);
   context.addInterface(interface);
   interface->setImportProfile(context.getImportProfile());
-
   interface->defineInterfaceTypeName(context);
+
+  const IObjectType* lastObjectType = context.getObjectType();
+  context.setObjectType(interface);
+  IObjectDefinition::prototypeInnerObjects(context, mInnerObjectDefinitions);
+  context.setObjectType(lastObjectType);
 }
 
 void InterfaceDefinition::prototypeMethods(IRGenerationContext& context) const {
-  Interface* interface = context.getInterface(mInterfaceTypeSpecifierFull->getName(context));
+  string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
+  Interface* interface = context.getInterface(fullName);
+  const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);
+
+  IObjectDefinition::prototypeInnerObjectMethods(context, mInnerObjectDefinitions);
 
   interface->buildMethods(context);
   interface->generateConstantsIR(context);
   interface->defineDestructorFunction(context);
   interface->composeDestructorFunctionBody(context);
   interface->defineStaticMethodFunctions(context);
-  context.setObjectType(NULL);
+  context.setObjectType(lastObjectType);
 }
 
 Value* InterfaceDefinition::generateIR(IRGenerationContext& context) const {
-  Interface* interface = context.getInterface(mInterfaceTypeSpecifierFull->getName(context));
+  string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
+  Interface* interface = context.getInterface(fullName);
 
   context.getScopes().pushScope();
+  const IObjectType* lastObjectType = context.getObjectType();
   context.setObjectType(interface);
 
+  IObjectDefinition::generateInnerObjectIR(context, mInnerObjectDefinitions);
   interface->defineCurrentObjectNameVariable(context);
   interface->generateStaticMethodsIR(context);
 
-  context.setObjectType(NULL);
+  context.setObjectType(lastObjectType);
   context.getScopes().popScope(context, 0);
   
   return NULL;

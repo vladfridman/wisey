@@ -5,7 +5,10 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run() {
-    return 2 + 5;
+    systems.vos.wisey.compiler.tests.CProgram.MMyModel* object = 
+      builder(systems.vos.wisey.compiler.tests.CProgram.MMyModel).withValue(3).build();
+
+    return object.getValue();
   }
 
   model MMyModel {
