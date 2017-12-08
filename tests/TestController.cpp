@@ -297,6 +297,10 @@ struct ControllerTest : public Test {
   }
 };
 
+TEST_F(ControllerTest, getAccessLevelTest) {
+  EXPECT_EQ(mMultiplierController->getAccessLevel(), AccessLevel::PUBLIC_ACCESS);
+}
+
 TEST_F(ControllerTest, getNameTest) {
   EXPECT_STREQ(mMultiplierController->getName().c_str(),
                "systems.vos.wisey.compiler.tests.CMultiplier");

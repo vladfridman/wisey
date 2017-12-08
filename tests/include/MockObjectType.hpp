@@ -45,6 +45,7 @@ public:
   MOCK_CONST_METHOD0(getImportProfile, wisey::ImportProfile* ());
   MOCK_METHOD1(addInnerObject, void (const wisey::IObjectType*));
   MOCK_CONST_METHOD1(getInnerObject, const wisey::IObjectType* (std::string));
+  MOCK_CONST_METHOD0(getAccessLevel, wisey::AccessLevel ());
 };
 
 #endif /* MockObjectType_h */

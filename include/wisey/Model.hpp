@@ -82,7 +82,9 @@ public:
    * Returns the size of this object in bytes
    */
   llvm::Value* getSize(IRGenerationContext& context) const;
-  
+
+  AccessLevel getAccessLevel() const override;
+
   void setFields(std::vector<Field*> fields, unsigned long startIndex) override;
   
   void setInterfaces(std::vector<Interface*> interfaces) override;

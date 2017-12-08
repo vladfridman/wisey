@@ -303,6 +303,10 @@ struct ModelTest : public Test {
   }
 };
 
+TEST_F(ModelTest, getAccessLevelTest) {
+  EXPECT_EQ(mModel->getAccessLevel(), AccessLevel::PUBLIC_ACCESS);
+}
+
 TEST_F(ModelTest, getNameTest) {
   EXPECT_STREQ(mModel->getName().c_str(), "systems.vos.wisey.compiler.tests.MSquare");
 }

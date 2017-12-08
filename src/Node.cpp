@@ -60,6 +60,10 @@ Node* Node::newExternalNode(string name, StructType* structType) {
   return new Node(AccessLevel::PUBLIC_ACCESS, name, structType, true);
 }
 
+AccessLevel Node::getAccessLevel() const {
+  return mAccessLevel;
+}
+
 void Node::setFields(vector<Field*> fields, unsigned long startIndex) {
   mFieldsOrdered = fields;
   unsigned long index = startIndex;

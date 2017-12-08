@@ -160,6 +160,8 @@ public:
    */
   void composeDestructorFunctionBody(IRGenerationContext& context) const;
 
+  AccessLevel getAccessLevel() const override;
+
   llvm::Instruction* inject(IRGenerationContext& context,
                             const InjectionArgumentList injectionArgumentList,
                             int line) const override;

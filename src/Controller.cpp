@@ -69,6 +69,10 @@ Controller* Controller::newExternalController(string name, StructType* structTyp
   return new Controller(AccessLevel::PUBLIC_ACCESS, name, structType, true);
 }
 
+AccessLevel Controller::getAccessLevel() const {
+  return mAccessLevel;
+}
+
 void Controller::setFields(vector<Field*> fields, unsigned long startIndex) {
   unsigned long index = startIndex;
   for (Field* field : fields) {

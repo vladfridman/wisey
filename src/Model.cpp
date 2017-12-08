@@ -59,6 +59,10 @@ Model* Model::newExternalModel(string name, StructType* structType) {
   return new Model(AccessLevel::PUBLIC_ACCESS, name, structType, true);
 }
 
+AccessLevel Model::getAccessLevel() const {
+  return mAccessLevel;
+}
+
 void Model::setFields(vector<Field*> fields, unsigned long startIndex) {
   mFieldsOrdered = fields;
   unsigned long index = startIndex;

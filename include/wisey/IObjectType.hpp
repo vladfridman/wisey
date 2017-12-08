@@ -29,6 +29,11 @@ class IObjectType : public IPrintable, public IType {
 public:
   
   /**
+   * Returns access level for this object
+   */
+  virtual AccessLevel getAccessLevel() const = 0;
+  
+  /**
    * Returns short name of the object without the package name.
    */
   virtual std::string getShortName() const = 0;

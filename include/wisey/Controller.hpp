@@ -64,6 +64,8 @@ public:
    */
   static Controller* newExternalController(std::string name, llvm::StructType* structType);
 
+  AccessLevel getAccessLevel() const override;
+  
   llvm::Instruction* inject(IRGenerationContext& context,
                             const InjectionArgumentList injectionArgumentList,
                             int line) const override;

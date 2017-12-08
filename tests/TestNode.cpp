@@ -309,7 +309,11 @@ struct NodeTest : public Test {
   }
 };
 
-TEST_F(NodeTest, testGetOwner) {
+TEST_F(NodeTest, getAccessLevelTest) {
+  EXPECT_EQ(mComplicatedNode->getAccessLevel(), AccessLevel::PUBLIC_ACCESS);
+}
+
+TEST_F(NodeTest, getOwnerTest) {
   ASSERT_NE(mComplicatedNode->getOwner(), nullptr);
   EXPECT_EQ(mComplicatedNode->getOwner()->getObject(), mComplicatedNode);
 }

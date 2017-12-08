@@ -98,6 +98,10 @@ Interface* Interface::newExternalInterface(string name,
                        elementDeclarations);
 }
 
+AccessLevel Interface::getAccessLevel() const {
+  return mAccessLevel;
+}
+
 void Interface::buildMethods(IRGenerationContext& context) {
   if (mIsComplete) {
     return;
