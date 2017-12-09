@@ -711,6 +711,33 @@ TEST_F(ControllerTest, injectFieldTest) {
 
 TEST_F(ControllerTest, printToStreamTest) {
   stringstream stringStream;
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
+  vector<Field*> fields;
+  InjectionArgumentList arguments;
+  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField1", arguments);
+  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField2", arguments);
+  fields.push_back(field1);
+  fields.push_back(field2);
+  innerPublicModel->setFields(fields, 0);
+  
+  vector<MethodArgument*> methodArguments;
+  vector<const Model*> thrownExceptions;
+  Method* method = new Method("bar",
+                              AccessLevel::PUBLIC_ACCESS,
+                              PrimitiveTypes::INT_TYPE,
+                              methodArguments,
+                              thrownExceptions,
+                              NULL,
+                              0);
+  vector<IMethod*> methods;
+  methods.push_back(method);
+  innerPublicModel->setMethods(methods);
+  
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL);
+  innerPrivateModel->setFields(fields, 0);
+  
+  mMultiplierController->addInnerObject(innerPublicModel);
+  mMultiplierController->addInnerObject(innerPrivateModel);
   mMultiplierController->printToStream(mContext, stringStream);
   
   EXPECT_STREQ("external controller systems.vos.wisey.compiler.tests.CMultiplier\n"
@@ -725,6 +752,18 @@ TEST_F(ControllerTest, printToStreamTest) {
                "\n"
                "  int calculate();\n"
                "  int foo();\n"
+               "\n"
+               "external model MInnerPrivateModel {\n"
+               "}\n"
+               "\n"
+               "external model MInnerPublicModel {\n"
+               "\n"
+               "  fixed int mField1;\n"
+               "  fixed int mField2;\n"
+               "\n"
+               "  int bar();\n"
+               "}\n"
+               "\n"
                "}\n",
                stringStream.str().c_str());
 }

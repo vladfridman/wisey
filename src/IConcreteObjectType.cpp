@@ -463,7 +463,12 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
                                               iostream& stream) {
   stream << "external ";
   printTypeKind(object->getTypeKind(), stream);
-  stream << object->getName();
+  stream << (object->isInner() ? object->getShortName() : object->getName());
+  if (object->getAccessLevel() == PRIVATE_ACCESS) {
+    stream << " {" << endl << "}" << endl;
+    return;
+  }
+  
   vector<Interface*> interfaces = object->getInterfaces();
   if (interfaces.size()) {
     stream << endl << "  implements";
@@ -487,7 +492,6 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   if (object->getConstants().size()) {
     stream << endl;
   }
-  
   for (Constant* constant : object->getConstants()) {
     constant->printToStream(context, stream);
   }
@@ -495,12 +499,23 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
   if (object->getMethods().size()) {
     stream << endl;
   }
-  
   for (IMethod* method : object->getMethods()) {
     if (method->getAccessLevel() == AccessLevel::PUBLIC_ACCESS) {
       method->printToStream(context, stream);
     }
   }
+  
+  map<string, const IObjectType*> innerObjects = object->getInnerObjects();
+  if (innerObjects.size()) {
+    stream << endl;
+  }
+  for (map<string, const IObjectType*>::iterator iterator = innerObjects.begin();
+       iterator != innerObjects.end();
+       iterator++) {
+    iterator->second->printToStream(context, stream);
+    stream << endl;
+  }
+
   stream << "}" << endl;
 }
 

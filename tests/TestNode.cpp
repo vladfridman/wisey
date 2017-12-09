@@ -642,8 +642,35 @@ TEST_F(NodeTest, buildNotAllFieldsAreSetDeathTest) {
 
 TEST_F(NodeTest, printToStreamTest) {
   stringstream stringStream;
-  mComplicatedNode->printToStream(mContext, stringStream);
+  Model* innerPublicModel = Model::newModel(PUBLIC_ACCESS, "MInnerPublicModel", NULL);
+  vector<Field*> fields;
+  InjectionArgumentList arguments;
+  Field* field1 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField1", arguments);
+  Field* field2 = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mField2", arguments);
+  fields.push_back(field1);
+  fields.push_back(field2);
+  innerPublicModel->setFields(fields, 0);
   
+  vector<MethodArgument*> methodArguments;
+  vector<const Model*> thrownExceptions;
+  Method* method = new Method("bar",
+                              AccessLevel::PUBLIC_ACCESS,
+                              PrimitiveTypes::INT_TYPE,
+                              methodArguments,
+                              thrownExceptions,
+                              NULL,
+                              0);
+  vector<IMethod*> methods;
+  methods.push_back(method);
+  innerPublicModel->setMethods(methods);
+  
+  Model* innerPrivateModel = Model::newModel(PRIVATE_ACCESS, "MInnerPrivateModel", NULL);
+  innerPrivateModel->setFields(fields, 0);
+  
+  mComplicatedNode->addInnerObject(innerPublicModel);
+  mComplicatedNode->addInnerObject(innerPrivateModel);
+  mComplicatedNode->printToStream(mContext, stringStream);
+
   EXPECT_STREQ("external node systems.vos.wisey.compiler.tests.NComplicatedNode\n"
                "  implements\n"
                "    systems.vos.wisey.compiler.tests.IComplicatedElement,\n"
@@ -655,6 +682,18 @@ TEST_F(NodeTest, printToStreamTest) {
                "  public constant int MYCONSTANT = 5;\n"
                "\n"
                "  int getElement();\n"
+               "\n"
+               "external model MInnerPrivateModel {\n"
+               "}\n"
+               "\n"
+               "external model MInnerPublicModel {\n"
+               "\n"
+               "  fixed int mField1;\n"
+               "  fixed int mField2;\n"
+               "\n"
+               "  int bar();\n"
+               "}\n"
+               "\n"
                "}\n",
                stringStream.str().c_str());
 }

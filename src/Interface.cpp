@@ -666,7 +666,12 @@ bool Interface::isExternal() const {
 }
 
 void Interface::printToStream(IRGenerationContext& context, iostream& stream) const {
-  stream << "external interface " << getName();
+  stream << "external interface ";
+  stream << (isInner() ? getShortName() : getName());
+  if (getAccessLevel() == PRIVATE_ACCESS) {
+    stream << " {" << endl << "}" << endl;
+    return;
+  }
   if (mParentInterfaces.size()) {
     stream << endl << "  extends";
   }
@@ -693,6 +698,16 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
   }
   for (StaticMethod* staticMethod : mStaticMethods) {
     staticMethod->printToStream(context, stream);
+  }
+  map<string, const IObjectType*> innerObjects = getInnerObjects();
+  if (innerObjects.size()) {
+    stream << endl;
+  }
+  for (map<string, const IObjectType*>::iterator iterator = innerObjects.begin();
+       iterator != innerObjects.end();
+       iterator++) {
+    iterator->second->printToStream(context, stream);
+    stream << endl;
   }
   stream << "}" << endl;
 }

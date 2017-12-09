@@ -250,7 +250,7 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator != mModels.end();
        iterator++) {
     Model* model = iterator->second;
-    if (model->isExternal()) {
+    if (model->isExternal() || model->isInner()) {
       continue;
     }
     model->printToStream(context, stream);
@@ -262,7 +262,7 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator != mControllers.end();
        iterator++) {
     Controller* controller = iterator->second;
-    if (controller->isExternal()) {
+    if (controller->isExternal() || controller->isInner()) {
       continue;
     }
     controller->printToStream(context, stream);
@@ -274,7 +274,7 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator != mNodes.end();
        iterator++) {
     Node* node = iterator->second;
-    if (node->isExternal()) {
+    if (node->isExternal() || node->isInner()) {
       continue;
     }
     node->printToStream(context, stream);
