@@ -30,7 +30,8 @@ Controller::Controller(AccessLevel accessLevel,
 mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
-mIsExternal(isExternal) {
+mIsExternal(isExternal),
+mIsInner(false) {
   mControllerOwner = new ControllerOwner(this);
 }
 
@@ -436,4 +437,12 @@ const IObjectType* Controller::getInnerObject(string shortName) const {
 
 map<string, const IObjectType*> Controller::getInnerObjects() const {
   return mInnerObjects;
+}
+
+void Controller::markAsInner() {
+  mIsInner = true;
+}
+
+bool Controller::isInner() const {
+  return mIsInner;
 }

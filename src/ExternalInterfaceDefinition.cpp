@@ -46,7 +46,7 @@ ExternalInterfaceDefinition::~ExternalInterfaceDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-const Interface* ExternalInterfaceDefinition::prototypeObject(IRGenerationContext& context) const {
+Interface* ExternalInterfaceDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Interface* interface = Interface::newExternalInterface(fullName,

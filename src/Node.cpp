@@ -24,7 +24,8 @@ Node::Node(AccessLevel accessLevel, string name, StructType* structType, bool is
 mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
-mIsExternal(isExternal) {
+mIsExternal(isExternal),
+mIsInner(false) {
   mNodeOwner = new NodeOwner(this);
 }
 
@@ -402,4 +403,12 @@ const IObjectType* Node::getInnerObject(string shortName) const {
 
 map<string, const IObjectType*> Node::getInnerObjects() const {
   return mInnerObjects;
+}
+
+void Node::markAsInner() {
+  mIsInner = true;
+}
+
+bool Node::isInner() const {
+  return mIsInner;
 }

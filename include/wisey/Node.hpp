@@ -31,6 +31,7 @@ class Node : public IBuildableConcreteObjectType {
   std::string mName;
   llvm::StructType* mStructType;
   bool mIsExternal;
+  bool mIsInner;
   NodeOwner* mNodeOwner;
   std::vector<Field*> mFixedFields;
   std::vector<Field*> mStateFields;
@@ -145,6 +146,10 @@ public:
   const IObjectType* getInnerObject(std::string shortName) const override;
   
   std::map<std::string, const IObjectType*> getInnerObjects() const override;
+  
+  void markAsInner() override;
+  
+  bool isInner() const override;
 
 private:
   

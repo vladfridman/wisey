@@ -29,7 +29,7 @@ public:
   
   ~ImportStatement();
   
-  const IObjectType* prototypeObject(IRGenerationContext& context) const override;
+  IObjectType* prototypeObject(IRGenerationContext& context) const override;
   
   void prototypeMethods(IRGenerationContext& context) const override;
   

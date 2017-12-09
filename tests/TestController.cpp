@@ -395,6 +395,12 @@ TEST_F(ControllerTest, innerObjectsTest) {
   EXPECT_EQ(mMultiplierController->getInnerObjects().size(), 2u);
 }
 
+TEST_F(ControllerTest, markAsInnerTest) {
+  EXPECT_FALSE(mMultiplierController->isInner());
+  mMultiplierController->markAsInner();
+  EXPECT_TRUE(mMultiplierController->isInner());
+}
+
 TEST_F(ControllerTest, canCastToTest) {
   EXPECT_FALSE(mMultiplierController->canCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_FALSE(mMultiplierController->canCastTo(mAdditorController));

@@ -45,7 +45,7 @@ ModelDefinition::~ModelDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-const Model* ModelDefinition::prototypeObject(IRGenerationContext& context) const {
+Model* ModelDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   

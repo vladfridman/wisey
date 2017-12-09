@@ -36,7 +36,7 @@ public:
   
   ~InterfaceDefinition();
   
-  const Interface* prototypeObject(IRGenerationContext& context) const override;
+  Interface* prototypeObject(IRGenerationContext& context) const override;
   
   void prototypeMethods(IRGenerationContext& context) const override;
   

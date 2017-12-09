@@ -23,8 +23,9 @@ void IObjectDefinition::prototypeInnerObjects(IRGenerationContext& context,
                                               IObjectType* outerObject,
                                               vector<IObjectDefinition*> innerObjectDefinitions) {
   for (IObjectDefinition* innerObjectDefinition : innerObjectDefinitions) {
-    const IObjectType* innerObject = innerObjectDefinition->prototypeObject(context);
+    IObjectType* innerObject = innerObjectDefinition->prototypeObject(context);
     outerObject->addInnerObject(innerObject);
+    innerObject->markAsInner();
   }
 }
 

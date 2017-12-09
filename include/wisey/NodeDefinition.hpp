@@ -38,7 +38,7 @@ public:
   
   ~NodeDefinition();
 
-  const Node* prototypeObject(IRGenerationContext& context) const override;
+  Node* prototypeObject(IRGenerationContext& context) const override;
   
   void prototypeMethods(IRGenerationContext& context) const override;
   

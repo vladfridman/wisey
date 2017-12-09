@@ -25,7 +25,8 @@ Model::Model(AccessLevel accessLevel, string name, StructType* structType, bool 
 mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
-mIsExternal(isExternal) {
+mIsExternal(isExternal),
+mIsInner(false) {
   mModelOwner = new ModelOwner(this);
 }
 
@@ -410,4 +411,12 @@ const IObjectType* Model::getInnerObject(string shortName) const {
 
 map<string, const IObjectType*> Model::getInnerObjects() const {
   return mInnerObjects;
+}
+
+void Model::markAsInner() {
+  mIsInner = true;
+}
+
+bool Model::isInner() const {
+  return mIsInner;
 }

@@ -40,7 +40,7 @@ NodeDefinition::~NodeDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-const Node* NodeDefinition::prototypeObject(IRGenerationContext& context) const {
+Node* NodeDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mNodeTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   

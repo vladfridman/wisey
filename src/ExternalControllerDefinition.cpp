@@ -42,7 +42,7 @@ ExternalControllerDefinition::~ExternalControllerDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-const Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext&
+Controller* ExternalControllerDefinition::prototypeObject(IRGenerationContext&
                                                                 context) const {
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);

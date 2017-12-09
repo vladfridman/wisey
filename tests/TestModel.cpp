@@ -445,6 +445,12 @@ TEST_F(ModelTest, innerObjectsTest) {
   EXPECT_EQ(mModel->getInnerObjects().size(), 2u);
 }
 
+TEST_F(ModelTest, markAsInnerTest) {
+  EXPECT_FALSE(mModel->isInner());
+  mModel->markAsInner();
+  EXPECT_TRUE(mModel->isInner());
+}
+
 TEST_F(ModelTest, canCastToTest) {
   EXPECT_FALSE(mModel->canCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_FALSE(mModel->canCastTo(mCircleModel));

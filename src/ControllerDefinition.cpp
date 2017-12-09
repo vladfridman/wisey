@@ -45,7 +45,7 @@ ControllerDefinition::~ControllerDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-const Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context) const {
+Controller* ControllerDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mControllerTypeSpecifierFull);
 
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);

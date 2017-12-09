@@ -24,7 +24,7 @@ public:
   /**
    * Generate prototypes of controllers, models and interfaces without any methods or fields
    */
-  virtual const IObjectType* prototypeObject(IRGenerationContext& context) const = 0;
+  virtual IObjectType* prototypeObject(IRGenerationContext& context) const = 0;
   
   /**
    * Generate method prototypes for all object prototypes that were created using prototypeObject()

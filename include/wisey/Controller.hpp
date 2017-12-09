@@ -32,6 +32,7 @@ class Controller : public IConcreteObjectType, public IInjectable {
   std::string mName;
   llvm::StructType* mStructType;
   bool mIsExternal;
+  bool mIsInner;
   ControllerOwner* mControllerOwner;
   std::vector<Field*> mReceivedFields;
   std::vector<Field*> mInjectedFields;
@@ -144,6 +145,10 @@ public:
   const IObjectType* getInnerObject(std::string shortName) const override;
   
   std::map<std::string, const IObjectType*> getInnerObjects() const override;
+  
+  void markAsInner() override;
+  
+  bool isInner() const override;
 
 private:
 

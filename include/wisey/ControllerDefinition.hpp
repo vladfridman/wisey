@@ -40,7 +40,7 @@ public:
   
   ~ControllerDefinition();
 
-  const Controller* prototypeObject(IRGenerationContext& context) const override;
+  Controller* prototypeObject(IRGenerationContext& context) const override;
   
   void prototypeMethods(IRGenerationContext& context) const override;
 

@@ -44,7 +44,7 @@ InterfaceDefinition::~InterfaceDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-const Interface* InterfaceDefinition::prototypeObject(IRGenerationContext& context) const {
+Interface* InterfaceDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mInterfaceTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   Interface* interface = Interface::newInterface(mAccessLevel,

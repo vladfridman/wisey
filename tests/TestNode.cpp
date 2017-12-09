@@ -408,6 +408,12 @@ TEST_F(NodeTest, innerObjectsTest) {
   EXPECT_EQ(mComplicatedNode->getInnerObjects().size(), 2u);
 }
 
+TEST_F(NodeTest, markAsInnerTest) {
+  EXPECT_FALSE(mComplicatedNode->isInner());
+  mComplicatedNode->markAsInner();
+  EXPECT_TRUE(mComplicatedNode->isInner());
+}
+
 TEST_F(NodeTest, canCastToTest) {
   EXPECT_FALSE(mComplicatedNode->canCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_FALSE(mComplicatedNode->canCastTo(mSimplerNode));

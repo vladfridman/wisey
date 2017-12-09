@@ -34,7 +34,7 @@ public:
   
   ~ExternalModelDefinition();
   
-  const Model* prototypeObject(IRGenerationContext& context) const override;
+  Model* prototypeObject(IRGenerationContext& context) const override;
   
   void prototypeMethods(IRGenerationContext& context) const override;
   

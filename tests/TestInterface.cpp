@@ -273,6 +273,12 @@ TEST_F(InterfaceTest, innerObjectsTest) {
   EXPECT_EQ(mObjectInterface->getInnerObjects().size(), 2u);
 }
 
+TEST_F(InterfaceTest, markAsInnerTest) {
+  EXPECT_FALSE(mObjectInterface->isInner());
+  mObjectInterface->markAsInner();
+  EXPECT_TRUE(mObjectInterface->isInner());
+}
+
 TEST_F(InterfaceTest, canCastToTest) {
   EXPECT_FALSE(mObjectInterface->canCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_TRUE(mObjectInterface->canCastTo(mShapeInterface));

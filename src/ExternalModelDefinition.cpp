@@ -41,7 +41,7 @@ ExternalModelDefinition::~ExternalModelDefinition() {
   mInnerObjectDefinitions.clear();
 }
 
-const Model* ExternalModelDefinition::prototypeObject(IRGenerationContext& context) const {
+Model* ExternalModelDefinition::prototypeObject(IRGenerationContext& context) const {
   string fullName = IObjectDefinition::getFullName(context, mModelTypeSpecifierFull);
   StructType* structType = StructType::create(context.getLLVMContext(), fullName);
   

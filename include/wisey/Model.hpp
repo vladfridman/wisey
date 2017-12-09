@@ -31,6 +31,7 @@ class Model : public IBuildableConcreteObjectType {
   std::string mName;
   llvm::StructType* mStructType;
   bool mIsExternal;
+  bool mIsInner;
   ModelOwner* mModelOwner;
   std::map<std::string, Field*> mFields;
   std::vector<Field*> mFieldsOrdered;
@@ -163,6 +164,10 @@ public:
   const IObjectType* getInnerObject(std::string shortName) const override;
   
   std::map<std::string, const IObjectType*> getInnerObjects() const override;
+  
+  void markAsInner() override;
+  
+  bool isInner() const override;
 
 private:
   

@@ -47,6 +47,7 @@ mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
+mIsInner(false),
 mInterfaceOwner(new InterfaceOwner(this)),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDelcarations),
@@ -860,4 +861,12 @@ const IObjectType* Interface::getInnerObject(string shortName) const {
 
 map<string, const IObjectType*> Interface::getInnerObjects() const {
   return mInnerObjects;
+}
+
+void Interface::markAsInner() {
+  mIsInner = true;
+}
+
+bool Interface::isInner() const {
+  return mIsInner;
 }

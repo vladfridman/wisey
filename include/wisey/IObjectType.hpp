@@ -112,6 +112,16 @@ public:
   virtual std::map<std::string, const IObjectType*> getInnerObjects() const = 0;
   
   /**
+   * Marks this object as inner of some other object
+   */
+  virtual void markAsInner() = 0;
+  
+  /**
+   * Tells whether this object is inner
+   */
+  virtual bool isInner() const = 0;
+  
+  /**
    * Returns an i8* constant pointer to the name of the collable object
    */
   static llvm::Constant* getObjectNamePointer(const IObjectType* object,
