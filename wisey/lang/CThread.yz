@@ -1,53 +1,11 @@
 package wisey.lang;
 
 /**
- * An element of the stack structore used to store method call stack
- *
- * TODO: make it an inner class of CThread so it does not get exported
- */
-node NProgramStackNode {
-  string mObjectName;
-  string mMethodName;
-  string mFileName;
-  int mLineNumber;
-  NProgramStackNode mPreviousNode;
-  state NProgramStackNode* mNextNode;
-
-  public string getObjectName() {
-    return mObjectName;
-  }
-
-  public string getMethodName() {
-    return mMethodName;
-  }
-
-  public string getFileName() {
-    return mFileName;
-  }
-
-  public int getLineNumber() {
-    return mLineNumber;
-  }
-
-  public void setNext(NProgramStackNode* next) {
-    mNextNode = next;
-  }
-
-  public NProgramStackNode getNext() {
-    return mNextNode;
-  }
-
-  public NProgramStackNode getPrevious() {
-    return mPreviousNode;
-  }
-}
-
-/**
  * Keeps track of the method call stack and can print out a strack trace
  */
 controller CThread {
-  state NProgramStackNode* mProgramStackHead;
-  state NProgramStackNode mProgramStackTail;
+  state NCallStackNode* mCallStackHead;
+  state NCallStackNode mCallStackTail;
 
   /**
    * Pushes a new method on the call stack
@@ -56,26 +14,26 @@ controller CThread {
                         string methodName, 
                         string fileName, 
                         int lineNumber) {
-    if (mProgramStackTail == null) {
-      NProgramStackNode* newNode = builder(NProgramStackNode)
+    if (mCallStackTail == null) {
+      NCallStackNode* newNode = builder(NCallStackNode)
         .withObjectName(objectName)
         .withMethodName(methodName)
         .withFileName(fileName)
         .withLineNumber(lineNumber)
         .withPreviousNode(null)
         .build();
-      mProgramStackHead = newNode;
-      mProgramStackTail = mProgramStackHead;
+      mCallStackHead = newNode;
+      mCallStackTail = mCallStackHead;
     } else {
-      NProgramStackNode* newNode = builder(NProgramStackNode)
+      NCallStackNode* newNode = builder(NCallStackNode)
         .withObjectName(objectName)
         .withMethodName(methodName)
         .withFileName(fileName)
         .withLineNumber(lineNumber)
-        .withPreviousNode(mProgramStackTail)
+        .withPreviousNode(mCallStackTail)
         .build();
-      mProgramStackTail.setNext(newNode);
-      mProgramStackTail = mProgramStackTail.getNext();
+      mCallStackTail.setNext(newNode);
+      mCallStackTail = mCallStackTail.getNext();
     }
   }
 
@@ -83,15 +41,15 @@ controller CThread {
    * Pops the method call stack
    */
   public void popStack() {
-    if (mProgramStackTail == null) {
+    if (mCallStackTail == null) {
       return;
     }
 
-    mProgramStackTail = mProgramStackTail.getPrevious();
-    if (mProgramStackTail == null) {
-      mProgramStackHead = null;
+    mCallStackTail = mCallStackTail.getPrevious();
+    if (mCallStackTail == null) {
+      mCallStackHead = null;
     } else {
-      mProgramStackTail.setNext(null);
+      mCallStackTail.setNext(null);
     }
   }
 
@@ -99,7 +57,7 @@ controller CThread {
    * Dumps the call stack to standart output
    */
   public void dumpStack() {
-    NProgramStackNode iterator = mProgramStackTail;
+    NCallStackNode iterator = mCallStackTail;
     while (iterator != null) {
       printout(iterator.getObjectName() + "." + iterator.getMethodName() + "(" + 
         iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
@@ -114,11 +72,53 @@ controller CThread {
    */
   public void reportException(IException exception) {
     printerr("Unhandled exception " + exception.getName() + "\n");
-    NProgramStackNode iterator = mProgramStackTail;
+    NCallStackNode iterator = mCallStackTail;
     while (iterator != null) {
       printerr("  at " + iterator.getObjectName() + "." + iterator.getMethodName() + "(" +
         iterator.getFileName() + ":" + iterator.getLineNumber() + ")\n");
       iterator = iterator.getPrevious();
+    }
+  }
+
+  /**
+   * An element of the stack structore used to store method call stack
+   *
+   * TODO: make it an inner class of CThread so it does not get exported
+   */
+  private node NCallStackNode {
+    string mObjectName;
+    string mMethodName;
+    string mFileName;
+    int mLineNumber;
+    NCallStackNode mPreviousNode;
+    state NCallStackNode* mNextNode;
+
+    public string getObjectName() {
+      return mObjectName;
+    }
+
+    public string getMethodName() {
+      return mMethodName;
+    }
+
+    public string getFileName() {
+      return mFileName;
+    }
+
+    public int getLineNumber() {
+      return mLineNumber;
+    }
+
+    public void setNext(NCallStackNode* next) {
+      mNextNode = next;
+    }
+
+    public NCallStackNode getNext() {
+      return mNextNode;
+    }
+
+    public NCallStackNode getPrevious() {
+      return mPreviousNode;
     }
   }
 }

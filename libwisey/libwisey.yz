@@ -51,8 +51,8 @@ external controller wisey.lang.CProgramRunner {
 
 external controller wisey.lang.CThread {
 
-  state wisey.lang.NProgramStackNode* mProgramStackHead;
-  state wisey.lang.NProgramStackNode mProgramStackTail;
+  state wisey.lang.CThread.NCallStackNode* mCallStackHead;
+  state wisey.lang.CThread.NCallStackNode mCallStackTail;
 
   void pushStack(
     string objectName,
@@ -63,28 +63,13 @@ external controller wisey.lang.CThread {
   void dumpStack();
   void reportException(
     wisey.lang.IException exception);
+
+external node NCallStackNode {
+}
+
 }
 
 /* Nodes */
-
-external node wisey.lang.NProgramStackNode {
-
-  fixed string mObjectName;
-  fixed string mMethodName;
-  fixed string mFileName;
-  fixed int mLineNumber;
-  fixed wisey.lang.NProgramStackNode mPreviousNode;
-  state wisey.lang.NProgramStackNode* mNextNode;
-
-  string getObjectName();
-  string getMethodName();
-  string getFileName();
-  int getLineNumber();
-  void setNext(
-    wisey.lang.NProgramStackNode* next);
-  wisey.lang.NProgramStackNode getNext();
-  wisey.lang.NProgramStackNode getPrevious();
-}
 
 /* Bindings */
 
