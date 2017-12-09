@@ -462,13 +462,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
                                               const IConcreteObjectType* object,
                                               iostream& stream) {
   stream << "external ";
-  if (object->getTypeKind() == MODEL_TYPE) {
-    stream << "model ";
-  } else if (object->getTypeKind() == NODE_TYPE) {
-    stream << "node ";
-  } else {
-    stream << "controller ";
-  }
+  printTypeKind(object->getTypeKind(), stream);
   stream << object->getName();
   vector<Interface*> interfaces = object->getInterfaces();
   if (interfaces.size()) {
@@ -508,6 +502,18 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     }
   }
   stream << "}" << endl;
+}
+
+void IConcreteObjectType::printTypeKind(TypeKind typeKind, iostream& stream) {
+  if (typeKind == MODEL_TYPE) {
+    stream << "model ";
+  } else if (typeKind == NODE_TYPE) {
+    stream << "node ";
+  } else if (typeKind == INTERFACE_TYPE) {
+    stream << "interface ";
+  } else {
+    stream << "controller ";
+  }
 }
 
 void IConcreteObjectType::defineCurrentObjectNameVariable(IRGenerationContext& context,

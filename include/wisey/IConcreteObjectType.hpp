@@ -312,6 +312,8 @@ private:
                                     llvm::Function* function,
                                     const IObjectType* object);
   
+  static void printTypeKind(TypeKind typeKind, std::iostream& stream);
+  
 };
   
 } /* namespace wisey */
