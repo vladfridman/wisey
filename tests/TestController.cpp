@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockObjectType.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
@@ -378,6 +379,20 @@ TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {
 TEST_F(ControllerTest, getTypeTableNameTest) {
   ASSERT_STREQ(mMultiplierController->getTypeTableName().c_str(),
                "systems.vos.wisey.compiler.tests.CMultiplier.typetable");
+}
+
+TEST_F(ControllerTest, innerObjectsTest) {
+  NiceMock<MockObjectType> innerObject1;
+  ON_CALL(innerObject1, getShortName()).WillByDefault(Return("MObject1"));
+  NiceMock<MockObjectType> innerObject2;
+  ON_CALL(innerObject2, getShortName()).WillByDefault(Return("MObject2"));
+  
+  mMultiplierController->addInnerObject(&innerObject1);
+  mMultiplierController->addInnerObject(&innerObject2);
+  
+  EXPECT_EQ(mMultiplierController->getInnerObject("MObject1"), &innerObject1);
+  EXPECT_EQ(mMultiplierController->getInnerObject("MObject2"), &innerObject2);
+  EXPECT_EQ(mMultiplierController->getInnerObjects().size(), 2u);
 }
 
 TEST_F(ControllerTest, canCastToTest) {

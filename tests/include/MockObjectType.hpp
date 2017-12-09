@@ -46,6 +46,7 @@ public:
   MOCK_METHOD1(addInnerObject, void (const wisey::IObjectType*));
   MOCK_CONST_METHOD1(getInnerObject, const wisey::IObjectType* (std::string));
   MOCK_CONST_METHOD0(getAccessLevel, wisey::AccessLevel ());
+  MOCK_CONST_METHOD0(getInnerObjects, std::map<std::string, const IObjectType*> ());
 };
 
 #endif /* MockObjectType_h */

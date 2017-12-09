@@ -143,6 +143,8 @@ public:
 
   const IObjectType* getInnerObject(std::string shortName) const override;
   
+  std::map<std::string, const IObjectType*> getInnerObjects() const override;
+
 private:
 
   Controller(AccessLevel accessLevel,

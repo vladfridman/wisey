@@ -400,3 +400,6 @@ const IObjectType* Node::getInnerObject(string shortName) const {
   return NULL;
 }
 
+map<string, const IObjectType*> Node::getInnerObjects() const {
+  return mInnerObjects;
+}

@@ -107,6 +107,11 @@ public:
   virtual const IObjectType* getInnerObject(std::string shortName) const = 0;
   
   /**
+   * Returns all inner objects
+   */
+  virtual std::map<std::string, const IObjectType*> getInnerObjects() const = 0;
+  
+  /**
    * Returns an i8* constant pointer to the name of the collable object
    */
   static llvm::Constant* getObjectNamePointer(const IObjectType* object,

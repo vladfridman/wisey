@@ -857,3 +857,7 @@ const IObjectType* Interface::getInnerObject(string shortName) const {
   }
   return NULL;
 }
+
+map<string, const IObjectType*> Interface::getInnerObjects() const {
+  return mInnerObjects;
+}

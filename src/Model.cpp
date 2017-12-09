@@ -408,3 +408,6 @@ const IObjectType* Model::getInnerObject(string shortName) const {
   return NULL;
 }
 
+map<string, const IObjectType*> Model::getInnerObjects() const {
+  return mInnerObjects;
+}

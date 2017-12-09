@@ -18,6 +18,7 @@
 #include <llvm-c/Target.h>
 
 #include "MockExpression.hpp"
+#include "MockObjectType.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
@@ -428,6 +429,20 @@ TEST_F(ModelTest, getMissingFieldsTest) {
   
   ASSERT_EQ(missingFields.size(), 1u);
   EXPECT_EQ(missingFields.at(0), "mHeight");
+}
+
+TEST_F(ModelTest, innerObjectsTest) {
+  NiceMock<MockObjectType> innerObject1;
+  ON_CALL(innerObject1, getShortName()).WillByDefault(Return("MObject1"));
+  NiceMock<MockObjectType> innerObject2;
+  ON_CALL(innerObject2, getShortName()).WillByDefault(Return("MObject2"));
+  
+  mModel->addInnerObject(&innerObject1);
+  mModel->addInnerObject(&innerObject2);
+  
+  EXPECT_EQ(mModel->getInnerObject("MObject1"), &innerObject1);
+  EXPECT_EQ(mModel->getInnerObject("MObject2"), &innerObject2);
+  EXPECT_EQ(mModel->getInnerObjects().size(), 2u);
 }
 
 TEST_F(ModelTest, canCastToTest) {

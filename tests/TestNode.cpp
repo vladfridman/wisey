@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockObjectType.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
@@ -391,6 +392,20 @@ TEST_F(NodeTest, getObjectNameGlobalVariableNameTest) {
 TEST_F(NodeTest, getTypeTableNameTest) {
   ASSERT_STREQ(mComplicatedNode->getTypeTableName().c_str(),
                "systems.vos.wisey.compiler.tests.NComplicatedNode.typetable");
+}
+
+TEST_F(NodeTest, innerObjectsTest) {
+  NiceMock<MockObjectType> innerObject1;
+  ON_CALL(innerObject1, getShortName()).WillByDefault(Return("MObject1"));
+  NiceMock<MockObjectType> innerObject2;
+  ON_CALL(innerObject2, getShortName()).WillByDefault(Return("MObject2"));
+  
+  mComplicatedNode->addInnerObject(&innerObject1);
+  mComplicatedNode->addInnerObject(&innerObject2);
+  
+  EXPECT_EQ(mComplicatedNode->getInnerObject("MObject1"), &innerObject1);
+  EXPECT_EQ(mComplicatedNode->getInnerObject("MObject2"), &innerObject2);
+  EXPECT_EQ(mComplicatedNode->getInnerObjects().size(), 2u);
 }
 
 TEST_F(NodeTest, canCastToTest) {

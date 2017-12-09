@@ -433,3 +433,7 @@ const IObjectType* Controller::getInnerObject(string shortName) const {
   }
   return NULL;
 }
+
+map<string, const IObjectType*> Controller::getInnerObjects() const {
+  return mInnerObjects;
+}

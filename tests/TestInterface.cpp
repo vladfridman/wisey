@@ -15,6 +15,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "MockExpression.hpp"
+#include "MockObjectType.hpp"
 #include "MockReferenceVariable.hpp"
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
@@ -256,6 +257,20 @@ TEST_F(InterfaceTest, getCastFunctionNameTest) {
   EXPECT_STREQ(mObjectInterface->getCastFunctionName(mShapeInterface).c_str(),
                "cast.systems.vos.wisey.compiler.tests.IObject."
                "to.systems.vos.wisey.compiler.tests.IShape");
+}
+
+TEST_F(InterfaceTest, innerObjectsTest) {
+  NiceMock<MockObjectType> innerObject1;
+  ON_CALL(innerObject1, getShortName()).WillByDefault(Return("MObject1"));
+  NiceMock<MockObjectType> innerObject2;
+  ON_CALL(innerObject2, getShortName()).WillByDefault(Return("MObject2"));
+  
+  mObjectInterface->addInnerObject(&innerObject1);
+  mObjectInterface->addInnerObject(&innerObject2);
+  
+  EXPECT_EQ(mObjectInterface->getInnerObject("MObject1"), &innerObject1);
+  EXPECT_EQ(mObjectInterface->getInnerObject("MObject2"), &innerObject2);
+  EXPECT_EQ(mObjectInterface->getInnerObjects().size(), 2u);
 }
 
 TEST_F(InterfaceTest, canCastToTest) {

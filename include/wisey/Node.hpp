@@ -143,6 +143,8 @@ public:
   void addInnerObject(const IObjectType* innerObject) override;
   
   const IObjectType* getInnerObject(std::string shortName) const override;
+  
+  std::map<std::string, const IObjectType*> getInnerObjects() const override;
 
 private:
   
