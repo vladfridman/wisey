@@ -23,6 +23,7 @@ using namespace llvm;
 using namespace wisey;
 
 using ::testing::_;
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
@@ -85,12 +86,14 @@ TEST_F(IObjectTypeTest, checkAccessToIsInnerOfFromTest) {
 
 TEST_F(IObjectTypeTest, checkAccessToIsNotAccessableDeathTest) {
   NiceMock<MockObjectType> toObject;
+  Mock::AllowLeak(&toObject);
   ON_CALL(toObject, getAccessLevel()).WillByDefault(Return(AccessLevel::PRIVATE_ACCESS));
   ON_CALL(toObject, getName()).WillByDefault(Return("MToObject"));
   NiceMock<MockObjectType> fromObject;
+  Mock::AllowLeak(&fromObject);
   ON_CALL(fromObject, getAccessLevel()).WillByDefault(Return(AccessLevel::PUBLIC_ACCESS));
   ON_CALL(fromObject, getName()).WillByDefault(Return("MFromObject"));
-
+  
   EXPECT_EXIT(IObjectType::checkAccess(&fromObject, &toObject),
               ::testing::ExitedWithCode(1),
               "Error: Object MToObject is not accessable from object MFromObject");
