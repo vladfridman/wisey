@@ -82,8 +82,6 @@ controller CThread {
 
   /**
    * An element of the stack structore used to store method call stack
-   *
-   * TODO: make it an inner class of CThread so it does not get exported
    */
   private node NCallStackNode {
     string mObjectName;
