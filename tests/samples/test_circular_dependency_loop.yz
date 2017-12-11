@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IParent extends IChild {
+
+}
+
+interface IChild extends IParent {
+
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    return 2 + 5;
+  }
+}
+
+bind(CProgram).to(IProgram);

@@ -69,6 +69,7 @@ Interface::~Interface() {
   mConstants.clear();
   mNameToConstantMap.clear();
   mInnerObjects.clear();
+  mParentInterfacesMap.clear();
 }
 
 Interface* Interface::newInterface(AccessLevel accessLevel,
@@ -125,6 +126,12 @@ void Interface::buildMethods(IRGenerationContext& context) {
   
   for (IInterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
+    if (mParentInterfacesMap.count(parentInterface->getName())) {
+      Log::e("Circular interface dependency between interfaces " +
+             getName() + " and " + parentInterface->getName());
+      exit(1);
+    }
+    mParentInterfacesMap[parentInterface->getName()] = parentInterface;
     if (!parentInterface->isComplete()) {
       parentInterface->buildMethods(context);
     }

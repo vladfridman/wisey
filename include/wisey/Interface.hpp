@@ -41,6 +41,7 @@ class Interface : public IObjectType, public IInjectable {
   std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<IObjectElementDeclaration *> mElementDeclarations;
   std::vector<Interface*> mParentInterfaces;
+  std::map<std::string, Interface*> mParentInterfacesMap;
   std::vector<MethodSignature*> mMethodSignatures;
   std::vector<MethodSignature*> mAllMethodSignatures;
   std::vector<StaticMethod*> mStaticMethods;

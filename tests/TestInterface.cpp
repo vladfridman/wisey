@@ -506,6 +506,44 @@ TEST_F(InterfaceTest, composeDestructorFunctionBodyTest) {
   *mStringStream << *destructor;
 }
 
+TEST_F(InterfaceTest, circularDependencyDeathTest) {
+  Mock::AllowLeak(mThreadVariable);
+  Mock::AllowLeak(mMockExpression);
+  
+  InterfaceTypeSpecifier* parentInterfaceSpecifier = new InterfaceTypeSpecifier("", "IParent");
+  InterfaceTypeSpecifier* childInterfaceSpecifier = new InterfaceTypeSpecifier("", "IChild");
+
+  string childFullName = "systems.vos.wisey.compiler.tests.IChild";
+  StructType* childStructType = StructType::create(mLLVMContext, childFullName);
+  vector<IInterfaceTypeSpecifier*> childParentInterfaces;
+  childParentInterfaces.push_back(parentInterfaceSpecifier);
+  vector<IObjectElementDeclaration*> childElements;
+  Interface* child = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                             childFullName,
+                                             childStructType,
+                                             childParentInterfaces,
+                                             childElements);
+  mContext.addInterface(child);
+  
+  string parentFullName = "systems.vos.wisey.compiler.tests.IParent";
+  StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
+  vector<IInterfaceTypeSpecifier*> parentParentInterfaces;
+  parentParentInterfaces.push_back(childInterfaceSpecifier);
+  vector<IObjectElementDeclaration*> parentElements;
+  Interface* parent = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                              parentFullName,
+                                              parentStructType,
+                                              parentParentInterfaces,
+                                              parentElements);
+  mContext.addInterface(parent);
+
+  EXPECT_EXIT(child->buildMethods(mContext),
+              ::testing::ExitedWithCode(1),
+              "Error: Circular interface dependency between interfaces "
+              "systems.vos.wisey.compiler.tests.IChild and "
+              "systems.vos.wisey.compiler.tests.IParent");
+}
+
 TEST_F(TestFileSampleRunner, interfaceMethodNotImplmentedDeathTest) {
   expectFailCompile("tests/samples/test_interface_method_not_implmented.yz",
                     1,
@@ -617,4 +655,12 @@ TEST_F(TestFileSampleRunner, interfaceCastToInterfaceCastExceptionRunDeathTest) 
                                "Unhandled exception wisey.lang.MCastException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_interface_cast_to_interface_cast_exception.yz:47)\n"
                                "Details: Can not cast from systems.vos.wisey.compiler.tests.IObject to systems.vos.wisey.compiler.tests.IDevice\n");
+}
+
+TEST_F(TestFileSampleRunner, interfaceCircularDependencyRunDeathTest) {
+  expectFailCompile("tests/samples/test_circular_dependency_loop.yz",
+                    1,
+                    "Error: Circular interface dependency between interfaces "
+                    "systems.vos.wisey.compiler.tests.IParent and "
+                    "systems.vos.wisey.compiler.tests.IChild");
 }
