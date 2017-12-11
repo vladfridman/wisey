@@ -39,7 +39,7 @@ private:
   static llvm::Function* define(IRGenerationContext& context);
   
   static void compose(IRGenerationContext& context, llvm::Function* function);
-  
+
 };
 
 } /* namespace wisey */

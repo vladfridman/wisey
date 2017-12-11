@@ -86,12 +86,30 @@ TEST_F(AdjustReferenceCounterForInterfaceFunctionTest, getTest) {
   "\n  %1 = bitcast i8* %object to i8*"
   "\n  %2 = call i8* @__getOriginalObject(i8* %1, i64 -8)"
   "\n  %3 = bitcast i8* %2 to i64*"
+  "\n  %4 = bitcast i8* %object to i8*"
+  "\n  %5 = call i8* @__getOriginalObject(i8* %4, i64 0)"
+  "\n  %6 = bitcast i8* %5 to i8***"
+  "\n  %vtable = load i8**, i8*** %6"
+  "\n  %7 = getelementptr i8*, i8** %vtable, i64 1"
+  "\n  %typeArrayI8 = load i8*, i8** %7"
+  "\n  %8 = bitcast i8* %typeArrayI8 to i8**"
+  "\n  %9 = getelementptr i8*, i8** %8, i64 0"
+  "\n  %stringPointer = load i8*, i8** %9"
+  "\n  %firstLetter = load i8, i8* %stringPointer"
+  "\n  %10 = icmp eq i8 %firstLetter, 77"
+  "\n  br i1 %10, label %if.model, label %if.not.model"
+  "\n"
+  "\nif.model:                                         ; preds = %if.notnull"
+  "\n  %11 = atomicrmw add i64* %3, i64 %adjustment monotonic"
+  "\n  ret void"
+  "\n"
+  "\nif.not.model:                                     ; preds = %if.notnull"
   "\n  %count = load i64, i64* %3"
-  "\n  %4 = add i64 %count, %adjustment"
-  "\n  store i64 %4, i64* %3"
+  "\n  %12 = add i64 %count, %adjustment"
+  "\n  store i64 %12, i64* %3"
   "\n  ret void"
   "\n}\n";
-  
+
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

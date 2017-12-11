@@ -11,6 +11,7 @@
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -91,9 +92,48 @@ void AdjustReferenceCounterForInterfaceFunction::compose(IRGenerationContext& co
   Value* original = GetOriginalObjectFunction::callGetObject(context, object);
   Type* int64PointerType = Type::getInt64Ty(llvmContext)->getPointerTo();
   Value* counter = IRWriter::newBitCastInst(context, original, int64PointerType);
+
+  Value* originalObjectVTablePointer = GetOriginalObjectFunction::callGetVTable(context, object);
+  Type* int8DoublePointerType = Type::getInt8Ty(llvmContext)->getPointerTo()->getPointerTo();
+  Type* int8TriplePointerType = int8DoublePointerType->getPointerTo();
+  Value* vTablePointer = IRWriter::newBitCastInst(context,
+                                                  originalObjectVTablePointer,
+                                                  int8TriplePointerType);
+  LoadInst* vTable = IRWriter::newLoadInst(context, vTablePointer, "vtable");
+  Value* index[1];
+  index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 1);
+  GetElementPtrInst* typeArrayPointerI8 = IRWriter::createGetElementPtrInst(context, vTable, index);
+  LoadInst* typeArrayI8 = IRWriter::newLoadInst(context, typeArrayPointerI8, "typeArrayI8");
+  BitCastInst* arrayOfStrings = IRWriter::newBitCastInst(context,
+                                                         typeArrayI8,
+                                                         int8DoublePointerType);
+  index[0] = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), 0);
+  Value* stringPointerPointer = IRWriter::createGetElementPtrInst(context, arrayOfStrings, index);
+  LoadInst* stringPointer = IRWriter::newLoadInst(context, stringPointerPointer, "stringPointer");
+
+  
+  
+  Value* firstLetter = IRWriter::newLoadInst(context, stringPointer, "firstLetter");
+
+  BasicBlock* ifModelBlock = BasicBlock::Create(llvmContext, "if.model", function);
+  BasicBlock* ifNotModelBlock = BasicBlock::Create(llvmContext, "if.not.model", function);
+
+  Value* letterM = ConstantInt::get(Type::getInt8Ty(llvmContext), 77);
+  condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, firstLetter, letterM, "");
+  IRWriter::createConditionalBranch(context, ifModelBlock, ifNotModelBlock, condition);
+
+  context.setBasicBlock(ifModelBlock);
+  new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
+                    counter,
+                    adjustment,
+                    AtomicOrdering::Monotonic,
+                    SynchronizationScope::CrossThread,
+                    ifModelBlock);
+  IRWriter::createReturnInst(context, NULL);
+
+  context.setBasicBlock(ifNotModelBlock);
   Value* count = IRWriter::newLoadInst(context, counter, "count");
   Value* sum = IRWriter::createBinaryOperator(context, Instruction::Add, count, adjustment, "");
   IRWriter::newStoreInst(context, sum, counter);
   IRWriter::createReturnInst(context, NULL);
 }
-
