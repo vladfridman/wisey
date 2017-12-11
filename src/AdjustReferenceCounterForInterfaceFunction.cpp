@@ -11,7 +11,6 @@
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/IntrinsicFunctions.hpp"
 
 using namespace llvm;
 using namespace std;
