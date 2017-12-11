@@ -267,8 +267,10 @@ struct ControllerTest : public Test {
     mVehicleInterface->buildMethods(mContext);
 
     IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mOwnerNode);
     IConcreteObjectType::generateVTable(mContext, mOwnerNode);
     IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
     IConcreteObjectType::generateVTable(mContext, mAdditorController);
 
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
@@ -374,6 +376,11 @@ TEST_F(ControllerTest, findConstantDeathTest) {
 TEST_F(ControllerTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ(mMultiplierController->getObjectNameGlobalVariableName().c_str(),
                "systems.vos.wisey.compiler.tests.CMultiplier.name");
+}
+
+TEST_F(ControllerTest, getObjectShortNameGlobalVariableNameTest) {
+  ASSERT_STREQ(mMultiplierController->getObjectShortNameGlobalVariableName().c_str(),
+               "systems.vos.wisey.compiler.tests.CMultiplier.shortname");
 }
 
 TEST_F(ControllerTest, getTypeTableNameTest) {

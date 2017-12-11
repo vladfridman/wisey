@@ -62,6 +62,7 @@ struct ReturnVoidStatementTest : public Test {
     mModel->setFields(fields, 1u);
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mModel);
     IConcreteObjectType::generateVTable(mContext, mModel);
   }
   

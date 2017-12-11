@@ -52,7 +52,7 @@ public:
    * Returns name of the global variable containing name of this Callable Object in string format
    */
   virtual std::string getObjectNameGlobalVariableName() const = 0;
-  
+
   /**
    * Returns the owner type for this object
    */

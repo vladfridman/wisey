@@ -79,6 +79,7 @@ struct ConditionalExpressionTest : Test {
     mContext.getScopes().pushScope();
 
     IConcreteObjectType::generateNameGlobal(mContext, mModel);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mModel);
     IConcreteObjectType::generateVTable(mContext, mModel);
     
     mStringStream = new raw_string_ostream(mStringBuffer);

@@ -36,6 +36,7 @@ public:
   MOCK_CONST_METHOD0(getConstants, std::vector<wisey::Constant*> ());
 
   MOCK_CONST_METHOD0(getObjectNameGlobalVariableName, std::string ());
+  MOCK_CONST_METHOD0(getObjectShortNameGlobalVariableName, std::string ());
   MOCK_CONST_METHOD0(getOwner, const wisey::IObjectOwnerType* ());
   MOCK_CONST_METHOD0(getName, std::string ());
   MOCK_CONST_METHOD0(getShortName, std::string ());

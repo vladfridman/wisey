@@ -229,6 +229,7 @@ struct ModelOwnerTest : public Test {
     ON_CALL(*mField3Expression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
     
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateVTable(mContext, mStarModel);
     
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);

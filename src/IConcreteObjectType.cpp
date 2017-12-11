@@ -48,6 +48,19 @@ void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
                      object->getObjectNameGlobalVariableName());
 }
 
+void IConcreteObjectType::generateShortNameGlobal(IRGenerationContext& context,
+                                             const IConcreteObjectType* object) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext,
+                                                                object->getShortName());
+  new GlobalVariable(*context.getModule(),
+                     stringConstant->getType(),
+                     true,
+                     GlobalValue::LinkageTypes::LinkOnceODRLinkage,
+                     stringConstant,
+                     object->getObjectShortNameGlobalVariableName());
+}
+
 Value* IConcreteObjectType::castTo(IRGenerationContext& context,
                                    const IConcreteObjectType* object,
                                    Value* fromValue,
@@ -273,11 +286,13 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
   vector<Interface*> interfaces = object->getFlattenedInterfaceHierarchy();
   Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   
-  llvm::Constant* controllerNamePointer = IObjectType::getObjectNamePointer(object, context);
+  llvm::Constant* objectShortNamePointer = getObjectShortNamePointer(object, context);
+  llvm::Constant* objectNamePointer = IObjectType::getObjectNamePointer(object, context);
   
   vector<llvm::Constant*> typeNames;
-  typeNames.push_back(controllerNamePointer);
-  
+  typeNames.push_back(objectShortNamePointer);
+  typeNames.push_back(objectNamePointer);
+
   for (Interface* interface : interfaces) {
     llvm::Constant* interfaceNamePointer = IObjectType::getObjectNamePointer(interface, context);
     typeNames.push_back(interfaceNamePointer);
@@ -572,3 +587,17 @@ void IConcreteObjectType::initializeReferenceCounter(IRGenerationContext& contex
   Value* value = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
   IRWriter::newStoreInst(context, value, fieldPointer);
 }
+
+llvm::Constant* IConcreteObjectType::getObjectShortNamePointer(const IConcreteObjectType* object,
+                                                               IRGenerationContext& context) {
+  GlobalVariable* nameGlobal =
+  context.getModule()->getNamedGlobal(object->getObjectShortNameGlobalVariableName());
+  ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
+  Value* Idx[2];
+  Idx[0] = zeroInt32;
+  Idx[1] = zeroInt32;
+  Type* elementType = nameGlobal->getType()->getPointerElementType();
+  
+  return ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
+}
+

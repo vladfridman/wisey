@@ -231,6 +231,7 @@ struct NodeOwnerTest : public Test {
                                                 vehicleObjectElements);
     
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateVTable(mContext, mSimpleNode);
     
     Value* field1Value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);

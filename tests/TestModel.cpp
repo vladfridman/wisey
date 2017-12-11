@@ -269,9 +269,11 @@ struct ModelTest : public Test {
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(mGalaxyModel));
     
     IConcreteObjectType::generateNameGlobal(mContext, mBirthdateModel);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mBirthdateModel);
     IConcreteObjectType::generateVTable(mContext, mBirthdateModel);
 
     IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
     IConcreteObjectType::generateVTable(mContext, mStarModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
@@ -549,6 +551,11 @@ TEST_F(ModelTest, getReferenceCountTest) {
 TEST_F(ModelTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ(mModel->getObjectNameGlobalVariableName().c_str(),
                "systems.vos.wisey.compiler.tests.MSquare.name");
+}
+
+TEST_F(ModelTest, getObjectShortNameGlobalVariableNameTest) {
+  ASSERT_STREQ(mModel->getObjectShortNameGlobalVariableName().c_str(),
+               "systems.vos.wisey.compiler.tests.MSquare.shortname");
 }
 
 TEST_F(ModelTest, getTypeTableNameTest) {

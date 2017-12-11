@@ -71,6 +71,7 @@ struct ThrowStatementTest : public Test {
     mCircleModel->createRTTI(mContext);
 
     IConcreteObjectType::generateNameGlobal(mContext, mCircleModel);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mCircleModel);
     IConcreteObjectType::generateVTable(mContext, mCircleModel);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);

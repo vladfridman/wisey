@@ -268,8 +268,10 @@ struct NodeTest : public Test {
     mVehicleInterface->buildMethods(mContext);
 
     IConcreteObjectType::generateNameGlobal(mContext, mOwnerNode);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mOwnerNode);
     IConcreteObjectType::generateVTable(mContext, mOwnerNode);
 
+    IConcreteObjectType::generateShortNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateVTable(mContext, mSimpleNode);
     
@@ -387,6 +389,11 @@ TEST_F(NodeTest, findMethodTest) {
 TEST_F(NodeTest, getObjectNameGlobalVariableNameTest) {
   ASSERT_STREQ(mComplicatedNode->getObjectNameGlobalVariableName().c_str(),
                "systems.vos.wisey.compiler.tests.NComplicatedNode.name");
+}
+
+TEST_F(NodeTest, getObjectShortNameGlobalVariableNameTest) {
+  ASSERT_STREQ(mComplicatedNode->getObjectShortNameGlobalVariableName().c_str(),
+               "systems.vos.wisey.compiler.tests.NComplicatedNode.shortname");
 }
 
 TEST_F(NodeTest, getTypeTableNameTest) {

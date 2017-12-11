@@ -245,7 +245,7 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   mContext.getModule()->getNamedGlobal("systems.vos.wisey.compiler.tests.NMyNode.typetable");
   EXPECT_NE(vModelTypesPointer, nullptr);
   ASSERT_TRUE(vModelTypesPointer->getType()->getPointerElementType()->isArrayTy());
-  EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 3u);
+  EXPECT_EQ(vModelTypesPointer->getType()->getPointerElementType()->getArrayNumElements(), 4u);
 }
 
 TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {

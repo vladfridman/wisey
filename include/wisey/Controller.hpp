@@ -97,6 +97,8 @@ public:
   
   std::string getObjectNameGlobalVariableName() const override;
   
+  std::string getObjectShortNameGlobalVariableName() const override;
+  
   std::string getName() const override;
   
   std::string getShortName() const override;

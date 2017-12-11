@@ -60,9 +60,10 @@ class Interface;
  *
  * Typetable for the concrete object consists of array of pointers to type names:
  * [
- *   i8* <concrete object type name>,
- *   i8* <first interface type name>,
- *   i8* <second interface type name>,
+ *   i8* <concrete object type short name>,
+ *   i8* <concrete object type full name>,
+ *   i8* <first interface type full name>,
+ *   i8* <second interface type full name>,
  *   ...,
  *   i8* null
  * ]
@@ -158,7 +159,13 @@ public:
    * Generate global variable with the name of the given object
    */
   static void generateNameGlobal(IRGenerationContext& context, const IConcreteObjectType* object);
-  
+
+  /**
+   * Generate global variable with the short name of the given object
+   */
+  static void generateShortNameGlobal(IRGenerationContext& context,
+                                      const IConcreteObjectType* object);
+
   /**
    * Casts this concrete object to a given type
    */
@@ -255,6 +262,11 @@ public:
   static void composeInterfaceMapFunctions(IRGenerationContext& context,
                                            const IConcreteObjectType* object);
 
+  /**
+   * Returns name of the global variable containing short name of this concrete Object
+   */
+  virtual std::string getObjectShortNameGlobalVariableName() const = 0;
+  
 private:
   
   static std::map<std::string, llvm::Function*>
@@ -303,6 +315,10 @@ private:
                                     const IObjectType* object);
   
   static void printTypeKind(TypeKind typeKind, std::iostream& stream);
+  
+  static llvm::Constant* getObjectShortNamePointer(const IConcreteObjectType* object,
+                                                   IRGenerationContext& context);
+
   
 };
   

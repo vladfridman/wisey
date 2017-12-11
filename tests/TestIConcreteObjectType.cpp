@@ -172,6 +172,7 @@ TEST_F(IConcreteObjectTypeTest, generateNameGlobalTest) {
   ASSERT_EQ(mContext.getModule()->getNamedGlobal("Object.name"), nullptr);
 
   IConcreteObjectType::generateNameGlobal(mContext, &mMockObject);
+  IConcreteObjectType::generateShortNameGlobal(mContext, &mMockObject);
 
   ASSERT_NE(mContext.getModule()->getNamedGlobal("Object.name"), nullptr);
 }
@@ -190,6 +191,7 @@ TEST_F(IConcreteObjectTypeTest, declareFieldVariablesTest) {
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+  IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
   IConcreteObjectType::generateVTable(mContext, mStarModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mStarModel);
   mContext.runComposingCallbacks();
@@ -237,9 +239,11 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+  IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
   IConcreteObjectType::generateVTable(mContext, mStarModel);
   
   IConcreteObjectType::generateNameGlobal(mContext, mGalaxyModel);
+  IConcreteObjectType::generateShortNameGlobal(mContext, mGalaxyModel);
   IConcreteObjectType::generateVTable(mContext, mGalaxyModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mGalaxyModel);
   mContext.runComposingCallbacks();
@@ -293,6 +297,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFieldTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mConstellationModel);
+  IConcreteObjectType::generateShortNameGlobal(mContext, mConstellationModel);
   IConcreteObjectType::generateVTable(mContext, mConstellationModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mConstellationModel);
   mContext.runComposingCallbacks();
@@ -349,6 +354,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFieldsTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mCarModel);
+  IConcreteObjectType::generateShortNameGlobal(mContext, mCarModel);
   IConcreteObjectType::generateVTable(mContext, mCarModel);
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mCarModel);
   mContext.runComposingCallbacks();
@@ -402,6 +408,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
 
 TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   IConcreteObjectType::generateNameGlobal(mContext, mStarModel);
+  IConcreteObjectType::generateShortNameGlobal(mContext, mStarModel);
   IConcreteObjectType::generateVTable(mContext, mStarModel);
 
   FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
