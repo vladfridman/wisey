@@ -584,6 +584,14 @@ TEST_F(TestFileSampleRunner, interfaceStaticMethodComplicatedRunTest) {
   runFile("tests/samples/test_interface_static_method_complicated.yz", "7");
 }
 
+TEST_F(TestFileSampleRunner, interfaceObjectAddReferenceForModelRunTest) {
+  runFile("tests/samples/test_interface_object_add_reference_for_model.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, interfaceObjectAddReferenceForNodeRunTest) {
+  runFile("tests/samples/test_interface_object_add_reference_for_node.yz", "7");
+}
+
 TEST_F(TestFileSampleRunner, interfaceStaticMethodThrowsNpeDeathRunTest) {
   compileAndRunFileCheckOutput("tests/samples/test_interface_static_method_throws_npe.yz",
                                1,

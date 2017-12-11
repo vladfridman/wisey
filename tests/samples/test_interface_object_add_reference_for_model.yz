@@ -1,0 +1,24 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+interface IObject {
+  int getValue();
+}
+
+model MMyModel implements IObject {
+  public int getValue() {
+    return 5;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    IObject* object = builder(MMyModel).build();
+    IObject ref = object;
+    return object.getValue();
+  }
+}
+
+bind(CProgram).to(IProgram);

@@ -6,12 +6,6 @@ interface IObject {
   int getValue();
 }
 
-model MMyModel implements IObject {
-  public int getValue() {
-    return 5;
-  }
-}
-
 node NMyNode implements IObject {
   public int getValue() {
     return 7;
@@ -21,7 +15,7 @@ node NMyNode implements IObject {
 controller CProgram implements IProgram {
 
   public int run() {
-    IObject* object = builder(MMyModel).build();
+    IObject* object = builder(NMyNode).build();
     IObject ref = object;
     return object.getValue();
   }
