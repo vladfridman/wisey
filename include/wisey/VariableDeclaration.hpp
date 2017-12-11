@@ -9,6 +9,7 @@
 #ifndef VariableDeclaration_h
 #define VariableDeclaration_h
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/IObjectOwnerType.hpp"
 #include "wisey/IObjectType.hpp"
 #include "wisey/IPrimitiveType.hpp"
@@ -59,14 +60,13 @@ private:
                       IExpression* assignmentExpression,
                       int line);
 
-  void allocatePrimitive(IRGenerationContext& context,
-                         const IPrimitiveType* type) const;
+  void allocatePrimitive(IRGenerationContext& context, const IPrimitiveType* type) const;
   
-  void allocateOwner(IRGenerationContext& context,
-                     const IObjectOwnerType* type) const;
+  void allocateArray(IRGenerationContext& context, const wisey::ArrayType* type) const;
   
-  void allocateReference(IRGenerationContext& context,
-                         const IObjectType* type) const;
+  void allocateOwner(IRGenerationContext& context, const IObjectOwnerType* type) const;
+  
+  void allocateReference(IRGenerationContext& context, const IObjectType* type) const;
 };
 
 /**

@@ -1,6 +1,7 @@
 %{
   #include <string>
   #include "wisey/AccessLevel.hpp"
+  #include "wisey/ArrayTypeSpecifier.hpp"
   #include "wisey/Catch.hpp"
   #include "wisey/CompoundStatement.hpp"
   #include "wisey/ControllerTypeSpecifier.hpp"
@@ -111,6 +112,8 @@ WS  [ \t\v\n\f]
 "--"                          return TOKEN(TDECOP);
 "("                           return TOKEN('(');
 ")"                           return TOKEN(')');
+"["                           return TOKEN('[');
+"]"                           return TOKEN(']');
 "{"                           return TOKEN('{');
 "}"                           return TOKEN('}');
 "."                           return TOKEN('.');

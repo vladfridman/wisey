@@ -90,8 +90,8 @@ StructType* ProgramPrefix::defineFileStruct(IRGenerationContext& context) const 
   sbufFileTypes.push_back(sbufTypeStructType);
   sbufFileTypes.push_back(sbufFileXStructType->getPointerTo());
   sbufFileTypes.push_back(Type::getInt32Ty(llvmContext));
-  sbufFileTypes.push_back(ArrayType::get(Type::getInt8Ty(llvmContext), 3));
-  sbufFileTypes.push_back(ArrayType::get(Type::getInt8Ty(llvmContext), 1));
+  sbufFileTypes.push_back(llvm::ArrayType::get(Type::getInt8Ty(llvmContext), 3));
+  sbufFileTypes.push_back(llvm::ArrayType::get(Type::getInt8Ty(llvmContext), 1));
   sbufFileTypes.push_back(sbufTypeStructType);
   sbufFileTypes.push_back(Type::getInt32Ty(llvmContext));
   sbufFileTypes.push_back(Type::getInt64Ty(llvmContext));

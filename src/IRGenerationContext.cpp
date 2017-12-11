@@ -34,29 +34,30 @@ mObjectType(NULL) {
 }
 
 IRGenerationContext::~IRGenerationContext() {
+  for (map<string, ArrayType*>::iterator iterator = mArrayTypes.begin();
+       iterator != mArrayTypes.end();
+       iterator++) {
+    delete iterator->second;
+  }
   for (map<string, Model*>::iterator iterator = mModels.begin();
       iterator != mModels.end();
       iterator++) {
-    Model* model = iterator->second;
-    delete model;
+    delete iterator->second;
   }
   for (map<string, Controller*>::iterator iterator = mControllers.begin();
       iterator != mControllers.end();
       iterator++) {
-    Controller* controller = iterator->second;
-    delete controller;
+    delete iterator->second;
   }
   for (map<string, Interface*>::iterator iterator = mInterfaces.begin();
       iterator != mInterfaces.end();
       iterator++) {
-    Interface* interface = iterator->second;
-    delete interface;
+    delete iterator->second;
   }
   for (map<string, Node*>::iterator iterator = mNodes.begin();
       iterator != mNodes.end();
       iterator++) {
-    Node* node = iterator->second;
-    delete node;
+    delete iterator->second;
   }
   mBindings.clear();
 }
@@ -95,6 +96,17 @@ BasicBlock* IRGenerationContext::getBasicBlock() {
 
 void IRGenerationContext::setBasicBlock(BasicBlock* block) {
   mBasicBlock = block;
+}
+
+wisey::ArrayType* IRGenerationContext::getArrayType(const IType* baseType, unsigned long size) {
+  string key = baseType->getName() + "[" + to_string(size) + "]";
+  if (mArrayTypes.count(key)) {
+    return mArrayTypes.at(key);
+  }
+  ArrayType* arrayType = new ArrayType(baseType, size);
+  mArrayTypes[key] = arrayType;
+
+  return arrayType;
 }
 
 void IRGenerationContext::addModel(Model* model) {

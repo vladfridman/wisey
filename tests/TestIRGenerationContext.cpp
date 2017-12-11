@@ -348,3 +348,10 @@ TEST_F(IRGenerationContextRunTest, printAssemblyTest) {
   EXPECT_STREQ(expected.c_str(), stringBuffer.c_str());
 }
 
+TEST_F(IRGenerationContextTest, getArrayTypeTest) {
+  wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 3u);
+  
+  EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getBaseType());
+  EXPECT_EQ(3u, arrayType->getSize());
+  EXPECT_EQ(mContext.getArrayType(PrimitiveTypes::INT_TYPE, 3u), arrayType);
+}

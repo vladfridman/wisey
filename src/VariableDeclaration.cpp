@@ -13,6 +13,7 @@
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalArrayVariable.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
@@ -59,6 +60,8 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   TypeKind typeKind = type->getTypeKind();
   if (typeKind == PRIMITIVE_TYPE) {
     allocatePrimitive(context, (const IPrimitiveType*) type);
+  } else if (typeKind == ARRAY_TYPE) {
+    allocateArray(context, (const wisey::ArrayType*) type);
   } else if (IType::isOwnerType(type)) {
     allocateOwner(context, (const IObjectOwnerType*) type);
   } else {
@@ -109,6 +112,15 @@ void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
     exit(1);
   }
   IRWriter::newStoreInst(context, value, alloc);
+}
+
+void VariableDeclaration::allocateArray(IRGenerationContext& context,
+                                        const wisey::ArrayType* type) const {
+  Type* llvmType = type->getLLVMType(context.getLLVMContext());
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mIdentifier->getName());
+  
+  LocalArrayVariable* variable = new LocalArrayVariable(mIdentifier->getName(), type, alloc);
+  context.getScopes().setVariable(variable);
 }
 
 void VariableDeclaration::allocateOwner(IRGenerationContext& context,

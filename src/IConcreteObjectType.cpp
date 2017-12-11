@@ -262,7 +262,7 @@ void IConcreteObjectType::createVTableGlobal(IRGenerationContext& context,
   vector<Type*> vTableTypes;
   for (vector<llvm::Constant*> vTablePortionVector : interfaceVTables) {
     ArrayRef<llvm::Constant*> arrayRef(vTablePortionVector);
-    ArrayType* arrayType = ArrayType::get(int8Pointer, vTablePortionVector.size());
+    llvm::ArrayType* arrayType = llvm::ArrayType::get(int8Pointer, vTablePortionVector.size());
     llvm::Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
     
     vTableArray.push_back(constantArray);
@@ -299,7 +299,7 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
   }
   typeNames.push_back(ConstantExpr::getNullValue(int8Pointer));
   ArrayRef<llvm::Constant*> arrayRef(typeNames);
-  ArrayType* arrayType = ArrayType::get(int8Pointer, typeNames.size());
+  llvm::ArrayType* arrayType = llvm::ArrayType::get(int8Pointer, typeNames.size());
   llvm::Constant* constantArray = ConstantArray::get(arrayType, arrayRef);
   
   return new GlobalVariable(*context.getModule(),
