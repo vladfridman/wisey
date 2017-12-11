@@ -250,16 +250,6 @@ public:
   static void initializeReferenceCounter(IRGenerationContext& context, llvm::Instruction* malloc);
 
   /**
-   * Increments reference counter for the given object in a thread unsafe way
-   */
-  static void incrementReferenceCounterForObject(IRGenerationContext& context, llvm::Value* object);
-  
-  /**
-   * Decrements reference counter for the given object in a thread unsafe way
-   */
-  static void decrementReferenceCounterForObject(IRGenerationContext& context, llvm::Value* object);
-
-  /**
    * Compose map functions IR. This is not called for externally defined objects
    */
   static void composeInterfaceMapFunctions(IRGenerationContext& context,

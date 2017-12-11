@@ -318,7 +318,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   "\n  %2 = load %systems.vos.wisey.compiler.tests.MStar*, "
   "%systems.vos.wisey.compiler.tests.MStar** %1"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MStar* %2 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %3, i64 -1)"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i64* %3, i64 -1)"
   "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MConstellation* %this to i64*"
   "\n  %refCounter = load i64, i64* %4"
   "\n  %5 = icmp eq i64 %refCounter, 0"

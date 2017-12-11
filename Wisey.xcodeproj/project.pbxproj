@@ -296,6 +296,9 @@
 		F53401121DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */; };
 		F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */; };
 		F534FFD61DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */; };
+		F539147A1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */; };
+		F539147B1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */; };
+		F539147D1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */; };
 		F53A2C001EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */; };
 		F53A2C041EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */; };
 		F53A2C051EEC31CC00E76A9E /* ControllerOwner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F53A2C031EEC31CC00E76A9E /* ControllerOwner.cpp */; };
@@ -1060,6 +1063,9 @@
 		F53401101DFF333E0002BF7E /* MethodDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodDeclaration.cpp; path = src/MethodDeclaration.cpp; sourceTree = "<group>"; };
 		F534011B1E000DBC0002BF7E /* TestMethodDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestMethodDeclaration.cpp; path = tests/TestMethodDeclaration.cpp; sourceTree = "<group>"; };
 		F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdditiveMultiplicativeExpression.cpp; path = tests/TestAdditiveMultiplicativeExpression.cpp; sourceTree = "<group>"; };
+		F53914781FDE697100CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp; path = include/wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp; sourceTree = "<group>"; };
+		F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; path = src/AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; sourceTree = "<group>"; };
+		F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; path = tests/TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp; sourceTree = "<group>"; };
 		F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestOwnerTypeSpecifier.cpp; path = tests/TestOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F53A2C011EEC174800E76A9E /* MockObjectTypeSpecifier.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockObjectTypeSpecifier.hpp; path = tests/include/MockObjectTypeSpecifier.hpp; sourceTree = "<group>"; };
 		F53A2C021EEC30F700E76A9E /* ControllerOwner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ControllerOwner.hpp; path = include/wisey/ControllerOwner.hpp; sourceTree = "<group>"; };
@@ -1687,6 +1693,7 @@
 		F52C66541FBF320C00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
+				F53914791FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */,
 				F52C66611FBF41C000E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F52C66651FBF446400E89B04 /* AdjustReferenceCounterForInterfaceFunction.cpp */,
 				F52C665D1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp */,
@@ -1700,6 +1707,7 @@
 		F52C66551FBF322A00E89B04 /* composer */ = {
 			isa = PBXGroup;
 			children = (
+				F53914781FDE697100CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp */,
 				F52C66601FBF415700E89B04 /* AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp */,
 				F52C66641FBF441A00E89B04 /* AdjustReferenceCounterForInterfaceFunction.hpp */,
 				F52C665C1FBF387900E89B04 /* CheckForNullAndThrowFunction.hpp */,
@@ -1824,6 +1832,7 @@
 				F534FFD31DFAC6B10002BF7E /* lib */,
 				F53400F01DFC6B970002BF7E /* samples */,
 				F534FFD41DFAE3920002BF7E /* TestAdditiveMultiplicativeExpression.cpp */,
+				F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */,
 				F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
@@ -2762,6 +2771,7 @@
 				F5A363481F37257C005880B3 /* ParameterOwnerVariable.cpp in Sources */,
 				F53A2C1F1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F507D2661E43551900495E2D /* Model.cpp in Sources */,
+				F539147D1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
 				F531B65B1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
 				F50FA2EB1E2E3B1500435EEA /* IntConstant.cpp in Sources */,
 				F58748371F951E580088F1E3 /* TestThreadExpression.cpp in Sources */,
@@ -2863,6 +2873,7 @@
 				F534011C1E000DBC0002BF7E /* TestMethodDeclaration.cpp in Sources */,
 				F5A3634A1F373FFE005880B3 /* TestParameterOwnerVariable.cpp in Sources */,
 				F509E7621F7D22CD00F96C14 /* TestField.cpp in Sources */,
+				F539147B1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
 				F57780AE1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F5E270751F98FFA9008D2EB7 /* ConstantDeclaration.cpp in Sources */,
 				F5A363441F33D08F005880B3 /* TestLocalOwnerVariable.cpp in Sources */,
@@ -3075,6 +3086,7 @@
 				F5436DB61FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
+				F539147A1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
 				F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,

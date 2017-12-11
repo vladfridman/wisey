@@ -549,7 +549,7 @@ TEST_F(ControllerTest, injectTest) {
   "\n  store %systems.vos.wisey.compiler.tests.MReference* null, "
   "%systems.vos.wisey.compiler.tests.MReference** %2"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %3, i64 1)\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i64* %3, i64 1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

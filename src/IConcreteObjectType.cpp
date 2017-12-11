@@ -10,7 +10,6 @@
 #include <llvm/IR/GlobalValue.h>
 #include <llvm/IR/DerivedTypes.h>
 
-#include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
@@ -573,14 +572,3 @@ void IConcreteObjectType::initializeReferenceCounter(IRGenerationContext& contex
   Value* value = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
   IRWriter::newStoreInst(context, value, fieldPointer);
 }
-
-void IConcreteObjectType::incrementReferenceCounterForObject(IRGenerationContext& context,
-                                                             Value* object) {
-  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, 1);
-}
-
-void IConcreteObjectType::decrementReferenceCounterForObject(IRGenerationContext& context,
-                                                             Value* object) {
-  AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1);
-}
-

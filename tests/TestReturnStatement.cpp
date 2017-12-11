@@ -233,10 +233,10 @@ TEST_F(ReturnStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   "\n  %conv = zext i32 3 to i64"
   "\n  %4 = load %MModel*, %MModel** %3"
   "\n  %5 = bitcast %MModel* %4 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %5, i64 -1)"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i64* %5, i64 -1)"
   "\n  %6 = load %MModel*, %MModel** %1"
   "\n  %7 = bitcast %MModel* %6 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %7, i64 -1)"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i64* %7, i64 -1)"
   "\n  ret i64 %conv\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

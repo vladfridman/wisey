@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
@@ -379,11 +380,11 @@ void Model::printToStream(IRGenerationContext& context, iostream& stream) const 
 }
 
 void Model::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  incrementReferenceCounterForObject(context, object);
+  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, 1);
 }
 
 void Model::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
-  decrementReferenceCounterForObject(context, object);
+  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, -1);
 }
 
 Value* Model::getReferenceCount(IRGenerationContext& context, Value* object) const {
