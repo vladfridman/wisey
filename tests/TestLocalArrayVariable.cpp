@@ -87,3 +87,7 @@ TEST_F(TestFileSampleRunner, intArrayRunTest) {
   runFile("tests/samples/test_int_array.yz", "5");
 }
 
+TEST_F(TestFileSampleRunner, arrayOfModelsRunTest) {
+  runFile("tests/samples/test_array_of_models.yz", "7");
+}
+
