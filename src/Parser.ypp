@@ -1,6 +1,7 @@
 %{
   #include "wisey/AccessLevel.hpp"
   #include "wisey/AdditiveMultiplicativeExpression.hpp"
+  #include "wisey/ArrayElementExpression.hpp"
   #include "wisey/ArrayTypeSpecifier.hpp"
   #include "wisey/Assignment.hpp"
   #include "wisey/BindAction.hpp"
@@ -959,6 +960,18 @@ identifier_chain
 
 postfix_expression
   : primary_expression
+  | postfix_expression '[' expression ']'
+    { $$ = new ArrayElementExpression($1, $3); }
+  | identifier_chain '[' expression ']'
+    { 
+      if ($1->size() > 1) {
+        Log::e("Incorrect method call format");
+        exit(1);
+      }
+      Identifier* identifier = new Identifier($1->front());
+      $$ = new ArrayElementExpression(identifier, $3); 
+      delete $1;
+    }
   | postfix_expression '.' TIDENTIFIER '(' call_arguments ')'
     { $$ = new MethodCall($1, *$3, *$5, yylineno); delete $3; delete $5; }
   | identifier_chain '.' TIDENTIFIER '(' call_arguments ')'

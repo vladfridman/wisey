@@ -99,6 +99,9 @@
 		F51797121E6605FC009B16AA /* MethodSignatureDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */; };
 		F51797141E660779009B16AA /* TestInterfaceDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */; };
 		F518B5E81EB2240C00577EEB /* TestCatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F518B5E71EB2240C00577EEB /* TestCatch.cpp */; };
+		F51942DD1FDFEDFF009C3158 /* ArrayElementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */; };
+		F51942DE1FDFEDFF009C3158 /* ArrayElementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */; };
+		F51942E21FE030AA009C3158 /* TestArrayElementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */; };
 		F519ED771FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */; };
@@ -916,6 +919,9 @@
 		F51797101E6605FC009B16AA /* MethodSignatureDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MethodSignatureDeclaration.cpp; path = src/MethodSignatureDeclaration.cpp; sourceTree = "<group>"; };
 		F51797131E660779009B16AA /* TestInterfaceDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestInterfaceDefinition.cpp; path = tests/TestInterfaceDefinition.cpp; sourceTree = "<group>"; };
 		F518B5E71EB2240C00577EEB /* TestCatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCatch.cpp; path = tests/TestCatch.cpp; sourceTree = "<group>"; };
+		F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayElementExpression.hpp; path = include/wisey/ArrayElementExpression.hpp; sourceTree = "<group>"; };
+		F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayElementExpression.cpp; path = src/ArrayElementExpression.cpp; sourceTree = "<group>"; };
+		F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayElementExpression.cpp; path = tests/TestArrayElementExpression.cpp; sourceTree = "<group>"; };
 		F519ED751FD845EE00BE3FED /* InjectionArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InjectionArgument.hpp; path = include/wisey/InjectionArgument.hpp; sourceTree = "<group>"; };
 		F519ED761FD8476800BE3FED /* InjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InjectionArgument.cpp; path = src/InjectionArgument.cpp; sourceTree = "<group>"; };
 		F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestInjectionArgument.cpp; path = tests/TestInjectionArgument.cpp; sourceTree = "<group>"; };
@@ -1853,6 +1859,7 @@
 				F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */,
 				F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */,
+				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
 				F5F3F8DE1FDEEE47001BA5B9 /* TestArrayType.cpp */,
 				F5F3F8DC1FDEEA71001BA5B9 /* TestArrayTypeSpecifier.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
@@ -2655,6 +2662,7 @@
 		F5F3F8CC1FDEC574001BA5B9 /* arrays */ = {
 			isa = PBXGroup;
 			children = (
+				F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */,
 				F5F3F8D41FDEC835001BA5B9 /* ArrayType.hpp */,
 				F5F3F8D31FDEC6B1001BA5B9 /* ArrayTypeSpecifier.hpp */,
 			);
@@ -2664,6 +2672,7 @@
 		F5F3F8CD1FDEC581001BA5B9 /* arrays */ = {
 			isa = PBXGroup;
 			children = (
+				F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */,
 				F5F3F8D51FDEC95B001BA5B9 /* ArrayType.cpp */,
 				F5F3F8CF1FDEC637001BA5B9 /* ArrayTypeSpecifier.cpp */,
 			);
@@ -2787,6 +2796,7 @@
 				F592C9961ED323F7007FB2D0 /* TestMain.cpp in Sources */,
 				F53A2C091EEC34E900E76A9E /* ModelOwner.cpp in Sources */,
 				F50427A91E4D226C001CB148 /* LocalPrimitiveVariable.cpp in Sources */,
+				F51942E21FE030AA009C3158 /* TestArrayElementExpression.cpp in Sources */,
 				F55CF17C1F7DA54900A11426 /* TestExternalStaticMethod.cpp in Sources */,
 				F558057E1F96A6E8004F62F2 /* TestExitStatement.cpp in Sources */,
 				F5CE2D421EF6A43C002ABB85 /* IType.cpp in Sources */,
@@ -2990,6 +3000,7 @@
 				F55CF1781F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp in Sources */,
 				F50FA2D81E2D324100435EEA /* CaseStatement.cpp in Sources */,
 				F531B64B1E0A5329008304F3 /* TestAssignment.cpp in Sources */,
+				F51942DE1FDFEDFF009C3158 /* ArrayElementExpression.cpp in Sources */,
 				F5C6FD811E48B6E80054209D /* IntType.cpp in Sources */,
 				F5F3F8D71FDEC95B001BA5B9 /* ArrayType.cpp in Sources */,
 				F5CE2D501F180B89002ABB85 /* TryCatchInfo.cpp in Sources */,
@@ -3188,6 +3199,7 @@
 				F5ADB61B1E5F568400FFC941 /* NegateExpression.cpp in Sources */,
 				F58A834E1F7988D600369388 /* ExternalControllerDefinition.cpp in Sources */,
 				F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */,
+				F51942DD1FDFEDFF009C3158 /* ArrayElementExpression.cpp in Sources */,
 				F53401091DFF09230002BF7E /* ConditionalExpression.cpp in Sources */,
 				F5F3F8DA1FDED3DC001BA5B9 /* LocalArrayVariable.cpp in Sources */,
 				F5E270731F98F6A4008D2EB7 /* Constant.cpp in Sources */,
