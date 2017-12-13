@@ -22,6 +22,7 @@ class Model;
  * Contains information about an external static method implemented in a library
  */
 class ExternalStaticMethod : public IMethod {
+  const IObjectType* mObjectType;
   std::string mName;
   const IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
@@ -29,7 +30,8 @@ class ExternalStaticMethod : public IMethod {
   
 public:
   
-  ExternalStaticMethod(std::string name,
+  ExternalStaticMethod(const IObjectType* objectType,
+                       std::string name,
                        const IType* returnType,
                        std::vector<MethodArgument*> arguments,
                        std::vector<const Model*> thrownExceptions);

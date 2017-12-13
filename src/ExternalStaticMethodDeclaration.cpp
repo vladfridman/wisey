@@ -44,6 +44,6 @@ ExternalStaticMethod* ExternalStaticMethodDeclaration::declare(IRGenerationConte
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,
                                                                             mThrownExceptions);
   
-  return new ExternalStaticMethod(mName, returnType, arguments, exceptions);
+  return new ExternalStaticMethod(objectType, mName, returnType, arguments, exceptions);
 }
 

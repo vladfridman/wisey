@@ -46,10 +46,6 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
-    mStaticMethod = new ExternalStaticMethod("mymethod",
-                                             PrimitiveTypes::BOOLEAN_TYPE,
-                                             arguments,
-                                             thrownExceptions);
 
     vector<Type*> types;
     types.push_back(Type::getInt32Ty(mLLVMContext));
@@ -64,6 +60,12 @@ public:
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 0u);
     
+    mStaticMethod = new ExternalStaticMethod(mModel,
+                                             "mymethod",
+                                             PrimitiveTypes::BOOLEAN_TYPE,
+                                             arguments,
+                                             thrownExceptions);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -84,7 +86,11 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  ExternalStaticMethod staticMethod("foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions);
+  ExternalStaticMethod staticMethod(mModel,
+                                    "foo",
+                                    PrimitiveTypes::FLOAT_TYPE,
+                                    arguments,
+                                    thrownExceptions);
   Function* function = staticMethod.defineFunction(mContext, mModel);
   
   *mStringStream << *function;
