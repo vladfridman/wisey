@@ -27,8 +27,6 @@ public:
   
   virtual ~IMethodDeclaration() { }
   
-  virtual IMethod* declare(IRGenerationContext& context, const IObjectType* objectType) const = 0;
-
   /**
    * Helper function for creating method argument list for different types of methods
    */
