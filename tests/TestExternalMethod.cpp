@@ -45,10 +45,6 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
-    mMethod = new ExternalMethod("mymethod",
-                                 PrimitiveTypes::BOOLEAN_TYPE,
-                                 arguments,
-                                 thrownExceptions);
 
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
@@ -64,6 +60,12 @@ public:
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     
+    mMethod = new ExternalMethod(mModel,
+                                 "mymethod",
+                                 PrimitiveTypes::BOOLEAN_TYPE,
+                                 arguments,
+                                 thrownExceptions);
+
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
@@ -84,7 +86,7 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  ExternalMethod method("foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions);
+  ExternalMethod method(mModel, "foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions);
   Function* function = method.defineFunction(mContext, mModel);
   
   *mStringStream << *function;

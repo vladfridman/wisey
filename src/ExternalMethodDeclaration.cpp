@@ -43,5 +43,5 @@ ExternalMethod* ExternalMethodDeclaration::declare(IRGenerationContext& context,
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,
                                                                             mThrownExceptions);
 
-  return new ExternalMethod(mName, returnType, arguments, exceptions);
+  return new ExternalMethod(objectType, mName, returnType, arguments, exceptions);
 }

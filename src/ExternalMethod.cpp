@@ -18,10 +18,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ExternalMethod::ExternalMethod(string name,
+ExternalMethod::ExternalMethod(const IObjectType* objectType,
+                               string name,
                                const IType* returnType,
                                vector<MethodArgument*> arguments,
                                vector<const Model*> thrownExceptions) :
+mObjectType(objectType),
 mName(name),
 mReturnType(returnType),
 mArguments(arguments),
