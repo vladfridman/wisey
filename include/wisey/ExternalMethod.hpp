@@ -42,7 +42,7 @@ public:
   
   llvm::Function* defineFunction(IRGenerationContext& context) override;
   
-  void generateIR(IRGenerationContext& context, const IObjectType* objectType) const override;
+  void generateIR(IRGenerationContext& context) const override;
   
   std::string getName() const override;
   

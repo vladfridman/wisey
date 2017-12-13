@@ -261,7 +261,7 @@ void Interface::defineCurrentObjectNameVariable(IRGenerationContext& context) co
 
 void Interface::generateStaticMethodsIR(IRGenerationContext& context) const {
   for (IMethod* method : mStaticMethods) {
-    method->generateIR(context, this);
+    method->generateIR(context);
   }
 }
 

@@ -451,7 +451,7 @@ void IConcreteObjectType::generateStaticMethodsIR(IRGenerationContext& context,
                                                   const IConcreteObjectType* object) {
   for (IMethod* method : object->getMethods()) {
     if (method->isStatic()) {
-      method->generateIR(context, object);
+      method->generateIR(context);
     }
   }
 }
@@ -460,7 +460,7 @@ void IConcreteObjectType::generateMethodsIR(IRGenerationContext& context,
                                             const IConcreteObjectType* object) {
   for (IMethod* method : object->getMethods()) {
     if (!method->isStatic()) {
-      method->generateIR(context, object);
+      method->generateIR(context);
     }
   }
 }

@@ -44,8 +44,7 @@ Function* ExternalStaticMethod::defineFunction(IRGenerationContext& context) {
   return IMethod::defineFunction(context, mObjectType, this);
 }
 
-void ExternalStaticMethod::generateIR(IRGenerationContext& context,
-                                      const IObjectType* objectType) const {
+void ExternalStaticMethod::generateIR(IRGenerationContext& context) const {
 }
 
 string ExternalStaticMethod::getName() const {

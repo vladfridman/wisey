@@ -79,7 +79,7 @@ Function* StaticMethod::defineFunction(IRGenerationContext& context) {
   return mFunction;
 }
 
-void StaticMethod::generateIR(IRGenerationContext& context, const IObjectType* objectType) const {
+void StaticMethod::generateIR(IRGenerationContext& context) const {
   assert(mFunction != NULL);
   
   Scopes& scopes = context.getScopes();
@@ -91,7 +91,7 @@ void StaticMethod::generateIR(IRGenerationContext& context, const IObjectType* o
   
   defineCurrentMethodNameVariable(context, mName);
 
-  createArguments(context, mFunction, objectType);
+  createArguments(context, mFunction);
   mCompoundStatement->generateIR(context);
   
   IMethod::maybeAddImpliedVoidReturn(context, this, mLine);
@@ -100,9 +100,7 @@ void StaticMethod::generateIR(IRGenerationContext& context, const IObjectType* o
   scopes.popScope(context, mLine);
 }
 
-void StaticMethod::createArguments(IRGenerationContext& context,
-                                   Function* function,
-                                   const IObjectType* objectType) const {
+void StaticMethod::createArguments(IRGenerationContext& context, Function* function) const {
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName(ThreadExpression::THREAD);

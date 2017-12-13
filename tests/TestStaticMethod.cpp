@@ -153,7 +153,7 @@ TEST_F(StaticMethodTest, generateIRTest) {
                             &mCompoundStatement,
                             0);
   Function* function = staticMethod.defineFunction(mContext);
-  staticMethod.generateIR(mContext, mModel);
+  staticMethod.generateIR(mContext);
   
   *mStringStream << *function;
   string expected =

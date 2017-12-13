@@ -51,7 +51,7 @@ public:
   
   llvm::Function* defineFunction(IRGenerationContext& context) override;
   
-  void generateIR(IRGenerationContext& context, const IObjectType* objectType) const override;
+  void generateIR(IRGenerationContext& context) const override;
 
   std::string getName() const override;
   
@@ -69,9 +69,7 @@ public:
 
 private:
   
-  void createArguments(IRGenerationContext& context,
-                       llvm::Function* function,
-                       const IObjectType* objectType) const;
+  void createArguments(IRGenerationContext& context, llvm::Function* function) const;
   
 };
 

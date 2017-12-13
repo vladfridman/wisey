@@ -81,7 +81,7 @@ Function* Method::defineFunction(IRGenerationContext& context) {
   return mFunction;
 }
 
-void Method::generateIR(IRGenerationContext& context, const IObjectType* objectType) const {
+void Method::generateIR(IRGenerationContext& context) const {
   assert(mFunction != NULL);
   
   Scopes& scopes = context.getScopes();
@@ -93,7 +93,7 @@ void Method::generateIR(IRGenerationContext& context, const IObjectType* objectT
 
   defineCurrentMethodNameVariable(context, mName);
   
-  createArguments(context, mFunction, objectType);
+  createArguments(context, mFunction);
   mCompoundStatement->generateIR(context);
   
   IMethod::maybeAddImpliedVoidReturn(context, this, mLine);
@@ -102,9 +102,7 @@ void Method::generateIR(IRGenerationContext& context, const IObjectType* objectT
   scopes.popScope(context, mLine);
 }
 
-void Method::createArguments(IRGenerationContext& context,
-                             Function* function,
-                             const IObjectType* objectType) const {
+void Method::createArguments(IRGenerationContext& context, Function* function) const {
   Function::arg_iterator llvmFunctionArguments = function->arg_begin();
   llvm::Argument *llvmFunctionArgument = &*llvmFunctionArguments;
   llvmFunctionArgument->setName("this");
@@ -119,7 +117,7 @@ void Method::createArguments(IRGenerationContext& context,
   }
   
   llvmFunctionArguments = function->arg_begin();
-  IMethod::storeArgumentValue(context, "this", objectType, &*llvmFunctionArguments);
+  IMethod::storeArgumentValue(context, "this", mObjectType, &*llvmFunctionArguments);
   llvmFunctionArguments++;
   IMethod::storeArgumentValue(context,
                               ThreadExpression::THREAD,

@@ -44,7 +44,7 @@ Function* ExternalMethod::defineFunction(IRGenerationContext& context) {
   return IMethod::defineFunction(context, mObjectType, this);
 }
 
-void ExternalMethod::generateIR(IRGenerationContext& context, const IObjectType* objectType) const {
+void ExternalMethod::generateIR(IRGenerationContext& context) const {
 }
 
 string ExternalMethod::getName() const {

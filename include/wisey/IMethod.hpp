@@ -30,7 +30,7 @@ public:
   /**
    * Generates IR for this method in a given concrete object
    */
-  virtual void generateIR(IRGenerationContext& context, const IObjectType* objectType) const = 0;
+  virtual void generateIR(IRGenerationContext& context) const = 0;
 
   /**
    * Store method argument as a variable in the current scope
