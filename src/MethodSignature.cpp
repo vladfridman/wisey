@@ -7,6 +7,7 @@
 //
 
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/Interface.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodSignature.hpp"
 
@@ -14,10 +15,12 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-MethodSignature::MethodSignature(std::string name,
+MethodSignature::MethodSignature(const IObjectType* objectType,
+                                 std::string name,
                                  const IType* returnType,
                                  vector<MethodArgument*> arguments,
                                  vector<const Model*> thrownExceptions) :
+mObjectType(objectType),
 mName(name),
 mReturnType(returnType),
 mArguments(arguments),
@@ -54,8 +57,8 @@ vector<const Model*> MethodSignature::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-MethodSignature* MethodSignature::createCopy() const {
-  return new MethodSignature(mName, mReturnType, mArguments, mThrownExceptions);
+MethodSignature* MethodSignature::createCopy(const Interface* interface) const {
+  return new MethodSignature(interface, mName, mReturnType, mArguments, mThrownExceptions);
 }
 
 ObjectElementType MethodSignature::getObjectElementType() const {

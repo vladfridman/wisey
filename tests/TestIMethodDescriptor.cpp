@@ -151,7 +151,8 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   vector<MethodArgument*> arguments;
   vector<const Model*> thrownExceptions;
   arguments.push_back(intArgument);
-  MethodSignature method("foo",
+  MethodSignature method(mModel,
+                         "foo",
                          PrimitiveTypes::FLOAT_TYPE,
                          arguments,
                          thrownExceptions);

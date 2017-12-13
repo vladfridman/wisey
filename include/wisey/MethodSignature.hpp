@@ -15,8 +15,11 @@
 
 namespace wisey {
   
+class Interface;
+  
 class MethodSignature : public IMethodDescriptor, public IObjectElement {
   
+  const IObjectType* mObjectType;
   std::string mName;
   const IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
@@ -24,7 +27,8 @@ class MethodSignature : public IMethodDescriptor, public IObjectElement {
 
 public:
   
-  MethodSignature(std::string name,
+  MethodSignature(const IObjectType* objectType,
+                  std::string name,
                   const IType* returnType,
                   std::vector<MethodArgument*> arguments,
                   std::vector<const Model*> thrownExceptions);
@@ -34,7 +38,7 @@ public:
   /**
    * Creates a copy of the object with a different index
    */
-  MethodSignature* createCopy() const;
+  MethodSignature* createCopy(const Interface* interface) const;
 
   bool isStatic() const override;
   

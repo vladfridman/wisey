@@ -23,15 +23,25 @@ using ::testing::Test;
 struct MethodSignatureTest : Test {
   IRGenerationContext mContext;
   MethodSignature* mMethodSignature;
+  Interface* mInterface;
   
   MethodSignatureTest() {
+    vector<IInterfaceTypeSpecifier*> parentInterfaces;
+    vector<IObjectElementDeclaration*> interfaceElements;
+    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                         "systems.vos.wisey.compiler.tests.IInterface",
+                                         NULL,
+                                         parentInterfaces,
+                                         interfaceElements);
+
     vector<MethodArgument*> arguments;
     vector<const Model*> thrownExceptions;
-    mMethodSignature = new MethodSignature("foo",
+    mMethodSignature = new MethodSignature(mInterface,
+                                           "foo",
                                            PrimitiveTypes::LONG_TYPE,
                                            arguments,
                                            thrownExceptions);
-  }
+}
 };
 
 TEST_F(MethodSignatureTest, methodSignatureTest) {
@@ -41,7 +51,14 @@ TEST_F(MethodSignatureTest, methodSignatureTest) {
 }
 
 TEST_F(MethodSignatureTest, createCopyTest) {
-  MethodSignature* copy = mMethodSignature->createCopy();
+  vector<IInterfaceTypeSpecifier*> parentInterfaces;
+  vector<IObjectElementDeclaration*> interfaceElements;
+  Interface* interface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
+                                                 "systems.vos.wisey.compiler.tests.IAnother",
+                                                 NULL,
+                                                 parentInterfaces,
+                                                 interfaceElements);
+  MethodSignature* copy = mMethodSignature->createCopy(interface);
   
   EXPECT_STREQ(copy->getName().c_str(), "foo");
   EXPECT_EQ(copy->getReturnType(), PrimitiveTypes::LONG_TYPE);

@@ -44,5 +44,5 @@ MethodSignature* MethodSignatureDeclaration::declare(IRGenerationContext& contex
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context,
                                                                             mThrownExceptions);
 
-  return new MethodSignature(mMethodName, returnType, arguments, exceptions);
+  return new MethodSignature(objectType, mMethodName, returnType, arguments, exceptions);
 }

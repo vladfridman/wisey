@@ -23,7 +23,6 @@
 #include "wisey/Log.hpp"
 #include "wisey/MethodArgument.hpp"
 #include "wisey/MethodCall.hpp"
-#include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/Names.hpp"
@@ -190,7 +189,7 @@ void Interface::includeInterfaceMethods(Interface* parentInterface) {
     if (existingMethod) {
       continue;
     }
-    MethodSignature* copySignature = methodSignature->createCopy();
+    MethodSignature* copySignature = methodSignature->createCopy(this);
     mAllMethodSignatures.push_back(copySignature);
     mNameToMethodSignatureMap[copySignature->getName()] = copySignature;
   }
