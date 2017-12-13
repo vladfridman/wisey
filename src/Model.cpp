@@ -178,7 +178,7 @@ vector<IMethod*> Model::getMethods() const {
 }
 
 string Model::getVTableName() const {
-  return getName() + ".vtable";
+  return getTypeName() + ".vtable";
 }
 
 unsigned long Model::getVTableSize() const {
@@ -186,15 +186,15 @@ unsigned long Model::getVTableSize() const {
 }
 
 string Model::getObjectNameGlobalVariableName() const {
-  return getName() + ".name";
+  return getTypeName() + ".name";
 }
 
 string Model::getObjectShortNameGlobalVariableName() const {
-  return getName() + ".shortname";
+  return getTypeName() + ".shortname";
 }
 
 string Model::getTypeTableName() const {
-  return getName() + ".typetable";
+  return getTypeName() + ".typetable";
 }
 
 vector<Interface*> Model::getInterfaces() const {
@@ -210,7 +210,7 @@ bool Model::doesImplmentInterface(Interface* interface) const {
   return getInterfaceIndex((IConcreteObjectType*) this, interface) >= 0;
 }
 
-string Model::getName() const {
+string Model::getTypeName() const {
   return mName;
 }
 
@@ -368,7 +368,7 @@ void Model::initializeFields(IRGenerationContext& context,
 }
 
 string Model::getRTTIVariableName() const {
-  return getName() + ".rtti";
+  return getTypeName() + ".rtti";
 }
 
 const IObjectOwnerType* Model::getOwner() const {

@@ -52,7 +52,7 @@ struct IConcreteObjectTypeTest : public Test {
     programPrefix.generateIR(mContext);
 
     mContext.getScopes().pushScope();
-    ON_CALL(mMockObject, getName()).WillByDefault(Return("Object"));
+    ON_CALL(mMockObject, getTypeName()).WillByDefault(Return("Object"));
     ON_CALL(mMockObject, getObjectNameGlobalVariableName()).WillByDefault(Return("Object.name"));
 
     vector<Interface*> interfaces;
@@ -196,7 +196,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorBodyTest) {
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mStarModel);
   mContext.runComposingCallbacks();
   
-  Function* function = mContext.getModule()->getFunction("destructor." + mStarModel->getName());
+  Function* function = mContext.getModule()->getFunction("destructor." + mStarModel->getTypeName());
   
   *mStringStream << *function;
   string expected =
@@ -248,7 +248,8 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectOwnerFieldTe
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mGalaxyModel);
   mContext.runComposingCallbacks();
 
-  Function* function = mContext.getModule()->getFunction("destructor." + mGalaxyModel->getName());
+  Function* function = mContext.getModule()->getFunction("destructor." +
+                                                         mGalaxyModel->getTypeName());
   
   *mStringStream << *function;
   string expected =
@@ -303,7 +304,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithObjectReferenceFie
   mContext.runComposingCallbacks();
 
   Function* function = mContext.getModule()->getFunction("destructor." +
-                                                         mConstellationModel->getName());
+                                                         mConstellationModel->getTypeName());
   
   *mStringStream << *function;
   string expected =
@@ -359,7 +360,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorForObjectWithInterfaceOwnerFiel
   IConcreteObjectType::scheduleDestructorBodyComposition(mContext, mCarModel);
   mContext.runComposingCallbacks();
 
-  Function* function = mContext.getModule()->getFunction("destructor." + mCarModel->getName());
+  Function* function = mContext.getModule()->getFunction("destructor." + mCarModel->getTypeName());
   
   *mStringStream << *function;
   string expected =

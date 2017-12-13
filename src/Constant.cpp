@@ -48,7 +48,7 @@ void Constant::printToStream(IRGenerationContext& context, iostream& stream) con
     return;
   }
   
-  stream << "  public constant " << mType->getName() << " " << mName << " = ";
+  stream << "  public constant " << mType->getTypeName() << " " << mName << " = ";
   mExpression->printToStream(context, stream);
   stream << ";\n";
 }
@@ -82,5 +82,5 @@ llvm::Value* Constant::generateIR(IRGenerationContext& context,
 }
 
 string Constant::getConstantGlobalName(const IObjectType* objectType) const {
-  return "constant." + objectType->getName() + "." + mName;
+  return "constant." + objectType->getTypeName() + "." + mName;
 }

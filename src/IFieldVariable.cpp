@@ -38,7 +38,7 @@ Field* IFieldVariable::checkAndFindField(IRGenerationContext& context,
     return field;
   }
   
-  Log::e("Field " + fieldName + " is not found in object " + object->getName());
+  Log::e("Field " + fieldName + " is not found in object " + object->getTypeName());
   exit(1);
 }
 

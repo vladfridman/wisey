@@ -84,7 +84,7 @@ TEST_F(InterfaceOwnerTest, getObjectTest) {
 }
 
 TEST_F(InterfaceOwnerTest, getNameTest) {
-  EXPECT_STREQ(mShapeInterface->getOwner()->getName().c_str(),
+  EXPECT_STREQ(mShapeInterface->getOwner()->getTypeName().c_str(),
                "systems.vos.wisey.compiler.tests.IShape*");
 }
 

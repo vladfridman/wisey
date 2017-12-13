@@ -99,7 +99,7 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
 }
 
 wisey::ArrayType* IRGenerationContext::getArrayType(const IType* baseType, unsigned long size) {
-  string key = baseType->getName() + "[" + to_string(size) + "]";
+  string key = baseType->getTypeName() + "[" + to_string(size) + "]";
   if (mArrayTypes.count(key)) {
     return mArrayTypes.at(key);
   }
@@ -110,7 +110,7 @@ wisey::ArrayType* IRGenerationContext::getArrayType(const IType* baseType, unsig
 }
 
 void IRGenerationContext::addModel(Model* model) {
-  string name = model->getName();
+  string name = model->getTypeName();
   if (mModels.count(name)) {
     Log::e("Redefinition of model " + name);
     exit(1);
@@ -132,7 +132,7 @@ Model* IRGenerationContext::getModel(string fullName) {
 }
 
 void IRGenerationContext::addController(Controller* controller) {
-  string name = controller->getName();
+  string name = controller->getTypeName();
   if (mControllers.count(name)) {
     Log::e("Redefinition of controller " + name);
     exit(1);
@@ -154,7 +154,7 @@ Controller* IRGenerationContext::getController(string fullName) {
 }
 
 void IRGenerationContext::addNode(Node* node) {
-  string name = node->getName();
+  string name = node->getTypeName();
   if (mNodes.count(name)) {
     Log::e("Redefinition of node " + name);
     exit(1);
@@ -176,7 +176,7 @@ Node* IRGenerationContext::getNode(string fullName) {
 }
 
 void IRGenerationContext::addInterface(Interface* interface) {
-  string name = interface->getName();
+  string name = interface->getTypeName();
   if (mInterfaces.count(name)) {
     Log::e("Redefinition of interface " + name);
     exit(1);
@@ -199,8 +199,9 @@ Interface* IRGenerationContext::getInterface(string fullName) {
 
 void IRGenerationContext::bindInterfaceToController(Interface* interface, Controller* controller) {
   if (mBindings.count(interface)) {
-    Log::e("Interface " + interface->getName() + " is already bound to " +
-           mBindings[interface]->getName() + " and can not be bound to " + controller->getName());
+    Log::e("Interface " + interface->getTypeName() + " is already bound to " +
+           mBindings[interface]->getTypeName() + " and can not be bound to " +
+           controller->getTypeName());
     exit(1);
   }
   mBindings[interface] = controller;
@@ -208,7 +209,7 @@ void IRGenerationContext::bindInterfaceToController(Interface* interface, Contro
 
 Controller* IRGenerationContext::getBoundController(Interface* interface) {
   if (!hasBoundController(interface)) {
-    Log::e("No controller is bound to interface " + interface->getName());
+    Log::e("No controller is bound to interface " + interface->getTypeName());
     exit(1);
   }
   return mBindings[interface];
@@ -299,7 +300,7 @@ void IRGenerationContext::printToStream(IRGenerationContext& context, iostream& 
        iterator++) {
     Interface* interface = iterator->first;
     Controller* controller = iterator->second;
-    stream << "bind(" << controller->getName() << ").to(" << interface->getName() << ");";
+    stream << "bind(" << controller->getTypeName() << ").to(" << interface->getTypeName() << ");";
     stream << endl;
   }
   if (mBindings.size()) {

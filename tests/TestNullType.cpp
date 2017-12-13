@@ -49,7 +49,7 @@ struct NullTypeTest : public Test {
 };
 
 TEST_F(NullTypeTest, getNameTest) {
-  ASSERT_STREQ(NullType::NULL_TYPE->getName().c_str(), "null");
+  ASSERT_STREQ(NullType::NULL_TYPE->getTypeName().c_str(), "null");
 }
 
 TEST_F(NullTypeTest, getLLVMTypeTest) {

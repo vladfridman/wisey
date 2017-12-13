@@ -27,8 +27,8 @@ unsigned long ArrayType::getSize() const {
   return mSize;
 }
 
-string ArrayType::getName() const {
-  return mBaseType->getName() + "[" + to_string(mSize) + "]";
+string ArrayType::getTypeName() const {
+  return mBaseType->getTypeName() + "[" + to_string(mSize) + "]";
 }
 
 llvm::Type* ArrayType::getLLVMType(llvm::LLVMContext& llvmContext) const {

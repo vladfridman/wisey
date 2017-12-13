@@ -272,7 +272,7 @@ string Controller::getObjectShortNameGlobalVariableName() const {
   return mName + ".shortname";
 }
 
-string Controller::getName() const {
+string Controller::getTypeName() const {
   return mName;
 }
 

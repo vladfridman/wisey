@@ -42,7 +42,7 @@ public:
   mName("mField") {
     mInjectionArgument = new InjectionArgument("withFoo", mExpression);
     mInjectionArgumentList.push_back(mInjectionArgument);
-    ON_CALL(*mType, getName()).WillByDefault(Return("MObject*"));
+    ON_CALL(*mType, getTypeName()).WillByDefault(Return("MObject*"));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
   }
   

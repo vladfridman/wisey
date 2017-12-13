@@ -37,7 +37,7 @@ public:
    */
   unsigned long getSize() const;
   
-  std::string getName() const override;
+  std::string getTypeName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmContext) const override;
   

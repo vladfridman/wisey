@@ -311,7 +311,7 @@ TEST_F(ModelTest, getAccessLevelTest) {
 }
 
 TEST_F(ModelTest, getNameTest) {
-  EXPECT_STREQ(mModel->getName().c_str(), "systems.vos.wisey.compiler.tests.MSquare");
+  EXPECT_STREQ(mModel->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(ModelTest, getShortNameTest) {

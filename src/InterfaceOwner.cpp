@@ -24,8 +24,8 @@ Interface* InterfaceOwner::getObject() const {
   return mInterface;
 }
 
-string InterfaceOwner::getName() const {
-  return mInterface->getName() + '*';
+string InterfaceOwner::getTypeName() const {
+  return mInterface->getTypeName() + '*';
 }
 
 PointerType* InterfaceOwner::getLLVMType(LLVMContext& llvmContext) const {

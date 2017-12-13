@@ -18,5 +18,5 @@ IType* PrimitiveTypeSpecifier::getType(IRGenerationContext& context) const {
 
 void PrimitiveTypeSpecifier::printToStream(IRGenerationContext& context,
                                            std::iostream& stream) const {
-  stream << mType->getName();
+  stream << mType->getTypeName();
 }

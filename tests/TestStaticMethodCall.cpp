@@ -155,7 +155,8 @@ public:
     mContext.getScopes().setVariable(threadVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();
-    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getName());
+    llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                  mModel->getTypeName());
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,

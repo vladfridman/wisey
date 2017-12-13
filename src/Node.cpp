@@ -171,7 +171,7 @@ string Node::getObjectShortNameGlobalVariableName() const {
   return mName + ".shortname";
 }
 
-string Node::getName() const {
+string Node::getTypeName() const {
   return mName;
 }
 

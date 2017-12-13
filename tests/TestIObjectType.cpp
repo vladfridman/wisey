@@ -88,11 +88,11 @@ TEST_F(IObjectTypeTest, checkAccessToIsNotAccessableDeathTest) {
   NiceMock<MockObjectType> toObject;
   Mock::AllowLeak(&toObject);
   ON_CALL(toObject, getAccessLevel()).WillByDefault(Return(AccessLevel::PRIVATE_ACCESS));
-  ON_CALL(toObject, getName()).WillByDefault(Return("MToObject"));
+  ON_CALL(toObject, getTypeName()).WillByDefault(Return("MToObject"));
   NiceMock<MockObjectType> fromObject;
   Mock::AllowLeak(&fromObject);
   ON_CALL(fromObject, getAccessLevel()).WillByDefault(Return(AccessLevel::PUBLIC_ACCESS));
-  ON_CALL(fromObject, getName()).WillByDefault(Return("MFromObject"));
+  ON_CALL(fromObject, getTypeName()).WillByDefault(Return("MFromObject"));
   
   EXPECT_EXIT(IObjectType::checkAccess(&fromObject, &toObject),
               ::testing::ExitedWithCode(1),

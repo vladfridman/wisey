@@ -55,7 +55,7 @@ public:
 
 TEST_F(CharTypeTest, charTypeTest) {
   EXPECT_EQ(mCharType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt16Ty(mLLVMContext));
-  EXPECT_STREQ(mCharType.getName().c_str(), "char");
+  EXPECT_STREQ(mCharType.getTypeName().c_str(), "char");
   EXPECT_EQ(mCharType.getTypeKind(), PRIMITIVE_TYPE);
   EXPECT_EQ(mCharType.getFormat(), "%c");
 }

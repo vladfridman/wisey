@@ -16,7 +16,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-string StringType::getName() const {
+string StringType::getTypeName() const {
   return "string";
 }
 

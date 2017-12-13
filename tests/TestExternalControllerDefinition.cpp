@@ -92,7 +92,7 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectTest) {
   Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
   
   EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
-  EXPECT_STREQ(controller->getName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
+  EXPECT_STREQ(controller->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
   EXPECT_EQ(controller->findMethod("foo"), nullptr);
 }
 

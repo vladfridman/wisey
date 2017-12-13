@@ -174,7 +174,7 @@ public:
 
   std::string getObjectNameGlobalVariableName() const override;
   
-  std::string getName() const override;
+  std::string getTypeName() const override;
   
   std::string getShortName() const override;
   

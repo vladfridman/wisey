@@ -17,7 +17,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-string CharType::getName() const {
+string CharType::getTypeName() const {
   return "char";
 }
 

@@ -39,7 +39,7 @@ TEST_F(ArrayTypeTest, getSizeTest) {
 }
 
 TEST_F(ArrayTypeTest, getNameTest) {
-  EXPECT_STREQ("long[5]", mArrayType->getName().c_str());
+  EXPECT_STREQ("long[5]", mArrayType->getTypeName().c_str());
 }
 
 TEST_F(ArrayTypeTest, getLLVMTypeTest) {

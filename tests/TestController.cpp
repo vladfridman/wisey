@@ -305,7 +305,7 @@ TEST_F(ControllerTest, getAccessLevelTest) {
 }
 
 TEST_F(ControllerTest, getNameTest) {
-  EXPECT_STREQ(mMultiplierController->getName().c_str(),
+  EXPECT_STREQ(mMultiplierController->getTypeName().c_str(),
                "systems.vos.wisey.compiler.tests.CMultiplier");
 }
 

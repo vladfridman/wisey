@@ -53,7 +53,7 @@ TEST_F(IObjectTypeSpecifierTest, getFullNameInnerObjectSameNameAsCurrentObjectTe
   NiceMock<MockObjectType> mockObject;
   string fullName = "systems.vos.wisey.MOuterObject.MInnerObject";
   ON_CALL(mockObject, getShortName()).WillByDefault(Return("MInnerObject"));
-  ON_CALL(mockObject, getName()).WillByDefault(Return(fullName));
+  ON_CALL(mockObject, getTypeName()).WillByDefault(Return(fullName));
   mContext.setObjectType(&mockObject);
   
   EXPECT_STREQ(fullName.c_str(),
@@ -63,10 +63,10 @@ TEST_F(IObjectTypeSpecifierTest, getFullNameInnerObjectSameNameAsCurrentObjectTe
 TEST_F(IObjectTypeSpecifierTest, getFullNameInnerObjectInnerOfCurrentObjectTest) {
   NiceMock<MockObjectType> outerObject;
   ON_CALL(outerObject, getShortName()).WillByDefault(Return("MOuterObject"));
-  ON_CALL(outerObject, getName()).WillByDefault(Return("systems.vos.wisey.MOuterObject"));
+  ON_CALL(outerObject, getTypeName()).WillByDefault(Return("systems.vos.wisey.MOuterObject"));
   NiceMock<MockObjectType> innerObject;
   ON_CALL(innerObject, getShortName()).WillByDefault(Return("MInnerObject"));
-  ON_CALL(innerObject, getName()).
+  ON_CALL(innerObject, getTypeName()).
   WillByDefault(Return("systems.vos.wisey.MOuterObject.MInnerObject"));
   ON_CALL(outerObject, getInnerObject(_)).WillByDefault(Return(&innerObject));
   mContext.setObjectType(&outerObject);

@@ -126,12 +126,12 @@ void Interface::buildMethods(IRGenerationContext& context) {
   
   for (IInterfaceTypeSpecifier* parentInterfaceSpecifier : mParentInterfaceSpecifiers) {
     Interface* parentInterface = (Interface*) parentInterfaceSpecifier->getType(context);
-    if (mParentInterfacesMap.count(parentInterface->getName())) {
+    if (mParentInterfacesMap.count(parentInterface->getTypeName())) {
       Log::e("Circular interface dependency between interfaces " +
-             getName() + " and " + parentInterface->getName());
+             getTypeName() + " and " + parentInterface->getTypeName());
       exit(1);
     }
-    mParentInterfacesMap[parentInterface->getName()] = parentInterface;
+    mParentInterfacesMap[parentInterface->getTypeName()] = parentInterface;
     if (!parentInterface->isComplete()) {
       parentInterface->buildMethods(context);
     }
@@ -206,7 +206,8 @@ vector<Interface*> Interface::getParentInterfaces() const {
 
 unsigned long Interface::getMethodIndex(IMethodDescriptor* methodDescriptor) const {
   if (!mMethodIndexes.count(methodDescriptor)) {
-    Log::e("Method " + methodDescriptor->getName() + " not found in interface " + getName());
+    Log::e("Method " + methodDescriptor->getName() + " not found in interface " +
+           getTypeName());
     exit(1);
   }
   return mMethodIndexes.at(methodDescriptor);
@@ -330,28 +331,28 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
     object->findMethod(interfaceMethodSignature->getName());
   if (objectMethodDescriptor == NULL) {
     Log::e("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
-           " is not implemented by object " + object->getName());
+           " is not implemented by object " + object->getTypeName());
     exit(1);
   }
   
   if (objectMethodDescriptor->getReturnType() != interfaceMethodSignature->getReturnType()) {
     Log::e("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
-           " has different return type when implmeneted by object " + object->getName());
+           " has different return type when implmeneted by object " + object->getTypeName());
     exit(1);
   }
   
   if (doesMethodHaveUnexpectedExceptions(interfaceMethodSignature,
                                          objectMethodDescriptor,
-                                         object->getName())) {
+                                         object->getTypeName())) {
     Log::e("Exceptions thrown by method " +  interfaceMethodSignature->getName() +
            " of interface " + mName + " do not reconcile with exceptions thrown by its " +
-           "implementation in object " + object->getName());
+           "implementation in object " + object->getTypeName());
     exit(1);
   }
   
   if (!IMethodDescriptor::compare(objectMethodDescriptor, interfaceMethodSignature)) {
     Log::e("Method " + interfaceMethodSignature->getName() + " of interface " + mName +
-           " has different argument types when implmeneted by object " + object->getName());
+           " has different argument types when implmeneted by object " + object->getTypeName());
     exit(1);
   }
   
@@ -418,14 +419,14 @@ bool Interface::doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMet
                                                    string objectName) const {
   map<string, const IType*> interfaceExceptionsMap;
   for (const IType* interfaceException : interfaceMethodSignature->getThrownExceptions()) {
-    interfaceExceptionsMap[interfaceException->getName()] = interfaceException;
+    interfaceExceptionsMap[interfaceException->getTypeName()] = interfaceException;
   }
 
   bool result = false;
   for (const IType* objectException : objectMethodDescriptor->getThrownExceptions()) {
-    if (!interfaceExceptionsMap.count(objectException->getName())) {
+    if (!interfaceExceptionsMap.count(objectException->getTypeName())) {
       Log::e("Method " + objectMethodDescriptor->getName() + " of object " + objectName +
-             " throws an unexpected exception of type " + objectException->getName());
+             " throws an unexpected exception of type " + objectException->getTypeName());
       result = true;
     }
   }
@@ -505,7 +506,7 @@ llvm::Value* Interface::storeArgumentValue(IRGenerationContext& context,
   return alloc;
 }
 
-string Interface::getName() const {
+string Interface::getTypeName() const {
   return mName;
 }
 
@@ -545,7 +546,7 @@ bool Interface::canAutoCastTo(const IType* toType) const {
 }
 
 string Interface::getCastFunctionName(const IObjectType* toType) const {
-  return "cast." + getName() + ".to." + toType->getName();
+  return "cast." + getTypeName() + ".to." + toType->getTypeName();
 }
 
 Value* Interface::castTo(IRGenerationContext& context,
@@ -674,7 +675,7 @@ bool Interface::isExternal() const {
 
 void Interface::printToStream(IRGenerationContext& context, iostream& stream) const {
   stream << "external interface ";
-  stream << (isInner() ? getShortName() : getName());
+  stream << (isInner() ? getShortName() : getTypeName());
   if (getAccessLevel() == PRIVATE_ACCESS) {
     stream << " {" << endl << "}" << endl;
     return;
@@ -683,7 +684,7 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
     stream << endl << "  extends";
   }
   for (Interface* interface : mParentInterfaces) {
-    stream << endl << "    " << interface->getName();
+    stream << endl << "    " << interface->getTypeName();
     if (interface != mParentInterfaces.at(mParentInterfaces.size() - 1)) {
       stream << ",";
     }
@@ -721,7 +722,7 @@ void Interface::printToStream(IRGenerationContext& context, iostream& stream) co
 
 void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, getName());
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, getTypeName());
   new GlobalVariable(*context.getModule(),
                      stringConstant->getType(),
                      true,
@@ -733,7 +734,7 @@ void Interface::defineInterfaceTypeName(IRGenerationContext& context) {
 Instruction* Interface::inject(IRGenerationContext& context,
                                InjectionArgumentList injectionArgumentList,
                                int line) const {
-  Controller* controller = context.getBoundController(context.getInterface(getName()));
+  Controller* controller = context.getBoundController(context.getInterface(getTypeName()));
   return controller->inject(context, injectionArgumentList, line);
 }
 

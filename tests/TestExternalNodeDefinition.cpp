@@ -85,7 +85,7 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
   
-  EXPECT_STREQ(node->getName().c_str(), "systems.vos.wisey.compiler.tests.NMyNode");
+  EXPECT_STREQ(node->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.NMyNode");
   EXPECT_STREQ(node->getShortName().c_str(), "NMyNode");
   EXPECT_EQ(node->findMethod("foo"), nullptr);
 }

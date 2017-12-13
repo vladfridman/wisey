@@ -47,7 +47,7 @@ public:
   /**
    * Returns type name
    */
-  virtual std::string getName() const = 0;
+  virtual std::string getTypeName() const = 0;
   
   /**
    * Return corresponding LLVM type

@@ -24,7 +24,7 @@ public:
   
   ~StringType() { }
   
-  std::string getName() const override;
+  std::string getTypeName() const override;
   
   llvm::Type* getLLVMType(llvm::LLVMContext& llvmcontext) const override;
   

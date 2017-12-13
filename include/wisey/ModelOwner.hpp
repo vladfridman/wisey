@@ -28,7 +28,7 @@ public:
   
   Model* getObject() const override;
   
-  std::string getName() const override;
+  std::string getTypeName() const override;
   
   llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override;
   

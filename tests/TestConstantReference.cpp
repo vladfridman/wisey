@@ -59,7 +59,7 @@ public:
                                       mName,
                                       mMockExpression);
     ON_CALL(*mMockObject, findConstant(_)).WillByDefault(Return(constant));
-    ON_CALL(*mMockObject, getName()).WillByDefault(Return("MMyObject"));
+    ON_CALL(*mMockObject, getTypeName()).WillByDefault(Return("MMyObject"));
     ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     llvm::Constant* intConstant = llvm::ConstantInt::get(llvm::Type::getInt32Ty(mLLVMContext), 5);
     ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(intConstant));

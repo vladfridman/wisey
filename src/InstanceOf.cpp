@@ -48,7 +48,7 @@ Function* InstanceOf::getOrCreateFunction(IRGenerationContext& context,
 }
 
 string InstanceOf::getFunctionName(const Interface* interface) {
-  return interface->getName() + ".instanceof";
+  return interface->getTypeName() + ".instanceof";
 }
 
 Function* InstanceOf::compose(IRGenerationContext& context, Function* function) {

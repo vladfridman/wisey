@@ -109,7 +109,7 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
   
   Node* node = mContext.getNode("systems.vos.wisey.compiler.tests.NMyNode");
   
-  EXPECT_STREQ(node->getName().c_str(), "systems.vos.wisey.compiler.tests.NMyNode");
+  EXPECT_STREQ(node->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.NMyNode");
   EXPECT_STREQ(node->getShortName().c_str(), "NMyNode");
   EXPECT_EQ(node->findMethod("foo"), nullptr);
 }
@@ -174,7 +174,7 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
-  EXPECT_STREQ(node->getName().c_str(), "systems.vos.wisey.compiler.tests.NMyNode");
+  EXPECT_STREQ(node->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.NMyNode");
   EXPECT_STREQ(node->getShortName().c_str(), "NMyNode");
   EXPECT_NE(node->findMethod("foo"), nullptr);
 }
@@ -207,7 +207,8 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   mContext.addInterface(interface);
   interface->buildMethods(mContext);
   
-  llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());
+  llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                interface->getTypeName());
   new GlobalVariable(*mContext.getModule(),
                      stringConstant->getType(),
                      true,

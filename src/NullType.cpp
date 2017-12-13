@@ -17,7 +17,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-string NullType::getName() const {
+string NullType::getTypeName() const {
   return "null";
 }
 

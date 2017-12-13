@@ -15,7 +15,7 @@ using namespace wisey;
 string IObjectDefinition::getFullName(IRGenerationContext& context,
                                       IObjectTypeSpecifier* typeSpecifier) {
   return context.getObjectType()
-  ? context.getObjectType()->getName() + "." + typeSpecifier->getShortName()
+  ? context.getObjectType()->getTypeName() + "." + typeSpecifier->getShortName()
   : typeSpecifier->getName(context);
 }
 

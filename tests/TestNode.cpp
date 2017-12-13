@@ -322,7 +322,7 @@ TEST_F(NodeTest, getOwnerTest) {
 }
 
 TEST_F(NodeTest, getNameTest) {
-  EXPECT_STREQ(mComplicatedNode->getName().c_str(),
+  EXPECT_STREQ(mComplicatedNode->getTypeName().c_str(),
                "systems.vos.wisey.compiler.tests.NComplicatedNode");
 }
 

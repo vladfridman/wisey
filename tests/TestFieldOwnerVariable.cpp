@@ -108,7 +108,7 @@ struct FieldOwnerVariableTest : Test {
                                                              false);
     Function::Create(destructorFunctionType,
                      GlobalValue::InternalLinkage,
-                     "destructor." + mNode->getName(),
+                     "destructor." + mNode->getTypeName(),
                      mContext.getModule());
 
     mStringStream = new raw_string_ostream(mStringBuffer);

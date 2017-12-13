@@ -189,10 +189,10 @@ TryCatchInfo::generateSelectCatchByExceptionType(IRGenerationContext& context,
     typeId->setTailCall();
     ICmpInst* compare =
     IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, exceptionTypeId, typeId, "");
-    string catchBlockName = "catch." + exceptionType->getObject()->getName();
+    string catchBlockName = "catch." + exceptionType->getObject()->getTypeName();
     BasicBlock* catchBlock = BasicBlock::Create(llvmContext, catchBlockName, function);
     catchesAndBlocks.push_back(make_tuple(catchClause, catchBlock));
-    string nextBlockName = "not." + exceptionType->getObject()->getName();
+    string nextBlockName = "not." + exceptionType->getObject()->getTypeName();
     BasicBlock* nextBlock = BasicBlock::Create(llvmContext, nextBlockName, function);
     IRWriter::createConditionalBranch(context, catchBlock, nextBlock, compare);
     currentBlock = nextBlock;

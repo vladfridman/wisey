@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-string VoidType::getName() const {
+string VoidType::getTypeName() const {
   return "void";
 }
 

@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-string FloatType::getName() const {
+string FloatType::getTypeName() const {
   return "float";
 }
 

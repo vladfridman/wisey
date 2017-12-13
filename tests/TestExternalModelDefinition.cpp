@@ -77,7 +77,7 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
   
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
   
-  EXPECT_STREQ(model->getName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
+  EXPECT_STREQ(model->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
   EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
   EXPECT_EQ(model->findMethod("foo"), nullptr);
 }

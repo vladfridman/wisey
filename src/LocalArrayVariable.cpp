@@ -38,8 +38,8 @@ llvm::Value* LocalArrayVariable::generateAssignmentIR(IRGenerationContext& conte
                                                       IExpression* assignToExpression,
                                                       int line) {
   const IType* assignToType = assignToExpression->getType(context);
-  Log::e("Trying to assign array " + getType()->getName() +
-         " to a non-compatible type " + assignToType->getName());
+  Log::e("Trying to assign array " + getType()->getTypeName() +
+         " to a non-compatible type " + assignToType->getTypeName());
   exit(1);
 }
 

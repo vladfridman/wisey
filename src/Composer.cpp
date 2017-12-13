@@ -22,7 +22,7 @@ using namespace wisey;
 
 void Composer::pushCallStack(IRGenerationContext& context, int line) {
   const IObjectType* objectType = context.getObjectType();
-  if (objectType == NULL || !objectType->getName().find(Names::getLangPackageName())) {
+  if (objectType == NULL || !objectType->getTypeName().find(Names::getLangPackageName())) {
     // avoid inifinite recursion in wisey.lang.CThread
     return;
   }
@@ -57,7 +57,7 @@ void Composer::pushCallStack(IRGenerationContext& context, int line) {
 
 void Composer::popCallStack(IRGenerationContext& context) {
   const IObjectType* objectType = context.getObjectType();
-  if (objectType == NULL || !objectType->getName().find(Names::getLangPackageName())) {
+  if (objectType == NULL || !objectType->getTypeName().find(Names::getLangPackageName())) {
     // avoid inifinite recursion in wisey.lang.CThread
     return;
   }

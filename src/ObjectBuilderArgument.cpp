@@ -32,7 +32,8 @@ bool ObjectBuilderArgument::checkArgument(const IConcreteObjectType* object) {
   
   string fieldName = deriveFieldName();
   if (object->findField(fieldName) == NULL) {
-    Log::e("Object builder could not find field " + fieldName + " in object " + object->getName());
+    Log::e("Object builder could not find field " + fieldName + " in object " +
+           object->getTypeName());
     return false;
   }
   

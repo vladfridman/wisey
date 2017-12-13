@@ -115,7 +115,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectTest) {
   Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
   
   EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
-  EXPECT_STREQ(controller->getName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
+  EXPECT_STREQ(controller->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
   EXPECT_EQ(controller->findMethod("foo"), nullptr);
 }
 
@@ -167,7 +167,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
   EXPECT_STREQ(controller->getShortName().c_str(), "CMyController");
-  EXPECT_STREQ(controller->getName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
+  EXPECT_STREQ(controller->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.CMyController");
   EXPECT_NE(controller->findMethod("foo"), nullptr);
 }
 

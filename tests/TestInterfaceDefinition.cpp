@@ -79,7 +79,7 @@ TEST_F(InterfaceDefinitionTest, prototypeObjectTest) {
   
   Interface* interface = mContext.getInterface("systems.vos.wisey.compiler.tests.IMyInterface");
   
-  EXPECT_STREQ(interface->getName().c_str(), "systems.vos.wisey.compiler.tests.IMyInterface");
+  EXPECT_STREQ(interface->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.IMyInterface");
   EXPECT_STREQ(interface->getShortName().c_str(), "IMyInterface");
   EXPECT_EQ(interface->findMethod("foo"), nullptr);
 }
@@ -117,7 +117,7 @@ TEST_F(InterfaceDefinitionTest, generateIRTest) {
   EXPECT_EQ(functionType->getReturnType(), Type::getInt32Ty(mLLVMContext));
   EXPECT_TRUE(functionType->isVarArg());
   
-  EXPECT_STREQ(interface->getName().c_str(), "systems.vos.wisey.compiler.tests.IMyInterface");
+  EXPECT_STREQ(interface->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.IMyInterface");
   EXPECT_STREQ(interface->getShortName().c_str(), "IMyInterface");
   EXPECT_NE(interface->findMethod("foo"), nullptr);
 }

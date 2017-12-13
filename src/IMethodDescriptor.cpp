@@ -63,10 +63,10 @@ void IMethodDescriptor::printDescriptorToStream(const IMethodDescriptor* method,
   if (method->isStatic()) {
     stream << "static ";
   }
-  stream << method->getReturnType()->getName() << " " << method->getName() << "(";
+  stream << method->getReturnType()->getTypeName() << " " << method->getName() << "(";
   vector<MethodArgument*> arguments = method->getArguments();
   for (MethodArgument* argument : arguments) {
-    stream << endl << "    " << argument->getType()->getName() << " " << argument->getName();
+    stream << endl << "    " << argument->getType()->getTypeName() << " " << argument->getName();
     if (argument != arguments.at(arguments.size() - 1)) {
       stream << ",";
     }
@@ -82,7 +82,7 @@ void IMethodDescriptor::printDescriptorToStream(const IMethodDescriptor* method,
     if (exception != exceptions.front()) {
       stream << ", ";
     }
-    stream << exception->getName();
+    stream << exception->getTypeName();
   }
 
   stream << ";" << endl;

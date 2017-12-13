@@ -39,7 +39,7 @@ using namespace wisey;
 void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
                                              const IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, object->getName());
+  llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext, object->getTypeName());
   new GlobalVariable(*context.getModule(),
                      stringConstant->getType(),
                      true,
@@ -358,7 +358,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   
   if (context.isDestructorDebugOn()) {
     vector<IExpression*> printOutArguments;
-    printOutArguments.push_back(new StringLiteral("destructor " + object->getName() + "\n"));
+    printOutArguments.push_back(new StringLiteral("destructor " + object->getTypeName() + "\n"));
     PrintOutStatement printOutStatement(printOutArguments);
     printOutStatement.generateIR(context);
   }
@@ -431,7 +431,7 @@ Value* IConcreteObjectType::getFieldValuePointer(IRGenerationContext& context,
 }
 
 string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjectType* object) {
-  return "destructor." + object->getName();
+  return "destructor." + object->getTypeName();
 }
 
 void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
@@ -477,7 +477,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
                                               iostream& stream) {
   stream << "external ";
   printTypeKind(object->getTypeKind(), stream);
-  stream << (object->isInner() ? object->getShortName() : object->getName());
+  stream << (object->isInner() ? object->getShortName() : object->getTypeName());
   if (object->getAccessLevel() == PRIVATE_ACCESS) {
     stream << " {" << endl << "}" << endl;
     return;
@@ -488,7 +488,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     stream << endl << "  implements";
   }
   for (Interface* interface : interfaces) {
-    stream << endl << "    " << interface->getName();
+    stream << endl << "    " << interface->getTypeName();
     if (interface != interfaces.at(interfaces.size() - 1)) {
       stream << ",";
     }

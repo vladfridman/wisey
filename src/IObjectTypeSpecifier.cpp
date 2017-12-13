@@ -22,12 +22,12 @@ std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
   const IObjectType* objectType = context.getObjectType();
   
   if (objectType && !objectType->getShortName().compare(shortName)) {
-    return objectType->getName();
+    return objectType->getTypeName();
   }
   
   const IObjectType* innerObject = objectType ? objectType->getInnerObject(shortName) : NULL;
   if (innerObject) {
-    return innerObject->getName();
+    return innerObject->getTypeName();
   }
   
   ImportProfile* importProfile = objectType

@@ -52,7 +52,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, IRGenerationFlag fla
   const IObjectType* objectWithMethodsType = getObjectWithMethods(context);
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   if (!checkAccess(context, objectWithMethodsType, methodDescriptor)) {
-    Log::e("Method '" + mMethodName + "()' of object '" + objectWithMethodsType->getName() +
+    Log::e("Method '" + mMethodName + "()' of object '" + objectWithMethodsType->getTypeName() +
            "' is private");
     exit(1);
   }
@@ -83,7 +83,7 @@ Value* MethodCall::generateIR(IRGenerationContext& context, IRGenerationFlag fla
                                          flag);
   }
   Log::e("Method '" + mMethodName + "()' call on an unknown object type '" +
-         objectWithMethodsType->getName() + "'");
+         objectWithMethodsType->getTypeName() + "'");
   exit(1);
 }
 
@@ -160,7 +160,7 @@ Function* MethodCall::getMethodFunction(IRGenerationContext& context,
   
   Function *function = context.getModule()->getFunction(llvmFunctionName.c_str());
   if (function == NULL) {
-    Log::e("LLVM function implementing object '" + object->getName() + "' method '" +
+    Log::e("LLVM function implementing object '" + object->getTypeName() + "' method '" +
            mMethodName + "' was not found");
     exit(1);
   }
@@ -258,7 +258,7 @@ IMethodDescriptor* MethodCall::getMethodDescriptor(IRGenerationContext& context)
   IMethodDescriptor* methodDescriptor = objectWithMethods->findMethod(mMethodName);
   if (methodDescriptor == NULL) {
     Log::e("Method '" + mMethodName + "' is not found in object '" +
-           objectWithMethods->getName() + "'");
+           objectWithMethods->getTypeName() + "'");
     exit(1);
   }
   
@@ -273,7 +273,7 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
   
   if (mArguments.size() != methodDescriptor->getArguments().size()) {
     Log::e("Number of arguments for method call '" + methodDescriptor->getName() +
-           "' of the object type '" + objectWithMethods->getName() + "' is not correct");
+           "' of the object type '" + objectWithMethods->getTypeName() + "' is not correct");
     exit(1);
   }
   
@@ -284,7 +284,7 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
     if (!callArgumentType->canAutoCastTo(methodArgumentType)) {
       Log::e("Call argument types do not match for a call to method '" +
              methodDescriptor->getName() +
-             "' of the object type '" + objectWithMethods->getName() + "'");
+             "' of the object type '" + objectWithMethods->getTypeName() + "'");
       exit(1);
     }
     
@@ -298,7 +298,7 @@ string MethodCall::translateInterfaceMethodToLLVMFunctionName(const IObjectType*
   if (object == NULL) {
     return methodName;
   }
-  return object->getName() + ".interface." + interface->getName() + "." + methodName;
+  return object->getTypeName() + ".interface." + interface->getTypeName() + "." + methodName;
 }
 
 bool MethodCall::isConstant() const {

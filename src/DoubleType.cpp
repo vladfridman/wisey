@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-string DoubleType::getName() const {
+string DoubleType::getTypeName() const {
   return "double";
 }
 

@@ -89,7 +89,7 @@ public:
     mContext.getImportProfile()->
     setSourceFileNamePointer(ConstantExpr::getGetElementPtr(elementType, global, Idx));
 
-    stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getName());
+    stringConstant = ConstantDataArray::getString(mLLVMContext, mModel->getTypeName());
     new GlobalVariable(*mContext.getModule(),
                        stringConstant->getType(),
                        true,

@@ -31,7 +31,7 @@ TEST_F(ArrayTypeSpecifierTest, creationTest) {
   const IType* type = specifier->getType(mContext);
   
   EXPECT_EQ(ARRAY_TYPE, type->getTypeKind());
-  EXPECT_STREQ("int[3]", type->getName().c_str());
+  EXPECT_STREQ("int[3]", type->getTypeName().c_str());
   
   const ArrayType* arrayType = (const ArrayType*) type;
   EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getBaseType());

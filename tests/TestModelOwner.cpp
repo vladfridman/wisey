@@ -259,7 +259,7 @@ TEST_F(ModelOwnerTest, getObjectTest) {
 }
 
 TEST_F(ModelOwnerTest, getNameTest) {
-  EXPECT_STREQ(mModel->getOwner()->getName().c_str(),
+  EXPECT_STREQ(mModel->getOwner()->getTypeName().c_str(),
                "systems.vos.wisey.compiler.tests.MSquare*");
 }
 

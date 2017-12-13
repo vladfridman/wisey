@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-string LongType::getName() const {
+string LongType::getTypeName() const {
   return "long";
 }
 

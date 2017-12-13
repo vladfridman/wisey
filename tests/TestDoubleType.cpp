@@ -55,7 +55,7 @@ public:
 
 TEST_F(DoubleTypeTest, doubleTypeTest) {
   EXPECT_EQ(mDoubleType.getLLVMType(mLLVMContext), Type::getDoubleTy(mLLVMContext));
-  EXPECT_STREQ(mDoubleType.getName().c_str(), "double");
+  EXPECT_STREQ(mDoubleType.getTypeName().c_str(), "double");
   EXPECT_EQ(mDoubleType.getTypeKind(), PRIMITIVE_TYPE);
   EXPECT_EQ(mDoubleType.getFormat(), "%e");
 }

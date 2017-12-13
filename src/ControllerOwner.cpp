@@ -21,8 +21,8 @@ Controller* ControllerOwner::getObject() const {
   return mController;
 }
 
-string ControllerOwner::getName() const {
-  return mController->getName() + '*';
+string ControllerOwner::getTypeName() const {
+  return mController->getTypeName() + '*';
 }
 
 PointerType* ControllerOwner::getLLVMType(LLVMContext& llvmContext) const {

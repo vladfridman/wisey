@@ -63,7 +63,7 @@ Value* Cast::floatToIntCast(IRGenerationContext& context,
 }
 
 void Cast::exitIncompatibleTypes(const IType* fromType, const IType* toType) {
-  Log::e("Incompatible types: can not cast from type '" + fromType->getName() +
-         "' to '" + toType->getName() + "'");
+  Log::e("Incompatible types: can not cast from type '" + fromType->getTypeName() +
+         "' to '" + toType->getTypeName() + "'");
   exit(1);
 }

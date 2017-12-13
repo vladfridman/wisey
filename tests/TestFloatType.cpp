@@ -55,7 +55,7 @@ public:
 
 TEST_F(FloatTypeTest, floatTypeTest) {
   EXPECT_EQ(mFloatType.getLLVMType(mLLVMContext), Type::getFloatTy(mLLVMContext));
-  EXPECT_STREQ(mFloatType.getName().c_str(), "float");
+  EXPECT_STREQ(mFloatType.getTypeName().c_str(), "float");
   EXPECT_EQ(mFloatType.getTypeKind(), PRIMITIVE_TYPE);
   EXPECT_EQ(mFloatType.getFormat(), "%f");
 }

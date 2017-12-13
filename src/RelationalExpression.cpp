@@ -170,7 +170,7 @@ Value* RelationalExpression::generateIRForInts(IRGenerationContext& context) con
 
 void RelationalExpression::reportIncompatableTypes(const IType* leftType,
                                                    const IType* rightType) const {
-  Log::e("Can not compare types " + leftType->getName() + " and " + rightType->getName());
+  Log::e("Can not compare types " + leftType->getTypeName() + " and " + rightType->getTypeName());
 }
 
 bool RelationalExpression::isConstant() const {

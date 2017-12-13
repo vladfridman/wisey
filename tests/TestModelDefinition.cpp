@@ -106,7 +106,7 @@ TEST_F(ModelDefinitionTest, prototypeObjectTest) {
 
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
   
-  EXPECT_STREQ(model->getName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
+  EXPECT_STREQ(model->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
   EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
   EXPECT_EQ(model->findMethod("foo"), nullptr);
 }
@@ -171,7 +171,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   EXPECT_EQ(structType->getElementType(0), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(1), Type::getInt64Ty(mLLVMContext));
   EXPECT_EQ(structType->getElementType(2), Type::getFloatTy(mLLVMContext));
-  EXPECT_STREQ(model->getName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
+  EXPECT_STREQ(model->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.MMyModel");
   EXPECT_STREQ(model->getShortName().c_str(), "MMyModel");
   EXPECT_NE(model->findMethod("foo"), nullptr);
 }
@@ -204,7 +204,8 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                                                  interfaceElements);
   mContext.addInterface(interface);
   interface->buildMethods(mContext);
-  llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext, interface->getName());
+  llvm::Constant* stringConstant = ConstantDataArray::getString(mLLVMContext,
+                                                                interface->getTypeName());
   new GlobalVariable(*mContext.getModule(),
                      stringConstant->getType(),
                      true,

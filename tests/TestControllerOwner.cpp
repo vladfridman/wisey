@@ -131,7 +131,7 @@ TEST_F(ControllerOwnerTest, getObjectTest) {
 }
 
 TEST_F(ControllerOwnerTest, getNameTest) {
-  EXPECT_EQ(mMultiplierController->getOwner()->getName(),
+  EXPECT_EQ(mMultiplierController->getOwner()->getTypeName(),
             "systems.vos.wisey.compiler.tests.CMultiplier*");
 }
 

@@ -60,6 +60,6 @@ bool IObjectType::checkAccess(const IObjectType* from, const IObjectType* to) {
     return true;
   }
   
-  Log::e("Object " + to->getName() + " is not accessable from object " + from->getName());
+  Log::e("Object " + to->getTypeName() + " is not accessable from object " + from->getTypeName());
   exit(1);
 }

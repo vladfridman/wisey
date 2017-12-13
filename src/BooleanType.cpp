@@ -15,7 +15,7 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-string BooleanType::getName() const {
+string BooleanType::getTypeName() const {
   return "boolean";
 }
 

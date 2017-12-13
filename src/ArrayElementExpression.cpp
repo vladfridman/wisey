@@ -34,13 +34,14 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   const IType* arrayIndexExpressionType = mArrayIndexExpresion->getType(context);
   
   if (arrayExpressionType->getTypeKind() != ARRAY_TYPE) {
-    reportErrorArrayType(arrayExpressionType->getName());
+    reportErrorArrayType(arrayExpressionType->getTypeName());
     exit(1);
   }
   
   if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
       arrayIndexExpressionType != PrimitiveTypes::LONG_TYPE) {
-    Log::e("Array index should be integer type, but it is " + arrayIndexExpressionType->getName());
+    Log::e("Array index should be integer type, but it is " +
+           arrayIndexExpressionType->getTypeName());
     exit(1);
   }
   
@@ -69,7 +70,7 @@ bool ArrayElementExpression::isConstant() const {
 const IType* ArrayElementExpression::getType(IRGenerationContext& context) const {
   const IType* arrayExpressionType = mArrayExpression->getType(context);
   if (arrayExpressionType->getTypeKind() != ARRAY_TYPE) {
-    reportErrorArrayType(arrayExpressionType->getName());
+    reportErrorArrayType(arrayExpressionType->getTypeName());
     exit(1);
   }
   
