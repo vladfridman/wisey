@@ -66,7 +66,12 @@ public:
    * Tells whether this method is static
    */
   virtual bool isStatic() const = 0;
-  
+
+  /**
+   * Return corresponding LLVM type
+   */
+  virtual llvm::FunctionType* getLLVMType(IRGenerationContext& context) const = 0;
+
   /**
    * Returns two if two method descriptors are the same in terms of their name, return type
    * and argument types

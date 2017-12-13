@@ -41,6 +41,10 @@ string MethodSignature::getName() const {
   return mName;
 }
 
+FunctionType* MethodSignature::getLLVMType(IRGenerationContext& context) const {
+  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+}
+
 AccessLevel MethodSignature::getAccessLevel() const {
   return AccessLevel::PUBLIC_ACCESS;
 }

@@ -75,6 +75,10 @@ vector<const Model*> Method::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
+FunctionType* Method::getLLVMType(IRGenerationContext& context) const {
+  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+}
+
 Function* Method::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   

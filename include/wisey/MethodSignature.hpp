@@ -44,6 +44,8 @@ public:
   
   std::string getName() const override;
   
+  llvm::FunctionType* getLLVMType(IRGenerationContext& context) const override;
+
   AccessLevel getAccessLevel() const override;
   
   const IType* getReturnType() const override;

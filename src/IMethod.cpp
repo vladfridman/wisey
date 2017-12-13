@@ -104,7 +104,7 @@ void IMethod::maybeAddImpliedVoidReturn(IRGenerationContext& context,
 Function* IMethod::defineFunction(IRGenerationContext& context,
                                   const IObjectType* objectType,
                                   const IMethod* method) {
-  FunctionType* ftype = IMethodDescriptor::getLLVMFunctionType(context, method, objectType);
+  FunctionType* ftype = method->getLLVMType(context);
   string methodName = method->getName();
   string functionName = IMethodCall::translateObjectMethodToLLVMFunctionName(objectType,
                                                                              methodName);

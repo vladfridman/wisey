@@ -10,8 +10,10 @@
 
 #include <gtest/gtest.h>
 
+#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodSignature.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -26,11 +28,17 @@ struct MethodSignatureTest : Test {
   Interface* mInterface;
   
   MethodSignatureTest() {
+    TestPrefix::generateIR(mContext);
+    
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     vector<IObjectElementDeclaration*> interfaceElements;
+    vector<Type*> types;
+    string interfaceFullName = "systems.vos.wisey.compiler.tests.IInterface";
+    StructType* structType = StructType::create(mContext.getLLVMContext(), "IInterface");
+    structType->setBody(types);
     mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                          "systems.vos.wisey.compiler.tests.IInterface",
-                                         NULL,
+                                         structType,
                                          parentInterfaces,
                                          interfaceElements);
 
@@ -63,6 +71,20 @@ TEST_F(MethodSignatureTest, createCopyTest) {
   EXPECT_STREQ(copy->getName().c_str(), "foo");
   EXPECT_EQ(copy->getReturnType(), PrimitiveTypes::LONG_TYPE);
   EXPECT_EQ(copy->getArguments().size(), 0u);
+}
+
+TEST_F(MethodSignatureTest, getLLVMTypeTest) {
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mInterface->getLLVMType(mContext));
+  Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
+  argumentTypes.push_back(threadController->getLLVMType(mContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = PrimitiveTypes::LONG_TYPE->getLLVMType(mContext);
+  FunctionType* expectedType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  
+  FunctionType* actualType = mMethodSignature->getLLVMType(mContext);
+  
+  EXPECT_EQ(expectedType, actualType);
 }
 
 TEST_F(MethodSignatureTest, printToStreamTest) {

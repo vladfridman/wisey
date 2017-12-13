@@ -95,6 +95,34 @@ TEST_F(MethodTest, basicMethodTest) {
   ASSERT_FALSE(mMethod->isStatic());
 }
 
+TEST_F(MethodTest, getLLVMTypeTest) {
+  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<MethodArgument*> arguments;
+  arguments.push_back(intArgument);
+  vector<const Model*> thrownExceptions;
+  Method method(mModel,
+                "foo",
+                AccessLevel::PUBLIC_ACCESS,
+                PrimitiveTypes::FLOAT_TYPE,
+                arguments,
+                thrownExceptions,
+                &mCompoundStatement,
+                0);
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mModel->getLLVMType(mContext));
+  Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
+  argumentTypes.push_back(threadController->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
+  FunctionType* expectedType = FunctionType::get(llvmReturnType, argTypesArray, false);
+
+  FunctionType* actualType = method.getLLVMType(mContext);
+  
+  EXPECT_EQ(expectedType, actualType);
+}
+
 TEST_F(MethodTest, definePublicFunctionTest) {
   MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
   std::vector<MethodArgument*> arguments;

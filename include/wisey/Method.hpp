@@ -48,13 +48,15 @@ public:
   ~Method();
   
   bool isStatic() const override;
-  
+
   llvm::Function* defineFunction(IRGenerationContext& context) override;
   
   void generateIR(IRGenerationContext& context) const override;
 
   std::string getName() const override;
   
+  llvm::FunctionType* getLLVMType(IRGenerationContext& context) const override;
+
   AccessLevel getAccessLevel() const override;
   
   const IType* getReturnType() const override;

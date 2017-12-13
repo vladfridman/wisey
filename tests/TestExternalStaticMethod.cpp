@@ -18,6 +18,7 @@
 #include "wisey/ExternalStaticMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
+#include "wisey/Names.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -79,6 +80,30 @@ TEST_F(ExternalStaticMethodTest, basicStaticMethodTest) {
   ASSERT_EQ(mStaticMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
   ASSERT_EQ(mStaticMethod->getArguments().size(), 2u);
   ASSERT_TRUE(mStaticMethod->isStatic());
+}
+
+TEST_F(ExternalStaticMethodTest, getLLVMTypeTest) {
+  MethodArgument* intArgument = new MethodArgument(PrimitiveTypes::INT_TYPE, "intargument");
+  std::vector<MethodArgument*> arguments;
+  arguments.push_back(intArgument);
+  vector<const Model*> thrownExceptions;
+  ExternalStaticMethod staticMethod(mModel,
+                                    "foo",
+                                    PrimitiveTypes::FLOAT_TYPE,
+                                    arguments,
+                                    thrownExceptions);
+
+  vector<Type*> argumentTypes;
+  Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
+  argumentTypes.push_back(threadController->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext);
+  FunctionType* expectedType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  
+  FunctionType* actualType = staticMethod.getLLVMType(mContext);
+  
+  EXPECT_EQ(expectedType, actualType);
 }
 
 TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {

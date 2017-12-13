@@ -40,6 +40,10 @@ bool ExternalStaticMethod::isStatic() const {
   return true;
 }
 
+FunctionType* ExternalStaticMethod::getLLVMType(IRGenerationContext& context) const {
+  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+}
+
 Function* ExternalStaticMethod::defineFunction(IRGenerationContext& context) {
   return IMethod::defineFunction(context, mObjectType, this);
 }
