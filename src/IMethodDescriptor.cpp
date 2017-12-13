@@ -37,8 +37,8 @@ bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* m
     method1->getReturnType() == method2->getReturnType();
 }
 
-FunctionType* IMethodDescriptor::getLLVMFunctionType(IMethodDescriptor* method,
-                                                     IRGenerationContext& context,
+FunctionType* IMethodDescriptor::getLLVMFunctionType(IRGenerationContext& context,
+                                                     const IMethodDescriptor* method,
                                                      const IObjectType* object) {
   vector<Type*> argumentTypes;
   if (!method->isStatic()) {

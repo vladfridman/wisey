@@ -76,8 +76,8 @@ public:
   /**
    * Returns function type corresponding to the given method descirptor
    */
-  static llvm::FunctionType* getLLVMFunctionType(IMethodDescriptor* method,
-                                                 IRGenerationContext& context,
+  static llvm::FunctionType* getLLVMFunctionType(IRGenerationContext& context,
+                                                 const IMethodDescriptor* method,
                                                  const IObjectType* object);
   
   /**

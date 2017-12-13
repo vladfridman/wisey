@@ -155,7 +155,7 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
                          PrimitiveTypes::FLOAT_TYPE,
                          arguments,
                          thrownExceptions);
-  FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(&method, mContext, mModel);
+  FunctionType* functionType = IMethodDescriptor::getLLVMFunctionType(mContext, &method, mModel);
   
   EXPECT_EQ(functionType->getReturnType(), Type::getFloatTy(mLLVMContext));
   EXPECT_EQ(functionType->getNumParams(), 3u);

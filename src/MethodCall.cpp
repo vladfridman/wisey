@@ -111,7 +111,7 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
   CheckForNullAndThrowFunction::call(context, expressionValue, mLine);
   
   FunctionType* functionType =
-    IMethod::getLLVMFunctionType(methodDescriptor, context, interface);
+    IMethod::getLLVMFunctionType(context, methodDescriptor, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
   BitCastInst* vTablePointer =
   IRWriter::newBitCastInst(context, expressionValue, pointerToVTablePointer);
