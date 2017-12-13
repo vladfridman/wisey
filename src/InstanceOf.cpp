@@ -88,14 +88,13 @@ Function* InstanceOf::compose(IRGenerationContext& context, Function* function) 
 }
 
 Function* InstanceOf::createFunction(IRGenerationContext& context, const Interface* interface) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* int8Type = Type::getInt8Ty(llvmContext);
+  Type* int8Type = Type::getInt8Ty(context.getLLVMContext());
   
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(interface->getLLVMType(llvmContext));
+  argumentTypes.push_back(interface->getLLVMType(context));
   argumentTypes.push_back(int8Type->getPointerTo());
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = PrimitiveTypes::INT_TYPE->getLLVMType(llvmContext);
+  Type* llvmReturnType = PrimitiveTypes::INT_TYPE->getLLVMType(context);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
   Function* function = Function::Create(functionType,
                                         GlobalValue::ExternalLinkage,

@@ -61,7 +61,7 @@ struct ArrayElementExpressionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
-    Value* alloca = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mLLVMContext), "");
+    Value* alloca = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "");
     ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(alloca));
     ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
     ConstantInt* three = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);

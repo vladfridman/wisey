@@ -72,8 +72,8 @@ struct FieldOwnerVariableTest : Test {
     
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
-    types.push_back(mNode->getOwner()->getLLVMType(mLLVMContext));
-    types.push_back(mInterface->getOwner()->getLLVMType(mLLVMContext));
+    types.push_back(mNode->getOwner()->getLLVMType(mContext));
+    types.push_back(mInterface->getOwner()->getLLVMType(mContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
@@ -94,14 +94,14 @@ struct FieldOwnerVariableTest : Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mLLVMContext));
+    Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
     mFieldOwnerVariable = new FieldOwnerVariable("foo", mObject);
     
     vector<Type*> argumentTypes;
-    argumentTypes.push_back(mNode->getLLVMType(mLLVMContext));
+    argumentTypes.push_back(mNode->getLLVMType(mContext));
     ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
     FunctionType* destructorFunctionType = FunctionType::get(Type::getVoidTy(mLLVMContext),
                                                              argTypesArray,
@@ -142,7 +142,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateIdentifierIRTest) {
 TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = (PointerType*) mNode->getOwner()->getLLVMType(mLLVMContext);
+  PointerType* llvmType = (PointerType*) mNode->getOwner()->getLLVMType(mContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
@@ -167,7 +167,7 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
 TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = mNode->getOwner()->getLLVMType(mLLVMContext);
+  PointerType* llvmType = mNode->getOwner()->getLLVMType(mContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));

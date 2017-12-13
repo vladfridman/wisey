@@ -19,8 +19,8 @@ string DoubleType::getTypeName() const {
   return "double";
 }
 
-llvm::Type* DoubleType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getDoubleTy(llvmContext);
+llvm::Type* DoubleType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getDoubleTy(context.getLLVMContext());
 }
 
 TypeKind DoubleType::getTypeKind() const {

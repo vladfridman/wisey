@@ -72,8 +72,8 @@ struct FieldReferenceVariableTest : Test {
   
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
-    types.push_back(mNode->getLLVMType(mLLVMContext));
-    types.push_back(mInterface->getLLVMType(mLLVMContext));
+    types.push_back(mNode->getLLVMType(mContext));
+    types.push_back(mInterface->getLLVMType(mContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.NObject";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
@@ -96,7 +96,7 @@ struct FieldReferenceVariableTest : Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mLLVMContext));
+    Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
    
@@ -133,7 +133,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateIdentifierIRTes
 TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = (PointerType*) mNode->getLLVMType(mLLVMContext);
+  PointerType* llvmType = (PointerType*) mNode->getLLVMType(mContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
@@ -160,7 +160,7 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTes
 TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  PointerType* llvmType = mNode->getLLVMType(mLLVMContext);
+  PointerType* llvmType = mNode->getLLVMType(mContext);
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));

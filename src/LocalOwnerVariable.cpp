@@ -71,7 +71,7 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
 }
 
 void LocalOwnerVariable::setToNull(IRGenerationContext& context) {
-  PointerType* type = getType()->getLLVMType(context.getLLVMContext());
+  PointerType* type = getType()->getLLVMType(context);
   Value* null = ConstantPointerNull::get(type);
   IRWriter::newStoreInst(context, null, mValueStore);
   mIsInitialized = true;

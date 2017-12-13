@@ -47,7 +47,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   
   Value* arrayExpressionValue = mArrayExpression->generateIR(context, flag);
   Value* arrayIndexValue = mArrayIndexExpresion->generateIR(context, flag);
-  Type* indexType = arrayIndexExpressionType->getLLVMType(context.getLLVMContext());
+  Type* indexType = arrayIndexExpressionType->getLLVMType(context);
   Value* index[2];
   index[0] = ConstantInt::get(indexType, 0);
   index[1] = arrayIndexValue;

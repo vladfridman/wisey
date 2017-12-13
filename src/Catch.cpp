@@ -51,7 +51,7 @@ bool Catch::generateIR(IRGenerationContext& context,
   context.setBasicBlock(catchBlock);
   
   IObjectOwnerType* exceptionType = getType(context);
-  PointerType* exceptionLLVMType = exceptionType->getLLVMType(llvmContext);
+  PointerType* exceptionLLVMType = exceptionType->getLLVMType(context);
   Type* exceptionStructLLVMType = exceptionLLVMType->getPointerElementType();
   vector<Value*> arguments;
   arguments.push_back(wrappedException);

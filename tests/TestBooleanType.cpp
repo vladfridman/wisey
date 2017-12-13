@@ -54,7 +54,7 @@ public:
 };
 
 TEST_F(BooleanTypeTest, booleanTypeTest) {
-  EXPECT_EQ(mBoleanType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt1Ty(mLLVMContext));
+  EXPECT_EQ(mBoleanType.getLLVMType(mContext), (llvm::Type*) Type::getInt1Ty(mLLVMContext));
   EXPECT_STREQ(mBoleanType.getTypeName().c_str(), "boolean");
   EXPECT_EQ(mBoleanType.getTypeKind(), PRIMITIVE_TYPE);
   EXPECT_EQ(mBoleanType.getFormat(), "%d");

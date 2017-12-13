@@ -78,7 +78,7 @@ struct InstanceOfTest : public Test {
 
 TEST_F(InstanceOfTest, callTest) {
   Value* nullPointerValue =
-    ConstantPointerNull::get(mObjectInterface->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mObjectInterface->getLLVMType(mContext));
   InstanceOf::call(mContext, mObjectInterface, nullPointerValue, mShapeInterface);
   
   ASSERT_EQ(1ul, mBlock->size());

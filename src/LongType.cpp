@@ -19,8 +19,8 @@ string LongType::getTypeName() const {
   return "long";
 }
 
-llvm::Type* LongType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getInt64Ty(llvmContext);
+llvm::Type* LongType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getInt64Ty(context.getLLVMContext());
 }
 
 TypeKind LongType::getTypeKind() const {

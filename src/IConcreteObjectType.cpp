@@ -74,7 +74,7 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   }
   LLVMContext& llvmContext = context.getLLVMContext();
   Interface* interface = (Interface*) toType;
-  Type* llvmType = (PointerType*) interface->getLLVMType(llvmContext);
+  Type* llvmType = (PointerType*) interface->getLLVMType(context);
   int interfaceIndex = getInterfaceIndex(object, interface);
 
   Type* int8Type = Type::getInt8Ty(llvmContext);
@@ -175,7 +175,7 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
                                             vector<vector<llvm::Constant*>>& vTables) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(object->getLLVMType(llvmContext));
+  argumentTypes.push_back(object->getLLVMType(context));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
@@ -187,7 +187,7 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
                                           functionName,
                                           context.getModule());
   
-  Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   vTables.at(0).push_back(ConstantExpr::getBitCast(destructor, int8Pointer));
 }
 

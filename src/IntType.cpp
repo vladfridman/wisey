@@ -19,8 +19,8 @@ string IntType::getTypeName() const {
   return "int";
 }
 
-llvm::Type* IntType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getInt32Ty(llvmContext);
+llvm::Type* IntType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getInt32Ty(context.getLLVMContext());
 }
 
 TypeKind IntType::getTypeKind() const {

@@ -19,8 +19,8 @@ string FloatType::getTypeName() const {
   return "float";
 }
 
-llvm::Type* FloatType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getFloatTy(llvmContext);
+llvm::Type* FloatType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getFloatTy(context.getLLVMContext());
 }
 
 TypeKind FloatType::getTypeKind() const {

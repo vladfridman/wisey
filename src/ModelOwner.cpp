@@ -25,8 +25,8 @@ string ModelOwner::getTypeName() const {
   return mModel->getTypeName() + '*';
 }
 
-PointerType* ModelOwner::getLLVMType(LLVMContext& llvmContext) const {
-  return mModel->getLLVMType(llvmContext);
+PointerType* ModelOwner::getLLVMType(IRGenerationContext& context) const {
+  return mModel->getLLVMType(context);
 }
 
 TypeKind ModelOwner::getTypeKind() const {

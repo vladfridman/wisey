@@ -80,7 +80,7 @@ public:
 };
 
 TEST_F(ParameterOwnerVariableTest, freeTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue);
   
@@ -101,7 +101,7 @@ TEST_F(ParameterOwnerVariableTest, freeTest) {
 }
 
 TEST_F(ParameterOwnerVariableTest, setToNullTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   ParameterOwnerVariable heapMethodParameter("foo", mModel->getOwner(), fooValue);
   

@@ -39,7 +39,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
   }
   
   if (IType::isOwnerType(variableType)) {
-    Type* variableLLVMType = variableType->getLLVMType(context.getLLVMContext());
+    Type* variableLLVMType = variableType->getLLVMType(context);
     Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterObjectPointer");
     IRWriter::newStoreInst(context, variableValue, alloc);
     IObjectOwnerType* objectOwnerType = (IObjectOwnerType*) variableType;

@@ -82,7 +82,7 @@ public:
 };
 
 TEST_F(LocalOwnerVariableTest, localOwnerVariableAssignmentTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
 
   IVariable* uninitializedHeapVariable =
@@ -115,7 +115,7 @@ TEST_F(LocalOwnerVariableTest, localOwnerVariableAssignmentTest) {
 }
 
 TEST_F(LocalOwnerVariableTest, localOwnerVariableIdentifierTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
@@ -134,7 +134,7 @@ TEST_F(LocalOwnerVariableTest, localOwnerVariableIdentifierTest) {
 }
 
 TEST_F(LocalOwnerVariableTest, localOwnerVariableIdentifierUninitializedDeathTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
@@ -144,7 +144,7 @@ TEST_F(LocalOwnerVariableTest, localOwnerVariableIdentifierUninitializedDeathTes
 }
 
 TEST_F(LocalOwnerVariableTest, freeTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   
@@ -165,7 +165,7 @@ TEST_F(LocalOwnerVariableTest, freeTest) {
 }
 
 TEST_F(LocalOwnerVariableTest, setToNullTest) {
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalOwnerVariable heapOwnerVariable("foo", mModel->getOwner(), fooValue);
   

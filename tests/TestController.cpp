@@ -218,8 +218,8 @@ struct ControllerTest : public Test {
     
     vector<Type*> additorTypes;
     additorTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    additorTypes.push_back(mOwnerNode->getOwner()->getLLVMType(mLLVMContext));
-    additorTypes.push_back(mReferenceModel->getLLVMType(mLLVMContext));
+    additorTypes.push_back(mOwnerNode->getOwner()->getLLVMType(mContext));
+    additorTypes.push_back(mReferenceModel->getLLVMType(mContext));
     string additorFullName = "systems.vos.wisey.compiler.tests.CAdditor";
     StructType* additorStructType = StructType::create(mLLVMContext, additorFullName);
     additorStructType->setBody(additorTypes);
@@ -286,7 +286,7 @@ struct ControllerTest : public Test {
     mContext.getScopes().pushScope();
     
     Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
@@ -326,7 +326,7 @@ TEST_F(ControllerTest, getTypeKindTest) {
 }
 
 TEST_F(ControllerTest, getLLVMTypeTest) {
-  EXPECT_EQ(mMultiplierController->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+  EXPECT_EQ(mMultiplierController->getLLVMType(mContext), mStructType->getPointerTo());
 }
 
 TEST_F(ControllerTest, getInterfacesTest) {
@@ -430,7 +430,7 @@ TEST_F(ControllerTest, canAutoCastToTest) {
 
 TEST_F(ControllerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get((PointerType*) mMultiplierController->getLLVMType(mContext));
   mMultiplierController->castTo(mContext, pointer, mScienceCalculatorInterface, 0);
 
   *mStringStream << *mBasicBlock;
@@ -446,7 +446,7 @@ TEST_F(ControllerTest, castToFirstInterfaceTest) {
 
 TEST_F(ControllerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
   mMultiplierController->castTo(mContext, pointer, mCalculatorInterface, 0);
   
   *mStringStream << *mBasicBlock;
@@ -462,7 +462,7 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
 
 TEST_F(ControllerTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
   mMultiplierController->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -477,7 +477,7 @@ TEST_F(ControllerTest, incremenetReferenceCountTest) {
 
 TEST_F(ControllerTest, decremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
   mMultiplierController->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -492,7 +492,7 @@ TEST_F(ControllerTest, decremenetReferenceCountTest) {
 
 TEST_F(ControllerTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
   mMultiplierController->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -518,11 +518,11 @@ TEST_F(ControllerTest, injectTest) {
   InjectionArgumentList injectionArguments;
 
   NiceMock<MockExpression> ownerExpression;
-  Value* ownerValue = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mLLVMContext));
+  Value* ownerValue = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mContext));
   ON_CALL(ownerExpression, generateIR(_, _)).WillByDefault(Return(ownerValue));
   ON_CALL(ownerExpression, getType(_)).WillByDefault(Return(mOwnerNode->getOwner()));
   NiceMock<MockExpression> referenceExpression;
-  Value* referenceValue = ConstantPointerNull::get(mReferenceModel->getLLVMType(mLLVMContext));
+  Value* referenceValue = ConstantPointerNull::get(mReferenceModel->getLLVMType(mContext));
   ON_CALL(referenceExpression, generateIR(_, _)).WillByDefault(Return(referenceValue));
   ON_CALL(referenceExpression, getType(_)).WillByDefault(Return(mReferenceModel));
 
@@ -670,7 +670,7 @@ TEST_F(ControllerTest, injectFieldTest) {
 
   vector<Type*> parentTypes;
   parentTypes.push_back(Type::getInt64Ty(mLLVMContext));
-  parentTypes.push_back(childController->getLLVMType(mLLVMContext));
+  parentTypes.push_back(childController->getLLVMType(mContext));
   string parentFullName = "systems.vos.wisey.compiler.tests.CParent";
   StructType* parentStructType = StructType::create(mLLVMContext, parentFullName);
   parentStructType->setBody(parentTypes);

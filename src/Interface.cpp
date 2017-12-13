@@ -157,7 +157,7 @@ void Interface::buildMethods(IRGenerationContext& context) {
   types.push_back(vtableType);
   
   for (Interface* parentInterface : mParentInterfaces) {
-    types.push_back(parentInterface->getLLVMType(llvmContext)->getPointerElementType());
+    types.push_back(parentInterface->getLLVMType(context)->getPointerElementType());
   }
   
   mStructType->setBody(types);
@@ -362,9 +362,8 @@ Function* Interface::defineMapFunctionForMethod(IRGenerationContext& context,
                                                            interfaceMethodSignature->getName());
   FunctionType* concreteObjectFunctionType = concreteObjectFunction->getFunctionType();
   
-  LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(getLLVMType(llvmContext));
+  argumentTypes.push_back(getLLVMType(context));
   for (unsigned int i = 1; i < concreteObjectFunctionType->getNumParams(); i++) {
     argumentTypes.push_back(concreteObjectFunctionType->getParamType(i));
   }
@@ -471,7 +470,7 @@ void Interface::generateMapFunctionBody(IRGenerationContext& context,
     IRWriter::createGetElementPtrInst(context, castedInterfaceThis, index);
   Value* castedObjectThis = IRWriter::newBitCastInst(context,
                                                      concreteOjbectThis,
-                                                     object->getLLVMType(llvmContext));
+                                                     object->getLLVMType(context));
   
   vector<Value*> callArguments;
   callArguments.push_back(castedObjectThis);
@@ -498,8 +497,7 @@ llvm::Value* Interface::storeArgumentValue(IRGenerationContext& context,
                                            string variableName,
                                            const IType* variableType,
                                            Value* variableValue) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* llvmType = variableType->getLLVMType(llvmContext);
+  Type* llvmType = variableType->getLLVMType(context);
   string newName = variableName + ".param";
   AllocaInst *alloc = IRWriter::newAllocaInst(context, llvmType, newName);
   IRWriter::newStoreInst(context, variableValue, alloc);
@@ -514,7 +512,7 @@ string Interface::getShortName() const {
   return mName.substr(mName.find_last_of('.') + 1);
 }
 
-llvm::PointerType* Interface::getLLVMType(LLVMContext& llvmContext) const {
+llvm::PointerType* Interface::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
@@ -576,13 +574,12 @@ Value* Interface::castTo(IRGenerationContext& context,
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
   GetOriginalObjectFunction::get(context);
   
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(getLLVMType(llvmContext));
+  argumentTypes.push_back(getLLVMType(context));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  PointerType* llvmReturnType = (PointerType*) toType->getLLVMType(llvmContext);
+  PointerType* llvmReturnType = (PointerType*) toType->getLLVMType(context);
   FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
   return Function::Create(functionType,
                           GlobalValue::ExternalLinkage,
@@ -793,7 +790,7 @@ Function* Interface::defineDestructorFunction(IRGenerationContext& context) cons
   LLVMContext& llvmContext = context.getLLVMContext();
   
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(getOwner()->getLLVMType(llvmContext));
+  argumentTypes.push_back(getOwner()->getLLVMType(context));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* voidType = Type::getVoidTy(llvmContext);
   FunctionType* functionType = FunctionType::get(voidType, argTypesArray, false);
@@ -821,7 +818,7 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   
   context.setBasicBlock(entryBlock);
   
-  Value* nullValue = ConstantPointerNull::get(getLLVMType(llvmContext));
+  Value* nullValue = ConstantPointerNull::get(getLLVMType(context));
   Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisArgument, nullValue, "");
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
@@ -851,7 +848,7 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   index[0] = bytes;
   Value* thisPointer = IRWriter::createGetElementPtrInst(context, pointerToVTable, index);
   
-  Type* argumentType = getLLVMType(llvmContext);
+  Type* argumentType = getLLVMType(context);
   Value* bitcast = IRWriter::newBitCastInst(context, thisPointer, argumentType);
   
   vector<Value*> arguments;

@@ -159,8 +159,8 @@ TEST_F(IMethodDescriptorTest, getLLVMFunctionTypeTest) {
   
   EXPECT_EQ(functionType->getReturnType(), Type::getFloatTy(mLLVMContext));
   EXPECT_EQ(functionType->getNumParams(), 3u);
-  EXPECT_EQ(functionType->getParamType(0), mModel->getLLVMType(mLLVMContext));
-  EXPECT_EQ(functionType->getParamType(1), mThreadController->getLLVMType(mLLVMContext));
+  EXPECT_EQ(functionType->getParamType(0), mModel->getLLVMType(mContext));
+  EXPECT_EQ(functionType->getParamType(1), mThreadController->getLLVMType(mContext));
   EXPECT_EQ(functionType->getParamType(2), Type::getInt32Ty(mLLVMContext));
 }
 

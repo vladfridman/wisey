@@ -166,7 +166,7 @@ struct InterfaceTest : public Test {
     mContext.getScopes().pushScope();
 
     Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
@@ -192,7 +192,7 @@ TEST_F(InterfaceTest, interfaceInstantiationTest) {
   EXPECT_STREQ(mShapeInterface->getTypeName().c_str(), "systems.vos.wisey.compiler.tests.IShape");
   EXPECT_STREQ(mShapeInterface->getShortName().c_str(), "IShape");
   EXPECT_EQ(mShapeInterface->getTypeKind(), INTERFACE_TYPE);
-  EXPECT_EQ(mShapeInterface->getLLVMType(mLLVMContext), mShapeStructType->getPointerTo());
+  EXPECT_EQ(mShapeInterface->getLLVMType(mContext), mShapeStructType->getPointerTo());
   ASSERT_NE(mShapeInterface->getOwner(), nullptr);
   EXPECT_EQ(mShapeInterface->getOwner()->getObject(), mShapeInterface);
 }
@@ -435,7 +435,7 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
 
 TEST_F(InterfaceTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
   mShapeInterface->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -450,7 +450,7 @@ TEST_F(InterfaceTest, incremenetReferenceCountTest) {
 
 TEST_F(InterfaceTest, decremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
   mShapeInterface->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -465,7 +465,7 @@ TEST_F(InterfaceTest, decremenetReferenceCountTest) {
 
 TEST_F(InterfaceTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mShapeInterface->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
   mShapeInterface->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;

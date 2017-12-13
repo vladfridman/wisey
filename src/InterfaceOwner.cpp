@@ -28,8 +28,8 @@ string InterfaceOwner::getTypeName() const {
   return mInterface->getTypeName() + '*';
 }
 
-PointerType* InterfaceOwner::getLLVMType(LLVMContext& llvmContext) const {
-  return mInterface->getLLVMType(llvmContext);
+PointerType* InterfaceOwner::getLLVMType(IRGenerationContext& context) const {
+  return mInterface->getLLVMType(context);
 }
 
 TypeKind InterfaceOwner::getTypeKind() const {

@@ -143,7 +143,7 @@ TEST_F(ReturnStatementTest, ownerVariablesAreClearedTest) {
   mContext.getScopes().pushScope();
   mContext.getScopes().setReturnType(PrimitiveTypes::LONG_TYPE);
 
-  Type* structType = mModel->getLLVMType(mLLVMContext)->getPointerElementType();
+  Type* structType = mModel->getLLVMType(mContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");

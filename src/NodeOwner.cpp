@@ -25,8 +25,8 @@ string NodeOwner::getTypeName() const {
   return mNode->getTypeName() + '*';
 }
 
-PointerType* NodeOwner::getLLVMType(LLVMContext& llvmContext) const {
-  return mNode->getLLVMType(llvmContext);
+PointerType* NodeOwner::getLLVMType(IRGenerationContext& context) const {
+  return mNode->getLLVMType(context);
 }
 
 TypeKind NodeOwner::getTypeKind() const {

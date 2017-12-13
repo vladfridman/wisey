@@ -21,8 +21,8 @@ string NullType::getTypeName() const {
   return "null";
 }
 
-Type* NullType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getInt8Ty(llvmContext)->getPointerTo();
+Type* NullType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
 }
 
 TypeKind NullType::getTypeKind() const {
@@ -41,7 +41,7 @@ Value* NullType::castTo(IRGenerationContext& context,
                         Value* fromValue,
                         const IType* toType,
                         int line) const {
-  return ConstantExpr::getNullValue(toType->getLLVMType(context.getLLVMContext()));
+  return ConstantExpr::getNullValue(toType->getLLVMType(context));
 }
 
 NullType* NullType::NULL_TYPE = new NullType();

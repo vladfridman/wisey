@@ -108,7 +108,7 @@ struct IConcreteObjectTypeTest : public Test {
     
     vector<Type*> galaxyTypes;
     galaxyTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    galaxyTypes.push_back(mStarModel->getOwner()->getLLVMType(mLLVMContext));
+    galaxyTypes.push_back(mStarModel->getOwner()->getLLVMType(mContext));
     string galaxyFullName = "systems.vos.wisey.compiler.tests.MGalaxy";
     StructType* galaxyStructType = StructType::create(mLLVMContext, galaxyFullName);
     galaxyStructType->setBody(galaxyTypes);
@@ -123,7 +123,7 @@ struct IConcreteObjectTypeTest : public Test {
 
     vector<Type*> constellationTypes;
     constellationTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    constellationTypes.push_back(mStarModel->getLLVMType(mLLVMContext));
+    constellationTypes.push_back(mStarModel->getLLVMType(mContext));
     string constellationFullName = "systems.vos.wisey.compiler.tests.MConstellation";
     StructType* constellationStructType = StructType::create(mLLVMContext, constellationFullName);
     constellationStructType->setBody(constellationTypes);
@@ -149,7 +149,7 @@ struct IConcreteObjectTypeTest : public Test {
 
     vector<Type*> carTypes;
     carTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    carTypes.push_back(mCanNavigate->getLLVMType(mLLVMContext));
+    carTypes.push_back(mCanNavigate->getLLVMType(mContext));
     string carFullName = "systems.vos.wisey.compiler.tests.MCar";
     StructType* carStructType = StructType::create(mLLVMContext, carFullName);
     carStructType->setBody(carTypes);
@@ -424,7 +424,7 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   mContext.setMainFunction(function);
 
   ConstantPointerNull* pointer =
-    ConstantPointerNull::get(mStarModel->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mStarModel->getLLVMType(mContext));
   IConcreteObjectType::composeDestructorCall(mContext, mStarModel, pointer);
   
   *mStringStream << *basicBlock;

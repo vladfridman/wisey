@@ -248,8 +248,8 @@ struct ModelTest : public Test {
     
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    starTypes.push_back(mBirthdateModel->getLLVMType(mLLVMContext));
-    starTypes.push_back(mGalaxyModel->getLLVMType(mLLVMContext));
+    starTypes.push_back(mBirthdateModel->getLLVMType(mContext));
+    starTypes.push_back(mGalaxyModel->getLLVMType(mContext));
     string starFullName = "systems.vos.wisey.compiler.tests.MStar";
     StructType *starStructType = StructType::create(mLLVMContext, starFullName);
     starStructType->setBody(starTypes);
@@ -263,10 +263,10 @@ struct ModelTest : public Test {
     mStarModel->setFields(starFields, 1u);
     mContext.addModel(mStarModel);
     Value* field1Value = ConstantPointerNull::get(mBirthdateModel->getOwner()
-                                                  ->getLLVMType(mLLVMContext));
+                                                  ->getLLVMType(mContext));
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(mBirthdateModel->getOwner()));
-    Value* field2Value = ConstantPointerNull::get(mGalaxyModel->getLLVMType(mLLVMContext));
+    Value* field2Value = ConstantPointerNull::get(mGalaxyModel->getLLVMType(mContext));
     ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(mGalaxyModel));
     
@@ -290,7 +290,7 @@ struct ModelTest : public Test {
     mContext.setMainFunction(function);
  
     Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
@@ -329,7 +329,7 @@ TEST_F(ModelTest, getTypeKindTest) {
 }
 
 TEST_F(ModelTest, getLLVMTypeTest) {
-  EXPECT_EQ(mModel->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+  EXPECT_EQ(mModel->getLLVMType(mContext), mStructType->getPointerTo());
 }
 
 TEST_F(ModelTest, getInterfacesTest) {
@@ -474,8 +474,7 @@ TEST_F(ModelTest, canAutoCastToTest) {
 }
 
 TEST_F(ModelTest, castToFirstInterfaceTest) {
-  ConstantPointerNull* pointer =
-    ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->castTo(mContext, pointer, mShapeInterface, 0);
 
   *mStringStream << *mBasicBlock;
@@ -490,8 +489,7 @@ TEST_F(ModelTest, castToFirstInterfaceTest) {
 }
 
 TEST_F(ModelTest, castToSecondInterfaceTest) {
-  ConstantPointerNull* pointer =
-    ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->castTo(mContext, pointer, mSubShapeInterface, 0);
   
   *mStringStream << *mBasicBlock;
@@ -506,8 +504,7 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
 }
 
 TEST_F(ModelTest, incremenetReferenceCountTest) {
-  ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -521,8 +518,7 @@ TEST_F(ModelTest, incremenetReferenceCountTest) {
 }
 
 TEST_F(ModelTest, decremenetReferenceCountTest) {
-  ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -536,8 +532,7 @@ TEST_F(ModelTest, decremenetReferenceCountTest) {
 }
 
 TEST_F(ModelTest, getReferenceCountTest) {
-  ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;

@@ -40,20 +40,19 @@ bool IMethodDescriptor::compare(IMethodDescriptor* method1, IMethodDescriptor* m
 FunctionType* IMethodDescriptor::getLLVMFunctionType(IMethodDescriptor* method,
                                                      IRGenerationContext& context,
                                                      const IObjectType* object) {
-  LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
   if (!method->isStatic()) {
-    argumentTypes.push_back(object->getLLVMType(llvmContext));
+    argumentTypes.push_back(object->getLLVMType(context));
   }
   Controller* threadController = context.getController(Names::getThreadControllerFullName());
-  argumentTypes.push_back(threadController->getLLVMType(llvmContext));
+  argumentTypes.push_back(threadController->getLLVMType(context));
   
   for (MethodArgument* methodArgument : method->getArguments()) {
     const IType* type = methodArgument->getType();
-    argumentTypes.push_back(type->getLLVMType(llvmContext));
+    argumentTypes.push_back(type->getLLVMType(context));
   }
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = method->getReturnType()->getLLVMType(llvmContext);
+  Type* llvmReturnType = method->getReturnType()->getLLVMType(context);
   return FunctionType::get(llvmReturnType, argTypesArray, false);
 }
 

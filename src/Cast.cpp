@@ -17,7 +17,7 @@ using namespace wisey;
 Value* Cast::widenIntCast(IRGenerationContext& context,
                           Value* fromValue,
                           const IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
+  Type* toLLVMType = toType->getLLVMType(context);
   
   return IRWriter::createZExtOrBitCast(context, fromValue, toLLVMType);
 }
@@ -25,7 +25,7 @@ Value* Cast::widenIntCast(IRGenerationContext& context,
 Value* Cast::truncIntCast(IRGenerationContext& context,
                           Value* fromValue,
                           const IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
+  Type* toLLVMType = toType->getLLVMType(context);
   
   return IRWriter::newTruncInst(context, fromValue, toLLVMType);
 }
@@ -33,7 +33,7 @@ Value* Cast::truncIntCast(IRGenerationContext& context,
 Value* Cast::truncFloatCast(IRGenerationContext& context,
                             Value* fromValue,
                             const IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
+  Type* toLLVMType = toType->getLLVMType(context);
   
   return IRWriter::newFPTruncInst(context, fromValue, toLLVMType);
 }
@@ -41,7 +41,7 @@ Value* Cast::truncFloatCast(IRGenerationContext& context,
 Value* Cast::widenFloatCast(IRGenerationContext& context,
                             Value* fromValue,
                             const IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
+  Type* toLLVMType = toType->getLLVMType(context);
   
   return IRWriter::newFPExtInst(context, fromValue, toLLVMType);
 }
@@ -49,7 +49,7 @@ Value* Cast::widenFloatCast(IRGenerationContext& context,
 Value* Cast::intToFloatCast(IRGenerationContext& context,
                             Value* fromValue,
                             const IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
+  Type* toLLVMType = toType->getLLVMType(context);
   
   return IRWriter::newSIToFPInst(context, fromValue, toLLVMType);
 }
@@ -57,7 +57,7 @@ Value* Cast::intToFloatCast(IRGenerationContext& context,
 Value* Cast::floatToIntCast(IRGenerationContext& context,
                             Value* fromValue,
                             const IType* toType) {
-  Type* toLLVMType = toType->getLLVMType(context.getLLVMContext());
+  Type* toLLVMType = toType->getLLVMType(context);
   
   return IRWriter::newFPToSIInst(context, fromValue, toLLVMType);
 }

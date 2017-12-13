@@ -163,7 +163,7 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   modelDefinition.prototypeMethods(mContext);
   modelDefinition.generateIR(mContext);
   Model* model = mContext.getModel("systems.vos.wisey.compiler.tests.MMyModel");
-  StructType* structType = (StructType*) model->getLLVMType(mLLVMContext)->getPointerElementType();
+  StructType* structType = (StructType*) model->getLLVMType(mContext)->getPointerElementType();
   
   ASSERT_NE(structType, nullptr);
   EXPECT_EQ(structType->getNumElements(), 3u);

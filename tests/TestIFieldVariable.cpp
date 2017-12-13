@@ -44,7 +44,7 @@ struct IFieldVariableTest : Test {
     InjectionArgumentList fieldArguments;
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
-    types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mLLVMContext));
+    types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
     string controllerFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* controllerStructType = StructType::create(mLLVMContext, controllerFullName);
     controllerStructType->setBody(types);
@@ -68,7 +68,7 @@ struct IFieldVariableTest : Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Value* thisPointer = ConstantPointerNull::get(mController->getLLVMType(mLLVMContext));
+    Value* thisPointer = ConstantPointerNull::get(mController->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable("this", mController, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     

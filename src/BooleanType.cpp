@@ -19,8 +19,8 @@ string BooleanType::getTypeName() const {
   return "boolean";
 }
 
-llvm::Type* BooleanType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getInt1Ty(llvmContext);
+llvm::Type* BooleanType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getInt1Ty(context.getLLVMContext());
 }
 
 TypeKind BooleanType::getTypeKind() const {

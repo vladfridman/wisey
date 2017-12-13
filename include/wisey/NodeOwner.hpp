@@ -31,7 +31,7 @@ public:
   
   std::string getTypeName() const override;
   
-  llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override;
+  llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
   
   void free(IRGenerationContext& context, llvm::Value* value) const override;
 

@@ -38,7 +38,7 @@ Value* NegateExpression::generateIR(IRGenerationContext& context, IRGenerationFl
   }
   
   if (type == PrimitiveTypes::FLOAT_TYPE || type == PrimitiveTypes::DOUBLE_TYPE) {
-    Value* zero = ConstantFP::get(type->getLLVMType(context.getLLVMContext()), 0);
+    Value* zero = ConstantFP::get(type->getLLVMType(context), 0);
     return IRWriter::createBinaryOperator(context,
                                           Instruction::FSub,
                                           zero,
@@ -46,7 +46,7 @@ Value* NegateExpression::generateIR(IRGenerationContext& context, IRGenerationFl
                                           "fsub");
   }
   
-  Value* zero = ConstantInt::get(type->getLLVMType(context.getLLVMContext()), 0);
+  Value* zero = ConstantInt::get(type->getLLVMType(context), 0);
   return IRWriter::createBinaryOperator(context,
                                         Instruction::Sub,
                                         zero,

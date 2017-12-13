@@ -52,7 +52,7 @@ public:
   /**
    * Return corresponding LLVM type
    */
-  virtual llvm::Type* getLLVMType(llvm::LLVMContext& llvmContext) const = 0;
+  virtual llvm::Type* getLLVMType(IRGenerationContext& context) const = 0;
   
   /**
    * Tells what kind of data type is this type: primitive/model/controller

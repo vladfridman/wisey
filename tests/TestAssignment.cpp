@@ -77,7 +77,7 @@ public:
                                             NULL);
 
     Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));

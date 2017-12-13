@@ -218,8 +218,8 @@ struct NodeTest : public Test {
     
     vector<Type*> simpleNodeTypes;
     simpleNodeTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    simpleNodeTypes.push_back(mOwnerNode->getLLVMType(mLLVMContext));
-    simpleNodeTypes.push_back(mReferenceModel->getLLVMType(mLLVMContext));
+    simpleNodeTypes.push_back(mOwnerNode->getLLVMType(mContext));
+    simpleNodeTypes.push_back(mReferenceModel->getLLVMType(mContext));
     string simpleNodeFullName = "systems.vos.wisey.compiler.tests.NSimpleNode";
     StructType* simpleNodeStructType = StructType::create(mLLVMContext, simpleNodeFullName);
     simpleNodeStructType->setBody(simpleNodeTypes);
@@ -277,11 +277,10 @@ struct NodeTest : public Test {
     IConcreteObjectType::generateNameGlobal(mContext, mSimpleNode);
     IConcreteObjectType::generateVTable(mContext, mSimpleNode);
     
-    Value* field1Value = ConstantPointerNull::get(mOwnerNode->getOwner()
-                                                  ->getLLVMType(mLLVMContext));
+    Value* field1Value = ConstantPointerNull::get(mOwnerNode->getOwner()->getLLVMType(mContext));
     ON_CALL(*mField1Expression, generateIR(_, _)).WillByDefault(Return(field1Value));
     ON_CALL(*mField1Expression, getType(_)).WillByDefault(Return(mOwnerNode->getOwner()));
-    Value* field2Value = ConstantPointerNull::get(mReferenceModel->getLLVMType(mLLVMContext));
+    Value* field2Value = ConstantPointerNull::get(mReferenceModel->getLLVMType(mContext));
     ON_CALL(*mField2Expression, generateIR(_, _)).WillByDefault(Return(field2Value));
     ON_CALL(*mField2Expression, getType(_)).WillByDefault(Return(mReferenceModel));
 
@@ -296,7 +295,7 @@ struct NodeTest : public Test {
     mContext.getScopes().pushScope();
     
     Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
@@ -342,7 +341,7 @@ TEST_F(NodeTest, getTypeKindTest) {
 }
 
 TEST_F(NodeTest, getLLVMTypeTest) {
-  EXPECT_EQ(mComplicatedNode->getLLVMType(mLLVMContext), mStructType->getPointerTo());
+  EXPECT_EQ(mComplicatedNode->getLLVMType(mContext), mStructType->getPointerTo());
 }
 
 TEST_F(NodeTest, getInterfacesTest) {
@@ -443,7 +442,7 @@ TEST_F(NodeTest, canAutoCastToTest) {
 
 TEST_F(NodeTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->castTo(mContext, pointer, mComplicatedElementInterface, 0);
   
   *mStringStream << *mBasicBlock;
@@ -459,7 +458,7 @@ TEST_F(NodeTest, castToFirstInterfaceTest) {
 
 TEST_F(NodeTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->castTo(mContext, pointer, mElementInterface, 0);
   
   *mStringStream << *mBasicBlock;
@@ -475,7 +474,7 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
 
 TEST_F(NodeTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->incremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -490,7 +489,7 @@ TEST_F(NodeTest, incremenetReferenceCountTest) {
 
 TEST_F(NodeTest, decremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->decremenetReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
@@ -505,7 +504,7 @@ TEST_F(NodeTest, decremenetReferenceCountTest) {
 
 TEST_F(NodeTest, getReferenceCountTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
   mComplicatedNode->getReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;

@@ -44,7 +44,7 @@ TEST_F(ArrayTypeTest, getNameTest) {
 
 TEST_F(ArrayTypeTest, getLLVMTypeTest) {
   EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
-            mArrayType->getLLVMType(mLLVMContext));
+            mArrayType->getLLVMType(mContext));
 }
 
 TEST_F(ArrayTypeTest, getTypeKindTest) {

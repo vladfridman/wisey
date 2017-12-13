@@ -32,7 +32,7 @@ public:
   /**
    * Override method from IType because ObjectOwner llvm type is always a PointerType
    */
-  virtual llvm::PointerType* getLLVMType(llvm::LLVMContext& llvmContext) const override = 0;
+  virtual llvm::PointerType* getLLVMType(IRGenerationContext& context) const override = 0;
   
   /**
    * Deallocates memory occupied by this object owner and its field variables

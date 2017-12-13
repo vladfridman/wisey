@@ -136,8 +136,8 @@ TEST_F(ControllerOwnerTest, getNameTest) {
 }
 
 TEST_F(ControllerOwnerTest, getLLVMTypeTest) {
-  EXPECT_EQ(mMultiplierController->getOwner()->getLLVMType(mLLVMContext),
-            mMultiplierController->getLLVMType(mLLVMContext));
+  EXPECT_EQ(mMultiplierController->getOwner()->getLLVMType(mContext),
+            mMultiplierController->getLLVMType(mContext));
 }
 
 TEST_F(ControllerOwnerTest, getTypeKindTest) {
@@ -176,7 +176,7 @@ TEST_F(ControllerOwnerTest, canAutoCastTest) {
 
 TEST_F(ControllerOwnerTest, castToItselfTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
   Value* result = mMultiplierController->getOwner()->castTo(mContext,
                                                             pointer,
                                                             mMultiplierController->getOwner(),
@@ -187,7 +187,7 @@ TEST_F(ControllerOwnerTest, castToItselfTest) {
 
 TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-    ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
   mMultiplierController->getOwner()->castTo(mContext,
                                             pointer,
                                             mScienceCalculatorInterface->getOwner(),
@@ -205,7 +205,7 @@ TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {
 
 TEST_F(ControllerOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mMultiplierController->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
   mMultiplierController->getOwner()->castTo(mContext,
                                             pointer,
                                             mCalculatorInterface->getOwner(),

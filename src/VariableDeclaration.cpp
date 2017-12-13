@@ -80,7 +80,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 
 void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
                                             const IPrimitiveType* type) const {
-  Type* llvmType = type->getLLVMType(context.getLLVMContext());
+  Type* llvmType = type->getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mIdentifier->getName());
 
   LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(mIdentifier->getName(),
@@ -116,7 +116,7 @@ void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
 
 void VariableDeclaration::allocateArray(IRGenerationContext& context,
                                         const wisey::ArrayType* type) const {
-  Type* llvmType = type->getLLVMType(context.getLLVMContext());
+  Type* llvmType = type->getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mIdentifier->getName());
   
   LocalArrayVariable* variable = new LocalArrayVariable(mIdentifier->getName(), type, alloc);
@@ -126,7 +126,7 @@ void VariableDeclaration::allocateArray(IRGenerationContext& context,
 void VariableDeclaration::allocateOwner(IRGenerationContext& context,
                                         const IObjectOwnerType* type) const {
   string variableName = mIdentifier->getName();
-  PointerType* llvmType = type->getLLVMType(context.getLLVMContext());
+  PointerType* llvmType = type->getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);
@@ -138,7 +138,7 @@ void VariableDeclaration::allocateOwner(IRGenerationContext& context,
 void VariableDeclaration::allocateReference(IRGenerationContext& context,
                                             const IObjectType* type) const {
   string variableName = mIdentifier->getName();
-  PointerType* llvmType = (PointerType*) type->getLLVMType(context.getLLVMContext());
+  PointerType* llvmType = (PointerType*) type->getLLVMType(context);
 
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloca);

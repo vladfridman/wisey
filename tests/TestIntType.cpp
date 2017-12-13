@@ -54,7 +54,7 @@ public:
 };
 
 TEST_F(IntTypeTest, intTypeTest) {
-  EXPECT_EQ(mIntType.getLLVMType(mLLVMContext), (llvm::Type*) Type::getInt32Ty(mLLVMContext));
+  EXPECT_EQ(mIntType.getLLVMType(mContext), (llvm::Type*) Type::getInt32Ty(mLLVMContext));
   EXPECT_STREQ(mIntType.getTypeName().c_str(), "int");
   EXPECT_EQ(mIntType.getTypeKind(), PRIMITIVE_TYPE);
   EXPECT_EQ(mIntType.getFormat(), "%d");

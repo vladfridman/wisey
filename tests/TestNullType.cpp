@@ -54,7 +54,7 @@ TEST_F(NullTypeTest, getNameTest) {
 
 TEST_F(NullTypeTest, getLLVMTypeTest) {
   Type* int8PointerType = Type::getInt8Ty(mLLVMContext)->getPointerTo();
-  ASSERT_EQ(NullType::NULL_TYPE->getLLVMType(mLLVMContext), int8PointerType);
+  ASSERT_EQ(NullType::NULL_TYPE->getLLVMType(mContext), int8PointerType);
 }
 
 TEST_F(NullTypeTest, getTypeKindTest) {

@@ -108,7 +108,7 @@ public:
     IMethod::defineCurrentMethodNameVariable(mContext, mMethodName);
 
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadObject = ConstantPointerNull::get(mThreadController->getLLVMType(mLLVMContext));
+    Value* threadObject = ConstantPointerNull::get(mThreadController->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockReferenceVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(mThreadController));

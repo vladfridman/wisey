@@ -20,8 +20,8 @@ string StringType::getTypeName() const {
   return "string";
 }
 
-llvm::Type* StringType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getInt8Ty(llvmContext)->getPointerTo();
+llvm::Type* StringType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
 }
 
 TypeKind StringType::getTypeKind() const {

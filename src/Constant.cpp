@@ -60,9 +60,8 @@ llvm::Value* Constant::generateIR(IRGenerationContext& context,
     exit(1);
   }
   
-  llvm::LLVMContext& llvmContext = context.getLLVMContext();
   const IType* type = mExpression->getType(context);
-  llvm::Type* llvmType = type->getLLVMType(llvmContext);
+  llvm::Type* llvmType = type->getLLVMType(context);
   llvm::GlobalValue::LinkageTypes linkageType = mAccessLevel == PUBLIC_ACCESS
     ? llvm::GlobalValue::ExternalLinkage
     : llvm::GlobalValue::InternalLinkage;

@@ -79,7 +79,7 @@ public:
     mModel->setFields(fields, 1u);
     
     Controller* threadController = mContext.getController(Names::getThreadControllerFullName());
-    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mLLVMContext));
+    Value* threadObject = ConstantPointerNull::get(threadController->getLLVMType(mContext));
     mThreadVariable = new NiceMock<MockVariable>();
     ON_CALL(*mThreadVariable, getName()).WillByDefault(Return(ThreadExpression::THREAD));
     ON_CALL(*mThreadVariable, getType()).WillByDefault(Return(threadController));
@@ -95,7 +95,7 @@ public:
 };
 
 TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
-  Type* llvmType = mModel->getLLVMType(mLLVMContext);
+  Type* llvmType = mModel->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   
   IVariable* uninitializedHeapVariable = new LocalReferenceVariable("foo", mModel, fooValue);
@@ -126,7 +126,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
 }
 
 TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
-  PointerType* llvmType = mModel->getLLVMType(mContext.getLLVMContext());
+  PointerType* llvmType = mModel->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
   llvm::Constant* null = ConstantPointerNull::get(llvmType);
@@ -143,7 +143,7 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
 }
 
 TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
-  Type* llvmType = mModel->getLLVMType(mLLVMContext);
+  Type* llvmType = mModel->getLLVMType(mContext);
   
   Value* referenceStore = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("bar", mModel, referenceStore);
@@ -164,7 +164,7 @@ TEST_F(LocalReferenceVariableTest, decrementReferenceCounterTest) {
 TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierUninitializedDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   
-  Type* llvmType = mModel->getOwner()->getLLVMType(mContext.getLLVMContext());
+  Type* llvmType = mModel->getOwner()->getLLVMType(mContext);
   Value* fooValue = IRWriter::newAllocaInst(mContext, llvmType, "");
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
   

@@ -132,7 +132,7 @@ TEST_F(ScopesTest, getScopeTest) {
 
 TEST_F(ScopesTest, setLocalReferenceVariableTest) {
   mScopes.pushScope();
-  Value* fooValue = ConstantPointerNull::get(mInterface->getLLVMType(mLLVMContext)->getPointerTo());
+  Value* fooValue = ConstantPointerNull::get(mInterface->getLLVMType(mContext)->getPointerTo());
   IVariable* variable =
     new LocalReferenceVariable("foo", mInterface, fooValue);
   mScopes.setVariable(variable);
@@ -143,7 +143,7 @@ TEST_F(ScopesTest, setLocalReferenceVariableTest) {
 TEST_F(ScopesTest, setUnitializedLocalReferenceVariableTest) {
   mScopes.pushScope();
   
-  Value* store = ConstantPointerNull::get(mInterface->getLLVMType(mLLVMContext)->getPointerTo());
+  Value* store = ConstantPointerNull::get(mInterface->getLLVMType(mContext)->getPointerTo());
   IVariable* unitializedLocalReferenceVariable =
     new LocalReferenceVariable("foo", mInterface, store);
   mScopes.setVariable(unitializedLocalReferenceVariable);

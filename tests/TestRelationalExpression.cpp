@@ -181,11 +181,11 @@ TEST_F(RelationalExpressionTest, incompatableObjectsCompareDeathTest) {
   Mock::AllowLeak(mLeftExpression);
   Mock::AllowLeak(mRightExpression);
   
-  Value* modelNull = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  Value* modelNull = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(*mLeftExpression, generateIR(_, _)).WillByDefault(Return(modelNull));
   
-  Value* nodeNull = ConstantPointerNull::get(mNode->getLLVMType(mLLVMContext));
+  Value* nodeNull = ConstantPointerNull::get(mNode->getLLVMType(mContext));
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mNode));
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(nodeNull));
   

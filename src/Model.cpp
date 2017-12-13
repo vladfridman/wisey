@@ -218,7 +218,7 @@ string Model::getShortName() const {
   return mName.substr(mName.find_last_of('.') + 1);
 }
 
-llvm::PointerType* Model::getLLVMType(LLVMContext& llvmContext) const {
+llvm::PointerType* Model::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
@@ -326,9 +326,7 @@ void Model::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderA
 }
 
 Instruction* Model::createMalloc(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
+  Type* structType = getLLVMType(context)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "buildervar");
   

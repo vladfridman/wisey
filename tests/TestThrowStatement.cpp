@@ -104,7 +104,7 @@ TEST_F(ThrowStatementTest, wrongExpressionTypeDeathTest) {
 
 TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
   llvm::Constant* exceptionObject =
-    ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mCircleModel->getLLVMType(mContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression, 0);
@@ -139,7 +139,7 @@ TEST_F(ThrowStatementTest, modelExpressionTypeTest) {
 }
 
 TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
-  Type* structType = mCircleModel->getLLVMType(mLLVMContext)->getPointerElementType();
+  Type* structType = mCircleModel->getLLVMType(mContext)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* fooMalloc = IRWriter::createMalloc(mContext, structType, allocSize, "");
   Value* fooPointer = IRWriter::newAllocaInst(mContext, fooMalloc->getType(), "pointer");
@@ -154,8 +154,7 @@ TEST_F(ThrowStatementTest, ownerVariablesAreClearedTest) {
   IVariable* bar = new LocalOwnerVariable("bar", mCircleModel->getOwner(), barPointer);
   mContext.getScopes().setVariable(bar);
   
-  llvm::Constant* exceptionObject =
-    ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
+  llvm::Constant* exceptionObject = ConstantPointerNull::get(mCircleModel->getLLVMType(mContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression, 0);
@@ -227,8 +226,7 @@ TEST_F(ThrowStatementTest, referenceVariablesGetTheirRefCountDecrementedTest) {
   IVariable* bar = new LocalReferenceVariable("bar", mCircleModel, barStore);
   mContext.getScopes().setVariable(bar);
 
-  llvm::Constant* exceptionObject =
-    ConstantPointerNull::get(mCircleModel->getLLVMType(mLLVMContext));
+  llvm::Constant* exceptionObject = ConstantPointerNull::get(mCircleModel->getLLVMType(mContext));
   ON_CALL(*mMockExpression, getType(_)).WillByDefault(Return(mCircleModel));
   ON_CALL(*mMockExpression, generateIR(_, _)).WillByDefault(Return(exceptionObject));
   ThrowStatement throwStatement(mMockExpression, 0);

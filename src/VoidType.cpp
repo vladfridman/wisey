@@ -19,8 +19,8 @@ string VoidType::getTypeName() const {
   return "void";
 }
 
-llvm::Type* VoidType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getVoidTy(llvmContext);
+llvm::Type* VoidType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getVoidTy(context.getLLVMContext());
 }
 
 TypeKind VoidType::getTypeKind() const {

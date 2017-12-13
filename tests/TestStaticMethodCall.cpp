@@ -145,7 +145,7 @@ public:
     mContext.setMainFunction(mainFunction);
     
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
-    PointerType* llvmType = mThreadController->getLLVMType(mLLVMContext);
+    PointerType* llvmType = mThreadController->getLLVMType(mContext);
     Value* threadStore = IRWriter::newAllocaInst(mContext, llvmType, "threadStore");
     llvm::Constant* null = ConstantPointerNull::get(llvmType);
     IRWriter::newStoreInst(mContext, null, threadStore);
@@ -202,10 +202,10 @@ public:
 
 TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(mThreadController->getLLVMType(mLLVMContext));
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
+  argumentTypes.push_back(mThreadController->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mLLVMContext),
+  FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
                                                  argTypesArray,
                                                  false);
   Function::Create(functionType,
@@ -233,8 +233,8 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
 
 TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(mThreadController->getLLVMType(mLLVMContext));
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
+  argumentTypes.push_back(mThreadController->getLLVMType(mContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext),
                                                  argTypesArray,
@@ -328,9 +328,9 @@ TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
 TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
   vector<Type*> argumentTypes;
   argumentTypes.push_back(mStructType->getPointerTo());
-  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mLLVMContext));
+  argumentTypes.push_back(PrimitiveTypes::FLOAT_TYPE->getLLVMType(mContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mLLVMContext),
+  FunctionType* functionType = FunctionType::get(mReturnedModel->getLLVMType(mContext),
                                                  argTypesArray,
                                                  false);
   Function::Create(functionType,

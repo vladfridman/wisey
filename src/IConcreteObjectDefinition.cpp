@@ -35,7 +35,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
   types.push_back(referenceCounterType);
   
   for (Interface* interface : object->getInterfaces()) {
-    types.push_back(interface->getLLVMType(context.getLLVMContext())->getPointerElementType());
+    types.push_back(interface->getLLVMType(context)->getPointerElementType());
   }
   
   collectFieldTypes(context, types, get<1>(elements));
@@ -96,8 +96,6 @@ vector<Interface*> IConcreteObjectDefinition::processInterfaces(IRGenerationCont
 void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
                                                   vector<llvm::Type*>& types,
                                                   vector<Field*> fields) {
-  llvm::LLVMContext& llvmContext = context.getLLVMContext();
-  
   for (Field* field : fields) {
     const IType* fieldType = field->getType();
     
@@ -107,7 +105,7 @@ void IConcreteObjectDefinition::collectFieldTypes(IRGenerationContext& context,
       fieldType = context.getBoundController(interface);
     }
     
-    llvm::Type* llvmType = fieldType->getLLVMType(llvmContext);
+    llvm::Type* llvmType = fieldType->getLLVMType(context);
     types.push_back(llvmType);
   }
 }

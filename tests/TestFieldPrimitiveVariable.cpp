@@ -46,7 +46,7 @@ struct FieldPrimitiveVariableTest : Test {
   FieldPrimitiveVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
-    types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mLLVMContext));
+    types.push_back(PrimitiveTypes::INT_TYPE->getLLVMType(mContext));
     string objectFullName = "systems.vos.wisey.compiler.tests.CController";
     StructType* objectStructType = StructType::create(mLLVMContext, objectFullName);
     objectStructType->setBody(types);
@@ -68,7 +68,7 @@ struct FieldPrimitiveVariableTest : Test {
     mContext.setBasicBlock(mBasicBlock);
     mContext.getScopes().pushScope();
     
-    Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mLLVMContext));
+    Value* thisPointer = ConstantPointerNull::get(mObject->getLLVMType(mContext));
     IVariable* thisVariable = new ParameterReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
@@ -123,7 +123,7 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentIRTes
 TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentWithCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
-  Value* assignToValue = ConstantInt::get(PrimitiveTypes::CHAR_TYPE->getLLVMType(mLLVMContext), 3);
+  Value* assignToValue = ConstantInt::get(PrimitiveTypes::CHAR_TYPE->getLLVMType(mContext), 3);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   

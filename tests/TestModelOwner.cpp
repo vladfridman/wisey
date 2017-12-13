@@ -267,8 +267,7 @@ TEST_F(ModelOwnerTest, getNameTest) {
 }
 
 TEST_F(ModelOwnerTest, getLLVMTypeTest) {
-  EXPECT_EQ(mModel->getOwner()->getLLVMType(mLLVMContext),
-            mModel->getLLVMType(mLLVMContext));
+  EXPECT_EQ(mModel->getOwner()->getLLVMType(mContext), mModel->getLLVMType(mContext));
 }
 
 TEST_F(ModelOwnerTest, getTypeKindTest) {
@@ -303,7 +302,7 @@ TEST_F(ModelOwnerTest, canAutoCastToTest) {
 
 TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mContext));
   mModel->getOwner()->castTo(mContext, pointer, mShapeInterface->getOwner(), 0);
   
   *mStringStream << *mBasicBlock;
@@ -319,7 +318,7 @@ TEST_F(ModelOwnerTest, castToFirstInterfaceTest) {
 
 TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-  ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->getOwner()->castTo(mContext, pointer, mSubShapeInterface->getOwner(), 0);
   
   *mStringStream << *mBasicBlock;

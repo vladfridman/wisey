@@ -157,8 +157,7 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
   ASSERT_NE(mContext.getController("systems.vos.wisey.compiler.tests.CMyController"), nullptr);
   
   Controller* controller = mContext.getController("systems.vos.wisey.compiler.tests.CMyController");
-  StructType* structType = (StructType*) controller->getLLVMType(mLLVMContext)
-    ->getPointerElementType();
+  StructType* structType = (StructType*) controller->getLLVMType(mContext)->getPointerElementType();
 
   ASSERT_NE(structType, nullptr);
   EXPECT_EQ(structType->getNumElements(), 3u);

@@ -59,9 +59,7 @@ public:
 };
 
 TEST_F(LocalArrayVariableTest, generateAssignmentIRTest) {
-  AllocaInst* alloc = IRWriter::newAllocaInst(mContext,
-                                              mArrayType->getLLVMType(mLLVMContext),
-                                              "foo");
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "foo");
   LocalArrayVariable variable("foo", mArrayType, alloc);
   Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   NiceMock<MockExpression> expression;
@@ -75,9 +73,7 @@ TEST_F(LocalArrayVariableTest, generateAssignmentIRTest) {
 }
 
 TEST_F(LocalArrayVariableTest, generateIdentifierIRTest) {
-  AllocaInst* alloc = IRWriter::newAllocaInst(mContext,
-                                              mArrayType->getLLVMType(mLLVMContext),
-                                              "foo");
+  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "foo");
   LocalArrayVariable variable("foo", mArrayType, alloc);
 
   EXPECT_EQ(alloc, variable.generateIdentifierIR(mContext));

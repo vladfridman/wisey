@@ -21,8 +21,8 @@ string CharType::getTypeName() const {
   return "char";
 }
 
-llvm::Type* CharType::getLLVMType(LLVMContext& llvmContext) const {
-  return Type::getInt16Ty(llvmContext);
+llvm::Type* CharType::getLLVMType(IRGenerationContext& context) const {
+  return Type::getInt16Ty(context.getLLVMContext());
 }
 
 TypeKind CharType::getTypeKind() const {

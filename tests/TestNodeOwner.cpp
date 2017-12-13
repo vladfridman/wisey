@@ -274,8 +274,8 @@ TEST_F(NodeOwnerTest, getNameTest) {
 }
 
 TEST_F(NodeOwnerTest, getLLVMTypeTest) {
-  EXPECT_EQ(mComplicatedNode->getOwner()->getLLVMType(mLLVMContext),
-            mComplicatedNode->getLLVMType(mLLVMContext));
+  EXPECT_EQ(mComplicatedNode->getOwner()->getLLVMType(mContext),
+            mComplicatedNode->getLLVMType(mContext));
 }
 
 TEST_F(NodeOwnerTest, getTypeKindTest) {
@@ -309,7 +309,7 @@ TEST_F(NodeOwnerTest, canAutoCastToTest) {
 }
 
 TEST_F(NodeOwnerTest, castToFirstInterfaceTest) {
-  PointerType* type = mComplicatedNode->getOwner()->getLLVMType(mLLVMContext);
+  PointerType* type = mComplicatedNode->getOwner()->getLLVMType(mContext);
   ConstantPointerNull* pointer = ConstantPointerNull::get(type);
   mComplicatedNode->getOwner()->castTo(mContext,
                                        pointer,
@@ -329,7 +329,7 @@ TEST_F(NodeOwnerTest, castToFirstInterfaceTest) {
 
 TEST_F(NodeOwnerTest, castToSecondInterfaceTest) {
   ConstantPointerNull* pointer =
-    ConstantPointerNull::get(mComplicatedNode->getLLVMType(mLLVMContext));
+    ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
 
   mComplicatedNode->getOwner()->castTo(mContext, pointer, mElementInterface->getOwner(), 0);
   

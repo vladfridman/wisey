@@ -74,7 +74,7 @@ public:
 };
 
 TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableAssignmentDeathTest) {
-  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
   
   EXPECT_EXIT(parameterReferenceVariable.generateAssignmentIR(mContext, NULL, 0),
@@ -83,14 +83,14 @@ TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableAssignmentDeath
 }
 
 TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableIdentifierTest) {
-  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
   
   EXPECT_EQ(parameterReferenceVariable.generateIdentifierIR(mContext), fooValue);
 }
 
 TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {
-  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mLLVMContext));
+  Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
   
   parameterReferenceVariable.decrementReferenceCounter(mContext);

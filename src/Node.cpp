@@ -179,7 +179,7 @@ string Node::getShortName() const {
   return mName.substr(mName.find_last_of('.') + 1);
 }
 
-PointerType* Node::getLLVMType(LLVMContext& llvmcontext) const {
+PointerType* Node::getLLVMType(IRGenerationContext& context) const {
   return mStructType->getPointerTo();
 }
 
@@ -288,9 +288,7 @@ void Node::checkAllFieldsAreSet(const ObjectBuilderArgumentList& objectBuilderAr
 }
 
 Instruction* Node::createMalloc(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Type* structType = getLLVMType(llvmContext)->getPointerElementType();
+  Type* structType = getLLVMType(context)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "buildervar");
   
@@ -337,11 +335,11 @@ void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* mallo
   
   for (Field* field : mStateFields) {
     const IType* fieldType = field->getType();
-    Type* fieldLLVMType = fieldType->getLLVMType(llvmContext);
+    Type* fieldLLVMType = fieldType->getLLVMType(context);
     
     Value* fieldValue;
     if (IType::isOwnerType(fieldType) || IType::isReferenceType(fieldType)) {
-      fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(llvmContext));
+      fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(context));
     } else if (fieldLLVMType->isFloatTy()) {
       fieldValue = ConstantFP::get(fieldLLVMType, 0.0);
     } else if (fieldLLVMType->isIntegerTy()) {
