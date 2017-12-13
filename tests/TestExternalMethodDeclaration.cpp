@@ -54,7 +54,7 @@ TEST_F(ExternalMethodDeclarationTest, methodDescriptorExtractTest) {
                                               "foo",
                                               mArguments,
                                               thrownExceptions);
-  IMethod* method = methodDeclaration.declare(mContext);
+  IMethod* method = methodDeclaration.declare(mContext, NULL);
   vector<MethodArgument*> arguments = method->getArguments();
   
   EXPECT_STREQ(method->getName().c_str(), "foo");

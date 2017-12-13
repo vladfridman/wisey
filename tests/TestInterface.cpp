@@ -307,7 +307,8 @@ TEST_F(InterfaceTest, printToStreamTest) {
   
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
-  Method* method = new Method("bar",
+  Method* method = new Method(innerPublicModel,
+                              "bar",
                               AccessLevel::PUBLIC_ACCESS,
                               PrimitiveTypes::INT_TYPE,
                               methodArguments,

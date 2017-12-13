@@ -53,7 +53,7 @@ public:
 };
 
 TEST_F(ConstantDeclarationTest, declareTest) {
-  EXPECT_NE(mConstantDeclaration->declare(mContext), nullptr);
+  EXPECT_NE(mConstantDeclaration->declare(mContext, NULL), nullptr);
 }
 
 TEST_F(TestFileSampleRunner, constantDeclarationInObjectRunTest) {

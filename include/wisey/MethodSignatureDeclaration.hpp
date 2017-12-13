@@ -37,7 +37,8 @@ public:
   
   ~MethodSignatureDeclaration();
   
-  MethodSignature* declare(IRGenerationContext& context) const override;
+  MethodSignature* declare(IRGenerationContext& context,
+                           const IObjectType* objectType) const override;
 
 };
   

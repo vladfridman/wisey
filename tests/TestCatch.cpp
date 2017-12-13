@@ -53,7 +53,8 @@ public:
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
-    IMethod* fooMethod = new Method("foo",
+    IMethod* fooMethod = new Method(mModel,
+                                    "foo",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,

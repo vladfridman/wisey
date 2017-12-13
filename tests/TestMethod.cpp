@@ -47,23 +47,6 @@ public:
     TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
-    
-    MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
-    MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
-    std::vector<MethodArgument*> arguments;
-    arguments.push_back(doubleArgument);
-    arguments.push_back(charArgument);
-    vector<const Model*> thrownExceptions;
-    string rceFullName = Names::getLangPackageName() + "." +
-    Names::getReferenceCountExceptionName();
-    thrownExceptions.push_back(mContext.getModel(rceFullName));
-    mMethod = new Method("mymethod",
-                         AccessLevel::PUBLIC_ACCESS,
-                         PrimitiveTypes::BOOLEAN_TYPE,
-                         arguments,
-                         thrownExceptions,
-                         NULL,
-                         0);
 
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
@@ -78,6 +61,24 @@ public:
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments));
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
+
+    MethodArgument* doubleArgument = new MethodArgument(PrimitiveTypes::DOUBLE_TYPE, "argDouble");
+    MethodArgument* charArgument = new MethodArgument(PrimitiveTypes::CHAR_TYPE, "argChar");
+    std::vector<MethodArgument*> arguments;
+    arguments.push_back(doubleArgument);
+    arguments.push_back(charArgument);
+    vector<const Model*> thrownExceptions;
+    string rceFullName = Names::getLangPackageName() + "." +
+    Names::getReferenceCountExceptionName();
+    thrownExceptions.push_back(mContext.getModel(rceFullName));
+    mMethod = new Method(mModel,
+                         "mymethod",
+                         AccessLevel::PUBLIC_ACCESS,
+                         PrimitiveTypes::BOOLEAN_TYPE,
+                         arguments,
+                         thrownExceptions,
+                         NULL,
+                         0);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
@@ -99,7 +100,8 @@ TEST_F(MethodTest, definePublicFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  Method method("foo",
+  Method method(mModel,
+                "foo",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
@@ -120,7 +122,8 @@ TEST_F(MethodTest, definePrivateFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  Method method("foo",
+  Method method(mModel,
+                "foo",
                 AccessLevel::PRIVATE_ACCESS,
                 PrimitiveTypes::FLOAT_TYPE,
                 arguments,
@@ -141,7 +144,8 @@ TEST_F(MethodTest, generateIRTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  Method method("foo",
+  Method method(mModel,
+                "foo",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::VOID_TYPE,
                 arguments,

@@ -89,6 +89,8 @@ struct TypeComparisionExpressionTest : public Test {
     string squareFullName = "systems.vos.wisey.compiler.tests.MSquare";
     StructType* squareStructType = StructType::create(mLLVMContext, squareFullName);
     squareStructType->setBody(squareTypes);
+    mSquareModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, squareFullName, squareStructType);
+
     vector<Field*> squareFields;
     InjectionArgumentList arguments;
     squareFields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
@@ -96,14 +98,16 @@ struct TypeComparisionExpressionTest : public Test {
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> squareMethods;
     vector<const Model*> thrownExceptions;
-    IMethod* fooMethod = new Method("foo",
+    IMethod* fooMethod = new Method(mSquareModel,
+                                    "foo",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
                                     thrownExceptions,
                                     NULL,
                                     0);
-    IMethod* barMethod = new Method("bar",
+    IMethod* barMethod = new Method(mSquareModel,
+                                    "bar",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
@@ -190,7 +194,6 @@ struct TypeComparisionExpressionTest : public Test {
     vector<Interface*> sqaureInterfaces;
     sqaureInterfaces.push_back(mShapeInterface);
     sqaureInterfaces.push_back(mObjectInterface);
-    mSquareModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, squareFullName, squareStructType);
     mSquareModel->setFields(squareFields, sqaureInterfaces.size() + 1);
     mSquareModel->setMethods(squareMethods);
     mSquareModel->setInterfaces(sqaureInterfaces);

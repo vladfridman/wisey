@@ -151,14 +151,18 @@ struct NodeTest : public Test {
     mStructType = StructType::create(mLLVMContext, complicatedNodeFullName);
     mStructType->setBody(types);
     vector<Field*> fields;
-    InjectionArgumentList arguments;
+    mComplicatedNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
+                                     complicatedNodeFullName,
+                                     mStructType);
+   InjectionArgumentList arguments;
     mLeftField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mLeft", arguments);
     mRightField = new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "mRight", arguments);
     fields.push_back(mLeftField);
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    mMethod = new Method("getElement",
+    mMethod = new Method(mComplicatedNode,
+                         "getElement",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
@@ -167,7 +171,8 @@ struct NodeTest : public Test {
                          0);
     vector<IMethod*> methods;
     methods.push_back(mMethod);
-    Method* fooMethod = new Method("foo",
+    Method* fooMethod = new Method(mComplicatedNode,
+                                   "foo",
                                    AccessLevel::PRIVATE_ACCESS,
                                    PrimitiveTypes::INT_TYPE,
                                    methodArguments,
@@ -188,9 +193,6 @@ struct NodeTest : public Test {
     vector<wisey::Constant*> constants;
     constants.push_back(mConstant);
     
-    mComplicatedNode = Node::newNode(AccessLevel::PUBLIC_ACCESS,
-                                     complicatedNodeFullName,
-                                     mStructType);
     mComplicatedNode->setFields(fields, interfaces.size() + 1);
     mComplicatedNode->setMethods(methods);
     mComplicatedNode->setInterfaces(interfaces);
@@ -660,7 +662,8 @@ TEST_F(NodeTest, printToStreamTest) {
   
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
-  Method* method = new Method("bar",
+  Method* method = new Method(innerPublicModel,
+                              "bar",
                               AccessLevel::PUBLIC_ACCESS,
                               PrimitiveTypes::INT_TYPE,
                               methodArguments,

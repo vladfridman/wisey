@@ -37,7 +37,7 @@ public:
   
   ~FieldDeclaration();
   
-  Field* declare(IRGenerationContext& context) const override;
+  Field* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
   
 };
   

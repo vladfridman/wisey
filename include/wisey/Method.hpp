@@ -13,6 +13,7 @@
 
 #include "wisey/AccessLevel.hpp"
 #include "wisey/IMethod.hpp"
+#include "wisey/IObjectType.hpp"
 
 namespace wisey {
   
@@ -23,6 +24,7 @@ class Model;
  * Contains information about a method including its return type and all of its arguments
  */
 class Method : public IMethod {
+  const IObjectType* mObjectType;
   std::string mName;
   AccessLevel mAccessLevel;
   const IType* mReturnType;
@@ -34,7 +36,8 @@ class Method : public IMethod {
   
 public:
   
-  Method(std::string name,
+  Method(const IObjectType* objectType,
+         std::string name,
          AccessLevel accessLevel,
          const IType* returnType,
          std::vector<MethodArgument*> arguments,

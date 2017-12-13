@@ -745,7 +745,7 @@ Interface::createElements(IRGenerationContext& context,
   vector<wisey::Constant*> constants;
   vector<StaticMethod*> staticMethods;
   for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
-    IObjectElement* objectElement = elementDeclaration->declare(context);
+    IObjectElement* objectElement = elementDeclaration->declare(context, this);
     if (objectElement->getObjectElementType() == OBJECT_ELEMENT_FIELD) {
       Log::e("Interfaces can not contain fields");
       exit(1);

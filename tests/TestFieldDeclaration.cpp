@@ -58,7 +58,7 @@ public:
 };
 
 TEST_F(FieldDeclarationTest, declareTest) {
-  Field* field = mFieldDeclaration->declare(mContext);
+  Field* field = mFieldDeclaration->declare(mContext, NULL);
   
   EXPECT_EQ(field->getType(), PrimitiveTypes::INT_TYPE);
   EXPECT_STREQ(field->getName().c_str(), "mField");

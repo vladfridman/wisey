@@ -263,16 +263,16 @@ private:
   bool doesMethodHaveUnexpectedExceptions(MethodSignature* interfaceMethodSignature,
                                           IMethodDescriptor* objectMethodDescriptor,
                                           std::string objectName) const;
-  
+
+  std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>,
+  std::vector<StaticMethod*>> createElements(IRGenerationContext& context,
+                                             std::vector<IObjectElementDeclaration*>
+                                             elementDeclarations);
+
   static void composeCastFunction(IRGenerationContext& context,
                                   llvm::Function* function,
                                   const IObjectType* interfaceType,
                                   const IObjectType* toObjectType);
-
-  static std::tuple<std::vector<MethodSignature*>, std::vector<wisey::Constant*>,
-  std::vector<StaticMethod*>> createElements(IRGenerationContext& context,
-                                             std::vector<IObjectElementDeclaration*>
-                                             elementDeclarations);
 
 };
   

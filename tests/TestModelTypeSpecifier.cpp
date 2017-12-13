@@ -38,6 +38,7 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     StructType* structType = StructType::create(llvmContext, modelFullName);
     structType->setBody(types);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", fieldArguments));
@@ -45,7 +46,8 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
-    IMethod* fooMethod = new Method("foo",
+    IMethod* fooMethod = new Method(mModel,
+                                    "foo",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
@@ -53,7 +55,6 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
                                     NULL,
                                     0);
     methods.push_back(fooMethod);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);

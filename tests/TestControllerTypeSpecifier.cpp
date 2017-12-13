@@ -50,7 +50,8 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
     vector<MethodArgument*> methodArguments;
     vector<IMethod*> methods;
     vector<const Model*> thrownExceptions;
-    IMethod* multiplyMethod = new Method("multiply",
+    IMethod* multiplyMethod = new Method(mController,
+                                         "multiply",
                                          AccessLevel::PUBLIC_ACCESS,
                                          PrimitiveTypes::INT_TYPE,
                                          methodArguments,

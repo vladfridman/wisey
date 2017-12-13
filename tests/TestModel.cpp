@@ -101,7 +101,9 @@ struct ModelTest : public Test {
     fields.push_back(mHeightField);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    mMethod = new Method("foo",
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
+    mMethod = new Method(mModel,
+                         "foo",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
@@ -110,7 +112,8 @@ struct ModelTest : public Test {
                          0);
     vector<IMethod*> methods;
     methods.push_back(mMethod);
-    IMethod* barMethod = new Method("bar",
+    IMethod* barMethod = new Method(mModel,
+                                    "bar",
                                     AccessLevel::PRIVATE_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
@@ -205,7 +208,6 @@ struct ModelTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
     mModel->setFields(fields, interfaces.size() + 1);
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
@@ -716,7 +718,8 @@ TEST_F(ModelTest, printToStreamTest) {
 
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
-  Method* method = new Method("bar",
+  Method* method = new Method(innerPublicModel,
+                              "bar",
                               AccessLevel::PUBLIC_ACCESS,
                               PrimitiveTypes::INT_TYPE,
                               methodArguments,

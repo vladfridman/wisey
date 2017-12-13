@@ -50,8 +50,8 @@ private:
 
   static std::tuple<std::vector<Constant*>, std::vector<Field*>, std::vector<IMethod*>>
   createElements(IRGenerationContext& context,
-                 std::vector<IObjectElementDeclaration*>
-                 elementDeclarations);
+                 const IConcreteObjectType* concreteObjectType,
+                 std::vector<IObjectElementDeclaration*> elementDeclarations);
 
   static std::vector<Interface*> processInterfaces(IRGenerationContext& context,
                                                    std::vector<IInterfaceTypeSpecifier*>

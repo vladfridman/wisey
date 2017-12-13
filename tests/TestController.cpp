@@ -145,6 +145,9 @@ struct ControllerTest : public Test {
     string multiplierFullName = "systems.vos.wisey.compiler.tests.CMultiplier";
     mStructType = StructType::create(mLLVMContext, multiplierFullName);
     mStructType->setBody(types);
+    mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
+                                                      multiplierFullName,
+                                                      mStructType);
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
     mLeftField = new Field(RECEIVED_FIELD, PrimitiveTypes::INT_TYPE, "left", fieldArguments);
@@ -153,7 +156,8 @@ struct ControllerTest : public Test {
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    mMethod = new Method("calculate",
+    mMethod = new Method(mMultiplierController,
+                         "calculate",
                          AccessLevel::PUBLIC_ACCESS,
                          PrimitiveTypes::INT_TYPE,
                          methodArguments,
@@ -162,7 +166,8 @@ struct ControllerTest : public Test {
                          0);
     vector<IMethod*> methods;
     methods.push_back(mMethod);
-    IMethod* fooMethod = new Method("foo",
+    IMethod* fooMethod = new Method(mMultiplierController,
+                                    "foo",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
@@ -188,9 +193,6 @@ struct ControllerTest : public Test {
     constants.push_back(mConstant);
     constants.push_back(privateConstant);
 
-    mMultiplierController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
-                                                      multiplierFullName,
-                                                      mStructType);
     mMultiplierController->setFields(fields, interfaces.size() + 1);
     mMultiplierController->setMethods(methods);
     mMultiplierController->setInterfaces(interfaces);
@@ -729,7 +731,8 @@ TEST_F(ControllerTest, printToStreamTest) {
   
   vector<MethodArgument*> methodArguments;
   vector<const Model*> thrownExceptions;
-  Method* method = new Method("bar",
+  Method* method = new Method(innerPublicModel,
+                              "bar",
                               AccessLevel::PUBLIC_ACCESS,
                               PrimitiveTypes::INT_TYPE,
                               methodArguments,

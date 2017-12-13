@@ -144,7 +144,8 @@ struct NodeOwnerTest : public Test {
     fields.push_back(mRightField);
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    IMethod* method = new Method("getElement",
+    IMethod* method = new Method(mComplicatedNode,
+                                 "getElement",
                                  AccessLevel::PUBLIC_ACCESS,
                                  PrimitiveTypes::INT_TYPE,
                                  methodArguments,
@@ -153,7 +154,8 @@ struct NodeOwnerTest : public Test {
                                  0);
     vector<IMethod*> methods;
     methods.push_back(method);
-    IMethod* fooMethod = new Method("foo",
+    IMethod* fooMethod = new Method(mComplicatedNode,
+                                    "foo",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,

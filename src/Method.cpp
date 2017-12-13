@@ -25,13 +25,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Method::Method(string name,
+Method::Method(const IObjectType* objectType,
+               string name,
                AccessLevel accessLevel,
                const IType* returnType,
                vector<MethodArgument*> arguments,
                vector<const Model*> thrownExceptions,
                CompoundStatement* compoundStatement,
                int line) :
+mObjectType(objectType),
 mName(name),
 mAccessLevel(accessLevel),
 mReturnType(returnType),

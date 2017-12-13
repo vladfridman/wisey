@@ -36,7 +36,7 @@ public:
   
   ~ConstantDeclaration();
   
-  Constant* declare(IRGenerationContext& context) const override;
+  Constant* declare(IRGenerationContext& context, const IObjectType* objectType) const override;
   
 };
 

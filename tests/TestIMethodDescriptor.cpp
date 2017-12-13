@@ -44,13 +44,6 @@ public:
     arguments.push_back(doubleArgument);
     arguments.push_back(charArgument);
     vector<const Model*> thrownExceptions;
-    mMethod = new Method("mymethod",
-                         AccessLevel::PUBLIC_ACCESS,
-                         PrimitiveTypes::BOOLEAN_TYPE,
-                         arguments,
-                         thrownExceptions,
-                         NULL,
-                         0);
 
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
@@ -66,6 +59,15 @@ public:
     mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     
+    mMethod = new Method(mModel,
+                         "mymethod",
+                         AccessLevel::PUBLIC_ACCESS,
+                         PrimitiveTypes::BOOLEAN_TYPE,
+                         arguments,
+                         thrownExceptions,
+                         NULL,
+                         0);
+
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
   }
 };
@@ -77,7 +79,8 @@ TEST_F(IMethodDescriptorTest, compareTest) {
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
-  Method method("mymethod",
+  Method method(mModel,
+                "mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
@@ -95,7 +98,8 @@ TEST_F(IMethodDescriptorTest, nameNotEqualsTest) {
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
-  Method method("differentname",
+  Method method(mModel,
+                "differentname",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
@@ -111,7 +115,8 @@ TEST_F(IMethodDescriptorTest, numberOfArgumentsNotEqualsTest) {
   vector<MethodArgument*> arguments;
   arguments.push_back(doubleArgument);
   vector<const Model*> thrownExceptions;
-  Method method("mymethod",
+  Method method(mModel,
+                "mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,
@@ -129,7 +134,8 @@ TEST_F(IMethodDescriptorTest, typeOfArgumentsNotEqualsTest) {
   arguments.push_back(doubleArgument);
   arguments.push_back(charArgument);
   vector<const Model*> thrownExceptions;
-  Method method("mymethod",
+  Method method(mModel,
+                "mymethod",
                 AccessLevel::PUBLIC_ACCESS,
                 PrimitiveTypes::BOOLEAN_TYPE,
                 arguments,

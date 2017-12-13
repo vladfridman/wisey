@@ -10,6 +10,7 @@
 #define IObjectElementDeclaration_h
 
 #include "wisey/IObjectElement.hpp"
+#include "wisey/IObjectType.hpp"
 
 namespace wisey {
   
@@ -27,7 +28,8 @@ public:
   /**
    * Returns a represention of an object element: a method or a field
    */
-  virtual IObjectElement* declare(IRGenerationContext& context) const = 0;
+  virtual IObjectElement* declare(IRGenerationContext& context,
+                                  const IObjectType* objectType) const = 0;
 
 };
 

@@ -38,7 +38,8 @@ public:
   
   ~ExternalMethodDeclaration();
   
-  ExternalMethod* declare(IRGenerationContext& context) const override;
+  ExternalMethod* declare(IRGenerationContext& context,
+                          const IObjectType* objectType) const override;
   
 };
 

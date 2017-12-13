@@ -22,7 +22,7 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
                                                   interfaceSpecifiers) {
   vector<Interface*> interfaces = processInterfaces(context, interfaceSpecifiers);
   tuple<vector<Constant*>, vector<Field*>, vector<IMethod*>> elements =
-    createElements(context, elementDeclarations);
+    createElements(context, object, elementDeclarations);
   object->setFields(get<1>(elements), interfaces.size() + 1);
   object->setInterfaces(interfaces);
   object->setMethods(get<2>(elements));
@@ -49,13 +49,13 @@ void IConcreteObjectDefinition::configureObject(IRGenerationContext& context,
 
 tuple<vector<Constant*>, vector<Field*>, vector<IMethod*>>
 IConcreteObjectDefinition::createElements(IRGenerationContext& context,
-                                          vector<IObjectElementDeclaration*>
-                                          elementDeclarations) {
+                                          const IConcreteObjectType* concreteObjectType,
+                                          vector<IObjectElementDeclaration*> elementDeclarations) {
   vector<Field*> fields;
   vector<IMethod*> methods;
   vector<Constant*> constants;
   for (IObjectElementDeclaration* elementDeclaration : elementDeclarations) {
-    IObjectElement* element = elementDeclaration->declare(context);
+    IObjectElement* element = elementDeclaration->declare(context, concreteObjectType);
     if (element->getObjectElementType() == OBJECT_ELEMENT_CONSTANT) {
       if (methods.size() || fields.size()) {
         Log::e("Constants should be declared before fields and methods");

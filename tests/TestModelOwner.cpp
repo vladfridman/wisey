@@ -77,13 +77,16 @@ struct ModelOwnerTest : public Test {
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
+
     vector<Field*> fields;
     InjectionArgumentList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "height", arguments));
     vector<MethodArgument*> methodArguments;
     vector<const Model*> thrownExceptions;
-    IMethod* method = new Method("foo",
+    IMethod* method = new Method(mModel,
+                                 "foo",
                                  AccessLevel::PUBLIC_ACCESS,
                                  PrimitiveTypes::INT_TYPE,
                                  methodArguments,
@@ -92,7 +95,8 @@ struct ModelOwnerTest : public Test {
                                  0);
     vector<IMethod*> methods;
     methods.push_back(method);
-    IMethod* barMethod = new Method("bar",
+    IMethod* barMethod = new Method(mModel,
+                                    "bar",
                                     AccessLevel::PUBLIC_ACCESS,
                                     PrimitiveTypes::INT_TYPE,
                                     methodArguments,
@@ -179,7 +183,6 @@ struct ModelOwnerTest : public Test {
     vector<Interface*> interfaces;
     interfaces.push_back(mShapeInterface);
     interfaces.push_back(mObjectInterface);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
     mModel->setFields(fields, interfaces.size() + 1);
     mModel->setMethods(methods);
     mModel->setInterfaces(interfaces);
