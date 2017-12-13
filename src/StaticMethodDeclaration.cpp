@@ -52,7 +52,8 @@ IMethod* StaticMethodDeclaration::declare(IRGenerationContext& context,
   
   vector<MethodArgument*> arguments = IMethodDeclaration::createArgumnetList(context, mArguments);
   vector<const Model*> exceptions = IMethodDeclaration::createExceptionList(context, mExceptions);
-  return new StaticMethod(mName,
+  return new StaticMethod(objectType,
+                          mName,
                           mAccessLevel,
                           returnType,
                           arguments,

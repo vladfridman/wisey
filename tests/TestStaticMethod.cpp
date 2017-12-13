@@ -57,7 +57,8 @@ public:
     string rceFullName = Names::getLangPackageName() + "." +
     Names::getReferenceCountExceptionName();
     thrownExceptions.push_back(mContext.getModel(rceFullName));
-    mStaticMethod = new StaticMethod("mymethod",
+    mStaticMethod = new StaticMethod(mModel,
+                                     "mymethod",
                                      AccessLevel::PUBLIC_ACCESS,
                                      PrimitiveTypes::BOOLEAN_TYPE,
                                      arguments,
@@ -99,7 +100,8 @@ TEST_F(StaticMethodTest, definePublicFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  StaticMethod staticMethod("foo",
+  StaticMethod staticMethod(mModel,
+                            "foo",
                             AccessLevel::PUBLIC_ACCESS,
                             PrimitiveTypes::FLOAT_TYPE,
                             arguments,
@@ -120,7 +122,8 @@ TEST_F(StaticMethodTest, definePrivateFunctionTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  StaticMethod staticMethod("foo",
+  StaticMethod staticMethod(mModel,
+                            "foo",
                             AccessLevel::PRIVATE_ACCESS,
                             PrimitiveTypes::FLOAT_TYPE,
                             arguments,
@@ -141,7 +144,8 @@ TEST_F(StaticMethodTest, generateIRTest) {
   std::vector<MethodArgument*> arguments;
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
-  StaticMethod staticMethod("foo",
+  StaticMethod staticMethod(mModel,
+                            "foo",
                             AccessLevel::PUBLIC_ACCESS,
                             PrimitiveTypes::VOID_TYPE,
                             arguments,

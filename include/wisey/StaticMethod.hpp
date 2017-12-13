@@ -23,6 +23,7 @@ class Model;
  * Represents concrete object's static method
  */
 class StaticMethod : public IMethod {
+  const IObjectType* mObjectType;
   std::string mName;
   AccessLevel mAccessLevel;
   const IType* mReturnType;
@@ -34,7 +35,8 @@ class StaticMethod : public IMethod {
   
 public:
   
-  StaticMethod(std::string name,
+  StaticMethod(const IObjectType* objectType,
+               std::string name,
                AccessLevel accessLevel,
                const IType* returnType,
                std::vector<MethodArgument*> arguments,

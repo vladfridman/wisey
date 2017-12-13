@@ -91,6 +91,7 @@ public:
     string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
     mStructType = StructType::create(mLLVMContext, modelFullName);
     mStructType->setBody(types);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
     vector<Field*> fields;
     InjectionArgumentList arguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "width", arguments));
@@ -99,7 +100,8 @@ public:
     vector<MethodArgument*> fooMethodArguments;
     fooMethodArguments.push_back(fooMethodArgument);
     vector<const Model*> fooThrownExceptions;
-    IMethod* fooMethod = new StaticMethod("foo",
+    IMethod* fooMethod = new StaticMethod(mModel,
+                                          "foo",
                                           AccessLevel::PUBLIC_ACCESS,
                                           mReturnedModel,
                                           fooMethodArguments,
@@ -117,7 +119,8 @@ public:
                                             "MException",
                                             exceptionModelStructType);
     barThrownExceptions.push_back(exceptionModel);
-    IMethod* barMethod = new StaticMethod("bar",
+    IMethod* barMethod = new StaticMethod(mModel,
+                                          "bar",
                                           AccessLevel::PUBLIC_ACCESS,
                                           PrimitiveTypes::INT_TYPE,
                                           barMethodArguments,
@@ -125,7 +128,6 @@ public:
                                           NULL,
                                           0);
     methods.push_back(barMethod);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, mStructType);
     mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);

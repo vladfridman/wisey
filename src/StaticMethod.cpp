@@ -23,13 +23,15 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-StaticMethod::StaticMethod(string name,
+StaticMethod::StaticMethod(const IObjectType* objectType,
+                           string name,
                            AccessLevel accessLevel,
                            const IType* returnType,
                            vector<MethodArgument*> arguments,
                            vector<const Model*> thrownExceptions,
                            CompoundStatement* compoundStatement,
                            int line) :
+mObjectType(objectType),
 mName(name),
 mAccessLevel(accessLevel),
 mReturnType(returnType),
