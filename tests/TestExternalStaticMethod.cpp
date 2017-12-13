@@ -76,10 +76,13 @@ public:
 };
 
 TEST_F(ExternalStaticMethodTest, basicStaticMethodTest) {
-  ASSERT_STREQ(mStaticMethod->getName().c_str(), "mymethod");
-  ASSERT_EQ(mStaticMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
-  ASSERT_EQ(mStaticMethod->getArguments().size(), 2u);
-  ASSERT_TRUE(mStaticMethod->isStatic());
+  EXPECT_STREQ("mymethod", mStaticMethod->getName().c_str());
+  EXPECT_EQ(PrimitiveTypes::BOOLEAN_TYPE, mStaticMethod->getReturnType());
+  EXPECT_EQ(2u, mStaticMethod->getArguments().size());
+  EXPECT_TRUE(mStaticMethod->isStatic());
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MObject.mymethod",
+               mStaticMethod->getTypeName().c_str());
+  EXPECT_EQ(FUNCTION_TYPE, mStaticMethod->getTypeKind());
 }
 
 TEST_F(ExternalStaticMethodTest, getLLVMTypeTest) {

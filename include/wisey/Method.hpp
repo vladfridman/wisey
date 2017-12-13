@@ -55,8 +55,6 @@ public:
 
   std::string getName() const override;
   
-  llvm::FunctionType* getLLVMType(IRGenerationContext& context) const override;
-
   AccessLevel getAccessLevel() const override;
   
   const IType* getReturnType() const override;
@@ -66,6 +64,21 @@ public:
   std::vector<const Model*> getThrownExceptions() const override;
   
   ObjectElementType getObjectElementType() const override;
+
+  std::string getTypeName() const override;
+  
+  llvm::FunctionType* getLLVMType(IRGenerationContext& context) const override;
+  
+  TypeKind getTypeKind() const override;
+  
+  bool canCastTo(const IType* toType) const override;
+  
+  bool canAutoCastTo(const IType* toType) const override;
+  
+  llvm::Value* castTo(IRGenerationContext& context,
+                      llvm::Value* fromValue,
+                      const IType* toType,
+                      int line) const override;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 

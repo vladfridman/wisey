@@ -16,13 +16,13 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/AccessLevel.hpp"
+#include "wisey/IType.hpp"
 #include "wisey/IPrintable.hpp"
 
 namespace wisey {
   
 class IObjectType;
 class IRGenerationContext;
-class IType;
 class MethodArgument;
 class Model;
 
@@ -31,7 +31,7 @@ class Model;
  *
  * There are two implementations: Method and MethodSignature
  */
-class IMethodDescriptor : public IPrintable {
+class IMethodDescriptor : public IType, public IPrintable {
 
 public:
   

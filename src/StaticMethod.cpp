@@ -73,8 +73,31 @@ vector<const Model*> StaticMethod::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
+string StaticMethod::getTypeName() const {
+  return mObjectType->getTypeName() + "." + getName();
+}
+
 FunctionType* StaticMethod::getLLVMType(IRGenerationContext& context) const {
   return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+}
+
+TypeKind StaticMethod::getTypeKind() const {
+  return TypeKind::FUNCTION_TYPE;
+}
+
+bool StaticMethod::canCastTo(const IType* toType) const {
+  return false;
+}
+
+bool StaticMethod::canAutoCastTo(const IType *toType) const {
+  return false;
+}
+
+Value* StaticMethod::castTo(IRGenerationContext& context,
+                            Value* fromValue,
+                            const IType* toType,
+                            int line) const {
+  return NULL;
 }
 
 Function* StaticMethod::defineFunction(IRGenerationContext& context) {

@@ -40,10 +40,6 @@ bool ExternalStaticMethod::isStatic() const {
   return true;
 }
 
-FunctionType* ExternalStaticMethod::getLLVMType(IRGenerationContext& context) const {
-  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
-}
-
 Function* ExternalStaticMethod::defineFunction(IRGenerationContext& context) {
   return IMethod::defineFunction(context, mObjectType, this);
 }
@@ -73,6 +69,33 @@ vector<const Model*> ExternalStaticMethod::getThrownExceptions() const {
 
 ObjectElementType ExternalStaticMethod::getObjectElementType() const {
   return OBJECT_ELEMENT_STATIC_METHOD;
+}
+
+string ExternalStaticMethod::getTypeName() const {
+  return mObjectType->getTypeName() + "." + getName();
+}
+
+FunctionType* ExternalStaticMethod::getLLVMType(IRGenerationContext& context) const {
+  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+}
+
+TypeKind ExternalStaticMethod::getTypeKind() const {
+  return TypeKind::FUNCTION_TYPE;
+}
+
+bool ExternalStaticMethod::canCastTo(const IType* toType) const {
+  return false;
+}
+
+bool ExternalStaticMethod::canAutoCastTo(const IType *toType) const {
+  return false;
+}
+
+Value* ExternalStaticMethod::castTo(IRGenerationContext& context,
+                                    Value* fromValue,
+                                    const IType* toType,
+                                    int line) const {
+  return NULL;
 }
 
 void ExternalStaticMethod::printToStream(IRGenerationContext& context, iostream& stream) const {

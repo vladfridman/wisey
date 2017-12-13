@@ -89,10 +89,12 @@ public:
 };
 
 TEST_F(MethodTest, basicMethodTest) {
-  ASSERT_STREQ(mMethod->getName().c_str(), "mymethod");
-  ASSERT_EQ(mMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
-  ASSERT_EQ(mMethod->getArguments().size(), 2u);
-  ASSERT_FALSE(mMethod->isStatic());
+  EXPECT_STREQ("mymethod", mMethod->getName().c_str());
+  EXPECT_EQ(PrimitiveTypes::BOOLEAN_TYPE, mMethod->getReturnType());
+  EXPECT_EQ(2u, mMethod->getArguments().size());
+  EXPECT_FALSE(mMethod->isStatic());
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MObject.mymethod", mMethod->getTypeName().c_str());
+  EXPECT_EQ(FUNCTION_TYPE, mMethod->getTypeKind());
 }
 
 TEST_F(MethodTest, getLLVMTypeTest) {

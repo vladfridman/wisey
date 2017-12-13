@@ -53,9 +53,12 @@ struct MethodSignatureTest : Test {
 };
 
 TEST_F(MethodSignatureTest, methodSignatureTest) {
-  EXPECT_STREQ(mMethodSignature->getName().c_str(), "foo");
-  EXPECT_EQ(mMethodSignature->getReturnType(), PrimitiveTypes::LONG_TYPE);
-  EXPECT_EQ(mMethodSignature->getArguments().size(), 0u);
+  EXPECT_STREQ("foo", mMethodSignature->getName().c_str());
+  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mMethodSignature->getReturnType());
+  EXPECT_EQ(0u, mMethodSignature->getArguments().size());
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.IInterface.foo",
+               mMethodSignature->getTypeName().c_str());
+  EXPECT_EQ(FUNCTION_TYPE, mMethodSignature->getTypeKind());
 }
 
 TEST_F(MethodSignatureTest, createCopyTest) {

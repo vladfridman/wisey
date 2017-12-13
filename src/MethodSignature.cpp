@@ -41,10 +41,6 @@ string MethodSignature::getName() const {
   return mName;
 }
 
-FunctionType* MethodSignature::getLLVMType(IRGenerationContext& context) const {
-  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
-}
-
 AccessLevel MethodSignature::getAccessLevel() const {
   return AccessLevel::PUBLIC_ACCESS;
 }
@@ -67,6 +63,33 @@ MethodSignature* MethodSignature::createCopy(const Interface* interface) const {
 
 ObjectElementType MethodSignature::getObjectElementType() const {
   return OBJECT_ELEMENT_METHOD_SIGNATURE;
+}
+
+string MethodSignature::getTypeName() const {
+  return mObjectType->getTypeName() + "." + getName();
+}
+
+FunctionType* MethodSignature::getLLVMType(IRGenerationContext& context) const {
+  return IMethodDescriptor::getLLVMFunctionType(context, this, mObjectType);
+}
+
+TypeKind MethodSignature::getTypeKind() const {
+  return TypeKind::FUNCTION_TYPE;
+}
+
+bool MethodSignature::canCastTo(const IType* toType) const {
+  return false;
+}
+
+bool MethodSignature::canAutoCastTo(const IType *toType) const {
+  return false;
+}
+
+Value* MethodSignature::castTo(IRGenerationContext& context,
+                               Value* fromValue,
+                               const IType* toType,
+                               int line) const {
+  return NULL;
 }
 
 void MethodSignature::printToStream(IRGenerationContext& context, iostream& stream) const {

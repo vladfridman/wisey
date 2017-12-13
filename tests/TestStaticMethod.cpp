@@ -57,6 +57,14 @@ public:
     string rceFullName = Names::getLangPackageName() + "." +
     Names::getReferenceCountExceptionName();
     thrownExceptions.push_back(mContext.getModel(rceFullName));
+    string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
+    vector<Type*> types;
+    types.push_back(Type::getInt64Ty(mLLVMContext));
+    types.push_back(Type::getInt32Ty(mLLVMContext));
+    types.push_back(Type::getInt32Ty(mLLVMContext));
+    StructType* structType = StructType::create(mLLVMContext, modelFullName);
+    structType->setBody(types);
+    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mStaticMethod = new StaticMethod(mModel,
                                      "mymethod",
                                      AccessLevel::PUBLIC_ACCESS,
@@ -66,18 +74,10 @@ public:
                                      NULL,
                                      0);
     
-    vector<Type*> types;
-    types.push_back(Type::getInt64Ty(mLLVMContext));
-    types.push_back(Type::getInt32Ty(mLLVMContext));
-    types.push_back(Type::getInt32Ty(mLLVMContext));
-    string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
-    StructType* structType = StructType::create(mLLVMContext, modelFullName);
-    structType->setBody(types);
     vector<Field*> fields;
     InjectionArgumentList fieldArguments;
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "foo", fieldArguments));
     fields.push_back(new Field(FIXED_FIELD, PrimitiveTypes::INT_TYPE, "bar", fieldArguments));
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
     mModel->setFields(fields, 1u);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
@@ -89,10 +89,13 @@ public:
 };
 
 TEST_F(StaticMethodTest, basicStaticMethodTest) {
-  ASSERT_STREQ(mStaticMethod->getName().c_str(), "mymethod");
-  ASSERT_EQ(mStaticMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
-  ASSERT_EQ(mStaticMethod->getArguments().size(), 2u);
-  ASSERT_TRUE(mStaticMethod->isStatic());
+  EXPECT_STREQ(mStaticMethod->getName().c_str(), "mymethod");
+  EXPECT_EQ(mStaticMethod->getReturnType(), PrimitiveTypes::BOOLEAN_TYPE);
+  EXPECT_EQ(mStaticMethod->getArguments().size(), 2u);
+  EXPECT_TRUE(mStaticMethod->isStatic());
+  EXPECT_STREQ("systems.vos.wisey.compiler.tests.MObject.mymethod",
+               mStaticMethod->getTypeName().c_str());
+  EXPECT_EQ(FUNCTION_TYPE, mStaticMethod->getTypeKind());
 }
 
 TEST_F(StaticMethodTest, getLLVMTypeTest) {
