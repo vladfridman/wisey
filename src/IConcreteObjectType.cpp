@@ -148,7 +148,7 @@ map<string, Function*> IConcreteObjectType::defineMethodFunctions(IRGenerationCo
   vector<tuple<IMethod*, Function*>> methodsWithFunctions;
   
   for (IMethod* method : object->getMethods()) {
-    Function* function = method->defineFunction(context, object);
+    Function* function = method->defineFunction(context);
     methodFunctionMap[method->getName()] = function;
     methodsWithFunctions.push_back(make_tuple(method, function));
   }

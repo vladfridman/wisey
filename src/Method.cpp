@@ -75,8 +75,8 @@ vector<const Model*> Method::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-Function* Method::defineFunction(IRGenerationContext& context, const IObjectType* object) {
-  mFunction = IMethod::defineFunction(context, object, this);
+Function* Method::defineFunction(IRGenerationContext& context) {
+  mFunction = IMethod::defineFunction(context, mObjectType, this);
   
   return mFunction;
 }

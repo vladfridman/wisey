@@ -91,7 +91,7 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
                                     PrimitiveTypes::FLOAT_TYPE,
                                     arguments,
                                     thrownExceptions);
-  Function* function = staticMethod.defineFunction(mContext, mModel);
+  Function* function = staticMethod.defineFunction(mContext);
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("

@@ -40,8 +40,7 @@ public:
   
   bool isStatic() const override;
   
-  llvm::Function* defineFunction(IRGenerationContext& context,
-                                 const IObjectType* object) override;
+  llvm::Function* defineFunction(IRGenerationContext& context) override;
   
   void generateIR(IRGenerationContext& context, const IObjectType* objectType) const override;
   

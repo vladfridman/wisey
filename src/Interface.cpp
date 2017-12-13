@@ -246,7 +246,7 @@ void Interface::generateConstantsIR(IRGenerationContext& context) const {
 
 void Interface::defineStaticMethodFunctions(IRGenerationContext& context) const {
   for (IMethod* method : mStaticMethods) {
-    method->defineFunction(context, this);
+    method->defineFunction(context);
   }
 }
 

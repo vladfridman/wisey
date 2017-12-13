@@ -73,8 +73,8 @@ vector<const Model*> StaticMethod::getThrownExceptions() const {
   return mThrownExceptions;
 }
 
-Function* StaticMethod::defineFunction(IRGenerationContext& context, const IObjectType* object) {
-  mFunction = IMethod::defineFunction(context, object, this);
+Function* StaticMethod::defineFunction(IRGenerationContext& context) {
+  mFunction = IMethod::defineFunction(context, mObjectType, this);
   
   return mFunction;
 }

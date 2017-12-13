@@ -87,7 +87,7 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
   arguments.push_back(intArgument);
   vector<const Model*> thrownExceptions;
   ExternalMethod method(mModel, "foo", PrimitiveTypes::FLOAT_TYPE, arguments, thrownExceptions);
-  Function* function = method.defineFunction(mContext, mModel);
+  Function* function = method.defineFunction(mContext);
   
   *mStringStream << *function;
   string expected = "\ndeclare float @systems.vos.wisey.compiler.tests.MObject.foo("
