@@ -254,6 +254,14 @@ TEST_F(IRGenerationContextTest, bindInterfaceToControllerRepeatedlyDeathTest) {
               "and can not be bound to systems.vos.wisey.compiler.tests.CMyController");
 }
 
+TEST_F(IRGenerationContextTest, getPackageTypeTest) {
+  string package = "systems.vos.wisey.compiler.tests";
+  PackageType* packageType = mContext.getPackageType(package);
+  
+  ASSERT_NE(nullptr, packageType);
+  EXPECT_EQ(packageType, mContext.getPackageType(package));
+}
+
 TEST_F(IRGenerationContextTest, getThisTest) {
   mContext.getScopes().pushScope();
   NiceMock<MockVariable> mockVariable;

@@ -36,7 +36,7 @@ struct IObjectDefinitionTest : public Test {
   IObjectDefinitionTest() {
     ON_CALL(mMockObject, getTypeName()).WillByDefault(Return("wisey.lang.CObject"));
     
-    mModelTypeSpecifier = new ModelTypeSpecifier("", "MSubObject");
+    mModelTypeSpecifier = new ModelTypeSpecifier(NULL, "MSubObject");
     mContext.setObjectType(&mMockObject);
   }
 };

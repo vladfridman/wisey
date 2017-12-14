@@ -98,7 +98,7 @@ struct NodeOwnerTest : public Test {
     vector<IObjectElementDeclaration*> complicatedElementObjectElements;
     complicatedElementObjectElements.push_back(getElementSignature);
     vector<IInterfaceTypeSpecifier*> complicatedElementParentInterfaces;
-    InterfaceTypeSpecifier* elementInterfaceTypeSpecifier = new InterfaceTypeSpecifier("",
+    InterfaceTypeSpecifier* elementInterfaceTypeSpecifier = new InterfaceTypeSpecifier(NULL,
                                                                                        "IElement");
     complicatedElementParentInterfaces.push_back(elementInterfaceTypeSpecifier);
     mComplicatedElementInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,

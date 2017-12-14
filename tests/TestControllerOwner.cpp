@@ -91,7 +91,8 @@ struct ControllerOwnerTest : public Test {
     StructType::create(mLLVMContext, scienceCalculatorFullName);
     vector<IInterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
     vector<IObjectElementDeclaration*> scienceCalculatorInterfaceElements;
-    InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier("", "ICalculator");
+    InterfaceTypeSpecifier* calculatorTypeSpecifier = new InterfaceTypeSpecifier(NULL,
+                                                                                 "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorTypeSpecifier);
     mScienceCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                                           scienceCalculatorFullName,

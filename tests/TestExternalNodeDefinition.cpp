@@ -14,6 +14,7 @@
 
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/ExternalNodeDefinition.hpp"
@@ -74,7 +75,9 @@ TEST_F(ExternalNodeDefinitionTest, prototypeObjectTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalNodeDefinition nodeDefinition(typeSpecifier,
                                         mObjectElements,
@@ -101,7 +104,9 @@ TEST_F(ExternalNodeDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalNodeDefinition nodeDefinition(typeSpecifier,
                                         mObjectElements,

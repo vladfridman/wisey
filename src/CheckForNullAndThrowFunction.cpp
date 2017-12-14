@@ -83,7 +83,9 @@ void CheckForNullAndThrowFunction::compose(IRGenerationContext& context, Functio
   FakeExpression* fakeExpression = new FakeExpression(compare, PrimitiveTypes::BOOLEAN_TYPE);
   
   Block* thenBlock = new Block();
-  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(Names::getLangPackageName(),
+  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,
                                                                   Names::getNPEModelName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   ObjectBuilder* objectBuilder = new ObjectBuilder(modelTypeSpecifier,

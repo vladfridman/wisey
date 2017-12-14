@@ -17,6 +17,7 @@
 #include "MockConcreteObjectType.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -451,7 +452,9 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                                   interfaceTypeSpecifiers,
                                                   objectElements);
 
-  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(package, "IGrandChild"));
+  PackageType* packageType = new PackageType(package);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IGrandChild"));
   StructType* child1StructType = StructType::create(mLLVMContext, "some.package.IChild1");
   Interface* child1 = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                               "some.package.IChild1",
@@ -466,8 +469,10 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
                                               interfaceTypeSpecifiers,
                                               objectElements);
 
-  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(package, "IChild1"));
-  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(package, "IChild2"));
+  packageExpression = new FakeExpression(NULL, packageType);
+  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IChild1"));
+  packageExpression = new FakeExpression(NULL, packageType);
+  interfaceTypeSpecifiers.push_back(new InterfaceTypeSpecifier(packageExpression, "IChild2"));
   StructType* parentStructType = StructType::create(mLLVMContext, "some.package.IParent");
   Interface* parent = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
                                               "some.package.IParent",

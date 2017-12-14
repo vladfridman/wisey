@@ -16,7 +16,8 @@ using namespace llvm;
 using namespace wisey;
 
 FakeExpression::FakeExpression(llvm::Value* value, const IType* type) :
-mValue(value), mType(type) { }
+mValue(value), mType(type) {
+}
 
 FakeExpression::~FakeExpression() { }
 

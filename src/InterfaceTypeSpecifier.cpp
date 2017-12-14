@@ -12,22 +12,29 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InterfaceTypeSpecifier::InterfaceTypeSpecifier(string package, string shortName) :
-mPackage(package),
-mShortName(shortName) { }
+InterfaceTypeSpecifier::InterfaceTypeSpecifier(IExpression* packageExpression, string shortName) :
+mPackageExpression(packageExpression),
+mShortName(shortName) {
+}
 
-InterfaceTypeSpecifier::~InterfaceTypeSpecifier() { }
+InterfaceTypeSpecifier::~InterfaceTypeSpecifier() {
+  if (mPackageExpression) {
+    delete mPackageExpression;
+  }
+}
 
 string InterfaceTypeSpecifier::getShortName() const {
   return mShortName;
 }
 
-string InterfaceTypeSpecifier::getPackage() const {
-  return mPackage;
+IExpression* InterfaceTypeSpecifier::takePackage() {
+  IExpression* packageExpression = mPackageExpression;
+  mPackageExpression = NULL;
+  return packageExpression;
 }
 
 string InterfaceTypeSpecifier::getName(IRGenerationContext& context) const {
-  return getFullName(context, mShortName, mPackage);
+  return getFullName(context, mShortName, mPackageExpression);
 }
 
 Interface* InterfaceTypeSpecifier::getType(IRGenerationContext& context) const {

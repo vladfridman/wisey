@@ -39,8 +39,10 @@ using namespace std;
 using namespace wisey;
 
 Value* ProgramSuffix::generateIR(IRGenerationContext& context) const {
+  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   InterfaceTypeSpecifier* programInterfaceSpecifier =
-  new InterfaceTypeSpecifier(Names::getLangPackageName(), Names::getIProgramName());
+    new InterfaceTypeSpecifier(packageExpression, Names::getIProgramName());
   Interface* interface = (Interface*) programInterfaceSpecifier->getType(context);
   if (!context.hasBoundController(interface)) {
     return NULL;
@@ -79,7 +81,9 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
 
   Injector* injector = new Injector(programInterfaceSpecifier, injectionArguments, 0);
   Identifier* programIdentifier = new Identifier("program");
-  programInterfaceSpecifier = new InterfaceTypeSpecifier(Names::getLangPackageName(),
+  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  programInterfaceSpecifier = new InterfaceTypeSpecifier(packageExpression,
                                                          Names::getIProgramName());
   OwnerTypeSpecifier* programOwnerTypeSpecifier = new OwnerTypeSpecifier(programInterfaceSpecifier);
   VariableDeclaration* programVariableDeclaration =
@@ -93,8 +97,9 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   ExpressionList argumentList;
   programIdentifier = new Identifier("program");
   argumentList.push_back(programIdentifier);
+  packageExpression = new FakeExpression(NULL, packageType);
   ControllerTypeSpecifier* programRunnerControllerSpecifier =
-    new ControllerTypeSpecifier(Names::getLangPackageName(), "CProgramRunner");
+    new ControllerTypeSpecifier(packageExpression, "CProgramRunner");
   StaticMethodCall* runnerCall = new StaticMethodCall(programRunnerControllerSpecifier,
                                                       "run",
                                                       argumentList,

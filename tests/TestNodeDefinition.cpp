@@ -16,6 +16,7 @@
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
@@ -97,7 +98,9 @@ TEST_F(NodeDefinitionTest, prototypeObjectTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
   NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
                                 typeSpecifier,
@@ -125,7 +128,9 @@ TEST_F(NodeDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
   NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
                                 typeSpecifier,
@@ -152,7 +157,9 @@ TEST_F(NodeDefinitionTest, generateIRTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
   NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
                                 typeSpecifier,
@@ -185,7 +192,9 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<IObjectElementDeclaration*> interfaceElements;
   VariableList methodArguments;
   vector<IModelTypeSpecifier*> methodThrownExceptions;
-  methodThrownExceptions.push_back(new ModelTypeSpecifier(Names::getLangPackageName(),
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  methodThrownExceptions.push_back(new ModelTypeSpecifier(packageExpression,
                                                           Names::getNPEModelName()));
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   PrimitiveTypeSpecifier* floatSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
@@ -217,11 +226,13 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      interface->getObjectNameGlobalVariableName());
   
   vector<IInterfaceTypeSpecifier*> interfaces;
-  interfaces.push_back(new InterfaceTypeSpecifier("", "IMyInterface"));
+  interfaces.push_back(new InterfaceTypeSpecifier(NULL, "IMyInterface"));
 
   mObjectElements.push_back(mMethodDeclaration);
 
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
+  packageType = new PackageType(mPackage);
+  packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
   NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
                                 typeSpecifier,
@@ -252,11 +263,15 @@ TEST_F(NodeDefinitionTest, interfaceImplmenetationDefinitionTest) {
 TEST_F(NodeDefinitionTest, interfaceNotDefinedDeathTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   string package = "systems.vos.wisey.compiler.tests";
-  interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
+  PackageType* packageType = new PackageType(package);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  interfaces.push_back(new InterfaceTypeSpecifier(packageExpression, "IMyInterface"));
   
   mObjectElements.push_back(mMethodDeclaration);
 
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
+  packageType = new PackageType(mPackage);
+  packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
   NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
                                 typeSpecifier,
@@ -281,7 +296,9 @@ TEST_F(NodeDefinitionTest, nodeWithInjectedFieldDeathTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(mPackage, "NMyNode");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifierFull* typeSpecifier = new NodeTypeSpecifierFull(packageExpression, "NMyNode");
   vector<IObjectDefinition*> innerObjectDefinitions;
   NodeDefinition nodeDefinition(AccessLevel::PUBLIC_ACCESS,
                                 typeSpecifier,

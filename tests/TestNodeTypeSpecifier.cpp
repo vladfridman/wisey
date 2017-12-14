@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "wisey/FakeExpression.hpp"
 #include "wisey/NodeTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -42,19 +43,23 @@ struct NodeTypeSpecifierTest : public ::testing::Test {
 };
 
 TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierCreateTest) {
-  NodeTypeSpecifier nodeTypeSpecifier("", "NElement");
+  NodeTypeSpecifier nodeTypeSpecifier(NULL, "NElement");
   
   EXPECT_EQ(nodeTypeSpecifier.getType(mContext), mNode);
 }
 
 TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierCreateWithPackageTest) {
-  NodeTypeSpecifier nodeTypeSpecifier(mPackage, "NElement");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifier nodeTypeSpecifier(packageExpression, "NElement");
   
   EXPECT_EQ(nodeTypeSpecifier.getType(mContext), mNode);
 }
 
 TEST_F(NodeTypeSpecifierTest, printToStreamTest) {
-  NodeTypeSpecifier nodeTypeSpecifier(mPackage, "NElement");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifier nodeTypeSpecifier(packageExpression, "NElement");
 
   stringstream stringStream;
   nodeTypeSpecifier.printToStream(mContext, stringStream);
@@ -63,7 +68,7 @@ TEST_F(NodeTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierSamePackageDeathTest) {
-  NodeTypeSpecifier nodeTypeSpecifier("", "NNode");
+  NodeTypeSpecifier nodeTypeSpecifier(NULL, "NNode");
   
   EXPECT_EXIT(nodeTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
@@ -71,7 +76,9 @@ TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierSamePackageDeathTest) {
 }
 
 TEST_F(NodeTypeSpecifierTest, nodeTypeSpecifierNotDefinedDeathTest) {
-  NodeTypeSpecifier nodeTypeSpecifier(mPackage, "NNode");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  NodeTypeSpecifier nodeTypeSpecifier(packageExpression, "NNode");
   
   EXPECT_EXIT(nodeTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

@@ -13,6 +13,7 @@
 
 #include "MockObjectType.hpp"
 #include "TestFileSampleRunner.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/IObjectTypeSpecifier.hpp"
 #include "wisey/Model.hpp"
 
@@ -34,19 +35,21 @@ struct IObjectTypeSpecifierTest : public Test {
 };
 
 TEST_F(IObjectTypeSpecifierTest, getFullNameNameWithPackageTest) {
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   EXPECT_STREQ("systems.vos.wisey.MObject",
-               IObjectTypeSpecifier::getFullName(mContext, "MObject", mPackage).c_str());
+               IObjectTypeSpecifier::getFullName(mContext, "MObject", packageExpression).c_str());
 }
 
 TEST_F(IObjectTypeSpecifierTest, getFullNameNameWithImportProfileTest) {
   ImportProfile* importProfile = new ImportProfile("lang.wisey");
   mContext.setImportProfile(importProfile);
   EXPECT_STREQ("lang.wisey.MObject",
-               IObjectTypeSpecifier::getFullName(mContext, "MObject", "").c_str());
+               IObjectTypeSpecifier::getFullName(mContext, "MObject", NULL).c_str());
   
   importProfile->addImport("MObject", "other.wisey.MObject");
   EXPECT_STREQ("other.wisey.MObject",
-               IObjectTypeSpecifier::getFullName(mContext, "MObject", "").c_str());
+               IObjectTypeSpecifier::getFullName(mContext, "MObject", NULL).c_str());
 }
 
 TEST_F(IObjectTypeSpecifierTest, getFullNameInnerObjectSameNameAsCurrentObjectTest) {
@@ -57,7 +60,7 @@ TEST_F(IObjectTypeSpecifierTest, getFullNameInnerObjectSameNameAsCurrentObjectTe
   mContext.setObjectType(&mockObject);
   
   EXPECT_STREQ(fullName.c_str(),
-               IObjectTypeSpecifier::getFullName(mContext, "MInnerObject", "").c_str());
+               IObjectTypeSpecifier::getFullName(mContext, "MInnerObject", NULL).c_str());
 }
 
 TEST_F(IObjectTypeSpecifierTest, getFullNameInnerObjectInnerOfCurrentObjectTest) {
@@ -72,7 +75,7 @@ TEST_F(IObjectTypeSpecifierTest, getFullNameInnerObjectInnerOfCurrentObjectTest)
   mContext.setObjectType(&outerObject);
   
   EXPECT_STREQ("systems.vos.wisey.MOuterObject.MInnerObject",
-               IObjectTypeSpecifier::getFullName(mContext, "MInnerObject", "").c_str());
+               IObjectTypeSpecifier::getFullName(mContext, "MInnerObject", NULL).c_str());
 }
 
 TEST_F(TestFileSampleRunner, longObjectTypeSpecifiersRunTest) {

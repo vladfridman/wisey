@@ -17,18 +17,18 @@ namespace wisey {
  * Represents a fully qualified interface type specifier
  */
 class InterfaceTypeSpecifierFull : public IInterfaceTypeSpecifier {
-  const std::string mPackage;
+  IExpression* mPackageExpression;
   const std::string mShortName;
   
 public:
   
-  InterfaceTypeSpecifierFull(std::string package, std::string shortName);
+  InterfaceTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
   
   ~InterfaceTypeSpecifierFull();
   
   std::string getShortName() const override;
   
-  std::string getPackage() const override;
+  IExpression* takePackage() override;
 
   std::string getName(IRGenerationContext& context) const override;
   

@@ -29,9 +29,9 @@ public:
   virtual std::string getShortName() const = 0;
   
   /**
-   * Returns the package prefix if there is one or an empty string
+   * Returns the package expression and clears it in this type specifier
    */
-  virtual std::string getPackage() const = 0;
+  virtual IExpression* takePackage() = 0;
   
   /**
    * Returns the full name with the package prefix
@@ -45,7 +45,7 @@ public:
    */
   static std::string getFullName(IRGenerationContext& context,
                                  std::string shortName,
-                                 std::string package);
+                                 IExpression* packageExpression);
   
 };
   

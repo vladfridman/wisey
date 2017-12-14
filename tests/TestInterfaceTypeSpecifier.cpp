@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "wisey/FakeExpression.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodSignature.hpp"
 #include "wisey/MethodSignatureDeclaration.hpp"
@@ -56,19 +57,23 @@ struct InterfaceTypeSpecifierTest : public ::testing::Test {
 };
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateTest) {
-  InterfaceTypeSpecifier interfaceTypeSpecifier("", "IShape");
+  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IShape");
   
   EXPECT_EQ(interfaceTypeSpecifier.getType(mContext), mInterface);
 }
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierCreateWithPackageTest) {
-  InterfaceTypeSpecifier interfaceTypeSpecifier(mPackage, "IShape");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IShape");
   
   EXPECT_EQ(interfaceTypeSpecifier.getType(mContext), mInterface);
 }
 
 TEST_F(InterfaceTypeSpecifierTest, printToStreamTest) {
-  InterfaceTypeSpecifier interfaceTypeSpecifier(mPackage, "IShape");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IShape");
 
   stringstream stringStream;
   interfaceTypeSpecifier.printToStream(mContext, stringStream);
@@ -77,7 +82,7 @@ TEST_F(InterfaceTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierSamePackageDeathTest) {
-  InterfaceTypeSpecifier interfaceTypeSpecifier("", "IObject");
+  InterfaceTypeSpecifier interfaceTypeSpecifier(NULL, "IObject");
   
   EXPECT_EXIT(interfaceTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
@@ -85,7 +90,9 @@ TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierSamePackageDeathTest) {
 }
 
 TEST_F(InterfaceTypeSpecifierTest, interfaceTypeSpecifierNotDefinedDeathTest) {
-  InterfaceTypeSpecifier interfaceTypeSpecifier(mPackage, "IObject");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  InterfaceTypeSpecifier interfaceTypeSpecifier(packageExpression, "IObject");
   
   EXPECT_EXIT(interfaceTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

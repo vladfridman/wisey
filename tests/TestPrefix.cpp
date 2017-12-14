@@ -8,6 +8,7 @@
 
 #include "TestPrefix.hpp"
 #include "wisey/ControllerDefinition.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/MethodDeclaration.hpp"
@@ -37,8 +38,10 @@ void TestPrefix::defineModel(IRGenerationContext& context,
                              string modelName,
                              vector<IObjectElementDeclaration*> modelElements) {
   vector<IInterfaceTypeSpecifier*> modelParentInterfaces;
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifierFull* modelTypeSpecifier =
-    new ModelTypeSpecifierFull(Names::getLangPackageName(), modelName);
+    new ModelTypeSpecifierFull(packageExpression, modelName);
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   modelTypeSpecifier,
@@ -52,8 +55,10 @@ void TestPrefix::defineModel(IRGenerationContext& context,
 }
 
 void TestPrefix::defineThreadController(IRGenerationContext& context) {
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ControllerTypeSpecifierFull* controllerTypeSpecifier =
-    new ControllerTypeSpecifierFull(Names::getLangPackageName(), Names::getThreadControllerName());
+    new ControllerTypeSpecifierFull(packageExpression, Names::getThreadControllerName());
   vector<IObjectElementDeclaration*> elementDeclarations;
   vector<IInterfaceTypeSpecifier*> interfaceSpecifiers;
   

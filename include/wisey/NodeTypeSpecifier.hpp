@@ -19,18 +19,18 @@ namespace wisey {
  * Represents node type specifier
  */
 class NodeTypeSpecifier : public INodeTypeSpecifier {
-  const std::string mPackage;
+  IExpression* mPackageExpression;
   const std::string mShortName;
-  
+
 public:
   
-  NodeTypeSpecifier(std::string package, std::string shortName);
+  NodeTypeSpecifier(IExpression* packageExpression, std::string shortName);
   
   ~NodeTypeSpecifier();
   
   std::string getShortName() const override;
   
-  std::string getPackage() const override;
+  IExpression* takePackage() override;
 
   std::string getName(IRGenerationContext& context) const override;
 

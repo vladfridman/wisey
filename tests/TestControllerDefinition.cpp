@@ -19,6 +19,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
 #include "wisey/ControllerDefinition.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/Interface.hpp"
@@ -97,7 +98,9 @@ struct ControllerDefinitionTest : public Test {
 };
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectTest) {
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
@@ -120,7 +123,9 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeObjectTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
@@ -139,7 +144,9 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionPrototypeMethodsTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ControllerDefinition controllerDefinition(AccessLevel::PUBLIC_ACCESS,
@@ -171,7 +178,9 @@ TEST_F(ControllerDefinitionTest, controllerDefinitionGenerateIRTest) {
 }
 
 TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
                                                                                "CMyController");
   InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
@@ -192,7 +201,9 @@ TEST_F(ControllerDefinitionTest, controllerWithFixedFieldDeathTest) {
 }
 
 TEST_F(ControllerDefinitionTest, fieldsDeclaredAfterMethodsDeathTest) {
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
                                                                                "CMyController");
   InjectionArgumentList arguments;
   PrimitiveTypeSpecifier* intType = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);

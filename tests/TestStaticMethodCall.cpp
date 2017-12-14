@@ -131,7 +131,7 @@ public:
     mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
     mContext.addModel(mModel);
-    mModelSpecifier = new ModelTypeSpecifier("", "MSquare");
+    mModelSpecifier = new ModelTypeSpecifier(NULL, "MSquare");
     
     FunctionType* functionType = FunctionType::get(Type::getInt64Ty(mLLVMContext), false);
     Function* mainFunction = Function::Create(functionType,

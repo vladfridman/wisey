@@ -12,6 +12,7 @@
 #include <gmock/gmock.h>
 
 #include "wisey/ControllerTypeSpecifier.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -69,19 +70,23 @@ struct ControllerTypeSpecifierTest : public ::testing::Test {
 };
 
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierCreateTest) {
-  ControllerTypeSpecifier controllerTypeSpecifier("", "CMultiplier");
+  ControllerTypeSpecifier controllerTypeSpecifier(NULL, "CMultiplier");
   
   EXPECT_EQ(controllerTypeSpecifier.getType(mContext), mController);
 }
 
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierCreateWithPackageTest) {
-  ControllerTypeSpecifier controllerTypeSpecifier(mPackage, "CMultiplier");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifier controllerTypeSpecifier(packageExpression, "CMultiplier");
   
   EXPECT_EQ(controllerTypeSpecifier.getType(mContext), mController);
 }
 
 TEST_F(ControllerTypeSpecifierTest, printToStreamTest) {
-  ControllerTypeSpecifier controllerTypeSpecifier(mPackage, "CMultiplier");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifier controllerTypeSpecifier(packageExpression, "CMultiplier");
 
   stringstream stringStream;
   controllerTypeSpecifier.printToStream(mContext, stringStream);
@@ -90,7 +95,7 @@ TEST_F(ControllerTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierSamePackageDeathTest) {
-  ControllerTypeSpecifier controllerTypeSpecifier("", "CAdder");
+  ControllerTypeSpecifier controllerTypeSpecifier(NULL, "CAdder");
   
   EXPECT_EXIT(controllerTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
@@ -98,7 +103,9 @@ TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierSamePackageDeathTest)
 }
 
 TEST_F(ControllerTypeSpecifierTest, controllerTypeSpecifierNotDefinedDeathTest) {
-  ControllerTypeSpecifier controllerTypeSpecifier(mPackage, "CAdder");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifier controllerTypeSpecifier(packageExpression, "CAdder");
   
   EXPECT_EXIT(controllerTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

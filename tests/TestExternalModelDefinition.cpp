@@ -16,6 +16,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/ExternalModelDefinition.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -66,7 +67,9 @@ TEST_F(ExternalModelDefinitionTest, prototypeObjectTest) {
   mElementDeclarations.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalModelDefinition modelDefinition(typeSpecifier,
                                           mElementDeclarations,
@@ -93,7 +96,9 @@ TEST_F(ExternalModelDefinitionTest, prototypeMethodsTest) {
   mElementDeclarations.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalModelDefinition modelDefinition(typeSpecifier,
                                           mElementDeclarations,

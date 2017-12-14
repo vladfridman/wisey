@@ -14,9 +14,9 @@ using namespace wisey;
 
 std::string IObjectTypeSpecifier::getFullName(IRGenerationContext& context,
                                               string shortName,
-                                              string package) {
-  if (package.length() > 0) {
-    return package + "." + shortName;
+                                              IExpression* packageExpression) {
+  if (packageExpression) {
+    return packageExpression->getType(context)->getTypeName() + "." + shortName;
   }
   
   const IObjectType* objectType = context.getObjectType();

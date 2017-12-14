@@ -17,19 +17,19 @@ namespace wisey {
  * Represents controller type specifier
  */
 class ControllerTypeSpecifier : public IControllerTypeSpecifier {
-  const std::string mPackage;
+  IExpression* mPackageExpression;
   const std::string mShortName;
   
 public:
   
-  ControllerTypeSpecifier(std::string package, std::string shortName);
-  
+  ControllerTypeSpecifier(IExpression* packageExpression, std::string shortName);
+
   ~ControllerTypeSpecifier();
   
   std::string getShortName() const override;
   
-  std::string getPackage() const override;
-  
+  IExpression* takePackage() override;
+
   std::string getName(IRGenerationContext& context) const override;
   
   const Controller* getType(IRGenerationContext& context) const override;

@@ -12,22 +12,28 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NodeTypeSpecifierFull::NodeTypeSpecifierFull(string package, string shortName) :
-mPackage(package),
+NodeTypeSpecifierFull::NodeTypeSpecifierFull(IExpression* packageExpression, string shortName) :
+mPackageExpression(packageExpression),
 mShortName(shortName) { }
 
-NodeTypeSpecifierFull::~NodeTypeSpecifierFull() { }
+NodeTypeSpecifierFull::~NodeTypeSpecifierFull() {
+  if (mPackageExpression) {
+    delete mPackageExpression;
+  }
+}
 
 string NodeTypeSpecifierFull::getShortName() const {
   return mShortName;
 }
 
-string NodeTypeSpecifierFull::getPackage() const {
-  return mPackage;
+IExpression* NodeTypeSpecifierFull::takePackage() {
+  IExpression* packageExpression = mPackageExpression;
+  mPackageExpression = NULL;
+  return packageExpression;
 }
 
 string NodeTypeSpecifierFull::getName(IRGenerationContext& context) const {
-  return mPackage + "." + mShortName;
+  return mPackageExpression->getType(context)->getTypeName() + "." + mShortName;
 }
 
 Node* NodeTypeSpecifierFull::getType(IRGenerationContext& context) const {

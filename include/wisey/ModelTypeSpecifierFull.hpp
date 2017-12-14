@@ -17,18 +17,18 @@ namespace wisey {
  * Represents a fully qualified model type specifier
  */
 class ModelTypeSpecifierFull : public IModelTypeSpecifier {
-  const std::string mPackage;
+  IExpression* mPackageExpression;
   const std::string mShortName;
   
 public:
   
-  ModelTypeSpecifierFull(std::string package, std::string shortName);
+  ModelTypeSpecifierFull(IExpression* packageExpression, std::string shortName);
   
   ~ModelTypeSpecifierFull();
   
   std::string getShortName() const override;
   
-  std::string getPackage() const override;
+  IExpression* takePackage() override;
 
   std::string getName(IRGenerationContext& context) const override;
   

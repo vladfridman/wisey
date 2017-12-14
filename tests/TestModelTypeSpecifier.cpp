@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "wisey/FakeExpression.hpp"
 #include "wisey/Method.hpp"
 #include "wisey/ModelTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -63,19 +64,23 @@ struct ModelTypeSpecifierTest : public ::testing::Test {
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierCreateTest) {
   vector<string> package;
-  ModelTypeSpecifier modelTypeSpecifier("", "MSquare");
+  ModelTypeSpecifier modelTypeSpecifier(NULL, "MSquare");
   
   EXPECT_EQ(modelTypeSpecifier.getType(mContext), mModel);
 }
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierCreateWithPackageTest) {
-  ModelTypeSpecifier modelTypeSpecifier(mPackage, "MSquare");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MSquare");
   
   EXPECT_EQ(modelTypeSpecifier.getType(mContext), mModel);
 }
 
 TEST_F(ModelTypeSpecifierTest, printToStreamTest) {
-  ModelTypeSpecifier modelTypeSpecifier(mPackage, "MSquare");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MSquare");
 
   stringstream stringStream;
   modelTypeSpecifier.printToStream(mContext, stringStream);
@@ -84,7 +89,7 @@ TEST_F(ModelTypeSpecifierTest, printToStreamTest) {
 }
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierSamePackageDeathTest) {
-  ModelTypeSpecifier modelTypeSpecifier("", "MCircle");
+  ModelTypeSpecifier modelTypeSpecifier(NULL, "MCircle");
   
   EXPECT_EXIT(modelTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),
@@ -92,7 +97,9 @@ TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierSamePackageDeathTest) {
 }
 
 TEST_F(ModelTypeSpecifierTest, modelTypeSpecifierNotDefinedDeathTest) {
-  ModelTypeSpecifier modelTypeSpecifier(mPackage, "MCircle");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifier modelTypeSpecifier(packageExpression, "MCircle");
   
   EXPECT_EXIT(modelTypeSpecifier.getType(mContext),
               ::testing::ExitedWithCode(1),

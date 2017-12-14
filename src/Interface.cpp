@@ -616,8 +616,10 @@ void Interface::composeCastFunction(IRGenerationContext& context,
   IRWriter::createConditionalBranch(context, lessThanZero, notLessThanZero, compareLessThanZero);
   
   context.setBasicBlock(lessThanZero);
-  ModelTypeSpecifier* modelTypeSpecifier =
-    new ModelTypeSpecifier(Names::getLangPackageName(), Names::getCastExceptionName());
+  PackageType* packageType = context.getPackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifier* modelTypeSpecifier = new ModelTypeSpecifier(packageExpression,
+                                                                  Names::getCastExceptionName());
   ObjectBuilderArgumentList objectBuilderArgumnetList;
   llvm::Constant* fromTypeName = IObjectType::getObjectNamePointer(interfaceType, context);
   FakeExpression* fromTypeValue = new FakeExpression(fromTypeName, PrimitiveTypes::STRING_TYPE);

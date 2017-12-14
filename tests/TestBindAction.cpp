@@ -57,9 +57,9 @@ struct BindActionTest : public Test {
     mController->setInterfaces(controllerInterfaces);
     
     ControllerTypeSpecifier* controllerTypeSpecifier =
-      new ControllerTypeSpecifier("", "CMyController");
+      new ControllerTypeSpecifier(NULL, "CMyController");
     InterfaceTypeSpecifier* interfaceTypeSpecifier =
-      new InterfaceTypeSpecifier("", "IMyInterface");
+      new InterfaceTypeSpecifier(NULL, "IMyInterface");
     mBindAction = new BindAction(controllerTypeSpecifier, interfaceTypeSpecifier);
 }
   

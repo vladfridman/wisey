@@ -22,6 +22,7 @@
 #include "TestPrefix.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/Controller.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/IntConstant.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
 #include "wisey/Method.hpp"
@@ -107,7 +108,9 @@ struct ControllerTest : public Test {
     vector<IObjectElementDeclaration*> scienceCalculatorInterfaceElements;
     scienceCalculatorInterfaceElements.push_back(calculateSignature);
     vector<IInterfaceTypeSpecifier*> scienceCalculatorParentInterfaces;
-    InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier(mPackage,
+    PackageType* packageType = new PackageType(mPackage);
+    FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+    InterfaceTypeSpecifier* calculatorSpecifier = new InterfaceTypeSpecifier(packageExpression,
                                                                              "ICalculator");
     scienceCalculatorParentInterfaces.push_back(calculatorSpecifier);
     mScienceCalculatorInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,

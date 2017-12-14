@@ -16,6 +16,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/ExternalControllerDefinition.hpp"
 #include "wisey/ExternalMethodDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
@@ -77,7 +78,9 @@ struct ExternalControllerDefinitionTest : public Test {
 };
 
 TEST_F(ExternalControllerDefinitionTest, prototypeObjectTest) {
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalControllerDefinition controllerDefinition(typeSpecifier,
@@ -97,7 +100,9 @@ TEST_F(ExternalControllerDefinitionTest, prototypeObjectTest) {
 }
 
 TEST_F(ExternalControllerDefinitionTest, prototypeMethodsTest) {
-  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(mPackage,
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ControllerTypeSpecifierFull* typeSpecifier = new ControllerTypeSpecifierFull(packageExpression,
                                                                                "CMyController");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ExternalControllerDefinition controllerDefinition(typeSpecifier,

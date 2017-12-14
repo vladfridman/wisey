@@ -59,6 +59,11 @@ IRGenerationContext::~IRGenerationContext() {
       iterator++) {
     delete iterator->second;
   }
+  for (map<string, PackageType*>::iterator iterator = mPackageTypes.begin();
+       iterator != mPackageTypes.end();
+       iterator++) {
+    delete iterator->second;
+  }
   mBindings.clear();
 }
 
@@ -213,6 +218,16 @@ Controller* IRGenerationContext::getBoundController(Interface* interface) {
     exit(1);
   }
   return mBindings[interface];
+}
+
+PackageType* IRGenerationContext::getPackageType(string packageName) {
+  if (mPackageTypes.count(packageName)) {
+    return mPackageTypes.at(packageName);
+  }
+  PackageType* packageType = new PackageType(packageName);
+  mPackageTypes[packageName] = packageType;
+  
+  return packageType;
 }
 
 bool IRGenerationContext::hasBoundController(Interface* interface) {

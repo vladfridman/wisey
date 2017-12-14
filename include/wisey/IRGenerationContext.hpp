@@ -24,6 +24,7 @@
 #include "wisey/IPrintable.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/Node.hpp"
+#include "wisey/PackageType.hpp"
 #include "wisey/Scopes.hpp"
 
 namespace wisey {
@@ -48,6 +49,7 @@ class IRGenerationContext : public IPrintable {
   std::map<std::string, Controller*> mControllers;
   std::map<std::string, Node*> mNodes;
   std::map<std::string, Interface*> mInterfaces;
+  std::map<std::string, PackageType*> mPackageTypes;
   std::map<Interface*, Controller*> mBindings;
   ImportProfile* mImportProfile;
   std::string mPackage;
@@ -156,6 +158,11 @@ public:
    */
   bool hasBoundController(Interface* interface);
   
+  /**
+   * Returns a PackageType or creates one if one does not exist yet
+   */
+  PackageType* getPackageType(std::string packageName);
+
   /**
    * Sets current import profile that keeps track of all imports
    */

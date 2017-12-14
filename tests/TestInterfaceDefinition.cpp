@@ -16,6 +16,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
 #include "wisey/AccessLevel.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/InterfaceDefinition.hpp"
 #include "wisey/InterfaceTypeSpecifierFull.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -57,7 +58,9 @@ struct InterfaceDefinitionTest : public Test {
     objectElements.push_back(methodSignatureDeclaration);
     vector<IInterfaceTypeSpecifier*> parentInterfaces;
     
-    mInterfaceTypeSpecifier = new InterfaceTypeSpecifierFull("systems.vos.wisey.compiler.tests",
+    PackageType* packageType = new PackageType("systems.vos.wisey.compiler.tests");
+    FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+    mInterfaceTypeSpecifier = new InterfaceTypeSpecifierFull(packageExpression,
                                                              "IMyInterface");
     vector<IObjectDefinition*> innerObjectDefinitions;
     mInterfaceDefinition = new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,

@@ -34,6 +34,7 @@
   #include "wisey/ExternalModelDefinition.hpp"
   #include "wisey/ExternalNodeDefinition.hpp"
   #include "wisey/ExternalStaticMethodDeclaration.hpp"
+  #include "wisey/FakeExpression.hpp"
   #include "wisey/FieldDeclaration.hpp"
   #include "wisey/FieldKind.hpp"
   #include "wisey/FloatConstant.hpp"
@@ -76,6 +77,7 @@
   #include "wisey/ObjectBuilder.hpp"
   #include "wisey/ObjectBuilderArgument.hpp"
   #include "wisey/OwnerTypeSpecifier.hpp"
+  #include "wisey/PackageType.hpp"
   #include "wisey/PrimitiveTypes.hpp"
   #include "wisey/PrimitiveTypeSpecifier.hpp"
   #include "wisey/PrintOutStatement.hpp"
@@ -99,7 +101,7 @@
   using namespace wisey;
   
   ProgramFile *programFile;
-  std::string filePackage;
+  PackageType* filePackageType;
   
   extern int yylex();
   extern int yylineno;
@@ -107,7 +109,7 @@
 
   #define YYDEBUG 1
 
-  static std::string getPackageName(std::vector<std::string> identifierChain);
+  static IExpression* getPackageName(std::vector<std::string> identifierChain);
 
   void yyerror(const char *error_msg) {
     printf("%s(%d): %s\n", SourceFile.c_str(), yylineno, error_msg);
@@ -265,12 +267,13 @@
 %%
 
 program
-  : package_optional global_statement_list { programFile = new ProgramFile(*$1, *$2); delete $1; delete $2; }
+  : package_optional global_statement_list
+    { programFile = new ProgramFile(*$1, *$2); delete $1; delete $2; }
   ;
 
 package_optional
-  : /* blank */ { filePackage = ""; $$ = new std::string(""); }
-  | TPACKAGE package_name ';' { filePackage = *$2; $$ = $2; }
+  : /* blank */ { filePackageType = NULL; $$ = new std::string(""); }
+  | TPACKAGE package_name ';' {  filePackageType = new PackageType(*$2); $$ = $2; }
   ;
 
 package_name
@@ -337,7 +340,8 @@ interface_definition
   : TINTERFACE interface_type_specifier extends_interfaces 
       '{' interface_element_delcaration_list '}'
     {
-      std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
+      IExpression* package = $2->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
       InterfaceTypeSpecifierFull* fullSpecifier = 
         new InterfaceTypeSpecifierFull(package, $2->getShortName());
       $$ = new InterfaceDefinition(AccessLevel::PUBLIC_ACCESS,
@@ -355,8 +359,9 @@ inner_interface_definition
   : access_specifier TINTERFACE interface_type_specifier extends_interfaces 
       '{' interface_element_delcaration_list '}'
     {
-      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
-      InterfaceTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $3->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      InterfaceTypeSpecifierFull* fullSpecifier =
         new InterfaceTypeSpecifierFull(package, $3->getShortName());
       $$ = new InterfaceDefinition($1,
                                    fullSpecifier, 
@@ -373,8 +378,9 @@ external_interface_definition
   : TEXTERNAL TINTERFACE interface_type_specifier extends_interfaces 
       '{' external_interface_element_delcaration_list '}'
     {
-      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
-      InterfaceTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $3->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      InterfaceTypeSpecifierFull* fullSpecifier =
         new InterfaceTypeSpecifierFull(package, $3->getShortName());
       $$ = new ExternalInterfaceDefinition(fullSpecifier, *$4, std::get<0>(*$6), std::get<1>(*$6));
       delete $3;
@@ -433,8 +439,9 @@ controller_definition
   : TCONTROLLER controller_type_specifier implmeneted_interfaces 
       '{' object_element_declaration_list '}'
     {
-      std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
-      ControllerTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $2->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      ControllerTypeSpecifierFull* fullSpecifier =
         new ControllerTypeSpecifierFull(package, $2->getShortName());
       $$ = new ControllerDefinition(AccessLevel::PUBLIC_ACCESS, 
                                     fullSpecifier, 
@@ -451,8 +458,9 @@ inner_controller_definition
   : access_specifier TCONTROLLER controller_type_specifier implmeneted_interfaces 
       '{' object_element_declaration_list '}'
     {
-      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
-      ControllerTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $3->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      ControllerTypeSpecifierFull* fullSpecifier =
         new ControllerTypeSpecifierFull(package, $3->getShortName());
       $$ = new ControllerDefinition($1, 
                                     fullSpecifier, 
@@ -469,8 +477,9 @@ external_controller_definition
   : TEXTERNAL TCONTROLLER controller_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
-      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
-      ControllerTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $3->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      ControllerTypeSpecifierFull* fullSpecifier =
         new ControllerTypeSpecifierFull(package, $3->getShortName());
       $$ = new ExternalControllerDefinition(fullSpecifier, 
                                             std::get<0>(*$6), 
@@ -486,7 +495,8 @@ node_definition
   : TNODE node_type_specifier implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
-      std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
+      IExpression* package = $2->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
       NodeTypeSpecifierFull* fullSpecifier = 
         new NodeTypeSpecifierFull(package, $2->getShortName());
       $$ = new NodeDefinition(AccessLevel::PUBLIC_ACCESS, 
@@ -504,8 +514,9 @@ inner_node_definition
   : access_specifier TNODE node_type_specifier implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
-      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
-      NodeTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $3->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      NodeTypeSpecifierFull* fullSpecifier =
         new NodeTypeSpecifierFull(package, $3->getShortName());
       $$ = new NodeDefinition($1, 
                               fullSpecifier, 
@@ -522,8 +533,9 @@ external_node_definition
   : TEXTERNAL TNODE node_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
-      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
-      NodeTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $3->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      NodeTypeSpecifierFull* fullSpecifier =
         new NodeTypeSpecifierFull(package, $3->getShortName());
       $$ = new ExternalNodeDefinition(fullSpecifier, std::get<0>(*$6), *$4, std::get<1>(*$6));
       delete $3;
@@ -536,8 +548,9 @@ model_definition
   : TMODEL model_type_specifier implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
-      std::string package = $2->getPackage().length() ? $2->getPackage() : filePackage;
-      ModelTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $2->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      ModelTypeSpecifierFull* fullSpecifier =
         new ModelTypeSpecifierFull(package, $2->getShortName());
       $$ = new ModelDefinition(AccessLevel::PUBLIC_ACCESS,
                                fullSpecifier, 
@@ -554,8 +567,9 @@ inner_model_definition
   : access_specifier TMODEL model_type_specifier implmeneted_interfaces
       '{' object_element_declaration_list '}'
     {
-      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
-      ModelTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $3->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      ModelTypeSpecifierFull* fullSpecifier =
         new ModelTypeSpecifierFull(package, $3->getShortName());
       $$ = new ModelDefinition($1,
                                fullSpecifier, 
@@ -572,8 +586,9 @@ external_model_definition
   : TEXTERNAL TMODEL model_type_specifier implmeneted_interfaces
       '{' external_object_element_declaration_list '}'
     {
-      std::string package = $3->getPackage().length() ? $3->getPackage() : filePackage;
-      ModelTypeSpecifierFull* fullSpecifier = 
+      IExpression* package = $3->takePackage();
+      package = package ? package : new FakeExpression(NULL, filePackageType);
+      ModelTypeSpecifierFull* fullSpecifier =
         new ModelTypeSpecifierFull(package, $3->getShortName());
       $$ = new ExternalModelDefinition(fullSpecifier, std::get<0>(*$6), *$4, std::get<1>(*$6));
       delete $3;
@@ -1131,7 +1146,7 @@ object_owner_type_specifier
 inner_model_type_specifier
   : top_level_object_type_specifier '.' TMODELIDENTIFIER 
     { 
-      $$ = new ModelTypeSpecifier($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new ModelTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1140,7 +1155,7 @@ inner_model_type_specifier
 inner_controller_type_specifier
   : top_level_object_type_specifier '.' TCONTROLLERIDENTIFIER 
     { 
-      $$ = new ControllerTypeSpecifier($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new ControllerTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1149,7 +1164,7 @@ inner_controller_type_specifier
 inner_interface_type_specifier
   : top_level_object_type_specifier '.' TINTERFACEIDENTIFIER 
     { 
-      $$ = new InterfaceTypeSpecifier($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new InterfaceTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1158,7 +1173,7 @@ inner_interface_type_specifier
 inner_node_type_specifier
   : top_level_object_type_specifier '.' TNODEIDENTIFIER 
     { 
-      $$ = new NodeTypeSpecifier($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new NodeTypeSpecifier($1->takePackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1188,7 +1203,7 @@ top_level_object_type_specifier_full
 inner_model_type_specifier_full
   : top_level_object_type_specifier_full '.' TMODELIDENTIFIER
     { 
-      $$ = new ModelTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new ModelTypeSpecifierFull($1->takePackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }  
@@ -1197,7 +1212,7 @@ inner_model_type_specifier_full
 inner_controller_type_specifier_full
   : top_level_object_type_specifier_full '.' TCONTROLLERIDENTIFIER 
     { 
-      $$ = new ControllerTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new ControllerTypeSpecifierFull($1->takePackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1206,7 +1221,7 @@ inner_controller_type_specifier_full
 inner_interface_type_specifier_full
   : top_level_object_type_specifier_full '.' TINTERFACEIDENTIFIER
     { 
-      $$ = new InterfaceTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new InterfaceTypeSpecifierFull($1->takePackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1215,7 +1230,7 @@ inner_interface_type_specifier_full
 inner_node_type_specifier_full
   : top_level_object_type_specifier_full '.' TNODEIDENTIFIER
     { 
-      $$ = new NodeTypeSpecifierFull($1->getPackage(), $1->getShortName() + "." + *$3);
+      $$ = new NodeTypeSpecifierFull($1->takePackage(), $1->getShortName() + "." + *$3);
       delete $1; 
       delete $3; 
     }
@@ -1239,46 +1254,46 @@ primitive_type_specifier
 
 model_type_specifier
   : TMODELIDENTIFIER
-    { $$ = new ModelTypeSpecifier("", *$1); delete $1; }
+    { $$ = new ModelTypeSpecifier(NULL, *$1); delete $1; }
   | model_type_specifier_full
   ;
 
 model_type_specifier_full
   : identifier_chain '.' TMODELIDENTIFIER 
-    { $$ = new ModelTypeSpecifierFull(getPackageName(*$1), *$3); delete $1; delete $3; }
+    { $$ = new ModelTypeSpecifierFull(getPackageName(*$1), *$3); delete $3; }
   ;
 
 controller_type_specifier
   : TCONTROLLERIDENTIFIER 
-    { $$ = new ControllerTypeSpecifier("", *$1); delete $1; }
+    { $$ = new ControllerTypeSpecifier(NULL, *$1); delete $1; }
   | controller_type_specifier_full
   ;
 
 controller_type_specifier_full
   : identifier_chain '.' TCONTROLLERIDENTIFIER 
-    { $$ = new ControllerTypeSpecifierFull(getPackageName(*$1), *$3); delete $1; delete $3; }
+    { $$ = new ControllerTypeSpecifierFull(getPackageName(*$1), *$3); delete $3; }
   ;
 
 interface_type_specifier
   : TINTERFACEIDENTIFIER 
-    { $$ = new InterfaceTypeSpecifier("", *$1); delete $1; }
+    { $$ = new InterfaceTypeSpecifier(NULL, *$1); delete $1; }
   | interface_type_specifier_full
   ;
 
 interface_type_specifier_full
   : identifier_chain '.' TINTERFACEIDENTIFIER 
-    { $$ = new InterfaceTypeSpecifierFull(getPackageName(*$1), *$3); delete $1; delete $3; }
+    { $$ = new InterfaceTypeSpecifierFull(getPackageName(*$1), *$3); delete $3; }
   ;
 
 node_type_specifier
   : TNODEIDENTIFIER
-    { $$ = new NodeTypeSpecifier("", *$1); delete $1; }
+    { $$ = new NodeTypeSpecifier(NULL, *$1); delete $1; }
   | node_type_specifier_full
   ;
 
 node_type_specifier_full
   : identifier_chain '.' TNODEIDENTIFIER 
-    { $$ = new NodeTypeSpecifierFull(getPackageName(*$1), *$3); delete $1; delete $3; }
+    { $$ = new NodeTypeSpecifierFull(getPackageName(*$1), *$3); delete $3; }
   ;
 
 exception_type_specifier
@@ -1302,7 +1317,7 @@ injectable_object_type_specifier
 
 %%
 
-static std::string getPackageName(std::vector<std::string> identifierChain) {
+static IExpression* getPackageName(std::vector<std::string> identifierChain) {
   std::string package;
 
   for (std::string chainPart : identifierChain) {
@@ -1312,6 +1327,7 @@ static std::string getPackageName(std::vector<std::string> identifierChain) {
     package += chainPart;
   }
 
-  return package;
+  PackageType* packageType = new PackageType(package);
+  return new FakeExpression(NULL, packageType);
 }
 

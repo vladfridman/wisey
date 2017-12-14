@@ -12,22 +12,30 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ControllerTypeSpecifierFull::ControllerTypeSpecifierFull(string package, string shortName) :
-mPackage(package),
-mShortName(shortName) { }
+ControllerTypeSpecifierFull::ControllerTypeSpecifierFull(IExpression* packageExpression,
+                                                         string shortName) :
+mPackageExpression(packageExpression),
+mShortName(shortName) {
+}
 
-ControllerTypeSpecifierFull::~ControllerTypeSpecifierFull() { }
+ControllerTypeSpecifierFull::~ControllerTypeSpecifierFull() {
+  if (mPackageExpression) {
+    delete mPackageExpression;
+  }
+}
 
 string ControllerTypeSpecifierFull::getShortName() const {
   return mShortName;
 }
 
-string ControllerTypeSpecifierFull::getPackage() const {
-  return mPackage;
+IExpression* ControllerTypeSpecifierFull::takePackage() {
+  IExpression* packageExpression = mPackageExpression;
+  mPackageExpression = NULL;
+  return packageExpression;
 }
 
 string ControllerTypeSpecifierFull::getName(IRGenerationContext& context) const {
-  return mPackage + "." + mShortName;
+  return mPackageExpression->getType(context)->getTypeName() + "." + mShortName;
 }
 
 const Controller* ControllerTypeSpecifierFull::getType(IRGenerationContext& context) const {

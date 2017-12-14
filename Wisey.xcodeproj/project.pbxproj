@@ -102,6 +102,9 @@
 		F51942DD1FDFEDFF009C3158 /* ArrayElementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */; };
 		F51942DE1FDFEDFF009C3158 /* ArrayElementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */; };
 		F51942E21FE030AA009C3158 /* TestArrayElementExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */; };
+		F51942EE1FE2D7C7009C3158 /* PackageType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942ED1FE2D7C7009C3158 /* PackageType.cpp */; };
+		F51942EF1FE2D7C7009C3158 /* PackageType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942ED1FE2D7C7009C3158 /* PackageType.cpp */; };
+		F51942F11FE30024009C3158 /* TestPackageType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942F01FE30024009C3158 /* TestPackageType.cpp */; };
 		F519ED771FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */; };
@@ -922,6 +925,9 @@
 		F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayElementExpression.hpp; path = include/wisey/ArrayElementExpression.hpp; sourceTree = "<group>"; };
 		F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayElementExpression.cpp; path = src/ArrayElementExpression.cpp; sourceTree = "<group>"; };
 		F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayElementExpression.cpp; path = tests/TestArrayElementExpression.cpp; sourceTree = "<group>"; };
+		F51942EC1FE2D779009C3158 /* PackageType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PackageType.hpp; path = include/wisey/PackageType.hpp; sourceTree = "<group>"; };
+		F51942ED1FE2D7C7009C3158 /* PackageType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PackageType.cpp; path = src/PackageType.cpp; sourceTree = "<group>"; };
+		F51942F01FE30024009C3158 /* TestPackageType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestPackageType.cpp; path = tests/TestPackageType.cpp; sourceTree = "<group>"; };
 		F519ED751FD845EE00BE3FED /* InjectionArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InjectionArgument.hpp; path = include/wisey/InjectionArgument.hpp; sourceTree = "<group>"; };
 		F519ED761FD8476800BE3FED /* InjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InjectionArgument.cpp; path = src/InjectionArgument.cpp; sourceTree = "<group>"; };
 		F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestInjectionArgument.cpp; path = tests/TestInjectionArgument.cpp; sourceTree = "<group>"; };
@@ -1969,6 +1975,7 @@
 				F5F396DF1E3F8C5700F34296 /* TestObjectBuilder.cpp */,
 				F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */,
+				F51942F01FE30024009C3158 /* TestPackageType.cpp */,
 				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
 				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
 				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
@@ -2187,6 +2194,7 @@
 				F5089C7C1ECD01D9004A1223 /* IntType.hpp */,
 				F5089C8B1ECD01D9004A1223 /* LongType.hpp */,
 				F53A2C431F02987800E76A9E /* NullType.hpp */,
+				F51942EC1FE2D779009C3158 /* PackageType.hpp */,
 				F5089C9A1ECD01D9004A1223 /* PrimitiveTypes.hpp */,
 				F5089C9B1ECD01D9004A1223 /* PrimitiveTypeSpecifier.hpp */,
 				F58725501F6D744600FA25E6 /* StringType.hpp */,
@@ -2205,6 +2213,7 @@
 				F5C6FD7F1E48B6E80054209D /* IntType.cpp */,
 				F5C6FD841E48B7A00054209D /* LongType.cpp */,
 				F53A2C441F0298E800E76A9E /* NullType.cpp */,
+				F51942ED1FE2D7C7009C3158 /* PackageType.cpp */,
 				F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */,
 				F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */,
 				F58725511F6D749100FA25E6 /* StringType.cpp */,
@@ -2916,6 +2925,7 @@
 				F53400F91DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F531B6431E0A16D7008304F3 /* Block.cpp in Sources */,
 				F57411431E015961009809FF /* ReturnStatement.cpp in Sources */,
+				F51942F11FE30024009C3158 /* TestPackageType.cpp in Sources */,
 				F57086051E533667007D627E /* TestAutoCast.cpp in Sources */,
 				F5B9B1541E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
 				F57780A61EC673EC0049542D /* EmptyStatement.cpp in Sources */,
@@ -2959,6 +2969,7 @@
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
 				F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
+				F51942EF1FE2D7C7009C3158 /* PackageType.cpp in Sources */,
 				F5E209291E0779D100E1A147 /* VariableDeclaration.cpp in Sources */,
 				F53A2C1C1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp in Sources */,
 				F517970A1E5C95BC009B16AA /* TestCastExpression.cpp in Sources */,
@@ -3150,6 +3161,7 @@
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F539147A1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
 				F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
+				F51942EE1FE2D7C7009C3158 /* PackageType.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,
 				F5CB18111EB0C615007E2E43 /* TryCatchStatement.cpp in Sources */,

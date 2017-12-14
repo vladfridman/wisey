@@ -12,22 +12,29 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelTypeSpecifier::ModelTypeSpecifier(string package, string shortName) :
-mPackage(package),
-mShortName(shortName) { }
+ModelTypeSpecifier::ModelTypeSpecifier(IExpression* packageExpression, string shortName) :
+mPackageExpression(packageExpression),
+mShortName(shortName) {
+}
 
-ModelTypeSpecifier::~ModelTypeSpecifier() { }
+ModelTypeSpecifier::~ModelTypeSpecifier() {
+  if (mPackageExpression) {
+    delete mPackageExpression;
+  }
+}
 
 string ModelTypeSpecifier::getShortName() const {
   return mShortName;
 }
 
-string ModelTypeSpecifier::getPackage() const {
-  return mPackage;
+IExpression* ModelTypeSpecifier::takePackage() {
+  IExpression* packageExpression = mPackageExpression;
+  mPackageExpression = NULL;
+  return packageExpression;
 }
 
 string ModelTypeSpecifier::getName(IRGenerationContext& context) const {
-  return getFullName(context, mShortName, mPackage);
+  return getFullName(context, mShortName, mPackageExpression);
 }
 
 Model* ModelTypeSpecifier::getType(IRGenerationContext& context) const {

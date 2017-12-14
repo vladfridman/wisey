@@ -16,6 +16,7 @@
 #include "MockStatement.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/FloatConstant.hpp"
 #include "wisey/IObjectElementDeclaration.hpp"
@@ -25,6 +26,7 @@
 #include "wisey/MethodSignatureDeclaration.hpp"
 #include "wisey/ModelDefinition.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/PackageType.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/ProgramPrefix.hpp"
@@ -94,7 +96,9 @@ TEST_F(ModelDefinitionTest, prototypeObjectTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
@@ -122,7 +126,9 @@ TEST_F(ModelDefinitionTest, prototypeMethodsTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
@@ -149,7 +155,9 @@ TEST_F(ModelDefinitionTest, generateIRTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
@@ -182,8 +190,10 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
   vector<IObjectElementDeclaration*> interfaceElements;
   VariableList methodArguments;
   vector<IModelTypeSpecifier*> methodThrownExceptions;
+  PackageType* packageType = new PackageType(Names::getLangPackageName());
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
   ModelTypeSpecifierFull* modelTypeSpecifier =
-  new ModelTypeSpecifierFull(Names::getLangPackageName(), Names::getNPEModelName());
+    new ModelTypeSpecifierFull(packageExpression, Names::getNPEModelName());
   methodThrownExceptions.push_back(modelTypeSpecifier);
   const PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   VariableDeclaration* methodArgument =
@@ -214,11 +224,13 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
                      interface->getObjectNameGlobalVariableName());
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  interfaces.push_back(new InterfaceTypeSpecifier("", "IMyInterface"));
+  interfaces.push_back(new InterfaceTypeSpecifier(NULL, "IMyInterface"));
 
   mObjectElements.push_back(mMethodDeclaration);
 
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MModel");
+  packageType = new PackageType(mPackage);
+  packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
@@ -249,11 +261,15 @@ TEST_F(ModelDefinitionTest, interfaceImplmenetationDefinitionTest) {
 TEST_F(ModelDefinitionTest, interfaceNotDefinedDeathTest) {
   vector<IInterfaceTypeSpecifier*> interfaces;
   string package = "systems.vos.wisey.compiler.tests";
-  interfaces.push_back(new InterfaceTypeSpecifier(package, "IMyInterface"));
+  PackageType* packageType = new PackageType(package);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  interfaces.push_back(new InterfaceTypeSpecifier(packageExpression, "IMyInterface"));
   
   mObjectElements.push_back(mMethodDeclaration);
 
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MModel");
+  packageType = new PackageType(mPackage);
+  packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,
@@ -276,7 +292,9 @@ TEST_F(ModelDefinitionTest, modelWithInjectedFieldDeathTest) {
   mObjectElements.push_back(mMethodDeclaration);
 
   vector<IInterfaceTypeSpecifier*> interfaces;
-  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(mPackage, "MMyModel");
+  PackageType* packageType = new PackageType(mPackage);
+  FakeExpression* packageExpression = new FakeExpression(NULL, packageType);
+  ModelTypeSpecifierFull* typeSpecifier = new ModelTypeSpecifierFull(packageExpression, "MMyModel");
   vector<IObjectDefinition*> innerObjectDefinitions;
   ModelDefinition modelDefinition(AccessLevel::PUBLIC_ACCESS,
                                   typeSpecifier,

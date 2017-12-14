@@ -19,18 +19,18 @@ namespace wisey {
  * Represents model type specifier
  */
 class ModelTypeSpecifier : public IModelTypeSpecifier {
-  const std::string mPackage;
+  IExpression* mPackageExpression;
   const std::string mShortName;
 
 public:
   
-  ModelTypeSpecifier(std::string package, std::string shortName);
+  ModelTypeSpecifier(IExpression* packageExpression, std::string shortName);
   
   ~ModelTypeSpecifier();
 
   std::string getShortName() const override;
   
-  std::string getPackage() const override;
+  IExpression* takePackage() override;
 
   std::string getName(IRGenerationContext& context) const override;
   

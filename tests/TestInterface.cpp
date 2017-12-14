@@ -99,7 +99,7 @@ struct InterfaceTest : public Test {
     mContext.addInterface(mObjectInterface);
     mObjectInterface->buildMethods(mContext);
 
-    mObjectInterfaceSpecifier = new InterfaceTypeSpecifier("", "IObject");
+    mObjectInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IObject");
     string shapeFullName = "systems.vos.wisey.compiler.tests.IShape";
     mShapeStructType = StructType::create(mLLVMContext, shapeFullName);
     mFooMethod = new MethodSignatureDeclaration(intSpecifier, "foo", methodArguments, exceptions);
@@ -511,8 +511,8 @@ TEST_F(InterfaceTest, circularDependencyDeathTest) {
   Mock::AllowLeak(mThreadVariable);
   Mock::AllowLeak(mMockExpression);
   
-  InterfaceTypeSpecifier* parentInterfaceSpecifier = new InterfaceTypeSpecifier("", "IParent");
-  InterfaceTypeSpecifier* childInterfaceSpecifier = new InterfaceTypeSpecifier("", "IChild");
+  InterfaceTypeSpecifier* parentInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IParent");
+  InterfaceTypeSpecifier* childInterfaceSpecifier = new InterfaceTypeSpecifier(NULL, "IChild");
 
   string childFullName = "systems.vos.wisey.compiler.tests.IChild";
   StructType* childStructType = StructType::create(mLLVMContext, childFullName);
