@@ -157,6 +157,10 @@ ObjectElementType StaticMethod::getObjectElementType() const {
   return OBJECT_ELEMENT_STATIC_METHOD;
 }
 
+const IObjectType* StaticMethod::getObjectType() const {
+  return mObjectType;
+}
+
 void StaticMethod::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }

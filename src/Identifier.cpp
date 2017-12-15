@@ -8,7 +8,7 @@
 
 #include "wisey/Identifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/Log.hpp"
+#include "wisey/UndefinedType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -27,6 +27,11 @@ const string& Identifier::getName() const {
 }
 
 Value* Identifier::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+  IMethodDescriptor* method = getMethod(context);
+  if (method) {
+    return context.getThis()->generateIdentifierIR(context);
+  }
+  
   IVariable* variable = IVariable::getVariable(context, mName);
   Value* value = variable->generateIdentifierIR(context);
   if (flag == IR_GENERATION_RELEASE) {
@@ -37,7 +42,19 @@ Value* Identifier::generateIR(IRGenerationContext& context, IRGenerationFlag fla
 }
 
 const IType* Identifier::getType(IRGenerationContext& context) const {
-  return IVariable::getVariable(context, mName)->getType();
+  IMethodDescriptor* method = getMethod(context);
+
+  if (method) {
+    return method;
+  }
+  
+  IVariable* variable = context.getScopes().getVariable(mName);
+  if (variable) {
+    return variable->getType();
+  }
+  
+  
+  return UndefinedType::UNDEFINED_TYPE;
 }
 
 bool Identifier::isConstant() const {
@@ -46,4 +63,9 @@ bool Identifier::isConstant() const {
 
 void Identifier::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   stream << mName;
+}
+
+IMethodDescriptor* Identifier::getMethod(IRGenerationContext& context) const {
+  const IObjectType* objectType = context.getObjectType();
+  return objectType ? objectType->findMethod(mName) : NULL;
 }

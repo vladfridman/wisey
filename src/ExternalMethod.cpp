@@ -98,5 +98,9 @@ Value* ExternalMethod::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+const IObjectType* ExternalMethod::getObjectType() const {
+  return mObjectType;
+}
+
 void ExternalMethod::printToStream(IRGenerationContext& context, iostream& stream) const {
 }

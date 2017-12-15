@@ -10,6 +10,7 @@
 #define Identifier_h
 
 #include "wisey/IExpression.hpp"
+#include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IVariable.hpp"
 
 namespace wisey {
@@ -17,13 +18,20 @@ namespace wisey {
 /**
  * Represents an identifier in a wisey program.
  *
- * Loads value of the variable named 'name' into an LLVM variable named llvmVariableName
+ * Identifier could either refer to a variable, a method or a part of the package name
+ * Identifier type is determined in the following order: if the method with this name is found
+ * in the current object then it is a method, if a variable with this name exists then it is
+ * a variable, otherwise it is an undefined identifier that could be part of a package name
+ * or an undefined variable.
+ *
+ * See {@link IdentifierChain} for explanation on how identifier chains are interpreted as packages
  */
 class Identifier : public IExpression {
   
   const std::string mName;
   
 public:
+  
   Identifier(const std::string& name);
   
   ~Identifier();
@@ -40,6 +48,10 @@ public:
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
 
+private:
+  
+  IMethodDescriptor* getMethod(IRGenerationContext& context) const;
+  
 };
   
 } /* namespace wisey */

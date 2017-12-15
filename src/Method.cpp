@@ -164,6 +164,10 @@ ObjectElementType Method::getObjectElementType() const {
   return OBJECT_ELEMENT_METHOD;
 }
 
+const IObjectType* Method::getObjectType() const {
+  return mObjectType;
+}
+
 void Method::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }

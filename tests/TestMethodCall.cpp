@@ -59,6 +59,8 @@ struct MethodCallTest : public Test {
   StructType* mStructType;
   Controller* mThreadController;
   Function* mMainFunction;
+  Method* mFooMethod;
+  Method* mBarMethod;
   
 public:
   
@@ -95,31 +97,31 @@ public:
     vector<MethodArgument*> methodArguments;
     methodArguments.push_back(methodArgument);
     vector<const Model*> fooThrownExceptions;
-    IMethod* fooMethod = new Method(mModel,
-                                    "foo",
-                                    AccessLevel::PUBLIC_ACCESS,
-                                    mReturnedModel,
-                                    methodArguments,
-                                    fooThrownExceptions,
-                                    NULL,
-                                    0);
+    mFooMethod = new Method(mModel,
+                            "foo",
+                            AccessLevel::PUBLIC_ACCESS,
+                            mReturnedModel,
+                            methodArguments,
+                            fooThrownExceptions,
+                            NULL,
+                            0);
     vector<IMethod*> methods;
-    methods.push_back(fooMethod);
+    methods.push_back(mFooMethod);
     vector<const Model*> barThrownExceptions;
     StructType* exceptionModelStructType = StructType::create(mLLVMContext, "MException");
     Model* exceptionModel = Model::newModel(AccessLevel::PUBLIC_ACCESS,
                                             "MException",
                                             exceptionModelStructType);
     barThrownExceptions.push_back(exceptionModel);
-    IMethod* barMethod = new Method(mModel,
-                                    "bar",
-                                    AccessLevel::PUBLIC_ACCESS,
-                                    PrimitiveTypes::INT_TYPE,
-                                    methodArguments,
-                                    barThrownExceptions,
-                                    NULL,
-                                    0);
-    methods.push_back(barMethod);
+    mBarMethod = new Method(mModel,
+                            "bar",
+                            AccessLevel::PUBLIC_ACCESS,
+                            PrimitiveTypes::INT_TYPE,
+                            methodArguments,
+                            barThrownExceptions,
+                            NULL,
+                            0);
+    methods.push_back(mBarMethod);
     mModel->setFields(fields, 1u);
     mModel->setMethods(methods);
 
@@ -139,7 +141,7 @@ public:
     Value* nullPointer = ConstantPointerNull::get(Type::getInt32PtrTy(mLLVMContext));
     Value* bitcast = IRWriter::newBitCastInst(mContext, nullPointer, mStructType->getPointerTo());
     ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(bitcast));
-    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mModel));
+    ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mFooMethod));
     ON_CALL(*mExpression, printToStream(_, _)).WillByDefault(Invoke(printExpression));
     
     mThreadController = mContext.getController(Names::getThreadControllerFullName());
@@ -188,7 +190,7 @@ public:
   }
   
   static void printExpression(IRGenerationContext& context, iostream& stream) {
-    stream << "object";
+    stream << "object.foo";
   }
 
   static void printArgument1(IRGenerationContext& context, iostream& stream) {
@@ -245,7 +247,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 0);
   
   Value* irValue = methodCall.generateIR(mContext, IR_GENERATION_NORMAL);
 
@@ -277,8 +279,9 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   Value* value = ConstantFP::get(Type::getFloatTy(mContext.getLLVMContext()), 5.2);
   ON_CALL(*argumentExpression, generateIR(_, _)).WillByDefault(Return(value));
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mBarMethod));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "bar", mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 0);
   BasicBlock* continueBlock = BasicBlock::Create(mLLVMContext, "eh.continue");
   vector<Catch*> catchList;
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, continueBlock);
@@ -297,13 +300,13 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
 }
 
 TEST_F(MethodCallTest, getVariableTest) {
-  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 0);
   
   EXPECT_EQ(methodCall.getVariable(mContext), nullptr);
 }
 
 TEST_F(MethodCallTest, isConstantTest) {
-  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 0);
 
   EXPECT_FALSE(methodCall.isConstant());
 }
@@ -316,7 +319,7 @@ TEST_F(MethodCallTest, printToStreamTest) {
   ON_CALL(*argument2Expression, printToStream(_, _)).WillByDefault(Invoke(printArgument2));
   mArgumentList.push_back(argument2Expression);
 
-  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 0);
 
   stringstream stringStream;
   methodCall.printToStream(mContext, stringStream);
@@ -324,28 +327,8 @@ TEST_F(MethodCallTest, printToStreamTest) {
   EXPECT_STREQ("object.foo(argument1, argument2)", stringStream.str().c_str());
 }
 
-TEST_F(MethodCallTest, methodDoesNotExistDeathTest) {
-  MethodCall methodCall(mExpression, "lorem", mArgumentList, 0);
-  Mock::AllowLeak(mExpression);
-  
-  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
-              ::testing::ExitedWithCode(1),
-              "Error: Method 'lorem' is not found in object "
-              "'systems.vos.wisey.compiler.tests.MSquare'");
-}
-
-TEST_F(MethodCallTest, methodCallOnPrimitiveTypeDeathTest) {
-  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
-  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
-  Mock::AllowLeak(mExpression);
-  
-  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
-              ::testing::ExitedWithCode(1),
-              "Attempt to call a method 'foo' on a primitive type expression");
-}
-
 TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
-  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   
   EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
@@ -357,8 +340,9 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
 TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
+  ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mBarMethod));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "bar", mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
@@ -384,7 +368,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   NiceMock<MockExpression>* argumentExpression = new NiceMock<MockExpression>();
   ON_CALL(*argumentExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
   mArgumentList.push_back(argumentExpression);
-  MethodCall methodCall(mExpression, "foo", mArgumentList, 0);
+  MethodCall methodCall(mExpression, mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
@@ -445,8 +429,8 @@ TEST_F(TestFileSampleRunner, callToPrivateMethodOnExpressionRunTest) {
 TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_method_call.yz",
                     1,
-                    "Error: Method 'getDouble\\(\\)' of object "
-                    "'systems.vos.wisey.compiler.tests.CService' is private");
+                    "Error: Method 'getDouble' of object "
+                    "systems.vos.wisey.compiler.tests.CService is private");
 }
 
 TEST_F(TestFileSampleRunner, methodExceptionNotHandledDeathTest) {
@@ -459,7 +443,8 @@ TEST_F(TestFileSampleRunner, methodExceptionNotHandledDeathTest) {
 TEST_F(TestFileSampleRunner, methodIdentifierChainDeathTest) {
   expectFailCompile("tests/samples/test_identifier_chain.yz",
                     1,
-                    "Error: Incorrect method call format");
+                    "Error: Method 'vos' is not found in object "
+                    "systems.vos.wisey.compiler.tests.MSystem");
 }
 
 TEST_F(TestFileSampleRunner, passOwnerAsParameterToMethodAndThenUseItRunDeathTest) {

@@ -109,5 +109,3 @@ TEST_F(NullTypeTest, castToModelOwnerTest) {
   EXPECT_EQ(cast, ConstantPointerNull::get(structType->getPointerTo()));
 }
 
-TEST_F(NullTypeTest, castToModelTwoNullsAreEqualRunTest) {
-}

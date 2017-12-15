@@ -142,7 +142,7 @@ public:
    * Look up an interface type
    */
   Interface* getInterface(std::string name);
-  
+
   /**
    * Bind an interface to a controller for injection
    */

@@ -105,6 +105,12 @@
 		F51942EE1FE2D7C7009C3158 /* PackageType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942ED1FE2D7C7009C3158 /* PackageType.cpp */; };
 		F51942EF1FE2D7C7009C3158 /* PackageType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942ED1FE2D7C7009C3158 /* PackageType.cpp */; };
 		F51942F11FE30024009C3158 /* TestPackageType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942F01FE30024009C3158 /* TestPackageType.cpp */; };
+		F51942F41FE302DD009C3158 /* IdentifierChain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942F31FE302DC009C3158 /* IdentifierChain.cpp */; };
+		F51942F51FE302E5009C3158 /* IdentifierChain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942F31FE302DC009C3158 /* IdentifierChain.cpp */; };
+		F51942F81FE3C123009C3158 /* UndefinedType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942F71FE3C123009C3158 /* UndefinedType.cpp */; };
+		F51942F91FE3C123009C3158 /* UndefinedType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942F71FE3C123009C3158 /* UndefinedType.cpp */; };
+		F51942FB1FE3D7D6009C3158 /* TestIdentifierChain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942FA1FE3D7D6009C3158 /* TestIdentifierChain.cpp */; };
+		F51942FE1FE3F3CF009C3158 /* TestUndefinedType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942FD1FE3F3CF009C3158 /* TestUndefinedType.cpp */; };
 		F519ED771FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */; };
@@ -928,6 +934,13 @@
 		F51942EC1FE2D779009C3158 /* PackageType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PackageType.hpp; path = include/wisey/PackageType.hpp; sourceTree = "<group>"; };
 		F51942ED1FE2D7C7009C3158 /* PackageType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PackageType.cpp; path = src/PackageType.cpp; sourceTree = "<group>"; };
 		F51942F01FE30024009C3158 /* TestPackageType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestPackageType.cpp; path = tests/TestPackageType.cpp; sourceTree = "<group>"; };
+		F51942F21FE302C3009C3158 /* IdentifierChain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IdentifierChain.hpp; path = include/wisey/IdentifierChain.hpp; sourceTree = "<group>"; };
+		F51942F31FE302DC009C3158 /* IdentifierChain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IdentifierChain.cpp; path = src/IdentifierChain.cpp; sourceTree = "<group>"; };
+		F51942F61FE3C0C0009C3158 /* UndefinedType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = UndefinedType.hpp; path = include/wisey/UndefinedType.hpp; sourceTree = "<group>"; };
+		F51942F71FE3C123009C3158 /* UndefinedType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = UndefinedType.cpp; path = src/UndefinedType.cpp; sourceTree = "<group>"; };
+		F51942FA1FE3D7D6009C3158 /* TestIdentifierChain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifierChain.cpp; path = tests/TestIdentifierChain.cpp; sourceTree = "<group>"; };
+		F51942FC1FE3DF0E009C3158 /* MockMethodDescriptor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockMethodDescriptor.hpp; path = tests/include/MockMethodDescriptor.hpp; sourceTree = "<group>"; };
+		F51942FD1FE3F3CF009C3158 /* TestUndefinedType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestUndefinedType.cpp; path = tests/TestUndefinedType.cpp; sourceTree = "<group>"; };
 		F519ED751FD845EE00BE3FED /* InjectionArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InjectionArgument.hpp; path = include/wisey/InjectionArgument.hpp; sourceTree = "<group>"; };
 		F519ED761FD8476800BE3FED /* InjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InjectionArgument.cpp; path = src/InjectionArgument.cpp; sourceTree = "<group>"; };
 		F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestInjectionArgument.cpp; path = tests/TestInjectionArgument.cpp; sourceTree = "<group>"; };
@@ -1924,6 +1937,7 @@
 				F5105FB51FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp */,
 				F556E6591EDEE3E700CCC3D7 /* TestIConcreteObjectType.cpp */,
 				F55496FB1E06430500DDA2AF /* TestIdentifier.cpp */,
+				F51942FA1FE3D7D6009C3158 /* TestIdentifierChain.cpp */,
 				F59D821F1E0F68DF00057FB5 /* TestIfElseStatement.cpp */,
 				F5A3635B1F377F84005880B3 /* TestIFieldVariable.cpp */,
 				F59D82251E0F6E8800057FB5 /* TestIfStatement.cpp */,
@@ -2004,6 +2018,7 @@
 				F56AD49E1E9F50FD0020868C /* TestThrowStatement.cpp */,
 				F52F2C981EA95C7B0081DE38 /* TestTryCatch.cpp */,
 				F5B9B1571E7AC0F200456CB4 /* TestTypeComparisionExpression.cpp */,
+				F51942FD1FE3F3CF009C3158 /* TestUndefinedType.cpp */,
 				F5E2092C1E077C1400E1A147 /* TestVariableDeclaration.cpp */,
 				F5C6FD6C1E48B37D0054209D /* TestVoidType.cpp */,
 				F59D820D1E0F25DF00057FB5 /* TestWhileStatement.cpp */,
@@ -2063,6 +2078,7 @@
 				F5E48B8F1E8710DB0087CC70 /* MockVariable.hpp */,
 				F53401041DFEDA3C0002BF7E /* TestFileSampleRunner.hpp */,
 				F55CF1861F850E5900A11426 /* TestPrefix.hpp */,
+				F51942FC1FE3DF0E009C3158 /* MockMethodDescriptor.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -2198,6 +2214,7 @@
 				F5089C9A1ECD01D9004A1223 /* PrimitiveTypes.hpp */,
 				F5089C9B1ECD01D9004A1223 /* PrimitiveTypeSpecifier.hpp */,
 				F58725501F6D744600FA25E6 /* StringType.hpp */,
+				F51942F61FE3C0C0009C3158 /* UndefinedType.hpp */,
 				F5089CAB1ECD01D9004A1223 /* VoidType.hpp */,
 			);
 			name = types;
@@ -2217,6 +2234,7 @@
 				F507D26C1E46044700495E2D /* PrimitiveTypes.cpp */,
 				F5E2092F1E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp */,
 				F58725511F6D749100FA25E6 /* StringType.cpp */,
+				F51942F71FE3C123009C3158 /* UndefinedType.cpp */,
 				F5C6FD691E48B33A0054209D /* VoidType.cpp */,
 			);
 			name = types;
@@ -2407,6 +2425,7 @@
 				F5089C651ECD01D9004A1223 /* EmptyExpression.hpp */,
 				F5E6BD081F190B7800D59444 /* FakeExpression.hpp */,
 				F5089C6E1ECD01D9004A1223 /* Identifier.hpp */,
+				F51942F21FE302C3009C3158 /* IdentifierChain.hpp */,
 				F5089C741ECD01D9004A1223 /* IncrementExpression.hpp */,
 				F59496FC1F5467540002F14F /* InstanceOf.hpp */,
 				F5089C881ECD01D9004A1223 /* LogicalAndExpression.hpp */,
@@ -2434,6 +2453,7 @@
 				F59D82181E0F4AB500057FB5 /* EmptyExpression.cpp */,
 				F5E6BD091F190B8500D59444 /* FakeExpression.cpp */,
 				F57411721E043EE4009809FF /* Identifier.cpp */,
+				F51942F31FE302DC009C3158 /* IdentifierChain.cpp */,
 				F574116A1E042390009809FF /* IncrementExpression.cpp */,
 				F59496FD1F5469900002F14F /* InstanceOf.cpp */,
 				F57411511E019A46009809FF /* LogicalAndExpression.cpp */,
@@ -2916,6 +2936,7 @@
 				F5A363501F374DCB005880B3 /* TestFieldOwnerVariable.cpp in Sources */,
 				F53CDAD41F8BC4ED00D27687 /* ExternalInterfaceDefinition.cpp in Sources */,
 				F5B9B1501E797B4800456CB4 /* TestMethodSignature.cpp in Sources */,
+				F51942F51FE302E5009C3158 /* IdentifierChain.cpp in Sources */,
 				F57411531E019A46009809FF /* LogicalAndExpression.cpp in Sources */,
 				F5C7D1601F7CFCD700D65584 /* ExternalMethod.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
@@ -2930,6 +2951,7 @@
 				F5B9B1541E7A9DB000456CB4 /* TypeComparisionExpression.cpp in Sources */,
 				F57780A61EC673EC0049542D /* EmptyStatement.cpp in Sources */,
 				F53A2C211EF96FEA00E76A9E /* TestIVariable.cpp in Sources */,
+				F51942F91FE3C123009C3158 /* UndefinedType.cpp in Sources */,
 				F5E3D64D1F6C19D900FC37CB /* TestPrintOutStatement.cpp in Sources */,
 				F50FA2E91E2E3B0F00435EEA /* DoubleConstant.cpp in Sources */,
 				F53A2C4C1F029DC800E76A9E /* TestNullType.cpp in Sources */,
@@ -2945,6 +2967,7 @@
 				F5E270751F98FFA9008D2EB7 /* ConstantDeclaration.cpp in Sources */,
 				F5A363441F33D08F005880B3 /* TestLocalOwnerVariable.cpp in Sources */,
 				F50FA3001E323AAD00435EEA /* Scopes.cpp in Sources */,
+				F51942FE1FE3F3CF009C3158 /* TestUndefinedType.cpp in Sources */,
 				F5C6FD7C1E48B64C0054209D /* FloatType.cpp in Sources */,
 				F51581321E8AB1A9009CE419 /* TestController.cpp in Sources */,
 				F57780BA1ECA81750049542D /* ProgramSuffix.cpp in Sources */,
@@ -3000,6 +3023,7 @@
 				F57086031E5317E8007D627E /* AutoCast.cpp in Sources */,
 				F574115C1E01A13B009809FF /* TestLogicalOrExpression.cpp in Sources */,
 				F5B3DCE61F9116AF00FC76D3 /* IMethodCall.cpp in Sources */,
+				F51942FB1FE3D7D6009C3158 /* TestIdentifierChain.cpp in Sources */,
 				F5A98A371F9A37910063D626 /* ConstantReference.cpp in Sources */,
 				F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F53A2C251EFFD0BD00E76A9E /* NodeDefinition.cpp in Sources */,
@@ -3187,6 +3211,7 @@
 				F51D2BB41F691C8100510784 /* IMethod.cpp in Sources */,
 				F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */,
 				F53A2C0C1EEC37E900E76A9E /* InterfaceOwner.cpp in Sources */,
+				F51942F81FE3C123009C3158 /* UndefinedType.cpp in Sources */,
 				F5436DAD1FCF71A9003ABF6F /* InterfaceTypeSpecifierFull.cpp in Sources */,
 				F53400F81DFC775A0002BF7E /* RelationalExpression.cpp in Sources */,
 				F5E3D64A1F6C01CE00FC37CB /* PrintOutStatement.cpp in Sources */,
@@ -3219,6 +3244,7 @@
 				F574116B1E042390009809FF /* IncrementExpression.cpp in Sources */,
 				F5FE0A231F7DA00B000621CA /* ExternalStaticMethodDeclaration.cpp in Sources */,
 				F5C7D1611F7D02FD00D65584 /* ExternalMethod.cpp in Sources */,
+				F51942F41FE302DD009C3158 /* IdentifierChain.cpp in Sources */,
 				F587255E1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */,
 				F507D26D1E46044700495E2D /* PrimitiveTypes.cpp in Sources */,
 				F5EEDDA01E6EF4AF00215278 /* InterfaceTypeSpecifier.cpp in Sources */,

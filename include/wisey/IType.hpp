@@ -35,6 +35,7 @@ typedef enum TypeKindEnum {
   NODE_TYPE,
   NODE_OWNER_TYPE,
   NULL_TYPE_KIND,
+  UNDEFINED_TYPE_KIND,
 } TypeKind;
 
 /**

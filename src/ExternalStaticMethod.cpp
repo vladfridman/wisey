@@ -98,6 +98,10 @@ Value* ExternalStaticMethod::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+const IObjectType* ExternalStaticMethod::getObjectType() const {
+  return mObjectType;
+}
+
 void ExternalStaticMethod::printToStream(IRGenerationContext& context, iostream& stream) const {
 }
 

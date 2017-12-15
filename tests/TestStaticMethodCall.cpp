@@ -300,7 +300,7 @@ TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
   EXPECT_EXIT(staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Error: Static method 'lorem' is not found in object "
-              "'systems.vos.wisey.compiler.tests.MSquare'");
+              "systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(StaticMethodCallTest, incorrectNumberOfArgumentsDeathTest) {
@@ -309,7 +309,7 @@ TEST_F(StaticMethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   EXPECT_EXIT(staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Error: Number of arguments for static method call 'foo' of the object type "
-              "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
+              "systems.vos.wisey.compiler.tests.MSquare is not correct");
 }
 
 TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
@@ -321,7 +321,7 @@ TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
   
   EXPECT_EXIT(staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
-              "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
+              "Error: LLVM function implementing object systems.vos.wisey.compiler.tests.MSquare "
               "method 'bar' was not found");
 }
 
@@ -347,7 +347,7 @@ TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
   EXPECT_EXIT(staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
               "Error: Call argument types do not match for a call to method 'foo' "
-              "of the object type 'systems.vos.wisey.compiler.tests.MSquare");
+              "of the object type systems.vos.wisey.compiler.tests.MSquare");
 }
 
 TEST_F(TestFileSampleRunner, modelStaticMethodCallRunTest) {
@@ -397,8 +397,8 @@ TEST_F(TestFileSampleRunner, passOwnerAsParameterToStaticMethodRunTest) {
 TEST_F(TestFileSampleRunner, staticMethodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_static_method_call.yz",
                     1,
-                    "Error: Static method 'getDouble\\(\\)' of object "
-                    "'systems.vos.wisey.compiler.tests.CService' is private");
+                    "Error: Static method 'getDouble' of object "
+                    "systems.vos.wisey.compiler.tests.CService is private");
 }
 
 TEST_F(TestFileSampleRunner, staticMethodExceptionNotHandledDeathTest) {

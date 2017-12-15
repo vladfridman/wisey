@@ -220,6 +220,10 @@ Controller* IRGenerationContext::getBoundController(Interface* interface) {
   return mBindings[interface];
 }
 
+bool IRGenerationContext::hasBoundController(Interface* interface) {
+  return mBindings.count(interface);
+}
+
 PackageType* IRGenerationContext::getPackageType(string packageName) {
   if (mPackageTypes.count(packageName)) {
     return mPackageTypes.at(packageName);
@@ -228,10 +232,6 @@ PackageType* IRGenerationContext::getPackageType(string packageName) {
   mPackageTypes[packageName] = packageType;
   
   return packageType;
-}
-
-bool IRGenerationContext::hasBoundController(Interface* interface) {
-  return mBindings.count(interface);
 }
 
 void IRGenerationContext::setImportProfile(ImportProfile* importProfile) {

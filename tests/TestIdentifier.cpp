@@ -12,17 +12,17 @@
 #include <gmock/gmock.h>
 
 #include <llvm/IR/Constants.h>
-#include <llvm/IR/Instructions.h>
-#include <llvm/Support/raw_ostream.h>
 
+#include "MockMethodDescriptor.hpp"
+#include "MockObjectType.hpp"
 #include "MockOwnerVariable.hpp"
+#include "MockReferenceVariable.hpp"
+#include "MockType.hpp"
 #include "MockVariable.hpp"
-#include "TestFileSampleRunner.hpp"
-#include "wisey/Identifier.hpp"
-#include "wisey/IInterfaceTypeSpecifier.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/LocalPrimitiveVariable.hpp"
+#include "wisey/Identifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
+#include "wisey/UndefinedType.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -36,52 +36,17 @@ using ::testing::Test;
 
 struct IdentifierTest : public Test {
   IRGenerationContext mContext;
-  Interface* mInterface;
+  LLVMContext& mLLVMContext;
 
-  IdentifierTest() {
-    vector<IInterfaceTypeSpecifier*> parentInterfaces;
-    vector<IObjectElementDeclaration*> interfaceElements;
-    mInterface = Interface::newInterface(AccessLevel::PUBLIC_ACCESS,
-                                         "systems.vos.wisey.compiler.tests.IInterface",
-                                         NULL,
-                                         parentInterfaces,
-                                         interfaceElements);
-
+  IdentifierTest() : mLLVMContext(mContext.getLLVMContext()) {
     mContext.getScopes().pushScope();
   }
   
-  ~IdentifierTest() { }
+  ~IdentifierTest() {
+  }
 };
 
-TEST_F(IdentifierTest, getVariableTest) {
-  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("foo",
-                                                                PrimitiveTypes::INT_TYPE,
-                                                                NULL);
-  mContext.getScopes().setVariable(variable);
-  Identifier identifier("foo");
-
-  EXPECT_EQ(identifier.getVariable(mContext), variable);
-}
-
-TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
-  Identifier identifier("foo");
-
-  EXPECT_EXIT(identifier.generateIR(mContext, IR_GENERATION_NORMAL),
-              ::testing::ExitedWithCode(1),
-              "Undeclared variable 'foo'");
-}
-
-TEST_F(IdentifierTest, getTypeTest) {
-  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable("foo",
-                                                                PrimitiveTypes::INT_TYPE,
-                                                                NULL);
-  mContext.getScopes().setVariable(variable);
-  Identifier identifier("foo");
-
-  EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
-}
-
-TEST_F(IdentifierTest, generateIRTest) {
+TEST_F(IdentifierTest, generateIRForPrimitiveVariableTest) {
   NiceMock<MockVariable> mockVariable;
   ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
   ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
@@ -95,17 +60,86 @@ TEST_F(IdentifierTest, generateIRTest) {
   identifier.generateIR(mContext, IR_GENERATION_NORMAL);
 }
 
-TEST_F(IdentifierTest, generateIRWithOwnershipReleaseTest) {
-  NiceMock<MockOwnerVariable> mockVariable;
-  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
-  ON_CALL(mockVariable, getType()).WillByDefault(Return(mInterface->getOwner()));
-  mContext.getScopes().setVariable(&mockVariable);
+TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
   Identifier identifier("foo");
-  
-  EXPECT_EQ(mContext.getScopes().getVariable("foo"), &mockVariable);
-  EXPECT_CALL(mockVariable, setToNull(_));
 
-  identifier.generateIR(mContext, IR_GENERATION_RELEASE);
+  EXPECT_EXIT(identifier.generateIR(mContext, IR_GENERATION_NORMAL),
+              ::testing::ExitedWithCode(1),
+              "Undeclared variable 'foo'");
+}
+
+TEST_F(IdentifierTest, generateIRForObjectOwnerVariableSetToNullTest) {
+  NiceMock<MockOwnerVariable> mockVariable;
+  NiceMock<MockType> mockType;
+  string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
+  StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
+  Value* objectPointer = ConstantPointerNull::get(modelStructType->getPointerTo());
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(&mockType));
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, generateIdentifierIR(_)).WillByDefault(Return(objectPointer));
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(MODEL_OWNER_TYPE));
+  EXPECT_CALL(mockVariable, setToNull(_));
+  mContext.getScopes().setVariable(&mockVariable);
+
+  Identifier identifier("foo");
+  Value* result = identifier.generateIR(mContext, IR_GENERATION_RELEASE);
+
+  EXPECT_EQ(objectPointer, result);
+}
+
+TEST_F(IdentifierTest, generateIRForMethodTest) {
+  NiceMock<MockObjectType> mockObjecType;
+  NiceMock<MockMethodDescriptor> mockMethodDescriptor;
+  NiceMock<MockReferenceVariable> mockVariable;
+  string modelFullName = "systems.vos.wisey.compiler.tests.MObject";
+  StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
+  Value* objectPointer = ConstantPointerNull::get(modelStructType->getPointerTo());
+  ON_CALL(mockObjecType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(&mockObjecType));
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("this"));
+  ON_CALL(mockVariable, generateIdentifierIR(_)).WillByDefault(Return(objectPointer));
+  mContext.setObjectType(&mockObjecType);
+  mContext.getScopes().setVariable(&mockVariable);
+
+  Identifier identifier("foo");
+  Value* result = identifier.generateIR(mContext, IR_GENERATION_NORMAL);
+  
+  EXPECT_EQ(objectPointer, result);
+}
+
+TEST_F(IdentifierTest, getTypeForMethodTest) {
+  NiceMock<MockObjectType> mockObjecType;
+  NiceMock<MockMethodDescriptor> mockMethodDescriptor;
+  NiceMock<MockReferenceVariable> mockVariable;
+  ON_CALL(mockObjecType, findMethod("foo")).WillByDefault(Return(&mockMethodDescriptor));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(&mockObjecType));
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("this"));
+  mContext.setObjectType(&mockObjecType);
+  mContext.getScopes().setVariable(&mockVariable);
+  
+  Identifier identifier("foo");
+  const IType* type = identifier.getType(mContext);
+  
+  EXPECT_EQ(&mockMethodDescriptor, type);
+}
+
+TEST_F(IdentifierTest, getTypeForPrimitiveVariableTest) {
+  NiceMock<MockVariable> mockVariable;
+  ON_CALL(mockVariable, getName()).WillByDefault(Return("foo"));
+  ON_CALL(mockVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  mContext.getScopes().setVariable(&mockVariable);
+  
+  Identifier identifier("foo");
+
+  EXPECT_EQ(identifier.getType(mContext), PrimitiveTypes::INT_TYPE);
+}
+
+TEST_F(IdentifierTest, getTypeForUndefinedTypeTest) {
+  Identifier identifier("wisey");
+  
+  const IType* type = identifier.getType(mContext);
+  
+  EXPECT_EQ(UndefinedType::UNDEFINED_TYPE, type);
 }
 
 TEST_F(IdentifierTest, isConstantTest) {

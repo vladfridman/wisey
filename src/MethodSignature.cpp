@@ -92,6 +92,10 @@ Value* MethodSignature::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+const IObjectType* MethodSignature::getObjectType() const {
+  return mObjectType;
+}
+
 void MethodSignature::printToStream(IRGenerationContext& context, iostream& stream) const {
   IMethodDescriptor::printDescriptorToStream(this, stream);
 }

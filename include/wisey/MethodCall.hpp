@@ -22,13 +22,12 @@ class MethodCall : public IMethodCall {
   const unsigned int VTABLE_METHODS_OFFSET = 3;
   
   IExpression* mExpression;
-  std::string mMethodName;
   ExpressionList mArguments;
   int mLine;
   
 public:
   
-  MethodCall(IExpression* expression, std::string methodName, ExpressionList arguments, int line);
+  MethodCall(IExpression* expression, ExpressionList arguments, int line);
   
   ~MethodCall();
   
@@ -51,10 +50,6 @@ public:
 
 private:
 
-  bool checkAccess(IRGenerationContext& context,
-                   const IObjectType* object,
-                   IMethodDescriptor* methodDescriptor) const;
-  
   llvm::Value* generateStaticMethodCallIR(IRGenerationContext& context,
                                           const IObjectType* objectType,
                                           IMethodDescriptor* methodDescriptor,
@@ -70,15 +65,6 @@ private:
                                              IMethodDescriptor* methodDescriptor,
                                              IRGenerationFlag flag) const;
   
-  llvm::Function* getMethodFunction(IRGenerationContext& context,
-                                    const IObjectType* object) const;
-  
-  llvm::Value* generateExpressionIR(IRGenerationContext& context) const;
-  
-  const IObjectType* getObjectWithMethods(IRGenerationContext& context) const;
-  
-  IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
-  
   void checkArgumentType(const IObjectType* objectWithMethods,
                          IMethodDescriptor* methodDescriptor,
                          IRGenerationContext& context) const;
@@ -89,7 +75,12 @@ private:
                                   IMethodDescriptor* methodDescriptor,
                                   std::vector<llvm::Value*> arguments,
                                   IRGenerationFlag flag) const;
+  
+  llvm::Function* getMethodFunction(IRGenerationContext& context,
+                                    IMethodDescriptor* methodDescriptor) const;
 
+  IMethodDescriptor* getMethodDescriptor(IRGenerationContext& context) const;
+  
 };
 
 } /* namespace wisey */
