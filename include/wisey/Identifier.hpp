@@ -35,10 +35,10 @@ public:
   Identifier(const std::string& name);
   
   ~Identifier();
-  
-  IVariable* getVariable(IRGenerationContext& context) const override;
 
-  const std::string& getName() const;
+  const std::string& getIdentifierName() const;
+
+  IVariable* getVariable(IRGenerationContext& context) const override;
   
   llvm::Value* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   

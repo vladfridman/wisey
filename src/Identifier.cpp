@@ -22,7 +22,7 @@ IVariable* Identifier::getVariable(IRGenerationContext& context) const {
   return context.getScopes().getVariable(mName);
 }
 
-const string& Identifier::getName() const {
+const string& Identifier::getIdentifierName() const {
   return mName;
 }
 

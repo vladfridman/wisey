@@ -21,7 +21,7 @@ vector<MethodArgument*> IMethodDeclaration::createArgumnetList(IRGenerationConte
        iterator != argumentDefinitions.end();
        iterator++) {
     const IType* type = (**iterator).getTypeSpecifier()->getType(context);
-    string name = (**iterator).getIdentifier()->getName();
+    string name = (**iterator).getIdentifier()->getIdentifierName();
     MethodArgument* methodArgument = new MethodArgument(type, name);
     arguments.push_back(methodArgument);
   }

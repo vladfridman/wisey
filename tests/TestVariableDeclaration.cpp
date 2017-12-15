@@ -79,8 +79,8 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithoutAssignmentTest) {
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca i32"
-  "\n  store i32 0, i32* %foo\n";
+  "\n  %0 = alloca i32"
+  "\n  store i32 0, i32* %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -103,12 +103,12 @@ TEST_F(VariableDeclarationTest, stackVariableDeclarationWithAssignmentTest) {
 
   BasicBlock::iterator iterator = mBlock->begin();
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  %foo = alloca i32");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  %0 = alloca i32");
   iterator++;
   mStringBuffer.clear();
   
   *mStringStream << *iterator;
-  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %foo");
+  EXPECT_STREQ(mStringStream->str().c_str(), "  store i32 5, i32* %0");
   mStringBuffer.clear();
   delete declaration;
 }

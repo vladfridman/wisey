@@ -6,6 +6,8 @@
 //  Copyright © 2016 Vladimir Fridman. All rights reserved.
 //
 
+#include <sstream>
+
 #include "wisey/Assignment.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -23,13 +25,13 @@ Assignment::~Assignment() {
 }
 
 IVariable* Assignment::getVariable(IRGenerationContext& context) const {
-  return context.getScopes().getVariable(mIdentifier->getName());
+  return mIdentifier->getVariable(context);
 }
 
 Value* Assignment::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
-  IVariable* variable = context.getScopes().getVariable(mIdentifier->getName());
+  IVariable* variable = mIdentifier->getVariable(context);
   if (variable == NULL) {
-    Log::e("Undeclared variable '" + mIdentifier->getName() + "'");
+    Log::e("Undeclared variable '" + mIdentifier->getIdentifierName() + "'");
     exit(1);
   }
   

@@ -72,7 +72,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     return NULL;
   }
   
-  IVariable* variable = IVariable::getVariable(context, mIdentifier->getName());
+  IVariable* variable = mIdentifier->getVariable(context);
   variable->generateAssignmentIR(context, mAssignmentExpression, mLine);
   
   return NULL;
@@ -81,9 +81,9 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
 void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
                                             const IPrimitiveType* type) const {
   Type* llvmType = type->getLLVMType(context);
-  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mIdentifier->getName());
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
 
-  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(mIdentifier->getName(),
+  LocalPrimitiveVariable* variable = new LocalPrimitiveVariable(mIdentifier->getIdentifierName(),
                                                                 type,
                                                                 alloc);
   context.getScopes().setVariable(variable);
@@ -117,15 +117,15 @@ void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
 void VariableDeclaration::allocateArray(IRGenerationContext& context,
                                         const wisey::ArrayType* type) const {
   Type* llvmType = type->getLLVMType(context);
-  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, mIdentifier->getName());
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
-  LocalArrayVariable* variable = new LocalArrayVariable(mIdentifier->getName(), type, alloc);
+  LocalArrayVariable* variable = new LocalArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
   context.getScopes().setVariable(variable);
 }
 
 void VariableDeclaration::allocateOwner(IRGenerationContext& context,
                                         const IObjectOwnerType* type) const {
-  string variableName = mIdentifier->getName();
+  string variableName = mIdentifier->getIdentifierName();
   PointerType* llvmType = type->getLLVMType(context);
   
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "ownerDeclaration");
@@ -137,7 +137,7 @@ void VariableDeclaration::allocateOwner(IRGenerationContext& context,
 
 void VariableDeclaration::allocateReference(IRGenerationContext& context,
                                             const IObjectType* type) const {
-  string variableName = mIdentifier->getName();
+  string variableName = mIdentifier->getIdentifierName();
   PointerType* llvmType = (PointerType*) type->getLLVMType(context);
 
   Value* alloca = IRWriter::newAllocaInst(context, llvmType, "referenceDeclaration");

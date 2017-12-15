@@ -900,11 +900,6 @@ access_specifier
   | TPRIVATE { $$ = AccessLevel::PRIVATE_ACCESS; }
   ;
 
-identifier
-  : TIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
-  | TFIELDIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
-  ;
-
 constant_value
   : TCHAR { $$ = new CharConstant($1->c_str()[1]); delete $1; }
   | TINTEGER { $$ = new IntConstant(atol($1->c_str())); delete $1; }
@@ -943,9 +938,13 @@ static_method_call
     }
   ;
 
+identifier
+  : TIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
+  | TFIELDIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
+  ;
+
 primary_expression
-  : TFIELDIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
-  | TIDENTIFIER { $$ = new Identifier(*$1); delete $1; }
+  : identifier { $$ = (IExpression*) $1; }
   | constant_value
   | constant_reference
   | string_literal
