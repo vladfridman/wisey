@@ -19,13 +19,13 @@ namespace wisey {
  * Represents an assignment expression
  */
 class Assignment : public IExpression {
-  Identifier* mIdentifier;
+  IExpression* mIdentifier;
   IExpression* mExpression;
   int mLine;
   
 public:
 
-  Assignment(Identifier* identifier, IExpression* expression, int line);
+  Assignment(IExpression* identifier, IExpression* expression, int line);
 
   ~Assignment();
   

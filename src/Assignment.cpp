@@ -16,7 +16,7 @@
 using namespace llvm;
 using namespace wisey;
 
-Assignment::Assignment(Identifier* identifier, IExpression* expression, int line)
+Assignment::Assignment(IExpression* identifier, IExpression* expression, int line)
 : mIdentifier(identifier), mExpression(expression), mLine(line) { }
 
 Assignment::~Assignment() {
@@ -31,7 +31,9 @@ IVariable* Assignment::getVariable(IRGenerationContext& context) const {
 Value* Assignment::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   IVariable* variable = mIdentifier->getVariable(context);
   if (variable == NULL) {
-    Log::e("Undeclared variable '" + mIdentifier->getIdentifierName() + "'");
+    std::stringstream stringStream;
+    mIdentifier->printToStream(context, stringStream);
+    Log::e("Undeclared variable '" + stringStream.str() + "'");
     exit(1);
   }
   
