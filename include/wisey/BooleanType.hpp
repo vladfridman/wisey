@@ -17,12 +17,14 @@ namespace wisey {
  * Represents char expression type
  */
 class BooleanType : public IPrimitiveType {
-    
+  
+  const ArrayElementType* mArrayElementType;
+  
 public:
   
-  BooleanType() { }
+  BooleanType();
   
-  ~BooleanType() { }
+  ~BooleanType();
   
   std::string getTypeName() const override;
   
@@ -40,6 +42,8 @@ public:
                       int line) const override;
   
   std::string getFormat() const override;
+  
+  const ArrayElementType* getArrayElementType() const override;
 
 };
 

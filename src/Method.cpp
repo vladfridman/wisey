@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/Cleanup.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
@@ -41,9 +42,12 @@ mArguments(arguments),
 mThrownExceptions(thrownExceptions),
 mCompoundStatement(compoundStatement),
 mFunction(NULL),
-mLine(line) { }
+mLine(line),
+mArrayElementType(new ArrayElementType(this)) {
+}
 
 Method::~Method() {
+  delete mArrayElementType;
   for (MethodArgument* argument : mArguments) {
     delete argument;
   }
@@ -106,6 +110,10 @@ Function* Method::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   
   return mFunction;
+}
+
+const ArrayElementType* Method::getArrayElementType() const {
+  return mArrayElementType;
 }
 
 void Method::generateIR(IRGenerationContext& context) const {

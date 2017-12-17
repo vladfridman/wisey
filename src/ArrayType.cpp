@@ -8,15 +8,18 @@
 
 #include <llvm/IR/DerivedTypes.h>
 
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/ArrayType.hpp"
 
 using namespace std;
 using namespace wisey;
 
-ArrayType::ArrayType(const IType* baseType, unsigned long size) : mBaseType(baseType), mSize(size) {
+ArrayType::ArrayType(const IType* baseType, unsigned long size) :
+mBaseType(baseType), mSize(size), mArrayElementType(new ArrayElementType(this)) {
 }
 
 ArrayType::~ArrayType() {
+  delete mArrayElementType;
 }
 
 const IType* ArrayType::getBaseType() const {
@@ -56,4 +59,8 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
   }
   
   return NULL;
+}
+
+const ArrayElementType* ArrayType::getArrayElementType() const {
+  return mArrayElementType;
 }

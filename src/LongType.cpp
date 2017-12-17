@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/LongType.hpp"
@@ -14,6 +15,13 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
+
+LongType::LongType() : mArrayElementType(new ArrayElementType(this)) {
+}
+
+LongType::~LongType() {
+  delete mArrayElementType;
+}
 
 string LongType::getTypeName() const {
   return "long";
@@ -63,3 +71,8 @@ Value* LongType::castTo(IRGenerationContext& context,
 string LongType::getFormat() const {
   return "%d";
 }
+
+const ArrayElementType* LongType::getArrayElementType() const {
+  return mArrayElementType;
+}
+

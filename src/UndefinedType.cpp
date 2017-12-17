@@ -9,13 +9,21 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/UndefinedType.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
+
+UndefinedType::UndefinedType() {
+}
+
+UndefinedType::~UndefinedType() {
+}
 
 string UndefinedType::getTypeName() const {
   return "undefined";
@@ -42,6 +50,11 @@ Value* UndefinedType::castTo(IRGenerationContext& context,
                         const IType* toType,
                         int line) const {
   return NULL;
+}
+
+const ArrayElementType* UndefinedType::getArrayElementType() const {
+  Log::e("Should not be getting array element type of undefined type");
+  exit(1);
 }
 
 UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();

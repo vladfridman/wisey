@@ -9,7 +9,8 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run() {
-    MCar*[5][10] array;
+    MCar[5][10] array;
+    MCar a = array[0][0];
 
     return 7;
   }

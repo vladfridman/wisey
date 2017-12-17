@@ -27,7 +27,8 @@ class ExternalMethod : public IMethod {
   const IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
   std::vector<const Model*> mThrownExceptions;
-  
+  const ArrayElementType* mArrayElementType;
+
 public:
   
   ExternalMethod(const IObjectType* objectType,
@@ -70,6 +71,8 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
+
+  const ArrayElementType* getArrayElementType() const override;
 
   const IObjectType* getObjectType() const override;
 

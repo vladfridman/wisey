@@ -20,6 +20,7 @@ class ArrayType : public IType {
   
   const IType* mBaseType;
   unsigned long mSize;
+  const ArrayElementType* mArrayElementType;
   
 public:
   
@@ -52,6 +53,8 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  const ArrayElementType* getArrayElementType() const override;
+
 };
   
 }

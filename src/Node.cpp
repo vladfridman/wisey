@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -26,12 +27,14 @@ mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
-mIsInner(false) {
-  mNodeOwner = new NodeOwner(this);
+mIsInner(false),
+mNodeOwner(new NodeOwner(this)),
+mArrayElementType(new ArrayElementType(this)) {
 }
 
 Node::~Node() {
   delete mNodeOwner;
+  delete mArrayElementType;
   for(Field* field : mFieldsOrdered) {
     delete field;
   }
@@ -201,6 +204,10 @@ Value* Node::castTo(IRGenerationContext& context,
                     const IType* toType,
                     int line) const {
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
+}
+
+const ArrayElementType* Node::getArrayElementType() const {
+  return mArrayElementType;
 }
 
 string Node::getVTableName() const {

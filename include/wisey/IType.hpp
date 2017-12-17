@@ -17,6 +17,7 @@
 namespace wisey {
 
 class IRGenerationContext;
+class ArrayElementType;
   
 /**
  * Lists possible data type kinds
@@ -24,6 +25,7 @@ class IRGenerationContext;
 typedef enum TypeKindEnum {
   PRIMITIVE_TYPE,
   ARRAY_TYPE,
+  ARRAY_ELEMENT_TYPE,
   FUNCTION_TYPE,
   PACKAGE_TYPE,
   INTERFACE_TYPE,
@@ -81,6 +83,11 @@ public:
                               int line) const = 0;
   
   /**
+   * Returns an ArrayElementType with the base type as this type
+   */
+  virtual const ArrayElementType* getArrayElementType() const = 0;
+  
+  /**
    * Tells whether the given type is an owner type
    */
   static bool isOwnerType(const IType* type);
@@ -94,6 +101,7 @@ public:
    * Tells whether the given type is a concrete object type such as model, node or controller
    */
   static bool isConcreteObjectType(const IType* type);
+  
 };
 
 } /* namespace wisey */

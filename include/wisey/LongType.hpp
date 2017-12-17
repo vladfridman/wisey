@@ -18,11 +18,13 @@ namespace wisey {
  */
 class LongType : public IPrimitiveType {
   
+  const ArrayElementType* mArrayElementType;
+
 public:
   
-  LongType() { }
+  LongType();
   
-  ~LongType() { }
+  ~LongType();
   
   std::string getTypeName() const override;
   
@@ -41,6 +43,8 @@ public:
   
   std::string getFormat() const override;
   
+  const ArrayElementType* getArrayElementType() const override;
+
 };
   
 } /* namespace wisey */

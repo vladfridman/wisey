@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -13,9 +14,13 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ControllerOwner::ControllerOwner(Controller* controller) : mController(controller) { }
+ControllerOwner::ControllerOwner(Controller* controller) :
+mController(controller), mArrayElementType(new ArrayElementType(this)) {
+}
 
-ControllerOwner::~ControllerOwner() { }
+ControllerOwner::~ControllerOwner() {
+  delete mArrayElementType;
+}
 
 Controller* ControllerOwner::getObject() const {
   return mController;
@@ -62,6 +67,10 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
   }
   
   return mController->castTo(context, fromValue, toType, line);
+}
+
+const ArrayElementType* ControllerOwner::getArrayElementType() const {
+  return mArrayElementType;
 }
 
 void ControllerOwner::free(IRGenerationContext& context, Value* value) const {

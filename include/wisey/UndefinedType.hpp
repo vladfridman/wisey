@@ -20,9 +20,9 @@ class UndefinedType : public IType {
     
 public:
   
-  UndefinedType() { }
+  UndefinedType();
   
-  ~UndefinedType() { }
+  ~UndefinedType();
   
   std::string getTypeName() const override;
   
@@ -39,6 +39,8 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  const ArrayElementType* getArrayElementType() const override;
+
   static UndefinedType* UNDEFINED_TYPE;
   
 };

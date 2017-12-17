@@ -41,6 +41,8 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  const ArrayElementType* getArrayElementType() const override;
+
 };
 
 } /* namespace wisey */

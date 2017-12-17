@@ -6,6 +6,7 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/Cleanup.hpp"
 #include "wisey/CompoundStatement.hpp"
 #include "wisey/EmptyStatement.hpp"
@@ -39,9 +40,13 @@ mArguments(arguments),
 mThrownExceptions(thrownExceptions),
 mCompoundStatement(compoundStatement),
 mFunction(NULL),
-mLine(line) { }
+mLine(line),
+mArrayElementType(new ArrayElementType(this)) {
+}
+
 
 StaticMethod::~StaticMethod() {
+  delete mArrayElementType;
   for (MethodArgument* argument : mArguments) {
     delete argument;
   }
@@ -98,6 +103,10 @@ Value* StaticMethod::castTo(IRGenerationContext& context,
                             const IType* toType,
                             int line) const {
   return NULL;
+}
+
+const ArrayElementType* StaticMethod::getArrayElementType() const {
+  return mArrayElementType;
 }
 
 Function* StaticMethod::defineFunction(IRGenerationContext& context) {

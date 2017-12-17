@@ -17,12 +17,14 @@ namespace wisey {
  * Represents float expression type
  */
 class FloatType : public IPrimitiveType {
-    
+  
+  const ArrayElementType* mArrayElementType;
+
 public:
   
-  FloatType() { }
+  FloatType();
   
-  ~FloatType() { }
+  ~FloatType();
   
   std::string getTypeName() const override;
 
@@ -41,6 +43,8 @@ public:
   
   std::string getFormat() const override;
   
+  const ArrayElementType* getArrayElementType() const override;
+
 };
   
 } /* namespace wisey */

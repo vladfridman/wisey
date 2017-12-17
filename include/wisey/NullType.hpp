@@ -20,9 +20,9 @@ class NullType : public IType {
     
 public:
   
-  NullType() { }
+  NullType();
   
-  ~NullType() { }
+  ~NullType();
   
   std::string getTypeName() const override;
   
@@ -39,7 +39,10 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  const ArrayElementType* getArrayElementType() const override;
+
   static NullType* NULL_TYPE;
+
 };
   
 } /* namespace wisey */

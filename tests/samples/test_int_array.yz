@@ -6,6 +6,7 @@ controller CProgram implements IProgram {
 
   public int run() {
     int[5][10] array;
+    int a = array[0][0];
 
     return 5;
   }

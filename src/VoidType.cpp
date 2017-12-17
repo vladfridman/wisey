@@ -8,12 +8,19 @@
 
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/VoidType.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
+
+VoidType::VoidType() {
+}
+
+VoidType::~VoidType() {
+}
 
 string VoidType::getTypeName() const {
   return "void";
@@ -52,6 +59,11 @@ Value* VoidType::castTo(IRGenerationContext& context,
   }
   Cast::exitIncompatibleTypes(this, toType);
   return NULL;
+}
+
+const ArrayElementType* VoidType::getArrayElementType() const {
+  Log::e("Should not be getting array element type of void type");
+  exit(1);
 }
 
 string VoidType::getFormat() const {

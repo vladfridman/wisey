@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Controller.hpp"
@@ -32,12 +33,14 @@ mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
-mIsInner(false) {
-  mControllerOwner = new ControllerOwner(this);
+mIsInner(false),
+mControllerOwner(new ControllerOwner(this)),
+mArrayElementType(new ArrayElementType(this)) {
 }
 
 Controller::~Controller() {
   delete mControllerOwner;
+  delete mArrayElementType;
   for(Field* field : mFieldsOrdered) {
     delete field;
   }
@@ -300,6 +303,10 @@ Value* Controller::castTo(IRGenerationContext& context,
                           const IType* toType,
                           int line) const {
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
+}
+
+const ArrayElementType* Controller::getArrayElementType() const {
+  return mArrayElementType;
 }
 
 void Controller::initializeReceivedFields(IRGenerationContext& context,

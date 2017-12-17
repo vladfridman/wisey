@@ -18,6 +18,7 @@
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/ArrayElementExpression.hpp"
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -93,8 +94,7 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   
   EXPECT_STREQ("\nentry:"
                "\n  %0 = alloca [5 x i32]"
-               "\n  %1 = getelementptr [5 x i32], [5 x i32]* %0, i32 0, i32 3"
-               "\n  %2 = load i32, i32* %1\n",
+               "\n  %1 = getelementptr [5 x i32], [5 x i32]* %0, i32 0, i32 3\n",
                mStringStream->str().c_str());
 }
 
@@ -103,7 +103,8 @@ TEST_F(ArrayElementExpressionTest, isConstantTest) {
 }
 
 TEST_F(ArrayElementExpressionTest, getTypeTest) {
-  EXPECT_EQ(mArrayElementExpression->getType(mContext), mArrayType->getBaseType());
+  EXPECT_EQ(mArrayType->getBaseType()->getArrayElementType(),
+            mArrayElementExpression->getType(mContext));
 }
 
 TEST_F(ArrayElementExpressionTest, printToStreamTest) {

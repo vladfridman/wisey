@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayElementExpression.hpp"
+#include "wisey/ArrayElementType.hpp"
 #include "wisey/IType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -51,12 +52,8 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   Value* index[2];
   index[0] = ConstantInt::get(indexType, 0);
   index[1] = arrayIndexValue;
-  Value* pointer = IRWriter::createGetElementPtrInst(context, arrayExpressionValue, index);
-  const wisey::ArrayType* arrayType = (const wisey::ArrayType*) arrayExpressionType;
-  if (arrayType->getBaseType()->getTypeKind() == PRIMITIVE_TYPE) {
-    return IRWriter::newLoadInst(context, pointer, "");
-  }
-  return pointer;
+
+  return IRWriter::createGetElementPtrInst(context, arrayExpressionValue, index);
 }
 
 IVariable* ArrayElementExpression::getVariable(IRGenerationContext& context) const {
@@ -75,8 +72,8 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
   }
   
   const wisey::ArrayType* arrayType = (const wisey::ArrayType*) arrayExpressionType;
-
-  return arrayType->getBaseType();
+  const IType* baseType = arrayType->getBaseType();
+  return baseType->getTypeKind() == ARRAY_TYPE ? baseType : baseType->getArrayElementType();
 }
 
 void ArrayElementExpression::printToStream(IRGenerationContext& context, iostream& stream) const {

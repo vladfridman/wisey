@@ -17,12 +17,14 @@ namespace wisey {
  * Represents char expression type
  */
 class CharType : public IPrimitiveType {
-  
+
+  const ArrayElementType* mArrayElementType;
+
 public:
   
-  CharType() { }
+  CharType();
   
-  ~CharType() { }
+  ~CharType();
   
   std::string getTypeName() const override;
   
@@ -41,6 +43,8 @@ public:
   
   std::string getFormat() const override;
   
+  const ArrayElementType* getArrayElementType() const override;
+
 };
 
 } /* namespace wisey */

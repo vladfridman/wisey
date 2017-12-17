@@ -19,7 +19,8 @@ namespace wisey {
 class InterfaceOwner : public IObjectOwnerType {
   
   Interface* mInterface;
-  
+  const ArrayElementType* mArrayElementType;
+
 public:
   
   InterfaceOwner(Interface* interface);
@@ -45,6 +46,8 @@ public:
                       const IType* toType,
                       int line) const override;
 
+  const ArrayElementType* getArrayElementType() const override;
+  
 };
   
 } /* namespace wisey */

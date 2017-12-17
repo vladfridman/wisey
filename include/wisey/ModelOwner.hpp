@@ -19,7 +19,8 @@ namespace wisey {
 class ModelOwner : public IObjectOwnerType {
 
   Model* mModel;
-  
+  const ArrayElementType* mArrayElementType;
+
 public:
   
   ModelOwner(Model* model);
@@ -44,6 +45,8 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
+
+  const ArrayElementType* getArrayElementType() const override;
 
 };
   

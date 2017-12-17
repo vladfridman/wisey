@@ -20,7 +20,8 @@ namespace wisey {
 class ControllerOwner : public IObjectOwnerType {
   
   Controller* mController;
-  
+  const ArrayElementType* mArrayElementType;
+
 public:
   
   ControllerOwner(Controller* controller);
@@ -45,6 +46,8 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
+
+  const ArrayElementType* getArrayElementType() const override;
 
 };
   

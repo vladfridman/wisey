@@ -33,6 +33,7 @@ class Node : public IBuildableConcreteObjectType {
   bool mIsExternal;
   bool mIsInner;
   NodeOwner* mNodeOwner;
+  const ArrayElementType* mArrayElementType;
   std::vector<Field*> mFixedFields;
   std::vector<Field*> mStateFields;
   std::map<std::string, Field*> mFields;
@@ -116,7 +117,9 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
-  
+ 
+  const ArrayElementType* getArrayElementType() const override;
+
   std::string getVTableName() const override;
   
   unsigned long getVTableSize() const override;
