@@ -37,6 +37,7 @@ mIsInner(false) {
 }
 
 Controller::~Controller() {
+  delete mControllerOwner;
   for(Field* field : mFieldsOrdered) {
     delete field;
   }

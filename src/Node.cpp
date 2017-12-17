@@ -31,6 +31,7 @@ mIsInner(false) {
 }
 
 Node::~Node() {
+  delete mNodeOwner;
   for(Field* field : mFieldsOrdered) {
     delete field;
   }

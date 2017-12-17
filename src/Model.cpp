@@ -32,6 +32,7 @@ mIsInner(false) {
 }
 
 Model::~Model() {
+  delete mModelOwner;
   for(Field* field : mFieldsOrdered) {
     delete field;
   }

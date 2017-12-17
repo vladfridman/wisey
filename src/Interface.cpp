@@ -53,6 +53,7 @@ mElementDeclarations(elementDelcarations),
 mIsComplete(false) { }
 
 Interface::~Interface() {
+  delete mInterfaceOwner;
   mParentInterfaces.clear();
   for (MethodSignature* methodSignature : mMethodSignatures) {
     delete methodSignature;
