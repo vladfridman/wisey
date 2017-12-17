@@ -62,6 +62,7 @@ TEST_F(BooleanTypeTest, booleanTypeTest) {
 
 TEST_F(BooleanTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mBoleanType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mBoleanType.canAutoCastTo(PrimitiveTypes::STRING_TYPE));
   EXPECT_TRUE(mBoleanType.canAutoCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mBoleanType.canAutoCastTo(PrimitiveTypes::CHAR_TYPE));
   EXPECT_TRUE(mBoleanType.canAutoCastTo(PrimitiveTypes::INT_TYPE));
@@ -72,6 +73,7 @@ TEST_F(BooleanTypeTest, canAutoCastToTest) {
 
 TEST_F(BooleanTypeTest, canCastTest) {
   EXPECT_FALSE(mBoleanType.canCastTo(PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mBoleanType.canCastTo(PrimitiveTypes::STRING_TYPE));
   EXPECT_TRUE(mBoleanType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mBoleanType.canCastTo(PrimitiveTypes::CHAR_TYPE));
   EXPECT_TRUE(mBoleanType.canCastTo(PrimitiveTypes::INT_TYPE));

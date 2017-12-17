@@ -62,6 +62,7 @@ TEST_F(LongTypeTest, longTypeTest) {
 
 TEST_F(LongTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::STRING_TYPE));
   EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::CHAR_TYPE));
   EXPECT_FALSE(mLongType.canAutoCastTo(PrimitiveTypes::INT_TYPE));
@@ -72,6 +73,7 @@ TEST_F(LongTypeTest, canAutoCastToTest) {
 
 TEST_F(LongTypeTest, canCastTest) {
   EXPECT_FALSE(mLongType.canCastTo(PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mLongType.canCastTo(PrimitiveTypes::STRING_TYPE));
   EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::CHAR_TYPE));
   EXPECT_TRUE(mLongType.canCastTo(PrimitiveTypes::INT_TYPE));

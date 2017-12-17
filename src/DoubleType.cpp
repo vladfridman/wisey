@@ -40,7 +40,7 @@ bool DoubleType::canCastTo(const IType* toType) const {
     return false;
   }
   
-  return toType != PrimitiveTypes::VOID_TYPE;
+  return toType != PrimitiveTypes::VOID_TYPE && toType != PrimitiveTypes::STRING_TYPE;
 }
 
 bool DoubleType::canAutoCastTo(const IType* toType) const {

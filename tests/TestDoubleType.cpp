@@ -62,6 +62,7 @@ TEST_F(DoubleTypeTest, doubleTypeTest) {
 
 TEST_F(DoubleTypeTest, canAutoCastToTest) {
   EXPECT_FALSE(mDoubleType.canAutoCastTo(PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mDoubleType.canAutoCastTo(PrimitiveTypes::STRING_TYPE));
   EXPECT_FALSE(mDoubleType.canAutoCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_FALSE(mDoubleType.canAutoCastTo(PrimitiveTypes::CHAR_TYPE));
   EXPECT_FALSE(mDoubleType.canAutoCastTo(PrimitiveTypes::INT_TYPE));
@@ -72,6 +73,7 @@ TEST_F(DoubleTypeTest, canAutoCastToTest) {
 
 TEST_F(DoubleTypeTest, canCastTest) {
   EXPECT_FALSE(mDoubleType.canCastTo(PrimitiveTypes::VOID_TYPE));
+  EXPECT_FALSE(mDoubleType.canCastTo(PrimitiveTypes::STRING_TYPE));
   EXPECT_TRUE(mDoubleType.canCastTo(PrimitiveTypes::BOOLEAN_TYPE));
   EXPECT_TRUE(mDoubleType.canCastTo(PrimitiveTypes::CHAR_TYPE));
   EXPECT_TRUE(mDoubleType.canCastTo(PrimitiveTypes::INT_TYPE));
