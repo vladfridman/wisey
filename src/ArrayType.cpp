@@ -27,6 +27,12 @@ unsigned long ArrayType::getSize() const {
   return mSize;
 }
 
+const IType* ArrayType::getScalarType() const {
+  return mBaseType->getTypeKind() == ARRAY_TYPE
+  ? ((const ArrayType*) mBaseType)->getScalarType()
+  : mBaseType;
+}
+
 string ArrayType::getTypeName() const {
   return mBaseType->getTypeName() + "[" + to_string(mSize) + "]";
 }

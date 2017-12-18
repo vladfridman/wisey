@@ -392,6 +392,9 @@
 		F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FE1DE5ED0700074D66 /* libcurses.dylib */; };
 		F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
 		F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626021DE5ED3500074D66 /* libm.dylib */; };
+		F54ED9571FE828F900847A2B /* LocalOwnerArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED9561FE828F900847A2B /* LocalOwnerArrayVariable.cpp */; };
+		F54ED9581FE828F900847A2B /* LocalOwnerArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED9561FE828F900847A2B /* LocalOwnerArrayVariable.cpp */; };
+		F54ED95C1FE8302300847A2B /* TestLocalOwnerArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95B1FE8302300847A2B /* TestLocalOwnerArrayVariable.cpp */; };
 		F55134641FDEF2C2001B6C06 /* TestLocalArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55134631FDEF2C2001B6C06 /* TestLocalArrayVariable.cpp */; };
 		F55173D61F99025400613993 /* TestConstantDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F55173D51F99025400613993 /* TestConstantDeclaration.cpp */; };
 		F55496F41E061F8E00DDA2AF /* libLLVMTarget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625E61DE5EB4400074D66 /* libLLVMTarget.a */; };
@@ -1218,6 +1221,9 @@
 		F54625FE1DE5ED0700074D66 /* libcurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurses.dylib; path = /usr/lib/libcurses.dylib; sourceTree = "<absolute>"; };
 		F54626001DE5ED1B00074D66 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
+		F54ED9551FE8288E00847A2B /* LocalOwnerArrayVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalOwnerArrayVariable.hpp; path = include/wisey/LocalOwnerArrayVariable.hpp; sourceTree = "<group>"; };
+		F54ED9561FE828F900847A2B /* LocalOwnerArrayVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalOwnerArrayVariable.cpp; path = src/LocalOwnerArrayVariable.cpp; sourceTree = "<group>"; };
+		F54ED95B1FE8302300847A2B /* TestLocalOwnerArrayVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalOwnerArrayVariable.cpp; path = tests/TestLocalOwnerArrayVariable.cpp; sourceTree = "<group>"; };
 		F55134631FDEF2C2001B6C06 /* TestLocalArrayVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalArrayVariable.cpp; path = tests/TestLocalArrayVariable.cpp; sourceTree = "<group>"; };
 		F55173D51F99025400613993 /* TestConstantDeclaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstantDeclaration.cpp; path = tests/TestConstantDeclaration.cpp; sourceTree = "<group>"; };
 		F55496F61E06280900DDA2AF /* libLLVMGlobalISel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMGlobalISel.a; path = /usr/local/lib/libLLVMGlobalISel.a; sourceTree = "<absolute>"; };
@@ -1962,6 +1968,7 @@
 				F5CE2D431EF6A4CB002ABB85 /* TestIType.cpp */,
 				F53A2C201EF96FEA00E76A9E /* TestIVariable.cpp */,
 				F55134631FDEF2C2001B6C06 /* TestLocalArrayVariable.cpp */,
+				F54ED95B1FE8302300847A2B /* TestLocalOwnerArrayVariable.cpp */,
 				F5A363431F33D08F005880B3 /* TestLocalOwnerVariable.cpp */,
 				F50427AE1E4DD329001CB148 /* TestLocalPrimitiveVariable.cpp */,
 				F50427B01E4DD621001CB148 /* TestLocalReferenceVariable.cpp */,
@@ -2474,6 +2481,7 @@
 				F5A363511F37699B005880B3 /* FieldPrimitiveVariable.hpp */,
 				F5089C991ECD01D9004A1223 /* FieldReferenceVariable.hpp */,
 				F5F3F8D81FDED37F001BA5B9 /* LocalArrayVariable.hpp */,
+				F54ED9551FE8288E00847A2B /* LocalOwnerArrayVariable.hpp */,
 				F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */,
 				F5089C861ECD01D9004A1223 /* LocalPrimitiveVariable.hpp */,
 				F5089C851ECD01D9004A1223 /* LocalReferenceVariable.hpp */,
@@ -2492,6 +2500,7 @@
 				F5A363521F376A23005880B3 /* FieldPrimitiveVariable.cpp */,
 				F50427B31E4E3FA7001CB148 /* FieldReferenceVariable.cpp */,
 				F5F3F8D91FDED3DC001BA5B9 /* LocalArrayVariable.cpp */,
+				F54ED9561FE828F900847A2B /* LocalOwnerArrayVariable.cpp */,
 				F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */,
 				F50427A71E4D226C001CB148 /* LocalPrimitiveVariable.cpp */,
 				F50427AB1E4D2747001CB148 /* LocalReferenceVariable.cpp */,
@@ -3071,10 +3080,12 @@
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
 				F5105FB41FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */,
 				F50FA2A11E269B4700435EEA /* TestCompoundStatement.cpp in Sources */,
+				F54ED9581FE828F900847A2B /* LocalOwnerArrayVariable.cpp in Sources */,
 				F5436DB41FCF72BB003ABF6F /* ModelTypeSpecifierFull.cpp in Sources */,
 				F56AD49D1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
 				F56AD4A21E9F66C40020868C /* IObjectType.cpp in Sources */,
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
+				F54ED95C1FE8302300847A2B /* TestLocalOwnerArrayVariable.cpp in Sources */,
 				F5E6BD0C1F1B7B1600D59444 /* TestFakeExpression.cpp in Sources */,
 				F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */,
 				F5F3F8DB1FDED3DC001BA5B9 /* LocalArrayVariable.cpp in Sources */,
@@ -3169,6 +3180,7 @@
 				F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,
 				F5CB180C1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F57411491E0194E5009809FF /* ReturnVoidStatement.cpp in Sources */,
+				F54ED9571FE828F900847A2B /* LocalOwnerArrayVariable.cpp in Sources */,
 				F519ED771FD8476800BE3FED /* InjectionArgument.cpp in Sources */,
 				F5105FB31FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp in Sources */,
 				F58748341F95143A0088F1E3 /* ThreadExpression.cpp in Sources */,

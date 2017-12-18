@@ -1,11 +1,11 @@
 //
-//  TestLocalArrayVariable.cpp
+//  TestLocalOwnerArrayVariable.cpp
 //  runtests
 //
-//  Created by Vladimir Fridman on 12/11/17.
+//  Created by Vladimir Fridman on 12/18/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link LocalArrayVariable}
+//  Tests {@link LocalOwnerArrayVariable}
 //
 
 #include <gtest/gtest.h>
@@ -20,7 +20,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalArrayVariable.hpp"
+#include "wisey/LocalOwnerArrayVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -33,7 +33,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct LocalArrayVariableTest : public Test {
+struct LocalOwnerArrayVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -41,7 +41,7 @@ struct LocalArrayVariableTest : public Test {
   
 public:
   
-  LocalArrayVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  LocalOwnerArrayVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 3u);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
@@ -54,20 +54,20 @@ public:
     mContext.getScopes().pushScope();
   }
   
-  ~LocalArrayVariableTest() {
+  ~LocalOwnerArrayVariableTest() {
   }
 };
 
-TEST_F(LocalArrayVariableTest, generateIdentifierIRTest) {
+TEST_F(LocalOwnerArrayVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "foo");
-  LocalArrayVariable variable("foo", mArrayType, alloc);
-
+  LocalOwnerArrayVariable variable("foo", mArrayType, alloc);
+  
   EXPECT_EQ(alloc, variable.generateIdentifierIR(mContext));
 }
 
-TEST_F(LocalArrayVariableTest, generateAssignmentIRDeathTest) {
+TEST_F(LocalOwnerArrayVariableTest, generateAssignmentIRDeathTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "foo");
-  LocalArrayVariable variable("foo", mArrayType, alloc);
+  LocalOwnerArrayVariable variable("foo", mArrayType, alloc);
   Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   NiceMock<MockExpression> expression;
   ::Mock::AllowLeak(&expression);
@@ -80,19 +80,7 @@ TEST_F(LocalArrayVariableTest, generateAssignmentIRDeathTest) {
               "Error: Expression does not reference an array element");
 }
 
-TEST_F(TestFileSampleRunner, intArrayRunTest) {
-  runFile("tests/samples/test_int_array.yz", "5");
-}
-
-TEST_F(TestFileSampleRunner, arrayOfModelsRunTest) {
-  runFile("tests/samples/test_array_of_models.yz", "2018");
-}
-
-TEST_F(TestFileSampleRunner, arrayThrowsNullRunDeathTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_array_throws_null.yz",
-                               1,
-                               "",
-                               "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_throws_null.yz:16)\n");
+TEST_F(TestFileSampleRunner, arrayOfModelOwnersRunTest) {
+  runFile("tests/samples/test_array_of_model_owners.yz", "2018");
 }
 

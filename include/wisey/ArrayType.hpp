@@ -37,6 +37,11 @@ public:
    */
   unsigned long getSize() const;
   
+  /**
+   * Returns single array element type
+   */
+  const IType* getScalarType() const;
+  
   std::string getTypeName() const override;
   
   llvm::Type* getLLVMType(IRGenerationContext& context) const override;

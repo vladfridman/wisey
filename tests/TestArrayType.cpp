@@ -34,6 +34,12 @@ TEST_F(ArrayTypeTest, getBaseTypeTest) {
   EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mArrayType->getBaseType());
 }
 
+TEST_F(ArrayTypeTest, getScalarTypeTest) {
+  ArrayType* outerArray = new ArrayType(mArrayType, 3u);
+  EXPECT_EQ(mArrayType, outerArray->getBaseType());
+  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, outerArray->getScalarType());
+}
+
 TEST_F(ArrayTypeTest, getSizeTest) {
   EXPECT_EQ(5u, mArrayType->getSize());
 }
