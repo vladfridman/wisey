@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayElementType.hpp"
-#include "wisey/Log.hpp"
 #include "wisey/PackageType.hpp"
 
 using namespace std;
@@ -45,9 +43,4 @@ Value* PackageType::castTo(IRGenerationContext &context,
                            const wisey::IType* toType,
                            int line) const {
   return NULL;
-}
-
-const ArrayElementType* PackageType::getArrayElementType() const {
-  Log::e("Should not be getting array element type of package type");
-  exit(1);
 }

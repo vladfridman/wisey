@@ -8,7 +8,6 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StringType.hpp"
@@ -16,13 +15,6 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
-
-StringType::StringType() : mArrayElementType(new ArrayElementType(this)) {
-}
-
-StringType::~StringType() {
-  delete mArrayElementType;
-}
 
 string StringType::getTypeName() const {
   return "string";
@@ -58,8 +50,4 @@ Value* StringType::castTo(IRGenerationContext& context,
 
 string StringType::getFormat() const {
   return "%s";
-}
-
-const ArrayElementType* StringType::getArrayElementType() const {
-  return mArrayElementType;
 }

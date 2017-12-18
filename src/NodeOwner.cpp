@@ -6,7 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/NodeOwner.hpp"
 
@@ -14,11 +13,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-NodeOwner::NodeOwner(Node* node) : mNode(node), mArrayElementType(new ArrayElementType(this)) { }
+NodeOwner::NodeOwner(Node* node) : mNode(node) { }
 
-NodeOwner::~NodeOwner() {
-  delete mArrayElementType;
-}
+NodeOwner::~NodeOwner() { }
 
 Node* NodeOwner::getObject() const {
   return mNode;
@@ -65,10 +62,6 @@ Value* NodeOwner::castTo(IRGenerationContext& context,
   }
   
   return mNode->castTo(context, fromValue, toType, line);
-}
-
-const ArrayElementType* NodeOwner::getArrayElementType() const {
-  return mArrayElementType;
 }
 
 void NodeOwner::free(IRGenerationContext &context, Value *value) const {

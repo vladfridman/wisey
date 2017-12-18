@@ -6,7 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/ModelOwner.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -14,13 +13,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ModelOwner::ModelOwner(Model* model) :
-mModel(model), mArrayElementType(new ArrayElementType(this)) {
-}
+ModelOwner::ModelOwner(Model* model) : mModel(model) { }
 
-ModelOwner::~ModelOwner() {
-  delete mArrayElementType;
-}
+ModelOwner::~ModelOwner() { }
 
 Model* ModelOwner::getObject() const {
   return mModel;
@@ -67,10 +62,6 @@ Value* ModelOwner::castTo(IRGenerationContext& context,
   }
 
   return mModel->castTo(context, fromValue, toType, line);
-}
-
-const ArrayElementType* ModelOwner::getArrayElementType() const {
-  return mArrayElementType;
 }
 
 void ModelOwner::free(IRGenerationContext &context, Value* value) const {

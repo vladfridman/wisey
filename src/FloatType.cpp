@@ -6,7 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/FloatType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -15,13 +14,6 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
-
-FloatType::FloatType() : mArrayElementType(new ArrayElementType(this)) {
-}
-
-FloatType::~FloatType() {
-  delete mArrayElementType;
-}
 
 string FloatType::getTypeName() const {
   return "float";
@@ -71,8 +63,4 @@ Value* FloatType::castTo(IRGenerationContext& context,
 
 string FloatType::getFormat() const {
   return "%f";
-}
-
-const ArrayElementType* FloatType::getArrayElementType() const {
-  return mArrayElementType;
 }

@@ -38,7 +38,6 @@ class Interface : public IObjectType, public IInjectable {
   bool mIsExternal;
   bool mIsInner;
   InterfaceOwner* mInterfaceOwner;
-  const ArrayElementType* mArrayElementType;
   std::vector<IInterfaceTypeSpecifier*> mParentInterfaceSpecifiers;
   std::vector<IObjectElementDeclaration *> mElementDeclarations;
   std::vector<Interface*> mParentInterfaces;
@@ -191,9 +190,7 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
-
-  const ArrayElementType* getArrayElementType() const override;
-
+  
   const IObjectOwnerType* getOwner() const override;
   
   bool isExternal() const override;

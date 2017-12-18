@@ -6,7 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/DoubleType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -15,13 +14,6 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
-
-DoubleType::DoubleType() : mArrayElementType(new ArrayElementType(this)) {
-}
-
-DoubleType::~DoubleType() {
-  delete mArrayElementType;
-}
 
 string DoubleType::getTypeName() const {
   return "double";
@@ -71,8 +63,4 @@ Value* DoubleType::castTo(IRGenerationContext& context,
 
 string DoubleType::getFormat() const {
   return "%e";
-}
-
-const ArrayElementType* DoubleType::getArrayElementType() const {
-  return mArrayElementType;
 }

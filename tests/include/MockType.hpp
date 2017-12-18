@@ -29,7 +29,6 @@ public:
                                            llvm::Value*,
                                            const wisey::IType*,
                                            int));
-  MOCK_CONST_METHOD0(getArrayElementType, wisey::ArrayElementType* ());
 };
 
 #endif /* MockType_h */

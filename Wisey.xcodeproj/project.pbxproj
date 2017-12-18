@@ -111,9 +111,6 @@
 		F51942F91FE3C123009C3158 /* UndefinedType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942F71FE3C123009C3158 /* UndefinedType.cpp */; };
 		F51942FB1FE3D7D6009C3158 /* TestIdentifierChain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942FA1FE3D7D6009C3158 /* TestIdentifierChain.cpp */; };
 		F51942FE1FE3F3CF009C3158 /* TestUndefinedType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51942FD1FE3F3CF009C3158 /* TestUndefinedType.cpp */; };
-		F51943011FE6D465009C3158 /* ArrayElementType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51943001FE6D465009C3158 /* ArrayElementType.cpp */; };
-		F51943021FE6D465009C3158 /* ArrayElementType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51943001FE6D465009C3158 /* ArrayElementType.cpp */; };
-		F51943061FE6FE70009C3158 /* TestArrayElementType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51943051FE6FE70009C3158 /* TestArrayElementType.cpp */; };
 		F519ED771FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED761FD8476800BE3FED /* InjectionArgument.cpp */; };
 		F519ED7A1FD8665400BE3FED /* TestInjectionArgument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */; };
@@ -944,9 +941,6 @@
 		F51942FA1FE3D7D6009C3158 /* TestIdentifierChain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIdentifierChain.cpp; path = tests/TestIdentifierChain.cpp; sourceTree = "<group>"; };
 		F51942FC1FE3DF0E009C3158 /* MockMethodDescriptor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = MockMethodDescriptor.hpp; path = tests/include/MockMethodDescriptor.hpp; sourceTree = "<group>"; };
 		F51942FD1FE3F3CF009C3158 /* TestUndefinedType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestUndefinedType.cpp; path = tests/TestUndefinedType.cpp; sourceTree = "<group>"; };
-		F51942FF1FE6D294009C3158 /* ArrayElementType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayElementType.hpp; path = include/wisey/ArrayElementType.hpp; sourceTree = "<group>"; };
-		F51943001FE6D465009C3158 /* ArrayElementType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayElementType.cpp; path = src/ArrayElementType.cpp; sourceTree = "<group>"; };
-		F51943051FE6FE70009C3158 /* TestArrayElementType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayElementType.cpp; path = tests/TestArrayElementType.cpp; sourceTree = "<group>"; };
 		F519ED751FD845EE00BE3FED /* InjectionArgument.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = InjectionArgument.hpp; path = include/wisey/InjectionArgument.hpp; sourceTree = "<group>"; };
 		F519ED761FD8476800BE3FED /* InjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InjectionArgument.cpp; path = src/InjectionArgument.cpp; sourceTree = "<group>"; };
 		F519ED791FD8665400BE3FED /* TestInjectionArgument.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestInjectionArgument.cpp; path = tests/TestInjectionArgument.cpp; sourceTree = "<group>"; };
@@ -1885,7 +1879,6 @@
 				F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */,
 				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
-				F51943051FE6FE70009C3158 /* TestArrayElementType.cpp */,
 				F5F3F8DE1FDEEE47001BA5B9 /* TestArrayType.cpp */,
 				F5F3F8DC1FDEEA71001BA5B9 /* TestArrayTypeSpecifier.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
@@ -2699,7 +2692,6 @@
 			isa = PBXGroup;
 			children = (
 				F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */,
-				F51942FF1FE6D294009C3158 /* ArrayElementType.hpp */,
 				F5F3F8D41FDEC835001BA5B9 /* ArrayType.hpp */,
 				F5F3F8D31FDEC6B1001BA5B9 /* ArrayTypeSpecifier.hpp */,
 			);
@@ -2710,7 +2702,6 @@
 			isa = PBXGroup;
 			children = (
 				F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */,
-				F51943001FE6D465009C3158 /* ArrayElementType.cpp */,
 				F5F3F8D51FDEC95B001BA5B9 /* ArrayType.cpp */,
 				F5F3F8CF1FDEC637001BA5B9 /* ArrayTypeSpecifier.cpp */,
 			);
@@ -2998,7 +2989,6 @@
 				F5F435CC1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp in Sources */,
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
 				F52C665F1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */,
-				F51943061FE6FE70009C3158 /* TestArrayElementType.cpp in Sources */,
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
 				F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
 				F50FA2EC1E2E3B1700435EEA /* LongConstant.cpp in Sources */,
@@ -3038,7 +3028,6 @@
 				F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F53A2C251EFFD0BD00E76A9E /* NodeDefinition.cpp in Sources */,
 				F57085F61E511BAC007D627E /* TestFieldReferenceVariable.cpp in Sources */,
-				F51943021FE6D465009C3158 /* ArrayElementType.cpp in Sources */,
 				F592A7C51F7D8EAE0026BD2F /* IMethodDeclaration.cpp in Sources */,
 				F5C6FD6D1E48B37D0054209D /* TestVoidType.cpp in Sources */,
 				F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
@@ -3213,7 +3202,6 @@
 				F531B65A1E0DE52F008304F3 /* CharConstant.cpp in Sources */,
 				F53A2C451F0298E800E76A9E /* NullType.cpp in Sources */,
 				F57411631E01BBFC009809FF /* Scope.cpp in Sources */,
-				F51943011FE6D465009C3158 /* ArrayElementType.cpp in Sources */,
 				F50427A81E4D226C001CB148 /* LocalPrimitiveVariable.cpp in Sources */,
 				F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */,
 				F5F396D71E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,

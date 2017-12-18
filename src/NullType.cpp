@@ -9,21 +9,13 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/Log.hpp"
 #include "wisey/NullType.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
-
-NullType::NullType() {
-}
-
-NullType::~NullType() {
-}
 
 string NullType::getTypeName() const {
   return "null";
@@ -50,11 +42,6 @@ Value* NullType::castTo(IRGenerationContext& context,
                         const IType* toType,
                         int line) const {
   return ConstantExpr::getNullValue(toType->getLLVMType(context));
-}
-
-const ArrayElementType* NullType::getArrayElementType() const {
-  Log::e("Should not be getting array element type of null type");
-  exit(1);
 }
 
 NullType* NullType::NULL_TYPE = new NullType();

@@ -33,7 +33,6 @@ class Model : public IBuildableConcreteObjectType {
   bool mIsExternal;
   bool mIsInner;
   ModelOwner* mModelOwner;
-  const ArrayElementType* mArrayElementType;
   std::map<std::string, Field*> mFields;
   std::vector<Field*> mFieldsOrdered;
   std::map<Field*, unsigned long> mFieldIndexes;
@@ -135,9 +134,7 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
-
-  const ArrayElementType* getArrayElementType() const override;
-
+  
   std::string getVTableName() const override;
   
   unsigned long getVTableSize() const override;

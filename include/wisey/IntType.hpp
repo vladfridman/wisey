@@ -18,13 +18,11 @@ namespace wisey {
  */
 class IntType : public IPrimitiveType {
   
-  const ArrayElementType* mArrayElementType;
-
 public:
   
-  IntType();
+  IntType() { }
   
-  ~IntType();
+  ~IntType() { }
   
   std::string getTypeName() const override;
   
@@ -43,8 +41,6 @@ public:
   
   std::string getFormat() const override;
   
-  const ArrayElementType* getArrayElementType() const override;
-
 };
   
 } /* namespace wisey */

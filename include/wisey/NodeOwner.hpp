@@ -20,8 +20,7 @@ namespace wisey {
 class NodeOwner : public IObjectOwnerType {
     
   Node* mNode;
-  const ArrayElementType* mArrayElementType;
-
+  
 public:
   
   NodeOwner(Node* node);
@@ -47,8 +46,6 @@ public:
                       const IType* toType,
                       int line) const override;
   
-  const ArrayElementType* getArrayElementType() const override;
-
 };
   
 } /* namespace wisey */

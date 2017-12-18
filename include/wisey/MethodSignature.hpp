@@ -24,7 +24,6 @@ class MethodSignature : public IMethodDescriptor, public IObjectElement {
   const IType* mReturnType;
   std::vector<MethodArgument*> mArguments;
   std::vector<const Model*> mThrownExceptions;
-  const ArrayElementType* mArrayElementType;
 
 public:
   
@@ -69,9 +68,7 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
-
-  const ArrayElementType* getArrayElementType() const override;
-
+ 
   const IObjectType* getObjectType() const override;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;

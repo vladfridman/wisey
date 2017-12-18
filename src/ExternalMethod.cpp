@@ -9,7 +9,6 @@
 #include <llvm/IR/TypeBuilder.h>
 
 #include "wisey/AccessLevel.hpp"
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/ExternalMethod.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -28,12 +27,9 @@ mObjectType(objectType),
 mName(name),
 mReturnType(returnType),
 mArguments(arguments),
-mThrownExceptions(thrownExceptions),
-mArrayElementType(new ArrayElementType(this)) {
-}
+mThrownExceptions(thrownExceptions) { }
 
 ExternalMethod::~ExternalMethod() {
-  delete mArrayElementType;
   for (MethodArgument* argument : mArguments) {
     delete argument;
   }
@@ -100,10 +96,6 @@ Value* ExternalMethod::castTo(IRGenerationContext& context,
                               const IType* toType,
                               int line) const {
   return NULL;
-}
-
-const ArrayElementType* ExternalMethod::getArrayElementType() const {
-  return mArrayElementType;
 }
 
 const IObjectType* ExternalMethod::getObjectType() const {

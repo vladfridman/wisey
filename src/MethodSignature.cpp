@@ -6,7 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/Interface.hpp"
 #include "wisey/MethodArgument.hpp"
@@ -25,12 +24,9 @@ mObjectType(objectType),
 mName(name),
 mReturnType(returnType),
 mArguments(arguments),
-mThrownExceptions(thrownExceptions),
-mArrayElementType(new ArrayElementType(this)) {
-}
+mThrownExceptions(thrownExceptions) { }
 
 MethodSignature::~MethodSignature() {
-  delete mArrayElementType;
   for (MethodArgument* argument : mArguments) {
     delete argument;
   }
@@ -94,10 +90,6 @@ Value* MethodSignature::castTo(IRGenerationContext& context,
                                const IType* toType,
                                int line) const {
   return NULL;
-}
-
-const ArrayElementType* MethodSignature::getArrayElementType() const {
-  return mArrayElementType;
 }
 
 const IObjectType* MethodSignature::getObjectType() const {

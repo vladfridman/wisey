@@ -39,7 +39,6 @@ public:
                                            const wisey::IType*,
                                            int));
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
-  MOCK_CONST_METHOD0(getArrayElementType, wisey::ArrayElementType* ());
 };
 
 #endif /* MockMethodDescriptor_h */

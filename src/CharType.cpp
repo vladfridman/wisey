@@ -8,7 +8,6 @@
 
 #include <llvm/IR/Value.h>
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/CharType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -17,13 +16,6 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
-
-CharType::CharType() : mArrayElementType(new ArrayElementType(this)) {
-}
-
-CharType::~CharType() {
-  delete mArrayElementType;
-}
 
 string CharType::getTypeName() const {
   return "char";
@@ -76,8 +68,4 @@ Value* CharType::castTo(IRGenerationContext& context,
 
 string CharType::getFormat() const {
   return "%c";
-}
-
-const ArrayElementType* CharType::getArrayElementType() const {
-  return mArrayElementType;
 }

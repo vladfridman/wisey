@@ -18,7 +18,6 @@
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/ArrayElementExpression.hpp"
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 

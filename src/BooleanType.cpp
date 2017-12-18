@@ -6,7 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/BooleanType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -15,13 +14,6 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
-
-BooleanType::BooleanType() : mArrayElementType(new ArrayElementType(this)) {
-}
-
-BooleanType::~BooleanType() {
-  delete mArrayElementType;
-}
 
 string BooleanType::getTypeName() const {
   return "boolean";
@@ -75,8 +67,4 @@ Value* BooleanType::castTo(IRGenerationContext& context,
 
 string BooleanType::getFormat() const {
   return "%d";
-}
-
-const ArrayElementType* BooleanType::getArrayElementType() const {
-  return mArrayElementType;
 }

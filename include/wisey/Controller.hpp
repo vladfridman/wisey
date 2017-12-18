@@ -34,7 +34,6 @@ class Controller : public IConcreteObjectType, public IInjectable {
   bool mIsExternal;
   bool mIsInner;
   ControllerOwner* mControllerOwner;
-  const ArrayElementType* mArrayElementType;
   std::vector<Field*> mReceivedFields;
   std::vector<Field*> mInjectedFields;
   std::vector<Field*> mStateFields;
@@ -117,8 +116,6 @@ public:
                       const IType* toType,
                       int line) const override;
 
-  const ArrayElementType* getArrayElementType() const override;
-  
   std::string getVTableName() const override;
 
   unsigned long getVTableSize() const override;

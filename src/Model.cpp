@@ -9,7 +9,6 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
@@ -28,14 +27,12 @@ mAccessLevel(accessLevel),
 mName(name),
 mStructType(structType),
 mIsExternal(isExternal),
-mIsInner(false),
-mModelOwner(new ModelOwner(this)),
-mArrayElementType(new ArrayElementType(this)) {
+mIsInner(false) {
+  mModelOwner = new ModelOwner(this);
 }
 
 Model::~Model() {
   delete mModelOwner;
-  delete mArrayElementType;
   for(Field* field : mFieldsOrdered) {
     delete field;
   }
@@ -243,10 +240,6 @@ Value* Model::castTo(IRGenerationContext& context,
                      const IType* toType,
                      int line) const {
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
-}
-
-const ArrayElementType* Model::getArrayElementType() const {
-  return mArrayElementType;
 }
 
 Instruction* Model::build(IRGenerationContext& context,

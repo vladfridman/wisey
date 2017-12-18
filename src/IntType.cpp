@@ -6,7 +6,6 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/IntType.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -15,13 +14,6 @@
 using namespace llvm;
 using namespace std;
 using namespace wisey;
-
-IntType::IntType() : mArrayElementType(new ArrayElementType(this)) {
-}
-
-IntType::~IntType() {
-  delete mArrayElementType;
-}
 
 string IntType::getTypeName() const {
   return "int";
@@ -72,8 +64,4 @@ Value* IntType::castTo(IRGenerationContext& context,
 
 string IntType::getFormat() const {
   return "%d";
-}
-
-const ArrayElementType* IntType::getArrayElementType() const {
-  return mArrayElementType;
 }

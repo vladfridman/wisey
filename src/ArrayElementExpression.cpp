@@ -9,7 +9,6 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayElementExpression.hpp"
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/IType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"

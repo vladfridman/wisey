@@ -20,9 +20,9 @@ class VoidType : public IPrimitiveType {
     
 public:
   
-  VoidType();
+  VoidType() { }
   
-  ~VoidType();
+  ~VoidType() { }
   
   std::string getTypeName() const override;
   
@@ -39,8 +39,6 @@ public:
                       const IType* toType,
                       int line) const override;
   
-  const ArrayElementType* getArrayElementType() const override;
-
   std::string getFormat() const override;
   
 };

@@ -8,7 +8,6 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/InterfaceOwner.hpp"
 #include "wisey/IRWriter.hpp"
@@ -17,13 +16,9 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-InterfaceOwner::InterfaceOwner(Interface* interface) :
-mInterface(interface), mArrayElementType(new ArrayElementType(this)) {
-}
+InterfaceOwner::InterfaceOwner(Interface* interface) : mInterface(interface) { }
 
-InterfaceOwner::~InterfaceOwner() {
-  delete mArrayElementType;
-}
+InterfaceOwner::~InterfaceOwner() { }
 
 Interface* InterfaceOwner::getObject() const {
   return mInterface;
@@ -70,10 +65,6 @@ Value* InterfaceOwner::castTo(IRGenerationContext& context,
   }
   
   return mInterface->castTo(context, fromValue, toType, line);
-}
-
-const ArrayElementType* InterfaceOwner::getArrayElementType() const {
-  return mArrayElementType;
 }
 
 void InterfaceOwner::free(IRGenerationContext& context, Value* value) const {

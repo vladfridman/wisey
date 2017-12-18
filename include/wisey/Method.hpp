@@ -33,8 +33,7 @@ class Method : public IMethod {
   CompoundStatement* mCompoundStatement;
   llvm::Function* mFunction;
   int mLine;
-  const ArrayElementType* mArrayElementType;
-
+  
 public:
   
   Method(const IObjectType* objectType,
@@ -80,8 +79,6 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
-
-  const ArrayElementType* getArrayElementType() const override;
 
   const IObjectType* getObjectType() const override;
   

@@ -8,7 +8,6 @@
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/ArrayElementType.hpp"
 #include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
 #include "wisey/Cast.hpp"
@@ -49,14 +48,12 @@ mStructType(structType),
 mIsExternal(isExternal),
 mIsInner(false),
 mInterfaceOwner(new InterfaceOwner(this)),
-mArrayElementType(new ArrayElementType(this)),
 mParentInterfaceSpecifiers(parentInterfaceSpecifiers),
 mElementDeclarations(elementDelcarations),
 mIsComplete(false) { }
 
 Interface::~Interface() {
   delete mInterfaceOwner;
-  delete mArrayElementType;
   mParentInterfaces.clear();
   for (MethodSignature* methodSignature : mMethodSignatures) {
     delete methodSignature;
@@ -573,10 +570,6 @@ Value* Interface::castTo(IRGenerationContext& context,
   Composer::popCallStack(context);
   
   return result;
-}
-
-const ArrayElementType* Interface::getArrayElementType() const {
-  return mArrayElementType;
 }
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
