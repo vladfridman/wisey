@@ -32,7 +32,8 @@ RelationalExpression::~RelationalExpression() {
   delete mRightExpression;
 }
 
-IVariable* RelationalExpression::getVariable(IRGenerationContext& context) const {
+IVariable* RelationalExpression::getVariable(IRGenerationContext& context,
+                                             vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

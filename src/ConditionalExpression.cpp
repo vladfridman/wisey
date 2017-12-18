@@ -31,7 +31,8 @@ ConditionalExpression::~ConditionalExpression() {
   delete mIfFalseExpression;
 }
 
-IVariable* ConditionalExpression::getVariable(IRGenerationContext& context) const {
+IVariable* ConditionalExpression::getVariable(IRGenerationContext& context,
+                                              vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

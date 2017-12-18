@@ -16,6 +16,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
 
 LogicalOrExpression::LogicalOrExpression(IExpression* leftExpression,
@@ -28,7 +29,8 @@ LogicalOrExpression::~LogicalOrExpression() {
   delete mRightExpression;
 }
 
-IVariable* LogicalOrExpression::getVariable(IRGenerationContext& context) const {
+IVariable* LogicalOrExpression::getVariable(IRGenerationContext& context,
+                                            vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

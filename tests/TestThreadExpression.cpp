@@ -80,7 +80,8 @@ struct ThreadExpressionTest : public Test {
 };
 
 TEST_F(ThreadExpressionTest, getVariableTest) {
-  EXPECT_EQ(mThreadExpression.getVariable(mContext), mThreadVariable);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(mThreadExpression.getVariable(mContext, arrayIndices), mThreadVariable);
 }
 
 TEST_F(ThreadExpressionTest, getTypeTest) {

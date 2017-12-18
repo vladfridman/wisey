@@ -13,6 +13,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
 
 const EmptyExpression EmptyExpression::EMPTY_EXPRESSION = EmptyExpression();
@@ -21,7 +22,8 @@ EmptyExpression::EmptyExpression() { }
 
 EmptyExpression::~EmptyExpression() { }
 
-IVariable* EmptyExpression::getVariable(IRGenerationContext& context) const {
+IVariable* EmptyExpression::getVariable(IRGenerationContext& context,
+                                        vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

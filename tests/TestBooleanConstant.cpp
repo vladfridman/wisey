@@ -42,7 +42,8 @@ struct BooleanConstantTest : public Test {
 
 TEST_F(BooleanConstantTest, getVariableTest) {
   BooleanConstant booleanTrue(true);
-  EXPECT_EQ(booleanTrue.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(booleanTrue.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(BooleanConstantTest, booleanTrueConstantTest) {

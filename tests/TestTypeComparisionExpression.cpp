@@ -221,8 +221,9 @@ struct TypeComparisionExpressionTest : public Test {
 
 TEST_F(TypeComparisionExpressionTest, getVariableTest) {
   TypeComparisionExpression typeComparision(mExpression, NULL);
-  
-  EXPECT_EQ(typeComparision.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+
+  EXPECT_EQ(typeComparision.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(TypeComparisionExpressionTest, compareIdenticalPrimiteveTypesTest) {

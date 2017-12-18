@@ -14,9 +14,11 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
 
-IVariable* IntConstant::getVariable(IRGenerationContext& context) const {
+IVariable* IntConstant::getVariable(IRGenerationContext& context,
+                                    vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

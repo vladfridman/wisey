@@ -24,12 +24,14 @@ Assignment::~Assignment() {
   delete mExpression;
 }
 
-IVariable* Assignment::getVariable(IRGenerationContext& context) const {
-  return mIdentifier->getVariable(context);
+IVariable* Assignment::getVariable(IRGenerationContext& context,
+                                   std::vector<const IExpression*>& arrayIndices) const {
+  return mIdentifier->getVariable(context, arrayIndices);
 }
 
 Value* Assignment::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
-  IVariable* variable = mIdentifier->getVariable(context);
+  std::vector<const IExpression*> arrayIndices;
+  IVariable* variable = mIdentifier->getVariable(context, arrayIndices);
   if (variable == NULL) {
     std::stringstream stringStream;
     mIdentifier->printToStream(context, stringStream);

@@ -21,7 +21,8 @@ NullExpression::NullExpression() { }
 
 NullExpression::~NullExpression() { }
 
-IVariable* NullExpression::getVariable(IRGenerationContext& context) const {
+IVariable* NullExpression::getVariable(IRGenerationContext& context,
+                                       vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

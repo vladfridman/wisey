@@ -16,6 +16,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
 
 NegateExpression::NegateExpression(IExpression* expression) : mExpression(expression) { }
@@ -24,7 +25,8 @@ NegateExpression::~NegateExpression() {
   delete mExpression;
 }
 
-IVariable* NegateExpression::getVariable(IRGenerationContext& context) const {
+IVariable* NegateExpression::getVariable(IRGenerationContext& context,
+                                         vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

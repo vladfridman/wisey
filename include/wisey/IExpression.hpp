@@ -43,7 +43,8 @@ public:
    *
    * This is needed for checking wheather an increment operation can by applied to an expression
    */
-  virtual IVariable* getVariable(IRGenerationContext& context) const = 0;
+  virtual IVariable* getVariable(IRGenerationContext& context,
+                                 std::vector<const IExpression*>& arrayIndices) const = 0;
 
   /**
    * Tells whether this expression returns a constant

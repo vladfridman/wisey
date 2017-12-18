@@ -31,7 +31,8 @@ struct FloatConstantTest : public ::testing::Test {
 };
 
 TEST_F(FloatConstantTest, getVariableTest) {
-  EXPECT_EQ(mFloatConstant.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(mFloatConstant.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(FloatConstantTest, floatConstantTest) {

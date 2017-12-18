@@ -30,7 +30,8 @@ Injector::~Injector() {
   mInjectionArgumentList.clear();
 }
 
-IVariable* Injector::getVariable(IRGenerationContext& context) const {
+IVariable* Injector::getVariable(IRGenerationContext& context,
+                                 vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

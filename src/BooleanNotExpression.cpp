@@ -16,6 +16,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
 
 BooleanNotExpression::BooleanNotExpression(IExpression* expression) : mExpression(expression) { }
@@ -24,7 +25,8 @@ BooleanNotExpression::~BooleanNotExpression() {
   delete mExpression;
 }
 
-IVariable* BooleanNotExpression::getVariable(IRGenerationContext& context) const {
+IVariable* BooleanNotExpression::getVariable(IRGenerationContext& context,
+                                             vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

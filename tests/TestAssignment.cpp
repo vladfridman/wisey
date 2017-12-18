@@ -109,8 +109,9 @@ TEST_F(AssignmentTest, getVariableTest) {
   mContext.getScopes().setVariable(&mockVariable);
   Identifier* identifier = new Identifier("foo");
   Assignment assignment(identifier, mExpression, 0);
+  vector<const IExpression*> arrayIndices;
 
-  EXPECT_EQ(identifier->getVariable(mContext), &mockVariable);
+  EXPECT_EQ(identifier->getVariable(mContext, arrayIndices), &mockVariable);
 }
 
 TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {

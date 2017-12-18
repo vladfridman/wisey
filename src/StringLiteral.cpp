@@ -23,7 +23,8 @@ wisey::StringLiteral::StringLiteral(string input) : mValue(unescape(input)) {
 wisey::StringLiteral::~StringLiteral() {
 }
 
-IVariable* wisey::StringLiteral::getVariable(IRGenerationContext& context) const {
+IVariable* wisey::StringLiteral::getVariable(IRGenerationContext& context,
+                                             vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

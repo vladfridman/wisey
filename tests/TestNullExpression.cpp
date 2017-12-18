@@ -35,7 +35,8 @@ struct NullExpressionTest : public Test {
 };
 
 TEST_F(NullExpressionTest, getVariableTest) {
-  EXPECT_EQ(mNullExpression.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(mNullExpression.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(NullExpressionTest, generateIRTest) {

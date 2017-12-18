@@ -39,8 +39,9 @@ struct StringLiteralTest : public Test {
 
 TEST_F(StringLiteralTest, getVariableTest) {
   StringLiteral stringLiteral("test");
-  
-  EXPECT_EQ(stringLiteral.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+
+  EXPECT_EQ(stringLiteral.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(StringLiteralTest, stringLiteralTest) {

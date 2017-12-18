@@ -31,7 +31,8 @@ struct IntConstantTest : public ::testing::Test {
 };
 
 TEST_F(IntConstantTest, getVariableTest) {
-  EXPECT_EQ(mIntConstant.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(mIntConstant.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(IntConstantTest, intConstantTest) {

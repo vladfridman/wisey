@@ -32,7 +32,8 @@ struct CharConstantTest : public ::testing::Test {
 };
 
 TEST_F(CharConstantTest, getVariableTest) {
-  EXPECT_EQ(mCharConstant.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(mCharConstant.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(CharConstantTest, charConstantTest) {

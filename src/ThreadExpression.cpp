@@ -20,7 +20,8 @@ ThreadExpression::ThreadExpression() { }
 
 ThreadExpression::~ThreadExpression() { }
 
-IVariable* ThreadExpression::getVariable(IRGenerationContext& context) const {
+IVariable* ThreadExpression::getVariable(IRGenerationContext& context,
+                                         vector<const IExpression*>& arrayIndices) const {
   return context.getScopes().getVariable(THREAD);
 }
 

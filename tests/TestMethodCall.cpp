@@ -301,8 +301,9 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
 
 TEST_F(MethodCallTest, getVariableTest) {
   MethodCall methodCall(mExpression, mArgumentList, 0);
-  
-  EXPECT_EQ(methodCall.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+
+  EXPECT_EQ(methodCall.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(MethodCallTest, isConstantTest) {

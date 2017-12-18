@@ -66,8 +66,9 @@ struct NegateExpressionTest : Test {
 
 TEST_F(NegateExpressionTest, getVariableTest) {
   NegateExpression negateExpression(mExpression);
-  
-  EXPECT_EQ(negateExpression.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+
+  EXPECT_EQ(negateExpression.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(NegateExpressionTest, negateIntExpressionTest) {

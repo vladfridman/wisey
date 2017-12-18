@@ -124,7 +124,8 @@ struct ObjectBuilderTest : Test {
 };
 
 TEST_F(ObjectBuilderTest, getVariableTest) {
-  EXPECT_EQ(mObjectBuilder->getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(mObjectBuilder->getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(ObjectBuilderTest, testGetType) {

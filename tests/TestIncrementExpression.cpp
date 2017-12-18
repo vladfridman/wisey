@@ -65,8 +65,9 @@ public:
 
 TEST_F(IncrementExpressionTest, getVariableTest) {
   IncrementExpression* expression = IncrementExpression::newIncrementByOne(mIdentifier, 0);
+  vector<const IExpression*> arrayIndices;
 
-  EXPECT_EQ(expression->getVariable(mContext), mVariable);
+  EXPECT_EQ(expression->getVariable(mContext, arrayIndices), mVariable);
 }
 
 TEST_F(IncrementExpressionTest, incrementByOneExpressionTest) {

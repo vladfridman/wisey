@@ -40,7 +40,8 @@ MethodCall::~MethodCall() {
   delete mExpression;
 }
 
-IVariable* MethodCall::getVariable(IRGenerationContext& context) const {
+IVariable* MethodCall::getVariable(IRGenerationContext& context,
+                                   vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

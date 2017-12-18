@@ -39,7 +39,8 @@ StaticMethodCall::~StaticMethodCall() {
   delete mObjectTypeSpecifier;
 }
 
-IVariable* StaticMethodCall::getVariable(IRGenerationContext& context) const {
+IVariable* StaticMethodCall::getVariable(IRGenerationContext& context,
+                                         vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

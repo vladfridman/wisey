@@ -86,7 +86,8 @@ struct RelationalExpressionTest : public Test {
 
 TEST_F(RelationalExpressionTest, getVariableTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
-  EXPECT_EQ(expression.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(expression.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(RelationalExpressionTest, intLessThanTest) {

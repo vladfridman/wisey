@@ -26,7 +26,8 @@ public:
   
   ~BooleanNotExpression();
   
-  IVariable* getVariable(IRGenerationContext& context) const override;
+  IVariable* getVariable(IRGenerationContext& context,
+                         std::vector<const IExpression*>& arrayIndices) const override;
   
   llvm::Value* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   

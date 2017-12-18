@@ -115,8 +115,9 @@ struct InjectorTest : Test {
 
 TEST_F(InjectorTest, getVariableTest) {
   Injector injector(mInterfaceTypeSpecifier, mInjectionArgumentList, 0);
-  
-  EXPECT_EQ(injector.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+
+  EXPECT_EQ(injector.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(InjectorTest, getTypeTest) {

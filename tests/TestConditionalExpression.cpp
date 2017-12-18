@@ -105,7 +105,8 @@ struct ConditionalExpressionTest : Test {
 
 TEST_F(ConditionalExpressionTest, getVariableTest) {
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
-  EXPECT_EQ(expression.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(expression.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithFalse) {

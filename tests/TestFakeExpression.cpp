@@ -42,7 +42,8 @@ public:
 };
 
 TEST_F(FakeExpressionTest, getVariableTest) {
-  EXPECT_EQ(mFakeExpression->getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(mFakeExpression->getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(FakeExpressionTest, isConstantTest) {

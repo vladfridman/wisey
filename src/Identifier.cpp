@@ -18,7 +18,8 @@ Identifier::Identifier(const string& name) : mName(name) { }
 
 Identifier::~Identifier() { }
 
-IVariable* Identifier::getVariable(IRGenerationContext& context) const {
+IVariable* Identifier::getVariable(IRGenerationContext& context,
+                                   vector<const IExpression*>& arrayIndices) const {
   return context.getScopes().getVariable(mName);
 }
 

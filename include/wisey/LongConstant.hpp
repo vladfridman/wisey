@@ -27,7 +27,8 @@ public:
   
   ~LongConstant() {}
   
-  IVariable* getVariable(IRGenerationContext& context) const override;
+  IVariable* getVariable(IRGenerationContext& context,
+                         std::vector<const IExpression*>& arrayIndices) const override;
 
   llvm::Constant* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   

@@ -27,7 +27,8 @@ TypeComparisionExpression::~TypeComparisionExpression() {
   delete mTypeSpecifier;
 }
 
-IVariable* TypeComparisionExpression::getVariable(IRGenerationContext& context) const {
+IVariable* TypeComparisionExpression::getVariable(IRGenerationContext& context,
+                                                  vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

@@ -56,8 +56,10 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   return IRWriter::createGetElementPtrInst(context, arrayExpressionValue, index);
 }
 
-IVariable* ArrayElementExpression::getVariable(IRGenerationContext& context) const {
-  return NULL;
+IVariable* ArrayElementExpression::getVariable(IRGenerationContext& context,
+                                               vector<const IExpression*>& arrayIndices) const {
+  arrayIndices.push_back(mArrayExpression);
+  return mArrayExpression->getVariable(context, arrayIndices);
 }
 
 bool ArrayElementExpression::isConstant() const {

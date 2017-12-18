@@ -73,8 +73,9 @@ struct LogicalOrExpressionTest : Test {
 
 TEST_F(LogicalOrExpressionTest, getVariableTest) {
   LogicalOrExpression expression(mLeftExpression, mRightExpression);
-  
-  EXPECT_EQ(expression.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+
+  EXPECT_EQ(expression.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(LogicalOrExpressionTest, logicalAndTrueValueTest) {

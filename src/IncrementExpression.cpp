@@ -43,15 +43,18 @@ IncrementExpression* IncrementExpression::newDecrementByOne(IExpression* express
   return new IncrementExpression(expression, -1, "dec", false, line);
 }
 
-IVariable* IncrementExpression::getVariable(IRGenerationContext& context) const {
-  return mExpression->getVariable(context);
+IVariable* IncrementExpression::getVariable(IRGenerationContext& context,
+                                            vector<const IExpression*>& arrayIndices) const {
+  return mExpression->getVariable(context, arrayIndices);
 }
 
 Value* IncrementExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
   assert(flag == IR_GENERATION_NORMAL);
   
   const IType* expressionType = mExpression->getType(context);
-  if (!mExpression->getVariable(context)) {
+  vector<const IExpression*> arrayIndices;
+  IVariable* variable = mExpression->getVariable(context, arrayIndices);
+  if (!variable) {
     Log::e("Increment/decrement operation may only be applied to variables");
     exit(1);
   }
@@ -74,8 +77,8 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context, IRGeneratio
                                                           mVariableName);
 
   
-  FakeExpression fakeExpression(incrementResult, getVariable(context)->getType());
-  getVariable(context)->generateAssignmentIR(context, &fakeExpression, mLine);
+  FakeExpression fakeExpression(incrementResult, variable->getType());
+  variable->generateAssignmentIR(context, &fakeExpression, mLine);
 
   return mIsPrefix ? incrementResult : originalValue;
 }

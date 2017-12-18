@@ -33,7 +33,8 @@ ObjectBuilder::~ObjectBuilder() {
   mObjectBuilderArgumentList.clear();
 }
 
-IVariable* ObjectBuilder::getVariable(IRGenerationContext& context) const {
+IVariable* ObjectBuilder::getVariable(IRGenerationContext& context,
+                                      vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

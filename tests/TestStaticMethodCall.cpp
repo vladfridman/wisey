@@ -267,8 +267,9 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
 
 TEST_F(StaticMethodCallTest, getVariableTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
-  
-  EXPECT_EQ(staticMethodCall.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+
+  EXPECT_EQ(staticMethodCall.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(StaticMethodCallTest, isConstantTest) {

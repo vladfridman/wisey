@@ -72,8 +72,9 @@ TEST_F(BooleanNotExpressionTest, isConstantTest) {
 
 TEST_F(BooleanNotExpressionTest, getVariableTest) {
   BooleanNotExpression booleanNotExpression(mExpression);
+  vector<const IExpression*> arrayIndices;
 
-  EXPECT_EQ(booleanNotExpression.getVariable(mContext), nullptr);
+  EXPECT_EQ(booleanNotExpression.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(BooleanNotExpressionTest, negateIntExpressionTest) {

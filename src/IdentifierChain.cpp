@@ -25,7 +25,8 @@ IdentifierChain::~IdentifierChain() {
   delete mObjectExpression;
 }
 
-IVariable* IdentifierChain::getVariable(IRGenerationContext& context) const {
+IVariable* IdentifierChain::getVariable(IRGenerationContext& context,
+                                        vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

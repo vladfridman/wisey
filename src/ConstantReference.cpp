@@ -26,7 +26,8 @@ ConstantReference::~ConstantReference() {
   }
 }
 
-IVariable* ConstantReference::getVariable(IRGenerationContext& context) const {
+IVariable* ConstantReference::getVariable(IRGenerationContext& context,
+                                          vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

@@ -31,7 +31,8 @@ struct LongConstantTest : public ::testing::Test {
 };
 
 TEST_F(LongConstantTest, getVariableTest) {
-  EXPECT_EQ(mLongConstant.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(mLongConstant.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(LongConstantTest, longConstantTest) {

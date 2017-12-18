@@ -96,7 +96,8 @@ TEST_F(CastExpressionTest, isConstantTest) {
 
 TEST_F(CastExpressionTest, getVariableTest) {
   CastExpression castExpression(mTypeSpecifier, mExpression, 0);
-  EXPECT_EQ(castExpression.getVariable(mContext), nullptr);
+  vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(castExpression.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(CastExpressionTest, castExpressionAutoCastTest) {

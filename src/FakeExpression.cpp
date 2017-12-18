@@ -13,6 +13,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
+using namespace std;
 using namespace wisey;
 
 FakeExpression::FakeExpression(llvm::Value* value, const IType* type) :
@@ -21,7 +22,8 @@ mValue(value), mType(type) {
 
 FakeExpression::~FakeExpression() { }
 
-IVariable* FakeExpression::getVariable(IRGenerationContext& context) const {
+IVariable* FakeExpression::getVariable(IRGenerationContext& context,
+                                       vector<const IExpression*>& arrayIndices) const {
   return NULL;
 }
 

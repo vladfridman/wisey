@@ -25,7 +25,8 @@ struct EmptyExpressionTest : public ::testing::Test {
 };
 
 TEST_F(EmptyExpressionTest, getVariableTest) {
-  EXPECT_EQ(mEmptyExpression.getVariable(mContext), nullptr);
+  std::vector<const IExpression*> arrayIndices;
+  EXPECT_EQ(mEmptyExpression.getVariable(mContext, arrayIndices), nullptr);
 }
 
 TEST_F(EmptyExpressionTest, simpleEmptyExpressionTest) {
