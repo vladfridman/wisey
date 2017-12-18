@@ -84,3 +84,11 @@ TEST_F(TestFileSampleRunner, arrayOfModelOwnersRunTest) {
   runFile("tests/samples/test_array_of_model_owners.yz", "2018");
 }
 
+TEST_F(TestFileSampleRunner, arrayElementIsNulledOnOwnerTranserRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_array_element_is_nulled_on_owner_transfer.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_is_nulled_on_owner_transfer.yz:18)\n");
+}
+

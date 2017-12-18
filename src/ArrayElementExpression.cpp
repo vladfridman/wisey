@@ -33,11 +33,20 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   vector<const IExpression*> arrayIndices;
   IVariable* variable = getVariable(context, arrayIndices);
   assert(variable);
-  const IType* arrayType = variable->getType();
   Value* arrayPointer = variable->generateIdentifierIR(context);
 
-  Value* pointer = generateElementIR(context, arrayType, arrayPointer, arrayIndices);
-  return IRWriter::newLoadInst(context, pointer, "");
+  Value* pointer = generateElementIR(context, variable->getType(), arrayPointer, arrayIndices);
+  Value* result = IRWriter::newLoadInst(context, pointer, "");
+  
+  if (flag == IR_GENERATION_RELEASE) {
+    assert(variable->getType()->getTypeKind() == ARRAY_TYPE);
+    const ArrayType* arrayType = (const ArrayType*) variable->getType();
+    assert(IType::isOwnerType(arrayType->getScalarType()));
+    PointerType* llvmType = (PointerType*) arrayType->getScalarType()->getLLVMType(context);
+    IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), pointer);
+  }
+  
+  return result;
 }
 
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
