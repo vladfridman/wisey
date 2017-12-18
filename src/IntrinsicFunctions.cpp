@@ -45,6 +45,18 @@ Function* IntrinsicFunctions::getMemCopyFunction(IRGenerationContext& context) {
                                                                  attributeSet));
 }
 
+Function* IntrinsicFunctions::getMemSetFunction(IRGenerationContext& context) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  FunctionType *functionType =
+  TypeBuilder<void (types::i<8>*, types::i<8>, types::i<64>, types::i<32>, types::i<1>), false>
+  ::get(llvmContext);
+  
+  AttributeSet attributeSet = AttributeSet().addAttribute(llvmContext, 1U, Attribute::NoAlias);
+  return cast<Function>(context.getModule()->getOrInsertFunction("llvm.memset.p0i8.i64",
+                                                                 functionType,
+                                                                 attributeSet));
+}
+
 Function* IntrinsicFunctions::getPersonalityFunction(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   FunctionType *typeIdType = TypeBuilder<types::i<32> (...), false>::get(llvmContext);

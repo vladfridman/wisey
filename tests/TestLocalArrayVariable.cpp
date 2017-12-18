@@ -88,3 +88,11 @@ TEST_F(TestFileSampleRunner, arrayOfModelsRunTest) {
   runFile("tests/samples/test_array_of_models.yz", "2018");
 }
 
+TEST_F(TestFileSampleRunner, arrayThrowsNullRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_array_throws_null.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_throws_null.yz:16)\n");
+}
+

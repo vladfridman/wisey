@@ -36,6 +36,11 @@ public:
    * Declares llvm.memcpy.p0i8.p0i8.i64 function that is used to copy memory
    */
   static llvm::Function* getMemCopyFunction(IRGenerationContext& context);
+  
+  /**
+   * Declares llvm.memset.p0i8.i64 function that is used to initialize memory
+   */
+  static llvm::Function* getMemSetFunction(IRGenerationContext& context);
 
   /**
    * Declares __gxx_personality_v0 function that is used orchestrate exception handling

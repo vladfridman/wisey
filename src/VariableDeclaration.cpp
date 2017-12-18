@@ -10,7 +10,9 @@
 #include <llvm/IR/Instructions.h>
 
 #include "wisey/Assignment.hpp"
+#include "wisey/Environment.hpp"
 #include "wisey/Identifier.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayVariable.hpp"
@@ -117,9 +119,25 @@ void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
 
 void VariableDeclaration::allocateArray(IRGenerationContext& context,
                                         const wisey::ArrayType* type) const {
-  Type* llvmType = type->getLLVMType(context);
+  LLVMContext& llvmContext = context.getLLVMContext();
+  llvm::ArrayType* llvmType = (llvm::ArrayType*) type->getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
-  
+  Value* bitcast = IRWriter::newBitCastInst(context,
+                                            alloc,
+                                            Type::getInt8Ty(llvmContext)->getPointerTo());
+  ConstantInt* zero = ConstantInt::get(Type::getInt8Ty(llvmContext), 0);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(llvmType);
+
+  vector<Value*> arguments;
+  unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
+  arguments.push_back(bitcast);
+  arguments.push_back(zero);
+  arguments.push_back(allocSize);
+  arguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
+  arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
+  Function* memSetFunction = IntrinsicFunctions::getMemSetFunction(context);
+  IRWriter::createCallInst(context, memSetFunction, arguments, "");
+
   LocalArrayVariable* variable = new LocalArrayVariable(mIdentifier->getIdentifierName(),
                                                         type,
                                                         alloc);

@@ -46,6 +46,12 @@ TEST_F(IntrinsicFunctionsTest, getMemCopyFunctionTest) {
   EXPECT_NE(mModule->getFunction("llvm.memcpy.p0i8.p0i8.i64"), nullptr);
 }
 
+TEST_F(IntrinsicFunctionsTest, getMemSetFunctionTest) {
+  EXPECT_EQ(mModule->getFunction("llvm.memset.p0i8.i64"), nullptr);
+  EXPECT_NE(IntrinsicFunctions::getMemSetFunction(mContext), nullptr);
+  EXPECT_NE(mModule->getFunction("llvm.memset.p0i8.i64"), nullptr);
+}
+
 TEST_F(IntrinsicFunctionsTest, getPersonalityFunctionTest) {
   EXPECT_EQ(mModule->getFunction("__gxx_personality_v0"), nullptr);
   EXPECT_NE(IntrinsicFunctions::getPersonalityFunction(mContext), nullptr);
