@@ -5,10 +5,10 @@ import wisey.lang.IProgram;
 controller CProgram implements IProgram {
 
   public int run() {
-    int[5][10] array;
-    int a = array[0][0];
+    int[5][3] array;
+    array[4][2] = 5;
 
-    return 5;
+    return array[4][2];
   }
 }
 

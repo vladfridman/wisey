@@ -28,6 +28,14 @@ public:
   
   ~ArrayElementExpression();
   
+  /**
+   * Given list of indices and array pointer returns pointer to the array element
+   */
+  static llvm::Value* generateElementIR(IRGenerationContext& context,
+                                        const IType* arrayType,
+                                        llvm::Value* arrayPointer,
+                                        std::vector<const IExpression*> arrayIndices);
+  
   llvm::Value* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
   
   IVariable* getVariable(IRGenerationContext& context,

@@ -31,34 +31,57 @@ ArrayElementExpression::~ArrayElementExpression() {
 
 Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
                                           IRGenerationFlag flag) const {
-  const IType* arrayExpressionType = mArrayExpression->getType(context);
-  const IType* arrayIndexExpressionType = mArrayIndexExpresion->getType(context);
-  
-  if (arrayExpressionType->getTypeKind() != ARRAY_TYPE) {
-    reportErrorArrayType(arrayExpressionType->getTypeName());
-    exit(1);
-  }
-  
-  if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
-      arrayIndexExpressionType != PrimitiveTypes::LONG_TYPE) {
-    Log::e("Array index should be integer type, but it is " +
-           arrayIndexExpressionType->getTypeName());
-    exit(1);
-  }
-  
-  Value* arrayExpressionValue = mArrayExpression->generateIR(context, flag);
-  Value* arrayIndexValue = mArrayIndexExpresion->generateIR(context, flag);
-  Type* indexType = arrayIndexExpressionType->getLLVMType(context);
-  Value* index[2];
-  index[0] = ConstantInt::get(indexType, 0);
-  index[1] = arrayIndexValue;
+  vector<const IExpression*> arrayIndices;
+  IVariable* variable = getVariable(context, arrayIndices);
+  assert(variable);
+  const IType* arrayType = variable->getType();
+  Value* arrayPointer = variable->generateIdentifierIR(context);
 
-  return IRWriter::createGetElementPtrInst(context, arrayExpressionValue, index);
+  return generateElementIR(context, arrayType, arrayPointer, arrayIndices);
+}
+
+Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
+                                                 const IType* arrayType,
+                                                 Value* arrayPointer,
+                                                 vector<const IExpression*> arrayIndices) {
+  Value* arrayExpressionValue = arrayPointer;
+  const IType* valueType = arrayType;
+  for (const IExpression* indexExpression : arrayIndices) {
+    if (valueType->getTypeKind() != ARRAY_TYPE) {
+      Log::e("Expecting array type expression before [] but expression type is " +
+             valueType->getTypeName());
+      exit(1);
+    }
+    const wisey::ArrayType* arrayType = (const wisey::ArrayType*) valueType;
+    valueType = arrayType->getBaseType();
+    const IType* arrayIndexExpressionType = indexExpression->getType(context);
+    if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
+        arrayIndexExpressionType != PrimitiveTypes::LONG_TYPE) {
+      Log::e("Array index should be integer type, but it is " +
+             arrayIndexExpressionType->getTypeName());
+      exit(1);
+    }
+    
+    Value* arrayIndexValue = indexExpression->generateIR(context, IR_GENERATION_NORMAL);
+    Type* indexType = arrayIndexExpressionType->getLLVMType(context);
+    Value* index[2];
+    index[0] = ConstantInt::get(indexType, 0);
+    index[1] = arrayIndexValue;
+    
+    arrayExpressionValue = IRWriter::createGetElementPtrInst(context, arrayExpressionValue, index);
+  }
+  
+  if (valueType->getTypeKind() == ARRAY_TYPE) {
+    Log::e("Expression does not reference an array element");
+    exit(1);
+  }
+  
+  return arrayExpressionValue;
 }
 
 IVariable* ArrayElementExpression::getVariable(IRGenerationContext& context,
                                                vector<const IExpression*>& arrayIndices) const {
-  arrayIndices.push_back(mArrayExpression);
+  arrayIndices.push_back(mArrayIndexExpresion);
   return mArrayExpression->getVariable(context, arrayIndices);
 }
 

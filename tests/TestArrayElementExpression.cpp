@@ -38,6 +38,7 @@ struct ArrayElementExpressionTest : Test {
   LLVMContext& mLLVMContext;
   NiceMock<MockExpression>* mArrayExpression;
   NiceMock<MockExpression>* mArrayIndexExpression;
+  NiceMock<MockVariable>* mArrayVariable;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   Function* mFunction;
@@ -48,7 +49,8 @@ struct ArrayElementExpressionTest : Test {
   ArrayElementExpressionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mArrayExpression(new NiceMock<MockExpression>()),
-  mArrayIndexExpression(new NiceMock<MockExpression>())  {
+  mArrayIndexExpression(new NiceMock<MockExpression>()),
+  mArrayVariable(new NiceMock<MockVariable>()) {
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     mFunction = Function::Create(functionType,
@@ -65,6 +67,9 @@ struct ArrayElementExpressionTest : Test {
     Value* alloca = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "");
     ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(alloca));
     ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
+    ON_CALL(*mArrayExpression, getVariable(_, _)).WillByDefault(Return(mArrayVariable));
+    ON_CALL(*mArrayVariable, getType()).WillByDefault(Return(mArrayType));
+    ON_CALL(*mArrayVariable, generateIdentifierIR(_)).WillByDefault(Return(alloca));
     ConstantInt* three = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mArrayIndexExpression, generateIR(_, _)).WillByDefault(Return(three));
     ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
@@ -76,6 +81,7 @@ struct ArrayElementExpressionTest : Test {
     delete mStringStream;
     delete mArrayExpression;
     delete mArrayIndexExpression;
+    delete mArrayVariable;
   }
   
   static void printArrayExpression(IRGenerationContext& context, iostream& stream) {
@@ -119,7 +125,8 @@ TEST_F(ArrayElementExpressionTest, printToStreamTest) {
 TEST_F(ArrayElementExpressionTest, generateIRForNonArrayTypeDeathTest) {
   Mock::AllowLeak(mArrayExpression);
   Mock::AllowLeak(mArrayIndexExpression);
-  ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  Mock::AllowLeak(mArrayVariable);
+  ON_CALL(*mArrayVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   
   EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, IR_GENERATION_NORMAL),
               ::testing::ExitedWithCode(1),
@@ -129,6 +136,7 @@ TEST_F(ArrayElementExpressionTest, generateIRForNonArrayTypeDeathTest) {
 TEST_F(ArrayElementExpressionTest, generateIRForNonIntTypeIndexDeathTest) {
   Mock::AllowLeak(mArrayExpression);
   Mock::AllowLeak(mArrayIndexExpression);
+  Mock::AllowLeak(mArrayVariable);
   ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   
   EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, IR_GENERATION_NORMAL),
@@ -139,6 +147,7 @@ TEST_F(ArrayElementExpressionTest, generateIRForNonIntTypeIndexDeathTest) {
 TEST_F(ArrayElementExpressionTest, getTypeDeathTest) {
   Mock::AllowLeak(mArrayExpression);
   Mock::AllowLeak(mArrayIndexExpression);
+  Mock::AllowLeak(mArrayVariable);
   ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   
   EXPECT_EXIT(mArrayElementExpression->getType(mContext),

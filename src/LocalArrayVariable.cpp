@@ -6,10 +6,15 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
+
+#include "wisey/ArrayElementExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayVariable.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
+using namespace llvm;
 using namespace std;
 using namespace wisey;
 
@@ -26,7 +31,7 @@ string LocalArrayVariable::getName() const {
   return mName;
 }
 
-const ArrayType* LocalArrayVariable::getType() const {
+const wisey::ArrayType* LocalArrayVariable::getType() const {
   return mType;
 }
 
@@ -38,9 +43,12 @@ llvm::Value* LocalArrayVariable::generateAssignmentIR(IRGenerationContext& conte
                                                       IExpression* assignToExpression,
                                                       vector<const IExpression*> arrayIndices,
                                                       int line) {
-  const IType* assignToType = assignToExpression->getType(context);
-  Log::e("Trying to assign array " + getType()->getTypeName() +
-         " to a non-compatible type " + assignToType->getTypeName());
-  exit(1);
+  Value* element = ArrayElementExpression::generateElementIR(context,
+                                                             mType,
+                                                             mValueStore,
+                                                             arrayIndices);
+  
+  Value* expressionValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
+  return IRWriter::newStoreInst(context, expressionValue, element);
 }
 

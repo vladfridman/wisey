@@ -1041,7 +1041,7 @@ expression
   ;
 
 assignment
-  : identifier '=' expression { $$ = new Assignment($1, $3, yylineno); }
+  : postfix_expression '=' expression { $$ = new Assignment($1, $3, yylineno); }
   ;
 
 thread_expression

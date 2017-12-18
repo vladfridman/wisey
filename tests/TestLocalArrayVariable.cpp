@@ -70,7 +70,7 @@ TEST_F(LocalArrayVariableTest, generateAssignmentIRTest) {
 
   EXPECT_EXIT(variable.generateAssignmentIR(mContext, &expression, arrayIndices, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Trying to assign array int\\[3\\] to a non-compatible type int");
+              "Error: Expression does not reference an array element");
 }
 
 TEST_F(LocalArrayVariableTest, generateIdentifierIRTest) {

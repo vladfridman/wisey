@@ -120,7 +120,9 @@ void VariableDeclaration::allocateArray(IRGenerationContext& context,
   Type* llvmType = type->getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   
-  LocalArrayVariable* variable = new LocalArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
+  LocalArrayVariable* variable = new LocalArrayVariable(mIdentifier->getIdentifierName(),
+                                                        type,
+                                                        alloc);
   context.getScopes().setVariable(variable);
 }
 
