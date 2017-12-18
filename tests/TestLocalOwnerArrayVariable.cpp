@@ -92,3 +92,11 @@ TEST_F(TestFileSampleRunner, arrayElementIsNulledOnOwnerTranserRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_is_nulled_on_owner_transfer.yz:18)\n");
 }
 
+TEST_F(TestFileSampleRunner, ownerVariableIsNulledOnOwnerTransferToArrayRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_owner_variable_is_nulled_on_owner_transfer_to_array.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_owner_transfer_to_array.yz:18)\n");
+}
+

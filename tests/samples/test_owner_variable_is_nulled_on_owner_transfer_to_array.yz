@@ -1,0 +1,22 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+  public int getYear() {
+    return 2018;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    MCar*[5] array;
+    MCar* car = builder(MCar).build();
+    array[4] = car;
+
+    return car.getYear();
+  }
+}
+
+bind(CProgram).to(IProgram);
