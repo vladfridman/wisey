@@ -36,6 +36,7 @@ llvm::Value* LocalArrayVariable::generateIdentifierIR(IRGenerationContext& conte
 
 llvm::Value* LocalArrayVariable::generateAssignmentIR(IRGenerationContext& context,
                                                       IExpression* assignToExpression,
+                                                      vector<const IExpression*> arrayIndices,
                                                       int line) {
   const IType* assignToType = assignToExpression->getType(context);
   Log::e("Trying to assign array " + getType()->getTypeName() +

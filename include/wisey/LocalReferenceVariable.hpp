@@ -39,6 +39,7 @@ public:
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                     IExpression* assignToExpression,
+                                    std::vector<const IExpression*> arrayIndices,
                                     int line) override;
   
   void decrementReferenceCounter(IRGenerationContext& context) const override;

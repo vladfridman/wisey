@@ -146,8 +146,9 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
-  
-  mFieldOwnerVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
+  vector<const IExpression*> arrayIndices;
+
+  mFieldOwnerVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -171,9 +172,10 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTes
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
-  
+  vector<const IExpression*> arrayIndices;
+
   FieldOwnerVariable* ownerFieldVariable = new FieldOwnerVariable("bar", mObject);
-  ownerFieldVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
+  ownerFieldVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

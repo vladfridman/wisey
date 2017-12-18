@@ -40,6 +40,7 @@ Value* FieldPrimitiveVariable::generateIdentifierIR(IRGenerationContext& context
 
 Value* FieldPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context,
                                                     IExpression* assignToExpression,
+                                                    vector<const IExpression*> arrayIndices,
                                                     int line) {
   Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
 

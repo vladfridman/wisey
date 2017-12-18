@@ -36,6 +36,7 @@ public:
   
   llvm::Value* generateAssignmentIR(IRGenerationContext& context,
                                     IExpression* assignToExpression,
+                                    std::vector<const IExpression*> arrayIndices,
                                     int line) override;
   
 };

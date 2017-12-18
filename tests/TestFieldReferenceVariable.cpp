@@ -137,8 +137,9 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentIRTes
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
-  
-  mFieldReferenceVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
+  vector<const IExpression*> arrayIndices;
+
+  mFieldReferenceVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -164,9 +165,10 @@ TEST_F(FieldReferenceVariableTest, referenceFieldVariableGenerateAssignmentWithC
   Value* assignToValue = ConstantPointerNull::get(llvmType);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
-  
+  vector<const IExpression*> arrayIndices;
+
   FieldReferenceVariable* referenceFieldVariable = new FieldReferenceVariable("bar", mObject);
-  referenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
+  referenceFieldVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

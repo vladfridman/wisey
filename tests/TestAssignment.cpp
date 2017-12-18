@@ -146,7 +146,7 @@ TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
   Assignment assignment(identifier, mExpression, 0);
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
-  EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _)).Times(1);
+  EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(1);
   
   assignment.generateIR(mContext, IR_GENERATION_NORMAL);
 }
@@ -161,7 +161,7 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
   Assignment assignment(identifier, mExpression, 0);
   
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
-  EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _)).Times(1);
+  EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(1);
   
   assignment.generateIR(mContext, IR_GENERATION_NORMAL);
 }

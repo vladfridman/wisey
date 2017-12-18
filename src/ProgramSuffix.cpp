@@ -77,7 +77,8 @@ Value* ProgramSuffix::generateMain(IRGenerationContext& context,
   threadVariable->setToNull(context);
   FakeExpression* threadExpression = new FakeExpression(injectedThread,
                                                         threadController->getOwner());
-  threadVariable->generateAssignmentIR(context, threadExpression, 0);
+  vector<const IExpression*> arrayIndices;
+  threadVariable->generateAssignmentIR(context, threadExpression, arrayIndices, 0);
 
   Injector* injector = new Injector(programInterfaceSpecifier, injectionArguments, 0);
   Identifier* programIdentifier = new Identifier("program");

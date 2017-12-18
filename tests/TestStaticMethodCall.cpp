@@ -153,7 +153,8 @@ public:
                                                           mThreadController,
                                                           threadStore);
     FakeExpression* fakeExpression = new FakeExpression(null, mThreadController);
-    threadVariable->generateAssignmentIR(mContext, fakeExpression, 0);
+    vector<const IExpression*> arrayIndices;
+   threadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     mContext.getScopes().setVariable(threadVariable);
 
     string objectName = mModel->getObjectNameGlobalVariableName();

@@ -46,6 +46,7 @@ Value* FieldOwnerVariable::generateIdentifierIR(IRGenerationContext& context) co
 
 Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 IExpression* assignToExpression,
+                                                vector<const IExpression*> arrayIndices,
                                                 int line) {
   Field* field = checkAndFindFieldForAssignment(context, mObject, mName);
 

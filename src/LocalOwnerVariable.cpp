@@ -52,6 +52,7 @@ Value* LocalOwnerVariable::generateIdentifierIR(IRGenerationContext& context) co
 
 Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 IExpression* assignToExpression,
+                                                vector<const IExpression*> arrayIndices,
                                                 int line) {
   Composer::pushCallStack(context, line);
   

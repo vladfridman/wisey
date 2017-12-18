@@ -74,7 +74,7 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   
   vector<const IExpression*> arrayIndices;
   IVariable* variable = mIdentifier->getVariable(context, arrayIndices);
-  variable->generateAssignmentIR(context, mAssignmentExpression, mLine);
+  variable->generateAssignmentIR(context, mAssignmentExpression, arrayIndices, mLine);
   
   return NULL;
 }

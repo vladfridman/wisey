@@ -66,8 +66,9 @@ TEST_F(LocalArrayVariableTest, generateAssignmentIRTest) {
   ::Mock::AllowLeak(&expression);
   ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(assignValue));
+  vector<const IExpression*> arrayIndices;
 
-  EXPECT_EXIT(variable.generateAssignmentIR(mContext, &expression, 0),
+  EXPECT_EXIT(variable.generateAssignmentIR(mContext, &expression, arrayIndices, 0),
               ::testing::ExitedWithCode(1),
               "Error: Trying to assign array int\\[3\\] to a non-compatible type int");
 }

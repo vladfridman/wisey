@@ -106,8 +106,9 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableAssignmentTest) {
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel));
   ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(barValue));
+  vector<const IExpression*> arrayIndices;
   
-  uninitializedHeapVariable->generateAssignmentIR(mContext, &expression, 0);
+  uninitializedHeapVariable->generateAssignmentIR(mContext, &expression, arrayIndices, 0);
 
   *mStringStream << *mBlock;
   string expected =
@@ -131,7 +132,8 @@ TEST_F(LocalReferenceVariableTest, localReferenceVariableIdentifierTest) {
   LocalReferenceVariable localReferenceVariable("foo", mModel, fooValue);
   llvm::Constant* null = ConstantPointerNull::get(llvmType);
   FakeExpression* fakeExpression = new FakeExpression(null, mModel);
-  localReferenceVariable.generateAssignmentIR(mContext, fakeExpression, 0);
+  vector<const IExpression*> arrayIndices;
+  localReferenceVariable.generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
 
   Value* instruction = localReferenceVariable.generateIdentifierIR(mContext);
 

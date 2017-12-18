@@ -78,7 +78,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context, IRGeneratio
 
   
   FakeExpression fakeExpression(incrementResult, variable->getType());
-  variable->generateAssignmentIR(context, &fakeExpression, mLine);
+  variable->generateAssignmentIR(context, &fakeExpression, arrayIndices, mLine);
 
   return mIsPrefix ? incrementResult : originalValue;
 }

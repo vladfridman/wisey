@@ -94,8 +94,9 @@ TEST_F(LocalOwnerVariableTest, localOwnerVariableAssignmentTest) {
   NiceMock<MockExpression> expression;
   ON_CALL(expression, getType(_)).WillByDefault(Return(mModel->getOwner()));
   ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(barValue));
-  
-  uninitializedHeapVariable->generateAssignmentIR(mContext, &expression, 0);
+  vector<const IExpression*> arrayIndices;
+
+  uninitializedHeapVariable->generateAssignmentIR(mContext, &expression, arrayIndices, 0);
   
   *mStringStream << *mBlock;
   

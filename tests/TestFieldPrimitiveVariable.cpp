@@ -107,8 +107,9 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentIRTes
   Value* assignToValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
-  
-  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
+  vector<const IExpression*> arrayIndices;
+
+  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -126,8 +127,9 @@ TEST_F(FieldPrimitiveVariableTest, primitiveFieldVariableGenerateAssignmentWithC
   Value* assignToValue = ConstantInt::get(PrimitiveTypes::CHAR_TYPE->getLLVMType(mContext), 3);
   ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::CHAR_TYPE));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
-  
-  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression, 0);
+  vector<const IExpression*> arrayIndices;
+
+  mFieldPrimitiveVariable->generateAssignmentIR(mContext, &assignToExpression, arrayIndices, 0);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +

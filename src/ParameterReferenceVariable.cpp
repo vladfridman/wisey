@@ -41,6 +41,7 @@ Value* ParameterReferenceVariable::generateIdentifierIR(IRGenerationContext& con
 
 Value* ParameterReferenceVariable::generateAssignmentIR(IRGenerationContext& context,
                                                         IExpression* assignToExpression,
+                                                        vector<const IExpression*> arrayIndices,
                                                         int line) {
   Log::e("Assignment to method parameters is not allowed");
   exit(1);

@@ -39,7 +39,7 @@ Value* Assignment::generateIR(IRGenerationContext& context, IRGenerationFlag fla
     exit(1);
   }
   
-  Value* result = variable->generateAssignmentIR(context, mExpression, mLine);
+  Value* result = variable->generateAssignmentIR(context, mExpression, arrayIndices, mLine);
   
   if (flag == IR_GENERATION_RELEASE) {
     assert(IType::isOwnerType(variable->getType()));

@@ -69,7 +69,8 @@ struct ThreadExpressionTest : public Test {
                                                  mThreadController,
                                                  threadStore);
     FakeExpression* fakeExpression = new FakeExpression(null, mThreadController);
-    mThreadVariable->generateAssignmentIR(mContext, fakeExpression, 0);
+    vector<const IExpression*> arrayIndices;
+    mThreadVariable->generateAssignmentIR(mContext, fakeExpression, arrayIndices, 0);
     
     mContext.getScopes().setVariable(mThreadVariable);
 

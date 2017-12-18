@@ -76,8 +76,9 @@ public:
 TEST_F(ParameterReferenceVariableTest, parameterReferenceVariableAssignmentDeathTest) {
   Value* fooValue = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   ParameterReferenceVariable parameterReferenceVariable("foo", mModel, fooValue);
-  
-  EXPECT_EXIT(parameterReferenceVariable.generateAssignmentIR(mContext, NULL, 0),
+  vector<const IExpression*> arrayIndices;
+
+  EXPECT_EXIT(parameterReferenceVariable.generateAssignmentIR(mContext, NULL, arrayIndices, 0),
               ::testing::ExitedWithCode(1),
               "Error: Assignment to method parameters is not allowed");
 }
