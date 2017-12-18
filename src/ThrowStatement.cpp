@@ -50,7 +50,7 @@ Value* ThrowStatement::generateIR(IRGenerationContext& context) const {
     IRWriter::newBitCastInst(context, exceptionObject, int8PointerType);
   BitCastInst* rttiBitcast = IRWriter::newBitCastInst(context, rtti, int8PointerType);
 
-  Value* modelSize = model->getSize(context);
+  Value* modelSize = ConstantExpr::getSizeOf(model->getLLVMType(context)->getPointerElementType());
   vector<Value*> allocateExceptionArguments;
   allocateExceptionArguments.push_back(modelSize);
   Function* allocateExceptionFunction = IntrinsicFunctions::getAllocateExceptionFunction(context);

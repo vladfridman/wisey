@@ -124,17 +124,6 @@ vector<wisey::Constant*> Model::getConstants() const {
   return mConstants;
 }
 
-Value* Model::getSize(IRGenerationContext& context) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value* nullPointer = ConstantPointerNull::get(mStructType->getPointerTo());
-  Value* index[1];
-  index[0] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* sizePointer = IRWriter::createGetElementPtrInst(context, nullPointer, index);
-  
-  return IRWriter::newPtrToIntInst(context, sizePointer, Type::getInt64Ty(llvmContext), "");
-}
-
 Field* Model::findField(string fieldName) const {
   if (!mFields.count(fieldName)) {
     return NULL;

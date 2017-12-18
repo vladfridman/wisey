@@ -349,42 +349,6 @@ TEST_F(ModelTest, getOwnerTest) {
   EXPECT_EQ(mModel->getOwner()->getObject(), mModel);
 }
 
-TEST(ModelGetSizeTest, getSizeTest) {
-  InitializeNativeTarget();
-  LLVMInitializeNativeAsmPrinter();
-
-  IRGenerationContext context;
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  vector<Type*> types;
-  types.push_back(Type::getInt64Ty(llvmContext));
-  types.push_back(Type::getInt32Ty(llvmContext));
-  types.push_back(Type::getInt32Ty(llvmContext));
-  string modelFullName = "systems.vos.wisey.compiler.tests.MSquare";
-  StructType* structType = StructType::create(llvmContext, modelFullName);
-  structType->setBody(types);
-
-  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, structType);
-  context.addModel(model);
-  
-  FunctionType* functionType = FunctionType::get(Type::getInt64Ty(llvmContext), false);
-  Function* function = Function::Create(functionType,
-                                        GlobalValue::ExternalLinkage,
-                                        "main",
-                                        context.getModule());
-  
-  BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function);
-  context.setBasicBlock(basicBlock);
-  context.getScopes().pushScope();
-  context.setMainFunction(function);
-
-  Value* value = model->getSize(context);
-  IRWriter::createReturnInst(context, value);
-  GenericValue result = context.runCode();
-  
-  EXPECT_EQ(result.IntVal, 16);
-}
-
 TEST_F(ModelTest, createRTTITest) {
   GlobalVariable* rtti = mContext.getModule()->getNamedGlobal(mCircleModel->getRTTIVariableName());
   ASSERT_EQ(rtti, nullptr);

@@ -78,11 +78,6 @@ public:
    * Creates a global variable with type description for this model in RTTI format
    */
   void createRTTI(IRGenerationContext& context) const;
-  
-  /**
-   * Returns the size of this object in bytes
-   */
-  llvm::Value* getSize(IRGenerationContext& context) const;
 
   AccessLevel getAccessLevel() const override;
 
