@@ -37,7 +37,8 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   const IType* arrayType = variable->getType();
   Value* arrayPointer = variable->generateIdentifierIR(context);
 
-  return generateElementIR(context, arrayType, arrayPointer, arrayIndices);
+  Value* pointer = generateElementIR(context, arrayType, arrayPointer, arrayIndices);
+  return IRWriter::newLoadInst(context, pointer, "");
 }
 
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
@@ -97,8 +98,7 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
   }
   
   const wisey::ArrayType* arrayType = (const wisey::ArrayType*) arrayExpressionType;
-  const IType* baseType = arrayType->getBaseType();
-  return baseType->getTypeKind() == ARRAY_TYPE ? baseType : baseType->getArrayElementType();
+  return arrayType->getBaseType();
 }
 
 void ArrayElementExpression::printToStream(IRGenerationContext& context, iostream& stream) const {

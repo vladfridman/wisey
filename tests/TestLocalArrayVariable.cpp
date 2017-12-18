@@ -85,6 +85,6 @@ TEST_F(TestFileSampleRunner, intArrayRunTest) {
 }
 
 TEST_F(TestFileSampleRunner, arrayOfModelsRunTest) {
-  runFile("tests/samples/test_array_of_models.yz", "7");
+  runFile("tests/samples/test_array_of_models.yz", "2018");
 }
 
