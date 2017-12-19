@@ -392,6 +392,7 @@
 		F54625FF1DE5ED0700074D66 /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54625FE1DE5ED0700074D66 /* libcurses.dylib */; };
 		F54626011DE5ED1B00074D66 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626001DE5ED1B00074D66 /* libz.dylib */; };
 		F54626031DE5ED3500074D66 /* libm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F54626021DE5ED3500074D66 /* libm.dylib */; };
+		F54985791FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */; };
 		F54ED9571FE828F900847A2B /* LocalOwnerArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED9561FE828F900847A2B /* LocalOwnerArrayVariable.cpp */; };
 		F54ED9581FE828F900847A2B /* LocalOwnerArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED9561FE828F900847A2B /* LocalOwnerArrayVariable.cpp */; };
 		F54ED95C1FE8302300847A2B /* TestLocalOwnerArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54ED95B1FE8302300847A2B /* TestLocalOwnerArrayVariable.cpp */; };
@@ -1223,6 +1224,7 @@
 		F54625FE1DE5ED0700074D66 /* libcurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurses.dylib; path = /usr/lib/libcurses.dylib; sourceTree = "<absolute>"; };
 		F54626001DE5ED1B00074D66 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		F54626021DE5ED3500074D66 /* libm.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libm.dylib; path = /usr/lib/libm.dylib; sourceTree = "<absolute>"; };
+		F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyOwnerArrayFunction.cpp; path = tests/TestDestroyOwnerArrayFunction.cpp; sourceTree = "<group>"; };
 		F54ED9551FE8288E00847A2B /* LocalOwnerArrayVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = LocalOwnerArrayVariable.hpp; path = include/wisey/LocalOwnerArrayVariable.hpp; sourceTree = "<group>"; };
 		F54ED9561FE828F900847A2B /* LocalOwnerArrayVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LocalOwnerArrayVariable.cpp; path = src/LocalOwnerArrayVariable.cpp; sourceTree = "<group>"; };
 		F54ED95B1FE8302300847A2B /* TestLocalOwnerArrayVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalOwnerArrayVariable.cpp; path = tests/TestLocalOwnerArrayVariable.cpp; sourceTree = "<group>"; };
@@ -1922,6 +1924,7 @@
 				F53A2C111EEEC56700E76A9E /* TestControllerOwner.cpp */,
 				F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */,
 				F5BD74631EE15BD00035E8FC /* TestDefaultCaseStatement.cpp */,
+				F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */,
 				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
 				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
 				F5C6FD781E48B59C0054209D /* TestDoubleType.cpp */,
@@ -3004,6 +3007,7 @@
 				F5C6FD661E48AB3B0054209D /* CharType.cpp in Sources */,
 				F5F435CC1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp in Sources */,
 				F5ADB61E1E5F587D00FFC941 /* NegateExpression.cpp in Sources */,
+				F54985791FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp in Sources */,
 				F52C665F1FBF38CC00E89B04 /* CheckForNullAndThrowFunction.cpp in Sources */,
 				F55DB0621F793D8C0009942C /* TestIObjectTypeSpecifier.cpp in Sources */,
 				F5F435CA1FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp in Sources */,
