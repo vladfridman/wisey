@@ -49,7 +49,7 @@ public:
 
 private:
   
-  void reportErrorArrayType(std::string typeName) const;
+  static void reportErrorArrayType(std::string typeName);
   
 };
 

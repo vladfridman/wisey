@@ -57,8 +57,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
   const IType* valueType = arrayType;
   for (const IExpression* indexExpression : arrayIndices) {
     if (valueType->getTypeKind() != ARRAY_TYPE) {
-      Log::e("Expecting array type expression before [] but expression type is " +
-             valueType->getTypeName());
+      reportErrorArrayType(valueType->getTypeName());
       exit(1);
     }
     const wisey::ArrayType* arrayType = (const wisey::ArrayType*) valueType;
@@ -116,6 +115,6 @@ void ArrayElementExpression::printToStream(IRGenerationContext& context, iostrea
   stream << "]";
 }
 
-void ArrayElementExpression::reportErrorArrayType(string typeName) const {
+void ArrayElementExpression::reportErrorArrayType(string typeName) {
   Log::e("Expecting array type expression before [] but expression type is " + typeName);
 }
