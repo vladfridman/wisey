@@ -72,3 +72,7 @@ TEST_F(TestFileSampleRunner, intArrayRunTest) {
 TEST_F(TestFileSampleRunner, intArrayWithAutocastRunTest) {
   runFile("tests/samples/test_int_array_with_autocast.yz", "1");
 }
+
+TEST_F(TestFileSampleRunner, incrementArrayElementRunTest) {
+  runFile("tests/samples/test_increment_array_element.yz", "5");
+}
