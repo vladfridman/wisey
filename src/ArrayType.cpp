@@ -79,11 +79,6 @@ void ArrayType::free(IRGenerationContext& context, llvm::Value* arrayPointer) co
 
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
 
-  llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
-  llvm::Value* indexStore = IRWriter::newAllocaInst(context, int64type, "");
-  llvm::Constant* int64zero = llvm::ConstantInt::get(int64type, 0);
-  IRWriter::newStoreInst(context, int64zero, indexStore);
-  
   llvm::Type* genericPointer = llvm::Type::getInt8Ty(llvmContext)->getPointerTo();
   llvm::Type* genericArray = llvm::ArrayType::get(genericPointer, 0)->getPointerTo();
   llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericArray);
