@@ -20,6 +20,7 @@
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/AdjustReferenceCounterForInterfaceFunction.hpp"
 #include "wisey/ConstantDeclaration.hpp"
 #include "wisey/FieldDeclaration.hpp"
 #include "wisey/GetOriginalObjectFunction.hpp"
@@ -278,6 +279,13 @@ TEST_F(InterfaceTest, markAsInnerTest) {
   EXPECT_FALSE(mObjectInterface->isInner());
   mObjectInterface->markAsInner();
   EXPECT_TRUE(mObjectInterface->isInner());
+}
+
+TEST_F(InterfaceTest, getReferenceAdjustmentFunctionTest) {
+  Function* result = mObjectInterface->getReferenceAdjustmentFunction(mContext);
+  
+  ASSERT_NE(nullptr, result);
+  EXPECT_EQ(result, AdjustReferenceCounterForInterfaceFunction::get(mContext));
 }
 
 TEST_F(InterfaceTest, canCastToTest) {

@@ -413,3 +413,7 @@ void Model::markAsInner() {
 bool Model::isInner() const {
   return mIsInner;
 }
+
+Function* Model::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
+  return AdjustReferenceCounterForConcreteObjectSafelyFunction::get(context);
+}

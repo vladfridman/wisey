@@ -22,6 +22,7 @@
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/IntConstant.hpp"
@@ -417,6 +418,13 @@ TEST_F(ModelTest, markAsInnerTest) {
   EXPECT_FALSE(mModel->isInner());
   mModel->markAsInner();
   EXPECT_TRUE(mModel->isInner());
+}
+
+TEST_F(ModelTest, getReferenceAdjustmentFunctionTest) {
+  Function* result = mModel->getReferenceAdjustmentFunction(mContext);
+  
+  ASSERT_NE(nullptr, result);
+  EXPECT_EQ(result, AdjustReferenceCounterForConcreteObjectSafelyFunction::get(mContext));
 }
 
 TEST_F(ModelTest, canCastToTest) {

@@ -66,6 +66,8 @@ public:
   MOCK_CONST_METHOD0(getInnerObjects, std::map<std::string, const IObjectType*> ());
   MOCK_METHOD0(markAsInner, void ());
   MOCK_CONST_METHOD0(isInner, bool ());
+  MOCK_CONST_METHOD1(getReferenceAdjustmentFunction,
+                     llvm::Function* (wisey::IRGenerationContext& context));
 };
 
 #endif /* MockConcreteObjectType_h */

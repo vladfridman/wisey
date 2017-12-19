@@ -122,6 +122,11 @@ public:
   virtual bool isInner() const = 0;
   
   /**
+   * Returns a function that is used to adjust the number of reference for this object type
+   */
+  virtual llvm::Function* getReferenceAdjustmentFunction(IRGenerationContext& context) const = 0;
+  
+  /**
    * Returns an i8* constant pointer to the name of the collable object
    */
   static llvm::Constant* getObjectNamePointer(const IObjectType* object,

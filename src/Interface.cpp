@@ -892,3 +892,7 @@ void Interface::markAsInner() {
 bool Interface::isInner() const {
   return mIsInner;
 }
+
+Function* Interface::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
+  return AdjustReferenceCounterForInterfaceFunction::get(context);
+}

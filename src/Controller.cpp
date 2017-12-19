@@ -450,3 +450,8 @@ void Controller::markAsInner() {
 bool Controller::isInner() const {
   return mIsInner;
 }
+
+Function* Controller::getReferenceAdjustmentFunction(IRGenerationContext& context) const {
+  return AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(context);
+}
+

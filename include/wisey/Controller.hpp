@@ -151,6 +151,8 @@ public:
   void markAsInner() override;
   
   bool isInner() const override;
+  
+  llvm::Function* getReferenceAdjustmentFunction(IRGenerationContext& context) const override;
 
 private:
 

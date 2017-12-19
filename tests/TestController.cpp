@@ -20,6 +20,7 @@
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "TestPrefix.hpp"
+#include "wisey/AdjustReferenceCounterForConcreteObjectUnsafelyFunction.hpp"
 #include "wisey/Constant.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/FakeExpression.hpp"
@@ -411,6 +412,13 @@ TEST_F(ControllerTest, markAsInnerTest) {
   EXPECT_FALSE(mMultiplierController->isInner());
   mMultiplierController->markAsInner();
   EXPECT_TRUE(mMultiplierController->isInner());
+}
+
+TEST_F(ControllerTest, getReferenceAdjustmentFunctionTest) {
+  Function* result = mMultiplierController->getReferenceAdjustmentFunction(mContext);
+  
+  ASSERT_NE(nullptr, result);
+  EXPECT_EQ(result, AdjustReferenceCounterForConcreteObjectUnsafelyFunction::get(mContext));
 }
 
 TEST_F(ControllerTest, canCastToTest) {
