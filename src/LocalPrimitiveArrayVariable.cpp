@@ -1,5 +1,5 @@
 //
-//  LocalArrayVariable.cpp
+//  LocalPrimitiveArrayVariable.cpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 12/11/17.
@@ -10,7 +10,7 @@
 
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalArrayVariable.hpp"
+#include "wisey/LocalPrimitiveArrayVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
@@ -18,31 +18,32 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-LocalArrayVariable::LocalArrayVariable(string name,
+LocalPrimitiveArrayVariable::LocalPrimitiveArrayVariable(string name,
                                        const ArrayType* type,
                                        llvm::Value* valueStore) :
 mName(name), mType(type), mValueStore(valueStore) {
 }
 
-LocalArrayVariable::~LocalArrayVariable() {
+LocalPrimitiveArrayVariable::~LocalPrimitiveArrayVariable() {
 }
 
-string LocalArrayVariable::getName() const {
+string LocalPrimitiveArrayVariable::getName() const {
   return mName;
 }
 
-const wisey::ArrayType* LocalArrayVariable::getType() const {
+const wisey::ArrayType* LocalPrimitiveArrayVariable::getType() const {
   return mType;
 }
 
-llvm::Value* LocalArrayVariable::generateIdentifierIR(IRGenerationContext& context) const {
+llvm::Value* LocalPrimitiveArrayVariable::generateIdentifierIR(IRGenerationContext& context) const {
   return mValueStore;
 }
 
-llvm::Value* LocalArrayVariable::generateAssignmentIR(IRGenerationContext& context,
-                                                      IExpression* assignToExpression,
-                                                      vector<const IExpression*> arrayIndices,
-                                                      int line) {
+llvm::Value* LocalPrimitiveArrayVariable::generateAssignmentIR(IRGenerationContext& context,
+                                                               IExpression* assignToExpression,
+                                                               vector<const IExpression*>
+                                                               arrayIndices,
+                                                               int line) {
   Value* element = ArrayElementExpression::generateElementIR(context,
                                                              mType,
                                                              mValueStore,

@@ -1,13 +1,13 @@
 //
-//  LocalArrayVariable.hpp
+//  LocalPrimitiveArrayVariable.hpp
 //  Wisey
 //
 //  Created by Vladimir Fridman on 12/11/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LocalArrayVariable_h
-#define LocalArrayVariable_h
+#ifndef LocalPrimitiveArrayVariable_h
+#define LocalPrimitiveArrayVariable_h
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/IVariable.hpp"
@@ -15,9 +15,9 @@
 namespace wisey {
   
 /**
- * Represents a local variable of array type
+ * Represents a local variable of array type where each element is of a primitive type
  */
-class LocalArrayVariable : public IVariable {
+class LocalPrimitiveArrayVariable : public IVariable {
     
   std::string mName;
   const ArrayType* mType;
@@ -25,9 +25,9 @@ class LocalArrayVariable : public IVariable {
   
 public:
   
-  LocalArrayVariable(std::string name, const ArrayType* type, llvm::Value* valueStore);
+  LocalPrimitiveArrayVariable(std::string name, const ArrayType* type, llvm::Value* valueStore);
   
-  ~LocalArrayVariable();
+  ~LocalPrimitiveArrayVariable();
   
   std::string getName() const override;
   
@@ -44,4 +44,4 @@ public:
 
 } /* namespace wisey */
 
-#endif /* LocalArrayVariable_h */
+#endif /* LocalPrimitiveArrayVariable_h */

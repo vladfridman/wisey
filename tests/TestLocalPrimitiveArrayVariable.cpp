@@ -1,11 +1,11 @@
 //
-//  TestLocalArrayVariable.cpp
+//  TestLocalPrimitiveArrayVariable.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 12/11/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link LocalArrayVariable}
+//  Tests {@link LocalPrimitiveArrayVariable}
 //
 
 #include <gtest/gtest.h>
@@ -20,7 +20,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalArrayVariable.hpp"
+#include "wisey/LocalPrimitiveArrayVariable.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
@@ -33,7 +33,7 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct LocalArrayVariableTest : public Test {
+struct LocalPrimitiveArrayVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBlock;
@@ -41,7 +41,7 @@ struct LocalArrayVariableTest : public Test {
   
 public:
   
-  LocalArrayVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  LocalPrimitiveArrayVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 3u);
     
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
@@ -54,13 +54,13 @@ public:
     mContext.getScopes().pushScope();
   }
   
-  ~LocalArrayVariableTest() {
+  ~LocalPrimitiveArrayVariableTest() {
   }
 };
 
-TEST_F(LocalArrayVariableTest, generateIdentifierIRTest) {
+TEST_F(LocalPrimitiveArrayVariableTest, generateIdentifierIRTest) {
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "foo");
-  LocalArrayVariable variable("foo", mArrayType, alloc);
+  LocalPrimitiveArrayVariable variable("foo", mArrayType, alloc);
 
   EXPECT_EQ(alloc, variable.generateIdentifierIR(mContext));
 }

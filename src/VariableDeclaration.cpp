@@ -15,9 +15,9 @@
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
-#include "wisey/LocalArrayVariable.hpp"
 #include "wisey/LocalOwnerArrayVariable.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
+#include "wisey/LocalPrimitiveArrayVariable.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
 #include "wisey/LocalReferenceArrayVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
@@ -146,7 +146,8 @@ void VariableDeclaration::allocateArray(IRGenerationContext& context,
   } else if (IType::isReferenceType(type->getScalarType())) {
     variable = new LocalReferenceArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
   } else {
-    variable = new LocalArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
+    assert(type->getScalarType()->getTypeKind() == PRIMITIVE_TYPE);
+    variable = new LocalPrimitiveArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
   }
   
   context.getScopes().setVariable(variable);
