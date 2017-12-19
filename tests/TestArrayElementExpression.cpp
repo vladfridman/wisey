@@ -154,3 +154,39 @@ TEST_F(ArrayElementExpressionTest, getTypeDeathTest) {
               "Error: Expecting array type expression before \\[\\] but expression type is int");
 }
 
+TEST_F(ArrayElementExpressionTest, generateAssignmentIRDeathTest) {
+  Mock::AllowLeak(mArrayExpression);
+  Mock::AllowLeak(mArrayIndexExpression);
+  Mock::AllowLeak(mArrayVariable);
+
+  wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
+  mArrayType = new wisey::ArrayType(arrayType, 5);
+  Value* alloca = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "");
+  ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(alloca));
+  ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
+  ON_CALL(*mArrayExpression, getVariable(_, _)).WillByDefault(Return(mArrayVariable));
+  ON_CALL(*mArrayVariable, getType()).WillByDefault(Return(mArrayType));
+  ON_CALL(*mArrayVariable, generateIdentifierIR(_)).WillByDefault(Return(alloca));
+  ConstantInt* three = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
+  ON_CALL(*mArrayIndexExpression, generateIR(_, _)).WillByDefault(Return(three));
+  ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
+  
+  mArrayElementExpression = new ArrayElementExpression(mArrayExpression, mArrayIndexExpression);
+
+  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, IR_GENERATION_NORMAL),
+              ::testing::ExitedWithCode(1),
+              "Error: Expression does not reference an array element");
+}
+
+TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
+  Mock::AllowLeak(mArrayExpression);
+  Mock::AllowLeak(mArrayIndexExpression);
+  Mock::AllowLeak(mArrayVariable);
+  vector<const IExpression*> arrayIndices;
+  
+  EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext, mArrayType, NULL, arrayIndices),
+              ::testing::ExitedWithCode(1),
+              "Error: Expression does not reference an array element");
+}
+
+

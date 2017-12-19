@@ -65,21 +65,6 @@ TEST_F(LocalOwnerArrayVariableTest, generateIdentifierIRTest) {
   EXPECT_EQ(alloc, variable.generateIdentifierIR(mContext));
 }
 
-TEST_F(LocalOwnerArrayVariableTest, generateAssignmentIRDeathTest) {
-  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "foo");
-  LocalOwnerArrayVariable variable("foo", mArrayType, alloc);
-  Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-  NiceMock<MockExpression> expression;
-  ::Mock::AllowLeak(&expression);
-  ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(assignValue));
-  vector<const IExpression*> arrayIndices;
-  
-  EXPECT_EXIT(variable.generateAssignmentIR(mContext, &expression, arrayIndices, 0),
-              ::testing::ExitedWithCode(1),
-              "Error: Expression does not reference an array element");
-}
-
 TEST_F(TestFileSampleRunner, arrayOfModelOwnersRunTest) {
   runFile("tests/samples/test_array_of_model_owners.yz", "2018");
 }

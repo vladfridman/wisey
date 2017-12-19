@@ -65,21 +65,6 @@ TEST_F(LocalArrayVariableTest, generateIdentifierIRTest) {
   EXPECT_EQ(alloc, variable.generateIdentifierIR(mContext));
 }
 
-TEST_F(LocalArrayVariableTest, generateAssignmentIRDeathTest) {
-  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "foo");
-  LocalArrayVariable variable("foo", mArrayType, alloc);
-  Value* assignValue = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
-  NiceMock<MockExpression> expression;
-  ::Mock::AllowLeak(&expression);
-  ON_CALL(expression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  ON_CALL(expression, generateIR(_, _)).WillByDefault(Return(assignValue));
-  vector<const IExpression*> arrayIndices;
-  
-  EXPECT_EXIT(variable.generateAssignmentIR(mContext, &expression, arrayIndices, 0),
-              ::testing::ExitedWithCode(1),
-              "Error: Expression does not reference an array element");
-}
-
 TEST_F(TestFileSampleRunner, intArrayRunTest) {
   runFile("tests/samples/test_int_array.yz", "5");
 }
