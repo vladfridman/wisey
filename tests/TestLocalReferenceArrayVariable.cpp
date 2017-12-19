@@ -65,6 +65,10 @@ TEST_F(LocalReferenceArrayVariableTest, generateIdentifierIRTest) {
   EXPECT_EQ(alloc, variable.generateIdentifierIR(mContext));
 }
 
+TEST_F(TestFileSampleRunner, arrayOfModelReferencesRunTest) {
+  runFile("tests/samples/test_array_of_model_references.yz", "2018");
+}
+
 TEST_F(TestFileSampleRunner, referenceCountDecrementsOnArrayElementUnassignRunTest) {
   runFile("tests/samples/test_reference_count_decrements_on_array_element_unassign.yz", "5");
 }

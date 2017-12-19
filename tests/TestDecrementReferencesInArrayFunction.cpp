@@ -1,11 +1,11 @@
 //
-//  TestDestroyOwnerArrayFunction.cpp
+//  TestDecrementReferencesInArrayFunction.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 12/19/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link DestroyOwnerArrayFunction}
+//  Tests {@link DecrementReferencesInArrayFunction}
 //
 
 #include <gtest/gtest.h>
@@ -14,7 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestPrefix.hpp"
-#include "wisey/DestroyOwnerArrayFunction.hpp"
+#include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -24,34 +24,35 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct DestroyOwnerArrayFunctionTest : Test {
+struct DecrementReferencesInArrayFunctionTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
   Function* mFunction;
-  Function* mDestructor;
+  Function* mDecrementor;
   Type* mInt8Pointer;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  DestroyOwnerArrayFunctionTest() :
+  DecrementReferencesInArrayFunctionTest() :
   mLLVMContext(mContext.getLLVMContext()),
   mInt8Pointer(Type::getInt8Ty(mLLVMContext)->getPointerTo()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     TestPrefix::generateIR(mContext);
     
-    vector<Type*> destructorArgumentTypes;
-    destructorArgumentTypes.push_back(mInt8Pointer);
-    ArrayRef<Type*> destructorArgTypesArray = ArrayRef<Type*>(destructorArgumentTypes);
-    Type* detructorLlvmReturnType = Type::getVoidTy(mLLVMContext);
-    FunctionType* destructorFunctionType = FunctionType::get(detructorLlvmReturnType,
-                                                             destructorArgTypesArray,
-                                                             false);
-    mDestructor = Function::Create(destructorFunctionType,
-                                   GlobalValue::ExternalLinkage,
-                                   "destructor",
-                                   mContext.getModule());
+    vector<Type*> decrementorArgumentTypes;
+    decrementorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+    decrementorArgumentTypes.push_back(Type::getInt64Ty(mLLVMContext));
+    ArrayRef<Type*> decrementorArgTypesArray = ArrayRef<Type*>(decrementorArgumentTypes);
+    Type* decrementorReturnType = Type::getVoidTy(mLLVMContext);
+    FunctionType* decrementorFunctionType = FunctionType::get(decrementorReturnType,
+                                                              decrementorArgTypesArray,
+                                                              false);
+    mDecrementor = Function::Create(decrementorFunctionType,
+                                    GlobalValue::ExternalLinkage,
+                                    "decrementor",
+                                    mContext.getModule());
 
     FunctionType* functionType =
     FunctionType::get(Type::getInt32Ty(mContext.getLLVMContext()), false);
@@ -66,31 +67,32 @@ struct DestroyOwnerArrayFunctionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~DestroyOwnerArrayFunctionTest() {
+  ~DecrementReferencesInArrayFunctionTest() {
   }
 };
 
-TEST_F(DestroyOwnerArrayFunctionTest, callTest) {
+TEST_F(DecrementReferencesInArrayFunctionTest, callTest) {
   llvm::ArrayType* arrayType = llvm::ArrayType::get(mInt8Pointer, 0);
   Value* nullPointerValue = ConstantPointerNull::get(arrayType->getPointerTo());
-  DestroyOwnerArrayFunction::call(mContext, nullPointerValue, 3, mDestructor);
+  DecrementReferencesInArrayFunction::call(mContext, nullPointerValue, 3, mDecrementor);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyOwnerArrayFunction([0 x i8*]* null, i64 3, void (i8*)* @destructor)\n";
+  "\n  call void @__decrementReferencesInArrayFunction([0 x i8*]* null, "
+  "i64 3, void (i8*, i64)* @decrementor)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
-  Function* function = DestroyOwnerArrayFunction::get(mContext);
+TEST_F(DecrementReferencesInArrayFunctionTest, getTest) {
+  Function* function = DecrementReferencesInArrayFunction::get(mContext);
   mContext.runComposingCallbacks();
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__destroyOwnerArrayFunction([0 x i8*]* %arrayBitcast, i64 %size, "
-  "void (i8*)* %destructor) {"
+  "\ndefine internal void @__decrementReferencesInArrayFunction([0 x i8*]* %arrayBitcast, "
+  "i64 %size, void (i8*, i64)* %decrementor) {"
   "\nentry:"
   "\n  %0 = alloca i64"
   "\n  store i64 0, i64* %0"
@@ -104,7 +106,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   "\nfor.body:                                         ; preds = %for.cond"
   "\n  %2 = getelementptr [0 x i8*], [0 x i8*]* %arrayBitcast, i64 0, i64 %1"
   "\n  %3 = load i8*, i8** %2"
-  "\n  call void %destructor(i8* %3)"
+  "\n  call void %decrementor(i8* %3, i64 -1)"
   "\n  %4 = add i64 %1, 1"
   "\n  store i64 %4, i64* %0"
   "\n  br label %for.cond"
@@ -115,4 +117,5 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
+
 

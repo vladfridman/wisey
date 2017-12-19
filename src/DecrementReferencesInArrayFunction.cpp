@@ -1,21 +1,21 @@
 //
-//  DestroyOwnerArrayFunction.cpp
+//  DecrementReferencesInArrayFunction.cpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 12/18/17.
+//  Created by Vladimir Fridman on 12/19/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
 #include <llvm/IR/Constants.h>
 
-#include "wisey/DestroyOwnerArrayFunction.hpp"
+#include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/IRWriter.hpp"
 
 using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-Function* DestroyOwnerArrayFunction::get(IRGenerationContext& context) {
+Function* DecrementReferencesInArrayFunction::get(IRGenerationContext& context) {
   Function* function = context.getModule()->getFunction(getName());
   
   if (function) {
@@ -28,42 +28,43 @@ Function* DestroyOwnerArrayFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-void DestroyOwnerArrayFunction::call(IRGenerationContext& context,
-                                     Value* array,
-                                     unsigned long size,
-                                     Function* destructor) {
-  Function* function = DestroyOwnerArrayFunction::get(context);
+void DecrementReferencesInArrayFunction::call(IRGenerationContext& context,
+                                              Value* array,
+                                              unsigned long size,
+                                              Function* decrementFunction) {
+  Function* function = DecrementReferencesInArrayFunction::get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
   llvm::Constant* value = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), size);
   arguments.push_back(value);
-  arguments.push_back(destructor);
+  arguments.push_back(decrementFunction);
   
   IRWriter::createCallInst(context, function, arguments, "");
 }
 
-string DestroyOwnerArrayFunction::getName() {
-  return "__destroyOwnerArrayFunction";
+string DecrementReferencesInArrayFunction::getName() {
+  return "__decrementReferencesInArrayFunction";
 }
 
-Function* DestroyOwnerArrayFunction::define(IRGenerationContext& context) {
+Function* DecrementReferencesInArrayFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
+  
+  
+  vector<Type*> decrementorArgumentTypes;
+  decrementorArgumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
+  decrementorArgumentTypes.push_back(Type::getInt64Ty(llvmContext));
+  ArrayRef<Type*> decrementorArgTypesArray = ArrayRef<Type*>(decrementorArgumentTypes);
+  Type* decrementorReturnType = Type::getVoidTy(llvmContext);
+  FunctionType* decrementorFunctionType = FunctionType::get(decrementorReturnType,
+                                                            decrementorArgTypesArray,
+                                                            false);
 
   Type* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
   Type* genericArray = llvm::ArrayType::get(genericPointer, 0)->getPointerTo();
-
-  vector<Type*> destructorArgumentTypes;
-  destructorArgumentTypes.push_back(genericPointer);
-  ArrayRef<Type*> destructorArgTypesArray = ArrayRef<Type*>(destructorArgumentTypes);
-  Type* destructorReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* destructorFunctionType = FunctionType::get(destructorReturnType,
-                                                           destructorArgTypesArray,
-                                                           false);
-
   vector<Type*> argumentTypes;
   argumentTypes.push_back(genericArray);
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
-  argumentTypes.push_back(destructorFunctionType->getPointerTo());
+  argumentTypes.push_back(decrementorFunctionType->getPointerTo());
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
   FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
@@ -71,9 +72,9 @@ Function* DestroyOwnerArrayFunction::define(IRGenerationContext& context) {
   return Function::Create(ftype, GlobalValue::InternalLinkage, getName(), context.getModule());
 }
 
-void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* function) {
+void DecrementReferencesInArrayFunction::compose(IRGenerationContext& context, Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
-
+  
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
   llvmArgument->setName("arrayBitcast");
@@ -84,9 +85,9 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   Value* size = llvmArgument;
   llvmArguments++;
   llvmArgument = &*llvmArguments;
-  llvmArgument->setName("destructor");
-  Value* destructor = llvmArgument;
-
+  llvmArgument->setName("decrementor");
+  Value* decrementor = llvmArgument;
+  
   llvm::BasicBlock* entry = llvm::BasicBlock::Create(llvmContext, "entry", function);
   llvm::BasicBlock* forCond = llvm::BasicBlock::Create(llvmContext, "for.cond", function);
   llvm::BasicBlock* forBody = llvm::BasicBlock::Create(llvmContext, "for.body", function);
@@ -118,8 +119,9 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   llvm::Value* elementPointer = IRWriter::newLoadInst(context, elementStore, "");
   vector<Value*> arguments;
   arguments.push_back(elementPointer);
-  IRWriter::createCallInst(context, (Function*) destructor, arguments, "");
-
+  arguments.push_back(ConstantInt::get(Type::getInt64Ty(llvmContext), -1));
+  IRWriter::createCallInst(context, (Function*) decrementor, arguments, "");
+  
   arguments.push_back(elementPointer);
   llvm::Constant* one = llvm::ConstantInt::get(int64type, 1);
   llvm::Value* newIndexValue = IRWriter::createBinaryOperator(context,
@@ -133,5 +135,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   
   context.setBasicBlock(forEnd);
   
+  
   IRWriter::createReturnInst(context, NULL);
 }
+
