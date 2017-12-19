@@ -6,9 +6,12 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/ArrayType.hpp"
+#include "wisey/DestroyOwnerArrayFunction.hpp"
+#include "wisey/IRWriter.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -62,4 +65,30 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
   }
   
   return NULL;
+}
+
+void ArrayType::free(IRGenerationContext& context, llvm::Value* arrayPointer) const {
+  assert(IType::isOwnerType(getScalarType()));
+  const IType* baseType = mBaseType;
+  unsigned long size = mSize;
+  while (baseType->getTypeKind() == ARRAY_TYPE) {
+    const ArrayType* arrayType = (const ArrayType*) baseType;
+    baseType = arrayType->getBaseType();
+    size = size * arrayType->getSize();
+  }
+
+  llvm::LLVMContext& llvmContext = context.getLLVMContext();
+
+  llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
+  llvm::Value* indexStore = IRWriter::newAllocaInst(context, int64type, "");
+  llvm::Constant* int64zero = llvm::ConstantInt::get(int64type, 0);
+  IRWriter::newStoreInst(context, int64zero, indexStore);
+  
+  llvm::Type* genericPointer = llvm::Type::getInt8Ty(llvmContext)->getPointerTo();
+  llvm::Type* genericArray = llvm::ArrayType::get(genericPointer, 0)->getPointerTo();
+  llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericArray);
+  const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) getScalarType();
+  llvm::Function* destructor = objectOwnerType->getDestructorFunction(context);
+
+  DestroyOwnerArrayFunction::call(context, arrayBitcast, size, destructor);
 }

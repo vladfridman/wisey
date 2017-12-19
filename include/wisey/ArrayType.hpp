@@ -42,6 +42,11 @@ public:
    */
   const IType* getScalarType() const;
   
+  /**
+   * Deallocates memory occupied by elements of this array when every element is an owner
+   */
+  void free(IRGenerationContext& context, llvm::Value* arrayPointer) const;
+
   std::string getTypeName() const override;
   
   llvm::Type* getLLVMType(IRGenerationContext& context) const override;
@@ -51,7 +56,7 @@ public:
   bool canCastTo(const IType* toType) const override;
   
   bool canAutoCastTo(const IType* toType) const override;
-  
+
   llvm::Value* castTo(IRGenerationContext& context,
                       llvm::Value* fromValue,
                       const IType* toType,

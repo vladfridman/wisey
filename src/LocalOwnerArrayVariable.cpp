@@ -69,10 +69,10 @@ llvm::Value* LocalOwnerArrayVariable::generateAssignmentIR(IRGenerationContext& 
 }
 
 void LocalOwnerArrayVariable::free(IRGenerationContext& context) const {
-  // TODO: implement this
+  mType->free(context, mValueStore);
 }
 
 void LocalOwnerArrayVariable::setToNull(IRGenerationContext& context) {
-  // TODO:: implement this
+  // Not used, the element is set to null after ownership transfer in {@link ArrayElementExpression}
 }
 
