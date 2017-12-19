@@ -201,7 +201,10 @@ struct ModelOwnerTest : public Test {
                        GlobalValue::LinkageTypes::LinkOnceODRLinkage,
                        stringConstant,
                        cirlceFullName + ".name");
-    
+    IConcreteObjectType::generateNameGlobal(mContext, mCircleModel);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mCircleModel);
+    IConcreteObjectType::generateVTable(mContext, mCircleModel);
+
     vector<Type*> starTypes;
     starTypes.push_back(Type::getInt64Ty(mLLVMContext));
     starTypes.push_back(Type::getInt32Ty(mLLVMContext));
@@ -272,6 +275,20 @@ TEST_F(ModelOwnerTest, getLLVMTypeTest) {
 
 TEST_F(ModelOwnerTest, getTypeKindTest) {
   EXPECT_EQ(mModel->getOwner()->getTypeKind(), MODEL_OWNER_TYPE);
+}
+
+TEST_F(ModelOwnerTest, getDestructorFunctionTest) {
+  Function* result = mCircleModel->getOwner()->getDestructorFunction(mContext);
+  
+  ASSERT_NE(nullptr, result);
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mCircleModel->getLLVMType(mContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  
+  EXPECT_EQ(functionType, result->getFunctionType());
 }
 
 TEST_F(ModelOwnerTest, canCastToTest) {

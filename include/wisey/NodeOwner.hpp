@@ -46,6 +46,8 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  llvm::Function* getDestructorFunction(IRGenerationContext& context) const override;
+
 };
   
 } /* namespace wisey */

@@ -221,7 +221,10 @@ struct NodeOwnerTest : public Test {
                                  simplerNodeStructType);
     mSimplerNode->setFields(simplerNodeFields, 1u);
     mContext.addNode(mSimplerNode);
-    
+    IConcreteObjectType::generateNameGlobal(mContext, mSimplerNode);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mSimplerNode);
+    IConcreteObjectType::generateVTable(mContext, mSimplerNode);
+
     string vehicleFullName = "systems.vos.wisey.compiler.tests.IVehicle";
     StructType* vehicleInterfaceStructType = StructType::create(mLLVMContext, vehicleFullName);
     vector<IInterfaceTypeSpecifier*> vehicleParentInterfaces;
@@ -280,6 +283,20 @@ TEST_F(NodeOwnerTest, getLLVMTypeTest) {
 
 TEST_F(NodeOwnerTest, getTypeKindTest) {
   EXPECT_EQ(mComplicatedNode->getOwner()->getTypeKind(), NODE_OWNER_TYPE);
+}
+
+TEST_F(NodeOwnerTest, getDestructorFunctionTest) {
+  Function* result = mSimplerNode->getOwner()->getDestructorFunction(mContext);
+  
+  ASSERT_NE(nullptr, result);
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mSimplerNode->getLLVMType(mContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  
+  EXPECT_EQ(functionType, result->getFunctionType());
 }
 
 TEST_F(NodeOwnerTest, canCastToTest) {

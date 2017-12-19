@@ -68,14 +68,16 @@ Value* InterfaceOwner::castTo(IRGenerationContext& context,
 }
 
 void InterfaceOwner::free(IRGenerationContext& context, Value* value) const {
-  Function* destructor = context.getModule()->getFunction(mInterface->getDestructorFunctionName());
-  
-  if (destructor == NULL) {
-    destructor = mInterface->defineDestructorFunction(context);
-  }
+  Function* destructor = getDestructorFunction(context);
 
   vector<Value*> arguments;
   arguments.push_back(value);
 
   IRWriter::createCallInst(context, destructor, arguments, "");
+}
+
+Function* InterfaceOwner::getDestructorFunction(IRGenerationContext& context) const {
+  Function* destructor = context.getModule()->getFunction(mInterface->getDestructorFunctionName());
+  
+  return destructor ? destructor : mInterface->defineDestructorFunction(context);
 }

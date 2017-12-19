@@ -213,6 +213,12 @@ public:
                                     llvm::Value* value);
   
   /**
+   * Returns destructor function
+   */
+  static llvm::Function* getDestructorFunctionForObject(IRGenerationContext& context,
+                                                        const IConcreteObjectType* object);
+  
+  /**
    * Generates IR for static methods of a given object
    */
   static void generateStaticMethodsIR(IRGenerationContext& context,

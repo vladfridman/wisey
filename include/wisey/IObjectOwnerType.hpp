@@ -38,6 +38,11 @@ public:
    * Deallocates memory occupied by this object owner and its field variables
    */
   virtual void free(IRGenerationContext& context, llvm::Value* value) const = 0;
+  
+  /**
+   * Returns detructor function for this object
+   */
+  virtual llvm::Function* getDestructorFunction(IRGenerationContext& context) const = 0;
 
 };
 

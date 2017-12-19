@@ -14,6 +14,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
+#include "TestPrefix.hpp"
 #include "wisey/ControllerOwner.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/InterfaceTypeSpecifier.hpp"
@@ -45,6 +46,7 @@ struct ControllerOwnerTest : public Test {
   ControllerOwnerTest() : mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
+    TestPrefix::generateIR(mContext);
     
     mImportProfile = new ImportProfile(mPackage);
     mContext.setImportProfile(mImportProfile);
@@ -64,7 +66,10 @@ struct ControllerOwnerTest : public Test {
     mAdditorController = Controller::newController(AccessLevel::PUBLIC_ACCESS,
                                                    additorFullName,
                                                    additorStructType);
-    
+    IConcreteObjectType::generateNameGlobal(mContext, mAdditorController);
+    IConcreteObjectType::generateShortNameGlobal(mContext, mAdditorController);
+    IConcreteObjectType::generateVTable(mContext, mAdditorController);
+
     string calculatorFullName = "systems.vos.wisey.compiler.tests.ICalculator";
     StructType* calculatorIinterfaceStructType = StructType::create(mLLVMContext,
                                                                     calculatorFullName);
@@ -112,7 +117,7 @@ struct ControllerOwnerTest : public Test {
                                                       multiplierFullName,
                                                       structType);
     mMultiplierController->setInterfaces(interfaces);
-  
+
     FunctionType* functionType = FunctionType::get(Type::getVoidTy(mLLVMContext), false);
     mFunction = Function::Create(functionType,
                                  GlobalValue::InternalLinkage,
@@ -184,6 +189,20 @@ TEST_F(ControllerOwnerTest, castToItselfTest) {
                                                             0);
   
   EXPECT_EQ(result, pointer);
+}
+
+TEST_F(ControllerOwnerTest, getDestructorFunctionTest) {
+  Function* result = mAdditorController->getOwner()->getDestructorFunction(mContext);
+  
+  ASSERT_NE(nullptr, result);
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mAdditorController->getLLVMType(mContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+
+  EXPECT_EQ(functionType, result->getFunctionType());
 }
 
 TEST_F(ControllerOwnerTest, castToFirstInterfaceTest) {

@@ -97,6 +97,20 @@ TEST_F(InterfaceOwnerTest, getTypeKindTest) {
   EXPECT_EQ(mShapeInterface->getOwner()->getTypeKind(), INTERFACE_OWNER_TYPE);
 }
 
+TEST_F(InterfaceOwnerTest, getDestructorFunctionTest) {
+  Function* result = mObjectInterface->getOwner()->getDestructorFunction(mContext);
+  
+  ASSERT_NE(nullptr, result);
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(mObjectInterface->getLLVMType(mContext));
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
+  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  
+  EXPECT_EQ(functionType, result->getFunctionType());
+}
+
 TEST_F(InterfaceOwnerTest, canCastToTest) {
   EXPECT_FALSE(mObjectInterface->getOwner()->canCastTo(PrimitiveTypes::INT_TYPE));
   EXPECT_TRUE(mObjectInterface->getOwner()->canCastTo(mShapeInterface));

@@ -32,6 +32,7 @@ public:
                                            llvm::Value*,
                                            const wisey::IType*,
                                            int));
+  MOCK_CONST_METHOD1(getDestructorFunction, llvm::Function* (wisey::IRGenerationContext&));
 };
 
 

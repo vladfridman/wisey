@@ -437,14 +437,20 @@ string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjec
 void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
                                                 const IConcreteObjectType* object,
                                                 Value* value) {
-  string rceFullName = Names::getLangPackageName() + "." + Names::getReferenceCountExceptionName();
-  context.getScopes().getScope()->addException(context.getModel(rceFullName));
-  string destructorFunctionName = getObjectDestructorFunctionName(object);
-  Function* function = context.getModule()->getFunction(destructorFunctionName);
+  Function* function = getDestructorFunctionForObject(context, object);
   vector<Value*> arguments;
   arguments.push_back(value);
   
   IRWriter::createCallInst(context, function, arguments, "");
+}
+
+Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContext &context,
+                                                              const IConcreteObjectType *object) {
+  string rceFullName = Names::getLangPackageName() + "." + Names::getReferenceCountExceptionName();
+  context.getScopes().getScope()->addException(context.getModel(rceFullName));
+  string destructorFunctionName = getObjectDestructorFunctionName(object);
+
+  return context.getModule()->getFunction(destructorFunctionName);
 }
 
 void IConcreteObjectType::generateStaticMethodsIR(IRGenerationContext& context,

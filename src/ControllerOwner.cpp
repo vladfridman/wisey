@@ -67,3 +67,7 @@ Value* ControllerOwner::castTo(IRGenerationContext& context,
 void ControllerOwner::free(IRGenerationContext& context, Value* value) const {
   IConcreteObjectType::composeDestructorCall(context, getObject(), value);
 }
+
+Function* ControllerOwner::getDestructorFunction(IRGenerationContext& context) const {
+  return IConcreteObjectType::getDestructorFunctionForObject(context, getObject());
+}
