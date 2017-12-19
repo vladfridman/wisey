@@ -186,11 +186,11 @@ TEST_F(ReturnVoidStatementTest, referenceVariablesGetTheirRefCountDecrementedTes
   "\n  %3 = alloca %MModel*"
   "\n  store %MModel* %2, %MModel** %3"
   "\n  %4 = load %MModel*, %MModel** %3"
-  "\n  %5 = bitcast %MModel* %4 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i64* %5, i64 -1)"
+  "\n  %5 = bitcast %MModel* %4 to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %5, i64 -1)"
   "\n  %6 = load %MModel*, %MModel** %1"
-  "\n  %7 = bitcast %MModel* %6 to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i64* %7, i64 -1)"
+  "\n  %7 = bitcast %MModel* %6 to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %7, i64 -1)"
   "\n  ret void\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

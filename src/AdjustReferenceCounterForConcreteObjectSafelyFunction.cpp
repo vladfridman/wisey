@@ -50,7 +50,7 @@ Function* AdjustReferenceCounterForConcreteObjectSafelyFunction::define(IRGenera
                                                                         context) {
   LLVMContext& llvmContext = context.getLLVMContext();
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext)->getPointerTo());
+  argumentTypes.push_back(Type::getInt8Ty(llvmContext)->getPointerTo());
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
@@ -65,8 +65,8 @@ void AdjustReferenceCounterForConcreteObjectSafelyFunction::compose(IRGeneration
   
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
-  llvmArgument->setName("counter");
-  Value* counter = llvmArgument;
+  llvmArgument->setName("object");
+  Value* object = llvmArgument;
   llvmArguments++;
   llvmArgument = &*llvmArguments;
   llvmArgument->setName("adjustment");
@@ -77,14 +77,17 @@ void AdjustReferenceCounterForConcreteObjectSafelyFunction::compose(IRGeneration
   BasicBlock* ifNotNullBlock = BasicBlock::Create(llvmContext, "if.notnull", function);
   
   context.setBasicBlock(entryBlock);
-  Value* null = ConstantPointerNull::get(Type::getInt64Ty(llvmContext)->getPointerTo());
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, counter, null, "");
+  Value* null = ConstantPointerNull::get(Type::getInt8Ty(llvmContext)->getPointerTo());
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, object, null, "");
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
   IRWriter::createReturnInst(context, NULL);
   
   context.setBasicBlock(ifNotNullBlock);
+  Value* counter = IRWriter::newBitCastInst(context,
+                                            object,
+                                            Type::getInt64Ty(llvmContext)->getPointerTo());
   new AtomicRMWInst(AtomicRMWInst::BinOp::Add,
                     counter,
                     adjustment,

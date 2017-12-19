@@ -38,12 +38,14 @@ Value* IObjectType::getReferenceCounterPointer(IRGenerationContext& context, Val
   assert(!object->getType()->getPointerElementType()->isPointerTy());
   
   LLVMContext& llvmContext = context.getLLVMContext();
-  Type* type = Type::getInt64Ty(llvmContext)->getPointerTo();
-  return IRWriter::newBitCastInst(context, object, type);
+  Type* type = Type::getInt8Ty(llvmContext)->getPointerTo();
+  return object->getType() == type ? object : IRWriter::newBitCastInst(context, object, type);
 }
 
 Value* IObjectType::getReferenceCountForObject(IRGenerationContext& context, Value* object) {
-  Value* counterPointer = getReferenceCounterPointer(context, object);
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* type = Type::getInt64Ty(llvmContext)->getPointerTo();
+  Value* counterPointer = IRWriter::newBitCastInst(context, object, type);
   return IRWriter::newLoadInst(context, counterPointer, "refCounter");
 }
 

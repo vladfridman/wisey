@@ -99,8 +99,8 @@ TEST_F(ParameterReferenceVariableTest, decrementReferenceCounterTest) {
   *mStringStream << *mBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i64* %0, i64 -1)\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MShape* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 -1)\n";
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 

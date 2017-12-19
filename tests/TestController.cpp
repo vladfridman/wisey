@@ -479,8 +479,8 @@ TEST_F(ControllerTest, incremenetReferenceCountTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 1)\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 1)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -494,8 +494,8 @@ TEST_F(ControllerTest, decremenetReferenceCountTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 -1)\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.CMultiplier* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %0, i64 -1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -568,8 +568,8 @@ TEST_F(ControllerTest, injectTest) {
   "%systems.vos.wisey.compiler.tests.CAdditor* %injectvar, i32 0, i32 2"
   "\n  store %systems.vos.wisey.compiler.tests.MReference* null, "
   "%systems.vos.wisey.compiler.tests.MReference** %2"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i64* %3, i64 1)\n";
+  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MReference* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 1)\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();

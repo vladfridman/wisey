@@ -62,8 +62,7 @@ TEST_F(AdjustReferenceCounterForConcreteObjectUnsafelyFunctionTest, callTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast i8* null to i64*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %0, i64 1)\n";
+  "\n  call void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* null, i64 1)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -74,19 +73,20 @@ TEST_F(AdjustReferenceCounterForConcreteObjectUnsafelyFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__adjustReferenceCounterForConcreteObjectUnsafely(i64* %counter, "
+  "\ndefine internal void @__adjustReferenceCounterForConcreteObjectUnsafely(i8* %object, "
   "i64 %adjustment) {"
   "\nentry:"
-  "\n  %0 = icmp eq i64* %counter, null"
+  "\n  %0 = icmp eq i8* %object, null"
   "\n  br i1 %0, label %if.null, label %if.notnull"
   "\n"
   "\nif.null:                                          ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nif.notnull:                                       ; preds = %entry"
-  "\n  %count = load i64, i64* %counter"
-  "\n  %1 = add i64 %count, %adjustment"
-  "\n  store i64 %1, i64* %counter"
+  "\n  %1 = bitcast i8* %object to i64*"
+  "\n  %count = load i64, i64* %1"
+  "\n  %2 = add i64 %count, %adjustment"
+  "\n  store i64 %2, i64* %1"
   "\n  ret void"
   "\n}\n";
   
