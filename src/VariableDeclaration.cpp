@@ -19,6 +19,7 @@
 #include "wisey/LocalOwnerArrayVariable.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
+#include "wisey/LocalReferenceArrayVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
@@ -139,9 +140,14 @@ void VariableDeclaration::allocateArray(IRGenerationContext& context,
   Function* memSetFunction = IntrinsicFunctions::getMemSetFunction(context);
   IRWriter::createCallInst(context, memSetFunction, arguments, "");
 
-  IVariable* variable = IType::isOwnerType(type->getScalarType())
-  ? (IVariable*) new LocalOwnerArrayVariable(mIdentifier->getIdentifierName(), type, alloc)
-  : (IVariable*) new LocalArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
+  IVariable* variable = NULL;
+  if (IType::isOwnerType(type->getScalarType())) {
+    variable = new LocalOwnerArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
+  } else if (IType::isReferenceType(type->getScalarType())) {
+    variable = new LocalReferenceArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
+  } else {
+    variable = new LocalArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
+  }
   
   context.getScopes().setVariable(variable);
 }
