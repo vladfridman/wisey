@@ -68,3 +68,7 @@ TEST_F(LocalPrimitiveArrayVariableTest, generateIdentifierIRTest) {
 TEST_F(TestFileSampleRunner, intArrayRunTest) {
   runFile("tests/samples/test_int_array.yz", "5");
 }
+
+TEST_F(TestFileSampleRunner, intArrayWithAutocastRunTest) {
+  runFile("tests/samples/test_int_array_with_autocast.yz", "1");
+}

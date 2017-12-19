@@ -8,6 +8,7 @@
 
 #include <llvm/IR/Constants.h>
 
+#include "wisey/AutoCast.hpp"
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalPrimitiveArrayVariable.hpp"
@@ -48,8 +49,12 @@ llvm::Value* LocalPrimitiveArrayVariable::generateAssignmentIR(IRGenerationConte
                                                              mType,
                                                              mValueStore,
                                                              arrayIndices);
+  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
+  const IType* assignToType = assignToExpression->getType(context);
+  const IType* scalarType = mType->getScalarType();
+  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, scalarType, line);
+  IRWriter::newStoreInst(context, newValue, element);
   
-  Value* expressionValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
-  return IRWriter::newStoreInst(context, expressionValue, element);
+  return newValue;
 }
 
