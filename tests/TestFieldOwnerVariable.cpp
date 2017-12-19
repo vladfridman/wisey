@@ -101,7 +101,7 @@ struct FieldOwnerVariableTest : Test {
     mFieldOwnerVariable = new FieldOwnerVariable("foo", mObject);
     
     vector<Type*> argumentTypes;
-    argumentTypes.push_back(mNode->getLLVMType(mContext));
+    argumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
     ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
     FunctionType* destructorFunctionType = FunctionType::get(Type::getVoidTy(mLLVMContext),
                                                              argTypesArray,
@@ -157,8 +157,8 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentIRTest) {
   "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 1"
   "\n  %1 = load %systems.vos.wisey.compiler.tests.NNode*, "
   "%systems.vos.wisey.compiler.tests.NNode** %0"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.NNode("
-  "%systems.vos.wisey.compiler.tests.NNode* %1)"
+  "\n  %2 = bitcast %systems.vos.wisey.compiler.tests.NNode* %1 to i8*"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.NNode(i8* %2)"
   "\n  store %systems.vos.wisey.compiler.tests.NNode* null, "
   "%systems.vos.wisey.compiler.tests.NNode** %0\n";
   
@@ -187,8 +187,8 @@ TEST_F(FieldOwnerVariableTest, ownerFieldVariableGenerateAssignmentWithCastIRTes
   "%systems.vos.wisey.compiler.tests.NObject* null, i32 0, i32 2"
   "\n  %4 = load %systems.vos.wisey.compiler.tests.IInterface*, "
   "%systems.vos.wisey.compiler.tests.IInterface** %3"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.IInterface("
-  "%systems.vos.wisey.compiler.tests.IInterface* %4)"
+  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.IInterface(i8* %5)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %2, "
   "%systems.vos.wisey.compiler.tests.IInterface** %3\n";
   

@@ -790,9 +790,10 @@ string Interface::getDestructorFunctionName() const {
 
 Function* Interface::defineDestructorFunction(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
-  
+  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(getOwner()->getLLVMType(context));
+  argumentTypes.push_back(int8Pointer);
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* voidType = Type::getVoidTy(llvmContext);
   FunctionType* functionType = FunctionType::get(voidType, argTypesArray, false);
@@ -806,12 +807,14 @@ Function* Interface::defineDestructorFunction(IRGenerationContext& context) cons
 
 void Interface::composeDestructorFunctionBody(IRGenerationContext& context) const {
   LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8Type = Type::getInt8Ty(llvmContext);
+
   Function* function = context.getModule()->getFunction(getDestructorFunctionName());
   context.getScopes().pushScope();
   
   Function::arg_iterator functionArguments = function->arg_begin();
-  Argument* thisArgument = &*functionArguments;
-  thisArgument->setName("this");
+  Argument* thisGeneric = &*functionArguments;
+  thisGeneric->setName("thisGeneric");
   functionArguments++;
   
   BasicBlock* entryBlock = BasicBlock::Create(llvmContext, "entry", function);
@@ -820,8 +823,8 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   
   context.setBasicBlock(entryBlock);
   
-  Value* nullValue = ConstantPointerNull::get(getLLVMType(context));
-  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisArgument, nullValue, "");
+  Value* nullValue = ConstantPointerNull::get(int8Type->getPointerTo());
+  Value* condition = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisGeneric, nullValue, "");
   IRWriter::createConditionalBranch(context, ifNullBlock, ifNotNullBlock, condition);
   
   context.setBasicBlock(ifNullBlock);
@@ -829,7 +832,8 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   
   context.setBasicBlock(ifNotNullBlock);
   
-  Value* originalObjectVTable = GetOriginalObjectFunction::callGetVTable(context, thisArgument);
+  Value* thisValue = IRWriter::newBitCastInst(context, thisGeneric, getLLVMType(context));
+  Value* originalObjectVTable = GetOriginalObjectFunction::callGetVTable(context, thisValue);
   
   Type* pointerToVTablePointer = function->getFunctionType()
     ->getPointerTo()->getPointerTo()->getPointerTo();
@@ -843,18 +847,14 @@ void Interface::composeDestructorFunctionBody(IRGenerationContext& context) cons
   
   ConstantInt* bytes = ConstantInt::get(Type::getInt32Ty(llvmContext),
                                         -Environment::getAddressSizeInBytes());
-  Type* int8Type = Type::getInt8Ty(llvmContext);
   BitCastInst* pointerToVTable = IRWriter::newBitCastInst(context,
                                                           originalObjectVTable,
                                                           int8Type->getPointerTo());
   index[0] = bytes;
   Value* thisPointer = IRWriter::createGetElementPtrInst(context, pointerToVTable, index);
   
-  Type* argumentType = getLLVMType(context);
-  Value* bitcast = IRWriter::newBitCastInst(context, thisPointer, argumentType);
-  
   vector<Value*> arguments;
-  arguments.push_back(bitcast);
+  arguments.push_back(thisPointer);
   
   IRWriter::createInvokeInst(context, objectDestructor, arguments, "", 0);
   IRWriter::createReturnInst(context, NULL);

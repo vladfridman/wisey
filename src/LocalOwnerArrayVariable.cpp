@@ -57,7 +57,9 @@ llvm::Value* LocalOwnerArrayVariable::generateAssignmentIR(IRGenerationContext& 
   
   Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
   assert(IType::isOwnerType(scalarType));
-  ((const IObjectOwnerType*) scalarType)->free(context, elementLoaded);
+  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* bitcast = IRWriter::newBitCastInst(context, elementLoaded, int8pointer);
+  ((const IObjectOwnerType*) scalarType)->free(context, bitcast);
   
   IRWriter::newStoreInst(context, newValue, elementStore);
   

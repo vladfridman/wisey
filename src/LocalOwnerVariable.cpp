@@ -79,7 +79,9 @@ void LocalOwnerVariable::setToNull(IRGenerationContext& context) {
 }
 
 void LocalOwnerVariable::free(IRGenerationContext& context) const {
+  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
-  mType->free(context, valueLoaded);
+  Value* bitcast = IRWriter::newBitCastInst(context, valueLoaded, int8pointer);
+  mType->free(context, bitcast);
 }
 

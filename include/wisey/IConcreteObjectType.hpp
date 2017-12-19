@@ -304,15 +304,15 @@ private:
   static std::string getObjectDestructorFunctionName(const IConcreteObjectType* object);
 
   static void decrementReferenceFields(IRGenerationContext& context,
-                                       llvm::Argument* thisArgument,
+                                       llvm::Value* thisValue,
                                        const IConcreteObjectType* object);
   
   static void freeOwnerFields(IRGenerationContext& context,
-                              llvm::Argument* thisArgument,
+                              llvm::Value* thisValue,
                               const IConcreteObjectType* object);
 
   static llvm::Value* getFieldValuePointer(IRGenerationContext& context,
-                                           llvm::Argument* thisArgument,
+                                           llvm::Value* thisValue,
                                            const IConcreteObjectType* object,
                                            Field* field);
 
