@@ -311,6 +311,11 @@ private:
                                            const IConcreteObjectType* object,
                                            Field* field);
 
+  static llvm::Value* getFieldPointer(IRGenerationContext& context,
+                                      llvm::Value* thisValue,
+                                      const IConcreteObjectType* object,
+                                      Field* field);
+
   static void composeDestructorBody(IRGenerationContext& context,
                                     llvm::Function* function,
                                     const IObjectType* object);
@@ -320,7 +325,7 @@ private:
   static llvm::Constant* getObjectShortNamePointer(const IConcreteObjectType* object,
                                                    IRGenerationContext& context);
 
-  
+  static bool hasReferenceArrayField(const IConcreteObjectType* object);
 };
   
 } /* namespace wisey */

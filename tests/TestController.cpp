@@ -428,6 +428,7 @@ TEST_F(ControllerTest, canCastToTest) {
   EXPECT_TRUE(mMultiplierController->canCastTo(mMultiplierController));
   EXPECT_TRUE(mMultiplierController->canCastTo(mCalculatorInterface));
   EXPECT_FALSE(mMultiplierController->canCastTo(NullType::NULL_TYPE));
+  EXPECT_TRUE(mMultiplierController->canCastTo(mMultiplierController));
 }
 
 TEST_F(ControllerTest, canAutoCastToTest) {
@@ -437,6 +438,7 @@ TEST_F(ControllerTest, canAutoCastToTest) {
   EXPECT_TRUE(mMultiplierController->canAutoCastTo(mMultiplierController));
   EXPECT_TRUE(mMultiplierController->canAutoCastTo(mCalculatorInterface));
   EXPECT_FALSE(mMultiplierController->canAutoCastTo(NullType::NULL_TYPE));
+  EXPECT_TRUE(mMultiplierController->canAutoCastTo(mMultiplierController));
 }
 
 TEST_F(ControllerTest, castToFirstInterfaceTest) {

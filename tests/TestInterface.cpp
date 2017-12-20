@@ -293,6 +293,8 @@ TEST_F(InterfaceTest, canCastToTest) {
   EXPECT_TRUE(mObjectInterface->canCastTo(mShapeInterface));
   EXPECT_TRUE(mShapeInterface->canCastTo(mObjectInterface));
   EXPECT_FALSE(mObjectInterface->canCastTo(NullType::NULL_TYPE));
+  EXPECT_TRUE(mObjectInterface->canCastTo(mObjectInterface));
+  EXPECT_TRUE(mShapeInterface->canCastTo(mShapeInterface));
 }
 
 TEST_F(InterfaceTest, canAutoCastToTest) {
@@ -300,6 +302,8 @@ TEST_F(InterfaceTest, canAutoCastToTest) {
   EXPECT_FALSE(mObjectInterface->canAutoCastTo(mShapeInterface));
   EXPECT_TRUE(mShapeInterface->canAutoCastTo(mObjectInterface));
   EXPECT_FALSE(mObjectInterface->canAutoCastTo(NullType::NULL_TYPE));
+  EXPECT_TRUE(mObjectInterface->canAutoCastTo(mObjectInterface));
+  EXPECT_TRUE(mShapeInterface->canAutoCastTo(mShapeInterface));
 }
 
 TEST_F(InterfaceTest, printToStreamTest) {

@@ -531,6 +531,10 @@ bool Interface::canCastTo(const IType* toType) const {
 }
 
 bool Interface::canAutoCastTo(const IType* toType) const {
+  if (toType == this) {
+    return true;
+  }
+  
   TypeKind typeKind = toType->getTypeKind();
   if (typeKind == PRIMITIVE_TYPE || typeKind == NULL_TYPE_KIND) {
     return false;

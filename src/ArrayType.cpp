@@ -10,6 +10,7 @@
 #include <llvm/IR/DerivedTypes.h>
 
 #include "wisey/ArrayType.hpp"
+#include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/IRWriter.hpp"
 
@@ -69,21 +70,40 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
 
 void ArrayType::free(IRGenerationContext& context, llvm::Value* arrayPointer) const {
   assert(IType::isOwnerType(getScalarType()));
-  const IType* baseType = mBaseType;
-  unsigned long size = mSize;
+  const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) getScalarType();
+  llvm::Function* destructor = objectOwnerType->getDestructorFunction(context);
+  llvm::Value* arrayBitcast = bitcastToGenericArray(context, arrayPointer);
+
+  DestroyOwnerArrayFunction::call(context, arrayBitcast, getLinearSize(), destructor);
+}
+
+void ArrayType::decrementReferenceCount(IRGenerationContext& context,
+                                        llvm::Value* arrayPointer) const {
+  assert(IType::isReferenceType(getScalarType()));
+  const IObjectType* objectType = (const IObjectType*) getScalarType();
+  llvm::Function* function = objectType->getReferenceAdjustmentFunction(context);
+  llvm::Value* arrayBitcast = bitcastToGenericArray(context, arrayPointer);
+
+  DecrementReferencesInArrayFunction::call(context, arrayBitcast, getLinearSize(), function);
+}
+
+unsigned long ArrayType::getLinearSize() const {
+  const IType* baseType = getBaseType();
+  unsigned long size = getSize();
   while (baseType->getTypeKind() == ARRAY_TYPE) {
     const ArrayType* arrayType = (const ArrayType*) baseType;
     baseType = arrayType->getBaseType();
     size = size * arrayType->getSize();
   }
+  
+  return size;
+}
 
+llvm::Value* ArrayType::bitcastToGenericArray(IRGenerationContext& context,
+                                              llvm::Value* arrayPointer) const {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
-
   llvm::Type* genericPointer = llvm::Type::getInt8Ty(llvmContext)->getPointerTo();
   llvm::Type* genericArray = llvm::ArrayType::get(genericPointer, 0)->getPointerTo();
-  llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericArray);
-  const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) getScalarType();
-  llvm::Function* destructor = objectOwnerType->getDestructorFunction(context);
 
-  DestroyOwnerArrayFunction::call(context, arrayBitcast, size, destructor);
+  return IRWriter::newBitCastInst(context, arrayPointer, genericArray);
 }

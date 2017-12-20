@@ -434,6 +434,7 @@ TEST_F(ModelTest, canCastToTest) {
   EXPECT_TRUE(mModel->canCastTo(mModel));
   EXPECT_TRUE(mModel->canCastTo(mShapeInterface));
   EXPECT_FALSE(mModel->canCastTo(NullType::NULL_TYPE));
+  EXPECT_TRUE(mModel->canCastTo(mModel));
 }
 
 TEST_F(ModelTest, canAutoCastToTest) {
@@ -443,6 +444,7 @@ TEST_F(ModelTest, canAutoCastToTest) {
   EXPECT_TRUE(mModel->canAutoCastTo(mModel));
   EXPECT_TRUE(mModel->canAutoCastTo(mShapeInterface));
   EXPECT_FALSE(mModel->canAutoCastTo(NullType::NULL_TYPE));
+  EXPECT_TRUE(mModel->canAutoCastTo(mModel));
 }
 
 TEST_F(ModelTest, castToFirstInterfaceTest) {

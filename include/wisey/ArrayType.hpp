@@ -46,6 +46,11 @@ public:
    * Deallocates memory occupied by elements of this array when every element is an owner
    */
   void free(IRGenerationContext& context, llvm::Value* arrayPointer) const;
+  
+  /**
+   * Decrement reference count for every object pointed to by elements of this array
+   */
+  void decrementReferenceCount(IRGenerationContext& context, llvm::Value* arrayPointer) const;
 
   std::string getTypeName() const override;
   
@@ -61,6 +66,12 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
+  
+private:
+  
+  unsigned long getLinearSize() const;
+  
+  llvm::Value* bitcastToGenericArray(IRGenerationContext& context, llvm::Value* arrayPointer) const;
   
 };
   

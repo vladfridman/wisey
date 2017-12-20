@@ -438,6 +438,7 @@ TEST_F(NodeTest, canCastToTest) {
   EXPECT_TRUE(mComplicatedNode->canCastTo(mComplicatedNode));
   EXPECT_TRUE(mComplicatedNode->canCastTo(mElementInterface));
   EXPECT_FALSE(mComplicatedNode->canCastTo(NullType::NULL_TYPE));
+  EXPECT_TRUE(mComplicatedNode->canCastTo(mComplicatedNode));
 }
 
 TEST_F(NodeTest, canAutoCastToTest) {
@@ -447,6 +448,7 @@ TEST_F(NodeTest, canAutoCastToTest) {
   EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mComplicatedNode));
   EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mElementInterface));
   EXPECT_FALSE(mComplicatedNode->canAutoCastTo(NullType::NULL_TYPE));
+  EXPECT_TRUE(mComplicatedNode->canAutoCastTo(mComplicatedNode));
 }
 
 TEST_F(NodeTest, castToFirstInterfaceTest) {

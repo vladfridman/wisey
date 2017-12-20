@@ -13,11 +13,13 @@
 #include "wisey/Cast.hpp"
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
+#include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/FieldPrimitiveArrayVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
+#include "wisey/FieldReferenceArrayVariable.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/InterfaceOwner.hpp"
@@ -198,6 +200,23 @@ void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext&
   Function* function = context.getModule()->getFunction(getObjectDestructorFunctionName(object));
   context.addComposingCallback1Objects(composeDestructorBody, function, object);
   ThrowReferenceCountExceptionFunction::get(context);
+  if (hasReferenceArrayField(object)) {
+    DecrementReferencesInArrayFunction::get(context);
+  }
+}
+
+bool IConcreteObjectType::hasReferenceArrayField(const IConcreteObjectType* object) {
+  for (Field* field : object->getFields()) {
+    if (field->getType()->getTypeKind() != ARRAY_TYPE) {
+      continue;
+    }
+    const wisey::ArrayType* arrayType = (const wisey::ArrayType*) field->getType();
+    if (IType::isReferenceType(arrayType->getScalarType())) {
+      return true;
+    }
+  }
+  
+  return false;
 }
 
 void IConcreteObjectType::addUnthunkInfo(IRGenerationContext& context,
@@ -324,8 +343,12 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
     } else if (type->getTypeKind() == ARRAY_TYPE) {
       const wisey::ArrayType* arrayType = (const wisey::ArrayType*) type;
       const IType* elementType = arrayType->getScalarType();
-      assert(elementType->getTypeKind() == PRIMITIVE_TYPE);
-      fieldVariable = new FieldPrimitiveArrayVariable(field->getName(), object);
+      if (IType::isReferenceType(elementType)) {
+        fieldVariable = new FieldReferenceArrayVariable(field->getName(), object);
+      } else {
+        assert(elementType->getTypeKind() == PRIMITIVE_TYPE);
+        fieldVariable = new FieldPrimitiveArrayVariable(field->getName(), object);
+      }
     } else {
       assert(type->getTypeKind() == PRIMITIVE_TYPE);
       fieldVariable = new FieldPrimitiveVariable(field->getName(), object);
@@ -403,6 +426,14 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
                                                    const IConcreteObjectType* object) {
   for (Field* field : object->getFields()) {
     const IType* fieldType = field->getType();
+    
+    if (fieldType->getTypeKind() == ARRAY_TYPE &&
+        IType::isReferenceType(((const wisey::ArrayType*) fieldType)->getScalarType())) {
+      Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
+      const wisey::ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
+      arrayType->decrementReferenceCount(context, fieldPointer);
+    }
+    
     if (!IType::isReferenceType(fieldType)) {
       continue;
     }
@@ -434,14 +465,21 @@ Value* IConcreteObjectType::getFieldValuePointer(IRGenerationContext& context,
                                                  Value* thisValue,
                                                  const IConcreteObjectType* object,
                                                  Field* field) {
+  Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
+  return IRWriter::newLoadInst(context, fieldPointer, "");
+}
+
+Value* IConcreteObjectType::getFieldPointer(IRGenerationContext& context,
+                                            Value* thisValue,
+                                            const IConcreteObjectType* object,
+                                            Field* field) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
   
-  Value* fieldPointer = IRWriter::createGetElementPtrInst(context, thisValue, index);
-  return IRWriter::newLoadInst(context, fieldPointer, "");
+  return IRWriter::createGetElementPtrInst(context, thisValue, index);
 }
 
 string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjectType* object) {

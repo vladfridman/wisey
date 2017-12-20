@@ -71,23 +71,5 @@ llvm::Value* LocalReferenceArrayVariable::generateAssignmentIR(IRGenerationConte
 }
 
 void LocalReferenceArrayVariable::decrementReferenceCounter(IRGenerationContext& context) const {
-  const IType* scalarType = mType->getScalarType();
-  assert(IType::isReferenceType(scalarType));
-  const IType* baseType = mType->getBaseType();
-  unsigned long size = mType->getSize();
-  while (baseType->getTypeKind() == ARRAY_TYPE) {
-    const ArrayType* arrayType = (const ArrayType*) baseType;
-    baseType = arrayType->getBaseType();
-    size = size * arrayType->getSize();
-  }
-  
-  llvm::LLVMContext& llvmContext = context.getLLVMContext();
-  
-  llvm::Type* genericPointer = llvm::Type::getInt8Ty(llvmContext)->getPointerTo();
-  llvm::Type* genericArray = llvm::ArrayType::get(genericPointer, 0)->getPointerTo();
-  llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, mValueStore, genericArray);
-  const IObjectType* objectType = (const IObjectType*) scalarType;
-  llvm::Function* function = objectType->getReferenceAdjustmentFunction(context);
-  
-  DecrementReferencesInArrayFunction::call(context, arrayBitcast, size, function);
+  mType->decrementReferenceCount(context, mValueStore);
 }
