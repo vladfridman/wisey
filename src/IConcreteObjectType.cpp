@@ -16,6 +16,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
+#include "wisey/FieldPrimitiveArrayVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IConcreteObjectType.hpp"
@@ -320,7 +321,13 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
       fieldVariable = new FieldOwnerVariable(field->getName(), object);
     } else if (IType::isReferenceType(type)) {
       fieldVariable = new FieldReferenceVariable(field->getName(), object);
+    } else if (type->getTypeKind() == ARRAY_TYPE) {
+      const wisey::ArrayType* arrayType = (const wisey::ArrayType*) type;
+      const IType* elementType = arrayType->getScalarType();
+      assert(elementType->getTypeKind() == PRIMITIVE_TYPE);
+      fieldVariable = new FieldPrimitiveArrayVariable(field->getName(), object);
     } else {
+      assert(type->getTypeKind() == PRIMITIVE_TYPE);
       fieldVariable = new FieldPrimitiveVariable(field->getName(), object);
     }
 
