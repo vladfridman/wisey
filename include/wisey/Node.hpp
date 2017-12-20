@@ -172,8 +172,6 @@ private:
                               llvm::Instruction* malloc,
                               int line) const;
 
-  void setStateFieldsToNull(IRGenerationContext& context, llvm::Instruction* malloc) const;
-
 };
   
 } /* namespace wisey */

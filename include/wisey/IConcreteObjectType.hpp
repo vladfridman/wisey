@@ -256,11 +256,6 @@ public:
    * Tells whether one can cast fromType to toType
    */
   static bool canCast(const IType* fromType, const IType* toType);
-  
-  /**
-   * Initializes the reference counter of a concrete object to 0
-   */
-  static void initializeReferenceCounter(IRGenerationContext& context, llvm::Instruction* malloc);
 
   /**
    * Compose map functions IR. This is not called for externally defined objects

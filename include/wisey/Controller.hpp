@@ -180,9 +180,6 @@ private:
                                 llvm::Instruction* malloc,
                                 int line) const;
   
-  void initializeStateFields(IRGenerationContext& context,
-                             llvm::Instruction* malloc) const;
-  
 };
   
 } /* namespace wisey */

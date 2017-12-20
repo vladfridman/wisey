@@ -17,6 +17,7 @@
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 
@@ -147,10 +148,9 @@ Instruction* Controller::inject(IRGenerationContext& context,
   
   checkArguments(injectionArgumentList);
   Instruction* malloc = createMalloc(context);
-  IConcreteObjectType::initializeReferenceCounter(context, malloc);
+  IntrinsicFunctions::setMemoryToZero(context, malloc, mStructType);
   initializeReceivedFields(context, injectionArgumentList, malloc, line);
   initializeInjectedFields(context, malloc, line);
-  initializeStateFields(context, malloc);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
   context.setObjectType(lastObjectType);
@@ -353,43 +353,6 @@ void Controller::initializeInjectedFields(IRGenerationContext& context,
     }
     Controller* controller = (Controller*) ((IObjectOwnerType*) fieldType)->getObject();
     Value* fieldValue = controller->inject(context, field->getInjectionArguments(), line);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    IRWriter::newStoreInst(context, fieldValue, fieldPointer);
-  }
-}
-
-void Controller::initializeStateFields(IRGenerationContext& context, Instruction* malloc) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value *index[2];
-  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  for (Field* field : mStateFields) {
-    const IType* fieldType = field->getType();
-    Type* fieldLLVMType = fieldType->getLLVMType(context);
-    
-    Value* fieldValue;
-    if (IType::isOwnerType(fieldType) || IType::isReferenceType(fieldType)) {
-      fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(context));
-    } else if (fieldLLVMType->isFloatTy() || fieldLLVMType->isDoubleTy()) {
-      fieldValue = ConstantFP::get(fieldLLVMType, 0.0);
-    } else if (fieldLLVMType->isIntegerTy()) {
-      fieldValue = ConstantInt::get(fieldLLVMType, 0);
-    } else if (fieldLLVMType->isPointerTy()) {
-      GlobalVariable* nameGlobal =
-        context.getModule()->getNamedGlobal(Names::getEmptyStringName());
-      ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
-      Value* Idx[2];
-      Idx[0] = zeroInt32;
-      Idx[1] = zeroInt32;
-      Type* elementType = nameGlobal->getType()->getPointerElementType();
-      
-      fieldValue = ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
-    } else {
-      Log::e("Unexpected controller state field type, can not initialize");
-      exit(1);
-    }
-    
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     IRWriter::newStoreInst(context, fieldValue, fieldPointer);

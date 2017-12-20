@@ -43,6 +43,13 @@ public:
   static llvm::Function* getMemSetFunction(IRGenerationContext& context);
 
   /**
+   * Calls mem set function and sets the specified memory to all zeros
+   */
+  static llvm::Instruction* setMemoryToZero(IRGenerationContext& context,
+                                            llvm::Value* memoryPointer,
+                                            llvm::Type* type);
+  
+  /**
    * Declares __gxx_personality_v0 function that is used orchestrate exception handling
    */
   static llvm::Function* getPersonalityFunction(IRGenerationContext& context);

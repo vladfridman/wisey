@@ -12,6 +12,7 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Environment.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Model.hpp"
 #include "wisey/ModelOwner.hpp"
@@ -236,7 +237,7 @@ Instruction* Model::build(IRGenerationContext& context,
                           int line) const {
   checkArguments(objectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
-  IConcreteObjectType::initializeReferenceCounter(context, malloc);
+  IntrinsicFunctions::setMemoryToZero(context, malloc, mStructType);
   initializeFields(context, objectBuilderArgumentList, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   

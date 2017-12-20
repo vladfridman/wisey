@@ -6,8 +6,11 @@
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
 
+#include <llvm/IR/Constants.h>
 #include <llvm/IR/TypeBuilder.h>
 
+#include "wisey/Environment.hpp"
+#include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/Names.hpp"
 
@@ -55,6 +58,28 @@ Function* IntrinsicFunctions::getMemSetFunction(IRGenerationContext& context) {
   return cast<Function>(context.getModule()->getOrInsertFunction("llvm.memset.p0i8.i64",
                                                                  functionType,
                                                                  attributeSet));
+}
+
+Instruction* IntrinsicFunctions::setMemoryToZero(IRGenerationContext& context,
+                                                 llvm::Value* memoryPointer,
+                                                 llvm::Type* type) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Value* bitcast = IRWriter::newBitCastInst(context,
+                                            memoryPointer,
+                                            Type::getInt8Ty(llvmContext)->getPointerTo());
+  ConstantInt* zero = ConstantInt::get(Type::getInt8Ty(llvmContext), 0);
+  llvm::Constant* allocSize = ConstantExpr::getSizeOf(type);
+  
+  vector<Value*> arguments;
+  unsigned int memoryAlignment = Environment::getDefaultMemoryAllignment();
+  arguments.push_back(bitcast);
+  arguments.push_back(zero);
+  arguments.push_back(allocSize);
+  arguments.push_back(ConstantInt::get(Type::getInt32Ty(llvmContext), memoryAlignment));
+  arguments.push_back(ConstantInt::get(Type::getInt1Ty(llvmContext), 0));
+  Function* memSetFunction = getMemSetFunction(context);
+  
+  return IRWriter::createCallInst(context, memSetFunction, arguments, "");
 }
 
 Function* IntrinsicFunctions::getPersonalityFunction(IRGenerationContext& context) {

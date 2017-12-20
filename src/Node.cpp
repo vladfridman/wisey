@@ -12,6 +12,7 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/Node.hpp"
@@ -244,8 +245,7 @@ Instruction* Node::build(IRGenerationContext& context,
                          int line) const {
   checkArguments(objectBuilderArgumentList);
   Instruction* malloc = createMalloc(context);
-  IConcreteObjectType::initializeReferenceCounter(context, malloc);
-  setStateFieldsToNull(context, malloc);
+  IntrinsicFunctions::setMemoryToZero(context, malloc, mStructType);
   initializePresetFields(context, objectBuilderArgumentList, malloc, line);
   initializeVTable(context, (IConcreteObjectType*) this, malloc);
   
@@ -325,44 +325,6 @@ void Node::initializePresetFields(IRGenerationContext& context,
     if (IType::isReferenceType(fieldType)) {
       ((IObjectType*) fieldType)->incremenetReferenceCount(context, castValue);
     }
-  }
-}
-
-void Node::setStateFieldsToNull(IRGenerationContext& context, Instruction* malloc) const {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  
-  Value *index[2];
-  index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
-  
-  for (Field* field : mStateFields) {
-    const IType* fieldType = field->getType();
-    Type* fieldLLVMType = fieldType->getLLVMType(context);
-    
-    Value* fieldValue;
-    if (IType::isOwnerType(fieldType) || IType::isReferenceType(fieldType)) {
-      fieldValue = ConstantPointerNull::get((PointerType*) fieldType->getLLVMType(context));
-    } else if (fieldLLVMType->isFloatTy()) {
-      fieldValue = ConstantFP::get(fieldLLVMType, 0.0);
-    } else if (fieldLLVMType->isIntegerTy()) {
-      fieldValue = ConstantInt::get(fieldLLVMType, 0);
-    } else if (fieldLLVMType->isPointerTy()) {
-      GlobalVariable* nameGlobal =
-      context.getModule()->getNamedGlobal(Names::getEmptyStringName());
-      ConstantInt* zeroInt32 = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()), 0);
-      Value* Idx[2];
-      Idx[0] = zeroInt32;
-      Idx[1] = zeroInt32;
-      Type* elementType = nameGlobal->getType()->getPointerElementType();
-      
-      fieldValue = ConstantExpr::getGetElementPtr(elementType, nameGlobal, Idx);
-    } else {
-      Log::e("Unexpected node state field type, can not initialize");
-      exit(1);
-    }
-    
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), getFieldIndex(field));
-    GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-    IRWriter::newStoreInst(context, fieldValue, fieldPointer);
   }
 }
 

@@ -9,6 +9,9 @@
 
 #include <gtest/gtest.h>
 
+#include <llvm/Support/raw_ostream.h>
+
+#include "wisey/IRWriter.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/ProgramPrefix.hpp"
 
@@ -20,12 +23,28 @@ using ::testing::Test;
 
 struct IntrinsicFunctionsTest : public Test {
   IRGenerationContext mContext;
+  LLVMContext& mLLVMContext;
   Module* mModule;
-  
+  BasicBlock* mBasicBlock;
+  string mStringBuffer;
+  raw_string_ostream* mStringStream;
+
 public:
   
-  IntrinsicFunctionsTest() : mModule(mContext.getModule()) {
-  }
+  IntrinsicFunctionsTest() :
+  mLLVMContext(mContext.getLLVMContext()),
+  mModule(mContext.getModule()) {
+    FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
+    Function* function = Function::Create(functionType,
+                                          GlobalValue::InternalLinkage,
+                                          "test",
+                                          mContext.getModule());
+    mBasicBlock = BasicBlock::Create(mLLVMContext, "entry", function);
+    mContext.setBasicBlock(mBasicBlock);
+    mContext.getScopes().pushScope();
+
+    mStringStream = new raw_string_ostream(mStringBuffer);
+}
 };
 
 TEST_F(IntrinsicFunctionsTest, getThrowFunctionTest) {
@@ -44,6 +63,21 @@ TEST_F(IntrinsicFunctionsTest, getMemCopyFunctionTest) {
   EXPECT_EQ(mModule->getFunction("llvm.memcpy.p0i8.p0i8.i64"), nullptr);
   EXPECT_NE(IntrinsicFunctions::getMemCopyFunction(mContext), nullptr);
   EXPECT_NE(mModule->getFunction("llvm.memcpy.p0i8.p0i8.i64"), nullptr);
+}
+
+TEST_F(IntrinsicFunctionsTest, setMemoryToZeroTest) {
+  Type* type = Type::getInt32Ty(mLLVMContext);
+  Value* alloca = IRWriter::newAllocaInst(mContext, type, "");
+  IntrinsicFunctions::setMemoryToZero(mContext, alloca, type);
+  
+  *mStringStream << *mBasicBlock;
+  string expected =
+  "\nentry:"
+  "\n  %0 = alloca i32"
+  "\n  %1 = bitcast i32* %0 to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %1, i8 0, i64 ptrtoint (i32* getelementptr "
+  "(i32, i32* null, i32 1) to i64), i32 4, i1 false)\n";
+  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
 TEST_F(IntrinsicFunctionsTest, getMemSetFunctionTest) {
