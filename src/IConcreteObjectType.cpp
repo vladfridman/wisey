@@ -14,8 +14,10 @@
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/DecrementReferencesInArrayFunction.hpp"
+#include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
+#include "wisey/FieldOwnerArrayVariable.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/FieldPrimitiveArrayVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
@@ -203,6 +205,9 @@ void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext&
   if (hasReferenceArrayField(object)) {
     DecrementReferencesInArrayFunction::get(context);
   }
+  if (hasOwnerArrayField(object)) {
+    DestroyOwnerArrayFunction::get(context);
+  }
 }
 
 bool IConcreteObjectType::hasReferenceArrayField(const IConcreteObjectType* object) {
@@ -212,6 +217,20 @@ bool IConcreteObjectType::hasReferenceArrayField(const IConcreteObjectType* obje
     }
     const wisey::ArrayType* arrayType = (const wisey::ArrayType*) field->getType();
     if (IType::isReferenceType(arrayType->getScalarType())) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+bool IConcreteObjectType::hasOwnerArrayField(const IConcreteObjectType* object) {
+  for (Field* field : object->getFields()) {
+    if (field->getType()->getTypeKind() != ARRAY_TYPE) {
+      continue;
+    }
+    const wisey::ArrayType* arrayType = (const wisey::ArrayType*) field->getType();
+    if (IType::isOwnerType(arrayType->getScalarType())) {
       return true;
     }
   }
@@ -343,7 +362,9 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
     } else if (type->getTypeKind() == ARRAY_TYPE) {
       const wisey::ArrayType* arrayType = (const wisey::ArrayType*) type;
       const IType* elementType = arrayType->getScalarType();
-      if (IType::isReferenceType(elementType)) {
+      if (IType::isOwnerType(elementType)) {
+        fieldVariable = new FieldOwnerArrayVariable(field->getName(), object);
+      } else if (IType::isReferenceType(elementType)) {
         fieldVariable = new FieldReferenceArrayVariable(field->getName(), object);
       } else {
         assert(elementType->getTypeKind() == PRIMITIVE_TYPE);
@@ -449,6 +470,14 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
                                           const IConcreteObjectType* object) {
   for (Field* field : object->getFields()) {
     const IType* fieldType = field->getType();
+
+    if (fieldType->getTypeKind() == ARRAY_TYPE &&
+        IType::isOwnerType(((const wisey::ArrayType*) fieldType)->getScalarType())) {
+      Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
+      const wisey::ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
+      arrayType->free(context, fieldPointer);
+    }
+    
     if (!IType::isOwnerType(fieldType)) {
       continue;
     }

@@ -1,11 +1,11 @@
 //
-//  TestFieldReferenceArrayVariable.cpp
+//  TestFieldOwnerArrayVariable.cpp
 //  runtests
 //
 //  Created by Vladimir Fridman on 12/20/17.
 //  Copyright © 2017 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link FieldReferenceArrayVariable}
+//  Tests {@link FieldOwnerArrayVariable}
 //
 
 #include <gtest/gtest.h>
@@ -20,7 +20,7 @@
 #include "TestFileSampleRunner.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FieldReferenceArrayVariable.hpp"
+#include "wisey/FieldOwnerArrayVariable.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
@@ -39,19 +39,19 @@ using ::testing::NiceMock;
 using ::testing::Return;
 using ::testing::Test;
 
-struct FieldReferenceArrayVariableTest : Test {
+struct FieldOwnerArrayVariableTest : Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   Controller* mObject;
   BasicBlock* mBasicBlock;
-  FieldReferenceArrayVariable* mFieldReferenceArrayVariable;
+  FieldOwnerArrayVariable* mFieldOwnerArrayVariable;
   wisey::ArrayType* mArrayType;
   Interface* mInterface;
   Node* mNode;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
-  FieldReferenceArrayVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
+  FieldOwnerArrayVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     TestPrefix::generateIR(mContext);
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
@@ -72,8 +72,8 @@ struct FieldReferenceArrayVariableTest : Test {
     StructType* nodeStructType = StructType::create(mLLVMContext, nodeFullName);
     mNode = Node::newNode(AccessLevel::PUBLIC_ACCESS, nodeFullName, nodeStructType);
     mNode->setInterfaces(interfaces);
-
-    mArrayType = new wisey::ArrayType(mInterface, 5);
+    
+    mArrayType = new wisey::ArrayType(mInterface->getOwner(), 5);
     vector<Type*> types;
     types.push_back(Type::getInt64Ty(mLLVMContext));
     types.push_back(mArrayType->getLLVMType(mContext));
@@ -103,24 +103,24 @@ struct FieldReferenceArrayVariableTest : Test {
     IVariable* thisVariable = new ParameterReferenceVariable("this", mObject, thisPointer);
     mContext.getScopes().setVariable(thisVariable);
     
-    mFieldReferenceArrayVariable = new FieldReferenceArrayVariable("mFoo", mObject);
+    mFieldOwnerArrayVariable = new FieldOwnerArrayVariable("mFoo", mObject);
     
     mStringStream = new raw_string_ostream(mStringBuffer);
   }
   
-  ~FieldReferenceArrayVariableTest() {
+  ~FieldOwnerArrayVariableTest() {
     delete mStringStream;
     delete mObject;
   }
 };
 
-TEST_F(FieldReferenceArrayVariableTest, basicFieldsTest) {
-  EXPECT_STREQ("mFoo", mFieldReferenceArrayVariable->getName().c_str());
-  EXPECT_EQ(mArrayType, mFieldReferenceArrayVariable->getType());
+TEST_F(FieldOwnerArrayVariableTest, basicFieldsTest) {
+  EXPECT_STREQ("mFoo", mFieldOwnerArrayVariable->getName().c_str());
+  EXPECT_EQ(mArrayType, mFieldOwnerArrayVariable->getType());
 }
 
-TEST_F(FieldReferenceArrayVariableTest, generateIdentifierIRTest) {
-  mFieldReferenceArrayVariable->generateIdentifierIR(mContext);
+TEST_F(FieldOwnerArrayVariableTest, generateIdentifierIRTest) {
+  mFieldOwnerArrayVariable->generateIdentifierIR(mContext);
   
   *mStringStream << *mBasicBlock;
   string expected = string() +
@@ -131,17 +131,17 @@ TEST_F(FieldReferenceArrayVariableTest, generateIdentifierIRTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(FieldReferenceArrayVariableTest, generateAssignmentIRTest) {
+TEST_F(FieldOwnerArrayVariableTest, generateAssignmentIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   Value* assignToValue = ConstantPointerNull::get(mInterface->getLLVMType(mContext));
-  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mInterface));
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mInterface->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   vector<const IExpression*> arrayIndices;
   llvm::Constant* one = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   arrayIndices.push_back(new FakeExpression(one, PrimitiveTypes::INT_TYPE));
   
-  mFieldReferenceArrayVariable->generateAssignmentIR(mContext,
+  mFieldOwnerArrayVariable->generateAssignmentIR(mContext,
                                                      &assignToExpression,
                                                      arrayIndices,
                                                      0);
@@ -156,26 +156,24 @@ TEST_F(FieldReferenceArrayVariableTest, generateAssignmentIRTest) {
   "\n  %2 = load %systems.vos.wisey.compiler.tests.IInterface*, "
   "%systems.vos.wisey.compiler.tests.IInterface** %1"
   "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %2 to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %3, i64 -1)"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.IInterface* null to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %4, i64 1)"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.IInterface(i8* %3)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* null, "
   "%systems.vos.wisey.compiler.tests.IInterface** %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(FieldReferenceArrayVariableTest, generateAssignmentWithAutoCastIRTest) {
+TEST_F(FieldOwnerArrayVariableTest, generateAssignmentWithAutoCastIRTest) {
   NiceMock<MockExpression> assignToExpression;
   
   Value* assignToValue = ConstantPointerNull::get(mNode->getLLVMType(mContext));
-  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode));
+  ON_CALL(assignToExpression, getType(_)).WillByDefault(Return(mNode->getOwner()));
   ON_CALL(assignToExpression, generateIR(_, _)).WillByDefault(Return(assignToValue));
   vector<const IExpression*> arrayIndices;
   llvm::Constant* one = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 1);
   arrayIndices.push_back(new FakeExpression(one, PrimitiveTypes::INT_TYPE));
   
-  mFieldReferenceArrayVariable->generateAssignmentIR(mContext,
+  mFieldOwnerArrayVariable->generateAssignmentIR(mContext,
                                                      &assignToExpression,
                                                      arrayIndices,
                                                      0);
@@ -193,37 +191,48 @@ TEST_F(FieldReferenceArrayVariableTest, generateAssignmentWithAutoCastIRTest) {
   "\n  %5 = load %systems.vos.wisey.compiler.tests.IInterface*, "
   "%systems.vos.wisey.compiler.tests.IInterface** %1"
   "\n  %6 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %5 to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %6, i64 -1)"
-  "\n  %7 = bitcast %systems.vos.wisey.compiler.tests.IInterface* %4 to i8*"
-  "\n  call void @__adjustReferenceCounterForInterface(i8* %7, i64 1)"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.IInterface(i8* %6)"
   "\n  store %systems.vos.wisey.compiler.tests.IInterface* %4, "
   "%systems.vos.wisey.compiler.tests.IInterface** %1\n";
-
+  
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(TestFileSampleRunner, fieldReferenceArrayRunTest) {
-  runFile("tests/samples/test_field_reference_array.yz", "2018");
+TEST_F(TestFileSampleRunner, fieldOwnerArrayRunTest) {
+  runFile("tests/samples/test_field_owner_array.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, fieldReferenceArrayRefCountDecrementedInDestructorRunTest) {
-  runFile("tests/samples/test_field_reference_array_ref_count_decremented_in_destructor.yz",
-          "2018");
+TEST_F(TestFileSampleRunner, fieldOwnerArrayDestructorsAreCalledRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_field_owner_array.yz",
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CController\n"
+                                        "destructor systems.vos.wisey.compiler.tests.MCar\n",
+                                        "");
 }
 
-TEST_F(TestFileSampleRunner, referenceCountIncrementsOnAssignToFieldArrayElementRunDeathTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_reference_count_increments_on_assign_to_field_array_element.yz",
-                               1,
-                               "",
-                               "Unhandled exception wisey.lang.MReferenceCountException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_count_increments_on_assign_to_field_array_element.yz:30)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
-}
-
-TEST_F(TestFileSampleRunner, fieldReferenceArrayInitializedToNullRunDeathTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_field_reference_array_initialized_to_null.yz",
+TEST_F(TestFileSampleRunner, fieldArrayElementIsNulledOnOwnerTranserRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_field_array_element_is_nulled_on_owner_transfer.yz",
                                1,
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_reference_array_initialized_to_null.yz:23)\n");
+                               "  at systems.vos.wisey.compiler.tests.CController.getValue(tests/samples/test_field_array_element_is_nulled_on_owner_transfer.yz:21)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_element_is_nulled_on_owner_transfer.yz:31)\n");
 }
+
+TEST_F(TestFileSampleRunner, ownerVariableIsNulledOnOwnerTransferToFieldArrayRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_owner_variable_is_nulled_on_owner_transfer_to_field_array.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CController.setValue(tests/samples/test_owner_variable_is_nulled_on_owner_transfer_to_field_array.yz:17)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_owner_variable_is_nulled_on_owner_transfer_to_field_array.yz:26)\n");
+}
+
+TEST_F(TestFileSampleRunner, fieldOwnerArrayInitializedToNullRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_field_owner_array_initialized_to_null.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_owner_array_initialized_to_null.yz:28)\n");
+}
+

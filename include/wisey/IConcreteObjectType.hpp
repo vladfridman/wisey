@@ -326,6 +326,9 @@ private:
                                                    IRGenerationContext& context);
 
   static bool hasReferenceArrayField(const IConcreteObjectType* object);
+
+  static bool hasOwnerArrayField(const IConcreteObjectType* object);
+
 };
   
 } /* namespace wisey */
