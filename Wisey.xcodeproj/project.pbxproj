@@ -137,6 +137,9 @@
 		F526D8A21FEAD74D008103B9 /* FieldOwnerArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8A11FEAD74D008103B9 /* FieldOwnerArrayVariable.cpp */; };
 		F526D8A31FEAD74D008103B9 /* FieldOwnerArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8A11FEAD74D008103B9 /* FieldOwnerArrayVariable.cpp */; };
 		F526D8A51FEAE06C008103B9 /* TestFieldOwnerArrayVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8A41FEAE06C008103B9 /* TestFieldOwnerArrayVariable.cpp */; };
+		F526D8A81FEBA854008103B9 /* ArrayAllocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */; };
+		F526D8A91FEBA854008103B9 /* ArrayAllocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */; };
+		F526D8AB1FEBB33A008103B9 /* TestArrayAllocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */; };
 		F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F52C665A1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */; };
@@ -988,6 +991,9 @@
 		F526D8A01FEAD700008103B9 /* FieldOwnerArrayVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldOwnerArrayVariable.hpp; path = include/wisey/FieldOwnerArrayVariable.hpp; sourceTree = "<group>"; };
 		F526D8A11FEAD74D008103B9 /* FieldOwnerArrayVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FieldOwnerArrayVariable.cpp; path = src/FieldOwnerArrayVariable.cpp; sourceTree = "<group>"; };
 		F526D8A41FEAE06C008103B9 /* TestFieldOwnerArrayVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldOwnerArrayVariable.cpp; path = tests/TestFieldOwnerArrayVariable.cpp; sourceTree = "<group>"; };
+		F526D8A61FEBA782008103B9 /* ArrayAllocation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayAllocation.hpp; path = include/wisey/ArrayAllocation.hpp; sourceTree = "<group>"; };
+		F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayAllocation.cpp; path = src/ArrayAllocation.cpp; sourceTree = "<group>"; };
+		F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayAllocation.cpp; path = tests/TestArrayAllocation.cpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
 		F52C66581FBF33C000E89B04 /* ThrowReferenceCountExceptionFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowReferenceCountExceptionFunction.hpp; path = include/wisey/ThrowReferenceCountExceptionFunction.hpp; sourceTree = "<group>"; };
 		F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowReferenceCountExceptionFunction.cpp; path = src/ThrowReferenceCountExceptionFunction.cpp; sourceTree = "<group>"; };
@@ -1924,6 +1930,7 @@
 				F539147C1FDE6BD900CD5174 /* TestAdjustReferenceCounterForConcreteObjectSafelyFunction.cpp */,
 				F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */,
+				F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */,
 				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
 				F5F3F8DE1FDEEE47001BA5B9 /* TestArrayType.cpp */,
 				F5F3F8DC1FDEEA71001BA5B9 /* TestArrayTypeSpecifier.cpp */,
@@ -2754,6 +2761,7 @@
 		F5F3F8CC1FDEC574001BA5B9 /* arrays */ = {
 			isa = PBXGroup;
 			children = (
+				F526D8A61FEBA782008103B9 /* ArrayAllocation.hpp */,
 				F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */,
 				F5F3F8D41FDEC835001BA5B9 /* ArrayType.hpp */,
 				F5F3F8D31FDEC6B1001BA5B9 /* ArrayTypeSpecifier.hpp */,
@@ -2764,6 +2772,7 @@
 		F5F3F8CD1FDEC581001BA5B9 /* arrays */ = {
 			isa = PBXGroup;
 			children = (
+				F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */,
 				F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */,
 				F5F3F8D51FDEC95B001BA5B9 /* ArrayType.cpp */,
 				F5F3F8CF1FDEC637001BA5B9 /* ArrayTypeSpecifier.cpp */,
@@ -3011,6 +3020,7 @@
 				F5C7D1601F7CFCD700D65584 /* ExternalMethod.cpp in Sources */,
 				F526D8A31FEAD74D008103B9 /* FieldOwnerArrayVariable.cpp in Sources */,
 				F534010C1DFF09D30002BF7E /* TestConditionalExpression.cpp in Sources */,
+				F526D8AB1FEBB33A008103B9 /* TestArrayAllocation.cpp in Sources */,
 				F574114C1E019597009809FF /* TestReturnVoidStatement.cpp in Sources */,
 				F5C6FD861E48B7A00054209D /* LongType.cpp in Sources */,
 				F53A2C3B1F00029600E76A9E /* TestNodeDefinition.cpp in Sources */,
@@ -3153,6 +3163,7 @@
 				F57411561E019B32009809FF /* TestLogicalAndExpression.cpp in Sources */,
 				F54ED95C1FE8302300847A2B /* TestLocalOwnerArrayVariable.cpp in Sources */,
 				F5E6BD0C1F1B7B1600D59444 /* TestFakeExpression.cpp in Sources */,
+				F526D8A91FEBA854008103B9 /* ArrayAllocation.cpp in Sources */,
 				F519ED781FD8476800BE3FED /* InjectionArgument.cpp in Sources */,
 				F5F3F8DB1FDED3DC001BA5B9 /* LocalPrimitiveArrayVariable.cpp in Sources */,
 				F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */,
@@ -3266,6 +3277,7 @@
 				F57E2E281E82D6E300FE1DB9 /* BooleanNotExpression.cpp in Sources */,
 				F539147A1FDE69CD00CD5174 /* AdjustReferenceCounterForConcreteObjectSafelyFunction.cpp in Sources */,
 				F56AD49C1E9F4E400020868C /* ThrowStatement.cpp in Sources */,
+				F526D8A81FEBA854008103B9 /* ArrayAllocation.cpp in Sources */,
 				F51942EE1FE2D7C7009C3158 /* PackageType.cpp in Sources */,
 				F50427B41E4E3FA7001CB148 /* FieldReferenceVariable.cpp in Sources */,
 				F531B6421E0A16D7008304F3 /* Block.cpp in Sources */,

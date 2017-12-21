@@ -20,7 +20,7 @@ ArrayTypeSpecifier::~ArrayTypeSpecifier() {
   delete mBaseTypeSpecifier;
 }
 
-IType* ArrayTypeSpecifier::getType(IRGenerationContext& context) const {
+ArrayType* ArrayTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getArrayType(mBaseTypeSpecifier->getType(context), mSize);
 }
 

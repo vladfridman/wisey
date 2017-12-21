@@ -3,6 +3,7 @@
   
   #include "wisey/AccessLevel.hpp"
   #include "wisey/AdditiveMultiplicativeExpression.hpp"
+  #include "wisey/ArrayAllocation.hpp"
   #include "wisey/ArrayElementExpression.hpp"
   #include "wisey/ArrayTypeSpecifier.hpp"
   #include "wisey/Assignment.hpp"
@@ -176,7 +177,7 @@
 %token <token> TANDOP TBIND TBREAK TBUILD TBUILDER TCASE TCATCH TCEQ TCGE TCLE TINCOP
 %token <token> TCONSTANT TCONTINUE TCNE TCONTROLLER TDECOP TDO TELSE TEXIT TEXTENDS TEXTERNAL
 %token <token> TDEFAULT TFALLTHROUGH TFALSE TFIXED TFOR TIF TIMPLEMENTS TIMPORT TINJECTOR TINJECT
-%token <token> TINSTANCEOF TINTERFACE TMODEL TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
+%token <token> TINSTANCEOF TINTERFACE TMODEL TNEW TNODE TNULL TOROP TPACKAGE TPRINTERR TPRINTOUT
 %token <token> TPRIVATE TPUBLIC TRECEIVE TRETURN TSTATE TSTATIC
 %token <token> TSWITCH TTHREAD TTHROW TTHROWS TTO TTRY TTRUE TTYPEBOOLEAN TTYPECHAR TTYPEDOUBLE 
 %token <token> TTYPEFLOAT TTYPEINT TTYPELONG TTYPESTRING TTYPEVOID TWHILE
@@ -191,7 +192,7 @@
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression object_builder
 %type <expression> cast_expression primary_expression assignment unary_expression
-%type <expression> type_comparision_expression injection
+%type <expression> type_comparision_expression injection array_allocation
 %type <expression> thread_expression constant_reference static_method_call
 %type <variable_vector> method_declaration_arguments
 %type <expression_vector> call_arguments string_concatenation_list
@@ -1038,6 +1039,7 @@ conditional_expression
 expression
   : conditional_expression
   | assignment
+  | array_allocation
   ;
 
 assignment
@@ -1046,6 +1048,11 @@ assignment
 
 thread_expression
   : TTHREAD { $$ = new ThreadExpression(); }
+
+array_allocation
+  : TNEW array_type_specifier
+    { $$ = new ArrayAllocation($2); }
+  ;
 
 injection
   : TINJECTOR '(' injectable_object_type_specifier ')' injection_argument_list '.' TINJECT '(' ')'

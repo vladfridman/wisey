@@ -28,7 +28,7 @@ public:
   
   ~ArrayTypeSpecifier();
   
-  IType* getType(IRGenerationContext& context) const override;
+  ArrayType* getType(IRGenerationContext& context) const override;
   
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
   

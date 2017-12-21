@@ -80,6 +80,7 @@ WS  [ \t\v\n\f]
 "interface"                   return TOKEN(TINTERFACE);
 "long"                        return TOKEN(TTYPELONG);
 "model"                       return TOKEN(TMODEL);
+"new"                         return TOKEN(TNEW);
 "node"                        return TOKEN(TNODE);
 "null"                        return TOKEN(TNULL);
 "package"                     return TOKEN(TPACKAGE);

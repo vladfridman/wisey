@@ -189,4 +189,3 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
               "Error: Expression does not reference an array element");
 }
 
-
