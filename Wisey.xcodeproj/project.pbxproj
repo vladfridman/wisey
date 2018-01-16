@@ -89,6 +89,8 @@
 		F51581301E8AAB12009CE419 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F515812E1E8AAB12009CE419 /* Controller.cpp */; };
 		F51581321E8AB1A9009CE419 /* TestController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581311E8AB1A9009CE419 /* TestController.cpp */; };
 		F51581341E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */; };
+		F5170191200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5170190200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp */; };
+		F5170194200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5170193200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp */; };
 		F51764CB1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */; };
 		F51764CC1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */; };
 		F51764CE1ECCEDAE000AFBA7 /* TestProgramFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */; };
@@ -945,6 +947,9 @@
 		F515812E1E8AAB12009CE419 /* Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Controller.cpp; path = src/Controller.cpp; sourceTree = "<group>"; };
 		F51581311E8AB1A9009CE419 /* TestController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestController.cpp; path = tests/TestController.cpp; sourceTree = "<group>"; };
 		F51581331E8ABBB5009CE419 /* TestControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestControllerTypeSpecifier.cpp; path = tests/TestControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F5170190200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyPrimitiveArrayFunction.cpp; path = tests/TestDestroyPrimitiveArrayFunction.cpp; sourceTree = "<group>"; };
+		F5170192200DC78500A10B7C /* DestroyPrimitiveArrayFunction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DestroyPrimitiveArrayFunction.hpp; path = include/wisey/DestroyPrimitiveArrayFunction.hpp; sourceTree = "<group>"; };
+		F5170193200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyPrimitiveArrayFunction.cpp; path = src/DestroyPrimitiveArrayFunction.cpp; sourceTree = "<group>"; };
 		F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramFile.cpp; path = src/ProgramFile.cpp; sourceTree = "<group>"; };
 		F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestProgramFile.cpp; path = tests/TestProgramFile.cpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
@@ -1791,6 +1796,7 @@
 				F5E6BD061F190B4700D59444 /* Composer.cpp */,
 				F54985811FE983C8004C204C /* DecrementReferencesInArrayFunction.cpp */,
 				F54ED95E1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp */,
+				F5170193200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp */,
 				F5105FB21FD16D4E00ACF57B /* GetOriginalObjectFunction.cpp */,
 				F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */,
 			);
@@ -1807,6 +1813,7 @@
 				F5E6BD051F190B3900D59444 /* Composer.hpp */,
 				F54985801FE98341004C204C /* DecrementReferencesInArrayFunction.hpp */,
 				F54ED95D1FE84C9400847A2B /* DestroyOwnerArrayFunction.hpp */,
+				F5170192200DC78500A10B7C /* DestroyPrimitiveArrayFunction.hpp */,
 				F5105FB11FD16CE700ACF57B /* GetOriginalObjectFunction.hpp */,
 				F52C66581FBF33C000E89B04 /* ThrowReferenceCountExceptionFunction.hpp */,
 			);
@@ -1965,6 +1972,7 @@
 				F54985841FE98F95004C204C /* TestDecrementReferencesInArrayFunction.cpp */,
 				F5BD74631EE15BD00035E8FC /* TestDefaultCaseStatement.cpp */,
 				F54985781FE95FFE004C204C /* TestDestroyOwnerArrayFunction.cpp */,
+				F5170190200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp */,
 				F50FA2B91E28C0C900435EEA /* TestDoStatement.cpp */,
 				F50FA2ED1E2E3B2A00435EEA /* TestDoubleConstant.cpp */,
 				F5C6FD781E48B59C0054209D /* TestDoubleType.cpp */,
@@ -2913,6 +2921,7 @@
 				F5CB180D1EB0C16D007E2E43 /* IntrinsicFunctions.cpp in Sources */,
 				F50427B11E4DD621001CB148 /* TestLocalReferenceVariable.cpp in Sources */,
 				F518B5E81EB2240C00577EEB /* TestCatch.cpp in Sources */,
+				F5170191200DC64500A10B7C /* TestDestroyPrimitiveArrayFunction.cpp in Sources */,
 				F5E6BD0E1F1B7DCD00D59444 /* TestComposer.cpp in Sources */,
 				F5FE0A241F7DA00B000621CA /* ExternalStaticMethodDeclaration.cpp in Sources */,
 				F58B32881E1637F50001CC15 /* TestContinueStatement.cpp in Sources */,
@@ -3150,6 +3159,7 @@
 				F59D82141E0F3BA500057FB5 /* TestForStatement.cpp in Sources */,
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F50FA3061E325E5400435EEA /* BooleanConstant.cpp in Sources */,
+				F5170194200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp in Sources */,
 				F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
