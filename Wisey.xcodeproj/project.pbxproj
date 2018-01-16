@@ -957,6 +957,7 @@
 		F5170195200DCB3D00A10B7C /* DestroyReferenceArrayFunction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = DestroyReferenceArrayFunction.hpp; path = include/wisey/DestroyReferenceArrayFunction.hpp; sourceTree = "<group>"; };
 		F5170196200DCB5700A10B7C /* DestroyReferenceArrayFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DestroyReferenceArrayFunction.cpp; path = src/DestroyReferenceArrayFunction.cpp; sourceTree = "<group>"; };
 		F5170198200DCB9100A10B7C /* TestDestroyReferenceArrayFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestDestroyReferenceArrayFunction.cpp; path = tests/TestDestroyReferenceArrayFunction.cpp; sourceTree = "<group>"; };
+		F51701A2200DDAB800A10B7C /* IArrayType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = IArrayType.hpp; path = include/wisey/IArrayType.hpp; sourceTree = "<group>"; };
 		F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramFile.cpp; path = src/ProgramFile.cpp; sourceTree = "<group>"; };
 		F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestProgramFile.cpp; path = tests/TestProgramFile.cpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
@@ -2321,6 +2322,7 @@
 		F58725391F6D332300FA25E6 /* interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				F51701A2200DDAB800A10B7C /* IArrayType.hpp */,
 				F53A2C401F01663A00E76A9E /* IBuildableConcreteObjectType.hpp */,
 				F592A7B71F7D61320026BD2F /* IConcreteObjectDefinition.hpp */,
 				F556E6521EDDC80000CCC3D7 /* IConcreteObjectType.hpp */,

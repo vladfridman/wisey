@@ -9,14 +9,14 @@
 #ifndef ArrayType_h
 #define ArrayType_h
 
-#include "wisey/IType.hpp"
+#include "wisey/IArrayType.hpp"
 
 namespace wisey {
   
 /**
  * Represents the array type
  */
-class ArrayType : public IType {
+class ArrayType : public IArrayType {
   
   const IType* mBaseType;
   unsigned long mSize;
@@ -27,30 +27,15 @@ public:
   
   ~ArrayType();
   
-  /**
-   * Return array base type
-   */
-  const IType* getBaseType() const;
+  const IType* getBaseType() const override;
   
-  /**
-   * Return array size
-   */
-  unsigned long getSize() const;
+  unsigned long getSize() const override;
   
-  /**
-   * Returns single array element type
-   */
-  const IType* getScalarType() const;
+  const IType* getScalarType() const override;
   
-  /**
-   * Deallocates memory occupied by elements of this array when every element is an owner
-   */
-  void free(IRGenerationContext& context, llvm::Value* arrayPointer) const;
+  void free(IRGenerationContext& context, llvm::Value* arrayPointer) const override;
   
-  /**
-   * Decrement reference count for every object pointed to by elements of this array
-   */
-  void decrementReferenceCount(IRGenerationContext& context, llvm::Value* arrayPointer) const;
+  void decrementReferenceCount(IRGenerationContext& context, llvm::Value* arrayPointer) const override;
 
   std::string getTypeName() const override;
   

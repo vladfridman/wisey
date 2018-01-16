@@ -9,7 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayElementExpression.hpp"
-#include "wisey/IType.hpp"
+#include "wisey/IArrayType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -40,7 +40,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   
   if (flag == IR_GENERATION_RELEASE) {
     assert(variable->getType()->getTypeKind() == ARRAY_TYPE);
-    const ArrayType* arrayType = (const ArrayType*) variable->getType();
+    const IArrayType* arrayType = (const IArrayType*) variable->getType();
     assert(IType::isOwnerType(arrayType->getScalarType()));
     PointerType* llvmType = (PointerType*) arrayType->getScalarType()->getLLVMType(context);
     IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), pointer);
@@ -60,8 +60,8 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
       reportErrorArrayType(valueType->getTypeName());
       exit(1);
     }
-    const wisey::ArrayType* arrayType = (const wisey::ArrayType*) valueType;
-    valueType = arrayType->getBaseType();
+    valueType = ((const wisey::IArrayType*) valueType)->getBaseType();
+
     const IType* arrayIndexExpressionType = indexExpression->getType(context);
     if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
         arrayIndexExpressionType != PrimitiveTypes::LONG_TYPE) {
@@ -104,7 +104,7 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
     exit(1);
   }
   
-  const wisey::ArrayType* arrayType = (const wisey::ArrayType*) arrayExpressionType;
+  const wisey::IArrayType* arrayType = (const wisey::IArrayType*) arrayExpressionType;
   return arrayType->getBaseType();
 }
 
