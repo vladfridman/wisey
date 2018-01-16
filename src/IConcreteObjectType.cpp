@@ -54,7 +54,7 @@ void IConcreteObjectType::generateNameGlobal(IRGenerationContext& context,
 }
 
 void IConcreteObjectType::generateShortNameGlobal(IRGenerationContext& context,
-                                             const IConcreteObjectType* object) {
+                                                  const IConcreteObjectType* object) {
   LLVMContext& llvmContext = context.getLLVMContext();
   llvm::Constant* stringConstant = ConstantDataArray::getString(llvmContext,
                                                                 object->getShortName());
@@ -81,7 +81,7 @@ Value* IConcreteObjectType::castTo(IRGenerationContext& context,
   Interface* interface = (Interface*) toType;
   Type* llvmType = (PointerType*) interface->getLLVMType(context);
   int interfaceIndex = getInterfaceIndex(object, interface);
-
+  
   Type* int8Type = Type::getInt8Ty(llvmContext);
   BitCastInst* bitcast = IRWriter::newBitCastInst(context, fromValue, int8Type->getPointerTo());
   Value* index[1];
@@ -121,7 +121,7 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
     unsigned int thunkBy = (vTableIndex + 1) * Environment::getAddressSizeInBytes();
     index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), thunkBy);
     vTableStart = IRWriter::createGetElementPtrInst(context, vTableStartCalculation, index);
-
+    
     Value* vTablePointer =
     IRWriter::newBitCastInst(context, vTableStart, vTableType->getPointerTo());
     Value* idx[3];
@@ -136,9 +136,9 @@ void IConcreteObjectType::initializeVTable(IRGenerationContext& context,
 
 void IConcreteObjectType::generateVTable(IRGenerationContext& context,
                                          const IConcreteObjectType* object) {
-
+  
   vector<vector<llvm::Constant*>> vTables;
-
+  
   addTypeListInfo(context, object, vTables);
   addDestructorInfo(context, object, vTables);
   addUnthunkInfo(context, object, vTables);
@@ -168,7 +168,7 @@ void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
   
   PointerType* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   vector<llvm::Constant*> vTablePortion;
-
+  
   vTablePortion.push_back(ConstantExpr::getNullValue(int8Pointer));
   vTablePortion.push_back(ConstantExpr::getBitCast(typeListGlobal, int8Pointer));
   
@@ -178,15 +178,7 @@ void IConcreteObjectType::addTypeListInfo(IRGenerationContext& context,
 void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
                                             const IConcreteObjectType* object,
                                             vector<vector<llvm::Constant*>>& vTables) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
-  
-  vector<Type*> argumentTypes;
-  argumentTypes.push_back(int8Pointer);
-  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
-  Type* llvmReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* functionType = FunctionType::get(llvmReturnType, argTypesArray, false);
-  
+  FunctionType* functionType = getDestructorFunctionType(context);
   string functionName = getObjectDestructorFunctionName(object);
   
   Function* destructor = Function::Create(functionType,
@@ -194,7 +186,20 @@ void IConcreteObjectType::addDestructorInfo(IRGenerationContext& context,
                                           functionName,
                                           context.getModule());
   
+  Type* int8Pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   vTables.at(0).push_back(ConstantExpr::getBitCast(destructor, int8Pointer));
+}
+
+FunctionType* IConcreteObjectType::getDestructorFunctionType(IRGenerationContext& context) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Type* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(int8Pointer);
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(llvmContext);
+  
+  return FunctionType::get(llvmReturnType, argTypesArray, false);
 }
 
 void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext& context,
@@ -332,7 +337,7 @@ GlobalVariable* IConcreteObjectType::createTypeListGlobal(IRGenerationContext& c
   vector<llvm::Constant*> typeNames;
   typeNames.push_back(objectShortNamePointer);
   typeNames.push_back(objectNamePointer);
-
+  
   for (Interface* interface : interfaces) {
     llvm::Constant* interfaceNamePointer = IObjectType::getObjectNamePointer(interface, context);
     typeNames.push_back(interfaceNamePointer);
@@ -374,7 +379,7 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
       assert(type->getTypeKind() == PRIMITIVE_TYPE);
       fieldVariable = new FieldPrimitiveVariable(field->getName(), object);
     }
-
+    
     context.getScopes().setVariable(fieldVariable);
   }
 }
@@ -384,34 +389,34 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
                                                 const IObjectType* objectType) {
   const IConcreteObjectType* object = (const IConcreteObjectType*) objectType;
   LLVMContext& llvmContext = context.getLLVMContext();
-
+  
   BasicBlock* basicBlock = BasicBlock::Create(llvmContext, "entry", function, 0);
   context.setBasicBlock(basicBlock);
-
+  
   context.getScopes().pushScope();
   context.setBasicBlock(basicBlock);
-
+  
   Function::arg_iterator functionArguments = function->arg_begin();
   Argument* thisGeneric = &*functionArguments;
   thisGeneric->setName("this");
-
+  
   Value* nullValue = ConstantPointerNull::get((PointerType*) thisGeneric->getType());
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, thisGeneric, nullValue, "");
-
+  
   BasicBlock* ifThisIsNullBlock = BasicBlock::Create(llvmContext, "if.this.null", function);
   BasicBlock* ifThisIsNotNullBlock = BasicBlock::Create(llvmContext, "if.this.notnull", function);
-
+  
   IRWriter::createConditionalBranch(context, ifThisIsNullBlock, ifThisIsNotNullBlock, isNull);
-
+  
   context.setBasicBlock(ifThisIsNullBlock);
   IRWriter::createReturnInst(context, NULL);
-
+  
   context.setBasicBlock(ifThisIsNotNullBlock);
   
   Value* thisValue = IRWriter::newBitCastInst(context,
                                               thisGeneric,
                                               objectType->getLLVMType(context));
-
+  
   if (context.isDestructorDebugOn()) {
     vector<IExpression*> printOutArguments;
     printOutArguments.push_back(new StringLiteral("destructor " + object->getTypeName() + "\n"));
@@ -430,15 +435,15 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
   IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
   
   context.setBasicBlock(refCountNotZeroBlock);
-
+  
   ThrowReferenceCountExceptionFunction::call(context, referenceCount);
   IRWriter::newUnreachableInst(context);
-
+  
   context.setBasicBlock(refCountZeroBlock);
-
+  
   IRWriter::createFree(context, thisGeneric);
   IRWriter::createReturnInst(context, NULL);
-
+  
   context.getScopes().popScope(context, 0);
 }
 
@@ -470,7 +475,7 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
                                           const IConcreteObjectType* object) {
   for (Field* field : object->getFields()) {
     const IType* fieldType = field->getType();
-
+    
     if (fieldType->getTypeKind() == ARRAY_TYPE &&
         IType::isOwnerType(((const wisey::ArrayType*) fieldType)->getScalarType())) {
       Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
@@ -503,7 +508,7 @@ Value* IConcreteObjectType::getFieldPointer(IRGenerationContext& context,
                                             const IConcreteObjectType* object,
                                             Field* field) {
   LLVMContext& llvmContext = context.getLLVMContext();
-
+  
   Value* index[2];
   index[0] = llvm::Constant::getNullValue(Type::getInt32Ty(llvmContext));
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), object->getFieldIndex(field));
@@ -530,7 +535,7 @@ Function* IConcreteObjectType::getDestructorFunctionForObject(IRGenerationContex
   string rceFullName = Names::getLangPackageName() + "." + Names::getReferenceCountExceptionName();
   context.getScopes().getScope()->addException(context.getModel(rceFullName));
   string destructorFunctionName = getObjectDestructorFunctionName(object);
-
+  
   return context.getModule()->getFunction(destructorFunctionName);
 }
 
@@ -581,7 +586,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     }
   }
   stream << " {" << endl;
-
+  
   vector<Field*> fields = object->getFields();
   if (fields.size()) {
     stream << endl;
@@ -616,7 +621,7 @@ void IConcreteObjectType::printObjectToStream(IRGenerationContext& context,
     iterator->second->printToStream(context, stream);
     stream << endl;
   }
-
+  
   stream << "}" << endl;
 }
 

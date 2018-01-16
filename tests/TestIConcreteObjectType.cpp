@@ -493,6 +493,20 @@ TEST_F(IConcreteObjectTypeTest, addInterfaceAndItsParentsTest) {
   EXPECT_EQ(flattenedInterfaces.at(3), child2);
 }
 
+TEST_F(IConcreteObjectTypeTest, getDestructorFunctionTypeTest) {
+  Type* int8Pointer = Type::getInt8Ty(mLLVMContext)->getPointerTo();
+  
+  vector<Type*> argumentTypes;
+  argumentTypes.push_back(int8Pointer);
+  ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
+  Type* llvmReturnType = Type::getVoidTy(mLLVMContext);
+  
+  Type* expextedType = FunctionType::get(llvmReturnType, argTypesArray, false);
+  Type* actualType = IConcreteObjectType::getDestructorFunctionType(mContext);
+  
+  EXPECT_EQ(expextedType, actualType);
+}
+
 TEST_F(TestFileSampleRunner, freeingFieldVariablesRunTest) {
   runFile("tests/samples/test_freeing_field_variables.yz", "3");
 }

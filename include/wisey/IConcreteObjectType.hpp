@@ -262,12 +262,17 @@ public:
    */
   static void composeInterfaceMapFunctions(IRGenerationContext& context,
                                            const IConcreteObjectType* object);
+  
+  /**
+   * Returns destructor function type that is the same for all objects
+   */
+  static llvm::FunctionType* getDestructorFunctionType(IRGenerationContext& context);
 
   /**
    * Returns name of the global variable containing short name of this concrete Object
    */
   virtual std::string getObjectShortNameGlobalVariableName() const = 0;
-  
+
 private:
   
   static std::map<std::string, llvm::Function*>
