@@ -41,7 +41,7 @@ string ArrayType::getTypeName() const {
   return mBaseType->getTypeName() + "[" + to_string(mSize) + "]";
 }
 
-llvm::Type* ArrayType::getLLVMType(IRGenerationContext& context) const {
+llvm::ArrayType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   return llvm::ArrayType::get(mBaseType->getLLVMType(context), mSize);
 }
 

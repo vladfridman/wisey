@@ -39,7 +39,7 @@ public:
 
   std::string getTypeName() const override;
   
-  llvm::Type* getLLVMType(IRGenerationContext& context) const override;
+  llvm::ArrayType* getLLVMType(IRGenerationContext& context) const override;
   
   TypeKind getTypeKind() const override;
   

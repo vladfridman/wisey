@@ -24,6 +24,7 @@ class IRGenerationContext;
 typedef enum TypeKindEnum {
   PRIMITIVE_TYPE,
   ARRAY_TYPE,
+  ARRAY_OWNER_TYPE,
   FUNCTION_TYPE,
   PACKAGE_TYPE,
   INTERFACE_TYPE,
