@@ -31,7 +31,7 @@ Function* DestroyOwnerArrayFunction::get(IRGenerationContext& context) {
 void DestroyOwnerArrayFunction::call(IRGenerationContext& context,
                                      Value* array,
                                      unsigned long size,
-                                     Function* destructor) {
+                                     Value* destructor) {
   Function* function = DestroyOwnerArrayFunction::get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
@@ -49,19 +49,10 @@ string DestroyOwnerArrayFunction::getName() {
 Function* DestroyOwnerArrayFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
-  Type* genericPointer = Type::getInt8Ty(llvmContext)->getPointerTo();
-  Type* genericArray = llvm::ArrayType::get(genericPointer, 0)->getPointerTo();
-
-  vector<Type*> destructorArgumentTypes;
-  destructorArgumentTypes.push_back(genericPointer);
-  ArrayRef<Type*> destructorArgTypesArray = ArrayRef<Type*>(destructorArgumentTypes);
-  Type* destructorReturnType = Type::getVoidTy(llvmContext);
-  FunctionType* destructorFunctionType = FunctionType::get(destructorReturnType,
-                                                           destructorArgTypesArray,
-                                                           false);
+  FunctionType* destructorFunctionType = IConcreteObjectType::getDestructorFunctionType(context);
 
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(genericArray);
+  argumentTypes.push_back(getGenericArrayType(context)->getPointerTo());
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
   argumentTypes.push_back(destructorFunctionType->getPointerTo());
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
@@ -76,8 +67,8 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
 
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
-  llvmArgument->setName("arrayBitcast");
-  Value* arrayBitcast = llvmArgument;
+  llvmArgument->setName("arrayPointer");
+  Value* arrayPointer = llvmArgument;
   llvmArguments++;
   llvmArgument = &*llvmArguments;
   llvmArgument->setName("size");
@@ -88,12 +79,31 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   Value* destructor = llvmArgument;
 
   llvm::BasicBlock* entry = llvm::BasicBlock::Create(llvmContext, "entry", function);
+  llvm::BasicBlock* ifNull = llvm::BasicBlock::Create(llvmContext, "if.null", function);
+  llvm::BasicBlock* ifNotNull = llvm::BasicBlock::Create(llvmContext, "if.not.null", function);
+  llvm::BasicBlock* freeElements = llvm::BasicBlock::Create(llvmContext, "free.elements", function);
   llvm::BasicBlock* forCond = llvm::BasicBlock::Create(llvmContext, "for.cond", function);
   llvm::BasicBlock* forBody = llvm::BasicBlock::Create(llvmContext, "for.body", function);
-  llvm::BasicBlock* forEnd = llvm::BasicBlock::Create(llvmContext, "for.end", function);
+  llvm::BasicBlock* freeArray = llvm::BasicBlock::Create(llvmContext, "free.array", function);
   
   context.setBasicBlock(entry);
   
+  Value* null = ConstantPointerNull::get(getGenericArrayType(context)->getPointerTo());
+  Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, arrayPointer, null, "");
+  IRWriter::createConditionalBranch(context, ifNull, ifNotNull, isNull);
+  
+  context.setBasicBlock(ifNull);
+
+  IRWriter::createReturnInst(context, NULL);
+
+  context.setBasicBlock(ifNotNull);
+  
+  null = ConstantPointerNull::get((PointerType*) destructor->getType());
+  isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, destructor, null, "");
+  IRWriter::createConditionalBranch(context, freeArray, freeElements, isNull);
+
+  context.setBasicBlock(freeElements);
+
   llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
   llvm::Value* indexStore = IRWriter::newAllocaInst(context, int64type, "");
   llvm::Constant* int64zero = llvm::ConstantInt::get(int64type, 0);
@@ -108,13 +118,13 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
                                                indexValue,
                                                size,
                                                "cmp");
-  IRWriter::createConditionalBranch(context, forBody, forEnd, compare);
+  IRWriter::createConditionalBranch(context, forBody, freeArray, compare);
   
   context.setBasicBlock(forBody);
   llvm::Value* index[2];
   index[0] = llvm::ConstantInt::get(int64type, 0);
   index[1] = indexValue;
-  llvm::Value* elementStore = IRWriter::createGetElementPtrInst(context, arrayBitcast, index);
+  llvm::Value* elementStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   llvm::Value* elementPointer = IRWriter::newLoadInst(context, elementStore, "");
   vector<Value*> arguments;
   arguments.push_back(elementPointer);
@@ -131,7 +141,13 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   
   IRWriter::createBranch(context, forCond);
   
-  context.setBasicBlock(forEnd);
+  context.setBasicBlock(freeArray);
   
+  IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL);
+}
+
+llvm::ArrayType* DestroyOwnerArrayFunction::getGenericArrayType(IRGenerationContext &context) {
+  Type* genericPointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  return llvm::ArrayType::get(genericPointer, 0);
 }

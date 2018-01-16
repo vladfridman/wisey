@@ -33,7 +33,7 @@ namespace wisey {
     static void call(IRGenerationContext& context,
                      llvm::Value* array,
                      unsigned long size,
-                     llvm::Function* destructor);
+                     llvm::Value* destructor);
     
   private:
     
@@ -43,6 +43,8 @@ namespace wisey {
     
     static void compose(IRGenerationContext& context, llvm::Function* function);
     
+    static llvm::ArrayType* getGenericArrayType(IRGenerationContext& context);
+
   };
   
 } /* namespace wisey */
