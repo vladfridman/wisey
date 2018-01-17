@@ -97,6 +97,8 @@
 		F517019B200DCCB200A10B7C /* DestroyPrimitiveArrayFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5170193200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp */; };
 		F51701A4200E992200A10B7C /* ArrayOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51701A3200E992200A10B7C /* ArrayOwnerType.cpp */; };
 		F51701A7200E9A9300A10B7C /* TestArrayOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51701A6200E9A9300A10B7C /* TestArrayOwnerType.cpp */; };
+		F51701AA200FCE8400A10B7C /* ArrayOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51701A9200FCE8300A10B7C /* ArrayOwnerTypeSpecifier.cpp */; };
+		F51701AC200FD13900A10B7C /* TestArrayOwnerTypeSpecifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51701AB200FD13900A10B7C /* TestArrayOwnerTypeSpecifier.cpp */; };
 		F51764CB1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */; };
 		F51764CC1ECCEAEB000AFBA7 /* ProgramFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */; };
 		F51764CE1ECCEDAE000AFBA7 /* TestProgramFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */; };
@@ -963,6 +965,9 @@
 		F51701A3200E992200A10B7C /* ArrayOwnerType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayOwnerType.cpp; path = src/ArrayOwnerType.cpp; sourceTree = "<group>"; };
 		F51701A5200E993800A10B7C /* ArrayOwnerType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ArrayOwnerType.hpp; path = include/wisey/ArrayOwnerType.hpp; sourceTree = "<group>"; };
 		F51701A6200E9A9300A10B7C /* TestArrayOwnerType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayOwnerType.cpp; path = tests/TestArrayOwnerType.cpp; sourceTree = "<group>"; };
+		F51701A8200FCE7300A10B7C /* ArrayOwnerTypeSpecifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ArrayOwnerTypeSpecifier.hpp; path = include/wisey/ArrayOwnerTypeSpecifier.hpp; sourceTree = "<group>"; };
+		F51701A9200FCE8300A10B7C /* ArrayOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayOwnerTypeSpecifier.cpp; path = src/ArrayOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
+		F51701AB200FD13900A10B7C /* TestArrayOwnerTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayOwnerTypeSpecifier.cpp; path = tests/TestArrayOwnerTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F51764CA1ECCEAEB000AFBA7 /* ProgramFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProgramFile.cpp; path = src/ProgramFile.cpp; sourceTree = "<group>"; };
 		F51764CD1ECCEDAE000AFBA7 /* TestProgramFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestProgramFile.cpp; path = tests/TestProgramFile.cpp; sourceTree = "<group>"; };
 		F51797091E5C95BC009B16AA /* TestCastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCastExpression.cpp; path = tests/TestCastExpression.cpp; sourceTree = "<group>"; };
@@ -1955,6 +1960,7 @@
 				F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */,
 				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
 				F51701A6200E9A9300A10B7C /* TestArrayOwnerType.cpp */,
+				F51701AB200FD13900A10B7C /* TestArrayOwnerTypeSpecifier.cpp */,
 				F5F3F8DE1FDEEE47001BA5B9 /* TestArrayType.cpp */,
 				F5F3F8DC1FDEEA71001BA5B9 /* TestArrayTypeSpecifier.cpp */,
 				F531B64A1E0A5329008304F3 /* TestAssignment.cpp */,
@@ -2790,6 +2796,7 @@
 				F526D8A61FEBA782008103B9 /* ArrayAllocation.hpp */,
 				F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */,
 				F51701A5200E993800A10B7C /* ArrayOwnerType.hpp */,
+				F51701A8200FCE7300A10B7C /* ArrayOwnerTypeSpecifier.hpp */,
 				F5F3F8D41FDEC835001BA5B9 /* ArrayType.hpp */,
 				F5F3F8D31FDEC6B1001BA5B9 /* ArrayTypeSpecifier.hpp */,
 			);
@@ -2802,6 +2809,7 @@
 				F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */,
 				F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */,
 				F51701A3200E992200A10B7C /* ArrayOwnerType.cpp */,
+				F51701A9200FCE8300A10B7C /* ArrayOwnerTypeSpecifier.cpp */,
 				F5F3F8D51FDEC95B001BA5B9 /* ArrayType.cpp */,
 				F5F3F8CF1FDEC637001BA5B9 /* ArrayTypeSpecifier.cpp */,
 			);
@@ -3089,6 +3097,7 @@
 				F5C6FD7E1E48B6810054209D /* TestFloatType.cpp in Sources */,
 				F5C6FD701E48B40F0054209D /* BooleanType.cpp in Sources */,
 				F5105FB61FD1767400ACF57B /* TestGetOriginalObjectFunction.cpp in Sources */,
+				F51701AC200FD13900A10B7C /* TestArrayOwnerTypeSpecifier.cpp in Sources */,
 				F57085FF1E51F8C9007D627E /* TestMethodCall.cpp in Sources */,
 				F5FCAE341ED5C38B00C69899 /* Compiler.cpp in Sources */,
 				F53A2C141EF018EE00E76A9E /* TestInterfaceOwner.cpp in Sources */,
@@ -3183,6 +3192,7 @@
 				F59D821A1E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F50FA3061E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F5170194200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp in Sources */,
+				F51701AA200FCE8400A10B7C /* ArrayOwnerTypeSpecifier.cpp in Sources */,
 				F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
