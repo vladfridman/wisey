@@ -37,11 +37,6 @@ public:
    */
   const ArrayOwnerType* getOwner() const;
   
-  /**
-   * Returns the owner type for this array type
-   */
-  const ArrayOwnerType* getOwner() const;
-  
   const IType* getBaseType() const override;
   
   unsigned long getSize() const override;
