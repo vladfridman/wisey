@@ -37,6 +37,11 @@ public:
    */
   const ArrayOwnerType* getOwner() const;
   
+  /**
+   * Returns the owner type for this array type
+   */
+  const ArrayOwnerType* getOwner() const;
+  
   const IType* getBaseType() const override;
   
   unsigned long getSize() const override;
@@ -45,7 +50,7 @@ public:
   
   void free(IRGenerationContext& context, llvm::Value* arrayPointer) const override;
   
-  void decrementReferenceCount(IRGenerationContext& context, 
+  void decrementReferenceCount(IRGenerationContext& context,
                                llvm::Value* arrayPointer) const override;
 
   std::string getTypeName() const override;
