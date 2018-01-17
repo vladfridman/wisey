@@ -9,18 +9,27 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/DerivedTypes.h>
 
+#include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/DecrementReferencesInArrayFunction.hpp"
 #include "wisey/DestroyOwnerArrayFunction.hpp"
+#include "wisey/DestroyPrimitiveArrayFunction.hpp"
+#include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/IRWriter.hpp"
 
 using namespace std;
 using namespace wisey;
 
 ArrayType::ArrayType(const IType* baseType, unsigned long size) : mBaseType(baseType), mSize(size) {
+  mArrayOwnerType = new ArrayOwnerType(this);
 }
 
 ArrayType::~ArrayType() {
+  delete mArrayOwnerType;
+}
+
+const ArrayOwnerType* ArrayType::getOwner() const {
+  return mArrayOwnerType;
 }
 
 const IType* ArrayType::getBaseType() const {
@@ -69,12 +78,22 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
 }
 
 void ArrayType::free(IRGenerationContext& context, llvm::Value* arrayPointer) const {
-  assert(IType::isOwnerType(getScalarType()));
-  const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) getScalarType();
-  llvm::Function* destructor = objectOwnerType->getDestructorFunction(context);
+  llvm::Value* destructor = NULL;
+  const IType* elementType = getScalarType();
   llvm::Value* arrayBitcast = bitcastToGenericArray(context, arrayPointer);
 
-  DestroyOwnerArrayFunction::call(context, arrayBitcast, getLinearSize(), destructor);
+  if (IType::isOwnerType(elementType)) {
+    const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
+    destructor = objectOwnerType->getDestructorFunction(context);
+    DestroyOwnerArrayFunction::call(context, arrayBitcast, getLinearSize(), destructor);
+  } else if (IType::isReferenceType(elementType)) {
+    llvm::FunctionType* destructorType = IConcreteObjectType::getDestructorFunctionType(context);
+    destructor = llvm::ConstantPointerNull::get(destructorType->getPointerTo());
+    DestroyReferenceArrayFunction::call(context, arrayBitcast, getLinearSize());
+  } else {
+    assert(elementType->getTypeKind() == PRIMITIVE_TYPE);
+    DestroyPrimitiveArrayFunction::call(context, arrayBitcast);
+  }
 }
 
 void ArrayType::decrementReferenceCount(IRGenerationContext& context,

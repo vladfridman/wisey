@@ -11,6 +11,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
+#include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -29,6 +30,12 @@ struct ArrayTypeTest : public Test {
     mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 5u);
   }
 };
+
+TEST_F(ArrayTypeTest, getOwnerTest) {
+  const ArrayOwnerType* arrayOwnerType = mArrayType->getOwner();
+  EXPECT_EQ(ARRAY_OWNER_TYPE, arrayOwnerType->getTypeKind());
+  EXPECT_EQ(mArrayType, arrayOwnerType->getArrayType());
+}
 
 TEST_F(ArrayTypeTest, getBaseTypeTest) {
   EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mArrayType->getBaseType());
