@@ -39,8 +39,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   Value* result = IRWriter::newLoadInst(context, pointer, "");
   
   if (flag == IR_GENERATION_RELEASE) {
-    TypeKind variableTypeKind = variable->getType()->getTypeKind();
-    assert(variableTypeKind == ARRAY_TYPE || variableTypeKind == ARRAY_OWNER_TYPE);
+    assert(IType::isArrayType(variable->getType()));
     const IArrayType* arrayType = (const IArrayType*) variable->getType();
     assert(IType::isOwnerType(arrayType->getScalarType()));
     PointerType* llvmType = (PointerType*) arrayType->getScalarType()->getLLVMType(context);
@@ -57,7 +56,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
   Value* arrayExpressionValue = IRWriter::newLoadInst(context, arrayPointer, "");
   const IType* valueType = arrayType;
   for (const IExpression* indexExpression : arrayIndices) {
-    if (valueType->getTypeKind() != ARRAY_TYPE && valueType->getTypeKind() != ARRAY_OWNER_TYPE) {
+    if (!IType::isArrayType(valueType)) {
       reportErrorArrayType(valueType->getTypeName());
       exit(1);
     }
@@ -101,8 +100,7 @@ bool ArrayElementExpression::isConstant() const {
 const IType* ArrayElementExpression::getType(IRGenerationContext& context) const {
   const IType* arrayExpressionType = mArrayExpression->getType(context);
   
-  if (arrayExpressionType->getTypeKind() != ARRAY_OWNER_TYPE &&
-      arrayExpressionType->getTypeKind() != ARRAY_TYPE) {
+  if (!IType::isArrayType(arrayExpressionType)) {
     reportErrorArrayType(arrayExpressionType->getTypeName());
     exit(1);
   }

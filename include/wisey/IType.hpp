@@ -95,6 +95,12 @@ public:
    * Tells whether the given type is a concrete object type such as model, node or controller
    */
   static bool isConcreteObjectType(const IType* type);
+  
+  /**
+   * Tells whether the given type is an array reference or array owner
+   */
+  static bool isArrayType(const IType* type);
+  
 };
 
 } /* namespace wisey */

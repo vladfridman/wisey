@@ -124,3 +124,15 @@ TEST_F(ITypeTest, isConcreteObjectTypeTest) {
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(NULL_TYPE_KIND));
   EXPECT_FALSE(IType::isConcreteObjectType(&mockType));
 }
+
+TEST_F(ITypeTest, isArrayTypeTest) {
+  NiceMock<MockType> mockType;
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(PRIMITIVE_TYPE));
+  EXPECT_FALSE(IType::isArrayType(&mockType));
+
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(ARRAY_TYPE));
+  EXPECT_TRUE(IType::isArrayType(&mockType));
+
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(ARRAY_OWNER_TYPE));
+  EXPECT_TRUE(IType::isArrayType(&mockType));
+}
