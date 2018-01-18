@@ -39,3 +39,8 @@ bool IType::isArrayType(const IType* type) {
   
   return typeKind == ARRAY_OWNER_TYPE || typeKind == ARRAY_TYPE;
 }
+
+bool IType::isPrimitveType(const IType* type) {
+  return type->getTypeKind() == PRIMITIVE_TYPE;
+}
+

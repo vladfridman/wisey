@@ -45,7 +45,7 @@ Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
   if (type == expressionType) {
     return valueTrue;
   }
-  if (type->getTypeKind() == PRIMITIVE_TYPE || expressionType->getTypeKind() == PRIMITIVE_TYPE) {
+  if (IType::isPrimitveType(type) || IType::isPrimitveType(expressionType)) {
     return valueFalse;
   }
   if (IType::isOwnerType(expressionType) && IType::isOwnerType(type)) {

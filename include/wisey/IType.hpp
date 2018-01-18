@@ -101,6 +101,11 @@ public:
    */
   static bool isArrayType(const IType* type);
   
+  /**
+   * Tells whether the given type is a primitive type
+   */
+  static bool isPrimitveType(const IType* type);
+
 };
 
 } /* namespace wisey */

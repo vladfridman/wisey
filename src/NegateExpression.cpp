@@ -34,7 +34,7 @@ Value* NegateExpression::generateIR(IRGenerationContext& context, IRGenerationFl
   assert(flag == IR_GENERATION_NORMAL);
   
   const IType* type = getType(context);
-  if (type->getTypeKind() != PRIMITIVE_TYPE || type == PrimitiveTypes::VOID_TYPE) {
+  if (!IType::isPrimitveType(type) || type == PrimitiveTypes::VOID_TYPE) {
     Log::e("Can not apply negate operation to type '" + type->getTypeName() + "'");
     exit(1);
   }

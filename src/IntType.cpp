@@ -28,7 +28,7 @@ TypeKind IntType::getTypeKind() const {
 }
 
 bool IntType::canCastTo(const IType* toType) const {
-  if (toType->getTypeKind() != PRIMITIVE_TYPE) {
+  if (!IType::isPrimitveType(toType)) {
     return false;
   }
   
@@ -36,7 +36,7 @@ bool IntType::canCastTo(const IType* toType) const {
 }
 
 bool IntType::canAutoCastTo(const IType* toType) const {
-  if (toType->getTypeKind() != PRIMITIVE_TYPE) {
+  if (!IType::isPrimitveType(toType)) {
     return false;
   }
   

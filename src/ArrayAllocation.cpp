@@ -45,7 +45,7 @@ Value* ArrayAllocation::generateIR(IRGenerationContext &context, IRGenerationFla
   IVariable* heapVariable = NULL;
   
   const IType* elementType = arrayType->getScalarType();
-  assert(elementType->getTypeKind() == PRIMITIVE_TYPE);
+  assert(IType::isPrimitveType(elementType));
   heapVariable = new LocalArrayOwnerVariable(IVariable::getTemporaryVariableName(this),
                                              arrayType->getOwner(),
                                              alloc);

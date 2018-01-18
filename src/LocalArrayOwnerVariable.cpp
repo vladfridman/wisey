@@ -63,7 +63,7 @@ llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& 
     return generateReferenceElementAssignment(context, assignToExpression, elementStore, line);
   }
   
-  assert(scalarType->getTypeKind() == PRIMITIVE_TYPE);
+  assert(IType::isPrimitveType(scalarType));
   return generatePrimitiveElementAssignment(context, assignToExpression, elementStore, line);
 }
 

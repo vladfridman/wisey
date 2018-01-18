@@ -28,7 +28,7 @@ TypeKind FloatType::getTypeKind() const {
 }
 
 bool FloatType::canCastTo(const IType* toType) const {
-  if (toType->getTypeKind() != PRIMITIVE_TYPE) {
+  if (!IType::isPrimitveType(toType)) {
     return false;
   }
   
@@ -36,7 +36,7 @@ bool FloatType::canCastTo(const IType* toType) const {
 }
 
 bool FloatType::canAutoCastTo(const IType* toType) const {
-  if (toType->getTypeKind() != PRIMITIVE_TYPE) {
+  if (!IType::isPrimitveType(toType)) {
     return false;
   }
   

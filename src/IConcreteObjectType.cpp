@@ -372,11 +372,11 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
       } else if (IType::isReferenceType(elementType)) {
         fieldVariable = new FieldReferenceArrayVariable(field->getName(), object);
       } else {
-        assert(elementType->getTypeKind() == PRIMITIVE_TYPE);
+        assert(IType::isPrimitveType(elementType));
         fieldVariable = new FieldPrimitiveArrayVariable(field->getName(), object);
       }
     } else {
-      assert(type->getTypeKind() == PRIMITIVE_TYPE);
+      assert(IType::isPrimitveType(type));
       fieldVariable = new FieldPrimitiveVariable(field->getName(), object);
     }
     

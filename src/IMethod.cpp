@@ -29,7 +29,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
                                  string variableName,
                                  const IType* variableType,
                                  Value* variableValue) {
-  if (variableType->getTypeKind() == PRIMITIVE_TYPE) {
+  if (IType::isPrimitveType(variableType)) {
     const IPrimitiveType* primitiveType = (const IPrimitiveType*) variableType;
     IVariable* variable = new ParameterPrimitiveVariable(variableName,
                                                          primitiveType,

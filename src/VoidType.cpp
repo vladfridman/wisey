@@ -28,7 +28,7 @@ TypeKind VoidType::getTypeKind() const {
 }
 
 bool VoidType::canCastTo(const IType* toType) const {
-  if (toType->getTypeKind() != PRIMITIVE_TYPE) {
+  if (!IType::isPrimitveType(toType)) {
     return false;
   }
   
@@ -36,7 +36,7 @@ bool VoidType::canCastTo(const IType* toType) const {
 }
 
 bool VoidType::canAutoCastTo(const IType* toType) const {
-  if (toType->getTypeKind() != PRIMITIVE_TYPE) {
+  if (!IType::isPrimitveType(toType)) {
     return false;
   }
   

@@ -91,7 +91,7 @@ void ArrayType::free(IRGenerationContext& context, llvm::Value* arrayPointer) co
     destructor = llvm::ConstantPointerNull::get(destructorType->getPointerTo());
     DestroyReferenceArrayFunction::call(context, arrayBitcast, getLinearSize());
   } else {
-    assert(elementType->getTypeKind() == PRIMITIVE_TYPE);
+    assert(IType::isPrimitveType(elementType));
     DestroyPrimitiveArrayFunction::call(context, arrayBitcast);
   }
 }

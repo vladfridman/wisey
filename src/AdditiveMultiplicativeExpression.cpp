@@ -91,7 +91,7 @@ void AdditiveMultiplicativeExpression::checkTypes(const IType* leftType,
     exit(1);
   }
   
-  if (leftType->getTypeKind() != PRIMITIVE_TYPE || rightType->getTypeKind() != PRIMITIVE_TYPE) {
+  if (!IType::isPrimitveType(leftType) || !IType::isPrimitveType(rightType)) {
     Log::e("Can not do operation '" + string(1, mOperation) + "' on non-primitive types");
     exit(1);
   }

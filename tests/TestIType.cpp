@@ -136,3 +136,15 @@ TEST_F(ITypeTest, isArrayTypeTest) {
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(ARRAY_OWNER_TYPE));
   EXPECT_TRUE(IType::isArrayType(&mockType));
 }
+
+TEST_F(ITypeTest, isPrimitiveTypeTest) {
+  NiceMock<MockType> mockType;
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(PRIMITIVE_TYPE));
+  EXPECT_TRUE(IType::isPrimitveType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(ARRAY_TYPE));
+  EXPECT_FALSE(IType::isPrimitveType(&mockType));
+  
+  ON_CALL(mockType, getTypeKind()).WillByDefault(Return(ARRAY_OWNER_TYPE));
+  EXPECT_FALSE(IType::isPrimitveType(&mockType));
+}

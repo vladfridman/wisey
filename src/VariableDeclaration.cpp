@@ -63,7 +63,7 @@ VariableDeclaration* VariableDeclaration::createWithAssignment(const ITypeSpecif
 Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
   const IType* type = mTypeSpecifier->getType(context);
   TypeKind typeKind = type->getTypeKind();
-  if (typeKind == PRIMITIVE_TYPE) {
+  if (IType::isPrimitveType(type)) {
     allocatePrimitive(context, (const IPrimitiveType*) type);
   } else if (typeKind == ARRAY_TYPE) {
     allocateArray(context, (const wisey::ArrayType*) type);
@@ -135,7 +135,7 @@ void VariableDeclaration::allocateArray(IRGenerationContext& context,
   } else if (IType::isReferenceType(type->getScalarType())) {
     variable = new LocalReferenceArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
   } else {
-    assert(type->getScalarType()->getTypeKind() == PRIMITIVE_TYPE);
+    assert(IType::isPrimitveType(type->getScalarType()));
     variable = new LocalPrimitiveArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
   }
   
