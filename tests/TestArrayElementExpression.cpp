@@ -63,7 +63,9 @@ struct ArrayElementExpressionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
-    Value* alloca = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "");
+    Value* alloca = IRWriter::newAllocaInst(mContext,
+                                            mArrayType->getLLVMType(mContext)->getPointerTo(),
+                                            "");
     ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(alloca));
     ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
     ON_CALL(*mArrayExpression, getVariable(_, _)).WillByDefault(Return(mArrayVariable));
@@ -98,9 +100,10 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   *mStringStream << *mBasicBlock;
   
   EXPECT_STREQ("\nentry:"
-               "\n  %0 = alloca [5 x i32]"
-               "\n  %1 = getelementptr [5 x i32], [5 x i32]* %0, i32 0, i32 3"
-               "\n  %2 = load i32, i32* %1\n",
+               "\n  %0 = alloca [5 x i32]*"
+               "\n  %1 = load [5 x i32]*, [5 x i32]** %0"
+               "\n  %2 = getelementptr [5 x i32], [5 x i32]* %1, i32 0, i32 3"
+               "\n  %3 = load i32, i32* %2\n",
                mStringStream->str().c_str());
 }
 
@@ -161,7 +164,9 @@ TEST_F(ArrayElementExpressionTest, generateAssignmentIRDeathTest) {
 
   wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
   mArrayType = new wisey::ArrayType(arrayType, 5);
-  Value* alloca = IRWriter::newAllocaInst(mContext, mArrayType->getLLVMType(mContext), "");
+  Value* alloca = IRWriter::newAllocaInst(mContext,
+                                          mArrayType->getLLVMType(mContext)->getPointerTo(),
+                                          "");
   ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(alloca));
   ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
   ON_CALL(*mArrayExpression, getVariable(_, _)).WillByDefault(Return(mArrayVariable));
@@ -183,8 +188,14 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
   Mock::AllowLeak(mArrayIndexExpression);
   Mock::AllowLeak(mArrayVariable);
   vector<const IExpression*> arrayIndices;
-  
-  EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext, mArrayType, NULL, arrayIndices),
+
+  wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
+  mArrayType = new wisey::ArrayType(arrayType, 5);
+  Value* alloca = IRWriter::newAllocaInst(mContext,
+                                          mArrayType->getLLVMType(mContext)->getPointerTo(),
+                                          "");
+
+  EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext, mArrayType, alloca, arrayIndices),
               ::testing::ExitedWithCode(1),
               "Error: Expression does not reference an array element");
 }

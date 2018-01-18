@@ -15,6 +15,7 @@
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalArrayOwnerVariable.hpp"
 #include "wisey/LocalOwnerArrayVariable.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalPrimitiveArrayVariable.hpp"
@@ -66,9 +67,12 @@ Value* VariableDeclaration::generateIR(IRGenerationContext& context) const {
     allocatePrimitive(context, (const IPrimitiveType*) type);
   } else if (typeKind == ARRAY_TYPE) {
     allocateArray(context, (const wisey::ArrayType*) type);
+  } else if (typeKind == ARRAY_OWNER_TYPE) {
+    allocateArrayOwner(context, (const wisey::ArrayOwnerType*) type);
   } else if (IType::isOwnerType(type)) {
     allocateOwner(context, (const IObjectOwnerType*) type);
   } else {
+    assert(IType::isReferenceType(type));
     allocateReference(context, (const IObjectType*) type);
   }
   
@@ -121,9 +125,9 @@ void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
 
 void VariableDeclaration::allocateArray(IRGenerationContext& context,
                                         const wisey::ArrayType* type) const {
-  llvm::ArrayType* llvmType = (llvm::ArrayType*) type->getLLVMType(context);
+  llvm::PointerType* llvmType = type->getLLVMType(context)->getPointerTo();
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
-  IntrinsicFunctions::setMemoryToZero(context, alloc, llvmType);
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloc);
 
   IVariable* variable = NULL;
   if (IType::isOwnerType(type->getScalarType())) {
@@ -135,6 +139,16 @@ void VariableDeclaration::allocateArray(IRGenerationContext& context,
     variable = new LocalPrimitiveArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
   }
   
+  context.getScopes().setVariable(variable);
+}
+
+void VariableDeclaration::allocateArrayOwner(IRGenerationContext& context,
+                                             const wisey::ArrayOwnerType* type) const {
+  llvm::PointerType* llvmType = type->getLLVMType(context)->getPointerTo();
+  AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
+  IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloc);
+  
+  IVariable* variable = new LocalArrayOwnerVariable(mIdentifier->getIdentifierName(), type, alloc);
   context.getScopes().setVariable(variable);
 }
 

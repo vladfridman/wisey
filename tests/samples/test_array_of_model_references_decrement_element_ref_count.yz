@@ -14,8 +14,9 @@ controller CProgram implements IProgram {
     MCar* car = builder(MCar).build();
     MCar[5][10]* array = new MCar[5][10];
     array[4][9] = car;
+    array[4][9] = null;
 
-    return array[4][9].getYear();
+    return car.getYear();
   }
 }
 

@@ -12,10 +12,11 @@ controller CProgram implements IProgram {
 
   public int run() {
     MCar* car = builder(MCar).build();
-    MCar[5][10]* array = new MCar[5][10];
-    array[4][9] = car;
+    MCar*[5]* array = new MCar*[5];
+    array[4] = car;
+    car = array[4];
 
-    return array[4][9].getYear();
+    return array[4].getYear();
   }
 }
 

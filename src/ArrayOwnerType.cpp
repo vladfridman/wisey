@@ -7,6 +7,9 @@
 //
 
 #include "wisey/ArrayOwnerType.hpp"
+#include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrintOutStatement.hpp"
+#include "wisey/StringLiteral.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -69,6 +72,14 @@ const IType* ArrayOwnerType::getScalarType() const {
 }
 
 void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointer) const {
+  if (context.isDestructorDebugOn()) {
+    vector<IExpression*> printOutArguments;
+    StringLiteral* stringLiteral = new StringLiteral("destructor " + mArrayType->getTypeName() +
+                                                     "*\n");
+    printOutArguments.push_back(stringLiteral);
+    PrintOutStatement printOutStatement(printOutArguments);
+    printOutStatement.generateIR(context);
+  }
   mArrayType->free(context, arrayPointer);
 }
 

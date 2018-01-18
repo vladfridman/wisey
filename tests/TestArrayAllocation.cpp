@@ -18,6 +18,7 @@
 #include "MockVariable.hpp"
 #include "TestFileSampleRunner.hpp"
 #include "wisey/ArrayAllocation.hpp"
+#include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -79,7 +80,7 @@ struct ArrayAllocationTest : Test {
 };
 
 TEST_F(ArrayAllocationTest, generateIRTest) {
-  mArrayAllocation->generateIR(mContext, IR_GENERATION_NORMAL);
+  mArrayAllocation->generateIR(mContext, IR_GENERATION_RELEASE);
   
   *mStringStream << *mBasicBlock;
   
@@ -99,7 +100,7 @@ TEST_F(ArrayAllocationTest, isConstantTest) {
 }
 
 TEST_F(ArrayAllocationTest, getTypeTest) {
-  EXPECT_EQ(mArrayType, mArrayAllocation->getType(mContext));
+  EXPECT_EQ(mArrayType->getOwner(), mArrayAllocation->getType(mContext));
 }
 
 TEST_F(ArrayAllocationTest, printToStreamTest) {

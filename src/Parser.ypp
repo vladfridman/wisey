@@ -5,6 +5,7 @@
   #include "wisey/AdditiveMultiplicativeExpression.hpp"
   #include "wisey/ArrayAllocation.hpp"
   #include "wisey/ArrayElementExpression.hpp"
+  #include "wisey/ArrayOwnerTypeSpecifier.hpp"
   #include "wisey/ArrayTypeSpecifier.hpp"
   #include "wisey/Assignment.hpp"
   #include "wisey/BindAction.hpp"
@@ -137,6 +138,7 @@
   wisey::SwitchCases* switch_cases;
   wisey::ITypeSpecifier* type_specifier;
   wisey::ArrayTypeSpecifier* array_type_specifier;
+  wisey::ArrayOwnerTypeSpecifier* array_owner_type_specifier;
   wisey::IObjectDefinition* object_definition;
   wisey::IObjectTypeSpecifier* object_type_specifier;
   wisey::Identifier* identifier;
@@ -228,6 +230,7 @@
 %type <object_element_list> external_interface_element_delcaration_list
 %type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier
 %type <array_type_specifier> array_type_specifier
+%type <array_owner_type_specifier> array_owner_type_specifier
 %type <object_type_specifier> top_level_object_type_specifier 
 %type <object_type_specifier> buildable_concrete_object_type_specifier
 %type <object_type_specifier> injectable_object_type_specifier inner_object_type_specifier
@@ -1096,6 +1099,7 @@ call_arguments
 type_specifier
   : primitive_type_specifier
   | array_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  | array_owner_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | top_level_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | inner_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | object_owner_type_specifier
@@ -1190,6 +1194,11 @@ inner_node_type_specifier_full
       delete $1; 
       delete $3; 
     }
+  ;
+
+array_owner_type_specifier
+  : array_type_specifier '*'
+    { $$ = new ArrayOwnerTypeSpecifier($1); }
   ;
 
 array_type_specifier

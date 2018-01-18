@@ -9,8 +9,11 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayAllocation.hpp"
+#include "wisey/ArrayOwnerType.hpp"
+#include "wisey/IVariable.hpp"
 #include "wisey/IntrinsicFunctions.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalArrayOwnerVariable.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -32,6 +35,22 @@ Value* ArrayAllocation::generateIR(IRGenerationContext &context, IRGenerationFla
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "newarray");
   IntrinsicFunctions::setMemoryToZero(context, malloc, structType);
   
+  if (flag == IR_GENERATION_RELEASE) {
+    return malloc;
+  }
+
+  Value* alloc = IRWriter::newAllocaInst(context, malloc->getType(), "");
+  IRWriter::newStoreInst(context, malloc, alloc);
+  
+  IVariable* heapVariable = NULL;
+  
+  const IType* elementType = arrayType->getScalarType();
+  assert(elementType->getTypeKind() == PRIMITIVE_TYPE);
+  heapVariable = new LocalArrayOwnerVariable(IVariable::getTemporaryVariableName(this),
+                                             arrayType->getOwner(),
+                                             alloc);
+  context.getScopes().setVariable(heapVariable);
+  
   return malloc;
 }
 
@@ -45,7 +64,7 @@ bool ArrayAllocation::isConstant() const {
 }
 
 const IType* ArrayAllocation::getType(IRGenerationContext& context) const {
-  return mArrayTypeSpecifier->getType(context);
+  return mArrayTypeSpecifier->getType(context)->getOwner();
 }
 
 void ArrayAllocation::printToStream(IRGenerationContext &context, iostream &stream) const {

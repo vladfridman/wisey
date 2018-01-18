@@ -59,6 +59,8 @@ void Scope::setVariable(string name, IVariable* variable) {
     } else if (IType::isReferenceType(scalarType)) {
       mReferenceVariables.push_front((IReferenceVariable*) variable);
     }
+  } else if (variableType->getTypeKind() == ARRAY_OWNER_TYPE) {
+    mOwnerVariables.push_front((IOwnerVariable*) variable);
   }
 }
 
