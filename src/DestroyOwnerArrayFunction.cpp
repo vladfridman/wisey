@@ -30,13 +30,10 @@ Function* DestroyOwnerArrayFunction::get(IRGenerationContext& context) {
 
 void DestroyOwnerArrayFunction::call(IRGenerationContext& context,
                                      Value* array,
-                                     unsigned long size,
                                      Value* destructor) {
   Function* function = DestroyOwnerArrayFunction::get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
-  llvm::Constant* value = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), size);
-  arguments.push_back(value);
   arguments.push_back(destructor);
   
   IRWriter::createCallInst(context, function, arguments, "");
@@ -54,7 +51,6 @@ Function* DestroyOwnerArrayFunction::define(IRGenerationContext& context) {
 
   vector<Type*> argumentTypes;
   argumentTypes.push_back(genericPointer);
-  argumentTypes.push_back(Type::getInt64Ty(llvmContext));
   argumentTypes.push_back(destructorFunctionType->getPointerTo());
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
@@ -71,10 +67,6 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   llvm::Argument *llvmArgument = &*llvmArguments;
   llvmArgument->setName("arrayPointer");
   Value* arrayPointer = llvmArgument;
-  llvmArguments++;
-  llvmArgument = &*llvmArguments;
-  llvmArgument->setName("size");
-  Value* size = llvmArgument;
   llvmArguments++;
   llvmArgument = &*llvmArguments;
   llvmArgument->setName("destructor");
@@ -103,7 +95,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   llvm::Constant* one = ConstantInt::get(int64type, 1);
   llvm::Constant* two = ConstantInt::get(int64type, 2);
   Value* index[1];
-  index[0] = ConstantInt::get(int64type, 1);
+  index[0] = one;
   Value* dimensionsStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   Value* dimensions = IRWriter::newLoadInst(context, dimensionsStore, "dimensions");
   Value* offset = IRWriter::createBinaryOperator(context,
@@ -111,7 +103,11 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
                                                  dimensions,
                                                  two,
                                                  "offset");
-  
+
+  index[0] = two;
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* size = IRWriter::newLoadInst(context, sizeStore, "size");
+
   index[0] = dimensions;
   Value* arrayStore = IRWriter::createGetElementPtrInst(context, dimensionsStore, offset);
   Value* array = IRWriter::newBitCastInst(context,

@@ -113,11 +113,11 @@ void ArrayType::free(IRGenerationContext& context, llvm::Value* arrayPointer) co
   if (IType::isOwnerType(elementType)) {
     const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
     destructor = objectOwnerType->getDestructorFunction(context);
-    DestroyOwnerArrayFunction::call(context, arrayBitcast, getLinearSize(), destructor);
+    DestroyOwnerArrayFunction::call(context, arrayBitcast, destructor);
   } else if (IType::isReferenceType(elementType)) {
     llvm::FunctionType* destructorType = IConcreteObjectType::getDestructorFunctionType(context);
     destructor = llvm::ConstantPointerNull::get(destructorType->getPointerTo());
-    DestroyReferenceArrayFunction::call(context, arrayBitcast, getLinearSize());
+    DestroyReferenceArrayFunction::call(context, arrayBitcast);
   } else {
     assert(IType::isPrimitveType(elementType));
     DestroyPrimitiveArrayFunction::call(context, arrayBitcast);

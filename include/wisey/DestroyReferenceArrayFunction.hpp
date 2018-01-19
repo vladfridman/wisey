@@ -30,9 +30,7 @@ namespace wisey {
     /**
      * Call function with given parameters
      */
-    static void call(IRGenerationContext& context,
-                     llvm::Value* array,
-                     unsigned long size);
+    static void call(IRGenerationContext& context, llvm::Value* array);
     
   private:
     
