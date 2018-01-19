@@ -30,19 +30,17 @@ struct DestroyOwnerArrayFunctionTest : Test {
   BasicBlock* mBasicBlock;
   Function* mFunction;
   Function* mDestructor;
-  Type* mInt8Pointer;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
   DestroyOwnerArrayFunctionTest() :
-  mLLVMContext(mContext.getLLVMContext()),
-  mInt8Pointer(Type::getInt8Ty(mLLVMContext)->getPointerTo()) {
+  mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     TestPrefix::generateIR(mContext);
     
     vector<Type*> destructorArgumentTypes;
-    destructorArgumentTypes.push_back(mInt8Pointer);
+    destructorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
     ArrayRef<Type*> destructorArgTypesArray = ArrayRef<Type*>(destructorArgumentTypes);
     Type* detructorLlvmReturnType = Type::getVoidTy(mLLVMContext);
     FunctionType* destructorFunctionType = FunctionType::get(detructorLlvmReturnType,
@@ -71,14 +69,14 @@ struct DestroyOwnerArrayFunctionTest : Test {
 };
 
 TEST_F(DestroyOwnerArrayFunctionTest, callTest) {
-  llvm::ArrayType* arrayType = llvm::ArrayType::get(mInt8Pointer, 0);
-  Value* nullPointerValue = ConstantPointerNull::get(arrayType->getPointerTo());
+  llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
+  Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
   DestroyOwnerArrayFunction::call(mContext, nullPointerValue, 3, mDestructor);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyOwnerArrayFunction([0 x i8*]* null, i64 3, void (i8*)* @destructor)\n";
+  "\n  call void @__destroyOwnerArrayFunction(i64* null, i64 3, void (i8*)* @destructor)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -89,39 +87,40 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__destroyOwnerArrayFunction([0 x i8*]* %arrayPointer, i64 %size, void (i8*)* %destructor) {"
+  "\ndefine internal void @__destroyOwnerArrayFunction(i64* %arrayPointer, i64 %size, void (i8*)* %destructor) {"
   "\nentry:"
-  "\n  %0 = icmp eq [0 x i8*]* %arrayPointer, null"
+  "\n  %0 = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %0, label %if.null, label %if.not.null"
   "\n"
   "\nif.null:                                          ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  %1 = icmp eq void (i8*)* %destructor, null"
-  "\n  br i1 %1, label %free.array, label %free.elements"
-  "\n"
-  "\nfree.elements:                                    ; preds = %if.not.null"
-  "\n  %2 = alloca i64"
-  "\n  store i64 0, i64* %2"
+  "\n  %1 = getelementptr i64, i64* %arrayPointer, i64 1"
+  "\n  %dimenensions = load i64, i64* %1"
+  "\n  %offset = add i64 %dimenensions, 1"
+  "\n  %2 = getelementptr i64, i64* %1, i64 %offset"
+  "\n  %3 = bitcast i64* %2 to [0 x i8*]*"
+  "\n  %4 = alloca i64"
+  "\n  store i64 0, i64* %4"
   "\n  br label %for.cond"
   "\n"
-  "\nfor.cond:                                         ; preds = %for.body, %free.elements"
-  "\n  %3 = load i64, i64* %2"
-  "\n  %cmp = icmp slt i64 %3, %size"
+  "\nfor.cond:                                         ; preds = %for.body, %if.not.null"
+  "\n  %5 = load i64, i64* %4"
+  "\n  %cmp = icmp slt i64 %5, %size"
   "\n  br i1 %cmp, label %for.body, label %free.array"
   "\n"
   "\nfor.body:                                         ; preds = %for.cond"
-  "\n  %4 = getelementptr [0 x i8*], [0 x i8*]* %arrayPointer, i64 0, i64 %3"
-  "\n  %5 = load i8*, i8** %4"
-  "\n  call void %destructor(i8* %5)"
-  "\n  %6 = add i64 %3, 1"
-  "\n  store i64 %6, i64* %2"
+  "\n  %6 = getelementptr [0 x i8*], [0 x i8*]* %3, i64 0, i64 %5"
+  "\n  %7 = load i8*, i8** %6"
+  "\n  call void %destructor(i8* %7)"
+  "\n  %8 = add i64 %5, 1"
+  "\n  store i64 %8, i64* %4"
   "\n  br label %for.cond"
   "\n"
-  "\nfree.array:                                       ; preds = %for.cond, %if.not.null"
-  "\n  %7 = bitcast [0 x i8*]* %arrayPointer to i8*"
-  "\n  tail call void @free(i8* %7)"
+  "\nfree.array:                                       ; preds = %for.cond"
+  "\n  %9 = bitcast i64* %arrayPointer to i8*"
+  "\n  tail call void @free(i8* %9)"
   "\n  ret void"
   "\n}\n";
 

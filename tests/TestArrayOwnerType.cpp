@@ -54,8 +54,17 @@ TEST_F(ArrayOwnerTypeTest, getNameTest) {
 }
 
 TEST_F(ArrayOwnerTypeTest, getLLVMTypeTest) {
+  vector<llvm::Type*> dimentionTypes;
+  dimentionTypes.push_back(llvm::Type::getInt64Ty(mLLVMContext));
+  llvm::StructType* subStruct = llvm::StructType::get(mLLVMContext, dimentionTypes);
+  
+  llvm::StructType* arrayStruct = mArrayOwnerType->getLLVMType(mContext);
+  
+  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
+  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
+  EXPECT_EQ(subStruct, arrayStruct->getElementType(2));
   EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
-            mArrayOwnerType->getLLVMType(mContext));
+            arrayStruct->getElementType(3));
 }
 
 TEST_F(ArrayOwnerTypeTest, getTypeKindTest) {

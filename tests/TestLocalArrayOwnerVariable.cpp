@@ -108,8 +108,8 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTe
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca [3 x i32]*"
-  "\n  store [3 x i32]* null, [3 x i32]** %foo\n";
+  "\n  %foo = alloca { i64, i64, { i64 }, [3 x i32] }*"
+  "\n  store { i64, i64, { i64 }, [3 x i32] }* null, { i64, i64, { i64 }, [3 x i32] }** %foo\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -130,8 +130,8 @@ TEST_F(LocalArrayOwnerVariableTest, generateOwnerArrayWholeArrayAssignmentTest) 
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca [5 x %systems.vos.wisey.compiler.tests.MModel*]*"
-  "\n  store [5 x %systems.vos.wisey.compiler.tests.MModel*]* null, [5 x %systems.vos.wisey.compiler.tests.MModel*]** %foo\n";
+  "\n  %foo = alloca { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*"
+  "\n  store { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }* null, { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }** %foo\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -153,13 +153,14 @@ TEST_F(LocalArrayOwnerVariableTest, generateOwnerArrayAssignmentTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca [5 x %systems.vos.wisey.compiler.tests.MModel*]*"
-  "\n  %0 = load [5 x %systems.vos.wisey.compiler.tests.MModel*]*, [5 x %systems.vos.wisey.compiler.tests.MModel*]** %foo"
-  "\n  %1 = getelementptr [5 x %systems.vos.wisey.compiler.tests.MModel*], [5 x %systems.vos.wisey.compiler.tests.MModel*]* %0, i32 0, i32 1"
-  "\n  %2 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** %1"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MModel* %2 to i8*"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MModel(i8* %3)"
-  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %1"
+  "\n  %foo = alloca { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*"
+  "\n  %0 = load { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*, { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }** %foo"
+  "\n  %1 = getelementptr { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }, { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }* %0, i64 0, i32 3"
+  "\n  %2 = getelementptr [5 x %systems.vos.wisey.compiler.tests.MModel*], [5 x %systems.vos.wisey.compiler.tests.MModel*]* %1, i32 0, i32 1"
+  "\n  %3 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** %2"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MModel* %3 to i8*"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MModel(i8* %4)"
+  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %2"
   "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -181,8 +182,8 @@ TEST_F(LocalArrayOwnerVariableTest, generateReferenceArrayWholeArrayAssignmentTe
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca [5 x %systems.vos.wisey.compiler.tests.MModel*]*"
-  "\n  store [5 x %systems.vos.wisey.compiler.tests.MModel*]* null, [5 x %systems.vos.wisey.compiler.tests.MModel*]** %foo\n";
+  "\n  %foo = alloca { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*"
+  "\n  store { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }* null, { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }** %foo\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -204,15 +205,16 @@ TEST_F(LocalArrayOwnerVariableTest, generateReferenceArrayAssignmentTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca [5 x %systems.vos.wisey.compiler.tests.MModel*]*"
-  "\n  %0 = load [5 x %systems.vos.wisey.compiler.tests.MModel*]*, [5 x %systems.vos.wisey.compiler.tests.MModel*]** %foo"
-  "\n  %1 = getelementptr [5 x %systems.vos.wisey.compiler.tests.MModel*], [5 x %systems.vos.wisey.compiler.tests.MModel*]* %0, i32 0, i32 1"
-  "\n  %2 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** %1"
-  "\n  %3 = bitcast %systems.vos.wisey.compiler.tests.MModel* %2 to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %3, i64 -1)"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MModel* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 1)"
-  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %1"
+  "\n  %foo = alloca { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*"
+  "\n  %0 = load { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*, { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }** %foo"
+  "\n  %1 = getelementptr { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }, { i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }* %0, i64 0, i32 3"
+  "\n  %2 = getelementptr [5 x %systems.vos.wisey.compiler.tests.MModel*], [5 x %systems.vos.wisey.compiler.tests.MModel*]* %1, i32 0, i32 1"
+  "\n  %3 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** %2"
+  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MModel* %3 to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 -1)"
+  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MModel* null to i8*"
+  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %5, i64 1)"
+  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %2"
   "\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());

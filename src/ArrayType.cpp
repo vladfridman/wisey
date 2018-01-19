@@ -50,8 +50,35 @@ string ArrayType::getTypeName() const {
   return mBaseType->getTypeName() + "[" + to_string(mSize) + "]";
 }
 
-llvm::ArrayType* ArrayType::getLLVMType(IRGenerationContext& context) const {
-  return llvm::ArrayType::get(mBaseType->getLLVMType(context), mSize);
+llvm::StructType* ArrayType::getLLVMType(IRGenerationContext& context) const {
+  llvm::LLVMContext& llvmContext = context.getLLVMContext();
+  
+  const IType* baseType = mBaseType;
+  
+  list<unsigned long> dimentions;
+  dimentions.push_front(mSize);
+  
+  while (IType::isArrayType(baseType)) {
+    const IArrayType* baseArrayType = (const IArrayType*) mBaseType;
+    dimentions.push_front(baseArrayType->getSize());
+    baseType = baseArrayType->getBaseType();
+  }
+  
+  llvm::Type* type = baseType->getLLVMType(context);
+  vector<llvm::Type*> dimentionTypes;
+  for (unsigned long size : dimentions) {
+    type = llvm::ArrayType::get(type, size);
+    dimentionTypes.push_back(llvm::Type::getInt64Ty(llvmContext));
+  }
+  llvm::StructType* subStruct = llvm::StructType::get(llvmContext, dimentionTypes);
+  
+  vector<llvm::Type*> types;
+  types.push_back(llvm::Type::getInt64Ty(llvmContext));
+  types.push_back(llvm::Type::getInt64Ty(llvmContext));
+  types.push_back(subStruct);
+  types.push_back(type);
+
+  return llvm::StructType::get(llvmContext, types);
 }
 
 TypeKind ArrayType::getTypeKind() const {
@@ -80,7 +107,7 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
 void ArrayType::free(IRGenerationContext& context, llvm::Value* arrayPointer) const {
   llvm::Value* destructor = NULL;
   const IType* elementType = getScalarType();
-  llvm::Value* arrayBitcast = bitcastToGenericArray(context, arrayPointer);
+  llvm::Value* arrayBitcast = bitcastToGenericPointer(context, arrayPointer);
 
   if (IType::isOwnerType(elementType)) {
     const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
@@ -101,7 +128,7 @@ void ArrayType::decrementReferenceCount(IRGenerationContext& context,
   assert(IType::isReferenceType(getScalarType()));
   const IObjectType* objectType = (const IObjectType*) getScalarType();
   llvm::Function* function = objectType->getReferenceAdjustmentFunction(context);
-  llvm::Value* arrayBitcast = bitcastToGenericArray(context, arrayPointer);
+  llvm::Value* arrayBitcast = bitcastToGenericPointer(context, arrayPointer);
 
   DecrementReferencesInArrayFunction::call(context, arrayBitcast, getLinearSize(), function);
 }
@@ -118,11 +145,29 @@ unsigned long ArrayType::getLinearSize() const {
   return size;
 }
 
-llvm::Value* ArrayType::bitcastToGenericArray(IRGenerationContext& context,
-                                              llvm::Value* arrayPointer) const {
-  llvm::LLVMContext& llvmContext = context.getLLVMContext();
-  llvm::Type* genericPointer = llvm::Type::getInt8Ty(llvmContext)->getPointerTo();
-  llvm::Type* genericArray = llvm::ArrayType::get(genericPointer, 0)->getPointerTo();
+unsigned long ArrayType::getDimentionsSize() const {
+  const IType* baseType = getBaseType();
+  unsigned long size = 1;
+  while (baseType->getTypeKind() == ARRAY_TYPE) {
+    const ArrayType* arrayType = (const ArrayType*) baseType;
+    baseType = arrayType->getBaseType();
+    size++;
+  }
+  
+  return size;
+}
 
-  return IRWriter::newBitCastInst(context, arrayPointer, genericArray);
+llvm::PointerType* ArrayType::getGenericArrayType(IRGenerationContext& context) {
+  llvm::LLVMContext& llvmContext = context.getLLVMContext();
+  
+  llvm::Type* genericPointer = llvm::Type::getInt8Ty(llvmContext)->getPointerTo();
+  llvm::Type* genericArray = llvm::ArrayType::get(genericPointer, 0);
+  
+  return genericArray->getPointerTo();
+}
+
+llvm::Value* ArrayType::bitcastToGenericPointer(IRGenerationContext& context,
+                                                llvm::Value* arrayPointer) const {
+  llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
+  return IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
 }

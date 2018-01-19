@@ -47,9 +47,10 @@ string DestroyReferenceArrayFunction::getName() {
 
 Function* DestroyReferenceArrayFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  
+  PointerType* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
+
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(getGenericArrayType(context)->getPointerTo());
+  argumentTypes.push_back(genericPointer);
   argumentTypes.push_back(Type::getInt64Ty(llvmContext));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
@@ -60,7 +61,8 @@ Function* DestroyReferenceArrayFunction::define(IRGenerationContext& context) {
 
 void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  
+  PointerType* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
+
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
   llvmArgument->setName("arrayPointer");
@@ -80,7 +82,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(entry);
   
-  Value* null = ConstantPointerNull::get(getGenericArrayType(context)->getPointerTo());
+  Value* null = ConstantPointerNull::get(genericPointer);
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, arrayPointer, null, "");
   IRWriter::createConditionalBranch(context, ifNull, ifNotNull, isNull);
   
@@ -91,6 +93,23 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   context.setBasicBlock(ifNotNull);
   
   llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
+  llvm::Constant* one = ConstantInt::get(int64type, 1);
+  Value* index[1];
+  index[0] = ConstantInt::get(int64type, 1);
+  Value* dimensionsStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* dimensions = IRWriter::newLoadInst(context, dimensionsStore, "dimenensions");
+  Value* offset = IRWriter::createBinaryOperator(context,
+                                                 llvm::Instruction::Add,
+                                                 dimensions,
+                                                 one,
+                                                 "offset");
+
+  index[0] = dimensions;
+  Value* arrayStore = IRWriter::createGetElementPtrInst(context, dimensionsStore, offset);
+  Value* array = IRWriter::newBitCastInst(context,
+                                          arrayStore,
+                                          ArrayType::getGenericArrayType(context));
+
   llvm::Value* indexStore = IRWriter::newAllocaInst(context, int64type, "");
   llvm::Constant* int64zero = llvm::ConstantInt::get(int64type, 0);
   IRWriter::newStoreInst(context, int64zero, indexStore);
@@ -107,14 +126,14 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   IRWriter::createConditionalBranch(context, forBody, freeArray, compare);
   
   context.setBasicBlock(forBody);
-  llvm::Value* index[2];
-  index[0] = llvm::ConstantInt::get(int64type, 0);
-  index[1] = indexValue;
-  llvm::Value* elementStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+
+  Value* idx[2];
+  idx[0] = llvm::ConstantInt::get(int64type, 0);
+  idx[1] = indexValue;
+  llvm::Value* elementStore = IRWriter::createGetElementPtrInst(context, array, idx);
   llvm::Value* elementPointer = IRWriter::newLoadInst(context, elementStore, "");
   AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, elementPointer, -1);
   
-  llvm::Constant* one = llvm::ConstantInt::get(int64type, 1);
   llvm::Value* newIndexValue = IRWriter::createBinaryOperator(context,
                                                               llvm::Instruction::Add,
                                                               indexValue,
@@ -129,9 +148,3 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL);
 }
-
-llvm::ArrayType* DestroyReferenceArrayFunction::getGenericArrayType(IRGenerationContext &context) {
-  Type* genericPointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  return llvm::ArrayType::get(genericPointer, 0);
-}
-

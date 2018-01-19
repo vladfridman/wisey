@@ -19,6 +19,15 @@ class ArrayOwnerType;
 
 /**
  * Represents the array type
+ *
+ * Arrays are wrapped in a Struct in order to keep track of reference count and array size
+ * The Struct looks as follows:
+ * {
+ *   int_64 ref_count
+ *   int_64 number_of_dimensions
+ *   { int 64 dimention_1_size, int 64 dimention_2_size }
+ *   [ dimention_1_size x [dimention_2_size x <element_type> ]]
+ * }
  */
 class ArrayType : public IArrayType {
   
@@ -37,6 +46,11 @@ public:
    */
   const ArrayOwnerType* getOwner() const;
   
+  /**
+   * Returns the number of dimensions in this array
+   */
+  unsigned long getDimentionsSize() const;
+
   const IType* getBaseType() const override;
   
   unsigned long getSize() const override;
@@ -50,7 +64,7 @@ public:
 
   std::string getTypeName() const override;
   
-  llvm::ArrayType* getLLVMType(IRGenerationContext& context) const override;
+  llvm::StructType* getLLVMType(IRGenerationContext& context) const override;
   
   TypeKind getTypeKind() const override;
   
@@ -63,11 +77,17 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  /**
+   * Returns generic type for arrays
+   */
+  static llvm::PointerType* getGenericArrayType(IRGenerationContext& context);
+
 private:
   
   unsigned long getLinearSize() const;
   
-  llvm::Value* bitcastToGenericArray(IRGenerationContext& context, llvm::Value* arrayPointer) const;
+  llvm::Value* bitcastToGenericPointer(IRGenerationContext& context,
+                                       llvm::Value* arrayPointer) const;
   
 };
   

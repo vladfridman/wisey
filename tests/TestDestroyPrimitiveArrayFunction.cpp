@@ -30,19 +30,17 @@ struct DestroyPrimitiveArrayFunctionTest : Test {
   BasicBlock* mBasicBlock;
   Function* mFunction;
   Function* mDestructor;
-  Type* mInt8Pointer;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
   
   DestroyPrimitiveArrayFunctionTest() :
-  mLLVMContext(mContext.getLLVMContext()),
-  mInt8Pointer(Type::getInt8Ty(mLLVMContext)->getPointerTo()) {
+  mLLVMContext(mContext.getLLVMContext()) {
     ProgramPrefix programPrefix;
     programPrefix.generateIR(mContext);
     TestPrefix::generateIR(mContext);
     
     vector<Type*> destructorArgumentTypes;
-    destructorArgumentTypes.push_back(mInt8Pointer);
+    destructorArgumentTypes.push_back(Type::getInt8Ty(mLLVMContext)->getPointerTo());
     ArrayRef<Type*> destructorArgTypesArray = ArrayRef<Type*>(destructorArgumentTypes);
     Type* detructorLlvmReturnType = Type::getVoidTy(mLLVMContext);
     FunctionType* destructorFunctionType = FunctionType::get(detructorLlvmReturnType,
@@ -71,14 +69,14 @@ struct DestroyPrimitiveArrayFunctionTest : Test {
 };
 
 TEST_F(DestroyPrimitiveArrayFunctionTest, callTest) {
-  llvm::ArrayType* arrayType = llvm::ArrayType::get(mInt8Pointer, 0);
-  Value* nullPointerValue = ConstantPointerNull::get(arrayType->getPointerTo());
+  llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
+  Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
   DestroyPrimitiveArrayFunction::call(mContext, nullPointerValue);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyPrimitiveArrayFunction([0 x i8*]* null)\n";
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* null)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -89,16 +87,16 @@ TEST_F(DestroyPrimitiveArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__destroyPrimitiveArrayFunction([0 x i8*]* %arrayPointer) {"
+  "\ndefine internal void @__destroyPrimitiveArrayFunction(i64* %arrayPointer) {"
   "\nentry:"
-  "\n  %0 = icmp eq [0 x i8*]* %arrayPointer, null"
+  "\n  %0 = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %0, label %if.null, label %free.array"
   "\n"
   "\nif.null:                                          ; preds = %entry"
   "\n  ret void"
   "\n"
   "\nfree.array:                                       ; preds = %entry"
-  "\n  %1 = bitcast [0 x i8*]* %arrayPointer to i8*"
+  "\n  %1 = bitcast i64* %arrayPointer to i8*"
   "\n  tail call void @free(i8* %1)"
   "\n  ret void"
   "\n}\n";

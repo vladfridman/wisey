@@ -42,8 +42,6 @@ namespace wisey {
     
     static void compose(IRGenerationContext& context, llvm::Function* function);
     
-    static llvm::ArrayType* getGenericArrayType(IRGenerationContext& context);
-    
   };
   
 } /* namespace wisey */

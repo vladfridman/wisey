@@ -42,9 +42,10 @@ string DestroyPrimitiveArrayFunction::getName() {
 
 Function* DestroyPrimitiveArrayFunction::define(IRGenerationContext& context) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  
+  PointerType* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
+
   vector<Type*> argumentTypes;
-  argumentTypes.push_back(getGenericArrayType(context)->getPointerTo());
+  argumentTypes.push_back(genericPointer);
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
   FunctionType* ftype = FunctionType::get(llvmReturnType, argTypesArray, false);
@@ -54,7 +55,8 @@ Function* DestroyPrimitiveArrayFunction::define(IRGenerationContext& context) {
 
 void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Function* function) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  
+  PointerType* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
+
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
   llvmArgument->setName("arrayPointer");
@@ -66,7 +68,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(entry);
   
-  Value* null = ConstantPointerNull::get(getGenericArrayType(context)->getPointerTo());
+  Value* null = ConstantPointerNull::get(genericPointer);
   Value* isNull = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, arrayPointer, null, "");
   IRWriter::createConditionalBranch(context, ifNull, freeArray, isNull);
   
@@ -79,9 +81,3 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL);
 }
-
-llvm::ArrayType* DestroyPrimitiveArrayFunction::getGenericArrayType(IRGenerationContext &context) {
-  Type* genericPointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  return llvm::ArrayType::get(genericPointer, 0);
-}
-

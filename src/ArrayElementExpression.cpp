@@ -53,7 +53,12 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  const IType* arrayType,
                                                  Value* arrayPointer,
                                                  vector<const IExpression*> arrayIndices) {
-  Value* arrayExpressionValue = IRWriter::newLoadInst(context, arrayPointer, "");
+  LLVMContext& llvmContext = context.getLLVMContext();
+  Value* arrayStruct = IRWriter::newLoadInst(context, arrayPointer, "");
+  Value* index[2];
+  index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 3);
+  Value* value = IRWriter::createGetElementPtrInst(context, arrayStruct, index);
   const IType* valueType = arrayType;
   for (const IExpression* indexExpression : arrayIndices) {
     if (!IType::isArrayType(valueType)) {
@@ -76,7 +81,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
     index[0] = ConstantInt::get(indexType, 0);
     index[1] = arrayIndexValue;
     
-    arrayExpressionValue = IRWriter::createGetElementPtrInst(context, arrayExpressionValue, index);
+    value = IRWriter::createGetElementPtrInst(context, value, index);
   }
   
   if (valueType->getTypeKind() == ARRAY_TYPE) {
@@ -84,7 +89,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
     exit(1);
   }
   
-  return arrayExpressionValue;
+  return value;
 }
 
 IVariable* ArrayElementExpression::getVariable(IRGenerationContext& context,

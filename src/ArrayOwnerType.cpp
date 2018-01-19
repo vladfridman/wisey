@@ -28,7 +28,7 @@ string ArrayOwnerType::getTypeName() const {
   return mArrayType->getTypeName() + "*";
 }
 
-llvm::ArrayType* ArrayOwnerType::getLLVMType(IRGenerationContext& context) const {
+llvm::StructType* ArrayOwnerType::getLLVMType(IRGenerationContext& context) const {
   return mArrayType->getLLVMType(context);
 }
 
