@@ -62,9 +62,10 @@ TEST_F(ArrayOwnerTypeTest, getLLVMTypeTest) {
   
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
-  EXPECT_EQ(subStruct, arrayStruct->getElementType(2));
+  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
+  EXPECT_EQ(subStruct, arrayStruct->getElementType(3));
   EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
-            arrayStruct->getElementType(3));
+            arrayStruct->getElementType(4));
 }
 
 TEST_F(ArrayOwnerTypeTest, getTypeKindTest) {

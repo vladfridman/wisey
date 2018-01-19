@@ -101,9 +101,9 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   
   string expected =
   "\nentry:"
-  "\n  %0 = alloca { i64, i64, { i64 }, [5 x i32] }*"
-  "\n  %1 = load { i64, i64, { i64 }, [5 x i32] }*, { i64, i64, { i64 }, [5 x i32] }** %0"
-  "\n  %2 = getelementptr { i64, i64, { i64 }, [5 x i32] }, { i64, i64, { i64 }, [5 x i32] }* %1, i64 0, i32 3"
+  "\n  %0 = alloca { i64, i64, i64, { i64 }, [5 x i32] }*"
+  "\n  %1 = load { i64, i64, i64, { i64 }, [5 x i32] }*, { i64, i64, i64, { i64 }, [5 x i32] }** %0"
+  "\n  %2 = getelementptr { i64, i64, i64, { i64 }, [5 x i32] }, { i64, i64, i64, { i64 }, [5 x i32] }* %1, i64 0, i32 4"
   "\n  %3 = getelementptr [5 x i32], [5 x i32]* %2, i32 0, i32 3"
   "\n  %4 = load i32, i32* %3\n";
   

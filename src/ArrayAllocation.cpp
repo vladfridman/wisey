@@ -43,7 +43,31 @@ Value* ArrayAllocation::generateIR(IRGenerationContext &context, IRGenerationFla
   ConstantInt* dimensionsValue = ConstantInt::get(Type::getInt64Ty(llvmContext),
                                                   arrayType->getDimentionsSize());
   IRWriter::newStoreInst(context, dimensionsValue, dimensionsStore);
-  
+ 
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
+  Value* linearSizeStore = IRWriter::createGetElementPtrInst(context, malloc, index);
+  ConstantInt* linearSizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext),
+                                                  arrayType->getLinearSize());
+  IRWriter::newStoreInst(context, linearSizeValue, linearSizeStore);
+
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
+  Value* sizesStructurePointer = IRWriter::createGetElementPtrInst(context, malloc, index);
+
+  const IType* type = arrayType;
+  unsigned long dimensionIndex = 0;
+  while (IType::isArrayType(type)) {
+    index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), dimensionIndex);
+    Value* sizeStore = IRWriter::createGetElementPtrInst(context, sizesStructurePointer, index);
+    ConstantInt* sizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext),
+                                              ((const IArrayType*) type)->getSize());
+    IRWriter::newStoreInst(context, sizeValue, sizeStore);
+    type = ((const IArrayType*) type)->getBaseType();
+    dimensionIndex++;
+  }
+
   if (flag == IR_GENERATION_RELEASE) {
     return malloc;
   }

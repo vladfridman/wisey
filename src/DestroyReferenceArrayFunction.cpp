@@ -94,14 +94,15 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
   llvm::Constant* one = ConstantInt::get(int64type, 1);
+  llvm::Constant* two = ConstantInt::get(int64type, 2);
   Value* index[1];
   index[0] = ConstantInt::get(int64type, 1);
   Value* dimensionsStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
-  Value* dimensions = IRWriter::newLoadInst(context, dimensionsStore, "dimenensions");
+  Value* dimensions = IRWriter::newLoadInst(context, dimensionsStore, "dimensions");
   Value* offset = IRWriter::createBinaryOperator(context,
                                                  llvm::Instruction::Add,
                                                  dimensions,
-                                                 one,
+                                                 two,
                                                  "offset");
 
   index[0] = dimensions;

@@ -25,9 +25,11 @@ struct ArrayTypeTest : public Test {
   IRGenerationContext mContext;
   llvm::LLVMContext& mLLVMContext;
   ArrayType* mArrayType;
+  ArrayType* mMultiDimentionalArrayType;
   
   ArrayTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
     mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 5u);
+    mMultiDimentionalArrayType = new ArrayType(mArrayType, 10u);
   }
 };
 
@@ -64,9 +66,10 @@ TEST_F(ArrayTypeTest, getLLVMTypeTest) {
   
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
-  EXPECT_EQ(subStruct, arrayStruct->getElementType(2));
+  EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));
+  EXPECT_EQ(subStruct, arrayStruct->getElementType(3));
   EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
-            arrayStruct->getElementType(3));
+            arrayStruct->getElementType(4));
 }
 
 TEST_F(ArrayTypeTest, getTypeKindTest) {
@@ -84,6 +87,9 @@ TEST_F(ArrayTypeTest, canAutoCastToTest) {
 }
 
 TEST_F(ArrayTypeTest, getDimensionsSizeTest) {
-  EXPECT_EQ(1u, mArrayType->getDimentionsSize());
+  EXPECT_EQ(2u, mMultiDimentionalArrayType->getDimentionsSize());
 }
 
+TEST_F(ArrayTypeTest, getLinearSizeTest) {
+  EXPECT_EQ(50u, mMultiDimentionalArrayType->getLinearSize());
+}

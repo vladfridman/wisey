@@ -25,6 +25,7 @@ class ArrayOwnerType;
  * {
  *   int_64 ref_count
  *   int_64 number_of_dimensions
+ *   int_64 linear_size // equals to the product of all dimension sizes
  *   { int 64 dimention_1_size, int 64 dimention_2_size }
  *   [ dimention_1_size x [dimention_2_size x <element_type> ]]
  * }
@@ -50,6 +51,11 @@ public:
    * Returns the number of dimensions in this array
    */
   unsigned long getDimentionsSize() const;
+  
+  /**
+   * Returns linear size of the array that equals to product of all dimention sizes
+   */
+  unsigned long getLinearSize() const;
 
   const IType* getBaseType() const override;
   
@@ -83,8 +89,6 @@ public:
   static llvm::PointerType* getGenericArrayType(IRGenerationContext& context);
 
 private:
-  
-  unsigned long getLinearSize() const;
   
   llvm::Value* bitcastToGenericPointer(IRGenerationContext& context,
                                        llvm::Value* arrayPointer) const;
