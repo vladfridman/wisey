@@ -56,6 +56,16 @@ public:
    * Returns linear size of the array that equals to product of all dimention sizes
    */
   unsigned long getLinearSize() const;
+  
+  /**
+   * Increment reference count for this array
+   */
+  void incrementReferenceCount(IRGenerationContext& context, llvm::Value* arrayPointer) const;
+
+  /**
+   * Decrement reference count for this array
+   */
+  void decrementReferenceCount(IRGenerationContext& context, llvm::Value* arrayPointer) const;
 
   const IType* getBaseType() const override;
   
@@ -63,11 +73,6 @@ public:
   
   const IType* getScalarType() const override;
   
-  void free(IRGenerationContext& context, llvm::Value* arrayPointer) const override;
-  
-  void decrementReferenceCount(IRGenerationContext& context,
-                               llvm::Value* arrayPointer) const override;
-
   std::string getTypeName() const override;
   
   llvm::StructType* getLLVMType(IRGenerationContext& context) const override;

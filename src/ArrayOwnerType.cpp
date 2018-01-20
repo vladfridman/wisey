@@ -7,9 +7,11 @@
 //
 
 #include "wisey/ArrayOwnerType.hpp"
+#include "wisey/DestroyOwnerArrayFunction.hpp"
+#include "wisey/DestroyPrimitiveArrayFunction.hpp"
+#include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/IRGenerationContext.hpp"
-#include "wisey/PrintOutStatement.hpp"
-#include "wisey/StringLiteral.hpp"
+#include "wisey/IRWriter.hpp"
 
 using namespace std;
 using namespace wisey;
@@ -72,18 +74,19 @@ const IType* ArrayOwnerType::getScalarType() const {
 }
 
 void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointer) const {
-  if (context.isDestructorDebugOn()) {
-    vector<IExpression*> printOutArguments;
-    StringLiteral* stringLiteral = new StringLiteral("destructor " + mArrayType->getTypeName() +
-                                                     "*\n");
-    printOutArguments.push_back(stringLiteral);
-    PrintOutStatement printOutStatement(printOutArguments);
-    printOutStatement.generateIR(context);
+  const IType* elementType = getScalarType();
+  llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
+  llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
+  
+  if (IType::isOwnerType(elementType)) {
+    const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
+    llvm::Value* destructor = objectOwnerType->getDestructorFunction(context);
+    DestroyOwnerArrayFunction::call(context, arrayBitcast, destructor);
+  } else if (IType::isReferenceType(elementType)) {
+    DestroyReferenceArrayFunction::call(context, arrayBitcast);
+  } else {
+    assert(IType::isPrimitveType(elementType));
+    DestroyPrimitiveArrayFunction::call(context, arrayBitcast);
   }
-  mArrayType->free(context, arrayPointer);
 }
 
-void ArrayOwnerType::decrementReferenceCount(IRGenerationContext& context,
-                                             llvm::Value* arrayPointer) const {
-  mArrayType->decrementReferenceCount(context, arrayPointer);
-}

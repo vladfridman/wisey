@@ -9,12 +9,10 @@
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/DerivedTypes.h>
 
+#include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/DecrementReferencesInArrayFunction.hpp"
-#include "wisey/DestroyOwnerArrayFunction.hpp"
-#include "wisey/DestroyPrimitiveArrayFunction.hpp"
-#include "wisey/DestroyReferenceArrayFunction.hpp"
 #include "wisey/IRWriter.hpp"
 
 using namespace std;
@@ -105,33 +103,14 @@ llvm::Value* ArrayType::castTo(IRGenerationContext &context,
   return NULL;
 }
 
-void ArrayType::free(IRGenerationContext& context, llvm::Value* arrayPointer) const {
-  llvm::Value* destructor = NULL;
-  const IType* elementType = getScalarType();
-  llvm::Value* arrayBitcast = bitcastToGenericPointer(context, arrayPointer);
-
-  if (IType::isOwnerType(elementType)) {
-    const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
-    destructor = objectOwnerType->getDestructorFunction(context);
-    DestroyOwnerArrayFunction::call(context, arrayBitcast, destructor);
-  } else if (IType::isReferenceType(elementType)) {
-    llvm::FunctionType* destructorType = IConcreteObjectType::getDestructorFunctionType(context);
-    destructor = llvm::ConstantPointerNull::get(destructorType->getPointerTo());
-    DestroyReferenceArrayFunction::call(context, arrayBitcast);
-  } else {
-    assert(IType::isPrimitveType(elementType));
-    DestroyPrimitiveArrayFunction::call(context, arrayBitcast);
-  }
+void ArrayType::incrementReferenceCount(IRGenerationContext& context,
+                                        llvm::Value* arrayPointer) const {
+  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, arrayPointer, 1);
 }
 
 void ArrayType::decrementReferenceCount(IRGenerationContext& context,
                                         llvm::Value* arrayPointer) const {
-  assert(IType::isReferenceType(getScalarType()));
-  const IObjectType* objectType = (const IObjectType*) getScalarType();
-  llvm::Function* function = objectType->getReferenceAdjustmentFunction(context);
-  llvm::Value* arrayBitcast = bitcastToGenericPointer(context, arrayPointer);
-
-  DecrementReferencesInArrayFunction::call(context, arrayBitcast, getLinearSize(), function);
+  AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, arrayPointer, -1);
 }
 
 unsigned long ArrayType::getLinearSize() const {
@@ -172,3 +151,4 @@ llvm::Value* ArrayType::bitcastToGenericPointer(IRGenerationContext& context,
   llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   return IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
 }
+

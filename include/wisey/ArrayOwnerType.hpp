@@ -31,17 +31,17 @@ namespace wisey {
      * Return array type that this type is owner of
      */
     const ArrayType* getArrayType() const;
+    
+    /**
+     * Deallocates memory occupied by elements of this array when every element is an owner
+     */
+    void free(IRGenerationContext& context, llvm::Value* arrayPointer) const;
 
     const IType* getBaseType() const override;
     
     unsigned long getSize() const override;
     
     const IType* getScalarType() const override;
-    
-    void free(IRGenerationContext& context, llvm::Value* arrayPointer) const override;
-    
-    void decrementReferenceCount(IRGenerationContext& context,
-                                 llvm::Value* arrayPointer) const override;
 
     std::string getTypeName() const override;
     

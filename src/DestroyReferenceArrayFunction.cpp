@@ -10,7 +10,11 @@
 
 #include "wisey/AdjustReferenceCounterForConcreteObjectSafelyFunction.hpp"
 #include "wisey/DestroyReferenceArrayFunction.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/PrimitiveTypes.hpp"
+#include "wisey/PrintOutStatement.hpp"
+#include "wisey/StringLiteral.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -109,8 +113,18 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   llvm::Value* indexStore = IRWriter::newAllocaInst(context, int64type, "");
   llvm::Constant* int64zero = llvm::ConstantInt::get(int64type, 0);
   IRWriter::newStoreInst(context, int64zero, indexStore);
-  IRWriter::createBranch(context, forCond);
   
+  if (context.isDestructorDebugOn()) {
+    vector<IExpression*> printOutArguments;
+    printOutArguments.push_back(new StringLiteral("destructor <object>["));
+    printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
+    printOutArguments.push_back(new StringLiteral("]\n"));
+    PrintOutStatement printOutStatement(printOutArguments);
+    printOutStatement.generateIR(context);
+  }
+
+  IRWriter::createBranch(context, forCond);
+
   context.setBasicBlock(forCond);
   
   llvm::Value* indexValue = IRWriter::newLoadInst(context, indexStore, "");

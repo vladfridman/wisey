@@ -10,6 +10,8 @@
 
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/PrintOutStatement.hpp"
+#include "wisey/StringLiteral.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -78,6 +80,13 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(freeArray);
   
+  if (context.isDestructorDebugOn()) {
+    vector<IExpression*> printOutArguments;
+    printOutArguments.push_back(new StringLiteral("destructor primitive[]\n"));
+    PrintOutStatement printOutStatement(printOutArguments);
+    printOutStatement.generateIR(context);
+  }
+
   IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL);
 }

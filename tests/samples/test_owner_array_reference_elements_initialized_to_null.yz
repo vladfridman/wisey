@@ -2,13 +2,18 @@ package systems.vos.wisey.compiler.tests;
 
 import wisey.lang.IProgram;
 
+model MCar {
+  public int getYear() {
+    return 2018;
+  }
+}
+
 controller CProgram implements IProgram {
 
   public int run() {
-    int[5] array;
-    array[4] = true;
+    MCar*[5] array = new MCar*[5];
 
-    return array[4];
+    return array[1].getYear();
   }
 }
 

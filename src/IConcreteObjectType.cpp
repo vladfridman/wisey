@@ -10,6 +10,7 @@
 #include <llvm/IR/GlobalValue.h>
 #include <llvm/IR/DerivedTypes.h>
 
+#include "wisey/ArrayOwnerType.hpp"
 #include "wisey/Cast.hpp"
 #include "wisey/Cleanup.hpp"
 #include "wisey/Composer.hpp"
@@ -480,7 +481,7 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
         IType::isOwnerType(((const wisey::ArrayType*) fieldType)->getScalarType())) {
       Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
       const wisey::ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
-      arrayType->free(context, fieldPointer);
+      arrayType->getOwner()->free(context, fieldPointer);
     }
     
     if (!IType::isOwnerType(fieldType)) {

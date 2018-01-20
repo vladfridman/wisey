@@ -1,13 +1,13 @@
 //
-//  LocalReferenceArrayVariable.hpp
+//  LocalArrayReferenceVariable.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 12/19/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 1/19/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef LocalReferenceArrayVariable_h
-#define LocalReferenceArrayVariable_h
+#ifndef LocalArrayReferenceVariable_h
+#define LocalArrayReferenceVariable_h
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/IReferenceVariable.hpp"
@@ -15,9 +15,9 @@
 namespace wisey {
   
   /**
-   * Represents a local variable of array type where each element is a reference
+   * Represents a local variable of array owner type where each element could be of any type
    */
-  class LocalReferenceArrayVariable : public IReferenceVariable {
+  class LocalArrayReferenceVariable : public IReferenceVariable {
     
     std::string mName;
     const ArrayType* mType;
@@ -25,9 +25,9 @@ namespace wisey {
     
   public:
     
-    LocalReferenceArrayVariable(std::string name, const ArrayType* type, llvm::Value* valueStore);
+    LocalArrayReferenceVariable(std::string name, const ArrayType* type, llvm::Value* valueStore);
     
-    ~LocalReferenceArrayVariable();
+    ~LocalArrayReferenceVariable();
     
     std::string getName() const override;
     
@@ -41,9 +41,15 @@ namespace wisey {
                                       int line) override;
     
     void decrementReferenceCounter(IRGenerationContext& context) const override;
-
+    
+  private:
+    
+    llvm::Value* generateWholeArrayAssignment(IRGenerationContext& context,
+                                              IExpression* assignToExpression,
+                                              int line);
+        
   };
   
 } /* namespace wisey */
 
-#endif /* LocalReferenceArrayVariable_h */
+#endif /* LocalArrayReferenceVariable_h */

@@ -17,7 +17,6 @@
 
 #include "MockExpression.hpp"
 #include "TestFileSampleRunner.hpp"
-#include "TestPrefix.hpp"
 #include "wisey/ArrayType.hpp"
 #include "wisey/IExpression.hpp"
 #include "wisey/IRGenerationContext.hpp"
@@ -40,34 +39,16 @@ struct LocalArrayOwnerVariableTest : public Test {
   IRGenerationContext mContext;
   LLVMContext& mLLVMContext;
   BasicBlock* mBasicBlock;
-  Model* mModel;
-  const wisey::ArrayType* mPrimitiveArrayType;
-  const wisey::ArrayType* mOwnerArrayType;
-  const wisey::ArrayType* mReferenceArrayType;
+  const wisey::ArrayType* mArrayType;
   string mStringBuffer;
   raw_string_ostream* mStringStream;
 
 public:
   
   LocalArrayOwnerVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
-    TestPrefix::generateIR(mContext);
-    
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    vector<Type*> modelTypes;
-    modelTypes.push_back(Type::getInt64Ty(mLLVMContext));
-    string modelFullName = "systems.vos.wisey.compiler.tests.MModel";
-    StructType* modelStructType = StructType::create(mLLVMContext, modelFullName);
-    modelStructType->setBody(modelTypes);
-    mModel = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
-    mContext.addModel(mModel);
-    IConcreteObjectType::generateNameGlobal(mContext, mModel);
-    IConcreteObjectType::generateShortNameGlobal(mContext, mModel);
-    IConcreteObjectType::generateVTable(mContext, mModel);
-
-    mPrimitiveArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 3u);
-    mOwnerArrayType = mContext.getArrayType(mModel->getOwner(), 5u);
-    mReferenceArrayType = mContext.getArrayType(mModel, 5u);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 3u);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,
@@ -84,22 +65,31 @@ public:
 };
 
 TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayIdentifierIRTest) {
-  llvm::PointerType* arrayPointerType = mPrimitiveArrayType->getOwner()->
+  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->
     getLLVMType(mContext)->getPointerTo();
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mPrimitiveArrayType->getOwner(), alloc);
+  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
+  variable.generateIdentifierIR(mContext);
   
-  EXPECT_EQ(alloc, variable.generateIdentifierIR(mContext));
+  *mStringStream << *mBasicBlock;
+  
+  string expected =
+  "\nentry:"
+  "\n  %foo = alloca { i64, i64, i64, { i64 }, [3 x i32] }*"
+  "\n  %0 = load { i64, i64, i64, { i64 }, [3 x i32] }*, { i64, i64, i64, { i64 }, [3 x i32] }** %foo\n";
+  
+  EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
+  mStringBuffer.clear();
 }
 
 TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTest) {
-  llvm::PointerType* arrayPointerType = mPrimitiveArrayType->getOwner()->
+  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->
     getLLVMType(mContext)->getPointerTo();
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mPrimitiveArrayType->getOwner(), alloc);
+  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
   vector<const IExpression*> arrayIndices;
   NiceMock<MockExpression> mockExpression;
-  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mPrimitiveArrayType->getOwner()));
+  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mArrayType->getOwner()));
   Value* value = ConstantPointerNull::get(arrayPointerType);
   ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
   EXPECT_CALL(mockExpression, generateIR(_, IR_GENERATION_RELEASE));
@@ -109,125 +99,22 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTe
   string expected =
   "\nentry:"
   "\n  %foo = alloca { i64, i64, i64, { i64 }, [3 x i32] }*"
+  "\n  %0 = load { i64, i64, i64, { i64 }, [3 x i32] }*, { i64, i64, i64, { i64 }, [3 x i32] }** %foo"
+  "\n  %1 = bitcast { i64, i64, i64, { i64 }, [3 x i32] }* %0 to i64*"
+  "\n  call void @__destroyPrimitiveArrayFunction(i64* %1)"
   "\n  store { i64, i64, i64, { i64 }, [3 x i32] }* null, { i64, i64, i64, { i64 }, [3 x i32] }** %foo\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
-TEST_F(LocalArrayOwnerVariableTest, generateOwnerArrayWholeArrayAssignmentTest) {
-  llvm::PointerType* arrayPointerType = mOwnerArrayType->getOwner()->
-    getLLVMType(mContext)->getPointerTo();
-  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mOwnerArrayType->getOwner(), alloc);
-  vector<const IExpression*> arrayIndices;
-  NiceMock<MockExpression> mockExpression;
-  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mOwnerArrayType->getOwner()));
-  Value* value = ConstantPointerNull::get(arrayPointerType);
-  ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
-  EXPECT_CALL(mockExpression, generateIR(_, IR_GENERATION_RELEASE));
-  variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*"
-  "\n  store { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }* null, { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }** %foo\n";
-  
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}
-
-TEST_F(LocalArrayOwnerVariableTest, generateOwnerArrayAssignmentTest) {
-  llvm::PointerType* arrayPointerType = mOwnerArrayType->getOwner()->
-    getLLVMType(mContext)->getPointerTo();
-  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mOwnerArrayType->getOwner(), alloc);
-  vector<const IExpression*> arrayIndices;
-  arrayIndices.push_back(new IntConstant(1));
-  NiceMock<MockExpression> mockExpression;
-  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mModel->getOwner()));
-  Value* value = ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mContext));
-  ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
-  EXPECT_CALL(mockExpression, generateIR(_, IR_GENERATION_RELEASE));
-  variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*"
-  "\n  %0 = load { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*, { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }** %foo"
-  "\n  %1 = getelementptr { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }, { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }* %0, i64 0, i32 4"
-  "\n  %2 = getelementptr [5 x %systems.vos.wisey.compiler.tests.MModel*], [5 x %systems.vos.wisey.compiler.tests.MModel*]* %1, i32 0, i32 1"
-  "\n  %3 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** %2"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MModel* %3 to i8*"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MModel(i8* %4)"
-  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %2"
-  "\n";
-  
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}
-
-TEST_F(LocalArrayOwnerVariableTest, generateReferenceArrayWholeArrayAssignmentTest) {
-  llvm::PointerType* arrayPointerType = mReferenceArrayType->getOwner()->
-    getLLVMType(mContext)->getPointerTo();
-  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mReferenceArrayType->getOwner(), alloc);
-  vector<const IExpression*> arrayIndices;
-  NiceMock<MockExpression> mockExpression;
-  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mReferenceArrayType->getOwner()));
-  Value* value = ConstantPointerNull::get(arrayPointerType);
-  ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
-  EXPECT_CALL(mockExpression, generateIR(_, IR_GENERATION_RELEASE));
-  variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*"
-  "\n  store { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }* null, { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }** %foo\n";
-  
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}
-
-TEST_F(LocalArrayOwnerVariableTest, generateReferenceArrayAssignmentTest) {
-  llvm::PointerType* arrayPointerType = mReferenceArrayType->getOwner()->
-    getLLVMType(mContext)->getPointerTo();
-  AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mReferenceArrayType->getOwner(), alloc);
-  vector<const IExpression*> arrayIndices;
-  arrayIndices.push_back(new IntConstant(1));
-  NiceMock<MockExpression> mockExpression;
-  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mModel));
-  Value* value = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
-  EXPECT_CALL(mockExpression, generateIR(_, IR_GENERATION_NORMAL));
-  variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0);
-  
-  *mStringStream << *mBasicBlock;
-  string expected =
-  "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*"
-  "\n  %0 = load { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }*, { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }** %foo"
-  "\n  %1 = getelementptr { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }, { i64, i64, i64, { i64 }, [5 x %systems.vos.wisey.compiler.tests.MModel*] }* %0, i64 0, i32 4"
-  "\n  %2 = getelementptr [5 x %systems.vos.wisey.compiler.tests.MModel*], [5 x %systems.vos.wisey.compiler.tests.MModel*]* %1, i32 0, i32 1"
-  "\n  %3 = load %systems.vos.wisey.compiler.tests.MModel*, %systems.vos.wisey.compiler.tests.MModel** %2"
-  "\n  %4 = bitcast %systems.vos.wisey.compiler.tests.MModel* %3 to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %4, i64 -1)"
-  "\n  %5 = bitcast %systems.vos.wisey.compiler.tests.MModel* null to i8*"
-  "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %5, i64 1)"
-  "\n  store %systems.vos.wisey.compiler.tests.MModel* null, %systems.vos.wisey.compiler.tests.MModel** %2"
-  "\n";
-  
-  ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
-}
-
 TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentDeathTest) {
-  llvm::PointerType* arrayPointerType = mPrimitiveArrayType->getOwner()->
+  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->
     getLLVMType(mContext)->getPointerTo();
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
-  LocalArrayOwnerVariable variable("foo", mPrimitiveArrayType->getOwner(), alloc);
+  LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
   vector<const IExpression*> arrayIndices;
   NiceMock<MockExpression> mockExpression;
-  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mPrimitiveArrayType));
+  ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mArrayType));
   
   Mock::AllowLeak(&mockExpression);
   
@@ -249,12 +136,12 @@ TEST_F(TestFileSampleRunner, arrayOwnerOfIntsIncrementElementRunTest) {
 }
 
 TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersRunTest) {
-  runFile("tests/samples/test_array_of_model_owners.yz", "2018");
+  runFile("tests/samples/test_array_owner_of_model_owners.yz", "2018");
 }
 
 TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersDestructorsAreCalledRunTest) {
-  runFileCheckOutputWithDestructorDebug("tests/samples/test_array_of_model_owners.yz",
-                                        "destructor systems.vos.wisey.compiler.tests.MCar*[5]*\n"
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_array_owner_of_model_owners.yz",
+                                        "destructor <object>*[5]\n"
                                         "destructor systems.vos.wisey.compiler.tests.MCar\n"
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");

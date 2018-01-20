@@ -16,11 +16,9 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
-#include "wisey/LocalOwnerArrayVariable.hpp"
+#include "wisey/LocalArrayReferenceVariable.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
-#include "wisey/LocalPrimitiveArrayVariable.hpp"
 #include "wisey/LocalPrimitiveVariable.hpp"
-#include "wisey/LocalReferenceArrayVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/Names.hpp"
@@ -128,17 +126,10 @@ void VariableDeclaration::allocateArray(IRGenerationContext& context,
   llvm::PointerType* llvmType = type->getLLVMType(context)->getPointerTo();
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloc);
-
-  IVariable* variable = NULL;
-  if (IType::isOwnerType(type->getScalarType())) {
-    variable = new LocalOwnerArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
-  } else if (IType::isReferenceType(type->getScalarType())) {
-    variable = new LocalReferenceArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
-  } else {
-    assert(IType::isPrimitveType(type->getScalarType()));
-    variable = new LocalPrimitiveArrayVariable(mIdentifier->getIdentifierName(), type, alloc);
-  }
   
+  IVariable* variable = new LocalArrayReferenceVariable(mIdentifier->getIdentifierName(),
+                                                        type,
+                                                        alloc);
   context.getScopes().setVariable(variable);
 }
 

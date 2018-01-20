@@ -53,12 +53,7 @@ void Scope::setVariable(string name, IVariable* variable) {
   } else if (IType::isOwnerType(variableType)) {
     mOwnerVariables.push_front((IOwnerVariable*) variable);
   } else if (variableType->getTypeKind() == ARRAY_TYPE) {
-    const IType* scalarType = ((const wisey::ArrayType*) variableType)->getScalarType();
-    if (IType::isOwnerType(scalarType)) {
-      mOwnerVariables.push_front((IOwnerVariable*) variable);
-    } else if (IType::isReferenceType(scalarType)) {
-      mReferenceVariables.push_front((IReferenceVariable*) variable);
-    }
+    mReferenceVariables.push_front((IReferenceVariable*) variable);
   } else if (variableType->getTypeKind() == ARRAY_OWNER_TYPE) {
     mOwnerVariables.push_front((IOwnerVariable*) variable);
   }

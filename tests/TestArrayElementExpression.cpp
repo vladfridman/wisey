@@ -63,14 +63,12 @@ struct ArrayElementExpressionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
-    Value* alloca = IRWriter::newAllocaInst(mContext,
-                                            mArrayType->getLLVMType(mContext)->getPointerTo(),
-                                            "");
-    ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(alloca));
+    Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext)->getPointerTo());
+    ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(null));
     ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
     ON_CALL(*mArrayExpression, getVariable(_, _)).WillByDefault(Return(mArrayVariable));
     ON_CALL(*mArrayVariable, getType()).WillByDefault(Return(mArrayType));
-    ON_CALL(*mArrayVariable, generateIdentifierIR(_)).WillByDefault(Return(alloca));
+    ON_CALL(*mArrayVariable, generateIdentifierIR(_)).WillByDefault(Return(null));
     ConstantInt* three = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
     ON_CALL(*mArrayIndexExpression, generateIR(_, _)).WillByDefault(Return(three));
     ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
@@ -101,11 +99,9 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   
   string expected =
   "\nentry:"
-  "\n  %0 = alloca { i64, i64, i64, { i64 }, [5 x i32] }*"
-  "\n  %1 = load { i64, i64, i64, { i64 }, [5 x i32] }*, { i64, i64, i64, { i64 }, [5 x i32] }** %0"
-  "\n  %2 = getelementptr { i64, i64, i64, { i64 }, [5 x i32] }, { i64, i64, i64, { i64 }, [5 x i32] }* %1, i64 0, i32 4"
-  "\n  %3 = getelementptr [5 x i32], [5 x i32]* %2, i32 0, i32 3"
-  "\n  %4 = load i32, i32* %3\n";
+  "\n  %0 = getelementptr { i64, i64, i64, { i64 }, [5 x i32] }, { i64, i64, i64, { i64 }, [5 x i32] }* null, i64 0, i32 4"
+  "\n  %1 = getelementptr [5 x i32], [5 x i32]* %0, i32 0, i32 3"
+  "\n  %2 = load i32, i32* %1\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -167,14 +163,12 @@ TEST_F(ArrayElementExpressionTest, generateAssignmentIRDeathTest) {
 
   wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
   mArrayType = new wisey::ArrayType(arrayType, 5);
-  Value* alloca = IRWriter::newAllocaInst(mContext,
-                                          mArrayType->getLLVMType(mContext)->getPointerTo(),
-                                          "");
-  ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(alloca));
+  Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext)->getPointerTo());
+  ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(null));
   ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
   ON_CALL(*mArrayExpression, getVariable(_, _)).WillByDefault(Return(mArrayVariable));
   ON_CALL(*mArrayVariable, getType()).WillByDefault(Return(mArrayType));
-  ON_CALL(*mArrayVariable, generateIdentifierIR(_)).WillByDefault(Return(alloca));
+  ON_CALL(*mArrayVariable, generateIdentifierIR(_)).WillByDefault(Return(null));
   ConstantInt* three = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 3);
   ON_CALL(*mArrayIndexExpression, generateIR(_, _)).WillByDefault(Return(three));
   ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
@@ -194,11 +188,9 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
 
   wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
   mArrayType = new wisey::ArrayType(arrayType, 5);
-  Value* alloca = IRWriter::newAllocaInst(mContext,
-                                          mArrayType->getLLVMType(mContext)->getPointerTo(),
-                                          "");
+  Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext)->getPointerTo());
 
-  EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext, mArrayType, alloca, arrayIndices),
+  EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext, mArrayType, null, arrayIndices),
               ::testing::ExitedWithCode(1),
               "Error: Expression does not reference an array element");
 }

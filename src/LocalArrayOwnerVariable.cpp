@@ -9,6 +9,7 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/AutoCast.hpp"
+#include "wisey/ArrayElementAssignment.hpp"
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/IRWriter.hpp"
@@ -38,7 +39,7 @@ const wisey::ArrayOwnerType* LocalArrayOwnerVariable::getType() const {
 }
 
 llvm::Value* LocalArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
-  return mValueStore;
+  return IRWriter::newLoadInst(context, mValueStore, "");
 }
 
 llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
@@ -49,22 +50,18 @@ llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& 
     return generateWholeArrayAssignment(context, assignToExpression, line);
   }
   
+  Value* arrayPointer = IRWriter::newLoadInst(context, mValueStore, "");
   const IType* scalarType = mType->getArrayType()->getScalarType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   mType->getArrayType(),
-                                                                  mValueStore,
+                                                                  arrayPointer,
                                                                   arrayIndices);
   
-  if (IType::isOwnerType(scalarType)) {
-    return generateOwnerElementAssignment(context, assignToExpression, elementStore, line);
-  }
-  
-  if (IType::isReferenceType(scalarType)) {
-    return generateReferenceElementAssignment(context, assignToExpression, elementStore, line);
-  }
-  
-  assert(IType::isPrimitveType(scalarType));
-  return generatePrimitiveElementAssignment(context, assignToExpression, elementStore, line);
+  return ArrayElementAssignment::generateElementAssignment(context,
+                                                           scalarType,
+                                                           assignToExpression,
+                                                           elementStore,
+                                                           line);
 }
 
 llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext& context,
@@ -76,68 +73,12 @@ llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationC
     exit(1);
   }
   
+  free(context);
+
   Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
   IRWriter::newStoreInst(context, assignToValue, mValueStore);
   
   return assignToValue;
-}
-
-llvm::Value* LocalArrayOwnerVariable::
-generateOwnerElementAssignment(IRGenerationContext& context,
-                               IExpression* assignToExpression,
-                               llvm::Value* elementStore,
-                               int line) {
-  const IType* scalarType = mType->getArrayType()->getScalarType();
-  
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
-  const IType* assignToType = assignToExpression->getType(context);
-  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, scalarType, line);
-  
-  Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
-  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* bitcast = IRWriter::newBitCastInst(context, elementLoaded, int8pointer);
-  ((const IObjectOwnerType*) scalarType)->free(context, bitcast);
-  
-  IRWriter::newStoreInst(context, newValue, elementStore);
-  
-  return newValue;
-}
-
-llvm::Value* LocalArrayOwnerVariable::
-generateReferenceElementAssignment(IRGenerationContext& context,
-                                   IExpression* assignToExpression,
-                                   llvm::Value* elementStore,
-                                   int line) {
-  const IType* scalarType = mType->getArrayType()->getScalarType();
-  
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
-  const IType* assignToType = assignToExpression->getType(context);
-  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, scalarType, line);
-  
-  Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
-  const IObjectType* objectType = (const IObjectType*) scalarType;
-  objectType->decremenetReferenceCount(context, elementLoaded);
-  objectType->incremenetReferenceCount(context, newValue);
-  
-  IRWriter::newStoreInst(context, newValue, elementStore);
-  
-  return newValue;
-}
-
-llvm::Value* LocalArrayOwnerVariable::
-generatePrimitiveElementAssignment(IRGenerationContext& context,
-                                   IExpression* assignToExpression,
-                                   llvm::Value* elementStore,
-                                   int line) {
-  const IType* scalarType = mType->getArrayType()->getScalarType();
-  
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
-  const IType* assignToType = assignToExpression->getType(context);
-  Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, scalarType, line);
-  
-  IRWriter::newStoreInst(context, newValue, elementStore);
-  
-  return newValue;
 }
 
 void LocalArrayOwnerVariable::setToNull(IRGenerationContext& context) {

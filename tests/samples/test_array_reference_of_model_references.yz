@@ -11,9 +11,11 @@ model MCar {
 controller CProgram implements IProgram {
 
   public int run() {
-    MCar[5] array;
+    MCar* car = builder(MCar).build();
+    MCar[5][10] array = new MCar[5][10];
+    array[4][9] = car;
 
-    return array[0].getYear();
+    return array[4][9].getYear();
   }
 }
 

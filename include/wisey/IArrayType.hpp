@@ -37,17 +37,6 @@ namespace wisey {
      */
     virtual const IType* getScalarType() const = 0;
     
-    /**
-     * Deallocates memory occupied by elements of this array when every element is an owner
-     */
-    virtual void free(IRGenerationContext& context, llvm::Value* arrayPointer) const = 0;
-    
-    /**
-     * Decrement reference count for every object pointed to by elements of this array
-     */
-    virtual void decrementReferenceCount(IRGenerationContext& context,
-                                         llvm::Value* arrayPointer) const = 0;
-    
   };
   
 }

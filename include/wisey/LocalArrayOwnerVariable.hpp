@@ -52,21 +52,6 @@ namespace wisey {
                                               IExpression* assignToExpression,
                                               int line);
     
-    llvm::Value* generateOwnerElementAssignment(IRGenerationContext& context,
-                                                IExpression* assignToExpression,
-                                                llvm::Value* elementStore,
-                                                int line);
-    
-    llvm::Value* generateReferenceElementAssignment(IRGenerationContext& context,
-                                                    IExpression* assignToExpression,
-                                                    llvm::Value* elementStore,
-                                                    int line);
-    
-    llvm::Value* generatePrimitiveElementAssignment(IRGenerationContext& context,
-                                                    IExpression* assignToExpression,
-                                                    llvm::Value* elementStore,
-                                                    int line);
-    
   };
   
 } /* namespace wisey */

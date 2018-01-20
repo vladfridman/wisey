@@ -54,11 +54,10 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  Value* arrayPointer,
                                                  vector<const IExpression*> arrayIndices) {
   LLVMContext& llvmContext = context.getLLVMContext();
-  Value* arrayStruct = IRWriter::newLoadInst(context, arrayPointer, "");
   Value* index[2];
   index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
   index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 4);
-  Value* value = IRWriter::createGetElementPtrInst(context, arrayStruct, index);
+  Value* value = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   const IType* valueType = arrayType;
   for (const IExpression* indexExpression : arrayIndices) {
     if (!IType::isArrayType(valueType)) {
