@@ -117,7 +117,7 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentDe
   
   EXPECT_EXIT(variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0),
               ::testing::ExitedWithCode(1),
-              "Error: Incompatable array types in array assignement");
+              "Error: Incompatible types: can not cast from type 'int\\[3\\]' to 'int\\[3\\]\\*'");
 }
 
 TEST_F(TestFileSampleRunner, arrayOwnerOfIntsRunTest) {
