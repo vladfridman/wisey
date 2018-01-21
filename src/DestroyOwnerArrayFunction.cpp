@@ -14,6 +14,7 @@
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
+#include "wisey/ThrowReferenceCountExceptionFunction.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -67,6 +68,8 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   LLVMContext& llvmContext = context.getLLVMContext();
   PointerType* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
 
+  context.getScopes().pushScope();
+
   Function::arg_iterator llvmArguments = function->arg_begin();
   llvm::Argument *llvmArgument = &*llvmArguments;
   llvmArgument->setName("arrayPointer");
@@ -76,12 +79,14 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   llvmArgument->setName("destructor");
   Value* destructor = llvmArgument;
 
-  llvm::BasicBlock* entry = llvm::BasicBlock::Create(llvmContext, "entry", function);
-  llvm::BasicBlock* ifNull = llvm::BasicBlock::Create(llvmContext, "if.null", function);
-  llvm::BasicBlock* ifNotNull = llvm::BasicBlock::Create(llvmContext, "if.not.null", function);
-  llvm::BasicBlock* forCond = llvm::BasicBlock::Create(llvmContext, "for.cond", function);
-  llvm::BasicBlock* forBody = llvm::BasicBlock::Create(llvmContext, "for.body", function);
-  llvm::BasicBlock* freeArray = llvm::BasicBlock::Create(llvmContext, "free.array", function);
+  BasicBlock* entry = BasicBlock::Create(llvmContext, "entry", function);
+  BasicBlock* ifNull = BasicBlock::Create(llvmContext, "if.null", function);
+  BasicBlock* ifNotNull = BasicBlock::Create(llvmContext, "if.not.null", function);
+  BasicBlock* refCountZeroBlock = BasicBlock::Create(llvmContext, "ref.count.zero", function);
+  BasicBlock* refCountNotZeroBlock = BasicBlock::Create(llvmContext, "ref.count.notzero", function);
+  BasicBlock* forCond = BasicBlock::Create(llvmContext, "for.cond", function);
+  BasicBlock* forBody = BasicBlock::Create(llvmContext, "for.body", function);
+  BasicBlock* freeArray = BasicBlock::Create(llvmContext, "free.array", function);
   
   context.setBasicBlock(entry);
   
@@ -95,6 +100,18 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
 
   context.setBasicBlock(ifNotNull);
   
+  Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "");
+  llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "");
+  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
+  
+  context.setBasicBlock(refCountNotZeroBlock);
+  
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
+  IRWriter::newUnreachableInst(context);
+  
+  context.setBasicBlock(refCountZeroBlock);
+
   llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
   llvm::Constant* one = ConstantInt::get(int64type, 1);
   llvm::Constant* two = ConstantInt::get(int64type, 2);
@@ -167,5 +184,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   
   IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL);
+
+  context.getScopes().popScope(context, 0);
 }
 

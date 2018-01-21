@@ -66,20 +66,13 @@ llvm::Value* LocalArrayReferenceVariable::
 generateWholeArrayAssignment(IRGenerationContext& context,
                              IExpression* assignToExpression,
                              int line) {
+
   const IType* assignToType = assignToExpression->getType(context);
-  if (assignToType->getTypeKind() == ARRAY_OWNER_TYPE) {
-    assignToType = ((const ArrayOwnerType*) assignToType)->getArrayType();
-  }
-  
-  if (assignToType != mType) {
-    Log::e("Incompatable array types in array assignement");
-    exit(1);
-  }
-  
   Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   decrementReferenceCounter(context);
-  mType->incrementReferenceCount(context, assignToValue);
-  IRWriter::newStoreInst(context, assignToValue, mValueStore);
+  mType->incrementReferenceCount(context, cast);
+  IRWriter::newStoreInst(context, cast, mValueStore);
   
   return assignToValue;
 }

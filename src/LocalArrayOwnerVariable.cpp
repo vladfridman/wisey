@@ -12,6 +12,7 @@
 #include "wisey/ArrayElementAssignment.hpp"
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/ArrayOwnerType.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayOwnerVariable.hpp"
 #include "wisey/Log.hpp"
@@ -67,17 +68,18 @@ llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& 
 llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext& context,
                                                                    IExpression* assignToExpression,
                                                                    int line) {
+  Composer::pushCallStack(context, line);
+
   const IType* assignToType = assignToExpression->getType(context);
-  if (assignToType != mType) {
-    Log::e("Incompatable array types in array assignement");
-    exit(1);
-  }
+  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
+  Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   
   free(context);
-
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
-  IRWriter::newStoreInst(context, assignToValue, mValueStore);
   
+  IRWriter::newStoreInst(context, cast, mValueStore);
+  
+  Composer::popCallStack(context);
+
   return assignToValue;
 }
 

@@ -194,3 +194,30 @@ TEST_F(TestFileSampleRunner, referenceArrayOwnerInitializedToNullRunDeathTest) {
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_array_owner_initialized_to_null.yz:16)\n");
 }
 
+TEST_F(TestFileSampleRunner, localArrayOfIntsRceRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_local_array_of_ints_rce.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MReferenceCountException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_of_ints_rce.yz:10)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n");
+}
+
+TEST_F(TestFileSampleRunner, localArrayOfOwnersRceRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_local_array_of_owners_rce.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MReferenceCountException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_of_owners_rce.yz:14)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n");
+}
+
+
+TEST_F(TestFileSampleRunner, localArrayOfReferencesRceRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_local_array_of_references_rce.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MReferenceCountException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_local_array_of_references_rce.yz:14)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n");
+}
