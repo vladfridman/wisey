@@ -67,7 +67,7 @@ public:
 };
 
 TEST_F(LocalArrayReferenceVariableTest, generateArrayIdentifierIRTest) {
-  llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext)->getPointerTo();
+  llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayReferenceVariable variable("foo", mArrayType, alloc);
   variable.generateIdentifierIR(mContext);
@@ -84,7 +84,7 @@ TEST_F(LocalArrayReferenceVariableTest, generateArrayIdentifierIRTest) {
 }
 
 TEST_F(LocalArrayReferenceVariableTest, generateArrayWholeArrayAssignmentTest) {
-  llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext)->getPointerTo();
+  llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayReferenceVariable variable("foo", mArrayType, alloc);
   vector<const IExpression*> arrayIndices;
@@ -111,7 +111,7 @@ TEST_F(LocalArrayReferenceVariableTest, generateArrayWholeArrayAssignmentTest) {
 
 
 TEST_F(LocalArrayReferenceVariableTest, generateArrayWholeArrayAssignmentDeathTest) {
-  llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext)->getPointerTo();
+  llvm::PointerType* arrayPointerType = mArrayType->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayReferenceVariable variable("foo", mArrayType, alloc);
   vector<const IExpression*> arrayIndices;

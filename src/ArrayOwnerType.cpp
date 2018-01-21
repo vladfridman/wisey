@@ -30,7 +30,7 @@ string ArrayOwnerType::getTypeName() const {
   return mArrayType->getTypeName() + "*";
 }
 
-llvm::StructType* ArrayOwnerType::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* ArrayOwnerType::getLLVMType(IRGenerationContext& context) const {
   return mArrayType->getLLVMType(context);
 }
 

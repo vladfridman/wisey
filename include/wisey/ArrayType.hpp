@@ -75,7 +75,7 @@ public:
   
   std::string getTypeName() const override;
   
-  llvm::StructType* getLLVMType(IRGenerationContext& context) const override;
+  llvm::PointerType* getLLVMType(IRGenerationContext& context) const override;
   
   TypeKind getTypeKind() const override;
   

@@ -123,7 +123,7 @@ void VariableDeclaration::allocatePrimitive(IRGenerationContext& context,
 
 void VariableDeclaration::allocateArray(IRGenerationContext& context,
                                         const wisey::ArrayType* type) const {
-  llvm::PointerType* llvmType = type->getLLVMType(context)->getPointerTo();
+  llvm::PointerType* llvmType = type->getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloc);
   
@@ -135,7 +135,7 @@ void VariableDeclaration::allocateArray(IRGenerationContext& context,
 
 void VariableDeclaration::allocateArrayOwner(IRGenerationContext& context,
                                              const wisey::ArrayOwnerType* type) const {
-  llvm::PointerType* llvmType = type->getLLVMType(context)->getPointerTo();
+  llvm::PointerType* llvmType = type->getLLVMType(context);
   AllocaInst* alloc = IRWriter::newAllocaInst(context, llvmType, "");
   IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), alloc);
   

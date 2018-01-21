@@ -65,8 +65,7 @@ public:
 };
 
 TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayIdentifierIRTest) {
-  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->
-    getLLVMType(mContext)->getPointerTo();
+  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
   variable.generateIdentifierIR(mContext);
@@ -83,8 +82,7 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayIdentifierIRTest) {
 }
 
 TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTest) {
-  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->
-    getLLVMType(mContext)->getPointerTo();
+  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
   vector<const IExpression*> arrayIndices;
@@ -108,8 +106,7 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTe
 }
 
 TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentDeathTest) {
-  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->
-    getLLVMType(mContext)->getPointerTo();
+  llvm::PointerType* arrayPointerType = mArrayType->getOwner()->getLLVMType(mContext);
   AllocaInst* alloc = IRWriter::newAllocaInst(mContext, arrayPointerType, "foo");
   LocalArrayOwnerVariable variable("foo", mArrayType->getOwner(), alloc);
   vector<const IExpression*> arrayIndices;

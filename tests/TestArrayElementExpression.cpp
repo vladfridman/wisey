@@ -63,7 +63,7 @@ struct ArrayElementExpressionTest : Test {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
     mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
-    Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext)->getPointerTo());
+    Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
     ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(null));
     ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
     ON_CALL(*mArrayExpression, getVariable(_, _)).WillByDefault(Return(mArrayVariable));
@@ -163,7 +163,7 @@ TEST_F(ArrayElementExpressionTest, generateAssignmentIRDeathTest) {
 
   wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
   mArrayType = new wisey::ArrayType(arrayType, 5);
-  Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext)->getPointerTo());
+  Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
   ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(null));
   ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
   ON_CALL(*mArrayExpression, getVariable(_, _)).WillByDefault(Return(mArrayVariable));
@@ -188,7 +188,7 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
 
   wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
   mArrayType = new wisey::ArrayType(arrayType, 5);
-  Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext)->getPointerTo());
+  Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
 
   EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext, mArrayType, null, arrayIndices),
               ::testing::ExitedWithCode(1),

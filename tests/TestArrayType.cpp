@@ -62,8 +62,10 @@ TEST_F(ArrayTypeTest, getLLVMTypeTest) {
   dimentionTypes.push_back(llvm::Type::getInt64Ty(mLLVMContext));
   llvm::StructType* subStruct = llvm::StructType::get(mLLVMContext, dimentionTypes);
 
-  llvm::StructType* arrayStruct = mArrayType->getLLVMType(mContext);
-  
+  llvm::PointerType* arrayLLVMType = mArrayType->getLLVMType(mContext);
+  ASSERT_TRUE(arrayLLVMType->getPointerElementType()->isStructTy());
+  llvm::StructType* arrayStruct = (llvm::StructType*) arrayLLVMType->getPointerElementType();
+
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(2));

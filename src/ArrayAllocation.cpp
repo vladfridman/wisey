@@ -30,7 +30,7 @@ ArrayAllocation::~ArrayAllocation() {
 Value* ArrayAllocation::generateIR(IRGenerationContext &context, IRGenerationFlag flag) const {
   ArrayType* arrayType = mArrayTypeSpecifier->getType(context);
   
-  StructType* structType = arrayType->getLLVMType(context);
+  StructType* structType = (StructType*) arrayType->getLLVMType(context)->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "newarray");
   IntrinsicFunctions::setMemoryToZero(context, malloc, structType);

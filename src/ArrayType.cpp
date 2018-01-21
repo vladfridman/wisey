@@ -48,7 +48,7 @@ string ArrayType::getTypeName() const {
   return mBaseType->getTypeName() + "[" + to_string(mSize) + "]";
 }
 
-llvm::StructType* ArrayType::getLLVMType(IRGenerationContext& context) const {
+llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
   
   const IType* baseType = mBaseType;
@@ -77,7 +77,7 @@ llvm::StructType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   types.push_back(subStruct);
   types.push_back(type);
 
-  return llvm::StructType::get(llvmContext, types);
+  return llvm::StructType::get(llvmContext, types)->getPointerTo();
 }
 
 TypeKind ArrayType::getTypeKind() const {
