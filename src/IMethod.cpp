@@ -50,7 +50,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
   
   IObjectType* referenceType = (IObjectType*) variableType;
   IVariable* variable = new ParameterReferenceVariable(variableName, referenceType, variableValue);
-  referenceType->incremenetReferenceCount(context, variableValue);
+  referenceType->incrementReferenceCount(context, variableValue);
   context.getScopes().setVariable(variable);
 }
 

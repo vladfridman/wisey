@@ -39,8 +39,8 @@ public:
   MOCK_CONST_METHOD0(isOwner, bool ());
   MOCK_CONST_METHOD0(isExternal, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
-  MOCK_CONST_METHOD2(incremenetReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
-  MOCK_CONST_METHOD2(decremenetReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
+  MOCK_CONST_METHOD2(incrementReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
+  MOCK_CONST_METHOD2(decrementReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));
   MOCK_CONST_METHOD2(getReferenceCount, llvm::Value* (wisey::IRGenerationContext&, llvm::Value*));
   MOCK_METHOD1(setImportProfile, void (wisey::ImportProfile*));
   MOCK_CONST_METHOD0(getImportProfile, wisey::ImportProfile* ());

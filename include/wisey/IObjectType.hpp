@@ -71,14 +71,14 @@ public:
   /**
    * Increments reference counter for this object
    */
-  virtual void incremenetReferenceCount(IRGenerationContext& context,
-                                        llvm::Value* object) const = 0;
+  virtual void incrementReferenceCount(IRGenerationContext& context,
+                                      llvm::Value* object) const = 0;
   
   /**
    * Decrements reference counter for this object
    */
-  virtual void decremenetReferenceCount(IRGenerationContext& context,
-                                        llvm::Value* object) const = 0;
+  virtual void decrementReferenceCount(IRGenerationContext& context,
+                                      llvm::Value* object) const = 0;
 
   /**
    * Returns pointer reference counter value for this object

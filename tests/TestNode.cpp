@@ -487,10 +487,10 @@ TEST_F(NodeTest, isOwnerTest) {
   EXPECT_FALSE(mSimpleNode->isOwner());
 }
 
-TEST_F(NodeTest, incremenetReferenceCountTest) {
+TEST_F(NodeTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
-  mComplicatedNode->incremenetReferenceCount(mContext, pointer);
+  mComplicatedNode->incrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -502,10 +502,10 @@ TEST_F(NodeTest, incremenetReferenceCountTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(NodeTest, decremenetReferenceCountTest) {
+TEST_F(NodeTest, decrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));
-  mComplicatedNode->decremenetReferenceCount(mContext, pointer);
+  mComplicatedNode->decrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =

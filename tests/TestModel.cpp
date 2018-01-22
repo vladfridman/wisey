@@ -481,9 +481,9 @@ TEST_F(ModelTest, isOwnerTest) {
   EXPECT_FALSE(mModel->isOwner());
 }
 
-TEST_F(ModelTest, incremenetReferenceCountTest) {
+TEST_F(ModelTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  mModel->incremenetReferenceCount(mContext, pointer);
+  mModel->incrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -495,9 +495,9 @@ TEST_F(ModelTest, incremenetReferenceCountTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ModelTest, decremenetReferenceCountTest) {
+TEST_F(ModelTest, decrementReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
-  mModel->decremenetReferenceCount(mContext, pointer);
+  mModel->decrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =

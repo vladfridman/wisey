@@ -477,10 +477,10 @@ TEST_F(ControllerTest, isOwnerTest) {
   EXPECT_FALSE(mMultiplierController->isOwner());
 }
 
-TEST_F(ControllerTest, incremenetReferenceCountTest) {
+TEST_F(ControllerTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
-  mMultiplierController->incremenetReferenceCount(mContext, pointer);
+  mMultiplierController->incrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -492,10 +492,10 @@ TEST_F(ControllerTest, incremenetReferenceCountTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(ControllerTest, decremenetReferenceCountTest) {
+TEST_F(ControllerTest, decrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));
-  mMultiplierController->decremenetReferenceCount(mContext, pointer);
+  mMultiplierController->decrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =

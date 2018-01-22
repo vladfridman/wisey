@@ -449,10 +449,10 @@ TEST_F(InterfaceTest, constantsAfterMethodSignaturesDeathTest) {
               "Error: In interfaces constants should be declared before methods");
 }
 
-TEST_F(InterfaceTest, incremenetReferenceCountTest) {
+TEST_F(InterfaceTest, incrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
-  mShapeInterface->incremenetReferenceCount(mContext, pointer);
+  mShapeInterface->incrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =
@@ -464,10 +464,10 @@ TEST_F(InterfaceTest, incremenetReferenceCountTest) {
   mStringBuffer.clear();
 }
 
-TEST_F(InterfaceTest, decremenetReferenceCountTest) {
+TEST_F(InterfaceTest, decrementReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mShapeInterface->getLLVMType(mContext));
-  mShapeInterface->decremenetReferenceCount(mContext, pointer);
+  mShapeInterface->decrementReferenceCount(mContext, pointer);
   
   *mStringStream << *mBasicBlock;
   string expected =

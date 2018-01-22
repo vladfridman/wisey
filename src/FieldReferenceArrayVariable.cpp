@@ -72,8 +72,8 @@ llvm::Value* FieldReferenceArrayVariable::generateAssignmentIR(IRGenerationConte
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
 
   Value* previousValue = IRWriter::newLoadInst(context, element, "");
-  objectType->decremenetReferenceCount(context, previousValue);
-  objectType->incremenetReferenceCount(context, newValue);
+  objectType->decrementReferenceCount(context, previousValue);
+  objectType->incrementReferenceCount(context, newValue);
 
   IRWriter::newStoreInst(context, newValue, element);
   

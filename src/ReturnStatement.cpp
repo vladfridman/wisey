@@ -38,13 +38,13 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                       returnType,
                                       mLine);
   if (IType::isReferenceType(returnType)) {
-    ((IObjectType*) returnType)->incremenetReferenceCount(context, result);
+    ((IObjectType*) returnType)->incrementReferenceCount(context, result);
   }
   
   context.getScopes().freeOwnedMemory(context, mLine);
   
   if (IType::isReferenceType(returnType)) {
-    ((IObjectType*) returnType)->decremenetReferenceCount(context, result);
+    ((IObjectType*) returnType)->decrementReferenceCount(context, result);
   }
   
   return IRWriter::createReturnInst(context, result);

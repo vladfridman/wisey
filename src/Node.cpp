@@ -328,7 +328,7 @@ void Node::initializePresetFields(IRGenerationContext& context,
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (IType::isReferenceType(fieldType)) {
-      ((IObjectType*) fieldType)->incremenetReferenceCount(context, castValue);
+      ((IObjectType*) fieldType)->incrementReferenceCount(context, castValue);
     }
   }
 }
@@ -341,11 +341,11 @@ void Node::printToStream(IRGenerationContext& context, iostream& stream) const {
   IConcreteObjectType::printObjectToStream(context, this, stream);
 }
 
-void Node::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+void Node::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, 1);
 }
 
-void Node::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+void Node::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCounterForConcreteObjectUnsafelyFunction::call(context, object, -1);
 }
 

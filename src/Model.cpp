@@ -353,7 +353,7 @@ void Model::initializeFields(IRGenerationContext& context,
     Value* castValue = AutoCast::maybeCast(context, argumentType, argumentValue, fieldType, line);
     IRWriter::newStoreInst(context, castValue, fieldPointer);
     if (IType::isReferenceType(fieldType)) {
-      ((IObjectType*) fieldType)->incremenetReferenceCount(context, castValue);
+      ((IObjectType*) fieldType)->incrementReferenceCount(context, castValue);
     }
   }
 }
@@ -374,11 +374,11 @@ void Model::printToStream(IRGenerationContext& context, iostream& stream) const 
 	IConcreteObjectType::printObjectToStream(context, this, stream);
 }
 
-void Model::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+void Model::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, 1);
 }
 
-void Model::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+void Model::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCounterForConcreteObjectSafelyFunction::call(context, object, -1);
 }
 

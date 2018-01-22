@@ -777,11 +777,11 @@ Interface::createElements(IRGenerationContext& context,
   return make_tuple(methodSignatures, constants, staticMethods);
 }
 
-void Interface::incremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+void Interface::incrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCounterForInterfaceFunction::call(context, object, 1);
 }
 
-void Interface::decremenetReferenceCount(IRGenerationContext& context, Value* object) const {
+void Interface::decrementReferenceCount(IRGenerationContext& context, Value* object) const {
   AdjustReferenceCounterForInterfaceFunction::call(context, object, -1);
 }
 

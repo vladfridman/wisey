@@ -60,8 +60,8 @@ Value* FieldReferenceVariable::generateAssignmentIR(IRGenerationContext& context
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
 
   Value* previousValue = IRWriter::newLoadInst(context, fieldPointer, "");
-  fieldType->decremenetReferenceCount(context, previousValue);
-  fieldType->incremenetReferenceCount(context, cast);
+  fieldType->decrementReferenceCount(context, previousValue);
+  fieldType->incrementReferenceCount(context, cast);
 
   return IRWriter::newStoreInst(context, cast, fieldPointer);
 }
