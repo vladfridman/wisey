@@ -61,8 +61,6 @@ void ParameterOwnerVariable::setToNull(IRGenerationContext& context) {
 
 void ParameterOwnerVariable::free(IRGenerationContext& context) const {
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
-  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* bitcast = IRWriter::newBitCastInst(context, valueLoaded, int8pointer);
-  mType->free(context, bitcast);
+  mType->free(context, valueLoaded);
 }
 

@@ -55,9 +55,7 @@ generateOwnerElementAssignment(IRGenerationContext& context,
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
   
   Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
-  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* bitcast = IRWriter::newBitCastInst(context, elementLoaded, int8pointer);
-  ((const IObjectOwnerType*) elementType)->free(context, bitcast);
+  ((const IObjectOwnerType*) elementType)->free(context, elementLoaded);
   
   IRWriter::newStoreInst(context, newValue, elementStore);
   

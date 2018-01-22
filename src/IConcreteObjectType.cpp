@@ -490,9 +490,7 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
     
     Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
     const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) fieldType;
-    Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-    Value* bitcast = IRWriter::newBitCastInst(context, fieldValuePointer, int8pointer);
-    objectOwnerType->free(context, bitcast);
+    objectOwnerType->free(context, fieldValuePointer);
   }
 }
 
@@ -524,9 +522,12 @@ string IConcreteObjectType::getObjectDestructorFunctionName(const IConcreteObjec
 void IConcreteObjectType::composeDestructorCall(IRGenerationContext& context,
                                                 const IConcreteObjectType* object,
                                                 Value* value) {
+  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
+
   Function* function = getDestructorFunctionForObject(context, object);
   vector<Value*> arguments;
-  arguments.push_back(value);
+  arguments.push_back(bitcast);
   
   IRWriter::createCallInst(context, function, arguments, "");
 }

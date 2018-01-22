@@ -63,10 +63,8 @@ Value* FieldOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType, line);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   Value* fieldPointerLoaded = IRWriter::newLoadInst(context, fieldPointer, "");
-  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
-  Value* bitcast = IRWriter::newBitCastInst(context, fieldPointerLoaded, int8pointer);
 
-  ((IObjectOwnerType*) field->getType())->free(context, bitcast);
+  ((IObjectOwnerType*) field->getType())->free(context, fieldPointerLoaded);
   
   Value* value = IRWriter::newStoreInst(context, cast, fieldPointer);
 

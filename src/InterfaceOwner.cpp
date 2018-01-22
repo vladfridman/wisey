@@ -68,10 +68,12 @@ Value* InterfaceOwner::castTo(IRGenerationContext& context,
 }
 
 void InterfaceOwner::free(IRGenerationContext& context, Value* value) const {
-  Function* destructor = getDestructorFunction(context);
+  Type* int8pointer = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
+  Value* bitcast = IRWriter::newBitCastInst(context, value, int8pointer);
 
+  Function* destructor = getDestructorFunction(context);
   vector<Value*> arguments;
-  arguments.push_back(value);
+  arguments.push_back(bitcast);
 
   IRWriter::createCallInst(context, destructor, arguments, "");
 }

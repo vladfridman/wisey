@@ -423,14 +423,14 @@ TEST_F(IConcreteObjectTypeTest, composeDestructorCallTest) {
   mContext.getScopes().pushScope();
   mContext.setMainFunction(function);
 
-  ConstantPointerNull* pointer =
-    ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
+  ConstantPointerNull* pointer = ConstantPointerNull::get(mCarModel->getLLVMType(mContext));
   IConcreteObjectType::composeDestructorCall(mContext, mStarModel, pointer);
   
   *mStringStream << *basicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MStar(i8* null)\n";
+  "\n  %0 = bitcast %systems.vos.wisey.compiler.tests.MCar* null to i8*"
+  "\n  call void @destructor.systems.vos.wisey.compiler.tests.MStar(i8* %0)\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
