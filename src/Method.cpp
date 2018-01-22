@@ -102,6 +102,10 @@ Value* Method::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool Method::isOwner() const {
+  return false;
+}
+
 Function* Method::defineFunction(IRGenerationContext& context) {
   mFunction = IMethod::defineFunction(context, mObjectType, this);
   

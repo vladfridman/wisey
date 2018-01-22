@@ -477,6 +477,10 @@ TEST_F(ModelTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ModelTest, isOwnerTest) {
+  EXPECT_FALSE(mModel->isOwner());
+}
+
 TEST_F(ModelTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   mModel->incremenetReferenceCount(mContext, pointer);

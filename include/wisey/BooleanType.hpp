@@ -39,6 +39,8 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  bool isOwner() const override;
+  
   std::string getFormat() const override;
 
 };

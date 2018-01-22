@@ -44,4 +44,8 @@ Value* NullType::castTo(IRGenerationContext& context,
   return ConstantExpr::getNullValue(toType->getLLVMType(context));
 }
 
+bool NullType::isOwner() const {
+  return false;
+}
+
 NullType* NullType::NULL_TYPE = new NullType();

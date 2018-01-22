@@ -360,3 +360,7 @@ TEST_F(NodeOwnerTest, castToSecondInterfaceTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
 }
+
+TEST_F(NodeOwnerTest, isOwnerTest) {
+  EXPECT_TRUE(mSimpleNode->getOwner()->isOwner());
+}

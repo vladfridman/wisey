@@ -81,3 +81,7 @@ Function* InterfaceOwner::getDestructorFunction(IRGenerationContext& context) co
   
   return destructor ? destructor : mInterface->defineDestructorFunction(context);
 }
+
+bool InterfaceOwner::isOwner() const {
+  return true;
+}

@@ -82,6 +82,11 @@ public:
                               int line) const = 0;
   
   /**
+   * Tells whether this type is an owner type
+   */
+  virtual bool isOwner() const = 0;
+  
+  /**
    * Tells whether the given type is an owner type
    */
   static bool isOwnerType(const IType* type);

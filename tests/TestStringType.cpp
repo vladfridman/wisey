@@ -116,3 +116,7 @@ TEST_F(StringTypeTest, castToTest) {
   EXPECT_EQ(mStringType.castTo(mContext, expressionValue, PrimitiveTypes::STRING_TYPE, 0),
             expressionValue);
 }
+
+TEST_F(StringTypeTest, isOwnerTest) {
+  EXPECT_FALSE(mStringType.isOwner());
+}

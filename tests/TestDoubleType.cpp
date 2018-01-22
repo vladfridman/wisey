@@ -118,3 +118,7 @@ TEST_F(DoubleTypeTest, castToTest) {
   result = mDoubleType.castTo(mContext, expressionValue, PrimitiveTypes::DOUBLE_TYPE, 0);
   EXPECT_EQ(result, expressionValue);
 }
+
+TEST_F(DoubleTypeTest, isOwnerTest) {
+  EXPECT_FALSE(mDoubleType.isOwner());
+}

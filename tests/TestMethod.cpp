@@ -206,6 +206,10 @@ TEST_F(MethodTest, generateIRTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
+TEST_F(MethodTest, isOwnerTest) {
+  EXPECT_FALSE(mMethod->isOwner());
+}
+
 TEST_F(MethodTest, printToStreamTest) {
   stringstream stringStream;
   mMethod->printToStream(mContext, stringStream);

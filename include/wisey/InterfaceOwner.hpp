@@ -45,6 +45,8 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  bool isOwner() const override;
+
   llvm::Function* getDestructorFunction(IRGenerationContext& context) const override;
 
 };

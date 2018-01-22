@@ -191,6 +191,8 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  bool isOwner() const override;
+
   const IObjectOwnerType* getOwner() const override;
   
   bool isExternal() const override;

@@ -90,6 +90,10 @@ TEST_F(MethodSignatureTest, getLLVMTypeTest) {
   EXPECT_EQ(expectedType, actualType);
 }
 
+TEST_F(MethodSignatureTest, isOwnerTest) {
+  EXPECT_FALSE(mMethodSignature->isOwner());
+}
+
 TEST_F(MethodSignatureTest, printToStreamTest) {
   stringstream stringStream;
   mMethodSignature->printToStream(mContext, stringStream);

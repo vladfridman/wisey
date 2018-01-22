@@ -118,3 +118,7 @@ TEST_F(IntTypeTest, castToTest) {
   EXPECT_STREQ("  %conv4 = sitofp i32 5 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
+
+TEST_F(IntTypeTest, isOwnerTest) {
+  EXPECT_FALSE(mIntType.isOwner());
+}

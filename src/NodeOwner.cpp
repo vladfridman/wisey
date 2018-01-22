@@ -71,3 +71,7 @@ void NodeOwner::free(IRGenerationContext &context, Value *value) const {
 Function* NodeOwner::getDestructorFunction(IRGenerationContext& context) const {
   return IConcreteObjectType::getDestructorFunctionForObject(context, getObject());
 }
+
+bool NodeOwner::isOwner() const {
+  return true;
+}

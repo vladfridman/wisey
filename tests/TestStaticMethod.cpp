@@ -211,6 +211,10 @@ TEST_F(StaticMethodTest, printToStreamTest) {
                stringStream.str().c_str());
 }
 
+TEST_F(StaticMethodTest, isOwnerTest) {
+  EXPECT_FALSE(mStaticMethod->isOwner());
+}
+
 TEST_F(TestFileSampleRunner, staticMethodDefinitionRunTest) {
   runFile("tests/samples/test_static_method_definition.yz", "2018");
 }

@@ -118,3 +118,7 @@ TEST_F(BooleanTypeTest, castToTest) {
   EXPECT_STREQ("  %conv4 = sitofp i1 true to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
+
+TEST_F(BooleanTypeTest, isOwnerTest) {
+  EXPECT_FALSE(mBoleanType.isOwner());
+}

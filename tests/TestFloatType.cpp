@@ -118,3 +118,7 @@ TEST_F(FloatTypeTest, castToTest) {
   EXPECT_STREQ("  %conv4 = fpext float 2.500000e+00 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
+
+TEST_F(FloatTypeTest, isOwnerTest) {
+  EXPECT_FALSE(mFloatType.isOwner());
+}

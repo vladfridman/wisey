@@ -302,6 +302,10 @@ Value* Controller::castTo(IRGenerationContext& context,
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
+bool Controller::isOwner() const {
+  return false;
+}
+
 void Controller::initializeReceivedFields(IRGenerationContext& context,
                                           const InjectionArgumentList& controllerInjectorArguments,
                                           Instruction* malloc,

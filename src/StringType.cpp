@@ -48,6 +48,10 @@ Value* StringType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool StringType::isOwner() const {
+  return false;
+}
+
 string StringType::getFormat() const {
   return "%s";
 }

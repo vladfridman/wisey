@@ -115,6 +115,8 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
+  
+  bool isOwner() const override;
 
   std::string getVTableName() const override;
 

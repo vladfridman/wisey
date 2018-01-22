@@ -119,3 +119,7 @@ TEST_F(ExternalMethodTest, defineFunctionTest) {
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
+
+TEST_F(ExternalMethodTest, isOwnerTest) {
+  EXPECT_FALSE(mMethod->isOwner());
+}

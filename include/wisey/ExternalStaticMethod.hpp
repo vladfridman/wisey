@@ -70,6 +70,8 @@ public:
                       llvm::Value* fromValue,
                       const IType* toType,
                       int line) const override;
+  
+  bool isOwner() const override;
 
   const IObjectType* getObjectType() const override;
 

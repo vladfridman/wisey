@@ -574,6 +574,10 @@ Value* Interface::castTo(IRGenerationContext& context,
   return result;
 }
 
+bool Interface::isOwner() const {
+  return false;
+}
+
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
   GetOriginalObjectFunction::get(context);

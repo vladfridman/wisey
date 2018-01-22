@@ -69,6 +69,8 @@ public:
                       const IType* toType,
                       int line) const override;
  
+  bool isOwner() const override;
+  
   const IObjectType* getObjectType() const override;
 
   void printToStream(IRGenerationContext& context, std::iostream& stream) const override;

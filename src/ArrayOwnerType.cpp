@@ -90,3 +90,6 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
   }
 }
 
+bool ArrayOwnerType::isOwner() const {
+  return true;
+}

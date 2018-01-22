@@ -130,6 +130,8 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  bool isOwner() const override;
+
   std::string getVTableName() const override;
   
   unsigned long getVTableSize() const override;

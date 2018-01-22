@@ -71,3 +71,7 @@ void ModelOwner::free(IRGenerationContext &context, Value* value) const {
 Function* ModelOwner::getDestructorFunction(IRGenerationContext& context) const {
   return IConcreteObjectType::getDestructorFunctionForObject(context, getObject());
 }
+
+bool ModelOwner::isOwner() const {
+  return true;
+}

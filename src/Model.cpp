@@ -232,6 +232,10 @@ Value* Model::castTo(IRGenerationContext& context,
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
+bool Model::isOwner() const {
+  return false;
+}
+
 Instruction* Model::build(IRGenerationContext& context,
                           const ObjectBuilderArgumentList& objectBuilderArgumentList,
                           int line) const {

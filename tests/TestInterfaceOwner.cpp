@@ -129,6 +129,10 @@ TEST_F(InterfaceOwnerTest, canAutoCastToTest) {
   EXPECT_TRUE(mShapeInterface->getOwner()->canAutoCastTo(mObjectInterface->getOwner()));
 }
 
+TEST_F(InterfaceOwnerTest, isOwnerTest) {
+  EXPECT_TRUE(mObjectInterface->getOwner()->isOwner());
+}
+
 TEST_F(TestFileSampleRunner, interfaceOwnerCastToModelOwnerRunTest) {
   runFile("tests/samples/test_interface_owner_cast_to_model_owner.yz", "5");
 }

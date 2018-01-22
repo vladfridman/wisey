@@ -29,6 +29,7 @@ public:
                                            llvm::Value*,
                                            const wisey::IType*,
                                            int));
+  MOCK_CONST_METHOD0(isOwner, bool ());
 };
 
 #endif /* MockType_h */

@@ -483,6 +483,10 @@ TEST_F(NodeTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(NodeTest, isOwnerTest) {
+  EXPECT_FALSE(mSimpleNode->isOwner());
+}
+
 TEST_F(NodeTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mComplicatedNode->getLLVMType(mContext));

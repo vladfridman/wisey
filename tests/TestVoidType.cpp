@@ -112,3 +112,7 @@ TEST_F(VoidTypeTest, castToTest) {
               "Error: Incompatible types: can not cast from type 'void' to 'double'");
   
 }
+
+TEST_F(VoidTypeTest, isOwnerTest) {
+  EXPECT_FALSE(mVoidType.isOwner());
+}

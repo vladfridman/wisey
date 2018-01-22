@@ -65,6 +65,10 @@ Value* BooleanType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool BooleanType::isOwner() const {
+  return false;
+}
+
 string BooleanType::getFormat() const {
   return "%d";
 }

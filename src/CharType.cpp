@@ -66,6 +66,10 @@ Value* CharType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool CharType::isOwner() const {
+  return false;
+}
+
 string CharType::getFormat() const {
   return "%c";
 }

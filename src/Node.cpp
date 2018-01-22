@@ -207,6 +207,10 @@ Value* Node::castTo(IRGenerationContext& context,
   return IConcreteObjectType::castTo(context, (IConcreteObjectType*) this, fromValue, toType);
 }
 
+bool Node::isOwner() const {
+  return false;
+}
+
 string Node::getVTableName() const {
   return mName + ".vtable";
 }

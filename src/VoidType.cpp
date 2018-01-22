@@ -54,6 +54,10 @@ Value* VoidType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool VoidType::isOwner() const {
+  return false;
+}
+
 string VoidType::getFormat() const {
   return "";
 }

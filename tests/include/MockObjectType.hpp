@@ -36,6 +36,7 @@ public:
                                            llvm::Value*,
                                            const wisey::IType*,
                                            int));
+  MOCK_CONST_METHOD0(isOwner, bool ());
   MOCK_CONST_METHOD0(isExternal, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream& stream));
   MOCK_CONST_METHOD2(incremenetReferenceCount, void (wisey::IRGenerationContext&, llvm::Value*));

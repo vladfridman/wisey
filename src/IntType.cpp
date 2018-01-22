@@ -62,6 +62,10 @@ Value* IntType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool IntType::isOwner() const {
+  return false;
+}
+
 string IntType::getFormat() const {
   return "%d";
 }

@@ -85,3 +85,8 @@ TEST_F(ArrayOwnerTypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mArrayOwnerType->canAutoCastTo(mArrayOwnerType));
   EXPECT_TRUE(mArrayOwnerType->canAutoCastTo(mArrayType));
 }
+
+TEST_F(ArrayOwnerTypeTest, isOwnerTest) {
+  EXPECT_TRUE(mArrayOwnerType->isOwner());
+}
+

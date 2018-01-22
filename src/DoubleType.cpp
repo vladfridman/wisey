@@ -61,6 +61,10 @@ Value* DoubleType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool DoubleType::isOwner() const {
+  return false;
+}
+
 string DoubleType::getFormat() const {
   return "%e";
 }

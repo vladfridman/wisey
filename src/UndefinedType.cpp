@@ -44,5 +44,9 @@ Value* UndefinedType::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool UndefinedType::isOwner() const {
+  return false;
+}
+
 UndefinedType* UndefinedType::UNDEFINED_TYPE = new UndefinedType();
 

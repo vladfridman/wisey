@@ -98,6 +98,10 @@ Value* ExternalMethod::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool ExternalMethod::isOwner() const {
+  return false;
+}
+
 const IObjectType* ExternalMethod::getObjectType() const {
   return mObjectType;
 }

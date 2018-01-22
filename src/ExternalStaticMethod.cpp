@@ -98,6 +98,10 @@ Value* ExternalStaticMethod::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool ExternalStaticMethod::isOwner() const {
+  return false;
+}
+
 const IObjectType* ExternalStaticMethod::getObjectType() const {
   return mObjectType;
 }

@@ -118,3 +118,7 @@ TEST_F(LongTypeTest, castToTest) {
   EXPECT_STREQ("  %conv4 = sitofp i64 5 to double", mStringStream->str().c_str());
   mStringBuffer.clear();
 }
+
+TEST_F(LongTypeTest, isOwnerTest) {
+  EXPECT_FALSE(mLongType.isOwner());
+}

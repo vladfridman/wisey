@@ -473,6 +473,10 @@ TEST_F(ControllerTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ControllerTest, isOwnerTest) {
+  EXPECT_FALSE(mMultiplierController->isOwner());
+}
+
 TEST_F(ControllerTest, incremenetReferenceCountTest) {
   ConstantPointerNull* pointer =
   ConstantPointerNull::get(mMultiplierController->getLLVMType(mContext));

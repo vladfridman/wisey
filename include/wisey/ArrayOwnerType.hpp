@@ -57,6 +57,8 @@ namespace wisey {
                         llvm::Value* fromValue,
                         const IType* toType,
                         int line) const override;
+    
+    bool isOwner() const override;
         
   };
 

@@ -128,3 +128,6 @@ TEST_F(ExternalStaticMethodTest, definePublicFunctionTest) {
   EXPECT_EQ(mContext.getMainFunction(), nullptr);
 }
 
+TEST_F(ExternalStaticMethodTest, isOwnerTest) {
+  EXPECT_FALSE(mStaticMethod->isOwner());
+}

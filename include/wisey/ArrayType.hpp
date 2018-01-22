@@ -88,6 +88,8 @@ public:
                       const IType* toType,
                       int line) const override;
   
+  bool isOwner() const override;
+
   /**
    * Returns generic type for arrays
    */

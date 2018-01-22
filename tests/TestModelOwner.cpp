@@ -349,6 +349,10 @@ TEST_F(ModelOwnerTest, castToSecondInterfaceTest) {
   mStringBuffer.clear();
 }
 
+TEST_F(ModelOwnerTest, isOwnerTest) {
+  EXPECT_TRUE(mModel->getOwner()->isOwner());
+}
+
 TEST_F(TestFileSampleRunner, ownerAssignToReferenceRunTest) {
   runFile("tests/samples/test_owner_assign_to_reference.yz", "3");
 }

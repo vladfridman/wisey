@@ -92,6 +92,10 @@ Value* MethodSignature::castTo(IRGenerationContext& context,
   return NULL;
 }
 
+bool MethodSignature::isOwner() const {
+  return false;
+}
+
 const IObjectType* MethodSignature::getObjectType() const {
   return mObjectType;
 }

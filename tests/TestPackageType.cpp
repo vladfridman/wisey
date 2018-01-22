@@ -45,3 +45,7 @@ TEST_F(PackageTypeTest, getLLVMTypeTest) {
 TEST_F(PackageTypeTest, getTypeKindTest) {
   ASSERT_EQ(PACKAGE_TYPE, mPackageType->getTypeKind());
 }
+
+TEST_F(PackageTypeTest, isOwnerTest) {
+  EXPECT_FALSE(mPackageType->isOwner());
+}

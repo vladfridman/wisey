@@ -44,3 +44,7 @@ Value* PackageType::castTo(IRGenerationContext &context,
                            int line) const {
   return NULL;
 }
+
+bool PackageType::isOwner() const {
+  return false;
+}
