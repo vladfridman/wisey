@@ -97,7 +97,7 @@ TEST_F(ConstantReferenceTest, isConstantTest) {
 }
 
 TEST_F(ConstantReferenceTest, generateIRTest) {
-  mConstantReference->generateIR(mContext, IR_GENERATION_NORMAL);
+  mConstantReference->generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *mBasicBlock;
   string expected =

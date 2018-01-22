@@ -44,7 +44,7 @@ IVariable* StaticMethodCall::getVariable(IRGenerationContext& context,
   return NULL;
 }
 
-Value* StaticMethodCall::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+Value* StaticMethodCall::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   if (!checkAccess(context, methodDescriptor)) {
@@ -56,7 +56,7 @@ Value* StaticMethodCall::generateIR(IRGenerationContext& context, IRGenerationFl
   std::vector<const Model*> thrownExceptions = methodDescriptor->getThrownExceptions();
   context.getScopes().getScope()->addExceptions(thrownExceptions);
   
-  return generateMethodCallIR(context, methodDescriptor, flag);
+  return generateMethodCallIR(context, methodDescriptor, assignToType);
 }
 
 bool StaticMethodCall::checkAccess(IRGenerationContext& context,
@@ -72,7 +72,7 @@ bool StaticMethodCall::checkAccess(IRGenerationContext& context,
 
 Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
                                               IMethodDescriptor* methodDescriptor,
-                                              IRGenerationFlag flag) const {
+                                              const IType* assignToType) const {
   const IObjectType* objectType = mObjectTypeSpecifier->getType(context);
   string llvmFunctionName = objectType->getTypeName() + "." + mMethodName;
   
@@ -92,9 +92,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
   for (IExpression* callArgument : mArguments) {
     MethodArgument* methodArgument = *methodArgumentIterator;
-    IRGenerationFlag irGenerationFlag = IType::isOwnerType(methodArgument->getType())
-      ? IR_GENERATION_RELEASE : IR_GENERATION_NORMAL;
-    Value* callArgumentValue = callArgument->generateIR(context, irGenerationFlag);
+    Value* callArgumentValue = callArgument->generateIR(context, methodArgument->getType());
     const IType* callArgumentType = callArgument->getType(context);
     const IType* methodArgumentType = methodArgument->getType();
     Value* callArgumentValueCasted = AutoCast::maybeCast(context,
@@ -114,7 +112,7 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   Composer::popCallStack(context);
 
   const IType* returnType = methodDescriptor->getReturnType();
-  if (!IType::isOwnerType(returnType) || flag == IR_GENERATION_RELEASE) {
+  if (!IType::isOwnerType(returnType) || assignToType->isOwner()) {
     return result;
   }
   

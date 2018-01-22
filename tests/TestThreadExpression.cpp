@@ -23,6 +23,7 @@
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/ProgramPrefix.hpp"
 #include "wisey/ThreadExpression.hpp"
 
@@ -90,7 +91,7 @@ TEST_F(ThreadExpressionTest, getTypeTest) {
 }
 
 TEST_F(ThreadExpressionTest, generateIRTest) {
-  Value* instruction = mThreadExpression.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* instruction = mThreadExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   *mStringStream << *instruction;
   string expected = "  %3 = load %wisey.lang.CThread*, %wisey.lang.CThread** %threadStore";

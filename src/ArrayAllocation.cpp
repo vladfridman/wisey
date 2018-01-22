@@ -27,7 +27,7 @@ ArrayAllocation::~ArrayAllocation() {
   delete mArrayTypeSpecifier;
 }
 
-Value* ArrayAllocation::generateIR(IRGenerationContext &context, IRGenerationFlag flag) const {
+Value* ArrayAllocation::generateIR(IRGenerationContext &context, const IType* assignToType) const {
   ArrayType* arrayType = mArrayTypeSpecifier->getType(context);
   
   StructType* structType = (StructType*) arrayType->getLLVMType(context)->getPointerElementType();
@@ -68,7 +68,7 @@ Value* ArrayAllocation::generateIR(IRGenerationContext &context, IRGenerationFla
     dimensionIndex++;
   }
 
-  if (flag == IR_GENERATION_RELEASE) {
+  if (assignToType->isOwner()) {
     return malloc;
   }
 

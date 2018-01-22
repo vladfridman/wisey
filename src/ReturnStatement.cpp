@@ -32,12 +32,9 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
     exit(1);
   }
   
-  IRGenerationFlag irGenerationFlag = IType::isOwnerType(returnType)
-  ? IR_GENERATION_RELEASE : IR_GENERATION_NORMAL;
-  
   Value* result = AutoCast::maybeCast(context,
                                       mExpression->getType(context),
-                                      mExpression->generateIR(context, irGenerationFlag),
+                                      mExpression->generateIR(context, returnType),
                                       returnType,
                                       mLine);
   if (IType::isReferenceType(returnType)) {

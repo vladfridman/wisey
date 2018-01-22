@@ -68,7 +68,7 @@ llvm::Value* FieldOwnerArrayVariable::generateAssignmentIR(IRGenerationContext& 
     exit(1);
   }
   
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
+  Value* assignToValue = assignToExpression->generateIR(context, elementType);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
   
   Value* previousValue = IRWriter::newLoadInst(context, element, "");

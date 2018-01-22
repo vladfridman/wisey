@@ -103,7 +103,7 @@ TEST_F(InjectionArgumentTest, getValueTest) {
   string argumentSpecifier("withFieldA");
   InjectionArgument argument(argumentSpecifier, mFieldExpression);
   
-  EXPECT_EQ(argument.getValue(mContext, IR_GENERATION_NORMAL), mValue);
+  EXPECT_EQ(argument.getValue(mContext, PrimitiveTypes::VOID_TYPE), mValue);
 }
 
 TEST_F(InjectionArgumentTest, getTypeTest) {

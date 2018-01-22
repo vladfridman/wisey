@@ -34,7 +34,7 @@ public:
   IVariable* getVariable(IRGenerationContext& context,
                          std::vector<const IExpression*>& arrayIndices) const override;
 
-  llvm::Value* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
+  llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
   
   const IType* getType(IRGenerationContext& context) const override;
   
@@ -54,17 +54,17 @@ private:
   llvm::Value* generateStaticMethodCallIR(IRGenerationContext& context,
                                           const IObjectType* objectType,
                                           IMethodDescriptor* methodDescriptor,
-                                          IRGenerationFlag flag) const;
+                                          const IType* assignToType) const;
   
   llvm::Value* generateObjectMethodCallIR(IRGenerationContext& context,
                                           const IObjectType* objectType,
                                           IMethodDescriptor* methodDescriptor,
-                                          IRGenerationFlag flag) const;
+                                          const IType* assignToType) const;
   
   llvm::Value* generateInterfaceMethodCallIR(IRGenerationContext& context,
                                              const Interface* interface,
                                              IMethodDescriptor* methodDescriptor,
-                                             IRGenerationFlag flag) const;
+                                             const IType* assignToType) const;
   
   void checkArgumentType(const IObjectType* objectWithMethods,
                          IMethodDescriptor* methodDescriptor,
@@ -75,7 +75,7 @@ private:
                                   llvm::Function* function,
                                   IMethodDescriptor* methodDescriptor,
                                   std::vector<llvm::Value*> arguments,
-                                  IRGenerationFlag flag) const;
+                                  const IType* assignToType) const;
   
   llvm::Function* getMethodFunction(IRGenerationContext& context,
                                     IMethodDescriptor* methodDescriptor) const;

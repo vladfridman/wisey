@@ -8,6 +8,7 @@
 
 #include "wisey/IfElseStatement.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace std;
@@ -33,7 +34,7 @@ Value* IfElseStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* ifElse = BasicBlock::Create(context.getLLVMContext(), "if.else", function);
   BasicBlock* ifEnd = BasicBlock::Create(context.getLLVMContext(), "if.end", function);
 
-  Value* conditionValue = mCondition->generateIR(context, IR_GENERATION_NORMAL);
+  Value* conditionValue = mCondition->generateIR(context, PrimitiveTypes::VOID_TYPE);
   IRWriter::createConditionalBranch(context, ifThen, ifElse, conditionValue);
   
   context.setBasicBlock(ifThen);

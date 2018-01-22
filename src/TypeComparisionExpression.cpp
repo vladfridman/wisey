@@ -33,9 +33,7 @@ IVariable* TypeComparisionExpression::getVariable(IRGenerationContext& context,
 }
 
 Value* TypeComparisionExpression::generateIR(IRGenerationContext& context,
-                                             IRGenerationFlag flag) const {
-  assert(flag == IR_GENERATION_NORMAL);
-  
+                                             const IType* assignToType) const {
   const IType* expressionType = mExpression->getType(context);
   const IType* type = mTypeSpecifier->getType(context);
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -92,7 +90,7 @@ Value* TypeComparisionExpression::generateIRforReferenceTypes(IRGenerationContex
 Value* TypeComparisionExpression::checkInterfaceImplemented(IRGenerationContext& context,
                                                             const IType* expressionType,
                                                             const IObjectType* objectType) const {
-  Value* expressionValue = mExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   Interface* interface = (Interface*) expressionType;
   
   Value* interfaceIndex = InstanceOf::call(context, interface, expressionValue, objectType);

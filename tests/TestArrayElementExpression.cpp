@@ -93,7 +93,7 @@ struct ArrayElementExpressionTest : Test {
 };
 
 TEST_F(ArrayElementExpressionTest, generateIRTest) {
-  mArrayElementExpression->generateIR(mContext, IR_GENERATION_NORMAL);
+  mArrayElementExpression->generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *mBasicBlock;
   
@@ -129,7 +129,7 @@ TEST_F(ArrayElementExpressionTest, generateIRForNonArrayTypeDeathTest) {
   Mock::AllowLeak(mArrayVariable);
   ON_CALL(*mArrayVariable, getType()).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   
-  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Expecting array type expression before \\[\\] but expression type is int");
 }
@@ -140,7 +140,7 @@ TEST_F(ArrayElementExpressionTest, generateIRForNonIntTypeIndexDeathTest) {
   Mock::AllowLeak(mArrayVariable);
   ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   
-  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::FLOAT_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Array index should be integer type, but it is float");
 }
@@ -175,7 +175,7 @@ TEST_F(ArrayElementExpressionTest, generateAssignmentIRDeathTest) {
   
   mArrayElementExpression = new ArrayElementExpression(mArrayExpression, mArrayIndexExpression);
 
-  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Expression does not reference an array element");
 }

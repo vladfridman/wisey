@@ -30,9 +30,7 @@ IVariable* NegateExpression::getVariable(IRGenerationContext& context,
   return NULL;
 }
 
-Value* NegateExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
-  assert(flag == IR_GENERATION_NORMAL);
-  
+Value* NegateExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IType* type = getType(context);
   if (!IType::isPrimitveType(type) || type == PrimitiveTypes::VOID_TYPE) {
     Log::e("Can not apply negate operation to type '" + type->getTypeName() + "'");
@@ -44,7 +42,7 @@ Value* NegateExpression::generateIR(IRGenerationContext& context, IRGenerationFl
     return IRWriter::createBinaryOperator(context,
                                           Instruction::FSub,
                                           zero,
-                                          mExpression->generateIR(context, flag),
+                                          mExpression->generateIR(context, assignToType),
                                           "fsub");
   }
   
@@ -52,7 +50,7 @@ Value* NegateExpression::generateIR(IRGenerationContext& context, IRGenerationFl
   return IRWriter::createBinaryOperator(context,
                                         Instruction::Sub,
                                         zero,
-                                        mExpression->generateIR(context, flag),
+                                        mExpression->generateIR(context, assignToType),
                                         "sub");
 }
 

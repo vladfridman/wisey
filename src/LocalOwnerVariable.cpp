@@ -56,7 +56,7 @@ Value* LocalOwnerVariable::generateAssignmentIR(IRGenerationContext& context,
                                                 int line) {
   Composer::pushCallStack(context, line);
   
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
+  Value* assignToValue = assignToExpression->generateIR(context, mType);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   

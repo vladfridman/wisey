@@ -30,7 +30,7 @@ TEST_F(EmptyExpressionTest, getVariableTest) {
 }
 
 TEST_F(EmptyExpressionTest, simpleEmptyExpressionTest) {
-  EXPECT_EQ(mEmptyExpression.generateIR(mContext, IR_GENERATION_NORMAL), nullptr);
+  EXPECT_EQ(mEmptyExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE), nullptr);
 }
 
 TEST_F(EmptyExpressionTest, emptyExpressionTypeTest) {

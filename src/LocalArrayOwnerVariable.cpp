@@ -23,9 +23,9 @@ using namespace std;
 using namespace wisey;
 
 LocalArrayOwnerVariable::LocalArrayOwnerVariable(string name,
-                                                 const ArrayOwnerType* type,
+                                                 const ArrayOwnerType* arrayOwnerType,
                                                  llvm::Value* valueStore) :
-mName(name), mType(type), mValueStore(valueStore) {
+mName(name), mArrayOwnerType(arrayOwnerType), mValueStore(valueStore) {
 }
 
 LocalArrayOwnerVariable::~LocalArrayOwnerVariable() {
@@ -36,7 +36,7 @@ string LocalArrayOwnerVariable::getName() const {
 }
 
 const wisey::ArrayOwnerType* LocalArrayOwnerVariable::getType() const {
-  return mType;
+  return mArrayOwnerType;
 }
 
 llvm::Value* LocalArrayOwnerVariable::generateIdentifierIR(IRGenerationContext& context) const {
@@ -52,9 +52,9 @@ llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& 
   }
   
   Value* arrayPointer = IRWriter::newLoadInst(context, mValueStore, "");
-  const IType* scalarType = mType->getArrayType()->getScalarType();
+  const IType* scalarType = mArrayOwnerType->getScalarType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
-                                                                  mType->getArrayType(),
+                                                                  mArrayOwnerType->getArrayType(),
                                                                   arrayPointer,
                                                                   arrayIndices);
   
@@ -71,8 +71,8 @@ llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationC
   Composer::pushCallStack(context, line);
 
   const IType* assignToType = assignToExpression->getType(context);
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
-  Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
+  Value* assignToValue = assignToExpression->generateIR(context, mArrayOwnerType);
+  Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mArrayOwnerType, line);
   
   free(context);
   
@@ -84,11 +84,11 @@ llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationC
 }
 
 void LocalArrayOwnerVariable::setToNull(IRGenerationContext& context) {
-  Value* null = ConstantPointerNull::get(mType->getLLVMType(context)->getPointerTo());
+  Value* null = ConstantPointerNull::get(mArrayOwnerType->getLLVMType(context)->getPointerTo());
   IRWriter::newStoreInst(context, null, mValueStore);
 }
 
 void LocalArrayOwnerVariable::free(IRGenerationContext& context) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mType->free(context, value);
+  mArrayOwnerType->free(context, value);
 }

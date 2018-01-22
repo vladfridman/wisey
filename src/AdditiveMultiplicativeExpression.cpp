@@ -40,8 +40,7 @@ IVariable* AdditiveMultiplicativeExpression::getVariable(IRGenerationContext& co
 }
 
 Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context,
-                                                    IRGenerationFlag flag) const {
-  assert(flag == IR_GENERATION_NORMAL);
+                                                    const IType* assignToType) const {
   const IType* leftType = mLeftExpression->getType(context);
   const IType* rightType = mRightExpression->getType(context);
   checkTypes(leftType, rightType);
@@ -60,8 +59,8 @@ Value* AdditiveMultiplicativeExpression::generateIR(IRGenerationContext& context
     default: return NULL;
   }
   
-  Value* leftValue = mLeftExpression->generateIR(context, IR_GENERATION_NORMAL);
-  Value* rightValue = mRightExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* leftValue = mLeftExpression->generateIR(context, assignToType);
+  Value* rightValue = mRightExpression->generateIR(context, assignToType);
   
   if (leftType->canAutoCastTo(rightType)) {
     leftValue = AutoCast::maybeCast(context, leftType, leftValue, rightType, mLine);

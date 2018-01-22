@@ -80,7 +80,7 @@ struct ArrayAllocationTest : Test {
 };
 
 TEST_F(ArrayAllocationTest, generateIRTest) {
-  mArrayAllocation->generateIR(mContext, IR_GENERATION_RELEASE);
+  mArrayAllocation->generateIR(mContext, mArrayType->getOwner());
   
   *mStringStream << *mBasicBlock;
   

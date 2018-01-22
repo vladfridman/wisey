@@ -30,7 +30,8 @@ public:
   IVariable* getVariable(IRGenerationContext& context,
                          std::vector<const IExpression*>& arrayIndices) const override;
 
-  llvm::Constant* generateIR(IRGenerationContext& context, IRGenerationFlag flag) const override;
+  llvm::Constant* generateIR(IRGenerationContext& context,
+                             const IType* assignToType) const override;
   
   const IType* getType(IRGenerationContext& context) const override;
   

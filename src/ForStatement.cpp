@@ -8,6 +8,7 @@
 
 #include "wisey/ForStatement.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;
@@ -58,7 +59,7 @@ Value* ForStatement::generateIR(IRGenerationContext& context) const {
 
   IRWriter::createBranch(context, forInc);
   context.setBasicBlock(forInc);
-  mIncrementExpression->generateIR(context, IR_GENERATION_NORMAL);
+  mIncrementExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
 
   IRWriter::createBranch(context, forCond);
   context.setBasicBlock(forEnd);

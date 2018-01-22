@@ -29,7 +29,7 @@ ArrayElementExpression::~ArrayElementExpression() {
 }
 
 Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
-                                          IRGenerationFlag flag) const {
+                                          const IType* assignToType) const {
   vector<const IExpression*> arrayIndices;
   IVariable* variable = getVariable(context, arrayIndices);
   assert(variable);
@@ -38,7 +38,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   Value* pointer = generateElementIR(context, variable->getType(), arrayPointer, arrayIndices);
   Value* result = IRWriter::newLoadInst(context, pointer, "");
   
-  if (flag == IR_GENERATION_RELEASE) {
+  if (assignToType->isOwner()) {
     assert(IType::isArrayType(variable->getType()));
     const IArrayType* arrayType = (const IArrayType*) variable->getType();
     assert(IType::isOwnerType(arrayType->getScalarType()));
@@ -74,7 +74,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
       exit(1);
     }
     
-    Value* arrayIndexValue = indexExpression->generateIR(context, IR_GENERATION_NORMAL);
+    Value* arrayIndexValue = indexExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
     Type* indexType = arrayIndexExpressionType->getLLVMType(context);
     Value* index[2];
     index[0] = ConstantInt::get(indexType, 0);

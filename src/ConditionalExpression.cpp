@@ -37,10 +37,10 @@ IVariable* ConditionalExpression::getVariable(IRGenerationContext& context,
 }
 
 Value* ConditionalExpression::generateIR(IRGenerationContext& context,
-                                         IRGenerationFlag flag) const {
+                                         const IType* assignToType) const {
   checkTypes(context);
   
-  Value* conditionValue = mConditionExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* conditionValue = mConditionExpression->generateIR(context, assignToType);
   
   Function* function = context.getBasicBlock()->getParent();
   
@@ -51,12 +51,12 @@ Value* ConditionalExpression::generateIR(IRGenerationContext& context,
   IRWriter::createConditionalBranch(context, blockTrue, blockFalse, conditionValue);
   
   context.setBasicBlock(blockTrue);
-  Value* ifTrueValue = mIfTrueExpression->generateIR(context, flag);
+  Value* ifTrueValue = mIfTrueExpression->generateIR(context, assignToType);
   Type* ifTrueResultType = ifTrueValue->getType();
   IRWriter::createBranch(context, blockEnd);
 
   context.setBasicBlock(blockFalse);
-  Value* ifFalseValue = mIfFalseExpression->generateIR(context, flag);
+  Value* ifFalseValue = mIfFalseExpression->generateIR(context, assignToType);
   Type* ifFalseResultType = ifFalseValue->getType();
   IRWriter::createBranch(context, blockEnd);
 

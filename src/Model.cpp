@@ -343,9 +343,7 @@ void Model::initializeFields(IRGenerationContext& context,
     GetElementPtrInst* fieldPointer = IRWriter::createGetElementPtrInst(context, malloc, index);
     const IType* fieldType = field->getType();
     
-    IRGenerationFlag irGenerationFlag = IType::isOwnerType(fieldType)
-    ? IR_GENERATION_RELEASE : IR_GENERATION_NORMAL;
-    Value* argumentValue = argument->getValue(context, irGenerationFlag);
+    Value* argumentValue = argument->getValue(context, fieldType);
     const IType* argumentType = argument->getType(context);
     if (!argumentType->canAutoCastTo(fieldType)) {
       Log::e("Model builder argument value for field " + argumentName +

@@ -45,8 +45,8 @@ string ObjectBuilderArgument::deriveFieldName() const {
 }
 
 Value* ObjectBuilderArgument::getValue(IRGenerationContext& context,
-                                       IRGenerationFlag flag) const {
-  return mFieldExpression->generateIR(context, flag);
+                                       const IType* assignToType) const {
+  return mFieldExpression->generateIR(context, assignToType);
 }
 
 const IType* ObjectBuilderArgument::getType(IRGenerationContext& context) const {

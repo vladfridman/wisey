@@ -31,7 +31,7 @@ Value* ExitStatement::generateIR(IRGenerationContext& context) const {
     Log::e("Can not auto cast exit statement parameter to int");
     exit(1);
   }
-  Value* expressionValue = mExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* expressionValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   Value* castValue = expressionType->castTo(context,
                                             expressionValue,
                                             PrimitiveTypes::INT_TYPE,

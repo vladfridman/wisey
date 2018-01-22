@@ -13,6 +13,7 @@
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace std;
 using namespace llvm;
@@ -51,7 +52,7 @@ Value* FieldPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context
            "' because of incompatable types");
     exit(1);
   }
-  Value* expressionValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* expressionValue = assignToExpression->generateIR(context, fieldType);
   Value* cast = AutoCast::maybeCast(context, expressionType, expressionValue, fieldType, line);
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   

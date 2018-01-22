@@ -23,7 +23,7 @@ IVariable* FloatConstant::getVariable(IRGenerationContext& context,
 }
 
 llvm::Constant* FloatConstant::generateIR(IRGenerationContext& context,
-                                          IRGenerationFlag flag) const {
+                                          const IType* assignToType) const {
   return ConstantFP::get(Type::getFloatTy(context.getLLVMContext()), mValue);
 }
 

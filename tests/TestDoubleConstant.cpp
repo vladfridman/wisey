@@ -39,7 +39,7 @@ TEST_F(DoubleConstantTest, doubleConstantTest) {
   string stringBuffer;
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   
-  Value* irValue = mDoubleConstant.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* irValue = mDoubleConstant.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *stringStream << *irValue;
   EXPECT_STREQ("double 5.700000e+00", stringStream->str().c_str());

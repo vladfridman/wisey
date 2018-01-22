@@ -92,7 +92,7 @@ TEST_F(RelationalExpressionTest, getVariableTest) {
 
 TEST_F(RelationalExpressionTest, intLessThanTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
@@ -103,7 +103,7 @@ TEST_F(RelationalExpressionTest, intLessThanTest) {
 
 TEST_F(RelationalExpressionTest, intGreaterThanOrEqualTest) {
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression, 0);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
@@ -118,7 +118,7 @@ TEST_F(RelationalExpressionTest, compareIntsWithCastTest) {
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::LONG_TYPE));
 
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GE, mRightExpression, 0);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(2ul, mBasicBlock->size());
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
@@ -139,7 +139,7 @@ TEST_F(RelationalExpressionTest, floatLessThanTest) {
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
 
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   EXPECT_EQ(expression.getType(mContext), PrimitiveTypes::BOOLEAN_TYPE);
@@ -173,7 +173,7 @@ TEST_F(RelationalExpressionTest, objectAndNonObjectCompareDeathTest) {
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mModel));
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_LT, mRightExpression, 0);
 
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Can not compare objects to primitive types");
 }
@@ -192,7 +192,7 @@ TEST_F(RelationalExpressionTest, incompatableObjectsCompareDeathTest) {
   
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 0);
 
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Can not compare types systems.vos.wisey.compiler.tests.MSquare and "
               "systems.vos.wisey.compiler.tests.NElement");
@@ -206,7 +206,7 @@ TEST_F(RelationalExpressionTest, compareObjectsWithNonEqualityTypePredicateDeath
   ON_CALL(*mRightExpression, getType(_)).WillByDefault(Return(mModel));
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_GT, mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Objects can only be used to compare for equality");
 }
@@ -218,7 +218,7 @@ TEST_F(RelationalExpressionTest, incompatablePrimitiveTypesDeathTest) {
   ON_CALL(*mLeftExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   RelationalExpression expression(mLeftExpression, RELATIONAL_OPERATION_EQ, mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Can not compare types float and int");
 }

@@ -83,7 +83,7 @@ TEST_F(LogicalAndExpressionTest, logicalAndTrueValueTest) {
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mTrueValue));
 
   LogicalAndExpression expression(mLeftExpression, mRightExpression);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(3ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();
@@ -114,7 +114,7 @@ TEST_F(LogicalAndExpressionTest, logicalAndFalseValueTest) {
   ON_CALL(*mRightExpression, generateIR(_, _)).WillByDefault(Return(mFalseValue));
   
   LogicalAndExpression expression(mLeftExpression, mRightExpression);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(3ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();

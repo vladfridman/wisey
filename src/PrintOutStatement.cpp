@@ -36,7 +36,7 @@ Value* PrintOutStatement::generateIR(IRGenerationContext& context) const {
   vector<Value*> arguments;
   arguments.push_back(formatPointer);
   for (IExpression* expression : mExpressionList) {
-    arguments.push_back(expression->generateIR(context, IR_GENERATION_NORMAL));
+    arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID_TYPE));
   }
   return IRWriter::createCallInst(context, printf, arguments, "");
 }

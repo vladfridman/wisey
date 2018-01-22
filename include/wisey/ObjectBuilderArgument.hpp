@@ -55,7 +55,7 @@ public:
   /**
    * Computes argument value
    */
-  llvm::Value* getValue(IRGenerationContext& context, IRGenerationFlag flag) const;
+  llvm::Value* getValue(IRGenerationContext& context, const IType* assignToType) const;
   
   /**
    * Tells argument type

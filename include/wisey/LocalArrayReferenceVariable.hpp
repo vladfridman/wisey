@@ -20,12 +20,14 @@ namespace wisey {
   class LocalArrayReferenceVariable : public IReferenceVariable {
     
     std::string mName;
-    const ArrayType* mType;
+    const ArrayType* mArrayType;
     llvm::Value* mValueStore;
     
   public:
     
-    LocalArrayReferenceVariable(std::string name, const ArrayType* type, llvm::Value* valueStore);
+    LocalArrayReferenceVariable(std::string name,
+                                const ArrayType* arrayType,
+                                llvm::Value* valueStore);
     
     ~LocalArrayReferenceVariable();
     

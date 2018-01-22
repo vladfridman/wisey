@@ -120,7 +120,7 @@ TEST_F(AssignmentTest, variableNotDeclaredDeathTest) {
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(mThreadVariable);
 
-  EXPECT_EXIT(assignment.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(assignment.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Undeclared variable 'foo'");
 }
@@ -148,7 +148,7 @@ TEST_F(AssignmentTest, generateIRWithInterfaceTypeTest) {
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(1);
   
-  assignment.generateIR(mContext, IR_GENERATION_NORMAL);
+  assignment.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 }
 
 TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
@@ -163,7 +163,7 @@ TEST_F(AssignmentTest, generateIRWithPrimitiveTypeTest) {
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(0);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(1);
   
-  assignment.generateIR(mContext, IR_GENERATION_NORMAL);
+  assignment.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 }
 
 TEST_F(AssignmentTest, generateIRWithOwnerTypeTest) {
@@ -175,7 +175,7 @@ TEST_F(AssignmentTest, generateIRWithOwnerTypeTest) {
   Assignment assignment(identifier, mExpression, 0);
   EXPECT_CALL(mockVariable, setToNull(_));
   
-  assignment.generateIR(mContext, IR_GENERATION_RELEASE);
+  assignment.generateIR(mContext, mInterface->getOwner());
 }
 
 TEST_F(AssignmentTest, printToStreamTest) {

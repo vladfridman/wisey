@@ -31,7 +31,8 @@ IVariable* ConstantReference::getVariable(IRGenerationContext& context,
   return NULL;
 }
 
-Value* ConstantReference::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+Value* ConstantReference::generateIR(IRGenerationContext& context,
+                                     const IType* assignToType) const {
   const IObjectType* objectType = getObjectType(context);
   Constant* constant = objectType->findConstant(mConstantName);
   if (constant->getAccessLevel() == PRIVATE_ACCESS && objectType != context.getObjectType()) {

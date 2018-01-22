@@ -30,7 +30,7 @@ IVariable* IdentifierChain::getVariable(IRGenerationContext& context,
   return NULL;
 }
 
-Value* IdentifierChain::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+Value* IdentifierChain::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   IMethodDescriptor* methodDescriptor = getMethodDescriptor(context);
   const IObjectType* objectWithMethodsType = methodDescriptor->getObjectType();
   if (!checkAccess(context, methodDescriptor)) {
@@ -39,7 +39,7 @@ Value* IdentifierChain::generateIR(IRGenerationContext& context, IRGenerationFla
     exit(1);
   }
 
-  return mObjectExpression->generateIR(context, flag);
+  return mObjectExpression->generateIR(context, assignToType);
 }
 
 const IType* IdentifierChain::getType(IRGenerationContext& context) const {

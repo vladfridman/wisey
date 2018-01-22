@@ -30,9 +30,9 @@ IVariable* CastExpression::getVariable(IRGenerationContext& context,
   return NULL;
 }
 
-Value* CastExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+Value* CastExpression::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IType* fromType = mExpression->getType(context);
-  Value* fromValue = mExpression->generateIR(context, flag);
+  Value* fromValue = mExpression->generateIR(context, assignToType);
   const IType* toType = mTypeSpecifier->getType(context);
   
   return fromType->castTo(context, fromValue, toType, mLine);

@@ -48,9 +48,8 @@ IVariable* IncrementExpression::getVariable(IRGenerationContext& context,
   return mExpression->getVariable(context, arrayIndices);
 }
 
-Value* IncrementExpression::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
-  assert(flag == IR_GENERATION_NORMAL);
-  
+Value* IncrementExpression::generateIR(IRGenerationContext& context,
+                                       const IType* assignToType) const {
   const IType* expressionType = mExpression->getType(context);
   vector<const IExpression*> arrayIndices;
   IVariable* variable = mExpression->getVariable(context, arrayIndices);
@@ -65,7 +64,7 @@ Value* IncrementExpression::generateIR(IRGenerationContext& context, IRGeneratio
     exit(1);
   }
   
-  Value* originalValue = mExpression->generateIR(context, flag);
+  Value* originalValue = mExpression->generateIR(context, assignToType);
   Value* increment = ConstantInt::get(Type::getInt32Ty(context.getLLVMContext()),
                                       mIncrementBy,
                                       true);

@@ -54,7 +54,7 @@ Value* FieldPrimitiveArrayVariable::generateAssignmentIR(IRGenerationContext& co
   const IType* elementType = ((const wisey::ArrayType*) field->getType())->getScalarType();
 
   const IType* assignToType = assignToExpression->getType(context);
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* assignToValue = assignToExpression->generateIR(context, field->getType());
   if (!assignToType->canAutoCastTo(elementType)) {
     Log::e("Can not assign to field '" + mName + "' of object '" + mObject->getTypeName() +
            "' because of incompatable types");

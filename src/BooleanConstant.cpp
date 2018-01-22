@@ -23,7 +23,7 @@ IVariable* BooleanConstant::getVariable(IRGenerationContext& context,
 }
 
 llvm::Constant* BooleanConstant::generateIR(IRGenerationContext& context,
-                                            IRGenerationFlag flag) const {
+                                            const IType* assignToType) const {
   return ConstantInt::get(Type::getInt1Ty(context.getLLVMContext()), mValue);
 }
 

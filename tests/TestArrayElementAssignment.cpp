@@ -83,7 +83,7 @@ TEST_F(ArrayElementAssignmentTest, generateOwnerArrayAssignmentTest) {
   Value* value = ConstantPointerNull::get(mModel->getOwner()->getLLVMType(mContext));
   ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
   Value* elementStore = ConstantPointerNull::get(mModel->getLLVMType(mContext)->getPointerTo());
-  EXPECT_CALL(mockExpression, generateIR(_, IR_GENERATION_RELEASE));
+  EXPECT_CALL(mockExpression, generateIR(_, mModel->getOwner()));
 
   ArrayElementAssignment::generateElementAssignment(mContext,
                                                     mModel->getOwner(),
@@ -109,7 +109,7 @@ TEST_F(ArrayElementAssignmentTest, generateReferenceArrayAssignmentTest) {
   Value* value = ConstantPointerNull::get(mModel->getLLVMType(mContext));
   ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
   Value* elementStore = ConstantPointerNull::get(mModel->getLLVMType(mContext)->getPointerTo());
-  EXPECT_CALL(mockExpression, generateIR(_, IR_GENERATION_NORMAL));
+  EXPECT_CALL(mockExpression, generateIR(_, mModel));
   
   ArrayElementAssignment::generateElementAssignment(mContext,
                                                     mModel,
@@ -137,7 +137,7 @@ TEST_F(ArrayElementAssignmentTest, generatePrimitiveArrayAssignmentTest) {
   Value* value = ConstantInt::get(Type::getInt32Ty(mLLVMContext), 5);
   ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
   Value* elementStore = ConstantPointerNull::get(Type::getInt32Ty(mLLVMContext)->getPointerTo());
-  EXPECT_CALL(mockExpression, generateIR(_, IR_GENERATION_NORMAL));
+  EXPECT_CALL(mockExpression, generateIR(_, PrimitiveTypes::INT_TYPE));
   
   ArrayElementAssignment::generateElementAssignment(mContext,
                                                     PrimitiveTypes::INT_TYPE,

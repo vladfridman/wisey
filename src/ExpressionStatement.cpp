@@ -7,6 +7,7 @@
 //
 
 #include "wisey/ExpressionStatement.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;
@@ -18,5 +19,5 @@ ExpressionStatement::~ExpressionStatement() {
 }
 
 Value* ExpressionStatement::generateIR(IRGenerationContext& context) const {
-  return mExpression->generateIR(context, IR_GENERATION_NORMAL);
+  return mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
 }

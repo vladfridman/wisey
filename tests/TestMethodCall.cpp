@@ -250,7 +250,7 @@ TEST_F(MethodCallTest, modelMethodCallTest) {
   mArgumentList.push_back(argumentExpression);
   MethodCall methodCall(mExpression, mArgumentList, 0);
   
-  Value* irValue = methodCall.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   *mStringStream << *irValue;
   string expected =
@@ -288,7 +288,7 @@ TEST_F(MethodCallTest, modelMethodCallWithTryCatchTest) {
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, continueBlock);
   mContext.getScopes().beginTryCatch(tryCatchInfo);
 
-  Value* irValue = methodCall.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* irValue = methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %6 = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
@@ -333,7 +333,7 @@ TEST_F(MethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   MethodCall methodCall(mExpression, mArgumentList, 0);
   Mock::AllowLeak(mExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Number of arguments for method call 'foo' of the object type "
               "'systems.vos.wisey.compiler.tests.MSquare' is not correct");
@@ -348,7 +348,7 @@ TEST_F(MethodCallTest, llvmImplementationNotFoundDeathTest) {
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: LLVM function implementing object 'systems.vos.wisey.compiler.tests.MSquare' "
               "method 'bar' was not found");
@@ -374,7 +374,7 @@ TEST_F(MethodCallTest, incorrectArgumentTypesDeathTest) {
   Mock::AllowLeak(mExpression);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(methodCall.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(methodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Call argument types do not match for a call to method 'foo' "
               "of the object type 'systems.vos.wisey.compiler.tests.MSquare");

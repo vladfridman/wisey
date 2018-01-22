@@ -35,13 +35,13 @@ IVariable* Injector::getVariable(IRGenerationContext& context,
   return NULL;
 }
 
-Value* Injector::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+Value* Injector::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IObjectType* type = mObjectTypeSpecifier->getType(context);
   Instruction* malloc = type->getTypeKind() == INTERFACE_TYPE
     ? ((Interface*) type)->inject(context, mInjectionArgumentList, mLine)
     : ((Controller*) type)->inject(context, mInjectionArgumentList, mLine);
   
-  if (flag == IR_GENERATION_RELEASE) {
+  if (assignToType->isOwner()) {
     return malloc;
   }
   

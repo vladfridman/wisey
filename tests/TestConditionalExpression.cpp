@@ -114,7 +114,7 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithFalse) {
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
 
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   ASSERT_EQ(4ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();
@@ -151,7 +151,7 @@ TEST_F(ConditionalExpressionTest, conditionalExpressionRunWithTrue) {
   ON_CALL(*mConditionExpression, generateIR(_, _)).WillByDefault(testing::Return(conditionValue));
  
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(4ul, mFunction->size());
   Function::iterator iterator = mFunction->begin();
@@ -214,7 +214,7 @@ TEST_F(ConditionalExpressionTest, incompatibleTypesDeathTest) {
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types in conditional expression operation");
 }
@@ -230,7 +230,7 @@ TEST_F(ConditionalExpressionTest, voidTypesDeathTest) {
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Can not use expressions of type VOID in a conditional expression");
 }
@@ -245,7 +245,7 @@ TEST_F(ConditionalExpressionTest, conditionIsNotBooleanDeathTest) {
   
   ConditionalExpression expression(mConditionExpression, mIfTrueExpression, mIfFalseExpression);
   
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Condition in a conditional expression is not of type BOOLEAN");
 }

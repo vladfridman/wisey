@@ -42,7 +42,7 @@ Value* LocalPrimitiveVariable::generateAssignmentIR(IRGenerationContext& context
                                                     IExpression* assignToExpression,
                                                     std::vector<const IExpression*> arrayIndices,
                                                     int line) {
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* assignToValue = assignToExpression->generateIR(context, mType);
   const IType* assignToType = assignToExpression->getType(context);
   Value* castAssignToValue = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
   IRWriter::newStoreInst(context, castAssignToValue, mValueStore);

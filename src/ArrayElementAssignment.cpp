@@ -50,7 +50,7 @@ generateOwnerElementAssignment(IRGenerationContext& context,
                                IExpression* assignToExpression,
                                llvm::Value* elementStore,
                                int line) {
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_RELEASE);
+  Value* assignToValue = assignToExpression->generateIR(context, elementType);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
   
@@ -70,7 +70,7 @@ generateReferenceElementAssignment(IRGenerationContext& context,
                                    IExpression* assignToExpression,
                                    llvm::Value* elementStore,
                                    int line) {
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* assignToValue = assignToExpression->generateIR(context, elementType);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
   
@@ -90,7 +90,7 @@ generatePrimitiveElementAssignment(IRGenerationContext& context,
                                    IExpression* assignToExpression,
                                    llvm::Value* elementStore,
                                    int line) {
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* assignToValue = assignToExpression->generateIR(context, elementType);
   const IType* assignToType = assignToExpression->getType(context);
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
   

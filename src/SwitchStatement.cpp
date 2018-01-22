@@ -9,6 +9,7 @@
 #include "wisey/CaseStatement.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/SwitchStatement.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;
@@ -35,7 +36,7 @@ Value* SwitchStatement::generateIR(IRGenerationContext& context) const {
   BasicBlock* switchDefault = mSwitchCases->defaultStatement != NULL
     ? BasicBlock::Create(llvmContext, "sw.default", function) : NULL;
   
-  Value* conditionValue = mCondition->generateIR(context, IR_GENERATION_NORMAL);
+  Value* conditionValue = mCondition->generateIR(context, PrimitiveTypes::VOID_TYPE);
   SwitchInst* switchInstruction =
     SwitchInst::Create(conditionValue,
                        switchDefault != NULL ? switchDefault : switchEpilog,

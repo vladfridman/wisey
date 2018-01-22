@@ -19,9 +19,9 @@ using namespace std;
 using namespace wisey;
 
 LocalArrayReferenceVariable::LocalArrayReferenceVariable(string name,
-                                                         const ArrayType* type,
+                                                         const ArrayType* arrayType,
                                                          llvm::Value* valueStore) :
-mName(name), mType(type), mValueStore(valueStore) {
+mName(name), mArrayType(arrayType), mValueStore(valueStore) {
 }
 
 LocalArrayReferenceVariable::~LocalArrayReferenceVariable() {
@@ -32,7 +32,7 @@ string LocalArrayReferenceVariable::getName() const {
 }
 
 const wisey::ArrayType* LocalArrayReferenceVariable::getType() const {
-  return mType;
+  return mArrayType;
 }
 
 llvm::Value* LocalArrayReferenceVariable::generateIdentifierIR(IRGenerationContext& context) const {
@@ -49,9 +49,9 @@ generateAssignmentIR(IRGenerationContext& context,
   }
   
   Value* arrayPointer = IRWriter::newLoadInst(context, mValueStore, "");
-  const IType* scalarType = mType->getScalarType();
+  const IType* scalarType = mArrayType->getScalarType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
-                                                                  mType,
+                                                                  mArrayType,
                                                                   arrayPointer,
                                                                   arrayIndices);
   
@@ -68,10 +68,10 @@ generateWholeArrayAssignment(IRGenerationContext& context,
                              int line) {
 
   const IType* assignToType = assignToExpression->getType(context);
-  Value* assignToValue = assignToExpression->generateIR(context, IR_GENERATION_NORMAL);
-  Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mType, line);
+  Value* assignToValue = assignToExpression->generateIR(context, mArrayType);
+  Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mArrayType, line);
   decrementReferenceCounter(context);
-  mType->incrementReferenceCount(context, cast);
+  mArrayType->incrementReferenceCount(context, cast);
   IRWriter::newStoreInst(context, cast, mValueStore);
   
   return assignToValue;
@@ -79,5 +79,5 @@ generateWholeArrayAssignment(IRGenerationContext& context,
 
 void LocalArrayReferenceVariable::decrementReferenceCounter(IRGenerationContext& context) const {
   Value* value = IRWriter::newLoadInst(context, mValueStore, "");
-  mType->decrementReferenceCount(context, value);
+  mArrayType->decrementReferenceCount(context, value);
 }

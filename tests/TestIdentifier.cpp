@@ -57,13 +57,13 @@ TEST_F(IdentifierTest, generateIRForPrimitiveVariableTest) {
   EXPECT_CALL(mockVariable, generateIdentifierIR(_)).Times(1);
   EXPECT_CALL(mockVariable, generateAssignmentIR(_, _, _, _)).Times(0);
   
-  identifier.generateIR(mContext, IR_GENERATION_NORMAL);
+  identifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 }
 
 TEST_F(IdentifierTest, undeclaredVariableDeathTest) {
   Identifier identifier("foo");
 
-  EXPECT_EXIT(identifier.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(identifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Undeclared variable 'foo'");
 }
@@ -80,9 +80,10 @@ TEST_F(IdentifierTest, generateIRForObjectOwnerVariableSetToNullTest) {
   ON_CALL(mockType, getTypeKind()).WillByDefault(Return(MODEL_OWNER_TYPE));
   EXPECT_CALL(mockVariable, setToNull(_));
   mContext.getScopes().setVariable(&mockVariable);
+  Model* model = Model::newModel(AccessLevel::PUBLIC_ACCESS, modelFullName, modelStructType);
 
   Identifier identifier("foo");
-  Value* result = identifier.generateIR(mContext, IR_GENERATION_RELEASE);
+  Value* result = identifier.generateIR(mContext, model->getOwner());
 
   EXPECT_EQ(objectPointer, result);
 }
@@ -102,7 +103,7 @@ TEST_F(IdentifierTest, generateIRForMethodTest) {
   mContext.getScopes().setVariable(&mockVariable);
 
   Identifier identifier("foo");
-  Value* result = identifier.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* result = identifier.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   EXPECT_EQ(objectPointer, result);
 }

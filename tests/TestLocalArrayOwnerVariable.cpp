@@ -90,7 +90,7 @@ TEST_F(LocalArrayOwnerVariableTest, generatePrimitiveArrayWholeArrayAssignmentTe
   ON_CALL(mockExpression, getType(_)).WillByDefault(Return(mArrayType->getOwner()));
   Value* value = ConstantPointerNull::get(arrayPointerType);
   ON_CALL(mockExpression, generateIR(_, _)).WillByDefault(Return(value));
-  EXPECT_CALL(mockExpression, generateIR(_, IR_GENERATION_RELEASE));
+  EXPECT_CALL(mockExpression, generateIR(_, mArrayType->getOwner()));
   variable.generateAssignmentIR(mContext, &mockExpression, arrayIndices, 0);
   
   *mStringStream << *mBasicBlock;

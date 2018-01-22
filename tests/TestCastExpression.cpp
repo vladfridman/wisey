@@ -106,11 +106,11 @@ TEST_F(CastExpressionTest, castExpressionAutoCastTest) {
   ON_CALL(*mExpression, generateIR(_, _)).WillByDefault(Return(expressionValue));
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::BOOLEAN_TYPE));
   ON_CALL(*mTypeSpecifier, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
-  EXPECT_CALL(*mExpression, generateIR(_, IR_GENERATION_NORMAL));
+  EXPECT_CALL(*mExpression, generateIR(_, PrimitiveTypes::INT_TYPE));
 
   CastExpression castExpression(mTypeSpecifier, mExpression, 0);
   
-  result = castExpression.generateIR(mContext, IR_GENERATION_NORMAL);
+  result = castExpression.generateIR(mContext, PrimitiveTypes::INT_TYPE);
   
   *mStringStream << *result;
   EXPECT_STREQ("  %conv = zext i1 true to i32", mStringStream->str().c_str());
@@ -122,9 +122,9 @@ TEST_F(CastExpressionTest, generateIRWithReleaseTest) {
   CastExpression castExpression(mTypeSpecifier, mExpression, 0);
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(mCarInterface->getOwner()));
 
-  EXPECT_CALL(*mExpression, generateIR(_, IR_GENERATION_RELEASE));
+  EXPECT_CALL(*mExpression, generateIR(_, mCarInterface->getOwner()));
   
-  castExpression.generateIR(mContext, IR_GENERATION_RELEASE);
+  castExpression.generateIR(mContext, mCarInterface->getOwner());
 }
 
 TEST_F(CastExpressionTest, printToStreamTest) {

@@ -20,13 +20,13 @@ namespace wisey {
   class LocalArrayOwnerVariable : public IOwnerVariable {
     
     std::string mName;
-    const ArrayOwnerType* mType;
+    const ArrayOwnerType* mArrayOwnerType;
     llvm::Value* mValueStore;
     
   public:
     
     LocalArrayOwnerVariable(std::string name,
-                            const ArrayOwnerType* type,
+                            const ArrayOwnerType* arrayOwnerType,
                             llvm::Value* valueStore);
     
     ~LocalArrayOwnerVariable();

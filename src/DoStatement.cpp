@@ -8,6 +8,7 @@
 
 #include "wisey/DoStatement.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;
@@ -37,7 +38,7 @@ Value* DoStatement::generateIR(IRGenerationContext& context) const {
   IRWriter::createBranch(context, doCond);
   
   context.setBasicBlock(doCond);
-  Value* conditionValue = mConditionExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   IRWriter::createConditionalBranch(context, doBody, doEnd, conditionValue);
   
   scopes.setBreakToBlock(NULL);

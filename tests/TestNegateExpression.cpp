@@ -77,7 +77,7 @@ TEST_F(NegateExpressionTest, negateIntExpressionTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   NegateExpression negateExpression(mExpression);
   
-  Value* result = negateExpression.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* result = negateExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   *mStringStream << *result;
   EXPECT_STREQ("  %sub = sub i32 0, 3", mStringStream->str().c_str());
@@ -90,7 +90,7 @@ TEST_F(NegateExpressionTest, negateFloatExpressionTest) {
   ON_CALL(*mExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::FLOAT_TYPE));
   NegateExpression negateExpression(mExpression);
   
-  Value* result = negateExpression.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* result = negateExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *result;
   EXPECT_STREQ("  %fsub = fsub float 0.000000e+00, 2.500000e+00", mStringStream->str().c_str());
@@ -118,7 +118,7 @@ TEST_F(NegateExpressionTest, negateIncompatibleTypeDeathTest) {
   NegateExpression negateExpression(mExpression);
   Mock::AllowLeak(mExpression);
 
-  EXPECT_EXIT(negateExpression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(negateExpression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Can not apply negate operation to type 'void'");
 }

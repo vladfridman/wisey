@@ -29,7 +29,7 @@ IVariable* Assignment::getVariable(IRGenerationContext& context,
   return mIdentifier->getVariable(context, arrayIndices);
 }
 
-Value* Assignment::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+Value* Assignment::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   std::vector<const IExpression*> arrayIndices;
   IVariable* variable = mIdentifier->getVariable(context, arrayIndices);
   if (variable == NULL) {
@@ -41,7 +41,7 @@ Value* Assignment::generateIR(IRGenerationContext& context, IRGenerationFlag fla
   
   Value* result = variable->generateAssignmentIR(context, mExpression, arrayIndices, mLine);
   
-  if (flag == IR_GENERATION_RELEASE) {
+  if (assignToType->isOwner()) {
     assert(IType::isOwnerType(variable->getType()));
     ((IOwnerVariable*) variable)->setToNull(context);
   }

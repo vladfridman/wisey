@@ -16,6 +16,7 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "wisey/IRGenerationContext.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/StringLiteral.hpp"
 
 using namespace std;
@@ -47,7 +48,7 @@ TEST_F(StringLiteralTest, getVariableTest) {
 TEST_F(StringLiteralTest, stringLiteralTest) {
   StringLiteral stringLiteral("test");
   
-  llvm::Value* irValue = stringLiteral.generateIR(mContext, IR_GENERATION_NORMAL);
+  llvm::Value* irValue = stringLiteral.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
 
   *mStringStream << *mContext.getModule();
   *mStringStream << *irValue;
@@ -61,7 +62,7 @@ TEST_F(StringLiteralTest, stringLiteralTest) {
 TEST_F(StringLiteralTest, stringLiteralEscapeNewlineTest) {
   StringLiteral stringLiteral("test\ntest");
   
-  stringLiteral.generateIR(mContext, IR_GENERATION_NORMAL);
+  stringLiteral.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *mContext.getModule();
   std::string expected = std::string() +

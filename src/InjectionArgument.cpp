@@ -43,16 +43,15 @@ string InjectionArgument::deriveFieldName() const {
   return "m" + mFieldSpecifier.substr(4);
 }
 
-Value* InjectionArgument::getValue(IRGenerationContext& context, IRGenerationFlag flag) const {
-  return mFieldExpression->generateIR(context, flag);
+Value* InjectionArgument::getValue(IRGenerationContext& context, const IType* assignToType) const {
+  return mFieldExpression->generateIR(context, assignToType);
 }
 
 const IType* InjectionArgument::getType(IRGenerationContext& context) const {
   return mFieldExpression->getType(context);
 }
 
-void InjectionArgument::printToStream(IRGenerationContext& context,
-                                          iostream &stream) const {
+void InjectionArgument::printToStream(IRGenerationContext& context, iostream &stream) const {
   stream << mFieldSpecifier << "(";
   mFieldExpression->printToStream(context, stream);
   stream << ")";

@@ -221,7 +221,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallTest) {
   mArgumentList.push_back(argumentExpression);
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   
-  Value* irValue = staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *irValue;
   string expected =
@@ -256,7 +256,7 @@ TEST_F(StaticMethodCallTest, modelStaticMethodCallWithTryCatchTest) {
   TryCatchInfo* tryCatchInfo = new TryCatchInfo(catchList, continueBlock);
   mContext.getScopes().beginTryCatch(tryCatchInfo);
   
-  Value* irValue = staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* irValue = staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *mStringStream << *irValue;
   EXPECT_STREQ("  %call = invoke i32 @systems.vos.wisey.compiler.tests.MSquare.bar("
@@ -299,7 +299,7 @@ TEST_F(StaticMethodCallTest, printToStreamTest) {
 TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "lorem", mArgumentList, 0);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Static method 'lorem' is not found in object "
               "systems.vos.wisey.compiler.tests.MSquare");
@@ -308,7 +308,7 @@ TEST_F(StaticMethodCallTest, methodDoesNotExistDeathTest) {
 TEST_F(StaticMethodCallTest, incorrectNumberOfArgumentsDeathTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Number of arguments for static method call 'foo' of the object type "
               "systems.vos.wisey.compiler.tests.MSquare is not correct");
@@ -321,7 +321,7 @@ TEST_F(StaticMethodCallTest, llvmImplementationNotFoundDeathTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "bar", mArgumentList, 0);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: LLVM function implementing object systems.vos.wisey.compiler.tests.MSquare "
               "method 'bar' was not found");
@@ -346,7 +346,7 @@ TEST_F(StaticMethodCallTest, incorrectArgumentTypesDeathTest) {
   StaticMethodCall staticMethodCall(mModelSpecifier, "foo", mArgumentList, 0);
   Mock::AllowLeak(argumentExpression);
   
-  EXPECT_EXIT(staticMethodCall.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(staticMethodCall.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Call argument types do not match for a call to method 'foo' "
               "of the object type systems.vos.wisey.compiler.tests.MSquare");

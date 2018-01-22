@@ -8,6 +8,7 @@
 
 #include "wisey/IRWriter.hpp"
 #include "wisey/WhileStatement.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 
 using namespace llvm;
 using namespace wisey;
@@ -31,7 +32,7 @@ Value* WhileStatement::generateIR(IRGenerationContext& context) const {
   
   IRWriter::createBranch(context, whileCond);
   context.setBasicBlock(whileCond);
-  Value* conditionValue = mConditionExpression->generateIR(context, IR_GENERATION_NORMAL);
+  Value* conditionValue = mConditionExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   IRWriter::createConditionalBranch(context, whileBody, whileEnd, conditionValue);
   
   context.setBasicBlock(whileBody);

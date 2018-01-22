@@ -23,7 +23,7 @@ IVariable* LongConstant::getVariable(IRGenerationContext& context,
 }
 
 llvm::Constant* LongConstant::generateIR(IRGenerationContext& context,
-                                         IRGenerationFlag flag) const {
+                                         const IType* assignToType) const {
   return ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), mValue, true);
 }
 

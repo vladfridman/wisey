@@ -23,7 +23,7 @@ public:
   MOCK_CONST_METHOD2(getVariable, wisey::IVariable* (wisey::IRGenerationContext&,
                                                      std::vector<const wisey::IExpression*>&));
   MOCK_CONST_METHOD2(generateIR, llvm::Value* (wisey::IRGenerationContext&,
-                                               wisey::IRGenerationFlag));
+                                               const wisey::IType* assignToType));
   MOCK_CONST_METHOD1(getType, const wisey::IType* (wisey::IRGenerationContext&));
   MOCK_CONST_METHOD0(isConstant, bool ());
   MOCK_CONST_METHOD2(printToStream, void (wisey::IRGenerationContext&, std::iostream&));

@@ -38,13 +38,13 @@ IVariable* ObjectBuilder::getVariable(IRGenerationContext& context,
   return NULL;
 }
 
-Value* ObjectBuilder::generateIR(IRGenerationContext& context, IRGenerationFlag flag) const {
+Value* ObjectBuilder::generateIR(IRGenerationContext& context, const IType* assignToType) const {
   const IObjectType* objectType = mTypeSpecifier->getType(context);
   assert(objectType->getTypeKind() == MODEL_TYPE || objectType->getTypeKind() == NODE_TYPE);
   IBuildableConcreteObjectType* buildableType = (IBuildableConcreteObjectType*) objectType;
   Instruction* malloc = buildableType->build(context, mObjectBuilderArgumentList, mLine);
   
-  if (flag == IR_GENERATION_RELEASE) {
+  if (assignToType->isOwner()) {
     return malloc;
   }
   

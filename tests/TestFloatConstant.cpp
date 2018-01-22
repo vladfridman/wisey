@@ -40,7 +40,7 @@ TEST_F(FloatConstantTest, floatConstantTest) {
   raw_string_ostream* stringStream = new raw_string_ostream(stringBuffer);
   IRGenerationContext context;
   
-  Value* irValue = mFloatConstant.generateIR(mContext, IR_GENERATION_NORMAL);
+  Value* irValue = mFloatConstant.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   *stringStream << *irValue;
   EXPECT_STREQ("float 3.500000e+00", stringStream->str().c_str());

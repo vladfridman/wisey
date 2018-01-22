@@ -87,7 +87,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, getVariableTest) {
 
 TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
@@ -97,7 +97,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, additionTest) {
 
 TEST_F(AdditiveMultiplicativeExpressionTest, subtractionTest) {
   AdditiveMultiplicativeExpression expression(mLeftExpression, '-', mRightExpression, 0);
-  expression.generateIR(mContext, IR_GENERATION_NORMAL);
+  expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
   ASSERT_EQ(1ul, mBasicBlock->size());
   Instruction &instruction = mBasicBlock->front();
@@ -126,7 +126,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, incompatibleTypesDeathTest) {
 
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
 
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types in '\\+' operation");
 }
@@ -144,7 +144,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, nonPrimitiveTypesDeathTest) {
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Can not do operation '\\+' on non-primitive types");
 }
@@ -158,7 +158,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, voidTypesDeathTest) {
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Can not use expressions of type VOID in a '\\+' operation");
 }
@@ -172,7 +172,7 @@ TEST_F(AdditiveMultiplicativeExpressionTest, explicitCastNeededOnGenerateIRDeath
   
   AdditiveMultiplicativeExpression expression(mLeftExpression, '+', mRightExpression, 0);
   
-  EXPECT_EXIT(expression.generateIR(mContext, IR_GENERATION_NORMAL),
+  EXPECT_EXIT(expression.generateIR(mContext, PrimitiveTypes::VOID_TYPE),
               ::testing::ExitedWithCode(1),
               "Error: Incompatible types in '\\+' operation that require an explicit cast");
 }
