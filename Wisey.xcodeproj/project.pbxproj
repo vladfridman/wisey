@@ -1424,6 +1424,8 @@
 		F5A67DA82012DBEB0018068F /* ArrayElementAssignment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayElementAssignment.cpp; path = src/ArrayElementAssignment.cpp; sourceTree = "<group>"; };
 		F5A67DAB20134C920018068F /* TestArrayElementAssignment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayElementAssignment.cpp; path = tests/TestArrayElementAssignment.cpp; sourceTree = "<group>"; };
 		F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalArrayReferenceVariable.cpp; path = tests/TestLocalArrayReferenceVariable.cpp; sourceTree = "<group>"; };
+		F5A67DB3201636630018068F /* IOwnerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IOwnerType.hpp; path = include/wisey/IOwnerType.hpp; sourceTree = "<group>"; };
+		F5A67DB420163A460018068F /* IReferenceType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IReferenceType.hpp; path = include/wisey/IReferenceType.hpp; sourceTree = "<group>"; };
 		F5A98A341F9A36910063D626 /* ConstantReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ConstantReference.hpp; path = include/wisey/ConstantReference.hpp; sourceTree = "<group>"; };
 		F5A98A351F9A37910063D626 /* ConstantReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConstantReference.cpp; path = src/ConstantReference.cpp; sourceTree = "<group>"; };
 		F5ADB60F1E5DA08200FFC941 /* Cast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cast.cpp; path = src/Cast.cpp; sourceTree = "<group>"; };
@@ -2357,10 +2359,12 @@
 				F53A2C0E1EED4CFE00E76A9E /* IObjectOwnerType.hpp */,
 				F53B8EB81ECDC08700F45564 /* IObjectType.hpp */,
 				F53A2C0F1EED58BD00E76A9E /* IObjectTypeSpecifier.hpp */,
+				F5A67DB3201636630018068F /* IOwnerType.hpp */,
 				F5885F621FB4DB4A00E69D17 /* IOwnerVariable.hpp */,
 				F587255B1F6FEF6D00FA25E6 /* IPrimitiveType.hpp */,
 				F55DB05D1F7911320009942C /* IPrintable.hpp */,
 				F58725601F70131D00FA25E6 /* IPrintStatement.hpp */,
+				F5A67DB420163A460018068F /* IReferenceType.hpp */,
 				F5885F641FB4F52A00E69D17 /* IReferenceVariable.hpp */,
 				F5089C811ECD01D9004A1223 /* IStatement.hpp */,
 				F5089C821ECD01D9004A1223 /* IType.hpp */,
