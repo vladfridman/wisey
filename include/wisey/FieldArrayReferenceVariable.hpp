@@ -1,38 +1,38 @@
 //
-//  FieldArrayOwnerVariable.hpp
+//  FieldArrayReferenceVariable.hpp
 //  Wisey
 //
-//  Created by Vladimir Fridman on 1/22/18.
+//  Created by Vladimir Fridman on 1/23/18.
 //  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
 
-#ifndef FieldArrayOwnerVariable_h
-#define FieldArrayOwnerVariable_h
+#ifndef FieldArrayReferenceVariable_h
+#define FieldArrayReferenceVariable_h
 
-#include "wisey/ArrayOwnerType.hpp"
+#include "wisey/ArrayType.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/IFieldVariable.hpp"
-#include "wisey/IOwnerVariable.hpp"
+#include "wisey/IReferenceVariable.hpp"
 
 namespace wisey {
   
   /**
-   * Represents an object field that is of array owner type
+   * Represents an object field that is of array reference type
    */
-  class FieldArrayOwnerVariable : public IFieldVariable, public IOwnerVariable {
+  class FieldArrayReferenceVariable : public IFieldVariable, public IReferenceVariable {
     
     std::string mName;
     const IConcreteObjectType* mObject;
     
   public:
     
-    FieldArrayOwnerVariable(std::string name, const IConcreteObjectType* object);
+    FieldArrayReferenceVariable(std::string name, const IConcreteObjectType* object);
     
-    ~FieldArrayOwnerVariable();
+    ~FieldArrayReferenceVariable();
     
     std::string getName() const override;
     
-    const ArrayOwnerType* getType() const override;
+    const ArrayType* getType() const override;
     
     llvm::Value* generateIdentifierIR(IRGenerationContext& context) const override;
     
@@ -41,9 +41,7 @@ namespace wisey {
                                       std::vector<const IExpression*> arrayIndices,
                                       int line) override;
     
-    void free(IRGenerationContext& context) const override;
-    
-    void setToNull(IRGenerationContext& context) override;
+    void decrementReferenceCounter(IRGenerationContext& context) const override;
 
   private:
     
@@ -60,4 +58,4 @@ namespace wisey {
   
 } /* namespace wisey */
 
-#endif /* FieldArrayOwnerVariable_h */
+#endif /* FieldArrayReferenceVariable_h */

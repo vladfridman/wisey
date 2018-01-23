@@ -1,0 +1,36 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CController {
+  receive int[5] mArray;
+
+  public void init() {
+    mArray[4] = 0;
+  }
+
+  public void increment() {
+    mArray[4]++;
+  }
+
+  public int getValue() {
+    return mArray[4];
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    CController* mycontroller = injector(CController).withArray(new int[5]).inject();
+    mycontroller.init();
+    mycontroller.increment();
+    mycontroller.increment();
+    mycontroller.increment();
+    mycontroller.increment();
+    mycontroller.increment();
+
+    return mycontroller.getValue();
+  }
+}
+
+bind(CProgram).to(IProgram);

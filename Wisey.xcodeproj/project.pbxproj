@@ -78,6 +78,9 @@
 		F5105FBF1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */; };
 		F5105FC11FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */; };
 		F5105FC31FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */; };
+		F513DDFB201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */; };
+		F513DDFC201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */; };
+		F513DDFE20179374001A075B /* TestFieldArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */; };
 		F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581241E89B02F009CE419 /* FieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581231E89B02F009CE419 /* FieldDeclaration.cpp */; };
@@ -953,6 +956,9 @@
 		F5105FBE1FD1ABC900ACF57B /* TestThrowReferenceCountExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestThrowReferenceCountExceptionFunction.cpp; path = tests/TestThrowReferenceCountExceptionFunction.cpp; sourceTree = "<group>"; };
 		F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp; path = tests/TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp; sourceTree = "<group>"; };
 		F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestAdjustReferenceCounterForInterfaceFunction.cpp; path = tests/TestAdjustReferenceCounterForInterfaceFunction.cpp; sourceTree = "<group>"; };
+		F513DDF920178FE1001A075B /* FieldArrayReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldArrayReferenceVariable.hpp; path = include/wisey/FieldArrayReferenceVariable.hpp; sourceTree = "<group>"; };
+		F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FieldArrayReferenceVariable.cpp; path = src/FieldArrayReferenceVariable.cpp; sourceTree = "<group>"; };
+		F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldArrayReferenceVariable.cpp; path = tests/TestFieldArrayReferenceVariable.cpp; sourceTree = "<group>"; };
 		F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerDefinition.cpp; path = src/ControllerDefinition.cpp; sourceTree = "<group>"; };
 		F51581231E89B02F009CE419 /* FieldDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldDeclaration.cpp; path = src/FieldDeclaration.cpp; sourceTree = "<group>"; };
 		F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifier.cpp; path = src/ControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -2023,6 +2029,7 @@
 				F5E6BD0B1F1B7B1600D59444 /* TestFakeExpression.cpp */,
 				F509E7611F7D22CD00F96C14 /* TestField.cpp */,
 				F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */,
+				F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */,
 				F5A3BE5A1F9906BB000FDB09 /* TestFieldDeclaration.cpp */,
 				F526D8A41FEAE06C008103B9 /* TestFieldOwnerArrayVariable.cpp */,
 				F5A3634F1F374DCB005880B3 /* TestFieldOwnerVariable.cpp */,
@@ -2574,6 +2581,7 @@
 			isa = PBXGroup;
 			children = (
 				F5A67DB5201702230018068F /* FieldArrayOwnerVariable.hpp */,
+				F513DDF920178FE1001A075B /* FieldArrayReferenceVariable.hpp */,
 				F526D8A01FEAD700008103B9 /* FieldOwnerArrayVariable.hpp */,
 				F5A3634B1F374586005880B3 /* FieldOwnerVariable.hpp */,
 				F526D8931FEA49B4008103B9 /* FieldPrimitiveArrayVariable.hpp */,
@@ -2597,6 +2605,7 @@
 			isa = PBXGroup;
 			children = (
 				F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */,
+				F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */,
 				F526D8A11FEAD74D008103B9 /* FieldOwnerArrayVariable.cpp */,
 				F5A3634C1F374680005880B3 /* FieldOwnerVariable.cpp */,
 				F526D8941FEA4A8F008103B9 /* FieldPrimitiveArrayVariable.cpp */,
@@ -3038,6 +3047,7 @@
 				F587255F1F6FFB2D00FA25E6 /* PrintErrStatement.cpp in Sources */,
 				F51701A7200E9A9300A10B7C /* TestArrayOwnerType.cpp in Sources */,
 				F50FA2F81E2E3B3900435EEA /* TestLongConstant.cpp in Sources */,
+				F513DDFE20179374001A075B /* TestFieldArrayReferenceVariable.cpp in Sources */,
 				F5CB18141EB0D96A007E2E43 /* Catch.cpp in Sources */,
 				F5FE0A1E1F7D9B84000621CA /* TestExternalMethodDeclaration.cpp in Sources */,
 				F53401121DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
@@ -3169,6 +3179,7 @@
 				F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F53A2C251EFFD0BD00E76A9E /* NodeDefinition.cpp in Sources */,
 				F57085F61E511BAC007D627E /* TestFieldReferenceVariable.cpp in Sources */,
+				F513DDFC201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */,
 				F592A7C51F7D8EAE0026BD2F /* IMethodDeclaration.cpp in Sources */,
 				F5C6FD6D1E48B37D0054209D /* TestVoidType.cpp in Sources */,
 				F556E6551EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
@@ -3252,6 +3263,7 @@
 				F59D820B1E0F157E00057FB5 /* WhileStatement.cpp in Sources */,
 				F515812F1E8AAB12009CE419 /* Controller.cpp in Sources */,
 				F53401111DFF333E0002BF7E /* MethodDeclaration.cpp in Sources */,
+				F513DDFB201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */,
 				F59D82191E0F4AB500057FB5 /* EmptyExpression.cpp in Sources */,
 				F58725621F70143100FA25E6 /* IPrintStatement.cpp in Sources */,
 				F5E270701F98F4AA008D2EB7 /* ConstantDeclaration.cpp in Sources */,

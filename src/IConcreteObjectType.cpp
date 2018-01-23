@@ -19,6 +19,7 @@
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
 #include "wisey/FieldArrayOwnerVariable.hpp"
+#include "wisey/FieldArrayReferenceVariable.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
@@ -358,6 +359,8 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
       fieldVariable = new FieldReferenceVariable(field->getName(), object);
     } else if (type->getTypeKind() == ARRAY_OWNER_TYPE) {
       fieldVariable = new FieldArrayOwnerVariable(field->getName(), object);
+    } else if (type->getTypeKind() == ARRAY_TYPE) {
+      fieldVariable = new FieldArrayReferenceVariable(field->getName(), object);
     } else {
       assert(IType::isPrimitveType(type));
       fieldVariable = new FieldPrimitiveVariable(field->getName(), object);
@@ -436,20 +439,13 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
   for (Field* field : object->getFields()) {
     const IType* fieldType = field->getType();
     
-    if (fieldType->getTypeKind() == ARRAY_TYPE &&
-        IType::isReferenceType(((const wisey::ArrayType*) fieldType)->getElementType())) {
-      Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
-      const wisey::ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
-      arrayType->decrementReferenceCount(context, fieldPointer);
-    }
-    
-    if (!IType::isReferenceType(fieldType)) {
+    if (!IType::isReferenceType(fieldType) && fieldType->getTypeKind() != ARRAY_TYPE) {
       continue;
     }
     
     Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
-    const IObjectType* objectType = (const IObjectType*) fieldType;
-    objectType->decrementReferenceCount(context, fieldValuePointer);
+    const IReferenceType* referenceType = (const IReferenceType*) fieldType;
+    referenceType->decrementReferenceCount(context, fieldValuePointer);
   }
 }
 
