@@ -11,6 +11,7 @@
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
+#include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -20,8 +21,9 @@ using namespace llvm;
 using namespace wisey;
 
 ArrayElementExpression::ArrayElementExpression(const IExpression* arrayExpression,
-                                               const IExpression* arrayIndexExpresion) :
-mArrayExpression(arrayExpression), mArrayIndexExpresion(arrayIndexExpresion) {
+                                               const IExpression* arrayIndexExpresion,
+                                               int line) :
+mArrayExpression(arrayExpression), mArrayIndexExpresion(arrayIndexExpresion), mLine(line) {
 }
 
 ArrayElementExpression::~ArrayElementExpression() {
@@ -43,8 +45,8 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   ? (const ArrayType*) variableType
   : ((const ArrayOwnerType*) variableType)->getArrayType();
   Value* arrayPointer = variable->generateIdentifierIR(context);
-
-  Value* pointer = generateElementIR(context, arrayType, arrayPointer, arrayIndices);
+  
+  Value* pointer = generateElementIR(context, arrayType, arrayPointer, arrayIndices, mLine);
   Value* result = IRWriter::newLoadInst(context, pointer, "");
   
   if (assignToType->isOwner()) {
@@ -60,7 +62,10 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  const ArrayType* arrayType,
                                                  Value* arrayPointer,
-                                                 vector<const IExpression*> arrayIndices) {
+                                                 vector<const IExpression*> arrayIndices,
+                                                 int line) {
+  CheckForNullAndThrowFunction::call(context, arrayPointer, line);
+  
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* index[2];
   index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);

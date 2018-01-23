@@ -963,7 +963,7 @@ primary_expression
 postfix_expression
   : primary_expression
   | postfix_expression '.' TIDENTIFIER { $$ = new IdentifierChain($1, *$3); delete $3; }
-  | postfix_expression '[' expression ']' { $$ = new ArrayElementExpression($1, $3); }
+  | postfix_expression '[' expression ']' { $$ = new ArrayElementExpression($1, $3, yylineno); }
   | postfix_expression '(' call_arguments ')'
     { $$ = new MethodCall($1, *$3, yylineno); delete $3; }
   | postfix_expression TINCOP { $$ = IncrementExpression::newIncrementByOne($1, yylineno); }

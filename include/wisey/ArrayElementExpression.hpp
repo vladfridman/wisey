@@ -21,11 +21,13 @@ class ArrayElementExpression : public IExpression {
     
   const IExpression* mArrayExpression;
   const IExpression* mArrayIndexExpresion;
+  int mLine;
   
 public:
   
   ArrayElementExpression(const IExpression* arrayExpression,
-                         const IExpression* arrayIndexExpresion);
+                         const IExpression* arrayIndexExpresion,
+                         int line);
   
   ~ArrayElementExpression();
   
@@ -35,7 +37,8 @@ public:
   static llvm::Value* generateElementIR(IRGenerationContext& context,
                                         const ArrayType* arrayType,
                                         llvm::Value* arrayPointer,
-                                        std::vector<const IExpression*> arrayIndices);
+                                        std::vector<const IExpression*> arrayIndices,
+                                        int line);
   
   llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
   

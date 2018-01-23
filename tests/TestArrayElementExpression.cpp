@@ -73,7 +73,9 @@ struct ArrayElementExpressionTest : Test {
     ON_CALL(*mArrayIndexExpression, generateIR(_, _)).WillByDefault(Return(three));
     ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
     
-    mArrayElementExpression = new ArrayElementExpression(mArrayExpression, mArrayIndexExpression);
+    mArrayElementExpression = new ArrayElementExpression(mArrayExpression,
+                                                         mArrayIndexExpression,
+                                                         0);
   }
   
   ~ArrayElementExpressionTest() {
@@ -173,7 +175,7 @@ TEST_F(ArrayElementExpressionTest, generateAssignmentIRDeathTest) {
   ON_CALL(*mArrayIndexExpression, generateIR(_, _)).WillByDefault(Return(three));
   ON_CALL(*mArrayIndexExpression, getType(_)).WillByDefault(Return(PrimitiveTypes::INT_TYPE));
   
-  mArrayElementExpression = new ArrayElementExpression(mArrayExpression, mArrayIndexExpression);
+  mArrayElementExpression = new ArrayElementExpression(mArrayExpression, mArrayIndexExpression, 0);
 
   EXPECT_EXIT(mArrayElementExpression->generateIR(mContext, PrimitiveTypes::INT_TYPE),
               ::testing::ExitedWithCode(1),
@@ -190,8 +192,28 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
   mArrayType = new wisey::ArrayType(arrayType, 5);
   Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
 
-  EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext, mArrayType, null, arrayIndices),
+  EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext,
+                                                        mArrayType,
+                                                        null,
+                                                        arrayIndices,
+                                                        0),
               ::testing::ExitedWithCode(1),
               "Error: Expression does not reference an array element");
+}
+
+TEST_F(TestFileSampleRunner, arrayElementGetOnNullArrayRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_array_element_get_on_null_array.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_get_on_null_array.yz:10)\n");
+}
+
+TEST_F(TestFileSampleRunner, arrayElementSetOnNullArrayRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_array_element_set_on_null_array.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_set_on_null_array.yz:9)\n");
 }
 

@@ -56,7 +56,8 @@ llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& 
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   mArrayOwnerType->getArrayType(),
                                                                   arrayPointer,
-                                                                  arrayIndices);
+                                                                  arrayIndices,
+                                                                  line);
   
   return ArrayElementAssignment::generateElementAssignment(context,
                                                            elementType,

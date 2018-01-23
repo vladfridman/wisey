@@ -1,0 +1,15 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    int[5][3]* array;
+    array[4][2] = 5;
+
+    return array[4][2];
+  }
+}
+
+bind(CProgram).to(IProgram);

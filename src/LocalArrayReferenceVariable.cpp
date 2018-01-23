@@ -53,7 +53,8 @@ generateAssignmentIR(IRGenerationContext& context,
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   mArrayType,
                                                                   arrayPointer,
-                                                                  arrayIndices);
+                                                                  arrayIndices,
+                                                                  line);
   
   return ArrayElementAssignment::generateElementAssignment(context,
                                                            elementType,
