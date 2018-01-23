@@ -1,0 +1,32 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+model MCar {
+  public int getYear() {
+    return 2018;
+  }
+}
+
+controller CController {
+  receive MCar*[5]* mOwnerArray;
+
+  public void getRce() {
+    MCar*[5] reference = mOwnerArray;
+    mOwnerArray = null;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    CController* mycontroller = injector(CController).withOwnerArray(new MCar*[5]).inject();
+
+    mycontroller.getRce();
+
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);
+

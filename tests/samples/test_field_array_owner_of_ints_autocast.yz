@@ -1,0 +1,27 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CController {
+  receive int[5][3]* mArray;
+
+  public void setValue(boolean value) {
+    mArray[4][2] = value;
+  }
+
+  public int getValue() {
+    return mArray[4][2];
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    CController* mycontroller = injector(CController).withArray(new int[5][3]).inject();
+    mycontroller.setValue(true);
+
+    return mycontroller.getValue();
+  }
+}
+
+bind(CProgram).to(IProgram);

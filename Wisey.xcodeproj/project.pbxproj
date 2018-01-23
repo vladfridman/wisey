@@ -672,6 +672,9 @@
 		F5A67DAA2012DBEB0018068F /* ArrayElementAssignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DA82012DBEB0018068F /* ArrayElementAssignment.cpp */; };
 		F5A67DAC20134C920018068F /* TestArrayElementAssignment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DAB20134C920018068F /* TestArrayElementAssignment.cpp */; };
 		F5A67DAE201353300018068F /* TestLocalArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */; };
+		F5A67DB72017023D0018068F /* FieldArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */; };
+		F5A67DB920171D060018068F /* TestFieldArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */; };
+		F5A67DBA20171F0B0018068F /* FieldArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */; };
 		F5A98A361F9A37910063D626 /* ConstantReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A98A351F9A37910063D626 /* ConstantReference.cpp */; };
 		F5A98A371F9A37910063D626 /* ConstantReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5A98A351F9A37910063D626 /* ConstantReference.cpp */; };
 		F5ADB6101E5DA08200FFC941 /* Cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5ADB60F1E5DA08200FFC941 /* Cast.cpp */; };
@@ -1426,6 +1429,9 @@
 		F5A67DAD201353300018068F /* TestLocalArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestLocalArrayReferenceVariable.cpp; path = tests/TestLocalArrayReferenceVariable.cpp; sourceTree = "<group>"; };
 		F5A67DB3201636630018068F /* IOwnerType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IOwnerType.hpp; path = include/wisey/IOwnerType.hpp; sourceTree = "<group>"; };
 		F5A67DB420163A460018068F /* IReferenceType.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = IReferenceType.hpp; path = include/wisey/IReferenceType.hpp; sourceTree = "<group>"; };
+		F5A67DB5201702230018068F /* FieldArrayOwnerVariable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FieldArrayOwnerVariable.hpp; path = include/wisey/FieldArrayOwnerVariable.hpp; sourceTree = "<group>"; };
+		F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldArrayOwnerVariable.cpp; path = src/FieldArrayOwnerVariable.cpp; sourceTree = "<group>"; };
+		F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldArrayOwnerVariable.cpp; path = tests/TestFieldArrayOwnerVariable.cpp; sourceTree = "<group>"; };
 		F5A98A341F9A36910063D626 /* ConstantReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ConstantReference.hpp; path = include/wisey/ConstantReference.hpp; sourceTree = "<group>"; };
 		F5A98A351F9A37910063D626 /* ConstantReference.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConstantReference.cpp; path = src/ConstantReference.cpp; sourceTree = "<group>"; };
 		F5ADB60F1E5DA08200FFC941 /* Cast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cast.cpp; path = src/Cast.cpp; sourceTree = "<group>"; };
@@ -2016,6 +2022,7 @@
 				F55CF1771F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp */,
 				F5E6BD0B1F1B7B1600D59444 /* TestFakeExpression.cpp */,
 				F509E7611F7D22CD00F96C14 /* TestField.cpp */,
+				F5A67DB820171D060018068F /* TestFieldArrayOwnerVariable.cpp */,
 				F5A3BE5A1F9906BB000FDB09 /* TestFieldDeclaration.cpp */,
 				F526D8A41FEAE06C008103B9 /* TestFieldOwnerArrayVariable.cpp */,
 				F5A3634F1F374DCB005880B3 /* TestFieldOwnerVariable.cpp */,
@@ -2566,6 +2573,7 @@
 		F58725411F6D6BDD00FA25E6 /* variables */ = {
 			isa = PBXGroup;
 			children = (
+				F5A67DB5201702230018068F /* FieldArrayOwnerVariable.hpp */,
 				F526D8A01FEAD700008103B9 /* FieldOwnerArrayVariable.hpp */,
 				F5A3634B1F374586005880B3 /* FieldOwnerVariable.hpp */,
 				F526D8931FEA49B4008103B9 /* FieldPrimitiveArrayVariable.hpp */,
@@ -2588,6 +2596,7 @@
 		F58725421F6D6C6300FA25E6 /* variables */ = {
 			isa = PBXGroup;
 			children = (
+				F5A67DB62017023D0018068F /* FieldArrayOwnerVariable.cpp */,
 				F526D8A11FEAD74D008103B9 /* FieldOwnerArrayVariable.cpp */,
 				F5A3634C1F374680005880B3 /* FieldOwnerVariable.cpp */,
 				F526D8941FEA4A8F008103B9 /* FieldPrimitiveArrayVariable.cpp */,
@@ -3201,6 +3210,7 @@
 				F50FA3061E325E5400435EEA /* BooleanConstant.cpp in Sources */,
 				F5170194200DC7A900A10B7C /* DestroyPrimitiveArrayFunction.cpp in Sources */,
 				F51701AA200FCE8400A10B7C /* ArrayOwnerTypeSpecifier.cpp in Sources */,
+				F5A67DBA20171F0B0018068F /* FieldArrayOwnerVariable.cpp in Sources */,
 				F5F396D81E34BBDD00F34296 /* ObjectBuilder.cpp in Sources */,
 				F53A2C291EFFD42000E76A9E /* NodeTypeSpecifier.cpp in Sources */,
 				F59D82201E0F68DF00057FB5 /* TestIfElseStatement.cpp in Sources */,
@@ -3230,6 +3240,7 @@
 				F531B6391E07A80F008304F3 /* TestPrimitiveTypeSpecifier.cpp in Sources */,
 				F5CE2D441EF6A4CB002ABB85 /* TestIType.cpp in Sources */,
 				F5436DB71FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
+				F5A67DB920171D060018068F /* TestFieldArrayOwnerVariable.cpp in Sources */,
 				F51701BD2010649C00A10B7C /* ArrayOwnerType.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3302,6 +3313,7 @@
 				F58748301F921F6B0088F1E3 /* Injector.cpp in Sources */,
 				F531B6481E0A4F76008304F3 /* Assignment.cpp in Sources */,
 				F5ADB6281E69831A00FFC941 /* Method.cpp in Sources */,
+				F5A67DB72017023D0018068F /* FieldArrayOwnerVariable.cpp in Sources */,
 				F50FA2E71E2E3B0900435EEA /* IntConstant.cpp in Sources */,
 				F50FA2E61E2E3B0900435EEA /* FloatConstant.cpp in Sources */,
 				F5F396DB1E34BFE000F34296 /* ObjectBuilderArgument.cpp in Sources */,

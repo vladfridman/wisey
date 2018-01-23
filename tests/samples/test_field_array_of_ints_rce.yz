@@ -1,0 +1,26 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CController {
+  receive int[5]* mOwnerArray;
+
+  public void getRce() {
+    int[5] reference = mOwnerArray;
+    mOwnerArray = null;
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    CController* mycontroller = injector(CController).withOwnerArray(new int[5]).inject();
+
+    mycontroller.getRce();
+
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);
+

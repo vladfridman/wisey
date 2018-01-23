@@ -18,11 +18,9 @@
 #include "wisey/DestroyOwnerArrayFunction.hpp"
 #include "wisey/Environment.hpp"
 #include "wisey/FakeExpression.hpp"
-#include "wisey/FieldOwnerArrayVariable.hpp"
+#include "wisey/FieldArrayOwnerVariable.hpp"
 #include "wisey/FieldOwnerVariable.hpp"
-#include "wisey/FieldPrimitiveArrayVariable.hpp"
 #include "wisey/FieldPrimitiveVariable.hpp"
-#include "wisey/FieldReferenceArrayVariable.hpp"
 #include "wisey/FieldReferenceVariable.hpp"
 #include "wisey/IConcreteObjectType.hpp"
 #include "wisey/InterfaceOwner.hpp"
@@ -358,17 +356,8 @@ void IConcreteObjectType::declareFieldVariables(IRGenerationContext& context,
       fieldVariable = new FieldOwnerVariable(field->getName(), object);
     } else if (IType::isReferenceType(type)) {
       fieldVariable = new FieldReferenceVariable(field->getName(), object);
-    } else if (type->getTypeKind() == ARRAY_TYPE) {
-      const wisey::ArrayType* arrayType = (const wisey::ArrayType*) type;
-      const IType* elementType = arrayType->getScalarType();
-      if (IType::isOwnerType(elementType)) {
-        fieldVariable = new FieldOwnerArrayVariable(field->getName(), object);
-      } else if (IType::isReferenceType(elementType)) {
-        fieldVariable = new FieldReferenceArrayVariable(field->getName(), object);
-      } else {
-        assert(IType::isPrimitveType(elementType));
-        fieldVariable = new FieldPrimitiveArrayVariable(field->getName(), object);
-      }
+    } else if (type->getTypeKind() == ARRAY_OWNER_TYPE) {
+      fieldVariable = new FieldArrayOwnerVariable(field->getName(), object);
     } else {
       assert(IType::isPrimitveType(type));
       fieldVariable = new FieldPrimitiveVariable(field->getName(), object);
@@ -470,20 +459,13 @@ void IConcreteObjectType::freeOwnerFields(IRGenerationContext& context,
   for (Field* field : object->getFields()) {
     const IType* fieldType = field->getType();
     
-    if (fieldType->getTypeKind() == ARRAY_TYPE &&
-        IType::isOwnerType(((const wisey::ArrayType*) fieldType)->getScalarType())) {
-      Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
-      const wisey::ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
-      arrayType->getOwner()->free(context, fieldPointer);
-    }
-    
-    if (!IType::isOwnerType(fieldType)) {
+    if (!fieldType->isOwner()) {
       continue;
     }
     
     Value* fieldValuePointer = getFieldValuePointer(context, thisValue, object, field);
-    const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) fieldType;
-    objectOwnerType->free(context, fieldValuePointer);
+    const IOwnerType* ownerType = (const IOwnerType*) fieldType;
+    ownerType->free(context, fieldValuePointer);
   }
 }
 
