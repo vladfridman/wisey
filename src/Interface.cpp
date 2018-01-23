@@ -580,8 +580,6 @@ bool Interface::isOwner() const {
 
 Function* Interface::defineCastFunction(IRGenerationContext& context,
                                         const IObjectType* toType) const {
-  GetOriginalObjectFunction::get(context);
-  
   vector<Type*> argumentTypes;
   argumentTypes.push_back(getLLVMType(context));
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);

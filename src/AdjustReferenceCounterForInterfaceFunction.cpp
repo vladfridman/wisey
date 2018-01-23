@@ -24,7 +24,6 @@ Function* AdjustReferenceCounterForInterfaceFunction::get(IRGenerationContext& c
   
   function = define(context);
   context.addComposingCallback0Objects(compose, function);
-  GetOriginalObjectFunction::get(context);
 
   return function;
 }

@@ -40,23 +40,23 @@ IRGenerationContext::~IRGenerationContext() {
     delete iterator->second;
   }
   for (map<string, Model*>::iterator iterator = mModels.begin();
-      iterator != mModels.end();
-      iterator++) {
+       iterator != mModels.end();
+       iterator++) {
     delete iterator->second;
   }
   for (map<string, Controller*>::iterator iterator = mControllers.begin();
-      iterator != mControllers.end();
-      iterator++) {
+       iterator != mControllers.end();
+       iterator++) {
     delete iterator->second;
   }
   for (map<string, Interface*>::iterator iterator = mInterfaces.begin();
-      iterator != mInterfaces.end();
-      iterator++) {
+       iterator != mInterfaces.end();
+       iterator++) {
     delete iterator->second;
   }
   for (map<string, Node*>::iterator iterator = mNodes.begin();
-      iterator != mNodes.end();
-      iterator++) {
+       iterator != mNodes.end();
+       iterator++) {
     delete iterator->second;
   }
   for (map<string, PackageType*>::iterator iterator = mPackageTypes.begin();
@@ -110,7 +110,7 @@ wisey::ArrayType* IRGenerationContext::getArrayType(const IType* baseType, unsig
   }
   ArrayType* arrayType = new ArrayType(baseType, size);
   mArrayTypes[key] = arrayType;
-
+  
   return arrayType;
 }
 
@@ -129,7 +129,7 @@ Model* IRGenerationContext::getModel(string fullName) {
     Log::e("Model " + fullName + " is not defined");
     exit(1);
   }
-
+  
   Model* model = mModels.at(fullName);
   IObjectType::checkAccess(mObjectType, model);
   
@@ -361,27 +361,44 @@ void IRGenerationContext::addComposingCallback2Objects(ComposingFunction2Objects
 }
 
 void IRGenerationContext::runComposingCallbacks() {
-  for (tuple<ComposingFunction0Objects, Function*> callback : mComposingCallbacks0Objects) {
-    ComposingFunction0Objects composingFunction = get<0>(callback);
-    Function* function = get<1>(callback);
-    composingFunction(*this, function);
-  }
   
-  for (tuple<ComposingFunction1Objects, Function*, const IObjectType*> callback :
-       mComposingCallbacks1Objects) {
-    ComposingFunction1Objects composingFunction = get<0>(callback);
-    Function* function = get<1>(callback);
-    const IObjectType* objectType = get<2>(callback);
-    composingFunction(*this, function, objectType);
-  }
-  
-  for (tuple<ComposingFunction2Objects, Function*,
-       const IObjectType*, const IObjectType*> callback : mComposingCallbacks2Objects) {
-    ComposingFunction2Objects composingFunction = get<0>(callback);
-    Function* function = get<1>(callback);
-    const IObjectType* objectType1 = get<2>(callback);
-    const IObjectType* objectType2 = get<3>(callback);
-    composingFunction(*this, function, objectType1, objectType2);
+  while(mComposingCallbacks0Objects.size() ||
+        mComposingCallbacks1Objects.size() ||
+        mComposingCallbacks2Objects.size()) {
+    unsigned long callbacks0ObjectsSize = mComposingCallbacks0Objects.size();
+    for (tuple<ComposingFunction0Objects, Function*> callback : mComposingCallbacks0Objects) {
+      ComposingFunction0Objects composingFunction = get<0>(callback);
+      Function* function = get<1>(callback);
+      composingFunction(*this, function);
+    }
+    for (unsigned i = 0; i < callbacks0ObjectsSize; i++) {
+      mComposingCallbacks0Objects.pop_front();
+    }
+    
+    unsigned long callbacks1ObjectsSize = mComposingCallbacks1Objects.size();
+    for (tuple<ComposingFunction1Objects, Function*, const IObjectType*> callback :
+         mComposingCallbacks1Objects) {
+      ComposingFunction1Objects composingFunction = get<0>(callback);
+      Function* function = get<1>(callback);
+      const IObjectType* objectType = get<2>(callback);
+      composingFunction(*this, function, objectType);
+    }
+    for (unsigned i = 0; i < callbacks1ObjectsSize; i++) {
+      mComposingCallbacks1Objects.pop_front();
+    }
+
+    unsigned long callbacks2ObjectsSize = mComposingCallbacks2Objects.size();
+    for (tuple<ComposingFunction2Objects, Function*,
+         const IObjectType*, const IObjectType*> callback : mComposingCallbacks2Objects) {
+      ComposingFunction2Objects composingFunction = get<0>(callback);
+      Function* function = get<1>(callback);
+      const IObjectType* objectType1 = get<2>(callback);
+      const IObjectType* objectType2 = get<3>(callback);
+      composingFunction(*this, function, objectType1, objectType2);
+    }
+    for (unsigned i = 0; i < callbacks2ObjectsSize; i++) {
+      mComposingCallbacks2Objects.pop_front();
+    }
   }
 }
 
@@ -392,3 +409,4 @@ void IRGenerationContext::setObjectType(const IObjectType* objectType) {
 const IObjectType* IRGenerationContext::getObjectType() const {
   return mObjectType;
 }
+

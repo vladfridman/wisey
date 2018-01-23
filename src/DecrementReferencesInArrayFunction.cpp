@@ -32,7 +32,7 @@ void DecrementReferencesInArrayFunction::call(IRGenerationContext& context,
                                               Value* array,
                                               unsigned long size,
                                               Function* decrementFunction) {
-  Function* function = DecrementReferencesInArrayFunction::get(context);
+  Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
   llvm::Constant* value = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), size);

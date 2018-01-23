@@ -35,7 +35,7 @@ Function* DestroyReferenceArrayFunction::get(IRGenerationContext& context) {
 }
 
 void DestroyReferenceArrayFunction::call(IRGenerationContext& context, Value* array) {
-  Function* function = DestroyReferenceArrayFunction::get(context);
+  Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
   

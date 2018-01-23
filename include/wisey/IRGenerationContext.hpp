@@ -55,10 +55,10 @@ class IRGenerationContext : public IPrintable {
   std::string mPackage;
   Scopes mScopes;
   bool mIsDestructorDebugOn;
-  std::vector<std::tuple<ComposingFunction0Objects, llvm::Function*>> mComposingCallbacks0Objects;
-  std::vector<std::tuple<ComposingFunction1Objects, llvm::Function*, const IObjectType*>>
+  std::list<std::tuple<ComposingFunction0Objects, llvm::Function*>> mComposingCallbacks0Objects;
+  std::list<std::tuple<ComposingFunction1Objects, llvm::Function*, const IObjectType*>>
     mComposingCallbacks1Objects;
-  std::vector<std::tuple<ComposingFunction2Objects, llvm::Function*, const IObjectType*,
+  std::list<std::tuple<ComposingFunction2Objects, llvm::Function*, const IObjectType*,
   const IObjectType*>> mComposingCallbacks2Objects;
   const IObjectType* mObjectType;
   

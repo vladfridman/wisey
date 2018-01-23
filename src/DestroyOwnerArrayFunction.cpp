@@ -36,7 +36,7 @@ Function* DestroyOwnerArrayFunction::get(IRGenerationContext& context) {
 void DestroyOwnerArrayFunction::call(IRGenerationContext& context,
                                      Value* array,
                                      Value* destructor) {
-  Function* function = DestroyOwnerArrayFunction::get(context);
+  Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
   arguments.push_back(destructor);

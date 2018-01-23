@@ -207,13 +207,6 @@ void IConcreteObjectType::scheduleDestructorBodyComposition(IRGenerationContext&
                                                             const IConcreteObjectType* object) {
   Function* function = context.getModule()->getFunction(getObjectDestructorFunctionName(object));
   context.addComposingCallback1Objects(composeDestructorBody, function, object);
-  ThrowReferenceCountExceptionFunction::get(context);
-  if (hasReferenceArrayField(object)) {
-    DecrementReferencesInArrayFunction::get(context);
-  }
-  if (hasOwnerArrayField(object)) {
-    DestroyOwnerArrayFunction::get(context);
-  }
 }
 
 bool IConcreteObjectType::hasReferenceArrayField(const IConcreteObjectType* object) {

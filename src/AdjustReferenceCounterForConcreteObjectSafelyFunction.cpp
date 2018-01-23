@@ -33,7 +33,7 @@ void AdjustReferenceCounterForConcreteObjectSafelyFunction::call(IRGenerationCon
                                                                  int adjustment) {
   Value* counterPointer = IObjectType::getReferenceCounterPointer(context, object);
   
-  Function* function = AdjustReferenceCounterForConcreteObjectSafelyFunction::get(context);
+  Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(counterPointer);
   llvm::Constant* value = ConstantInt::get(Type::getInt64Ty(context.getLLVMContext()), adjustment);
