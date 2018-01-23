@@ -47,17 +47,28 @@ llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& 
                                                            IExpression* assignToExpression,
                                                            vector<const IExpression*> arrayIndices,
                                                            int line) {
-  if (!arrayIndices.size()) {
-    return generateWholeArrayAssignment(context, assignToExpression, line);
-  }
+  Composer::pushCallStack(context, line);
   
+  Value* result = arrayIndices.size()
+  ? generateArrayElementAssignment(context, assignToExpression, arrayIndices, line)
+  : generateWholeArrayAssignment(context, assignToExpression, line);
+  
+  Composer::popCallStack(context);
+  
+  return result;
+}
+
+Value* LocalArrayOwnerVariable::generateArrayElementAssignment(IRGenerationContext& context,
+                                                               IExpression* assignToExpression,
+                                                               vector<const IExpression*>
+                                                               arrayIndices,
+                                                               int line) {
   Value* arrayPointer = IRWriter::newLoadInst(context, mValueStore, "");
   const IType* elementType = mArrayOwnerType->getArrayType()->getElementType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   mArrayOwnerType->getArrayType(),
                                                                   arrayPointer,
-                                                                  arrayIndices,
-                                                                  line);
+                                                                  arrayIndices);
   
   return ArrayElementAssignment::generateElementAssignment(context,
                                                            elementType,
@@ -69,8 +80,6 @@ llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& 
 llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationContext& context,
                                                                    IExpression* assignToExpression,
                                                                    int line) {
-  Composer::pushCallStack(context, line);
-
   const IType* assignToType = assignToExpression->getType(context);
   Value* assignToValue = assignToExpression->generateIR(context, mArrayOwnerType);
   Value* cast = AutoCast::maybeCast(context, assignToType, assignToValue, mArrayOwnerType, line);
@@ -78,8 +87,6 @@ llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationC
   free(context);
   
   IRWriter::newStoreInst(context, cast, mValueStore);
-  
-  Composer::popCallStack(context);
 
   return assignToValue;
 }

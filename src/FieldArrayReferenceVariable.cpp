@@ -97,8 +97,7 @@ Value* FieldArrayReferenceVariable::generateArrayElementAssignment(IRGenerationC
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   arrayType,
                                                                   arrayPointer,
-                                                                  arrayIndices,
-                                                                  line);
+                                                                  arrayIndices);
   
   return ArrayElementAssignment::generateElementAssignment(context,
                                                            elementType,

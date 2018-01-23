@@ -10,6 +10,7 @@
 #include "wisey/ArrayElementAssignment.hpp"
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/ArrayOwnerType.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/LocalArrayReferenceVariable.hpp"
 #include "wisey/Log.hpp"
@@ -44,17 +45,28 @@ generateAssignmentIR(IRGenerationContext& context,
                      IExpression* assignToExpression,
                      vector<const IExpression*> arrayIndices,
                      int line) {
-  if (!arrayIndices.size()) {
-    return generateWholeArrayAssignment(context, assignToExpression, line);
-  }
+  Composer::pushCallStack(context, line);
   
+  Value* result = arrayIndices.size()
+  ? generateArrayElementAssignment(context, assignToExpression, arrayIndices, line)
+  : generateWholeArrayAssignment(context, assignToExpression, line);
+  
+  Composer::popCallStack(context);
+  
+  return result;
+}
+
+Value* LocalArrayReferenceVariable::generateArrayElementAssignment(IRGenerationContext& context,
+                                                                   IExpression* assignToExpression,
+                                                                   vector<const IExpression*>
+                                                                   arrayIndices,
+                                                                   int line) {
   Value* arrayPointer = IRWriter::newLoadInst(context, mValueStore, "");
   const IType* elementType = mArrayType->getElementType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   mArrayType,
                                                                   arrayPointer,
-                                                                  arrayIndices,
-                                                                  line);
+                                                                  arrayIndices);
   
   return ArrayElementAssignment::generateElementAssignment(context,
                                                            elementType,

@@ -52,6 +52,11 @@ namespace wisey {
                                               IExpression* assignToExpression,
                                               int line);
     
+    llvm::Value* generateArrayElementAssignment(IRGenerationContext& context,
+                                                IExpression* assignToExpression,
+                                                std::vector<const IExpression*> arrayIndices,
+                                                int line);
+
   };
   
 } /* namespace wisey */

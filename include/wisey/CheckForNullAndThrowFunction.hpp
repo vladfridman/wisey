@@ -30,7 +30,7 @@ public:
   /**
    * Calls function with a given argument
    */
-  static void call(IRGenerationContext& context, llvm::Value* value, int line);
+  static void call(IRGenerationContext& context, llvm::Value* value);
 
 private:
   

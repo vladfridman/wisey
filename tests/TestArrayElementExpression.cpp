@@ -97,14 +97,26 @@ struct ArrayElementExpressionTest : Test {
 TEST_F(ArrayElementExpressionTest, generateIRTest) {
   mArrayElementExpression->generateIR(mContext, PrimitiveTypes::VOID_TYPE);
   
-  *mStringStream << *mBasicBlock;
+  *mStringStream << *mFunction;
   
   string expected =
+  "\ndefine internal i32 @main() personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
-  "\n  %0 = getelementptr { i64, i64, i64, { i64 }, [5 x i32] }, { i64, i64, i64, { i64 }, [5 x i32] }* null, i64 0, i32 4"
-  "\n  %1 = getelementptr [5 x i32], [5 x i32]* %0, i32 0, i32 3"
-  "\n  %2 = load i32, i32* %1\n";
-  
+  "\n  %0 = bitcast { i64, i64, i64, { i64 }, [5 x i32] }* null to i8*"
+  "\n  invoke void @__checkForNullAndThrow(i8* %0)"
+  "\n          to label %invoke.continue unwind label %cleanup"
+  "\n"
+  "\ncleanup:                                          ; preds = %entry"
+  "\n  %1 = landingpad { i8*, i32 }"
+  "\n          cleanup"
+  "\n  resume { i8*, i32 } %1"
+  "\n"
+  "\ninvoke.continue:                                  ; preds = %entry"
+  "\n  %2 = getelementptr { i64, i64, i64, { i64 }, [5 x i32] }, { i64, i64, i64, { i64 }, [5 x i32] }* null, i64 0, i32 4"
+  "\n  %3 = getelementptr [5 x i32], [5 x i32]* %2, i32 0, i32 3"
+  "\n  %4 = load i32, i32* %3"
+  "\n}\n";
+
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
 
@@ -195,8 +207,7 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
   EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext,
                                                         mArrayType,
                                                         null,
-                                                        arrayIndices,
-                                                        0),
+                                                        arrayIndices),
               ::testing::ExitedWithCode(1),
               "Error: Expression does not reference an array element");
 }
@@ -215,5 +226,14 @@ TEST_F(TestFileSampleRunner, arrayElementSetOnNullArrayRunDeathTest) {
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_array_element_set_on_null_array.yz:9)\n");
+}
+
+TEST_F(TestFileSampleRunner, fieldArrayReferenceOfModelReferenceIsNullRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_field_array_reference_of_model_references_is_null.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MNullPointerException\n"
+                               "  at systems.vos.wisey.compiler.tests.CController.init(tests/samples/test_field_array_reference_of_model_references_is_null.yz:16)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_field_array_reference_of_model_references_is_null.yz:29)\n");
 }
 

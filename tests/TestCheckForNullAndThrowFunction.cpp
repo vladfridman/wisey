@@ -56,7 +56,7 @@ struct CheckForNullAndThrowFunctionTest : Test {
 
 TEST_F(CheckForNullAndThrowFunctionTest, callTest) {
   Value* nullPointerValue = ConstantPointerNull::get(Type::getInt8Ty(mLLVMContext)->getPointerTo());
-  CheckForNullAndThrowFunction::call(mContext, nullPointerValue, 0);
+  CheckForNullAndThrowFunction::call(mContext, nullPointerValue);
   
   *mStringStream << *mFunction;
   string expected =

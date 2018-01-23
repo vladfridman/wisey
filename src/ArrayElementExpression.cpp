@@ -11,6 +11,7 @@
 #include "wisey/ArrayElementExpression.hpp"
 #include "wisey/ArrayOwnerType.hpp"
 #include "wisey/ArrayType.hpp"
+#include "wisey/Composer.hpp"
 #include "wisey/CheckForNullAndThrowFunction.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
@@ -46,7 +47,9 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   : ((const ArrayOwnerType*) variableType)->getArrayType();
   Value* arrayPointer = variable->generateIdentifierIR(context);
   
-  Value* pointer = generateElementIR(context, arrayType, arrayPointer, arrayIndices, mLine);
+  Composer::pushCallStack(context, mLine);
+  Value* pointer = generateElementIR(context, arrayType, arrayPointer, arrayIndices);
+  Composer::popCallStack(context);
   Value* result = IRWriter::newLoadInst(context, pointer, "");
   
   if (assignToType->isOwner()) {
@@ -62,9 +65,8 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  const ArrayType* arrayType,
                                                  Value* arrayPointer,
-                                                 vector<const IExpression*> arrayIndices,
-                                                 int line) {
-  CheckForNullAndThrowFunction::call(context, arrayPointer, line);
+                                                 vector<const IExpression*> arrayIndices) {
+  CheckForNullAndThrowFunction::call(context, arrayPointer);
   
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* index[2];

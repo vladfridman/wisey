@@ -37,8 +37,7 @@ public:
   static llvm::Value* generateElementIR(IRGenerationContext& context,
                                         const ArrayType* arrayType,
                                         llvm::Value* arrayPointer,
-                                        std::vector<const IExpression*> arrayIndices,
-                                        int line);
+                                        std::vector<const IExpression*> arrayIndices);
   
   llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
   

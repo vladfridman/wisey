@@ -86,8 +86,10 @@ Value* MethodCall::generateInterfaceMethodCallIR(IRGenerationContext& context,
                                                  const IType* assignToType) const {
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
 
-  CheckForNullAndThrowFunction::call(context, objectValue, mLine);
-  
+  Composer::pushCallStack(context, mLine);
+  CheckForNullAndThrowFunction::call(context, objectValue);
+  Composer::popCallStack(context);
+
   FunctionType* functionType =
     IMethod::getLLVMFunctionType(context, methodDescriptor, interface);
   Type* pointerToVTablePointer = functionType->getPointerTo()->getPointerTo()->getPointerTo();
@@ -118,8 +120,10 @@ Value* MethodCall::generateObjectMethodCallIR(IRGenerationContext& context,
   Value* objectValue = mExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
   Function* function = getMethodFunction(context, methodDescriptor);
 
-  CheckForNullAndThrowFunction::call(context, objectValue, mLine);
-  
+  Composer::pushCallStack(context, mLine);
+  CheckForNullAndThrowFunction::call(context, objectValue);
+  Composer::popCallStack(context);
+
   vector<Value*> arguments;
   arguments.push_back(objectValue);
   

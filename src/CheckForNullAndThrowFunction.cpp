@@ -38,9 +38,7 @@ Function* CheckForNullAndThrowFunction::get(IRGenerationContext& context) {
   return function;
 }
 
-void CheckForNullAndThrowFunction::call(IRGenerationContext& context, Value* value, int line) {
-  Composer::pushCallStack(context, line);
-  
+void CheckForNullAndThrowFunction::call(IRGenerationContext& context, Value* value) {
   PointerType* int8PointerType = Type::getInt8Ty(context.getLLVMContext())->getPointerTo();
   Value* bitcast = IRWriter::newBitCastInst(context, value, int8PointerType);
   
@@ -49,8 +47,6 @@ void CheckForNullAndThrowFunction::call(IRGenerationContext& context, Value* val
   arguments.push_back(bitcast);
   
   IRWriter::createInvokeInst(context, function, arguments, "", 0);
-  
-  Composer::popCallStack(context);
 }
 
 string CheckForNullAndThrowFunction::getName() {
