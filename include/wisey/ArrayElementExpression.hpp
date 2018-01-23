@@ -9,6 +9,7 @@
 #ifndef ArrayElementExpression_h
 #define ArrayElementExpression_h
 
+#include "wisey/ArrayType.hpp"
 #include "wisey/IExpression.hpp"
 
 namespace wisey {
@@ -32,7 +33,7 @@ public:
    * Given list of indices and array pointer returns pointer to the array element
    */
   static llvm::Value* generateElementIR(IRGenerationContext& context,
-                                        const IType* arrayType,
+                                        const ArrayType* arrayType,
                                         llvm::Value* arrayPointer,
                                         std::vector<const IExpression*> arrayIndices);
   

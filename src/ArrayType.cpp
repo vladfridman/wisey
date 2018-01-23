@@ -56,8 +56,8 @@ llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   list<unsigned long> dimentions;
   dimentions.push_front(mSize);
   
-  while (IType::isArrayType(baseType)) {
-    const IArrayType* baseArrayType = (const IArrayType*) mBaseType;
+  while (baseType->getTypeKind() == ARRAY_TYPE) {
+    const ArrayType* baseArrayType = (const ArrayType*) baseType;
     dimentions.push_front(baseArrayType->getSize());
     baseType = baseArrayType->getBaseType();
   }

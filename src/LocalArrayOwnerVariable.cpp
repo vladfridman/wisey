@@ -52,7 +52,7 @@ llvm::Value* LocalArrayOwnerVariable::generateAssignmentIR(IRGenerationContext& 
   }
   
   Value* arrayPointer = IRWriter::newLoadInst(context, mValueStore, "");
-  const IType* scalarType = mArrayOwnerType->getScalarType();
+  const IType* scalarType = mArrayOwnerType->getArrayType()->getScalarType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   mArrayOwnerType->getArrayType(),
                                                                   arrayPointer,

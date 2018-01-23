@@ -11,7 +11,7 @@
 
 #include <llvm/IR/Instructions.h>
 
-#include "wisey/IArrayType.hpp"
+#include "wisey/IType.hpp"
 
 namespace wisey {
   
@@ -30,7 +30,7 @@ class ArrayOwnerType;
  *   [ dimention_1_size x [dimention_2_size x <element_type> ]]
  * }
  */
-class ArrayType : public IArrayType {
+class ArrayType : public IType {
   
   const IType* mBaseType;
   unsigned long mSize;
@@ -67,11 +67,20 @@ public:
    */
   void decrementReferenceCount(IRGenerationContext& context, llvm::Value* arrayPointer) const;
 
-  const IType* getBaseType() const override;
+  /**
+   * Return array base type
+   */
+  const IType* getBaseType() const;
   
-  unsigned long getSize() const override;
+  /**
+   * Return array size
+   */
+  unsigned long getSize() const;
   
-  const IType* getScalarType() const override;
+  /**
+   * Returns single array element type
+   */
+  const IType* getScalarType() const;
   
   std::string getTypeName() const override;
   

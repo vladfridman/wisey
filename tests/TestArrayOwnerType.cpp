@@ -36,19 +36,6 @@ TEST_F(ArrayOwnerTypeTest, getArrayTypeTest) {
   EXPECT_EQ(mArrayType, mArrayOwnerType->getArrayType());
 }
 
-TEST_F(ArrayOwnerTypeTest, getBaseTypeTest) {
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mArrayOwnerType->getBaseType());
-}
-
-TEST_F(ArrayOwnerTypeTest, getScalarTypeTest) {
-  ArrayOwnerType* outerArray = new ArrayOwnerType(new ArrayType(mArrayType, 3u));
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, outerArray->getScalarType());
-}
-
-TEST_F(ArrayOwnerTypeTest, getSizeTest) {
-  EXPECT_EQ(5u, mArrayOwnerType->getSize());
-}
-
 TEST_F(ArrayOwnerTypeTest, getNameTest) {
   EXPECT_STREQ("long[5]*", mArrayOwnerType->getTypeName().c_str());
 }

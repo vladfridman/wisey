@@ -9,7 +9,8 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/ArrayElementExpression.hpp"
-#include "wisey/IArrayType.hpp"
+#include "wisey/ArrayOwnerType.hpp"
+#include "wisey/ArrayType.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/Log.hpp"
 #include "wisey/PrimitiveTypes.hpp"
@@ -33,16 +34,23 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   vector<const IExpression*> arrayIndices;
   IVariable* variable = getVariable(context, arrayIndices);
   assert(variable);
+  const IType* variableType = variable->getType();
+  if (!IType::isArrayType(variableType)) {
+    reportErrorArrayType(variableType->getTypeName());
+    exit(1);
+  }
+  const ArrayType* arrayType = variableType->getTypeKind() == ARRAY_TYPE
+  ? (const ArrayType*) variableType
+  : ((const ArrayOwnerType*) variableType)->getArrayType();
   Value* arrayPointer = variable->generateIdentifierIR(context);
 
-  Value* pointer = generateElementIR(context, variable->getType(), arrayPointer, arrayIndices);
+  Value* pointer = generateElementIR(context, arrayType, arrayPointer, arrayIndices);
   Value* result = IRWriter::newLoadInst(context, pointer, "");
   
   if (assignToType->isOwner()) {
-    assert(IType::isArrayType(variable->getType()));
-    const IArrayType* arrayType = (const IArrayType*) variable->getType();
-    assert(IType::isOwnerType(arrayType->getScalarType()));
-    PointerType* llvmType = (PointerType*) arrayType->getScalarType()->getLLVMType(context);
+    const IType* elementType = arrayType->getScalarType();
+    assert(IType::isOwnerType(elementType));
+    PointerType* llvmType = (PointerType*) elementType->getLLVMType(context);
     IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), pointer);
   }
   
@@ -50,7 +58,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
 }
 
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
-                                                 const IType* arrayType,
+                                                 const ArrayType* arrayType,
                                                  Value* arrayPointer,
                                                  vector<const IExpression*> arrayIndices) {
   LLVMContext& llvmContext = context.getLLVMContext();
@@ -60,11 +68,12 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
   Value* value = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   const IType* valueType = arrayType;
   for (const IExpression* indexExpression : arrayIndices) {
-    if (!IType::isArrayType(valueType)) {
+    if (valueType->getTypeKind() != ARRAY_TYPE) {
       reportErrorArrayType(valueType->getTypeName());
       exit(1);
     }
-    valueType = ((const wisey::IArrayType*) valueType)->getBaseType();
+    
+    valueType = ((const ArrayType*) valueType)->getBaseType();
 
     const IType* arrayIndexExpressionType = indexExpression->getType(context);
     if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
@@ -109,7 +118,10 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
     exit(1);
   }
   
-  const wisey::IArrayType* arrayType = (const wisey::IArrayType*) arrayExpressionType;
+  const ArrayType* arrayType = arrayExpressionType->getTypeKind() == ARRAY_TYPE
+  ? (const ArrayType*) arrayExpressionType
+  : ((const ArrayOwnerType*) arrayExpressionType)->getArrayType();
+
   return arrayType->getBaseType();
 }
 

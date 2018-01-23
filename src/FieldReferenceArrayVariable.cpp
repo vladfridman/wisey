@@ -54,7 +54,7 @@ llvm::Value* FieldReferenceArrayVariable::generateAssignmentIR(IRGenerationConte
   GetElementPtrInst* fieldPointer = getFieldPointer(context, mObject, mName);
   
   Value* element = ArrayElementExpression::generateElementIR(context,
-                                                             field->getType(),
+                                                             (const ArrayType*) field->getType(),
                                                              fieldPointer,
                                                              arrayIndices);
   const IType* elementType = ((const wisey::ArrayType*) field->getType())->getScalarType();
