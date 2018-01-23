@@ -11,10 +11,10 @@
 
 #include <iostream>
 
-#include "wisey/IType.hpp"
 #include "wisey/IMethodDescriptor.hpp"
 #include "wisey/IObjectOwnerType.hpp"
 #include "wisey/IPrintable.hpp"
+#include "wisey/IReferenceType.hpp"
 #include "wisey/ImportProfile.hpp"
 
 namespace wisey {
@@ -24,7 +24,7 @@ class Constant;
 /**
  * Represents an IType that is either model, controller or interface
  */
-class IObjectType : public IPrintable, public IType {
+class IObjectType : public IPrintable, public IReferenceType, public IType {
     
 public:
   
@@ -67,18 +67,6 @@ public:
    * Override method from IType because ObjectOwner llvm type is always a PointerType
    */
   virtual llvm::PointerType* getLLVMType(IRGenerationContext& context) const override = 0;
-  
-  /**
-   * Increments reference counter for this object
-   */
-  virtual void incrementReferenceCount(IRGenerationContext& context,
-                                      llvm::Value* object) const = 0;
-  
-  /**
-   * Decrements reference counter for this object
-   */
-  virtual void decrementReferenceCount(IRGenerationContext& context,
-                                      llvm::Value* object) const = 0;
 
   /**
    * Returns pointer reference counter value for this object

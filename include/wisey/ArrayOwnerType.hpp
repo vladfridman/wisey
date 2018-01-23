@@ -11,13 +11,14 @@
 
 #include "wisey/ArrayType.hpp"
 #include "wisey/IArrayType.hpp"
+#include "wisey/IOwnerType.hpp"
 
 namespace wisey {
   
   /**
    * Represents owner type reference to the array type
    */
-  class ArrayOwnerType : public IArrayType {
+  class ArrayOwnerType : public IArrayType, public IOwnerType {
     
     const ArrayType* mArrayType;
     
@@ -32,10 +33,7 @@ namespace wisey {
      */
     const ArrayType* getArrayType() const;
     
-    /**
-     * Deallocates memory occupied by elements of this array when every element is an owner
-     */
-    void free(IRGenerationContext& context, llvm::Value* arrayPointer) const;
+    void free(IRGenerationContext& context, llvm::Value* arrayPointer) const override;
 
     const IType* getBaseType() const override;
     
