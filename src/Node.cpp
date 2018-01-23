@@ -76,7 +76,7 @@ void Node::setFields(vector<Field*> fields, unsigned long startIndex) {
     mFieldIndexes[field] = index;
     TypeKind typeKind = field->getType()->getTypeKind();
     if (typeKind == ARRAY_TYPE) {
-      typeKind = ((const wisey::ArrayType*) field->getType())->getScalarType()->getTypeKind();
+      typeKind = ((const wisey::ArrayType*) field->getType())->getElementType()->getTypeKind();
     }
     if (typeKind == CONTROLLER_TYPE || typeKind == CONTROLLER_OWNER_TYPE) {
       Log::e("Nodes can only have fields of primitive or model or node type");

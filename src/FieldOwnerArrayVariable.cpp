@@ -57,7 +57,7 @@ llvm::Value* FieldOwnerArrayVariable::generateAssignmentIR(IRGenerationContext& 
                                                              (const ArrayType*) field->getType(),
                                                              fieldPointer,
                                                              arrayIndices);
-  const IType* elementType = ((const wisey::ArrayType*) field->getType())->getScalarType();
+  const IType* elementType = ((const wisey::ArrayType*) field->getType())->getElementType();
   assert(IType::isOwnerType(elementType));
   const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
   

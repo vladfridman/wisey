@@ -57,7 +57,7 @@ llvm::Value* FieldReferenceArrayVariable::generateAssignmentIR(IRGenerationConte
                                                              (const ArrayType*) field->getType(),
                                                              fieldPointer,
                                                              arrayIndices);
-  const IType* elementType = ((const wisey::ArrayType*) field->getType())->getScalarType();
+  const IType* elementType = ((const wisey::ArrayType*) field->getType())->getElementType();
   assert(IType::isReferenceType(elementType));
   const IObjectType* objectType = (const IObjectType*) elementType;
 

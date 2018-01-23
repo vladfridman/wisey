@@ -51,7 +51,7 @@ Value* FieldPrimitiveArrayVariable::generateAssignmentIR(IRGenerationContext& co
                                                              (const ArrayType*) field->getType(),
                                                              fieldPointer,
                                                              arrayIndices);
-  const IType* elementType = ((const wisey::ArrayType*) field->getType())->getScalarType();
+  const IType* elementType = ((const wisey::ArrayType*) field->getType())->getElementType();
 
   const IType* assignToType = assignToExpression->getType(context);
   Value* assignToValue = assignToExpression->generateIR(context, field->getType());

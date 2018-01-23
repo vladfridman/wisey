@@ -62,7 +62,7 @@ llvm::Value* ArrayOwnerType::castTo(IRGenerationContext &context,
 }
 
 void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointer) const {
-  const IType* elementType = mArrayType->getScalarType();
+  const IType* elementType = mArrayType->getElementType();
   llvm::Type* genericPointer = llvm::Type::getInt64Ty(context.getLLVMContext())->getPointerTo();
   llvm::Value* arrayBitcast = IRWriter::newBitCastInst(context, arrayPointer, genericPointer);
   

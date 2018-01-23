@@ -71,7 +71,7 @@ public:
   /**
    * Returns single array element type
    */
-  const IType* getScalarType() const;
+  const IType* getElementType() const;
   
   void incrementReferenceCount(IRGenerationContext& context,
                                llvm::Value* arrayPointer) const override;

@@ -48,7 +48,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   Value* result = IRWriter::newLoadInst(context, pointer, "");
   
   if (assignToType->isOwner()) {
-    const IType* elementType = arrayType->getScalarType();
+    const IType* elementType = arrayType->getElementType();
     assert(IType::isOwnerType(elementType));
     PointerType* llvmType = (PointerType*) elementType->getLLVMType(context);
     IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), pointer);

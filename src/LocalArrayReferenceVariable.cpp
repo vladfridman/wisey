@@ -49,14 +49,14 @@ generateAssignmentIR(IRGenerationContext& context,
   }
   
   Value* arrayPointer = IRWriter::newLoadInst(context, mValueStore, "");
-  const IType* scalarType = mArrayType->getScalarType();
+  const IType* elementType = mArrayType->getElementType();
   Value* elementStore = ArrayElementExpression::generateElementIR(context,
                                                                   mArrayType,
                                                                   arrayPointer,
                                                                   arrayIndices);
   
   return ArrayElementAssignment::generateElementAssignment(context,
-                                                           scalarType,
+                                                           elementType,
                                                            assignToExpression,
                                                            elementStore,
                                                            line);

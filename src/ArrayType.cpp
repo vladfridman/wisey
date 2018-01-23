@@ -38,9 +38,9 @@ unsigned long ArrayType::getSize() const {
   return mSize;
 }
 
-const IType* ArrayType::getScalarType() const {
+const IType* ArrayType::getElementType() const {
   return mBaseType->getTypeKind() == ARRAY_TYPE
-  ? ((const ArrayType*) mBaseType)->getScalarType()
+  ? ((const ArrayType*) mBaseType)->getElementType()
   : mBaseType;
 }
 

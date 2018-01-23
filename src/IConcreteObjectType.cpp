@@ -213,7 +213,7 @@ bool IConcreteObjectType::hasReferenceArrayField(const IConcreteObjectType* obje
       continue;
     }
     const wisey::ArrayType* arrayType = (const wisey::ArrayType*) field->getType();
-    if (IType::isReferenceType(arrayType->getScalarType())) {
+    if (IType::isReferenceType(arrayType->getElementType())) {
       return true;
     }
   }
@@ -227,7 +227,7 @@ bool IConcreteObjectType::hasOwnerArrayField(const IConcreteObjectType* object) 
       continue;
     }
     const wisey::ArrayType* arrayType = (const wisey::ArrayType*) field->getType();
-    if (IType::isOwnerType(arrayType->getScalarType())) {
+    if (IType::isOwnerType(arrayType->getElementType())) {
       return true;
     }
   }
@@ -437,7 +437,7 @@ void IConcreteObjectType::decrementReferenceFields(IRGenerationContext& context,
     const IType* fieldType = field->getType();
     
     if (fieldType->getTypeKind() == ARRAY_TYPE &&
-        IType::isReferenceType(((const wisey::ArrayType*) fieldType)->getScalarType())) {
+        IType::isReferenceType(((const wisey::ArrayType*) fieldType)->getElementType())) {
       Value* fieldPointer = getFieldPointer(context, thisValue, object, field);
       const wisey::ArrayType* arrayType = (const wisey::ArrayType*) fieldType;
       arrayType->decrementReferenceCount(context, fieldPointer);
