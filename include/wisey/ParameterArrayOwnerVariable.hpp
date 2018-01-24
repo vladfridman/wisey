@@ -17,7 +17,7 @@
 namespace wisey {
   
   /**
-   * Represents an object field that is of array owner type
+   * Represents a method parameter that is of array owner type
    */
   class ParameterArrayOwnerVariable : public IOwnerVariable {
     

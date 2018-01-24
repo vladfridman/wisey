@@ -16,7 +16,6 @@
 #include <llvm/Support/raw_ostream.h>
 
 #include "TestFileSampleRunner.hpp"
-#include "TestPrefix.hpp"
 #include "wisey/IRGenerationContext.hpp"
 #include "wisey/IRWriter.hpp"
 #include "wisey/ParameterArrayOwnerVariable.hpp"
@@ -124,7 +123,6 @@ TEST_F(ParameterArrayOwnerVariableTest, generateAssignmentDathTest) {
               ::testing::ExitedWithCode(1),
               "Error: Assignment to method parameters is not allowed");
 }
-
 
 TEST_F(TestFileSampleRunner, parameterArrayOwnerOfIntsRunTest) {
   runFile("tests/samples/test_parameter_array_owner_of_ints.yz", "5");

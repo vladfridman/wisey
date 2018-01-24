@@ -17,6 +17,7 @@
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
 #include "wisey/ParameterArrayOwnerVariable.hpp"
+#include "wisey/ParameterArrayReferenceVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
@@ -30,39 +31,38 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
                                  string variableName,
                                  const IType* variableType,
                                  Value* variableValue) {
+  IVariable* variable = NULL;
+  
   if (IType::isPrimitveType(variableType)) {
     const IPrimitiveType* primitiveType = (const IPrimitiveType*) variableType;
-    IVariable* variable = new ParameterPrimitiveVariable(variableName,
-                                                         primitiveType,
-                                                         variableValue);
-    context.getScopes().setVariable(variable);
-    return;
-  }
-  
-  if (variableType->getTypeKind() == ARRAY_OWNER_TYPE) {
+    variable = new ParameterPrimitiveVariable(variableName, primitiveType, variableValue);
+    
+  } else if (variableType->getTypeKind() == ARRAY_OWNER_TYPE) {
     Type* variableLLVMType = variableType->getLLVMType(context);
     Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterArrayPointer");
     IRWriter::newStoreInst(context, variableValue, alloc);
     ArrayOwnerType* arrayOwnerType = (ArrayOwnerType*) variableType;
-    IVariable* variable = new ParameterArrayOwnerVariable(variableName, arrayOwnerType, alloc);
-    context.getScopes().setVariable(variable);
-    return;
-  }
-  
-  if (IType::isOwnerType(variableType)) {
+    variable = new ParameterArrayOwnerVariable(variableName, arrayOwnerType, alloc);
+    
+  } else if (variableType->getTypeKind() == ARRAY_TYPE) {
+    ArrayType* arrayType = (ArrayType*) variableType;
+    variable = new ParameterArrayReferenceVariable(variableName, arrayType,  variableValue);
+    arrayType->incrementReferenceCount(context, variableValue);
+
+  } else if (IType::isOwnerType(variableType)) {
     Type* variableLLVMType = variableType->getLLVMType(context);
     Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterObjectPointer");
     IRWriter::newStoreInst(context, variableValue, alloc);
     IObjectOwnerType* objectOwnerType = (IObjectOwnerType*) variableType;
-    IVariable* variable = new ParameterOwnerVariable(variableName, objectOwnerType, alloc);
-    context.getScopes().setVariable(variable);
-    return;
+    variable = new ParameterOwnerVariable(variableName, objectOwnerType, alloc);
+    
+  } else {
+    assert(IType::isReferenceType(variableType));
+    IObjectType* referenceType = (IObjectType*) variableType;
+    variable = new ParameterReferenceVariable(variableName, referenceType, variableValue);
+    referenceType->incrementReferenceCount(context, variableValue);
   }
   
-  assert(IType::isReferenceType(variableType));
-  IObjectType* referenceType = (IObjectType*) variableType;
-  IVariable* variable = new ParameterReferenceVariable(variableName, referenceType, variableValue);
-  referenceType->incrementReferenceCount(context, variableValue);
   context.getScopes().setVariable(variable);
 }
 

@@ -60,5 +60,3 @@ void ParameterArrayOwnerVariable::free(IRGenerationContext& context) const {
   Value* valueLoaded = IRWriter::newLoadInst(context, mValueStore, "");
   mArrayOwnerType->free(context, valueLoaded);
 }
-
-
