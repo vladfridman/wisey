@@ -81,6 +81,9 @@
 		F513DDFB201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */; };
 		F513DDFC201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */; };
 		F513DDFE20179374001A075B /* TestFieldArrayReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */; };
+		F513DE0120186900001A075B /* ParameterArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */; };
+		F513DE0220186900001A075B /* ParameterArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */; };
+		F513DE0420186CFC001A075B /* TestParameterArrayOwnerVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */; };
 		F51581211E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581221E89AF0E009CE419 /* ControllerDefinition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */; };
 		F51581241E89B02F009CE419 /* FieldDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51581231E89B02F009CE419 /* FieldDeclaration.cpp */; };
@@ -950,6 +953,9 @@
 		F513DDF920178FE1001A075B /* FieldArrayReferenceVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FieldArrayReferenceVariable.hpp; path = include/wisey/FieldArrayReferenceVariable.hpp; sourceTree = "<group>"; };
 		F513DDFA201790A1001A075B /* FieldArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FieldArrayReferenceVariable.cpp; path = src/FieldArrayReferenceVariable.cpp; sourceTree = "<group>"; };
 		F513DDFD20179374001A075B /* TestFieldArrayReferenceVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestFieldArrayReferenceVariable.cpp; path = tests/TestFieldArrayReferenceVariable.cpp; sourceTree = "<group>"; };
+		F513DDFF2018682E001A075B /* ParameterArrayOwnerVariable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ParameterArrayOwnerVariable.hpp; path = include/wisey/ParameterArrayOwnerVariable.hpp; sourceTree = "<group>"; };
+		F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterArrayOwnerVariable.cpp; path = src/ParameterArrayOwnerVariable.cpp; sourceTree = "<group>"; };
+		F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestParameterArrayOwnerVariable.cpp; path = tests/TestParameterArrayOwnerVariable.cpp; sourceTree = "<group>"; };
 		F51581201E89AF0E009CE419 /* ControllerDefinition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerDefinition.cpp; path = src/ControllerDefinition.cpp; sourceTree = "<group>"; };
 		F51581231E89B02F009CE419 /* FieldDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FieldDeclaration.cpp; path = src/FieldDeclaration.cpp; sourceTree = "<group>"; };
 		F51581271E89B9A6009CE419 /* ControllerTypeSpecifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControllerTypeSpecifier.cpp; path = src/ControllerTypeSpecifier.cpp; sourceTree = "<group>"; };
@@ -2077,6 +2083,7 @@
 				F5F396DD1E3F898900F34296 /* TestObjectBuilderArgument.cpp */,
 				F53A2BFF1EEC167000E76A9E /* TestOwnerTypeSpecifier.cpp */,
 				F51942F01FE30024009C3158 /* TestPackageType.cpp */,
+				F513DE0320186CFC001A075B /* TestParameterArrayOwnerVariable.cpp */,
 				F5A363491F373FFE005880B3 /* TestParameterOwnerVariable.cpp */,
 				F5F435CB1FACA32A0097E5D0 /* TestParameterPrimitiveVariable.cpp */,
 				F53A2C1B1EF92D8300E76A9E /* TestParameterReferenceVariable.cpp */,
@@ -2569,6 +2576,7 @@
 				F5A3633F1F33C091005880B3 /* LocalOwnerVariable.hpp */,
 				F5089C861ECD01D9004A1223 /* LocalPrimitiveVariable.hpp */,
 				F5089C851ECD01D9004A1223 /* LocalReferenceVariable.hpp */,
+				F513DDFF2018682E001A075B /* ParameterArrayOwnerVariable.hpp */,
 				F5A363451F3724EF005880B3 /* ParameterOwnerVariable.hpp */,
 				F5F435C71FACA10A0097E5D0 /* ParameterPrimitiveVariable.hpp */,
 				F53A2C171EF85D5B00E76A9E /* ParameterReferenceVariable.hpp */,
@@ -2590,6 +2598,7 @@
 				F5A363401F33C1A8005880B3 /* LocalOwnerVariable.cpp */,
 				F50427A71E4D226C001CB148 /* LocalPrimitiveVariable.cpp */,
 				F50427AB1E4D2747001CB148 /* LocalReferenceVariable.cpp */,
+				F513DE0020186900001A075B /* ParameterArrayOwnerVariable.cpp */,
 				F5A363461F37257C005880B3 /* ParameterOwnerVariable.cpp */,
 				F5F435C81FACA19C0097E5D0 /* ParameterPrimitiveVariable.cpp */,
 				F53A2C181EF85DF000E76A9E /* ParameterReferenceVariable.cpp */,
@@ -3027,6 +3036,7 @@
 				F59D82121E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F5ADB6131E5DA13600FFC941 /* TestCast.cpp in Sources */,
 				F50FA3081E32640B00435EEA /* TestBooleanConstant.cpp in Sources */,
+				F513DE0420186CFC001A075B /* TestParameterArrayOwnerVariable.cpp in Sources */,
 				F53A2C4E1F02A4EC00E76A9E /* TestNullExpression.cpp in Sources */,
 				F53A2C1A1EF85DF000E76A9E /* ParameterReferenceVariable.cpp in Sources */,
 				F517970F1E6600BA009B16AA /* InterfaceDefinition.cpp in Sources */,
@@ -3166,6 +3176,7 @@
 				F50FA2AC1E27ADA200435EEA /* TestSwitchStatement.cpp in Sources */,
 				F53400DC1DFBE6F00002BF7E /* Log.cpp in Sources */,
 				F53A2C3F1F0005B800E76A9E /* TestNodeTypeSpecifier.cpp in Sources */,
+				F513DE0220186900001A075B /* ParameterArrayOwnerVariable.cpp in Sources */,
 				F51D2BAB1F68436C00510784 /* StaticMethodDeclaration.cpp in Sources */,
 				F51DF67D1FDB166800475F0B /* TestIObjectDefinition.cpp in Sources */,
 				F57780AA1EC7778A0049542D /* ProgramPrefix.cpp in Sources */,
@@ -3396,6 +3407,7 @@
 				F57780A91EC7778A0049542D /* ProgramPrefix.cpp in Sources */,
 				F5C6FD851E48B7A00054209D /* LongType.cpp in Sources */,
 				F592A7C11F7D8D690026BD2F /* ExternalMethodDeclaration.cpp in Sources */,
+				F513DE0120186900001A075B /* ParameterArrayOwnerVariable.cpp in Sources */,
 				F53A2C1E1EF96C0200E76A9E /* IVariable.cpp in Sources */,
 				F59D82111E0F311B00057FB5 /* ForStatement.cpp in Sources */,
 				F5C6FD801E48B6E80054209D /* IntType.cpp in Sources */,

@@ -16,6 +16,7 @@
 #include "wisey/Log.hpp"
 #include "wisey/MethodCall.hpp"
 #include "wisey/Names.hpp"
+#include "wisey/ParameterArrayOwnerVariable.hpp"
 #include "wisey/ParameterOwnerVariable.hpp"
 #include "wisey/ParameterPrimitiveVariable.hpp"
 #include "wisey/ParameterReferenceVariable.hpp"
@@ -38,6 +39,16 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
     return;
   }
   
+  if (variableType->getTypeKind() == ARRAY_OWNER_TYPE) {
+    Type* variableLLVMType = variableType->getLLVMType(context);
+    Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterArrayPointer");
+    IRWriter::newStoreInst(context, variableValue, alloc);
+    ArrayOwnerType* arrayOwnerType = (ArrayOwnerType*) variableType;
+    IVariable* variable = new ParameterArrayOwnerVariable(variableName, arrayOwnerType, alloc);
+    context.getScopes().setVariable(variable);
+    return;
+  }
+  
   if (IType::isOwnerType(variableType)) {
     Type* variableLLVMType = variableType->getLLVMType(context);
     Value* alloc = IRWriter::newAllocaInst(context, variableLLVMType, "parameterObjectPointer");
@@ -48,6 +59,7 @@ void IMethod::storeArgumentValue(IRGenerationContext& context,
     return;
   }
   
+  assert(IType::isReferenceType(variableType));
   IObjectType* referenceType = (IObjectType*) variableType;
   IVariable* variable = new ParameterReferenceVariable(variableName, referenceType, variableValue);
   referenceType->incrementReferenceCount(context, variableValue);

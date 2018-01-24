@@ -92,7 +92,7 @@ llvm::Value* LocalArrayOwnerVariable::generateWholeArrayAssignment(IRGenerationC
 }
 
 void LocalArrayOwnerVariable::setToNull(IRGenerationContext& context) {
-  Value* null = ConstantPointerNull::get(mArrayOwnerType->getLLVMType(context)->getPointerTo());
+  Value* null = ConstantPointerNull::get(mArrayOwnerType->getLLVMType(context));
   IRWriter::newStoreInst(context, null, mValueStore);
 }
 

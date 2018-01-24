@@ -1,0 +1,25 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CController {
+  state int[5][3]* mArray;
+
+  public void init(int[5][3]* array) {
+    mArray = array;
+    array[4][2];
+  }
+}
+
+controller CProgram implements IProgram {
+
+  public int run() {
+    int[5][3]* array = new int[5][3];
+    CController* mycontroller = injector(CController).inject();
+    mycontroller.init(array);
+
+    return 1;
+  }
+}
+
+bind(CProgram).to(IProgram);
