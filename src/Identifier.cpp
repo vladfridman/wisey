@@ -35,7 +35,9 @@ Value* Identifier::generateIR(IRGenerationContext& context, const IType* assignT
   
   IVariable* variable = IVariable::getVariable(context, mName);
   Value* value = variable->generateIdentifierIR(context);
-  if (assignToType->isOwner()) {
+  if ((assignToType->getTypeKind() == ARRAY_OWNER_TYPE &&
+       variable->getType()->getTypeKind() == ARRAY_OWNER_TYPE) ||
+      (IType::isOwnerType(assignToType) && IType::isOwnerType(variable->getType()))) {
     ((IOwnerVariable*) variable)->setToNull(context);
   }
   return value;
