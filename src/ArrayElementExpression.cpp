@@ -34,22 +34,27 @@ ArrayElementExpression::~ArrayElementExpression() {
 
 Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
-  vector<const IExpression*> arrayIndices;
-  IVariable* variable = getVariable(context, arrayIndices);
-  assert(variable);
-  const IType* variableType = variable->getType();
-  if (!IType::isArrayType(variableType)) {
-    reportErrorArrayType(variableType->getTypeName());
+  const IType* expressionType = mArrayExpression->getType(context);
+  if (!IType::isArrayType(expressionType)) {
+    reportErrorArrayType(expressionType->getTypeName());
     exit(1);
   }
-  const ArrayType* arrayType = variableType->getTypeKind() == ARRAY_TYPE
-  ? (const ArrayType*) variableType
-  : ((const ArrayOwnerType*) variableType)->getArrayType();
-  Value* arrayPointer = variable->generateIdentifierIR(context);
+  const ArrayType* arrayType = expressionType->getTypeKind() == ARRAY_TYPE
+  ? (const ArrayType*) expressionType
+  : ((const ArrayOwnerType*) expressionType)->getArrayType();
+  Value* arrayPointer = mArrayExpression->generateIR(context, assignToType);
   
   Composer::pushCallStack(context, mLine);
-  Value* pointer = generateElementIR(context, arrayType, arrayPointer, arrayIndices);
+  CheckForNullAndThrowFunction::call(context, arrayPointer);
+  arrayPointer = unwrapArray(context, arrayPointer);
+  Value* pointer = getArrayElement(context, arrayPointer, mArrayIndexExpresion);
+
   Composer::popCallStack(context);
+  
+  if (arrayType->getBaseType()->getTypeKind() == ARRAY_TYPE) {
+    return pointer;
+  }
+  
   Value* result = IRWriter::newLoadInst(context, pointer, "");
   
   if (assignToType->isOwner()) {
@@ -62,41 +67,59 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   return result;
 }
 
+Value* ArrayElementExpression::unwrapArray(IRGenerationContext& context,
+                                           llvm::Value* arrayPointer) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+
+  if (arrayPointer->getType()->getPointerElementType()->isArrayTy()) {
+    return arrayPointer;
+  }
+  
+  Value* index[2];
+  index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 4);
+  return IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+}
+
+Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
+                                               Value* arrayPointer,
+                                               const IExpression* indexExpression) {
+  const IType* arrayIndexExpressionType = indexExpression->getType(context);
+  if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
+      arrayIndexExpressionType != PrimitiveTypes::LONG_TYPE) {
+    Log::e("Array index should be integer type, but it is " +
+           arrayIndexExpressionType->getTypeName());
+    exit(1);
+  }
+  
+  Value* arrayIndexValue = indexExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Type* indexType = arrayIndexExpressionType->getLLVMType(context);
+  Value* index[2];
+  index[0] = ConstantInt::get(indexType, 0);
+  index[1] = arrayIndexValue;
+  
+ return IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+}
+
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  const ArrayType* arrayType,
                                                  Value* arrayPointer,
                                                  vector<const IExpression*> arrayIndices) {
   CheckForNullAndThrowFunction::call(context, arrayPointer);
   
-  LLVMContext& llvmContext = context.getLLVMContext();
-  Value* index[2];
-  index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 4);
-  Value* value = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* value = unwrapArray(context, arrayPointer);
   const IType* valueType = arrayType;
-  for (const IExpression* indexExpression : arrayIndices) {
+  while (arrayIndices.size()) {
+    const IExpression* indexExpression = arrayIndices.back();
+    arrayIndices.pop_back();
+    
     if (valueType->getTypeKind() != ARRAY_TYPE) {
       reportErrorArrayType(valueType->getTypeName());
       exit(1);
     }
     
     valueType = ((const ArrayType*) valueType)->getBaseType();
-
-    const IType* arrayIndexExpressionType = indexExpression->getType(context);
-    if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
-        arrayIndexExpressionType != PrimitiveTypes::LONG_TYPE) {
-      Log::e("Array index should be integer type, but it is " +
-             arrayIndexExpressionType->getTypeName());
-      exit(1);
-    }
-    
-    Value* arrayIndexValue = indexExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
-    Type* indexType = arrayIndexExpressionType->getLLVMType(context);
-    Value* index[2];
-    index[0] = ConstantInt::get(indexType, 0);
-    index[1] = arrayIndexValue;
-    
-    value = IRWriter::createGetElementPtrInst(context, value, index);
+    value = getArrayElement(context, value, indexExpression);
   }
   
   if (valueType->getTypeKind() == ARRAY_TYPE) {

@@ -54,6 +54,12 @@ private:
   
   static void reportErrorArrayType(std::string typeName);
   
+  static llvm::Value* unwrapArray(IRGenerationContext& context, llvm::Value* arrayPointer);
+  
+  static llvm::Value* getArrayElement(IRGenerationContext& context,
+                                      llvm::Value* arrayPointer,
+                                      const IExpression* indexExpression);
+  
 };
 
 }

@@ -61,6 +61,7 @@ llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
     dimentions.push_front(baseArrayType->getSize());
     baseType = baseArrayType->getBaseType();
   }
+  dimentions.reverse();
   
   llvm::Type* type = baseType->getLLVMType(context);
   vector<llvm::Type*> dimentionTypes;
