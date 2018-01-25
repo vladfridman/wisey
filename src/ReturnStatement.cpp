@@ -37,14 +37,14 @@ Value* ReturnStatement::generateIR(IRGenerationContext& context) const {
                                       mExpression->generateIR(context, returnType),
                                       returnType,
                                       mLine);
-  if (IType::isReferenceType(returnType)) {
-    ((IObjectType*) returnType)->incrementReferenceCount(context, result);
+  if (IType::isReferenceType(returnType) || returnType->getTypeKind() == ARRAY_TYPE) {
+    ((IReferenceType*) returnType)->incrementReferenceCount(context, result);
   }
   
   context.getScopes().freeOwnedMemory(context, mLine);
   
-  if (IType::isReferenceType(returnType)) {
-    ((IObjectType*) returnType)->decrementReferenceCount(context, result);
+  if (IType::isReferenceType(returnType) || returnType->getTypeKind() == ARRAY_TYPE) {
+    ((IReferenceType*) returnType)->decrementReferenceCount(context, result);
   }
   
   return IRWriter::createReturnInst(context, result);

@@ -1,0 +1,20 @@
+package systems.vos.wisey.compiler.tests;
+
+import wisey.lang.IProgram;
+
+controller CProgram implements IProgram {
+
+  state int[5][3]* mArray;
+
+  private int[5][3] getArray() {
+    mArray = new int[5][3];
+    mArray[4][2] = 5;
+    return mArray;
+  }
+
+  public int run() {
+    return getArray()[4][2];
+  }
+}
+
+bind(CProgram).to(IProgram);
