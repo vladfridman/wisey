@@ -210,3 +210,13 @@ TEST_F(TestFileSampleRunner, destructorCalledOnAssignLocalOwnerVariableRunTest) 
                                         "destructor systems.vos.wisey.compiler.tests.CProgram\n",
                                         "");
 }
+
+TEST_F(TestFileSampleRunner, stringArrayRunTest) {
+  runFileCheckOutput("tests/samples/test_string_array.yz",
+                     "element 0: zero\n"
+                     "element 1: one\n"
+                     "element 2: two\n"
+                     "element 3: three\n"
+                     "element 4: four\n",
+                     "");
+}
