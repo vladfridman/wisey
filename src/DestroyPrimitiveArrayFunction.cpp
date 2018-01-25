@@ -9,7 +9,9 @@
 #include <llvm/IR/Constants.h>
 
 #include "wisey/DestroyPrimitiveArrayFunction.hpp"
+#include "wisey/FakeExpression.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrintOutStatement.hpp"
 #include "wisey/StringLiteral.hpp"
 #include "wisey/ThrowReferenceCountExceptionFunction.hpp"
@@ -85,6 +87,21 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
 
   context.setBasicBlock(ifNotNull);
 
+  llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
+  Value* index[1];
+  index[0] = ConstantInt::get(int64type, 2);
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  Value* size = IRWriter::newLoadInst(context, sizeStore, "size");
+
+  if (context.isDestructorDebugOn()) {
+    vector<IExpression*> printOutArguments;
+    printOutArguments.push_back(new StringLiteral("destructor primitive["));
+    printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
+    printOutArguments.push_back(new StringLiteral("]\n"));
+    PrintOutStatement printOutStatement(printOutArguments);
+    printOutStatement.generateIR(context);
+  }
+
   Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "");
   llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "");
@@ -96,13 +113,6 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   IRWriter::newUnreachableInst(context);
 
   context.setBasicBlock(refCountZeroBlock);
-  
-  if (context.isDestructorDebugOn()) {
-    vector<IExpression*> printOutArguments;
-    printOutArguments.push_back(new StringLiteral("destructor primitive[]\n"));
-    PrintOutStatement printOutStatement(printOutArguments);
-    printOutStatement.generateIR(context);
-  }
 
   IRWriter::createFree(context, arrayPointer);
   IRWriter::createReturnInst(context, NULL);

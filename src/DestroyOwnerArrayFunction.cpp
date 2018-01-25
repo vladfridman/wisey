@@ -100,18 +100,6 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
 
   context.setBasicBlock(ifNotNull);
   
-  Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "");
-  llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "");
-  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
-  
-  context.setBasicBlock(refCountNotZeroBlock);
-  
-  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
-  IRWriter::newUnreachableInst(context);
-  
-  context.setBasicBlock(refCountZeroBlock);
-
   llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
   llvm::Constant* one = ConstantInt::get(int64type, 1);
   llvm::Constant* two = ConstantInt::get(int64type, 2);
@@ -124,10 +112,31 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
                                                  dimensions,
                                                  two,
                                                  "offset");
-
+  
   index[0] = two;
   Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   Value* size = IRWriter::newLoadInst(context, sizeStore, "size");
+  
+  if (context.isDestructorDebugOn()) {
+    vector<IExpression*> printOutArguments;
+    printOutArguments.push_back(new StringLiteral("destructor <object>*["));
+    printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
+    printOutArguments.push_back(new StringLiteral("]\n"));
+    PrintOutStatement printOutStatement(printOutArguments);
+    printOutStatement.generateIR(context);
+  }
+
+  Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "");
+  llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "");
+  IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
+  
+  context.setBasicBlock(refCountNotZeroBlock);
+  
+  ThrowReferenceCountExceptionFunction::call(context, referenceCount);
+  IRWriter::newUnreachableInst(context);
+  
+  context.setBasicBlock(refCountZeroBlock);
 
   index[0] = dimensions;
   Value* arrayStore = IRWriter::createGetElementPtrInst(context, dimensionsStore, offset);
@@ -138,15 +147,6 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   llvm::Value* indexStore = IRWriter::newAllocaInst(context, int64type, "");
   llvm::Constant* int64zero = llvm::ConstantInt::get(int64type, 0);
   IRWriter::newStoreInst(context, int64zero, indexStore);
-  
-  if (context.isDestructorDebugOn()) {
-    vector<IExpression*> printOutArguments;
-    printOutArguments.push_back(new StringLiteral("destructor <object>*["));
-    printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
-    printOutArguments.push_back(new StringLiteral("]\n"));
-    PrintOutStatement printOutStatement(printOutArguments);
-    printOutStatement.generateIR(context);
-  }
 
   IRWriter::createBranch(context, forCond);
 
