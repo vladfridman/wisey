@@ -396,6 +396,21 @@ TEST_F(TestFileSampleRunner, passOwnerAsParameterToStaticMethodRunTest) {
   runFile("tests/samples/test_pass_owner_as_parameter_to_static_method.yz", "3");
 }
 
+TEST_F(TestFileSampleRunner, staticReturnArrayReferenceRunTest) {
+  runFile("tests/samples/test_static_return_array_reference.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, staticReturnArrayOwnerRunTest) {
+  runFile("tests/samples/test_static_return_array_owner.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, staticReturnArrayOwnerDestructorsAreCalledRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_static_return_array_owner.yz",
+                                        "destructor primitive[15]\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
+}
+
 TEST_F(TestFileSampleRunner, staticMethodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_static_method_call.yz",
                     1,
@@ -416,4 +431,14 @@ TEST_F(TestFileSampleRunner, passOwnerAsParameterToStaticMethodAndThenUseItRunDe
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_pass_owner_as_parameter_to_static_method_and_then_use_it.yz:22)\n");
+}
+
+TEST_F(TestFileSampleRunner, staticReturnArrayReferenceRceRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_static_return_array_reference_rce.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MReferenceCountException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.getArray(tests/samples/test_static_return_array_reference_rce.yz:8)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_static_return_array_reference_rce.yz:14)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n");
 }

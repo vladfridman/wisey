@@ -11,6 +11,7 @@
 #include "wisey/AutoCast.hpp"
 #include "wisey/Composer.hpp"
 #include "wisey/IRWriter.hpp"
+#include "wisey/LocalArrayOwnerVariable.hpp"
 #include "wisey/LocalOwnerVariable.hpp"
 #include "wisey/LocalReferenceVariable.hpp"
 #include "wisey/Log.hpp"
@@ -112,18 +113,17 @@ Value* StaticMethodCall::generateMethodCallIR(IRGenerationContext& context,
   Composer::popCallStack(context);
 
   const IType* returnType = methodDescriptor->getReturnType();
-  if (!IType::isOwnerType(returnType) || assignToType->isOwner()) {
+  if (!returnType->isOwner() || assignToType->isOwner()) {
     return result;
   }
   
   string variableName = IVariable::getTemporaryVariableName(this);
-  
   Value* pointer = IRWriter::newAllocaInst(context, result->getType(), "returnedObjectPointer");
   IRWriter::newStoreInst(context, result, pointer);
-
-  IOwnerVariable* tempVariable = new LocalOwnerVariable(variableName,
-                                                        (IObjectOwnerType*) returnType,
-                                                        pointer);
+  
+  IVariable* tempVariable = returnType->getTypeKind() == ARRAY_OWNER_TYPE
+  ? new LocalArrayOwnerVariable(variableName, (const ArrayOwnerType*) returnType, pointer)
+  : (IVariable*) new LocalOwnerVariable(variableName, (IObjectOwnerType*) returnType, pointer);
   context.getScopes().setVariable(tempVariable);
 
   return result;

@@ -428,6 +428,21 @@ TEST_F(TestFileSampleRunner, callToPrivateMethodOnExpressionRunTest) {
   runFile("tests/samples/test_call_to_private_method_on_expression.yz", "2017");
 }
 
+TEST_F(TestFileSampleRunner, returnArrayReferenceRunTest) {
+  runFile("tests/samples/test_return_array_reference.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, returnArrayOwnerRunTest) {
+  runFile("tests/samples/test_return_array_owner.yz", "5");
+}
+
+TEST_F(TestFileSampleRunner, returnArrayOwnerDestructorsAreCalledRunTest) {
+  runFileCheckOutputWithDestructorDebug("tests/samples/test_return_array_owner.yz",
+                                        "destructor primitive[15]\n"
+                                        "destructor systems.vos.wisey.compiler.tests.CProgram\n",
+                                        "");
+}
+
 TEST_F(TestFileSampleRunner, methodCallToPrivateMethodRunDeathTest) {
   expectFailCompile("tests/samples/test_private_method_call.yz",
                     1,
@@ -455,4 +470,14 @@ TEST_F(TestFileSampleRunner, passOwnerAsParameterToMethodAndThenUseItRunDeathTes
                                "",
                                "Unhandled exception wisey.lang.MNullPointerException\n"
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_pass_owner_as_parameter_to_method_and_then_use_it.yz:24)\n");
+}
+
+TEST_F(TestFileSampleRunner, returnArrayReferenceRceRunDeathTest) {
+  compileAndRunFileCheckOutput("tests/samples/test_return_array_reference_rce.yz",
+                               1,
+                               "",
+                               "Unhandled exception wisey.lang.MReferenceCountException\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.getArray(tests/samples/test_return_array_reference_rce.yz:10)\n"
+                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_return_array_reference_rce.yz:14)\n"
+                               "Details: Object referenced by expression still has 1 active reference\n");
 }

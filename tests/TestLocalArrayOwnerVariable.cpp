@@ -136,10 +136,6 @@ TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersRunTest) {
   runFile("tests/samples/test_array_owner_of_model_owners.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, returnArrayOwnerRunTest) {
-  runFile("tests/samples/test_return_array_owner.yz", "5");
-}
-
 TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_array_owner_of_model_owners.yz",
                                         "destructor <object>*[5]\n"

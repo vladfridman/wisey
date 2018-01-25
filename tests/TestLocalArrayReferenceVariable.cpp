@@ -141,10 +141,6 @@ TEST_F(TestFileSampleRunner, arrayReferenceOfModelOwnersRunTest) {
   runFile("tests/samples/test_array_reference_of_model_owners.yz", "2018");
 }
 
-TEST_F(TestFileSampleRunner, returnArrayReferenceRunTest) {
-  runFile("tests/samples/test_return_array_reference.yz", "5");
-}
-
 TEST_F(TestFileSampleRunner, arrayReferenceOfModelOwnersDestructorsAreCalledRunTest) {
   runFileCheckOutputWithDestructorDebug("tests/samples/test_array_reference_of_model_owners.yz",
                                         "destructor <object>*[5]\n"
@@ -203,12 +199,3 @@ TEST_F(TestFileSampleRunner, referenceArrayReferenceInitializedToNullRunDeathTes
                                "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_reference_array_reference_initialized_to_null.yz:16)\n");
 }
 
-TEST_F(TestFileSampleRunner, returnArrayReferenceRceRunDeathTest) {
-  compileAndRunFileCheckOutput("tests/samples/test_return_array_reference_rce.yz",
-                               1,
-                               "",
-                               "Unhandled exception wisey.lang.MReferenceCountException\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.getArray(tests/samples/test_return_array_reference_rce.yz:10)\n"
-                               "  at systems.vos.wisey.compiler.tests.CProgram.run(tests/samples/test_return_array_reference_rce.yz:14)\n"
-                               "Details: Object referenced by expression still has 1 active reference\n");
-}
