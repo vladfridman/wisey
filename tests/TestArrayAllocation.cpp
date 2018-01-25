@@ -69,14 +69,6 @@ struct ArrayAllocationTest : Test {
   ~ArrayAllocationTest() {
     delete mStringStream;
   }
-  
-  static void printArrayExpression(IRGenerationContext& context, iostream& stream) {
-    stream << "array";
-  }
-  
-  static void printArrayIndex(IRGenerationContext& context, iostream& stream) {
-    stream << "index";
-  }
 };
 
 TEST_F(ArrayAllocationTest, generateIRTest) {

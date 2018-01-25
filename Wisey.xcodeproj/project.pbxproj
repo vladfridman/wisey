@@ -155,6 +155,9 @@
 		F526D8A81FEBA854008103B9 /* ArrayAllocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */; };
 		F526D8A91FEBA854008103B9 /* ArrayAllocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */; };
 		F526D8AB1FEBB33A008103B9 /* TestArrayAllocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */; };
+		F52746C6201A232900503713 /* ArrayAllocationStatic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52746C5201A232900503713 /* ArrayAllocationStatic.cpp */; };
+		F52746C7201A232900503713 /* ArrayAllocationStatic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52746C5201A232900503713 /* ArrayAllocationStatic.cpp */; };
+		F52746C9201A3C0700503713 /* TestArrayAllocationStatic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52746C8201A3C0700503713 /* TestArrayAllocationStatic.cpp */; };
 		F5296AC01E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F5296AC11E564B9B00FB1E1D /* CastExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */; };
 		F52C665A1FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */; };
@@ -1024,6 +1027,9 @@
 		F526D8A61FEBA782008103B9 /* ArrayAllocation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayAllocation.hpp; path = include/wisey/ArrayAllocation.hpp; sourceTree = "<group>"; };
 		F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayAllocation.cpp; path = src/ArrayAllocation.cpp; sourceTree = "<group>"; };
 		F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayAllocation.cpp; path = tests/TestArrayAllocation.cpp; sourceTree = "<group>"; };
+		F52746C4201A231000503713 /* ArrayAllocationStatic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ArrayAllocationStatic.hpp; path = include/wisey/ArrayAllocationStatic.hpp; sourceTree = "<group>"; };
+		F52746C5201A232900503713 /* ArrayAllocationStatic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ArrayAllocationStatic.cpp; path = src/ArrayAllocationStatic.cpp; sourceTree = "<group>"; };
+		F52746C8201A3C0700503713 /* TestArrayAllocationStatic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestArrayAllocationStatic.cpp; path = tests/TestArrayAllocationStatic.cpp; sourceTree = "<group>"; };
 		F5296ABF1E564B9B00FB1E1D /* CastExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CastExpression.cpp; path = src/CastExpression.cpp; sourceTree = "<group>"; };
 		F52C66581FBF33C000E89B04 /* ThrowReferenceCountExceptionFunction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = ThrowReferenceCountExceptionFunction.hpp; path = include/wisey/ThrowReferenceCountExceptionFunction.hpp; sourceTree = "<group>"; };
 		F52C66591FBF348D00E89B04 /* ThrowReferenceCountExceptionFunction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ThrowReferenceCountExceptionFunction.cpp; path = src/ThrowReferenceCountExceptionFunction.cpp; sourceTree = "<group>"; };
@@ -1967,6 +1973,7 @@
 				F5105FC01FD1AF7700ACF57B /* TestAdjustReferenceCounterForConcreteObjectUnsafelyFunction.cpp */,
 				F5105FC21FD1B18F00ACF57B /* TestAdjustReferenceCounterForInterfaceFunction.cpp */,
 				F526D8AA1FEBB33A008103B9 /* TestArrayAllocation.cpp */,
+				F52746C8201A3C0700503713 /* TestArrayAllocationStatic.cpp */,
 				F5A67DAB20134C920018068F /* TestArrayElementAssignment.cpp */,
 				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
 				F51701A6200E9A9300A10B7C /* TestArrayOwnerType.cpp */,
@@ -2805,6 +2812,7 @@
 			isa = PBXGroup;
 			children = (
 				F526D8A61FEBA782008103B9 /* ArrayAllocation.hpp */,
+				F52746C4201A231000503713 /* ArrayAllocationStatic.hpp */,
 				F5A67DA72012DAA60018068F /* ArrayElementAssignment.hpp */,
 				F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */,
 				F51701A5200E993800A10B7C /* ArrayOwnerType.hpp */,
@@ -2819,6 +2827,7 @@
 			isa = PBXGroup;
 			children = (
 				F526D8A71FEBA854008103B9 /* ArrayAllocation.cpp */,
+				F52746C5201A232900503713 /* ArrayAllocationStatic.cpp */,
 				F5A67DA82012DBEB0018068F /* ArrayElementAssignment.cpp */,
 				F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */,
 				F51701A3200E992200A10B7C /* ArrayOwnerType.cpp */,
@@ -3166,6 +3175,7 @@
 				F5A98A371F9A37910063D626 /* ConstantReference.cpp in Sources */,
 				F5E209311E078C4300E1A147 /* PrimitiveTypeSpecifier.cpp in Sources */,
 				F53A2C251EFFD0BD00E76A9E /* NodeDefinition.cpp in Sources */,
+				F52746C7201A232900503713 /* ArrayAllocationStatic.cpp in Sources */,
 				F57085F61E511BAC007D627E /* TestFieldReferenceVariable.cpp in Sources */,
 				F513DDFC201790A1001A075B /* FieldArrayReferenceVariable.cpp in Sources */,
 				F592A7C51F7D8EAE0026BD2F /* IMethodDeclaration.cpp in Sources */,
@@ -3174,6 +3184,7 @@
 				F55CF17A1F7DA3EA00A11426 /* TestExternalMethod.cpp in Sources */,
 				F55CF1781F7DA22800A11426 /* TestExternalStaticMethodDeclaration.cpp in Sources */,
 				F50FA2D81E2D324100435EEA /* CaseStatement.cpp in Sources */,
+				F52746C9201A3C0700503713 /* TestArrayAllocationStatic.cpp in Sources */,
 				F531B64B1E0A5329008304F3 /* TestAssignment.cpp in Sources */,
 				F51942DE1FDFEDFF009C3158 /* ArrayElementExpression.cpp in Sources */,
 				F5C6FD811E48B6E80054209D /* IntType.cpp in Sources */,
@@ -3364,6 +3375,7 @@
 				F50FA2E81E2E3B0900435EEA /* LongConstant.cpp in Sources */,
 				F51D2BAE1F68453500510784 /* StaticMethod.cpp in Sources */,
 				F50FA2D51E2D0AD600435EEA /* ModelTypeSpecifier.cpp in Sources */,
+				F52746C6201A232900503713 /* ArrayAllocationStatic.cpp in Sources */,
 				F51D2BB41F691C8100510784 /* IMethod.cpp in Sources */,
 				F5CE2D411EF6A43C002ABB85 /* IType.cpp in Sources */,
 				F53A2C0C1EEC37E900E76A9E /* InterfaceOwner.cpp in Sources */,

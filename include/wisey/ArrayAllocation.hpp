@@ -27,6 +27,11 @@ namespace wisey {
     
     ~ArrayAllocation();
     
+    /**
+     * Allocates memory for the given type array
+     */
+    static llvm::Value* allocateArray(IRGenerationContext &context, const ArrayType* arrayType);
+    
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     
     IVariable* getVariable(IRGenerationContext& context,

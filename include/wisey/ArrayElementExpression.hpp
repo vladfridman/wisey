@@ -38,7 +38,11 @@ public:
                                         const ArrayType* arrayType,
                                         llvm::Value* arrayPointer,
                                         std::vector<const IExpression*> arrayIndices);
-  
+  /**
+   * Returns the pointer to the actual array from the array struct
+   */
+  static llvm::Value* unwrapArray(IRGenerationContext& context, llvm::Value* arrayPointer);
+
   llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
   
   IVariable* getVariable(IRGenerationContext& context,
@@ -53,8 +57,6 @@ public:
 private:
   
   static void reportErrorArrayType(std::string typeName);
-  
-  static llvm::Value* unwrapArray(IRGenerationContext& context, llvm::Value* arrayPointer);
   
   static llvm::Value* getArrayElement(IRGenerationContext& context,
                                       llvm::Value* arrayPointer,

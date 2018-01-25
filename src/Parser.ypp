@@ -4,6 +4,7 @@
   #include "wisey/AccessLevel.hpp"
   #include "wisey/AdditiveMultiplicativeExpression.hpp"
   #include "wisey/ArrayAllocation.hpp"
+  #include "wisey/ArrayAllocationStatic.hpp"
   #include "wisey/ArrayElementExpression.hpp"
   #include "wisey/ArrayOwnerTypeSpecifier.hpp"
   #include "wisey/ArrayTypeSpecifier.hpp"
@@ -194,10 +195,10 @@
 %type <expression> logical_and_expression logical_or_expression
 %type <expression> conditional_expression postfix_expression object_builder
 %type <expression> cast_expression primary_expression assignment unary_expression
-%type <expression> type_comparision_expression injection array_allocation
+%type <expression> type_comparision_expression injection array_allocation static_array_allocation
 %type <expression> thread_expression constant_reference static_method_call
 %type <variable_vector> method_declaration_arguments
-%type <expression_vector> call_arguments string_concatenation_list
+%type <expression_vector> call_arguments string_concatenation_list static_array_elements
 %type <block> block_item_list 
 %type <program_file> program
 %type <statement> exit_statement statement variable_declaration
@@ -952,6 +953,7 @@ primary_expression
   | constant_value
   | constant_reference
   | string_literal
+  | static_array_allocation
   | object_builder
   | injection
   | static_method_call
@@ -1055,6 +1057,15 @@ thread_expression
 array_allocation
   : TNEW array_type_specifier
     { $$ = new ArrayAllocation($2); }
+  ;
+
+static_array_allocation
+  : '{' static_array_elements '}' { $$ = new ArrayAllocationStatic(*$2, yylineno); delete $2; }
+  ;
+
+static_array_elements
+  : expression { $$ = new ExpressionList(); $$->push_back($1); }
+  | call_arguments ',' expression  { $1->push_back($3); }
   ;
 
 injection
