@@ -134,6 +134,10 @@ TEST_F(TestFileSampleRunner, arrayOwnerOfIntsIncrementElementRunTest) {
   runFile("tests/samples/test_array_owner_of_ints_increment_element.yz", "5");
 }
 
+TEST_F(TestFileSampleRunner, localArrayOwner3dOfIntsStaticAllocationRunTest) {
+  runFile("tests/samples/test_local_array_owner_3d_of_ints_static_allocation.yz", "12");
+}
+
 TEST_F(TestFileSampleRunner, arrayOwnerOfModelOwnersRunTest) {
   runFile("tests/samples/test_array_owner_of_model_owners.yz", "2018");
 }

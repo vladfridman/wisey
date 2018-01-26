@@ -55,7 +55,7 @@ generateOwnerElementAssignment(IRGenerationContext& context,
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
   
   Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
-  ((const IObjectOwnerType*) elementType)->free(context, elementLoaded);
+  ((const IOwnerType*) elementType)->free(context, elementLoaded);
   
   IRWriter::newStoreInst(context, newValue, elementStore);
   
@@ -73,9 +73,9 @@ generateReferenceElementAssignment(IRGenerationContext& context,
   Value* newValue = AutoCast::maybeCast(context, assignToType, assignToValue, elementType, line);
   
   Value* elementLoaded = IRWriter::newLoadInst(context, elementStore, "");
-  const IObjectType* objectType = (const IObjectType*) elementType;
-  objectType->decrementReferenceCount(context, elementLoaded);
-  objectType->incrementReferenceCount(context, newValue);
+  const IReferenceType* referenceType = (const IReferenceType*) elementType;
+  referenceType->decrementReferenceCount(context, elementLoaded);
+  referenceType->incrementReferenceCount(context, newValue);
   
   IRWriter::newStoreInst(context, newValue, elementStore);
   

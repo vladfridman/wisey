@@ -37,21 +37,21 @@ ArrayAllocationStatic::~ArrayAllocationStatic() {
 Value* ArrayAllocationStatic::generateIR(IRGenerationContext &context,
                                          const IType* assignToType) const {
   const ArrayType* arrayType = getType(context)->getArrayType();
-  Value* arrayPointer = ArrayAllocation::allocateArray(context, arrayType);
-  initializeArray(context, arrayPointer, arrayType);
+  Value* arrayStructPointer = ArrayAllocation::allocateArray(context, arrayType);
+  initializeArray(context, arrayStructPointer, arrayType);
   
   if (assignToType->isOwner()) {
-    return arrayPointer;
+    return arrayStructPointer;
   }
   
-  Value* alloc = IRWriter::newAllocaInst(context, arrayPointer->getType(), "");
-  IRWriter::newStoreInst(context, arrayPointer, alloc);
+  Value* alloc = IRWriter::newAllocaInst(context, arrayStructPointer->getType(), "");
+  IRWriter::newStoreInst(context, arrayStructPointer, alloc);
   IVariable* variable = new LocalArrayOwnerVariable(IVariable::getTemporaryVariableName(this),
                                                     arrayType->getOwner(),
                                                     alloc);
   context.getScopes().setVariable(variable);
   
-  return arrayPointer;
+  return arrayStructPointer;
 }
 
 IVariable* ArrayAllocationStatic::getVariable(IRGenerationContext &context,
@@ -103,19 +103,25 @@ void ArrayAllocationStatic::checkArrayElements(IRGenerationContext &context) con
 }
 
 void ArrayAllocationStatic::initializeArray(IRGenerationContext &context,
-                                            Value* arrayPointer,
+                                            Value* arrayStructPointer,
                                             const ArrayType* arrayType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int64Type = Type::getInt64Ty(llvmContext);
   
-  Value* array = ArrayElementExpression::unwrapArray(context, arrayPointer);
+  Value* arrayPointer = ArrayElementExpression::unwrapArray(context, arrayStructPointer);
   Value* index[2];
   index[0] = ConstantInt::get(int64Type, 0);
   
+  vector<IExpression*> flattenedExpressions = flattenExpressionList(context);
+  const IType* elementType = arrayType->getElementType();
+  PointerType* flatArrayType = llvm::ArrayType::get(elementType->getLLVMType(context),
+                                                    arrayType->getLinearSize())->getPointerTo();
+  Value* flatArray = IRWriter::newBitCastInst(context, arrayPointer, flatArrayType);
+  
   unsigned long arrayIndex = 0;
-  for (IExpression* expression : mExpressionList) {
+  for (IExpression* expression : flattenedExpressions) {
     index[1] = ConstantInt::get(int64Type, arrayIndex);
-    Value* elementStore = IRWriter::createGetElementPtrInst(context, array, index);
+    Value* elementStore = IRWriter::createGetElementPtrInst(context, flatArray, index);
     ArrayElementAssignment::generateElementAssignment(context,
                                                       arrayType->getElementType(),
                                                       expression,
@@ -123,4 +129,37 @@ void ArrayAllocationStatic::initializeArray(IRGenerationContext &context,
                                                       mLine);
     arrayIndex++;
   }
+}
+
+ExpressionList ArrayAllocationStatic::getExpressionList() const {
+  return mExpressionList;
+}
+
+vector<IExpression*> ArrayAllocationStatic::flattenExpressionList(IRGenerationContext&
+                                                                  context) const {
+  list<IExpression*> stack;
+  for (IExpression* expression : mExpressionList) {
+    stack.push_back(expression);
+  }
+  list<IExpression*> result;
+
+  while (stack.size()) {
+    IExpression* expression = stack.back();
+    stack.pop_back();
+    if (expression->getType(context)->getTypeKind() == ARRAY_OWNER_TYPE) {
+      for (IExpression* subExpression :
+           ((ArrayAllocationStatic*) expression)->getExpressionList()) {
+        stack.push_back(subExpression);
+      }
+    } else {
+      result.push_front(expression);
+    }
+  }
+  
+  vector<IExpression*> resultVector;
+  for (IExpression* expression : result) {
+    resultVector.push_back(expression);
+  }
+
+  return resultVector;
 }

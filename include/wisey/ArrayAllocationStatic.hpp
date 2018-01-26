@@ -28,6 +28,8 @@ namespace wisey {
     
     ~ArrayAllocationStatic();
     
+    ExpressionList getExpressionList() const;
+    
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     
     IVariable* getVariable(IRGenerationContext& context,
@@ -44,8 +46,10 @@ namespace wisey {
     void checkArrayElements(IRGenerationContext& context) const;
     
     void initializeArray(IRGenerationContext& context,
-                         llvm::Value* arrayPointer,
+                         llvm::Value* arrayStructPointer,
                          const ArrayType* arrayType) const;
+    
+    std::vector<IExpression*> flattenExpressionList(IRGenerationContext& context) const;
     
   };
   

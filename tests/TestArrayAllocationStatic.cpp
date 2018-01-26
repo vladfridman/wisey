@@ -115,10 +115,11 @@ TEST_F(ArrayAllocationStaticTest, generateIRTest) {
   "\n  %4 = getelementptr { i64 }, { i64 }* %3, i64 0, i32 0"
   "\n  store i64 2, i64* %4"
   "\n  %5 = getelementptr { i64, i64, i64, { i64 }, [2 x i32] }, { i64, i64, i64, { i64 }, [2 x i32] }* %newarray, i64 0, i32 4"
-  "\n  %6 = getelementptr [2 x i32], [2 x i32]* %5, i64 0, i64 0"
-  "\n  store i32 50, i32* %6"
-  "\n  %7 = getelementptr [2 x i32], [2 x i32]* %5, i64 0, i64 1"
-  "\n  store i32 60, i32* %7"
+  "\n  %6 = bitcast [2 x i32]* %5 to [2 x i32]*"
+  "\n  %7 = getelementptr [2 x i32], [2 x i32]* %6, i64 0, i64 0"
+  "\n  store i32 50, i32* %7"
+  "\n  %8 = getelementptr [2 x i32], [2 x i32]* %6, i64 0, i64 1"
+  "\n  store i32 60, i32* %8"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
