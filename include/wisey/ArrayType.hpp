@@ -33,13 +33,13 @@ class ArrayOwnerType;
  */
 class ArrayType : public IReferenceType {
   
-  const IType* mBaseType;
-  unsigned long mSize;
+  const IType* mElementType;
+  std::vector<unsigned long> mDimensions;
   const ArrayOwnerType* mArrayOwnerType;
   
 public:
   
-  ArrayType(const IType* baseType, unsigned long size);
+  ArrayType(const IType* elementType, std::vector<unsigned long> dimensions);
   
   ~ArrayType();
 
@@ -59,14 +59,9 @@ public:
   unsigned long getLinearSize() const;
   
   /**
-   * Return array base type
+   * Return array dimensions
    */
-  const IType* getBaseType() const;
-  
-  /**
-   * Return array size
-   */
-  unsigned long getSize() const;
+  std::vector<unsigned long> getDimensions() const;
   
   /**
    * Returns single array element type

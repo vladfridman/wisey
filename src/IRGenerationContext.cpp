@@ -103,12 +103,16 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
   mBasicBlock = block;
 }
 
-wisey::ArrayType* IRGenerationContext::getArrayType(const IType* baseType, unsigned long size) {
-  string key = baseType->getTypeName() + "[" + to_string(size) + "]";
+wisey::ArrayType* IRGenerationContext::getArrayType(const IType* elementType,
+                                                    std::vector<unsigned long> dimensions) {
+  string key = elementType->getTypeName();
+  for (long dimension : dimensions) {
+    key = key + "[" + to_string(dimension) + "]";
+  }
   if (mArrayTypes.count(key)) {
     return mArrayTypes.at(key);
   }
-  ArrayType* arrayType = new ArrayType(baseType, size);
+  ArrayType* arrayType = new ArrayType(elementType, dimensions);
   mArrayTypes[key] = arrayType;
   
   return arrayType;

@@ -18,7 +18,9 @@
 using namespace std;
 using namespace wisey;
 
-ArrayType::ArrayType(const IType* baseType, unsigned long size) : mBaseType(baseType), mSize(size) {
+ArrayType::ArrayType(const IType* elementType, vector<unsigned long> dimensions) :
+mElementType(elementType), mDimensions(dimensions) {
+  assert(dimensions.size());
   mArrayOwnerType = new ArrayOwnerType(this);
 }
 
@@ -30,43 +32,33 @@ const ArrayOwnerType* ArrayType::getOwner() const {
   return mArrayOwnerType;
 }
 
-const IType* ArrayType::getBaseType() const {
-  return mBaseType;
-}
-
-unsigned long ArrayType::getSize() const {
-  return mSize;
+vector<unsigned long> ArrayType::getDimensions() const {
+  return mDimensions;
 }
 
 const IType* ArrayType::getElementType() const {
-  return mBaseType->getTypeKind() == ARRAY_TYPE
-  ? ((const ArrayType*) mBaseType)->getElementType()
-  : mBaseType;
+  return mElementType;
 }
 
 string ArrayType::getTypeName() const {
-  return mBaseType->getTypeName() + "[" + to_string(mSize) + "]";
+  string name = mElementType->getTypeName();
+  for (unsigned long dimension : mDimensions) {
+    name = name + "[" + to_string(dimension) + "]";
+  }
+  return name;
 }
 
 llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
   
-  const IType* baseType = mBaseType;
-  
-  list<unsigned long> dimentions;
-  dimentions.push_front(mSize);
-  
-  while (baseType->getTypeKind() == ARRAY_TYPE) {
-    const ArrayType* baseArrayType = (const ArrayType*) baseType;
-    dimentions.push_front(baseArrayType->getSize());
-    baseType = baseArrayType->getBaseType();
-  }
-  dimentions.reverse();
-  
-  llvm::Type* type = baseType->getLLVMType(context);
+  llvm::Type* type = mElementType->getLLVMType(context);
   vector<llvm::Type*> dimentionTypes;
-  for (unsigned long size : dimentions) {
-    type = llvm::ArrayType::get(type, size);
+  list<unsigned long> dimensionsReversed;
+  for (unsigned long dimension : mDimensions) {
+    dimensionsReversed.push_front(dimension);
+  }
+  for (unsigned long dimension : dimensionsReversed) {
+    type = llvm::ArrayType::get(type, dimension);
     dimentionTypes.push_back(llvm::Type::getInt64Ty(llvmContext));
   }
   llvm::StructType* subStruct = llvm::StructType::get(llvmContext, dimentionTypes);
@@ -115,27 +107,15 @@ void ArrayType::decrementReferenceCount(IRGenerationContext& context,
 }
 
 unsigned long ArrayType::getLinearSize() const {
-  const IType* baseType = getBaseType();
-  unsigned long size = getSize();
-  while (baseType->getTypeKind() == ARRAY_TYPE) {
-    const ArrayType* arrayType = (const ArrayType*) baseType;
-    baseType = arrayType->getBaseType();
-    size = size * arrayType->getSize();
+  unsigned long size = 1;
+  for (unsigned long dimension : mDimensions) {
+    size *= dimension;
   }
-  
   return size;
 }
 
 unsigned long ArrayType::getDimentionsSize() const {
-  const IType* baseType = getBaseType();
-  unsigned long size = 1;
-  while (baseType->getTypeKind() == ARRAY_TYPE) {
-    const ArrayType* arrayType = (const ArrayType*) baseType;
-    baseType = arrayType->getBaseType();
-    size++;
-  }
-  
-  return size;
+  return mDimensions.size();
 }
 
 llvm::PointerType* ArrayType::getGenericArrayType(IRGenerationContext& context) {

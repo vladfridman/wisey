@@ -12,19 +12,22 @@
 using namespace std;
 using namespace wisey;
 
-ArrayTypeSpecifier::ArrayTypeSpecifier(ITypeSpecifier* baseTypeSpecifier, unsigned long arraySize) :
-mBaseTypeSpecifier(baseTypeSpecifier), mSize(arraySize) {
+ArrayTypeSpecifier::ArrayTypeSpecifier(ITypeSpecifier* elementTypeSpecifier,
+                                       std::vector<unsigned long> dimensions) :
+mElementTypeSpecifier(elementTypeSpecifier), mDimensions(dimensions) {
 }
 
 ArrayTypeSpecifier::~ArrayTypeSpecifier() {
-  delete mBaseTypeSpecifier;
+  delete mElementTypeSpecifier;
 }
 
 ArrayType* ArrayTypeSpecifier::getType(IRGenerationContext& context) const {
-  return context.getArrayType(mBaseTypeSpecifier->getType(context), mSize);
+  return context.getArrayType(mElementTypeSpecifier->getType(context), mDimensions);
 }
 
 void ArrayTypeSpecifier::printToStream(IRGenerationContext &context, iostream &stream) const {
-  mBaseTypeSpecifier->printToStream(context, stream);
-  stream << "[" << mSize << "]";
+  mElementTypeSpecifier->printToStream(context, stream);
+  for (long dimension : mDimensions) {
+    stream << "[" << dimension << "]";
+  }
 }

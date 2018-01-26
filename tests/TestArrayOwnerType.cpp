@@ -27,7 +27,9 @@ struct ArrayOwnerTypeTest : public Test {
   ArrayOwnerType* mArrayOwnerType;
   
   ArrayOwnerTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 5u);
+    vector<unsigned long> dimensions;
+    dimensions.push_back(5u);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, dimensions);
     mArrayOwnerType = new ArrayOwnerType(mArrayType);
   }
 };

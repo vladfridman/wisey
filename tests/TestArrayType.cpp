@@ -28,8 +28,11 @@ struct ArrayTypeTest : public Test {
   ArrayType* mMultiDimentionalArrayType;
   
   ArrayTypeTest() : mLLVMContext(mContext.getLLVMContext()) {
-    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, 5u);
-    mMultiDimentionalArrayType = new ArrayType(mArrayType, 10u);
+    vector<unsigned long> dimensions;
+    dimensions.push_back(5u);
+    mArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, dimensions);
+    dimensions.push_back(10u);
+    mMultiDimentionalArrayType = new ArrayType(PrimitiveTypes::LONG_TYPE, dimensions);
   }
 };
 
@@ -39,18 +42,18 @@ TEST_F(ArrayTypeTest, getOwnerTest) {
   EXPECT_EQ(mArrayType, arrayOwnerType->getArrayType());
 }
 
-TEST_F(ArrayTypeTest, getBaseTypeTest) {
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mArrayType->getBaseType());
-}
-
 TEST_F(ArrayTypeTest, getElementTypeTest) {
-  ArrayType* outerArray = new ArrayType(mArrayType, 3u);
-  EXPECT_EQ(mArrayType, outerArray->getBaseType());
-  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, outerArray->getElementType());
+  EXPECT_EQ(PrimitiveTypes::LONG_TYPE, mMultiDimentionalArrayType->getElementType());
 }
 
-TEST_F(ArrayTypeTest, getSizeTest) {
-  EXPECT_EQ(5u, mArrayType->getSize());
+TEST_F(ArrayTypeTest, getDimensionsTest) {
+  vector<unsigned long> dimensions;
+  dimensions.push_back(5u);
+  dimensions.push_back(10u);
+
+  EXPECT_EQ(dimensions.size(), mMultiDimentionalArrayType->getDimensions().size());
+  EXPECT_EQ(dimensions.front(), mMultiDimentionalArrayType->getDimensions().front());
+  EXPECT_EQ(dimensions.back(), mMultiDimentionalArrayType->getDimensions().back());
 }
 
 TEST_F(ArrayTypeTest, getNameTest) {

@@ -38,7 +38,7 @@ Value* ArrayAllocationStatic::generateIR(IRGenerationContext &context,
                                          const IType* assignToType) const {
   const ArrayType* arrayType = getType(context)->getArrayType();
   Value* arrayPointer = ArrayAllocation::allocateArray(context, arrayType);
-  initializeArray(context, arrayPointer, arrayType->getBaseType());
+  initializeArray(context, arrayPointer, arrayType);
   
   if (assignToType->isOwner()) {
     return arrayPointer;
@@ -66,7 +66,17 @@ bool ArrayAllocationStatic::isConstant() const {
 const ArrayOwnerType* ArrayAllocationStatic::getType(IRGenerationContext& context) const {
   checkArrayElements(context);
   const IType* elementType = mExpressionList.front()->getType(context);
-  return context.getArrayType(elementType, mExpressionList.size())->getOwner();
+  vector<unsigned long> dimensions;
+  dimensions.push_back(mExpressionList.size());
+  if (elementType->getTypeKind() != ARRAY_OWNER_TYPE) {
+    return context.getArrayType(elementType, dimensions)->getOwner();
+  }
+
+  const ArrayType* subArrayType = ((const ArrayOwnerType*) elementType)->getArrayType();
+  for (unsigned long dimension : subArrayType->getDimensions()) {
+    dimensions.push_back(dimension);
+  }
+  return context.getArrayType(subArrayType->getElementType(), dimensions)->getOwner();
 }
 
 void ArrayAllocationStatic::printToStream(IRGenerationContext &context, iostream &stream) const {
@@ -94,7 +104,7 @@ void ArrayAllocationStatic::checkArrayElements(IRGenerationContext &context) con
 
 void ArrayAllocationStatic::initializeArray(IRGenerationContext &context,
                                             Value* arrayPointer,
-                                            const IType* elementType) const {
+                                            const ArrayType* arrayType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int64Type = Type::getInt64Ty(llvmContext);
   
@@ -107,7 +117,7 @@ void ArrayAllocationStatic::initializeArray(IRGenerationContext &context,
     index[1] = ConstantInt::get(int64Type, arrayIndex);
     Value* elementStore = IRWriter::createGetElementPtrInst(context, array, index);
     ArrayElementAssignment::generateElementAssignment(context,
-                                                      elementType,
+                                                      arrayType->getElementType(),
                                                       expression,
                                                       elementStore,
                                                       mLine);

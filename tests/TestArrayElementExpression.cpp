@@ -62,7 +62,9 @@ struct ArrayElementExpressionTest : Test {
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
+    vector<unsigned long> dimensions;
+    dimensions.push_back(5u);
+    mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, dimensions);
     Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
     ON_CALL(*mArrayExpression, generateIR(_, _)).WillByDefault(Return(null));
     ON_CALL(*mArrayExpression, getType(_)).WillByDefault(Return(mArrayType));
@@ -125,7 +127,7 @@ TEST_F(ArrayElementExpressionTest, isConstantTest) {
 }
 
 TEST_F(ArrayElementExpressionTest, getTypeTest) {
-  EXPECT_EQ(mArrayType->getBaseType(), mArrayElementExpression->getType(mContext));
+  EXPECT_EQ(mArrayType->getElementType(), mArrayElementExpression->getType(mContext));
 }
 
 TEST_F(ArrayElementExpressionTest, printToStreamTest) {
@@ -176,8 +178,10 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
   Mock::AllowLeak(mArrayVariable);
   vector<const IExpression*> arrayIndices;
 
-  wisey::ArrayType* arrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, 5);
-  mArrayType = new wisey::ArrayType(arrayType, 5);
+  vector<unsigned long> dimensions;
+  dimensions.push_back(5u);
+  dimensions.push_back(5u);
+  mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, dimensions);
   Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));
 
   EXPECT_EXIT(ArrayElementExpression::generateElementIR(mContext,

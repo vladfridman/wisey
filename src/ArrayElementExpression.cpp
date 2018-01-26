@@ -51,7 +51,7 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
 
   Composer::popCallStack(context);
   
-  if (arrayType->getBaseType()->getTypeKind() == ARRAY_TYPE) {
+  if (arrayType->getDimensions().size() > 1) {
     return pointer;
   }
   
@@ -105,6 +105,11 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  const ArrayType* arrayType,
                                                  Value* arrayPointer,
                                                  vector<const IExpression*> arrayIndices) {
+  if (arrayType->getDimensions().size() != arrayIndices.size()) {
+    Log::e("Expression does not reference an array element");
+    exit(1);
+  }
+  
   CheckForNullAndThrowFunction::call(context, arrayPointer);
   
   Value* value = unwrapArray(context, arrayPointer);
@@ -118,13 +123,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
       exit(1);
     }
     
-    valueType = ((const ArrayType*) valueType)->getBaseType();
     value = getArrayElement(context, value, indexExpression);
-  }
-  
-  if (valueType->getTypeKind() == ARRAY_TYPE) {
-    Log::e("Expression does not reference an array element");
-    exit(1);
   }
   
   return value;
@@ -151,8 +150,12 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
   const ArrayType* arrayType = arrayExpressionType->getTypeKind() == ARRAY_TYPE
   ? (const ArrayType*) arrayExpressionType
   : ((const ArrayOwnerType*) arrayExpressionType)->getArrayType();
+  const IType* elementType = arrayType->getElementType();
 
-  return arrayType->getBaseType();
+  vector<unsigned long> dimensions = arrayType->getDimensions();
+  dimensions.erase(dimensions.begin());
+  
+  return dimensions.size() ? context.getArrayType(elementType, dimensions) : elementType;
 }
 
 void ArrayElementExpression::printToStream(IRGenerationContext& context, iostream& stream) const {

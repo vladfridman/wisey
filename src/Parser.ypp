@@ -166,6 +166,7 @@
   std::vector<wisey::ITypeSpecifier*>* type_specifier_list;
   std::vector<wisey::IModelTypeSpecifier*>* model_type_specifier_list;
   std::vector<wisey::IInterfaceTypeSpecifier*>* interface_list;
+  std::vector<unsigned long>* list_of_unsigned_longs;
   std::string* string;
   int token;
 }
@@ -229,7 +230,8 @@
 %type <object_element_list> external_object_element_declaration_list
 %type <object_element_list> interface_element_delcaration_list
 %type <object_element_list> external_interface_element_delcaration_list
-%type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier
+%type <type_specifier> type_specifier primitive_type_specifier object_owner_type_specifier 
+%type <type_specifier> non_array_type_specifier
 %type <array_type_specifier> array_type_specifier
 %type <array_owner_type_specifier> array_owner_type_specifier
 %type <object_type_specifier> top_level_object_type_specifier 
@@ -253,6 +255,7 @@
 %type <catch_vector> catch_block
 %type <model_type_specifier_list> method_exceptions exception_type_specifier_list
 %type <interface_list> interface_list implmeneted_interfaces extends_interfaces
+%type <list_of_unsigned_longs> array_dimensions
 
 %left '+' '-'
 %left '*' '/'
@@ -1108,13 +1111,18 @@ call_arguments
   ;
 
 type_specifier
-  : primitive_type_specifier
+  : non_array_type_specifier
   | array_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | array_owner_type_specifier { $$ = (ITypeSpecifier*) $1; }
+  ;
+
+non_array_type_specifier
+  : primitive_type_specifier
   | top_level_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | inner_object_type_specifier { $$ = (ITypeSpecifier*) $1; }
   | object_owner_type_specifier
   ;
+
 
 object_owner_type_specifier
   : top_level_object_type_specifier '*' { $$ = new OwnerTypeSpecifier($1); }
@@ -1213,8 +1221,19 @@ array_owner_type_specifier
   ;
 
 array_type_specifier
-  : type_specifier '[' TINTEGER ']'
-    { $$ = new ArrayTypeSpecifier($1, atoll($3->c_str())); delete $3; }
+  : non_array_type_specifier array_dimensions
+    { $$ = new ArrayTypeSpecifier($1, *$2); delete $2; }
+  ;
+
+array_dimensions
+  : '[' TINTEGER ']' 
+    { 
+      $$ = new std::vector<unsigned long>(); 
+      $$->push_back(strtoul($2->c_str(), NULL, 0)); 
+      delete $2; 
+    }
+  | array_dimensions '[' TINTEGER ']' 
+    { $1->push_back(strtoul($3->c_str(), NULL, 0)); $$ = $1; delete $3; }
   ;
 
 primitive_type_specifier

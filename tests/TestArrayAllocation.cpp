@@ -59,9 +59,11 @@ struct ArrayAllocationTest : Test {
     mContext.getScopes().pushScope();
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 5);
+    vector<unsigned long> dimensions;
+    dimensions.push_back(5u);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-    mArrayTypeSpecifier = new ArrayTypeSpecifier(intSpecifier, 5);
+    mArrayTypeSpecifier = new ArrayTypeSpecifier(intSpecifier, dimensions);
     
     mArrayAllocation = new ArrayAllocation(mArrayTypeSpecifier);
   }

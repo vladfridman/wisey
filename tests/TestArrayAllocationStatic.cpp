@@ -94,7 +94,9 @@ struct ArrayAllocationStaticTest : Test {
 };
 
 TEST_F(ArrayAllocationStaticTest, generateIRTest) {
-  const wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 2);
+  vector<unsigned long> dimensions;
+  dimensions.push_back(2u);
+  const wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
   mArrayAllocationStatic->generateIR(mContext, arrayType->getOwner());
   
   *mStringStream << *mBasicBlock;
@@ -127,7 +129,9 @@ TEST_F(ArrayAllocationStaticTest, isConstantTest) {
 }
 
 TEST_F(ArrayAllocationStaticTest, getTypeTest) {
-  const wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 2);
+  vector<unsigned long> dimensions;
+  dimensions.push_back(2u);
+  const wisey::ArrayType* arrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
   EXPECT_EQ(arrayType->getOwner(), mArrayAllocationStatic->getType(mContext));
 }
 

@@ -71,16 +71,13 @@ Value* ArrayAllocation::allocateArray(IRGenerationContext& context, const ArrayT
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
   Value* sizesStructurePointer = IRWriter::createGetElementPtrInst(context, malloc, index);
   
-  const IType* type = arrayType;
   unsigned long dimensionIndex = 0;
-  while (type->getTypeKind() == ARRAY_TYPE) {
+  for (unsigned long dimension : arrayType->getDimensions()) {
     index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), dimensionIndex);
     Value* sizeStore = IRWriter::createGetElementPtrInst(context, sizesStructurePointer, index);
-    ConstantInt* sizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                                              ((const ArrayType*) type)->getSize());
+    ConstantInt* sizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext), dimension);
     IRWriter::newStoreInst(context, sizeValue, sizeStore);
-    type = ((const ArrayType*) type)->getBaseType();
     dimensionIndex++;
   }
   

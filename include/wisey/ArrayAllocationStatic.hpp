@@ -45,7 +45,7 @@ namespace wisey {
     
     void initializeArray(IRGenerationContext& context,
                          llvm::Value* arrayPointer,
-                         const IType* elementType) const;
+                         const ArrayType* arrayType) const;
     
   };
   

@@ -27,7 +27,9 @@ struct ArrayOwnerTypeSpecifierTest : public Test {
 
 TEST_F(ArrayOwnerTypeSpecifierTest, creationTest) {
   PrimitiveTypeSpecifier* intSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(intSpecifer, 3u);
+  vector<unsigned long> dimensions;
+  dimensions.push_back(3u);
+  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(intSpecifer, dimensions);
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
   const IType* type = specifier->getType(mContext);
   
@@ -35,13 +37,15 @@ TEST_F(ArrayOwnerTypeSpecifierTest, creationTest) {
   EXPECT_STREQ("int[3]*", type->getTypeName().c_str());
   
   const ArrayOwnerType* arrayType = (const ArrayOwnerType*) type;
-  EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getArrayType()->getBaseType());
-  EXPECT_EQ(3u, arrayType->getArrayType()->getSize());
+  EXPECT_EQ(PrimitiveTypes::INT_TYPE, arrayType->getArrayType()->getElementType());
+  EXPECT_EQ(3u, arrayType->getArrayType()->getDimensions().front());
 }
 
 TEST_F(ArrayOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
   PrimitiveTypeSpecifier* floatSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
-  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(floatSpecifer, 3u);
+  vector<unsigned long> dimensions;
+  dimensions.push_back(3u);
+  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(floatSpecifer, dimensions);
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
   const IType* type1 = specifier->getType(mContext);
   const IType* type2 = specifier->getType(mContext);
@@ -51,7 +55,9 @@ TEST_F(ArrayOwnerTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
 
 TEST_F(ArrayOwnerTypeSpecifierTest, printToStreamTest) {
   PrimitiveTypeSpecifier* stringSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
-  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(stringSpecifer, 5u);
+  vector<unsigned long> dimensions;
+  dimensions.push_back(5u);
+  ArrayTypeSpecifier* arraySpecifier = new ArrayTypeSpecifier(stringSpecifer, dimensions);
   ArrayOwnerTypeSpecifier* specifier = new ArrayOwnerTypeSpecifier(arraySpecifier);
 
   stringstream stringStream;

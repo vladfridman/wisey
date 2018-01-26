@@ -52,8 +52,12 @@ public:
   FieldArrayReferenceVariableTest() : mLLVMContext(mContext.getLLVMContext()) {
     mStringStream = new raw_string_ostream(mStringBuffer);
     
-    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 3u);
-    mAnotherArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, 5u);
+    vector<unsigned long> dimensions;
+    dimensions.push_back(3u);
+    mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
+    dimensions.clear();
+    dimensions.push_back(5u);
+    mAnotherArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
 
     FunctionType* functionType = FunctionType::get(Type::getInt32Ty(mLLVMContext), false);
     Function* function = Function::Create(functionType,

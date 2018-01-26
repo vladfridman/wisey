@@ -19,12 +19,12 @@ namespace wisey {
  * Represents a wisey array type
  */
 class ArrayTypeSpecifier : public ITypeSpecifier {
-  ITypeSpecifier* mBaseTypeSpecifier;
-  unsigned long mSize;
+  ITypeSpecifier* mElementTypeSpecifier;
+  std::vector<unsigned long> mDimensions;
   
 public:
   
-  ArrayTypeSpecifier(ITypeSpecifier* baseTypeSpecifier, unsigned long arraySize);
+  ArrayTypeSpecifier(ITypeSpecifier* elementTypeSpecifier, std::vector<unsigned long> dimensions);
   
   ~ArrayTypeSpecifier();
   

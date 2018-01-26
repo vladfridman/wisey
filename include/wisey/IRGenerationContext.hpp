@@ -101,7 +101,7 @@ public:
   /**
    * Get an array type
    */
-  wisey::ArrayType* getArrayType(const IType* baseType, unsigned long size);
+  wisey::ArrayType* getArrayType(const IType* elementType, std::vector<unsigned long> dimensions);
   
   /**
    * Add a model type
