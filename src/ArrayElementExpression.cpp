@@ -44,13 +44,14 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   : ((const ArrayOwnerType*) expressionType)->getArrayType();
   Value* arrayPointer = mArrayExpression->generateIR(context, assignToType);
   
-  Composer::pushCallStack(context, mLine);
-  CheckForNullAndThrowFunction::call(context, arrayPointer);
-  arrayPointer = unwrapArray(context, arrayPointer);
-  Value* pointer = getArrayElement(context, arrayPointer, mArrayIndexExpresion);
-
-  Composer::popCallStack(context);
+  if (arrayPointer->getType()->getPointerElementType()->isStructTy()) {
+    Composer::pushCallStack(context, mLine);
+    CheckForNullAndThrowFunction::call(context, arrayPointer);
+    arrayPointer = unwrapArray(context, arrayPointer);
+    Composer::popCallStack(context);
+  }
   
+  Value* pointer = getArrayElement(context, arrayPointer, mArrayIndexExpresion);
   if (arrayType->getDimensions().size() > 1) {
     return pointer;
   }
@@ -71,13 +72,10 @@ Value* ArrayElementExpression::unwrapArray(IRGenerationContext& context,
                                            llvm::Value* arrayPointer) {
   LLVMContext& llvmContext = context.getLLVMContext();
 
-  if (arrayPointer->getType()->getPointerElementType()->isArrayTy()) {
-    return arrayPointer;
-  }
-  
   Value* index[2];
   index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
   index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 4);
+  
   return IRWriter::createGetElementPtrInst(context, arrayPointer, index);
 }
 
