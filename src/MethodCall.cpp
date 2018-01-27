@@ -35,7 +35,7 @@ mArguments(arguments),
 mLine(line) { }
 
 MethodCall::~MethodCall() {
-  for (IExpression* expression : mArguments) {
+  for (const IExpression* expression : mArguments) {
     delete expression;
   }
   mArguments.clear();
@@ -165,7 +165,7 @@ Value* MethodCall::createFunctionCall(IRGenerationContext& context,
   
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
   vector<MethodArgument*>::iterator methodArgumentIterator = methodArguments.begin();
-  for (IExpression* callArgument : mArguments) {
+  for (const IExpression* callArgument : mArguments) {
     MethodArgument* methodArgument = *methodArgumentIterator;
     Value* callArgumentValue = callArgument->generateIR(context, methodArgument->getType());
     const IType* callArgumentType = callArgument->getType(context);
@@ -219,7 +219,7 @@ void MethodCall::checkArgumentType(const IObjectType* objectWithMethods,
                                    IMethodDescriptor* methodDescriptor,
                                    IRGenerationContext& context) const {
   vector<MethodArgument*> methodArguments = methodDescriptor->getArguments();
-  vector<IExpression*>::const_iterator callArgumentsIterator = mArguments.begin();
+  ExpressionList::const_iterator callArgumentsIterator = mArguments.begin();
   
   if (mArguments.size() != methodDescriptor->getArguments().size()) {
     Log::e("Number of arguments for method call '" + methodDescriptor->getName() +
@@ -258,7 +258,7 @@ bool MethodCall::isConstant() const {
 void MethodCall::printToStream(IRGenerationContext& context, std::iostream& stream) const {
   mExpression->printToStream(context, stream);
   stream << "(";
-  for (IExpression* expression : mArguments) {
+  for (const IExpression* expression : mArguments) {
     expression->printToStream(context, stream);
     if (expression != mArguments.at(mArguments.size() - 1)) {
       stream << ", ";

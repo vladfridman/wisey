@@ -20,11 +20,11 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-PrintErrStatement::PrintErrStatement(std::vector<IExpression*> expressionList) :
+PrintErrStatement::PrintErrStatement(ExpressionList expressionList) :
 mExpressionList(expressionList) { }
 
 PrintErrStatement::~PrintErrStatement() {
-  for (IExpression* expression : mExpressionList) {
+  for (const IExpression* expression : mExpressionList) {
     delete expression;
   }
   mExpressionList.clear();
@@ -40,7 +40,7 @@ Value* PrintErrStatement::generateIR(IRGenerationContext& context) const {
   vector<Value*> arguments;
   arguments.push_back(stderrLoaded);
   arguments.push_back(formatPointer);
-  for (IExpression* expression : mExpressionList) {
+  for (const IExpression* expression : mExpressionList) {
     arguments.push_back(expression->generateIR(context, PrimitiveTypes::VOID_TYPE));
   }
   

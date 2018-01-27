@@ -28,7 +28,7 @@ mExpressionList(expressionList), mLine(line) {
 }
 
 ArrayAllocationStatic::~ArrayAllocationStatic() {
-  for (IExpression* expression : mExpressionList) {
+  for (const IExpression* expression : mExpressionList) {
     delete expression;
   }
   mExpressionList.clear();
@@ -81,7 +81,7 @@ const ArrayOwnerType* ArrayAllocationStatic::getType(IRGenerationContext& contex
 
 void ArrayAllocationStatic::printToStream(IRGenerationContext &context, iostream &stream) const {
   stream << "{ ";
-  for (IExpression* expression : mExpressionList) {
+  for (const IExpression* expression : mExpressionList) {
     expression->printToStream(context, stream);
     if (expression != mExpressionList.back()) {
       stream << ", ";
@@ -92,7 +92,7 @@ void ArrayAllocationStatic::printToStream(IRGenerationContext &context, iostream
 
 void ArrayAllocationStatic::checkArrayElements(IRGenerationContext &context) const {
   const IType* firstType = mExpressionList.front()->getType(context);
-  for (IExpression* expression : mExpressionList) {
+  for (const IExpression* expression : mExpressionList) {
     if (expression->getType(context) == firstType) {
       continue;
     }
@@ -112,14 +112,14 @@ void ArrayAllocationStatic::initializeArray(IRGenerationContext &context,
   Value* index[2];
   index[0] = ConstantInt::get(int64Type, 0);
   
-  vector<IExpression*> flattenedExpressions = flattenExpressionList(context);
+  ExpressionList flattenedExpressions = flattenExpressionList(context);
   const IType* elementType = arrayType->getElementType();
   PointerType* flatArrayType = llvm::ArrayType::get(elementType->getLLVMType(context),
                                                     arrayType->getLinearSize())->getPointerTo();
   Value* flatArray = IRWriter::newBitCastInst(context, arrayPointer, flatArrayType);
   
   unsigned long arrayIndex = 0;
-  for (IExpression* expression : flattenedExpressions) {
+  for (const IExpression* expression : flattenedExpressions) {
     index[1] = ConstantInt::get(int64Type, arrayIndex);
     Value* elementStore = IRWriter::createGetElementPtrInst(context, flatArray, index);
     ArrayElementAssignment::generateElementAssignment(context,
@@ -135,19 +135,19 @@ ExpressionList ArrayAllocationStatic::getExpressionList() const {
   return mExpressionList;
 }
 
-vector<IExpression*> ArrayAllocationStatic::flattenExpressionList(IRGenerationContext&
+ExpressionList ArrayAllocationStatic::flattenExpressionList(IRGenerationContext&
                                                                   context) const {
-  list<IExpression*> stack;
-  for (IExpression* expression : mExpressionList) {
+  list<const IExpression*> stack;
+  for (const IExpression* expression : mExpressionList) {
     stack.push_back(expression);
   }
-  list<IExpression*> result;
+  list<const IExpression*> result;
 
   while (stack.size()) {
-    IExpression* expression = stack.back();
+    const IExpression* expression = stack.back();
     stack.pop_back();
     if (expression->getType(context)->getTypeKind() == ARRAY_OWNER_TYPE) {
-      for (IExpression* subExpression :
+      for (const IExpression* subExpression :
            ((ArrayAllocationStatic*) expression)->getExpressionList()) {
         stack.push_back(subExpression);
       }
@@ -156,8 +156,8 @@ vector<IExpression*> ArrayAllocationStatic::flattenExpressionList(IRGenerationCo
     }
   }
   
-  vector<IExpression*> resultVector;
-  for (IExpression* expression : result) {
+  ExpressionList resultVector;
+  for (const IExpression* expression : result) {
     resultVector.push_back(expression);
   }
 

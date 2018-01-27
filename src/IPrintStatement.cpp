@@ -20,9 +20,9 @@ using namespace std;
 using namespace wisey;
 
 Value* IPrintStatement::getFormatString(IRGenerationContext& context,
-                                        vector<IExpression*> expressionList) {
+                                        ExpressionList expressionList) {
   string formatString = "";
-  for (IExpression* expression : expressionList) {
+  for (const IExpression* expression : expressionList) {
     const IType* type = expression->getType(context);
     if (!IType::isPrimitveType(type)) {
       Log::e("Can not print non primitive types");

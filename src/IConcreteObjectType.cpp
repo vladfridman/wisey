@@ -404,7 +404,7 @@ void IConcreteObjectType::composeDestructorBody(IRGenerationContext& context,
                                               objectType->getLLVMType(context));
   
   if (context.isDestructorDebugOn()) {
-    vector<IExpression*> printOutArguments;
+    ExpressionList printOutArguments;
     printOutArguments.push_back(new StringLiteral("destructor " + object->getTypeName() + "\n"));
     PrintOutStatement printOutStatement(printOutArguments);
     printOutStatement.generateIR(context);

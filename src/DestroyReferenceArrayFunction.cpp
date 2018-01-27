@@ -110,7 +110,7 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   Value* size = IRWriter::newLoadInst(context, sizeStore, "size");
   
   if (context.isDestructorDebugOn()) {
-    vector<IExpression*> printOutArguments;
+    ExpressionList printOutArguments;
     printOutArguments.push_back(new StringLiteral("destructor <object>["));
     printOutArguments.push_back(new FakeExpression(size, PrimitiveTypes::INT_TYPE));
     printOutArguments.push_back(new StringLiteral("]\n"));

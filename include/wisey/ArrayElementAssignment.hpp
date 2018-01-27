@@ -28,7 +28,7 @@ namespace wisey {
      */
     static llvm::Value* generateElementAssignment(IRGenerationContext& context,
                                                   const IType* elementType,
-                                                  IExpression* assignToExpression,
+                                                  const IExpression* assignToExpression,
                                                   llvm::Value* elementStore,
                                                   int line);
 
@@ -36,19 +36,19 @@ namespace wisey {
     
     static llvm::Value* generateOwnerElementAssignment(IRGenerationContext& context,
                                                        const IType* elementType,
-                                                       IExpression* assignToExpression,
+                                                       const IExpression* assignToExpression,
                                                        llvm::Value* elementStore,
                                                        int line);
 
     static llvm::Value* generateReferenceElementAssignment(IRGenerationContext& context,
                                                            const IType* elementType,
-                                                           IExpression* assignToExpression,
+                                                           const IExpression* assignToExpression,
                                                            llvm::Value* elementStore,
                                                            int line);
 
     static llvm::Value* generatePrimitiveElementAssignment(IRGenerationContext& context,
                                                            const IType* elementType,
-                                                           IExpression* assignToExpression,
+                                                           const IExpression* assignToExpression,
                                                            llvm::Value* elementStore,
                                                            int line);
 

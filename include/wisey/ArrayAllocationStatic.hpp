@@ -49,7 +49,7 @@ namespace wisey {
                          llvm::Value* arrayStructPointer,
                          const ArrayType* arrayType) const;
     
-    std::vector<IExpression*> flattenExpressionList(IRGenerationContext& context) const;
+    ExpressionList flattenExpressionList(IRGenerationContext& context) const;
     
   };
   

@@ -16,7 +16,7 @@ using namespace wisey;
 
 llvm::Value* ArrayElementAssignment::generateElementAssignment(IRGenerationContext& context,
                                                                const IType* elementType,
-                                                               IExpression* assignToExpression,
+                                                               const IExpression* assignToExpression,
                                                                llvm::Value* elementStore,
                                                                int line) {
   if (IType::isOwnerType(elementType)) {
@@ -47,7 +47,7 @@ llvm::Value* ArrayElementAssignment::generateElementAssignment(IRGenerationConte
 llvm::Value* ArrayElementAssignment::
 generateOwnerElementAssignment(IRGenerationContext& context,
                                const IType* elementType,
-                               IExpression* assignToExpression,
+                               const IExpression* assignToExpression,
                                llvm::Value* elementStore,
                                int line) {
   Value* assignToValue = assignToExpression->generateIR(context, elementType);
@@ -65,7 +65,7 @@ generateOwnerElementAssignment(IRGenerationContext& context,
 llvm::Value* ArrayElementAssignment::
 generateReferenceElementAssignment(IRGenerationContext& context,
                                    const IType* elementType,
-                                   IExpression* assignToExpression,
+                                   const IExpression* assignToExpression,
                                    llvm::Value* elementStore,
                                    int line) {
   Value* assignToValue = assignToExpression->generateIR(context, elementType);
@@ -85,7 +85,7 @@ generateReferenceElementAssignment(IRGenerationContext& context,
 llvm::Value* ArrayElementAssignment::
 generatePrimitiveElementAssignment(IRGenerationContext& context,
                                    const IType* elementType,
-                                   IExpression* assignToExpression,
+                                   const IExpression* assignToExpression,
                                    llvm::Value* elementStore,
                                    int line) {
   Value* assignToValue = assignToExpression->generateIR(context, elementType);

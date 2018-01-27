@@ -52,7 +52,7 @@ public:
 /**
  * Represents a list of expressions
  */
-typedef std::vector<IExpression*> ExpressionList;
+typedef std::vector<const IExpression*> ExpressionList;
 
 } /* namespace wisey */
 

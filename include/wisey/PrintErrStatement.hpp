@@ -21,11 +21,11 @@ class IRGenerationContext;
  * Represents a printout statement for printing things to stdout stream
  */
 class PrintErrStatement : public IPrintStatement {
-  std::vector<IExpression*> mExpressionList;
+  ExpressionList mExpressionList;
   
 public:
   
-  PrintErrStatement(std::vector<IExpression*> expressionList);
+  PrintErrStatement(ExpressionList expressionList);
   
   ~PrintErrStatement();
   

@@ -159,7 +159,7 @@
   wisey::ProgramFile* program_file;
   std::vector<wisey::Catch*>* catch_vector;
   std::vector<wisey::VariableDeclaration*>* variable_vector;
-  std::vector<wisey::IExpression*>* expression_vector;
+  std::vector<const wisey::IExpression*>* expression_vector;
   std::vector<wisey::MethodSignatureDeclaration*>* method_signature_vector;
   std::tuple<std::vector<wisey::IObjectElementDeclaration*>, 
              std::vector<wisey::IObjectDefinition*>>* object_element_list;
@@ -759,7 +759,7 @@ print_statement
   ;
 
 string_concatenation_list
-  : cast_expression { $$ = new std::vector<IExpression*>(); $$->push_back($1); }
+  : cast_expression { $$ = new std::vector<const IExpression*>(); $$->push_back($1); }
   | string_concatenation_list '+' cast_expression { $1->push_back($3); $$ = $1; }
   ;
 
