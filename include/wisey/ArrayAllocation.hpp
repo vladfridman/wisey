@@ -9,7 +9,7 @@
 #ifndef ArrayAllocation_h
 #define ArrayAllocation_h
 
-#include "wisey/ArrayTypeSpecifier.hpp"
+#include "wisey/ArraySpecificTypeSpecifier.hpp"
 #include "wisey/IExpression.hpp"
 
 namespace wisey {
@@ -19,18 +19,19 @@ namespace wisey {
    */
   class ArrayAllocation : public IExpression {
     
-    const ArrayTypeSpecifier* mArrayTypeSpecifier;
+    const ArraySpecificTypeSpecifier* mArraySpecificTypeSpecifier;
     
   public:
     
-    ArrayAllocation(const ArrayTypeSpecifier* arrayTypeSpecifier);
+    ArrayAllocation(const ArraySpecificTypeSpecifier* arraySpecificTypeSpecifier);
     
     ~ArrayAllocation();
     
     /**
      * Allocates memory for the given type array
      */
-    static llvm::Value* allocateArray(IRGenerationContext &context, const ArrayType* arrayType);
+    static llvm::Value* allocateArray(IRGenerationContext &context,
+                                      const ArraySpecificType* arrayType);
     
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
     

@@ -25,7 +25,7 @@ ArrayType* ArrayTypeSpecifier::getType(IRGenerationContext& context) const {
   return context.getArrayType(mElementTypeSpecifier->getType(context), mDimensions);
 }
 
-void ArrayTypeSpecifier::printToStream(IRGenerationContext &context, iostream &stream) const {
+void ArrayTypeSpecifier::printToStream(IRGenerationContext& context, iostream& stream) const {
   mElementTypeSpecifier->printToStream(context, stream);
   for (long dimension : mDimensions) {
     stream << "[" << dimension << "]";

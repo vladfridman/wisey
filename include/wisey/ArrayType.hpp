@@ -103,6 +103,6 @@ private:
   
 };
   
-}
+} /* namespace wisey */
 
 #endif /* ArrayType_h */

@@ -7,6 +7,7 @@
   #include "wisey/ArrayAllocationStatic.hpp"
   #include "wisey/ArrayElementExpression.hpp"
   #include "wisey/ArrayOwnerTypeSpecifier.hpp"
+  #include "wisey/ArraySpecificTypeSpecifier.hpp"
   #include "wisey/ArrayTypeSpecifier.hpp"
   #include "wisey/Assignment.hpp"
   #include "wisey/BindAction.hpp"
@@ -140,6 +141,7 @@
   wisey::ITypeSpecifier* type_specifier;
   wisey::ArrayTypeSpecifier* array_type_specifier;
   wisey::ArrayOwnerTypeSpecifier* array_owner_type_specifier;
+  wisey::ArraySpecificTypeSpecifier* array_specific_type_specifier;
   wisey::IObjectDefinition* object_definition;
   wisey::IObjectTypeSpecifier* object_type_specifier;
   wisey::Identifier* identifier;
@@ -234,6 +236,7 @@
 %type <type_specifier> non_array_type_specifier
 %type <array_type_specifier> array_type_specifier
 %type <array_owner_type_specifier> array_owner_type_specifier
+%type <array_specific_type_specifier> array_specific_type_specifier
 %type <object_type_specifier> top_level_object_type_specifier 
 %type <object_type_specifier> buildable_concrete_object_type_specifier
 %type <object_type_specifier> injectable_object_type_specifier inner_object_type_specifier
@@ -1058,8 +1061,7 @@ thread_expression
   : TTHREAD { $$ = new ThreadExpression(); }
 
 array_allocation
-  : TNEW array_type_specifier
-    { $$ = new ArrayAllocation($2); }
+  : TNEW array_specific_type_specifier { $$ = new ArrayAllocation($2); }
   ;
 
 static_array_allocation
@@ -1223,6 +1225,11 @@ array_owner_type_specifier
 array_type_specifier
   : non_array_type_specifier array_dimensions
     { $$ = new ArrayTypeSpecifier($1, *$2); delete $2; }
+  ;
+
+array_specific_type_specifier
+  : non_array_type_specifier array_dimensions
+    { $$ = new ArraySpecificTypeSpecifier($1, *$2); delete $2; }
   ;
 
 array_dimensions

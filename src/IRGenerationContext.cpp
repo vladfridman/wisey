@@ -39,6 +39,11 @@ IRGenerationContext::~IRGenerationContext() {
        iterator++) {
     delete iterator->second;
   }
+  for (map<string, ArraySpecificType*>::iterator iterator = mArraySpecificTypes.begin();
+       iterator != mArraySpecificTypes.end();
+       iterator++) {
+    delete iterator->second;
+  }
   for (map<string, Model*>::iterator iterator = mModels.begin();
        iterator != mModels.end();
        iterator++) {
@@ -104,7 +109,7 @@ void IRGenerationContext::setBasicBlock(BasicBlock* block) {
 }
 
 wisey::ArrayType* IRGenerationContext::getArrayType(const IType* elementType,
-                                                    std::vector<unsigned long> dimensions) {
+                                                    vector<unsigned long> dimensions) {
   string key = elementType->getTypeName();
   for (long dimension : dimensions) {
     key = key + "[" + to_string(dimension) + "]";
@@ -116,6 +121,21 @@ wisey::ArrayType* IRGenerationContext::getArrayType(const IType* elementType,
   mArrayTypes[key] = arrayType;
   
   return arrayType;
+}
+
+ArraySpecificType* IRGenerationContext::getArraySpecificType(const IType* elementType,
+                                                             vector<unsigned long> dimensions) {
+  string key = elementType->getTypeName();
+  for (long dimension : dimensions) {
+    key = key + "[" + to_string(dimension) + "]";
+  }
+  if (mArraySpecificTypes.count(key)) {
+    return mArraySpecificTypes.at(key);
+  }
+  ArraySpecificType* arraySpecificType = new ArraySpecificType(elementType, dimensions);
+  mArraySpecificTypes[key] = arraySpecificType;
+  
+  return arraySpecificType;
 }
 
 void IRGenerationContext::addModel(Model* model) {

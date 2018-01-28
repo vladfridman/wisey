@@ -41,7 +41,7 @@ struct ArrayAllocationTest : Test {
   raw_string_ostream* mStringStream;
   Function* mFunction;
   BasicBlock* mBasicBlock;
-  ArrayTypeSpecifier* mArrayTypeSpecifier;
+  ArraySpecificTypeSpecifier* mArraySpecificTypeSpecifier;
   wisey::ArrayType* mArrayType;
   ArrayAllocation* mArrayAllocation;
   
@@ -63,9 +63,9 @@ struct ArrayAllocationTest : Test {
     dimensions.push_back(5u);
     mArrayType = mContext.getArrayType(PrimitiveTypes::INT_TYPE, dimensions);
     PrimitiveTypeSpecifier* intSpecifier = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
-    mArrayTypeSpecifier = new ArrayTypeSpecifier(intSpecifier, dimensions);
+    mArraySpecificTypeSpecifier = new ArraySpecificTypeSpecifier(intSpecifier, dimensions);
     
-    mArrayAllocation = new ArrayAllocation(mArrayTypeSpecifier);
+    mArrayAllocation = new ArrayAllocation(mArraySpecificTypeSpecifier);
   }
   
   ~ArrayAllocationTest() {

@@ -18,6 +18,7 @@
 #include <llvm/IR/Module.h>
 
 #include "wisey/ArrayType.hpp"
+#include "wisey/ArraySpecificType.hpp"
 #include "wisey/Controller.hpp"
 #include "wisey/ImportProfile.hpp"
 #include "wisey/Interface.hpp"
@@ -45,6 +46,7 @@ class IRGenerationContext : public IPrintable {
   std::unique_ptr<llvm::Module> mModuleOwner;
   llvm::BasicBlock* mBasicBlock;
   std::map<std::string, ArrayType*> mArrayTypes;
+  std::map<std::string, ArraySpecificType*> mArraySpecificTypes;
   std::map<std::string, Model*> mModels;
   std::map<std::string, Controller*> mControllers;
   std::map<std::string, Node*> mNodes;
@@ -102,7 +104,13 @@ public:
    * Get an array type
    */
   wisey::ArrayType* getArrayType(const IType* elementType, std::vector<unsigned long> dimensions);
-  
+
+  /**
+   * Get an array specific type
+   */
+  ArraySpecificType* getArraySpecificType(const IType* elementType,
+                                          std::vector<unsigned long> dimensions);
+
   /**
    * Add a model type
    */

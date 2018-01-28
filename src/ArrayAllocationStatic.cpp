@@ -36,9 +36,9 @@ ArrayAllocationStatic::~ArrayAllocationStatic() {
 
 Value* ArrayAllocationStatic::generateIR(IRGenerationContext &context,
                                          const IType* assignToType) const {
-  const ArrayType* arrayType = getType(context)->getArrayType();
-  Value* arrayStructPointer = ArrayAllocation::allocateArray(context, arrayType);
-  initializeArray(context, arrayStructPointer, arrayType);
+  const ArraySpecificType* arraySpecificType = getSpecificType(context);
+  Value* arrayStructPointer = ArrayAllocation::allocateArray(context, arraySpecificType);
+  initializeArray(context, arrayStructPointer, arraySpecificType);
   
   if (assignToType->isOwner()) {
     return arrayStructPointer;
@@ -46,9 +46,9 @@ Value* ArrayAllocationStatic::generateIR(IRGenerationContext &context,
   
   Value* alloc = IRWriter::newAllocaInst(context, arrayStructPointer->getType(), "");
   IRWriter::newStoreInst(context, arrayStructPointer, alloc);
-  IVariable* variable = new LocalArrayOwnerVariable(IVariable::getTemporaryVariableName(this),
-                                                    arrayType->getOwner(),
-                                                    alloc);
+  const ArrayOwnerType* arrayOwnerType = arraySpecificType->getArrayType(context)->getOwner();
+  string variableName = IVariable::getTemporaryVariableName(this);
+  IVariable* variable = new LocalArrayOwnerVariable(variableName, arrayOwnerType, alloc);
   context.getScopes().setVariable(variable);
   
   return arrayStructPointer;
@@ -64,20 +64,26 @@ bool ArrayAllocationStatic::isConstant() const {
 }
 
 const ArrayOwnerType* ArrayAllocationStatic::getType(IRGenerationContext& context) const {
+  return getSpecificType(context)->getArrayType(context)->getOwner();
+}
+
+const ArraySpecificType* ArrayAllocationStatic::getSpecificType(IRGenerationContext&
+                                                                context) const {
   checkArrayElements(context);
   const IType* elementType = mExpressionList.front()->getType(context);
   vector<unsigned long> dimensions;
   dimensions.push_back(mExpressionList.size());
   if (elementType->getTypeKind() != ARRAY_OWNER_TYPE) {
-    return context.getArrayType(elementType, dimensions)->getOwner();
+    return context.getArraySpecificType(elementType, dimensions);
   }
-
+  
   const ArrayType* subArrayType = ((const ArrayOwnerType*) elementType)->getArrayType();
   for (unsigned long dimension : subArrayType->getDimensions()) {
     dimensions.push_back(dimension);
   }
-  return context.getArrayType(subArrayType->getElementType(), dimensions)->getOwner();
+  return context.getArraySpecificType(subArrayType->getElementType(), dimensions);
 }
+
 
 void ArrayAllocationStatic::printToStream(IRGenerationContext &context, iostream &stream) const {
   stream << "{ ";
@@ -104,7 +110,7 @@ void ArrayAllocationStatic::checkArrayElements(IRGenerationContext &context) con
 
 void ArrayAllocationStatic::initializeArray(IRGenerationContext &context,
                                             Value* arrayStructPointer,
-                                            const ArrayType* arrayType) const {
+                                            const ArraySpecificType* arraySpecificType) const {
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int64Type = Type::getInt64Ty(llvmContext);
   
@@ -113,17 +119,17 @@ void ArrayAllocationStatic::initializeArray(IRGenerationContext &context,
   index[0] = ConstantInt::get(int64Type, 0);
   
   ExpressionList flattenedExpressions = flattenExpressionList(context);
-  const IType* elementType = arrayType->getElementType();
-  PointerType* flatArrayType = llvm::ArrayType::get(elementType->getLLVMType(context),
-                                                    arrayType->getLinearSize())->getPointerTo();
-  Value* flatArray = IRWriter::newBitCastInst(context, arrayPointer, flatArrayType);
+  const IType* elementType = arraySpecificType->getElementType();
+  llvm::ArrayType* flatArrayType = llvm::ArrayType::get(elementType->getLLVMType(context),
+                                                        arraySpecificType->getLinearSize());
+  Value* flatArray = IRWriter::newBitCastInst(context, arrayPointer, flatArrayType->getPointerTo());
   
   unsigned long arrayIndex = 0;
   for (const IExpression* expression : flattenedExpressions) {
     index[1] = ConstantInt::get(int64Type, arrayIndex);
     Value* elementStore = IRWriter::createGetElementPtrInst(context, flatArray, index);
     ArrayElementAssignment::generateElementAssignment(context,
-                                                      arrayType->getElementType(),
+                                                      arraySpecificType->getElementType(),
                                                       expression,
                                                       elementStore,
                                                       mLine);

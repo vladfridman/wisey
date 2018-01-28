@@ -1,16 +1,16 @@
 //
-//  TestArrayTypeSpecifier.cpp
+//  TestArraySpecificTypeSpecifier.cpp
 //  runtests
 //
-//  Created by Vladimir Fridman on 12/11/17.
-//  Copyright © 2017 Vladimir Fridman. All rights reserved.
+//  Created by Vladimir Fridman on 1/28/18.
+//  Copyright © 2018 Vladimir Fridman. All rights reserved.
 //
-//  Tests {@link ArrayTypeSpecifier}
+//  Tests {@link ArraySpecificTypeSpecifier}
 //
 
 #include <gtest/gtest.h>
 
-#include "wisey/ArrayTypeSpecifier.hpp"
+#include "wisey/ArraySpecificTypeSpecifier.hpp"
 #include "wisey/PrimitiveTypes.hpp"
 #include "wisey/PrimitiveTypeSpecifier.hpp"
 
@@ -19,17 +19,17 @@ using namespace wisey;
 
 using ::testing::Test;
 
-struct ArrayTypeSpecifierTest : public Test {
+struct ArraySpecificTypeSpecifierTest : public Test {
   IRGenerationContext mContext;
   
-  ArrayTypeSpecifierTest() { }
+  ArraySpecificTypeSpecifierTest() { }
 };
 
-TEST_F(ArrayTypeSpecifierTest, creationTest) {
+TEST_F(ArraySpecificTypeSpecifierTest, creationTest) {
   PrimitiveTypeSpecifier* intSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::INT_TYPE);
   vector<unsigned long> dimensions;
   dimensions.push_back(3u);
-  ArrayTypeSpecifier* specifier = new ArrayTypeSpecifier(intSpecifer, dimensions);
+  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(intSpecifer, dimensions);
   const IType* type = specifier->getType(mContext);
   
   EXPECT_EQ(ARRAY_TYPE, type->getTypeKind());
@@ -40,23 +40,23 @@ TEST_F(ArrayTypeSpecifierTest, creationTest) {
   EXPECT_EQ(3u, arrayType->getDimensions().front());
 }
 
-TEST_F(ArrayTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
+TEST_F(ArraySpecificTypeSpecifierTest, twoGetsReturnSameTypeObjectTest) {
   PrimitiveTypeSpecifier* floatSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::FLOAT_TYPE);
   vector<unsigned long> dimensions;
   dimensions.push_back(3u);
-  ArrayTypeSpecifier* specifier = new ArrayTypeSpecifier(floatSpecifer, dimensions);
+  ArraySpecificTypeSpecifier* specifier = new ArraySpecificTypeSpecifier(floatSpecifer, dimensions);
   const IType* type1 = specifier->getType(mContext);
   const IType* type2 = specifier->getType(mContext);
   
   EXPECT_EQ(type1, type2);
 }
 
-TEST_F(ArrayTypeSpecifierTest, printToStreamTest) {
+TEST_F(ArraySpecificTypeSpecifierTest, printToStreamTest) {
   PrimitiveTypeSpecifier* stringSpecifer = new PrimitiveTypeSpecifier(PrimitiveTypes::STRING_TYPE);
   vector<unsigned long> dimensions;
   dimensions.push_back(5u);
-  ArrayTypeSpecifier specifier(stringSpecifer, dimensions);
-
+  ArraySpecificTypeSpecifier specifier(stringSpecifer, dimensions);
+  
   stringstream stringStream;
   specifier.printToStream(mContext, stringStream);
   

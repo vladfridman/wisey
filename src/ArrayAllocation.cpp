@@ -19,17 +19,17 @@ using namespace llvm;
 using namespace std;
 using namespace wisey;
 
-ArrayAllocation::ArrayAllocation(const ArrayTypeSpecifier* arrayTypeSpecifier) :
-mArrayTypeSpecifier(arrayTypeSpecifier) {
+ArrayAllocation::ArrayAllocation(const ArraySpecificTypeSpecifier* arraySpecificTypeSpecifier) :
+mArraySpecificTypeSpecifier(arraySpecificTypeSpecifier) {
 }
 
 ArrayAllocation::~ArrayAllocation() {
-  delete mArrayTypeSpecifier;
+  delete mArraySpecificTypeSpecifier;
 }
 
 Value* ArrayAllocation::generateIR(IRGenerationContext &context, const IType* assignToType) const {
-  ArrayType* arrayType = mArrayTypeSpecifier->getType(context);
-  Value* arrayPointer = allocateArray(context, arrayType);
+  ArraySpecificType* arraySpecificType = mArraySpecificTypeSpecifier->getType(context);
+  Value* arrayPointer = allocateArray(context, arraySpecificType);
   
   if (assignToType->isOwner()) {
     return arrayPointer;
@@ -37,16 +37,18 @@ Value* ArrayAllocation::generateIR(IRGenerationContext &context, const IType* as
 
   Value* alloc = IRWriter::newAllocaInst(context, arrayPointer->getType(), "");
   IRWriter::newStoreInst(context, arrayPointer, alloc);
-  IVariable* variable = new LocalArrayOwnerVariable(IVariable::getTemporaryVariableName(this),
-                                                    arrayType->getOwner(),
-                                                    alloc);
+  const ArrayOwnerType* arrayOwnerType = arraySpecificType->getArrayType(context)->getOwner();
+  string variableName = IVariable::getTemporaryVariableName(this);
+  IVariable* variable = new LocalArrayOwnerVariable(variableName, arrayOwnerType, alloc);
   context.getScopes().setVariable(variable);
   
   return arrayPointer;
 }
 
-Value* ArrayAllocation::allocateArray(IRGenerationContext& context, const ArrayType* arrayType) {
-  StructType* structType = (StructType*) arrayType->getLLVMType(context)->getPointerElementType();
+Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
+                                      const ArraySpecificType* arraySpecificType) {
+  PointerType* arrayPointerType = arraySpecificType->getLLVMType(context);
+  StructType* structType = (StructType*) arrayPointerType->getPointerElementType();
   llvm::Constant* allocSize = ConstantExpr::getSizeOf(structType);
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "newarray");
   IntrinsicFunctions::setMemoryToZero(context, malloc, structType);
@@ -57,14 +59,14 @@ Value* ArrayAllocation::allocateArray(IRGenerationContext& context, const ArrayT
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
   Value* dimensionsStore = IRWriter::createGetElementPtrInst(context, malloc, index);
   ConstantInt* dimensionsValue = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                                                  arrayType->getDimentionsSize());
+                                                  arraySpecificType->getDimentionsSize());
   IRWriter::newStoreInst(context, dimensionsValue, dimensionsStore);
   
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
   Value* linearSizeStore = IRWriter::createGetElementPtrInst(context, malloc, index);
   ConstantInt* linearSizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                                                  arrayType->getLinearSize());
+                                                  arraySpecificType->getLinearSize());
   IRWriter::newStoreInst(context, linearSizeValue, linearSizeStore);
   
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
@@ -72,7 +74,7 @@ Value* ArrayAllocation::allocateArray(IRGenerationContext& context, const ArrayT
   Value* sizesStructurePointer = IRWriter::createGetElementPtrInst(context, malloc, index);
   
   unsigned long dimensionIndex = 0;
-  for (unsigned long dimension : arrayType->getDimensions()) {
+  for (unsigned long dimension : arraySpecificType->getDimensions()) {
     index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
     index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), dimensionIndex);
     Value* sizeStore = IRWriter::createGetElementPtrInst(context, sizesStructurePointer, index);
@@ -94,10 +96,10 @@ bool ArrayAllocation::isConstant() const {
 }
 
 const IType* ArrayAllocation::getType(IRGenerationContext& context) const {
-  return mArrayTypeSpecifier->getType(context)->getOwner();
+  return mArraySpecificTypeSpecifier->getType(context)->getArrayType(context)->getOwner();
 }
 
 void ArrayAllocation::printToStream(IRGenerationContext &context, iostream &stream) const {
   stream << "new ";
-  mArrayTypeSpecifier->printToStream(context, stream);
+  mArraySpecificTypeSpecifier->printToStream(context, stream);
 }

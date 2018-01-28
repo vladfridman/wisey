@@ -2,6 +2,7 @@
   #include <string>
   #include "wisey/AccessLevel.hpp"
   #include "wisey/ArrayOwnerTypeSpecifier.hpp"
+  #include "wisey/ArraySpecificTypeSpecifier.hpp"
   #include "wisey/ArrayTypeSpecifier.hpp"
   #include "wisey/Catch.hpp"
   #include "wisey/CompoundStatement.hpp"

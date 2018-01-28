@@ -10,6 +10,7 @@
 #define ArrayAllocationStatic_h
 
 #include "wisey/ArrayOwnerType.hpp"
+#include "wisey/ArraySpecificType.hpp"
 #include "wisey/IExpression.hpp"
 
 namespace wisey {
@@ -43,11 +44,13 @@ namespace wisey {
     
   private:
     
+    const ArraySpecificType* getSpecificType(IRGenerationContext& context) const;
+    
     void checkArrayElements(IRGenerationContext& context) const;
     
     void initializeArray(IRGenerationContext& context,
                          llvm::Value* arrayStructPointer,
-                         const ArrayType* arrayType) const;
+                         const ArraySpecificType* arraySpecificType) const;
     
     ExpressionList flattenExpressionList(IRGenerationContext& context) const;
     
