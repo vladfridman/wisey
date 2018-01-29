@@ -130,8 +130,8 @@ void DestroyReferenceArrayFunction::compose(IRGenerationContext& context, Functi
   
   context.setBasicBlock(refCountZeroBlock);
   
-  index[0] = dimensions;
-  Value* arrayStore = IRWriter::createGetElementPtrInst(context, dimensionsStore, offset);
+  index[0] = offset;
+  Value* arrayStore = IRWriter::createGetElementPtrInst(context, dimensionsStore, index);
   Value* array = IRWriter::newBitCastInst(context,
                                           arrayStore,
                                           ArrayType::getGenericArrayType(context));
