@@ -80,8 +80,8 @@ TEST_F(LocalArrayReferenceVariableTest, generateArrayIdentifierIRTest) {
   
   string expected =
   "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, { i64 }, [3 x i32] }*"
-  "\n  %0 = load { i64, i64, i64, { i64 }, [3 x i32] }*, { i64, i64, i64, { i64 }, [3 x i32] }** %foo\n";
+  "\n  %foo = alloca { i64, i64, { i64 }, [3 x i32] }*"
+  "\n  %0 = load { i64, i64, { i64 }, [3 x i32] }*, { i64, i64, { i64 }, [3 x i32] }** %foo\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
   mStringBuffer.clear();
@@ -102,13 +102,13 @@ TEST_F(LocalArrayReferenceVariableTest, generateArrayWholeArrayAssignmentTest) {
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  %foo = alloca { i64, i64, i64, { i64 }, [3 x i32] }*"
-  "\n  %0 = load { i64, i64, i64, { i64 }, [3 x i32] }*, { i64, i64, i64, { i64 }, [3 x i32] }** %foo"
-  "\n  %1 = bitcast { i64, i64, i64, { i64 }, [3 x i32] }* %0 to i8*"
+  "\n  %foo = alloca { i64, i64, { i64 }, [3 x i32] }*"
+  "\n  %0 = load { i64, i64, { i64 }, [3 x i32] }*, { i64, i64, { i64 }, [3 x i32] }** %foo"
+  "\n  %1 = bitcast { i64, i64, { i64 }, [3 x i32] }* %0 to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %1, i64 -1)"
-  "\n  %2 = bitcast { i64, i64, i64, { i64 }, [3 x i32] }* null to i8*"
+  "\n  %2 = bitcast { i64, i64, { i64 }, [3 x i32] }* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %2, i64 1)"
-  "\n  store { i64, i64, i64, { i64 }, [3 x i32] }* null, { i64, i64, i64, { i64 }, [3 x i32] }** %foo\n";
+  "\n  store { i64, i64, { i64 }, [3 x i32] }* null, { i64, i64, { i64 }, [3 x i32] }** %foo\n";
 
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

@@ -96,7 +96,7 @@ TEST_F(DestroyPrimitiveArrayFunctionTest, getTest) {
   "\n  ret void"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
-  "\n  %1 = getelementptr i64, i64* %arrayPointer, i64 2"
+  "\n  %1 = getelementptr i64, i64* %arrayPointer, i64 1"
   "\n  %size = load i64, i64* %1"
   "\n  %2 = load i64, i64* %arrayPointer"
   "\n  %3 = icmp eq i64 %2, 0"

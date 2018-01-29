@@ -35,10 +35,14 @@ Function* DestroyOwnerArrayFunction::get(IRGenerationContext& context) {
 
 void DestroyOwnerArrayFunction::call(IRGenerationContext& context,
                                      Value* array,
+                                     unsigned long numberOfDimensions,
                                      Value* destructor) {
+  llvm::Type* int64type = llvm::Type::getInt64Ty(context.getLLVMContext());
+
   Function* function = get(context);
   vector<Value*> arguments;
   arguments.push_back(array);
+  arguments.push_back(ConstantInt::get(int64type, numberOfDimensions));
   arguments.push_back(destructor);
   
   IRWriter::createCallInst(context, function, arguments, "");
@@ -56,6 +60,7 @@ Function* DestroyOwnerArrayFunction::define(IRGenerationContext& context) {
 
   vector<Type*> argumentTypes;
   argumentTypes.push_back(genericPointer);
+  argumentTypes.push_back(llvm::Type::getInt64Ty(llvmContext));
   argumentTypes.push_back(destructorFunctionType->getPointerTo());
   ArrayRef<Type*> argTypesArray = ArrayRef<Type*>(argumentTypes);
   Type* llvmReturnType = Type::getVoidTy(llvmContext);
@@ -74,6 +79,10 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   llvm::Argument *llvmArgument = &*llvmArguments;
   llvmArgument->setName("arrayPointer");
   Value* arrayPointer = llvmArgument;
+  llvmArguments++;
+  llvmArgument = &*llvmArguments;
+  llvmArgument->setName("noOfDimensions");
+  Value* numberOfDimensions = llvmArgument;
   llvmArguments++;
   llvmArgument = &*llvmArguments;
   llvmArgument->setName("destructor");
@@ -103,17 +112,14 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
   llvm::Constant* one = ConstantInt::get(int64type, 1);
   llvm::Constant* two = ConstantInt::get(int64type, 2);
-  Value* index[1];
-  index[0] = one;
-  Value* dimensionsStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
-  Value* dimensions = IRWriter::newLoadInst(context, dimensionsStore, "dimensions");
   Value* offset = IRWriter::createBinaryOperator(context,
                                                  llvm::Instruction::Add,
-                                                 dimensions,
+                                                 numberOfDimensions,
                                                  two,
                                                  "offset");
   
-  index[0] = two;
+  Value* index[1];
+  index[0] = one;
   Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   Value* size = IRWriter::newLoadInst(context, sizeStore, "size");
   
@@ -127,7 +133,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   }
 
   Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "");
-  llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  llvm::Constant* zero = ConstantInt::get(int64type, 0);
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "");
   IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
   
@@ -139,7 +145,7 @@ void DestroyOwnerArrayFunction::compose(IRGenerationContext& context, Function* 
   context.setBasicBlock(refCountZeroBlock);
 
   index[0] = offset;
-  Value* arrayStore = IRWriter::createGetElementPtrInst(context, dimensionsStore, index);
+  Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   Value* array = IRWriter::newBitCastInst(context,
                                           arrayStore,
                                           ArrayType::getGenericArrayType(context));

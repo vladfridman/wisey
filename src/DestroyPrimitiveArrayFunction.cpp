@@ -89,7 +89,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
 
   llvm::Type* int64type = llvm::Type::getInt64Ty(llvmContext);
   Value* index[1];
-  index[0] = ConstantInt::get(int64type, 2);
+  index[0] = ConstantInt::get(int64type, 1);
   Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
   Value* size = IRWriter::newLoadInst(context, sizeStore, "size");
 
@@ -103,7 +103,7 @@ void DestroyPrimitiveArrayFunction::compose(IRGenerationContext& context, Functi
   }
 
   Value* referenceCount = IRWriter::newLoadInst(context, arrayPointer, "");
-  llvm::Constant* zero = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  llvm::Constant* zero = ConstantInt::get(int64type, 0);
   Value* isZero = IRWriter::newICmpInst(context, ICmpInst::ICMP_EQ, referenceCount, zero, "");
   IRWriter::createConditionalBranch(context, refCountZeroBlock, refCountNotZeroBlock, isZero);
   

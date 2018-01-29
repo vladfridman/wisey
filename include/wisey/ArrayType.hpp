@@ -25,7 +25,6 @@ class ArrayOwnerType;
  * The Struct looks as follows:
  * {
  *   int_64 ref_count
- *   int_64 number_of_dimensions
  *   int_64 linear_size // equals to the product of all dimension sizes
  *   { int 64 dimention_1_size, int 64 dimention_2_size }
  *   [ dimention_1_size x [dimention_2_size x <element_type> ]]
@@ -42,6 +41,8 @@ public:
   ArrayType(const IType* elementType, std::vector<unsigned long> dimensions);
   
   ~ArrayType();
+  
+  static const unsigned int ARRAY_ELEMENTS_START_INDEX;
 
   /**
    * Returns the owner type for this array type

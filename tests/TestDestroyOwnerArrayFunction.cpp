@@ -71,12 +71,12 @@ struct DestroyOwnerArrayFunctionTest : Test {
 TEST_F(DestroyOwnerArrayFunctionTest, callTest) {
   llvm::PointerType* genericPointer = llvm::Type::getInt64Ty(mLLVMContext)->getPointerTo();
   Value* nullPointerValue = ConstantPointerNull::get(genericPointer);
-  DestroyOwnerArrayFunction::call(mContext, nullPointerValue, mDestructor);
+  DestroyOwnerArrayFunction::call(mContext, nullPointerValue, 2u, mDestructor);
   
   *mStringStream << *mBasicBlock;
   string expected =
   "\nentry:"
-  "\n  call void @__destroyOwnerArrayFunction(i64* null, void (i8*)* @destructor)\n";
+  "\n  call void @__destroyOwnerArrayFunction(i64* null, i64 2, void (i8*)* @destructor)\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -87,7 +87,7 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   
   *mStringStream << *function;
   string expected =
-  "\ndefine internal void @__destroyOwnerArrayFunction(i64* %arrayPointer, void (i8*)* %destructor) personality i32 (...)* @__gxx_personality_v0 {"
+  "\ndefine internal void @__destroyOwnerArrayFunction(i64* %arrayPointer, i64 %noOfDimensions, void (i8*)* %destructor) personality i32 (...)* @__gxx_personality_v0 {"
   "\nentry:"
   "\n  %0 = icmp eq i64* %arrayPointer, null"
   "\n  br i1 %0, label %if.null, label %if.not.null"
@@ -96,48 +96,46 @@ TEST_F(DestroyOwnerArrayFunctionTest, getTest) {
   "\n  ret void"
   "\n"
   "\nif.not.null:                                      ; preds = %entry"
+  "\n  %offset = add i64 %noOfDimensions, 2"
   "\n  %1 = getelementptr i64, i64* %arrayPointer, i64 1"
-  "\n  %dimensions = load i64, i64* %1"
-  "\n  %offset = add i64 %dimensions, 2"
-  "\n  %2 = getelementptr i64, i64* %arrayPointer, i64 2"
-  "\n  %size = load i64, i64* %2"
-  "\n  %3 = load i64, i64* %arrayPointer"
-  "\n  %4 = icmp eq i64 %3, 0"
-  "\n  br i1 %4, label %ref.count.zero, label %ref.count.notzero"
+  "\n  %size = load i64, i64* %1"
+  "\n  %2 = load i64, i64* %arrayPointer"
+  "\n  %3 = icmp eq i64 %2, 0"
+  "\n  br i1 %3, label %ref.count.zero, label %ref.count.notzero"
   "\n"
   "\nref.count.zero:                                   ; preds = %if.not.null"
-  "\n  %5 = getelementptr i64, i64* %1, i64 %offset"
-  "\n  %6 = bitcast i64* %5 to [0 x i8*]*"
-  "\n  %7 = alloca i64"
-  "\n  store i64 0, i64* %7"
+  "\n  %4 = getelementptr i64, i64* %arrayPointer, i64 %offset"
+  "\n  %5 = bitcast i64* %4 to [0 x i8*]*"
+  "\n  %6 = alloca i64"
+  "\n  store i64 0, i64* %6"
   "\n  br label %for.cond"
   "\n"
   "\nref.count.notzero:                                ; preds = %if.not.null"
-  "\n  invoke void @__throwReferenceCountException(i64 %3)"
+  "\n  invoke void @__throwReferenceCountException(i64 %2)"
   "\n          to label %invoke.continue unwind label %cleanup"
   "\n"
   "\nfor.cond:                                         ; preds = %for.body, %ref.count.zero"
-  "\n  %8 = load i64, i64* %7"
-  "\n  %cmp = icmp slt i64 %8, %size"
+  "\n  %7 = load i64, i64* %6"
+  "\n  %cmp = icmp slt i64 %7, %size"
   "\n  br i1 %cmp, label %for.body, label %free.array"
   "\n"
   "\nfor.body:                                         ; preds = %for.cond"
-  "\n  %9 = getelementptr [0 x i8*], [0 x i8*]* %6, i64 0, i64 %8"
-  "\n  %10 = load i8*, i8** %9"
-  "\n  call void %destructor(i8* %10)"
-  "\n  %11 = add i64 %8, 1"
-  "\n  store i64 %11, i64* %7"
+  "\n  %8 = getelementptr [0 x i8*], [0 x i8*]* %5, i64 0, i64 %7"
+  "\n  %9 = load i8*, i8** %8"
+  "\n  call void %destructor(i8* %9)"
+  "\n  %10 = add i64 %7, 1"
+  "\n  store i64 %10, i64* %6"
   "\n  br label %for.cond"
   "\n"
   "\nfree.array:                                       ; preds = %for.cond"
-  "\n  %12 = bitcast i64* %arrayPointer to i8*"
-  "\n  tail call void @free(i8* %12)"
+  "\n  %11 = bitcast i64* %arrayPointer to i8*"
+  "\n  tail call void @free(i8* %11)"
   "\n  ret void"
   "\n"
   "\ncleanup:                                          ; preds = %ref.count.notzero"
-  "\n  %13 = landingpad { i8*, i32 }"
+  "\n  %12 = landingpad { i8*, i32 }"
   "\n          cleanup"
-  "\n  resume { i8*, i32 } %13"
+  "\n  resume { i8*, i32 } %12"
   "\n"
   "\ninvoke.continue:                                  ; preds = %ref.count.notzero"
   "\n  unreachable"

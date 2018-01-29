@@ -57,20 +57,13 @@ Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* dimensionsStore = IRWriter::createGetElementPtrInst(context, malloc, index);
-  ConstantInt* dimensionsValue = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                                                  arraySpecificType->getDimentionsSize());
-  IRWriter::newStoreInst(context, dimensionsValue, dimensionsStore);
-  
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
   Value* linearSizeStore = IRWriter::createGetElementPtrInst(context, malloc, index);
   ConstantInt* linearSizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext),
                                                   arraySpecificType->getLinearSize());
   IRWriter::newStoreInst(context, linearSizeValue, linearSizeStore);
   
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 3);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
   Value* sizesStructurePointer = IRWriter::createGetElementPtrInst(context, malloc, index);
   
   unsigned long dimensionIndex = 0;

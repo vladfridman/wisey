@@ -60,7 +60,6 @@ llvm::PointerType* ArraySpecificType::getLLVMType(IRGenerationContext& context) 
   vector<llvm::Type*> types;
   types.push_back(llvm::Type::getInt64Ty(llvmContext));
   types.push_back(llvm::Type::getInt64Ty(llvmContext));
-  types.push_back(llvm::Type::getInt64Ty(llvmContext));
   types.push_back(subStruct);
   types.push_back(type);
   

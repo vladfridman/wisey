@@ -74,7 +74,8 @@ Value* ArrayElementExpression::unwrapArray(IRGenerationContext& context,
 
   Value* index[2];
   index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 4);
+  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext),
+                              ArrayType::ARRAY_ELEMENTS_START_INDEX);
   
   return IRWriter::createGetElementPtrInst(context, arrayPointer, index);
 }

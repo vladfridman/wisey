@@ -84,7 +84,7 @@ TEST_F(ParameterArrayReferenceVariableTest, decrementReferenceCounterTest) {
   
   string expected =
   "\nentry:"
-  "\n  %0 = bitcast { i64, i64, i64, { i64 }, [3 x i32] }* null to i8*"
+  "\n  %0 = bitcast { i64, i64, { i64 }, [3 x i32] }* null to i8*"
   "\n  call void @__adjustReferenceCounterForConcreteObjectSafely(i8* %0, i64 -1)"
   "\n";
   

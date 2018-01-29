@@ -69,9 +69,12 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
   if (IType::isOwnerType(elementType)) {
     const IObjectOwnerType* objectOwnerType = (const IObjectOwnerType*) elementType;
     llvm::Value* destructor = objectOwnerType->getDestructorFunction(context);
-    DestroyOwnerArrayFunction::call(context, arrayBitcast, destructor);
+    DestroyOwnerArrayFunction::call(context,
+                                    arrayBitcast,
+                                    mArrayType->getDimentionsSize(),
+                                    destructor);
   } else if (IType::isReferenceType(elementType)) {
-    DestroyReferenceArrayFunction::call(context, arrayBitcast);
+    DestroyReferenceArrayFunction::call(context, mArrayType->getDimentionsSize(), arrayBitcast);
   } else {
     assert(IType::isPrimitveType(elementType));
     DestroyPrimitiveArrayFunction::call(context, arrayBitcast);
