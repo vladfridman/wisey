@@ -38,10 +38,6 @@ public:
                                         const ArrayType* arrayType,
                                         llvm::Value* arrayStructPointer,
                                         std::vector<const IExpression*> arrayIndices);
-  /**
-   * Returns the pointer to the actual array from the array struct
-   */
-  static llvm::Value* unwrapArray(IRGenerationContext& context, llvm::Value* arrayPointer);
 
   llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
   
@@ -60,6 +56,7 @@ private:
   
   static llvm::Value* getArrayElement(IRGenerationContext& context,
                                       llvm::Value* arrayPointer,
+                                      llvm::Value* elementSize,
                                       const IExpression* indexExpression);
   
 };

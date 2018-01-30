@@ -34,6 +34,7 @@ ArrayElementExpression::~ArrayElementExpression() {
 
 Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
                                           const IType* assignToType) const {
+  LLVMContext& llvmContext = context.getLLVMContext();
   const IType* expressionType = mArrayExpression->getType(context);
   if (!IType::isArrayType(expressionType)) {
     reportErrorArrayType(expressionType->getTypeName());
@@ -42,45 +43,45 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   const ArrayType* arrayType = expressionType->getTypeKind() == ARRAY_TYPE
   ? (const ArrayType*) expressionType
   : ((const ArrayOwnerType*) expressionType)->getArrayType();
-  Value* arrayPointer = mArrayExpression->generateIR(context, assignToType);
+  Value* arrayStructPointer = mArrayExpression->generateIR(context, assignToType);
   
   Composer::pushCallStack(context, mLine);
-  CheckForNullAndThrowFunction::call(context, arrayPointer);
-  arrayPointer = unwrapArray(context, arrayPointer);
+  CheckForNullAndThrowFunction::call(context, arrayStructPointer);
+  Value* index[2];
+  index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
+  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 2);
+  Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
+  Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
+  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext),
+                              ArrayType::ARRAY_ELEMENTS_START_INDEX);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
   Composer::popCallStack(context);
-
-  Value* pointer = getArrayElement(context, arrayPointer, mArrayIndexExpresion);
-  if (arrayType->getDimensions().size() > 1) {
-    return pointer;
+  
+  Value* pointer = getArrayElement(context, arrayPointer, elementSize, mArrayIndexExpresion);
+  if (arrayType->getNumberOfDimensions() > 1) {
+    Type* resultType = getType(context)->getLLVMType(context);
+    return IRWriter::newBitCastInst(context, pointer, resultType);
   }
   
-  Value* result = IRWriter::newLoadInst(context, pointer, "");
+  const IType* elementType = arrayType->getElementType();
+  Type* resultLLVMType = elementType->getLLVMType(context);
+  Value* resultStore = IRWriter::newBitCastInst(context, pointer, resultLLVMType->getPointerTo());
+  Value* result = IRWriter::newLoadInst(context, resultStore, "");
   
   if (assignToType->isOwner()) {
-    const IType* elementType = arrayType->getElementType();
     assert(IType::isOwnerType(elementType));
-    PointerType* llvmType = (PointerType*) elementType->getLLVMType(context);
-    IRWriter::newStoreInst(context, ConstantPointerNull::get(llvmType), pointer);
+    Value* null = ConstantPointerNull::get((PointerType* ) resultLLVMType);
+    IRWriter::newStoreInst(context, null, resultStore);
   }
   
   return result;
 }
 
-Value* ArrayElementExpression::unwrapArray(IRGenerationContext& context,
-                                           llvm::Value* arrayPointer) {
-  LLVMContext& llvmContext = context.getLLVMContext();
-
-  Value* index[2];
-  index[0] = ConstantInt::get(llvm::Type::getInt64Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext),
-                              ArrayType::ARRAY_ELEMENTS_START_INDEX);
-  
-  return IRWriter::createGetElementPtrInst(context, arrayPointer, index);
-}
-
 Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
                                                Value* arrayPointer,
+                                               Value* elementSize,
                                                const IExpression* indexExpression) {
+  LLVMContext& llvmContext = context.getLLVMContext();
   const IType* arrayIndexExpressionType = indexExpression->getType(context);
   if (arrayIndexExpressionType != PrimitiveTypes::INT_TYPE &&
       arrayIndexExpressionType != PrimitiveTypes::LONG_TYPE) {
@@ -89,39 +90,70 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
     exit(1);
   }
   
-  Value* arrayIndexValue = indexExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
-  Type* indexType = arrayIndexExpressionType->getLLVMType(context);
-  Value* index[2];
-  index[0] = ConstantInt::get(indexType, 0);
-  index[1] = arrayIndexValue;
+  Value* indexValue = indexExpression->generateIR(context, PrimitiveTypes::VOID_TYPE);
+  Value* indexValueCast = arrayIndexExpressionType->castTo(context,
+                                                           indexValue,
+                                                           PrimitiveTypes::LONG_TYPE,
+                                                           0);
+  Value* offset = IRWriter::createBinaryOperator(context,
+                                                 Instruction::Mul,
+                                                 elementSize,
+                                                 indexValueCast,
+                                                 "offset");
   
- return IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  PointerType* int8Pointer = Type::getInt8Ty(llvmContext)->getPointerTo();
+  Value* genericPointer = IRWriter::newBitCastInst(context, arrayPointer, int8Pointer);
+  Value* idx[1];
+  idx[0] = offset;
+  
+  return IRWriter::createGetElementPtrInst(context, genericPointer, idx);
 }
 
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  const ArrayType* arrayType,
                                                  Value* arrayStructPointer,
                                                  vector<const IExpression*> arrayIndices) {
-  if (arrayType->getDimensions().size() != arrayIndices.size()) {
+  LLVMContext& llvmContext = context.getLLVMContext();
+
+  if (arrayType->getNumberOfDimensions() != arrayIndices.size()) {
     Log::e("Expression does not reference an array element");
     exit(1);
   }
   
   CheckForNullAndThrowFunction::call(context, arrayStructPointer);
   
+  Value* index[2];
+  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
+  
+  list<unsigned long> dimensions;
+  for (unsigned long dimension : arrayType->getDimensions()) {
+    dimensions.push_back(dimension);
+  }
+
   Value* value = arrayStructPointer;
-  const IType* valueType = arrayType;
   while (arrayIndices.size()) {
-    Value* arrayPointer = unwrapArray(context, value);
+    index[1] = ConstantInt::get(llvm::Type::getInt32Ty(llvmContext), 2);
+    Value* elementSizeStore = IRWriter::createGetElementPtrInst(context, value, index);
+    Value* elementSize = IRWriter::newLoadInst(context, elementSizeStore, "elementSize");
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext),
+                                ArrayType::ARRAY_ELEMENTS_START_INDEX);
+    Value* arrayPointer = IRWriter::createGetElementPtrInst(context, value, index);
+
     const IExpression* indexExpression = arrayIndices.back();
     arrayIndices.pop_back();
     
-    if (valueType->getTypeKind() != ARRAY_TYPE) {
-      reportErrorArrayType(valueType->getTypeName());
-      exit(1);
+    dimensions.pop_front();
+    vector<unsigned long> subDimensions;
+    for (unsigned long dimension : dimensions) {
+      subDimensions.push_back(dimension);
     }
     
-    value = getArrayElement(context, arrayPointer, indexExpression);
+    Value* element = getArrayElement(context, arrayPointer, elementSize, indexExpression);
+    Type* subArrayType = subDimensions.size()
+    ? context.getArrayType(arrayType->getElementType(), subDimensions)->getLLVMType(context)
+    : arrayType->getElementType()->getLLVMType(context)->getPointerTo();
+    
+    value = IRWriter::newBitCastInst(context, element, subArrayType);
   }
   
   return value;
@@ -150,10 +182,19 @@ const IType* ArrayElementExpression::getType(IRGenerationContext& context) const
   : ((const ArrayOwnerType*) arrayExpressionType)->getArrayType();
   const IType* elementType = arrayType->getElementType();
 
-  vector<unsigned long> dimensions = arrayType->getDimensions();
-  dimensions.erase(dimensions.begin());
-  
-  return dimensions.size() ? context.getArrayType(elementType, dimensions) : elementType;
+  list<unsigned long> dimensions;
+  for (unsigned long dimension : arrayType->getDimensions()) {
+    dimensions.push_back(dimension);
+  }
+  dimensions.pop_front();
+  vector<unsigned long> subDimensions;
+  for (unsigned long dimension : dimensions) {
+    subDimensions.push_back(dimension);
+  }
+
+  return arrayType->getNumberOfDimensions() - 1
+  ? context.getArrayType(elementType, subDimensions)
+  : elementType;
 }
 
 void ArrayElementExpression::printToStream(IRGenerationContext& context, iostream& stream) const {

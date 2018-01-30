@@ -114,9 +114,15 @@ TEST_F(ArrayElementExpressionTest, generateIRTest) {
   "\n  resume { i8*, i32 } %1"
   "\n"
   "\ninvoke.continue:                                  ; preds = %entry"
-  "\n  %2 = getelementptr { i64, i64, i64, [5 x i32] }, { i64, i64, i64, [5 x i32] }* null, i64 0, i32 3"
-  "\n  %3 = getelementptr [5 x i32], [5 x i32]* %2, i32 0, i32 3"
-  "\n  %4 = load i32, i32* %3"
+  "\n  %2 = getelementptr { i64, i64, i64, [5 x i32] }, { i64, i64, i64, [5 x i32] }* null, i64 0, i32 2"
+  "\n  %elementSize = load i64, i64* %2"
+  "\n  %3 = getelementptr { i64, i64, i64, [5 x i32] }, { i64, i64, i64, [5 x i32] }* null, i64 0, i32 3"
+  "\n  %conv = zext i32 3 to i64"
+  "\n  %offset = mul i64 %elementSize, %conv"
+  "\n  %4 = bitcast [5 x i32]* %3 to i8*"
+  "\n  %5 = getelementptr i8, i8* %4, i64 %offset"
+  "\n  %6 = bitcast i8* %5 to i32*"
+  "\n  %7 = load i32, i32* %6"
   "\n}\n";
 
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
@@ -179,7 +185,7 @@ TEST_F(ArrayElementExpressionTest, generateIRDeathTest) {
   vector<const IExpression*> arrayIndices;
 
   vector<unsigned long> dimensions;
-  dimensions.push_back(5u);
+  dimensions.push_back(3u);
   dimensions.push_back(5u);
   mArrayType = new wisey::ArrayType(PrimitiveTypes::INT_TYPE, dimensions);
   Value* null = ConstantPointerNull::get(mArrayType->getLLVMType(mContext));

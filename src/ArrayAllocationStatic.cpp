@@ -119,9 +119,10 @@ void ArrayAllocationStatic::initializeArray(IRGenerationContext &context,
   LLVMContext& llvmContext = context.getLLVMContext();
   Type* int64Type = Type::getInt64Ty(llvmContext);
   
-  Value* arrayPointer = ArrayElementExpression::unwrapArray(context, arrayStructPointer);
   Value* index[2];
   index[0] = ConstantInt::get(int64Type, 0);
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), ArrayType::ARRAY_ELEMENTS_START_INDEX);
+  Value* arrayPointer = IRWriter::createGetElementPtrInst(context, arrayStructPointer, index);
   dimensions.pop_front();
   
   unsigned long arrayIndex = 0;
