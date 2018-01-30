@@ -71,16 +71,16 @@ void ArrayOwnerType::free(IRGenerationContext& context, llvm::Value* arrayPointe
     llvm::Value* destructor = objectOwnerType->getDestructorFunction(context);
     DestroyOwnerArrayFunction::call(context,
                                     arrayBitcast,
-                                    mArrayType->getDimentionsSize(),
+                                    mArrayType->getNumberOfDimensions(),
                                     destructor);
   } else if (IType::isReferenceType(elementType)) {
-    DestroyReferenceArrayFunction::call(context, arrayBitcast, mArrayType->getDimentionsSize());
+    DestroyReferenceArrayFunction::call(context, arrayBitcast, mArrayType->getNumberOfDimensions());
   } else {
     assert(IType::isPrimitveType(elementType));
     const IPrimitiveType* primitiveType = (const IPrimitiveType*) elementType;
     DestroyPrimitiveArrayFunction::call(context,
                                         arrayBitcast,
-                                        mArrayType->getDimentionsSize(),
+                                        mArrayType->getNumberOfDimensions(),
                                         primitiveType);
   }
 }

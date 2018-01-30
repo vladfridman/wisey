@@ -53,7 +53,7 @@ bool ArraySpecificOwnerType::canCastTo(const IType* toType) const {
   ? (const ArrayType*) toType : ((const ArrayOwnerType*) toType)->getArrayType();
   
   return toArrayType->getElementType() == mArraySpecificType->getElementType() &&
-  toArrayType->getDimentionsSize() == mArraySpecificType->getDimentionsSize();
+  toArrayType->getNumberOfDimensions() == mArraySpecificType->getNumberOfDimensions();
 }
 
 bool ArraySpecificOwnerType::canAutoCastTo(const IType* toType) const {

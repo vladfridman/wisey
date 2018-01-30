@@ -94,7 +94,7 @@ unsigned long ArraySpecificType::getLinearSize() const {
   return size;
 }
 
-unsigned long ArraySpecificType::getDimentionsSize() const {
+unsigned long ArraySpecificType::getNumberOfDimensions() const {
   return mDimensions.size();
 }
 

@@ -86,8 +86,8 @@ TEST_F(ArraySpecificTypeTest, canAutoCastToTest) {
   EXPECT_TRUE(mArraySpecificType->canAutoCastTo(mArraySpecificType));
 }
 
-TEST_F(ArraySpecificTypeTest, getDimensionsSizeTest) {
-  EXPECT_EQ(2u, mMultiDimentionalArraySpecificType->getDimentionsSize());
+TEST_F(ArraySpecificTypeTest, getNumberOfDimensionsTest) {
+  EXPECT_EQ(2u, mMultiDimentionalArraySpecificType->getNumberOfDimensions());
 }
 
 TEST_F(ArraySpecificTypeTest, getLinearSizeTest) {

@@ -112,7 +112,7 @@ unsigned long ArrayType::getLinearSize() const {
   return size;
 }
 
-unsigned long ArrayType::getDimentionsSize() const {
+unsigned long ArrayType::getNumberOfDimensions() const {
   return mDimensions.size();
 }
 

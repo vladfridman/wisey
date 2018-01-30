@@ -52,7 +52,7 @@ public:
   /**
    * Returns the number of dimensions in this array
    */
-  unsigned long getDimentionsSize() const;
+  unsigned long getNumberOfDimensions() const;
   
   /**
    * Returns linear size of the array that equals to product of all dimention sizes
