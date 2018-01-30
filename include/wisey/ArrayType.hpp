@@ -25,9 +25,8 @@ class ArrayOwnerType;
  * The Struct looks as follows:
  * {
  *   int_64 ref_count
- *   int_64 linear_size // equals to the product of all dimension sizes
- *   { int 64 dimention_1_size, int 64 dimention_2_size }
- *   [ dimention_1_size x [dimention_2_size x <element_type> ]]
+ *   int_64 array_size
+ *   [ array ]
  * }
  */
 class ArrayType : public IReferenceType {

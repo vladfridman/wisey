@@ -44,6 +44,12 @@ namespace wisey {
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
     
+  private:
+    
+    static void initializeEmptyArray(IRGenerationContext& context,
+                                     llvm::Value* arrayPointer,
+                                     std::list<unsigned long> dimensions);
+
   };
 
 } /* namespace wisey */

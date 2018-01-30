@@ -43,17 +43,12 @@ TEST_F(ArrayOwnerTypeTest, getNameTest) {
 }
 
 TEST_F(ArrayOwnerTypeTest, getLLVMTypeTest) {
-  vector<llvm::Type*> dimentionTypes;
-  dimentionTypes.push_back(llvm::Type::getInt64Ty(mLLVMContext));
-  llvm::StructType* subStruct = llvm::StructType::get(mLLVMContext, dimentionTypes);
-  
   llvm::PointerType* arrayLLVMType = mArrayType->getLLVMType(mContext);
   ASSERT_TRUE(arrayLLVMType->getPointerElementType()->isStructTy());
   llvm::StructType* arrayStruct = (llvm::StructType*) arrayLLVMType->getPointerElementType();
 
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(0));
   EXPECT_EQ(llvm::Type::getInt64Ty(mLLVMContext), arrayStruct->getElementType(1));
-  EXPECT_EQ(subStruct, arrayStruct->getElementType(2));
   EXPECT_EQ(llvm::ArrayType::get(llvm::Type::getInt64Ty(mLLVMContext), 5u),
             arrayStruct->getElementType(ArrayType::ARRAY_ELEMENTS_START_INDEX));
 }

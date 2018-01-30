@@ -46,24 +46,20 @@ llvm::PointerType* ArraySpecificType::getLLVMType(IRGenerationContext& context) 
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
   
   llvm::Type* type = mElementType->getLLVMType(context);
-  vector<llvm::Type*> dimentionTypes;
   list<unsigned long> dimensionsReversed;
   for (unsigned long dimension : mDimensions) {
     dimensionsReversed.push_front(dimension);
   }
   for (unsigned long dimension : dimensionsReversed) {
-    type = llvm::ArrayType::get(type, dimension);
-    dimentionTypes.push_back(llvm::Type::getInt64Ty(llvmContext));
+    llvm::ArrayType* arrayType = llvm::ArrayType::get(type, dimension);
+    vector<llvm::Type*> types;
+    types.push_back(llvm::Type::getInt64Ty(llvmContext));
+    types.push_back(llvm::Type::getInt64Ty(llvmContext));
+    types.push_back(arrayType);
+    type = llvm::StructType::get(llvmContext, types);
   }
-  llvm::StructType* subStruct = llvm::StructType::get(llvmContext, dimentionTypes);
   
-  vector<llvm::Type*> types;
-  types.push_back(llvm::Type::getInt64Ty(llvmContext));
-  types.push_back(llvm::Type::getInt64Ty(llvmContext));
-  types.push_back(subStruct);
-  types.push_back(type);
-  
-  return llvm::StructType::get(llvmContext, types)->getPointerTo();
+  return type->getPointerTo();
 }
 
 TypeKind ArraySpecificType::getTypeKind() const {

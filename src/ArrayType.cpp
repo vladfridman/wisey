@@ -28,7 +28,7 @@ ArrayType::~ArrayType() {
   delete mArrayOwnerType;
 }
 
-const unsigned int ArrayType::ARRAY_ELEMENTS_START_INDEX = 3u;
+const unsigned int ArrayType::ARRAY_ELEMENTS_START_INDEX = 2u;
 
 const ArrayOwnerType* ArrayType::getOwner() const {
   return mArrayOwnerType;
@@ -54,24 +54,20 @@ llvm::PointerType* ArrayType::getLLVMType(IRGenerationContext& context) const {
   llvm::LLVMContext& llvmContext = context.getLLVMContext();
   
   llvm::Type* type = mElementType->getLLVMType(context);
-  vector<llvm::Type*> dimentionTypes;
   list<unsigned long> dimensionsReversed;
   for (unsigned long dimension : mDimensions) {
     dimensionsReversed.push_front(dimension);
   }
   for (unsigned long dimension : dimensionsReversed) {
-    type = llvm::ArrayType::get(type, dimension);
-    dimentionTypes.push_back(llvm::Type::getInt64Ty(llvmContext));
+    llvm::ArrayType* arrayType = llvm::ArrayType::get(type, dimension);
+    vector<llvm::Type*> types;
+    types.push_back(llvm::Type::getInt64Ty(llvmContext));
+    types.push_back(llvm::Type::getInt64Ty(llvmContext));
+    types.push_back(arrayType);
+    type = llvm::StructType::get(llvmContext, types);
   }
-  llvm::StructType* subStruct = llvm::StructType::get(llvmContext, dimentionTypes);
-  
-  vector<llvm::Type*> types;
-  types.push_back(llvm::Type::getInt64Ty(llvmContext));
-  types.push_back(llvm::Type::getInt64Ty(llvmContext));
-  types.push_back(subStruct);
-  types.push_back(type);
 
-  return llvm::StructType::get(llvmContext, types)->getPointerTo();
+  return type->getPointerTo();
 }
 
 TypeKind ArrayType::getTypeKind() const {

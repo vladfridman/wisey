@@ -80,15 +80,12 @@ TEST_F(ArrayAllocationTest, generateIRTest) {
   
   string expected =
   "\nentry:"
-  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint ({ i64, i64, { i64 }, [5 x i32] }* getelementptr ({ i64, i64, { i64 }, [5 x i32] }, { i64, i64, { i64 }, [5 x i32] }* null, i32 1) to i64))"
-  "\n  %newarray = bitcast i8* %malloccall to { i64, i64, { i64 }, [5 x i32] }*"
-  "\n  %0 = bitcast { i64, i64, { i64 }, [5 x i32] }* %newarray to i8*"
-  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint ({ i64, i64, { i64 }, [5 x i32] }* getelementptr ({ i64, i64, { i64 }, [5 x i32] }, { i64, i64, { i64 }, [5 x i32] }* null, i32 1) to i64), i32 4, i1 false)"
-  "\n  %1 = getelementptr { i64, i64, { i64 }, [5 x i32] }, { i64, i64, { i64 }, [5 x i32] }* %newarray, i64 0, i32 1"
+  "\n  %malloccall = tail call i8* @malloc(i64 ptrtoint ({ i64, i64, [5 x i32] }* getelementptr ({ i64, i64, [5 x i32] }, { i64, i64, [5 x i32] }* null, i32 1) to i64))"
+  "\n  %newarray = bitcast i8* %malloccall to { i64, i64, [5 x i32] }*"
+  "\n  %0 = bitcast { i64, i64, [5 x i32] }* %newarray to i8*"
+  "\n  call void @llvm.memset.p0i8.i64(i8* %0, i8 0, i64 ptrtoint ({ i64, i64, [5 x i32] }* getelementptr ({ i64, i64, [5 x i32] }, { i64, i64, [5 x i32] }* null, i32 1) to i64), i32 4, i1 false)"
+  "\n  %1 = getelementptr { i64, i64, [5 x i32] }, { i64, i64, [5 x i32] }* %newarray, i64 0, i32 1"
   "\n  store i64 5, i64* %1"
-  "\n  %2 = getelementptr { i64, i64, { i64 }, [5 x i32] }, { i64, i64, { i64 }, [5 x i32] }* %newarray, i64 0, i32 2"
-  "\n  %3 = getelementptr { i64 }, { i64 }* %2, i64 0, i32 0"
-  "\n  store i64 5, i64* %3"
   "\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());

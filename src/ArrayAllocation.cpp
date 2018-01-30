@@ -53,30 +53,42 @@ Value* ArrayAllocation::allocateArray(IRGenerationContext& context,
   Instruction* malloc = IRWriter::createMalloc(context, structType, allocSize, "newarray");
   IntrinsicFunctions::setMemoryToZero(context, malloc, structType);
   
+  list<unsigned long> dimensions;
+  for (unsigned long dimension : arraySpecificType->getDimensions()) {
+    dimensions.push_back(dimension);
+  }
+  
+  initializeEmptyArray(context, malloc, dimensions);
+  
+  return malloc;
+}
+
+void ArrayAllocation::initializeEmptyArray(IRGenerationContext& context,
+                                           Value* arrayPointer,
+                                           std::list<unsigned long> dimensions) {
   LLVMContext& llvmContext = context.getLLVMContext();
   Value* index[2];
   index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
   index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 1);
-  Value* linearSizeStore = IRWriter::createGetElementPtrInst(context, malloc, index);
-  ConstantInt* linearSizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext),
-                                                  arraySpecificType->getLinearSize());
-  IRWriter::newStoreInst(context, linearSizeValue, linearSizeStore);
+  Value* sizeStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+  unsigned long arraySize = dimensions.front();
+  ConstantInt* sizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext), arraySize);
+  IRWriter::newStoreInst(context, sizeValue, sizeStore);
   
-  index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), 2);
-  Value* sizesStructurePointer = IRWriter::createGetElementPtrInst(context, malloc, index);
-  
-  unsigned long dimensionIndex = 0;
-  for (unsigned long dimension : arraySpecificType->getDimensions()) {
-    index[0] = ConstantInt::get(Type::getInt64Ty(llvmContext), 0);
-    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), dimensionIndex);
-    Value* sizeStore = IRWriter::createGetElementPtrInst(context, sizesStructurePointer, index);
-    ConstantInt* sizeValue = ConstantInt::get(Type::getInt64Ty(llvmContext), dimension);
-    IRWriter::newStoreInst(context, sizeValue, sizeStore);
-    dimensionIndex++;
+  if (dimensions.size() == 1) {
+    return;
   }
   
-  return malloc;
+  dimensions.pop_front();
+  
+  index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), ArrayType::ARRAY_ELEMENTS_START_INDEX);
+  Value* arrayStore = IRWriter::createGetElementPtrInst(context, arrayPointer, index);
+
+  for (unsigned int i = 0; i < arraySize; i++) {
+    index[1] = ConstantInt::get(Type::getInt32Ty(llvmContext), i);
+    Value* arrayElement = IRWriter::createGetElementPtrInst(context, arrayStore, index);
+    initializeEmptyArray(context, arrayElement, dimensions);
+  }
 }
 
 IVariable* ArrayAllocation::getVariable(IRGenerationContext &context,

@@ -36,7 +36,7 @@ public:
    */
   static llvm::Value* generateElementIR(IRGenerationContext& context,
                                         const ArrayType* arrayType,
-                                        llvm::Value* arrayPointer,
+                                        llvm::Value* arrayStructPointer,
                                         std::vector<const IExpression*> arrayIndices);
   /**
    * Returns the pointer to the actual array from the array struct

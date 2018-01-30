@@ -104,7 +104,7 @@ TEST_F(FieldArrayOwnerVariableTest, generateIdentifierIRTest) {
   string expected = string() +
   "\nentry:" +
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, { i64 }, [3 x i32] }*, { i64, i64, { i64 }, [3 x i32] }** %0\n";
+  "\n  %1 = load { i64, i64, [3 x i32] }*, { i64, i64, [3 x i32] }** %0\n";
   
   EXPECT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }
@@ -123,10 +123,10 @@ TEST_F(FieldArrayOwnerVariableTest, generateWholeArrayAssignmentTest) {
   string expected =
   "\nentry:"
   "\n  %0 = getelementptr %systems.vos.wisey.compiler.tests.CObject, %systems.vos.wisey.compiler.tests.CObject* null, i32 0, i32 1"
-  "\n  %1 = load { i64, i64, { i64 }, [3 x i32] }*, { i64, i64, { i64 }, [3 x i32] }** %0"
-  "\n  %2 = bitcast { i64, i64, { i64 }, [3 x i32] }* %1 to i64*"
-  "\n  call void @__destroyPrimitiveArrayFunction(i64* %2)"
-  "\n  store { i64, i64, { i64 }, [3 x i32] }* null, { i64, i64, { i64 }, [3 x i32] }** %0\n";
+  "\n  %1 = load { i64, i64, [3 x i32] }*, { i64, i64, [3 x i32] }** %0"
+  "\n  %2 = bitcast { i64, i64, [3 x i32] }* %1 to i64*"
+  "\n  %3 = call i64 @__destroyPrimitiveArrayFunction(i64* %2, i64 1, i64 4, i1 true)"
+  "\n  store { i64, i64, [3 x i32] }* null, { i64, i64, [3 x i32] }** %0\n";
   
   ASSERT_STREQ(expected.c_str(), mStringStream->str().c_str());
 }

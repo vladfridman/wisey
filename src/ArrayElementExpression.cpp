@@ -44,13 +44,11 @@ Value* ArrayElementExpression::generateIR(IRGenerationContext& context,
   : ((const ArrayOwnerType*) expressionType)->getArrayType();
   Value* arrayPointer = mArrayExpression->generateIR(context, assignToType);
   
-  if (arrayPointer->getType()->getPointerElementType()->isStructTy()) {
-    Composer::pushCallStack(context, mLine);
-    CheckForNullAndThrowFunction::call(context, arrayPointer);
-    arrayPointer = unwrapArray(context, arrayPointer);
-    Composer::popCallStack(context);
-  }
-  
+  Composer::pushCallStack(context, mLine);
+  CheckForNullAndThrowFunction::call(context, arrayPointer);
+  arrayPointer = unwrapArray(context, arrayPointer);
+  Composer::popCallStack(context);
+
   Value* pointer = getArrayElement(context, arrayPointer, mArrayIndexExpresion);
   if (arrayType->getDimensions().size() > 1) {
     return pointer;
@@ -102,18 +100,19 @@ Value* ArrayElementExpression::getArrayElement(IRGenerationContext &context,
 
 Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
                                                  const ArrayType* arrayType,
-                                                 Value* arrayPointer,
+                                                 Value* arrayStructPointer,
                                                  vector<const IExpression*> arrayIndices) {
   if (arrayType->getDimensions().size() != arrayIndices.size()) {
     Log::e("Expression does not reference an array element");
     exit(1);
   }
   
-  CheckForNullAndThrowFunction::call(context, arrayPointer);
+  CheckForNullAndThrowFunction::call(context, arrayStructPointer);
   
-  Value* value = unwrapArray(context, arrayPointer);
+  Value* value = arrayStructPointer;
   const IType* valueType = arrayType;
   while (arrayIndices.size()) {
+    Value* arrayPointer = unwrapArray(context, value);
     const IExpression* indexExpression = arrayIndices.back();
     arrayIndices.pop_back();
     
@@ -122,7 +121,7 @@ Value* ArrayElementExpression::generateElementIR(IRGenerationContext& context,
       exit(1);
     }
     
-    value = getArrayElement(context, value, indexExpression);
+    value = getArrayElement(context, arrayPointer, indexExpression);
   }
   
   return value;

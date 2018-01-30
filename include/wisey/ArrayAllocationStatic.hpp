@@ -28,7 +28,10 @@ namespace wisey {
     ArrayAllocationStatic(ExpressionList expressionList, int line);
     
     ~ArrayAllocationStatic();
-    
+
+    /**
+     * Returns list of expression used to initialize the array
+     */
     ExpressionList getExpressionList() const;
     
     llvm::Value* generateIR(IRGenerationContext& context, const IType* assignToType) const override;
@@ -41,16 +44,17 @@ namespace wisey {
     const ArrayOwnerType* getType(IRGenerationContext& context) const override;
     
     void printToStream(IRGenerationContext& context, std::iostream& stream) const override;
-    
+
   private:
-    
-    const ArraySpecificType* getSpecificType(IRGenerationContext& context) const;
-    
-    void checkArrayElements(IRGenerationContext& context) const;
     
     void initializeArray(IRGenerationContext& context,
                          llvm::Value* arrayStructPointer,
-                         const ArraySpecificType* arraySpecificType) const;
+                         const IType* elementType,
+                         std::list<unsigned long> dimensions) const;
+
+    const ArraySpecificType* getSpecificType(IRGenerationContext& context) const;
+    
+    void checkArrayElements(IRGenerationContext& context) const;
     
     ExpressionList flattenExpressionList(IRGenerationContext& context) const;
     
