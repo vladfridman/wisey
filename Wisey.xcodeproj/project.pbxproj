@@ -453,6 +453,8 @@
 		F5601F3A1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
 		F5601F3B1EB39B4400C9E2D8 /* IRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */; };
 		F5601F3D1EB4C5E300C9E2D8 /* TestIRWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */; };
+		F5603B4520211E5100BBA05D /* TestArraySpecificOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */; };
+		F5603B4820211E7B00BBA05D /* ArraySpecificOwnerType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */; };
 		F569E9F01DF9CC9600BBB20E /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EB1DF9CC9600BBB20E /* Log.cpp */; };
 		F569E9F21DF9CC9600BBB20E /* Parser.ypp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9ED1DF9CC9600BBB20E /* Parser.ypp */; };
 		F569E9F31DF9CC9600BBB20E /* Tokens.lpp in Sources */ = {isa = PBXBuildFile; fileRef = F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */; };
@@ -1327,6 +1329,9 @@
 		F55DB0611F793D8C0009942C /* TestIObjectTypeSpecifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TestIObjectTypeSpecifier.cpp; path = tests/TestIObjectTypeSpecifier.cpp; sourceTree = "<group>"; };
 		F5601F391EB39B4400C9E2D8 /* IRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRWriter.cpp; path = src/IRWriter.cpp; sourceTree = "<group>"; };
 		F5601F3C1EB4C5E300C9E2D8 /* TestIRWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestIRWriter.cpp; path = tests/TestIRWriter.cpp; sourceTree = "<group>"; };
+		F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestArraySpecificOwnerType.cpp; path = tests/TestArraySpecificOwnerType.cpp; sourceTree = "<group>"; };
+		F5603B4620211E6B00BBA05D /* ArraySpecificOwnerType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ArraySpecificOwnerType.hpp; path = include/wisey/ArraySpecificOwnerType.hpp; sourceTree = "<group>"; };
+		F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ArraySpecificOwnerType.cpp; path = src/ArraySpecificOwnerType.cpp; sourceTree = "<group>"; };
 		F569E9EB1DF9CC9600BBB20E /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = src/Log.cpp; sourceTree = "<group>"; };
 		F569E9ED1DF9CC9600BBB20E /* Parser.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = Parser.ypp; path = src/Parser.ypp; sourceTree = "<group>"; };
 		F569E9EE1DF9CC9600BBB20E /* Tokens.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = Tokens.lpp; path = src/Tokens.lpp; sourceTree = "<group>"; };
@@ -1990,6 +1995,7 @@
 				F51942E11FE030AA009C3158 /* TestArrayElementExpression.cpp */,
 				F51701A6200E9A9300A10B7C /* TestArrayOwnerType.cpp */,
 				F51701AB200FD13900A10B7C /* TestArrayOwnerTypeSpecifier.cpp */,
+				F5603B4420211E5100BBA05D /* TestArraySpecificOwnerType.cpp */,
 				F5F61AA2201DE99300EF9EB7 /* TestArraySpecificType.cpp */,
 				F5F61AA4201DEADC00EF9EB7 /* TestArraySpecificTypeSpecifier.cpp */,
 				F5F3F8DE1FDEEE47001BA5B9 /* TestArrayType.cpp */,
@@ -2831,6 +2837,7 @@
 				F51942DB1FDFE98C009C3158 /* ArrayElementExpression.hpp */,
 				F51701A5200E993800A10B7C /* ArrayOwnerType.hpp */,
 				F51701A8200FCE7300A10B7C /* ArrayOwnerTypeSpecifier.hpp */,
+				F5603B4620211E6B00BBA05D /* ArraySpecificOwnerType.hpp */,
 				F5F61A9A201DDBE400EF9EB7 /* ArraySpecificType.hpp */,
 				F5F61A9E201DDEBC00EF9EB7 /* ArraySpecificTypeSpecifier.hpp */,
 				F5F3F8D41FDEC835001BA5B9 /* ArrayType.hpp */,
@@ -2848,6 +2855,7 @@
 				F51942DC1FDFEDFF009C3158 /* ArrayElementExpression.cpp */,
 				F51701A3200E992200A10B7C /* ArrayOwnerType.cpp */,
 				F51701A9200FCE8300A10B7C /* ArrayOwnerTypeSpecifier.cpp */,
+				F5603B4720211E7B00BBA05D /* ArraySpecificOwnerType.cpp */,
 				F5F61A9B201DDCCE00EF9EB7 /* ArraySpecificType.cpp */,
 				F5F61A9F201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp */,
 				F5F3F8D51FDEC95B001BA5B9 /* ArrayType.cpp */,
@@ -3363,10 +3371,12 @@
 				F57411731E043EE4009809FF /* Identifier.cpp in Sources */,
 				F52C66661FBF446400E89B04 /* AdjustReferenceCounterForInterfaceFunction.cpp in Sources */,
 				F53A2C241EFFD0BC00E76A9E /* NodeDefinition.cpp in Sources */,
+				F5603B4820211E7B00BBA05D /* ArraySpecificOwnerType.cpp in Sources */,
 				F5F61AA0201DDF2300EF9EB7 /* ArraySpecificTypeSpecifier.cpp in Sources */,
 				F5A3634D1F374680005880B3 /* FieldOwnerVariable.cpp in Sources */,
 				F54ED95F1FE84CE800847A2B /* DestroyOwnerArrayFunction.cpp in Sources */,
 				F556E6541EDDD2F900CCC3D7 /* IConcreteObjectType.cpp in Sources */,
+				F5603B4520211E5100BBA05D /* TestArraySpecificOwnerType.cpp in Sources */,
 				F57780AD1EC7CC7B0049542D /* BindAction.cpp in Sources */,
 				F5436DB61FCF72CE003ABF6F /* NodeTypeSpecifierFull.cpp in Sources */,
 				F5A67DA92012DBEB0018068F /* ArrayElementAssignment.cpp in Sources */,
